@@ -1,4 +1,5 @@
 require 'jenkins_api_client'
+require 'thwait'
 require_relative 'ci-tooling/lib/projects'
 require_relative 'ci-tooling/lib/jenkins'
 
@@ -11,7 +12,6 @@ projects = Projects.new
 ########################
 
 $jenkins = new_jenkins
-
 type = 'unstable'
 dist = 'vivid'
 child_dists = ['utopic']
@@ -92,12 +92,16 @@ create_or_update(File.read("#{$jenkins_template_path}/mgmt-progenitor.xml"),
                  :daily_trigger => '0 0 * * *',
                  :downstream_triggers => all_dist_jobs.join(', '))
 
-merger_jobs = []
+$merger_jobs_queue = Queue.new
 
-# Update individual project jobs.
-projects.each do |project|
+def add_project(project)
     puts "...#{project.name}..."
-    
+
+    # FIXME: codecopy from global scope
+    type = 'unstable'
+    dist = 'vivid'
+    child_dists = ['utopic']
+
     # Translate dependencies to normalized job form.
     dependencies = project.dependencies.dup || []
     dependencies.collect! do |dep|
@@ -120,9 +124,10 @@ projects.each do |project|
     downstream_triggers.compact!
 
     # Merger
-    merger_jobs << "merger_#{project.name}"
+    merger_name = "merger_#{project.name}"
+    $merger_jobs_queue << merger_name
     job_name = create_or_update(File.read("#{$jenkins_template_path}/merger.xml"),
-        :job_name => merger_jobs.last,
+        :job_name => merger_name,
         :name => project.name,
         :component => project.component,
         :type => type,
@@ -151,12 +156,12 @@ projects.each do |project|
             dep = job_name?(child_dist, type, dep)
         end
         dependees.compact!
-        
+
         packaging_branch = 'kubuntu_unstable'
         if project.series_branches.include?("kubuntu_unstable_#{child_dist}")
            packaging_branch = "kubuntu_unstable_#{child_dist}"
         end
-        
+
         # Child dists have no 
         create_or_update(File.read("#{$jenkins_template_path}/trig-git.xml"),
             :name => project.name,
@@ -169,6 +174,31 @@ projects.each do |project|
         )
     end
 end
+
+project_queue = Queue.new
+projects.each do |project|
+    project_queue << project
+end
+
+threads = []
+16.times do
+    threads << Thread.new do
+        while project = project_queue.pop(true) do
+            begin
+                add_project(project)
+            rescue => e
+                p e
+                raise e
+            end
+        end
+    end
+end
+ThreadsWait.all_waits(threads)
+
+merger_jobs = []
+while job = $merger_jobs_queue.pop(true) do
+    merger_jobs << job
+end rescue # pop raises exception when used non-blocking
 
 # Meta merger
 job_name = create_or_update(File.read("#{$jenkins_template_path}/mgmt-merger.xml"),
