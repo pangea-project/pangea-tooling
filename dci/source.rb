@@ -1,5 +1,5 @@
 require 'logger'
-require_relative 'ci-tooling/lib/debian/changelog'
+require_relative '../ci-tooling/lib/debian/changelog'
 
 logger = Logger.new(STDOUT)
 
