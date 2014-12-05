@@ -11,5 +11,5 @@ end
 
 SOURCE_NAME = $changelog.name
 
-system("schroot -c unstable-amd64 -d #{ENV['WORKSPACE']} -- ruby ./ci-tooling/dci.rb source #{ENV['WORKSPACE']}")
+system("schroot -c unstable-amd64 -d #{ENV['WORKSPACE']} -- ruby ./tooling/ci-tooling/dci.rb source #{ENV['WORKSPACE']}")
 system("dcmd mv /var/lib/sbuild/build/#{SOURCE_NAME}*.changes build/")
