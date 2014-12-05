@@ -11,7 +11,5 @@ end
 
 SOURCE_NAME = $changelog.name
 
-WORKSPACE_DIR = '/workspace/' + ENV['WORKSPACE'].split('/')[-1].strip
-
-system("schroot -c unstable-amd64 -d #{WORKSPACE_DIR} -- ./tooling/contained/dci.rb source #{WORKSPACE_DIR}")
+system("schroot -c unstable-amd64 -d #{ENV['WORKSPACE']} -- ./tooling/contained/dci.rb source #{ENV['WORKSPACE']}")
 system("dcmd mv /var/lib/sbuild/build/#{SOURCE_NAME}*.changes build/")
