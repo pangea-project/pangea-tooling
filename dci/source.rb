@@ -15,4 +15,4 @@ RELEASE = ENV['WORKSPACE'].split('_')[-1]
 
 system("schroot -u root -c unstable-amd64 -d #{ENV['WORKSPACE']} -- ruby ./tooling/ci-tooling/dci.rb source #{ENV['WORKSPACE']} #{RELEASE}")
 Dir.mkdir('build') unless Dir.exist? 'build'
-system("dcmd mv /var/lib/sbuild/build/#{SOURCE_NAME}*.changes build/")
+raise 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{SOURCE_NAME}*.changes build/")
