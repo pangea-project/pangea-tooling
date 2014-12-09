@@ -79,7 +79,7 @@ def add_project(project)
                 # Translate dependees to normalized job form.
                 dependees = project.dependees.dup || []
                 dependees.collect! do |dependee|
-                    dependee = job_name?(release, type, dependee)
+                    dependee = job_name?(release, job_type, dependee)
                 end
                 dependees.compact!
 
