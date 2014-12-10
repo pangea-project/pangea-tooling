@@ -14,6 +14,6 @@ system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -- ruby ./too
 FileUtils.mkdir_p('build/binary') unless Dir.exists? 'build/binary'
 changes_files = Dir.glob("#{PACKAGE}*changes").select { |changes| !changes.include? 'source' }
 
-changes_files.each do { |changes_file|
+changes_files.each do |changes_file|
     system("dcmd mv /var/lib/sbuild/build/#{changes_file} build/binary/")
-}
+end
