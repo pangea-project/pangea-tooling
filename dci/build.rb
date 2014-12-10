@@ -15,5 +15,6 @@ FileUtils.mkdir_p('build/binary') unless Dir.exists? 'build/binary'
 changes_files = Dir.glob("#{PACKAGE}*changes").select { |changes| !changes.include? 'source' }
 
 changes_files.each do |changes_file|
+    logger.info("Copying over #{changes_file} into Jenkins")
     system("dcmd mv /var/lib/sbuild/build/#{changes_file} build/binary/")
 end
