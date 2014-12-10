@@ -5,7 +5,7 @@ logger = Logger.new(STDOUT)
 
 RELEASE = `grep Distribution #{ARGV[1]}`.split(':')[-1].strip
 PACKAGE = `grep Source #{ARGV[1]}`.split(':')[-1].strip
-RESULT_DIR = '/var/lib/sbuild/build/'
+RESULT_DIR = '/var/lib/sbuild/build'
 
 logger.info("Starting binary build for #{RELEASE}")
 
@@ -17,5 +17,5 @@ changes_files = Dir.glob("#{RESULT_DIR}/#{PACKAGE}*changes").select { |changes| 
 
 changes_files.each do |changes_file|
     logger.info("Copying over #{changes_file} into Jenkins")
-    system("dcmd mv #{RESULT_DIR}/#{changes_file} build/binary/")
+    system("dcmd mv #{changes_file} build/binary/")
 end
