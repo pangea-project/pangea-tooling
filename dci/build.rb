@@ -1,6 +1,6 @@
 require 'logger'
 
-logger = Logger.new
+logger = Logger.new(STDOUT)
 
 RELEASE = `grep Distribution #{ARGV[1]}`.split(':')[-1].strip
 PACKAGE = `grep Source #{ARGV[1]}`.split(':')[-1].strip
