@@ -12,7 +12,7 @@ projects = Projects.new
 ########################
 
 $jenkins = new_jenkins
-type = ['source']
+type = ['source', 'binary']
 dist = ['unstable']
 
 def job_name?(release, type, name)
@@ -62,9 +62,9 @@ def create_or_update(orig_xml_config, args = {})
 end
 
 def add_project(project)
-    type = ['source']
+    type = ['source', 'binary']
     dist = ['unstable']
-    puts "...#{project.name}...\n"
+    puts "...#{project.name}..."
     dist.each do |release|
         type.each do |job_type|
             # Don't track deps for publishing jobs, kind of useless
@@ -83,7 +83,8 @@ def add_project(project)
                 end
                 dependees.compact!
 
-                job_name = create_or_update(File.read("#{$jenkins_template_path}/#{job_type}_dci.xml"),
+
+                job_name = create_or_update(File.read("#{$jenkins_template_path}/dci_#{job_type}.xml"),
                                             :name => project.name,
                                             :component => project.component,
                                             :type => job_type,
