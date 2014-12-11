@@ -7,12 +7,12 @@ $jenkins_template_path = File.expand_path(File.dirname(File.dirname(__FILE__))) 
 
 ########################
 
-projects = Projects.new
+projects = Projects.new(allow_custom_ci: true)
 
 ########################
 
 $jenkins = new_jenkins
-type = ['source', 'binary']
+type = ['source', 'binary', 'publish']
 dist = ['unstable']
 
 def job_name?(release, type, name)
@@ -62,38 +62,35 @@ def create_or_update(orig_xml_config, args = {})
 end
 
 def add_project(project)
-    type = ['source', 'binary']
+    type = ['source', 'binary', 'publish']
     dist = ['unstable']
     puts "...#{project.name}..."
     dist.each do |release|
         type.each do |job_type|
-            # Don't track deps for publishing jobs, kind of useless
-            if job_type != 'publish'
-                # Translate dependencies to normalized job form.
-                dependencies = project.dependencies.dup || []
-                dependencies.collect! do |dep|
-                    dep = job_name?(release, type, dep)
-                end
-                dependencies.compact!
-
-                # Translate dependees to normalized job form.
-                dependees = project.dependees.dup || []
-                dependees.collect! do |dependee|
-                    dependee = job_name?(release, job_type, dependee)
-                end
-                dependees.compact!
-
-
-                job_name = create_or_update(File.read("#{$jenkins_template_path}/dci_#{job_type}.xml"),
-                                            :name => project.name,
-                                            :component => project.component,
-                                            :type => job_type,
-                                            :dist => release,
-                                            :dependencies => dependencies.join(', '),
-                                            :dependees => dependees.join(', '),
-                                            :upstream_scm => project.upstream_scm
-                                           )
+            # Translate dependencies to normalized job form.
+            dependencies = project.dependencies.dup || []
+            dependencies.collect! do |dep|
+                dep = job_name?(release, type, dep)
             end
+            dependencies.compact!
+
+            # Translate dependees to normalized job form.
+            dependees = project.dependees.dup || []
+            dependees.collect! do |dependee|
+                dependee = job_name?(release, job_type, dependee)
+            end
+            dependees.compact!
+
+
+            job_name = create_or_update(File.read("#{$jenkins_template_path}/dci_#{job_type}.xml"),
+                                        :name => project.name,
+                                        :component => project.component,
+                                        :type => job_type,
+                                        :dist => release,
+                                        :dependencies => dependencies.join(', '),
+                                        :dependees => dependees.join(', '),
+                                        :upstream_scm => project.upstream_scm
+                                        )
         end
     end
 end
