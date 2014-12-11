@@ -21,6 +21,7 @@ def run_cmd(cmd)
             raise unless system(cmd)
         else
             $logger.warn("Tried to run #{cmd} but retry count exceeded!")
+            exit 1
         end
     rescue RuntimeError
         retry_count += 1
