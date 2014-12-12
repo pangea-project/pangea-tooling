@@ -2,6 +2,7 @@ require 'jenkins_api_client'
 require 'thwait'
 require_relative 'ci-tooling/lib/projects'
 require_relative 'ci-tooling/lib/jenkins'
+require 'json'
 
 $jenkins_template_path = File.expand_path(File.dirname(File.dirname(__FILE__))) + '/jenkins-templates'
 
@@ -40,8 +41,10 @@ end
 def create_or_update(orig_xml_config, args = {})
     xml_config = orig_xml_config.dup
     xml_config.gsub!('@UPSTREAM_SCM@', sub_upstream_scm(args[:upstream_scm]))
+    xml_config.gsub!('@PACKAGING_SCM@', args[:packaging_scm])
     xml_config.gsub!('@NAME@', args[:name] ||= '')
     xml_config.gsub!('@COMPONENT@', args[:component] ||= '')
+    xml_config.gsub!('@UPLOAD_TARGET@', args[:upload_target] ||= 'dci')
     xml_config.gsub!('@TYPE@', args[:type] ||= '')
     xml_config.gsub!('@DIST@', args[:dist] ||= '')
     xml_config.gsub!('@DEPS@', args[:dependencies] ||= '') # Triggers always
@@ -82,6 +85,8 @@ def add_project(project)
             dependees.compact!
 
 
+            upload_info = JSON::parse(File.read('data/uploadtarget.json'))
+
             job_name = create_or_update(File.read("#{$jenkins_template_path}/dci_#{job_type}.xml"),
                                         :name => project.name,
                                         :component => project.component,
@@ -89,7 +94,9 @@ def add_project(project)
                                         :dist => release,
                                         :dependencies => dependencies.join(', '),
                                         :dependees => dependees.join(', '),
-                                        :upstream_scm => project.upstream_scm
+                                        :upstream_scm => project.upstream_scm,
+                                        :packaging_scm => project.packaging_scm,
+                                        :upload_target => upload_info[project.component]
                                         )
         end
     end

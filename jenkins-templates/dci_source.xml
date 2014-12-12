@@ -17,7 +17,7 @@
         <configVersion>2</configVersion>
         <userRemoteConfigs>
           <hudson.plugins.git.UserRemoteConfig>
-            <url>git://anonscm.debian.org/pkg-kde/@COMPONENT@/@NAME@</url>
+            <url>@PACKAGING_SCM@</url>
           </hudson.plugins.git.UserRemoteConfig>
         </userRemoteConfigs>
         <branches>
