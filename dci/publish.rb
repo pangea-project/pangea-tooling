@@ -3,11 +3,19 @@ require 'logger'
 raise 'Need target and changes file!' unless ARGV.count >= 2
 raise 'File is not a changes file!' unless ARGV[2].end_with? '.changes'
 
-DCI_TARGET = "[dci]
+DPUT_CONTENTS = "[dci]
 fqdn = dci.pangea.pub
 login = publisher
 method = sftp
-incoming = /home/publisher/reprepro/incoming
+incoming = /home/publisher/kde/incoming
+run_dinstall = 0
+allow_unsigned_uploads = 1
+
+[mci]
+fqdn = dci.pangea.pub
+login = publisher
+method = sftp
+incoming = /home/publisher/maui/incoming
 run_dinstall = 0
 allow_unsigned_uploads = 1
 "
@@ -32,8 +40,9 @@ end
 DPUT_CF = ENV['HOME'] + '/.dput.cf'
 if !File.exist?(DPUT_CF)
     File.open(DPUT_CF, 'a') { |f|
-        f.puts(DCI_TARGET)
+        f.puts(DPUT_CONTENTS)
     }
 end 
 
 run_cmd("dput #{ARGV[1]} #{ARGV[2]}")
+

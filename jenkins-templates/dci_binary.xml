@@ -54,7 +54,8 @@
       </hudson.plugins.git.GitSCM>
     </scms>
   </scm>
-  <canRoam>true</canRoam>
+  <assignedNode>binary</assignedNode>
+  <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
