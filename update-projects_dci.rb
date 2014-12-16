@@ -40,7 +40,6 @@ end
 
 def create_or_update(orig_xml_config, args = {})
     xml_config = orig_xml_config.dup
-    p args[:upstream_scm]
     xml_config.gsub!('@UPSTREAM_SCM@', sub_upstream_scm(args[:upstream_scm]))
     xml_config.gsub!('@PACKAGING_SCM@', args[:packaging_scm])
     xml_config.gsub!('@NAME@', args[:name] ||= '')
