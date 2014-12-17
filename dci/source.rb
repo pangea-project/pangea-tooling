@@ -15,7 +15,7 @@ REPOS_FILE = 'debian/meta/extra_repos.json'
 repos = []
 Dir.chdir("#{ENV['WORKSPACE']}/packaging") do
   if File.exist? REPOS_FILE
-      repos = JSON::Parse(File.read(REPOS_FILE))['repos']
+      repos = JSON::parse(File.read(REPOS_FILE))['repos']
   end
 end
 
