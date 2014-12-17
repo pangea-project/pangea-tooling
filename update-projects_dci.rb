@@ -57,7 +57,11 @@ def create_or_update(orig_xml_config, args = {})
     job_name = args[:job_name]
     job_name ||= job_name?(args[:dist], args[:type], args[:name])
     begin
-        $jenkins.job.create_or_update(job_name, xml_config)
+        if $jenkins.job.exists? job_name
+            $jenkins.job.update(job_name, xml_config)
+        else
+            $jenkins.post_config("/job/#{args[:upload_target] ||= 'dci'}/createItem?name=#{job_name}", xml_config)
+        end
     rescue
         retry
     end
