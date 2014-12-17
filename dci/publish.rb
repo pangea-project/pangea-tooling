@@ -46,4 +46,4 @@ end
 
 run_cmd("dput #{ARGV[1]} #{ARGV[2]}")
 
-logger.close
+$logger.close
