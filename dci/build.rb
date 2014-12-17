@@ -11,7 +11,7 @@ RESULT_DIR = '/var/lib/sbuild/build'
 REPOS_FILE = 'debian/meta/extra_repos.json'
 
 logger.info("Starting binary build for #{RELEASE}")
-repos = []
+repos = ['default']
 Dir.chdir("#{ENV['WORKSPACE']}/packaging") do
   if File.exist? REPOS_FILE
       repos = JSON::parse(File.read(REPOS_FILE))['repos']
@@ -21,7 +21,10 @@ end
 repos = repos.join(',')
 
 # TODO: Extend this so that we don't hardcode amd64 here, and instead use something from the job
-system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -- ruby ./tooling/ci-tooling/dci.rb build -r #{repos} -w #{ENV['WORKSPACE']}/tooling/data #{ARGV[1]}")
+system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -- ruby ./tooling/ci-tooling/dci.rb build \
+        -r #{repos} \
+        -w #{ENV['WORKSPACE']}/tooling/data \
+         #{ARGV[1]}")
 
 FileUtils.mkdir_p('build/binary') unless Dir.exists? 'build/binary'
 changes_files = Dir.glob("#{RESULT_DIR}/#{PACKAGE}*changes").select { |changes| !changes.include? 'source' }
