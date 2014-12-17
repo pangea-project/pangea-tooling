@@ -1,4 +1,4 @@
-require 'logger'
+require_relative 'dci/lib/logger'
 
 raise 'Need target and changes file!' unless ARGV.count >= 2
 raise 'File is not a changes file!' unless ARGV[2].end_with? '.changes'
@@ -20,7 +20,7 @@ run_dinstall = 0
 allow_unsigned_uploads = 1
 "
 
-$logger = Logger.new(STDOUT)
+$logger = new_logger
 
 def run_cmd(cmd)
     retry_count = 0
@@ -46,3 +46,4 @@ end
 
 run_cmd("dput #{ARGV[1]} #{ARGV[2]}")
 
+logger.close

@@ -1,8 +1,9 @@
 require 'logger'
 require 'json'
 require_relative '../ci-tooling/lib/debian/changelog'
+require_relative 'dci/lib/logger'
 
-logger = Logger.new(STDOUT)
+logger = new_logger
 
 logger.info("Starting source only build")
 
@@ -29,3 +30,5 @@ system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -- ruby ./too
 Dir.mkdir('build') unless Dir.exist? 'build'
 
 raise 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{SOURCE_NAME}*.changes build/")
+
+logger.close

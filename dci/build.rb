@@ -1,8 +1,9 @@
 require 'logger'
 require 'fileutils'
 require 'json'
+require_relative 'dci/lib/logger'
 
-logger = Logger.new(STDOUT)
+logger = new_logger
 
 RELEASE = `grep Distribution #{ARGV[1]}`.split(':')[-1].strip
 PACKAGE = `grep Source #{ARGV[1]}`.split(':')[-1].strip
