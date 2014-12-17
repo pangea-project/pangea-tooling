@@ -1,4 +1,5 @@
 require 'logger'
+require 'json'
 require_relative '../ci-tooling/lib/debian/changelog'
 
 logger = Logger.new(STDOUT)
