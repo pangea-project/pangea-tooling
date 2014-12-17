@@ -32,6 +32,7 @@
             <relativeTargetDir>packaging</relativeTargetDir>
           </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
         </extensions>
+      </hudson.plugins.git.GitSCM>
       <hudson.plugins.git.GitSCM plugin="git@2.3.1">
         <configVersion>2</configVersion>
         <userRemoteConfigs>
