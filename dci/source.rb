@@ -30,7 +30,7 @@ system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -- ruby ./too
         -r #{repos} \
         -w #{ENV['WORKSPACE']}/tooling/data \
         -R #{RELEASE} \
-         #{ENV[WORKSPACE]}")
+         #{ENV['WORKSPACE']}")
 
 Dir.mkdir('build') unless Dir.exist? 'build'
 
