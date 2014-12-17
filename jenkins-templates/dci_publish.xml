@@ -89,6 +89,7 @@
           <pattern>build/*</pattern>
           <type>INCLUDE</type>
         </hudson.plugins.ws__cleanup.Pattern>
+        <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
       </patterns>
       <deleteDirs>false</deleteDirs>
       <cleanupParameter></cleanupParameter>
