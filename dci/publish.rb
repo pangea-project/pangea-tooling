@@ -1,4 +1,4 @@
-require_relative 'dci/lib/logger'
+require_relative '../ci-tooling/lib/logger'
 
 raise 'Need target and changes file!' unless ARGV.count >= 2
 raise 'File is not a changes file!' unless ARGV[2].end_with? '.changes'

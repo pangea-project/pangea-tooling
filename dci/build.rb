@@ -1,7 +1,7 @@
 require 'logger'
 require 'fileutils'
 require 'json'
-require_relative 'dci/lib/logger'
+require_relative '../ci-tooling/lib/logger'
 
 logger = new_logger
 
