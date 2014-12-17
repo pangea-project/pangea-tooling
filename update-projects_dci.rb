@@ -14,6 +14,7 @@ projects = Projects.new(allow_custom_ci: true)
 
 type = ['source', 'binary', 'publish']
 dist = ['unstable']
+$jenkins_client_hash = {}
 
 def job_name?(release, type, name)
     return "#{name}_#{type}_#{release}"
@@ -56,8 +57,8 @@ def create_or_update(orig_xml_config, args = {})
     job_name = args[:job_name]
     job_name ||= job_name?(args[:dist], args[:type], args[:name])
     begin
-        jenkins = new_jenkins(:jenkins_path => "/job/#{args[:upload_target] ||= 'dci'}/")
-        jenkins.job.create_or_update(job_name, xml_config)
+        $jenkins_client_hash[args[:upload_target]] ||= new_jenkins(:jenkins_path => "/job/#{args[:upload_target]}/")
+        $jenkins_client_hash[args[:upload_target]].job.create_or_update(job_name, xml_config)
     rescue
         retry
     end
