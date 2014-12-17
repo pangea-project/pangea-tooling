@@ -9,6 +9,8 @@ Dir.chdir('packaging') do
     $changelog = Changelog.new
 end
 
+REPOS_FILE = 'debian/meta/add_repos.json'
+
 repos = []
 Dir.chdir("#{ENV['WORKSPACE']}/packaging") do
   if File.exist? REPOS_FILE
