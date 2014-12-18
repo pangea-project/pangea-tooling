@@ -91,7 +91,7 @@
         </hudson.plugins.ws__cleanup.Pattern>
         <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
       </patterns>
-      <deleteDirs>false</deleteDirs>
+      <deleteDirs>true</deleteDirs>
       <cleanupParameter></cleanupParameter>
       <externalDelete></externalDelete>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>

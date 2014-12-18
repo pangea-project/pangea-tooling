@@ -132,7 +132,7 @@
           <type>INCLUDE</type>
         </hudson.plugins.ws__cleanup.Pattern>
       </patterns>
-      <deleteDirs>false</deleteDirs>
+      <deleteDirs>true</deleteDirs>
       <cleanupParameter></cleanupParameter>
       <externalDelete></externalDelete>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
