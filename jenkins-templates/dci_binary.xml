@@ -86,7 +86,7 @@
     </hudson.triggers.TimerTrigger>
     <hudson.triggers.SCMTrigger>
       <spec></spec>
-      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+      <ignorePostCommitHooks>true</ignorePostCommitHooks>
     </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
