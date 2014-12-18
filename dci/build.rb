@@ -14,7 +14,7 @@ logger.info("Starting binary build for #{RELEASE}")
 repos = ['default']
 Dir.chdir("#{ENV['WORKSPACE']}/packaging") do
   if File.exist? REPOS_FILE
-      repos = JSON::parse(File.read(REPOS_FILE))['repos']
+      repos += JSON::parse(File.read(REPOS_FILE))['repos']
   end
 end
 
