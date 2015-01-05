@@ -7,6 +7,6 @@ group :development, :test do
 end
 
 group :s3 do
-  gem "aws"
+  gem "aws-sdk-v1"
   gem "nokogiri"
 end
