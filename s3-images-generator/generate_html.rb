@@ -1,7 +1,12 @@
 #!/usr/bin/env ruby
 
 require 'aws'
-require 'aws/core' rescue nil
+begin
+  # Certain AWS versions do not bring in the AWS module through aws alone,
+  # try to get aws/core as well.
+  require 'aws/core'
+rescue LoadError
+end
 require 'date'
 require 'json'
 require 'nokogiri'
