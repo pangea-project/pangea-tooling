@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'aws'
-require 'aws/core'
+require 'aws/core' rescue nil
 require 'date'
 require 'json'
 require 'nokogiri'
