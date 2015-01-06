@@ -39,7 +39,9 @@ end
 
 DPUT_CF = ENV['HOME'] + '/.dput.cf'
 File.open(DPUT_CF, 'w') { |f|
+    f.flock(LOCK_EX)
     f.puts(DPUT_CONTENTS)
+    f.flock(LOCK_UN)
 }
 
 run_cmd("dput #{ARGV[1]} #{ARGV[2]}")
