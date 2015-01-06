@@ -42,10 +42,11 @@ if File.read(DPUT_CF) != DPUT_CONTENTS
     File.open(DPUT_CF, 'w') { |f|
         f.flock(LOCK_EX)
         f.puts(DPUT_CONTENTS)
-        f.flush
-        run_cmd("dput #{ARGV[1]} #{ARGV[2]}")
+        f.flush()
         f.flock(LOCK_UN)
     }
 end
+
+run_cmd("dput #{ARGV[1]} #{ARGV[2]}")
 
 $logger.close
