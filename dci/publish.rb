@@ -1,9 +1,9 @@
 require_relative '../ci-tooling/lib/logger'
 
-raise 'Need target and changes file!' unless ARGV.count >= 2
-raise 'File is not a changes file!' unless ARGV[2].end_with? '.changes'
+fail 'Need target and changes file!' unless ARGV.count >= 2
+fail 'File is not a changes file!' unless ARGV[2].end_with? '.changes'
 
-DPUT_CONTENTS = "[dci]
+DPUT_CONTENTS = "[plasma]
 fqdn = dci.pangea.pub
 login = publisher
 method = sftp
@@ -11,7 +11,7 @@ incoming = /home/publisher/kde/incoming
 run_dinstall = 0
 allow_unsigned_uploads = 1
 
-[mci]
+[maui]
 fqdn = dci.pangea.pub
 login = publisher
 method = sftp
@@ -38,11 +38,9 @@ def run_cmd(cmd)
 end
 
 DPUT_CF = ENV['HOME'] + '/.dput.cf'
-if !File.exist?(DPUT_CF)
-    File.open(DPUT_CF, 'a') { |f|
-        f.puts(DPUT_CONTENTS)
-    }
-end 
+File.open(DPUT_CF, 'w') { |f|
+    f.puts(DPUT_CONTENTS)
+}
 
 run_cmd("dput #{ARGV[1]} #{ARGV[2]}")
 
