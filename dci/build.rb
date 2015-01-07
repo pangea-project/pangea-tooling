@@ -12,7 +12,7 @@ REPOS_FILE = 'debian/meta/extra_repos.json'
 logger.info("Starting binary build for #{RELEASE}")
 repos = ['default']
 
-if Dir.exist? "#{ENV['WORKSPACE']/packaging}"
+if Dir.exist? "#{ENV['WORKSPACE']}/packaging"
     Dir.chdir("#{ENV['WORKSPACE']}/packaging") do
         if File.exist? REPOS_FILE
             repos += JSON::parse(File.read(REPOS_FILE))['repos']
