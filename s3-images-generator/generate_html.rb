@@ -73,12 +73,13 @@ prefix = ARGV[0] + '/images'
 prefix += '/' + ARGV[1] unless ARGV[1].nil?
 ci_object_collection = bucket.objects.with_prefix(prefix)
 
-if !File.exist?('index.html')
+index_html = "#{File.expand_path(File.dirname(__FILE__))}/index.html"
+if !File.exist?(index_html)
   puts "What?! No index.html?! Boo!"
   exit
 end
 
-@page = Nokogiri::HTML(open("#{File.expand_path(File.dirname(File.dirname(__FILE__)))}/index.html"))
+@page = Nokogiri::HTML(open(index_html))
 tableElement = @page.at_css "tbody"
 
 objectHash = getObjectHash(ci_object_collection)
