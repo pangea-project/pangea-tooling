@@ -5,7 +5,7 @@ require_relative '../ci-tooling/lib/logger'
 
 logger = new_logger
 
-logger.info("Starting source only build")
+logger.info('Starting source only build')
 
 Dir.chdir('packaging') do
     $changelog = Changelog.new
@@ -15,9 +15,9 @@ REPOS_FILE = 'debian/meta/extra_repos.json'
 
 repos = ['default']
 Dir.chdir("#{ENV['WORKSPACE']}/packaging") do
-  if File.exist? REPOS_FILE
-      repos += JSON::parse(File.read(REPOS_FILE))['repos']
-  end
+    if File.exist? REPOS_FILE
+        repos += JSON::parse(File.read(REPOS_FILE))['repos']
+    end
 end
 
 repos = repos.join(',')

@@ -44,7 +44,7 @@ def create_or_update(orig_xml_config, args = {})
     xml_config.gsub!('@PACKAGING_SCM@', args[:packaging_scm])
     xml_config.gsub!('@NAME@', args[:name] ||= '')
     xml_config.gsub!('@COMPONENT@', args[:component] ||= '')
-    xml_config.gsub!('@UPLOAD_TARGET@', args[:upload_target] ||= 'dci')
+    xml_config.gsub!('@UPLOAD_TARGET@', args[:upload_target] ||= 'plasma')
     xml_config.gsub!('@TYPE@', args[:type] ||= '')
     xml_config.gsub!('@DIST@', args[:dist] ||= '')
     xml_config.gsub!('@DEPS@', args[:dependencies] ||= '') # Triggers always
