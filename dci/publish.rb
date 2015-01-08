@@ -18,6 +18,14 @@ method = sftp
 incoming = /home/publisher/maui/incoming
 run_dinstall = 0
 allow_unsigned_uploads = 1
+
+[moz-plasma]
+fqdn = dci.pangea.pub
+login = publisher
+method = sftp
+incoming = /home/publisher/moz/incoming
+run_dinstall = 0
+allow_unsigned_uploads = 1
 "
 
 $logger = new_logger
