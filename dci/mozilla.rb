@@ -10,3 +10,7 @@ system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -- ruby ./too
 Dir.mkdir('build') unless Dir.exist? 'build'
 
 raise 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{PACKAGE}*.changes build/")
+
+if RELEASE != "sid"
+    raise "Can't upload!" unless system("dput ppa:moz-plasma/builds build/*.changes")
+end
