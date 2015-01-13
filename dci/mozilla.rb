@@ -1,6 +1,8 @@
 fail "Need a mozilla product to build for!" unless ARGV[1]
 fail "Need a release to build for!" unless ARGV[2]
 
+KEYID = '125B4BCF'
+
 PACKAGE = ARGV[1]
 RELEASE = ARGV[2]
 
@@ -12,5 +14,6 @@ Dir.mkdir('build') unless Dir.exist? 'build'
 raise 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{PACKAGE}*.changes build/")
 
 if RELEASE != "sid"
+    raise "Can't sign!" unless system("debsign -k#{KEYID} build/*.changes")
     raise "Can't upload!" unless system("dput ppa:moz-plasma/builds build/*.changes")
 end
