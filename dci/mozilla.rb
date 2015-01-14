@@ -6,6 +6,9 @@ KEYID = '125B4BCF'
 PACKAGE = ARGV[1]
 RELEASE = ARGV[2]
 
+UBUNTU_RELEASES = `ubuntu-distro-info -a`.split
+DEBIAN_RELEASES = `debian-distro-info -a`.split
+
 system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -- ruby ./tooling/ci-tooling/dci.rb mozilla \
     #{PACKAGE} #{RELEASE}")
 
@@ -13,7 +16,7 @@ Dir.mkdir('build') unless Dir.exist? 'build'
 
 raise 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{PACKAGE}*.changes build/")
 
-if RELEASE != "sid"
+unless DEBIAN_RELEASES.include? RELEASE
     raise "Can't sign!" unless system("debsign -k#{KEYID} build/*.changes")
     raise "Can't upload!" unless system("dput ppa:moz-plasma/builds build/*.changes")
 end
