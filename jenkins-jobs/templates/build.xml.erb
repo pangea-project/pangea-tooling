@@ -36,14 +36,7 @@
           </hudson.plugins.git.extensions.impl.UserExclusion>
         </extensions>
       </hudson.plugins.git.GitSCM>
-      <% case upstream_scm.type
-         when 'git' %>
-      <%= render('upstream-scms/git.xml.erb') %>
-      <% when 'svn' %>
-      <%= render('upstream-scms/svn.xml.erb') %>
-      <% else %>
-      <% raise "Unknown upstream_scm type encountered '#{upstream_scm.type}'" %>
-      <% end %>
+      <%= render_upstream_scm %>
     </scms>
   </scm>
   <canRoam>true</canRoam>

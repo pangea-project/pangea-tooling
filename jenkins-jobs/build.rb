@@ -48,6 +48,17 @@ class BuildJob < JenkinsJob
     @downstream_triggers = []
   end
 
+  def render_upstream_scm
+    case upstream_scm.type
+    when 'git'
+      render('upstream-scms/git.xml.erb')
+    when 'svn'
+      render('upstream-scms/svn.xml.erb')
+    else
+      fail "Unknown upstream_scm type encountered '#{upstream_scm.type}'"
+    end
+  end
+
   def build_name(name)
     BuildJob.build_name(@distribution, @type, name)
   end
