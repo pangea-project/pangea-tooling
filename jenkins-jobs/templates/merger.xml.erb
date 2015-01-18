@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.7">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>origin</name>
+        <url>git.debian.org:/git/pkg-kde/<%= component %>/<%= name %>.git</url>
+        <credentialsId>005d8204-e7c1-413f-b3f8-5cf5cef59de4</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <% for merge_branch in merge_branches %>
+        <hudson.plugins.git.BranchSpec>
+          <name>*/<%= merge_branch %></name>
+        </hudson.plugins.git.BranchSpec>
+      <% end %>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <browser class="hudson.plugins.git.browser.CGit">
+      <url>http://anonscm.debian.org/cgit/pkg-kde/<%= component %>/<%= name %>.git/</url>
+    </browser>
+    <submoduleCfg class="list"/>
+    <extensions>
+      <hudson.plugins.git.extensions.impl.UserIdentity>
+        <name>Kubuntu CI</name>
+        <email>kubuntu-ci@lists.launchpad.net</email>
+      </hudson.plugins.git.extensions.impl.UserIdentity>
+      <hudson.plugins.git.extensions.impl.UserExclusion>
+        <excludedUsers>Kubuntu CI</excludedUsers>
+      </hudson.plugins.git.extensions.impl.UserExclusion>
+    </extensions>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.SCMTrigger>
+      <spec></spec>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>
+/var/lib/jenkins/tooling/merger.rb
+      </command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.25">
+      <targets>
+      </targets>
+      <strategy>FAILURE_AND_FIXED</strategy>
+      <notifyOnBuildStart>false</notifyOnBuildStart>
+      <notifySuspects>false</notifySuspects>
+      <notifyCulprits>false</notifyCulprits>
+      <notifyFixers>false</notifyFixers>
+      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
+      <buildToChatNotifier class="hudson.plugins.im.build_notify.SummaryOnlyBuildToChatNotifier" plugin="instant-messaging@1.30"/>
+      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
+      <channels/>
+    </hudson.plugins.ircbot.IrcPublisher>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.14">
+      <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
+        <timeoutMinutes>15</timeoutMinutes>
+      </strategy>
+      <operationList>
+        <hudson.plugins.build__timeout.operations.FailOperation/>
+      </operationList>
+    </hudson.plugins.build__timeout.BuildTimeoutWrapper>
+    <ruby-proxy-object>
+      <ruby-object ruby-class="Jenkins::Plugin::Proxies::BuildWrapper" pluginid="rvm">
+        <pluginid pluginid="rvm" ruby-class="String">rvm</pluginid>
+        <object ruby-class="RvmWrapper" pluginid="rvm">
+          <impl pluginid="rvm" ruby-class="String">2.2.0@merger</impl>
+        </object>
+      </ruby-object>
+    </ruby-proxy-object>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+  </buildWrappers>
+</project>

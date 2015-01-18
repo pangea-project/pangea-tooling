@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?><project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.3">
+    <scms>
+      <hudson.plugins.git.GitSCM plugin="git@2.2.7">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+          <hudson.plugins.git.UserRemoteConfig>
+            <name>packaging</name>
+            <url>git.debian.org:/git/pkg-kde/<%= component %>/<%= name %>.git</url>
+            <credentialsId>005d8204-e7c1-413f-b3f8-5cf5cef59de4</credentialsId>
+          </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+          <hudson.plugins.git.BranchSpec>
+            <name>*/<% packaging_branch %></name>
+          </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+          <hudson.plugins.git.extensions.impl.ScmName>
+            <name>packaging</name>
+          </hudson.plugins.git.extensions.impl.ScmName>
+          <hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+            <relativeTargetDir>packaging</relativeTargetDir>
+          </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+          <hudson.plugins.git.extensions.impl.UserIdentity>
+            <name>Kubuntu CI</name>
+            <email>kubuntu-ci@lists.launchpad.net</email>
+          </hudson.plugins.git.extensions.impl.UserIdentity>
+          <hudson.plugins.git.extensions.impl.UserExclusion>
+            <excludedUsers>Kubuntu CI</excludedUsers>
+          </hudson.plugins.git.extensions.impl.UserExclusion>
+        </extensions>
+      </hudson.plugins.git.GitSCM>
+      @UPSTREAM_SCM@
+    </scms>
+  </scm>
+</project>

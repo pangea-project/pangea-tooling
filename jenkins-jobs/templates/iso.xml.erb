@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <customWorkspace>workspaces/<%= distribution %>/<%= type %>/imager-<%= architecture %></customWorkspace>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>
+export DIST=<%= distribution %>
+export ARCH=<%= architecture %>
+export TYPE=<%= type %>
+/var/lib/jenkins/tooling/image-harness.sh
+      </command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.25">
+      <targets class="empty-list"/>
+      <strategy>ALL</strategy>
+      <notifyOnBuildStart>true</notifyOnBuildStart>
+      <notifySuspects>false</notifySuspects>
+      <notifyCulprits>false</notifyCulprits>
+      <notifyFixers>false</notifyFixers>
+      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
+      <buildToChatNotifier class="hudson.plugins.im.build_notify.DefaultBuildToChatNotifier" plugin="instant-messaging@1.30"/>
+      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
+      <channels/>
+    </hudson.plugins.ircbot.IrcPublisher>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
+  </buildWrappers>
+</project>
