@@ -1,4 +1,5 @@
 require 'erb'
+require 'pathname'
 
 require_relative '../ci-tooling/lib/jenkins'
 
@@ -12,7 +13,8 @@ class JenkinsJob
   def initialize(job_name, template_name)
     @job_name = job_name
     file_directory = File.expand_path(File.dirname(__FILE__))
-    @template_path = "#{file_directory}/templates/#{template_name}"
+    @template_directory = "#{file_directory}/templates/"
+    @template_path = "#{@template_directory}#{template_name}"
     fail "Template #{template_name} not found" unless File.exist?(@template_path)
   end
 
@@ -31,7 +33,11 @@ class JenkinsJob
   end
 
   def render(path)
-    data = File.read(File.expand_path(path))
+    if Pathname.new(path).absolute?
+      data = File.read(path)
+    else
+      data = File.read("#{@template_directory}/#{path}")
+    end
     ERB.new(data).result(binding)
   end
 end

@@ -38,9 +38,9 @@
       </hudson.plugins.git.GitSCM>
       <% case upstream_scm.type
          when 'git' %>
-      <%= render("jenkins-templates/upstream-scms/git.xml.erb") %>
+      <%= render('upstream-scms/git.xml.erb') %>
       <% when 'svn' %>
-      <%= render("jenkins-templates/upstream-scms/svn.xml.erb") %>
+      <%= render('upstream-scms/svn.xml.erb') %>
       <% else %>
       <% raise "Unknown upstream_scm type encountered '#{upstream_scm.type}'" %>
       <% end %>
