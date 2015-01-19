@@ -21,7 +21,7 @@ class JenkinsJob
   # Creates or updates the Jenkins job.
   # @return the job_name
   def update
-    xml = render(@template_path)
+    xml = render_template
     begin
       print "Updating #{job_name}\n"
       Jenkins.job.create_or_update(job_name, xml)
@@ -30,6 +30,10 @@ class JenkinsJob
       retry
     end
     job_name
+  end
+
+  def render_template
+    render(@template_path)
   end
 
   def render(path)
