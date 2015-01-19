@@ -3,7 +3,7 @@ require 'git'
 require 'test/unit'
 require 'tmpdir'
 
-require_relative '../merger'
+require_relative '../kci/merger'
 
 class MergerTest < Test::Unit::TestCase
   def in_repo(&block)
