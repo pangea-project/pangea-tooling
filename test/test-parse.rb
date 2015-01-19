@@ -55,7 +55,7 @@ class ParseTest < Test::Unit::TestCase
         basedir = File.dirname(File.expand_path(File.dirname(__FILE__)))
         Dir.chdir(basedir)
 
-        source_dirs = %w[dci lib tests]
+        source_dirs = %w[dci kci lib tests]
         source_dirs.each do | source_dir |
             Dir.glob("#{source_dir}/**/*.rb").each do |file|
                 parse_ruby(file)
