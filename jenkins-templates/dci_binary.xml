@@ -139,6 +139,11 @@
         </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
       </configs>
     </hudson.plugins.parameterizedtrigger.BuildTrigger>
+    <hudson.plugins.logparser.LogParserPublisher plugin="log-parser@1.0.8">
+        <unstableOnWarning>true</unstableOnWarning>
+        <failBuildOnError>true</failBuildOnError>
+        <parsingRulesPath>/var/lib/jenkins/log-parse-rules.txt</parsingRulesPath>
+    </hudson.plugins.logparser.LogParserPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.24">
