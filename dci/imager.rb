@@ -9,5 +9,7 @@ FLAVOR = ARGV[2]
 $logger = new_logger
 
 $logger.info("Starting ISO build for #{ARGV[1]}")
-system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -- ruby ./tooling/ci-tooling/dci.rb imager \
+system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} \
+        -o jenkins.workspace=#{ENV['WORKSPACE']} \
+        -- ruby ./tooling/ci-tooling/dci.rb imager \
         #{RELEASE} #{FLAVOR}")

@@ -26,7 +26,9 @@ SOURCE_NAME = $changelog.name
 
 RELEASE = ENV['JOB_NAME'].split('_')[-1]
 
-system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -- ruby ./tooling/ci-tooling/dci.rb source \
+system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} \
+        -o jenkins.workspace=#{ENV['WORKSPACE']} \
+        -- ruby ./tooling/ci-tooling/dci.rb source \
         -r #{repos} \
         -w #{ENV['WORKSPACE']}/tooling/data \
         -R #{RELEASE} \
