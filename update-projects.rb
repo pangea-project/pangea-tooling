@@ -86,7 +86,18 @@ class ProjectUpdater
         all_builds = projects.collect do |project|
           # FIXME: super fucked up dupe prevention
           if type == 'unstable' && distribution == 'vivid'
-            all_mergers << enqueue(MergeJob.new(project))
+            dependees = []
+            # FIXME: I hate my life.
+            # Mergers need to be upstreams to the build jobs otherwise the
+            # build jobs can trigger before the merge is done (e.g. when)
+            # there was an upstream change resulting in pointless build
+            # cycles.
+            DISTRIBUTIONS.each do |d|
+              TYPES.each do |t|
+                dependees << BuildJob.build_name(d, t, project.name)
+              end
+            end
+            all_mergers << enqueue(MergeJob.new(project, dependees: dependees))
           end
 
           enqueue(BuildJob.new(project, type: type, distribution: distribution))

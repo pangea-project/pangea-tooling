@@ -5,8 +5,9 @@ class MergeJob < JenkinsJob
   attr_reader :name
   attr_reader :component
   attr_reader :merge_branches
+  attr_reader :dependees
 
-  def initialize(project)
+  def initialize(project, dependees:)
     super("merger_#{project.name}", 'merger.xml.erb')
     @name = project.name
     @component = project.component
@@ -16,5 +17,6 @@ class MergeJob < JenkinsJob
                          kubuntu_unstable_utopic
                          master
                          kubuntu_vivid_archive)
+    @dependees = dependees
   end
 end
