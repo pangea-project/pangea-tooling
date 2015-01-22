@@ -44,7 +44,7 @@ class ProjectUpdater
   def install_plugins
     # Autoinstall all possibly used plugins.
     installed_plugins = Jenkins.plugin_manager.list_installed.keys
-    Dir.glob('jenkins-templates/**/**.xml').each do |path|
+    Dir.glob('jenkins-jobs/templates/**/**.xml.erb').each do |path|
       File.readlines(path).each do |line|
         match = line.match(/.*plugin="(.+)".*/)
         next unless match && match.size == 2
