@@ -5,6 +5,7 @@ require 'thwait'
 require_relative 'ci-tooling/lib/projects'
 
 require_relative 'jenkins-jobs/build'
+require_relative 'jenkins-jobs/daily-promote'
 require_relative 'jenkins-jobs/iso'
 require_relative 'jenkins-jobs/merge'
 require_relative 'jenkins-jobs/meta-build'
@@ -82,6 +83,7 @@ class ProjectUpdater
     all_mergers = []
     DISTRIBUTIONS.each do |distribution|
       TYPES.each do |type|
+        enqueue(DailyPromoteJob.new(distribution: distribution, type: type))
         projects = Projects.new(type: type)
         all_builds = projects.collect do |project|
           # FIXME: super fucked up dupe prevention
