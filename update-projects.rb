@@ -11,6 +11,7 @@ require_relative 'jenkins-jobs/merge'
 require_relative 'jenkins-jobs/meta-build'
 require_relative 'jenkins-jobs/meta-iso'
 require_relative 'jenkins-jobs/meta-merge'
+require_relative 'jenkins-jobs/mgmt-lxc'
 require_relative 'jenkins-jobs/progenitor'
 
 # Simple thread pool implementation. Pass a block to run and it runs it in a
@@ -110,7 +111,11 @@ class ProjectUpdater
         # FIXME: this maybe should be moved into MetaIsoJob or something
         # all_isos is actually unused
         ARCHITECTURES.each do |architecture|
-          enqueue(IsoJob.new(type: type, distribution: distribution, architecture: architecture))
+          args = { type: type,
+                   distribution: distribution,
+                   architecture: architecture }
+          enqueue(IsoJob.new(args))
+          enqueue(MGMTLXCJob.new(args))
         end
         # FIXME: doesn't automatically add new ISOs ...
         enqueue(MetaIsoJob.new(type: type, distribution: distribution))
