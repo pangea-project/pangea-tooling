@@ -9,7 +9,7 @@ RELEASE = ARGV[2]
 UBUNTU_RELEASES = `ubuntu-distro-info -a`.split
 DEBIAN_RELEASES = `debian-distro-info -a`.split
 
-system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -- ruby ./tooling/ci-tooling/dci.rb mozilla \
+system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -o jenkins.workspace=#{ENV['WORKSPACE']} -- ruby ./tooling/ci-tooling/dci.rb mozilla \
     #{PACKAGE} #{RELEASE}")
 
 Dir.mkdir('build') unless Dir.exist? 'build'
