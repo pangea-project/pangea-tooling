@@ -28,7 +28,7 @@ run_dinstall = 0
 allow_unsigned_uploads = 1
 "
 
-$logger = new_logger
+$logger = DCILogger.instance
 
 def run_cmd(cmd)
     retry_count = 0

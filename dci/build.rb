@@ -2,7 +2,7 @@ require 'fileutils'
 require 'json'
 require_relative '../ci-tooling/lib/logger'
 
-logger = new_logger
+logger = DCILogger.instance
 
 RELEASE = `grep Distribution #{ARGV[1]}`.split(':')[-1].strip
 PACKAGE = `grep Source #{ARGV[1]}`.split(':')[-1].strip
