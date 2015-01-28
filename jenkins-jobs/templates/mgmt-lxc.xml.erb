@@ -90,7 +90,7 @@ lxc-wait -n $NAME --state=STOPPED --timeout=30</command>
       <configs>
         <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
           <configs class="empty-list"/>
-          <projects>mgmt_build_utopic_stable</projects>
+          <projects><%= dependees.join(', ') %>,</projects>
           <condition>SUCCESS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
         </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>

@@ -111,11 +111,18 @@ class ProjectUpdater
         # FIXME: this maybe should be moved into MetaIsoJob or something
         # all_isos is actually unused
         ARCHITECTURES.each do |architecture|
-          args = { type: type,
-                   distribution: distribution,
-                   architecture: architecture }
-          enqueue(IsoJob.new(args))
-          enqueue(MGMTLXCJob.new(args))
+          isoargs = { type: type,
+                      distribution: distribution,
+                      architecture: architecture }
+          enqueue(IsoJob.new(isoargs))
+          # TODO: this is a bit of naughty trick. we fish out the latest meta
+          #       builder which would be utopic_unstable or utopic_stable etc.
+          #       It probably should be put in an expicit variable, or at least
+          #       architecture-ized.
+          lxcargs = { type: type,
+                      distribution: distribution,
+                      dependees: [all_meta_builds.last] }
+          enqueue(MGMTLXCJob.new(lxcargs))
         end
         # FIXME: doesn't automatically add new ISOs ...
         enqueue(MetaIsoJob.new(type: type, distribution: distribution))
