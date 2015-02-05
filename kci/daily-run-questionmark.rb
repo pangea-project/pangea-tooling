@@ -2,7 +2,6 @@
 
 require 'json'
 require 'logger'
-require 'logger/colors'
 require 'ostruct'
 require 'net/http'
 require 'date'
@@ -43,7 +42,7 @@ end
 
 # builds now only contains builds of the same day as the current build.
 
-abort_results = %w(SUCCESS UNSTABLE)
+abort_results = %w(SUCCESS)
 builds.each do |build|
   if abort_results.include?(build.result)
     LOG.info "Had a good build today, aborting: #{build.id} - #{build.result}"
