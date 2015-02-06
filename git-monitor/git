@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+require 'drb/drb'
+
+NETWORK_COMMANDS = %w(pull clone fetch push)
+SERVER_URI = 'druby://localhost:991235'
+
+DRb.start_service
+monitor = DRbObject.new_with_uri(SERVER_URI)
+
+def run(args)
+  system('/usr/bin/git', *args)
+  $?.exitstatus
+end
+
+# Only sync network-io commands. Local commands do not benefit from being
+# locked which in turn only slows down the entire affair by an incredible
+# amount.
+synchronize = false
+NETWORK_COMMANDS.each do |c|
+  synchronize = true and break if ARGV.include?(c)
+end
+
+exit_code = 0
+if synchronize
+  monitor.synchronize(Process.pid) do
+    exit_code = run(ARGV)
+  end
+else
+  exit_code = run(ARGV)
+end
+
+exit exit_code

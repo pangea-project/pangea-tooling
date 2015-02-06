@@ -1,0 +1,110 @@
+#!/usr/bin/env ruby
+
+require 'drb/drb'
+require 'logger'
+require 'monitor'
+require 'thread'
+
+LOCKS = 5
+URI = 'druby://localhost:991235'
+
+class InterProcessMutex
+  def initialize
+    @log = Logger.new(STDOUT)
+    disable_logging
+    @locks = []
+    @locks.fill(nil, 0, LOCKS)
+    @mutex = Mutex.new
+    @condition = ConditionVariable.new
+  end
+
+  def log_locks
+    @log.warn "Locks  ---  #{@locks}"
+    @log.warn 'Trying to cleanup'
+    @mutex.synchronize do
+      cleanup_lost_locks
+    end
+    @log.warn "Locks  ---  #{@locks}"
+  end
+
+  def enable_logging
+    @log.level = Logger::INFO
+  end
+
+  def disable_logging
+    @log.level = Logger::WARN
+  end
+
+  def synchronize(pid)
+    @log.info "synchronizing #{pid}"
+    acquired = false
+
+    until acquired
+      @mutex.synchronize do
+        cleanup_lost_locks
+        acquired = acquire_lock(pid)
+        @condition.wait(@mutex) unless acquired
+      end
+    end
+    @log.info "acquired lock for #{pid}"
+
+    yield
+
+    @log.info "releasing lock for #{pid}"
+    while acquired
+      @mutex.synchronize do
+        acquired = release_lock(pid)
+        @condition.signal unless acquired
+      end
+      if acquired
+        @log.warn "failed to release lock for #{pid}"
+        fail "failed to release lock for #{pid}"
+      end
+    end
+  end
+
+  private
+
+  def cleanup_lost_locks
+    process_lost = false
+    @locks.collect! do |lock|
+      next lock unless lock
+      begin
+        Process.kill(0, lock)
+        @log.info "    process #{lock} still running"
+        next lock
+      rescue
+        process_lost = true
+        @log.warn "    process #{lock} lost"
+        next nil
+      end
+    end
+    @condition.broadcast if process_lost
+  end
+
+  def acquire_lock(pid)
+    acquired = false
+    @locks.collect! do |lock|
+      next lock if lock || acquired
+      acquired = true
+      next pid
+    end
+    acquired
+  end
+
+  def release_lock(pid)
+    acquired = true
+    @locks.collect! do |lock|
+      next lock unless lock
+      next lock if lock != pid || !acquired
+      acquired = false
+      next nil
+    end
+    acquired
+  end
+end
+
+FRONT_OBJECT = InterProcessMutex.new
+
+DRb.start_service(URI, FRONT_OBJECT)
+DRb.thread.join
