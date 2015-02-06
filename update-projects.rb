@@ -84,7 +84,6 @@ class ProjectUpdater
     all_mergers = []
     DISTRIBUTIONS.each do |distribution|
       TYPES.each do |type|
-        enqueue(DailyPromoteJob.new(distribution: distribution, type: type))
         projects = Projects.new(type: type)
         all_builds = projects.collect do |project|
           # FIXME: super fucked up dupe prevention
@@ -106,6 +105,7 @@ class ProjectUpdater
           enqueue(BuildJob.new(project, type: type, distribution: distribution))
         end
         enqueue(MGMTLXCJob.new(type: type, distribution: distribution, dependees: all_builds))
+        enqueue(DailyPromoteJob.new(distribution: distribution, type: type, dependees: all_builds))
 
         # This could actually returned into a collect if placed below
         all_meta_builds << enqueue(MetaBuildJob.new(type: type, distribution: distribution, downstream_jobs: all_builds))
