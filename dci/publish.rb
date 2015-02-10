@@ -33,7 +33,7 @@ $logger = DCILogger.instance
 
 DPUT_CF = ENV['HOME'] + '/.dput.cf'
 if File.read(DPUT_CF) != DPUT_CONTENTS
-    File.open(DPUT_CF, 'w') { |f|
+    File.open(DPUT_CF, 'w+') { |f|
         f.flock(File::LOCK_EX)
         f.puts(DPUT_CONTENTS)
         f.flush()
