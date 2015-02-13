@@ -22,7 +22,9 @@ builds.reverse!
 
 current_build = nil
 current_build_date = nil
-builds = builds.drop_while do |build|
+out_of_date_range = false
+builds = builds.delete_if do |build|
+  next true if out_of_date_range
   if build.number > build_number
     next true
   elsif build.number == build_number
@@ -37,7 +39,7 @@ builds = builds.drop_while do |build|
     current_build_date = Date.parse(Time.at(build.timestamp / 1000).to_s)
     next true
   end
-  next current_build_date != Date.parse(Time.at(build.timestamp / 1000).to_s)
+  out_of_date_range = current_build_date != Date.parse(Time.at(build.timestamp / 1000).to_s)
 end
 
 # builds now only contains builds of the same day as the current build.
