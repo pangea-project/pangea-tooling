@@ -1,3 +1,4 @@
 {
-    "maui-debian": "maui"
+    "maui-debian" : "maui",
+    "frameworks"  : "frameworks"
 }
