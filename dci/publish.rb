@@ -7,7 +7,7 @@ fail 'File is not a changes file!' unless ARGV[2].end_with? '.changes'
 DPUT_CONTENTS = "[dci]
 fqdn                    = dci.pangea.pub
 method                  = sftp
-incoming                = /home/publisher/%(dci)s
+incoming                = /home/publisher/%\(dci\)s
 login                   = publisher
 "
 
