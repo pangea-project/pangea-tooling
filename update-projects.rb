@@ -3,16 +3,7 @@
 require 'thwait'
 
 require_relative 'ci-tooling/lib/projects'
-
-require_relative 'jenkins-jobs/build'
-require_relative 'jenkins-jobs/daily-promote'
-require_relative 'jenkins-jobs/iso'
-require_relative 'jenkins-jobs/merge'
-require_relative 'jenkins-jobs/meta-build'
-require_relative 'jenkins-jobs/meta-iso'
-require_relative 'jenkins-jobs/meta-merge'
-require_relative 'jenkins-jobs/mgmt-lxc'
-require_relative 'jenkins-jobs/progenitor'
+require_relative 'jenkins-jobs'
 
 # Simple thread pool implementation. Pass a block to run and it runs it in a
 # pool.
