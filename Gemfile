@@ -1,5 +1,8 @@
 source "https://rubygems.org"
 
+gem 'git'
+gem 'logger-colors'
+
 group :development, :test do
   gem 'ci_reporter_test_unit'
   gem 'equivalent-xml'
