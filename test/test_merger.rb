@@ -16,7 +16,8 @@ class MergerTest < Test::Unit::TestCase
   end
 
   def create_sample_branch(g, name)
-    g.checkout('master', new_branch: name)
+    g.checkout('master')
+    g.checkout(name, new_branch: true)
     FileUtils.touch("#{name}file")
     g.add("#{name}file")
     g.commit_all("#{name}msg")
@@ -100,13 +101,15 @@ class MergerTest < Test::Unit::TestCase
 
   def test_stable_trigger
     in_repo do |g|
-      g.checkout('master', new_branch: 'kubuntu_stable')
+      g.checkout('master')
+      g.checkout('kubuntu_stable', new_branch: true)
       FileUtils.touch('stablefile')
       g.add('stablefile')
       g.commit_all('stablemsg')
       g.push('origin', 'kubuntu_stable')
 
-      g.checkout('master', new_branch: 'kubuntu_stable_utopic')
+      g.checkout('master')
+      g.checkout('kubuntu_stable_utopic', new_branch: true)
       g.push('origin', 'kubuntu_stable_utopic')
     end
 
