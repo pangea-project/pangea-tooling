@@ -74,12 +74,12 @@ class Schroot
 
   def run_setup
     args = []
-    args << '--chroot' << @chroot_name
+    args << '--chroot' << "source:#{@chroot_name}"
     args << '--user' << 'root'
     args << '--directory' << '/root'
     # FIXME: script path needs to be put in a var somewhere
     args << '--' << '/root/__setup.sh'
-    fail 'Failed to setup schroot' unless system("schroot source:#{args.join(' ')}")
+    fail 'Failed to setup schroot' unless system("schroot #{args.join(' ')}")
     # FIXME: script path needs var
     FileUtils.rm_rf("#{@chroot_dir}/root/__setup.sh")
   end
