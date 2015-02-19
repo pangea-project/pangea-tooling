@@ -23,7 +23,7 @@ class Schroot
     @chroot_name = "#{@name}-#{@series}-#{@stability}-#{@arch}"
     @chroot_dir = "#{CHROOT_DIR}/#{@chroot_name}"
 
-    @root_users = %w(apachelogger shadeslayer)
+    @root_users = %w(apachelogger shadeslayer jenkins)
     @mirror = 'http://127.0.0.1:3142/archive.ubuntu.com/ubuntu/'
 
     # FIXME: maybe should come from job itself? maybe this should only be called from job
