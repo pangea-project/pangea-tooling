@@ -2,7 +2,7 @@ require 'fileutils'
 require 'test/unit'
 require 'tmpdir'
 
-require_relative '../schroot-scripts/setup-chroot-imager'
+require_relative '../schroot-scripts/lib/schroot'
 
 class SchrootTest < Test::Unit::TestCase
   def const_reset_dir(klass, symbol, string)
