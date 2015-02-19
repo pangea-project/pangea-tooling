@@ -7,6 +7,8 @@ group :development, :test do
   gem 'ci_reporter_test_unit'
   gem 'equivalent-xml'
   gem 'rake'
+  gem 'simplecov'
+  gem 'simplecov-rcov'
   gem 'test-unit'
 end
 
