@@ -43,7 +43,7 @@ class Schroot
                                   users: @root_users,
                                   workspace: @workspace)
     @profile.deploy_config(data_path('config'),
-    "#{CONF_CHROOT_DIR}/#{@chroot_name}")
+                           "#{CONF_CHROOT_DIR}/#{@chroot_name}")
     write_setup
     run_setup
     @profile.deploy_profile(data_path('profile'), "#{CONF_DIR}/#{@chroot_name}")
