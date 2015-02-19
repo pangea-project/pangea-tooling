@@ -41,4 +41,6 @@ chown jenkins:www-data -Rv $PUB
 
 cp -avr $PUB /mnt/s3/kci/images/$ARCH/
 
+~/jobs/mgmt_tooling/workspace/s3-images-generator/generate_html.rb -o /mnt/s3/kci/index.html kci
+
 unset SCHROOT_SESSION
