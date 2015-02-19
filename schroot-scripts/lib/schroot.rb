@@ -20,7 +20,7 @@ class Schroot
     @arch = arch
 
     @name = 'jenkins-imager'
-    @chroot_name = "#{@series}-#{@name}-#{@arch}"
+    @chroot_name = "#{@name}-#{@series}-#{@stability}-#{@arch}"
     @chroot_dir = "#{CHROOT_DIR}/#{@chroot_name}"
 
     @root_users = %w(apachelogger shadeslayer)
