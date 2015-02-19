@@ -1,5 +1,3 @@
-require_relative 'ci-tooling/Gemfile'
-
 source "https://rubygems.org"
 
 gem 'git'
@@ -18,3 +16,5 @@ group :s3 do
   gem 'aws-sdk-v1'
   gem 'nokogiri'
 end
+
+eval(IO.read(File.join(File.dirname(__FILE__),  'ci-tooling/Gemfile')), binding)
