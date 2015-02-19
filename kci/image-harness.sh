@@ -15,7 +15,7 @@ finish() {
         unset SCHROOT_SESSION
     fi
 }
-trap finish EXIT 
+trap finish EXIT
 
 # Manually handle the schroot session to prevent it from lingering after we exit.
 export SCHROOT_SESSION="session:$(schroot -b -c $CNAME)"
