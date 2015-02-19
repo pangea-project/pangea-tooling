@@ -1,0 +1,11 @@
+[utopic-jenkins-imager-amd64]
+description=utopic-jenkins-imager-amd64 (utopic/amd64)
+personality=linux
+directory=/tmp/d20150219-1163-e7emel/chroot/utopic-jenkins-imager-amd64
+type=directory
+users=
+root-groups=root
+root-users=
+preserve-environment=false
+union-type=overlayfs
+profile=utopic-jenkins-imager-amd64

@@ -1,0 +1,1 @@
+SCHROOT_CGROUP=<%= name %>
