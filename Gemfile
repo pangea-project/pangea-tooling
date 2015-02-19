@@ -1,3 +1,5 @@
+require_relative 'ci-tooling/Gemfile'
+
 source "https://rubygems.org"
 
 gem 'git'
