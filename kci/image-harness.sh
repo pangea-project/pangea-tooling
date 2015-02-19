@@ -2,7 +2,7 @@
 
 JENKINS_PATH="/var/lib/jenkins"
 TOOLING_PATH="$JENKINS_PATH/tooling"
-CNAME="$DIST-jenkins-imager-$ARCH"
+CNAME="jenkins-imager-$DIST-$TYPE-$ARCH"
 
 if ! schroot -i -c $CNAME; then
     echo "Imager schroot not set up. Talk to an admin."
