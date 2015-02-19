@@ -8,16 +8,14 @@ logger = DCILogger.instance
 logger.info('Starting source only build')
 
 Dir.chdir('packaging') do
-    $changelog = Changelog.new
+  $changelog = Changelog.new
 end
 
 REPOS_FILE = 'debian/meta/extra_repos.json'
 
 repos = ['default']
 Dir.chdir("#{ENV['WORKSPACE']}/packaging") do
-    if File.exist? REPOS_FILE
-        repos += JSON::parse(File.read(REPOS_FILE))['repos']
-    end
+  repos << JSON.parse(File.read(REPOS_FILE))['repos'] if File.exist? REPOS_FILE
 end
 
 repos = repos.join(',')
@@ -36,6 +34,6 @@ system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} \
 
 Dir.mkdir('build') unless Dir.exist? 'build'
 
-raise 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{SOURCE_NAME}*.changes build/")
+fail 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{SOURCE_NAME}*.changes build/")
 
 logger.close
