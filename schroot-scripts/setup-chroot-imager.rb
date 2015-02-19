@@ -20,6 +20,9 @@ class Schroot
   JENKINS_DIR = '/var/lib/jenkins'
   JENKINS_TOOLING = "#{JENKINS_DIR}/tooling/imager"
 
+  attr_reader :chroot_name
+  attr_reader :chroot_dir
+
   def initialize(stability:, series:, arch:)
     @stability = stability
     @series = series
@@ -75,6 +78,7 @@ class Schroot
   def write_setup
     FileUtils.mkpath("#{@chroot_dir}/root/")
     FileUtils.cp(data_path('__setup.sh'), "#{@chroot_dir}/root/")
+    FileUtils.chmod('+x', "#{@chroot_dir}/root/__setup.sh")
   end
 
   def run_setup

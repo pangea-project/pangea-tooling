@@ -49,6 +49,10 @@ class SchrootTest < Test::Unit::TestCase
                           arch: 'amd64')
     schroot.create
 
+    # Setup script must be +x
+    assert(File.exist?("#{schroot.chroot_dir}/root/__setup.sh"))
+    assert(File.executable?("#{schroot.chroot_dir}/root/__setup.sh"))
+
     reffiles = Dir.chdir(data('_ref')) { Dir['**/**'] }.sort
     tmpfiles = Dir.chdir('etc') { Dir['**/**'] }.sort
 
