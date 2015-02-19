@@ -3,8 +3,8 @@ description=<%= description %>
 personality=linux
 directory=<%= directory %>
 type=directory
-users=<% users %>
+users=<%= users %>
 root-groups=root
-root-users=<% users %>
+root-users=<%= users %>
 preserve-environment=false
 union-type=overlayfs
