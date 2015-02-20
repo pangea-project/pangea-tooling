@@ -14,7 +14,7 @@ cleanup() {
 export WD=$1
 export DIST=$2
 export ARCH=$3
-export TYPE=$4-daily
+export TYPE=$4
 
 if [ -z $WD ] || [ -z $DIST ] || [ -z $ARCH ] || [ -z $TYPE ]; then
     echo "!!! Not all arguments provided! ABORT !!!"
@@ -31,7 +31,7 @@ sudo apt install -y --no-install-recommends git ubuntu-defaults-builder wget ca-
 # NOTE: can be removed once ubuntu-defaults-image and live-build landed in utopic-updates.
 # FIXME: source schroot needs to be updated with updates enabled, or at least the two core packages updated.
 sudo apt install -y --no-install-recommends software-properties-common
-sudo apt-add-repository -y 'deb http://127.0.0.1:3142/archive.ubuntu.com/ubuntu utopic-updates main restricted universe multiverse'
+sudo apt-add-repository -y "deb http://127.0.0.1:3142/archive.ubuntu.com/ubuntu $DIST-updates main restricted universe multiverse"
 sudo apt update
 sudo apt dist-upgrade -y
 
@@ -74,13 +74,12 @@ export LB_ZSYNC=true # This is overridden by silly old defaults-image...
 export LB_APT_HTTP_PROXY="http://127.0.0.1:3142"
 
 # Preserve envrionment -E plz.
-sudo -E ubuntu-defaults-image \
-    --ppa kubuntu-ppa/next \
+sudo -E $(dirname "$0")/ubuntu-defaults-image \
     --ppa kubuntu-ci/$TYPE \
     --package kubuntu-ci-live \
     --arch $ARCH \
     --release $DIST \
-    --flavor kubuntu-plasma5 \
+    --flavor kubuntu \
     --mirror http://127.0.0.1:3142/archive.ubuntu.com/ubuntu \
     --components main,restricted,universe,multiverse
 
