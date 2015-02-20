@@ -79,14 +79,14 @@ class Merger
     cleanup('master')
 
     # merge_stable('master')# trigger_branch in stable
-    merge_stable('kubuntu_vivid_archive')# trigger_branch in stable
+    merge_stable('kubuntu_vivid_archive') # trigger_branch in stable
     merge_unstable('kubuntu_stable') # stable in unstable
   end
 
 private
   # Hard resets to head, cleans everything, and sets dpkg-mergechangelogs in
   # .gitattributes afterwards.
-  def cleanup(target=@git.current_branch)
+  def cleanup(target = @git.current_branch)
     @git.fetch('origin')
     @git.reset("remotes/origin/#{target}", hard: true)
     @git.clean(force: true, d: true)
@@ -100,7 +100,8 @@ private
   # @param target either a Git::Branch or a String specifying the branch in
   #   which  should be merged
   def merge(source, target)
-    unless source.respond_to?(:full) # We want the full branch name of the remote to work with
+    # We want the full branch name of the remote to work with
+    unless source.respond_to?(:full)
       source_name = source.clone
       source = @git.branches.remote.select { |b| b.name == source_name }[0]
       unless source
@@ -120,6 +121,4 @@ private
   end
 end
 
-if __FILE__ == $0
-  Merger.new.run(ENV['GIT_BRANCH'])
-end
+Merger.new.run(ENV['GIT_BRANCH']) if __FILE__ == $PROGRAM_NAME
