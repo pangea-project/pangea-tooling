@@ -10,6 +10,8 @@ group :development, :test do
   gem 'simplecov'
   gem 'simplecov-rcov'
   gem 'test-unit'
+  gem 'rubocop'
+  gem 'rubocop-checkstyle_formatter'
 end
 
 group :s3 do
