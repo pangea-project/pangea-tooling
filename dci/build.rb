@@ -31,7 +31,7 @@ system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} \
          #{ARGV[1]}")
 
 FileUtils.mkdir_p('build/binary') unless Dir.exists? 'build/binary'
-changes_files = Dir.glob("#{RESULT_DIR}/#{PACKAGE}*changes").select { |changes| !changes.include? 'source' }
+changes_files = Dir.glob("#{RESULT_DIR}/#{PACKAGE}*changes").select { |changes| !changes.end_with? '_source.changes' }
 
 changes_files.each do |changes_file|
     logger.info("Copying over #{changes_file} into Jenkins")
