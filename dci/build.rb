@@ -13,27 +13,28 @@ logger.info("Starting binary build for #{RELEASE}")
 repos = ['default']
 
 if Dir.exist? "#{ENV['WORKSPACE']}/packaging"
-    Dir.chdir("#{ENV['WORKSPACE']}/packaging") do
-        if File.exist? REPOS_FILE
-            repos += JSON::parse(File.read(REPOS_FILE))['repos']
-        end
+  Dir.chdir("#{ENV['WORKSPACE']}/packaging") do
+    if File.exist? REPOS_FILE
+      repos += JSON.parse(File.read(REPOS_FILE))['repos']
     end
+  end
 end
 
 repos = repos.join(',')
 
-# TODO: Extend this so that we don't hardcode amd64 here, and instead use something from the job
+# TODO: Extend this so that we don't hardcode amd64 here, and
+# instead use something from the job
 system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} \
-        -o jenkins.workspace=#{ENV['WORKSPACE']} \
-        -- ruby ./tooling/ci-tooling/dci.rb build \
-        -r #{repos} \
-        -w #{ENV['WORKSPACE']}/tooling/data \
-         #{ARGV[1]}")
+-o jenkins.workspace=#{ENV['WORKSPACE']} \
+-- ruby ./tooling/ci-tooling/dci.rb build \
+-r #{repos} \
+-w #{ENV['WORKSPACE']}/tooling/data \
+#{ARGV[1]}")
 
-FileUtils.mkdir_p('build/binary') unless Dir.exists? 'build/binary'
+FileUtils.mkdir_p('build/binary') unless Dir.exist? 'build/binary'
 changes_files = Dir.glob("#{RESULT_DIR}/#{PACKAGE}*changes").select { |changes| !changes.end_with? '_source.changes' }
 
 changes_files.each do |changes_file|
-    logger.info("Copying over #{changes_file} into Jenkins")
-    system("dcmd mv #{changes_file} build/binary/")
+  logger.info("Copying over #{changes_file} into Jenkins")
+  system("dcmd mv #{changes_file} build/binary/")
 end
