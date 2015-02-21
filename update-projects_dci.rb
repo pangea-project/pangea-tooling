@@ -56,8 +56,9 @@ def create_or_update(orig_xml_config, args = {})
 
     job_name = args[:job_name]
     job_name ||= job_name?(args[:dist], args[:type], args[:name])
+
     begin
-        $jenkins_client_hash[args[:upload_target]] ||= new_jenkins(:jenkins_path => "/job/#{args[:upload_target]}/")
+        $jenkins_client_hash[args[:upload_target]] ||= Jenkins.client(:jenkins_path => "/job/#{args[:upload_target]}/")
         $jenkins_client_hash[args[:upload_target]].job.create_or_update(job_name, xml_config)
     rescue
         retry
