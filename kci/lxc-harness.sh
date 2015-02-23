@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# set -xe
-
 export CNAME=${JOB_NAME##*/}
 
 JENKINS_PATH="/var/lib/jenkins"
