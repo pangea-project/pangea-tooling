@@ -83,28 +83,22 @@ sudo -E $(dirname "$0")/ubuntu-defaults-image \
     --mirror http://127.0.0.1:3142/archive.ubuntu.com/ubuntu \
     --components main,restricted,universe,multiverse
 
-cat /proc/self/cgroup
-
-if [ ! -e livecd.kubuntu-plasma5.iso ]; then
+if [ ! -e livecd.kubuntu.iso ]; then
     echo "ISO Build Failed."
     cleanup
     exit 1
 fi
 
-mv livecd.kubuntu-plasma5.* ../result/
+mv livecd.kubuntu.* ../result/
 cd ../result/
 
-cat /proc/self/cgroup
-
 for f in *; do
-    new_name=$(echo $f | sed "s/livecd\.kubuntu-plasma5/kubuntu-plasma5-${DATE}-${ARCH}/")
+    new_name=$(echo $f | sed "s/livecd\.kubuntu/kubuntu-${DATE}-${ARCH}/")
     mv $f $new_name
 done
 
 zsyncmake *.iso
 
 echo $DATETIME > date_stamp
-
-cat /proc/self/cgroup
 
 exit 0
