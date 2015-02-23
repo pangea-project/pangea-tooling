@@ -3,21 +3,8 @@
 require 'thwait'
 
 require_relative 'ci-tooling/lib/projects'
+require_relative 'ci-tooling/lib/thread_pool'
 require_relative 'jenkins-jobs'
-
-# Simple thread pool implementation. Pass a block to run and it runs it in a
-# pool.
-# Note that the block code should be thread safe...
-module BlockingThreadPool
-  # Runs the passed block in a pool. This function blocks until all threads are
-  # done.
-  # @param count the thread count to use for the pool
-  def self.run(count = 16, &block)
-    threads = []
-    count.times { threads << Thread.new(nil, &block) }
-    ThreadsWait.all_waits(threads)
-  end
-end
 
 # Updates Jenkins Projects
 class ProjectUpdater
