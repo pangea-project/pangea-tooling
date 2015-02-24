@@ -53,7 +53,7 @@ task :deploy do
   # FIXME: as usual massive code dupe
   %w(utopic vivid).each do |dist|
     %w(stable unstable).each do |type|
-      path = File.join(tooling_path, "#{dist}-#{type}")
+      path = File.join(tooling_path, "#{dist}_#{type}")
       Dir.mkdir(path) unless Dir.exist?(path)
       `cp -rf * #{path}`
     end
