@@ -9,8 +9,6 @@ TOOLING_PATH="$JENKINS_PATH/tooling"
 HOST="http://localhost:8080"
 TIMEOUT=120 # At peak we have severe load, so better use a sizable timeout for lxc startup...
 
-env
-
 if [ -z $DIST ] || [ -z $NAME ] || [ -z $TYPE ] || [ -z $JOB_NAME ]; then
     echo "Not all env variables set! ABORT!"
     exit 1
@@ -26,7 +24,7 @@ function finish {
     lxc-wait -n $CNAME --state=STOPPED --timeout=30 || true
     lxc-destroy -n $CNAME || true
 }
-trap finish EXIT 
+trap finish EXIT
 
 pushd $TOOLING_PATH
 if [ ! -f jenkins-cli.jar ]; then
