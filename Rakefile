@@ -44,3 +44,18 @@ RuboCop::RakeTask.new(:rubocop) do |task|
   task.verbose = false
 end
 CLEAN << 'checkstyle.xml'
+
+desc 'deploy to ~/tooling-pending for processing by LXC jobs'
+task :deploy do
+  `bundle pack`
+  tooling_path = File.join(Dir.home, 'tooling-pending')
+  Dir.mkdir(tooling_path) unless Dir.exist?(tooling_path)
+  # FIXME: as usual massive code dupe
+  %w(utopic vivid).each do |dist|
+    %w(stable unstable).each do |type|
+      path = File.join(tooling_path, "#{dist}-#{type}")
+      Dir.mkdir(path) unless Dir.exist?(path)
+      `cp -rf * #{path}`
+    end
+  end
+end
