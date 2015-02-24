@@ -8,9 +8,12 @@ SOURCE_DIRS = %w(
   ci-tooling/kci
   ci-tooling/lib
   dci
+  git-monitor
   jenkins-jobs
   kci
   lib
+  s3-images-generator
+  schroot-scripts
 )
 
 desc 'run unit tests'
