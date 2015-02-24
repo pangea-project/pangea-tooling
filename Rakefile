@@ -1,4 +1,5 @@
 require 'ci/reporter/rake/test_unit'
+require 'fileutils'
 require 'rake/clean'
 require 'rake/testtask'
 require 'rubocop/rake_task'
@@ -49,13 +50,7 @@ desc 'deploy to ~/tooling-pending for processing by LXC jobs'
 task :deploy do
   `bundle pack`
   tooling_path = File.join(Dir.home, 'tooling-pending')
-  Dir.mkdir(tooling_path) unless Dir.exist?(tooling_path)
-  # FIXME: as usual massive code dupe
-  %w(utopic vivid).each do |dist|
-    %w(stable unstable).each do |type|
-      path = File.join(tooling_path, "#{dist}_#{type}")
-      Dir.mkdir(path) unless Dir.exist?(path)
-      `cp -rf * #{path}`
-    end
-  end
+  FileUtils.rm_rf(tooling_path)
+  FileUtils.mkpath(tooling_path)
+  FileUtils.cp_r(Dir.glob('*'), tooling_path)
 end
