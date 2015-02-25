@@ -1,22 +1,15 @@
 #!/bin/bash
 
-set -xe
-
 export CNAME=${JOB_NAME##*/}
 
 JENKINS_PATH="/var/lib/jenkins"
 TOOLING_PATH="$JENKINS_PATH/tooling"
-HOST="http://localhost:8080"
 TIMEOUT=120 # At peak we have severe load, so better use a sizable timeout for lxc startup...
 
 if [ -z $DIST ] || [ -z $NAME ] || [ -z $TYPE ] || [ -z $JOB_NAME ]; then
     echo "Not all env variables set! ABORT!"
     exit 1
 fi
-
-function cli() {
-    java -jar ${TOOLING_PATH}/jenkins-cli.jar -s $HOST "$@";
-}
 
 function finish {
     # Let's not fail here since it does not contribute to overall build status
@@ -25,12 +18,6 @@ function finish {
     lxc-destroy -n $CNAME || true
 }
 trap finish EXIT
-
-pushd $TOOLING_PATH
-if [ ! -f jenkins-cli.jar ]; then
-    wget $HOST/jnlpJars/jenkins-cli.jar
-fi
-popd
 
 rm -rf _anchor-chain logs/* build/*
 
