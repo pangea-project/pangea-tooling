@@ -9,6 +9,12 @@ unset RUBY_VERSION
 
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:$PATH
 
+read -r -d '' PACKAGES << EOF
+  xz-utils dpkg-dev ruby dput debhelper pkg-kde-tools devscripts
+  python-launchpadlib ubuntu-dev-tools git dh-systemd ruby-dev
+  zlib1g-dev
+EOF
+
 function cleanup {
   lxc-stop -n $NAME || true
   lxc-wait -n $NAME --state=STOPPED --timeout=30 || true
