@@ -13,6 +13,7 @@ export CNAME=${JOB_NAME##*/}
 
 JENKINS_PATH="/var/lib/jenkins"
 TOOLING_PATH="$JENKINS_PATH/tooling"
+SSH_PATH="$JENKINS_PATH/.ssh"
 TIMEOUT=120 # At peak we have severe load, so better use a sizable timeout for lxc startup...
 
 if [ -z $DIST ] || [ -z $NAME ] || [ -z $TYPE ] || [ -z $JOB_NAME ]; then
@@ -37,6 +38,7 @@ lxc-destroy -n $CNAME || true
 lxc-clone -s -B overlayfs "${DIST}_${TYPE}" $CNAME
 # Mount tooling and workspace directory.
 echo "lxc.mount.entry = ${TOOLING_PATH} ${TOOLING_PATH#/} none bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
+echo "lxc.mount.entry = ${SSH_PATH} ${SSH_PATH#/} none bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
 echo "lxc.mount.entry = ${PWD} ${PWD#/} none bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
 cat /proc/uptime
 lxc-start -n $CNAME --daemon --logfile=`pwd`/lxc.log --logpriority=INFO
