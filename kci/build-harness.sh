@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ex
+
 # unset rvm variables because lxc-attach doesn't drop the host env
 unset GEM_PATH
 unset GEM_HOME
