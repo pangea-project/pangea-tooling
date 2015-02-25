@@ -35,7 +35,7 @@ lxc-destroy -n $CNAME || true
 lxc-clone -s -B overlayfs "${DIST}_${TYPE}" $CNAME
 
 # Mount tooling and workspace directory.
-echo "lxc.mount.entry = ${TOOLING_PATH} ${TOOLING_PATH#/} none bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
+echo "lxc.mount.entry = ${TOOLING_PATH} ${TOOLING_PATH#/} none ro,bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
 echo "lxc.mount.entry = ${PWD} ${PWD#/} none bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
 
 cat /proc/uptime
