@@ -46,10 +46,20 @@ RuboCop::RakeTask.new(:rubocop) do |task|
 end
 CLEAN << 'checkstyle.xml'
 
-desc 'deploy to ~/tooling-pending for processing by LXC jobs'
+desc 'deploy host and containment tooling'
 task :deploy do
   `bundle pack`
+
+  # Pending for pickup by LXC.
   tooling_path = File.join(Dir.home, 'tooling-pending')
+  FileUtils.rm_rf(tooling_path)
+  FileUtils.mkpath(tooling_path)
+  FileUtils.cp_r(Dir.glob('*'), tooling_path)
+
+  # Live for host.
+  # FIXME: not all host jobs are blocked by mgmt_tooling and can run into
+  # problems when reading a file while we deploy.
+  tooling_path = File.join(Dir.home, 'tooling3')
   FileUtils.rm_rf(tooling_path)
   FileUtils.mkpath(tooling_path)
   FileUtils.cp_r(Dir.glob('*'), tooling_path)

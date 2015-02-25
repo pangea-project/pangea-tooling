@@ -18,78 +18,15 @@
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
+export TIMEOUT=30
+export TEMPLATE=download
+export DIST=ubuntu
+export RELEASE=<%= distribution %>
+export NAME=<%= distribution %>_<%= type %>
+export ARCH=amd64
+export PACKAGES=&quot;xz-utils dpkg-dev ruby dput debhelper pkg-kde-tools devscripts python-launchpadlib ubuntu-dev-tools git dh-systemd ruby-dev zlib1g-dev&quot;
 
-# unset rvm variables because lxc-attach doesn't drop the host env
-GEM_PATH
-GEM_HOME
-IRBRC
-MY_RUBY_HOME
-unset RUBY_VERSION
-
-TIMEOUT=30
-TEMPLATE=download
-DIST=ubuntu
-RELEASE=<%= distribution %>
-NAME=<%= distribution %>_<%= type %>
-ARCH=amd64
-PACKAGES=&quot;xz-utils dpkg-dev ruby dput debhelper pkg-kde-tools devscripts python-launchpadlib ubuntu-dev-tools git dh-systemd ruby-dev zlib1g-dev&quot;
-
-export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:$PATH
-env
-
-function cleanup {
-  lxc-stop -n $NAME || true
-  lxc-wait -n $NAME --state=STOPPED --timeout=30 || true
-}
-trap cleanup EXIT
-
-if ! lxc-ls | grep $NAME; then
-  lxc-create -t $TEMPLATE -n $NAME -- -d $DIST -r $RELEASE -a $ARCH
-fi
-
-# Restore previous backups if any
-if [ -f $HOME/.local/share/lxc/$NAME/config.bak ]; then
-    mv $HOME/.local/share/lxc/$NAME/config.bak $HOME/.local/share/lxc/$NAME/config
-fi
-
-if [ -d $HOME/tooling-pending ]; then
-    cp $HOME/.local/share/lxc/$NAME/config $HOME/.local/share/lxc/$NAME/config.bak
-    echo &quot;lxc.mount.entry = $HOME/tooling-pending var/lib/jenkins/tooling-pending none bind,create=dir&quot; &gt;&gt; $HOME/.local/share/lxc/$NAME/config
-fi
-
-lxc-ls -f
-
-lxc-wait -n $NAME --state=STOPPED --timeout=30
-lxc-start -n $NAME --daemon
-lxc-wait -n $NAME --state=RUNNING --timeout=30
-
-for i in $(seq 1 $TIMEOUT); do
-    if [ -n &quot;$(lxc-info --no-humanize --ips -n $NAME)&quot; ]; then
-        HAS_IP=true
-        break
-    fi
-    sleep 1
-done
-if [ ! $HAS_IP ]; then
-    echo &quot;For some reason the container did not get an IP address. Aborting...&quot;
-    exit 1
-fi
-lxc-ls -f
-
-echo &apos;Acquire::http { Proxy &quot;http://10.0.3.1:3142&quot;; };&apos; | lxc-attach -n $NAME tee /etc/apt/apt.conf.d/apt-cacher
-lxc-attach -n $NAME -- apt-get update
-lxc-attach -n $NAME -- apt-get dist-upgrade -y
-lxc-attach -n $NAME -- apt-get install $PACKAGES -y
-
-lxc-attach -n $NAME -- gem install bundler
-lxc-attach -n $NAME -- rm -rf $HOME/ci-tooling
-lxc-attach -n $NAME -- cp -r $HOME/tooling-pending/ci-tooling $HOME/ci-tooling
-lxc-attach -n $NAME -- bash -c &quot;cd $HOME/ci-tooling &amp;&amp; bundle install --no-cache --local --frozen --system --without development test&quot;
-
-lxc-stop -n $NAME
-lxc-wait -n $NAME --state=STOPPED --timeout=30
-
-mv $HOME/.local/share/lxc/$NAME/config.bak $HOME/.local/share/lxc/$NAME/config
+$HOME/tooling3/kci/mgmt/lxc.sh
       </command>
     </hudson.tasks.Shell>
   </builders>
