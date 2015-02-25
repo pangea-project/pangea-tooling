@@ -67,3 +67,5 @@ if [ "$DIST" == "vivid" ]; then
     cd packaging
     git push packaging HEAD:kubuntu_unstable || true
 fi
+
+/var/lib/jenkins/tooling3/ci-tooling/kci/ppa-copy-package.rb
