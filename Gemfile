@@ -1,7 +1,8 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gem 'git'
 gem 'logger-colors'
+gem 'jenkins_api_client'
 
 group :development, :test do
   gem 'ci_reporter_test_unit'
