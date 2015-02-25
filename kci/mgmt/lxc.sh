@@ -54,7 +54,7 @@ lxc-attach -n $NAME -- apt-get dist-upgrade -y
 lxc-attach -n $NAME -- apt-get install $PACKAGES -y
 
 lxc-attach -n $NAME -- gem install bundler
-lxc-attach -n $NAME -- rm -rf $HOME/ci-tooling
+lxc-attach -n $NAME -- rm -rf $HOME/ci-tooling $HOME/.gem $HOME/.rvm
 lxc-attach -n $NAME -- cp -r $HOME/tooling-pending/ci-tooling $HOME/ci-tooling
 lxc-attach -n $NAME -- bash -c "cd $HOME/ci-tooling && bundle install --no-cache --local --frozen --system --without development test"
 
