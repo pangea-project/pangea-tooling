@@ -65,7 +65,7 @@ lxc-attach -n $CNAME $TOOLING_PATH/builder.rb ${JOB_NAME##*/} `pwd`
 
 if [ "$DIST" == "vivid" ]; then
     cd packaging
-    git push packaging HEAD:kubuntu_unstable || true
+    git push packaging HEAD:kubuntu_$TYPE || true
 fi
 
 /var/lib/jenkins/tooling3/ci-tooling/kci/ppa-copy-package.rb
