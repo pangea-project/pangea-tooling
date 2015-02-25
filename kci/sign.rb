@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 CHANGES = ARGV[0]
 
 fail 'No changes file/path specified.' unless CHANGES
