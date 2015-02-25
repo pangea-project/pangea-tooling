@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# unset rvm variables because lxc-attach doesn't drop the host env
+unset GEM_PATH
+unset GEM_HOME
+unset IRBRC
+unset MY_RUBY_HOME
+unset RUBY_VERSION
+
 export CNAME=${JOB_NAME##*/}
 
 JENKINS_PATH="/var/lib/jenkins"

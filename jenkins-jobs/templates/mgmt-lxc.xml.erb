@@ -19,6 +19,13 @@
     <hudson.tasks.Shell>
       <command>#!/bin/bash
 
+# unset rvm variables because lxc-attach doesn't drop the host env
+GEM_PATH
+GEM_HOME
+IRBRC
+MY_RUBY_HOME
+unset RUBY_VERSION
+
 TIMEOUT=30
 TEMPLATE=download
 DIST=ubuntu
