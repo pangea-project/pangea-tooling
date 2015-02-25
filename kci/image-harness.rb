@@ -39,10 +39,10 @@ module Schroot
   end
 end
 
-unless Schroot.exist?(CNAME); then
+unless Schroot.exist?(CNAME)
     echo "Imager schroot not set up. Talk to an admin."
     exit 1
-fi
+end
 
 # Manually handle the schroot session to prevent it from lingering after we exit.
 
