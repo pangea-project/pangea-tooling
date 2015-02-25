@@ -12,7 +12,7 @@ export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:$PATH
 read -r -d '' PACKAGES << EOF
   xz-utils dpkg-dev ruby dput debhelper pkg-kde-tools devscripts
   python-launchpadlib ubuntu-dev-tools git dh-systemd ruby-dev
-  zlib1g-dev
+  zlib1g-dev python-paramiko
 EOF
 
 function cleanup {
