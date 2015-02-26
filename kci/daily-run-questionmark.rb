@@ -39,7 +39,8 @@ builds = builds.delete_if do |build|
     current_build_date = Date.parse(Time.at(build.timestamp / 1000).to_s)
     next true
   end
-  out_of_date_range = current_build_date != Date.parse(Time.at(build.timestamp / 1000).to_s)
+  previous_build_date = Date.parse(Time.at(build.timestamp / 1000).to_s)
+  out_of_date_range = current_build_date != previous_build_date
 end
 
 # builds now only contains builds of the same day as the current build.
