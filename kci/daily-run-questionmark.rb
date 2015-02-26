@@ -2,6 +2,7 @@
 
 require 'json'
 require 'logger'
+require 'logger/colors'
 require 'ostruct'
 require 'net/http'
 require 'date'
