@@ -10,6 +10,17 @@ class Logger
     l = Logger.new(STDOUT)
     l.progname = 'merger'
     l.level = Logger::INFO
+    l.formatter = proc { |severity, _datetime, progname, msg|
+      max_line = 80
+      white_space_count = 2
+      spacers = (max_line - msg.size - white_space_count) / 2
+      spacers = ' ' * spacers
+      if severity == 'ANY'
+        "\n\e[1m#{spacers} #{msg} #{spacers}\e[0m\n"
+      else
+        "[#{severity[0]}] #{progname}: #{msg}\n"
+      end
+    }
     l
   end
 
@@ -49,6 +60,7 @@ class Merger
     if target.empty? || target.size > 1
       fail 'There appears to be no kubuntu_stable nor kubuntu_unstable branch!'
     end
+    @log.unknown "#{source} -> #{target[0]}"
     merge(source, target[0])
 
     merge_variants('kubuntu_stable') # stable in variants
@@ -58,11 +70,13 @@ class Merger
     # FIXME: should make sure typebase exists
     @git.branches.remote.each do |target|
       next unless target.name.start_with?("#{typebase}_")
+      @log.info "  #{typebase} -> #{target}"
       merge(typebase, target)
     end
   end
 
   def merge_unstable(source)
+    @log.unknown "#{source} -> kubuntu_unstable"
     target = @git.branches.remote.select { |b| b.name == 'kubuntu_unstable' }[0]
     return @log.error 'There is no unstable branch!' unless target
     merge(source, target)
