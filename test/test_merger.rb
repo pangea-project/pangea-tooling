@@ -122,4 +122,22 @@ class MergerTest < Test::Unit::TestCase
       assert(File.exist?('stablefile'), 'Apparently stable did not get merged into stable_utopic')
     end
   end
+
+  # Merging without unstable shouldn't fail as there are cases when
+  # there really only is a stable branch.
+  def test_no_unstable
+    in_repo do |g|
+      create_sample_branch(g, 'kubuntu_stable')
+      # Ditch kubuntu_unstable
+      g.push('origin', ':kubuntu_unstable')
+    end
+
+    in_repo do
+      assert_nothing_raised do
+        Merger.new.run('origin/kubuntu_stable')
+      end
+    end
+  end
+    end
+  end
 end
