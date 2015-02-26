@@ -4,6 +4,7 @@ require 'git'
 require 'logger'
 require 'logger/colors'
 
+# Stdlib Logger. Monkey patch with factory methods.
 class Logger
   def self.new_for_merger
     l = Logger.new(STDOUT)
@@ -31,8 +32,10 @@ class Merger
   def initialize
     @log = Logger.new_for_merger
 
-    Git.global_config('merge.dpkg-mergechangelogs.name', 'debian/changelog merge driver')
-    Git.global_config('merge.dpkg-mergechangelogs.driver', 'dpkg-mergechangelogs -m %O %A %B %A')
+    Git.global_config('merge.dpkg-mergechangelogs.name',
+                      'debian/changelog merge driver')
+    Git.global_config('merge.dpkg-mergechangelogs.driver',
+                      'dpkg-mergechangelogs -m %O %A %B %A')
     if File.exist?('/var/lib/jenkins/tooling/git')
       Git.configure { |c| c.binary_path = '/var/lib/jenkins/tooling/git' }
     end
@@ -41,9 +44,11 @@ class Merger
 
   def merge_stable(source)
     target = []
-    target = @git.branches.remote.select {|b| b.name.end_with?('kubuntu_stable') } if target.empty?
-    target = @git.branches.remote.select {|b| b.name.end_with?('kubuntu_unstable') } if target.empty?
-    raise "There appears to be no kubuntu_stable nor kubuntu_unstable branch!" if target.empty? || target.size > 1
+    target = @git.branches.remote.select { |b| b.name.end_with?('kubuntu_stable') } if target.empty?
+    target = @git.branches.remote.select { |b| b.name.end_with?('kubuntu_unstable') } if target.empty?
+    if target.empty? || target.size > 1
+      fail 'There appears to be no kubuntu_stable nor kubuntu_unstable branch!'
+    end
     merge(source, target[0])
 
     merge_variants('kubuntu_stable') # stable in variants
@@ -58,7 +63,7 @@ class Merger
   end
 
   def merge_unstable(source)
-    target = @git.branches.remote.select {|b| b.name == 'kubuntu_unstable' }[0]
+    target = @git.branches.remote.select { |b| b.name == 'kubuntu_unstable' }[0]
     return @log.error 'There is no unstable branch!' unless target
     merge(source, target)
 
@@ -83,7 +88,8 @@ class Merger
     merge_unstable('kubuntu_stable') # stable in unstable
   end
 
-private
+  private
+
   # Hard resets to head, cleans everything, and sets dpkg-mergechangelogs in
   # .gitattributes afterwards.
   def cleanup(target = @git.current_branch)
@@ -109,9 +115,7 @@ private
         return
       end
     end
-    if target.respond_to?(:name)
-      target = target.name
-    end
+    target = target.name if target.respond_to?(:name)
     @git.checkout(target)
     cleanup(target)
     msg = "Merging #{source.full} into #{target}."
