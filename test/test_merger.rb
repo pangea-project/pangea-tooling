@@ -42,7 +42,7 @@ class MergerTest < Test::Unit::TestCase
       create_sample_branch(g, 'kubuntu_unstable')
     end
 
-    return @remotedir
+    @remotedir
   end
 
   def setup
@@ -70,32 +70,32 @@ class MergerTest < Test::Unit::TestCase
 
     in_repo do |g|
       assert_nothing_raised do
-         g.checkout('kubuntu_stable')
-       end
-       assert(File.exist?('kubuntu_vivid_archivefile'))
-       assert(File.exist?('kubuntu_stablefile'))
+        g.checkout('kubuntu_stable')
+      end
+      assert(File.exist?('kubuntu_vivid_archivefile'))
+      assert(File.exist?('kubuntu_stablefile'))
 
-       assert_nothing_raised do
-         g.checkout('kubuntu_stable_utopic')
-       end
-       assert(File.exist?('kubuntu_vivid_archivefile'))
-       assert(File.exist?('kubuntu_stablefile'))
-       assert(File.exist?('kubuntu_stable_utopicfile'))
+      assert_nothing_raised do
+        g.checkout('kubuntu_stable_utopic')
+      end
+      assert(File.exist?('kubuntu_vivid_archivefile'))
+      assert(File.exist?('kubuntu_stablefile'))
+      assert(File.exist?('kubuntu_stable_utopicfile'))
 
-       assert_nothing_raised do
-         g.checkout('kubuntu_unstable')
-       end
-       assert(File.exist?('kubuntu_vivid_archivefile'))
-       assert(File.exist?('kubuntu_stablefile'))
-       assert(File.exist?('kubuntu_unstablefile'))
+      assert_nothing_raised do
+        g.checkout('kubuntu_unstable')
+      end
+      assert(File.exist?('kubuntu_vivid_archivefile'))
+      assert(File.exist?('kubuntu_stablefile'))
+      assert(File.exist?('kubuntu_unstablefile'))
 
-       assert_nothing_raised do
-         g.checkout('kubuntu_unstable_utopic')
-       end
-       assert(File.exist?('kubuntu_vivid_archivefile'))
-       assert(File.exist?('kubuntu_stablefile'))
-       assert(File.exist?('kubuntu_unstablefile'))
-       assert(File.exist?('kubuntu_unstable_utopicfile'))
+      assert_nothing_raised do
+        g.checkout('kubuntu_unstable_utopic')
+      end
+      assert(File.exist?('kubuntu_vivid_archivefile'))
+      assert(File.exist?('kubuntu_stablefile'))
+      assert(File.exist?('kubuntu_unstablefile'))
+      assert(File.exist?('kubuntu_unstable_utopicfile'))
     end
   end
 
