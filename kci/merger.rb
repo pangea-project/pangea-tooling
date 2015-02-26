@@ -125,4 +125,7 @@ class Merger
   end
 end
 
-Merger.new.run(ENV['GIT_BRANCH']) if __FILE__ == $PROGRAM_NAME
+if __FILE__ == $PROGRAM_NAME
+  Merger.new.run(ENV['GIT_BRANCH'])
+  sleep(5)
+end
