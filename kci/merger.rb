@@ -59,7 +59,7 @@ class Merger
 
   def merge_unstable(source)
     target = @git.branches.remote.select {|b| b.name == 'kubuntu_unstable' }[0]
-    raise "There is no unstable branch!" unless target
+    return @log.error 'There is no unstable branch!' unless target
     merge(source, target)
 
     merge_variants('kubuntu_unstable') # unstable in variants
