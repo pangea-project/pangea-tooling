@@ -138,6 +138,17 @@ class MergerTest < Test::Unit::TestCase
       end
     end
   end
+
+  def test_fail_no_ci_branch
+    in_repo do |g|
+      # Ditch kubuntu_unstable
+      g.push('origin', ':kubuntu_unstable')
+    end
+
+    in_repo do
+      assert_raise do
+        Merger.new.run('origin/master')
+      end
     end
   end
 end
