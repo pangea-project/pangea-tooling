@@ -55,6 +55,7 @@ fi
 lxc-ls -f
 
 echo 'Acquire::http { Proxy "http://10.0.3.1:3142"; };' | lxc-attach -n $NAME tee /etc/apt/apt.conf.d/apt-cacher
+echo 'Acquire::Languages "none";' | lxc-attach -n $NAME tee /etc/apt/apt.conf.d/00aptitude
 lxc-attach -n $NAME -- apt-get update
 lxc-attach -n $NAME -- apt-get dist-upgrade -y
 lxc-attach -n $NAME -- apt-get install $PACKAGES -y
