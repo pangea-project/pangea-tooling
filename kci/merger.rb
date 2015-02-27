@@ -111,7 +111,8 @@ class Merger
     @git.reset("remotes/origin/#{target}", hard: true)
     @git.clean(force: true, d: true)
     @git.pull('origin', target)
-    File.write('.gitattributes', 'debian/changelog merge=dpkg-mergechangelogs\n')
+    File.write('.gitattributes',
+               "debian/changelog merge=dpkg-mergechangelogs\n")
   end
 
   # Merges source into target and pushes the merge result.
