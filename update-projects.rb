@@ -82,8 +82,12 @@ class ProjectUpdater
 
           enqueue(BuildJob.new(project, type: type, distribution: distribution))
         end
-        enqueue(MGMTLXCJob.new(type: type, distribution: distribution, dependees: all_builds))
-        enqueue(DailyPromoteJob.new(distribution: distribution, type: type, dependees: all_builds))
+        promoter = enqueue(DailyPromoteJob.new(distribution: distribution,
+                                               type: type,
+                                               dependees: all_builds))
+        enqueue(MGMTLXCJob.new(type: type,
+                               distribution: distribution,
+                               dependees: all_builds + [promoter]))
 
         # This could actually returned into a collect if placed below
         all_meta_builds << enqueue(MetaBuildJob.new(type: type, distribution: distribution, downstream_jobs: all_builds))
