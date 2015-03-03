@@ -12,7 +12,11 @@ unset RUBY_VERSION
 export CNAME=${JOB_NAME##*/}
 
 JENKINS_PATH="/var/lib/jenkins"
-TOOLING_PATH="$JENKINS_PATH/tooling"
+# This is a valid path on the host forwarded into the container.
+# Necessary because we stored some configs in there.
+OLD_TOOLING_PATH="$JENKINS_PATH/tooling"
+# This is only a valid path in the container.
+TOOLING_PATH="$JENKINS_PATH/ci-tooling/kci"
 SSH_PATH="$JENKINS_PATH/.ssh"
 TIMEOUT=120 # At peak we have severe load, so better use a sizable timeout for lxc startup...
 
@@ -37,7 +41,7 @@ lxc-destroy -n $CNAME || true
 #lxc-start-ephemeral -o $DIST_$TYPE -n $NAME --bdir $JENKINS_PATH/ -d
 lxc-clone -s -B overlayfs "${DIST}_${TYPE}" $CNAME
 # Mount tooling and workspace directory.
-echo "lxc.mount.entry = ${TOOLING_PATH} ${TOOLING_PATH#/} none bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
+echo "lxc.mount.entry = ${OLD_TOOLING_PATH} ${OLD_TOOLING_PATH#/} none bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
 echo "lxc.mount.entry = ${SSH_PATH} ${SSH_PATH#/} none bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
 echo "lxc.mount.entry = ${PWD} ${PWD#/} none bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
 cat /proc/uptime
