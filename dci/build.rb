@@ -22,9 +22,7 @@ end
 
 repos = repos.join(',')
 
-# TODO: Extend this so that we don't hardcode amd64 here, and
-# instead use something from the job
-system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} \
+system("schroot -u root -c #{RELEASE}-#{ENV['arch']} -d #{ENV['WORKSPACE']} \
 -o jenkins.workspace=#{ENV['WORKSPACE']} \
 -- ruby ./tooling/ci-tooling/dci.rb build \
 -r #{repos} \
