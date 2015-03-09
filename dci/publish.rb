@@ -13,6 +13,6 @@ login                   = publisher
 
 $logger = DCILogger.instance
 
-dci_run_cmd("echo \"#{DPUT_CONTENTS}\" | dput -u -c /dev/stdin dci:#{ARGV[1]} #{ARGV[2]}")
+dci_run_cmd("echo \"#{DPUT_CONTENTS}\" | dput -u -c /dev/stdin dci:#{ARGV[1]} #{ARGV[2..-1].join(' ')}")
 
 $logger.close
