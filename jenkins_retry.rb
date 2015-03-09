@@ -32,7 +32,7 @@ BlockingThreadPool.run do
       @log.info "#{name} | status - #{status} | queued - #{queued}"
       next if Jenkins.client.queue.list.include?(name)
       unless QUALIFIER_STATES.include?(Jenkins.job.status(name))
-        @log.warn '  --> build'
+        @log.warn "  #{name} --> build"
         Jenkins.job.build(name)
       end
     end
