@@ -78,7 +78,7 @@
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
-      <command>ruby ${WORKSPACE}/tooling/dci.rb publish @UPLOAD_TARGET@ ${WORKSPACE}/build/binary/*.changes</command>
+      <command>ruby ${WORKSPACE}/tooling/dci.rb publish qt5 ${WORKSPACE}/**/build/binary/*.changes</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
