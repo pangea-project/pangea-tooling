@@ -13,7 +13,7 @@ login                   = publisher
 $logger = DCILogger.instance
 
 ARGV.each do |a|
-  next unless a.end_with '.changes'
+  next unless a.end_with? '.changes'
   dci_run_cmd("echo \"#{DPUT_CONTENTS}\" | dput -uf -c /dev/stdin dci:#{ARGV[1]} #{a}")
 
 end
