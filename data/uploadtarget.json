@@ -1,4 +1,6 @@
 {
     "maui-debian" : "maui",
-    "frameworks"  : "frameworks"
+    "qt" : "qt5",
+    "frameworks" : "frameworks",
+    "calamares" : "calamares"
 }
