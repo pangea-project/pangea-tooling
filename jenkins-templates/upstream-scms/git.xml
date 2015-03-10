@@ -14,6 +14,11 @@
   <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
   <submoduleCfg class="list"/>
   <extensions>
+    <hudson.plugins.git.extensions.impl.SubmoduleOption>
+      <disableSubmodules>false</disableSubmodules>
+      <recursiveSubmodules>true</recursiveSubmodules>
+      <trackingSubmodules>false</trackingSubmodules>
+    </hudson.plugins.git.extensions.impl.SubmoduleOption>
     <hudson.plugins.git.extensions.impl.ScmName>
       <name>source</name>
     </hudson.plugins.git.extensions.impl.ScmName>
