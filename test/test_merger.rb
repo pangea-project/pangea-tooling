@@ -24,21 +24,13 @@ class MergerTest < Test::Unit::TestCase
     g.push('origin', name)
   end
 
-  def create_remote
+  def repo
     return @remotedir if @remotedir
 
     @remotedir = "#{@tmpdir}/remote"
     puts ":::: creating #{@remotedir}"
     Dir.mkdir(@remotedir)
     Dir.chdir(@remotedir) { Git.init('.', bare: true) }
-
-    @remotedir
-  end
-
-  def repo
-    return @remotedir if @remotedir
-
-    @remotedir = create_remote
 
     in_repo do |g|
       FileUtils.touch('masterfile')
@@ -61,7 +53,6 @@ class MergerTest < Test::Unit::TestCase
   def teardown
     Dir.chdir('/')
     FileUtils.rm_rf(@tmpdir)
-    @remotedir = nil
   end
 
   def test_full_merge_chain
@@ -157,38 +148,6 @@ class MergerTest < Test::Unit::TestCase
     in_repo do
       assert_raise do
         Merger.new.run('origin/master')
-      end
-    end
-  end
-
-  # Merging without unstable shouldn't fail as there are cases when
-  # there really only is a stable branch.
-  def test_no_master
-    # Bypass auto-init so we get a completely bare repo.
-    @remotedir = create_remote
-    in_repo do |g|
-      branch = 'kubuntu_stable'
-      g.checkout(branch, new_branch: true)
-      FileUtils.touch('file')
-      g.add('file')
-      g.commit_all('message')
-      g.push('origin', branch)
-    end
-
-    # Make sure we have no master
-    in_repo do |g|
-      remotes = g.branches.remote.select { |b| b.name == 'master' }
-      assert(remotes.empty?, 'There is a remote master. Should not be there.')
-    end
-
-    in_repo do
-      # We currently have no current_branch, make sure we don't fall over dead.
-      assert_nothing_raised do
-        Merger.new.run('origin/kubuntu_stable')
-      end
-      # We now do have a current_branch, make sure it's still fine.
-      assert_nothing_raised do
-        Merger.new.run('origin/kubuntu_stable')
       end
     end
   end

@@ -95,7 +95,7 @@ class Merger
   def run(trigger_branch)
     @log.info "triggered by #{trigger_branch}"
 
-    cleanup
+    cleanup('master')
 
     # merge_stable('master')# trigger_branch in stable
     merge_stable('kubuntu_vivid_archive') # trigger_branch in stable
@@ -108,7 +108,6 @@ class Merger
   # .gitattributes afterwards.
   def cleanup(target = @git.current_branch)
     @git.fetch('origin')
-    return unless target
     @git.reset("remotes/origin/#{target}", hard: true)
     @git.clean(force: true, d: true)
     @git.pull('origin', target)
