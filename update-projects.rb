@@ -4,7 +4,9 @@ require 'thwait'
 
 require_relative 'ci-tooling/lib/projects'
 require_relative 'ci-tooling/lib/thread_pool'
-require_relative 'jenkins-jobs'
+Dir.glob(File.expand_path('jenkins-jobs/*.rb', File.dirname(__FILE__))).each do |file|
+  require file
+end
 
 # Updates Jenkins Projects
 class ProjectUpdater
