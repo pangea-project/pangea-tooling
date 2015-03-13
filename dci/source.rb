@@ -7,14 +7,20 @@ logger = DCILogger.instance
 
 logger.info('Starting source only build')
 
-Dir.chdir('packaging') do
+if File.exist? 'source/debian/source/format'
+  PACKAGING_DIR = 'source'
+else
+  PACKAGING_DIR = 'packaging'
+end
+
+Dir.chdir(PACKAGING_DIR) do
   $changelog = Changelog.new
 end
 
 REPOS_FILE = 'debian/meta/extra_repos.json'
 
 repos = ['default']
-Dir.chdir("#{ENV['WORKSPACE']}/packaging") do
+Dir.chdir("#{ENV['WORKSPACE']}/#{PACKAGING_DIR}") do
   repos << JSON.parse(File.read(REPOS_FILE))['repos'] if File.exist? REPOS_FILE
 end
 
