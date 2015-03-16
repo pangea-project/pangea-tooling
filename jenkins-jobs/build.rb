@@ -49,13 +49,13 @@ class BuildJob < JenkinsJob
   end
 
   def render_upstream_scm
-    case upstream_scm.type
+    case @upstream_scm.type
     when 'git'
       render('upstream-scms/git.xml.erb')
     when 'svn'
       render('upstream-scms/svn.xml.erb')
     else
-      fail "Unknown upstream_scm type encountered '#{upstream_scm.type}'"
+      fail "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
     end
   end
 
