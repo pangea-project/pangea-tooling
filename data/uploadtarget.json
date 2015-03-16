@@ -2,5 +2,7 @@
     "maui-debian" : "maui",
     "qt" : "qt5",
     "frameworks" : "frameworks",
-    "calamares" : "calamares"
+    "calamares" : "calamares",
+    "netrunner" : "netrunner",
+    "netrunner-debian" : "netrunner"
 }

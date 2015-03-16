@@ -66,10 +66,11 @@ def create_or_update(orig_xml_config, args = {})
   return job_name
 end
 
-def add_project(project)
+def add_project(project, upload_info)
   type = %w(source binary publish)
   dist = ['unstable']
   puts "...#{project.name}..."
+
   dist.each do |release|
     type.each do |job_type|
       # Translate dependencies to normalized job form.
@@ -85,9 +86,6 @@ def add_project(project)
         dependee = job_name?(release, job_type, dependee)
       end
       dependees.compact!
-
-
-      upload_info = JSON::parse(File.read('data/uploadtarget.json'))
 
       job_name = create_or_update(File.read("#{$jenkins_template_path}/dci_#{job_type}.xml"),
       :name => project.name,
@@ -110,11 +108,13 @@ projects.each do |project|
 end
 
 threads = []
-16.times do
+upload_info = JSON::parse(File.read('data/uploadtarget.json'))
+
+6.times do
   threads << Thread.new do
     while project = project_queue.pop(true) do
       begin
-        add_project(project)
+        add_project(project, upload_info)
       rescue => e
         p e
         raise e

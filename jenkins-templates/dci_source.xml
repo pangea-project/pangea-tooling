@@ -126,7 +126,7 @@
     <hudson.plugins.logparser.LogParserPublisher plugin="log-parser@1.0.8">
         <unstableOnWarning>true</unstableOnWarning>
         <failBuildOnError>true</failBuildOnError>
-        <parsingRulesPath>/var/lib/jenkins/log-parse-rules.txt</parsingRulesPath>
+        <parsingRulesPath>/var/lib/jenkins/tooling/log-parse-rules.txt</parsingRulesPath>
     </hudson.plugins.logparser.LogParserPublisher>
   </publishers>
   <buildWrappers>

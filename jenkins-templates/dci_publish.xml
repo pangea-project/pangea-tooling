@@ -87,8 +87,8 @@
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.24">
       <patterns>
         <hudson.plugins.ws__cleanup.Pattern>
-          <pattern>build/**</pattern>
-          <type>INCLUDE</type>
+        <pattern>tooling/**</pattern>
+        <type>EXCLUDE</type>
         </hudson.plugins.ws__cleanup.Pattern>
       </patterns>
       <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
