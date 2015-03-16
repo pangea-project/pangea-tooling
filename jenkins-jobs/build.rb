@@ -49,6 +49,7 @@ class BuildJob < JenkinsJob
   end
 
   def render_upstream_scm
+    return '' unless @upstream_scm
     case @upstream_scm.type
     when 'git'
       render('upstream-scms/git.xml.erb')
