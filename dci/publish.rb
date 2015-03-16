@@ -14,6 +14,8 @@ $logger = DCILogger.instance
 
 ARGV.each do |a|
   next unless a.end_with? '.changes'
+  # Make sure changes actually contains files
+  next unless File.read(a).include? 'Files'
   dci_run_cmd("echo \"#{DPUT_CONTENTS}\" | dput -uf -c /dev/stdin dci:#{ARGV[1]} #{a}")
 
 end
