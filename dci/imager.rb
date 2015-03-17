@@ -8,7 +8,7 @@ FLAVOR = ARGV[2]
 
 $logger = DCILogger.instance
 
-$logger.info("Starting ISO build for #{ARGV[1]}")
+$logger.info("Starting ISO build for #{RELEASE}")
 system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} \
         -o jenkins.workspace=#{ENV['WORKSPACE']} \
         -- ruby ./tooling/ci-tooling/dci.rb imager \
