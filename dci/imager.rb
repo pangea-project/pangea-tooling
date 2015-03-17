@@ -13,3 +13,6 @@ system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} \
         -o jenkins.workspace=#{ENV['WORKSPACE']} \
         -- ruby ./tooling/ci-tooling/dci.rb imager \
         #{RELEASE} #{FLAVOR}")
+
+Dir.mkdir('build') unless Dir.exist? 'build'
+system('cp -av /var/lib/sbuild/build/live-image* build/')
