@@ -24,7 +24,9 @@
         <command>
 export DIST=<%= distribution %>
 export TYPE=<%= type %>
-/var/lib/jenkins/tooling3/kci/lxc-harness.sh /var/lib/jenkins/tooling/confined/daily-qa.rb $DIST $TYPE
+/var/lib/jenkins/tooling3/ci-tooling/kci/all_jobs_built.rb
+/var/lib/jenkins/tooling3/kci/lxc-harness.sh /var/lib/jenkins/ci-tooling/kci/install_check.rb
+/var/lib/jenkins/tooling3/ci-tooling/kci/ppa_promote.rb
         </command>
       </buildStep>
       <runner class="org.jenkins_ci.plugins.run_condition.BuildStepRunner$Fail" plugin="run-condition@1.0"/>

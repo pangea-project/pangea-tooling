@@ -3,7 +3,7 @@
 require 'logger'
 require 'logger/colors'
 
-require_relative 'lib/jenkins/daily_run'
+require_relative '../ci-tooling/lib/jenkins/daily_run'
 
 @log = Logger.new(STDOUT)
 @log.level = Logger::INFO
