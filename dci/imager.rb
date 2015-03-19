@@ -15,4 +15,4 @@ system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} \
         #{RELEASE} #{FLAVOR}")
 
 Dir.mkdir('build') unless Dir.exist? 'build'
-system('cp -av /var/lib/sbuild/build/live-image* build/')
+system('mv -v /var/lib/sbuild/build/live-image* build/')
