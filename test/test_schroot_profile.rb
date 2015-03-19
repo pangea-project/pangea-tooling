@@ -74,8 +74,10 @@ class SchrootProfileTest < Test::Unit::TestCase
     Dir.mktmpdir do |tmpdir|
       profile.deploy_profile(template_dir, tmpdir)
       tmpdir_content = Dir.chdir(tmpdir) { Dir['**/**'] }
+      tmpdir_content.sort!
       refdir = data('_ref')
       refdir_content = Dir.chdir(refdir) { Dir['**/**'] }
+      refdir_content.sort!
       assert_equal(refdir_content, tmpdir_content)
       refdir_content.each do |file|
         reffile = "#{refdir}/#{file}"
