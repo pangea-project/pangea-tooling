@@ -26,7 +26,7 @@ cat /proc/self/cgroup
 
 sudo apt update
 sudo apt dist-upgrade -y
-sudo apt install -y --no-install-recommends git ubuntu-defaults-builder wget ca-certificates zsync distro-info
+sudo apt install -y --no-install-recommends git ubuntu-defaults-builder wget ca-certificates zsync distro-info syslinux-utils
 
 # NOTE: can be removed once ubuntu-defaults-image and live-build landed in utopic-updates.
 # FIXME: source schroot needs to be updated with updates enabled, or at least the two core packages updated.
