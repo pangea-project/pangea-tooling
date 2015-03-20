@@ -123,8 +123,8 @@
       <childProjects>@NAME@_publish_unstable</childProjects>
       <threshold>
         <name>FAILURE</name>
-        <ordinal>0</ordinal>
-        <color>BLUE</color>
+        <ordinal>2</ordinal>
+        <color>RED</color>
         <completeBuild>true</completeBuild>
       </threshold>
     </hudson.tasks.BuildTrigger>
