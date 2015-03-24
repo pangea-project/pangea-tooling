@@ -17,7 +17,7 @@ system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} \
 Dir.mkdir('build') unless Dir.exist? 'build'
 system('mv',
        '-v',
-       '/var/lib/sbuild/build/live-image*',
        '/var/lib/sbuild/build/MD5SUM',
        '/var/lib/sbuild/build/SHA256SUM',
        'build/')
+system('mv -v /var/lib/sbuild/build/live-image* build/')
