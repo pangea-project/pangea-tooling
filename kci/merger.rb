@@ -55,8 +55,16 @@ class Merger
 
   def merge_stable(source)
     target = []
-    target = @git.branches.remote.select { |b| b.name.end_with?('kubuntu_stable') } if target.empty?
-    target = @git.branches.remote.select { |b| b.name.end_with?('kubuntu_unstable') } if target.empty?
+    if target.empty?
+      target = @git.branches.remote.select do |b|
+        b.name.end_with?('kubuntu_stable')
+      end
+    end
+    if target.empty?
+      target = @git.branches.remote.select do |b|
+        b.name.end_with?('kubuntu_unstable')
+      end
+    end
     if target.empty? || target.size > 1
       fail 'There appears to be no kubuntu_stable nor kubuntu_unstable branch!'
     end
