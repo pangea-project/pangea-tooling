@@ -20,9 +20,11 @@ Dir.mkdir('build') unless Dir.exist? 'build'
 
 FileUtils.rm_rf('build/*')
 
-FileUtils.mv("/var/lib/sbuild/build/#{FLAVOR}",
-             'build/',
-             verbose: true,
-             force: true)
+# FileUtils.mv("/var/lib/sbuild/build/#{FLAVOR}",
+#              'build/',
+#              verbose: true,
+#              force: true)
+
+system("mv -vf /var/lib/sbuild/build/#{FLAVOR} build/")
 
 logger.close
