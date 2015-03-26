@@ -35,8 +35,6 @@ end
 # Merger merges delpoyment branches into KCI integration branches and KCI
 # integration branches into one another.
 class Merger
-  GIT_BIN = '/var/lib/jenkins/tooling3/git'
-
   # Logger instance used by the Merger.
   attr_reader :log
 
@@ -49,7 +47,9 @@ class Merger
                       'debian/changelog merge driver')
     Git.global_config('merge.dpkg-mergechangelogs.driver',
                       'dpkg-mergechangelogs -m %O %A %B %A')
-    Git.configure { |c| c.binary_path = GIT_BIN } if File.exist?(GIT_BIN)
+    if File.exist?('/var/lib/jenkins/tooling/git')
+      Git.configure { |c| c.binary_path = '/var/lib/jenkins/tooling/git' }
+    end
     @git = Git.open(Dir.pwd, log: Logger.new_for_git)
   end
 
