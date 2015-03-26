@@ -35,7 +35,7 @@ end
 # Merger merges delpoyment branches into KCI integration branches and KCI
 # integration branches into one another.
 class Merger
-  GIT_BIN = '/var/lib/jenkins/tooling3/git-monitor/git'
+  GIT_BIN = '/var/lib/jenkins/tooling3/git'
 
   # Logger instance used by the Merger.
   attr_reader :log
