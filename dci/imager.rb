@@ -18,6 +18,8 @@ system("schroot -u root -c #{RELEASE}-#{ENV['arch']} -d #{ENV['WORKSPACE']} \
 
 Dir.mkdir('build') unless Dir.exist? 'build'
 
+FileUtils.rm_rf('build/*')
+
 FileUtils.mv("/var/lib/sbuild/build/#{FLAVOR}",
              'build/',
              verbose: true,
