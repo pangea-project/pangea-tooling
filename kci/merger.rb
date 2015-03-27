@@ -47,9 +47,11 @@ class Merger
                       'debian/changelog merge driver')
     Git.global_config('merge.dpkg-mergechangelogs.driver',
                       'dpkg-mergechangelogs -m %O %A %B %A')
+    # :nocov:
     if File.exist?('/var/lib/jenkins/tooling/git')
       Git.configure { |c| c.binary_path = '/var/lib/jenkins/tooling/git' }
     end
+    # :nocov:
     @git = Git.open(Dir.pwd, log: Logger.new_for_git)
   end
 
@@ -160,7 +162,9 @@ class Merger
   end
 end
 
+# :nocov:
 if __FILE__ == $PROGRAM_NAME
   Merger.new.run(ENV['GIT_BRANCH'])
   sleep(5)
 end
+# :nocov:
