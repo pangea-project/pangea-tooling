@@ -142,9 +142,21 @@ class Merger
     @git.checkout(target)
     cleanup(target)
     msg = "Merging #{source.full} into #{target}."
+    if noci_merge?(source)
+      msg = "Merging #{source.full} into #{target}.\n\nNOCI"
+    end
     @log.info msg
     @git.merge(source.full, msg)
     @log.info @git.push('origin', target)
+  end
+
+  def noci_merge?(source)
+    log = @git.log.between('', source.full)
+    return false unless log.size >= 1
+    log.each do |commit|
+      return false unless commit.message.include?('NOCI')
+    end
+    true
   end
 end
 

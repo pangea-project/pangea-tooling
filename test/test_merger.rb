@@ -151,4 +151,70 @@ class MergerTest < Test::Unit::TestCase
       end
     end
   end
+
+  def test_no_noci_keyword_merge
+    # Merge without NOCI to make sure it doesn't mark NOCI what it shouldn't.
+    # FIXME: partial code copy
+    in_repo do |g|
+      create_sample_branch(g, 'kubuntu_vivid_archive')
+
+      g.checkout('kubuntu_unstable')
+      g.merge('origin/kubuntu_vivid_archive')
+      g.push('origin', 'kubuntu_unstable')
+
+      g.checkout('kubuntu_vivid_archive')
+      FileUtils.touch('randomfile')
+      g.add('randomfile')
+      g.commit_all('randommsg')
+      g.push('origin', 'kubuntu_vivid_archive')
+
+      g.checkout('kubuntu_unstable')
+      log = g.log.between('', 'kubuntu_vivid_archive')
+      assert_false(log.first.message.include?('NOCI'))
+    end
+
+    in_repo do
+      Merger.new.run('origin/kubuntu_vivid_archive')
+    end
+
+    in_repo do |g|
+      g.checkout('kubuntu_unstable')
+      assert(g.log.size >= 1)
+      commit = g.log.first
+      assert_equal(2, commit.parents.size) # Is a merge.
+      assert_not_include(commit.message, 'NOCI')
+    end
+  end
+
+  def test_noci_keyword_merge
+    in_repo do |g|
+      create_sample_branch(g, 'kubuntu_vivid_archive')
+
+      g.checkout('kubuntu_unstable')
+      g.merge('origin/kubuntu_vivid_archive')
+      g.push('origin', 'kubuntu_unstable')
+
+      g.checkout('kubuntu_vivid_archive')
+      FileUtils.touch('randomfile')
+      g.add('randomfile')
+      g.commit_all("randommsg\n\nNOCI")
+      g.push('origin', 'kubuntu_vivid_archive')
+
+      g.checkout('kubuntu_unstable')
+      log = g.log.between('', 'kubuntu_vivid_archive')
+      assert(log.first.message.include?('NOCI'))
+    end
+
+    in_repo do
+      Merger.new.run('origin/kubuntu_vivid_archive')
+    end
+
+    in_repo do |g|
+      g.checkout('kubuntu_unstable')
+      assert(g.log.size >= 1)
+      commit = g.log.first
+      assert_equal(2, commit.parents.size) # Is a merge.
+      assert_include(commit.message, 'NOCI')
+    end
+  end
 end
