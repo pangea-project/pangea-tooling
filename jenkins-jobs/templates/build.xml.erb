@@ -34,6 +34,9 @@
           <hudson.plugins.git.extensions.impl.UserExclusion>
               <excludedUsers>Kubuntu CI</excludedUsers>
           </hudson.plugins.git.extensions.impl.UserExclusion>
+          <hudson.plugins.git.extensions.impl.MessageExclusion>
+            <excludedMessage>(?s).*NOCI.*</excludedMessage>
+          </hudson.plugins.git.extensions.impl.MessageExclusion>
         </extensions>
       </hudson.plugins.git.GitSCM>
       <%= render_upstream_scm %>
