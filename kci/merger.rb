@@ -55,6 +55,16 @@ class Merger
     @git = Git.open(Dir.pwd, log: Logger.new_for_git)
   end
 
+  # FIXME: The entire merge method pile needs to be meta'd into probably one or
+  # two main methods.
+
+  def merge_backports(source)
+    @log.unknown "#{source} -> kubuntu_vivid_backports"
+    target = @git.branches.remote.select { |b| b.name == 'kubuntu_vivid_backports' }[0]
+    return @log.error 'There is no backports branch!' unless target
+    merge(source, target)
+  end
+
   def merge_stable(source)
     target = []
     if target.empty?
@@ -108,8 +118,10 @@ class Merger
     cleanup('master')
 
     # merge_stable('master')# trigger_branch in stable
-    merge_stable('kubuntu_vivid_archive') # trigger_branch in stable
-    merge_unstable('kubuntu_stable') # stable in unstable
+    merge_backports('kubuntu_vivid_archive')
+    merge_stable('kubuntu_vidid_backports')
+    merge_stable('kubuntu_vivid_archive')
+    merge_unstable('kubuntu_stable')
   end
 
   private
