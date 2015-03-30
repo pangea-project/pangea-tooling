@@ -58,6 +58,8 @@ echo 'Acquire::http { Proxy "http://10.0.3.1:3142"; };' | lxc-attach -n $NAME te
 echo 'Acquire::Languages "none";' | lxc-attach -n $NAME tee /etc/apt/apt.conf.d/00aptitude
 echo 'APT::Color "1";' | lxc-attach -n $NAME tee /etc/apt/apt.conf.d/99color
 lxc-attach -n $NAME -- apt-get update
+# Try to recover previous problems if there were any.
+lxc-attach -n $NAME -- apt-get install -f -y
 lxc-attach -n $NAME -- apt-get dist-upgrade -y
 lxc-attach -n $NAME -- apt-get install $PACKAGES -y
 
