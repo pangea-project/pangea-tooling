@@ -62,7 +62,7 @@ for i in $(seq 1 $TIMEOUT); do
         HAS_IP=true
         break
     fi
-    sleep 1
+    sleep 5
 done
 
 cat /proc/uptime
