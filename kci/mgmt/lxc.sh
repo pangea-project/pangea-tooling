@@ -59,7 +59,9 @@ echo 'Acquire::Languages "none";' | lxc-attach -n $NAME tee /etc/apt/apt.conf.d/
 echo 'APT::Color "1";' | lxc-attach -n $NAME tee /etc/apt/apt.conf.d/99color
 
 # Force noninteractive mode
+export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_FRONTEND=noninteractive
+
 lxc-attach -n $NAME --keep-env -- apt-get update
 # Try to recover previous problems if there were any.
 lxc-attach -n $NAME --keep-env -- apt-get install -f -y || exit 1
