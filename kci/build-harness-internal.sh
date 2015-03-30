@@ -19,6 +19,7 @@ OLD_TOOLING_PATH="$JENKINS_PATH/tooling"
 TOOLING_PATH="$JENKINS_PATH/ci-tooling/kci"
 SSH_PATH="$JENKINS_PATH/.ssh"
 TIMEOUT=120 # At peak we have severe load, so better use a sizable timeout for lxc startup...
+START_RETRIES=8
 
 if [ -z $DIST ] || [ -z $NAME ] || [ -z $TYPE ] || [ -z $JOB_NAME ]; then
     echo "Not all env variables set! ABORT!"
@@ -45,8 +46,21 @@ echo "lxc.mount.entry = ${OLD_TOOLING_PATH} ${OLD_TOOLING_PATH#/} none bind,crea
 echo "lxc.mount.entry = ${SSH_PATH} ${SSH_PATH#/} none bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
 echo "lxc.mount.entry = ${PWD} ${PWD#/} none bind,create=dir" >> $JENKINS_PATH/.local/share/lxc/$CNAME/config
 cat /proc/uptime
-lxc-start -n $CNAME --daemon --logfile=`pwd`/lxc.log --logpriority=INFO
-lxc-wait -n $CNAME --state=RUNNING --timeout=$TIMEOUT
+
+started=1
+for i in $(seq 1 $START_RETRIES); do
+  lxc-start -n $CNAME --daemon --logfile=`pwd`/lxc.log --logpriority=INFO
+  if [ $? -eq 0 ]; then
+    started=0
+    break
+  fi
+done
+if [ $started -ne 0 ]; then
+  echo "Failed to start container"
+  exit 1
+fi
+lxc-wait -n $CNAME --state=RUNNING --timeout=$TIMEOUT || exit 1
+
 # Running has no correlation with network-up. Make sure the container
 # got an IP address before trying to do anything with it.
 # Builds will require additional software or network access in other ways.
