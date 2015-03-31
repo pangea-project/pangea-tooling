@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'docker'
 
 NAME = ENV.fetch('NAME')
