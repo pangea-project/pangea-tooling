@@ -1,20 +1,21 @@
 require 'test/unit'
 require 'vcr'
 
+require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../lib/jenkins/daily_run'
 
-VCR.configure do |config|
-  config.cassette_library_dir = "data/#{File.basename(__FILE__, '.rb')}"
-  config.hook_into :webmock
-end
-
-class JenkinsDailyRunTest < Test::Unit::TestCase
+class JenkinsDailyRunTest < TestCase
   self.test_order = :defined
 
   def setup
     @tmpdir = Dir.mktmpdir(self.class.to_s)
     Dir.chdir(@tmpdir)
     @job_url = 'http://kci.pangea.pub/job/mgmt_daily_promotion_utopic_stable'
+
+    VCR.configure do |config|
+      config.cassette_library_dir = @datadir
+      config.hook_into :webmock
+    end
   end
 
   def teardown
