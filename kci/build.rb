@@ -4,6 +4,8 @@ require 'docker'
 require 'logger'
 require 'logger/colors'
 
+Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
+
 JENKINS_PATH = '/var/lib/jenkins'
 # This is a valid path on the host forwarded into the container.
 # Necessary because we stored some configs in there.

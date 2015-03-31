@@ -4,8 +4,9 @@ require 'docker'
 require 'logger'
 require 'logger/colors'
 
-NAME = ENV.fetch('NAME')
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
+
+NAME = ENV.fetch('NAME')
 REPO = "jenkins/#{NAME}"
 TAG = 'deploying'
 REPO_TAG = "#{REPO}:#{TAG}"
