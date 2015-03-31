@@ -44,6 +44,8 @@ Docker::Image.build(Dockerfile.render, t: REPO_TAG) do |chunk|
   elsif keys.include?('error')
     @log.error chunk['error']
     @log.error chunk['errorDetail']
+  elsif keys.include?('status')
+    @log.info chunk['status']
   else
     fail "Unknown response type in #{chunk}"
   end
