@@ -11,7 +11,7 @@ REPO = "jenkins/#{NAME}"
 TAG = 'deploying'
 REPO_TAG = "#{REPO}:#{TAG}"
 
-@log = Logger.new(STDOUT)
+@log = Logger.new(STDERR)
 @log.level = Logger::WARN
 
 Thread.new do
@@ -56,6 +56,7 @@ c = Docker::Container.create(Image: REPO_TAG,
 c.start(Binds: ['/var/lib/jenkins/tooling-pending:/var/lib/jenkins/tooling-pending'])
 c.attach do |_stream, chunk|
   puts chunk
+  STDOUT.flush
 end
 # FIXME: we completely ignore errors
 c.stop!
