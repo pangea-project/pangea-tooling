@@ -5,6 +5,7 @@ require 'logger'
 require 'logger/colors'
 
 NAME = ENV.fetch('NAME')
+Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
 @log = Logger.new(STDOUT)
 @log.level = Logger::WARN
