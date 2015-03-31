@@ -1,6 +1,7 @@
 FROM ubuntu:<%= series %>
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV LANG en_US.UTF-8
 
 # Create a mock group and user. Docker 1.5 does not support subuid maps, so
 # everything written as root in the container is actually written by root.
@@ -32,3 +33,7 @@ RUN apt install -y xz-utils dpkg-dev ruby dput debhelper pkg-kde-tools \
                    language-pack-en-base
 
 RUN gem install bundler
+
+RUN echo 'LANG=en_US.UTF-8' >> /etc/profile
+RUN echo 'LANG=en_US.UTF-8' >> /etc/environment
+RUN update-locale LANG=en_US.UTF-8
