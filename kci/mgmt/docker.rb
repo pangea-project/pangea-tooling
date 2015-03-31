@@ -5,6 +5,13 @@ require 'erb'
 require 'logger'
 require 'logger/colors'
 
+Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
+
+NAME = ENV.fetch('NAME')
+REPO = "jenkins/#{NAME}"
+TAG = 'deploying'
+REPO_TAG = "#{REPO}:#{TAG}"
+
 class Dockerfile
   attr_reader :series
 
@@ -29,13 +36,6 @@ class Dockerfile
     new.render
   end
 end
-
-Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
-
-NAME = ENV.fetch('NAME')
-REPO = "jenkins/#{NAME}"
-TAG = 'deploying'
-REPO_TAG = "#{REPO}:#{TAG}"
 
 @log = Logger.new(STDERR)
 @log.level = Logger::WARN
