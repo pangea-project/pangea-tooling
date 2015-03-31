@@ -21,7 +21,7 @@ RUN adduser \
   jenkins
 
 # FIXME: todo
-#RUN echo 'Acquire::http { Proxy "http://10.0.3.1:3142"; };' | lxc-attach -n $NAME tee /etc/apt/apt.conf.d/apt-cacher
+RUN echo 'Acquire::http { Proxy "http://10.0.3.1:3142"; };' > /etc/apt/apt.conf.d/00cache
 RUN echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00aptitude
 RUN echo 'APT::Color "1";' > /etc/apt/apt.conf.d/99color
 
