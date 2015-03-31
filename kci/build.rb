@@ -34,7 +34,7 @@ FileUtils.rm_rf(['_anchor-chain'] + Dir.glob('logs/*') + Dir.glob('build/*'))
 # Debug Thread
 Thread.new do
   Docker::Event.stream do |event|
-    @log.debug event
+    @log.warn event
   end
 end
 
@@ -42,9 +42,9 @@ args = {
   name: JOB_NAME,
   Image: "jenkins/#{JOB_NAME}",
   Volumes: {
-    OLD_TOOLING_PATH => OLD_TOOLING_PATH,
-    SSH_PATH => SSH_PATH,
-    Dir.pwd => Dir.pwd
+    OLD_TOOLING_PATH => {},
+    SSH_PATH => {},
+    Dir.pwd => {}
   },
   WorkingDir: Dir.pwd,
   Cmd: ["#{TOOLING_PATH}/builder.rb", JOB_NAME, Dir.pwd]
@@ -61,7 +61,13 @@ end
 
 c = Docker::Container.create(args)
 c.rename(JOB_NAME)
-c.tap(&:start).attach do |_stream, chunk|
+binds =  [
+  "#{OLD_TOOLING_PATH}:#{OLD_TOOLING_PATH}",
+  "#{SSH_PATH}:#{SSH_PATH}",
+  "#{Dir.pwd}:#{Dir.pwd}"
+]
+c.start(Binds: binds)
+c.attach do |_stream, chunk|
   puts chunk
 end
 
