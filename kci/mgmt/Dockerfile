@@ -28,6 +28,7 @@ RUN apt update
 RUN apt dist-upgrade -y
 RUN apt install -y xz-utils dpkg-dev ruby dput debhelper pkg-kde-tools \
                    devscripts python-launchpadlib ubuntu-dev-tools git \
-                   dh-systemd ruby-dev zlib1g-dev python-paramiko
+                   dh-systemd ruby-dev zlib1g-dev python-paramiko \
+                   language-pack-en-base
 
 RUN gem install bundler
