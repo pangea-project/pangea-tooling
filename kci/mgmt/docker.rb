@@ -16,5 +16,13 @@ end
 Docker::Image.build(File.read(File.dirname(__FILE__) + '/Dockerfile'),
                     t: "jenkins/#{NAME}:latest") do |chunk|
   chunk = JSON.parse(chunk)
-  chunk.values.each { |v| puts v }
+  keys = chunk.keys
+  if keys.include?('stream')
+    puts value
+  elsif keys.include?('error')
+    @log.error chunk['error']
+    @log.error chunk['errorDetail']
+  else
+    fail "Unknown response type in #{chunk}"
+  end
 end
