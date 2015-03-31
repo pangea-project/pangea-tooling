@@ -8,8 +8,16 @@ require 'logger/colors'
 class Dockerfile
   attr_reader :series
 
-  def new
-    @series = RELEASE
+  def initialize
+    # FIXME: static map is crap
+    case RELEASE
+    when 'vivid'
+      @series = '15.04'
+    when 'utopic'
+      @series = '14.10'
+    else
+      fail "Could not map #{RELEASE} to a series versions"
+    end
   end
 
   def render
