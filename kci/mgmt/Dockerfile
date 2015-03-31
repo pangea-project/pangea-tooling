@@ -16,7 +16,7 @@ RUN adduser \
   --home /var/lib/jenkins \
   --no-create-home \
   --uid 100000 \
-  --group jenkins \
+  --ingroup jenkins \
   --disabled-password \
   jenkins
 
