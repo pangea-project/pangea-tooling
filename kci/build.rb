@@ -31,7 +31,7 @@ JOB_NAME = ENV.fetch('JOB_NAME')
 FileUtils.rm_rf(['_anchor-chain'] + Dir.glob('logs/*') + Dir.glob('build/*'))
 
 @log = Logger.new(STDOUT)
-@log.level = Logger::WARN
+@log.level = Logger::INFO
 
 # Debug Thread
 Thread.new do
@@ -70,7 +70,7 @@ binds =  [
 ]
 c.start(Binds: binds)
 c.attach do |_stream, chunk|
-  puts chunk
+  STDOUT.write(chunk)
 end
 
 if DIST == 'vivid'
