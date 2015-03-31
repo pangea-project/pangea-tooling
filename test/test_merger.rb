@@ -28,7 +28,6 @@ class MergerTest < Test::Unit::TestCase
     return @remotedir if @remotedir
 
     @remotedir = "#{@tmpdir}/remote"
-    puts ":::: creating #{@remotedir}"
     Dir.mkdir(@remotedir)
     Dir.chdir(@remotedir) { Git.init('.', bare: true) }
 
