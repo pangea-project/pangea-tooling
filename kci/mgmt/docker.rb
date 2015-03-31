@@ -1,8 +1,26 @@
 #!/usr/bin/env ruby
 
 require 'docker'
+require 'erb'
 require 'logger'
 require 'logger/colors'
+
+class Dockerfile
+  attr_reader :series
+
+  def new
+    @series = RELEASE
+  end
+
+  def render
+    File.join(File.dirname(__FILE__), 'Dockerfile')
+    ERB.new(File.read(path)).result(binding)
+  end
+
+  def self.render
+    new.render
+  end
+end
 
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
@@ -18,8 +36,7 @@ Thread.new do
   Docker::Event.stream { |event| @log.debug event }
 end
 
-image = Docker::Image.build(File.read(File.dirname(__FILE__) + '/Dockerfile'),
-                            t: REPO_TAG) do |chunk|
+Docker::Image.build(Dockerfile.render, t: REPO_TAG) do |chunk|
   chunk = JSON.parse(chunk)
   keys = chunk.keys
   if keys.include?('stream')

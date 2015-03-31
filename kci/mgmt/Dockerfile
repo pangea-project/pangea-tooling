@@ -1,4 +1,4 @@
-FROM ubuntu:15.04
+FROM ubuntu:<%= series %>
 
 ENV DEBIAN_FRONTEND noninteractive
 
