@@ -87,7 +87,7 @@ class ProjectUpdater
         promoter = enqueue(DailyPromoteJob.new(distribution: distribution,
                                                type: type,
                                                dependees: all_builds))
-        enqueue(MGMTLXCJob.new(type: type,
+        enqueue(MGMTDockerJob.new(type: type,
                                distribution: distribution,
                                dependees: all_builds + [promoter]))
 
