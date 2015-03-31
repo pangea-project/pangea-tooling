@@ -40,7 +40,7 @@ end
 
 args = {
   name: JOB_NAME,
-  Image: "jenkins/#{JOB_NAME}",
+  Image: "jenkins/#{DIST}_#{TYPE}",
   Volumes: {
     OLD_TOOLING_PATH => {},
     SSH_PATH => {},
