@@ -18,7 +18,7 @@ Docker::Image.build(File.read(File.dirname(__FILE__) + '/Dockerfile'),
   chunk = JSON.parse(chunk)
   keys = chunk.keys
   if keys.include?('stream')
-    puts value
+    puts chunk['stream']
   elsif keys.include?('error')
     @log.error chunk['error']
     @log.error chunk['errorDetail']
