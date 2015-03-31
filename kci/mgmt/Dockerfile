@@ -14,7 +14,6 @@ RUN addgroup \
 RUN adduser \
   --system \
   --home /var/lib/jenkins \
-  --no-create-home \
   --uid 100000 \
   --ingroup jenkins \
   --disabled-password \
@@ -31,11 +30,4 @@ RUN apt install -y xz-utils dpkg-dev ruby dput debhelper pkg-kde-tools \
                    devscripts python-launchpadlib ubuntu-dev-tools git \
                    dh-systemd ruby-dev zlib1g-dev python-paramiko
 
-VOLUME ["/var/lib/jenkins/tooling-pending"]
-
 RUN gem install bundler
-RUN bash -c "cd /var/lib/jenkins/tooling-pending && bundle install --no-cache --local --frozen --system --without development test"
-RUN rm -rf /var/lib/jenkins/ci-tooling /var/lib/jenkins/.gem /var/lib/jenkins/.rvm
-RUN cp -r /var/lib/jenkins/tooling-pending/ci-tooling /var/lib/jenkins/ci-tooling
-
-USER me
