@@ -63,16 +63,27 @@ end
 
 c = Docker::Container.create(args)
 c.rename(JOB_NAME)
+
+Thread.new do
+  # The log attach is threaded because
+  # - attaching after start might attach to what is already stopped again in
+  #   which case attach runs until timeout
+  # - after start we do an explicit wait to get the correct status code
+  c.attach do |_stream, chunk|
+    puts chunk
+    STDOUT.flush
+  end
+end
+
 binds =  [
   "#{OLD_TOOLING_PATH}:#{OLD_TOOLING_PATH}",
   "#{SSH_PATH}:#{SSH_PATH}",
   "#{Dir.pwd}:#{Dir.pwd}"
 ]
 c.start(Binds: binds)
-c.attach do |_stream, chunk|
-  puts chunk
-  STDOUT.flush
-end
+wait_response = c.wait
+status_code = JSON.parse(wait_response).fetch('StatusCode', 1)
+exit status_code unless status_code == 0
 
 if DIST == 'vivid'
   Dir.chdir('packaging') do
