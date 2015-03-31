@@ -13,7 +13,7 @@ class Dockerfile
   end
 
   def render
-    File.join(File.dirname(__FILE__), 'Dockerfile')
+    path = File.join(File.dirname(__FILE__), 'Dockerfile')
     ERB.new(File.read(path)).result(binding)
   end
 
