@@ -37,7 +37,7 @@
         <configVersion>2</configVersion>
         <userRemoteConfigs>
           <hudson.plugins.git.UserRemoteConfig>
-            <url>https://github.com/apachelogger/pangea-tooling.git</url>
+            <url>https://github.com/blue-systems/pangea-tooling.git</url>
           </hudson.plugins.git.UserRemoteConfig>
         </userRemoteConfigs>
         <branches>
@@ -146,6 +146,12 @@
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.25">
+      <patterns>
+        <hudson.plugins.ws__cleanup.Pattern>
+          <pattern>build/**</pattern>
+          <type>INCLUDE</type>
+        </hudson.plugins.ws__cleanup.Pattern>
+      </patterns>
       <deleteDirs>false</deleteDirs>
       <cleanupParameter></cleanupParameter>
       <externalDelete></externalDelete>

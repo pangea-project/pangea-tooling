@@ -16,7 +16,7 @@
         <configVersion>2</configVersion>
         <userRemoteConfigs>
           <hudson.plugins.git.UserRemoteConfig>
-            <url>https://github.com/apachelogger/pangea-tooling.git</url>
+            <url>https://github.com/blue-systems/pangea-tooling.git</url>
           </hudson.plugins.git.UserRemoteConfig>
         </userRemoteConfigs>
         <branches>
