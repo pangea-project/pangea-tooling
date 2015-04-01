@@ -1,8 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'docker'
-require 'logger'
-require 'logger/colors'
+require_relative 'docker/containment'
 
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
@@ -19,13 +17,6 @@ TYPE = ENV.fetch('TYPE')
 JOB_NAME = ENV.fetch('JOB_NAME')
 
 FileUtils.rm_rf(['_anchor-chain'] + Dir.glob('logs/*') + Dir.glob('build/*'))
-
-# Debug Thread
-Thread.new do
-  Docker::Event.stream do |event|
-    @log.warn event
-  end
-end
 
 binds =  [
   "#{OLD_TOOLING_PATH}:#{OLD_TOOLING_PATH}",
