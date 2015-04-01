@@ -82,8 +82,7 @@ binds =  [
   "#{Dir.pwd}:#{Dir.pwd}"
 ]
 c.start(Binds: binds)
-wait_response = c.wait
-status_code = JSON.parse(wait_response).fetch('StatusCode', 1)
+status_code = c.wait.fetch('StatusCode', 1)
 exit status_code unless status_code == 0
 
 if DIST == 'vivid'
