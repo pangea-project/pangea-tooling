@@ -2,12 +2,34 @@
 
 require 'logger'
 require 'logger/colors'
+require 'optparse'
 
 require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/thread_pool'
 require_relative 'ci-tooling/lib/retry'
 
 QUALIFIER_STATES = %w(success unstable)
+
+OptionParser.new do |opts|
+  opts.banner = <<-EOS
+Usage: jenkins_retry.rb 'regex'
+
+regex must be a valid Ruby regular expression matching the jobs you wish to
+retry.
+
+Only jobs that are not queued, not building, and failed will be retired.
+
+e.g.
+  • All build jobs for vivid and utopic:
+    '^(vivid|utopic)_.*_.*'
+
+  • All unstable builds:
+    '^.*_unstable_.*'
+
+  • All jobs:
+    '.*'
+  EOS
+end.parse!
 
 @log = Logger.new(STDOUT).tap do |l|
   l.progname = 'retry'
