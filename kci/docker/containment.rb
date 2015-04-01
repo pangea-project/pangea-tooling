@@ -61,10 +61,15 @@ class Containment
       #   which case attach runs until timeout
       # - after start we do an explicit wait to get the correct status code so
       #   we can exit accordingly
+
+      # This code only gets run when the socket pushes something, we cannot
+      # mock this right now unfortunately.
+      # :nocov:
       container.attach do |_stream, chunk|
         puts chunk
         STDOUT.flush
       end
+      # :nocov:
     end
   end
 
