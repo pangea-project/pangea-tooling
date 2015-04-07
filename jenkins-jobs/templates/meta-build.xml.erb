@@ -10,7 +10,8 @@
   <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
   <triggers></triggers>
   <concurrentBuild>false</concurrentBuild>
-  <builders>
+  <builders/>
+  <publishers>
     <hudson.plugins.downstream__ext.DownstreamTrigger plugin="downstream-ext@1.8">
       <childProjects><%= downstream_triggers.join(', ') %></childProjects>
       <threshold>
@@ -23,7 +24,6 @@
       <onlyIfSCMChanges>true</onlyIfSCMChanges>
       <onlyIfLocalSCMChanges>false</onlyIfLocalSCMChanges>
     </hudson.plugins.downstream__ext.DownstreamTrigger>
-  </builders>
-  <publishers/>
+  </publishers>
   <buildWrappers/>
 </project>
