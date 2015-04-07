@@ -48,6 +48,23 @@ class BuildTest < TestCase
     end
   end
 
+  def test_run_env
+    job_name = 'vivid_unstable_test'
+    image = 'jenkins/vivid_unstable'
+    binds = []
+    VCR.use_cassette(__method__) do
+      c = Containment.new(job_name, image: image, binds: binds)
+      ENV['DIST'] = 'dist'
+      ENV['TYPE'] = 'type'
+      # VCR will fail if the env argument on create does not add up.
+      ret = c.run(Cmd: ['bash', '-c', "echo #{job_name}"])
+      assert_equal(0, ret)
+    end
+  ensure
+    ENV.delete('DIST')
+    ENV.delete('TYPE')
+  end
+
   def test_cleanup
     job_name = 'vivid_unstable_test'
     image = 'jenkins/vivid_unstable'

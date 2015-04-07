@@ -47,9 +47,7 @@ class Containment
       Image: @image,
       Volumes: volumes,
       WorkingDir: Dir.pwd,
-      Env: [
-        'PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
-      ]
+      Env: environment
     }
     args.merge!(user_args)
     c = Docker::Container.create(args)
@@ -86,5 +84,16 @@ class Containment
     status_code
   ensure
     stdout_thread.kill if defined?(stdout_thread) && !stdout_thread.nil?
+  end
+
+  private
+
+  def environment
+    env = ['PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin']
+    %w(DIST TYPE).each do |v|
+      next unless ENV.include?(v)
+      env << format('%s=%s', v, ENV[v])
+    end
+    env
   end
 end
