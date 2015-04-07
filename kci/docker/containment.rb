@@ -46,7 +46,10 @@ class Containment
     args = {
       Image: @image,
       Volumes: volumes,
-      WorkingDir: Dir.pwd
+      WorkingDir: Dir.pwd,
+      Env: [
+        'PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
+      ]
     }
     args.merge!(user_args)
     c = Docker::Container.create(args)
