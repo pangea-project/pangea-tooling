@@ -80,6 +80,7 @@ class Containment
     c.start(Binds: @binds)
     status_code = c.wait.fetch('StatusCode', 1)
     c.stop
+    c.kill!
     c.remove
     status_code
   ensure
