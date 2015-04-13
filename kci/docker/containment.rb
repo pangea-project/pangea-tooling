@@ -79,9 +79,7 @@ class Containment
     stdout_thread = attach_thread(c)
     c.start(Binds: @binds)
     status_code = c.wait.fetch('StatusCode', 1)
-    c.stop
-    c.kill!
-    c.remove
+    rescued_stop(c)
     status_code
   ensure
     stdout_thread.kill if defined?(stdout_thread) && !stdout_thread.nil?
@@ -96,5 +94,35 @@ class Containment
       env << format('%s=%s', v, ENV[v])
     end
     env
+  end
+
+  def rescued_stop(container)
+    # https://github.com/docker/docker/issues/9665
+    # Possibly related as well:
+    # https://github.com/docker/docker/issues/7636
+    # Apparently the AUFS backend is a bit meh and craps out randomly when
+    # removing a container. To prevent this from making a build fail two things
+    # happen here:
+    # 1. sleep 5 seconds before trying to kill. This avoids an apparently also
+    #    existing timing issue which might or might not be the root of this.
+    # 2. catch server errors from remove and turn them into logable offences
+    #    without impact. Since this method is only supposed to be called from
+    #    {run} there is no strict requirement for the container to be actually
+    #    removed as a subsequent containment instance will attempt to tear it
+    #    down anyway. Which might then be fatal, but given the 5 second sleep
+    #    and additional time spent doing other things it is unlikely that this
+    #    would happen. Should it happen though we still want it to be fatal
+    #    though as the assumption is that a containment always is clean which
+    #    we couldn't ensure if a previous container can not be removed.
+    container.stop
+    container.kill!
+    sleep 5
+    begin
+      container.remove
+    # :nocov:
+    rescue Docker::Error::ServerError => e
+      @log.error e
+    end
+    # :nocov:
   end
 end
