@@ -4,5 +4,6 @@
     "frameworks" : "frameworks",
     "calamares" : "calamares",
     "netrunner" : "netrunner",
-    "netrunner-debian" : "netrunner"
+    "netrunner-debian" : "netrunner",
+    "moz-plasma" : "moz-plasma"
 }
