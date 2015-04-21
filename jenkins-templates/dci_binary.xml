@@ -122,9 +122,9 @@
     <hudson.tasks.BuildTrigger>
       <childProjects>@NAME@_publish_unstable</childProjects>
       <threshold>
-        <name>FAILURE</name>
-        <ordinal>2</ordinal>
-        <color>RED</color>
+        <name>SUCCESS</name>
+        <ordinal>0</ordinal>
+        <color>BLUE</color>
         <completeBuild>true</completeBuild>
       </threshold>
     </hudson.tasks.BuildTrigger>
