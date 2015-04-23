@@ -117,6 +117,9 @@ class Merger
 
     cleanup('master')
 
+    # NOTE: trigger branches must be explicitly added to the jenkins job class
+    #       as such. Otherwise the merger job will not start.
+
     # merge_stable('master')# trigger_branch in stable
     merge_backports('kubuntu_vivid_archive')
     merge_stable('kubuntu_vivid_backports')
