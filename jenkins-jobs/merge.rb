@@ -16,7 +16,8 @@ class MergeJob < JenkinsJob
                          kubuntu_unstable
                          kubuntu_unstable_utopic
                          master
-                         kubuntu_vivid_archive)
+                         kubuntu_vivid_archive
+                         kubuntu_vivid_backports)
     @dependees = dependees
   end
 end
