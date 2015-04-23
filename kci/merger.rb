@@ -119,7 +119,7 @@ class Merger
 
     # merge_stable('master')# trigger_branch in stable
     merge_backports('kubuntu_vivid_archive')
-    merge_stable('kubuntu_vidid_backports')
+    merge_stable('kubuntu_vivid_backports')
     merge_stable('kubuntu_vivid_archive')
     merge_unstable('kubuntu_stable')
   end

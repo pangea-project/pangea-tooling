@@ -57,6 +57,7 @@ class MergerTest < Test::Unit::TestCase
   def test_full_merge_chain
     in_repo do |g|
       create_sample_branch(g, 'kubuntu_vivid_archive')
+      create_sample_branch(g, 'kubuntu_vivid_backports')
       create_sample_branch(g, 'kubuntu_stable')
       create_sample_branch(g, 'kubuntu_stable_utopic')
       # NOTE: unstable already exists
@@ -68,16 +69,25 @@ class MergerTest < Test::Unit::TestCase
     end
 
     in_repo do |g|
+      # backports merges archive
+      assert_nothing_raised do
+        g.checkout('kubuntu_vivid_backports')
+      end
+      assert(File.exist?('kubuntu_vivid_archivefile'))
+      assert(File.exist?('kubuntu_vivid_backportsfile'))
+
       assert_nothing_raised do
         g.checkout('kubuntu_stable')
       end
       assert(File.exist?('kubuntu_vivid_archivefile'))
+      assert(File.exist?('kubuntu_vivid_backportsfile'))
       assert(File.exist?('kubuntu_stablefile'))
 
       assert_nothing_raised do
         g.checkout('kubuntu_stable_utopic')
       end
       assert(File.exist?('kubuntu_vivid_archivefile'))
+      assert(File.exist?('kubuntu_vivid_backportsfile'))
       assert(File.exist?('kubuntu_stablefile'))
       assert(File.exist?('kubuntu_stable_utopicfile'))
 
@@ -85,6 +95,7 @@ class MergerTest < Test::Unit::TestCase
         g.checkout('kubuntu_unstable')
       end
       assert(File.exist?('kubuntu_vivid_archivefile'))
+      assert(File.exist?('kubuntu_vivid_backportsfile'))
       assert(File.exist?('kubuntu_stablefile'))
       assert(File.exist?('kubuntu_unstablefile'))
 
@@ -92,6 +103,7 @@ class MergerTest < Test::Unit::TestCase
         g.checkout('kubuntu_unstable_utopic')
       end
       assert(File.exist?('kubuntu_vivid_archivefile'))
+      assert(File.exist?('kubuntu_vivid_backportsfile'))
       assert(File.exist?('kubuntu_stablefile'))
       assert(File.exist?('kubuntu_unstablefile'))
       assert(File.exist?('kubuntu_unstable_utopicfile'))
