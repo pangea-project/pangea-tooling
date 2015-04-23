@@ -3,7 +3,7 @@ require 'vcr'
 require_relative '../kci/docker/containment.rb'
 require_relative '../ci-tooling/test/lib/testcase'
 
-class BuildTest < TestCase
+class DockerContainmentTest < TestCase
   self.file = __FILE__
 
   def setup
