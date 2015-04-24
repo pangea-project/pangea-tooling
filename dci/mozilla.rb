@@ -14,9 +14,9 @@ system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -o jenkins.wo
 
 Dir.mkdir('build') unless Dir.exist? 'build'
 
-raise 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{PACKAGE}*.changes build/")
+fail 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{PACKAGE}*.changes build/")
 
 unless DEBIAN_RELEASES.include? RELEASE
-    raise "Can't sign!" unless system("debsign -k#{KEYID} build/*.changes")
-    raise "Can't upload!" unless system("dput ppa:moz-plasma/builds build/*.changes")
+  fail "Can't sign!" unless system("debsign -k#{KEYID} build/*.changes")
+  fail "Can't upload!" unless system("dput ppa:plasmazilla/builds build/*.changes")
 end
