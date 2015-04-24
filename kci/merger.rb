@@ -53,6 +53,8 @@ class Merger
     end
     # :nocov:
     @git = Git.open(Dir.pwd, log: Logger.new_for_git)
+    @push_pending = []
+    @clean_branches = []
   end
 
   # FIXME: The entire merge method pile needs to be meta'd into probably one or
@@ -115,6 +117,17 @@ class Merger
   def run(trigger_branch)
     @log.info "triggered by #{trigger_branch}"
 
+    @push_pending = []
+    # FIXME: fuck my life. so.... due to very bad design we must cleanup every
+    #        branch *when it is supposed to merge*. Now stable is merged into
+    #        more than once which would with postponed pushes mean that the
+    #        second merge into stable undoes (cleans up) the previous merge.
+    #        Since we don't want that we use this bloody workaround to make sure
+    #        that stable doesn't get cleaned up twice.....
+    #        What we should do is expand the git::branch class with the logic
+    #        we presently have in the merge function and then make sure that
+    #        each branch (i.e. instace of the object) only gets cleaned once.
+    @clean_branches = []
     cleanup('master')
 
     # NOTE: trigger branches must be explicitly added to the jenkins job class
@@ -125,6 +138,7 @@ class Merger
     merge_stable('kubuntu_vivid_backports')
     merge_stable('kubuntu_vivid_archive')
     merge_unstable('kubuntu_stable')
+    push_all_pending
   end
 
   private
@@ -146,23 +160,40 @@ class Merger
   def merge(source, target)
     # We want the full branch name of the remote to work with
     unless source.respond_to?(:full)
+      # Try to pick a local version of the remote if available to support
+      # postponed pushes.
+      # FIXME: as with the clean branches stuff this is a major workaround for
+      #        a design flaw in that primary merge targets always want the
+      #        remote. For example if we have stable and unstable then we merge
+      #        crap into stable and we want remote crap there rather than any
+      #        local version of remote.
+      #        On the other hand we then merge stable into unstable and there
+      #        we very much want the local version rather than the remote one
+      #        as otherwise we'd be missing data.
       source_name = source.clone
-      source = @git.branches.remote.select { |b| b.name == source_name }[0]
-      unless source
+      source = @git.branches.local.select { |b| b.name == source_name }
+      if source.empty?
+        source = @git.branches.remote.select { |b| b.name == source_name }
+      end
+      if source.size != 1
         @log.warn "Apparently there is no branch named #{source_name}!"
         return
       end
+      source = source.first
     end
     target = target.name if target.respond_to?(:name)
     @git.checkout(target)
-    cleanup(target)
+    unless @clean_branches.include?(target)
+      cleanup(target)
+      @clean_branches << target
+    end
     msg = "Merging #{source.full} into #{target}."
     if noci_merge?(source)
       msg = "Merging #{source.full} into #{target}.\n\nNOCI"
     end
     @log.info msg
     @git.merge(source.full, msg)
-    @log.info @git.push('origin', target)
+    @push_pending << target
   end
 
   def noci_merge?(source)
@@ -172,6 +203,11 @@ class Merger
       return false unless commit.message.include?('NOCI')
     end
     true
+  end
+
+  def push_all_pending
+    @log.info @git.push('origin', @push_pending.uniq)
+    @push_pending = []
   end
 end
 
