@@ -132,10 +132,8 @@ class Merger
   # Hard resets to head, cleans everything, and sets dpkg-mergechangelogs in
   # .gitattributes afterwards.
   def cleanup(target = @git.current_branch)
-    @git.fetch('origin')
     @git.reset("remotes/origin/#{target}", hard: true)
     @git.clean(force: true, d: true)
-    @git.pull('origin', target)
     File.write('.gitattributes',
                "debian/changelog merge=dpkg-mergechangelogs\n")
   end
