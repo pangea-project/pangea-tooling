@@ -1,0 +1,13 @@
+# Explicitly no-ops build jobs. What the job class does with this information
+# is up to the class. At the time of writing it doesn't create the job, but it
+# might as well create them and disable them in the future.
+
+# Can be built but not installed because we have no bluez5
+'*/plasma/bluedevil':
+  '*': false
+
+# Missing dependencies on utopic.
+'*/applications/step':
+  utopic_*: false
+'*/applications/rocs':
+  utopic_*: false
