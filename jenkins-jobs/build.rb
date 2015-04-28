@@ -9,6 +9,7 @@ class BuildJob < JenkinsJob
   attr_reader :distribution
   attr_reader :dependees
   attr_reader :dependencies
+  attr_reader :packaging_scm
   attr_reader :packaging_branch
 
   # FIXME: maybe I shoudl just make all but name/component/scm writable?
@@ -37,6 +38,7 @@ class BuildJob < JenkinsJob
       p @dependees
     end
     @dependencies = project.dependencies.collect { |d| build_name(d) }.compact
+    @packaging_scm = project.packaging_scm
     # FIXME: why ever does the job have to do that?
     # Try the distribution specific branch name first.
     @packaging_branch = "kubuntu_#{type}_#{distribution}"
