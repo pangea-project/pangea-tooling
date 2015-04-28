@@ -1,3 +1,6 @@
+require 'yaml'
+
+require_relative '../ci-tooling/lib/ci/pattern'
 require_relative 'job'
 
 # Base class for all Jenkins job descriptions/templates.
@@ -68,5 +71,28 @@ class BuildJob < JenkinsJob
 
   def self.build_name(dist, type, name)
     "#{dist}_#{type}_#{name}"
+  end
+
+  def update
+    repos = config
+    repos.filter!(@packaging_scm)
+    repos.sort_by(&:first).each do |_, job_patterns|
+      job_patterns.filter(@job_name).each do |_, enabled|
+        return unless enabled
+      end
+    end
+    super
+  end
+
+  private
+
+  def self.config(directory)
+    return @config if defined?(@config)
+    @config = YAML.load(File.read("#{directory}/build.yml"))
+    @config = CI::PatternHash.new(@config, recurse: true)
+  end
+
+  def config
+    self.class.config(@config_directory).clone
   end
 end
