@@ -1,6 +1,6 @@
 require 'vcr'
 
-require_relative '../kci/docker/containment.rb'
+require_relative '../lib/docker/containment.rb'
 require_relative '../ci-tooling/test/lib/testcase'
 
 class DockerContainmentTest < TestCase
