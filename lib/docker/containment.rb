@@ -16,6 +16,11 @@ class Containment
     @log.progname = self.class
     cleanup
     # TODO: finalize object and clean up container
+
+    Signal.trap('TERM') do
+      cleanup
+      exit
+    end
   end
 
   def cleanup
