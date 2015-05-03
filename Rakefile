@@ -48,7 +48,7 @@ CLEAN << 'checkstyle.xml'
 
 desc 'deploy host and containment tooling'
 task :deploy do
-  `bundle pack`
+  system('bundle pack')
 
   # Pending for pickup by LXC.
   tooling_path = File.join(Dir.home, 'tooling-pending')
