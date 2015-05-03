@@ -43,16 +43,16 @@ class Merger
   def initialize
     @log = Logger.new_for_merger
 
-    Git.global_config('merge.dpkg-mergechangelogs.name',
-                      'debian/changelog merge driver')
-    Git.global_config('merge.dpkg-mergechangelogs.driver',
-                      'dpkg-mergechangelogs -m %O %A %B %A')
     # :nocov:
     if File.exist?('/var/lib/jenkins/tooling/git')
       Git.configure { |c| c.binary_path = '/var/lib/jenkins/tooling/git' }
     end
     # :nocov:
     @git = Git.open(Dir.pwd, log: Logger.new_for_git)
+    @git.config('merge.dpkg-mergechangelogs.name',
+                'debian/changelog merge driver')
+    @git.config('merge.dpkg-mergechangelogs.driver',
+                'dpkg-mergechangelogs -m %O %A %B %A')
     @push_pending = []
     @clean_branches = []
   end
