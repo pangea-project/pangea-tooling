@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require_relative '../ci-tooling/lib/retry'
 require_relative '../lib/docker/containment'
 
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
@@ -25,8 +26,10 @@ binds =  [
 ]
 
 c = Containment.new(JOB_NAME, image: "jenkins/#{DIST}_#{TYPE}", binds: binds)
-status_code = c.run(Cmd: ["#{TOOLING_PATH}/builder.rb", JOB_NAME, Dir.pwd])
-exit status_code unless status_code == 0
+Retry.retry_it(times: 2, errors: [Docker::Error::NotFoundError]) do
+  status_code = c.run(Cmd: ["#{TOOLING_PATH}/builder.rb", JOB_NAME, Dir.pwd])
+  exit status_code unless status_code == 0
+end
 
 if DIST == 'vivid'
   Dir.chdir('packaging') do
