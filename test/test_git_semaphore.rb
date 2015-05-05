@@ -36,8 +36,9 @@ class GitSemaphoreTest < TestCase
         assert_not_include(s.host_semaphores[host].locks, 1)
         assert_not_include(s.host_semaphores[host].locks, 2)
       end
-      assert_not_include(s.host_semaphores[host].locks, 1)
     end
+    # This assert applies after the release has raised.
+    assert_not_include(s.host_semaphores[host].locks, 1)
   end
 
   def test_logging
