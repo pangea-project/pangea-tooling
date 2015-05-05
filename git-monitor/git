@@ -3,6 +3,10 @@
 require 'drb/drb'
 
 NETWORK_COMMANDS = %w(pull clone fetch push)
+HOSTS = {
+  'git.debian.org' => :debian,
+  'anongit.kde.org' => :kde
+}
 SERVER_URI = 'druby://localhost:991235'
 
 def run(args)
@@ -23,7 +27,9 @@ end
 
 exit_code = 0
 if synchronize
-  monitor.synchronize(Process.pid) do
+  host = nil
+  HOSTS.each { |h, sym| host = sym && break if ARGV.join.include?(h) }
+  monitor.synchronize(Process.pid, host) do
     exit_code = run(ARGV)
   end
 else
