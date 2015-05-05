@@ -44,8 +44,8 @@ class Merger
     @log = Logger.new_for_merger
 
     # :nocov:
-    if File.exist?('/var/lib/jenkins/tooling/git')
-      Git.configure { |c| c.binary_path = '/var/lib/jenkins/tooling/git' }
+    if File.exist?('/var/lib/jenkins/tooling3/git')
+      Git.configure { |c| c.binary_path = '/var/lib/jenkins/tooling3/git' }
     end
     # :nocov:
     @git = Git.open(Dir.pwd, log: Logger.new_for_git)
