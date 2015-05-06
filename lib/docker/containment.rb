@@ -8,6 +8,7 @@ class Containment
   attr_reader :binds
 
   def initialize(name, image:, binds: [Dir.pwd])
+    # In order to effecitvely set ulimits we need docker 1.6.
     docker_version = Docker.version['Version']
     unless Gem::Version.new(docker_version) >= Gem::Version.new('1.6')
       fail "Containment requires Docker 1.6; found #{docker_version}"
@@ -57,13 +58,7 @@ class Containment
       Image: @image,
       Volumes: volumes,
       WorkingDir: Dir.pwd,
-      Env: environment,
-      # Force standard ulimit in the container.
-      # Otherwise pretty much all APT IO operations are insanely slow:
-      # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
-      # This in particular affects apt-extracttemplates which will take up to
-      # 20 minutes where it should take maybe 1/10 of that.
-      Ulimits: { Name: 'nofile', Soft: 1024, Hard: 1024 }
+      Env: environment
     }
     args.merge!(user_args)
     c = Docker::Container.create(args)
@@ -93,7 +88,13 @@ class Containment
   def run(args)
     c = contain(args)
     stdout_thread = attach_thread(c)
-    c.start(Binds: @binds)
+    c.start(Binds: @binds,
+            # Force standard ulimit in the container.
+            # Otherwise pretty much all APT IO operations are insanely slow:
+            # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
+            # This in particular affects apt-extracttemplates which will take up to
+            # 20 minutes where it should take maybe 1/10 of that.
+            Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }])
     status_code = c.wait.fetch('StatusCode', 1)
     rescued_stop(c)
     status_code

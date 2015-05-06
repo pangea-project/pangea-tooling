@@ -88,4 +88,20 @@ class DockerContainmentTest < TestCase
       end
     end
   end
+
+  def test_ulimit
+    job_name = 'vivid_unstable_test'
+    image = 'jenkins/vivid_unstable'
+    VCR.use_cassette(__method__) do
+      c = Containment.new(job_name, image: image, binds: [])
+      # 1025 should be false
+      ret = c.run(Cmd: ['bash', '-c',
+                        'if [ "$(ulimit -n)" != "1025" ]; then exit 1; fi'])
+      assert_equal(1, ret, 'ulimit is 1025 but should not be')
+      # 1024 should be true
+      ret = c.run(Cmd: ['bash', '-c',
+                        'if [ "$(ulimit -n)" != "1024" ]; then exit 1; else exit 0; fi'])
+      assert_equal(0, ret, 'ulimit -n is not 1024 but should be')
+    end
+  end
 end
