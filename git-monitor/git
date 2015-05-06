@@ -2,7 +2,7 @@
 
 require 'drb/drb'
 
-NETWORK_COMMANDS = %w(pull clone fetch push)
+NETWORK_COMMANDS = %w(pull clone fetch push ls-remote)
 HOSTS = {
   'git.debian.org' => :debian,
   'anongit.kde.org' => :kde
