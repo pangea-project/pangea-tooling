@@ -8,6 +8,11 @@ class Containment
   attr_reader :binds
 
   def initialize(name, image:, binds: [Dir.pwd])
+    docker_version = Docker.version['Version']
+    unless Gem::Version.new(docker_version) >= Gem::Version.new('1.6')
+      fail "Containment requires Docker 1.6; found #{docker_version}"
+    end
+
     @name = name
     @image = image
     @binds = bindify(binds)

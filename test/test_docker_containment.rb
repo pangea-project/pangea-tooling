@@ -76,4 +76,16 @@ class DockerContainmentTest < TestCase
       end
     end
   end
+
+  def test_bad_version
+    # For the purposes of this test the fixture needs to be manually edited
+    # when re-created to make the version appear incompatible again.
+    job_name = 'vivid_unstable_test'
+    image = 'jenkins/vivid_unstable'
+    VCR.use_cassette(__method__) do
+      assert_raise do
+        Containment.new(job_name, image: image, binds: [])
+      end
+    end
+  end
 end

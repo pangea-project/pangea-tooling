@@ -27,7 +27,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"ApiVersion":"1.18","Arch":"amd64","GitCommit":"4749651","GoVersion":"go1.4.2","KernelVersion":"3.19.0-16-generic","Os":"linux","Version":"1.6.0"}
+        {"ApiVersion":"1.18","Arch":"amd64","GitCommit":"4749651","GoVersion":"go1.4.2","KernelVersion":"3.19.0-16-generic","Os":"linux","Version":"1.5.0"}
     http_version: 
   recorded_at: Wed, 06 May 2015 09:20:25 GMT
 - request:
@@ -49,15 +49,15 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Wed, 01 Apr 2015 10:42:42 GMT
+      - Wed, 06 May 2015 09:20:25 GMT
       Content-Length:
-      - '39'
+      - '32'
     body:
       encoding: UTF-8
       string: |
-        No such container: vivid_unstable_test
+        no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Wed, 01 Apr 2015 10:42:42 GMT
+  recorded_at: Wed, 06 May 2015 09:20:25 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -77,15 +77,15 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Wed, 01 Apr 2015 10:42:42 GMT
+      - Wed, 06 May 2015 09:20:25 GMT
       Content-Length:
-      - '39'
+      - '32'
     body:
       encoding: UTF-8
       string: |
-        No such container: vivid_unstable_test
+        no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Wed, 01 Apr 2015 10:42:42 GMT
+  recorded_at: Wed, 06 May 2015 09:20:25 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -105,15 +105,15 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Wed, 01 Apr 2015 10:42:42 GMT
+      - Wed, 06 May 2015 09:20:25 GMT
       Content-Length:
-      - '39'
+      - '32'
     body:
       encoding: UTF-8
       string: |
-        No such container: vivid_unstable_test
+        no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Wed, 01 Apr 2015 10:42:42 GMT
+  recorded_at: Wed, 06 May 2015 09:20:25 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -133,13 +133,13 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Wed, 01 Apr 2015 10:42:42 GMT
+      - Wed, 06 May 2015 09:20:25 GMT
       Content-Length:
-      - '39'
+      - '32'
     body:
       encoding: UTF-8
       string: |
-        No such container: vivid_unstable_test
+        no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Wed, 01 Apr 2015 10:42:42 GMT
+  recorded_at: Wed, 06 May 2015 09:20:25 GMT
 recorded_with: VCR 2.9.3
