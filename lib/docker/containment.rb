@@ -57,7 +57,13 @@ class Containment
       Image: @image,
       Volumes: volumes,
       WorkingDir: Dir.pwd,
-      Env: environment
+      Env: environment,
+      # Force standard ulimit in the container.
+      # Otherwise pretty much all APT IO operations are insanely slow:
+      # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
+      # This in particular affects apt-extracttemplates which will take up to
+      # 20 minutes where it should take maybe 1/10 of that.
+      Ulimits: { Name: 'nofile', Soft: 1024, Hard: 1024 }
     }
     args.merge!(user_args)
     c = Docker::Container.create(args)

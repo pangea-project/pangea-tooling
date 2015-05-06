@@ -147,7 +147,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","DIST=dist","TYPE=type"],"Cmd":["bash","-c","echo
+      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","DIST=dist","TYPE=type"],"Ulimits":{"Name":"nofile","Soft":1024,"Hard":1024},"Cmd":["bash","-c","echo
         vivid_unstable_test"]}'
     headers:
       User-Agent:

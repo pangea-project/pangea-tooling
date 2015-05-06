@@ -147,7 +147,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"],"Cmd":["bash","-c","echo
+      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"],"Ulimits":{"Name":"nofile","Soft":1024,"Hard":1024},"Cmd":["bash","-c","echo
         vivid_unstable_test"]}'
     headers:
       User-Agent:
@@ -343,7 +343,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"],"Cmd":["garbage_fail"]}'
+      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"],"Ulimits":{"Name":"nofile","Soft":1024,"Hard":1024},"Cmd":["garbage_fail"]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.20.0
