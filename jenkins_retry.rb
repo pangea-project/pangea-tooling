@@ -5,8 +5,8 @@ require 'logger/colors'
 require 'optparse'
 
 require_relative 'ci-tooling/lib/jenkins'
-require_relative 'ci-tooling/lib/thread_pool'
 require_relative 'ci-tooling/lib/retry'
+require_relative 'ci-tooling/lib/thread_pool'
 
 QUALIFIER_STATES = %w(success unstable)
 
