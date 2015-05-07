@@ -22,7 +22,10 @@ monitor = DRbObject.new_with_uri(SERVER_URI)
 # amount.
 synchronize = false
 NETWORK_COMMANDS.each do |c|
-  synchronize = true && break if ARGV.include?(c)
+  if ARGV.include?(c)
+    synchronize = true
+    break
+  end
 end
 
 exit_code = 0
