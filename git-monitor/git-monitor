@@ -3,8 +3,9 @@
 require 'drb/drb'
 
 require_relative 'lib/semaphore'
+require_relative 'lib/service'
 
-URI = 'druby://localhost:991235'
+URI = Service::SERVER_URI
 FRONT_OBJECT = Semaphore.new
 
 DRb.start_service(URI, FRONT_OBJECT)
