@@ -1,21 +1,17 @@
 #!/usr/bin/env ruby
 
-require 'drb/drb'
+require_relative 'lib/service'
 
 NETWORK_COMMANDS = %w(pull clone fetch push ls-remote)
 HOSTS = {
   'git.debian.org' => :debian,
   'anongit.kde.org' => :kde
 }
-SERVER_URI = 'druby://localhost:991235'
 
 def run(args)
   system('/usr/bin/git', *args)
   $?.exitstatus
 end
-
-DRb.start_service
-monitor = DRbObject.new_with_uri(SERVER_URI)
 
 # Only sync network-io commands. Local commands do not benefit from being
 # locked which in turn only slows down the entire affair by an incredible
@@ -30,6 +26,7 @@ end
 
 exit_code = 0
 if synchronize
+  monitor = Service.start
   host = nil
   HOSTS.each { |h, sym| host = sym && break if ARGV.join.include?(h) }
   monitor.synchronize(Process.pid, host) do
