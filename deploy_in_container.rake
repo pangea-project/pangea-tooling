@@ -62,7 +62,7 @@ task :deploy_in_container do
   end
   if group_exist
     sh "adduser --system --home #{home} --uid 100000 --ingroup jenkins" \
-       '--disabled-password jenkins'
+       ' --disabled-password jenkins'
   end
 
   # language-pack-base should take care of this:
