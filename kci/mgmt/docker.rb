@@ -10,33 +10,8 @@ Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 NAME = ENV.fetch('NAME')
 RELEASE = ENV.fetch('RELEASE')
 REPO = "jenkins/#{NAME}"
-TAG = 'deploying'
+TAG = 'latest'
 REPO_TAG = "#{REPO}:#{TAG}"
-
-class Dockerfile
-  attr_reader :series
-
-  def initialize
-    # FIXME: static map is crap
-    case RELEASE
-    when 'vivid'
-      @series = '15.04'
-    when 'utopic'
-      @series = '14.10'
-    else
-      fail "Could not map #{RELEASE} to a series versions"
-    end
-  end
-
-  def render
-    path = File.join(File.dirname(__FILE__), 'Dockerfile')
-    ERB.new(File.read(path)).result(binding)
-  end
-
-  def self.render
-    new.render
-  end
-end
 
 @log = Logger.new(STDERR)
 @log.level = Logger::WARN
@@ -45,42 +20,17 @@ Thread.new do
   Docker::Event.stream { |event| @log.debug event }
 end
 
-Docker::Image.build(Dockerfile.render, t: REPO_TAG) do |chunk|
-  chunk = JSON.parse(chunk)
-  keys = chunk.keys
-  if keys.include?('stream')
-    puts chunk['stream']
-  elsif keys.include?('error')
-    @log.error chunk['error']
-    @log.error chunk['errorDetail']
-  elsif keys.include?('status')
-    @log.info chunk['status']
-  else
-    fail "Unknown response type in #{chunk}"
-  end
+# create base
+unless Docker::Image.exist?(REPO_TAG)
+  Docker::Image.create(fromImage: "ubuntu:#{RELEASE}", tag: REPO_TAG)
 end
 
-# Dockerfiles can not mount host paths, so instead manually conduct this step
-# through an intermediate container. This containers is then commited to both
-# deploying and latest. Such that we also can reuse the bundle install when
-# re-deploying.
-
-# FIXME: there should be a deploy target on rake or something to avoid having
-# to write this shite here.=
-cmd = <<EOF
-  set -ex
-  cd /var/lib/jenkins/tooling-pending
-  bundle install --no-cache --local --frozen --system --without development test
-  rm -rf /var/lib/jenkins/ci-tooling /var/lib/jenkins/.gem /var/lib/jenkins/.rvm
-  cp -r /var/lib/jenkins/tooling-pending/ci-tooling /var/lib/jenkins/ci-tooling
-EOF
-helper_script = '/var/lib/jenkins/tooling-pending/_helper'
-File.write(helper_script, cmd)
-
+# Take the latest image which either is the previous latest or a completely
+# prestine fork of the base ubuntu image and deploy into it.
+# FIXME use containment here probably
 c = Docker::Container.create(Image: REPO_TAG,
                              WorkingDir: ENV.fetch('HOME'),
-                             Cmd: ['sh', helper_script])
-
+                             Cmd: ['sh', '/var/lib/jenkins/tooling-pending/deploy_in_container.sh'])
 c.start(Binds: ['/var/lib/jenkins/tooling-pending:/var/lib/jenkins/tooling-pending'])
 c.attach do |_stream, chunk|
   puts chunk
