@@ -22,10 +22,6 @@ task :deploy_in_container do
 
   require_relative 'ci-tooling/lib/apt'
 
-  File.write('/etc/apt/apt.conf.d/00cache', 'Acquire::http { Proxy "http://10.0.3.1:3142"; };')
-  File.write('/etc/apt/apt.conf.d/00aptitude', 'Acquire::Languages "none";')
-  File.write('/etc/apt/apt.conf.d/99color', 'APT::Color "1";')
-
   # Use apt.
   Apt.update
   Apt.dist_upgrade
