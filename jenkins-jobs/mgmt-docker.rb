@@ -9,7 +9,8 @@ class MGMTDockerJob < JenkinsJob
   def initialize(type:, distribution:, dependees:)
     super("mgmt_docker_#{distribution}_#{type}", 'mgmt-docker.xml.erb')
     @type = type
-    @distribution = KCI.series[distribution]
+    @distribution = distribution
+    @version = KCI.series[distribution]
     @dependees = dependees.collect(&:job_name)
   end
 end

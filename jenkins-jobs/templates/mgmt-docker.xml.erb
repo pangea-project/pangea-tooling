@@ -18,7 +18,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
-        export RELEASE=<%= distribution %>
+        export VERSION=<%= version %>
         export NAME=<%= distribution %>_<%= type %>
         $HOME/tooling3/kci/mgmt/docker.rb
       </command>

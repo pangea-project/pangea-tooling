@@ -8,7 +8,7 @@ require 'logger/colors'
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
 NAME = ENV.fetch('NAME')
-RELEASE = ENV.fetch('RELEASE')
+VERSION = ENV.fetch('VERSION')
 REPO = "jenkins/#{NAME}"
 TAG = 'latest'
 REPO_TAG = "#{REPO}:#{TAG}"
@@ -22,7 +22,7 @@ end
 
 # create base
 unless Docker::Image.exist?(REPO_TAG)
-  Docker::Image.create(fromImage: "ubuntu:#{RELEASE}", tag: REPO_TAG)
+  Docker::Image.create(fromImage: "ubuntu:#{VERSION}", tag: REPO_TAG)
 end
 
 # Take the latest image which either is the previous latest or a completely
