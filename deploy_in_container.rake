@@ -52,23 +52,19 @@ task :deploy_in_container do
   require 'etc'
   user_exist = false
   Etc.passwd do |user|
-    p user.name
     if user.name == 'jenkins'
       user_exist = true
       break
     end
   end
-  p user_exist
   sh 'addgroup --system --gid 120 jenkins' unless user_exist
   group_exist = false
   Etc.group do |group|
-    p group.name
     if group.name == 'jenkins'
       group_exist = true
       break
     end
   end
-  p group_exist
   unless group_exist
     sh "adduser --system --home #{home} --uid 100000 --ingroup jenkins" \
        ' --disabled-password jenkins'
