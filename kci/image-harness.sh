@@ -1,7 +1,7 @@
 #!/bin/sh -xe
 
 JENKINS_PATH="/var/lib/jenkins"
-TOOLING_PATH="$JENKINS_PATH/tooling"
+TOOLING_PATH="$JENKINS_PATH/tooling3"
 CNAME="jenkins-imager-$DIST-$TYPE-$ARCH"
 
 if ! schroot -i -c $CNAME; then
@@ -21,7 +21,7 @@ trap finish EXIT
 export SCHROOT_SESSION="session:$(schroot -b -c $CNAME)"
 # Creepy argument handling, but shell is shit
 
-ssh jenkins@localhost "cd `pwd` && pwd && schroot -r -c $SCHROOT_SESSION $TOOLING_PATH/imager/build.sh `pwd` $DIST $ARCH $TYPE"
+ssh jenkins@localhost "cd `pwd` && pwd && schroot -r -c $SCHROOT_SESSION $TOOLING_PATH/kci/imager/build.sh `pwd` $DIST $ARCH $TYPE"
 #schroot -r -c $SCHROOT_SESSION $TOOLING_PATH/imager/build.sh `pwd` $DIST $ARCH $TYPE
 
 schroot -e -c $SCHROOT_SESSION
