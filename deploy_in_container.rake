@@ -17,7 +17,7 @@ task :deploy_in_container do
   Dir.chdir(tooling_path) do
     sh 'gem install bundler'
     system('bundle install --no-cache --local --frozen --system --without development test')
-    FileUtils.cp_rf(Dir.glob('*'), final_path)
+    FileUtils.cp_r(Dir.glob('*'), final_path)
   end
 
   require_relative 'ci-tooling/lib/apt'
