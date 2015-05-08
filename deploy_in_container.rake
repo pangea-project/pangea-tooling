@@ -27,6 +27,8 @@ task :deploy_in_container do
   # Use apt.
   Apt.update
   Apt.dist_upgrade
+  # FIXME: install reallly should allow array as input. that's not tested and
+  # actually fails though
   Apt.install(%w(xz-utils
                  dpkg-dev
                  dput
@@ -39,7 +41,7 @@ task :deploy_in_container do
                  dh-systemd
                  zlib1g-dev
                  python-paramiko
-                 language-pack-en-base))
+                 language-pack-en-base).join(' '))
 
   # FIXME: it would be much more reasonable to provision via chef-single...
   require 'etc'
