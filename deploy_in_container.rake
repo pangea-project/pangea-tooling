@@ -15,7 +15,11 @@ task :deploy_in_container do
   tooling_path = File.join(home, 'tooling-pending')
   final_path = File.join(home, 'ci-tooling')
   Dir.chdir(tooling_path) do
-    sh 'gem install bundler'
+    begin
+      Gem::Specification.find_by_name(name)
+    rescue Gem::LoadError
+      sh 'gem install bundler'
+    end
     system('bundle install --no-cache --local --frozen --system --without development test')
     FileUtils.rm_rf(final_path)
     FileUtils.mkpath(final_path)
@@ -29,19 +33,19 @@ task :deploy_in_container do
   Apt.dist_upgrade
   # FIXME: install reallly should allow array as input. that's not tested and
   # actually fails though
-  Apt.install(%w(xz-utils
-                 dpkg-dev
-                 dput
-                 debhelper
-                 pkg-kde-tools
-                 devscripts
-                 python-launchpadlib
-                 ubuntu-dev-tools
-                 git
-                 dh-systemd
-                 zlib1g-dev
-                 python-paramiko
-                 language-pack-en-base).join(' '))
+  Apt.install(*%w(xz-utils
+                  dpkg-dev
+                  dput
+                  debhelper
+                  pkg-kde-tools
+                  devscripts
+                  python-launchpadlib
+                  ubuntu-dev-tools
+                  git
+                  dh-systemd
+                  zlib1g-dev
+                  python-paramiko
+                  language-pack-en-base))
 
   # FIXME: it would be much more reasonable to provision via chef-single...
   require 'etc'
