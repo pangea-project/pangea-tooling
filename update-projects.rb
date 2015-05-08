@@ -2,6 +2,7 @@
 
 require 'thwait'
 
+require_relative 'ci-tooling/lib/kci'
 require_relative 'ci-tooling/lib/projects'
 require_relative 'ci-tooling/lib/thread_pool'
 Dir.glob(File.expand_path('jenkins-jobs/*.rb', File.dirname(__FILE__))).each do |file|
@@ -10,10 +11,6 @@ end
 
 # Updates Jenkins Projects
 class ProjectUpdater
-  ARCHITECTURES = %w(amd64 i386)
-  DISTRIBUTIONS = %w(vivid utopic)
-  TYPES = %w(unstable stable)
-
   def initialize
     @job_queue = Queue.new
   end
@@ -62,20 +59,20 @@ class ProjectUpdater
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
     all_mergers = []
-    DISTRIBUTIONS.each do |distribution|
-      TYPES.each do |type|
+    KCI.series.each_key do |distribution|
+      KCI.types.each do |type|
         projects = Projects.new(type: type)
         all_builds = projects.collect do |project|
           # FIXME: super fucked up dupe prevention
-          if type == 'unstable' && distribution == 'vivid'
+          if type == 'unstable' && distribution == KCI.series.keys[0]
             dependees = []
             # FIXME: I hate my life.
             # Mergers need to be upstreams to the build jobs otherwise the
             # build jobs can trigger before the merge is done (e.g. when)
             # there was an upstream change resulting in pointless build
             # cycles.
-            DISTRIBUTIONS.each do |d|
-              TYPES.each do |t|
+            KCI.series.each_key do |d|
+              KCI.types.each do |t|
                 dependees << BuildJob.build_name(d, t, project.name)
               end
             end
@@ -96,7 +93,7 @@ class ProjectUpdater
 
         # FIXME: this maybe should be moved into MetaIsoJob or something
         # all_isos is actually unused
-        ARCHITECTURES.each do |architecture|
+        KCI.architectures.each do |architecture|
           isoargs = { type: type,
                       distribution: distribution,
                       architecture: architecture }
