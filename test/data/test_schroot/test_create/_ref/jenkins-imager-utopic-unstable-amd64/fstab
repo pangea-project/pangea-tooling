@@ -10,4 +10,4 @@
 
 /tmp/d20150219-1163-e7emel/jenkins/workspaces/utopic/unstable/imager-amd64    /tmp/d20150219-1163-e7emel/jenkins/workspaces/utopic/unstable/imager-amd64   none     rw,bind         0       0
 /tmp/d20150219-1163-e7emel/jenkins/workspaces/utopic/unstable/imager-amd64    /tmp/d20150219-1163-e7emel/jenkins/workspaces/utopic/unstable/imager-amd64   none     rw,bind         0       0
-/var/lib/jenkins/tooling/imager      /var/lib/jenkins/tooling/imager     none     rw,bind         0       0
+/var/lib/jenkins/tooling3/kci/imager      /var/lib/jenkins/tooling3/kci/imager     none     rw,bind         0       0
