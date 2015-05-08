@@ -16,7 +16,7 @@ task :deploy_in_container do
   final_path = File.join(home, 'ci-tooling')
   Dir.chdir(tooling_path) do
     begin
-      Gem::Specification.find_by_name(name)
+      Gem::Specification.find_by_name('bundler')
       sh 'gem update bundler'
     rescue Gem::LoadError
       sh 'gem install bundler'
