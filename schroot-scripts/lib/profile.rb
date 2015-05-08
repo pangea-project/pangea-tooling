@@ -20,7 +20,7 @@ class SchrootProfile
     @users = users.join(',')
     @workspace = workspace
     # FIXME: should probably in a higher level class
-    @tooling = '/var/lib/jenkins/tooling/imager'
+    @tooling = '/var/lib/jenkins/tooling3/kci/imager'
   end
 
   def deploy_profile(template_path, target_path)
