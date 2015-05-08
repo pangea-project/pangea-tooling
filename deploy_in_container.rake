@@ -17,6 +17,7 @@ task :deploy_in_container do
   Dir.chdir(tooling_path) do
     begin
       Gem::Specification.find_by_name(name)
+      sh 'gem update bundler'
     rescue Gem::LoadError
       sh 'gem install bundler'
     end
