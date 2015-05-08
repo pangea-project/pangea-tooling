@@ -4,28 +4,6 @@ desc 'deploy inside the container'
 task :deploy_in_container do
   home = '/var/lib/jenkins'
 
-  # FIXME: it would be much more reasonable to provision via chef-single...
-  require 'etc'
-  user_exist = false
-  Etc.passwd do |user|
-    if user.name == 'jenkins'
-      user_exist = true
-      break
-    end
-  end
-  sh 'addgroup --system --gid 120 jenkins' unless user_exist
-  group_exist = false
-  Etc.group do |group|
-    if group.name == 'jenkins'
-      group_exist = true
-      break
-    end
-  end
-  if group_exist
-    sh "adduser --system --home #{home} --uid 100000 --ingroup jenkins" \
-       '--disabled-password jenkins'
-  end
-
   Dir.chdir(home) do
     # Clean up legacy things
     FileUtils.rm_rf(%w(ci-tooling .gem .rvm))
@@ -64,6 +42,28 @@ task :deploy_in_container do
                  zlib1g-dev
                  python-paramiko
                  language-pack-en-base))
+
+  # FIXME: it would be much more reasonable to provision via chef-single...
+  require 'etc'
+  user_exist = false
+  Etc.passwd do |user|
+    if user.name == 'jenkins'
+      user_exist = true
+      break
+    end
+  end
+  sh 'addgroup --system --gid 120 jenkins' unless user_exist
+  group_exist = false
+  Etc.group do |group|
+    if group.name == 'jenkins'
+      group_exist = true
+      break
+    end
+  end
+  if group_exist
+    sh "adduser --system --home #{home} --uid 100000 --ingroup jenkins" \
+       '--disabled-password jenkins'
+  end
 
   # language-pack-base should take care of this:
   # RUN echo 'LANG=en_US.UTF-8' >> /etc/profile
