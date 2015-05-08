@@ -6,7 +6,7 @@ task :deploy_in_container do
 
   Dir.chdir(home) do
     # Clean up legacy things
-    FileUtils.rm_rf(%w(ci-tooling .gem .rvm))
+    FileUtils.rm_rf(%w(.gem .rvm))
   end
 
   # Deploy ci-tooling and bundle. We later use internal libraries to provision
@@ -17,6 +17,8 @@ task :deploy_in_container do
   Dir.chdir(tooling_path) do
     sh 'gem install bundler'
     system('bundle install --no-cache --local --frozen --system --without development test')
+    FileUtils.rm_rf(final_path)
+    FileUtils.mkpath(final_path)
     FileUtils.cp_r(Dir.glob('*'), final_path)
   end
 
