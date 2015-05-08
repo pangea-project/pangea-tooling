@@ -5,6 +5,7 @@ class MGMTDockerJob < JenkinsJob
   attr_reader :type
   attr_reader :distribution
   attr_reader :dependees
+  attr_reader :version
 
   def initialize(type:, distribution:, dependees:)
     super("mgmt_docker_#{distribution}_#{type}", 'mgmt-docker.xml.erb')
