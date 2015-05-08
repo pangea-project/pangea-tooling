@@ -4,6 +4,8 @@ require 'git'
 require 'logger'
 require 'logger/colors'
 
+require_relative '../ci-tooling/lib/kci'
+
 # Stdlib Logger. Monkey patch with factory methods.
 class Logger
   def self.new_for_merger
@@ -134,10 +136,23 @@ class Merger
     #       as such. Otherwise the merger job will not start.
 
     # merge_stable('master')# trigger_branch in stable
+    # FIXME: for series names we probably should use the KCI module
+    # FIXME: why the fuck do we merge into backports?
     merge_backports('kubuntu_vivid_archive')
-    merge_stable('kubuntu_vivid_backports')
-    merge_stable('kubuntu_vivid_archive')
+
+    # Sort series by version, then merge in that order (i.e. oldest first).
+    # Also merge branches in order archive then backports to equally implement
+    # ageyness as it were.
+    series = KCI.series.dup
+    series = series.sort_by { |_, version| Gem::Version.new(version) }.to_h
+    series.each_key do |s|
+      merge_stable("kubuntu_#{s}_archive")
+      merge_stable("kubuntu_#{s}_backports")
+    end
+
+    # Now merge stable into unstable (or unstable -> unstable = noop)
     merge_unstable('kubuntu_stable')
+
     push_all_pending
   end
 
