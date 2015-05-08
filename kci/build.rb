@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/retry'
 require_relative '../lib/docker/containment'
 
@@ -31,7 +32,9 @@ Retry.retry_it(times: 2, errors: [Docker::Error::NotFoundError]) do
   exit status_code unless status_code == 0
 end
 
-if DIST == 'vivid'
+series = KCI.series.dup
+series = series.sort_by { |_, version| Gem::Version.new(version) }.to_h
+if DIST == series[-1]
   Dir.chdir('packaging') do
     system("git push packaging HEAD:kubuntu_#{TYPE}")
   end
