@@ -21,7 +21,7 @@ http_interactions:
       Job-Name:
       - version
       Date:
-      - Mon, 11 May 2015 09:37:09 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
       Content-Length:
       - '148'
     body:
@@ -29,7 +29,7 @@ http_interactions:
       string: |
         {"ApiVersion":"1.18","Arch":"amd64","GitCommit":"4749651","GoVersion":"go1.4.2","KernelVersion":"3.19.0-16-generic","Os":"linux","Version":"1.6.0"}
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:09 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -49,7 +49,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:09 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
       Content-Length:
       - '32'
     body:
@@ -57,7 +57,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:09 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -77,7 +77,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:09 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
       Content-Length:
       - '32'
     body:
@@ -85,7 +85,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:09 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -105,7 +105,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:09 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
       Content-Length:
       - '32'
     body:
@@ -113,7 +113,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:09 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -133,7 +133,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:09 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
       Content-Length:
       - '32'
     body:
@@ -141,7 +141,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:09 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -161,7 +161,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:09 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
       Content-Length:
       - '32'
     body:
@@ -169,7 +169,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:09 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -189,7 +189,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:09 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
       Content-Length:
       - '32'
     body:
@@ -197,7 +197,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:09 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -217,7 +217,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:09 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
       Content-Length:
       - '32'
     body:
@@ -225,7 +225,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:09 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -245,7 +245,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:09 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
       Content-Length:
       - '32'
     body:
@@ -253,7 +253,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:09 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
@@ -274,18 +274,18 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 11 May 2015 09:37:10 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
       Content-Length:
       - '90'
     body:
       encoding: UTF-8
       string: |
-        {"Id":"9ae4ad94504512ea59cec553b11ff4e527a8de3c6aab3661e453ccd04978ed4e","Warnings":null}
+        {"Id":"c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081","Warnings":null}
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:10 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/9ae4ad94504512ea59cec553b11ff4e527a8de3c6aab3661e453ccd04978ed4e/rename?name=vivid_unstable_test
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/rename?name=vivid_unstable_test
     body:
       encoding: US-ASCII
       string: ''
@@ -300,15 +300,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 09:37:10 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:10 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/9ae4ad94504512ea59cec553b11ff4e527a8de3c6aab3661e453ccd04978ed4e/start
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/start
     body:
       encoding: UTF-8
       string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
@@ -323,15 +323,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 09:37:10 GMT
+      - Mon, 11 May 2015 13:23:10 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:10 GMT
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/9ae4ad94504512ea59cec553b11ff4e527a8de3c6aab3661e453ccd04978ed4e/attach?stderr=true&stdout=true&stream=true
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/attach?stderr=true&stdout=true&stream=true
     body:
       encoding: US-ASCII
       string: ''
@@ -351,10 +351,10 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:10 GMT
+  recorded_at: Mon, 11 May 2015 13:23:11 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/9ae4ad94504512ea59cec553b11ff4e527a8de3c6aab3661e453ccd04978ed4e/wait
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -371,7 +371,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 11 May 2015 09:37:10 GMT
+      - Mon, 11 May 2015 13:23:11 GMT
       Content-Length:
       - '17'
     body:
@@ -379,10 +379,10 @@ http_interactions:
       string: |
         {"StatusCode":1}
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:10 GMT
+  recorded_at: Mon, 11 May 2015 13:23:11 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/9ae4ad94504512ea59cec553b11ff4e527a8de3c6aab3661e453ccd04978ed4e/stop
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -397,15 +397,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 09:37:10 GMT
+      - Mon, 11 May 2015 13:23:11 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:10 GMT
+  recorded_at: Mon, 11 May 2015 13:23:11 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/9ae4ad94504512ea59cec553b11ff4e527a8de3c6aab3661e453ccd04978ed4e/kill
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/kill
     body:
       encoding: US-ASCII
       string: ''
@@ -420,15 +420,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 09:37:10 GMT
+      - Mon, 11 May 2015 13:23:11 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:10 GMT
+  recorded_at: Mon, 11 May 2015 13:23:11 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/containers/9ae4ad94504512ea59cec553b11ff4e527a8de3c6aab3661e453ccd04978ed4e
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081
     body:
       encoding: US-ASCII
       string: ''
@@ -443,12 +443,12 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 09:37:15 GMT
+      - Mon, 11 May 2015 13:23:16 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -468,7 +468,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:15 GMT
+      - Mon, 11 May 2015 13:23:16 GMT
       Content-Length:
       - '32'
     body:
@@ -476,7 +476,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -496,7 +496,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:15 GMT
+      - Mon, 11 May 2015 13:23:16 GMT
       Content-Length:
       - '32'
     body:
@@ -504,7 +504,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -524,7 +524,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:15 GMT
+      - Mon, 11 May 2015 13:23:16 GMT
       Content-Length:
       - '32'
     body:
@@ -532,7 +532,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -552,7 +552,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 09:37:15 GMT
+      - Mon, 11 May 2015 13:23:16 GMT
       Content-Length:
       - '32'
     body:
@@ -560,7 +560,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
@@ -581,18 +581,18 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 11 May 2015 09:37:15 GMT
+      - Mon, 11 May 2015 13:23:16 GMT
       Content-Length:
       - '90'
     body:
       encoding: UTF-8
       string: |
-        {"Id":"4d9c9dba5a2dbca4de7c796f93387d90f8e57420a8aaeef9da23aae14f1dd817","Warnings":null}
+        {"Id":"62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f","Warnings":null}
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/4d9c9dba5a2dbca4de7c796f93387d90f8e57420a8aaeef9da23aae14f1dd817/rename?name=vivid_unstable_test
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/rename?name=vivid_unstable_test
     body:
       encoding: US-ASCII
       string: ''
@@ -607,15 +607,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 09:37:15 GMT
+      - Mon, 11 May 2015 13:23:16 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/4d9c9dba5a2dbca4de7c796f93387d90f8e57420a8aaeef9da23aae14f1dd817/start
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/start
     body:
       encoding: UTF-8
       string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
@@ -630,15 +630,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 09:37:15 GMT
+      - Mon, 11 May 2015 13:23:16 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/4d9c9dba5a2dbca4de7c796f93387d90f8e57420a8aaeef9da23aae14f1dd817/attach?stderr=true&stdout=true&stream=true
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/attach?stderr=true&stdout=true&stream=true
     body:
       encoding: US-ASCII
       string: ''
@@ -658,10 +658,10 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/4d9c9dba5a2dbca4de7c796f93387d90f8e57420a8aaeef9da23aae14f1dd817/wait
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -678,7 +678,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 11 May 2015 09:37:15 GMT
+      - Mon, 11 May 2015 13:23:16 GMT
       Content-Length:
       - '17'
     body:
@@ -686,10 +686,10 @@ http_interactions:
       string: |
         {"StatusCode":0}
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/4d9c9dba5a2dbca4de7c796f93387d90f8e57420a8aaeef9da23aae14f1dd817/stop
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -704,15 +704,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 09:37:15 GMT
+      - Mon, 11 May 2015 13:23:16 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/4d9c9dba5a2dbca4de7c796f93387d90f8e57420a8aaeef9da23aae14f1dd817/kill
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/kill
     body:
       encoding: US-ASCII
       string: ''
@@ -727,15 +727,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 09:37:15 GMT
+      - Mon, 11 May 2015 13:23:16 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:15 GMT
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/containers/4d9c9dba5a2dbca4de7c796f93387d90f8e57420a8aaeef9da23aae14f1dd817
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f
     body:
       encoding: US-ASCII
       string: ''
@@ -750,10 +750,10 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 09:37:20 GMT
+      - Mon, 11 May 2015 13:23:21 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 09:37:20 GMT
+  recorded_at: Mon, 11 May 2015 13:23:21 GMT
 recorded_with: VCR 2.9.3

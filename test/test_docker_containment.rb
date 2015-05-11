@@ -17,30 +17,40 @@ class DockerContainmentTest < TestCase
     # Chdir to root, as Containment will set the working dir to PWD and this
     # is slightly unwanted for tmpdir tests.
     Dir.chdir('/')
+
+    @job_name = 'vivid_unstable_test'
+    @image = 'jenkins/vivid_unstable'
+
+    begin
+      # Make sure the default container name isn't used, it can screw up
+      # the vcr data.
+      c = Docker::Container.get(@job_name)
+      c.stop
+      c.kill!
+      c.remove!
+    rescue
+      Docker::Error::NotFoundError
+    end
   end
 
   def test_init
-    job_name = 'vivid_unstable_test'
-    image = 'vivid_unstable'
     binds = [Dir.pwd, 'a:a']
     bindified_binds = ["#{Dir.pwd}:#{Dir.pwd}", 'a:a']
     volumes = {Dir.pwd => {}, 'a' => {}}
     VCR.use_cassette(__method__) do
-      c = Containment.new(job_name, image: image, binds: binds)
-      assert_equal(job_name, c.name)
-      assert_equal(image, c.image)
+      c = Containment.new(@job_name, image: @image, binds: binds)
+      assert_equal(@job_name, c.name)
+      assert_equal(@image, c.image)
       assert_equal(bindified_binds, c.binds)
       assert_equal(volumes, c.volumes)
     end
   end
 
   def test_run
-    job_name = 'vivid_unstable_test'
-    image = 'jenkins/vivid_unstable'
     binds = []
     VCR.use_cassette(__method__) do
-      c = Containment.new(job_name, image: image, binds: binds)
-      ret = c.run(Cmd: ['bash', '-c', "echo #{job_name}"])
+      c = Containment.new(@job_name, image: @image, binds: binds)
+      ret = c.run(Cmd: ['bash', '-c', "echo #{@job_name}"])
       assert_equal(0, ret)
 
       ret = c.run(Cmd: ['garbage_fail'])
@@ -49,15 +59,13 @@ class DockerContainmentTest < TestCase
   end
 
   def test_run_env
-    job_name = 'vivid_unstable_test'
-    image = 'jenkins/vivid_unstable'
     binds = []
     VCR.use_cassette(__method__) do
-      c = Containment.new(job_name, image: image, binds: binds)
+      c = Containment.new(@job_name, image: @image, binds: binds)
       ENV['DIST'] = 'dist'
       ENV['TYPE'] = 'type'
       # VCR will fail if the env argument on create does not add up.
-      ret = c.run(Cmd: ['bash', '-c', "echo #{job_name}"])
+      ret = c.run(Cmd: ['bash', '-c', "echo #{@job_name}"])
       assert_equal(0, ret)
     end
   ensure
@@ -66,35 +74,23 @@ class DockerContainmentTest < TestCase
   end
 
   def test_cleanup_on_new
-    job_name = 'vivid_unstable_test'
-    image = 'jenkins/vivid_unstable'
     VCR.use_cassette(__method__) do
       # Implicity via ctor
+      Docker::Container.create(Image: @image).tap { |c| c.rename(@job_name) }
+      Containment.new(@job_name, image: @image, binds: [])
       assert_raise Docker::Error::NotFoundError do
-        # Consistency. container shouldn't be here before we create it.
-        Docker::Container.get(job_name)
-      end
-      Docker::Container.create(Image: image).tap { |c| c.rename(job_name) }
-      Containment.new(job_name, image: image, binds: [])
-      assert_raise Docker::Error::NotFoundError do
-        Docker::Container.get(job_name)
+        Docker::Container.get(@job_name)
       end
     end
   end
 
   def test_cleanup_on_contain
-    job_name = 'vivid_unstable_test'
-    image = 'jenkins/vivid_unstable'
     VCR.use_cassette(__method__) do
       begin
         # Implicit via contain. First construct containment then contain. Should
         # clean up first resulting in a different hash.
-        assert_raise Docker::Error::NotFoundError do
-          # Consistency. container shouldn't be here before we create it.
-          Docker::Container.get(job_name)
-        end
-        c = Containment.new(job_name, image: image, binds: [])
-        c2 = Docker::Container.create(Image: image).tap { |c| c.rename(job_name) }
+        c = Containment.new(@job_name, image: @image, binds: [])
+        c2 = Docker::Container.create(Image: @image).tap { |c| c.rename(@job_name) }
         c1 = c.contain({})
         assert_not_equal(c1.id, c2.id)
         assert_raise Docker::Error::NotFoundError do
@@ -110,20 +106,16 @@ class DockerContainmentTest < TestCase
   def test_bad_version
     # For the purposes of this test the fixture needs to be manually edited
     # when re-created to make the version appear incompatible again.
-    job_name = 'vivid_unstable_test'
-    image = 'jenkins/vivid_unstable'
     VCR.use_cassette(__method__) do
       assert_raise do
-        Containment.new(job_name, image: image, binds: [])
+        Containment.new(@job_name, image: @image, binds: [])
       end
     end
   end
 
   def test_ulimit
-    job_name = 'vivid_unstable_test'
-    image = 'jenkins/vivid_unstable'
     VCR.use_cassette(__method__) do
-      c = Containment.new(job_name, image: image, binds: [])
+      c = Containment.new(@job_name, image: @image, binds: [])
       # 1025 should be false
       ret = c.run(Cmd: ['bash', '-c',
                         'if [ "$(ulimit -n)" != "1025" ]; then exit 1; fi'])
