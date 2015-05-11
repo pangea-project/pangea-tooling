@@ -40,7 +40,7 @@ class Dockerfile
 end
 
 @log = Logger.new(STDERR)
-@log.level = Logger::DEBUG
+@log.level = Logger::WARN
 
 Thread.new do
   Docker::Event.stream { |event| @log.debug event }
