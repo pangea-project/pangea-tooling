@@ -2,6 +2,38 @@ require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../git-monitor/lib/semaphore'
 
 class GitSemaphoreTest < TestCase
+  METHOD_BACKUP = :__kill_orig
+  METHOD = :kill
+
+  def simpulate_process_dead(&block)
+    class << Process
+      alias_method METHOD_BACKUP, METHOD
+      def kill(*args)
+        puts 'Intercepted Process.kill ⇒ Raising'
+        fail ''
+      end
+    end
+    yield
+  ensure
+    class << Process
+      alias_method METHOD, METHOD_BACKUP
+    end
+  end
+
+  def simpulate_process_alive(&block)
+    class << Process
+      alias_method METHOD_BACKUP, METHOD
+      def kill(*args)
+        puts 'Intercepted Process.kill ⇒ NOT raising'
+      end
+    end
+    yield
+  ensure
+    class << Process
+      alias_method METHOD, METHOD_BACKUP
+    end
+  end
+
   def test_init
     s = Semaphore.new
     assert_equal(s.class::HOSTS, s.host_semaphores.keys)
@@ -26,19 +58,21 @@ class GitSemaphoreTest < TestCase
     # We are going to release the lock while the block is still running
     # this is expected to raise a release error on account of us not having
     # terminated properly.
-    assert_raise HostSemaphore::LockReleaseError do
-      s.synchronize(1, host) do
-        # Attempt to sync again. This should now kill our previous lock.
-        s.synchronize(2, host) do
+    simpulate_process_dead do
+      assert_raise HostSemaphore::LockReleaseError do
+        s.synchronize(1, host) do
+          # Attempt to sync again. This should now kill our previous lock.
+          s.synchronize(2, host) do
+            assert_not_include(s.host_semaphores[host].locks, 1)
+            assert_include(s.host_semaphores[host].locks, 2)
+          end
           assert_not_include(s.host_semaphores[host].locks, 1)
-          assert_include(s.host_semaphores[host].locks, 2)
+          assert_not_include(s.host_semaphores[host].locks, 2)
         end
-        assert_not_include(s.host_semaphores[host].locks, 1)
-        assert_not_include(s.host_semaphores[host].locks, 2)
       end
+      # This assert applies after the release has raised.
+      assert_not_include(s.host_semaphores[host].locks, 1)
     end
-    # This assert applies after the release has raised.
-    assert_not_include(s.host_semaphores[host].locks, 1)
   end
 
   def test_logging
@@ -56,6 +90,18 @@ class GitSemaphoreTest < TestCase
     assert(File.exist?(log_path))
     assert_not_equal('', File.read(log_path))
     assert(File.read(log_path).lines.size > s.host_semaphores.size)
+  end
+
+  def test_process_running
+    s = Semaphore.new
+    host = :debian
+    simpulate_process_alive do
+      s.synchronize(1, host) do
+        s.log_locks # Cleans up as well
+        assert_include(s.host_semaphores[host].locks, 1)
+      end
+      assert_not_include(s.host_semaphores[host].locks, 1)
+    end
   end
 
   def assert_single_lock(semaphore, pid, host)

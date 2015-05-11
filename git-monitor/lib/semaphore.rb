@@ -88,15 +88,8 @@ class HostSemaphore
       next lock unless lock
       begin
         Process.kill(0, lock)
-        # Process methods cannot be overridden for some reason I cannot quite
-        # apprehend. So unfortunatley we cannot test the following.
-        # Attempted to alias, redefine, direct call, call via send, call via
-        # __send__ all to noavail either it uses the actual kill or even when
-        # using a new method it will raise the method being undefined.
-        # :nocov:
         @log.info "    process #{lock} still running"
         next lock
-        # :nocov:
       rescue
         process_lost = true
         @log.warn "    process #{lock} lost"
