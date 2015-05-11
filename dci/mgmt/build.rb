@@ -20,10 +20,13 @@ REPO_TAG = "#{REPO}:#{TAG}"
 class Dockerfile
   attr_reader :series
   attr_reader :jenkins_home
+  attr_reader :user
 
   def initialize
     @series = RELEASE
     @jenkins_home = JENKINS_HOME
+    @user = 'debian' if RbConfig::CONFIG['host_cpu'] == 'x86_64'
+    @user = 'armbuild/debian' if RbConfig::CONFIG['host_cpu'] == 'arm'
   end
 
   def render

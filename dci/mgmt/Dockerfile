@@ -1,4 +1,4 @@
-FROM debian:<%= series %>
+FROM <%= user %>:<%= series %>
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG en_US.UTF-8
