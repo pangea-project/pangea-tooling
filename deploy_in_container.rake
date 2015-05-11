@@ -3,7 +3,6 @@ require 'fileutils'
 desc 'deploy inside the container'
 task :deploy_in_container do
   home = '/var/lib/jenkins'
-
   Dir.chdir(home) do
     # Clean up legacy things
     FileUtils.rm_rf(%w(.gem .rvm))
@@ -50,6 +49,8 @@ task :deploy_in_container do
                   python-paramiko
                   language-pack-en-base))
 
+  sh "update-locale LANG=#{ENV.fetch('LANG')}"
+
   # FIXME: it would be much more reasonable to provision via chef-single...
   require 'etc'
   user_exist = false
@@ -71,9 +72,4 @@ task :deploy_in_container do
     sh "adduser --system --home #{home} --uid 100000 --ingroup jenkins" \
        ' --disabled-password jenkins'
   end
-
-  # language-pack-base should take care of this:
-  # RUN echo 'LANG=en_US.UTF-8' >> /etc/profile
-  # RUN echo 'LANG=en_US.UTF-8' >> /etc/environment
-  # RUN update-locale LANG=en_US.UTF-8
 end
