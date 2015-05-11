@@ -36,7 +36,7 @@ RUN apt install -y xz-utils dpkg-dev dput debhelper pkg-kde-tools \
 # RUN echo 'LANG=en_US.UTF-8' >> /etc/environment
 # RUN /usr/sbin/update-locale LANG=en_US.UTF-8
 USER jenkins
-RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+RUN gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys D39DC0E3
 RUN curl -sSL https://get.rvm.io | bash -s stable --ruby --auto-dotfiles
 RUN /bin/bash -lc "gem install bundler"
 RUN /bin/bash -lc "git config --global user.email "rohan@garg.io" && \
