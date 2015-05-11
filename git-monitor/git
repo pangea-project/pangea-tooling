@@ -28,7 +28,13 @@ exit_code = 0
 if synchronize
   monitor = Service.start
   host = nil
-  HOSTS.each { |h, sym| host = sym && break if ARGV.join.include?(h) }
+  # FIXME: this needs isolation in a class for testing and such
+  HOSTS.each do |h, sym|
+    if ARGV.join.include?(h)
+      host = sym
+      break
+    end
+  end
   monitor.synchronize(Process.pid, host) do
     exit_code = run(ARGV)
   end
