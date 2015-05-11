@@ -65,14 +65,44 @@ class DockerContainmentTest < TestCase
     ENV.delete('TYPE')
   end
 
-  def test_cleanup
+  def test_cleanup_on_new
     job_name = 'vivid_unstable_test'
     image = 'jenkins/vivid_unstable'
     VCR.use_cassette(__method__) do
+      # Implicity via ctor
+      assert_raise Docker::Error::NotFoundError do
+        # Consistency. container shouldn't be here before we create it.
+        Docker::Container.get(job_name)
+      end
       Docker::Container.create(Image: image).tap { |c| c.rename(job_name) }
       Containment.new(job_name, image: image, binds: [])
       assert_raise Docker::Error::NotFoundError do
         Docker::Container.get(job_name)
+      end
+    end
+  end
+
+  def test_cleanup_on_contain
+    job_name = 'vivid_unstable_test'
+    image = 'jenkins/vivid_unstable'
+    VCR.use_cassette(__method__) do
+      begin
+        # Implicit via contain. First construct containment then contain. Should
+        # clean up first resulting in a different hash.
+        assert_raise Docker::Error::NotFoundError do
+          # Consistency. container shouldn't be here before we create it.
+          Docker::Container.get(job_name)
+        end
+        c = Containment.new(job_name, image: image, binds: [])
+        c2 = Docker::Container.create(Image: image).tap { |c| c.rename(job_name) }
+        c1 = c.contain({})
+        assert_not_equal(c1.id, c2.id)
+        assert_raise Docker::Error::NotFoundError do
+          # C2 should be gone entirely now
+          Docker::Container.get(c2.id)
+        end
+      ensure
+        c.cleanup
       end
     end
   end

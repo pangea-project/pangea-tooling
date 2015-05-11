@@ -53,14 +53,20 @@ class Containment
     v
   end
 
-  def contain(user_args)
-    args = {
+  def default_container_arguments
+    @default_args ||= {
       Image: @image,
       Volumes: volumes,
       WorkingDir: Dir.pwd,
       Env: environment
     }
+    @default_args
+  end
+
+  def contain(user_args)
+    args = default_container_arguments.dup
     args.merge!(user_args)
+    cleanup
     c = Docker::Container.create(args)
     c.rename(@name)
     c
