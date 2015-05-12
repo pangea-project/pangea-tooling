@@ -111,7 +111,8 @@ File.write(helper_script, cmd)
 c = Docker::Container.create(Image: "#{REPO}:interim",
                              WorkingDir: WORKSPACE,
                              Cmd: ['/bin/bash', '-l',
-                                   "#{WORKSPACE}/copier.sh"])
+                                   "#{WORKSPACE}/copier.sh"],
+                             User: 'root')
 excavate_stdout(c)
 c.start(Binds: binds)
 status_code = c.wait.fetch('StatusCode', 1)
