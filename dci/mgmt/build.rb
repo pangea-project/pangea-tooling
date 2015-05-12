@@ -87,9 +87,10 @@ File.write(helper_script, cmd)
 binds = ["#{WORKSPACE}:#{WORKSPACE}",
          "#{JENKINS_HOME}/.ssh:#{JENKINS_HOME}/.ssh"]
 
-c = Containment.new(JOB_NAME,
-                    image: REPO_TAG,
-                    WorkingDir: WORKSPACE)
+c = Docker::Container.create(Image: REPO_TAG,
+                             WorkingDir: WORKSPACE,
+                             Cmd: ['/bin/bash', '-l',
+                             "#{WORKSPACE}/helper.sh"])
 excavate_stdout(c)
 c.start(Binds: binds)
 status_code = c.wait.fetch('StatusCode', 1)
@@ -105,9 +106,10 @@ cp -aRv #{WORKSPACE}/tooling /opt/
 helper_script = "#{WORKSPACE}/copier.sh"
 File.write(helper_script, cmd)
 
-c = Containment.new(JOB_NAME,
-                    image: interim_id,
-                    WorkingDir: WORKSPACE)
+c = Docker::Container.create(Image: REPO_TAG,
+                             WorkingDir: WORKSPACE,
+                             Cmd: ['/bin/bash', '-l',
+                             "#{WORKSPACE}/helper.sh"])
 excavate_stdout(c)
 c.start(Binds: binds)
 status_code = c.wait.fetch('StatusCode', 1)
