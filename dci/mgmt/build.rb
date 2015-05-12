@@ -94,7 +94,7 @@ c = Docker::Container.create(Image: REPO_TAG,
 excavate_stdout(c)
 c.start(Binds: binds)
 status_code = c.wait.fetch('StatusCode', 1)
-interim_id = c.stop![:id]
+interim_container = c.stop
 
 exit status_code unless status_code == 0
 
@@ -106,7 +106,7 @@ cp -aRv #{WORKSPACE}/tooling /opt/
 helper_script = "#{WORKSPACE}/copier.sh"
 File.write(helper_script, cmd)
 
-c = Docker::Container.create(Image: REPO_TAG,
+c = Docker::Container.create(Image: interim_container.id,
                              WorkingDir: WORKSPACE,
                              Cmd: ['/bin/bash', '-l',
                              "#{WORKSPACE}/helper.sh"])
