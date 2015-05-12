@@ -18,7 +18,7 @@ binds =  [
 ]
 
 c = Containment.new(JOB_NAME, image: "jenkins/#{DIST}_#{TYPE}", binds: binds)
-status_code = c.run(Cmd: ["#{TOOLING_PATH}/kci/imager/build.sh"], Privileged: true)
+status_code = c.run(Cmd: ["#{TOOLING_PATH}/kci/imager/build.sh", Dir.pwd, DIST, ARCH, TYPE], Privileged: true)
 exit status_code unless status_code == 0
 
 
