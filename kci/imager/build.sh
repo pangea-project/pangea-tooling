@@ -31,7 +31,7 @@ sudo apt install -y --no-install-recommends git ubuntu-defaults-builder wget ca-
 # NOTE: can be removed once ubuntu-defaults-image and live-build landed in utopic-updates.
 # FIXME: source schroot needs to be updated with updates enabled, or at least the two core packages updated.
 sudo apt install -y --no-install-recommends software-properties-common
-sudo apt-add-repository -y "deb http://127.0.0.1:3142/archive.ubuntu.com/ubuntu $DIST-updates main restricted universe multiverse"
+sudo apt-add-repository -y "deb http://10.0.3.1:3142/archive.ubuntu.com/ubuntu $DIST-updates main restricted universe multiverse"
 sudo apt update
 sudo apt dist-upgrade -y
 
@@ -71,7 +71,7 @@ export LB_COMPRESSION=xz
 ## Create a zsync file allowing over-http delta-downloads.
 export LB_ZSYNC=true # This is overridden by silly old defaults-image...
 ## Proxy the chroot (including PPAs) through apt-cacher to reduce network-bound I/O.
-export LB_APT_HTTP_PROXY="http://127.0.0.1:3142"
+export LB_APT_HTTP_PROXY="http://10.0.3.1:3142"
 
 # Preserve envrionment -E plz.
 sudo -E $(dirname "$0")/ubuntu-defaults-image \
@@ -80,7 +80,7 @@ sudo -E $(dirname "$0")/ubuntu-defaults-image \
     --arch $ARCH \
     --release $DIST \
     --flavor kubuntu \
-    --mirror http://127.0.0.1:3142/archive.ubuntu.com/ubuntu \
+    --mirror http://10.0.3.1:3142/archive.ubuntu.com/ubuntu \
     --components main,restricted,universe,multiverse
 
 if [ ! -e livecd.kubuntu.iso ]; then
