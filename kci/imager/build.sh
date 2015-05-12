@@ -52,7 +52,7 @@ DATE="${_DATE}${_TIME}"
 # Somewhere in utopic things fell to shit, so lb doesn't pack all files necessary
 # for isolinux on the ISO. Why it happens or how or what is unknown. However linking
 # the required files into place seems to solve the problem. LOL.
-sudo apt install -y --no-install-recommends  syslinux-themes-ubuntu-$DIST
+sudo apt install -y --no-install-recommends  syslinux-themes-ubuntu
 # sudo ln -s /usr/lib/syslinux/modules/bios/ldlinux.c32 /usr/share/syslinux/themes/ubuntu-$DIST/isolinux-live/ldlinux.c32
 # sudo ln -s /usr/lib/syslinux/modules/bios/libutil.c32 /usr/share/syslinux/themes/ubuntu-$DIST/isolinux-live/libutil.c32
 # sudo ln -s /usr/lib/syslinux/modules/bios/libcom32.c32 /usr/share/syslinux/themes/ubuntu-$DIST/isolinux-live/libcom32.c32
