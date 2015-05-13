@@ -84,8 +84,7 @@ bundler exec rake test
 helper_script = "#{WORKSPACE}/helper.sh"
 File.write(helper_script, cmd)
 
-binds = ["#{WORKSPACE}:#{WORKSPACE}",
-         "#{JENKINS_HOME}/.ssh:#{JENKINS_HOME}/.ssh"]
+binds = ["#{WORKSPACE}:#{WORKSPACE}"]
 
 c = Docker::Container.create(Image: REPO_TAG,
                              WorkingDir: WORKSPACE,
