@@ -102,6 +102,8 @@ exit status_code unless status_code == 0
 
 cmd = "
 set -ex
+# Remove gitconfig after we're done running tests
+rm ~/.gitconfig
 cp -aRv #{WORKSPACE}/tooling /opt/
 "
 
@@ -124,4 +126,4 @@ c.commit(repo: REPO, tag: 'latest', comment: 'autodeploy',
          author: 'Debian CI <rohan@garg.io>')
 
 # Cleanup
-Docker::Image.remove(Image: "#{REPO}:interim")
+Docker::Image.remove("#{REPO}:interim")

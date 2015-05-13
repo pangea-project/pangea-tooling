@@ -41,6 +41,7 @@ RUN curl -sSL https://get.rvm.io | bash -s stable --ruby --auto-dotfiles
 RUN /bin/bash -lc "gem install bundler"
 RUN /bin/bash -lc "git config --global user.email "rohan@garg.io" && \
     git config --global user.name "Debian CI" && \
+    git config --global url."git://anonscm.debian.org/pkg-kde/".insteadOf git.debian.org:/git/pkg-kde/
     mkdir -p ~/.ssh && \
     ssh-keyscan github.com > ~/.ssh/known_hosts && \
     ssh-keyscan git.debian.org >> ~/.ssh/known_hosts"
