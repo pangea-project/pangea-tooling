@@ -42,5 +42,5 @@ RUN /bin/bash -lc "gem install bundler"
 RUN /bin/bash -lc "git config --global user.email "rohan@garg.io" && \
     git config --global user.name "Debian CI" && \
     mkdir -p ~/.ssh && \
-    ssh-keyscan github.com &> ~/.ssh/known_hosts && \
-    ssh-keyscan git.debian.org &> ~/.ssh/known_hosts"
+    ssh-keyscan github.com > ~/.ssh/known_hosts && \
+    ssh-keyscan git.debian.org >> ~/.ssh/known_hosts"
