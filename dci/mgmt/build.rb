@@ -125,5 +125,5 @@ exit status_code unless status_code == 0
 c.commit(repo: REPO, tag: 'latest', comment: 'autodeploy',
          author: 'Debian CI <rohan@garg.io>')
 
-# Cleanup
-Docker::Image.remove("#{REPO}:interim")
+# FIXME: Cleanup
+# Docker::Image.remove("#{REPO}:interim")
