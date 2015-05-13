@@ -43,5 +43,4 @@ RUN /bin/bash -lc "git config --global user.email "rohan@garg.io" && \
     git config --global user.name "Debian CI" && \
     git config --global url."git://anonscm.debian.org/pkg-kde/".insteadOf git.debian.org:/git/pkg-kde/ \
     mkdir -p ~/.ssh && \
-    ssh-keyscan github.com > ~/.ssh/known_hosts && \
-    ssh-keyscan git.debian.org >> ~/.ssh/known_hosts"
+    ssh-keyscan anonscm.debian.org git.debian.org github.com > ~/.ssh/known_hosts
