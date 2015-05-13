@@ -88,6 +88,7 @@ binds = ["#{WORKSPACE}:#{WORKSPACE}"]
 
 c = Docker::Container.create(Image: REPO_TAG,
                              WorkingDir: WORKSPACE,
+                             User: 'jenkins',
                              Cmd: ['/bin/bash', '-l',
                                    "#{WORKSPACE}/helper.sh"])
 excavate_stdout(c)
