@@ -8,27 +8,29 @@ require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/retry'
 require_relative 'ci-tooling/lib/thread_pool'
 
-QUALIFIER_STATES = %w(success unstable)
+EXCLUSION_STATES = %w(success unstable)
 
 OptionParser.new do |opts|
   opts.banner = <<-EOS
-Usage: jenkins_retry.rb 'regex'
+Usage: jenkins_retry.rb [options] 'regex'
 
 regex must be a valid Ruby regular expression matching the jobs you wish to
 retry.
 
 Only jobs that are not queued, not building, and failed will be retired.
+  e.g.
+    • All build jobs for vivid and utopic:
+      '^(vivid|utopic)_.*_.*'
+    • All unstable builds:
+      '^.*_unstable_.*'
+    • All jobs:
+      '.*'
 
-e.g.
-  • All build jobs for vivid and utopic:
-    '^(vivid|utopic)_.*_.*'
-
-  • All unstable builds:
-    '^.*_unstable_.*'
-
-  • All jobs:
-    '.*'
   EOS
+
+  opts.on('-b', '--build', 'Rebuild even if job did not fail.') do
+    EXCLUSION_STATES.clear
+  end
 end.parse!
 
 @log = Logger.new(STDOUT).tap do |l|
@@ -55,7 +57,7 @@ BlockingThreadPool.run do
       queued = Jenkins.client.queue.list.include?(name)
       @log.info "#{name} | status - #{status} | queued - #{queued}"
       next if Jenkins.client.queue.list.include?(name)
-      unless QUALIFIER_STATES.include?(Jenkins.job.status(name))
+      unless EXCLUSION_STATES.include?(Jenkins.job.status(name))
         @log.warn "  #{name} --> build"
         Jenkins.job.build(name)
       end
