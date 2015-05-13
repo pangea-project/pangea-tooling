@@ -79,7 +79,7 @@ git clean -dfx
 bundler install
 bundler list
 bundler exec rake test
-rm -f ~/.gitconfig
+git config --global --unset url.git://anonscm.debian.org/pkg-kde/.insteadof
 "
 
 helper_script = "#{WORKSPACE}/helper.sh"
