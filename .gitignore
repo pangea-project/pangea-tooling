@@ -1,0 +1,11 @@
+# update-projects
+git/*
+# align-dependencies
+meta-dep/*
+# test stuff
+coverage/*
+test/reports/*
+# bundler
+vendor/*
+# our ci-tooling
+ci-tooling/*
