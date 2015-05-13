@@ -5,9 +5,3 @@
 # Can be built but not installed because we have no bluez5
 '*/plasma/bluedevil':
   '*': false
-
-# Missing dependencies on utopic.
-'*/applications/step':
-  utopic_*: false
-'*/applications/rocs':
-  utopic_*: false
