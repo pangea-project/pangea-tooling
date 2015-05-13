@@ -124,5 +124,4 @@ c.commit(repo: REPO, tag: 'latest', comment: 'autodeploy',
          author: 'Debian CI <rohan@garg.io>')
 
 # Cleanup
-c = Docker::Container.create(Image: "#{REPO}:interim")
-c.remove
+Docker::Image.remove(Image: "#{REPO}:interim")
