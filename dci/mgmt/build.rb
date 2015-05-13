@@ -79,6 +79,7 @@ git clean -dfx
 bundler install
 bundler list
 bundler exec rake test
+rm -f ~/.gitconfig
 "
 
 helper_script = "#{WORKSPACE}/helper.sh"
@@ -103,7 +104,6 @@ exit status_code unless status_code == 0
 cmd = "
 set -ex
 # Remove gitconfig after we're done running tests
-rm ~/.gitconfig
 cp -aRv #{WORKSPACE}/tooling /opt/
 "
 
