@@ -32,7 +32,7 @@ FileUtils.mkpath(PUB_PATH)
   end
 end
 FileUtils.chown_R('jenkins', 'www-data', PUB_PATH, verbose: true)
-unless system("cp -avr $PUB /mnt/s3/kci/images/#{ARCH}/")
+unless system("cp -avr #{PUB_PATH} /mnt/s3/kci/images/#{ARCH}/")
   abort 'Failed to copy to s3 bucket.'
 end
 
