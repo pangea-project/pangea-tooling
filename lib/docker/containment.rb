@@ -6,8 +6,9 @@ class Containment
   attr_reader :name
   attr_reader :image
   attr_reader :binds
+  attr_reader :privileged
 
-  def initialize(name, image:, binds: [Dir.pwd])
+  def initialize(name, image:, binds: [Dir.pwd], privileged: false)
     # In order to effecitvely set ulimits we need docker 1.6.
     docker_version = Docker.version['Version']
     unless Gem::Version.new(docker_version) >= Gem::Version.new('1.6')
@@ -17,6 +18,7 @@ class Containment
     @name = name
     @image = image
     @binds = bindify(binds)
+    @privileged = privileged
     @log = Logger.new(STDERR)
     @log.level = Logger::INFO
     @log.progname = self.class
@@ -58,7 +60,8 @@ class Containment
       Image: @image,
       Volumes: volumes,
       WorkingDir: Dir.pwd,
-      Env: environment
+      Env: environment,
+      Privileged: @privileged
     }
     @default_args
   end
