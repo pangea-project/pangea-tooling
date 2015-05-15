@@ -6,7 +6,7 @@ def install_fake_pkg(name)
   require_relative 'ci-tooling/lib/dpkg'
   Dir.mktmpdir do |tmpdir|
     Dir.chdir(tmpdir) do
-      Dir.mkpath("#{name}/DEBIAN")
+      FileUtils.mkpath("#{name}/DEBIAN")
       File.write("#{name}/DEBIAN/control", <<-EOF.gsub(/^\s+/, ''))
         Package: #{name}
         Version: 999:999
