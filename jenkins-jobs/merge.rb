@@ -20,6 +20,9 @@ class MergeJob < JenkinsJob
         @merge_branches << "kubuntu_#{type}_#{series}"
       end
     end
+    KCI.types.each do |type|
+      @merge_branches << "kubuntu_#{type}"
+    end
     @dependees = dependees
   end
 end
