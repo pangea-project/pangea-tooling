@@ -1,5 +1,24 @@
 require 'fileutils'
 
+# FIXME: code copy from install_check
+def install_fake_pkg(name)
+  require_relative 'ci-tooling/lib/dpkg'
+  Dir.mktmpdir do |tmpdir|
+    Dir.chdir(tmpdir) do
+      Dir.mkpath("#{name}/DEBIAN")
+      File.write("#{name}/DEBIAN/control", <<-EOF.gsub(/^\s+/, ''))
+        Package: #{name}
+        Version: 999:999
+        Architecture: all
+        Maintainer: Harald Sitter <sitter@kde.org>
+        Description: fake override package for kubuntu ci install checks
+      EOF
+      system("dpkg-deb -b #{name} #{name}.deb")
+      DPKG.dpkg(['-i', "#{name}.deb"])
+    end
+  end
+end
+
 desc 'deploy inside the container'
 task :deploy_in_container do
   home = '/var/lib/jenkins'
@@ -50,6 +69,14 @@ task :deploy_in_container do
                   language-pack-en-base))
 
   sh "update-locale LANG=#{ENV.fetch('LANG')}"
+
+  # Prevent xapian from slowing down the test.
+  # Install a fake package to prevent it from installing and doing anything.
+  # This does render it non-functional but since we do not require the database
+  # anyway this is the apparently only way we can make sure that it doesn't
+  # create its stupid database. The CI hosts have really bad IO performance making
+  # a full index take more than half an hour.
+  install_fake_pkg('apt-xapian-index')
 
   # FIXME: it would be much more reasonable to provision via chef-single...
   require 'etc'
