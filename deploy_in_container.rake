@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'tmpdir'
 
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
