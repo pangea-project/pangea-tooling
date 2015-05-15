@@ -27,7 +27,7 @@ DATE = File.read('result/date_stamp')
 PUB_PATH = "/var/www/kci/images/#{ARCH}/#{DATE}"
 FileUtils.mkpath(PUB_PATH)
 %w(iso manifest zsync).each do |type|
-  unless system("cp -r --no-preserve=ownership result/*.#{type} #{PUB_PATH}")
+  unless system("cp -r --no-preserve=ownership result/*.#{type} #{PUB_PATH}/")
     abort "File type #{type} failed to copy to public directory."
   end
 end
