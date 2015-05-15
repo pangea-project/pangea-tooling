@@ -60,8 +60,7 @@ class Containment
       Image: @image,
       Volumes: volumes,
       WorkingDir: Dir.pwd,
-      Env: environment,
-      Privileged: @privileged
+      Env: environment
     }
     @default_args
   end
@@ -103,7 +102,8 @@ class Containment
             # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
             # This in particular affects apt-extracttemplates which will take up to
             # 20 minutes where it should take maybe 1/10 of that.
-            Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }])
+            Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }],
+            Privileged: @privileged)
     status_code = c.wait.fetch('StatusCode', 1)
     rescued_stop(c)
     status_code

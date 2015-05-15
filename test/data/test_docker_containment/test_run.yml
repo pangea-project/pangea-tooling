@@ -259,7 +259,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Privileged":false,"Cmd":["bash","-c","echo
+      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["bash","-c","echo
         vivid_unstable_test"]}'
     headers:
       User-Agent:
@@ -311,7 +311,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/083d1f6472c9e48efacfbc96259c063c94f9a853a2d94a9481493f8d1d7332fb/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.21.4
@@ -567,7 +567,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Privileged":false,"Cmd":["garbage_fail"]}'
+      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["garbage_fail"]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.21.4
@@ -643,7 +643,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/35600f61f8ddaaeca2629acc77759a9470620452b3d7083fe31fb58a8e38015f/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.21.4

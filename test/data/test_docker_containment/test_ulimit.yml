@@ -259,7 +259,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Privileged":false,"Cmd":["bash","-c","if
+      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["bash","-c","if
         [ \"$(ulimit -n)\" != \"1025\" ]; then exit 1; fi"]}'
     headers:
       User-Agent:
@@ -311,7 +311,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.21.4
@@ -566,7 +566,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Privileged":false,"Cmd":["bash","-c","if
+      string: '{"Image":"jenkins/vivid_unstable","Volumes":{},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["bash","-c","if
         [ \"$(ulimit -n)\" != \"1024\" ]; then exit 1; else exit 0; fi"]}'
     headers:
       User-Agent:
@@ -618,7 +618,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.21.4
