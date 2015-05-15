@@ -23,7 +23,7 @@ c = Containment.new(JOB_NAME, image: "jenkins/#{DIST}_#{TYPE}", binds: binds, pr
 status_code = c.run(Cmd: ["#{TOOLING_PATH}/kci/imager/build.sh", Dir.pwd, DIST, ARCH, TYPE])
 exit status_code unless status_code == 0
 
-DATE = File.read('result/date_stamp')
+DATE = File.read('result/date_stamp').strip
 PUB_PATH = "/var/www/kci/images/#{ARCH}/#{DATE}"
 FileUtils.mkpath(PUB_PATH)
 %w(iso manifest zsync).each do |type|
