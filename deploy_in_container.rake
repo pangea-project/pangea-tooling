@@ -82,9 +82,14 @@ task :deploy_in_container do
   # FIXME: it would be much more reasonable to provision via chef-single...
   require 'etc'
 
+  uname = 'jenkins'
+  uid = 100000
+  gname = 'jenkins'
+  gid = 120
+
   group_exist = false
   Etc.group do |group|
-    if group.name == 'jenkins'
+    if group.name == gname
       group_exist = true
       break
     end
@@ -92,15 +97,17 @@ task :deploy_in_container do
 
   user_exist = false
   Etc.passwd do |user|
-    if user.name == 'jenkins'
+    if user.name == uname
       user_exist = true
       break
     end
   end
 
-  sh 'addgroup --system --gid 120 jenkins' unless group_exist
+  sh "addgroup --system --gid #{gid} #{gname}" unless group_exist
   unless user_exist
-    sh "adduser --system --home #{home} --uid 100000 --ingroup jenkins" \
-       ' --disabled-password jenkins'
+    sh "adduser --system --home #{home} --uid #{uid} --ingroup #{gname}" \
+       " --disabled-password #{uname}"
+  end
+
   end
 end
