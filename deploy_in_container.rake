@@ -67,7 +67,8 @@ task :deploy_in_container do
                   dh-systemd
                   zlib1g-dev
                   python-paramiko
-                  language-pack-en-base))
+                  language-pack-en-base
+                  sudo))
 
   sh "update-locale LANG=#{ENV.fetch('LANG')}"
 
@@ -109,5 +110,9 @@ task :deploy_in_container do
        " --disabled-password #{uname}"
   end
 
+  # Add the new jenkins user the sudoers so we can run as jenkins and elevate
+  # if and when necessary.
+  File.open("/etc/sudoers.d/#{uid}-#{uname}", 'w', '0440') do |f|
+    f.puts('jenkins ALL=(ALL) NOPASSWD: ALL')
   end
 end
