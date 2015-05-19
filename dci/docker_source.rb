@@ -21,6 +21,7 @@ c =  Containment.new(JOB_NAME, image: REPO_TAG, binds: binds)
 Retry.retry_it(times: 2, errors: [Docker::Error::NotFoundError]) do
   status_code = c.run(Cmd: ['bash', '-lc', '/opt/tooling/dci/contained_source.rb'],
                       Env: env,
+                      User: 'jenkins',
                       WorkingDir: WORKSPACE)
   exit status_code unless status_code == 0
 end
