@@ -8,7 +8,7 @@ Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 ARCH = RbConfig::CONFIG['host_cpu']
 RELEASE = ENV.fetch('RELEASE')
 WORKSPACE = ENV.fetch('WORKSPACE')
-REPO = "ci/#{RELEASE}/#{ARCH}"
+REPO = "ci-#{RELEASE}/#{ARCH}"
 REPO_TAG = "#{REPO}:latest"
 JOB_NAME = ENV.fetch('JOB_NAME')
 
