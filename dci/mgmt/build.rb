@@ -56,7 +56,7 @@ Thread.new do
   Docker::Event.stream { |event| @log.debug event }
 end
 
-Docker::Image.build(Dockerfile.render, t: REPO_TAG, nocache: true) do |chunk|
+Docker::Image.build(Dockerfile.render, t: REPO_TAG) do |chunk|
   chunk = JSON.parse(chunk)
   keys = chunk.keys
 
