@@ -2,6 +2,7 @@
 
 
 require_relative '../lib/docker/containment'
+require_relative '../../ci-tooling/lib/retry'
 
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
