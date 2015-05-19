@@ -112,7 +112,7 @@ task :deploy_in_container do
 
   # Add the new jenkins user the sudoers so we can run as jenkins and elevate
   # if and when necessary.
-  File.open("/etc/sudoers.d/#{uid}-#{uname}", 'w', '0440') do |f|
+  File.open("/etc/sudoers.d/#{uid}-#{uname}", 'w', 0440) do |f|
     f.puts('jenkins ALL=(ALL) NOPASSWD: ALL')
   end
 end
