@@ -96,6 +96,10 @@ excavate_stdout(c)
 c.start(Binds: binds)
 status_code = c.wait.fetch('StatusCode', 1)
 c.stop!
+# WORKAROUND : This is a workaround for the following issues :
+#               * https://github.com/docker/docker/issues/9665
+#               * https://github.com/docker/docker/issues/7636
+sleep 5
 c.commit(repo: REPO, tag: 'interim', comment: 'autodeploy',
          author: 'Debian CI <rohan@garg.io>')
 
