@@ -26,7 +26,7 @@ JOB_NAME = ENV.fetch('JOB_NAME')
 #   if we are in any way related to one of the anchor points
 KWIN_JOBS = %w(kwin kwayland)
 armit = false
-if KCI.latest_series == DIST && TYPE == 'unstable'
+if KCI.latest_series != DIST && TYPE == 'unstable'
   if COMPONENT == 'frameworks'
     armit = true
   else
