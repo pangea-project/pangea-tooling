@@ -37,7 +37,7 @@ def cleanup_dangling_things
   # and hope it does something worthwhile.
   # Docker::Image.all(all: true, filters: '{"dangling":["true"]}').each(&:remove)
   Docker::Image.all(all: true).each do |image|
-    tags = image.fetch('RepoTags') { nil }
+    tags = image.info.fetch('RepoTags') { nil }
     next unless tags
     none_tags_only = true
     tags.each do |str|
