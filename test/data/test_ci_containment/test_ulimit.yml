@@ -1,0 +1,759 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/version
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Content-Type:
+      - application/json
+      Job-Name:
+      - version
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+      Content-Length:
+      - '148'
+    body:
+      encoding: UTF-8
+      string: |
+        {"ApiVersion":"1.18","Arch":"amd64","GitCommit":"4749651","GoVersion":"go1.4.2","KernelVersion":"3.19.0-16-generic","Os":"linux","Version":"1.6.0"}
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/create
+    body:
+      encoding: UTF-8
+      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"jenkins/vivid_unstable","Cmd":["bash","-c","if
+        [ \"$(ulimit -n)\" != \"1025\" ]; then exit 1; fi"],"Volumes":{}}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: 
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+      Content-Length:
+      - '90'
+    body:
+      encoding: UTF-8
+      string: |
+        {"Id":"c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081","Warnings":null}
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/rename?name=vivid_unstable_test
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/start
+    body:
+      encoding: UTF-8
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Mon, 11 May 2015 13:23:10 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:10 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/attach?stderr=true&stdout=true&stream=true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Content-Type:
+      - application/vnd.docker.raw-stream
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:11 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/wait
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 11 May 2015 13:23:11 GMT
+      Content-Length:
+      - '17'
+    body:
+      encoding: UTF-8
+      string: |
+        {"StatusCode":1}
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:11 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/stop
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 304
+      message: 
+    headers:
+      Date:
+      - Mon, 11 May 2015 13:23:11 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:11 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081/kill
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Mon, 11 May 2015 13:23:11 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:11 GMT
+- request:
+    method: delete
+    uri: unix:///var/run/docker.sock/v1.16/containers/c3e86fa2e48338e3a2d55aaf9a9f66716bc867d8f887ff288cb27e4d37980081
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Mon, 11 May 2015 13:23:16 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:16 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:16 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:16 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 11 May 2015 13:23:16 GMT
+      Content-Length:
+      - '32'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: vivid_unstable_test
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/create
+    body:
+      encoding: UTF-8
+      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"jenkins/vivid_unstable","Cmd":["bash","-c","if
+        [ \"$(ulimit -n)\" != \"1024\" ]; then exit 1; else exit 0; fi"],"Volumes":{}}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: 
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 11 May 2015 13:23:16 GMT
+      Content-Length:
+      - '90'
+    body:
+      encoding: UTF-8
+      string: |
+        {"Id":"62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f","Warnings":null}
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/rename?name=vivid_unstable_test
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Mon, 11 May 2015 13:23:16 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/start
+    body:
+      encoding: UTF-8
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Mon, 11 May 2015 13:23:16 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/attach?stderr=true&stdout=true&stream=true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Content-Type:
+      - application/vnd.docker.raw-stream
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/wait
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 11 May 2015 13:23:16 GMT
+      Content-Length:
+      - '17'
+    body:
+      encoding: UTF-8
+      string: |
+        {"StatusCode":0}
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/stop
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 304
+      message: 
+    headers:
+      Date:
+      - Mon, 11 May 2015 13:23:16 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f/kill
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Mon, 11 May 2015 13:23:16 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:16 GMT
+- request:
+    method: delete
+    uri: unix:///var/run/docker.sock/v1.16/containers/62819d17adef4774fad4941d98f1a20071fa307d81c383dba55b187414c7863f
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Mon, 11 May 2015 13:23:21 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 11 May 2015 13:23:21 GMT
+recorded_with: VCR 2.9.3

@@ -1,0 +1,169 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/ContainerTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Wed, 20 May 2015 15:29:13 GMT
+      Content-Length:
+      - '26'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: ContainerTest
+    http_version: 
+  recorded_at: Wed, 20 May 2015 15:29:13 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/ContainerTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Wed, 20 May 2015 15:29:13 GMT
+      Content-Length:
+      - '26'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: ContainerTest
+    http_version: 
+  recorded_at: Wed, 20 May 2015 15:29:13 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/ContainerTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Wed, 20 May 2015 15:29:13 GMT
+      Content-Length:
+      - '26'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: ContainerTest
+    http_version: 
+  recorded_at: Wed, 20 May 2015 15:29:13 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/ContainerTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Wed, 20 May 2015 15:29:13 GMT
+      Content-Length:
+      - '26'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: ContainerTest
+    http_version: 
+  recorded_at: Wed, 20 May 2015 15:29:13 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/create?name=ContainerTest
+    body:
+      encoding: UTF-8
+      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"ubuntu:15.04","Volumes":{"/":{}}}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: 
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 20 May 2015 15:29:14 GMT
+      Content-Length:
+      - '90'
+    body:
+      encoding: UTF-8
+      string: |
+        {"Id":"2082def0f918dc480ceb2b4f99c67ca09535ab2f837f1eecc85d462d4c637271","Warnings":null}
+    http_version: 
+  recorded_at: Wed, 20 May 2015 15:29:14 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/ContainerTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.21.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 20 May 2015 15:29:14 GMT
+    body:
+      encoding: UTF-8
+      string: |
+        {"AppArmorProfile":"","Args":[],"Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/bash"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"ExposedPorts":null,"Hostname":"2082def0f918","Image":"ubuntu:15.04","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":{"/":{}},"WorkingDir":"/"},"Created":"2015-05-20T15:29:13.827474623Z","Driver":"aufs","ExecDriver":"native-0.2","ExecIDs":null,"HostConfig":{"Binds":null,"CapAdd":null,"CapDrop":null,"CgroupParent":"","ContainerIDFile":"","CpuShares":0,"CpusetCpus":"","Devices":null,"Dns":null,"DnsSearch":null,"ExtraHosts":null,"IpcMode":"","Links":null,"LogConfig":{"Config":null,"Type":"json-file"},"LxcConf":null,"Memory":0,"MemorySwap":0,"NetworkMode":"","PidMode":"","PortBindings":null,"Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"RestartPolicy":{"MaximumRetryCount":0,"Name":""},"SecurityOpt":null,"Ulimits":null,"VolumesFrom":null},"HostnamePath":"","HostsPath":"","Id":"2082def0f918dc480ceb2b4f99c67ca09535ab2f837f1eecc85d462d4c637271","Image":"751a7482c0de9e0584a88e106bbed2e34023a7397edcc95ec087957da59c9107","LogPath":"","MountLabel":"","Name":"/ContainerTest","NetworkSettings":{"Bridge":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"MacAddress":"","PortMapping":null,"Ports":null},"Path":"/bin/bash","ProcessLabel":"","ResolvConfPath":"","RestartCount":0,"State":{"Dead":false,"Error":"","ExitCode":0,"FinishedAt":"0001-01-01T00:00:00Z","OOMKilled":false,"Paused":false,"Pid":0,"Restarting":false,"Running":false,"StartedAt":"0001-01-01T00:00:00Z"},"Volumes":{"/":"/var/lib/docker/vfs/dir/d49755766204e2c8c7f29493e844730806c58b51e185fe746dee8c4202723fa5"},"VolumesRW":{"/":true}}
+    http_version: 
+  recorded_at: Wed, 20 May 2015 15:29:14 GMT
+recorded_with: VCR 2.9.3
