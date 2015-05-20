@@ -18,11 +18,11 @@ def cleanup_dangling_things
     repo, _tag = Docker::Util.parse_repo_tag(image)
     if repo.start_with?('jenkins/')
       begin
-        @log.info "Removing container #{container.id}"
+        @log.warn "Removing container #{container.id}"
         container.remove
-      rescue Docker::Error::ServerError
+      rescue Docker::Error => e
         @log.warn 'Removing failed, continuing.'
-        next
+        @log.warn e
       end
     end
   end
@@ -35,7 +35,7 @@ def cleanup_dangling_things
   # none:none images.
   # To make sure we get rid of everything we are running a dangling remove
   # and hope it does something worthwhile.
-  # Docker::Image.all(all: true, filters: '{"dangling":["true"]}').each(&:remove)
+  # Docker::Image.all(all: true, filters: '{"dangling":["true"]}').each(&:delete)
   Docker::Image.all(all: true).each do |image|
     tags = image.info.fetch('RepoTags') { nil }
     next unless tags
@@ -49,11 +49,13 @@ def cleanup_dangling_things
     end
     next unless none_tags_only # Image used by something.
     begin
-      @log.info "Removing image #{image.id}"
-      image.remove
-    rescue Docker::Error::ServerError
+      @log.warn "Removing image #{image.id}"
+      image.delete
+    rescue Docker::Error::ConflictError
+      @log.warn 'There was a conflict error, continuing.'
+    rescue Docker::Error => e
       @log.warn 'Removing failed, continuing.'
-      next
+      @log.warn e
     end
   end
 end
