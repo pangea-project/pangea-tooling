@@ -75,7 +75,9 @@ Thread.new do
   Docker::Event.stream { |event| @log.debug event }
 end
 
-cleanup_dangling_things
+# Disabled because we should not be leaking. And this has reentrancy problems
+# where another deployment can cleanup our temporary container/image...
+# cleanup_dangling_things
 
 # create base
 unless Docker::Image.exist?(REPO_TAG)
@@ -100,4 +102,6 @@ c.commit(repo: REPO, tag: 'latest', comment: 'autodeploy', author: 'Kubuntu CI <
 # p new_i.tag(repo: REPO, tag: 'latest', force: true)
 c.remove
 
-cleanup_dangling_things
+# Disabled because we should not be leaking. And this has reentrancy problems
+# where another deployment can cleanup our temporary container/image...
+# cleanup_dangling_things
