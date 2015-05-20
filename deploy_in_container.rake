@@ -69,6 +69,7 @@ task :deploy_in_container do
                   python-paramiko
                   language-pack-en-base
                   sudo))
+  Apt.clean
 
   sh "update-locale LANG=#{ENV.fetch('LANG')}"
 
