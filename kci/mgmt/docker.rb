@@ -134,6 +134,9 @@ begin
   previous_image = Docker::Image.get(REPO_TAG)
   previous_image.delete
 rescue Docker::Error::NotFoundError
+  @log.warn 'There is no previous image, must be a new build.'
+rescue Docker::Error::ConflictError
+  @log.warn 'Could not remove old latest image, supposedly it is still used'
 end
 @i.tag(repo: REPO, tag: TAG, force: true)
 
