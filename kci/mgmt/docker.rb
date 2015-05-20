@@ -5,6 +5,48 @@ require 'erb'
 require 'logger'
 require 'logger/colors'
 
+def cleanup_dangling_things
+  # Remove exited jenkins containers.
+  containers = Docker::Container.all(all: true,
+                                     filters: '{"status":["exited"]}')
+  containers.each do |container|
+    image = container.info.fetch('Image') { nil }
+    unless image
+      abort 'While cleaning up containers we found a container that has no' \
+            " image associated with it. This should not happen: #{container}"
+    end
+    repo, _tag = Docker::Util.parse_repo_tag(image)
+    if repo.start_with?('jenkins/')
+      container.remove!
+      next
+    end
+  end
+
+  # Remove all dangling images. It doesn't appear to be documented what
+  # exactly a dangling image is, but from looking at the image count of both
+  # a dangling query and a regular one I am infering that dangling images are
+  # images that are none:none AND are not intermediates of another image
+  # (whatever an intermediate may be). So, dangling is a subset of all
+  # none:none images.
+  # To make sure we get rid of everything we are running a dangling remove
+  # and hope it does something worthwhile.
+  Docker::Image.all(all: true, filters: '{"dangling":["true"]}').each(&:remove!)
+  Docker::Image.all(all: true).each do |image|
+    tags = image.fetch('RepoTags') { nil }
+    next unless tags
+    none_tags_only = true
+    tags.each do |str|
+      repo, tag = Docker::Util.parse_repo_tag(str)
+      if repo != '<none>' && tag != '<none>'
+        none_tags_only = false
+        break
+      end
+    end
+    next unless none_tags_only # Image used by something.
+    image.remove!
+  end
+end
+
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
 NAME = ENV.fetch('NAME')
@@ -19,6 +61,8 @@ REPO_TAG = "#{REPO}:#{TAG}"
 Thread.new do
   Docker::Event.stream { |event| @log.debug event }
 end
+
+cleanup_dangling_things
 
 # create base
 unless Docker::Image.exist?(REPO_TAG)
@@ -39,11 +83,8 @@ c.attach do |_stream, chunk|
 end
 # FIXME: we completely ignore errors
 c.stop!
-# FIXME: we are leaking images...
-# dockerfile build will reuse the original image that matches the file, essentially
-# rolling back the bundle step, the only possible way to work around this is
-# with COPY but that only wants relative paths, so we'd have to build from a tar
-# which is slightly meh and a bit trickier.
 c.commit(repo: REPO, tag: 'latest', comment: 'autodeploy', author: 'Kubuntu CI <sitter@kde.org>')
 # p new_i.tag(repo: REPO, tag: 'latest', force: true)
 c.remove
+
+cleanup_dangling_things
