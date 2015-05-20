@@ -15,20 +15,24 @@ class MergerTest < Test::Unit::TestCase
     end
   end
 
-  def create_sample_branch(g, name)
-    g.checkout('master')
-    g.checkout(name, new_branch: true)
+  def create_sample_file(g, name)
     FileUtils.touch("#{name}file")
     g.add("#{name}file")
     g.commit_all("#{name}msg")
+  end
+
+  def create_sample_branch(g, name)
+    g.checkout('master')
+    g.checkout(name, new_branch: true)
+    create_sample_file(g, name)
     g.push('origin', name)
   end
 
-  def repo
+  def repo(dirname = '')
     return @remotedir if @remotedir
 
-    @remotedir = "#{@tmpdir}/remote"
-    Dir.mkdir(@remotedir)
+    @remotedir = "#{@tmpdir}/remote/#{dirname}"
+    FileUtils.mkpath(@remotedir)
     Dir.chdir(@remotedir) { Git.init('.', bare: true) }
 
     in_repo do |g|
@@ -107,6 +111,37 @@ class MergerTest < Test::Unit::TestCase
       assert(File.exist?('kubuntu_stablefile'))
       assert(File.exist?('kubuntu_unstablefile'))
       assert(File.exist?('kubuntu_unstable_vividfile'))
+    end
+  end
+
+  def test_merge_debian_for_frameworks
+    # Initialize the repo with a path that will trigger advanced merging.
+    repo('git.debian.org/frameworks/random')
+
+    in_repo do |g|
+      create_sample_branch(g, 'kubuntu_unstable')
+      g.checkout('master')
+      create_sample_file(g, 'verifymastermerge')
+      g.push('origin', 'master')
+    end
+
+    in_repo do
+      assert_nothing_raised { Merger.new.run('origin/kubuntu_vivid_archive') }
+    end
+
+    in_repo do |g|
+      assert_nothing_raised do
+        g.checkout('master')
+      end
+      assert(File.exist?('masterfile'))
+      assert(File.exist?('verifymastermergefile'))
+
+      assert_nothing_raised do
+        g.checkout('kubuntu_unstable')
+      end
+      assert(File.exist?('masterfile'))
+      assert(File.exist?('verifymastermergefile'))
+      assert(File.exist?('kubuntu_unstablefile'))
     end
   end
 
