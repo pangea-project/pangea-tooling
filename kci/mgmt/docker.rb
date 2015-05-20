@@ -130,6 +130,11 @@ end
 ThreadsWait.all_waits(read_thread, write_thread)
 
 c.remove
+begin
+  previous_image = Docker::Image.get(REPO_TAG)
+  previous_image.delete
+rescue Docker::Error::NotFoundError
+end
 @i.tag(repo: REPO, tag: TAG, force: true)
 
 # Disabled because we should not be leaking. And this has reentrancy problems
