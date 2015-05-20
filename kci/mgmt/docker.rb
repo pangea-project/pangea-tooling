@@ -96,11 +96,41 @@ c.attach do |_stream, chunk|
   puts chunk
   STDOUT.flush
 end
-# FIXME: we completely ignore errors
+# FIXME: we are completely ignore errors
 c.stop!
-c.commit(repo: REPO, tag: 'latest', comment: 'autodeploy', author: 'Kubuntu CI <sitter@kde.org>')
-# p new_i.tag(repo: REPO, tag: 'latest', force: true)
+
+# Flatten the image by piping a tar export into a tar import.
+# Flattening essentially destroys the history of the image. By default docker
+# will however stack image revisions ontop of one another. Namely if we have
+# abc and create a new image edf, edf will be an AUFS ontop of abc. While this
+# is probably useful if one doesn't commit containers repeatedly for us this
+# is pretty crap as we have massive turn around on images.
+@log.warn 'Flattening latest image by exporting and importing it.' \
+          ' This can take a while.'
+require 'thwait'
+
+rd, wr = IO.pipe
+@i = nil
+
+Thread.abort_on_exception = true
+read_thread = Thread.new do
+  @i = Docker::Image.import_stream do
+    rd.read(1000).to_s
+  end
+  @log.warn 'Import complete'
+  rd.close
+end
+write_thread = Thread.new do
+  c.export do |chunk|
+    wr.write(chunk)
+  end
+  @log.warn 'Export complete'
+  wr.close
+end
+ThreadsWait.all_waits(read_thread, write_thread)
+
 c.remove
+@i.tag(repo: REPO, tag: TAG, force: true)
 
 # Disabled because we should not be leaking. And this has reentrancy problems
 # where another deployment can cleanup our temporary container/image...
