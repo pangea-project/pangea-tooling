@@ -20,15 +20,13 @@ end
 class ContainerTest < TestCase
   # :nocov:
   def cleanup_container
-    begin
-      # Make sure the default container name isn't used, it can screw up
-      # the vcr data.
-      c = Docker::Container.get(@job_name)
-      c.stop
-      c.kill!
-      c.remove
-    rescue Docker::Error::NotFoundError
-    end
+    # Make sure the default container name isn't used, it can screw up
+    # the vcr data.
+    c = Docker::Container.get(@job_name)
+    c.stop
+    c.kill!
+    c.remove
+  rescue Docker::Error::NotFoundError, Excon::Errors::SocketError
   end
   # :nocov:
 
