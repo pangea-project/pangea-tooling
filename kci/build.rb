@@ -24,13 +24,13 @@ JOB_NAME = ENV.fetch('JOB_NAME')
 #   all_frameworks) and the rest should be figured out automatically. This is
 #   presently a bit tricky since we'd have to traverse the downstreams to see
 #   if we are in any way related to one of the anchor points
-KWIN_JOBS = %w(kwin kwayland)
+MOBILE_JOBS = %w(kwin kwayland plasma-workspace libkscreen baloo kfilemetadata libksysguard)
 armit = false
 if KCI.latest_series != DIST && TYPE == 'unstable'
   if COMPONENT == 'frameworks'
     armit = true
   else
-    KWIN_JOBS.each do |name|
+    MOBILE_JOBS.each do |name|
       # FIXME: super fugly, job possibly should export the source name
       armit = true if JOB_NAME.end_with?("_#{name}")
     end
