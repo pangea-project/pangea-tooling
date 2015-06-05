@@ -119,7 +119,6 @@ class MergerTest < Test::Unit::TestCase
     repo('git.debian.org/frameworks/random')
 
     in_repo do |g|
-      create_sample_branch(g, 'kubuntu_unstable')
       g.checkout('master')
       create_sample_file(g, 'verifymastermerge')
       g.push('origin', 'master')
