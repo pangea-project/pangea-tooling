@@ -19,7 +19,7 @@ def cleanup_dangling_things
       begin
         @log.warn "Removing container #{container.id}"
         container.remove
-      rescue Docker::Error => e
+      rescue Docker::Error::DockerError => e
         @log.warn 'Removing failed, continuing.'
         @log.warn e
       end
@@ -52,7 +52,7 @@ def cleanup_dangling_things
       image.delete
     rescue Docker::Error::ConflictError
       @log.warn 'There was a conflict error, continuing.'
-    rescue Docker::Error => e
+    rescue Docker::Error::DockerError => e
       @log.warn 'Removing failed, continuing.'
       @log.warn e
     end
