@@ -103,6 +103,8 @@ class ProjectUpdater
         enqueue(MetaIsoJob.new(type: type, distribution: distribution))
       end
     end
+    enqueue(MGMTDockerCleanupJob.new(arch: 'amd64'))
+    # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
     enqueue(MetaMergeJob.new(downstream_jobs: all_mergers))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
   end
