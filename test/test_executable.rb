@@ -5,6 +5,7 @@ class ExecutableTest < Test::Unit::TestCase
     .
     ci-tooling
     kci
+    kci/mgmt
     ci-tooling/kci
   )
 
