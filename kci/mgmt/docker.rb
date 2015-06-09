@@ -5,6 +5,8 @@ require 'erb'
 require 'logger'
 require 'logger/colors'
 
+require_relative '../../ci-tooling/lib/dpkg'
+
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
 NAME = ENV.fetch('NAME')
@@ -22,7 +24,9 @@ end
 
 # create base
 unless Docker::Image.exist?(REPO_TAG)
-  Docker::Image.create(fromImage: "ubuntu:#{VERSION}", tag: REPO_TAG)
+  ubuntu_image = "ubuntu:#{VERSION}"
+  ubuntu_image = "armv7/armhf-ubuntu:#{VERSION}" if DPKG::HOST_ARCH == 'armhf'
+  Docker::Image.create(fromImage: ubuntu_image, tag: REPO_TAG)
 end
 
 # Take the latest image which either is the previous latest or a completely
