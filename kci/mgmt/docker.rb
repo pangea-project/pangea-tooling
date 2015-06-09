@@ -20,10 +20,6 @@ Thread.new do
   Docker::Event.stream { |event| @log.debug event }
 end
 
-# Disabled because we should not be leaking. And this has reentrancy problems
-# where another deployment can cleanup our temporary container/image...
-# cleanup_dangling_things
-
 # create base
 unless Docker::Image.exist?(REPO_TAG)
   Docker::Image.create(fromImage: "ubuntu:#{VERSION}", tag: REPO_TAG)
