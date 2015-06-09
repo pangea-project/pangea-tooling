@@ -2,8 +2,9 @@ source 'https://rubygems.org'
 
 gem 'docker-api'
 gem 'git'
-gem 'logger-colors'
 gem 'jenkins_api_client'
+gem 'logger-colors'
+gem 'net-scp'
 gem 'oauth'
 
 group :development, :test do
