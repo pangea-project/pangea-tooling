@@ -23,11 +23,6 @@ end
 desc 'deploy inside the container'
 task :deploy_in_container do
   home = '/var/lib/jenkins'
-  Dir.chdir(home) do
-    # Clean up legacy things
-    FileUtils.rm_rf(%w(.gem .rvm))
-  end
-
   # Deploy ci-tooling and bundle. We later use internal libraries to provision
   # so we need all dependencies met as early as possible in the process.
   # FIXME: copy from above
