@@ -34,7 +34,7 @@ end
 # FIXME use containment here probably
 c = Docker::Container.create(Image: REPO_TAG,
                              WorkingDir: ENV.fetch('HOME'),
-                             Cmd: ['sh', "#{Dir.home}/tooling-pending/deploy_in_container.sh"])
+                             Cmd: ['sh', '/tooling-pending/deploy_in_container.sh'])
 c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"],
         Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }])
 c.attach do |_stream, chunk|
