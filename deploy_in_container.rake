@@ -31,7 +31,7 @@ task :deploy_in_container do
   # Deploy ci-tooling and bundle. We later use internal libraries to provision
   # so we need all dependencies met as early as possible in the process.
   # FIXME: copy from above
-  tooling_path = File.join(home, 'tooling-pending')
+  tooling_path = '/tooling-pending'
   final_path = File.join(home, 'ci-tooling')
   Dir.chdir(tooling_path) do
     begin
