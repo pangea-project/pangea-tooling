@@ -4,7 +4,6 @@ gem 'docker-api'
 gem 'git'
 gem 'jenkins_api_client'
 gem 'logger-colors'
-gem 'net-scp'
 gem 'oauth'
 
 group :development, :test do
@@ -12,6 +11,7 @@ group :development, :test do
       git: 'https://github.com/apachelogger/ci_reporter_test_unit',
       branch: 'test-unit-3'
   gem 'equivalent-xml'
+  gem 'net-scp'
   gem 'rake'
   gem 'simplecov'
   gem 'simplecov-rcov'
