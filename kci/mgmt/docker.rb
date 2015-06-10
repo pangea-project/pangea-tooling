@@ -26,7 +26,7 @@ end
 unless Docker::Image.exist?(REPO_TAG)
   ubuntu_image = "ubuntu:#{VERSION}"
   ubuntu_image = "armv7/armhf-ubuntu:#{VERSION}" if DPKG::HOST_ARCH == 'armhf'
-  Docker::Image.create(fromImage: ubuntu_image, tag: REPO_TAG)
+  Docker::Image.create(fromImage: ubuntu_image).tag(repo: REPO, tag: TAG)
 end
 
 # Take the latest image which either is the previous latest or a completely
@@ -34,8 +34,8 @@ end
 # FIXME use containment here probably
 c = Docker::Container.create(Image: REPO_TAG,
                              WorkingDir: ENV.fetch('HOME'),
-                             Cmd: ['sh', '/var/lib/jenkins/tooling-pending/deploy_in_container.sh'])
-c.start(Binds: ['/var/lib/jenkins/tooling-pending:/var/lib/jenkins/tooling-pending'],
+                             Cmd: ['sh', "#{Dir.home}/tooling-pending/deploy_in_container.sh"])
+c.start(Binds: ["#{Dir.home}/tooling-pending:#{Dir.home}/tooling-pending"],
         Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }])
 c.attach do |_stream, chunk|
   puts chunk
