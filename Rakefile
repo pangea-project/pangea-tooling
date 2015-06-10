@@ -1,3 +1,5 @@
+require 'bundler/setup' # Make sure load paths are in order
+
 require 'ci/reporter/rake/test_unit'
 require 'fileutils'
 require 'rake/clean'
