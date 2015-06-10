@@ -76,7 +76,7 @@ task :deploy_nodes do
     next if node == 'master'
     Net::SCP.start(node, 'jenkins-slave') do |scp|
       puts scp.upload!(tooling_path, '/var/lib/jenkins-slave/tooling', recursive: true)
-      puts scp.exec!('/var/lib/jenkins-slave/tooling/deploy_on_node.sh')
+      puts scp.session.exec!('/var/lib/jenkins-slave/tooling/deploy_on_node.sh')
     end
   end
 end
