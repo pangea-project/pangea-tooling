@@ -10,3 +10,6 @@ cd $SCRIPTDIR
 gem install bundler
 gem update bundler
 bundle install --no-cache --local --frozen --system --without development test
+
+rm -rf $SCRIPTDIR/../tooling
+cp -rf $SCRIPTDIR $SCRIPTDIR/../tooling

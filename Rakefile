@@ -76,9 +76,9 @@ task :deploy_nodes do
     next if node == 'master'
     Net::SCP.start(node, 'jenkins-slave') do |scp|
       # FIXME: needs to go to temp path first, then bundle then to final
-      puts scp.session.exec!("rm -rf /var/lib/jenkins-slave/tooling")
-      puts scp.upload!(tooling_path, '/var/lib/jenkins-slave/tooling', recursive: true)
-      puts scp.session.exec!('/var/lib/jenkins-slave/tooling/deploy_on_node.sh')
+      puts scp.session.exec!("rm -rf /var/lib/jenkins-slave/tooling-pending")
+      puts scp.upload!(tooling_path, '/var/lib/jenkins-slave/tooling-pending', recursive: true)
+      puts scp.session.exec!('/var/lib/jenkins-slave/tooling-pending/deploy_on_node.sh')
     end
   end
 end
