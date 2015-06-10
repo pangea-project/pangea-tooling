@@ -73,6 +73,7 @@ task :deploy_nodes do
   require_relative 'ci-tooling/lib/jenkins'
   tooling_path = File.join(Dir.home, 'tooling-pending')
   Jenkins.client.node.list.each do |node|
+    next if node == 'master'
     Net::SCP.start(node, 'jenkins-slave') do |scp|
       puts scp.upload!(tooling_path, '/var/lib/jenkins-slave/tooling')
     end
