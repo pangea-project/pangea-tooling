@@ -64,3 +64,16 @@ task :deploy do
   FileUtils.mkpath(tooling_path)
   FileUtils.cp_r(Dir.glob('*'), tooling_path)
 end
+
+desc 'deploy to all nodes'
+task :deploy_nodes do
+  require 'net/scp'
+  require_relative 'ci-tooling/lib/jenkins'
+  tooling_path = File.join(Dir.home, 'tooling-pending')
+  Jenkins.client.node.list.each do |node|
+    Net::SCP.start(node, 'jenkins-slave') do |scp|
+      puts scp.upload!(tooling_path, '/var/lib/jenkins-slave/tooling')
+    end
+  end
+end
+task :deploy_nodes => :deploy
