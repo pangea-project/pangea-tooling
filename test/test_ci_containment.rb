@@ -7,6 +7,18 @@ module CI
   class ContainmentTest < TestCase
     self.file = __FILE__
 
+    # :nocov:
+    def cleanup_container
+      # Make sure the default container name isn't used, it can screw up
+      # the vcr data.
+      c = Docker::Container.get(@job_name)
+      c.stop
+      c.kill!
+      c.remove
+    rescue Docker::Error::NotFoundError, Excon::Errors::SocketError
+    end
+    # :nocov:
+
     def setup
       VCR.configure do |config|
         config.cassette_library_dir = @datadir
@@ -22,16 +34,11 @@ module CI
       @job_name = 'vivid_unstable_test'
       @image = 'jenkins/vivid_unstable'
 
-      begin
-        # Make sure the default container name isn't used, it can screw up
-        # the vcr data.
-        c = Docker::Container.get(@job_name)
-        c.stop
-        c.kill!
-        c.remove
-      rescue
-        Docker::Error::NotFoundError
-      end
+      VCR.turned_off { cleanup_container }
+    end
+
+    def teardown
+      VCR.turned_off { cleanup_container }
     end
 
     def test_init
