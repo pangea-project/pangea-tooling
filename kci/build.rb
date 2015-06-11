@@ -24,7 +24,7 @@ JOB_NAME = ENV.fetch('JOB_NAME')
 #   all_frameworks) and the rest should be figured out automatically. This is
 #   presently a bit tricky since we'd have to traverse the downstreams to see
 #   if we are in any way related to one of the anchor points
-MOBILE_JOBS = %w(kwin kwayland plasma-workspace libkscreen baloo kfilemetadata libksysguard kaccounts-integration kdecoration koko plasma-nm)
+MOBILE_JOBS = %w(kwin kwayland plasma-workspace libkscreen baloo kfilemetadata libksysguard kaccounts-integration kdecoration koko plasma-nm kaccounts-integration)
 armit = false
 if KCI.latest_series != DIST && TYPE == 'unstable'
   if COMPONENT == 'frameworks'
