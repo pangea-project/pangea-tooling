@@ -26,6 +26,7 @@ end
 
 # create base
 unless Docker::Image.exist?(REPO_TAG)
+  @log.info 'creating base docker image'
   ubuntu_image = "ubuntu:#{VERSION}"
   ubuntu_image = "armv7/armhf-ubuntu:#{VERSION}" if DPKG::HOST_ARCH == 'armhf'
   Docker::Image.create(fromImage: ubuntu_image).tag(repo: REPO, tag: TAG)
@@ -34,9 +35,11 @@ end
 # Take the latest image which either is the previous latest or a completely
 # prestine fork of the base ubuntu image and deploy into it.
 # FIXME use containment here probably
+@log.info 'creating container'
 c = Docker::Container.create(Image: REPO_TAG,
                              WorkingDir: ENV.fetch('HOME'),
                              Cmd: ['sh', '/tooling-pending/deploy_in_container.sh'])
+@log.info 'creating debug thread'
 Thread.new do
   # :nocov:
   c.attach do |_stream, chunk|
@@ -45,8 +48,11 @@ Thread.new do
   end
   # :nocov:
 end
+@log.info 'starting container'
+p c
 c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"],
         Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }])
+p c
 status_code = c.wait.fetch('StatusCode', 1)
 fail 'status fucked' if status_code != 0
 c.stop!
