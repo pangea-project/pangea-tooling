@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 
-require 'logger'
 require 'docker'
+require 'logger'
 require 'logger/colors'
+
+$stdout = $stderr
 
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 

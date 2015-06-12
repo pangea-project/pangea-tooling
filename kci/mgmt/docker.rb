@@ -9,6 +9,8 @@ require_relative '../../ci-tooling/lib/dpkg'
 
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
+$stdout = $stderr
+
 NAME = ENV.fetch('NAME')
 VERSION = ENV.fetch('VERSION')
 REPO = "jenkins/#{NAME}"

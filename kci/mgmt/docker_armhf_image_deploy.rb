@@ -6,6 +6,8 @@ require 'logger/colors'
 
 require_relative '../../ci-tooling/lib/jenkins'
 
+$stdout = $stderr
+
 NAME = ENV.fetch('NAME')
 VERSION = ENV.fetch('VERSION')
 REPO = "jenkins/#{NAME}"
