@@ -18,7 +18,6 @@ TAG = 'latest'
 REPO_TAG = "#{REPO}:#{TAG}"
 
 @log = Logger.new(STDERR)
-@log.level = Logger::WARN
 
 Thread.new do
   Docker::Event.stream { |event| @log.debug event }
