@@ -84,7 +84,13 @@ task :deploy_nodes do
       log.info 'pushing'
       puts scp.upload!(tooling_path, '/var/lib/jenkins-slave/tooling-pending', recursive: true, verbose: true)
       log.info 'remote deploy'
-      puts scp.session.exec!('/var/lib/jenkins-slave/tooling-pending/deploy_on_node.sh')
+      puts scp.session.exec('/var/lib/jenkins-slave/tooling-pending/deploy_on_node.sh') do |_channel, _stream, data|
+        if stream == :stderr
+          @log.error data
+        else
+          @log.info data
+        end
+      end
       log.info 'done'
     end
   end
