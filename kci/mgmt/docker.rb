@@ -49,7 +49,6 @@ c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"],
         Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }])
 status_code = c.wait.fetch('StatusCode', 1)
 fail 'status fucked' if status_code != 0
-# FIXME: we are completely ignore errors
 c.stop!
 
 # Flatten the image by piping a tar export into a tar import.
