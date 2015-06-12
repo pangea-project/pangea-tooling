@@ -37,7 +37,8 @@ end
 @log.info 'creating container'
 c = Docker::Container.create(Image: REPO_TAG,
                              WorkingDir: ENV.fetch('HOME'),
-                             Cmd: ['sh', '/tooling-pending/deploy_in_container.sh'])
+                             Cmd: ['sh', '/tooling-pending/deploy_in_container.sh'],
+                             Env: ['PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'])
 @log.info 'creating debug thread'
 Thread.new do
   # :nocov:
