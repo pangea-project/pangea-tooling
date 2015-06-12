@@ -37,12 +37,18 @@ end
 c = Docker::Container.create(Image: REPO_TAG,
                              WorkingDir: ENV.fetch('HOME'),
                              Cmd: ['sh', '/tooling-pending/deploy_in_container.sh'])
+Thread.new do
+  # :nocov:
+  c.attach do |_stream, chunk|
+    puts chunk
+    STDOUT.flush
+  end
+  # :nocov:
+end
 c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"],
         Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }])
-c.attach do |_stream, chunk|
-  puts chunk
-  STDOUT.flush
-end
+status_code = c.wait.fetch('StatusCode', 1)
+fail 'status fucked' if status_code != 0
 # FIXME: we are completely ignore errors
 c.stop!
 
