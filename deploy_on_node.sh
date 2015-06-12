@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -ex
+
 SCRIPTDIR=$(readlink -f $(dirname -- "$0"))
 
 export GEM_HOME=$(ruby -rubygems -e 'puts Gem.user_dir')
