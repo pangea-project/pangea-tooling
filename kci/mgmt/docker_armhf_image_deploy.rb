@@ -21,7 +21,7 @@ Jenkins.client.node.list.each do |node|
     @log.info 'uploading image'
     puts scp.upload!('image.tar', '/tmp/image.tar')
     @log.info 'importing'
-    puts scp.session.exec!("cat /tmp/image.tar > docker import - #{REPO_TAG}")
+    puts scp.session.exec!("cat /tmp/image.tar | docker import - #{REPO_TAG}")
     @log.info 'import done'
   end
 end
