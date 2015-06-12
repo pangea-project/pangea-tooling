@@ -48,10 +48,8 @@ Thread.new do
   # :nocov:
 end
 @log.info 'starting container'
-p c
 c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"],
         Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }])
-p c
 status_code = c.wait.fetch('StatusCode', 1)
 fail 'status fucked' if status_code != 0
 c.stop!
