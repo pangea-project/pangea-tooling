@@ -14,6 +14,6 @@ Jenkins.client.node.list.each do |node|
   next if node == 'master'
   Net::SCP.start(node, 'jenkins-slave') do |scp|
     puts scp.upload!('image.tar', '/tmp/image.tar')
-    puts scp.session.exec!("docker import /tmp/image.tar #{REPO_TAG}")
+    puts scp.session.exec!("cat /tmp/image.tar > docker import - #{REPO_TAG}")
   end
 end
