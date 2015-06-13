@@ -118,7 +118,7 @@ class Containment
     env << 'PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
     env << 'LANG=en_US.UTF-8'
     env << 'DEBIAN_FRONTEND=noninteractive  '
-    %w(DIST TYPE ENABLED_EXTRA_ARCHITECTURES JOB_NAME).each do |v|
+    %w(DIST TYPE ENABLED_EXTRA_ARCHITECTURES).each do |v|
       next unless ENV.include?(v)
       env << format('%s=%s', v, ENV[v])
     end
