@@ -16,8 +16,11 @@ REPO_TAG = "#{REPO}:#{TAG}"
 
 @log = Logger.new(STDERR)
 
+build_node = File.read('node').strip
+
 Jenkins.client.node.list.each do |node|
   next if node == 'master'
+  next if node == build_node
   @log.info "deploying to node #{node}"
   Net::SCP.start(node, 'jenkins-slave') do |scp|
     @log.info 'uploading image'
