@@ -40,6 +40,7 @@ MOBILE_JOBS = %w(
   telepathy-accounts-signon
   ktp-common-internals
   debconf-kde
+  signon-kwallet-extension
 )
 armit = false
 if KCI.latest_series != DIST && TYPE == 'unstable'
