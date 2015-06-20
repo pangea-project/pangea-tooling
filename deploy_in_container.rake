@@ -35,7 +35,7 @@ task :deploy_in_container do
     rescue Gem::LoadError
       sh 'gem install bundler'
     end
-    system('bundle install --no-cache --local --frozen --system --without development test')
+    system("bundle install --jobs=#{`nproc`.strip} --no-cache --local --frozen --system --without development test")
     Dir.chdir('ci-tooling') do
       FileUtils.rm_rf(final_path)
       FileUtils.mkpath(final_path)
