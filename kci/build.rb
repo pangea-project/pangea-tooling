@@ -41,6 +41,8 @@ MOBILE_JOBS = %w(
   ktp-common-internals
   debconf-kde
   signon-kwallet-extension
+  milou
+  kdeplasma-addons
 )
 armit = false
 if KCI.latest_series != DIST && TYPE == 'unstable'
