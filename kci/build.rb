@@ -43,6 +43,7 @@ MOBILE_JOBS = %w(
   signon-kwallet-extension
   milou
   kdeplasma-addons
+  powerdevil
 )
 armit = false
 if KCI.latest_series != DIST && TYPE == 'unstable'
