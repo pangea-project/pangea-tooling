@@ -21,7 +21,7 @@ Thread.new do
   Docker::Event.stream { |event| @log.debug event }
 end
 
-container = Docker::Container.create(Image: REPO_TAG)
+container = Docker::Container.create(Image: REPO_TAG, Cmd: ['sh'])
 File.open('image.tar', 'w') do |f|
   container.export { |chunk| f.write(chunk) }
 end
