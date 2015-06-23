@@ -63,6 +63,7 @@ task :deploy_in_container do
                   zlib1g-dev
                   python-paramiko
                   language-pack-en-base
+                  dh-translations
                   sudo))
   Apt.clean
 
