@@ -3,6 +3,7 @@ require 'bundler/setup' # Make sure load paths are in order
 require 'ci/reporter/rake/test_unit'
 require 'fileutils'
 require 'rake/clean'
+require 'rake/notes/rake_task'
 require 'rake/testtask'
 require 'rubocop/rake_task'
 

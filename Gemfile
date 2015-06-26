@@ -21,6 +21,7 @@ group :development, :test do
   gem 'rubocop-checkstyle_formatter'
   gem 'vcr'
   gem 'webmock'
+  gem 'rake-notes'
 end
 
 group :s3 do
