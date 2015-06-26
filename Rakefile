@@ -16,7 +16,6 @@ SOURCE_DIRS = %w(
   kci
   lib
   s3-images-generator
-  schroot-scripts
 )
 
 desc 'run unit tests'
