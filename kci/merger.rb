@@ -130,6 +130,7 @@ class Merger
     #        we presently have in the merge function and then make sure that
     #        each branch (i.e. instace of the object) only gets cleaned once.
     @clean_branches = []
+    @git.checkout('master')
     cleanup('master')
 
     # NOTE: trigger branches must be explicitly added to the jenkins job class
@@ -168,6 +169,7 @@ class Merger
   # Hard resets to head, cleans everything, and sets dpkg-mergechangelogs in
   # .gitattributes afterwards.
   def cleanup(target = @git.current_branch)
+    fail 'not current branch' unless @git.current_branch.include?(target)
     @git.reset("remotes/origin/#{target}", hard: true)
     @git.clean(force: true, d: true)
     File.write('.gitattributes',

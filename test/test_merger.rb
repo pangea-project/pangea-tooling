@@ -262,4 +262,57 @@ class MergerTest < Test::Unit::TestCase
       assert_include(commit.message, 'NOCI')
     end
   end
+
+  def test_oudated_master
+    # In the past it has happened that master while forced cleanup target is not
+    # being checked out first which in turn means that the reset done as part
+    # of cleanup doesn't actually affect the local master.
+    # As part of merging however local branches take preference over remote
+    # ones since we do chain merging we need to hold local changes and then
+    # push them all at once.
+    # e.g.
+    # origin/kubuntu_wily_archive -> kubuntu_stable (remote into local)
+    #   -> kubuntu_stable -> kubuntu_unstable (local into local)
+    # :push:
+    # Since we always have a local master due to the cleanup routine we must
+    # forcefully check it out before cleanup.
+
+    # Init repo name with git.debian in the path so that the advanced debian
+    # merge logic runs.
+    repo('git.debian.org/frameworks/random')
+
+    # Create the sample branch.
+    in_repo do |g|
+      create_sample_branch(g, 'kubuntu_unstable')
+    end
+
+    # Run merger. We now have a local master and a local kubuntu_unstable...
+    in_repo do
+      Merger.new.run('origin/kubuntu_unstable')
+    end
+
+    # Diverge master.
+    in_repo do |g|
+      g.checkout('master')
+      FileUtils.touch('randomfile')
+      g.add('randomfile')
+      g.commit_all('axios')
+      g.push('origin', 'master')
+    end
+
+    # Run merger again. Must now merge randomfile even though we are on
+    # a kubuntu_unstable checkout!
+    in_repo do |g|
+      g.checkout('kubuntu_unstable')
+      Merger.new.run('origin/master')
+    end
+
+    in_repo do |g|
+      g.checkout('kubuntu_unstable')
+      assert(g.log.size >= 1)
+      commit = g.log.first
+      assert_equal(2, commit.parents.size) # Is a merge.
+      assert_path_exist('randomfile')
+    end
+  end
 end
