@@ -63,8 +63,8 @@ class Merger
   # two main methods.
 
   def merge_backports(source)
+    @log.unknown "#{source} -> kubuntu_vivid_backports"
     target = @git.branches.remote.select { |b| b.name == 'kubuntu_vivid_backports' }[0]
-    @log.unknown "#{source} -> #{target}"
     return @log.error 'There is no backports branch!' unless target
     merge(source, target)
   end
