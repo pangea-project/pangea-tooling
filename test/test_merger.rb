@@ -281,11 +281,6 @@ class MergerTest < Test::Unit::TestCase
     # merge logic runs.
     repo('git.debian.org/frameworks/random')
 
-    # Create the sample branch.
-    in_repo do |g|
-      create_sample_branch(g, 'kubuntu_unstable')
-    end
-
     # Run merger. We now have a local master and a local kubuntu_unstable...
     in_repo do
       Merger.new.run('origin/kubuntu_unstable')
