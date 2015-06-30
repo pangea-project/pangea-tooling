@@ -6,7 +6,7 @@ require 'tmpdir'
 require_relative '../kci/merger'
 
 class MergerTest < Test::Unit::TestCase
-  def in_repo(&block)
+  def in_repo(&_block)
     Dir.mktmpdir(__callee__.to_s) do |t|
       g = Git.clone(repo, t)
       g.chdir do
