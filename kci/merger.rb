@@ -151,13 +151,6 @@ class Merger
       merge_stable("kubuntu_#{s}_backports")
     end
 
-    origin_url = @git.config('remote.origin.url')
-    if origin_url.include?('git.debian.org') &&
-       origin_url.include?('/frameworks/')
-      @log.info 'Running advanced merge protocol (i.e. merging Debian)'
-      merge_stable('master')
-    end
-
     # Now merge stable into unstable (or unstable -> unstable = noop)
     merge_unstable('kubuntu_stable')
 
