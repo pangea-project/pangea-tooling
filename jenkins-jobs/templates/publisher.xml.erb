@@ -68,7 +68,7 @@ post_upload_command = ssh publisher@localhost reprepro -V -b /srv/archive/mci --
 EOF
 
 for c in *.changes; do
-dput --debug -f -u localhost $c
+  [ -s $c ] &amp;&amp; dput --debug -f -u localhost $c
 done
       </command>
     </hudson.tasks.Shell>
