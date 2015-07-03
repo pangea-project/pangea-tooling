@@ -10,11 +10,17 @@ class Builder
       "#{basename(distribution, type, d)}_src"
     end.compact
     sourcer = SourcerJob.new(basename, type: type, distribution: distribution, project: project)
-    binarier = BinarierJob.new(basename, type: type, distribution: distribution)
-    sourcer.trigger(binarier)
     publisher = PublisherJob.new(basename, type: type, distribution: distribution, dependees: dependees)
-    binarier.trigger(publisher)
-    [sourcer, binarier, publisher]
+    binariers = %w(amd64 armhf).collect do |architecture|
+      binarier = BinarierJob.new(basename,
+                                 type: type,
+                                 distribution: distribution,
+                                 architecture: architecture)
+      sourcer.trigger(binarier)
+      binarier.trigger(publisher)
+      binarier
+    end
+    binariers + [sourcer, publisher]
   end
 
   def self.basename(dist, type, name)
