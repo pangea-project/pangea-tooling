@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-set -ex
+set -e
 
 LOCALE=
 PACKAGE=
@@ -310,12 +310,12 @@ EOF
 
 #++++
 # FIXME: addition
-if [ -e "$CONFIG_HOOKS" ]; then
+if [ -d "$CONFIG_HOOKS" ]; then
   for f in $CONFIG_HOOKS/*; do
     . $f
   done
 fi
-if [ -e "$BUILD_HOOKS" ]; then
+if [ -d "$BUILD_HOOKS" ]; then
   cp -v $BUILD_HOOKS/* config/hooks/
 fi
 #----
