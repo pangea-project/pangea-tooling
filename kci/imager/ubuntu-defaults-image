@@ -308,4 +308,16 @@ else
 fi
 EOF
 
+#++++
+# FIXME: addition
+if [ -e "$CONFIG_HOOKS" ]; then
+  for f in $CONFIG_HOOKS/*; do
+    . $f
+  done
+fi
+if [ -e "$BUILD_HOOKS" ]; then
+  cp -v $BUILD_HOOKS/* config/hooks/
+fi
+#----
+
 DISPLAY= $SUDO PROJECT="$FLAVOR" ARCH="$ARCH" lb build
