@@ -57,7 +57,7 @@ export BUILD_HOOKS="`pwd`/mobster-hooks"
 
 # Preserve envrionment -E plz.
 sudo -E $(dirname "$0")/ubuntu-defaults-image \
-    --ppa plasma-phone/ppa
+    --ppa plasma-phone/ppa \
     --package ubuntu-minimal \
     --arch $ARCH \
     --release $DIST \
