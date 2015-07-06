@@ -1,31 +1,6 @@
 mv /usr/sbin/update-initramfs /usr/sbin/update-initramfs.bak
 echo '#!/bin/sh' > /usr/sbin/update-initramfs
 
-apt-get install -y \
-  libhybris \
-  libhybris-common1 \
-  libhybris-test \
-  libhybris-utils
-# Foundation wiring we will need to work with ubuntu-touch tooling.
-# This might also need parts of ubuntu-touch-session
-apt-get install -y \
-  initramfs-tools-ubuntu-touch \
-  ubuntu-touch-generic-initrd \
-  ubuntu-touch-customization-hooks \
-  system-image-common \
-  system-image-dbus \
-  system-image-cli \
-  apparmor \
-  gstreamer0.10-fluendo-mp3
-# More Foundation. In particular everything here is related to enabling
-# the phablet user which is an extrausers user.
-apt-get install -y \
-  lxc-android-config \
-  libnss-extrausers \
-  libpam-modules \
-  libpam-modules-bin \
-  vim \
-  bash-completion
 # KF5 Stack
 # kwin-style-breeze: https://github.com/plasma-mobile/mobster/issues/88
 # --force-yes is needed because it downgrades libqt5qml
@@ -58,7 +33,6 @@ apt-get install -y \
   muon-discover \
   koko \
   okular
-apt-get install -y mtp-server
 
 apt-get install -y ubiquity-frontend-kde
 
