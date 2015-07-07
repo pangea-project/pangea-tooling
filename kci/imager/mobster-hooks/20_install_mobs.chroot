@@ -6,8 +6,8 @@ echo '#!/bin/sh' > /usr/sbin/update-initramfs
 # --force-yes is needed because it downgrades libqt5qml
 apt-get install -y --force-yes \
   konsole \
-  kwin \
-  kwin-hwcomposer-backend \
+  kwin-wayland \
+  kwin-wayland-backend-drm \
   plasma-phone-components \
   qtwayland5 \
   xwayland \
