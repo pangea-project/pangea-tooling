@@ -17,8 +17,7 @@ apt-get install -y --force-yes \
   plasma-phone-dev-setup \
   plasma-phone-settings \
   kpackagelauncherqml \
-  kwin-style-breeze \
-  xserver-xorg
+  kwin-style-breeze
 # Applications
 apt-get install -y \
   voicecall \
@@ -35,7 +34,12 @@ apt-get install -y \
   koko \
   okular
 
-apt-get install -y ubiquity-frontend-kde
+apt-get install -y \
+  ubiquity \
+  ubiquity-casper \
+  ubiquity-frontend-kde \
+  kwin-x11 \
+  xserver-xorg
 
 mv /etc/init/simplelogin.conf /etc/init/lightdm.conf
 
