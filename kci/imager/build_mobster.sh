@@ -16,8 +16,6 @@ export DIST=$2
 export ARCH=$3
 export TYPE=$4
 
-chown -R jenkins:jenkins .
-
 if [ -z $WD ] || [ -z $DIST ] || [ -z $ARCH ] || [ -z $TYPE ]; then
     echo "!!! Not all arguments provided! ABORT !!!"
     env
