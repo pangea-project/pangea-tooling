@@ -17,7 +17,8 @@ apt-get install -y --force-yes \
   plasma-phone-dev-setup \
   plasma-phone-settings \
   kpackagelauncherqml \
-  kwin-style-breeze
+  kwin-style-breeze \
+  xserver-xorg
 # Applications
 apt-get install -y \
   voicecall \
