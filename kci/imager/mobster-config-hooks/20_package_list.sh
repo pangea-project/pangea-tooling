@@ -1,4 +1,5 @@
 cat << EOF >> config/package-lists/ubuntu-defaults.list.chroot_install
+vim
 konsole
 kwin-wayland
 kwin-wayland-backend-drm
