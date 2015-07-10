@@ -30,7 +30,13 @@ SOURCE_NAME = $changelog.name
 
 RELEASE = ENV['JOB_NAME'].split('_')[-1]
 
-system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} \
+if RbConfig::CONFIG['host_cpu'] == 'arm'
+  ARCH = 'armhf'
+else
+  ARCH = 'amd64'
+end
+
+system("schroot -u root -c #{RELEASE}-#{ARCH} -d #{ENV['WORKSPACE']} \
         -o jenkins.workspace=#{ENV['WORKSPACE']} \
         -- ruby ./tooling/ci-tooling/dci.rb source \
         -r #{repos} \
