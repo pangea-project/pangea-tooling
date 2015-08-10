@@ -33,12 +33,7 @@ Retry.retry_it(times: 2, errors: [Docker::Error::NotFoundError]) do
   exit status_code unless status_code == 0
 end
 
-series = KCI.series.dup
-series = series.sort_by { |_, version| Gem::Version.new(version) }.to_h
-p series
-p series[-1]
-p DIST
-if DIST == series[-1]
+if DIST == KCI.latest_series
   Dir.chdir('packaging') do
     system("git push packaging HEAD:kubuntu_#{TYPE}")
   end
