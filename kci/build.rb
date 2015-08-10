@@ -35,6 +35,9 @@ end
 
 series = KCI.series.dup
 series = series.sort_by { |_, version| Gem::Version.new(version) }.to_h
+p series
+p series[-1]
+p DIST
 if DIST == series[-1]
   Dir.chdir('packaging') do
     system("git push packaging HEAD:kubuntu_#{TYPE}")
