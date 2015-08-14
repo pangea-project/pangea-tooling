@@ -77,7 +77,7 @@ export LB_APT_HTTP_PROXY="http://10.0.3.1:3142"
 
 # Preserve envrionment -E plz.
 sudo -E $(dirname "$0")/ubuntu-defaults-image \
-    --ppa kubuntu-ci/$TYPE-daily \
+    --ppa kubuntu-ci/$TYPE \
     --package kubuntu-ci-live \
     --arch $ARCH \
     --release $DIST \
