@@ -75,6 +75,8 @@ export LB_ZSYNC=true # This is overridden by silly old defaults-image...
 ## Proxy the chroot (including PPAs) through apt-cacher to reduce network-bound I/O.
 export LB_APT_HTTP_PROXY="http://10.0.3.1:3142"
 
+export CONFIG_HOOKS="$(dirname "$0")/kubuntu-config-hooks"
+
 # Preserve envrionment -E plz.
 sudo -E $(dirname "$0")/ubuntu-defaults-image \
     --ppa kubuntu-ci/$TYPE \
