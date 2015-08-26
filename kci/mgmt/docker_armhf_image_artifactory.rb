@@ -7,11 +7,10 @@ require 'logger/colors'
 $stdout = $stderr
 
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
-
-NAME = ENV.fetch('NAME')
+FLAVOR = ENV.fetch('FLAVOR')
 VERSION = ENV.fetch('VERSION')
-REPO = "jenkins/#{NAME}"
-TAG = 'latest'
+REPO = "pangea/#{FLAVOR}"
+TAG = VERSION
 REPO_TAG = "#{REPO}:#{TAG}"
 
 @log = Logger.new(STDERR)
