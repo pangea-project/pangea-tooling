@@ -13,8 +13,9 @@ $stdout = $stderr
 
 NAME = ENV.fetch('NAME')
 VERSION = ENV.fetch('VERSION')
-REPO = "jenkins/#{NAME}"
-TAG = 'latest'
+FLAVOR = ENV.fetch('FLAVOR')
+REPO = "pangea/#{FLAVOR}"
+TAG = VERSION
 REPO_TAG = "#{REPO}:#{TAG}"
 
 @log = Logger.new(STDERR)
@@ -26,9 +27,9 @@ end
 # create base
 unless Docker::Image.exist?(REPO_TAG)
   @log.info 'creating base docker image'
-  ubuntu_image = "ubuntu:#{VERSION}"
-  ubuntu_image = "armv7/armhf-ubuntu:#{VERSION}" if DPKG::HOST_ARCH == 'armhf'
-  Docker::Image.create(fromImage: ubuntu_image).tag(repo: REPO, tag: TAG)
+  docker_image = "#{FLAVOR}:#{VERSION}"
+  docker_image = "armbuild/#{FLAVOR}:#{VERSION}" if DPKG::HOST_ARCH == 'armhf'
+  Docker::Image.create(fromImage: docker_image).tag(repo: REPO, tag: TAG)
 end
 
 # Take the latest image which either is the previous latest or a completely
