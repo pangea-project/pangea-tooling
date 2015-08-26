@@ -2,6 +2,6 @@
 # is up to the class. At the time of writing it doesn't create the job, but it
 # might as well create them and disable them in the future.
 
-# Can be built but not installed because we have no bluez5
+# Can be built but not installed because we have no bluez5 in vivid
 '*/plasma/bluedevil':
-  '*': false
+  'vivid_*': false
