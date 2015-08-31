@@ -61,7 +61,7 @@ task :deploy_in_container do
                   git
                   dh-systemd
                   zlib1g-dev
-                  python-paramikoq
+                  python-paramiko
                   sudo
                   locales))
   Apt.clean
