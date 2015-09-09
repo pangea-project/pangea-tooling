@@ -13,9 +13,9 @@ Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 $stdout = $stderr
 
 def create_container(flavor, version)
-  REPO = "pangea/#{flavor}"
-  TAG = version
-  REPO_TAG = "#{REPO}:#{TAG}"
+  repo = "pangea/#{flavor}"
+  tag = version
+  repo_tag = "#{repo}:#{tag}"
 
   @log = Logger.new(STDERR)
 
@@ -24,18 +24,18 @@ def create_container(flavor, version)
   end
 
   # create base
-  unless Docker::Image.exist?(REPO_TAG)
+  unless Docker::Image.exist?(repo_tag)
     @log.info 'creating base docker image'
     docker_image = "#{flavor}:#{version}"
     docker_image = "armbuild/#{flavor}:#{version}" if DPKG::HOST_ARCH == 'armhf'
-    Docker::Image.create(fromImage: docker_image).tag(repo: REPO, tag: TAG)
+    Docker::Image.create(fromImage: docker_image).tag(repo: repo, tag: tag)
   end
 
   # Take the latest image which either is the previous latest or a completely
   # prestine fork of the base ubuntu image and deploy into it.
   # FIXME use containment here probably
   @log.info 'creating container'
-  c = Docker::Container.create(Image: REPO_TAG,
+  c = Docker::Container.create(Image: repo_tag,
                                WorkingDir: ENV.fetch('HOME'),
                                Cmd: ['sh', '/tooling-pending/deploy_in_container.sh'],
                                Env: ['PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'])
@@ -87,14 +87,14 @@ def create_container(flavor, version)
 
   c.remove
   begin
-    previous_image = Docker::Image.get(REPO_TAG)
+    previous_image = Docker::Image.get(repo_tag)
     previous_image.delete
   rescue Docker::Error::NotFoundError
     @log.warn 'There is no previous image, must be a new build.'
   rescue Docker::Error::ConflictError
     @log.warn 'Could not remove old latest image, supposedly it is still used'
   end
-  @i.tag(repo: REPO, tag: TAG, force: true)
+  @i.tag(repo: repo, tag: tag, force: true)
 
   # Disabled because we should not be leaking. And this has reentrancy problems
   # where another deployment can cleanup our temporary container/image...
