@@ -5,6 +5,7 @@ gem 'git'
 gem 'jenkins_api_client'
 gem 'logger-colors'
 gem 'oauth'
+gem 'octokit'
 
 group :development, :test do
   gem 'ci_reporter_test_unit',
