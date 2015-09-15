@@ -82,7 +82,7 @@ BlockingThreadPool.run do
     name = job_name_queue.pop(true)
     job = Jenkins::Job.new(name)
     next if job.queued?
-    Retry.retry_it(times: 5) do
+    Retry.retry_it(times: 5, name: name) do
       if (Date.today - job.build.date) > 3
         @log.warn "  #{name} --> poll"
         job.poll
