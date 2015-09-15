@@ -60,8 +60,8 @@ module CI
     def attach_thread(container)
       Thread.new do
         # The log attach is threaded because
-        # - attaching after start might attach to what is already stopped again in
-        #   which case attach runs until timeout
+        # - attaching after start might attach to what is already stopped again
+        #   in which case attach runs until timeout
         # - after start we do an explicit wait to get the correct status code so
         #   we can exit accordingly
 
