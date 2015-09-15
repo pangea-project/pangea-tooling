@@ -80,13 +80,22 @@ module CI
       c = contain(args)
       # FIXME: port to logger
       stdout_thread = attach_thread(c)
-      c.start(Binds: @binds,
-      Privileged: @privileged)
+      return rescued_start(c)
+    ensure
+      stdout_thread.kill if defined?(stdout_thread) && !stdout_thread.nil?
+    end
+
+    private
+
+    def rescued_start(c)
+      c.start(Binds: @binds, Privileged: @privileged)
       status_code = c.wait.fetch('StatusCode', 1)
       c.stop
       status_code
-    ensure
-      stdout_thread.kill if defined?(stdout_thread) && !stdout_thread.nil?
+    rescue Docker::Error::NotFoundError => e
+      @log.error 'Failed to create container!'
+      @log.error e.to_s
+      return 1
     end
   end
 end
