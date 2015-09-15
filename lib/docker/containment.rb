@@ -96,17 +96,7 @@ class Containment
   def run(args)
     c = contain(args)
     stdout_thread = attach_thread(c)
-    c.start(Binds: @binds,
-            # Force standard ulimit in the container.
-            # Otherwise pretty much all APT IO operations are insanely slow:
-            # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
-            # This in particular affects apt-extracttemplates which will take up to
-            # 20 minutes where it should take maybe 1/10 of that.
-            Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }],
-            Privileged: @privileged)
-    status_code = c.wait.fetch('StatusCode', 1)
-    rescued_stop(c)
-    status_code
+    rescued_start(c)
   ensure
     stdout_thread.kill if defined?(stdout_thread) && !stdout_thread.nil?
   end
@@ -123,6 +113,24 @@ class Containment
       env << format('%s=%s', v, ENV[v])
     end
     env
+  end
+
+  def rescued_start(c)
+    c.start(Binds: @binds,
+            # Force standard ulimit in the container.
+            # Otherwise pretty much all APT IO operations are insanely slow:
+            # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
+            # This in particular affects apt-extracttemplates which will take up to
+            # 20 minutes where it should take maybe 1/10 of that.
+            Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }],
+            Privileged: @privileged)
+    status_code = c.wait.fetch('StatusCode', 1)
+    rescued_stop(c)
+    status_code
+  rescue Docker::Error::NotFoundError => e
+    @log.error 'Failed to create container!'
+    @log.error e.to_s
+    return 1
   end
 
   def rescued_stop(container)

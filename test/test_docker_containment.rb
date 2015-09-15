@@ -54,12 +54,16 @@ class DockerContainmentTest < TestCase
   end
 
   def test_run
-    binds = []
     VCR.use_cassette(__method__) do
-      c = Containment.new(@job_name, image: @image, binds: binds)
+      c = Containment.new(@job_name, image: @image, binds: [])
       ret = c.run(Cmd: ['bash', '-c', "echo #{@job_name}"])
       assert_equal(0, ret)
+    end
+  end
 
+  def test_run_fail
+    VCR.use_cassette(__method__) do
+      c = Containment.new(@job_name, image: @image, binds: [])
       ret = c.run(Cmd: ['garbage_fail'])
       assert_not_equal(0, ret)
     end
