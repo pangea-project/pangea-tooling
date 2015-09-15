@@ -59,6 +59,8 @@ module CI
         c = Containment.new(@job_name, image: @image, binds: [])
         ret = c.run(Cmd: ['bash', '-c', "echo #{@job_name}"])
         assert_equal(0, ret)
+        ret = c.run(Cmd: ['bash', '-c', 'exit 1'])
+        assert_equal(1, ret)
       end
     end
 
