@@ -1,12 +1,15 @@
 module CI
   class BaseImage
+    attr_accessor :repo
+    attr_accessor :tag
+
     def initialize(flavor, series)
-      @flavor = flavor
-      @series = series
+      @repo = "pangea/#{flavor}"
+      @tag = series
     end
 
     def to_s
-      "pangea/#{@flavor}:#{@series}"
+      "#{@repo}:#{@tag}"
     end
   end
 end
