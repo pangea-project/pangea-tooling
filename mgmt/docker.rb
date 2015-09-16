@@ -5,9 +5,9 @@ require 'erb'
 require 'logger'
 require 'logger/colors'
 
-require_relative '../../ci-tooling/lib/dpkg'
-require_relative '../../ci-tooling/lib/kci'
-require_relative '../../ci-tooling/lib/dci'
+require_relative '../ci-tooling/lib/dpkg'
+require_relative '../ci-tooling/lib/kci'
+require_relative '../ci-tooling/lib/dci'
 
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 

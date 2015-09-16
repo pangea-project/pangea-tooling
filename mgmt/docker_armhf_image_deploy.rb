@@ -4,7 +4,7 @@ require 'net/scp'
 require 'logger'
 require 'logger/colors'
 
-require_relative '../../ci-tooling/lib/jenkins'
+require_relative '../ci-tooling/lib/jenkins'
 
 $stdout = $stderr
 
