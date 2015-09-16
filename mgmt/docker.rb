@@ -8,15 +8,14 @@ require 'logger/colors'
 require_relative '../ci-tooling/lib/dpkg'
 require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/dci'
+require_relative '../lib/ci/baseimage'
 
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
 $stdout = $stderr
 
 def create_container(flavor, version)
-  repo = "pangea/#{flavor}"
-  tag = version
-  repo_tag = "#{repo}:#{tag}"
+  b = CI::BaseImage.new(flavor,version)
 
   @log = Logger.new(STDERR)
 
@@ -25,18 +24,18 @@ def create_container(flavor, version)
   end
 
   # create base
-  unless Docker::Image.exist?(repo_tag)
+  unless Docker::Image.exist?(b.to_s)
     @log.info 'creating base docker image'
     docker_image = "#{flavor}:#{version}"
     docker_image = "armbuild/#{flavor}:#{version}" if DPKG::HOST_ARCH == 'armhf'
-    Docker::Image.create(fromImage: docker_image).tag(repo: repo, tag: tag)
+    Docker::Image.create(fromImage: docker_image).tag(repo: b.repo, tag: b.tag)
   end
 
   # Take the latest image which either is the previous latest or a completely
   # prestine fork of the base ubuntu image and deploy into it.
   # FIXME use containment here probably
   @log.info 'creating container'
-  c = Docker::Container.create(Image: repo_tag,
+  c = Docker::Container.create(Image: b.to_s,
                                WorkingDir: ENV.fetch('HOME'),
                                Cmd: ['sh', '/tooling-pending/deploy_in_container.sh'],
                                Env: ['PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'])
@@ -88,14 +87,14 @@ def create_container(flavor, version)
 
   c.remove
   begin
-    previous_image = Docker::Image.get(repo_tag)
+    previous_image = Docker::Image.get(b.to_s)
     previous_image.delete
   rescue Docker::Error::NotFoundError
     @log.warn 'There is no previous image, must be a new build.'
   rescue Docker::Error::ConflictError
     @log.warn 'Could not remove old latest image, supposedly it is still used'
   end
-  @i.tag(repo: repo, tag: tag, force: true)
+  @i.tag(repo: b.repo, tag: b.tag, force: true)
 
   # Disabled because we should not be leaking. And this has reentrancy problems
   # where another deployment can cleanup our temporary container/image...
