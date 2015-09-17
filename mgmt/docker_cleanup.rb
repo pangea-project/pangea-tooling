@@ -15,7 +15,7 @@ def cleanup_dangling_things
             " image associated with it. This should not happen: #{container}"
     end
     repo, _tag = Docker::Util.parse_repo_tag(image)
-    if repo.start_with?('jenkins/')
+    if repo.start_with?('pangea/')
       begin
         @log.warn "Removing container #{container.id}"
         container.remove

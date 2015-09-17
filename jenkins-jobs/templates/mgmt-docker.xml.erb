@@ -18,10 +18,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
-        export VERSION=<%= version %>
-        export NAME=<%= distribution %>_<%= type %>
-        export ARCH=<%= arch %>
-        $HOME/tooling3/kci/mgmt/docker.rb
+        $HOME/tooling3/mgmt/docker.rb
       </command>
     </hudson.tasks.Shell>
   </builders>
