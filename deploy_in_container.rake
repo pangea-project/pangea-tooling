@@ -62,11 +62,14 @@ task :deploy_in_container do
                   dh-systemd
                   zlib1g-dev
                   python-paramiko
-                  language-pack-en-base
-                  dh-translations
-                  sudo))
+                  sudo
+                  locales))
   Apt.clean
 
+  # Ubuntu's language-pack-en-base calls this internally, since this is
+  # unavailable on Debian, call it manually.
+  sh "echo #{ENV.fetch('LANG')} UTF-8 >> /etc/locale.gen"
+  sh "/usr/sbin/locale-gen --no-purge --lang en"
   sh "update-locale LANG=#{ENV.fetch('LANG')}"
 
   # Prevent xapian from slowing down the test.

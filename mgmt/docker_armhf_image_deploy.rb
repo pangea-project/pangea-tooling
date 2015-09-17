@@ -4,14 +4,14 @@ require 'net/scp'
 require 'logger'
 require 'logger/colors'
 
-require_relative '../../ci-tooling/lib/jenkins'
+require_relative '../ci-tooling/lib/jenkins'
 
 $stdout = $stderr
 
-NAME = ENV.fetch('NAME')
 VERSION = ENV.fetch('VERSION')
-REPO = "jenkins/#{NAME}"
-TAG = 'latest'
+FLAVOR = ENV.fetch('FLAVOR')
+REPO = "pangea/#{FLAVOR}"
+TAG = VERSION
 REPO_TAG = "#{REPO}:#{TAG}"
 
 @log = Logger.new(STDERR)
