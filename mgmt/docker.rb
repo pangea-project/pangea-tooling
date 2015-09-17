@@ -87,13 +87,16 @@ def create_container(flavor, version)
 
   c.remove
   begin
+    @log.info 'Deleting old image'
     previous_image = Docker::Image.get(b.to_s)
+    @log.info previous_image.to_s
     previous_image.delete
   rescue Docker::Error::NotFoundError
     @log.warn 'There is no previous image, must be a new build.'
   rescue Docker::Error::ConflictError
     @log.warn 'Could not remove old latest image, supposedly it is still used'
   end
+  @log.info "Tagging #{@i}"
   @i.tag(repo: b.repo, tag: b.tag, force: true)
 
   # Disabled because we should not be leaking. And this has reentrancy problems
