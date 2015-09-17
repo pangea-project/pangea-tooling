@@ -87,13 +87,16 @@ ThreadsWait.all_waits(read_thread, write_thread)
 
 c.remove
 begin
+  @log.info 'Deleting old image'
   previous_image = Docker::Image.get(REPO_TAG)
+  @log.info previous_image.to_s
   previous_image.delete
 rescue Docker::Error::NotFoundError
   @log.warn 'There is no previous image, must be a new build.'
 rescue Docker::Error::ConflictError
   @log.warn 'Could not remove old latest image, supposedly it is still used'
 end
+@log.info "Tagging #{@i}"
 @i.tag(repo: REPO, tag: TAG, force: true)
 
 # Disabled because we should not be leaking. And this has reentrancy problems
