@@ -2,6 +2,7 @@ require 'vcr'
 
 require_relative '../lib/ci/containment.rb'
 require_relative '../ci-tooling/test/lib/testcase'
+require_relative '../lib/ci/baseimage'
 
 module CI
   class ContainmentTest < TestCase
@@ -32,7 +33,7 @@ module CI
       Dir.chdir('/')
 
       @job_name = 'vivid_unstable_test'
-      @image = 'jenkins/vivid_unstable'
+      @image = BaseImage.new('ubuntu', 'vivid').to_s
 
       VCR.turned_off { cleanup_container }
     end

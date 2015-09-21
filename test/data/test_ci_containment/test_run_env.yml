@@ -252,14 +252,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 May 2015 13:23:05 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  ","DIST=dist","TYPE=type"],"Image":"jenkins/vivid_unstable","Cmd":["bash","-c","echo
+      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  ","DIST=dist","TYPE=type"],"Image":"pangea/ubuntu:vivid","Cmd":["bash","-c","echo
         vivid_unstable_test"],"Volumes":{}}'
     headers:
       User-Agent:

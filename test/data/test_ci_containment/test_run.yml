@@ -250,14 +250,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Tue, 15 Sep 2015 11:16:01 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"jenkins/vivid_unstable","Cmd":["bash","-c","echo
+      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Cmd":["bash","-c","echo
         vivid_unstable_test"],"Volumes":{}}'
     headers:
       User-Agent:
@@ -558,14 +558,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Tue, 15 Sep 2015 11:16:06 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"jenkins/vivid_unstable","Cmd":["bash","-c","exit
+      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Cmd":["bash","-c","exit
         1"],"Volumes":{}}'
     headers:
       User-Agent:

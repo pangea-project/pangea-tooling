@@ -250,14 +250,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"jenkins/vivid_unstable","Cmd":["garbage_fail"],"Volumes":{}}'
+      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Cmd":["garbage_fail"],"Volumes":{}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
