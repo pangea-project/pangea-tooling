@@ -32,7 +32,7 @@ module CI
       Dir.chdir('/')
 
       @job_name = 'vivid_unstable_test'
-      @image = 'jenkins/vivid_unstable'
+      @image = 'pangea/vivid_unstable'
 
       VCR.turned_off { cleanup_container }
     end
