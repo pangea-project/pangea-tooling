@@ -21,7 +21,9 @@ class DeployTest < TestCase
       # VCR records the binary tar image over the socket, so instead of actually
       # writing out the binary tar, replace it with a known string.
       config.after_http_request do |request, response|
-        response.body = 'BINARY_IMAGE_EXPORTED' if request.uri.end_with? 'export'
+        if ((request.uri.end_with? 'export') && !response.nil?)
+          response.body = 'BINARY_IMAGE_EXPORTED'
+        end
       end
     end
 
