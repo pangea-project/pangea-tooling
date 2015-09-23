@@ -33,7 +33,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea/ubuntu:wily","WorkingDir":"/tmp/pangea-tooling-testing","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
+      string: '{"Image":"pangea/ubuntu:wily","WorkingDir":"<%= Dir.home %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -61,7 +61,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/652f678ee599347a02f188eda688fb4ed59fcf8f52c55cff059692d48e22cc5b/start
     body:
       encoding: UTF-8
-      string: '{"Binds":["/tmp/pangea-tooling-testing/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
+      string: '{"Binds":["<%= Dir.home %>/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -347,7 +347,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea/ubuntu:vivid","WorkingDir":"/tmp/pangea-tooling-testing","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
+      string: '{"Image":"pangea/ubuntu:vivid","WorkingDir":"<%= Dir.home %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -375,7 +375,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/07aeb094610025c08fc2562ccc10ff82f17c18a707170b6effb0eac5657f7ace/start
     body:
       encoding: UTF-8
-      string: '{"Binds":["/tmp/pangea-tooling-testing/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
+      string: '{"Binds":["<%= Dir.home %>/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -661,7 +661,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea/debian:testing","WorkingDir":"/tmp/pangea-tooling-testing","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
+      string: '{"Image":"pangea/debian:testing","WorkingDir":"<%= Dir.home %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -689,7 +689,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/32a48a66edc84d76fcf0447e821d7a801b66e270e8a8b51864853c845fee2d17/start
     body:
       encoding: UTF-8
-      string: '{"Binds":["/tmp/pangea-tooling-testing/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
+      string: '{"Binds":["<%= Dir.home %>/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4

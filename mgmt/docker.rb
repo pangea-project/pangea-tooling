@@ -20,7 +20,7 @@ def create_container(flavor, version)
   @log = Logger.new(STDERR)
 
   Thread.new do
-    Docker::Event.stream { |event| @log.debug event }
+    Docker::Event.stream { |event| @log.debug event } unless ENV['TESTING']
   end
 
   # create base
