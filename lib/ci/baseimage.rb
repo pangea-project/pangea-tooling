@@ -4,7 +4,11 @@ module CI
     attr_accessor :tag
 
     def initialize(flavor, series)
-      @repo = "pangea/#{flavor}"
+      if ENV['TESTING']
+        @repo = "pangea-testing/#{flavor}"
+      else
+        @repo = "pangea/#{flavor}"
+      end
       @tag = series
     end
 
