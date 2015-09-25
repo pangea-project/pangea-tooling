@@ -13,7 +13,6 @@ plasma-phone-dev-setup
 plasma-phone-settings
 kpackagelauncherqml
 kwin-style-breeze
-voicecall
 plasma-nm
 plasma-camera
 plasma-maliit-framework
@@ -25,5 +24,5 @@ plasma-volume-control
 kinfocenter
 muon-discover
 koko
-okular
+okular-mobile
 EOF

@@ -20,7 +20,6 @@ apt-get install -y --force-yes \
   kwin-style-breeze
 # Applications
 apt-get install -y \
-  voicecall \
   plasma-nm \
   plasma-camera \
   plasma-maliit-framework \
@@ -32,7 +31,7 @@ apt-get install -y \
   kinfocenter \
   muon-discover \
   koko \
-  okular
+  okular-mobile
 
 apt-get install -y \
   ubiquity \
