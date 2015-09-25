@@ -103,6 +103,7 @@ zsyncmake *.iso
 
 echo $DATETIME > date_stamp
 
-chown -R jenkins:jenkins .
+pwd
+chown -Rv jenkins:jenkins .
 
 exit 0
