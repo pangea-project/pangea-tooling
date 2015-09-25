@@ -18,18 +18,11 @@ class DeployTest < TestCase
       }
 
       # VCR records the binary tar image over the socket, so instead of actually
-      # writing out the binary tar, replace it with a known string.
-      config.after_http_request do |request, response|
-        if ((request.uri.end_with? 'export'))
-
-          # Weird docker bug where the response is nil
-          if response.nil?
-            require 'pp'
-            pp "Oh noes, response was nil for ", request
-            response = VCR::Response.new
-          end
-
-          response.body = 'BINARY_IMAGE_EXPORTED'
+      # writing out the binary tar, replace it with nil since on replay docker
+      # actually always sends out a empty body
+      config.before_record do |interaction|
+        if ((interaction.request.uri.end_with? 'export'))
+          interaction.response.body = nil
         end
       end
     end
