@@ -8,7 +8,7 @@ http_interactions:
       string: '{"Image":"jenkins/vivid_unstable"}'
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - application/json
   response:
@@ -19,24 +19,24 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
       Content-Length:
       - '90'
     body:
       encoding: UTF-8
       string: |
-        {"Id":"d55cdd3a91b6a76ace2e85b0689f23f54614df99ad78967a1fe00c5e79cd34fc","Warnings":null}
+        {"Id":"d44794d394ff32d7e10dca1b18aa846c50618260b6f466c6580a88c73a995960","Warnings":null}
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/d55cdd3a91b6a76ace2e85b0689f23f54614df99ad78967a1fe00c5e79cd34fc/rename?name=vivid_unstable_test
+    uri: unix:///var/run/docker.sock/v1.16/containers/d44794d394ff32d7e10dca1b18aa846c50618260b6f466c6580a88c73a995960/rename?name=vivid_unstable_test
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -45,12 +45,12 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/version
@@ -59,7 +59,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -69,18 +69,16 @@ http_interactions:
     headers:
       Content-Type:
       - application/json
-      Job-Name:
-      - version
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
       Content-Length:
       - '148'
     body:
       encoding: UTF-8
       string: |
-        {"ApiVersion":"1.18","Arch":"amd64","GitCommit":"4749651","GoVersion":"go1.4.2","KernelVersion":"3.19.0-16-generic","Os":"linux","Version":"1.6.0"}
+        {"Version":"1.7.1","ApiVersion":"1.19","GitCommit":"786b29d","GoVersion":"go1.4.2","Os":"linux","Arch":"amd64","KernelVersion":"3.19.0-28-generic"}
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -89,7 +87,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -100,22 +98,22 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
     body:
       encoding: UTF-8
       string: |
-        {"AppArmorProfile":"","Args":[],"Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/bash"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","DEBIAN_FRONTEND=noninteractive"],"ExposedPorts":null,"Hostname":"d55cdd3a91b6","Image":"jenkins/vivid_unstable","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":{"/home/me/src/vagrant":{}},"WorkingDir":""},"Created":"2015-05-11T13:22:54.54099657Z","Driver":"aufs","ExecDriver":"native-0.2","ExecIDs":null,"HostConfig":{"Binds":null,"CapAdd":null,"CapDrop":null,"CgroupParent":"","ContainerIDFile":"","CpuShares":0,"CpusetCpus":"","Devices":null,"Dns":null,"DnsSearch":null,"ExtraHosts":null,"IpcMode":"","Links":null,"LogConfig":{"Config":null,"Type":"json-file"},"LxcConf":null,"Memory":0,"MemorySwap":0,"NetworkMode":"","PidMode":"","PortBindings":null,"Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"RestartPolicy":{"MaximumRetryCount":0,"Name":""},"SecurityOpt":null,"Ulimits":null,"VolumesFrom":null},"HostnamePath":"","HostsPath":"","Id":"d55cdd3a91b6a76ace2e85b0689f23f54614df99ad78967a1fe00c5e79cd34fc","Image":"2c62206b471ef872673ff3e26cca8bded427cc0be134844bc0aa496dcaaa03d1","LogPath":"","MountLabel":"","Name":"/vivid_unstable_test","NetworkSettings":{"Bridge":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"MacAddress":"","PortMapping":null,"Ports":null},"Path":"/bin/bash","ProcessLabel":"","ResolvConfPath":"","RestartCount":0,"State":{"Dead":false,"Error":"","ExitCode":0,"FinishedAt":"0001-01-01T00:00:00Z","OOMKilled":false,"Paused":false,"Pid":0,"Restarting":false,"Running":false,"StartedAt":"0001-01-01T00:00:00Z"},"Volumes":{"/home/me/src/vagrant":"/var/lib/docker/vfs/dir/28ebb173261bb927a3e4a2b3d948ea4126cf92feb17e1c3cc2cce66c848dedc6"},"VolumesRW":{"/home/me/src/vagrant":true}}
+        {"Id":"d44794d394ff32d7e10dca1b18aa846c50618260b6f466c6580a88c73a995960","Created":"2015-09-25T12:12:09.209854269Z","Path":"/bin/bash","Args":[],"State":{"Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"0001-01-01T00:00:00Z","FinishedAt":"0001-01-01T00:00:00Z"},"Image":"2c62206b471ef872673ff3e26cca8bded427cc0be134844bc0aa496dcaaa03d1","NetworkSettings":{"Bridge":"","EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"HairpinMode":false,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"MacAddress":"","NetworkID":"","PortMapping":null,"Ports":null,"SandboxKey":"","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null},"ResolvConfPath":"","HostnamePath":"","HostsPath":"","LogPath":"","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"aufs","ExecDriver":"native-0.2","MountLabel":"","ProcessLabel":"","Volumes":{"/home/me/src/vagrant":"/var/lib/docker/volumes/ba733bb299418a02a27e61476207079c9bb7a224be497c435252b21469a7b207/_data"},"VolumesRW":{"/home/me/src/vagrant":true},"AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":null,"ContainerIDFile":"","LxcConf":null,"Memory":0,"MemorySwap":0,"CpuShares":0,"CpuPeriod":0,"CpusetCpus":"","CpusetMems":"","CpuQuota":0,"BlkioWeight":0,"OomKillDisable":false,"Privileged":false,"PortBindings":null,"Links":null,"PublishAllPorts":false,"Dns":null,"DnsSearch":null,"ExtraHosts":null,"VolumesFrom":null,"Devices":null,"NetworkMode":"","IpcMode":"","PidMode":"","UTSMode":"","CapAdd":null,"CapDrop":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"SecurityOpt":null,"ReadonlyRootfs":false,"Ulimits":null,"LogConfig":{"Type":"json-file","Config":{}},"CgroupParent":""},"Config":{"Hostname":"d44794d394ff","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","DEBIAN_FRONTEND=noninteractive"],"Cmd":["/bin/bash"],"Image":"jenkins/vivid_unstable","Volumes":{"/home/me/src/vagrant":{}},"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{},"Memory":0,"MemorySwap":0,"CpuShares":0,"Cpuset":""}}
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/d55cdd3a91b6a76ace2e85b0689f23f54614df99ad78967a1fe00c5e79cd34fc/kill
+    uri: unix:///var/run/docker.sock/v1.16/containers/d44794d394ff32d7e10dca1b18aa846c50618260b6f466c6580a88c73a995960/kill
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -124,21 +122,21 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/containers/d55cdd3a91b6a76ace2e85b0689f23f54614df99ad78967a1fe00c5e79cd34fc
+    uri: unix:///var/run/docker.sock/v1.16/containers/d44794d394ff32d7e10dca1b18aa846c50618260b6f466c6580a88c73a995960
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -147,12 +145,12 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -161,7 +159,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -172,7 +170,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
       Content-Length:
       - '32'
     body:
@@ -180,7 +178,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -189,7 +187,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -200,7 +198,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
       Content-Length:
       - '32'
     body:
@@ -208,7 +206,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -217,7 +215,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -228,7 +226,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
       Content-Length:
       - '32'
     body:
@@ -236,7 +234,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -245,7 +243,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -256,7 +254,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
       Content-Length:
       - '32'
     body:
@@ -264,5 +262,5 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 recorded_with: VCR 2.9.3

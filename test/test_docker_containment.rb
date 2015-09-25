@@ -42,14 +42,12 @@ class DockerContainmentTest < TestCase
 
   def test_init
     binds = [Dir.pwd, 'a:a']
-    bindified_binds = ["#{Dir.pwd}:#{Dir.pwd}", 'a:a']
-    volumes = {Dir.pwd => {}, 'a' => {}}
+    volumes = { Dir.pwd => {}, 'a' => {} }
     VCR.use_cassette(__method__) do
       c = Containment.new(@job_name, image: @image, binds: binds)
       assert_equal(@job_name, c.name)
       assert_equal(@image, c.image)
-      assert_equal(bindified_binds, c.binds)
-      assert_equal(volumes, c.volumes)
+      assert_equal(binds, c.binds)
     end
   end
 

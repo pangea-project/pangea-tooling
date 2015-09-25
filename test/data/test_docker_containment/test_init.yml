@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -18,18 +18,16 @@ http_interactions:
     headers:
       Content-Type:
       - application/json
-      Job-Name:
-      - version
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
       Content-Length:
       - '148'
     body:
       encoding: UTF-8
       string: |
-        {"ApiVersion":"1.18","Arch":"amd64","GitCommit":"4749651","GoVersion":"go1.4.2","KernelVersion":"3.19.0-16-generic","Os":"linux","Version":"1.6.0"}
+        {"Version":"1.7.1","ApiVersion":"1.19","GitCommit":"786b29d","GoVersion":"go1.4.2","Os":"linux","Arch":"amd64","KernelVersion":"3.19.0-28-generic"}
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -38,7 +36,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -49,7 +47,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
       Content-Length:
       - '32'
     body:
@@ -57,7 +55,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -66,7 +64,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -77,7 +75,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
       Content-Length:
       - '32'
     body:
@@ -85,7 +83,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -94,7 +92,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -105,7 +103,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
       Content-Length:
       - '32'
     body:
@@ -113,7 +111,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -122,7 +120,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.21.4
+      - Swipely/Docker-API 1.22.4
       Content-Type:
       - text/plain
   response:
@@ -133,7 +131,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Mon, 11 May 2015 13:22:54 GMT
+      - Fri, 25 Sep 2015 12:12:09 GMT
       Content-Length:
       - '32'
     body:
@@ -141,5 +139,5 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Mon, 11 May 2015 13:22:54 GMT
+  recorded_at: Fri, 25 Sep 2015 12:12:09 GMT
 recorded_with: VCR 2.9.3
