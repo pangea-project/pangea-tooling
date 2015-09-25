@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea/ubuntu:wily/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/ubuntu:wily/json
     body:
       encoding: US-ASCII
       string: ''
@@ -19,21 +19,21 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:01:57 GMT
+      - Thu, 24 Sep 2015 16:36:49 GMT
       Content-Length:
-      - '1096'
+      - '1399'
     body:
       encoding: UTF-8
       string: |
-        {"Architecture":"amd64","Author":"","Comment":"Imported from -","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-09-22T16:57:14.628310051Z","DockerVersion":"1.6.2","Id":"7818564f6f639cc93cb3d656bb315cbee7f477ae74c057138206b5242b0889b7","Os":"linux","Parent":"","Size":991488412,"VirtualSize":991488412}
+        {"Architecture":"amd64","Author":"","Comment":"","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/bash"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"9a2c0fb01dd7","Image":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"d283cdc3b135092235cde4695f7559483b3f9b05db385131cf8bd2fbd30435da","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"9a2c0fb01dd7","Image":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-09-01T20:11:57.458342454Z","DockerVersion":"1.7.1","Id":"1884caeee373398982814b86b6588fd0f425c607f459b74c5c3062efc857e601","Os":"linux","Parent":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Size":0,"VirtualSize":131261115}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:01:57 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:49 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea/ubuntu:wily","WorkingDir":"<%= Dir.home %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
+      string: '{"Image":"pangea-testing/ubuntu:wily","WorkingDir":"<%= Dir.home %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -47,18 +47,18 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:01:57 GMT
+      - Thu, 24 Sep 2015 16:36:50 GMT
       Content-Length:
       - '90'
     body:
       encoding: UTF-8
       string: |
-        {"Id":"652f678ee599347a02f188eda688fb4ed59fcf8f52c55cff059692d48e22cc5b","Warnings":null}
+        {"Id":"b45e7d194ab93c1aca4af2ca083e342fdb379c00b00df7db6784e19337a207d0","Warnings":null}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:01:57 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:50 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/652f678ee599347a02f188eda688fb4ed59fcf8f52c55cff059692d48e22cc5b/start
+    uri: unix:///var/run/docker.sock/v1.16/containers/b45e7d194ab93c1aca4af2ca083e342fdb379c00b00df7db6784e19337a207d0/start
     body:
       encoding: UTF-8
       string: '{"Binds":["<%= Dir.home %>/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
@@ -73,15 +73,15 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:01:58 GMT
+      - Thu, 24 Sep 2015 16:36:50 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:01:58 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:50 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/652f678ee599347a02f188eda688fb4ed59fcf8f52c55cff059692d48e22cc5b/attach?stderr=true&stdout=true&stream=true
+    uri: unix:///var/run/docker.sock/v1.16/containers/b45e7d194ab93c1aca4af2ca083e342fdb379c00b00df7db6784e19337a207d0/attach?stderr=true&stdout=true&stream=true
     body:
       encoding: US-ASCII
       string: ''
@@ -102,10 +102,10 @@ http_interactions:
       string: !binary |-
         AQAAAAAAAAVUZXN0Cg==
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:01:58 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:50 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/652f678ee599347a02f188eda688fb4ed59fcf8f52c55cff059692d48e22cc5b/wait
+    uri: unix:///var/run/docker.sock/v1.16/containers/b45e7d194ab93c1aca4af2ca083e342fdb379c00b00df7db6784e19337a207d0/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -122,7 +122,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:01:58 GMT
+      - Thu, 24 Sep 2015 16:36:50 GMT
       Content-Length:
       - '17'
     body:
@@ -130,10 +130,10 @@ http_interactions:
       string: |
         {"StatusCode":0}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:01:58 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:50 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/652f678ee599347a02f188eda688fb4ed59fcf8f52c55cff059692d48e22cc5b/stop
+    uri: unix:///var/run/docker.sock/v1.16/containers/b45e7d194ab93c1aca4af2ca083e342fdb379c00b00df7db6784e19337a207d0/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -148,15 +148,15 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:01:58 GMT
+      - Thu, 24 Sep 2015 16:36:50 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:01:58 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:50 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/652f678ee599347a02f188eda688fb4ed59fcf8f52c55cff059692d48e22cc5b/export
+    uri: unix:///var/run/docker.sock/v1.16/containers/b45e7d194ab93c1aca4af2ca083e342fdb379c00b00df7db6784e19337a207d0/export
     body:
       encoding: US-ASCII
       string: ''
@@ -171,14 +171,14 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:01:58 GMT
+      - Thu, 24 Sep 2015 16:36:50 GMT
       Content-Type:
       - application/octet-stream
     body:
       encoding: UTF-8
       string: BINARY_IMAGE_EXPORTED
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:02:59 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:53 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/images/create?fromSrc=-
@@ -200,15 +200,15 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:03:00 GMT
+      - Thu, 24 Sep 2015 16:36:53 GMT
     body:
       encoding: UTF-8
-      string: "{\"status\":\"45612403a95e4f4c3bfeb174a6ee196675d38b1064e50086188f210bce7d44ec\"}\r\n"
+      string: "{\"status\":\"6775744c302f9deed8a438cdff1aaba8f71fc905b3071a4037f9f15711acd173\"}\r\n"
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:03:00 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:53 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/containers/652f678ee599347a02f188eda688fb4ed59fcf8f52c55cff059692d48e22cc5b
+    uri: unix:///var/run/docker.sock/v1.16/containers/b45e7d194ab93c1aca4af2ca083e342fdb379c00b00df7db6784e19337a207d0
     body:
       encoding: US-ASCII
       string: ''
@@ -223,15 +223,15 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:03:01 GMT
+      - Thu, 24 Sep 2015 16:36:53 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:03:01 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:53 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea/ubuntu:wily/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/ubuntu:wily/json
     body:
       encoding: US-ASCII
       string: ''
@@ -248,18 +248,18 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:03:01 GMT
+      - Thu, 24 Sep 2015 16:36:53 GMT
       Content-Length:
-      - '1096'
+      - '1399'
     body:
       encoding: UTF-8
       string: |
-        {"Architecture":"amd64","Author":"","Comment":"Imported from -","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-09-22T16:57:14.628310051Z","DockerVersion":"1.6.2","Id":"7818564f6f639cc93cb3d656bb315cbee7f477ae74c057138206b5242b0889b7","Os":"linux","Parent":"","Size":991488412,"VirtualSize":991488412}
+        {"Architecture":"amd64","Author":"","Comment":"","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/bash"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"9a2c0fb01dd7","Image":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"d283cdc3b135092235cde4695f7559483b3f9b05db385131cf8bd2fbd30435da","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"9a2c0fb01dd7","Image":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-09-01T20:11:57.458342454Z","DockerVersion":"1.7.1","Id":"1884caeee373398982814b86b6588fd0f425c607f459b74c5c3062efc857e601","Os":"linux","Parent":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Size":0,"VirtualSize":131261115}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:03:01 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:53 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/7818564f6f639cc93cb3d656bb315cbee7f477ae74c057138206b5242b0889b7
+    uri: unix:///var/run/docker.sock/v1.16/images/1884caeee373398982814b86b6588fd0f425c607f459b74c5c3062efc857e601
     body:
       encoding: US-ASCII
       string: ''
@@ -270,26 +270,26 @@ http_interactions:
       - text/plain
   response:
     status:
-      code: 200
+      code: 409
       message:
     headers:
       Content-Type:
-      - application/json
+      - text/plain; charset=utf-8
+      X-Content-Type-Options:
+      - nosniff
       Date:
-      - Tue, 22 Sep 2015 17:03:05 GMT
+      - Thu, 24 Sep 2015 16:36:53 GMT
       Content-Length:
-      - '116'
+      - '158'
     body:
       encoding: UTF-8
-      string: |-
-        [{"Untagged":"pangea/ubuntu:wily"}
-        ,{"Deleted":"7818564f6f639cc93cb3d656bb315cbee7f477ae74c057138206b5242b0889b7"}
-        ]
+      string: |
+        Conflict, cannot delete image 1884caeee373398982814b86b6588fd0f425c607f459b74c5c3062efc857e601 because it is tagged in multiple repositories, use -f to force
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:03:05 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:53 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/45612403a95e4f4c3bfeb174a6ee196675d38b1064e50086188f210bce7d44ec/tag?force=true&repo=pangea%2Fubuntu&tag=wily
+    uri: unix:///var/run/docker.sock/v1.16/images/6775744c302f9deed8a438cdff1aaba8f71fc905b3071a4037f9f15711acd173/tag?force=true&repo=pangea-testing%2Fubuntu&tag=wily
     body:
       encoding: US-ASCII
       string: ''
@@ -304,7 +304,7 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:03:05 GMT
+      - Thu, 24 Sep 2015 16:36:53 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -313,10 +313,10 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:03:05 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:53 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea/ubuntu:vivid/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/ubuntu:vivid/json
     body:
       encoding: US-ASCII
       string: ''
@@ -333,21 +333,21 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:03:05 GMT
+      - Thu, 24 Sep 2015 16:36:53 GMT
       Content-Length:
-      - '1096'
+      - '1399'
     body:
       encoding: UTF-8
       string: |
-        {"Architecture":"amd64","Author":"","Comment":"Imported from -","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-09-22T16:58:06.000233758Z","DockerVersion":"1.6.2","Id":"ac1a01dc776cce9936ce8eec58cbbd654e47eeb0156b73251dc776b567da713d","Os":"linux","Parent":"","Size":665700246,"VirtualSize":665700246}
+        {"Architecture":"amd64","Author":"","Comment":"","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/bash"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"a031478c05e5","Image":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"cf1b7f9fb9f89347a3b9c5fb415e4b366b7d4317b0b493016219e13a457eb0ef","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"a031478c05e5","Image":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-08-20T20:22:09.460740889Z","DockerVersion":"1.7.1","Id":"013f3d01d24738964bb7101fa83a926181d600ebecca7206dced59669e6e6778","Os":"linux","Parent":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Size":0,"VirtualSize":131355683}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:03:05 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:53 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea/ubuntu:vivid","WorkingDir":"<%= Dir.home %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
+      string: '{"Image":"pangea-testing/ubuntu:vivid","WorkingDir":"<%= Dir.home %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -361,18 +361,18 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:03:05 GMT
+      - Thu, 24 Sep 2015 16:36:53 GMT
       Content-Length:
       - '90'
     body:
       encoding: UTF-8
       string: |
-        {"Id":"07aeb094610025c08fc2562ccc10ff82f17c18a707170b6effb0eac5657f7ace","Warnings":null}
+        {"Id":"bbe0bafe3c9a938ff03a0506ec13c4ba457f91b5c819beb93c4fc7037fb5ded8","Warnings":null}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:03:05 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:53 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/07aeb094610025c08fc2562ccc10ff82f17c18a707170b6effb0eac5657f7ace/start
+    uri: unix:///var/run/docker.sock/v1.16/containers/bbe0bafe3c9a938ff03a0506ec13c4ba457f91b5c819beb93c4fc7037fb5ded8/start
     body:
       encoding: UTF-8
       string: '{"Binds":["<%= Dir.home %>/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
@@ -387,15 +387,15 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:03:10 GMT
+      - Thu, 24 Sep 2015 16:36:54 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:03:10 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:54 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/07aeb094610025c08fc2562ccc10ff82f17c18a707170b6effb0eac5657f7ace/attach?stderr=true&stdout=true&stream=true
+    uri: unix:///var/run/docker.sock/v1.16/containers/bbe0bafe3c9a938ff03a0506ec13c4ba457f91b5c819beb93c4fc7037fb5ded8/attach?stderr=true&stdout=true&stream=true
     body:
       encoding: US-ASCII
       string: ''
@@ -416,10 +416,10 @@ http_interactions:
       string: !binary |-
         AQAAAAAAAAVUZXN0Cg==
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:03:10 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:54 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/07aeb094610025c08fc2562ccc10ff82f17c18a707170b6effb0eac5657f7ace/wait
+    uri: unix:///var/run/docker.sock/v1.16/containers/bbe0bafe3c9a938ff03a0506ec13c4ba457f91b5c819beb93c4fc7037fb5ded8/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -436,7 +436,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:03:10 GMT
+      - Thu, 24 Sep 2015 16:36:54 GMT
       Content-Length:
       - '17'
     body:
@@ -444,10 +444,10 @@ http_interactions:
       string: |
         {"StatusCode":0}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:03:10 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:54 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/07aeb094610025c08fc2562ccc10ff82f17c18a707170b6effb0eac5657f7ace/stop
+    uri: unix:///var/run/docker.sock/v1.16/containers/bbe0bafe3c9a938ff03a0506ec13c4ba457f91b5c819beb93c4fc7037fb5ded8/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -462,15 +462,15 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:03:10 GMT
+      - Thu, 24 Sep 2015 16:36:54 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:03:10 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:54 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/07aeb094610025c08fc2562ccc10ff82f17c18a707170b6effb0eac5657f7ace/export
+    uri: unix:///var/run/docker.sock/v1.16/containers/bbe0bafe3c9a938ff03a0506ec13c4ba457f91b5c819beb93c4fc7037fb5ded8/export
     body:
       encoding: US-ASCII
       string: ''
@@ -485,14 +485,14 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:03:10 GMT
+      - Thu, 24 Sep 2015 16:36:54 GMT
       Content-Type:
       - application/octet-stream
     body:
       encoding: UTF-8
       string: BINARY_IMAGE_EXPORTED
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:12 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/images/create?fromSrc=-
@@ -514,15 +514,15 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:04:13 GMT
+      - Thu, 24 Sep 2015 16:36:57 GMT
     body:
       encoding: UTF-8
-      string: "{\"status\":\"f5e1264ca6220b5a3ce80ee68e0bb1132b90be1ad36004fc80ef096534565692\"}\r\n"
+      string: "{\"status\":\"fe8a44a595d937587d7115e9ff74cb4be482158709fa9db08b2dcbd7bfe96875\"}\r\n"
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:13 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/containers/07aeb094610025c08fc2562ccc10ff82f17c18a707170b6effb0eac5657f7ace
+    uri: unix:///var/run/docker.sock/v1.16/containers/bbe0bafe3c9a938ff03a0506ec13c4ba457f91b5c819beb93c4fc7037fb5ded8
     body:
       encoding: US-ASCII
       string: ''
@@ -537,15 +537,15 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:04:13 GMT
+      - Thu, 24 Sep 2015 16:36:57 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:13 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea/ubuntu:vivid/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/ubuntu:vivid/json
     body:
       encoding: US-ASCII
       string: ''
@@ -562,18 +562,18 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:04:13 GMT
+      - Thu, 24 Sep 2015 16:36:57 GMT
       Content-Length:
-      - '1096'
+      - '1399'
     body:
       encoding: UTF-8
       string: |
-        {"Architecture":"amd64","Author":"","Comment":"Imported from -","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-09-22T16:58:06.000233758Z","DockerVersion":"1.6.2","Id":"ac1a01dc776cce9936ce8eec58cbbd654e47eeb0156b73251dc776b567da713d","Os":"linux","Parent":"","Size":665700246,"VirtualSize":665700246}
+        {"Architecture":"amd64","Author":"","Comment":"","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/bash"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"a031478c05e5","Image":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"cf1b7f9fb9f89347a3b9c5fb415e4b366b7d4317b0b493016219e13a457eb0ef","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"a031478c05e5","Image":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-08-20T20:22:09.460740889Z","DockerVersion":"1.7.1","Id":"013f3d01d24738964bb7101fa83a926181d600ebecca7206dced59669e6e6778","Os":"linux","Parent":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Size":0,"VirtualSize":131355683}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:13 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/ac1a01dc776cce9936ce8eec58cbbd654e47eeb0156b73251dc776b567da713d
+    uri: unix:///var/run/docker.sock/v1.16/images/013f3d01d24738964bb7101fa83a926181d600ebecca7206dced59669e6e6778
     body:
       encoding: US-ASCII
       string: ''
@@ -584,26 +584,26 @@ http_interactions:
       - text/plain
   response:
     status:
-      code: 200
+      code: 409
       message:
     headers:
       Content-Type:
-      - application/json
+      - text/plain; charset=utf-8
+      X-Content-Type-Options:
+      - nosniff
       Date:
-      - Tue, 22 Sep 2015 17:04:15 GMT
+      - Thu, 24 Sep 2015 16:36:57 GMT
       Content-Length:
-      - '117'
+      - '158'
     body:
       encoding: UTF-8
-      string: |-
-        [{"Untagged":"pangea/ubuntu:vivid"}
-        ,{"Deleted":"ac1a01dc776cce9936ce8eec58cbbd654e47eeb0156b73251dc776b567da713d"}
-        ]
+      string: |
+        Conflict, cannot delete image 013f3d01d24738964bb7101fa83a926181d600ebecca7206dced59669e6e6778 because it is tagged in multiple repositories, use -f to force
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:15 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/f5e1264ca6220b5a3ce80ee68e0bb1132b90be1ad36004fc80ef096534565692/tag?force=true&repo=pangea%2Fubuntu&tag=vivid
+    uri: unix:///var/run/docker.sock/v1.16/images/fe8a44a595d937587d7115e9ff74cb4be482158709fa9db08b2dcbd7bfe96875/tag?force=true&repo=pangea-testing%2Fubuntu&tag=vivid
     body:
       encoding: US-ASCII
       string: ''
@@ -618,7 +618,7 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:04:15 GMT
+      - Thu, 24 Sep 2015 16:36:57 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -627,10 +627,10 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:15 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea/debian:testing/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:testing/json
     body:
       encoding: US-ASCII
       string: ''
@@ -647,21 +647,21 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:04:15 GMT
+      - Thu, 24 Sep 2015 16:36:57 GMT
       Content-Length:
-      - '1098'
+      - '1399'
     body:
       encoding: UTF-8
       string: |
-        {"Architecture":"amd64","Author":"","Comment":"Imported from -","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-09-22T16:58:33.479227885Z","DockerVersion":"1.6.2","Id":"5da8a8734033864cf542c01c2a09e596d6420ffedb14309d6ad675ca5fce5dfb","Os":"linux","Parent":"","Size":1081546441,"VirtualSize":1081546441}
+        {"Architecture":"amd64","Author":"","Comment":"","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/bash"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"0f0a625cda69","Image":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"43ea9bab74a49bf6fa547452f82ad9422bc2a5b7c1d187c65492cafebdb02c65","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"0f0a625cda69","Image":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-09-07T23:36:54.794013853Z","DockerVersion":"1.7.1","Id":"37cbf6c3413f292ae26bc10a943aca30e5ba17c7033fbdfe417fbf22f40847c5","Os":"linux","Parent":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Size":0,"VirtualSize":126046560}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:15 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea/debian:testing","WorkingDir":"<%= Dir.home %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
+      string: '{"Image":"pangea-testing/debian:testing","WorkingDir":"<%= Dir.home %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -675,18 +675,18 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:04:16 GMT
+      - Thu, 24 Sep 2015 16:36:57 GMT
       Content-Length:
       - '90'
     body:
       encoding: UTF-8
       string: |
-        {"Id":"32a48a66edc84d76fcf0447e821d7a801b66e270e8a8b51864853c845fee2d17","Warnings":null}
+        {"Id":"1676a65979458996f20412b0ead194fe222c2f5b61876d9f5d2cf41f872884ab","Warnings":null}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:16 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/32a48a66edc84d76fcf0447e821d7a801b66e270e8a8b51864853c845fee2d17/start
+    uri: unix:///var/run/docker.sock/v1.16/containers/1676a65979458996f20412b0ead194fe222c2f5b61876d9f5d2cf41f872884ab/start
     body:
       encoding: UTF-8
       string: '{"Binds":["<%= Dir.home %>/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
@@ -701,15 +701,15 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:04:16 GMT
+      - Thu, 24 Sep 2015 16:36:57 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:16 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/32a48a66edc84d76fcf0447e821d7a801b66e270e8a8b51864853c845fee2d17/attach?stderr=true&stdout=true&stream=true
+    uri: unix:///var/run/docker.sock/v1.16/containers/1676a65979458996f20412b0ead194fe222c2f5b61876d9f5d2cf41f872884ab/attach?stderr=true&stdout=true&stream=true
     body:
       encoding: US-ASCII
       string: ''
@@ -730,10 +730,10 @@ http_interactions:
       string: !binary |-
         AQAAAAAAAAVUZXN0Cg==
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:17 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/32a48a66edc84d76fcf0447e821d7a801b66e270e8a8b51864853c845fee2d17/wait
+    uri: unix:///var/run/docker.sock/v1.16/containers/1676a65979458996f20412b0ead194fe222c2f5b61876d9f5d2cf41f872884ab/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -750,7 +750,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:04:17 GMT
+      - Thu, 24 Sep 2015 16:36:57 GMT
       Content-Length:
       - '17'
     body:
@@ -758,10 +758,10 @@ http_interactions:
       string: |
         {"StatusCode":0}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:17 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/32a48a66edc84d76fcf0447e821d7a801b66e270e8a8b51864853c845fee2d17/stop
+    uri: unix:///var/run/docker.sock/v1.16/containers/1676a65979458996f20412b0ead194fe222c2f5b61876d9f5d2cf41f872884ab/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -776,15 +776,15 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:04:17 GMT
+      - Thu, 24 Sep 2015 16:36:57 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:04:17 GMT
+  recorded_at: Thu, 24 Sep 2015 16:36:57 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/32a48a66edc84d76fcf0447e821d7a801b66e270e8a8b51864853c845fee2d17/export
+    uri: unix:///var/run/docker.sock/v1.16/containers/1676a65979458996f20412b0ead194fe222c2f5b61876d9f5d2cf41f872884ab/export
     body:
       encoding: US-ASCII
       string: ''
@@ -799,14 +799,14 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:04:17 GMT
+      - Thu, 24 Sep 2015 16:36:57 GMT
       Content-Type:
       - application/octet-stream
     body:
       encoding: UTF-8
       string: BINARY_IMAGE_EXPORTED
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:05:27 GMT
+  recorded_at: Thu, 24 Sep 2015 16:37:00 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/images/create?fromSrc=-
@@ -828,15 +828,15 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:05:28 GMT
+      - Thu, 24 Sep 2015 16:37:00 GMT
     body:
       encoding: UTF-8
-      string: "{\"status\":\"c538cc0113a0db83e749b4222f9c082e4eb0585538da017d1586d990cb724748\"}\r\n"
+      string: "{\"status\":\"9d5107c81ef15208a4fbc9dec0b3fcece654b2090f5b7a2d9f8c104adb8b474f\"}\r\n"
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:05:28 GMT
+  recorded_at: Thu, 24 Sep 2015 16:37:00 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/containers/32a48a66edc84d76fcf0447e821d7a801b66e270e8a8b51864853c845fee2d17
+    uri: unix:///var/run/docker.sock/v1.16/containers/1676a65979458996f20412b0ead194fe222c2f5b61876d9f5d2cf41f872884ab
     body:
       encoding: US-ASCII
       string: ''
@@ -851,15 +851,15 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:05:28 GMT
+      - Thu, 24 Sep 2015 16:37:02 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:05:28 GMT
+  recorded_at: Thu, 24 Sep 2015 16:37:02 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea/debian:testing/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:testing/json
     body:
       encoding: US-ASCII
       string: ''
@@ -876,18 +876,18 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 22 Sep 2015 17:05:28 GMT
+      - Thu, 24 Sep 2015 16:37:02 GMT
       Content-Length:
-      - '1098'
+      - '1399'
     body:
       encoding: UTF-8
       string: |
-        {"Architecture":"amd64","Author":"","Comment":"Imported from -","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":null,"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"","Image":"","Labels":null,"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-09-22T16:58:33.479227885Z","DockerVersion":"1.6.2","Id":"5da8a8734033864cf542c01c2a09e596d6420ffedb14309d6ad675ca5fce5dfb","Os":"linux","Parent":"","Size":1081546441,"VirtualSize":1081546441}
+        {"Architecture":"amd64","Author":"","Comment":"","Config":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/bash"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"0f0a625cda69","Image":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Container":"43ea9bab74a49bf6fa547452f82ad9422bc2a5b7c1d187c65492cafebdb02c65","ContainerConfig":{"AttachStderr":false,"AttachStdin":false,"AttachStdout":false,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"CpuShares":0,"Cpuset":"","Domainname":"","Entrypoint":null,"Env":null,"ExposedPorts":null,"Hostname":"0f0a625cda69","Image":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Labels":{},"MacAddress":"","Memory":0,"MemorySwap":0,"NetworkDisabled":false,"OnBuild":null,"OpenStdin":false,"PortSpecs":null,"StdinOnce":false,"Tty":false,"User":"","Volumes":null,"WorkingDir":""},"Created":"2015-09-07T23:36:54.794013853Z","DockerVersion":"1.7.1","Id":"37cbf6c3413f292ae26bc10a943aca30e5ba17c7033fbdfe417fbf22f40847c5","Os":"linux","Parent":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Size":0,"VirtualSize":126046560}
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:05:28 GMT
+  recorded_at: Thu, 24 Sep 2015 16:37:02 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/5da8a8734033864cf542c01c2a09e596d6420ffedb14309d6ad675ca5fce5dfb
+    uri: unix:///var/run/docker.sock/v1.16/images/37cbf6c3413f292ae26bc10a943aca30e5ba17c7033fbdfe417fbf22f40847c5
     body:
       encoding: US-ASCII
       string: ''
@@ -898,26 +898,26 @@ http_interactions:
       - text/plain
   response:
     status:
-      code: 200
+      code: 409
       message:
     headers:
       Content-Type:
-      - application/json
+      - text/plain; charset=utf-8
+      X-Content-Type-Options:
+      - nosniff
       Date:
-      - Tue, 22 Sep 2015 17:05:31 GMT
+      - Thu, 24 Sep 2015 16:37:02 GMT
       Content-Length:
-      - '119'
+      - '158'
     body:
       encoding: UTF-8
-      string: |-
-        [{"Untagged":"pangea/debian:testing"}
-        ,{"Deleted":"5da8a8734033864cf542c01c2a09e596d6420ffedb14309d6ad675ca5fce5dfb"}
-        ]
+      string: |
+        Conflict, cannot delete image 37cbf6c3413f292ae26bc10a943aca30e5ba17c7033fbdfe417fbf22f40847c5 because it is tagged in multiple repositories, use -f to force
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:05:31 GMT
+  recorded_at: Thu, 24 Sep 2015 16:37:02 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/c538cc0113a0db83e749b4222f9c082e4eb0585538da017d1586d990cb724748/tag?force=true&repo=pangea%2Fdebian&tag=testing
+    uri: unix:///var/run/docker.sock/v1.16/images/9d5107c81ef15208a4fbc9dec0b3fcece654b2090f5b7a2d9f8c104adb8b474f/tag?force=true&repo=pangea-testing%2Fdebian&tag=testing
     body:
       encoding: US-ASCII
       string: ''
@@ -932,7 +932,7 @@ http_interactions:
       message:
     headers:
       Date:
-      - Tue, 22 Sep 2015 17:05:31 GMT
+      - Thu, 24 Sep 2015 16:37:02 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -941,5 +941,5 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version:
-  recorded_at: Tue, 22 Sep 2015 17:05:31 GMT
+  recorded_at: Thu, 24 Sep 2015 16:37:02 GMT
 recorded_with: VCR 2.9.3

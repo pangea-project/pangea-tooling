@@ -15,5 +15,10 @@ class BaseImageTest < TestCase
     assert_equal("pangea-testing/ubuntu:wily", i.to_s)
     assert_equal("pangea-testing/ubuntu", i.repo)
     assert_equal("wily", i.tag)
+    ENV.delete('TESTING')
+  end
+
+  def teardown
+    ENV.delete('TESTING')
   end
 end
