@@ -13,6 +13,16 @@ class DirectBindingArrayTest < TestCase
     b = CI::Container::DirectBindingArray.to_bindings(['/', '/tmp'])
     assert_equal(%w(/:/ /tmp:/tmp), b)
   end
+
+  def test_to_volumes_mixed_format
+    v = CI::Container::DirectBindingArray.to_volumes(['/', '/tmp:/tmp'])
+    assert_equal({ '/' => {}, '/tmp' => {} }, v)
+  end
+
+  def test_to_bindings_mixed_fromat
+    b = CI::Container::DirectBindingArray.to_bindings(['/', '/tmp:/tmp'])
+    assert_equal(%w(/:/ /tmp:/tmp), b)
+  end
 end
 
 # The majority of functionality is covered through containment.

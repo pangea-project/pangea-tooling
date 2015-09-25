@@ -17,7 +17,7 @@ module CI
       # @return [Hash] Volume API hash of the form { Path => {} }
       def self.to_volumes(array)
         array.each_with_object({}) do |bind, memo|
-          memo[bind] = {}
+          memo[bind.split(':').first] = {}
         end.to_h
       end
 
