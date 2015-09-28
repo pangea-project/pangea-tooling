@@ -1,5 +1,8 @@
 require 'docker'
 require 'fileutils'
+require 'json'
+require 'ostruct'
+require 'ruby-progressbar'
 require 'vcr'
 
 require_relative '../ci-tooling/lib/kci'
@@ -41,10 +44,28 @@ class DeployTest < TestCase
   def create_base(flavor, version)
     b = CI::BaseImage.new(flavor, version)
     # create base
+    # FIXME: code duplication from docker
     unless Docker::Image.exist?(b.to_s)
       docker_image = "#{flavor}:#{version}"
       docker_image = "armbuild/#{flavor}:#{version}" if DPKG::HOST_ARCH == 'armhf'
-      Docker::Image.create(fromImage: docker_image).tag(repo: b.repo, tag: b.tag)
+      progressbar = nil
+      image = Docker::Image.create(fromImage: docker_image) do |data|
+        update = JSON.parse(data, object_class: OpenStruct)
+        if progressbar.nil? && update.progressDetail && update.progress
+          detail = update.progressDetail
+          progressbar = ProgressBar.create(title: update.stats,
+                                           total: detail.total)
+        end
+        if update.progressDetail && update.progress
+          detail = update.progressDetail
+          progressbar.total = detail.total
+          progressbar.progress = detail.current
+          progressbar = nil if progressbar.total == progressbar.progress
+          next
+        end
+        puts update.status
+      end
+      image.tag(repo: b.repo, tag: b.tag)
     end
   end
 

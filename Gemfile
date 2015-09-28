@@ -23,6 +23,7 @@ group :development, :test do
   gem 'vcr'
   gem 'webmock'
   gem 'rake-notes'
+  gem 'ruby-progressbar'
 end
 
 group :s3 do
