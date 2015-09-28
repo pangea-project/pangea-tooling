@@ -2,6 +2,7 @@ require 'logger'
 require 'logger/colors'
 
 require_relative 'container/ephemeral'
+require_relative 'pangeaimage'
 
 module CI
   class Containment
@@ -14,7 +15,7 @@ module CI
       EphemeralContainer.assert_version
 
       @name = name
-      @image = image
+      @image = image # Can be a PangeaImage
       @binds = binds
       @privileged = privileged
       @log = Logger.new(STDERR)
@@ -43,7 +44,7 @@ module CI
         # Internal
         binds: @binds,
         # Docker
-        Image: @image
+        Image: @image.to_str # Can be a PangeaImage instance
       }
       @default_args
     end

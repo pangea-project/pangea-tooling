@@ -33,7 +33,7 @@ module CI
       Dir.chdir('/')
 
       @job_name = 'vivid_unstable_test'
-      @image = PangeaImage.new('ubuntu', 'vivid').to_s
+      @image = PangeaImage.new('ubuntu', 'vivid')
 
       VCR.turned_off { cleanup_container }
     end
@@ -139,6 +139,17 @@ module CI
         ret = c.run(Cmd: ['bash', '-c',
                           'if [ "$(ulimit -n)" != "1024" ]; then exit 1; else exit 0; fi'])
         assert_equal(0, ret, 'ulimit -n is not 1024 but should be')
+      end
+    end
+
+    def test_image_is_pangeaimage
+      # All of the tests assume that the image we use is a PangeaImage, this
+      # implicitly tests that the default arguments inside Containment actually
+      # properly convert from PangeaImage to a String
+      VCR.use_cassette(__method__) do
+        assert_equal(@image.class, PangeaImage)
+        c = Containment.new(@job_name, image: @image, binds: [])
+        assert_equal(c.default_create_options[:Image], 'pangea/ubuntu:vivid')
       end
     end
   end
