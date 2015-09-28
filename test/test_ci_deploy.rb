@@ -20,6 +20,10 @@ class DeployTest < TestCase
         match_requests_on:  [:method, :uri, :body]
       }
 
+      # The PWD is used as home and as such it appears in the interactions.
+      # Filter it into a ERB expression we can play back.
+      config.filter_sensitive_data('<%= Dir.pwd %>') { Dir.pwd }
+
       # VCR records the binary tar image over the socket, so instead of actually
       # writing out the binary tar, replace it with nil since on replay docker
       # actually always sends out a empty body
