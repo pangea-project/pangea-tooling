@@ -74,7 +74,9 @@ class DeployTest < TestCase
     # create base
     if Docker::Image.exist?(b.to_s)
       image = Docker::Image.get(b.to_s)
-      image.delete(force: true)
+      # Do not prune to keep the history. Otherwise we have to download the
+      # entire image in the _new test.
+      image.delete(force: true, noprune: true)
     end
   end
 
