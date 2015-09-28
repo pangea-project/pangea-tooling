@@ -58,7 +58,8 @@ class ProjectUpdater
 
   def populate_queue
     # FIXME: maybe for meta lists we can use the return arrays via collect?
-    all_meta_builds = []
+    all_metas = []
+    all_promoters = []
     all_mergers = []
     KCI.series.each_key do |distribution|
       KCI.types.each do |type|
@@ -82,15 +83,14 @@ class ProjectUpdater
 
           enqueue(BuildJob.new(project, type: type, distribution: distribution))
         end
-        promoter = enqueue(DailyPromoteJob.new(distribution: distribution,
-                                               type: type,
-                                               dependees: all_builds))
-        enqueue(MGMTDockerJob.new(type: type,
-                               distribution: distribution,
-                               dependees: all_builds + [promoter]))
+        all_promoters << enqueue(DailyPromoteJob.new(type: type,
+                                                     distribution: distribution,
+                                                     dependees: all_builds))
 
         # This could actually returned into a collect if placed below
-        all_meta_builds << enqueue(MetaBuildJob.new(type: type, distribution: distribution, downstream_jobs: all_builds))
+        all_metas << enqueue(MetaBuildJob.new(type: type,
+                                              distribution: distribution,
+                                              downstream_jobs: all_builds))
 
         # FIXME: this maybe should be moved into MetaIsoJob or something
         # all_isos is actually unused
@@ -105,9 +105,9 @@ class ProjectUpdater
       end
     end
     enqueue(MGMTDockerCleanupJob.new(arch: 'amd64'))
-    # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
     enqueue(MetaMergeJob.new(downstream_jobs: all_mergers))
-    enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
+    enqueue(MgmtProgenitorJob.new(downstream_jobs: all_metas))
+    enqueue(MGMTDockerJob.new(dependees: all_metas + all_promoters))
     enqueue(MGMTToolingJob.new)
   end
 end
