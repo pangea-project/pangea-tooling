@@ -28,4 +28,11 @@ class BaseImageTest < TestCase
     assert_image(flavor, series, i)
     ENV.delete('TESTING')
   end
+
+  def test_to_str
+    # Coercion into string
+    assert_nothing_raised TypeError do
+      '' + CI::BaseImage.new('flavor', 'series')
+    end
+  end
 end

@@ -13,6 +13,10 @@ module CI
     end
 
     def to_s
+      to_str
+    end
+
+    def to_str
       "#{@repo}:#{@tag}"
     end
   end
