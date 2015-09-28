@@ -2,6 +2,10 @@ require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../lib/ci/baseimage'
 
 class BaseImageTest < TestCase
+  def teardown
+    ENV.delete('TESTING')
+  end
+
   def test_name
     i = CI::BaseImage.new('ubuntu', 'wily')
     assert_equal("pangea/ubuntu:wily", i.to_s)
@@ -15,10 +19,6 @@ class BaseImageTest < TestCase
     assert_equal("pangea-testing/ubuntu:wily", i.to_s)
     assert_equal("pangea-testing/ubuntu", i.repo)
     assert_equal("wily", i.tag)
-    ENV.delete('TESTING')
-  end
-
-  def teardown
     ENV.delete('TESTING')
   end
 end
