@@ -8,6 +8,6 @@ DIST = ENV.fetch('DIST')
 TYPE = ENV.fetch('TYPE')
 JOB_NAME = ENV.fetch('JOB_NAME')
 
-c = Containment.new(JOB_NAME, image: "jenkins/#{DIST}_#{TYPE}")
+c = Containment.new(JOB_NAME, image: PangeaImage.new(:ubuntu, DIST))
 status_code = c.run(Cmd: ARGV)
 exit status_code
