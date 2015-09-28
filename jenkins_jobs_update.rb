@@ -73,10 +73,7 @@ class ProjectUpdater
         #                                        type: type,
         #                                        dependees: all_builds))
         # end
-        enqueue(MGMTDockerJob.new(type: type,
-                                  distribution: distribution,
-                                  dependees: all_builds,
-                                  arch: 'amd64'))
+        enqueue(MGMTDockerJob.new(dependees: all_builds))
 
 # FIXME: meta build goes here
         # This could actually returned into a collect if placed below
