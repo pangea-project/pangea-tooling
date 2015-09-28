@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/docker/containment'
+require_relative '../lib/ci/containment'
 
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
