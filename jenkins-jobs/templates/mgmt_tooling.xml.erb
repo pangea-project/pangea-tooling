@@ -352,7 +352,7 @@ deploy</tasks>
       </config>
     </hudson.plugins.violations.ViolationsPublisher>
     <hudson.plugins.downstream__ext.DownstreamTrigger plugin="downstream-ext@1.8">
-      <childProjects>mgmt_docker_wily_stable, mgmt_docker_wily_unstable, mgmt_docker_vivid_stable, mgmt_docker_vivid_unstable</childProjects>
+      <childProjects><%= downstreams.join(', ') %></childProjects>
       <threshold>
         <name>SUCCESS</name>
         <ordinal>0</ordinal>
