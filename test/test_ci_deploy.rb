@@ -1,12 +1,12 @@
-require 'vcr'
-require 'fileutils'
 require 'docker'
+require 'fileutils'
+require 'vcr'
 
-require_relative '../lib/ci/baseimage'
-require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/dci'
 require_relative '../ci-tooling/lib/dpkg'
+require_relative '../ci-tooling/test/lib/testcase'
+require_relative '../lib/ci/baseimage'
 
 class DeployTest < TestCase
   def setup
@@ -21,7 +21,7 @@ class DeployTest < TestCase
       # writing out the binary tar, replace it with nil since on replay docker
       # actually always sends out a empty body
       config.before_record do |interaction|
-        if ((interaction.request.uri.end_with? 'export'))
+        if interaction.request.uri.end_with?('export')
           interaction.response.body = nil
         end
       end
@@ -53,7 +53,7 @@ class DeployTest < TestCase
     # create base
     if Docker::Image.exist?(b.to_s)
       image = Docker::Image.get(b.to_s)
-      image.delete(:force => true)
+      image.delete(force: true)
     end
   end
 
@@ -72,7 +72,7 @@ class DeployTest < TestCase
       end
     end
 
-    VCR.use_cassette(__method__, :erb => true) do
+    VCR.use_cassette(__method__, erb: true) do
       assert_nothing_raised do
         require_relative '../mgmt/docker'
       end
@@ -94,7 +94,7 @@ class DeployTest < TestCase
       end
     end
 
-    VCR.use_cassette(__method__, :erb => true) do
+    VCR.use_cassette(__method__, erb: true) do
       assert_nothing_raised do
         require_relative '../mgmt/docker'
       end
