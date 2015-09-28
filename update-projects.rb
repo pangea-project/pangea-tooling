@@ -107,6 +107,7 @@ class ProjectUpdater
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
     enqueue(MetaMergeJob.new(downstream_jobs: all_mergers))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
+    enqueue(MGMTToolingJob.new)
   end
 end
 
