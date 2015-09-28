@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'docker'
-require 'erb'
 require 'logger'
 require 'logger/colors'
 
