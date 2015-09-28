@@ -1,5 +1,5 @@
 module CI
-  class BaseImage
+  class PangeaImage
     attr_accessor :repo
     attr_accessor :tag
 

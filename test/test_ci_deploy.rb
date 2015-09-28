@@ -9,7 +9,7 @@ require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/dci'
 require_relative '../ci-tooling/lib/dpkg'
 require_relative '../ci-tooling/test/lib/testcase'
-require_relative '../lib/ci/baseimage'
+require_relative '../lib/ci/pangeaimage'
 
 class DeployTest < TestCase
   def setup
@@ -50,7 +50,7 @@ class DeployTest < TestCase
   end
 
   def create_base(flavor, version)
-    b = CI::BaseImage.new(flavor, version)
+    b = CI::PangeaImage.new(flavor, version)
     # create base
     # FIXME: code duplication from docker
     unless Docker::Image.exist?(b.to_s)
@@ -78,7 +78,7 @@ class DeployTest < TestCase
   end
 
   def remove_base(flavor, version)
-    b = CI::BaseImage.new(flavor, version)
+    b = CI::PangeaImage.new(flavor, version)
     # create base
     if Docker::Image.exist?(b.to_s)
       image = Docker::Image.get(b.to_s)

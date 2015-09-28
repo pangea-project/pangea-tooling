@@ -1,7 +1,7 @@
 require_relative '../ci-tooling/test/lib/testcase'
-require_relative '../lib/ci/baseimage'
+require_relative '../lib/ci/pangeaimage'
 
-class BaseImageTest < TestCase
+class PangeaImageTest < TestCase
   def teardown
     ENV.delete('TESTING')
   end
@@ -16,7 +16,7 @@ class BaseImageTest < TestCase
   def test_name
     flavor = 'ubuntu'
     series = 'wily'
-    i = CI::BaseImage.new(flavor, series)
+    i = CI::PangeaImage.new(flavor, series)
     assert_image(flavor, series, i)
   end
 
@@ -24,7 +24,7 @@ class BaseImageTest < TestCase
     ENV['TESTING'] = 'true'
     flavor = 'ubuntu'
     series = 'wily'
-    i = CI::BaseImage.new(flavor, series)
+    i = CI::PangeaImage.new(flavor, series)
     assert_image(flavor, series, i)
     ENV.delete('TESTING')
   end
@@ -32,7 +32,7 @@ class BaseImageTest < TestCase
   def test_to_str
     # Coercion into string
     assert_nothing_raised TypeError do
-      '' + CI::BaseImage.new('flavor', 'series')
+      '' + CI::PangeaImage.new('flavor', 'series')
     end
   end
 end

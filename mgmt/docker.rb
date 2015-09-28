@@ -7,14 +7,14 @@ require 'logger/colors'
 require_relative '../ci-tooling/lib/dpkg'
 require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/dci'
-require_relative '../lib/ci/baseimage'
+require_relative '../lib/ci/pangeaimage'
 
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
 $stdout = $stderr
 
 def create_container(flavor, version)
-  base = CI::BaseImage.new(flavor, version)
+  base = CI::PangeaImage.new(flavor, version)
 
   @log = Logger.new(STDERR)
 
