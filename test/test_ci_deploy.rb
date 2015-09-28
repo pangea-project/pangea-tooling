@@ -41,6 +41,10 @@ class DeployTest < TestCase
     FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
   end
 
+  def load_relative(path)
+    load(File.join(__dir__, path.to_str))
+  end
+
   def create_base(flavor, version)
     b = CI::BaseImage.new(flavor, version)
     # create base
@@ -97,7 +101,7 @@ class DeployTest < TestCase
 
     VCR.use_cassette(__method__, erb: true) do
       assert_nothing_raised do
-        require_relative '../mgmt/docker'
+        load_relative '../mgmt/docker.rb'
       end
     end
   end
@@ -119,7 +123,7 @@ class DeployTest < TestCase
 
     VCR.use_cassette(__method__, erb: true) do
       assert_nothing_raised do
-        require_relative '../mgmt/docker'
+        load_relative '../mgmt/docker.rb'
       end
     end
   end
