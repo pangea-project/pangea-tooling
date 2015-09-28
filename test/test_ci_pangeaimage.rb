@@ -35,4 +35,14 @@ class PangeaImageTest < TestCase
       '' + CI::PangeaImage.new('flavor', 'series')
     end
   end
+
+  def test_symbol_flavor
+    flavor = :ubuntu
+    series = 'wily'
+    image = CI::PangeaImage.new(flavor, series)
+    # Do not use assert_image here as we need to verify coercion from
+    # :ubuntu to 'ubuntu' works as expected.
+    # assert_image in fact relies on it.
+    assert_equal('pangea/ubuntu:wily', image.to_s)
+  end
 end
