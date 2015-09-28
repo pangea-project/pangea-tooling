@@ -39,12 +39,14 @@ def create_container(flavor, version)
                                WorkingDir: ENV.fetch('HOME'),
                                Cmd: ['sh', '/tooling-pending/deploy_in_container.sh'],
                                Env: ['PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'])
-  @log.info 'creating debug thread'
-  Thread.new do
+  unless ENV.fetch('TESTING', false)
     # :nocov:
-    c.attach do |_stream, chunk|
-      puts chunk
-      STDOUT.flush
+    @log.info 'creating debug thread'
+    Thread.new do
+      c.attach do |_stream, chunk|
+        puts chunk
+        STDOUT.flush
+      end
     end
     # :nocov:
   end
