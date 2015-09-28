@@ -14,7 +14,7 @@ Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 $stdout = $stderr
 
 def create_container(flavor, version)
-  b = CI::BaseImage.new(flavor,version)
+  base = CI::BaseImage.new(flavor, version)
 
   @log = Logger.new(STDERR)
 
@@ -23,18 +23,19 @@ def create_container(flavor, version)
   end
 
   # create base
-  unless Docker::Image.exist?(b.to_s)
+  unless Docker::Image.exist?(base.to_s)
     @log.info 'creating base docker image'
     docker_image = "#{flavor}:#{version}"
     docker_image = "armbuild/#{flavor}:#{version}" if DPKG::HOST_ARCH == 'armhf'
-    Docker::Image.create(fromImage: docker_image).tag(repo: b.repo, tag: b.tag)
+    Docker::Image.create(fromImage: docker_image).tag(repo: base.repo,
+                                                      tag: base.tag)
   end
 
   # Take the latest image which either is the previous latest or a completely
   # prestine fork of the base ubuntu image and deploy into it.
   # FIXME use containment here probably
   @log.info 'creating container'
-  c = Docker::Container.create(Image: b.to_s,
+  c = Docker::Container.create(Image: base.to_s,
                                WorkingDir: ENV.fetch('HOME'),
                                Cmd: ['sh', '/tooling-pending/deploy_in_container.sh'],
                                Env: ['PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'])
@@ -87,7 +88,7 @@ def create_container(flavor, version)
   c.remove
   begin
     @log.info 'Deleting old image'
-    previous_image = Docker::Image.get(b.to_s)
+    previous_image = Docker::Image.get(base.to_s)
     @log.info previous_image.to_s
     previous_image.delete
   rescue Docker::Error::NotFoundError
@@ -96,7 +97,7 @@ def create_container(flavor, version)
     @log.warn 'Could not remove old latest image, supposedly it is still used'
   end
   @log.info "Tagging #{@i}"
-  @i.tag(repo: b.repo, tag: b.tag, force: true)
+  @i.tag(repo: base.repo, tag: base.tag, force: true)
 
   # Disabled because we should not be leaking. And this has reentrancy problems
   # where another deployment can cleanup our temporary container/image...
