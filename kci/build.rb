@@ -2,7 +2,7 @@
 
 require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/retry'
-require_relative '../lib/docker/containment'
+require_relative '../lib/ci/containment'
 
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
@@ -27,7 +27,9 @@ binds =  [
   "#{Dir.pwd}:#{Dir.pwd}"
 ]
 
-c = Containment.new(JOB_NAME, image: "jenkins/#{DIST}_#{TYPE}", binds: binds)
+c = CI::Containment.new(JOB_NAME,
+                        image: CI::PangeaImage.new(:ubuntu, DIST),
+                        binds: binds)
 Retry.retry_it(times: 2, errors: [Docker::Error::NotFoundError]) do
   status_code = c.run(Cmd: ["#{TOOLING_PATH}/builder.rb", JOB_NAME, Dir.pwd])
   exit status_code unless status_code == 0
