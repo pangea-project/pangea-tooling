@@ -8,6 +8,6 @@ DIST = ENV.fetch('DIST')
 TYPE = ENV.fetch('TYPE')
 JOB_NAME = ENV.fetch('JOB_NAME')
 
-c = CI::Containment.new(JOB_NAME, image: PangeaImage.new(:ubuntu, DIST))
+c = CI::Containment.new(JOB_NAME, image: CI::PangeaImage.new(:ubuntu, DIST))
 status_code = c.run(Cmd: ARGV)
 exit status_code
