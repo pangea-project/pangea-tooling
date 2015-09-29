@@ -23,6 +23,24 @@ class DirectBindingArrayTest < TestCase
     b = CI::Container::DirectBindingArray.to_bindings(['/', '/tmp:/tmp'])
     assert_equal(%w(/:/ /tmp:/tmp), b)
   end
+
+  def test_to_bindings_colons
+    # This is a string containing colon but isn't a binding map
+    path = '/tmp/CI::ContainmentTest20150929-32520-12hjrdo'
+    b = CI::Container::DirectBindingArray.to_bindings([path])
+    assert_equal(["#{path}:#{path}"], b)
+
+    # This is a string containing colons but is already a binding map because
+    # it is symetric.
+    path = '/tmp:/tmp:/tmp:/tmp'
+    b = CI::Container::DirectBindingArray.to_bindings(["#{path}"])
+    assert_equal([path], b)
+
+    # Not symetric but the part after the first colon is an absolute path.
+    path = '/tmp:/tmp:/tmp'
+    b = CI::Container::DirectBindingArray.to_bindings(["#{path}"])
+    assert_equal([path], b)
+  end
 end
 
 # The majority of functionality is covered through containment.
