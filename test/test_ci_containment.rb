@@ -4,9 +4,36 @@ require_relative '../lib/ci/containment.rb'
 require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../lib/ci/pangeaimage'
 
+module InterceptStartContainer
+  def start(*args)
+    if InterceptStartContainer.intercept_start_container
+      InterceptStartContainer.intercept_start_args = args
+      return
+    end
+    super(*args)
+  end
+
+  def self.intercept_start_args
+    @args
+  end
+
+  def self.intercept_start_args=(args)
+    @args = args
+  end
+
+  def self.intercept_start_container
+    @intercept_start_container.nil? ? false : @intercept_start_container
+  end
+
+  def self.intercept_start_container=(value)
+    @intercept_start_container = value
+  end
+end
+
 module CI
   class ContainmentTest < TestCase
     self.file = __FILE__
+    self.test_order = :alphabetic # There's a test_ZZZ to be run at end
 
     # :nocov:
     def cleanup_container
@@ -151,6 +178,29 @@ module CI
         c = Containment.new(@job_name, image: @image, binds: [])
         assert_equal(c.default_create_options[:Image], 'pangea/ubuntu:vivid')
       end
+    end
+
+    def test_ZZZ_binds # Last test always! Changes VCR configuration.
+      # Container binds were overwritten by Containment at some point, make
+      # sure the binds we put in are the binds that are passed to docker.
+      Dir.chdir(@tmpdir) do
+        VCR.configure do |config|
+          config.filter_sensitive_data('<%= Dir.pwd %>') { Dir.pwd }
+        end
+        Docker::Container.prepend(InterceptStartContainer)
+        InterceptStartContainer.intercept_start_container = true
+        VCR.use_cassette(__method__, erb: true) do
+          c = Containment.new(@job_name, image: @image, binds: [Dir.pwd])
+          c.run(Cmd: ['bash' '-c', 'exit 0'])
+          args = InterceptStartContainer.intercept_start_args
+          assert_equal(1, args.size)
+          args = args[0]
+          assert_equal(CI::Container::DirectBindingArray.to_bindings([Dir.pwd]),
+                       args[:Binds])
+        end
+      end
+    ensure
+      InterceptStartContainer.intercept_start_container = false
     end
   end
 end

@@ -89,7 +89,7 @@ module CI
     private
 
     def rescued_start(c)
-      c.start(Binds: @binds, Privileged: @privileged)
+      c.start(Privileged: @privileged)
       status_code = c.wait.fetch('StatusCode', 1)
       c.stop
       status_code
