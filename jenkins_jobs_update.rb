@@ -55,7 +55,7 @@ class ProjectUpdater
   def populate_queue
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
-    %w(vivid).each do |distribution|
+    %w(wily).each do |distribution|
       %w(unstable).each do |type|
         projects = Projects.new(type: type, allow_custom_ci: true, projects_file: 'ci-tooling/data/projects_mci.json')
         all_builds = projects.collect do |project|
