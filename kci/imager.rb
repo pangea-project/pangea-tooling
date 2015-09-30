@@ -2,7 +2,7 @@
 
 require 'fileutils'
 
-require_relative '../lib/docker/containment'
+require_relative '../lib/ci/containment'
 
 TOOLING_PATH = File.dirname(__dir__)
 
@@ -18,10 +18,10 @@ binds = [
   "#{Dir.pwd}:#{Dir.pwd}"
 ]
 
-c = Containment.new(JOB_NAME,
-                    image: "jenkins/#{DIST}_#{TYPE}",
-                    binds: binds,
-                    privileged: true)
+c = CI::Containment.new(JOB_NAME,
+                        image: CI::PangeaImage.new(:ubuntu, DIST),
+                        binds: binds,
+                        privileged: true)
 cmd = ["#{TOOLING_PATH}/kci/imager/build.sh", Dir.pwd, DIST, ARCH, TYPE]
 status_code = c.run(Cmd: cmd)
 exit status_code unless status_code == 0
