@@ -24,16 +24,4 @@ apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true dist-up
 
 cd $SCRIPTDIR
 echo "Executing deploy_in_container.sh"
-if [ -z "$TESTING" ]; then
-  exec deploy_in_container.sh
-else # Testing
-  if grep vivid /etc/apt/sources.list; then
-    echo "Testing :: Found vivid in sources.list still!"
-    exit 1
-  fi
-  . /etc/lsb-release
-  if [ "$DISTRIB_CODENAME" = "vivid" ]; then
-    echo "Testing :: DISTRIB_CODENAME=vivid"
-    exit 1
-  fi
-fi
+exec ./deploy_in_container.sh

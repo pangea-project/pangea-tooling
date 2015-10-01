@@ -54,6 +54,7 @@ class DeployUpgradeTest < TestCase
     @binds = ["#{Dir.pwd}:/tooling-pending"]
     FileUtils.cp_r(Dir.glob("#{@tooling_path}/deploy_upgrade_container.sh"),
                    Dir.pwd)
+    FileUtils.cp_r("#{@datadir}/deploy_in_container.sh", Dir.pwd)
 
     VCR.turned_off do
       cleanup_container
@@ -92,7 +93,7 @@ class DeployUpgradeTest < TestCase
       c = CI::Containment.new(@job_name, image: @image, binds: @binds)
       cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh',
              'vivid', 'wily']
-      ret = c.run(Cmd: cmd, Env: ['TESTING=true'])
+      ret = c.run(Cmd: cmd)
       assert_equal(0, ret)
       # The script has testing capability built in since we have no proper
       # provisioning to inspect containments post-run in any sort of reasonable
