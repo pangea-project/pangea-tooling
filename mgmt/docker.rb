@@ -25,10 +25,10 @@ def create_container(flavor, version)
   # create base
   upgrades = [] # [0] from [1] to. iff upgrade is necessary
   unless Docker::Image.exist?(base.to_s)
-    @log.info 'creating base docker image'
     base_image = "#{flavor}:#{version}"
     base_image = "armbuild/#{flavor}:#{version}" if DPKG::HOST_ARCH == 'armhf'
     begin
+      @log.info "creating base docker image from #{base_image} for #{base}"
       image = Docker::Image.create(fromImage: base_image)
     rescue Docker::Error::ArgumentError
       error = "Failed to create Image from #{base_image}"
@@ -45,7 +45,7 @@ def create_container(flavor, version)
   # Take the latest image which either is the previous latest or a completely
   # prestine fork of the base ubuntu image and deploy into it.
   # FIXME use containment here probably
-  @log.info 'creating container'
+  @log.info "creating container from #{base}"
   cmd = ['sh', '/tooling-pending/deploy_in_container.sh']
   unless upgrades.empty?
     cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh'] + upgrades
@@ -65,7 +65,7 @@ def create_container(flavor, version)
     end
     # :nocov:
   end
-  @log.info 'starting container'
+  @log.info "starting container from #{base}"
   c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"],
           Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }])
   status_code = c.wait.fetch('StatusCode', 1)
@@ -104,7 +104,7 @@ def create_container(flavor, version)
 
   c.remove
   begin
-    @log.info 'Deleting old image'
+    @log.info "Deleting old image of #{base}"
     previous_image = Docker::Image.get(base.to_s)
     @log.info previous_image.to_s
     previous_image.delete
