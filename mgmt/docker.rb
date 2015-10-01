@@ -35,7 +35,7 @@ def create_container(flavor, version)
       raise error if version != 'wily' || upgrade_first
       puts error
       puts 'Trying again with vivid and an upgrade...'
-      base_image = base_image.tr(version, 'vivid')
+      base_image = base_image.gsub(version, 'vivid')
       upgrade_first = true
       retry
     end
