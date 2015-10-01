@@ -28,11 +28,16 @@ def create_container(flavor, version)
     @log.info 'creating base docker image'
     base_image = "#{flavor}:#{version}"
     base_image = "armbuild/#{flavor}:#{version}" if DPKG::HOST_ARCH == 'armhf'
-    image = Docker::Image.create(fromImage: base_image)
-    # FIXME: needs test coverage and genericism (get rid of vivid and wily)
-    if image.id.nil? && flavor == 'wily'
-      image = Docker::Image.create(fromImage: base_image.tr(flavor, 'vivid'))
+    begin
+      image = Docker::Image.create(fromImage: base_image)
+    rescue Docker::Error::ArgumentError => e
+      error = "Failed to create Image from #{base_image}"
+      raise error if flavor != 'wily' || upgrade_first
+      puts error
+      puts 'Trying again with vivid and an upgrade...'
+      base_image = base_image.tr(flavor, 'vivid')
       upgrade_first = true
+      retry
     end
     image.tag(repo: base.repo, tag: base.tag)
   end
