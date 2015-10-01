@@ -23,7 +23,7 @@ def create_container(flavor, version)
   end
 
   # create base
-  upgrade_first = false # True when we need to upgrade the container
+  upgrades = [] # [0] from [1] to. iff upgrade is necessary
   unless Docker::Image.exist?(base.to_s)
     @log.info 'creating base docker image'
     base_image = "#{flavor}:#{version}"
@@ -32,11 +32,11 @@ def create_container(flavor, version)
       image = Docker::Image.create(fromImage: base_image)
     rescue Docker::Error::ArgumentError
       error = "Failed to create Image from #{base_image}"
-      raise error if version != 'wily' || upgrade_first
+      raise error if version != 'wily' || !upgrades.empty?
       puts error
       puts 'Trying again with vivid and an upgrade...'
       base_image = base_image.gsub(version, 'vivid')
-      upgrade_first = true
+      upgrades << 'vivid' << 'wily'
       retry
     end
     image.tag(repo: base.repo, tag: base.tag)
@@ -46,11 +46,13 @@ def create_container(flavor, version)
   # prestine fork of the base ubuntu image and deploy into it.
   # FIXME use containment here probably
   @log.info 'creating container'
-  script = '/tooling-pending/deploy_in_container.sh'
-  script = '/tooling-pending/deploy_upgrade_container.sh' if upgrade_first
+  cmd = ['sh', '/tooling-pending/deploy_in_container.sh']
+  unless upgrades.empty?
+    cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh'] + upgrades
+  end
   c = Docker::Container.create(Image: base.to_s,
                                WorkingDir: ENV.fetch('HOME'),
-                               Cmd: ['sh', script],
+                               Cmd: cmd,
                                Env: ['PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'])
   unless ENV.fetch('TESTING', false)
     # :nocov:
