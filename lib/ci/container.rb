@@ -29,10 +29,11 @@ module CI
     def self.create(connection = Docker.connection,
                     name: nil,
                     binds: [Dir.pwd],
-                    **options)
+                    **options_)
       # FIXME: commented to allow tests passing with old containment data
       # assert_version
-      options = default_create_options.merge(options)
+      options = merge_env(default_create_options, options_)
+      options = options.merge(options_)
       options['name'] = name if name
       options[:Volumes] = DirectBindingArray.to_volumes(binds) if binds
       c = super(options, connection)
@@ -103,6 +104,17 @@ module CI
           env << format('%s=%s', v, ENV[v])
         end
         env
+      end
+
+      def merge_env(our_options, their_options)
+        ours = our_options[:Env]
+        theirs = their_options[:Env]
+        return our_options if theirs.nil?
+        our_hash = ours.map { |i| i.split('=') }.to_h
+        their_hash = theirs.map { |i| i.split('=') }.to_h
+        our_options[:Env] = our_hash.merge(their_hash).map { |i| i.join('=') }
+        their_options.delete(:Env)
+        our_options
       end
     end
   end
