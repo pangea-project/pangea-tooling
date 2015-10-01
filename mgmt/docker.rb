@@ -7,6 +7,7 @@ require 'logger/colors'
 require_relative '../ci-tooling/lib/dpkg'
 require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/dci'
+require_relative '../lib/ci/container'
 require_relative '../lib/ci/pangeaimage'
 
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
@@ -50,10 +51,9 @@ def create_container(flavor, version)
   unless upgrades.empty?
     cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh'] + upgrades
   end
-  c = Docker::Container.create(Image: base.to_s,
-                               WorkingDir: ENV.fetch('HOME'),
-                               Cmd: cmd,
-                               Env: ['PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'])
+  c = CI::Container.create(Image: base.to_s,
+                           WorkingDir: ENV.fetch('HOME'),
+                           Cmd: cmd)
   unless ENV.fetch('TESTING', false)
     # :nocov:
     @log.info 'creating debug thread'
@@ -66,10 +66,10 @@ def create_container(flavor, version)
     # :nocov:
   end
   @log.info "starting container from #{base}"
-  c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"],
-          Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }])
-  status_code = c.wait.fetch('StatusCode', 1)
-  fail 'status fucked' if status_code != 0
+  c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"])
+  ret = c.wait
+  status_code = ret.fetch('StatusCode', 1)
+  fail "Bad return #{ret}" if status_code != 0
   c.stop!
 
   # Flatten the image by piping a tar export into a tar import.
