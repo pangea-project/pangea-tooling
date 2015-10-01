@@ -30,12 +30,12 @@ def create_container(flavor, version)
     base_image = "armbuild/#{flavor}:#{version}" if DPKG::HOST_ARCH == 'armhf'
     begin
       image = Docker::Image.create(fromImage: base_image)
-    rescue Docker::Error::ArgumentError => e
+    rescue Docker::Error::ArgumentError
       error = "Failed to create Image from #{base_image}"
-      raise error if flavor != 'wily' || upgrade_first
+      raise error if version != 'wily' || upgrade_first
       puts error
       puts 'Trying again with vivid and an upgrade...'
-      base_image = base_image.tr(flavor, 'vivid')
+      base_image = base_image.tr(version, 'vivid')
       upgrade_first = true
       retry
     end
