@@ -1,0 +1,456 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/version
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+      Content-Length:
+      - '148'
+    body:
+      encoding: UTF-8
+      string: |
+        {"Version":"1.7.1","ApiVersion":"1.19","GitCommit":"786b29d","GoVersion":"go1.4.2","Os":"linux","Arch":"amd64","KernelVersion":"3.19.0-30-generic"}
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+      Content-Length:
+      - '30'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: DeployUpgradeTest
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+      Content-Length:
+      - '30'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: DeployUpgradeTest
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+      Content-Length:
+      - '30'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: DeployUpgradeTest
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+      Content-Length:
+      - '30'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: DeployUpgradeTest
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+      Content-Length:
+      - '30'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: DeployUpgradeTest
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+      Content-Length:
+      - '30'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: DeployUpgradeTest
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+      Content-Length:
+      - '30'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: DeployUpgradeTest
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+      Content-Length:
+      - '30'
+    body:
+      encoding: UTF-8
+      string: |
+        no such id: DeployUpgradeTest
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/create
+    body:
+      encoding: UTF-8
+      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"DeployUpgradeTest:latest","Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh"],"Volumes":{"/home/me/src/git/pangea-tooling":{}}}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: 
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+      Content-Length:
+      - '90'
+    body:
+      encoding: UTF-8
+      string: |
+        {"Id":"7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2","Warnings":null}
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/rename?name=DeployUpgradeTest
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/start
+    body:
+      encoding: UTF-8
+      string: '{"Binds":["/home/me/src/git/pangea-tooling:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/attach?stderr=true&stdout=true&stream=true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Content-Type:
+      - application/vnd.docker.raw-stream
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        AgAAAAAAAAMrIFsBAAAAAAAAcC90b29saW5nLXBlbmRpbmcvZGVwbG95X3Vw
+        Z3JhZGVfY29udGFpbmVyLnNoIGNhbGxlZCB3aXRoIG5vIGFyZ3VtZW50IGZy
+        b20gd2hlcmUgdG8gdHJhbnNpdGlvbiBmcm9tIChhcmd1bWVudCAxKQoCAAAA
+        AAAAhyAteiAgXQorIGVjaG8gL3Rvb2xpbmctcGVuZGluZy9kZXBsb3lfdXBn
+        cmFkZV9jb250YWluZXIuc2ggY2FsbGVkIHdpdGggbm8gYXJndW1lbnQgZnJv
+        bSB3aGVyZSB0byB0cmFuc2l0aW9uIGZyb20gKGFyZ3VtZW50IDEpCisgZXhp
+        dCAxCg==
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/wait
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+      Content-Length:
+      - '17'
+    body:
+      encoding: UTF-8
+      string: |
+        {"StatusCode":1}
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/stop
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 304
+      message: 
+    headers:
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/kill
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Thu, 01 Oct 2015 10:28:41 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+- request:
+    method: delete
+    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Date:
+      - Thu, 01 Oct 2015 10:28:46 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Thu, 01 Oct 2015 10:28:46 GMT
+recorded_with: VCR 2.9.3
