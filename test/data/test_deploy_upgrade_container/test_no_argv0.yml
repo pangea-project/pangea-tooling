@@ -19,7 +19,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:03 GMT
       Content-Length:
       - '148'
     body:
@@ -27,7 +27,7 @@ http_interactions:
       string: |
         {"Version":"1.7.1","ApiVersion":"1.19","GitCommit":"786b29d","GoVersion":"go1.4.2","Os":"linux","Arch":"amd64","KernelVersion":"3.19.0-30-generic"}
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
@@ -47,7 +47,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:03 GMT
       Content-Length:
       - '30'
     body:
@@ -55,7 +55,7 @@ http_interactions:
       string: |
         no such id: DeployUpgradeTest
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
@@ -75,7 +75,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:03 GMT
       Content-Length:
       - '30'
     body:
@@ -83,7 +83,7 @@ http_interactions:
       string: |
         no such id: DeployUpgradeTest
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
@@ -103,7 +103,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:03 GMT
       Content-Length:
       - '30'
     body:
@@ -111,7 +111,7 @@ http_interactions:
       string: |
         no such id: DeployUpgradeTest
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
@@ -131,7 +131,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:03 GMT
       Content-Length:
       - '30'
     body:
@@ -139,7 +139,7 @@ http_interactions:
       string: |
         no such id: DeployUpgradeTest
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
@@ -159,7 +159,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:03 GMT
       Content-Length:
       - '30'
     body:
@@ -167,7 +167,7 @@ http_interactions:
       string: |
         no such id: DeployUpgradeTest
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
@@ -187,7 +187,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:03 GMT
       Content-Length:
       - '30'
     body:
@@ -195,7 +195,7 @@ http_interactions:
       string: |
         no such id: DeployUpgradeTest
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
@@ -215,7 +215,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:03 GMT
       Content-Length:
       - '30'
     body:
@@ -223,7 +223,7 @@ http_interactions:
       string: |
         no such id: DeployUpgradeTest
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/DeployUpgradeTest/json
@@ -243,7 +243,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:03 GMT
       Content-Length:
       - '30'
     body:
@@ -251,13 +251,14 @@ http_interactions:
       string: |
         no such id: DeployUpgradeTest
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:03 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"DeployUpgradeTest:latest","Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh"],"Volumes":{"/home/me/src/git/pangea-tooling":{}}}'
+      string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"DeployUpgradeTest:latest","Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh"],"Volumes":{"<%=
+        Dir.pwd %>":{}}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -271,18 +272,18 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:03 GMT
       Content-Length:
       - '90'
     body:
       encoding: UTF-8
       string: |
-        {"Id":"7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2","Warnings":null}
+        {"Id":"f7cdc410371fc96322aa30ebfc70e9ab72c0212cd523bdbb8be363a9b2070d4e","Warnings":null}
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:03 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/rename?name=DeployUpgradeTest
+    uri: unix:///var/run/docker.sock/v1.16/containers/f7cdc410371fc96322aa30ebfc70e9ab72c0212cd523bdbb8be363a9b2070d4e/rename?name=DeployUpgradeTest
     body:
       encoding: US-ASCII
       string: ''
@@ -297,18 +298,18 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:03 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:03 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/start
+    uri: unix:///var/run/docker.sock/v1.16/containers/f7cdc410371fc96322aa30ebfc70e9ab72c0212cd523bdbb8be363a9b2070d4e/start
     body:
       encoding: UTF-8
-      string: '{"Binds":["/home/me/src/git/pangea-tooling:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+      string: '{"Binds":["<%= Dir.pwd %>:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -320,15 +321,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:04 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:04 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/attach?stderr=true&stdout=true&stream=true
+    uri: unix:///var/run/docker.sock/v1.16/containers/f7cdc410371fc96322aa30ebfc70e9ab72c0212cd523bdbb8be363a9b2070d4e/attach?stderr=true&stdout=true&stream=true
     body:
       encoding: US-ASCII
       string: ''
@@ -355,10 +356,10 @@ http_interactions:
         bSB3aGVyZSB0byB0cmFuc2l0aW9uIGZyb20gKGFyZ3VtZW50IDEpCisgZXhp
         dCAxCg==
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:04 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/wait
+    uri: unix:///var/run/docker.sock/v1.16/containers/f7cdc410371fc96322aa30ebfc70e9ab72c0212cd523bdbb8be363a9b2070d4e/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -375,7 +376,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:04 GMT
       Content-Length:
       - '17'
     body:
@@ -383,10 +384,10 @@ http_interactions:
       string: |
         {"StatusCode":1}
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:04 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/stop
+    uri: unix:///var/run/docker.sock/v1.16/containers/f7cdc410371fc96322aa30ebfc70e9ab72c0212cd523bdbb8be363a9b2070d4e/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -401,15 +402,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:04 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:04 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2/kill
+    uri: unix:///var/run/docker.sock/v1.16/containers/f7cdc410371fc96322aa30ebfc70e9ab72c0212cd523bdbb8be363a9b2070d4e/kill
     body:
       encoding: US-ASCII
       string: ''
@@ -424,15 +425,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Thu, 01 Oct 2015 10:28:41 GMT
+      - Thu, 01 Oct 2015 10:43:04 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:41 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:04 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/containers/7d6a195aad038ddaf9ad8e5fb2179a07bd3be7b064695df63deefd3b1b5587f2
+    uri: unix:///var/run/docker.sock/v1.16/containers/f7cdc410371fc96322aa30ebfc70e9ab72c0212cd523bdbb8be363a9b2070d4e
     body:
       encoding: US-ASCII
       string: ''
@@ -447,10 +448,10 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Thu, 01 Oct 2015 10:28:46 GMT
+      - Thu, 01 Oct 2015 10:43:09 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:28:46 GMT
+  recorded_at: Thu, 01 Oct 2015 10:43:09 GMT
 recorded_with: VCR 2.9.3

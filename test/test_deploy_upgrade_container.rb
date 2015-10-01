@@ -42,17 +42,18 @@ class DeployUpgradeTest < TestCase
       config.default_cassette_options = {
         match_requests_on:  [:method, :uri, :body]
       }
+      # ERB PWD
+      config.filter_sensitive_data('<%= Dir.pwd %>') { Dir.pwd }
     end
-    # Chdir to root, as Containment will set the working dir to PWD and this
-    # is slightly unwanted for tmpdir tests.
-    Dir.chdir('/')
 
     @repo = self.class.to_s
     @image = "#{@repo}:latest"
 
     @job_name = @repo.tr(':', '_')
     @tooling_path = File.expand_path("#{__dir__}/../")
-    @binds = ["#{@tooling_path}:/tooling-pending"]
+    @binds = ["#{Dir.pwd}:/tooling-pending"]
+    FileUtils.cp_r(Dir.glob("#{@tooling_path}/deploy_upgrade_container.sh"),
+                   Dir.pwd)
 
     VCR.turned_off do
       cleanup_container
@@ -68,7 +69,7 @@ class DeployUpgradeTest < TestCase
   end
 
   def test_no_argv0
-    VCR.use_cassette(__method__) do
+    VCR.use_cassette(__method__, erb: true) do
       c = CI::Containment.new(@job_name, image: @image, binds: @binds)
       cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh']
       ret = c.run(Cmd: cmd)
@@ -77,7 +78,7 @@ class DeployUpgradeTest < TestCase
   end
 
   def test_no_argv1
-    VCR.use_cassette(__method__) do
+    VCR.use_cassette(__method__, erb: true) do
       c = CI::Containment.new(@job_name, image: @image, binds: @binds)
       cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh',
              'vivid']
@@ -87,7 +88,7 @@ class DeployUpgradeTest < TestCase
   end
 
   def test_success
-    VCR.use_cassette(__method__) do
+    VCR.use_cassette(__method__, erb: true) do
       c = CI::Containment.new(@job_name, image: @image, binds: @binds)
       cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh',
              'vivid', 'wily']
