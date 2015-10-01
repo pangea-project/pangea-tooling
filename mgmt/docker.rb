@@ -23,21 +23,29 @@ def create_container(flavor, version)
   end
 
   # create base
+  upgrade_first = false # True when we need to upgrade the container
   unless Docker::Image.exist?(base.to_s)
     @log.info 'creating base docker image'
-    docker_image = "#{flavor}:#{version}"
-    docker_image = "armbuild/#{flavor}:#{version}" if DPKG::HOST_ARCH == 'armhf'
-    Docker::Image.create(fromImage: docker_image).tag(repo: base.repo,
-                                                      tag: base.tag)
+    base_image = "#{flavor}:#{version}"
+    base_image = "armbuild/#{flavor}:#{version}" if DPKG::HOST_ARCH == 'armhf'
+    image = Docker::Image.create(fromImage: base_image)
+    # FIXME: needs test coverage and genericism (get rid of vivid and wily)
+    if image.id.nil? && flavor == 'wily'
+      image = Docker::Image.create(fromImage: base_image.tr(flavor, 'vivid'))
+      upgrade_first = true
+    end
+    image.tag(repo: base.repo, tag: base.tag)
   end
 
   # Take the latest image which either is the previous latest or a completely
   # prestine fork of the base ubuntu image and deploy into it.
   # FIXME use containment here probably
   @log.info 'creating container'
+  script = '/tooling-pending/deploy_in_container.sh'
+  script = '/tooling-pending/deploy_upgrade_container.sh' if upgrade_first
   c = Docker::Container.create(Image: base.to_s,
                                WorkingDir: ENV.fetch('HOME'),
-                               Cmd: ['sh', '/tooling-pending/deploy_in_container.sh'],
+                               Cmd: ['sh', script],
                                Env: ['PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'])
   unless ENV.fetch('TESTING', false)
     # :nocov:
