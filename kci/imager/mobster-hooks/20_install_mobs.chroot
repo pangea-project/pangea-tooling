@@ -31,7 +31,9 @@ apt-get install -y \
   kinfocenter \
   muon-discover \
   koko \
-  okular-mobile
+  okular-mobile \
+  vlc \
+  gnome-chess \
 
 apt-get install -y \
   ubiquity \

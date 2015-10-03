@@ -25,4 +25,6 @@ kinfocenter
 muon-discover
 koko
 okular-mobile
+vlc
+gnome-chess
 EOF
