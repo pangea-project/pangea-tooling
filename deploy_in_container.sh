@@ -18,9 +18,12 @@ sed -i 's,httpredir.debian.org,cloudfront.debian.net,g' /etc/apt/sources.list
 
 apt-get update
 
-while true
+i="5"
+
+while [ $i -gt 0 ]
 do
 apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true install rake ruby ruby-dev build-essential zlib1g-dev && break
+i=$((i-1))
 done
 
 cd $SCRIPTDIR
