@@ -72,7 +72,7 @@ mv livecd.kubuntu.* ../result/
 cd ../result/
 
 for f in *; do
-    new_name=$(echo $f | sed "s/livecd\.kubuntu/kubuntu-phone_${DATE}-${ARCH}/")
+    new_name=$(echo $f | sed "s/livecd\.kubuntu/kubuntu-pm_${DATE}-${ARCH}/")
     mv $f $new_name
 done
 
