@@ -9,6 +9,10 @@ TOOLING_PATH = File.dirname(__dir__)
 JOB_NAME = ENV.fetch('JOB_NAME')
 DIST = ENV.fetch('DIST')
 
+if `ssh-keygen -F kubuntu.plasma-mobile.org`.strip.empty?
+  `ssh-keyscan -H kubuntu.plasma-mobile.org >> ~/.ssh/known_hosts`
+end
+
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
 binds = [
