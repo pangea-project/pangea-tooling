@@ -10,6 +10,7 @@ require_relative '../ci-tooling/lib/dci'
 require_relative '../ci-tooling/lib/dpkg'
 require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../lib/ci/pangeaimage'
+require_relative '../lib/mgmt/deployer'
 
 class DeployTest < TestCase
   def setup
@@ -49,43 +50,23 @@ class DeployTest < TestCase
     load(File.join(__dir__, path.to_str))
   end
 
-  def create_base(flavor, version)
-    b = CI::PangeaImage.new(flavor, version)
-    # create base
-    # FIXME: code duplication from docker
-    unless Docker::Image.exist?(b.to_s)
-      docker_image = "#{flavor}:#{version}"
-      docker_image = "armbuild/#{flavor}:#{version}" if DPKG::HOST_ARCH == 'armhf'
-      progressbar = nil
-      image = Docker::Image.create(fromImage: docker_image) do |data|
-        update = JSON.parse(data, object_class: OpenStruct)
-        if progressbar.nil? && update.progressDetail && update.progress
-          detail = update.progressDetail
-          progressbar = ProgressBar.create(title: update.stats,
-                                           total: detail.total)
-        end
-        if update.progressDetail && update.progress
-          detail = update.progressDetail
-          progressbar.total = detail.total
-          progressbar.progress = detail.current
-          progressbar = nil if progressbar.total == progressbar.progress
-          next
-        end
-        puts update.status
-      end
-      image.tag(repo: b.repo, tag: b.tag)
-    end
+  # create base
+  def create_base(flavor, tag)
+    b = CI::PangeaImage.new(flavor, tag)
+    return if Docker::Image.exist?(b.to_s)
+
+    deployer = MGMT::Deployer.new(flavor, tag)
+    deployer.create_base
   end
 
-  def remove_base(flavor, version)
-    b = CI::PangeaImage.new(flavor, version)
-    # create base
-    if Docker::Image.exist?(b.to_s)
-      image = Docker::Image.get(b.to_s)
-      # Do not prune to keep the history. Otherwise we have to download the
-      # entire image in the _new test.
-      image.delete(force: true, noprune: true)
-    end
+  def remove_base(flavor, tag)
+    b = CI::PangeaImage.new(flavor, tag)
+    return unless Docker::Image.exist?(b.to_s)
+
+    image = Docker::Image.get(b.to_s)
+    # Do not prune to keep the history. Otherwise we have to download the
+    # entire image in the _new test.
+    image.delete(force: true, noprune: true)
   end
 
   def test_deploy_exists
@@ -105,7 +86,16 @@ class DeployTest < TestCase
 
     VCR.use_cassette(__method__, erb: true) do
       assert_nothing_raised do
-        load_relative '../mgmt/docker.rb'
+        KCI.series.keys.each do |k|
+          d = MGMT::Deployer.new('ubuntu', k, :testing)
+          d.run!
+        end
+
+        DCI.series.keys.each do |k|
+          d = MGMT::Deployer.new('debian', k, :testing)
+          d.testing = true
+          d.run!
+        end
       end
     end
   end
@@ -127,7 +117,15 @@ class DeployTest < TestCase
 
     VCR.use_cassette(__method__, erb: true) do
       assert_nothing_raised do
-        load_relative '../mgmt/docker.rb'
+        KCI.series.keys.each do |k|
+          d = MGMT::Deployer.new('ubuntu', k, :testing)
+          d.run!
+        end
+
+        DCI.series.keys.each do |k|
+          d = MGMT::Deployer.new('debian', k, :testing)
+          d.run!
+        end
       end
     end
   end
