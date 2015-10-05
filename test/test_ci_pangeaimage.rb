@@ -10,6 +10,7 @@ class PangeaImageTest < TestCase
     prefix = testing ? 'pangea-testing' : 'pangea'
     assert_equal("#{prefix}/#{flavor}:#{series}", image.to_s)
     assert_equal("#{prefix}/#{flavor}", image.repo)
+    assert_equal("#{flavor}", image.flavor)
     assert_equal(series, image.tag)
   end
 

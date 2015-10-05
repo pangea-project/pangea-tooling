@@ -2,6 +2,7 @@ module CI
   class PangeaImage
     attr_accessor :repo
     attr_accessor :tag
+    attr_accessor :flavor
 
     def initialize(flavor, series)
       if ENV['TESTING']
@@ -9,6 +10,7 @@ module CI
       else
         @repo = "pangea/#{flavor}"
       end
+      @flavor = flavor
       @tag = series
     end
 
