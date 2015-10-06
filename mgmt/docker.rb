@@ -16,4 +16,11 @@ DCI.series.keys.each do |k|
   end
 end
 
-Process.waitall
+ec = Process.waitall
+
+ec.each do |_, status|
+  unless status.success?
+    puts 'WARNING: One of the containers failed to build'
+    exit 1
+  end
+end
