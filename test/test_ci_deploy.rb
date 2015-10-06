@@ -71,20 +71,14 @@ class DeployTest < TestCase
 
   def deploy_all
     KCI.series.keys.each do |k|
-      fork do
-        d = MGMT::Deployer.new('ubuntu', k, :testing)
-        d.run!
-      end
+      d = MGMT::Deployer.new('ubuntu', k, :testing)
+      d.run!
     end
 
     DCI.series.keys.each do |k|
-      fork do
-        d = MGMT::Deployer.new('debian', k, :testing)
-        d.run!
-      end
+      d = MGMT::Deployer.new('debian', k, :testing)
+      d.run!
     end
-
-    Process.waitall
   end
 
   def test_deploy_exists
