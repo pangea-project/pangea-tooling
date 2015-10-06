@@ -9,18 +9,18 @@ class Shebang
     @parser = nil
 
     return unless line
-    return unless line.start_with?("#!")
+    return unless line.start_with?('#!')
 
-    parts = line.split(" ")
+    parts = line.split(' ')
 
     return unless parts.size >= 1
-    if parts[0].end_with?("/env")
+    if parts[0].end_with?('/env')
       return unless parts.size >= 2
       @parser = parts[1]
-    elsif !parts[0].include?("/") or parts[0].end_with?("/")
+    elsif !parts[0].include?('/') || parts[0].end_with?('/')
       return # invalid
     else
-      @parser = parts[0].split("/").pop
+      @parser = parts[0].split('/').pop
     end
 
     @valid = true
@@ -32,23 +32,23 @@ class ParseTest < Test::Unit::TestCase
     s = Shebang.new(nil)
     assert(!s.valid)
 
-    s = Shebang.new("")
+    s = Shebang.new('')
     assert(!s.valid)
 
-    s = Shebang.new("#!")
+    s = Shebang.new('#!')
     assert(!s.valid)
 
-    s = Shebang.new("#!/usr/bin/env ruby")
+    s = Shebang.new('#!/usr/bin/env ruby')
     assert(s.valid)
-    assert(s.parser == "ruby")
+    assert_equal('ruby', s.parser)
 
-    s = Shebang.new("#!/usr/bin/bash")
+    s = Shebang.new('#!/usr/bin/bash')
     assert(s.valid)
-    assert(s.parser == "bash")
+    assert_equal('bash', s.parser)
 
-    s = Shebang.new("#!/bin/sh -xe")
+    s = Shebang.new('#!/bin/sh -xe')
     assert(s.valid)
-    assert(s.parser == "sh")
+    assert_equal('sh', s.parser)
   end
 
   def test_syntax
@@ -65,7 +65,7 @@ class ParseTest < Test::Unit::TestCase
       ci-tooling/lib
       ci-tooling/test
     )
-    source_dirs.each do | source_dir |
+    source_dirs.each do |source_dir|
       Dir.glob("#{source_dir}/**/*.rb").each do |file|
         parse_ruby(file)
       end
@@ -84,8 +84,9 @@ class ParseTest < Test::Unit::TestCase
   end
 
   private
+
   def parse_bash(file)
-    assert(system("bash -n #{file}"))
+    assert(system("bash -n #{file}"), "#{file} not parsing as bash.")
   end
 
   def parse_ruby(file)
@@ -94,22 +95,21 @@ class ParseTest < Test::Unit::TestCase
   end
 
   def parse_sh(file)
-    assert(system("sh -n #{file}"))
+    assert(system("sh -n #{file}"), "#{file} not parsing as sh.")
   end
 
   def parse_shell(file)
-    puts "shell file: #{file}"
     shebang = Shebang.new(File.open(file).readline)
     case shebang.parser
-    when "bash"
+    when 'bash'
       parse_bash(file)
-    when "sh"
+    when 'sh'
       parse_sh(file)
     else
       if shebang.valid
-        warn "  shell type unknown, falling back to bash"
+        warn '  shell type unknown, falling back to bash'
       else
-        warn "  shebang invalid, falling back to bash"
+        warn '  shebang invalid, falling back to bash'
       end
       parse_bash(file)
     end
