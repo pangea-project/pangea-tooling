@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative 'lib/mgmt/deployer'
+require_relative '../lib/mgmt/deployer'
 
 KCI.series.keys.each do |k|
   fork do
