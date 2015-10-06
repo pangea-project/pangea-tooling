@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -ex
+
 SCRIPTDIR=$(readlink -f $(dirname -- "$0"))
 
 export DEBIAN_FRONTEND=noninteractive
