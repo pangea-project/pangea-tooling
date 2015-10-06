@@ -69,6 +69,24 @@ class DeployTest < TestCase
     image.delete(force: true, noprune: true)
   end
 
+  def deploy_all
+    KCI.series.keys.each do |k|
+      fork do
+        d = MGMT::Deployer.new('ubuntu', k, :testing)
+        d.run!
+      end
+    end
+
+    DCI.series.keys.each do |k|
+      fork do
+        d = MGMT::Deployer.new('debian', k, :testing)
+        d.run!
+      end
+    end
+
+    Process.waitall
+  end
+
   def test_deploy_exists
     copy_data
 
@@ -86,21 +104,7 @@ class DeployTest < TestCase
 
     VCR.use_cassette(__method__, erb: true) do
       assert_nothing_raised do
-        KCI.series.keys.each do |k|
-          fork do
-            d = MGMT::Deployer.new('ubuntu', k, :testing)
-            d.run!
-          end
-        end
-
-        DCI.series.keys.each do |k|
-          fork do
-            d = MGMT::Deployer.new('debian', k, :testing)
-            d.run!
-          end
-        end
-
-        Process.waitall
+        deploy_all
       end
     end
   end
@@ -122,15 +126,7 @@ class DeployTest < TestCase
 
     VCR.use_cassette(__method__, erb: true) do
       assert_nothing_raised do
-        KCI.series.keys.each do |k|
-          d = MGMT::Deployer.new('ubuntu', k, :testing)
-          d.run!
-        end
-
-        DCI.series.keys.each do |k|
-          d = MGMT::Deployer.new('debian', k, :testing)
-          d.run!
-        end
+        deploy_all
       end
     end
   end
