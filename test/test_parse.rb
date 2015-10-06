@@ -89,8 +89,8 @@ class ParseTest < Test::Unit::TestCase
   end
 
   def parse_ruby(file)
-    puts "ruby file: #{file}"
-    assert(system("ruby -c #{file} 1> /dev/null"))
+    assert(system("ruby -c #{file} 1> /dev/null"),
+           "#{file} not parsing as ruby.")
   end
 
   def parse_sh(file)
