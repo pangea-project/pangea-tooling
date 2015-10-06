@@ -87,15 +87,20 @@ class DeployTest < TestCase
     VCR.use_cassette(__method__, erb: true) do
       assert_nothing_raised do
         KCI.series.keys.each do |k|
-          d = MGMT::Deployer.new('ubuntu', k, :testing)
-          d.run!
+          fork do
+            d = MGMT::Deployer.new('ubuntu', k, :testing)
+            d.run!
+          end
         end
 
         DCI.series.keys.each do |k|
-          d = MGMT::Deployer.new('debian', k, :testing)
-          d.testing = true
-          d.run!
+          fork do
+            d = MGMT::Deployer.new('debian', k, :testing)
+            d.run!
+          end
         end
+
+        Process.waitall
       end
     end
   end

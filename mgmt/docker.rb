@@ -3,11 +3,17 @@
 require_relative 'lib/mgmt/deployer'
 
 KCI.series.keys.each do |k|
-  d = MGMT::Deployer.new('ubuntu', k)
-  d.run!
+  fork do
+    d = MGMT::Deployer.new('ubuntu', k)
+    d.run!
+  end
 end
 
 DCI.series.keys.each do |k|
-  d = MGMT::Deployer.new('debian', k)
-  d.run!
+  fork do
+    d = MGMT::Deployer.new('debian', k)
+    d.run!
+  end
 end
+
+Process.waitall
