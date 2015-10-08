@@ -5,6 +5,6 @@
     "calamares" : "calamares",
     "netrunner" : "netrunner",
     "netrunner-debian" : "netrunner",
-    "moz-plasma" : "plasmazilla",
+    "plasmazilla" : "plasmazilla",
     "debian-packaging" : "extras"
 }
