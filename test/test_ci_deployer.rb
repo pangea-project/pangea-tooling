@@ -125,6 +125,5 @@ class DeployTest < TestCase
 
   def teardown
     ENV['HOME'] = @oldhome
-    ENV.delete('TESTING')
   end
 end
