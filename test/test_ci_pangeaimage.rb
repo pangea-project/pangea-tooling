@@ -2,14 +2,12 @@ require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../lib/ci/pangeaimage'
 
 class PangeaImageTest < TestCase
-  def teardown
-    ENV.delete('TESTING')
+  def setup
+    CI::PangeaImage.namespace = 'pangea-testing'
   end
-
-  def assert_image(flavor, series, image, testing: ENV.fetch('TESTING', false))
-    prefix = testing ? 'pangea-testing' : 'pangea'
-    assert_equal("#{prefix}/#{flavor}:#{series}", image.to_s)
-    assert_equal("#{prefix}/#{flavor}", image.repo)
+  def assert_image(flavor, series, image)
+    assert_equal("#{CI::PangeaImage.namespace}/#{flavor}:#{series}", image.to_s)
+    assert_equal("#{CI::PangeaImage.namespace}/#{flavor}", image.repo)
     assert_equal("#{flavor}", image.flavor)
     assert_equal(series, image.tag)
   end
@@ -19,15 +17,6 @@ class PangeaImageTest < TestCase
     series = 'wily'
     i = CI::PangeaImage.new(flavor, series)
     assert_image(flavor, series, i)
-  end
-
-  def test_testing_env
-    ENV['TESTING'] = 'true'
-    flavor = 'ubuntu'
-    series = 'wily'
-    i = CI::PangeaImage.new(flavor, series)
-    assert_image(flavor, series, i)
-    ENV.delete('TESTING')
   end
 
   def test_to_str
@@ -44,6 +33,6 @@ class PangeaImageTest < TestCase
     # Do not use assert_image here as we need to verify coercion from
     # :ubuntu to 'ubuntu' works as expected.
     # assert_image in fact relies on it.
-    assert_equal('pangea/ubuntu:wily', image.to_s)
+    assert_equal("#{CI::PangeaImage.namespace}/ubuntu:wily", image.to_s)
   end
 end

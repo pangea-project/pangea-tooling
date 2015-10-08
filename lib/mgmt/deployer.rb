@@ -18,9 +18,9 @@ module MGMT
     attr_accessor :testing
     attr_reader :base
 
-    def initialize(flavor, tag, mode=:normal)
+    def initialize(flavor, tag)
       @base = CI::PangeaImage.new(flavor, tag)
-      @testing = true if mode == :testing
+      @testing = true if CI::PangeaImage.namespace.include? 'testing'
       init_logging
     end
 
@@ -44,7 +44,6 @@ module MGMT
       begin
         @log.info "creating base docker image from #{base_image} for #{base}"
         image = Docker::Image.create(fromImage: base_image)
-      # FIXME: What's all this stuff over here?
       rescue Docker::Error::ArgumentError
         error = "Failed to create Image from #{base_image}"
         raise error if @base.tag != 'wily' || !upgrades.empty?

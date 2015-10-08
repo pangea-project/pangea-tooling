@@ -35,9 +35,7 @@ class DeployTest < TestCase
       end
     end
 
-    # Make sure we inject the TESTING env var so that docker.rb does not enable
-    # event logging
-    ENV['TESTING'] = 'true'
+    CI::PangeaImage.namespace = 'pangea-testing'
 
     @oldhome = ENV.fetch('HOME')
   end
@@ -71,12 +69,12 @@ class DeployTest < TestCase
 
   def deploy_all
     KCI.series.keys.each do |k|
-      d = MGMT::Deployer.new('ubuntu', k, :testing)
+      d = MGMT::Deployer.new('ubuntu', k)
       d.run!
     end
 
     DCI.series.keys.each do |k|
-      d = MGMT::Deployer.new('debian', k, :testing)
+      d = MGMT::Deployer.new('debian', k)
       d.run!
     end
   end

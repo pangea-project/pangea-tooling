@@ -1,17 +1,29 @@
 module CI
   class PangeaImage
-    attr_accessor :repo
     attr_accessor :tag
     attr_accessor :flavor
 
-    def initialize(flavor, series)
-      if ENV['TESTING']
-        @repo = "pangea-testing/#{flavor}"
-      else
-        @repo = "pangea/#{flavor}"
-      end
+    @@namespace = "pangea"
+
+    def initialize(flavor, tag)
       @flavor = flavor
-      @tag = series
+      @tag = tag
+    end
+
+    def namespace
+      @@namespace
+    end
+
+    def self.namespace
+      @@namespace
+    end
+
+    def self.namespace=(string)
+      @@namespace = string
+    end
+
+    def repo
+      "#{@@namespace}/#{@flavor}"
     end
 
     def to_s
@@ -19,7 +31,7 @@ module CI
     end
 
     def to_str
-      "#{@repo}:#{@tag}"
+      "#{@@namespace}/#{@flavor}:#{@tag}"
     end
   end
 end
