@@ -79,7 +79,6 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
-  </triggers>
   <concurrentBuild>false</concurrentBuild>
   <axes>
     <hudson.matrix.LabelAxis>
