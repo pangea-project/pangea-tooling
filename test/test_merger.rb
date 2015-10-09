@@ -83,8 +83,6 @@ class MergerTest < Test::Unit::TestCase
       assert_nothing_raised do
         g.checkout('kubuntu_stable')
       end
-      assert_path_exist('kubuntu_vivid_archivefile')
-      assert_path_exist('kubuntu_vivid_backportsfile')
       assert_path_exist('kubuntu_stablefile')
 
       assert_nothing_raised do
@@ -98,8 +96,6 @@ class MergerTest < Test::Unit::TestCase
       assert_nothing_raised do
         g.checkout('kubuntu_unstable')
       end
-      assert_path_exist('kubuntu_vivid_archivefile')
-      assert_path_exist('kubuntu_vivid_backportsfile')
       assert_path_exist('kubuntu_stablefile')
       assert_path_exist('kubuntu_unstablefile')
 

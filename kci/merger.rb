@@ -59,39 +59,60 @@ class Merger
     @clean_branches = []
   end
 
-  # FIXME: The entire merge method pile needs to be meta'd into probably one or
-  # two main methods.
+  def remote_branch(name)
+    @git.branches.remote.select { |b| b.name == name }.fetch(0, nil)
+  end
 
-  def merge_backports(source)
-    @log.unknown "#{source} -> kubuntu_vivid_backports"
-    target = @git.branches.remote.select { |b| b.name == 'kubuntu_vivid_backports' }[0]
+  def merge_archive_in_backports(series)
+    source = "kubuntu_#{series}_archive"
+    target = "kubuntu_#{series}_backports"
+    @log.unknown "#{source} -> #{target}"
+    target = @git.branches.remote.select { |b| b.name == target }.fetch(0, nil)
     return @log.error 'There is no backports branch!' unless target
     merge(source, target)
   end
 
-  def merge_stable(source)
-    target = []
-    if target.empty?
-      target = @git.branches.remote.select do |b|
-        b.name.end_with?('kubuntu_stable')
-      end
+  def merge_backports_or_archive_in_stable_or_unstable(series)
+    @log.unknown "archive | backports -> stable | unstable (#{series})"
+    source = remote_branch("kubuntu_#{series}_backports")
+    source = remote_branch("kubuntu_#{series}_archive") unless source
+    target = remote_branch("kubuntu_stable_#{series}")
+    target = remote_branch("kubuntu_unstable_#{series}") unless target
+    if KCI.latest_series == series
+      target = remote_branch('kubuntu_stable')
+      target = remote_branch('kubuntu_unstable') unless target
+      fail 'There is no stable or unstable branch!' unless target
     end
-    if target.empty?
-      target = @git.branches.remote.select do |b|
-        b.name.end_with?('kubuntu_unstable')
-      end
-    end
-    if target.empty? || target.size > 1
-      fail 'There appears to be no kubuntu_stable nor kubuntu_unstable branch!'
-    end
-    @log.unknown "#{source} -> #{target[0]}"
-    merge(source, target[0])
+    return @log.error 'There is no backports or archive branch!' unless source
+    return @log.error 'There is no stable or unstable branch!' unless target
+    merge(source, target)
+  end
 
-    merge_variants('kubuntu_stable') # stable in variants
+  def merge_in_variant(type, series)
+    @log.unknown "#{type} -> variant (#{series})"
+    source = remote_branch("kubuntu_#{type}_#{series}")
+    source = remote_branch("kubuntu_#{type}") if KCI.latest_series == series
+    return @log.error "There is no #{type} branch!" unless source
+    merge_variants(source)
+  end
+
+  def merge_stable_in_unstable(series)
+    @log.unknown "stable -> unstable (#{series})"
+    source = remote_branch("kubuntu_stable_#{series}")
+    target = remote_branch("kubuntu_unstable_#{series}")
+    if KCI.latest_series == series
+      source = remote_branch('kubuntu_stable')
+      target = remote_branch('kubuntu_unstable')
+    end
+    return @log.error 'There is no stable branch!' unless source
+    return @log.error 'There is no unstable branch!' unless target
+    merge(source, target)
+    merge_variants(target)
   end
 
   def merge_variants(typebase)
-    # FIXME: should make sure typebase exists
+    # FIXME: should make sure typebase exists?
+    typebase = typebase.name if typebase.respond_to?(:name)
     @git.branches.remote.each do |target|
       next unless target.name.start_with?("#{typebase}_")
       @log.info "  #{typebase} -> #{target}"
@@ -99,23 +120,6 @@ class Merger
     end
   end
 
-  def merge_unstable(source)
-    @log.unknown "#{source} -> kubuntu_unstable"
-    target = @git.branches.remote.select { |b| b.name == 'kubuntu_unstable' }[0]
-    return @log.error 'There is no unstable branch!' unless target
-    merge(source, target)
-
-    merge_variants('kubuntu_unstable') # unstable in variants
-  end
-
-  # Merge order:
-  #  - master | kubuntu_vivid_archive
-  #   -> merge into stable | unstable depending on what is available
-  #  - kubuntu_stable
-  #   -> merge into unstable
-  #   -> merge into series variants
-  #  - kubuntu_unstable
-  #   -> merge into series variants
   def run(trigger_branch)
     @log.info "triggered by #{trigger_branch}"
 
@@ -136,22 +140,21 @@ class Merger
     # NOTE: trigger branches must be explicitly added to the jenkins job class
     #       as such. Otherwise the merger job will not start.
 
-    # merge_stable('master')# trigger_branch in stable
-    # FIXME: for series names we probably should use the KCI module
-    # FIXME: why the fuck do we merge into backports?
-    merge_backports('kubuntu_vivid_archive')
-
     # Sort series by version, then merge in that order (i.e. oldest first).
-    # Also merge branches in order archive then backports to equally implement
-    # ageyness as it were.
     series = KCI.series.dup
     series = series.sort_by { |_, version| Gem::Version.new(version) }.to_h
     series.each_key do |s|
-      merge_stable("kubuntu_#{s}_archive")
+      # archive -> backports
+      merge_archive_in_backports(s)
+      # s_archive | s_backports -> s_stable | s_unstable | stable | unstable
+      merge_backports_or_archive_in_stable_or_unstable(s)
+      # s_stable | stable -> _variant
+      merge_in_variant('stable', s)
+      # stable -> unstable
+      merge_stable_in_unstable(s)
+      # s_unstable | unstable -> _variant
+      merge_in_variant('unstable', s)
     end
-
-    # Now merge stable into unstable (or unstable -> unstable = noop)
-    merge_unstable('kubuntu_stable')
 
     push_all_pending
   end
@@ -175,28 +178,27 @@ class Merger
   #   which  should be merged
   def merge(source, target)
     # We want the full branch name of the remote to work with
-    unless source.respond_to?(:full)
-      # Try to pick a local version of the remote if available to support
-      # postponed pushes.
-      # FIXME: as with the clean branches stuff this is a major workaround for
-      #        a design flaw in that primary merge targets always want the
-      #        remote. For example if we have stable and unstable then we merge
-      #        crap into stable and we want remote crap there rather than any
-      #        local version of remote.
-      #        On the other hand we then merge stable into unstable and there
-      #        we very much want the local version rather than the remote one
-      #        as otherwise we'd be missing data.
-      source_name = source.clone
-      source = @git.branches.local.select { |b| b.name == source_name }
-      if source.empty?
-        source = @git.branches.remote.select { |b| b.name == source_name }
-      end
-      if source.size != 1
-        @log.warn "Apparently there is no branch named #{source_name}!"
-        return
-      end
-      source = source.first
+    # Try to pick a local version of the remote if available to support
+    # postponed pushes.
+    # FIXME: as with the clean branches stuff this is a major workaround for
+    #        a design flaw in that primary merge targets always want the
+    #        remote. For example if we have stable and unstable then we merge
+    #        crap into stable and we want remote crap there rather than any
+    #        local version of remote.
+    #        On the other hand we then merge stable into unstable and there
+    #        we very much want the local version rather than the remote one
+    #        as otherwise we'd be missing data.
+    source_name = source.clone
+    source_name = source.name if source.respond_to?(:name)
+    source = @git.branches.local.select { |b| b.name == source_name }
+    if source.empty?
+      source = @git.branches.remote.select { |b| b.name == source_name }
     end
+    if source.size != 1
+      @log.warn "Apparently there is no branch named #{source_name}!"
+      return
+    end
+    source = source.first
     target = target.name if target.respond_to?(:name)
     @git.checkout(target)
     unless @clean_branches.include?(target)
