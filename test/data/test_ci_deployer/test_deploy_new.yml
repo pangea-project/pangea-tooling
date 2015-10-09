@@ -14,7 +14,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -26,7 +26,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         No such image: pangea-testing/ubuntu:wily
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:44 GMT
 - request:
     method: get
@@ -42,7 +42,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -54,7 +54,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         No such image: pangea-testing/ubuntu:wily
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:44 GMT
 - request:
     method: get
@@ -70,7 +70,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -82,7 +82,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         No such image: pangea-testing/ubuntu:wily
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:44 GMT
 - request:
     method: get
@@ -98,7 +98,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -110,7 +110,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         No such image: pangea-testing/ubuntu:wily
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:44 GMT
 - request:
     method: post
@@ -126,7 +126,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -141,7 +141,7 @@ http_interactions:
         exists\",\"progressDetail\":{},\"id\":\"1884caeee373\"}{\"status\":\"Digest:
         sha256:28a3af9ee424849ccbd808b84629bd8c88d74e6c3302649badf8c42739a8a3aa\"}\r\n{\"status\":\"Status:
         Image is up to date for ubuntu:wily\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:47 GMT
 - request:
     method: post
@@ -157,7 +157,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:47 GMT
@@ -168,7 +168,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:47 GMT
 - request:
     method: post
@@ -184,7 +184,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -196,7 +196,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"06e1b6765d42da5936ae01269adbec4737339203ba2ca1f03c585810c4c0b858","Warnings":null}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:47 GMT
 - request:
     method: post
@@ -212,14 +212,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:47 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:47 GMT
 - request:
     method: post
@@ -235,7 +235,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -247,7 +247,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"StatusCode":0}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:47 GMT
 - request:
     method: post
@@ -263,14 +263,14 @@ http_interactions:
   response:
     status:
       code: 304
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:47 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:47 GMT
 - request:
     method: get
@@ -286,7 +286,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:47 GMT
@@ -295,7 +295,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:49 GMT
 - request:
     method: post
@@ -313,7 +313,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -322,7 +322,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: "{\"status\":\"b8ce8f7ccda4d4ae9fe78be94ce6215bd5c06b763fbc92e94a4aa5cab9b880df\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:49 GMT
 - request:
     method: delete
@@ -338,14 +338,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:49 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:49 GMT
 - request:
     method: get
@@ -361,7 +361,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -373,7 +373,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"1884caeee373398982814b86b6588fd0f425c607f459b74c5c3062efc857e601","Parent":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Comment":"","Created":"2015-09-01T20:11:57.458342454Z","Container":"d283cdc3b135092235cde4695f7559483b3f9b05db385131cf8bd2fbd30435da","ContainerConfig":{"Hostname":"9a2c0fb01dd7","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"Image":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"DockerVersion":"1.7.1","Author":"","Config":{"Hostname":"9a2c0fb01dd7","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":0,"VirtualSize":131261115}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:49 GMT
 - request:
     method: delete
@@ -389,7 +389,7 @@ http_interactions:
   response:
     status:
       code: 409
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -401,7 +401,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         Conflict, cannot delete image 1884caeee373398982814b86b6588fd0f425c607f459b74c5c3062efc857e601 because it is tagged in multiple repositories, use -f to force
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:49 GMT
 - request:
     method: post
@@ -417,7 +417,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:49 GMT
@@ -428,7 +428,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:49 GMT
 - request:
     method: get
@@ -444,7 +444,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -456,7 +456,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         No such image: pangea-testing/ubuntu:vivid
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:49 GMT
 - request:
     method: get
@@ -472,7 +472,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -484,7 +484,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         No such image: pangea-testing/ubuntu:vivid
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:49 GMT
 - request:
     method: get
@@ -500,7 +500,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -512,7 +512,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         No such image: pangea-testing/ubuntu:vivid
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:49 GMT
 - request:
     method: get
@@ -528,7 +528,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -540,7 +540,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         No such image: pangea-testing/ubuntu:vivid
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:49 GMT
 - request:
     method: post
@@ -556,7 +556,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -571,7 +571,7 @@ http_interactions:
         exists\",\"progressDetail\":{},\"id\":\"013f3d01d247\"}{\"status\":\"Digest:
         sha256:d474012e0022319b7072c9e2614db1ec81c111abf2edffb81715287e80ca67ec\"}\r\n{\"status\":\"Status:
         Image is up to date for ubuntu:vivid\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:52 GMT
 - request:
     method: post
@@ -587,7 +587,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:52 GMT
@@ -598,7 +598,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:52 GMT
 - request:
     method: post
@@ -614,7 +614,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -626,7 +626,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"5a3f27bb74f0db9ffd88c52b9a0c630ffd120c6b4457613afabe93e1ee1a69ba","Warnings":null}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:52 GMT
 - request:
     method: post
@@ -642,14 +642,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:52 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:52 GMT
 - request:
     method: post
@@ -665,7 +665,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -677,7 +677,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"StatusCode":0}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:52 GMT
 - request:
     method: post
@@ -693,14 +693,14 @@ http_interactions:
   response:
     status:
       code: 304
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:52 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:52 GMT
 - request:
     method: get
@@ -716,7 +716,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:52 GMT
@@ -725,7 +725,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:54 GMT
 - request:
     method: post
@@ -743,7 +743,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -752,7 +752,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: "{\"status\":\"27d9beff313dd6a6a88102ee995a23083b292c0643576793359cef51cc8ead73\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:54 GMT
 - request:
     method: delete
@@ -768,14 +768,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:54 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:54 GMT
 - request:
     method: get
@@ -791,7 +791,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -803,7 +803,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"013f3d01d24738964bb7101fa83a926181d600ebecca7206dced59669e6e6778","Parent":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Comment":"","Created":"2015-08-20T20:22:09.460740889Z","Container":"cf1b7f9fb9f89347a3b9c5fb415e4b366b7d4317b0b493016219e13a457eb0ef","ContainerConfig":{"Hostname":"a031478c05e5","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"Image":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"DockerVersion":"1.7.1","Author":"","Config":{"Hostname":"a031478c05e5","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":0,"VirtualSize":131355683}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:54 GMT
 - request:
     method: delete
@@ -819,7 +819,7 @@ http_interactions:
   response:
     status:
       code: 409
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -831,7 +831,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         Conflict, cannot delete image 013f3d01d24738964bb7101fa83a926181d600ebecca7206dced59669e6e6778 because it is tagged in multiple repositories, use -f to force
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:54 GMT
 - request:
     method: post
@@ -847,7 +847,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:54 GMT
@@ -858,11 +858,11 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:54 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:testing/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -874,7 +874,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -885,12 +885,12 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        No such image: pangea-testing/debian:testing
-    http_version: 
+        No such image: pangea-testing/debian:unstable
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:54 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:testing/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -902,7 +902,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -913,12 +913,12 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        No such image: pangea-testing/debian:testing
-    http_version: 
+        No such image: pangea-testing/debian:unstable
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:54 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:testing/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -930,7 +930,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -941,12 +941,12 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        No such image: pangea-testing/debian:testing
-    http_version: 
+        No such image: pangea-testing/debian:unstable
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:54 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:testing/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -958,7 +958,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -969,12 +969,12 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        No such image: pangea-testing/debian:testing
-    http_version: 
+        No such image: pangea-testing/debian:unstable
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:54 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/create?fromImage=debian%3Atesting
+    uri: unix:///var/run/docker.sock/v1.16/images/create?fromImage=debian%3Aunstable
     body:
       encoding: US-ASCII
       string: ''
@@ -986,7 +986,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -998,12 +998,12 @@ http_interactions:
         exists\",\"progressDetail\":{},\"id\":\"acdec9ec413b\"}{\"status\":\"Already
         exists\",\"progressDetail\":{},\"id\":\"37cbf6c3413f\"}{\"status\":\"Digest:
         sha256:9206835bcdbb969b439d5f9a5466a152c34e074a1d133bf07ac65c67ace657cb\"}\r\n{\"status\":\"Status:
-        Image is up to date for debian:testing\"}\r\n"
-    http_version: 
+        Image is up to date for debian:unstable\"}\r\n"
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:57 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/37cbf6c3413f/tag?repo=pangea-testing%2Fdebian&tag=testing
+    uri: unix:///var/run/docker.sock/v1.16/images/37cbf6c3413f/tag?repo=pangea-testing%2Fdebian&tag=unstable
     body:
       encoding: US-ASCII
       string: ''
@@ -1015,7 +1015,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:57 GMT
@@ -1026,14 +1026,14 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:57 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:testing","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%= Dir.pwd %>":{}}}'
+      string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:unstable","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%= Dir.pwd %>":{}}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -1042,7 +1042,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -1054,7 +1054,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"2c6c2a3b539786d2639c85ca752432a163135fb379e1d26f79d4e5d9f71df8e0","Warnings":null}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:57 GMT
 - request:
     method: post
@@ -1070,14 +1070,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:57 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:57 GMT
 - request:
     method: post
@@ -1093,7 +1093,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -1105,7 +1105,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"StatusCode":0}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:57 GMT
 - request:
     method: post
@@ -1121,14 +1121,14 @@ http_interactions:
   response:
     status:
       code: 304
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:57 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:57 GMT
 - request:
     method: get
@@ -1144,7 +1144,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:57 GMT
@@ -1153,7 +1153,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:59 GMT
 - request:
     method: post
@@ -1171,7 +1171,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -1180,7 +1180,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: "{\"status\":\"6911e207b89ab459531c95475202c13fc2c85edcb70b81f944d66cc96f9a692b\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:22:00 GMT
 - request:
     method: delete
@@ -1196,18 +1196,18 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:22:00 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:22:00 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:testing/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -1219,7 +1219,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -1231,7 +1231,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"37cbf6c3413f292ae26bc10a943aca30e5ba17c7033fbdfe417fbf22f40847c5","Parent":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Comment":"","Created":"2015-09-07T23:36:54.794013853Z","Container":"43ea9bab74a49bf6fa547452f82ad9422bc2a5b7c1d187c65492cafebdb02c65","ContainerConfig":{"Hostname":"0f0a625cda69","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"Image":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"DockerVersion":"1.7.1","Author":"","Config":{"Hostname":"0f0a625cda69","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":0,"VirtualSize":126046560}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:22:00 GMT
 - request:
     method: delete
@@ -1247,7 +1247,7 @@ http_interactions:
   response:
     status:
       code: 409
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -1259,11 +1259,11 @@ http_interactions:
       encoding: UTF-8
       string: |
         Conflict, cannot delete image 37cbf6c3413f292ae26bc10a943aca30e5ba17c7033fbdfe417fbf22f40847c5 because it is tagged in multiple repositories, use -f to force
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:22:00 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/6911e207b89ab459531c95475202c13fc2c85edcb70b81f944d66cc96f9a692b/tag?force=true&repo=pangea-testing%2Fdebian&tag=testing
+    uri: unix:///var/run/docker.sock/v1.16/images/6911e207b89ab459531c95475202c13fc2c85edcb70b81f944d66cc96f9a692b/tag?force=true&repo=pangea-testing%2Fdebian&tag=unstable
     body:
       encoding: US-ASCII
       string: ''
@@ -1275,7 +1275,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:22:00 GMT
@@ -1286,6 +1286,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:22:00 GMT
 recorded_with: VCR 2.9.3

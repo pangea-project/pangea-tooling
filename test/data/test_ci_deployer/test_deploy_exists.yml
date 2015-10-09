@@ -14,7 +14,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -26,7 +26,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"1884caeee373398982814b86b6588fd0f425c607f459b74c5c3062efc857e601","Parent":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Comment":"","Created":"2015-09-01T20:11:57.458342454Z","Container":"d283cdc3b135092235cde4695f7559483b3f9b05db385131cf8bd2fbd30435da","ContainerConfig":{"Hostname":"9a2c0fb01dd7","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"Image":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"DockerVersion":"1.7.1","Author":"","Config":{"Hostname":"9a2c0fb01dd7","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":0,"VirtualSize":131261115}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:37 GMT
 - request:
     method: post
@@ -42,7 +42,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -54,7 +54,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"54378e5923a092976eeea6e17298a2043c7039034c9a97ae6427d7c41b1cdde4","Warnings":null}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:37 GMT
 - request:
     method: post
@@ -70,14 +70,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:37 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:37 GMT
 - request:
     method: post
@@ -93,7 +93,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -105,7 +105,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"StatusCode":0}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:37 GMT
 - request:
     method: post
@@ -121,14 +121,14 @@ http_interactions:
   response:
     status:
       code: 304
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:37 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:37 GMT
 - request:
     method: get
@@ -144,7 +144,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:37 GMT
@@ -153,7 +153,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:39 GMT
 - request:
     method: post
@@ -171,7 +171,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -180,7 +180,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: "{\"status\":\"bc509bc46a240856c8d59464d95f0bcdc2f85ba1c6e72651ac715f962831a4ac\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:39 GMT
 - request:
     method: delete
@@ -196,14 +196,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:39 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:39 GMT
 - request:
     method: get
@@ -219,7 +219,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -231,7 +231,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"1884caeee373398982814b86b6588fd0f425c607f459b74c5c3062efc857e601","Parent":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Comment":"","Created":"2015-09-01T20:11:57.458342454Z","Container":"d283cdc3b135092235cde4695f7559483b3f9b05db385131cf8bd2fbd30435da","ContainerConfig":{"Hostname":"9a2c0fb01dd7","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"Image":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"DockerVersion":"1.7.1","Author":"","Config":{"Hostname":"9a2c0fb01dd7","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":0,"VirtualSize":131261115}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:39 GMT
 - request:
     method: delete
@@ -247,7 +247,7 @@ http_interactions:
   response:
     status:
       code: 409
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -259,7 +259,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         Conflict, cannot delete image 1884caeee373398982814b86b6588fd0f425c607f459b74c5c3062efc857e601 because it is tagged in multiple repositories, use -f to force
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:39 GMT
 - request:
     method: post
@@ -275,7 +275,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:39 GMT
@@ -286,7 +286,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:39 GMT
 - request:
     method: get
@@ -302,7 +302,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -314,7 +314,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"013f3d01d24738964bb7101fa83a926181d600ebecca7206dced59669e6e6778","Parent":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Comment":"","Created":"2015-08-20T20:22:09.460740889Z","Container":"cf1b7f9fb9f89347a3b9c5fb415e4b366b7d4317b0b493016219e13a457eb0ef","ContainerConfig":{"Hostname":"a031478c05e5","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"Image":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"DockerVersion":"1.7.1","Author":"","Config":{"Hostname":"a031478c05e5","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":0,"VirtualSize":131355683}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:39 GMT
 - request:
     method: post
@@ -330,7 +330,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -342,7 +342,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"f4c18ffcf2d99265221ace7e038d9b2aff80731c8eb6e87d56eec2272c9300bc","Warnings":null}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:39 GMT
 - request:
     method: post
@@ -358,14 +358,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:39 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:39 GMT
 - request:
     method: post
@@ -381,7 +381,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -393,7 +393,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"StatusCode":0}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:40 GMT
 - request:
     method: post
@@ -409,14 +409,14 @@ http_interactions:
   response:
     status:
       code: 304
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:40 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:40 GMT
 - request:
     method: get
@@ -432,7 +432,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:40 GMT
@@ -441,7 +441,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:41 GMT
 - request:
     method: post
@@ -459,7 +459,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -468,7 +468,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: "{\"status\":\"2a37d847e4e2162c46d687013e282bda71ec9638aa4086074cac480588adb34a\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:41 GMT
 - request:
     method: delete
@@ -484,14 +484,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:41 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:41 GMT
 - request:
     method: get
@@ -507,7 +507,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -519,7 +519,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"013f3d01d24738964bb7101fa83a926181d600ebecca7206dced59669e6e6778","Parent":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Comment":"","Created":"2015-08-20T20:22:09.460740889Z","Container":"cf1b7f9fb9f89347a3b9c5fb415e4b366b7d4317b0b493016219e13a457eb0ef","ContainerConfig":{"Hostname":"a031478c05e5","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"Image":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"DockerVersion":"1.7.1","Author":"","Config":{"Hostname":"a031478c05e5","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":0,"VirtualSize":131355683}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:41 GMT
 - request:
     method: delete
@@ -535,7 +535,7 @@ http_interactions:
   response:
     status:
       code: 409
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -547,7 +547,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         Conflict, cannot delete image 013f3d01d24738964bb7101fa83a926181d600ebecca7206dced59669e6e6778 because it is tagged in multiple repositories, use -f to force
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:41 GMT
 - request:
     method: post
@@ -563,7 +563,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:41 GMT
@@ -574,11 +574,11 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:41 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:testing/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -590,7 +590,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -602,14 +602,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"37cbf6c3413f292ae26bc10a943aca30e5ba17c7033fbdfe417fbf22f40847c5","Parent":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Comment":"","Created":"2015-09-07T23:36:54.794013853Z","Container":"43ea9bab74a49bf6fa547452f82ad9422bc2a5b7c1d187c65492cafebdb02c65","ContainerConfig":{"Hostname":"0f0a625cda69","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"Image":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"DockerVersion":"1.7.1","Author":"","Config":{"Hostname":"0f0a625cda69","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":0,"VirtualSize":126046560}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:41 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:testing","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%= Dir.pwd %>":{}}}'
+      string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:unstable","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%= Dir.pwd %>":{}}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -618,7 +618,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -630,7 +630,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"1249f45bdbf36c6886ceeabefaf8651c301c0632b61e03d725c2304962aa8430","Warnings":null}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:42 GMT
 - request:
     method: post
@@ -646,14 +646,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:42 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:42 GMT
 - request:
     method: post
@@ -669,7 +669,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -681,7 +681,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"StatusCode":0}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:42 GMT
 - request:
     method: post
@@ -697,14 +697,14 @@ http_interactions:
   response:
     status:
       code: 304
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:42 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:42 GMT
 - request:
     method: get
@@ -720,7 +720,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:42 GMT
@@ -729,7 +729,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:44 GMT
 - request:
     method: post
@@ -747,7 +747,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -756,7 +756,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: "{\"status\":\"f1215194057ce657e98fa874fcc40116b62d6d0ce6b99b5e40bbc2a0d6c0b6d7\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:44 GMT
 - request:
     method: delete
@@ -772,18 +772,18 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:44 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:44 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:testing/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -795,7 +795,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -807,7 +807,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"37cbf6c3413f292ae26bc10a943aca30e5ba17c7033fbdfe417fbf22f40847c5","Parent":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Comment":"","Created":"2015-09-07T23:36:54.794013853Z","Container":"43ea9bab74a49bf6fa547452f82ad9422bc2a5b7c1d187c65492cafebdb02c65","ContainerConfig":{"Hostname":"0f0a625cda69","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop) CMD [\"/bin/bash\"]"],"Image":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"DockerVersion":"1.7.1","Author":"","Config":{"Hostname":"0f0a625cda69","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"PortSpecs":null,"ExposedPorts":null,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Volumes":null,"VolumeDriver":"","WorkingDir":"","Entrypoint":null,"NetworkDisabled":false,"MacAddress":"","OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":0,"VirtualSize":126046560}
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:44 GMT
 - request:
     method: delete
@@ -823,7 +823,7 @@ http_interactions:
   response:
     status:
       code: 409
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -835,11 +835,11 @@ http_interactions:
       encoding: UTF-8
       string: |
         Conflict, cannot delete image 37cbf6c3413f292ae26bc10a943aca30e5ba17c7033fbdfe417fbf22f40847c5 because it is tagged in multiple repositories, use -f to force
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:44 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/f1215194057ce657e98fa874fcc40116b62d6d0ce6b99b5e40bbc2a0d6c0b6d7/tag?force=true&repo=pangea-testing%2Fdebian&tag=testing
+    uri: unix:///var/run/docker.sock/v1.16/images/f1215194057ce657e98fa874fcc40116b62d6d0ce6b99b5e40bbc2a0d6c0b6d7/tag?force=true&repo=pangea-testing%2Fdebian&tag=unstable
     body:
       encoding: US-ASCII
       string: ''
@@ -851,7 +851,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Date:
       - Mon, 28 Sep 2015 09:21:44 GMT
@@ -862,6 +862,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 28 Sep 2015 09:21:44 GMT
 recorded_with: VCR 2.9.3
