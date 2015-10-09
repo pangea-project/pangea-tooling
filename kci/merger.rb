@@ -148,7 +148,6 @@ class Merger
     series = series.sort_by { |_, version| Gem::Version.new(version) }.to_h
     series.each_key do |s|
       merge_stable("kubuntu_#{s}_archive")
-      merge_stable("kubuntu_#{s}_backports")
     end
 
     # Now merge stable into unstable (or unstable -> unstable = noop)

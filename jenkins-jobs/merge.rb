@@ -15,7 +15,6 @@ class MergeJob < JenkinsJob
     @merge_branches = %w(master)
     KCI.series.each_key do |series|
       @merge_branches << "kubuntu_#{series}_archive"
-      @merge_branches << "kubuntu_#{series}_backports"
       KCI.types.each do |type|
         @merge_branches << "kubuntu_#{type}_#{series}"
       end
