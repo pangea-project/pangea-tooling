@@ -77,40 +77,40 @@ class MergerTest < Test::Unit::TestCase
       assert_nothing_raised do
         g.checkout('kubuntu_vivid_backports')
       end
-      assert(File.exist?('kubuntu_vivid_archivefile'))
-      assert(File.exist?('kubuntu_vivid_backportsfile'))
+      assert_path_exist('kubuntu_vivid_archivefile')
+      assert_path_exist('kubuntu_vivid_backportsfile')
 
       assert_nothing_raised do
         g.checkout('kubuntu_stable')
       end
-      assert(File.exist?('kubuntu_vivid_archivefile'))
-      assert(File.exist?('kubuntu_vivid_backportsfile'))
-      assert(File.exist?('kubuntu_stablefile'))
+      assert_path_exist('kubuntu_vivid_archivefile')
+      assert_path_exist('kubuntu_vivid_backportsfile')
+      assert_path_exist('kubuntu_stablefile')
 
       assert_nothing_raised do
         g.checkout('kubuntu_stable_vivid')
       end
-      assert(File.exist?('kubuntu_vivid_archivefile'))
-      assert(File.exist?('kubuntu_vivid_backportsfile'))
-      assert(File.exist?('kubuntu_stablefile'))
-      assert(File.exist?('kubuntu_stable_vividfile'))
+      assert_path_exist('kubuntu_vivid_archivefile')
+      assert_path_exist('kubuntu_vivid_backportsfile')
+      assert_path_exist('kubuntu_stablefile')
+      assert_path_exist('kubuntu_stable_vividfile')
 
       assert_nothing_raised do
         g.checkout('kubuntu_unstable')
       end
-      assert(File.exist?('kubuntu_vivid_archivefile'))
-      assert(File.exist?('kubuntu_vivid_backportsfile'))
-      assert(File.exist?('kubuntu_stablefile'))
-      assert(File.exist?('kubuntu_unstablefile'))
+      assert_path_exist('kubuntu_vivid_archivefile')
+      assert_path_exist('kubuntu_vivid_backportsfile')
+      assert_path_exist('kubuntu_stablefile')
+      assert_path_exist('kubuntu_unstablefile')
 
       assert_nothing_raised do
         g.checkout('kubuntu_unstable_vivid')
       end
-      assert(File.exist?('kubuntu_vivid_archivefile'))
-      assert(File.exist?('kubuntu_vivid_backportsfile'))
-      assert(File.exist?('kubuntu_stablefile'))
-      assert(File.exist?('kubuntu_unstablefile'))
-      assert(File.exist?('kubuntu_unstable_vividfile'))
+      assert_path_exist('kubuntu_vivid_archivefile')
+      assert_path_exist('kubuntu_vivid_backportsfile')
+      assert_path_exist('kubuntu_stablefile')
+      assert_path_exist('kubuntu_unstablefile')
+      assert_path_exist('kubuntu_unstable_vividfile')
     end
   end
 
@@ -134,7 +134,7 @@ class MergerTest < Test::Unit::TestCase
 
     in_repo do |g|
       assert_nothing_raised { g.checkout('kubuntu_stable_vivid') }
-      assert(File.exist?('stablefile'), 'Apparently stable did not get merged into stable_vivid')
+      assert_path_exist('stablefile')
     end
   end
 
