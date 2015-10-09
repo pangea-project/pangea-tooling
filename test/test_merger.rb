@@ -202,21 +202,22 @@ class MergerTest < Test::Unit::TestCase
   end
 
   def test_noci_keyword_merge
+    latest_branch = "kubuntu_#{KCI.latest_series}_archive"
     in_repo do |g|
-      create_sample_branch(g, 'kubuntu_vivid_archive')
+      create_sample_branch(g, latest_branch)
 
       g.checkout('kubuntu_unstable')
-      g.merge('origin/kubuntu_vivid_archive')
+      g.merge("origin/#{latest_branch}")
       g.push('origin', 'kubuntu_unstable')
 
-      g.checkout('kubuntu_vivid_archive')
+      g.checkout(latest_branch)
       FileUtils.touch('randomfile')
       g.add('randomfile')
       g.commit_all("randommsg\n\nNOCI")
-      g.push('origin', 'kubuntu_vivid_archive')
+      g.push('origin', latest_branch)
 
       g.checkout('kubuntu_unstable')
-      log = g.log.between('', 'kubuntu_vivid_archive')
+      log = g.log.between('', latest_branch)
       assert(log.first.message.include?('NOCI'))
     end
 
