@@ -9,3 +9,9 @@ test/reports/*
 vendor/*
 # our ci-tooling
 ci-tooling/*
+
+# vagrant cache
+.vagrant/*
+# yard 
+.yardoc/*
+doc/*
