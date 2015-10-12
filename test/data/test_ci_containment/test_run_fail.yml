@@ -19,15 +19,15 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
       Content-Length:
       - '148'
     body:
       encoding: UTF-8
       string: |
-        {"Version":"1.7.1","ApiVersion":"1.19","GitCommit":"786b29d","GoVersion":"go1.4.2","Os":"linux","Arch":"amd64","KernelVersion":"3.19.0-28-generic"}
+        {"Version":"1.7.1","ApiVersion":"1.19","GitCommit":"786b29d","GoVersion":"go1.4.2","Os":"linux","Arch":"amd64","KernelVersion":"3.19.0-30-generic"}
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -47,7 +47,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
       Content-Length:
       - '32'
     body:
@@ -55,7 +55,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -75,7 +75,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
       Content-Length:
       - '32'
     body:
@@ -83,7 +83,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -103,7 +103,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
       Content-Length:
       - '32'
     body:
@@ -111,7 +111,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -131,7 +131,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
       Content-Length:
       - '32'
     body:
@@ -139,7 +139,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -159,7 +159,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
       Content-Length:
       - '32'
     body:
@@ -167,7 +167,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -187,7 +187,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
       Content-Length:
       - '32'
     body:
@@ -195,7 +195,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -215,7 +215,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
       Content-Length:
       - '32'
     body:
@@ -223,7 +223,7 @@ http_interactions:
       string: |
         no such id: vivid_unstable_test
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
@@ -243,15 +243,15 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
       Content-Length:
       - '32'
     body:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version:
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+    http_version: 
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
@@ -271,18 +271,18 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
       Content-Length:
       - '90'
     body:
       encoding: UTF-8
       string: |
-        {"Id":"03636e290c41e5feca6ba57534a5eae6a0683756410a6e804ff60d7aef139452","Warnings":null}
+        {"Id":"b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c","Warnings":null}
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/03636e290c41e5feca6ba57534a5eae6a0683756410a6e804ff60d7aef139452/rename?name=vivid_unstable_test
+    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/rename?name=vivid_unstable_test
     body:
       encoding: US-ASCII
       string: ''
@@ -297,15 +297,15 @@ http_interactions:
       message: 
     headers:
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/03636e290c41e5feca6ba57534a5eae6a0683756410a6e804ff60d7aef139452/attach?stderr=true&stdout=true&stream=true
+    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/attach?stderr=true&stdout=true&stream=true
     body:
       encoding: US-ASCII
       string: ''
@@ -327,10 +327,10 @@ http_interactions:
         AgAAAAAAADlleGVjOiAiZ2FyYmFnZV9mYWlsIjogZXhlY3V0YWJsZSBmaWxl
         IG5vdCBmb3VuZCBpbiAkUEFUSAo=
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/03636e290c41e5feca6ba57534a5eae6a0683756410a6e804ff60d7aef139452/start
+    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
     body:
       encoding: UTF-8
       string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
@@ -347,13 +347,125 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Tue, 15 Sep 2015 11:08:49 GMT
+      - Mon, 12 Oct 2015 10:05:36 GMT
       Content-Length:
       - '164'
     body:
       encoding: UTF-8
       string: |
-        Cannot start container 03636e290c41e5feca6ba57534a5eae6a0683756410a6e804ff60d7aef139452: [8] System error: exec: "garbage_fail": executable file not found in $PATH
+        Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
     http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:08:49 GMT
+  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
+    body:
+      encoding: UTF-8
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 12 Oct 2015 10:05:37 GMT
+      Content-Length:
+      - '164'
+    body:
+      encoding: UTF-8
+      string: |
+        Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
+    http_version: 
+  recorded_at: Mon, 12 Oct 2015 10:05:37 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
+    body:
+      encoding: UTF-8
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 12 Oct 2015 10:05:37 GMT
+      Content-Length:
+      - '164'
+    body:
+      encoding: UTF-8
+      string: |
+        Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
+    http_version: 
+  recorded_at: Mon, 12 Oct 2015 10:05:37 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
+    body:
+      encoding: UTF-8
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 12 Oct 2015 10:05:38 GMT
+      Content-Length:
+      - '164'
+    body:
+      encoding: UTF-8
+      string: |
+        Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
+    http_version: 
+  recorded_at: Mon, 12 Oct 2015 10:05:38 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
+    body:
+      encoding: UTF-8
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Mon, 12 Oct 2015 10:05:38 GMT
+      Content-Length:
+      - '164'
+    body:
+      encoding: UTF-8
+      string: |
+        Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
+    http_version: 
+  recorded_at: Mon, 12 Oct 2015 10:05:38 GMT
 recorded_with: VCR 2.9.3
