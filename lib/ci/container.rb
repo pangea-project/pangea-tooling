@@ -1,6 +1,7 @@
 require 'docker'
 
 require_relative 'directbindingarray'
+require_relative '../../ci-tooling/lib/retry'
 
 module CI
   # Container with somewhat more CI-geared behavior and defaults.
@@ -54,7 +55,12 @@ module CI
     # @return [Container]
     def start(options = {})
       options = default_start_options.merge(options)
-      super(options)
+      # There seems to be a race condition somewhere in udev/docker
+      # https://github.com/docker/docker/issues/4036
+      # Keep retrying till it works
+      Retry.retry_it(times: 5, errors: [Docker::Error::NotFoundError]) do
+        super(options)
+      end
     end
 
     # Default container start/run arguments.

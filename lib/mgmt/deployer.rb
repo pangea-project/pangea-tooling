@@ -7,7 +7,6 @@ require_relative '../../ci-tooling/lib/kci'
 require_relative '../../ci-tooling/lib/dci'
 require_relative '../ci/container'
 require_relative '../ci/pangeaimage'
-require_relative '../../ci-tooling/lib/retry'
 
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 $stdout = $stderr
@@ -82,13 +81,7 @@ module MGMT
       end
 
       @log.info "starting container from #{base}"
-
-      # There seems to be a race condition somewhere in udev/docker
-      # https://github.com/docker/docker/issues/4036
-      # Keep retrying till it works
-      Retry.retry_it(times: 5, errors: [Docker::Error::NotFoundError]) do
-        c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"])
-      end
+      c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"])
       ret = c.wait
       status_code = ret.fetch('StatusCode', 1)
       fail "Bad return #{ret}" if status_code != 0
