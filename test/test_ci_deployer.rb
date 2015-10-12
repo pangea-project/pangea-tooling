@@ -40,6 +40,10 @@ class DeployTest < TestCase
     @oldhome = ENV.fetch('HOME')
   end
 
+  def teardown
+    ENV['HOME'] = @oldhome
+  end
+
   def copy_data
     FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
   end
@@ -121,9 +125,5 @@ class DeployTest < TestCase
         deploy_all
       end
     end
-  end
-
-  def teardown
-    ENV['HOME'] = @oldhome
   end
 end
