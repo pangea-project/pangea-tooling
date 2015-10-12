@@ -27,4 +27,5 @@ koko
 okular-mobile
 vlc
 gnome-chess
+firefox
 EOF
