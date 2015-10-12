@@ -27,4 +27,14 @@ cmd = ["#{TOOLING_PATH}/kci/imager/build_mobster.sh", Dir.pwd, DIST, ARCH, TYPE]
 status_code = c.run(Cmd: cmd)
 exit status_code unless status_code == 0
 
+DATE = File.read('result/date_stamp').strip
+PUB_PATH = "/mnt/s3/mobile.kci/images/#{DATE}"
+FileUtils.mkpath(PUB_PATH)
+
+%w(iso manifest zsync).each do |type|
+  unless system("cp -avr result/*.#{type} #{PUB_PATH}/")
+    abort "Failed to copy #{type} files"
+  end
+end
+
 exit 0
