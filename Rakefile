@@ -29,6 +29,20 @@ task :test => 'ci:setup:testunit'
 CLEAN << 'coverage' # Created through helper's simplecov
 CLEAN << 'test/reports'
 
+desc 'run ci-tooling tests'
+Rake::TestTask.new(:test_ci) do |t|
+  t.ruby_opts << "-r#{File.expand_path(File.dirname(__FILE__))}/test/helper.rb"
+  t.test_files = FileList['ci-tooling/test/test_*.rb']
+  t.verbose = true
+end
+
+desc 'run pangea-tooling tests'
+Rake::TestTask.new(:test_pangea) do |t|
+  t.ruby_opts << "-r#{File.expand_path(File.dirname(__FILE__))}/test/helper.rb"
+  t.test_files = FileList['test/test_*.rb']
+  t.verbose = true
+end
+
 desc 'generate line count report'
 task :cloc do
   system("cloc --by-file --xml --out=cloc.xml #{SOURCE_DIRS.join(' ')}")
