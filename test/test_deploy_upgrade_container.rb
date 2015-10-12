@@ -23,7 +23,7 @@ class DeployUpgradeTest < TestCase
     return unless Docker::Image.exist?(@image)
     puts "Cleaning up image #{@image}"
     image = Docker::Image.get(@image)
-    image.delete(force: true)
+    image.delete(force: true, noprune: true)
   rescue Docker::Error::NotFoundError, Excon::Errors::SocketError
   end
 
