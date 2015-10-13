@@ -3,8 +3,13 @@ require_relative '../lib/ci/pangeaimage'
 
 class PangeaImageTest < TestCase
   def setup
+    @oldnamespace = CI::PangeaImage.namespace
     @namespace = 'pangea-testing'
     CI::PangeaImage.namespace = @namespace
+  end
+
+  def teardown
+    CI::PangeaImage.namespace = @oldnamespace
   end
 
   def assert_image(flavor, series, image)

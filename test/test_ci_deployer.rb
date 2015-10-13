@@ -36,13 +36,15 @@ class DeployTest < TestCase
       end
     end
 
-    CI::PangeaImage.namespace = 'pangea-testing'
-
+    @oldnamespace = CI::PangeaImage.namespace
+    @namespace = 'pangea-testing'
+    CI::PangeaImage.namespace = @namespace
     @oldhome = ENV.fetch('HOME')
   end
 
   def teardown
     VCR.configuration.default_cassette_options.delete(:tag)
+    CI::PangeaImage.namespace = @oldnamespace
     ENV['HOME'] = @oldhome
   end
 

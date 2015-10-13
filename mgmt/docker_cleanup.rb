@@ -3,6 +3,7 @@
 require 'docker'
 require 'logger'
 require 'logger/colors'
+require_relative '../lib/ci/pangeaimage'
 
 def cleanup_dangling_things
   # Remove exited jenkins containers.
@@ -15,7 +16,7 @@ def cleanup_dangling_things
             " image associated with it. This should not happen: #{container}"
     end
     repo, _tag = Docker::Util.parse_repo_tag(image)
-    if repo.start_with?('pangea/')
+    if repo.include? CI::PangeaImage.namespace
       begin
         @log.warn "Removing container #{container.id}"
         container.remove

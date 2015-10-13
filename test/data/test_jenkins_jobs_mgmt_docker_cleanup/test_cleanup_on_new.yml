@@ -25,7 +25,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |-
-        [{"Command":"/bin/bash","Created":1441822661,"Id":"a300d76f487996cce306f684910330485181e853b8262ee60397f2aa5f3b487e","Image":"debian:testing","Labels":{},"Names":["/nostalgic_archimedes"],"Ports":[],"Status":"Exited (0) 7 days ago"}
+        [{"Command":"/bin/bash","Created":1441822661,"Id":"a300d76f487996cce306f684910330485181e853b8262ee60397f2aa5f3b487e","Image":"debian:unstable","Labels":{},"Names":["/nostalgic_archimedes"],"Ports":[],"Status":"Exited (0) 7 days ago"}
         ]
     http_version:
   recorded_at: Thu, 17 Sep 2015 15:40:00 GMT
@@ -52,12 +52,12 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |-
-        [{"Created":1442502134,"Id":"cde45110010e8f4c609199874b5aa10477c81535927b3cfdc8d71bc807d8b25d","Labels":null,"ParentId":"","RepoDigests":[],"RepoTags":["pangea/debian:testing"],"Size":1081546441,"VirtualSize":1081546441}
-        ,{"Created":1442501942,"Id":"0e32bcecef6a6fda31b9decb27fe939d22daee4ee93297b211d6142d3fd8aa28","Labels":null,"ParentId":"","RepoDigests":[],"RepoTags":["pangea/ubuntu:vivid"],"Size":665700246,"VirtualSize":665700246}
-        ,{"Created":1442501587,"Id":"16d32473cebcb672ea51f8bec68405f46e8e8e416e786eb713889b818c453fcd","Labels":null,"ParentId":"","RepoDigests":[],"RepoTags":["pangea/ubuntu:wily"],"Size":991488412,"VirtualSize":991488412}
-        ,{"Created":1441669014,"Id":"37cbf6c3413f292ae26bc10a943aca30e5ba17c7033fbdfe417fbf22f40847c5","Labels":{},"ParentId":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","RepoDigests":[],"RepoTags":["debian:testing"],"Size":0,"VirtualSize":126046560}
+        [{"Created":1442502134,"Id":"cde45110010e8f4c609199874b5aa10477c81535927b3cfdc8d71bc807d8b25d","Labels":null,"ParentId":"","RepoDigests":[],"RepoTags":["pangea-testing/debian:unstable"],"Size":1081546441,"VirtualSize":1081546441}
+        ,{"Created":1442501942,"Id":"0e32bcecef6a6fda31b9decb27fe939d22daee4ee93297b211d6142d3fd8aa28","Labels":null,"ParentId":"","RepoDigests":[],"RepoTags":["pangea-testing/ubuntu:vivid"],"Size":665700246,"VirtualSize":665700246}
+        ,{"Created":1442501587,"Id":"16d32473cebcb672ea51f8bec68405f46e8e8e416e786eb713889b818c453fcd","Labels":null,"ParentId":"","RepoDigests":[],"RepoTags":["pangea-testing/ubuntu:wily"],"Size":991488412,"VirtualSize":991488412}
+        ,{"Created":1441669014,"Id":"37cbf6c3413f292ae26bc10a943aca30e5ba17c7033fbdfe417fbf22f40847c5","Labels":{},"ParentId":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","RepoDigests":[],"RepoTags":["debian:unstable"],"Size":0,"VirtualSize":126046560}
         ,{"Created":1441669013,"Id":"acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a","Labels":null,"ParentId":"","RepoDigests":["\u003cnone\u003e@\u003cnone\u003e"],"RepoTags":["\u003cnone\u003e:\u003cnone\u003e"],"Size":126046560,"VirtualSize":126046560}
-        ,{"Created":1441138317,"Id":"1884caeee373398982814b86b6588fd0f425c607f459b74c5c3062efc857e601","Labels":{},"ParentId":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","RepoDigests":[],"RepoTags":["ubuntu:wily","pangea/ubuntu:latest"],"Size":0,"VirtualSize":131261115}
+        ,{"Created":1441138317,"Id":"1884caeee373398982814b86b6588fd0f425c607f459b74c5c3062efc857e601","Labels":{},"ParentId":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","RepoDigests":[],"RepoTags":["ubuntu:wily","pangea-testing/ubuntu:latest"],"Size":0,"VirtualSize":131261115}
         ,{"Created":1441138316,"Id":"67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff","Labels":{},"ParentId":"3ba895afa4b1a4413ecc6dad609ec49bcb5bb4b283018a182cb15b0fccc426f4","RepoDigests":["\u003cnone\u003e@\u003cnone\u003e"],"RepoTags":["\u003cnone\u003e:\u003cnone\u003e"],"Size":1863,"VirtualSize":131261115}
         ,{"Created":1441138315,"Id":"3ba895afa4b1a4413ecc6dad609ec49bcb5bb4b283018a182cb15b0fccc426f4","Labels":{},"ParentId":"7442c3ed5d1998363fbabc95e6461afd39c0e12fc0a1bd72590c20ec023bd50f","RepoDigests":["\u003cnone\u003e@\u003cnone\u003e"],"RepoTags":["\u003cnone\u003e:\u003cnone\u003e"],"Size":701,"VirtualSize":131259252}
         ,{"Created":1441138311,"Id":"7442c3ed5d1998363fbabc95e6461afd39c0e12fc0a1bd72590c20ec023bd50f","Labels":null,"ParentId":"","RepoDigests":["\u003cnone\u003e@\u003cnone\u003e"],"RepoTags":["\u003cnone\u003e:\u003cnone\u003e"],"Size":131258551,"VirtualSize":131258551}
