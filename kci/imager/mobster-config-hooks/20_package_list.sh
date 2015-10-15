@@ -10,6 +10,7 @@ simplelogin
 qtdeclarative5-private-dev
 qml-module-org-kde-*
 plasma-phone-dev-setup
+qtdeclarative5-ofono0.2
 plasma-phone-settings
 kpackagelauncherqml
 kwin-style-breeze
