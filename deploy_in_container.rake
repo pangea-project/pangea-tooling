@@ -63,7 +63,8 @@ task :deploy_in_container do
                   zlib1g-dev
                   python-paramiko
                   sudo
-                  locales))
+                  locales
+                  pxz))
   Apt.clean
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
