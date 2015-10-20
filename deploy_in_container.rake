@@ -64,7 +64,8 @@ task :deploy_in_container do
                   python-paramiko
                   sudo
                   locales
-                  pxz))
+                  pxz
+                  aptitude))
   Apt.clean
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
