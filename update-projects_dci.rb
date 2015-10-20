@@ -52,13 +52,6 @@ def create_or_update(orig_xml_config, args = {})
   xml_config.gsub!('@DAILY_TRIGGER@', args[:daily_trigger] ||= '')
   xml_config.gsub!('@DOWNSTREAM_TRIGGERS@', args[:downstream_triggers] ||= '') # Triggers on somewhat more advanced conditions
 
-  # Workaround for kate/konsole in Debian at the moment
-  # konsole/kate5-data can't be co installed with kde-runtime/dolphin
-  # at the moment so lets use the utopic_unstable branch for now since
-  # that has the relevant packaging to make it co installable
-  if %w(kate konsole).include?(args[:name])
-    args[:packaging_branch] = 'kubuntu_unstable_utopic'
-  end
   xml_config.gsub!('@PACKAGING_BRANCH@', args[:packaging_branch] ||= 'kubuntu_unstable')
   xml_config.gsub!('@ARCHITECTURE@', args[:architecture] ||= '')
 
