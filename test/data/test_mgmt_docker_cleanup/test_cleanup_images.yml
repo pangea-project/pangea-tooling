@@ -19,7 +19,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 29 Oct 2015 11:47:26 GMT
+      - Thu, 29 Oct 2015 12:40:25 GMT
     body:
       encoding: UTF-8
       string: "{\"status\":\"Pulling from ubuntu\",\"id\":\"vivid\"}\r\n{\"status\":\"Already
@@ -30,7 +30,7 @@ http_interactions:
         sha256:f8ab3daccb415b209cfe40e1faf04ac6fdb2a7167bc3961f7bd31b6479792eea\"}\r\n{\"status\":\"Status:
         Image is up to date for ubuntu:vivid\"}\r\n"
     http_version: 
-  recorded_at: Thu, 29 Oct 2015 11:47:26 GMT
+  recorded_at: Thu, 29 Oct 2015 12:40:25 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/build
@@ -40,7 +40,7 @@ http_interactions:
         eW9sbwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAADAwMDA2NDAAMDAwMDAwMAAwMDAwMDAwADAwMDAwMDAwMDAw
-        ADEyNjE0NDAzNTE2ADAxMjIwNwAgMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        ADEyNjE0NDExNjcxADAxMjIxMAAgMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB1c3RhcgAwMHdoZWVs
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAd2hlZWwAAAAAAAAAAAAAAAAA
@@ -51,7 +51,7 @@ http_interactions:
         AAAAAAAAAAAAAAAAAAAAAABEb2NrZXJmaWxlAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDAwMDY0MAAwMDAwMDAwADAw
-        MDAwMDAAMDAwMDAwMDAwNDEAMTI2MTQ0MDM1MTYAMDEzMzAxACAwAAAAAAAA
+        MDAwMDAAMDAwMDAwMDAwNDEAMTI2MTQ0MTE2NzEAMDEzMzAyACAwAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAHVzdGFyADAwd2hlZWwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB3
@@ -107,15 +107,15 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 29 Oct 2015 11:47:26 GMT
+      - Thu, 29 Oct 2015 12:40:25 GMT
     body:
       encoding: UTF-8
       string: "{\"stream\":\"Step 0 : FROM 4e9c8310e711\\n\"}\r\n{\"stream\":\" ---\\u003e
         4e9c8310e711\\n\"}\r\n{\"stream\":\"Step 1 : ADD yolo /yolo\\n\"}\r\n{\"stream\":\"
-        ---\\u003e 3b8fc32f34e8\\n\"}\r\n{\"stream\":\"Removing intermediate container
-        a90935aedb49\\n\"}\r\n{\"stream\":\"Successfully built 3b8fc32f34e8\\n\"}\r\n"
+        ---\\u003e 33d67a1e8ee7\\n\"}\r\n{\"stream\":\"Removing intermediate container
+        2f10d76cc3f6\\n\"}\r\n{\"stream\":\"Successfully built 33d67a1e8ee7\\n\"}\r\n"
     http_version: 
-  recorded_at: Thu, 29 Oct 2015 11:47:26 GMT
+  recorded_at: Thu, 29 Oct 2015 12:40:25 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/json?all=true&filters=%7B%22dangling%22%3A%5B%22true%22%5D%7D
@@ -135,18 +135,18 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 29 Oct 2015 11:47:26 GMT
+      - Thu, 29 Oct 2015 12:40:25 GMT
       Content-Length:
-      - '321'
+      - '640'
     body:
       encoding: UTF-8
       string: |
-        [{"Id":"3b8fc32f34e8d019e38758c82f993a6d982f9de97e66cb6aea4defae6b04d16f","ParentId":"4e9c8310e711e31cc8a5dfd9b39b8654dddbcbe58f1e8f2eb8decf19aa8058ba","RepoTags":["\u003cnone\u003e:\u003cnone\u003e"],"RepoDigests":["\u003cnone\u003e@\u003cnone\u003e"],"Created":1446119246,"Size":0,"VirtualSize":131292454,"Labels":{}}]
+        [{"Id":"33d67a1e8ee7dfadeb2fba5df2bf7c4d417ee44ec3e32387df75b449e1b31a2b","ParentId":"4e9c8310e711e31cc8a5dfd9b39b8654dddbcbe58f1e8f2eb8decf19aa8058ba","RepoTags":["\u003cnone\u003e:\u003cnone\u003e"],"RepoDigests":["\u003cnone\u003e@\u003cnone\u003e"],"Created":1446122425,"Size":0,"VirtualSize":131292454,"Labels":{}},{"Id":"00ba03911a146cd9d575ba23a3e46ba2117a833bef362fd6fe8db23a64aab9a3","ParentId":"4e9c8310e711e31cc8a5dfd9b39b8654dddbcbe58f1e8f2eb8decf19aa8058ba","RepoTags":["\u003cnone\u003e:\u003cnone\u003e"],"RepoDigests":["\u003cnone\u003e@\u003cnone\u003e"],"Created":1446120950,"Size":0,"VirtualSize":131292454,"Labels":{}}]
     http_version: 
-  recorded_at: Thu, 29 Oct 2015 11:47:26 GMT
+  recorded_at: Thu, 29 Oct 2015 12:40:25 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/3b8fc32f34e8d019e38758c82f993a6d982f9de97e66cb6aea4defae6b04d16f
+    uri: unix:///var/run/docker.sock/v1.16/images/33d67a1e8ee7dfadeb2fba5df2bf7c4d417ee44ec3e32387df75b449e1b31a2b
     body:
       encoding: US-ASCII
       string: ''
@@ -163,18 +163,46 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 29 Oct 2015 11:47:26 GMT
+      - Thu, 29 Oct 2015 12:40:25 GMT
       Content-Length:
       - '81'
     body:
       encoding: UTF-8
       string: |
-        [{"Deleted":"3b8fc32f34e8d019e38758c82f993a6d982f9de97e66cb6aea4defae6b04d16f"}]
+        [{"Deleted":"33d67a1e8ee7dfadeb2fba5df2bf7c4d417ee44ec3e32387df75b449e1b31a2b"}]
     http_version: 
-  recorded_at: Thu, 29 Oct 2015 11:47:26 GMT
+  recorded_at: Thu, 29 Oct 2015 12:40:25 GMT
+- request:
+    method: delete
+    uri: unix:///var/run/docker.sock/v1.16/images/00ba03911a146cd9d575ba23a3e46ba2117a833bef362fd6fe8db23a64aab9a3
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.22.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 409
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Date:
+      - Thu, 29 Oct 2015 12:40:25 GMT
+      Content-Length:
+      - '101'
+    body:
+      encoding: UTF-8
+      string: |
+        Conflict, cannot delete 00ba03911a14 because the container b7daed609163 is using it, use -f to force
+    http_version: 
+  recorded_at: Thu, 29 Oct 2015 12:40:25 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/3b8fc32f34e8/json
+    uri: unix:///var/run/docker.sock/v1.16/images/33d67a1e8ee7/json
     body:
       encoding: US-ASCII
       string: ''
@@ -191,18 +219,18 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 29 Oct 2015 11:47:26 GMT
+      - Thu, 29 Oct 2015 12:40:25 GMT
       Content-Length:
       - '28'
     body:
       encoding: UTF-8
       string: |
-        No such image: 3b8fc32f34e8
+        No such image: 33d67a1e8ee7
     http_version: 
-  recorded_at: Thu, 29 Oct 2015 11:47:26 GMT
+  recorded_at: Thu, 29 Oct 2015 12:40:25 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/3b8fc32f34e8/json
+    uri: unix:///var/run/docker.sock/v1.16/images/33d67a1e8ee7/json
     body:
       encoding: US-ASCII
       string: ''
@@ -219,18 +247,18 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 29 Oct 2015 11:47:26 GMT
+      - Thu, 29 Oct 2015 12:40:25 GMT
       Content-Length:
       - '28'
     body:
       encoding: UTF-8
       string: |
-        No such image: 3b8fc32f34e8
+        No such image: 33d67a1e8ee7
     http_version: 
-  recorded_at: Thu, 29 Oct 2015 11:47:26 GMT
+  recorded_at: Thu, 29 Oct 2015 12:40:25 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/3b8fc32f34e8/json
+    uri: unix:///var/run/docker.sock/v1.16/images/33d67a1e8ee7/json
     body:
       encoding: US-ASCII
       string: ''
@@ -247,18 +275,18 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 29 Oct 2015 11:47:26 GMT
+      - Thu, 29 Oct 2015 12:40:25 GMT
       Content-Length:
       - '28'
     body:
       encoding: UTF-8
       string: |
-        No such image: 3b8fc32f34e8
+        No such image: 33d67a1e8ee7
     http_version: 
-  recorded_at: Thu, 29 Oct 2015 11:47:26 GMT
+  recorded_at: Thu, 29 Oct 2015 12:40:25 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/3b8fc32f34e8/json
+    uri: unix:///var/run/docker.sock/v1.16/images/33d67a1e8ee7/json
     body:
       encoding: US-ASCII
       string: ''
@@ -275,13 +303,13 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Date:
-      - Thu, 29 Oct 2015 11:47:26 GMT
+      - Thu, 29 Oct 2015 12:40:25 GMT
       Content-Length:
       - '28'
     body:
       encoding: UTF-8
       string: |
-        No such image: 3b8fc32f34e8
+        No such image: 33d67a1e8ee7
     http_version: 
-  recorded_at: Thu, 29 Oct 2015 11:47:26 GMT
+  recorded_at: Thu, 29 Oct 2015 12:40:25 GMT
 recorded_with: VCR 2.9.3

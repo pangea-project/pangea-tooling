@@ -60,16 +60,8 @@ class MGMTDockerCleanupTest < TestCase
   # we need substantially more testing to make sure we don't screw up...
   def test_cleanup_images
     VCR.use_cassette(__method__, erb: true) do
-      image = create_image # standard image
-      assert_not_nil(image)
-      assert_is_a(image, Docker::Image)
-      File.write('yolo', '')
-      # Nobody knows why but that bit of API uses strings Oo
-      # insert_local dockerfiles off of our baseimage and creates
-      dangling_image = image.insert_local('localPath' => "#{Dir.pwd}/yolo",
-                                          'outputPath' => '/yolo')
-      assert_not_nil(image)
-      assert_is_a(image, Docker::Image)
+      image = create_image
+      dangling_image = derive_image(image)
       Docker::Cleanup.images
       assert(!Docker::Image.exist?(dangling_image.id))
     end
