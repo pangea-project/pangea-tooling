@@ -42,4 +42,16 @@ class PangeaImageTest < TestCase
     # assert_image in fact relies on it.
     assert_equal("#{@namespace}/ubuntu:wily", image.to_s)
   end
+
+  def test_tag_args
+    flavor = :ubuntu
+    series = 'wily'
+    image = CI::PangeaImage.new(flavor, series)
+    tag_args = image.tag_args
+    assert_equal({ repo: "#{@namespace}/#{flavor}", tag: series },
+                 tag_args)
+    # Merge doesn't break it
+    assert_equal({ repo: "#{@namespace}/#{flavor}", tag: series, force: true },
+                 tag_args.merge(force: true))
+  end
 end

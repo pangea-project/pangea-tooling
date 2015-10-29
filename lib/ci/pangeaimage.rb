@@ -26,6 +26,17 @@ module CI
       "#{@@namespace}/#{@flavor}"
     end
 
+    # Tagging arguments for Image.tag.
+    # @example Can be used like this
+    #    image = Image.get('yolo')
+    #    image.tag(PangeaImage.new(:ubuntu, :vivid).tag_args)
+    # @example You can also freely merge into the arguments
+    #    image.tag(pimage.merge(force: true))
+    # @return [Hash] tagging arguments for Image.tag
+    def tag_args
+      { repo: repo, tag: tag }
+    end
+
     def to_s
       to_str
     end
