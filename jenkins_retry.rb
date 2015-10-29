@@ -31,6 +31,10 @@ Only jobs that are not queued, not building, and failed will be retired.
   opts.on('-b', '--build', 'Rebuild even if job did not fail.') do
     EXCLUSION_STATES.clear
   end
+
+  opts.on('-u', '--unstable', 'Rebuild unstable jobs as well.') do
+    EXCLUSION_STATES.delete('unstable')
+  end
 end.parse!
 
 @log = Logger.new(STDOUT).tap do |l|
