@@ -66,4 +66,19 @@ class MGMTDockerCleanupTest < TestCase
       assert(!Docker::Image.exist?(dangling_image.id))
     end
   end
+
+  def test_cleanup_images_conflict
+    # Block image removal by creating a container for it.
+    # This is going to cuase
+    #   Docker::Error::ConflictError: Conflict, cannot delete 00ba03911a14 because the container b7daed609163 is using it, use -f to force
+    VCR.use_cassette(__method__, erb: true) do
+      image = create_image
+      dangling_image = derive_image(image)
+      container = Docker::Container.create(Image: dangling_image.id)
+      Docker::Cleanup.images
+      assert(Docker::Image.exist?(dangling_image.id))
+      container.remove(force: true)
+      dangling_image.remove(force: true)
+    end
+  end
 end

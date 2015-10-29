@@ -47,6 +47,9 @@ module Docker
         log.warn "Removing image #{image.id}"
         image.delete
       end
+    rescue Docker::Error::ConflictError => e
+      log.warn e.to_s
+      log.warn 'There was a conflict error, continuing.'
 
       # NOTE: Manual code implementing agggressive cleanups. Should docker be
       # stupid use this:
