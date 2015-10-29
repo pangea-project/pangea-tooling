@@ -15,8 +15,10 @@ class MGMTDockerCleanupTest < TestCase
       config.cassette_library_dir = @datadir
       config.hook_into :excon
       config.default_cassette_options = {
-        match_requests_on:  [:method, :uri, :body]
+        match_requests_on:  [:method, :uri, :body],
+        tag: :erb_pwd
       }
+
       # The PWD is used as home and as such it appears in the interactions.
       # Filter it into a ERB expression we can play back.
       config.filter_sensitive_data('<%= Dir.pwd %>', :erb_pwd) { Dir.pwd }
@@ -57,7 +59,7 @@ class MGMTDockerCleanupTest < TestCase
   # images that do not dangle. Should we change to our own implementation
   # we need substantially more testing to make sure we don't screw up...
   def test_cleanup_images
-    VCR.use_cassette(__method__) do
+    VCR.use_cassette(__method__, erb: true) do
       image = create_image # standard image
       assert_not_nil(image)
       assert_is_a(image, Docker::Image)
