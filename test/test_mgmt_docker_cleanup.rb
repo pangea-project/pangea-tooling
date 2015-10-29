@@ -29,6 +29,30 @@ class MGMTDockerCleanupTest < TestCase
     image
   end
 
+  def disable_body_match
+    VCR.configure do |c|
+      begin
+        body = c.default_cassette_options[:match_requests_on].delete(:body)
+        yield
+      ensure
+        c.default_cassette_options[:match_requests_on] << :body if body
+      end
+    end
+  end
+
+  def derive_image(image)
+    File.write('yolo', '')
+    # Nobody knows why but that bit of API uses strings Oo
+    # insert_local dockerfiles off of our baseimage and creates
+    i = nil
+    disable_body_match do
+      i = image.insert_local('localPath' => "#{Dir.pwd}/yolo",
+                             'outputPath' => '/yolo')
+    end
+    assert_image(i)
+    i
+  end
+
   # This test presently relies on docker not screwing up and deleting
   # images that do not dangle. Should we change to our own implementation
   # we need substantially more testing to make sure we don't screw up...
