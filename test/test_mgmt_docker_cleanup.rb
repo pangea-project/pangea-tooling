@@ -6,7 +6,7 @@ require_relative '../lib/docker/cleanup'
 class MGMTDockerCleanupTest < TestCase
   # :nocov:
   def create_image
-    Docker::Image.create(fromImage: 'ubuntu:vivid')
+    assert_image(Docker::Image.create(fromImage: 'ubuntu:vivid'))
   end
   # :nocov:
 
@@ -21,6 +21,12 @@ class MGMTDockerCleanupTest < TestCase
       # Filter it into a ERB expression we can play back.
       config.filter_sensitive_data('<%= Dir.pwd %>', :erb_pwd) { Dir.pwd }
     end
+  end
+
+  def assert_image(image)
+    assert_not_nil(image)
+    assert_is_a(image, Docker::Image)
+    image
   end
 
   # This test presently relies on docker not screwing up and deleting
