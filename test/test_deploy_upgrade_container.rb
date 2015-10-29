@@ -32,7 +32,6 @@ class DeployUpgradeTest < TestCase
     Docker::Image.create(fromImage: 'ubuntu:vivid').tag(repo: @repo,
                                                         tag: 'latest')
   end
-
   # :nocov:
 
   def setup
