@@ -4,6 +4,15 @@ require_relative '../lib/jenkins/jobdir'
 require_relative '../ci-tooling/test/lib/testcase'
 
 class JenkinsJobDirTest < TestCase
+  def setup
+    @home = ENV.fetch('HOME')
+    ENV['HOME'] = Dir.pwd
+  end
+
+  def teardown
+    ENV['HOME'] = @home
+  end
+
   def test_prune
     buildsdir = "jobs/#{__method__}/builds"
     FileUtils.mkpath(buildsdir)
@@ -30,7 +39,6 @@ class JenkinsJobDirTest < TestCase
     # deleted either as we always keep the last 7 builds
     FileUtils.touch("#{buildsdir}/15/log", mtime: (DateTime.now - 32).to_time)
 
-    ENV['HOME'] = Dir.pwd
     Dir.glob('jobs/*').each do |jobdir|
       Jenkins::JobDir.prune_logs(jobdir)
     end
