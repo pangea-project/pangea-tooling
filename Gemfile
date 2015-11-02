@@ -20,7 +20,7 @@ group :development, :test do
   gem 'rack'
   gem 'rubocop'
   gem 'rubocop-checkstyle_formatter'
-  gem 'vcr'
+  gem 'vcr', '~> 2'
   gem 'webmock'
   gem 'rake-notes'
   gem 'ruby-progressbar'
