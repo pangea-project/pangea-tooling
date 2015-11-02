@@ -39,8 +39,18 @@ class SourcerJob < JenkinsJob
       render('upstream-scms/git.xml.erb')
     when 'svn'
       render('upstream-scms/svn.xml.erb')
+    when 'tarball'
+      ''
     else
       fail "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
     end
+  end
+
+  def fetch_tarball
+    return '' unless @upstream_scm && @upstream_scm.type == 'tarball'
+    "if [ ! -d source ]; then
+    mkdir source
+    echo '#{@upstream_scm.url}' > source/url
+    fi"
   end
 end
