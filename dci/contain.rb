@@ -11,6 +11,6 @@ DIST = ENV.fetch('DIST')
 # We can simply replace those characters with a valid char
 BUILD_TAG = ENV.fetch('BUILD_TAG').gsub(/\W/, '-')
 
-c = CI::Containment.new(image: CI::PangeaImage.new(:debian, DIST))
+c = CI::Containment.new(BUILD_TAG, image: CI::PangeaImage.new(:debian, DIST))
 status_code = c.run(Cmd: ARGV)
 exit status_code
