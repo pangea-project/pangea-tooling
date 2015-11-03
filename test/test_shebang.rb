@@ -1,7 +1,7 @@
 require 'test/unit'
 require_relative '../lib/shebang'
 
-class ParseTest < Test::Unit::TestCase
+class ShebangTest < Test::Unit::TestCase
   def test_shebang
     s = Shebang.new(nil)
     assert(!s.valid)
