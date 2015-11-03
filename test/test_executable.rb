@@ -1,5 +1,5 @@
 require 'test/unit'
-require_relative '../ci-tooling/test/lib/shebang'
+require_relative '../lib/shebang'
 
 class ExecutableTest < Test::Unit::TestCase
   BINARY_DIRS = %w(
@@ -21,11 +21,11 @@ class ExecutableTest < Test::Unit::TestCase
         pattern = File.join(basedir, dir, "*#{suffix}")
         Dir.glob(pattern).each do |file|
           next unless File.exist?(file)
-          not_executable << file unless File.executable?(file)
-
           if File.executable?(file)
             sb = Shebang.new(File.open(file).readline)
             assert(sb.valid)
+          else
+            not_executable << file
           end
         end
       end

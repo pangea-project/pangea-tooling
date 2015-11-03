@@ -1,5 +1,5 @@
 require 'test/unit'
-require_relative '../ci-tooling/test/lib/shebang'
+require_relative '../lib/shebang'
 
 class ParseTest < Test::Unit::TestCase
   def test_shebang
