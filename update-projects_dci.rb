@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'jenkins_api_client'
 require 'thwait'
 require_relative 'ci-tooling/lib/projects'
