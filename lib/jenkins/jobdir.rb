@@ -20,6 +20,7 @@ module Jenkins
       locked = []
       content.reject! do |d|
         next false unless STATE_SYMLINKS.include?(File.basename(d))
+        next true unless File.symlink?(d) && File.exist?(d)
         locked << File.realpath(d)
       end
 

@@ -26,7 +26,7 @@ class JenkinsJobDirTest < TestCase
     end
     # Static links
     File.symlink('2', "#{buildsdir}/lastFailedBuild")
-    File.symlink('3', "#{buildsdir}/lastUnstableBuild")
+    File.symlink('-1', "#{buildsdir}/lastUnstableBuild")
     File.symlink('11', "#{buildsdir}/lastUnsuccessfulBuild")
     File.symlink('14', "#{buildsdir}/lastStableBuild")
     File.symlink('14', "#{buildsdir}/lastSuccessfulBuild")
@@ -45,7 +45,8 @@ class JenkinsJobDirTest < TestCase
 
     %w(lastFailedBuild lastStableBuild lastSuccessfulBuild lastUnstableBuild lastUnsuccessfulBuild).each do |d|
       dir = "#{buildsdir}/#{d}"
-      assert_path_exist(dir)
+      # unstable is symlink to -1 == invalid by default!
+      assert_path_exist(dir) unless d == 'lastUnstableBuild'
       assert(File.symlink?(dir), "#{dir} was supposed to be a symlink but isn't")
     end
 
