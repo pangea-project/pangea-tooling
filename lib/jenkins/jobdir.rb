@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Jenkins
   class JobDir
     STATE_SYMLINKS = %w(
