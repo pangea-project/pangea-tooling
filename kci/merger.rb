@@ -146,7 +146,7 @@ class Merger
     series.each_key do |s|
       # archive -> backports
       merge_archive_in_backports(s)
-      # s_archive | s_backports -> s_stable | s_unstable | stable | unstable
+      # s_backports | s_archive -> s_stable | s_unstable | stable | unstable
       merge_backports_or_archive_in_stable_or_unstable(s)
       # s_stable | stable -> _variant
       merge_in_variant('stable', s)
