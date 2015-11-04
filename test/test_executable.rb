@@ -9,6 +9,7 @@ class ExecutableTest < Test::Unit::TestCase
     kci/mgmt
     ci-tooling/kci
     ci-tooling/ci
+    mgmt
   )
 
   SUFFIXES = %w(.py .rb .sh)
