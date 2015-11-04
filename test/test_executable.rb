@@ -5,10 +5,10 @@ class ExecutableTest < Test::Unit::TestCase
   BINARY_DIRS = %w(
     .
     ci-tooling
+    ci-tooling/ci
+    ci-tooling/kci
     kci
     kci/mgmt
-    ci-tooling/kci
-    ci-tooling/ci
     mgmt
   )
 
