@@ -96,6 +96,18 @@ done
       <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
       <channels/>
     </hudson.plugins.ircbot.IrcPublisher>
+    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
+      <deleteDirs>false</deleteDirs>
+      <skipWhenFailed>false</skipWhenFailed>
+      <cleanWhenSuccess>true</cleanWhenSuccess>
+      <cleanWhenUnstable>true</cleanWhenUnstable>
+      <cleanWhenFailure>false</cleanWhenFailure>
+      <cleanWhenNotBuilt>false</cleanWhenNotBuilt>
+      <cleanWhenAborted>false</cleanWhenAborted>
+      <notFailBuild>false</notFailBuild>
+      <cleanupMatrixParent>true</cleanupMatrixParent>
+      <externalDelete/>
+    </hudson.plugins.ws__cleanup.WsCleanup>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.26">
