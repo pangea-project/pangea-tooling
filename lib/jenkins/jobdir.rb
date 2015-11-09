@@ -14,6 +14,15 @@ module Jenkins
       ((Time.now - File.mtime(file)) / 60 / 60 / 24).to_i
     end
 
+    def self.recursive?(file)
+      return false unless File.symlink?(file)
+      abs_file = File.absolute_path(file)
+      abs_file_dir = File.dirname(abs_file)
+      link = File.readlink(abs_file)
+      abs_link = File.absolute_path(link, abs_file_dir)
+      abs_link == abs_file
+    end
+
     def self.prune_logs(dir)
       buildsdir = "#{dir}/builds"
       return unless File.exist?(buildsdir)
@@ -21,7 +30,11 @@ module Jenkins
 
       locked = []
       content.reject! do |d|
+        # Symlink but points to itself
+        next true if recursive?(d)
+        # Symlink is not a static one, keep these
         next false unless STATE_SYMLINKS.include?(File.basename(d))
+        # Symlink, but points to invalid target
         next true unless File.symlink?(d) && File.exist?(d)
         locked << File.realpath(d)
       end

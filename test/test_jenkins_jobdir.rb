@@ -24,6 +24,8 @@ class JenkinsJobDirTest < TestCase
         FileUtils.touch("#{dir}/#{file}", mtime: (DateTime.now - age).to_time)
       end
     end
+    # 17 is a symlink to itself. For some reason this can happen
+    File.symlink('17', "#{buildsdir}/17")
     # Static links
     File.symlink('2', "#{buildsdir}/lastFailedBuild")
     File.symlink('-1', "#{buildsdir}/lastUnstableBuild")
