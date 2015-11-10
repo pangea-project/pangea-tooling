@@ -354,14 +354,14 @@ deploy</tasks>
     <hudson.plugins.downstream__ext.DownstreamTrigger plugin="downstream-ext@1.8">
       <childProjects><%= downstreams.join(', ') %></childProjects>
       <threshold>
-        <name>SUCCESS</name>
-        <ordinal>0</ordinal>
-        <color>BLUE</color>
+        <name>UNSTABLE</name>
+        <ordinal>1</ordinal>
+        <color>YELLOW</color>
         <completeBuild>true</completeBuild>
       </threshold>
       <thresholdStrategy>AND_HIGHER</thresholdStrategy>
       <onlyIfSCMChanges>false</onlyIfSCMChanges>
-      <onlyIfLocalSCMChanges>true</onlyIfLocalSCMChanges>
+      <onlyIfLocalSCMChanges>false</onlyIfLocalSCMChanges>
     </hudson.plugins.downstream__ext.DownstreamTrigger>
     <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.26">
       <targets>
