@@ -2,9 +2,12 @@
 
 require_relative '../ci-tooling/lib/dci'
 require_relative '../ci-tooling/lib/kci'
+require_relative '../ci-tooling/lib/mobilekci'
 require_relative '../lib/mgmt/deployer'
 
-KCI.series.keys.each do |k|
+# KCI and mobile *can* have series overlap, they both use ubuntu as a base
+# though, so union the series keys and create images for the superset.
+(KCI.series.keys | MobileKCI.series.keys).each do |k|
   fork do
     d = MGMT::Deployer.new('ubuntu', k)
     d.run!
