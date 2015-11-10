@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/dci'
+require_relative '../ci-tooling/lib/kci'
 require_relative '../lib/mgmt/deployer'
 
 KCI.series.keys.each do |k|
