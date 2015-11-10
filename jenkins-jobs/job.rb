@@ -48,4 +48,7 @@ class JenkinsJob
     end
     ERB.new(data).result(binding)
   end
+
+  alias_method :to_s, :job_name
+  alias_method :to_str, :to_s
 end
