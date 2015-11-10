@@ -1,11 +1,11 @@
 require 'fileutils'
 require 'git'
-require 'test/unit'
 require 'tmpdir'
 
+require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../kci/merger'
 
-class MergerTest < Test::Unit::TestCase
+class MergerTest < TestCase
   def in_repo(&_block)
     Dir.mktmpdir(__callee__.to_s) do |t|
       g = Git.clone(repo, t)
@@ -51,9 +51,11 @@ class MergerTest < Test::Unit::TestCase
   def setup
     @tmpdir = Dir.mktmpdir(self.class.to_s)
     Dir.chdir(@tmpdir)
+    KCI.send(:data_dir=, File.join(File.dirname(@datadir), 'fake_data'))
   end
 
   def teardown
+    KCI.send(:reset!)
     Dir.chdir('/')
     FileUtils.rm_rf(@tmpdir)
   end
