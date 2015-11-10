@@ -40,6 +40,14 @@ class DeployTest < TestCase
     @namespace = 'pangea-testing'
     CI::PangeaImage.namespace = @namespace
     @oldhome = ENV.fetch('HOME')
+
+    # Hardcode ubuntu as the actual live values change and that would mean
+    # a) regenerating the test data for no good reason
+    # b) a new series might entail an upgrade which gets focused testing
+    #    so having it appear in broad testing doesn't make much sense.
+    # NB: order matters here, first is newest, last is oldest
+    @ubuntu_series = %w(wily vivid)
+    @debian_series = DCI.series.keys
   end
 
   def teardown
@@ -76,12 +84,12 @@ class DeployTest < TestCase
   end
 
   def deploy_all
-    KCI.series.keys.each do |k|
+    @ubuntu_series.each do |k|
       d = MGMT::Deployer.new('ubuntu', k)
       d.run!
     end
 
-    DCI.series.keys.each do |k|
+    @debian_series.each do |k|
       d = MGMT::Deployer.new('debian', k)
       d.run!
     end
@@ -93,11 +101,11 @@ class DeployTest < TestCase
     ENV['HOME'] = Dir.pwd
 
     VCR.turned_off do
-      KCI.series.keys.each do |k|
+      @ubuntu_series.each do |k|
         create_base('ubuntu', k)
       end
 
-      DCI.series.keys.each do |k|
+      @debian_series.each do |k|
         create_base('debian', k)
       end
     end
@@ -115,11 +123,11 @@ class DeployTest < TestCase
     ENV['HOME'] = Dir.pwd
 
     VCR.turned_off do
-      KCI.series.keys.each do |k|
+      @ubuntu_series.each do |k|
         remove_base('ubuntu', k)
       end
 
-      DCI.series.keys.each do |k|
+      @debian_series.each do |k|
         remove_base('debian', k)
       end
     end
