@@ -7,9 +7,12 @@ require_relative '../lib/mgmt/deployer'
 
 # KCI and mobile *can* have series overlap, they both use ubuntu as a base
 # though, so union the series keys and create images for the superset.
-(KCI.series.keys | MobileKCI.series.keys).each do |k|
+ubuntu_series = (KCI.series.keys | MobileKCI.series.keys)
+ubuntu_series.each_index do |index|
+  series = ubuntu_series[index]
+  origins = ubuntu_series[index + 1..-1]
   fork do
-    d = MGMT::Deployer.new('ubuntu', k)
+    d = MGMT::Deployer.new('ubuntu', series, origins)
     d.run!
   end
 end

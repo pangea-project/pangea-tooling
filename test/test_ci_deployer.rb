@@ -138,4 +138,33 @@ class DeployTest < TestCase
       end
     end
   end
+
+  def test_upgrade
+    # When trying to provision an image for an ubuntu series that doesn't exist
+    # in dockerhub we can upgrade from an earlier series. To do this we'd pass
+    # the version to upgrade from and then expect create_base to actually
+    # indicate an upgrade.
+    copy_data
+    ENV['HOME'] = Dir.pwd
+    VCR.turned_off do
+      remove_base(:ubuntu, __method__)
+    end
+
+    VCR.use_cassette(__method__, erb: true) do
+      # Wily should exist so the fallback upgrade shouldn't be used.
+      d = MGMT::Deployer.new(:ubuntu, 'wily', %w(vivid))
+      upgrade = d.create_base
+      assert_nil(upgrade)
+      # Fake series name shouldn't exist and trigger an upgrade.
+      d = MGMT::Deployer.new(:ubuntu, __method__.to_s, %w(wily))
+      upgrade = d.create_base
+      assert_not_nil(upgrade)
+      assert_equal('wily', upgrade.from)
+      assert_equal(__method__.to_s, upgrade.to)
+    end
+  ensure
+    VCR.turned_off do
+      remove_base(:ubuntu, __method__)
+    end
+  end
 end

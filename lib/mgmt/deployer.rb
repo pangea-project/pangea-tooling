@@ -12,11 +12,17 @@ $stdout = $stderr
 module MGMT
   # Class to handle Docker container deployments
   class Deployer
+    Upgrade = Struct.new(:from, :to)
+
     attr_accessor :testing
     attr_reader :base
 
-    def initialize(flavor, tag)
+    # @param flavor [Symbol] ubuntu or debian base
+    # @param tag [String] name of the version (vivid || unstable || wily...)
+    # @param origin_tags [Array] name of alternate versions to upgrade from
+    def initialize(flavor, tag, origin_tags = [])
       @base = CI::PangeaImage.new(flavor, tag)
+      @origin_tags = origin_tags
       @testing = true if CI::PangeaImage.namespace.include? 'testing'
       init_logging
     end
@@ -34,34 +40,40 @@ module MGMT
     end
 
     def create_base
-      upgrades = [] # [0] from [1] to. iff upgrade is necessary
+      upgrade = nil
       base_image = "#{@base.flavor}:#{@base.tag}"
-      base_image = "armbuild/#{@base.flavor}:#{@base.tag}" if DPKG::HOST_ARCH == 'armhf'
+      if DPKG::HOST_ARCH == 'armhf'
+        base_image = "armbuild/#{@base.flavor}:#{@base.tag}"
+      end
 
+      trying_tag = @base.tag
       begin
         @log.info "creating base docker image from #{base_image} for #{base}"
         image = Docker::Image.create(fromImage: base_image)
       rescue Docker::Error::ArgumentError
         error = "Failed to create Image from #{base_image}"
-        raise error if @base.tag != 'wily' || !upgrades.empty?
+        raise error if @origin_tags.empty?
         puts error
-        puts 'Trying again with vivid and an upgrade...'
-        base_image = base_image.gsub(@base.tag, 'vivid')
-        upgrades << 'vivid' << 'wily'
+        new_tag = @origin_tags.shift
+        puts "Trying again with tag #{new_tag} and an upgrade..."
+        base_image = base_image.gsub(trying_tag, new_tag)
+        trying_tag = new_tag
+        upgrade = Upgrade.new(new_tag, base.tag)
         retry
       end
       image.tag(repo: @base.repo, tag: @base.tag)
-      upgrades
+      upgrade
     end
 
-    def deploy_inside_container(base, upgrades)
+    def deploy_inside_container(base, upgrade)
       # Take the latest image which either is the previous latest or a completely
       # prestine fork of the base ubuntu image and deploy into it.
       # FIXME use containment here probably
       @log.info "creating container from #{base}"
       cmd = ['sh', '/tooling-pending/deploy_in_container.sh']
-      unless upgrades.empty?
-        cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh'] + upgrades
+      if upgrade
+        cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh']
+        cmd << upgrade.from << upgrade.to
       end
       c = CI::Container.create(Image: base.to_s,
                                WorkingDir: ENV.fetch('HOME'),
@@ -88,12 +100,9 @@ module MGMT
     end
 
     def run!
-      upgrades = []
-      unless Docker::Image.exist?(@base.to_s)
-        upgrades = create_base
-      end
+      upgrade = create_base unless Docker::Image.exist?(@base.to_s)
 
-      c = deploy_inside_container(@base, upgrades)
+      c = deploy_inside_container(@base, upgrade)
 
       # Flatten the image by piping a tar export into a tar import.
       # Flattening essentially destroys the history of the image. By default docker
