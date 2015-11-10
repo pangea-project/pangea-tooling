@@ -3,8 +3,6 @@ require 'logger'
 require 'logger/colors'
 
 require_relative '../../ci-tooling/lib/dpkg'
-require_relative '../../ci-tooling/lib/kci'
-require_relative '../../ci-tooling/lib/dci'
 require_relative '../ci/container'
 require_relative '../ci/pangeaimage'
 
