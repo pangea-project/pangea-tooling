@@ -41,9 +41,10 @@ class BuildJob < JenkinsJob
       p @dependees
     end
     @dependencies = project.dependencies.collect { |d| build_name(d) }.compact
-    @packaging_scm = project.packaging_scm
+    @packaging_scm = project.packaging_scm_scm
     # FIXME: why ever does the job have to do that?
-    # Try the distribution specific branch name first.
+    # Try the distribution specific branch name first
+    warn 'build.rb does not use the branch attr of SCM and has a problem there'
     @packaging_branch = "kubuntu_#{type}_#{distribution}"
     unless project.series_branches.include?(@packaging_branch)
       @packaging_branch = "kubuntu_#{type}"
@@ -74,7 +75,7 @@ class BuildJob < JenkinsJob
   end
 
   def update
-    repos = CI::Pattern.filter(@packaging_scm, config)
+    repos = CI::Pattern.filter(@packaging_scm.url, config)
     repos.sort_by(&:first).each do |_, job_patterns|
       CI::Pattern.filter(@job_name, job_patterns).each do |_, enabled|
         return unless enabled
