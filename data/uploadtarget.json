@@ -6,5 +6,6 @@
     "netrunner" : "netrunner",
     "netrunner-debian" : "netrunner",
     "plasmazilla" : "plasmazilla",
-    "debian-packaging" : "extras"
+    "debian-packaging" : "extras",
+    "netrunner-arm" : "odroid"
 }
