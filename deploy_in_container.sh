@@ -15,7 +15,12 @@ echo "LANG=$LANG" >> /etc/environment
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00aptitude
 echo 'APT::Color "1";' > /etc/apt/apt.conf.d/99color
 
-apt-get update
+i="3"
+while [ $i -gt 0 ]; do
+  apt-get update && break
+  i=$((i-1))
+  sleep 60 # sleep a bit to give problem a chance to resolve
+done
 
 ESSENTIAL_PACKAGES="rake ruby ruby-dev build-essential zlib1g-dev"
 i="5"
