@@ -35,7 +35,14 @@ task :deploy_in_container do
     rescue Gem::LoadError
       sh 'gem install bundler'
     end
-    system("bundle install --jobs=#{`nproc`.strip} --no-cache --local --frozen --system --without development test")
+    bundle_args = []
+    bundle_args << "--jobs=#{`nproc`.strip}"
+    bundle_args << '--no-cache'
+    bundle_args << '--local'
+    bundle_args << '--frozen'
+    bundle_args << '--system'
+    bundle_args << '--without development test'
+    sh "bundle install #{bundle_args.join(' ')}"
     Dir.chdir('ci-tooling') do
       FileUtils.rm_rf(final_path)
       FileUtils.mkpath(final_path)
@@ -71,22 +78,22 @@ task :deploy_in_container do
   # Ubuntu's language-pack-en-base calls this internally, since this is
   # unavailable on Debian, call it manually.
   sh "echo #{ENV.fetch('LANG')} UTF-8 >> /etc/locale.gen"
-  sh "/usr/sbin/locale-gen --no-purge --lang en"
+  sh '/usr/sbin/locale-gen --no-purge --lang en'
   sh "update-locale LANG=#{ENV.fetch('LANG')}"
 
   # Prevent xapian from slowing down the test.
   # Install a fake package to prevent it from installing and doing anything.
   # This does render it non-functional but since we do not require the database
   # anyway this is the apparently only way we can make sure that it doesn't
-  # create its stupid database. The CI hosts have really bad IO performance making
-  # a full index take more than half an hour.
+  # create its stupid database. The CI hosts have really bad IO performance
+  # making a full index take more than half an hour.
   install_fake_pkg('apt-xapian-index')
 
   # FIXME: it would be much more reasonable to provision via chef-single...
   require 'etc'
 
   uname = 'jenkins'
-  uid = 100000
+  uid = 100_000
   gname = 'jenkins'
   gid = 120
 
