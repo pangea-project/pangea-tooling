@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require_relative 'ci-tooling/lib/mobilekci'
 require_relative 'ci-tooling/lib/projects'
 require_relative 'ci-tooling/lib/thread_pool'
 Dir.glob(File.expand_path('jenkins-jobs/*.rb', File.dirname(__FILE__))).each do |file|
@@ -55,8 +56,8 @@ class ProjectUpdater
   def populate_queue
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
-    %w(wily).each do |distribution|
-      %w(unstable).each do |type|
+    MobileKCI.series.each_key do |distribution|
+      MobileKCI.types.each do |type|
         projects = Projects.new(type: type, allow_custom_ci: true, projects_file: 'ci-tooling/data/projects_mci.json')
         all_builds = projects.collect do |project|
           Builder.job(project, distribution: distribution, type: type)
