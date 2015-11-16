@@ -24,6 +24,8 @@ class JenkinsJobDirTest < TestCase
       %w(build.xml log log.html log_ref.html).each do |file|
         FileUtils.touch("#{dir}/#{file}", mtime: mtime)
       end
+      FileUtils.mkpath("#{dir}/archive/randomdir")
+      FileUtils.touch("#{dir}/archive/randomdir/artifact", mtime: mtime)
     end
     # 17 is a symlink to itself. For some reason this can happen
     File.symlink('17', "#{buildsdir}/17")
@@ -43,7 +45,7 @@ class JenkinsJobDirTest < TestCase
     FileUtils.touch("#{buildsdir}/15/log", mtime: (DateTime.now - 32).to_time)
 
     Dir.glob('jobs/*').each do |jobdir|
-      Jenkins::JobDir.prune_logs(jobdir)
+      Jenkins::JobDir.prune(jobdir)
     end
 
     %w(lastFailedBuild lastStableBuild lastSuccessfulBuild lastUnstableBuild lastUnsuccessfulBuild).each do |d|
@@ -53,16 +55,17 @@ class JenkinsJobDirTest < TestCase
       assert(File.symlink?(dir), "#{dir} was supposed to be a symlink but isn't")
     end
 
+    markers = %w(log archive/randomdir)
+
     # Pointed to by symlinks, mustn't be deleted
-    assert_path_exist("#{buildsdir}/2/log")
-    assert_path_exist("#{buildsdir}/3/log")
-    assert_path_exist("#{buildsdir}/11/log")
-    assert_path_exist("#{buildsdir}/14/log")
+    %w(2 3 11 14).each do |build|
+      markers.each { |m| assert_path_exist("#{buildsdir}/#{build}/#{m}") }
+    end
 
     # Keeps last 6 builds regardless of mtime. 15 had a very old mtime.
-    assert_path_exist("#{buildsdir}/15/log")
+    markers.each { |m| assert_path_exist("#{buildsdir}/15/#{m}") }
 
     # Deletes only builds older than 14 days.
-    assert_path_not_exist("#{buildsdir}/1/log")
+    markers.each { |m| assert_path_not_exist("#{buildsdir}/1/#{m}") }
   end
 end
