@@ -19,8 +19,8 @@ class JenkinsJobDirTest < TestCase
     (1..16).each do |i|
       dir = "#{buildsdir}/#{i}"
       FileUtils.mkpath(dir)
+      age = (16 - i)
       %w(build.xml log log.html log_ref.html).each do |file|
-        age = (16 - i)
         FileUtils.touch("#{dir}/#{file}", mtime: (DateTime.now - age).to_time)
       end
     end
