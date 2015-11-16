@@ -20,8 +20,9 @@ class JenkinsJobDirTest < TestCase
       dir = "#{buildsdir}/#{i}"
       FileUtils.mkpath(dir)
       age = (16 - i)
+      mtime = (DateTime.now - age).to_time
       %w(build.xml log log.html log_ref.html).each do |file|
-        FileUtils.touch("#{dir}/#{file}", mtime: (DateTime.now - age).to_time)
+        FileUtils.touch("#{dir}/#{file}", mtime: mtime)
       end
     end
     # 17 is a symlink to itself. For some reason this can happen
