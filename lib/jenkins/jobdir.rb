@@ -41,16 +41,18 @@ module Jenkins
 
       # Filter now locked directories
       content.reject! { |d| locked.include?(File.realpath(d)) }
-      # Filter directories that have no log anymore
-      content.reject! { |d| !File.exist?("#{d}/log") }
 
       content.sort_by! { |c| File.basename(c).to_i }
       content[0..-6].each do |d| # Always keep the last 6 builds.
+        max_age = 14
         log = "#{d}/log"
         archive = "#{d}/archive"
-        next unless age(log) > 14
-        FileUtils.rm(File.realpath(log))
-        FileUtils.rm_rf(File.realpath(archive)) if File.exist?(archive)
+        if File.exist?(log)
+          FileUtils.rm(File.realpath(log)) if age(log) > max_age
+        end
+        if File.exist?(archive)
+          FileUtils.rm_r(File.realpath(archive)) if age(archive) > max_age
+        end
       end
     end
   end
