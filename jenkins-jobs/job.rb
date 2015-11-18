@@ -28,6 +28,7 @@ class JenkinsJob
     xml = render_template
     begin
       print "Updating #{job_name}\n"
+      xml_debug(xml) if @debug
       Jenkins.job.create_or_update(job_name, xml)
     rescue => e
       puts e
@@ -51,4 +52,12 @@ class JenkinsJob
 
   alias_method :to_s, :job_name
   alias_method :to_str, :to_s
+
+  private
+
+  def xml_debug(data)
+    require 'rexml/document'
+    doc = REXML::Document.new(data)
+    REXML::Formatters::Pretty.new.write(doc, STDOUT)
+  end
 end
