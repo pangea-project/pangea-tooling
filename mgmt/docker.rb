@@ -8,7 +8,7 @@ require_relative '../lib/mgmt/deployer'
 # KCI and mobile *can* have series overlap, they both use ubuntu as a base
 # though, so union the series keys and create images for the superset.
 
-pidMap = {}
+pid_map = {}
 
 ubuntu_series = (KCI.series.keys | MobileKCI.series.keys)
 ubuntu_series.each_index do |index|
@@ -19,7 +19,7 @@ ubuntu_series.each_index do |index|
           d.run!
         end
 
-  pidMap[pid] = "ubuntu-#{series}"
+  pid_map[pid] = "ubuntu-#{series}"
 end
 
 DCI.series.keys.each do |k|
@@ -28,18 +28,18 @@ DCI.series.keys.each do |k|
           d.run!
         end
 
-  pidMap[pid] = "debian-#{k}"
+  pid_map[pid] = "debian-#{k}"
 end
 
 ec = Process.waitall
 
-status = 0
+exit_status = 0
 
 ec.each do |pid, status|
   unless status.success?
-    puts "ERROR: Creating container for #{pidMap[pid]} failed"
-    status = 1
+    puts "ERROR: Creating container for #{pid_map[pid]} failed"
+    exit_status = 1
   end
 end
 
-exit status
+exit exit_status
