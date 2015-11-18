@@ -68,20 +68,11 @@ class ProjectUpdater
         # other jobs that might want to reference them.
         all_builds.reject! { |project| !project.job_name.end_with?('_src') }
 
-# FIXME: build goes here
-          # enqueue(BuildJob.new(project, type: type, distribution: distribution))
-        # promoter = enqueue(DailyPromoteJob.new(distribution: distribution,
-        #                                        type: type,
-        #                                        dependees: all_builds))
-        # end
-        enqueue(MGMTDockerJob.new(dependees: all_builds))
-
-# FIXME: meta build goes here
         # This could actually returned into a collect if placed below
         all_meta_builds << enqueue(MetaBuildJob.new(type: type, distribution: distribution, downstream_jobs: all_builds))
-
       end
     end
+    enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
   end
