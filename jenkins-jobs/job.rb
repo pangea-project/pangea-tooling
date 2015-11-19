@@ -15,11 +15,16 @@ class JenkinsJob
 
   def initialize(job_name, template_name)
     @job_name = job_name
-    file_directory = File.expand_path(File.dirname(__FILE__))
-    @config_directory = "#{file_directory}/config/"
-    @template_directory = "#{file_directory}/templates/"
+    @config_directory = "#{@@flavor_dir}/config/"
+    @template_directory = "#{@@flavor_dir}/templates/"
     @template_path = "#{@template_directory}#{template_name}"
-    fail "Template #{template_name} not found" unless File.exist?(@template_path)
+    unless File.exist?(@template_path)
+      fail "Template #{template_name} not found at #{@template_path}"
+    end
+  end
+
+  def self.flavor_dir=(dir)
+    @@flavor_dir = dir
   end
 
   # Creates or updates the Jenkins job.
