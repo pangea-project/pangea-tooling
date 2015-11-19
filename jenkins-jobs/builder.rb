@@ -5,9 +5,10 @@ require_relative 'publisher'
 # Magic builder to create an array of build steps
 class Builder
   def self.job(project, type:, distribution:)
-    basename = basename(distribution, type, project.name)
+    basename = basename(distribution, type, project.component, project.name)
+
     dependees = project.dependees.collect do |d|
-      "#{basename(distribution, type, d)}_src"
+      "#{basename(distribution, type, project.component, d)}_src"
     end.compact
     sourcer = SourcerJob.new(basename, type: type, distribution: distribution, project: project)
     publisher = PublisherJob.new(basename, type: type, distribution: distribution, dependees: dependees)
@@ -23,7 +24,7 @@ class Builder
     binariers + [sourcer, publisher]
   end
 
-  def self.basename(dist, type, name)
-    "#{dist}_#{type}_#{name}"
+  def self.basename(dist, type, component, name)
+    "#{dist}_#{type}_#{component}_#{name}"
   end
 end
