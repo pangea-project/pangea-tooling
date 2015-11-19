@@ -1,12 +1,12 @@
 require_relative 'job'
 
-class NetrunnerImageJob < JenkinsJob
+class DCIImageJob < JenkinsJob
   attr_reader :repo
   attr_reader :distribution
   attr_reader :architecture
 
   def initialize(distribution:, architecture:, repo:, component:)
-    super("img_#{component}_#{distribution}_#{architecture}", 'nimg.xml.erb')
+    super("img_#{component}_#{distribution}_#{architecture}", 'dciimg.xml.erb')
     @distribution = distribution
     @architecture = architecture
     @repo = repo

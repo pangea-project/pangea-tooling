@@ -97,7 +97,7 @@ class ProjectUpdater
       netrunner_image_jobs =
       YAML.load_file("#{File.expand_path(File.dirname(__FILE__))}/data/dci.image.yaml")
       netrunner_image_jobs.keys.each do |img_job|
-        enqueue(NetrunnerImageJob.new(distribution: netrunner_image_jobs[img_job][:distribution],
+        enqueue(DCIImageJob.new(distribution: netrunner_image_jobs[img_job][:distribution],
                                       architecture: netrunner_image_jobs[img_job][:architecture],
                                       repo: netrunner_image_jobs[img_job][:repo],
                                       component: netrunner_image_jobs[img_job][:component]))
