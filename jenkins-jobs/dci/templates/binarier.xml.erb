@@ -36,8 +36,7 @@ export TYPE=<%= type %>
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>*.deb,*.changes</artifacts>
-      <excludes>*_source.changes</excludes>
+      <artifacts>result/**</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>

@@ -1,0 +1,18 @@
+---
+  netrunner:
+    :architecture: amd64
+    :distribution: unstable
+    :repo: https://github.com/netrunner-debian/live-config
+    :component: netrunner-debian
+
+  netrunner-cloud:
+    :architecture: armhf
+    :distribution: unstable
+    :repo: https://github.com/netrunner-debian-owncloud/live-config
+    :component: netrunner-debian-owncloud
+
+  netrunner-yacy:
+    :architecture: armhf
+    :distribution: unstable
+    :repo: https://github.com/netrunner-debian-yacy/live-config
+    :component: netrunner-debian-yacy
