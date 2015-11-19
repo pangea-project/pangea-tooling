@@ -6,6 +6,8 @@ require_relative 'pangeaimage'
 
 module CI
   class Containment
+    TRAP_SIGNALS = %w(EXIT HUP INT QUIT TERM)
+
     attr_reader :name
     attr_reader :image
     attr_reader :binds
@@ -23,11 +25,7 @@ module CI
       @log.progname = self.class
       cleanup
       # TODO: finalize object and clean up container
-
-      Signal.trap('TERM') do
-        cleanup
-        exit
-      end
+      trap!
     end
 
     def cleanup
@@ -87,6 +85,28 @@ module CI
     end
 
     private
+
+    def chown_handler
+      return @chown_handler if defined?(@chown_handler)
+      return nil if @privileged
+      binds_ = @binds.dup # Remove from object context so Proc can be a closure.
+      @chown_handler = proc do
+        binds_.each do |bind|
+          FileUtils.chown_R(Process.uid, Process.gid, bind, verbose: true)
+        end
+      end
+    end
+
+    def trap!
+      TRAP_SIGNALS.each do |signal|
+        previous = Signal.trap(signal, nil)
+        Signal.trap(signal) do
+          cleanup
+          chown_handler.call if chown_handler
+          previous.call if previous
+        end
+      end
+    end
 
     def rescued_start(c)
       c.start(Privileged: @privileged)

@@ -70,6 +70,45 @@ module CI
       VCR.turned_off { cleanup_container }
     end
 
+    def assert_handler_set(signal)
+      message = build_message(nil, 'Signal <?> is nil or DEFAULT.', signal)
+      handler = Signal.trap(signal, nil)
+      assert_block message do
+        !(handler.nil? || handler == 'DEFAULT')
+      end
+    end
+
+    def assert_handler_not_set(signal)
+      message = build_message(nil, 'Signal <?> is not nil or DEFAULT.', signal)
+      handler = Signal.trap(signal, nil)
+      assert_block message do
+        handler.nil? || handler == 'DEFAULT'
+      end
+    end
+
+    # This test is order dependent!
+    # Traps musts be nil first to properly assert that the containment set
+    # new traps. But they won't be nil if another containment ran previously.
+    def test_AAA_trap_its
+      sigs = Containment::TRAP_SIGNALS
+      sigs.each { |sig| assert_handler_not_set(sig) }
+      VCR.use_cassette(__method__) do
+        c = Containment.new(@job_name, image: @image)
+        assert_not_nil(c.send(:chown_handler))
+      end
+      sigs.each { |sig| assert_handler_set(sig) }
+    end
+
+    def test_AAA_trap_its_privileged
+      sigs = Containment::TRAP_SIGNALS
+      sigs.each { |sig| assert_handler_not_set(sig) }
+      VCR.use_cassette(__method__) do
+        c = Containment.new(@job_name, image: @image, privileged: true)
+        assert_nil(c.send(:chown_handler))
+      end
+      sigs.each { |sig| assert_handler_set(sig) }
+    end
+
     def test_init
       binds = [Dir.pwd, 'a:a']
       priv = true
