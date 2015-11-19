@@ -18,10 +18,19 @@ class ProjectUpdater
     dci: DCI,
     mci: MobileKCI
   }
+
   def initialize(flavor: :mci)
     @job_queue = Queue.new
     @flavor = flavor
     @CI_MODULE = MODULE_MAP[@flavor]
+
+    JenkinsJob.flavor_dir =
+      "#{File.expand_path(File.dirname(__FILE__))}/jenkins-jobs/#{@flavor}"
+
+    if flavor == :dci
+      PublisherJob.upload_target_map =
+        YAML.load_file("#{File.expand_path(File.dirname(__FILE__))}/data/dci_upload_target.yaml")
+    end
   end
 
   def update
