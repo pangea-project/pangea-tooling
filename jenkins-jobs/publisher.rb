@@ -8,8 +8,9 @@ class PublisherJob < JenkinsJob
   attr_reader :dependees
   attr_reader :downstream_triggers
   attr_reader :basename
+  attr_reader :repo
 
-  def initialize(basename, type:, distribution:, dependees:)
+  def initialize(basename, type:, distribution:, dependees:, component:)
     super("#{basename}_pub", 'publisher.xml.erb')
     @type = type
     @distribution = distribution
@@ -17,6 +18,16 @@ class PublisherJob < JenkinsJob
     @dependees = dependees
     @downstream_triggers = []
     @basename = basename
+
+    if @@upload_target_map
+      @repo = @@upload_target_map[component]
+      # FIXME: Default to the plasma repo for DCI
+      @repo ||= 'plasma'
+    end
+  end
+
+  def self.upload_target_map=(upload_map)
+    @@upload_target_map = upload_map
   end
 
   def append(job)
