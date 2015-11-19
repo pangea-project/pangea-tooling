@@ -64,6 +64,8 @@ module CI
       @image = PangeaImage.new('ubuntu', 'vivid')
 
       VCR.turned_off { cleanup_container }
+
+      Containment::TRAP_SIGNALS.each { |s| Signal.trap(s, nil) }
     end
 
     def teardown
