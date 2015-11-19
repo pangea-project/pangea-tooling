@@ -14,6 +14,8 @@ end
 class ProjectUpdater
   def initialize
     @job_queue = Queue.new
+    JenkinsJob.flavor_dir =
+      "#{File.expand_path(File.dirname(__FILE__))}/jenkins-jobs/"
   end
 
   def update
