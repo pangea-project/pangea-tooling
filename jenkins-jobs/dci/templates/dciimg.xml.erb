@@ -44,6 +44,54 @@ export DIST=<%= distribution %>
       </command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers/>
-  <buildWrappers/>
+  <publishers>
+    <hudson.plugins.s3.S3BucketPublisher plugin="s3@0.8">
+      <profileName>DCI S3</profileName>
+      <entries>
+        <hudson.plugins.s3.Entry>
+          <bucket>pangea-data/dci/images/armhf/netrunner-debian-owncloud/latest</bucket>
+          <sourceFile>result/*</sourceFile>
+          <storageClass>REDUCED_REDUNDANCY</storageClass>
+          <selectedRegion>ap-southeast-2</selectedRegion>
+          <noUploadOnFailure>false</noUploadOnFailure>
+          <uploadFromSlave>true</uploadFromSlave>
+          <managedArtifacts>false</managedArtifacts>
+          <useServerSideEncryption>true</useServerSideEncryption>
+          <flatten>true</flatten>
+        </hudson.plugins.s3.Entry>
+        <hudson.plugins.s3.Entry>
+          <bucket>pangea-data/dci/images/armhf/netrunner-debian-owncloud/${BUILD_NUMBER}</bucket>
+          <sourceFile>result/*</sourceFile>
+          <storageClass>STANDARD</storageClass>
+          <selectedRegion>ap-southeast-2</selectedRegion>
+          <noUploadOnFailure>false</noUploadOnFailure>
+          <uploadFromSlave>true</uploadFromSlave>
+          <managedArtifacts>false</managedArtifacts>
+          <useServerSideEncryption>true</useServerSideEncryption>
+          <flatten>true</flatten>
+        </hudson.plugins.s3.Entry>
+      </entries>
+      <dontWaitForConcurrentBuildCompletion>false</dontWaitForConcurrentBuildCompletion>
+      <userMetadata/>
+    </hudson.plugins.s3.S3BucketPublisher>
+    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
+      <deleteDirs>false</deleteDirs>
+      <skipWhenFailed>false</skipWhenFailed>
+      <cleanWhenSuccess>true</cleanWhenSuccess>
+      <cleanWhenUnstable>true</cleanWhenUnstable>
+      <cleanWhenFailure>true</cleanWhenFailure>
+      <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
+      <cleanWhenAborted>true</cleanWhenAborted>
+      <notFailBuild>false</notFailBuild>
+      <cleanupMatrixParent>false</cleanupMatrixParent>
+      <externalDelete/>
+    </hudson.plugins.ws__cleanup.WsCleanup>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.28">
+      <deleteDirs>false</deleteDirs>
+      <cleanupParameter/>
+      <externalDelete/>
+    </hudson.plugins.ws__cleanup.PreBuildCleanup>
+  </buildWrappers>
 </project>
