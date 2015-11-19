@@ -2,32 +2,37 @@ require 'docker'
 require 'logger'
 require 'logger/colors'
 
+require_relative '../ci/pangeaimage'
+
 module Docker
   module Cleanup
     module_function
 
     # Remove exited jenkins containers.
-    # def containers
-    #   containers = Docker::Container.all(all: true,
-    #                                      filters: '{"status":["exited"]}')
-    #   containers.each do |container|
-    #     image = container.info.fetch('Image') { nil }
-    #     unless image
-    #       abort 'While cleaning up containers we found a container that has no' \
-    #             " image associated with it. This should not happen: #{container}"
-    #     end
-    #     repo, _tag = Docker::Util.parse_repo_tag(image)
-    #     if repo.include? CI::PangeaImage.namespace
-    #       begin
-    #         log.warn "Removing container #{container.id}"
-    #         container.remove
-    #       rescue Docker::Error::DockerError => e
-    #         log.warn 'Removing failed, continuing.'
-    #         log.warn e
-    #       end
-    #     end
-    #   end
-    # end
+    def containers
+      containers = Docker::Container.all(all: true,
+                                         filters: '{"status":["exited"]}')
+      containers.each do |container|
+        image = container.info.fetch('Image') { nil }
+        unless image
+          abort 'While cleaning up containers we found a container that has ' \
+                'no image associated with it. This should not happen: ' \
+                " #{container}"
+        end
+        repo, _tag = Docker::Util.parse_repo_tag(image)
+        # Remove all our containers and containers from a dangling image.
+        # Danglign this case would be any image that isn't tagged.
+        if repo.include?(CI::PangeaImage.namespace) || !image.include?(':')
+          begin
+            log.warn "Removing container #{container.id}"
+            container.remove
+          rescue Docker::Error::DockerError => e
+            log.warn 'Removing failed, continuing.'
+            log.warn e
+          end
+        end
+      end
+    end
 
     # Remove all dangling images. It doesn't appear to be documented what
     # exactly a dangling image is, but from looking at the image count of both
