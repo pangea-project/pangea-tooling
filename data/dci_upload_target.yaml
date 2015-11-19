@@ -1,0 +1,11 @@
+---
+  maui-debian: "maui"
+  qt: "qt5"
+  frameworks: "frameworks"
+  calamares: "calamares"
+  netrunner: "netrunner"
+  netrunner-debian: "netrunner"
+  plasmazilla: "plasmazilla"
+  debian-packaging: "extras"
+  netrunner-arm: "odroid"
+
