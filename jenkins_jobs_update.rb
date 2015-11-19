@@ -1,16 +1,27 @@
 #!/usr/bin/env ruby
 
 require_relative 'ci-tooling/lib/mobilekci'
+require_relative 'ci-tooling/lib/dci'
 require_relative 'ci-tooling/lib/projects'
 require_relative 'ci-tooling/lib/thread_pool'
+
+require 'optparse'
+
 Dir.glob(File.expand_path('jenkins-jobs/*.rb', File.dirname(__FILE__))).each do |file|
   require file
 end
 
 # Updates Jenkins Projects
 class ProjectUpdater
-  def initialize
+
+  MODULE_MAP = {
+    dci: DCI,
+    mci: MobileKCI
+  }
+  def initialize(flavor: :mci)
     @job_queue = Queue.new
+    @flavor = flavor
+    @CI_MODULE = MODULE_MAP[@flavor]
   end
 
   def update
@@ -56,9 +67,9 @@ class ProjectUpdater
   def populate_queue
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
-    MobileKCI.series.each_key do |distribution|
-      MobileKCI.types.each do |type|
-        projects = Projects.new(type: type, allow_custom_ci: true, projects_file: 'ci-tooling/data/projects_mci.json')
+    @CI_MODULE.series.each_key do |distribution|
+      @CI_MODULE.types.each do |type|
+        projects = Projects.new(type: type, allow_custom_ci: true, projects_file: "ci-tooling/data/#{@flavor}.json")
         all_builds = projects.collect do |project|
           Builder.job(project, distribution: distribution, type: type)
         end
@@ -72,14 +83,25 @@ class ProjectUpdater
         all_meta_builds << enqueue(MetaBuildJob.new(type: type, distribution: distribution, downstream_jobs: all_builds))
       end
     end
+
+    return unless @flavor == :mci
+
+    # MGMT Jobs follow
     enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
   end
 end
 
+options = {}
+OptionParser.new do |opts|
+  opts.on('--ci [flavor]', [:dci, :mci], 'Run for CI flavor (dci, mci)') do |f|
+    options[:flavor] = f
+  end
+end.parse!
+
 if __FILE__ == $PROGRAM_NAME
-  updater = ProjectUpdater.new
+  updater = ProjectUpdater.new(flavor: options[:flavor])
   updater.update
   updater.install_plugins
 end
