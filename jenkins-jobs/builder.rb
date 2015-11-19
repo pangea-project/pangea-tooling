@@ -11,7 +11,10 @@ class Builder
       "#{basename(distribution, type, project.component, d)}_src"
     end.compact
     sourcer = SourcerJob.new(basename, type: type, distribution: distribution, project: project)
-    publisher = PublisherJob.new(basename, type: type, distribution: distribution, dependees: dependees)
+    publisher = PublisherJob.new(basename, type: type,
+                                 distribution: distribution,
+                                 dependees: dependees,
+                                 component: project.component)
     binariers = %w(amd64 armhf).collect do |architecture|
       binarier = BinarierJob.new(basename,
                                  type: type,
