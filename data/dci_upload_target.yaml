@@ -1,4 +1,5 @@
 ---
+  default: "plasma"
   maui-debian: "maui"
   qt: "qt5"
   frameworks: "frameworks"
@@ -8,4 +9,3 @@
   plasmazilla: "plasmazilla"
   debian-packaging: "extras"
   netrunner-arm: "odroid"
-

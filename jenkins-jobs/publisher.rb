@@ -21,8 +21,7 @@ class PublisherJob < JenkinsJob
 
     if @@upload_target_map
       @repo = @@upload_target_map[component]
-      # FIXME: Default to the plasma repo for DCI
-      @repo ||= 'plasma'
+      @repo ||= @@upload_target_map['default']
     end
   end
 
