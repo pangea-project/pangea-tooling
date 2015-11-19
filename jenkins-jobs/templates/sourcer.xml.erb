@@ -79,17 +79,23 @@ export TYPE=<%= type %>
       <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
       <channels/>
     </hudson.plugins.ircbot.IrcPublisher>
-    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
-      <deleteDirs>false</deleteDirs>
+    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.26">
+      <patterns>
+        <hudson.plugins.ws__cleanup.Pattern>
+          <pattern>build/*</pattern>
+          <type>INCLUDE</type>
+        </hudson.plugins.ws__cleanup.Pattern>
+      </patterns>
+      <deleteDirs>true</deleteDirs>
       <skipWhenFailed>false</skipWhenFailed>
       <cleanWhenSuccess>true</cleanWhenSuccess>
       <cleanWhenUnstable>true</cleanWhenUnstable>
-      <cleanWhenFailure>false</cleanWhenFailure>
-      <cleanWhenNotBuilt>false</cleanWhenNotBuilt>
-      <cleanWhenAborted>false</cleanWhenAborted>
+      <cleanWhenFailure>true</cleanWhenFailure>
+      <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
+      <cleanWhenAborted>true</cleanWhenAborted>
       <notFailBuild>false</notFailBuild>
-      <cleanupMatrixParent>true</cleanupMatrixParent>
-      <externalDelete/>
+      <cleanupMatrixParent>false</cleanupMatrixParent>
+      <externalDelete></externalDelete>
     </hudson.plugins.ws__cleanup.WsCleanup>
   </publishers>
   <buildWrappers>
