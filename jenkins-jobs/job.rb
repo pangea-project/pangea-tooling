@@ -27,6 +27,10 @@ class JenkinsJob
     @@flavor_dir = dir
   end
 
+  def self.flavor_dir
+    @@flavor_dir
+  end
+
   # Creates or updates the Jenkins job.
   # @return the job_name
   def update
