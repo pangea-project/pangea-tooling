@@ -91,19 +91,18 @@ class ProjectUpdater
         # This could actually returned into a collect if placed below
         all_meta_builds << enqueue(MetaBuildJob.new(type: type, distribution: distribution, downstream_jobs: all_builds))
       end
-    end
 
-    if @flavor == :dci
-      netrunner_image_jobs =
-      YAML.load_file("#{File.expand_path(File.dirname(__FILE__))}/data/dci.image.yaml")
-      netrunner_image_jobs.keys.each do |img_job|
-        enqueue(DCIImageJob.new(distribution: netrunner_image_jobs[img_job][:distribution],
-                                      architecture: netrunner_image_jobs[img_job][:architecture],
-                                      repo: netrunner_image_jobs[img_job][:repo],
-                                      component: netrunner_image_jobs[img_job][:component]))
+      if @flavor == :dci
+        netrunner_image_jobs =
+        YAML.load_file("#{File.expand_path(File.dirname(__FILE__))}/data/dci.image.yaml")
+        netrunner_image_jobs.keys.each do |img_job|
+          enqueue(DCIImageJob.new(distribution: distribution,
+                                        architecture: netrunner_image_jobs[img_job][:architecture],
+                                        repo: netrunner_image_jobs[img_job][:repo],
+                                        component: netrunner_image_jobs[img_job][:component]))
+        end
       end
     end
-
     return unless @flavor == :mci
 
     # MGMT Jobs follow
