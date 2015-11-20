@@ -49,7 +49,7 @@ export DIST=<%= distribution %>
       <profileName>DCI S3</profileName>
       <entries>
         <hudson.plugins.s3.Entry>
-          <bucket>pangea-data/dci/images/<%= architecture %>/netrunner-debian-owncloud/latest</bucket>
+          <bucket>pangea-data/dci/images/<%= architecture %>/<%= component %>/latest</bucket>
           <sourceFile>result/*</sourceFile>
           <storageClass>REDUCED_REDUNDANCY</storageClass>
           <selectedRegion>ap-southeast-2</selectedRegion>
