@@ -19,7 +19,7 @@ class ProjectUpdater
     mci: MobileKCI
   }
 
-  def initialize(flavor: :mci)
+  def initialize(flavor:)
     @job_queue = Queue.new
     @flavor = flavor
     @CI_MODULE = MODULE_MAP[@flavor]
@@ -114,6 +114,7 @@ class ProjectUpdater
 end
 
 options = {}
+options[:flavor] = :mci
 OptionParser.new do |opts|
   opts.on('--ci [flavor]', [:dci, :mci], 'Run for CI flavor (dci, mci)') do |f|
     options[:flavor] = f

@@ -47,9 +47,18 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
+ec=0
 for c in *.changes; do
-  [ -s $c ] &amp;&amp; dput --debug -f -u dci:<%= repo %> $c
+  if [ -s $c ]
+  then
+    dput --debug -f -u dci:<%= repo %> $c
+    if [ $? -ne 0 ]
+    then
+      ec=$?
+    fi
+  fi
 done
+exit $ec
       </command>
     </hudson.tasks.Shell>
   </builders>
