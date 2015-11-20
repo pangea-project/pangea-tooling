@@ -60,7 +60,7 @@ export DIST=<%= distribution %>
           <flatten>true</flatten>
         </hudson.plugins.s3.Entry>
         <hudson.plugins.s3.Entry>
-          <bucket>pangea-data/dci/images/armhf/<%= component %>/${BUILD_NUMBER}</bucket>
+          <bucket>pangea-data/dci/images/armhf/<%= component %>/${BUILD_TIMESTAMP}/${BUILD_NUMBER}</bucket>
           <sourceFile>result/*</sourceFile>
           <storageClass>STANDARD</storageClass>
           <selectedRegion>ap-southeast-2</selectedRegion>
