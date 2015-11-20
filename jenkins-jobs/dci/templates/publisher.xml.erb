@@ -49,7 +49,7 @@
       <command>
 ec=0
 for c in *.changes; do
-  if [ -s $c ]
+  if grep -q Files: $c
   then
     dput --debug -f -u dci:<%= repo %> $c
     if [ $? -ne 0 ]
