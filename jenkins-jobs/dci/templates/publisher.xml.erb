@@ -49,15 +49,18 @@
       <command>
 ec=0
 for c in *.changes; do
-  if grep -q Files: $c
+  if ! grep -q Files: $c
   then
-    dput --debug -f -u dci:<%= repo %> $c
-    if [ $? -ne 0 ]
-    then
-      ec=$?
-    fi
+    continue
+  fi
+
+  dput --debug -f -u dci:<%= repo %> $c
+  if [ $? -ne 0 ]
+  then
+    ec=$?
   fi
 done
+
 exit $ec
       </command>
     </hudson.tasks.Shell>
