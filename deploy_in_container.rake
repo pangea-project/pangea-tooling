@@ -72,7 +72,8 @@ task :deploy_in_container do
                   sudo
                   locales
                   pxz
-                  aptitude))
+                  aptitude
+                  autotools-dev))
   Apt.clean
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
