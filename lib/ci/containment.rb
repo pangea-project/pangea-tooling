@@ -91,9 +91,9 @@ module CI
       return nil if @privileged
       binds_ = @binds.dup # Remove from object context so Proc can be a closure.
       @chown_handler = proc do
-        binds_.each do |bind|
-          FileUtils.chown_R(Process.uid, Process.gid, bind, verbose: true)
-        end
+        chown_container =
+          CI::Containment.new("#{@name}_chown", image: @image, binds: binds_)
+        chown_container.run("chown -R jenkins:jenkins #{binds_.join(' ')}")
       end
     end
 
