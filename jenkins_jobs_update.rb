@@ -27,9 +27,9 @@ class ProjectUpdater
     JenkinsJob.flavor_dir =
       "#{File.expand_path(File.dirname(__FILE__))}/jenkins-jobs/#{@flavor}"
 
-    if flavor == :dci
-      PublisherJob.upload_target_map =
-        YAML.load_file("#{File.expand_path(File.dirname(__FILE__))}/data/dci_upload_target.yaml")
+    upload_map = "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.upload.yaml"
+    if File.exist? upload_map
+      PublisherJob.upload_target_map = YAML.load_file(upload_map)
     end
   end
 
