@@ -93,7 +93,8 @@ module CI
       @chown_handler = proc do
         chown_container =
           CI::Containment.new("#{@name}_chown", image: @image, binds: binds_)
-        chown_container.run("chown -R jenkins:jenkins #{binds_.join(' ')}")
+        chown_container.run("chown -R 100000:120 #{binds_.join(' ')}")
+        STDERR.puts
       end
     end
 
