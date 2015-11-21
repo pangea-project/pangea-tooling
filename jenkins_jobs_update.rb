@@ -92,14 +92,18 @@ class ProjectUpdater
         all_meta_builds << enqueue(MetaBuildJob.new(type: type, distribution: distribution, downstream_jobs: all_builds))
       end
 
-      if @flavor == :dci
-        netrunner_image_jobs =
-        YAML.load_file("#{File.expand_path(File.dirname(__FILE__))}/data/dci.image.yaml")
-        netrunner_image_jobs.keys.each do |img_job|
+      image_job_config =
+        "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.image.yaml"
+
+      if File.exist? image_job_config
+        image_jobs =
+        YAML.load_file(image_job_config)
+
+        image_jobs.each do |k, v|
           enqueue(DCIImageJob.new(distribution: distribution,
-                                        architecture: netrunner_image_jobs[img_job][:architecture],
-                                        repo: netrunner_image_jobs[img_job][:repo],
-                                        component: netrunner_image_jobs[img_job][:component]))
+                                        architecture: v[:architecture],
+                                        repo: v[:repo],
+                                        component: v[:component]))
         end
       end
     end
