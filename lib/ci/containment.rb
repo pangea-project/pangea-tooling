@@ -87,6 +87,7 @@ module CI
     private
 
     def chown_handler
+      STDERR.puts 'Running chown handler'
       return @chown_handler if defined?(@chown_handler)
       return nil if @privileged
       binds_ = @binds.dup # Remove from object context so Proc can be a closure.
@@ -94,8 +95,6 @@ module CI
         chown_container =
           CI::Containment.new("#{@name}_chown", image: @image, binds: binds_)
         ec = chown_container.run("chown -R 100000:120 #{binds_.join(' ')}")
-        STDERR.puts 'Chowning completed' if ec
-        STDERR.puts 'Chowning failed!' unless ec
       end
     end
 
@@ -103,6 +102,7 @@ module CI
       TRAP_SIGNALS.each do |signal|
         previous = Signal.trap(signal, nil)
         Signal.trap(signal) do
+          STDERR.puts 'Running cleanup and handlers'
           cleanup
           chown_handler.call if chown_handler
           previous.call if previous
