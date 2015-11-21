@@ -93,8 +93,9 @@ module CI
       @chown_handler = proc do
         chown_container =
           CI::Containment.new("#{@name}_chown", image: @image, binds: binds_)
-        chown_container.run("chown -R 100000:120 #{binds_.join(' ')}")
-        STDERR.puts
+        ec = chown_container.run("chown -R 100000:120 #{binds_.join(' ')}")
+        STDERR.puts 'Chowning completed' if ec
+        STDERR.puts 'Chowning failed!' unless ec
       end
     end
 
