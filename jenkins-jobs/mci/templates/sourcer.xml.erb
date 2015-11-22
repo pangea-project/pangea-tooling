@@ -46,7 +46,7 @@ export TYPE=<%= type %>
 <% if upstream_scm.type == 'tarball' %>
   <%= '~/tooling/kci/contain.rb ~/ci-tooling/kci/orig_sourcer.rb' %>
 <% else %>
-  <%= '~/tooling/kci/contain.rb ~/ci-tooling/kci/sourcer.rb $JOB_NAME `pwd`' %>
+  <%= '~/tooling/kci/contain.rb ~/ci-tooling/ci/sourcer.rb $JOB_NAME `pwd`' %>
 <% end %></command>
     </hudson.tasks.Shell>
   </builders>
