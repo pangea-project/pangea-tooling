@@ -22,7 +22,7 @@ module Docker
         repo, _tag = Docker::Util.parse_repo_tag(image)
         # Remove all our containers and containers from a dangling image.
         # Danglign this case would be any image that isn't tagged.
-        if repo.include?(CI::PangeaImage.namespace) || !image.include?(':')
+        unless repo.include?(CI::PangeaImage.namespace)
           begin
             log.warn "Removing container #{container.id}"
             container.remove
