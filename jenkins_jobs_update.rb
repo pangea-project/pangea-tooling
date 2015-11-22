@@ -16,7 +16,7 @@ class ProjectUpdater
 
   MODULE_MAP = {
     dci: DCI,
-    mci: MobileKCI
+    mci: MCI
   }
 
   def initialize(flavor:)
