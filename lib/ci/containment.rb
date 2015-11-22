@@ -13,7 +13,7 @@ module CI
     attr_reader :binds
     attr_reader :privileged
 
-    def initialize(name, image:, binds: [Dir.pwd], privileged: false)
+    def initialize(name, image:, binds: [Dir.pwd], privileged: false, no_exit_handlers: false)
       EphemeralContainer.assert_version
 
       @name = name
@@ -25,7 +25,7 @@ module CI
       @log.progname = self.class
       cleanup
       # TODO: finalize object and clean up container
-      trap!
+      trap! unless no_exit_handlers
     end
 
     def cleanup
@@ -93,7 +93,8 @@ module CI
       binds_ = @binds.dup # Remove from object context so Proc can be a closure.
       @chown_handler = proc do
         chown_container =
-          CI::Containment.new("#{@name}_chown", image: @image, binds: binds_)
+          CI::Containment.new("#{@name}_chown", image: @image, binds: binds_,
+                              no_exit_handlers: true)
         chown_container.run(Cmd: %w(chown -R jenkins:jenkins) + binds_)
       end
     end
