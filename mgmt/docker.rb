@@ -10,7 +10,7 @@ require_relative '../lib/mgmt/deployer'
 
 pid_map = {}
 
-ubuntu_series = (KCI.series.keys | MobileKCI.series.keys)
+ubuntu_series = (KCI.series.keys | MCI.series.keys)
 ubuntu_series.each_index do |index|
   series = ubuntu_series[index]
   origins = ubuntu_series[index + 1..-1]
