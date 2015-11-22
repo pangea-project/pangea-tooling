@@ -9,9 +9,12 @@ module CI
   # DirectBindingArray helps with converting a linear array of paths into
   # the respective types Docker expects.
   class DirectBindingArray
+    class ExcessColonError < Exception; end
+
     # @return [Hash] Volume API hash of the form { Path => {} }
     def self.to_volumes(array)
       array.each_with_object({}) do |bind, memo|
+        volume_specification_check(bind)
         memo[bind.split(':').first] = {}
       end.to_h
     end
@@ -19,8 +22,15 @@ module CI
     # @return [Array] Binds API array of the form ["Path:Path"]
     def self.to_bindings(array)
       array.collect do |bind|
+        volume_specification_check(bind)
         next bind if mapped?(bind)
         "#{bind}:#{bind}"
+      end
+    end
+
+    def self.volume_specification_check(str)
+      if str.count(':') > 1
+        fail ExcessColonError, 'Invalid docker volume notation'
       end
     end
 
