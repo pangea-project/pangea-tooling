@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# coding: utf-8
 
 require 'date'
 require 'logger'
@@ -15,18 +16,20 @@ OptionParser.new do |opts|
   opts.banner = <<-EOS
 Usage: jenkins_poll.rb 'regex'
 
+Tells jenkins to poll for any changes and start the job if they are found.
+
 regex must be a valid Ruby regular expression matching the jobs you wish to
 retry.
 
 e.g.
   • All build jobs for vivid and utopic:
-    '^(vivid|utopic)_.*_.*'
+    '^(vivid|utopic)_.*_.*src'
 
   • All unstable builds:
-    '^.*_unstable_.*'
+    '^.*_unstable_.*src'
 
   • All jobs:
-    '.*'
+    '.*src'
   EOS
 end.parse!
 
