@@ -28,8 +28,9 @@ class ProjectUpdater
       "#{File.expand_path(File.dirname(__FILE__))}/jenkins-jobs/#{@flavor}"
 
     upload_map = "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.upload.yaml"
+    @upload_map = nil
     if File.exist? upload_map
-      PublisherJob.upload_target_map = YAML.load_file(upload_map)
+      @upload_map = YAML.load_file(upload_map)
     end
   end
 
@@ -81,13 +82,14 @@ class ProjectUpdater
         projects = Projects.new(type: type, allow_custom_ci: true, projects_file: "ci-tooling/data/#{@flavor}.json")
         all_builds = projects.collect do |project|
           Builder.job(project, distribution: distribution, type: type,
-                               architectures: @CI_MODULE.extra_architectures |
-                                              @CI_MODULE.architectures)
+                               architectures: @CI_MODULE.architectures,
+                               upload_map: @upload_map)
         end
         all_builds.flatten!
         all_builds.each { |job| enqueue(job) }
         # Remove everything but source as they are the anchor points for
         # other jobs that might want to reference them.
+        puts all_builds
         all_builds.reject! { |project| !project.job_name.end_with?('_src') }
 
         # This could actually returned into a collect if placed below

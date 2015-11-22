@@ -10,7 +10,7 @@ class PublisherJob < JenkinsJob
   attr_reader :basename
   attr_reader :repo
 
-  def initialize(basename, type:, distribution:, dependees:, component:)
+  def initialize(basename, type:, distribution:, dependees:, component:, upload_map:)
     super("#{basename}_pub", 'publisher.xml.erb')
     @type = type
     @distribution = distribution
@@ -19,14 +19,10 @@ class PublisherJob < JenkinsJob
     @downstream_triggers = []
     @basename = basename
 
-    if @@upload_target_map
-      @repo = @@upload_target_map[component]
-      @repo ||= @@upload_target_map['default']
+    if upload_map
+      @repo = upload_map[component]
+      @repo ||= upload_map['default']
     end
-  end
-
-  def self.upload_target_map=(upload_map)
-    @@upload_target_map = upload_map
   end
 
   def append(job)
