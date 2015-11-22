@@ -4,7 +4,7 @@ require_relative 'publisher'
 
 # Magic builder to create an array of build steps
 class Builder
-  def self.job(project, type:, distribution:)
+  def self.job(project, type:, distribution:, architectures:)
     basename = basename(distribution, type, project.component, project.name)
 
     dependees = project.dependees.collect do |d|
@@ -15,7 +15,7 @@ class Builder
                                  distribution: distribution,
                                  dependees: dependees,
                                  component: project.component)
-    binariers = %w(amd64 armhf).collect do |architecture|
+    binariers = architectures.each do |architecture|
       binarier = BinarierJob.new(basename,
                                  type: type,
                                  distribution: distribution,

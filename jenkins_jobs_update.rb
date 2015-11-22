@@ -80,7 +80,9 @@ class ProjectUpdater
       @CI_MODULE.types.each do |type|
         projects = Projects.new(type: type, allow_custom_ci: true, projects_file: "ci-tooling/data/#{@flavor}.json")
         all_builds = projects.collect do |project|
-          Builder.job(project, distribution: distribution, type: type)
+          Builder.job(project, distribution: distribution, type: type,
+                               architectures: @CI_MODULE.extra_architectures |
+                                              @CI_MODULE.architectures)
         end
         all_builds.flatten!
         all_builds.each { |job| enqueue(job) }
