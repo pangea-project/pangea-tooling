@@ -23,7 +23,8 @@ plasma-settings
 kdeconnect-plasma
 plasma-volume-control
 kinfocenter
-muon-discover
+muon
+discover
 koko
 okular-mobile
 vlc
