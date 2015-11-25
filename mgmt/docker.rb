@@ -15,18 +15,18 @@ ubuntu_series.each_index do |index|
   series = ubuntu_series[index]
   origins = ubuntu_series[index + 1..-1]
   pid = fork do
-          d = MGMT::Deployer.new('ubuntu', series, origins)
-          d.run!
-        end
+    d = MGMT::Deployer.new('ubuntu', series, origins)
+    d.run!
+  end
 
   pid_map[pid] = "ubuntu-#{series}"
 end
 
 DCI.series.keys.each do |k|
   pid = fork do
-          d = MGMT::Deployer.new('debian', k)
-          d.run!
-        end
+    d = MGMT::Deployer.new('debian', k)
+    d.run!
+  end
 
   pid_map[pid] = "debian-#{k}"
 end
