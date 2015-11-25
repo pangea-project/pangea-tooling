@@ -52,8 +52,7 @@ task :deploy_in_container do
     require_relative 'lib/ci/containment'
     CI::Containment::TRAP_SIGNALS.each do |signal|
       Signal.trap(signal) do
-        user_exists = Etc.passwd { |u| break true if u.name == 'jenkins' }
-        next unless user_exists
+        next unless Etc.passwd { |u| break true if u.name == 'jenkins' }
         FileUtils.chown_R('jenkins', 'jenkins', tooling_path, verbose: true)
       end
     end
