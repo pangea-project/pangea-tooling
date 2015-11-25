@@ -1,3 +1,4 @@
+require 'date'
 require 'docker'
 require 'logger'
 require 'logger/colors'
@@ -10,9 +11,25 @@ module Docker
 
     # Remove exited jenkins containers.
     def containers
+      containers_exited
+      containers_running(days_old: 2)
+    end
+
+    def containers_exited
       containers = Docker::Container.all(all: true,
                                          filters: '{"status":["exited"]}')
       containers.each do |container|
+        remove_container(container)
+      end
+    end
+
+    def containers_running(days_old:)
+      containers = Docker::Container.all(all: true,
+                                         filters: '{"status":["running"]}')
+      containers.each do |container|
+        container.refresh! # List information is somewhat sparse. Get full data.
+        started = container.info.fetch('State').fetch('StartedAt')
+        next if (DateTime.now - started).to_i < days_old
         remove_container(container)
       end
     end
@@ -30,6 +47,7 @@ module Docker
       unless repo.include?(CI::PangeaImage.namespace)
         begin
           log.warn "Removing container #{container.id}"
+          container.kill!
           container.remove
         rescue Docker::Error::DockerError => e
           log.warn 'Removing failed, continuing.'
