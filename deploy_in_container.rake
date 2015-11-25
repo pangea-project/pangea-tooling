@@ -1,3 +1,4 @@
+require 'etc'
 require 'fileutils'
 require 'tmpdir'
 
@@ -92,9 +93,6 @@ task :deploy_in_container do
   # create its stupid database. The CI hosts have really bad IO performance
   # making a full index take more than half an hour.
   install_fake_pkg('apt-xapian-index')
-
-  # FIXME: it would be much more reasonable to provision via chef-single...
-  require 'etc'
 
   uname = 'jenkins'
   uid = 100_000
