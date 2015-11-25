@@ -37,12 +37,14 @@ task :deploy_in_container do
     end
     bundle_args = []
     bundle_args << "--jobs=#{`nproc`.strip}"
-    bundle_args << '--no-cache'
     bundle_args << '--local'
-    bundle_args << '--frozen'
-    bundle_args << '--system'
-    bundle_args << '--without development test'
-    sh "bundle install #{bundle_args.join(' ')}"
+    bundle_install_args = bundle_args.dup
+    bundle_install_args << '--no-cache'
+    bundle_install_args << '--frozen'
+    bundle_install_args << '--system'
+    bundle_install_args << '--without development test'
+    sh "bundle install #{bundle_install_args.join(' ')}"
+    sh "bundle update #{bundle_args.join(' ')}"
     Dir.chdir('ci-tooling') do
       FileUtils.rm_rf(final_path)
       FileUtils.mkpath(final_path)
