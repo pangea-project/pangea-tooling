@@ -46,6 +46,20 @@ task :deploy_in_container do
     bundle_install_args << '--without development test'
     sh "bundle install #{bundle_install_args.join(' ')}"
     sh "bundle update #{bundle_args.join(' ')}"
+
+    # Trap common exit signals to make sure the ownership of the forwarded
+    # volume is correct once we are done.
+    # Otherwise it can happen that bundler left root owned artifacts behind
+    # and the folder becomes undeletable.
+    require_relative 'lib/ci/containment'
+    CI::Containment::TRAP_SIGNALS.each do |signal|
+      Signal.trap(signal) do
+        user_exists = Etc.passwd { |u| break true if u.name == 'jenkins' }
+        next unless user_exists
+        FileUtils.chown_R('jenkins', 'jenkins', tooling_path, verbose: true)
+      end
+    end
+
     Dir.chdir('ci-tooling') do
       FileUtils.rm_rf(final_path)
       FileUtils.mkpath(final_path)
