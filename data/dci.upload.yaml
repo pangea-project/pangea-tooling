@@ -9,5 +9,5 @@
   plasmazilla: "plasmazilla"
   debian-packaging: "extras"
   netrunner-arm: "odroid"
-  netrunner-debian-yacy: "odroid"
-  netrunner-debian-owncloud: "odroid"
+  netrunner-debian-yacy: "yacy"
+  netrunner-debian-owncloud: "owncloud"
