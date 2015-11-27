@@ -100,13 +100,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   # You may also specify custom JSON attributes:
   #   chef.json = { mysql_password: "foo" }
   # end
-  config.vm.provision "chef_solo" do |chef|
+  config.vm.provision 'chef_solo' do |chef|
     chef.cookbooks_path = %w(../pangea-kitchen/cookbooks
                              ../pangea-kitchen/site-cookbooks)
-    chef.roles_path = "../pangea-kitchen/roles"
-    chef.data_bags_path = "../pangea-kitchen/data_bags"
+    chef.roles_path = '../pangea-kitchen/roles'
+    chef.data_bags_path = '../pangea-kitchen/data_bags'
     chef.add_recipe 'docker'
     chef.add_role 'jenkins-master'
+    chef.log_level = 'info'
   end
 
   # Enable provisioning with chef server, specifying the chef server URL,
