@@ -95,28 +95,6 @@ class DeployTest < TestCase
     end
   end
 
-  def test_deploy_exists
-    copy_data
-
-    ENV['HOME'] = Dir.pwd
-
-    VCR.turned_off do
-      @ubuntu_series.each do |k|
-        create_base('ubuntu', k)
-      end
-
-      @debian_series.each do |k|
-        create_base('debian', k)
-      end
-    end
-
-    VCR.use_cassette(__method__, erb: true) do
-      assert_nothing_raised do
-        deploy_all
-      end
-    end
-  end
-
   def test_deploy_new
     copy_data
 
@@ -129,6 +107,28 @@ class DeployTest < TestCase
 
       @debian_series.each do |k|
         remove_base('debian', k)
+      end
+    end
+
+    VCR.use_cassette(__method__, erb: true) do
+      assert_nothing_raised do
+        deploy_all
+      end
+    end
+  end
+
+  def test_deploy_exists
+    copy_data
+
+    ENV['HOME'] = Dir.pwd
+
+    VCR.turned_off do
+      @ubuntu_series.each do |k|
+        create_base('ubuntu', k)
+      end
+
+      @debian_series.each do |k|
+        create_base('debian', k)
       end
     end
 
