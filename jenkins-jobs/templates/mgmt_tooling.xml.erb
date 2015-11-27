@@ -75,10 +75,9 @@
     <com.cloudbees.jenkins.GitHubSetCommitStatusBuilder plugin="github@1.13.3"/>
     <hudson.tasks.Shell>
       <command>env
-gem install bundler
-bundle install
-bundle update
-bundle list
+gem install --no-rdoc bundler
+bundle install --jobs=`nproc`
+bundle update --jobs=`nproc`
 </command>
     </hudson.tasks.Shell>
     <hudson.plugins.rake.Rake plugin="rake@1.8.0">
