@@ -49,8 +49,7 @@ task :deploy_in_container do
     # volume is correct once we are done.
     # Otherwise it can happen that bundler left root owned artifacts behind
     # and the folder becomes undeletable.
-    require_relative 'lib/ci/containment'
-    CI::Containment::TRAP_SIGNALS.each do |signal|
+    %w(EXIT HUP INT QUIT TERM).each do |signal|
       Signal.trap(signal) do
         next unless Etc.passwd { |u| break true if u.name == 'jenkins' }
         FileUtils.chown_R('jenkins', 'jenkins', tooling_path, verbose: true)
