@@ -4,15 +4,12 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
-    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
-      <maxConcurrentPerNode>0</maxConcurrentPerNode>
-      <maxConcurrentTotal>0</maxConcurrentTotal>
-      <categories>
-        <string>publishing</string>
-      </categories>
-      <throttleEnabled>true</throttleEnabled>
-      <throttleOption>category</throttleOption>
-    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.2">
+    <useBuildBlocker>true</useBuildBlocker>
+    <blockLevel>GLOBAL</blockLevel>
+    <scanQueueFor>ALL</scanQueueFor>
+    <blockingJobs>.*_kdeclarative_.*</blockingJobs>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <assignedNode>master</assignedNode>
