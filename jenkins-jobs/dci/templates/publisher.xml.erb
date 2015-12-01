@@ -8,7 +8,7 @@
     <useBuildBlocker>true</useBuildBlocker>
     <blockLevel>GLOBAL</blockLevel>
     <scanQueueFor>ALL</scanQueueFor>
-    <blockingJobs>.*_kdeclarative_.*</blockingJobs>
+    <blockingJobs><%= basename %>_.*</blockingJobs>
     </hudson.plugins.buildblocker.BuildBlockerProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
