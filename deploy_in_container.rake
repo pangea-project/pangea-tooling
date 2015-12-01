@@ -87,7 +87,8 @@ task :deploy_in_container do
                   pxz
                   aptitude
                   autotools-dev
-                  cdbs))
+                  cdbs
+                  dh-autoreconf))
   Apt.clean
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
