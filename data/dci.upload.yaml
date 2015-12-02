@@ -11,3 +11,4 @@
   netrunner-arm: "odroid"
   netrunner-debian-yacy: "yacy"
   netrunner-debian-owncloud: "owncloud"
+  rpi2-stuff: rpi

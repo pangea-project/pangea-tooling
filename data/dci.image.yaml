@@ -13,3 +13,9 @@
     :architecture: armhf
     :repo: https://github.com/netrunner-debian-yacy/live-config
     :component: netrunner-debian-yacy
+
+  plasma5:
+    :architecture: armhf
+    :repo: https://github.com/shadeslayer/live-config
+    :component: plasma5
+

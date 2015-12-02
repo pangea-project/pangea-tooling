@@ -7,5 +7,7 @@
     "netrunner-debian" : "netrunner",
     "plasmazilla" : "plasmazilla",
     "debian-packaging" : "extras",
-    "netrunner-arm" : "odroid"
+    "netrunner-odroid" : "odroid",
+    "netrunner-debian-owncloud" : "owncloud",
+    "netrunner-debian-yacy" : "yacy"
 }
