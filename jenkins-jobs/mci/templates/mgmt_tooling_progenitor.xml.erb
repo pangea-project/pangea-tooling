@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.14.0">
+      <projectUrl>http://github.com/blue-systems/pangea-tooling/</projectUrl>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+  </properties>
+  <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.5">
+    <scms>
+      <hudson.plugins.git.GitSCM plugin="git@2.4.0">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+          <hudson.plugins.git.UserRemoteConfig>
+            <url>https://github.com/blue-systems/pangea-tooling.git</url>
+          </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+          <hudson.plugins.git.BranchSpec>
+            <name>*/master</name>
+          </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions/>
+      </hudson.plugins.git.GitSCM>
+      <hudson.plugins.git.GitSCM plugin="git@2.4.0">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+          <hudson.plugins.git.UserRemoteConfig>
+            <url>git://anonscm.debian.org/pkg-kde/ci-tooling.git</url>
+          </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+          <hudson.plugins.git.BranchSpec>
+            <name>*/master</name>
+          </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+          <hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+            <relativeTargetDir>ci-tooling</relativeTargetDir>
+          </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+        </extensions>
+      </hudson.plugins.git.GitSCM>
+    </scms>
+  </scm>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
+  <triggers>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>export GEM_HOME=$(ruby -rubygems -e &apos;puts Gem.user_dir&apos;)
+export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
+export PATH=$GEM_HOME/bin:$PATH
+lsb_release -a
+ruby -e &apos;print Gem.user_dir&apos;
+env
+ls -ah
+
+rm Gemfile.lock || true
+
+gem install --no-document bundler
+bundle pack --all --all-platforms --no-install
+
+rm tooling.tar.gz || true
+tar -cp * | gzip --rsyncable -1 &gt; tooling.tar.gz
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.tasks.ArtifactArchiver>
+      <artifacts>tooling.tar.gz</artifacts>
+      <allowEmptyArchive>false</allowEmptyArchive>
+      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <fingerprint>false</fingerprint>
+      <defaultExcludes>true</defaultExcludes>
+      <caseSensitive>true</caseSensitive>
+    </hudson.tasks.ArtifactArchiver>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.2">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+  </buildWrappers>
+</project>

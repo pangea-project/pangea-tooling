@@ -114,8 +114,10 @@ class ProjectUpdater
     return unless @flavor == :mci
 
     # MGMT Jobs follow
-    enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
+    docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
+    tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
+    enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
   end
 end
