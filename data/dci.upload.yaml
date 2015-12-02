@@ -8,7 +8,7 @@
   netrunner-debian: "netrunner"
   plasmazilla: "plasmazilla"
   debian-packaging: "extras"
-  netrunner-arm: "odroid"
+  netrunner-odroid: "odroid"
   netrunner-debian-yacy: "yacy"
   netrunner-debian-owncloud: "owncloud"
-  rpi2-stuff: rpi
+  rpi2-stuff: "rpi"
