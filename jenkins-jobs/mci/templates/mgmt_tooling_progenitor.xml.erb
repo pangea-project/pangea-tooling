@@ -77,6 +77,15 @@ tar -cp * | gzip --rsyncable -1 &gt; tooling.tar.gz
     </hudson.tasks.Shell>
   </builders>
   <publishers>
+    <hudson.tasks.BuildTrigger>
+      <childProjects><%= downstreams.join(', ') %></childProjects>
+      <threshold>
+        <name>UNSTABLE</name>
+        <ordinal>1</ordinal>
+        <color>YELLOW</color>
+        <completeBuild>true</completeBuild>
+      </threshold>
+    </hudson.tasks.BuildTrigger>
     <hudson.tasks.ArtifactArchiver>
       <artifacts>tooling.tar.gz</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
