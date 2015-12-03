@@ -6,6 +6,9 @@ gem 'jenkins_api_client'
 gem 'logger-colors'
 gem 'oauth'
 gem 'octokit'
+gem 'git_clone_url'
+gem 'uri-ssh_git', '~> 2.0.0.pre',
+    github: 'packsaddle/ruby-uri-ssh_git'
 
 group :development, :test do
   gem 'ci_reporter_test_unit',
