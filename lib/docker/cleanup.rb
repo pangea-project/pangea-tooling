@@ -28,7 +28,8 @@ module Docker
                                          filters: '{"status":["running"]}')
       containers.each do |container|
         container.refresh! # List information is somewhat sparse. Get full data.
-        started = container.info.fetch('State').fetch('StartedAt')
+        started_at = container.info.fetch('State').fetch('StartedAt')
+        started = DateTime.parse(started_at)
         next if (DateTime.now - started).to_i < days_old
         remove_container(container)
       end
