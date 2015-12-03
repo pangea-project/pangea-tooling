@@ -98,7 +98,7 @@ def add_project(project, upload_info)
       :dependencies => dependencies.join(', '),
       :dependees => dependees.join(', '),
       :upstream_scm => project.upstream_scm,
-      :packaging_scm => project.packaging_scm,
+      :packaging_scm => project.packaging_scm_scm.url,
       :upload_target => upload_info[project.component]
       )
     end
