@@ -31,11 +31,11 @@ module Docker
         started_at = container.info.fetch('State').fetch('StartedAt')
         started = DateTime.parse(started_at)
         next if (DateTime.now - started).to_i < days_old
-        remove_container(container)
+        remove_container(container, force: true)
       end
     end
 
-    def remove_container(container)
+    def remove_container(container, force: false)
       image = container.info.fetch('Image') { nil }
       unless image
         abort 'While cleaning up containers we found a container that has ' \
@@ -45,15 +45,14 @@ module Docker
       repo, _tag = Docker::Util.parse_repo_tag(image)
       # Remove all our containers and containers from a dangling image.
       # Danglign this case would be any image that isn't tagged.
-      unless repo.include?(CI::PangeaImage.namespace)
-        begin
-          log.warn "Removing container #{container.id}"
-          container.kill!
-          container.remove
-        rescue Docker::Error::DockerError => e
-          log.warn 'Removing failed, continuing.'
-          log.warn e
-        end
+      return unless force || !repo.include?(CI::PangeaImage.namespace)
+      begin
+        log.warn "Removing container #{container.id}"
+        container.kill!
+        container.remove
+      rescue Docker::Error::DockerError => e
+        log.warn 'Removing failed, continuing.'
+        log.warn e
       end
     end
 
