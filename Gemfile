@@ -7,8 +7,7 @@ gem 'logger-colors'
 gem 'oauth'
 gem 'octokit'
 gem 'git_clone_url'
-gem 'uri-ssh_git', '~> 2.0.0.pre',
-    github: 'packsaddle/ruby-uri-ssh_git'
+gem 'uri-ssh_git', '~> 2.0'
 
 group :development, :test do
   gem 'ci_reporter_test_unit',
