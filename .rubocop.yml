@@ -1,2 +1,5 @@
 Style/Next:
   Enabled: false
+
+Style/SpecialGlobalVars:
+    Enabled: false
