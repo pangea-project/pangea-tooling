@@ -78,7 +78,7 @@ class BuildJob < JenkinsJob
     repos = CI::Pattern.filter(@packaging_scm.url, config)
     repos.sort_by(&:first).each do |_, job_patterns|
       CI::Pattern.filter(@job_name, job_patterns).each do |_, enabled|
-        return unless enabled
+        return nil unless enabled
       end
     end
     super
