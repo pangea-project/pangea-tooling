@@ -3,3 +3,7 @@ Style/Next:
 
 Style/SpecialGlobalVars:
     Enabled: false
+
+Style/HashSyntax:
+  Exclude:
+    - Rakefile
