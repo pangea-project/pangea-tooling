@@ -7,3 +7,11 @@ Style/SpecialGlobalVars:
 Style/HashSyntax:
   Exclude:
     - Rakefile
+
+Metrics/AbcSize:
+  Exclude:
+    - jenkins-jobs/*
+
+Metrics/MethodLength:
+  Exclude:
+    - jenkins-jobs/*
