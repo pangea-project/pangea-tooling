@@ -113,7 +113,6 @@ class ProjectUpdater
         end
       end
     end
-    return unless @flavor == :mci
 
     # MGMT Jobs follow
     docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
