@@ -119,6 +119,7 @@ class ProjectUpdater
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
+    enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
   end
 end
 
