@@ -13,7 +13,6 @@ end
 
 # Updates Jenkins Projects
 class ProjectUpdater
-
   MODULE_MAP = {
     dci: DCI,
     mci: MCI
@@ -27,7 +26,8 @@ class ProjectUpdater
     JenkinsJob.flavor_dir =
       "#{File.expand_path(File.dirname(__FILE__))}/jenkins-jobs/#{@flavor}"
 
-    upload_map = "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.upload.yaml"
+    upload_map =
+     "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.upload.yaml"
     @upload_map = nil
     if File.exist? upload_map
       @upload_map = YAML.load_file(upload_map)
