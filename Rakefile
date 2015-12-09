@@ -8,6 +8,7 @@ require 'rake/testtask'
 require 'rubocop/rake_task'
 
 SOURCE_DIRS = %w(
+  ci-tooling/ci
   ci-tooling/dci
   ci-tooling/kci
   ci-tooling/lib
@@ -16,6 +17,8 @@ SOURCE_DIRS = %w(
   jenkins-jobs
   kci
   lib
+  mgmt
+  mobster
   s3-images-generator
 )
 
