@@ -93,7 +93,9 @@ class ProjectUpdater
         all_builds.reject! { |project| !project.job_name.end_with?('_src') }
 
         # This could actually returned into a collect if placed below
-        all_meta_builds << enqueue(MetaBuildJob.new(type: type, distribution: distribution, downstream_jobs: all_builds))
+        all_meta_builds << enqueue(MetaBuildJob.new(type: type,
+                                                    distribution: distribution,
+                                                    downstream_jobs: all_builds))
       end
 
       image_job_config =
@@ -103,11 +105,11 @@ class ProjectUpdater
         image_jobs =
         YAML.load_file(image_job_config)
 
-        image_jobs.each do |k, v|
+        image_jobs.each do |_, v|
           enqueue(DCIImageJob.new(distribution: distribution,
-                                        architecture: v[:architecture],
-                                        repo: v[:repo],
-                                        component: v[:component]))
+                                  architecture: v[:architecture],
+                                  repo: v[:repo],
+                                  component: v[:component]))
         end
       end
     end
