@@ -147,6 +147,7 @@ class DeployTest < TestCase
     copy_data
     ENV['HOME'] = Dir.pwd
     VCR.turned_off do
+      remove_base(:ubuntu, 'wily')
       remove_base(:ubuntu, __method__)
     end
 
