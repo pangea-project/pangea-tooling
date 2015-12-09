@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'docker-api', '~> 1.23.0' # Container.refresh! only introduced in 1.23
+gem 'docker-api', '~> 1.23' # Container.refresh! only introduced in 1.23
 gem 'git'
 gem 'jenkins_api_client'
 gem 'logger-colors'
