@@ -41,4 +41,4 @@ if DIST == KCI.latest_series
   end
 end
 
-exec('/var/lib/jenkins/tooling3/ci-tooling/kci/ppa-copy-package.rb')
+exec('/var/lib/jenkins/tooling3/ci-tooling/kci/ppa_copy_package.rb')
