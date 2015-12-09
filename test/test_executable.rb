@@ -24,7 +24,7 @@ class ExecutableTest < Test::Unit::TestCase
           next unless File.exist?(file)
           if File.executable?(file)
             sb = Shebang.new(File.open(file).readline)
-            assert(sb.valid)
+            assert(sb.valid, "Invalid shebang #{file}")
           else
             not_executable << file
           end
