@@ -66,8 +66,8 @@ module MGMT
     end
 
     def deploy_inside_container(base, upgrade)
-      # Take the latest image which either is the previous latest or a completely
-      # prestine fork of the base ubuntu image and deploy into it.
+      # Take the latest image which either is the previous latest or a
+      # completely prestine fork of the base ubuntu image and deploy into it.
       # FIXME use containment here probably
       @log.info "creating container from #{base}"
       cmd = ['sh', '/tooling-pending/deploy_in_container.sh']
@@ -105,11 +105,12 @@ module MGMT
       c = deploy_inside_container(@base, upgrade)
 
       # Flatten the image by piping a tar export into a tar import.
-      # Flattening essentially destroys the history of the image. By default docker
-      # will however stack image revisions ontop of one another. Namely if we have
-      # abc and create a new image edf, edf will be an AUFS ontop of abc. While this
-      # is probably useful if one doesn't commit containers repeatedly for us this
-      # is pretty crap as we have massive turn around on images.
+      # Flattening essentially destroys the history of the image. By default
+      # docker will however stack image revisions ontop of one another. Namely
+      # if we have
+      # abc and create a new image edf, edf will be an AUFS ontop of abc. While
+      # this is probably useful if one doesn't commit containers repeatedly
+      # for us this is pretty crap as we have massive turn around on images.
       @log.warn 'Flattening latest image by exporting and importing it.' \
                 ' This can take a while.'
       require 'thwait'
@@ -143,13 +144,14 @@ module MGMT
       rescue Docker::Error::NotFoundError
         @log.warn 'There is no previous image, must be a new build.'
       rescue Docker::Error::ConflictError
-        @log.warn 'Could not remove old latest image, supposedly it is still used'
+        @log.warn 'Could not remove old latest image; it is still used'
       end
       @log.info "Tagging #{@i}"
       @i.tag(repo: @base.repo, tag: @base.tag, force: true)
 
-      # Disabled because we should not be leaking. And this has reentrancy problems
-      # where another deployment can cleanup our temporary container/image...
+      # Disabled because we should not be leaking. And this has reentrancy
+      # problems where another deployment can cleanup our temporary
+      # container/image...
       # cleanup_dangling_things
     end
   end
