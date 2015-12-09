@@ -50,7 +50,7 @@ module MGMT
       begin
         @log.info "creating base docker image from #{base_image} for #{base}"
         image = Docker::Image.create(fromImage: base_image)
-      rescue Docker::Error::ArgumentError
+      rescue Docker::Error::ArgumentError, Docker::Error::NotFoundError
         error = "Failed to create Image from #{base_image}"
         raise error if @origin_tags.empty?
         puts error
