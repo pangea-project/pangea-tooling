@@ -117,6 +117,7 @@ class ProjectUpdater
     enqueue(MGMTDockerCleanupJob.new(arch: 'amd64'))
     enqueue(MetaMergeJob.new(downstream_jobs: all_mergers))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_metas))
+    enqueue(MGMTPauseIntegrationJob.new(downstreams: all_metas))
     docker = enqueue(MGMTDockerJob.new(dependees: all_metas + all_promoters))
     enqueue(MGMTToolingJob.new(downstreams: [docker]))
   end
