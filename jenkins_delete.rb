@@ -45,6 +45,9 @@ job_names.each do |name|
 end
 
 module Jenkins
+  # A Jenkins Job.
+  # Gives jobs a class so one can use it like a bloody OOP construct rather than
+  # I don't even know what the default api client thing does...
   class Job
     attr_reader :name
 
