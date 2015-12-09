@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 
 gem 'docker-api', '~> 1.24.0' # Container.refresh! only introduced in 1.23
 gem 'git'
+gem 'git_clone_url'
 gem 'jenkins_api_client'
 gem 'logger-colors'
 gem 'oauth'
 gem 'octokit'
-gem 'git_clone_url'
 gem 'uri-ssh_git', '~> 2.0'
 
 group :development, :test do
@@ -15,17 +15,17 @@ group :development, :test do
       branch: 'test-unit-3'
   gem 'equivalent-xml'
   gem 'net-scp'
+  gem 'rack'
   gem 'rake'
+  gem 'rake-notes'
+  gem 'rubocop'
+  gem 'rubocop-checkstyle_formatter'
+  gem 'ruby-progressbar'
   gem 'simplecov'
   gem 'simplecov-rcov'
   gem 'test-unit', '>= 3.0'
-  gem 'rack'
-  gem 'rubocop'
-  gem 'rubocop-checkstyle_formatter'
   gem 'vcr', '~> 2'
   gem 'webmock'
-  gem 'rake-notes'
-  gem 'ruby-progressbar'
 end
 
 group :s3 do
