@@ -2,11 +2,13 @@ source 'https://rubygems.org'
 
 gem 'docker-api', '~> 1.24.0' # Container.refresh! only introduced in 1.23
 gem 'git'
-gem 'git_clone_url'
 gem 'jenkins_api_client'
 gem 'logger-colors'
 gem 'oauth'
 gem 'octokit'
+
+# Git URI management
+gem 'git_clone_url', '~> 2.0'
 gem 'uri-ssh_git', '~> 2.0'
 
 group :development, :test do
