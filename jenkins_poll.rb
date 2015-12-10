@@ -50,7 +50,9 @@ job_names.each do |name|
 end
 
 module Jenkins
+  # A Jenkins job that actually can be used as an object...
   class Job
+    # Build Details helper class to expand builddetails from Jenkins
     class BuildDetails < OpenStruct
       def date
         @date ||= Date.parse(Time.at(timestamp / 1000).to_s)
