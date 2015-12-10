@@ -24,7 +24,7 @@ SOURCE_DIRS = %w(
 
 desc 'run unit tests'
 Rake::TestTask.new do |t|
-  t.ruby_opts << "-r#{File.expand_path(File.dirname(__FILE__))}/test/helper.rb"
+  t.ruby_opts << "-r#{File.expand_path(__dir__)}/test/helper.rb"
   t.test_files = FileList['test/test_*.rb', 'ci-tooling/test/test_*.rb']
   t.verbose = true
 end
@@ -34,14 +34,14 @@ CLEAN << 'test/reports'
 
 desc 'run ci-tooling tests'
 Rake::TestTask.new(:test_ci) do |t|
-  t.ruby_opts << "-r#{File.expand_path(File.dirname(__FILE__))}/test/helper.rb"
+  t.ruby_opts << "-r#{File.expand_path(__dir__)}/test/helper.rb"
   t.test_files = FileList['ci-tooling/test/test_*.rb']
   t.verbose = true
 end
 
 desc 'run pangea-tooling tests'
 Rake::TestTask.new(:test_pangea) do |t|
-  t.ruby_opts << "-r#{File.expand_path(File.dirname(__FILE__))}/test/helper.rb"
+  t.ruby_opts << "-r#{File.expand_path(__dir__)}/test/helper.rb"
   t.test_files = FileList['test/test_*.rb']
   t.verbose = true
 end
