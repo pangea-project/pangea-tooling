@@ -7,6 +7,10 @@ require 'rake/notes/rake_task'
 require 'rake/testtask'
 require 'rubocop/rake_task'
 
+BIN_DIRS = %w(
+  .
+  ci-tooling
+)
 SOURCE_DIRS = %w(
   ci-tooling/ci
   ci-tooling/dci
@@ -55,11 +59,10 @@ CLEAN << 'cloc.xml'
 desc 'Run RuboCop on the lib directory'
 RuboCop::RakeTask.new(:rubocop) do |task|
   task.requires << 'rubocop/formatter/checkstyle_formatter'
-  SOURCE_DIRS.each do |srcdir|
-    task.patterns << "#{srcdir}/**/*.rb"
-  end
-  task.formatters = ['RuboCop::Formatter::CheckstyleFormatter']
-  task.options << '--out' << 'checkstyle.xml'
+  BIN_DIRS.each { |bindir| task.patterns << "#{bindir}/*.rb" }
+  SOURCE_DIRS.each { |srcdir| task.patterns << "#{srcdir}/**/*.rb" }
+  # task.formatters = ['RuboCop::Formatter::CheckstyleFormatter']
+  # task.options << '--out' << 'checkstyle.xml'
   task.fail_on_error = false
   task.verbose = false
 end
