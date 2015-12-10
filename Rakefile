@@ -61,8 +61,8 @@ RuboCop::RakeTask.new(:rubocop) do |task|
   task.requires << 'rubocop/formatter/checkstyle_formatter'
   BIN_DIRS.each { |bindir| task.patterns << "#{bindir}/*.rb" }
   SOURCE_DIRS.each { |srcdir| task.patterns << "#{srcdir}/**/*.rb" }
-  # task.formatters = ['RuboCop::Formatter::CheckstyleFormatter']
-  # task.options << '--out' << 'checkstyle.xml'
+  task.formatters = ['RuboCop::Formatter::CheckstyleFormatter']
+  task.options << '--out' << 'checkstyle.xml'
   task.fail_on_error = false
   task.verbose = false
 end
