@@ -9,6 +9,7 @@ require_relative 'ci-tooling/lib/retry'
 require_relative 'ci-tooling/lib/thread_pool'
 
 EXCLUSION_STATES = %w(success unstable)
+strict_mode = false
 
 OptionParser.new do |opts|
   opts.banner = <<-EOS
@@ -34,6 +35,11 @@ Only jobs that are not queued, not building, and failed will be retired.
 
   opts.on('-u', '--unstable', 'Rebuild unstable jobs as well.') do
     EXCLUSION_STATES.delete('unstable')
+  end
+
+  opts.on('-s', '--strict', 'Build jobs whose downstream jobs have failed') do
+    EXCLUSION_STATES.clear
+    strict_mode = true
   end
 end.parse!
 
@@ -61,6 +67,19 @@ BlockingThreadPool.run do
       queued = Jenkins.client.queue.list.include?(name)
       @log.info "#{name} | status - #{status} | queued - #{queued}"
       next if Jenkins.client.queue.list.include?(name)
+
+      if strict_mode
+        skip = true
+        downstreams = Jenkins.job.get_downstream_projects(name)
+        downstreams.each do |downstream|
+          downstream_status = Jenkins.job.status(downstream['name'])
+          next if %w(success unstable).include?(downstream_status)
+          skip = false
+        end
+        @log.info "Skipping #{name}" if skip
+        next if skip
+      end
+
       unless EXCLUSION_STATES.include?(Jenkins.job.status(name))
         @log.warn "  #{name} --> build"
         Jenkins.job.build(name)
