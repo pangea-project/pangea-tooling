@@ -88,7 +88,8 @@ task :deploy_in_container do
                   aptitude
                   autotools-dev
                   cdbs
-                  dh-autoreconf))
+                  dh-autoreconf
+                  germinate))
   Apt.clean
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
