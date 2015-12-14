@@ -10,10 +10,12 @@ class ParseTest < Test::Unit::TestCase
       dci
       kci
       lib
+      mci
       test
       ci-tooling/kci
       ci-tooling/dci
       ci-tooling/lib
+      ci-tooling/mci
       ci-tooling/test
     )
     source_dirs.each do |source_dir|
