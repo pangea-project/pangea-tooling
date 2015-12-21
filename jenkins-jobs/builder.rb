@@ -10,8 +10,12 @@ class Builder
     dependees = project.dependees.collect do |d|
       "#{basename(distribution, type, project.component, d)}_src"
     end.compact
-    sourcer = SourcerJob.new(basename, type: type, distribution: distribution, project: project)
-    publisher = PublisherJob.new(basename, type: type,
+    sourcer = SourcerJob.new(basename,
+                             type: type,
+                             distribution: distribution,
+                             project: project)
+    publisher = PublisherJob.new(basename,
+                                 type: type,
                                  distribution: distribution,
                                  dependees: dependees,
                                  component: project.component,
