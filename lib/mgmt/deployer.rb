@@ -7,6 +7,7 @@ require_relative '../ci/container'
 require_relative '../ci/pangeaimage'
 
 Docker.options[:read_timeout] = 0.5 * 60 * 60 # 0.5 hours
+Docker.options[:write_timeout] = 0.5 * 60 * 60 # 0.5 hours
 $stdout = $stderr
 
 module MGMT
