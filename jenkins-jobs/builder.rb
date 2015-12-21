@@ -29,7 +29,7 @@ class Builder
       binarier.trigger(publisher)
       binarier
     end
-    binariers + [sourcer, publisher]
+    [sourcer] + binariers + [publisher]
   end
 
   def self.basename(dist, type, component, name)
