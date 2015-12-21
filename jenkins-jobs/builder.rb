@@ -4,7 +4,7 @@ require_relative 'publisher'
 
 # Magic builder to create an array of build steps
 class Builder
-  def self.job(project, type:, distribution:, architectures:, upload_map:)
+  def self.job(project, type:, distribution:, architectures:, upload_map: nil)
     basename = basename(distribution, type, project.component, project.name)
 
     dependees = project.dependees.collect do |d|
