@@ -5,6 +5,9 @@
   <keepDependencies>false</keepDependencies>
   <properties>
   </properties>
+<% if upstream_scm.type == 'bzr' %>
+  <scm class="hudson.scm.NullSCM"/>
+<% else %>
   <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.4">
     <scms>
       <hudson.plugins.git.GitSCM plugin="git@2.3.5">
@@ -30,6 +33,7 @@
       <%= render_upstream_scm %>
     </scms>
   </scm>
+<% end %>
   <assignedNode>master</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
@@ -43,6 +47,7 @@
 export DIST=<%= distribution %>
 export TYPE=<%= type %>
 <%= fetch_tarball %>
+<%= fetch_bzr %>
 <% if upstream_scm.type == 'tarball' %>
   <%= '~/tooling/kci/contain.rb ~/ci-tooling/kci/orig_sourcer.rb' %>
 <% else %>
