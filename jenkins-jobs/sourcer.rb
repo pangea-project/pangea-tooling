@@ -61,9 +61,15 @@ class SourcerJob < JenkinsJob
     "if [ ! -d branch ]; then
     bzr branch '#{@packaging_scm.url}' branch
     else
-    cd branch && bzr pull
-    rm -rf packaging && rm -rf source
-    cp -rf branch/debian packaging/ && cp -rf branch source && rm -r source/debian
+    (cd branch &amp;&amp; bzr pull)
+    fi
+    # cleanup
+    rm -rf packaging &amp;&amp; rm -rf source
+    # seperate up packaging and source
+    mkdir -p packaging/ &amp;&amp;
+    cp -rf branch/debian packaging/ &amp;&amp;
+    cp -rf branch source &amp;&amp;
+    rm -r source/debian
     "
   end
 end
