@@ -41,6 +41,7 @@ class JenkinsJob
       Jenkins.job.create_or_update(job_name, xml)
     rescue => e
       puts e
+      xml_debug(xml)
       retry
     end
     job_name
