@@ -5,7 +5,7 @@
   <keepDependencies>false</keepDependencies>
   <properties>
   </properties>
-<% if upstream_scm.type == 'bzr' %>
+<% if packaging_scm.type == 'bzr' %>
   <scm class="hudson.scm.NullSCM"/>
 <% else %>
   <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.4">
