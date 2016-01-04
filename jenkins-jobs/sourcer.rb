@@ -41,6 +41,8 @@ class SourcerJob < JenkinsJob
       render('upstream-scms/svn.xml.erb')
     when 'tarball'
       ''
+    when 'bzr'
+      ''
     else
       fail "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
     end
@@ -52,5 +54,22 @@ class SourcerJob < JenkinsJob
     mkdir source
     echo '#{@upstream_scm.url}' > source/url
     fi"
+  end
+
+  def fetch_bzr
+    return '' unless @packaging_scm && @packaging_scm.type == 'bzr'
+    "if [ ! -d branch ]; then
+    bzr branch '#{@packaging_scm.url}' branch
+    else
+    (cd branch &amp;&amp; bzr pull)
+    fi
+    # cleanup
+    rm -rf packaging &amp;&amp; rm -rf source
+    # seperate up packaging and source
+    mkdir -p packaging/ &amp;&amp;
+    cp -rf branch/debian packaging/ &amp;&amp;
+    cp -rf branch source &amp;&amp;
+    rm -r source/debian
+    "
   end
 end
