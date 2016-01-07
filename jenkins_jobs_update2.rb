@@ -67,7 +67,7 @@ class ProjectUpdater
     all_meta_builds = []
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
-        projects = Projects.new(type: type,
+        projects = Projects.new(type: type, allow_custom_ci: true,
                                 projects_file: 'ci-tooling/data/projects_nci.json')
         projects << Project.new('pkg-kde-tools', '', branch: 'kubuntu_xenial_archive')
         projects.each do |project|
