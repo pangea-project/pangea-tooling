@@ -19,10 +19,7 @@ class Builder2 < JenkinsJob
     basename = jobs[0].job_name.rpartition('_')[0]
     puts basename
 
-    require 'ap'
-    ap jobs
     jobs << new(basename, jobs: jobs.collect(&:job_name), dependees: dependees)
-    ap jobs
     jobs
   end
 
