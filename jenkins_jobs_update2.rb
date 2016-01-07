@@ -74,6 +74,12 @@ class ProjectUpdater
           builder = Builder2.job(project, distribution: distribution, type: type, architectures: NCI.architectures)
           builder.each { |b| enqueue(b) }
         end
+        NCI.architectures.each do |architecture|
+          isoargs = { type: type,
+                      distribution: distribution,
+                      architecture: architecture }
+          enqueue(NeonIsoJob.new(isoargs))
+        end
       end
     end
     docker = enqueue(MGMTDockerJob.new(dependees: []))
