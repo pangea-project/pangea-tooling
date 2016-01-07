@@ -68,6 +68,7 @@ class ProjectUpdater
       NCI.types.each do |type|
         projects = Projects.new(type: type,
                                 projects_file: 'ci-tooling/data/projects_nci.json')
+        projects << Project.new('pkg-kde-tools', '', branch: 'kubuntu_xenial_archive')
         projects.each do |project|
           builder = Builder2.job(project, distribution: distribution, type: type, architectures: NCI.architectures)
           builder.each { |b| enqueue(b) }
