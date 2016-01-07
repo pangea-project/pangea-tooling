@@ -19,3 +19,7 @@
     :repo: https://github.com/shadeslayer/live-config
     :component: plasma5
 
+  netrunner-i2p:
+    :architecture: armhf
+    :repo: https://github.com/netrunner-debian-i2p/live-config
+    :component: netrunner-debian-i2p
