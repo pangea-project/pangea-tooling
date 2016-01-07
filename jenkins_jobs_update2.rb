@@ -25,6 +25,7 @@ class ProjectUpdater
     plugins = []
     installed_plugins = Jenkins.plugin_manager.list_installed.keys
     Dir.glob('jenkins-jobs/templates/**/**.xml.erb').each do |path|
+      next if path.include?('/dci/') || path.include?('/mci/')
       File.readlines(path).each do |line|
         match = line.match(/.*plugin="(.+)".*/)
         next unless match && match.size == 2
