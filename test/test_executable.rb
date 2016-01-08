@@ -4,11 +4,18 @@ require_relative '../lib/shebang'
 class ExecutableTest < Test::Unit::TestCase
   BINARY_DIRS = %w(
     .
+    bin
     ci-tooling
+    ci-tooling/bin
     ci-tooling/ci
     ci-tooling/kci
+    ci-tooling/mci
+    ci-tooling/nci
     kci
     kci/mgmt
+    mci
+    mobster
+    nci
     mgmt
   )
 
