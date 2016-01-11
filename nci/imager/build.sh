@@ -28,14 +28,6 @@ sudo apt update
 sudo apt dist-upgrade -y
 sudo apt install -y --no-install-recommends git ubuntu-defaults-builder wget ca-certificates zsync distro-info syslinux-utils
 
-# NOTE: can be removed once ubuntu-defaults-image and live-build landed in utopic-updates.
-# FIXME: source schroot needs to be updated with updates enabled, or at least the two core packages updated.
-sudo apt install -y --no-install-recommends software-properties-common
-sudo apt-add-repository -y "deb http://10.0.3.1:3142/archive.ubuntu.com/ubuntu $DIST-updates main restricted universe multiverse"
-sudo apt update
-sudo apt dist-upgrade -y
-
-
 cd $WD
 ls -lah
 cleanup
@@ -70,8 +62,6 @@ export RELEASE_${DIST}=$(distro-info --series=$DIST -r)
 export LB_COMPRESSION=xz
 ## Create a zsync file allowing over-http delta-downloads.
 export LB_ZSYNC=true # This is overridden by silly old defaults-image...
-## Proxy the chroot (including PPAs) through apt-cacher to reduce network-bound I/O.
-export LB_APT_HTTP_PROXY="http://10.0.3.1:3142"
 
 export CONFIG_HOOKS="$(dirname "$0")/config-hooks"
 
