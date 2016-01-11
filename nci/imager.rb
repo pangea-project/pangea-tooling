@@ -34,7 +34,7 @@ FileUtils.mkpath(PUB_PATH)
     abort "File type #{type} failed to copy to public directory."
   end
 end
-FileUtils.chown_R('jenkins', 'www-data', PUB_PATH, verbose: true)
+#FileUtils.chown_R('jenkins', 'www-data', PUB_PATH, verbose: true)
 
 # TODO: add some more user friendly info to the header
 system("cp -r #{TOOLING_PATH}/nci/HEADER.html #{PUB_PATH}/")
