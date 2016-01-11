@@ -36,6 +36,7 @@ FileUtils.mkpath(PUB_PATH)
 end
 FileUtils.chown_R('jenkins', 'www-data', PUB_PATH, verbose: true)
 
+# TODO: add some more user friendly info to the header
 system("cp -r #{TOOLING_PATH}/nci/HEADER.html #{PUB_PATH}/")
 
 exit 0
