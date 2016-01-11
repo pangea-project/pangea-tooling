@@ -77,12 +77,10 @@ export CONFIG_HOOKS="$(dirname "$0")/config-hooks"
 
 # Preserve envrionment -E plz.
 sudo -E $(dirname "$0")/ubuntu-defaults-image \
-    --ppa kubuntu-ci/$TYPE \
-    --package kubuntu-ci-live \
+    --package neon-desktop \
     --arch $ARCH \
     --release $DIST \
     --flavor kubuntu \
-    --mirror http://10.0.3.1:3142/archive.ubuntu.com/ubuntu \
     --components main,restricted,universe,multiverse
 
 if [ ! -e livecd.kubuntu.iso ]; then
