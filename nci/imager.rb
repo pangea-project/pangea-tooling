@@ -22,12 +22,12 @@ c = CI::Containment.new(JOB_NAME,
                         image: CI::PangeaImage.new(:ubuntu, DIST),
                         binds: binds,
                         privileged: true)
-cmd = ["#{TOOLING_PATH}/kci/imager/build.sh", Dir.pwd, DIST, ARCH, TYPE]
+cmd = ["#{TOOLING_PATH}/nci/imager/build.sh", Dir.pwd, DIST, ARCH, TYPE]
 status_code = c.run(Cmd: cmd)
 exit status_code unless status_code == 0
 
 DATE = File.read('result/date_stamp').strip
-PUB_PATH = "/var/www/kci/images/#{ARCH}/#{DATE}"
+PUB_PATH = "/var/www/nci/images/#{ARCH}/#{DATE}"
 FileUtils.mkpath(PUB_PATH)
 %w(iso manifest zsync).each do |type|
   unless system("cp -r --no-preserve=ownership result/*.#{type} #{PUB_PATH}/")
@@ -35,13 +35,13 @@ FileUtils.mkpath(PUB_PATH)
   end
 end
 FileUtils.chown_R('jenkins', 'www-data', PUB_PATH, verbose: true)
-unless system("cp -avr #{PUB_PATH} /mnt/s3/kci/images/#{ARCH}/")
+unless system("cp -avr #{PUB_PATH} /mnt/s3/nci/images/#{ARCH}/")
   abort 'Failed to copy to s3 bucket.'
 end
 
 generate_html_cmd = ["#{__dir__}/../generate_html.rb"]
-generate_html_cmd << '-o' << '/mnt/s3/kci/index.html'
-generate_html_cmd << 'kci'
+generate_html_cmd << '-o' << '/mnt/s3/nci/index.html'
+generate_html_cmd << 'nci'
 system(*generate_html_cmd) # Ignore return value as this is not too important.
 
 exit 0
