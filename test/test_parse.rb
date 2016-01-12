@@ -7,15 +7,21 @@ class ParseTest < Test::Unit::TestCase
     Dir.chdir(basedir)
 
     source_dirs = %w(
+      bin
       dci
       kci
+      git-monitor
+      jenkins-jobs
       lib
+      nci
       mci
+      mobster
       test
-      ci-tooling/kci
       ci-tooling/dci
+      ci-tooling/kci
       ci-tooling/lib
       ci-tooling/mci
+      ci-tooling/nci
       ci-tooling/test
     )
     source_dirs.each do |source_dir|
@@ -59,11 +65,12 @@ class ParseTest < Test::Unit::TestCase
     when 'sh'
       parse_sh(file)
     else
-      if shebang.valid
-        warn '  shell type unknown, falling back to bash'
-      else
-        warn '  shebang invalid, falling back to bash'
-      end
+      # DEBUG
+      # if shebang.valid
+      #   warn '  shell type unknown, falling back to bash'
+      # else
+      #   warn '  shebang invalid, falling back to bash'
+      # end
       parse_bash(file)
     end
   end

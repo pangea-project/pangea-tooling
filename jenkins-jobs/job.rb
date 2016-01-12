@@ -40,6 +40,7 @@ class JenkinsJob
       xml_debug(xml) if @debug
       Jenkins.job.create_or_update(job_name, xml)
     rescue => e
+      # FIXME: use retry_it to fail after a number of tries
       puts e
       retry
     end

@@ -17,12 +17,14 @@ SOURCE_DIRS = %w(
   ci-tooling/kci
   ci-tooling/lib
   ci-tooling/mci
+  ci-tooling/nci
   dci
   git-monitor
   jenkins-jobs
   kci
   lib
   mci
+  nci
   mgmt
   mobster
   s3-images-generator
