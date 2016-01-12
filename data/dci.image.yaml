@@ -23,3 +23,8 @@
     :architecture: armhf
     :repo: https://github.com/netrunner-debian-i2p/live-config
     :component: netrunner-debian-i2p
+
+  netrunner-core:
+    :architecture: armhf
+    :repo: https://github.com/netrunner-core/live-config
+    :component: netrunner-core
