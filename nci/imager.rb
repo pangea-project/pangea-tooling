@@ -27,16 +27,12 @@ status_code = c.run(Cmd: cmd)
 exit status_code unless status_code == 0
 
 DATE = File.read('result/date_stamp').strip
-PUB_PATH = "/home/nci/images/unstable-proposed/#{DATE}"
+PUB_PATH = "/var/www/images/unstable-proposed/#{DATE}"
 FileUtils.mkpath(PUB_PATH)
 %w(iso manifest zsync).each do |type|
   unless system("cp -r --no-preserve=ownership result/*.#{type} #{PUB_PATH}/")
     abort "File type #{type} failed to copy to public directory."
   end
 end
-#FileUtils.chown_R('jenkins', 'www-data', PUB_PATH, verbose: true)
-
-# TODO: add some more user friendly info to the header
-system("cp -r #{TOOLING_PATH}/nci/HEADER.html #{PUB_PATH}/")
 
 exit 0
