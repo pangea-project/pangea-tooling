@@ -27,12 +27,16 @@ status_code = c.run(Cmd: cmd)
 exit status_code unless status_code == 0
 
 DATE = File.read('result/date_stamp').strip
-PUB_PATH = "/var/www/images/unstable-proposed/#{DATE}"
+WEBSITE_PATH = "/var/www/images/unstable-proposed/"
+PUB_PATH = "#{WEBSITE_PATH}#{DATE}"
 FileUtils.mkpath(PUB_PATH)
 %w(iso manifest zsync).each do |type|
   unless system("cp -r --no-preserve=ownership result/*.#{type} #{PUB_PATH}/")
     abort "File type #{type} failed to copy to public directory."
   end
 end
+
+FileUtils.rm("#{WEBSITE_PATH}current", :force => true)
+FileUtils.ln_s(PUB_PATH, "#{WEBSITE_PATH}current")
 
 exit 0
