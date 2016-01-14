@@ -71,7 +71,44 @@ task :deploy_in_container do
     end
   end
 
+
   require_relative 'ci-tooling/lib/apt'
+
+  File.open('/etc/dpkg/dpkg.cfg.d/00_paths', 'w') do |file|
+    # Do not install locales other than en/en_US.
+    # Do not install manpages, infopages, groffpages.
+    # Do not install docs.
+    path = {
+      rxcludes: %w(
+        /usr/share/locale/**/**
+        /usr/share/man/**/**
+        /usr/share/info/**/**
+        /usr/share/groff/**/**
+        /usr/share/doc/**/**
+      ),
+      excludes: %w(
+        /usr/share/locale/*
+        /usr/share/man/*
+        /usr/share/info/*
+        /usr/share/groff/*
+        /usr/share/doc/*
+      ),
+      includes: %w(
+        /usr/share/locale/en
+        /usr/share/locale/en_US
+        /usr/share/locale/locale.alias
+      )
+    }
+    path[:excludes].each { |e| file.write("path-exclude=#{e}") }
+    path[:includes].each { |i| file.write("path-include=#{i}") }
+    path[:rxcludes].each do |ruby_exclude|
+      Dir.glob(ruby_exclude).each do |match|
+        next if path[:includes].any? { |i| File.fnmatch(i, match) }
+        next unless File.exist?(match)
+        FileUtils.rm_r(match)
+      end
+    end
+  end
 
   # Use apt.
   Apt.update
