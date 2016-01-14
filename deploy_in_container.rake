@@ -36,6 +36,7 @@ task :deploy_in_container do
     rescue Gem::LoadError
       sh 'gem install bundler'
     end
+
     bundle_args = []
     bundle_args << "--jobs=#{`nproc`.strip}"
     bundle_args << '--local'
@@ -44,6 +45,13 @@ task :deploy_in_container do
     bundle_args << '--system'
     bundle_args << '--without development test'
     sh "bundle install #{bundle_args.join(' ')}"
+
+    # Clean up now unused gems. This prevents unused versions of a gem
+    # lingering in the image blowing up its size.
+    clean_args = []
+    clean_args << '--verbose'
+    clean_args << '--force' # Force system clean!
+    sh "bundle clean #{clean_args.join(' ')}"
 
     # Trap common exit signals to make sure the ownership of the forwarded
     # volume is correct once we are done.
