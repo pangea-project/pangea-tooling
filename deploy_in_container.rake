@@ -135,6 +135,7 @@ task :deploy_in_container do
                   cdbs
                   dh-autoreconf
                   germinate))
+  Apt.autoremove(args: '--purge')
   Apt.clean
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
