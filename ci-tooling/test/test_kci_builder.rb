@@ -42,15 +42,20 @@ class KCIBuilderTest < TestCase
     Kernel.send(:define_method, SYSTEM) do |*args|
       KCIBuilderTest.system_override(*args)
     end
+
+    @setup_done = true
   end
 
   def teardown
+    return unless @setup_done
     Kernel.send(:alias_method, SYSTEM, SYSTEM_BACKUP)
 
     unalias_time
     OS.reset
     KCIBuilder.testing = false
     KCI.send(:reset!)
+
+    @setup_done = false
   end
 
   def alias_time
