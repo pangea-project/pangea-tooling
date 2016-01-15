@@ -1,0 +1,102 @@
+{
+  "all_repos" : [ "frameworks", "plasma" ],
+
+  "selective_repos" : {
+    "kde-req" : [
+      "qca-qt5"
+    ]
+  },
+
+  "custom_ci" : [
+    {
+      "git_host":  "git://packaging.neon.kde.org.uk",
+      "org"  : "neon",
+      "repos" : [
+        "seeds"
+      ]
+    }
+  ],
+
+  "static_ci": [
+    {
+      "type": "neon",
+      "repos": [
+        {
+          "path": "qt/qtbase",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtbase-opensource-src/qtbase-opensource-src_5.5.1+dfsg.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtmultimedia",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtmultimedia-opensource-src/qtmultimedia-opensource-src_5.5.1.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtscript",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtscript-opensource-src/qtscript-opensource-src_5.5.1+dfsg.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtdeclarative",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtdeclarative-opensource-src/qtdeclarative-opensource-src_5.5.1.orig.tar.xz"
+        },
+        {
+          "path": "qt/qttools",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qttools-opensource-src/qttools-opensource-src_5.5.1.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtgraphicaleffects",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtgraphicaleffects-opensource-src/qtgraphicaleffects-opensource-src_5.5.1.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtxmlpatterns",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtxmlpatterns-opensource-src/qtxmlpatterns-opensource-src_5.5.1.orig.tar.xz"
+        },
+        {
+          "path": "qt/qt5webkit",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.5.1+dfsg.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtx11extras",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtx11extras-opensource-src/qtx11extras-opensource-src_5.5.1.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtwayland",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtwayland-opensource-src/qtwayland-opensource-src_5.5.1.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtsvg",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtsvg-opensource-src/qtsvg-opensource-src_5.5.1.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtlocation",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtlocation-opensource-src/qtlocation-opensource-src_5.5.1.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtquickcontrols",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtquickcontrols-opensource-src/qtquickcontrols-opensource-src_5.5.1.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtsensors",
+          "branch": "kubuntu_vivid_mobile",
+          "tarball": "http://http.debian.net/debian/pool/main/q/qtsensors-opensource-src/qtsensors-opensource-src_5.5.1.orig.tar.xz"
+        },
+        {
+          "path": "qt/qtpim",
+          "branch": "neon_vivid_mobile",
+          "tarball": "http://archive.ubuntu.com/ubuntu/pool/main/q/qtpim-opensource-src/qtpim-opensource-src_5.0~git20140515~29475884.orig.tar.gz"
+        }
+      ]
+    }
+  ]
+}

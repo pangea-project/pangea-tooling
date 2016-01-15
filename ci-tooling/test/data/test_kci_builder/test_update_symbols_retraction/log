@@ -1,0 +1,64 @@
+dh_strip  --dbg-package=libkf5blog-dbg
+dh_strip debug symbol extraction: disabling for PPA build
+dh_strip debug symbol extraction: not enabling -a because /CurrentlyBuilding exists
+dh_strip debug symbol extraction: not doing anything since NO_PKG_MANGLE is given
+make[2]: Leaving directory '/«BUILDDIR»/kblog-15.08.1+git20150917.2210+15.10'
+dh_makeshlibs '-Xusr/lib/libkdeinit5_*'  
+dpkg-gensymbols: warning: some new symbols appeared in the symbols file: see diff output below
+dpkg-gensymbols: warning: some symbols or patterns disappeared in the symbols file: see diff output below
+dpkg-gensymbols: warning: debian/libkf5blog5/DEBIAN/symbols doesn't match completely debian/libkf5blog5.symbols
+--- debian/libkf5blog5.symbols (libkf5blog5_4:15.08.1+git20150917.2210+15.10-0_amd64)
++++ dpkg-gensymbolsGdaD_h	2015-09-17 22:15:39.646939095 +0000
+@@ -15,8 +15,10 @@
+  _ZN5KBlog10MetaWeblogD2Ev@Base 15.07.90
+  _ZN5KBlog11BlogComment10setContentERK7QString@Base 15.07.90
+  _ZN5KBlog11BlogComment12setCommentIdERK7QString@Base 15.07.90
+- _ZN5KBlog11BlogComment19setCreationDateTimeERK9KDateTime@Base 15.07.90
+- _ZN5KBlog11BlogComment23setModificationDateTimeERK9KDateTime@Base 15.07.90
++#MISSING: 4:15.08.1+git20150917.2210+15.10-0# _ZN5KBlog11BlogComment19setCreationDateTimeERK9KDateTime@Base 15.07.90
++ _ZN5KBlog11BlogComment19setCreationDateTimeERK9QDateTime@Base 4:15.08.1+git20150917.2210+15.10-0
++#MISSING: 4:15.08.1+git20150917.2210+15.10-0# _ZN5KBlog11BlogComment23setModificationDateTimeERK9KDateTime@Base 15.07.90
++ _ZN5KBlog11BlogComment23setModificationDateTimeERK9QDateTime@Base 4:15.08.1+git20150917.2210+15.10-0
+  _ZN5KBlog11BlogComment6setUrlERK4QUrl@Base 15.07.90
+  _ZN5KBlog11BlogComment7setNameERK7QString@Base 15.07.90
+  _ZN5KBlog11BlogComment8setEmailERK7QString@Base 15.07.90
+@@ -66,7 +68,8 @@
+  _ZN5KBlog4Blog11qt_metacastEPKc@Base 15.07.90
+  _ZN5KBlog4Blog11removedPostEPNS_8BlogPostE@Base 15.07.90
+  _ZN5KBlog4Blog11setPasswordERK7QString@Base 15.07.90
+- _ZN5KBlog4Blog11setTimeZoneERK9KTimeZone@Base 15.07.90
++#MISSING: 4:15.08.1+git20150917.2210+15.10-0# _ZN5KBlog4Blog11setTimeZoneERK9KTimeZone@Base 15.07.90
++ _ZN5KBlog4Blog11setTimeZoneERK9QTimeZone@Base 4:15.08.1+git20150917.2210+15.10-0
+  _ZN5KBlog4Blog11setUsernameERK7QString@Base 15.07.90
+  _ZN5KBlog4Blog12errorCommentENS0_9ErrorTypeERK7QStringPNS_8BlogPostEPNS_11BlogCommentE@Base 15.07.90
+  _ZN5KBlog4Blog12modifiedPostEPNS_8BlogPostE@Base 15.07.90
+@@ -101,7 +104,8 @@
+  _ZN5KBlog5GData14listedCommentsEPNS_8BlogPostERK5QListINS_11BlogCommentEE@Base 15.07.90
+  _ZN5KBlog5GData14removedCommentEPKNS_8BlogPostEPKNS_11BlogCommentE@Base 15.07.90
+  _ZN5KBlog5GData15listAllCommentsEv@Base 15.07.90
+- _ZN5KBlog5GData15listRecentPostsERK11QStringListiRK9KDateTimeS6_S6_S6_@Base 15.07.90
++#MISSING: 4:15.08.1+git20150917.2210+15.10-0# _ZN5KBlog5GData15listRecentPostsERK11QStringListiRK9KDateTimeS6_S6_S6_@Base 15.07.90
++ _ZN5KBlog5GData15listRecentPostsERK11QStringListiRK9QDateTimeS6_S6_S6_@Base 4:15.08.1+git20150917.2210+15.10-0
+  _ZN5KBlog5GData15listRecentPostsEi@Base 15.07.90
+  _ZN5KBlog5GData16fetchedProfileIdERK7QString@Base 15.07.90
+  _ZN5KBlog5GData16staticMetaObjectE@Base 15.07.90
+@@ -118,10 +122,12 @@
+  _ZN5KBlog8BlogPost10setSummaryERK7QString@Base 15.07.90
+  _ZN5KBlog8BlogPost13setCategoriesERK11QStringList@Base 15.07.90
+  _ZN5KBlog8BlogPost17setCommentAllowedEb@Base 15.07.90
+- _ZN5KBlog8BlogPost19setCreationDateTimeERK9KDateTime@Base 15.07.90
++#MISSING: 4:15.08.1+git20150917.2210+15.10-0# _ZN5KBlog8BlogPost19setCreationDateTimeERK9KDateTime@Base 15.07.90
++ _ZN5KBlog8BlogPost19setCreationDateTimeERK9QDateTime@Base 4:15.08.1+git20150917.2210+15.10-0
+  _ZN5KBlog8BlogPost19setTrackBackAllowedEb@Base 15.07.90
+  _ZN5KBlog8BlogPost20setAdditionalContentERK7QString@Base 15.07.90
+- _ZN5KBlog8BlogPost23setModificationDateTimeERK9KDateTime@Base 15.07.90
++#MISSING: 4:15.08.1+git20150917.2210+15.10-0# _ZN5KBlog8BlogPost23setModificationDateTimeERK9KDateTime@Base 15.07.90
++ _ZN5KBlog8BlogPost23setModificationDateTimeERK9QDateTime@Base 4:15.08.1+git20150917.2210+15.10-0
+  _ZN5KBlog8BlogPost7setMoodERK7QString@Base 15.07.90
+  _ZN5KBlog8BlogPost7setSlugERK7QString@Base 15.07.90
+  _ZN5KBlog8BlogPost7setTagsERK11QStringList@Base 15.07.90
+dh_makeshlibs: failing due to earlier errors
+/usr/share/pkg-kde-tools/qt-kde-team/3/dhmk.mk:97: recipe for target 'pre_binary_dh_makeshlibs' failed
+make[1]: *** [pre_binary_dh_makeshlibs] Error 2
+make[1]: Leaving directory '/«BUILDDIR»/kblog-15.08.1+git20150917.2210+15.10'
+/usr/share/pkg-kde-tools/qt-kde-team/3/dhmk.mk:112: recipe for target 'debian/dhmk_binary' failed

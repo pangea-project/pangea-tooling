@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:9473/dragon-15.08.1.tar.xz
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Etag:
+      - 1c1398-b0-5620b7d2
+      Content-Type:
+      - application/octet-stream
+      Content-Length:
+      - '176'
+      Last-Modified:
+      - Fri, 16 Oct 2015 08:39:46 GMT
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.2.1/2015-02-26)
+      Date:
+      - Fri, 16 Oct 2015 09:00:22 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        /Td6WFoAAATm1rRGAgAhARwAAAAQz1jM4Cf/AG5dADIciEYKYs/OT0cHmS/W
+        eYV4C834Ni20g8nBAm3E4H6m6Qv4d/GnkuYgzC6QdLmuE5ZzHtDwMF2zdgYs
+        IrHQlOIdD96FvXkGcIiuQRPuWb+l8iuPnnd3Gnd7+7bsWPxYTrEDgeYmnlTw
+        4dJxCVgAAAAAuVMwQB26NdQAAYoBgFAAAFhS+8CxxGf7AgAAAAAEWVo=
+    http_version: 
+  recorded_at: Fri, 16 Oct 2015 09:00:22 GMT
+recorded_with: VCR 2.9.3

@@ -1,0 +1,14 @@
+{
+  "static_ci": [
+    {
+      "type": "debian",
+      "repos": [
+        {
+          "path": "pkg-kde/qt/qtx11extras",
+          "branch": "experimental",
+          "tarball": "http://abc%2Bdfsg.tar.xz"
+        }
+      ]
+    }
+  ]
+}

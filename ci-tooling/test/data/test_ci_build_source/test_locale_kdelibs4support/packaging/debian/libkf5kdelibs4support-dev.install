@@ -1,0 +1,10 @@
+usr/include/KF5/KDELibs4Support/
+usr/include/KF5/kdelibs4support_version.h
+usr/lib/*/cmake/KDELibs4/
+usr/lib/*/cmake/KF5KDE4Support/
+usr/lib/*/cmake/KF5KDELibs4Support/
+usr/lib/*/libKF5KDELibs4Support.so
+usr/share/dbus-1/interfaces/kf5_org.freedesktop.PowerManagement.Inhibit.xml
+usr/share/dbus-1/interfaces/kf5_org.freedesktop.PowerManagement.xml
+usr/share/dbus-1/interfaces/kf5_org.kde.Solid.Networking.Client.xml
+usr/share/dbus-1/interfaces/kf5_org.kde.Solid.PowerManagement.PolicyAgent.xml

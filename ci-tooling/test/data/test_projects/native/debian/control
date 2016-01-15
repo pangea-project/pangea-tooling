@@ -1,0 +1,33 @@
+Source: kinfocenter
+Priority: extra
+Section: kde
+Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Build-Depends: gwenview
+Standards-Version: 3.9.5
+Homepage: https://projects.kde.org/projects/playground/libs/libkscreen
+
+Package: kinfocenter
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: kinfocenter5 (<< 4:5.2.0-0ubuntu1~ubuntu14.10~ppa3),
+        kinfocenter5-data (<< 4:5.2.0-0ubuntu1~ubuntu14.10~ppa3)
+Replaces: kinfocenter5 (<< 4:5.2.0-0ubuntu1~ubuntu14.10~ppa3),
+          kinfocenter5-data (<< 4:5.2.0-0ubuntu1~ubuntu14.10~ppa3)
+Description: overview of your system library
+ The kinfocenter provides you with a centralized and convenient
+ overview of your system and desktop environment.
+ .
+ This package contains the shared library
+
+Package: kinfocenter-dbg
+Section: debug
+Architecture: any
+Recommends: qtbase5-dbg
+Depends: kinfocenter (= ${binary:Version}), ${misc:Depends}
+Breaks: kinfocenter5-dbg (<< 4:5.2.0-0ubuntu1~ubuntu14.10~ppa3)
+Replaces: kinfocenter5-dbg (<< 4:5.2.0-0ubuntu1~ubuntu14.10~ppa3)
+Description: overview of your system - debug files
+ The kinfocenter provides you with a centralized and convenient
+ overview of your system and desktop environment.
+ .
+ This package contains the debugging symbols.

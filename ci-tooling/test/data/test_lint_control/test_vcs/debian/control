@@ -1,0 +1,15 @@
+Source: kpeople
+Section: libs
+Priority: optional
+Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Build-Depends: cmake
+Standards-Version: 3.9.6
+Homepage: https://projects.kde.org/projects/frameworks/kpeople
+Vcs-Browser: http://anonscm.debian.org/cgit/pkg-kde/frameworks/kpeople.git
+Vcs-Git: git://anonscm.debian.org/pkg-kde/frameworks/kpeople.git
+
+Package: libkf5people-dev
+Architecture: any
+Depends: ${misc:Depends}
+Description: development files for kpeople
+ KPeople offers unified access to our contacts from different sources, grouping

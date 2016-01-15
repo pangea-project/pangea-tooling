@@ -1,0 +1,54 @@
+dh_strip debug symbol extraction: not enabling -a because /CurrentlyBuilding exists
+dh_strip debug symbol extraction: not doing anything since NO_PKG_MANGLE is given
+make[2]: Leaving directory '/«BUILDDIR»/kdepimlibs-15.08.1+git20150917.2243+15.10'
+# Running override target (override_dh_makeshlibs)
+test -z "`ls debian/*.debhelper.log 2>/dev/null`" || sed -i '/^override_dh_makeshlibs[[:space:]]/d' debian/*.debhelper.log
+/usr/bin/make -f debian/rules override_dh_makeshlibs DH_INTERNAL_OVERRIDE="dh_makeshlibs"  
+make[2]: Entering directory '/«BUILDDIR»/kdepimlibs-15.08.1+git20150917.2243+15.10'
+dh_makeshlibs '-Xusr/lib/libkdeinit5_*'  -Xkcm_akonadicontact_actions.so -Xakonadi_serializer_socialfeeditem.so
+dpkg-gensymbols: warning: some new symbols appeared in the symbols file: see diff output below
+dpkg-gensymbols: warning: debian/libkf5akonadicore5/DEBIAN/symbols doesn't match completely debian/libkf5akonadicore5.symbols
+--- debian/libkf5akonadicore5.symbols (libkf5akonadicore5_4:15.08.1+git20150917.2243+15.10-0_amd64)
++++ dpkg-gensymbolsUXUUAE	2015-09-17 22:57:53.054810238 +0000
+@@ -1572,6 +1572,7 @@
+  _ZN7Akonadi8ItemSync11qt_metacastEPKc@Base 15.07.90
+  _ZN7Akonadi8ItemSync12deliveryDoneEv@Base 15.07.90
+  _ZN7Akonadi8ItemSync12setBatchSizeEi@Base 15.07.90
++ _ZN7Akonadi8ItemSync12setMergeModeENS0_9MergeModeE@Base 4:15.08.1+git20150917.2243+15.10-0
+  _ZN7Akonadi8ItemSync13setFetchScopeERNS_14ItemFetchScopeE@Base 15.07.90
+  _ZN7Akonadi8ItemSync13setTotalItemsEi@Base 15.07.90
+  _ZN7Akonadi8ItemSync16setFullSyncItemsERK7QVectorINS_4ItemEE@Base 15.07.90
+@@ -2162,6 +2163,7 @@
+  _ZNK7Akonadi3Tag7setTypeERK10QByteArray@Base 15.07.90
+  _ZNK7Akonadi3Tag8remoteIdEv@Base 15.07.90
+  _ZNK7Akonadi3TageqERKS0_@Base 15.07.90
++ _ZNK7Akonadi3TagneERKS0_@Base 4:15.08.1+git20150917.2243+15.10-0
+  _ZNK7Akonadi4Item10hasPayloadEv@Base 15.07.90
+  _ZNK7Akonadi4Item11payloadBaseEv@Base 15.07.90
+  _ZNK7Akonadi4Item11payloadDataEv@Base 15.07.90
+@@ -2222,6 +2224,7 @@
+  _ZNK7Akonadi7Session9sessionIdEv@Base 15.07.90
+  _ZNK7Akonadi8ItemSync10metaObjectEv@Base 15.07.90
+  _ZNK7Akonadi8ItemSync9batchSizeEv@Base 15.07.90
++ _ZNK7Akonadi8ItemSync9mergeModeEv@Base 4:15.08.1+git20150917.2243+15.10-0
+  _ZNK7Akonadi8Relation11setRemoteIdERK10QByteArray@Base 15.07.90
+  _ZNK7Akonadi8Relation4leftEv@Base 15.07.90
+  _ZNK7Akonadi8Relation4typeEv@Base 15.07.90
+dpkg-gensymbols: warning: some new symbols appeared in the symbols file: see diff output below
+dpkg-gensymbols: warning: debian/libkf5akonadiagentbase5/DEBIAN/symbols doesn't match completely debian/libkf5akonadiagentbase5.symbols
+--- debian/libkf5akonadiagentbase5.symbols (libkf5akonadiagentbase5_4:15.08.1+git20150917.2243+15.10-0_amd64)
++++ dpkg-gensymbolsvx9iEx	2015-09-17 22:57:54.142810238 +0000
+@@ -26,6 +26,7 @@
+  _ZN7Akonadi12ResourceBase18itemsRetrievalDoneEv@Base 15.07.90
+  _ZN7Akonadi12ResourceBase18relationsRetrievedERK7QVectorINS_8RelationEE@Base 15.07.90
+  _ZN7Akonadi12ResourceBase18scheduleCustomTaskEP7QObjectPKcRK8QVariantNS0_16SchedulePriorityE@Base 15.07.90
++ _ZN7Akonadi12ResourceBase18setItemMergingModeENS_8ItemSync9MergeModeE@Base 4:15.08.1+git20150917.2243+15.10-0
+  _ZN7Akonadi12ResourceBase19requestItemDeliveryExRK7QStringS3_RK11QStringList@Base 15.07.90
+  _ZN7Akonadi12ResourceBase20collectionsRetrievedERK7QVectorINS_10CollectionEE@Base 15.07.90
+  _ZN7Akonadi12ResourceBase20setItemSyncBatchSizeEi@Base 15.07.90
+make[2]: Leaving directory '/«BUILDDIR»/kdepimlibs-15.08.1+git20150917.2243+15.10'
+dh_shlibdeps  
+dh_installdeb  
+dh_sameversiondep
+dh_gencontrol  
+dpkg-gencontrol: warning: File::FcntlLock not available; using flock which is not NFS-safe

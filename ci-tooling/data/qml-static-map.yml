@@ -1,0 +1,13 @@
+plasma-framework:
+  - org.kde.plasma.plasmoid
+  - org.kde.plasma.configuration
+kwin:
+  - org.kde.kwin:
+      version: 2.0
+plasma-workspace:
+  - org.kde.plasma.shell
+
+# Not a real package. Represents an override that maps to nothing but is
+# injected at runtime in more than one package
+fake-global-ignore:
+  - org.kde.kcm

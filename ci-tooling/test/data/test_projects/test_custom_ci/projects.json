@@ -1,0 +1,19 @@
+{
+    "custom_ci" : [
+        {
+          "type" : "github",
+          "org"  : "plasma-phone-packaging",
+          "repos" : [
+            "simplelogin-packaging"
+            ]
+        },
+        {
+          "type" : "neon",
+          "org"  : "neon",
+          "git_host":  "git://packaging.neon.kde.org.uk",
+          "repos" : [
+            "seeds"
+          ]
+        }
+    ]
+}

@@ -1,0 +1,51 @@
+Source: kpeople
+Section: libs
+Priority: optional
+Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Uploaders: Maximiliano Curia <maxy@debian.org>
+Build-Depends: cmake (>= 2.8.12~),
+               dbus-x11,
+               debhelper (>= 9),
+<<<<<<< HEAD
+               extra-cmake-modules (>= 5.10.0),
+               libkf5coreaddons-dev (>= 5.10.0),
+               libkf5i18n-dev (>= 5.10.0),
+               libkf5itemviews-dev (>= 5.10.0),
+               libkf5service-dev (>= 5.10.0),
+               libkf5widgetsaddons-dev (>= 5.10.0),
+=======
+               extra-cmake-modules (>= 5.11.0~),
+               libkf5coreaddons-dev (>= 5.11.0~),
+               libkf5i18n-dev (>= 5.11.0~),
+               libkf5itemviews-dev (>= 5.11.0~),
+               libkf5service-dev (>= 5.11.0~),
+               libkf5widgetsaddons-dev (>= 5.11.0~),
+>>>>>>> master
+               libqt5sql5-sqlite,
+               pkg-kde-tools (>> 0.15.15),
+               qtbase5-dev (>= 5.4),
+               qtdeclarative5-dev (>= 5.4)
+Standards-Version: 3.9.6
+XS-Testsuite: autopkgtest
+Homepage: https://projects.kde.org/projects/frameworks/kpeople
+Vcs-Browser: http://anonscm.debian.org/cgit/pkg-kde/frameworks/kpeople.git
+Vcs-Git: git://anonscm.debian.org/pkg-kde/frameworks/kpeople.git
+
+Package: libkf5people-dev
+Section: libdevel
+Architecture: any
+Depends: libkf5people5 (= ${binary:Version}),
+         libkf5peoplebackend5 (= ${binary:Version}),
+         libkf5peoplewidgets5 (= ${binary:Version}),
+         ${misc:Depends}
+Description: development files for kpeople
+ KPeople offers unified access to our contacts from different sources, grouping
+ them by person while still exposing all the data.
+ .
+ Furthermore, KPeople will also provide facilities to integrate the data
+ provided in user interfaces by providing QML and Qt Widgets components.
+ .
+ This package is part of KDE Frameworks 5.
+ .
+ This package contains the development files.
+

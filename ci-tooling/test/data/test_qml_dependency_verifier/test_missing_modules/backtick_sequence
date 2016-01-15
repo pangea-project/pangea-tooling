@@ -1,0 +1,11 @@
+[
+["dpkg-architecture -qDEB_HOST_ARCH"],
+["dpkg -L kwin-addons"],
+["dpkg -L plasma-dataengines-addons"],
+["dpkg -L plasma-runners-addons"],
+["dpkg -L plasma-wallpapers-addons"],
+["dpkg -L plasma-widget-kimpanel"],
+["dpkg -L plasma-widgets-addons"],
+["dpkg -L kdeplasma-addons-data"]
+]
+ 

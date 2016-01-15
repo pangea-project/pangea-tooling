@@ -1,0 +1,13 @@
+{
+    "all_repos" : [ "plasma"],
+    "selective_repos" : {
+        "kde-applications" : [ "gwenview" ]
+    },
+    "launchpad" : [
+        {
+            "repos": [
+                "qtubuntu-cameraplugin-fake"
+            ]
+        }
+    ]
+}
