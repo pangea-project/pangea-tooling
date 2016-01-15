@@ -1,0 +1,10 @@
+usr/bin/kdebugdialog5
+usr/bin/kf5-config
+usr/lib/*/libexec/kf5/filesharelist
+usr/lib/*/libexec/kf5/fileshareset
+usr/lib/*/qt5/plugins/designer/kf5deprecatedwidgets.so
+usr/lib/*/qt5/plugins/kcm_ssl.so
+usr/lib/*/qt5/plugins/kf5/kded/networkstatus.so
+usr/lib/*/qt5/plugins/kf5/kio/metainfo.so
+usr/share/man/*/man1/kf5-config.1
+usr/share/man/man1/kf5-config.1

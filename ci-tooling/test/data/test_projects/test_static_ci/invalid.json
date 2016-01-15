@@ -1,0 +1,14 @@
+{
+  "static_ci": [
+    {
+      "type": "git.kde.org",
+      "repos": [
+        {
+          "path": "qt/qtx11extras",
+          "branch": "experimental",
+          "tarball": "http://abc.tar.xz"
+        }
+      ]
+    }
+  ]
+}

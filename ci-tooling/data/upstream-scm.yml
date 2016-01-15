@@ -1,0 +1,182 @@
+# Plasma
+
+git.debian.org:/git/pkg-kde/plasma/*:
+  kubuntu_stable:
+    branch: Plasma/5.5
+
+git.debian.org:/git/pkg-kde/plasma/plasma-discover:
+  '*':
+    url: git://anongit.kde.org/discover.git
+
+# Apps
+
+git.debian.org:/git/pkg-kde/applications/*:
+  kubuntu_stable:
+    branch: Applications/15.12
+
+# Extras
+
+git.debian.org:/git/pkg-kde/*/libkgapi:
+  kubuntu_stable:
+    branch: LibKGAPI/5.0
+
+# Other stuff
+
+git.debian.org:/git/pkg-kde/qt/*:
+  kubuntu_unstable:
+    url: http://code.qt.io/git/qt/<%= name %>.git
+    branch: 5.4
+
+git.debian.org:/git/pkg-kde/qt/qt5webkit:
+  kubuntu_unstable:
+    url: http://code.qt.io/git/qt/qtwebkit.git
+    branch: 5.4
+
+git.debian.org:/git/pkg-kde/frameworks/prison:
+  kubuntu_unstable:
+    branch: frameworks
+
+git.debian.org:/git/pkg-kde/kde-extras/debconf-kde:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/libdebconf-kde.git
+
+git.debian.org:/git/pkg-kde/kde-extras/kdeconnect-plasma:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/kdeconnect-kde.git
+
+git.debian.org:/git/pkg-kde/kde-extras/qapt:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/libqapt.git
+
+git.debian.org:/git/pkg-kde/kde-req/qca-qt5:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/qca.git
+    branch: qt5
+
+git.debian.org:/git/pkg-kde/kde-std/sddm:
+  kubuntu_unstable:
+    url: https://github.com/sddm/sddm.git
+
+git.debian.org:/git/pkg-kde/kde-extras/qt-gstreamer:
+  '*':
+    url: git://anongit.freedesktop.org/gstreamer/qt-gstreamer
+
+git.debian.org:/git/pkg-kde/kubuntu/libkolab:
+  '*':
+    url: https://git.kolab.org/diffusion/LK/libkolab.git
+
+## Some Netrunner things
+
+https://github.com/*/ksuperkey:
+  kubuntu_unstable:
+    url: https://github.com/hanschen/ksuperkey.git
+
+https://github.com/*/samba-mounter:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/scratch/afiestas/samba-mounter.git
+    branch: frameworks
+
+## Mobile
+
+https://github.com/plasma-phone-packaging/simplelogin-packaging:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/scratch/davidedmundson/simplelogin.git
+https://github.com/plasma-phone-packaging/plasma-phone-settings-packaging:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/plasma-phone-settings.git
+https://github.com/plasma-phone-packaging/plasma-camera-packaging:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/plasma-camera
+https://github.com/plasma-phone-packaging/plasma-phone-components-packaging:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/plasma-phone-components.git
+https://github.com/plasma-phone-packaging/plasma-mobile-packaging:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/plasma-mobile
+https://github.com/plasma-phone-packaging/plasma-settings-packaging:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/plasma-settings
+https://github.com/plasma-phone-packaging/plasma-phone-dev-setup-packaging:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/plasma-phone-dev-setup.git
+https://github.com/plasma-phone-packaging/plasma-maliit-plugins-packaging:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/plasma-maliit-plugins.git
+https://github.com/plasma-phone-packaging/plasma-samegame-packaging:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/plasma-samegame
+https://github.com/plasma-phone-packaging/mtp-server:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/mtp-server.git
+https://github.com/plasma-phone-packaging/okular:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/okular
+    branch: frameworks
+
+https://github.com/plasma-phone-packaging/plasma-maliit-framework-packaging:
+  kubuntu_unstable:
+    url: git@github.com:plasma-mobile/plasma-maliit-framework.git
+https://github.com/plasma-phone-packaging/libepoxy:
+  kubuntu_unstable:
+    url: https://github.com/anholt/libepoxy.git
+
+https://github.com/plasma-phone-packaging/appstream:
+  kubuntu_unstable:
+    url: https://github.com/ximion/appstream.git
+
+https://github.com/plasma-phone-packaging/screenshotapp:
+  kubuntu_unstable:
+    url: https://github.com/plasma-apps/screenshotapp.git
+
+https://github.com/plasma-phone-packaging/peruse:
+  kubuntu_unstable:
+    url: https://github.com/plasma-apps/peruse.git
+
+https://github.com/plasma-phone-packaging/inputcontext-gtk:
+  kubuntu_unstable:
+    url: https://github.com/maliit/inputcontext-gtk.git
+    branch: tags/0.99.0
+
+https://github.com/plasma-phone-packaging/libhybris:
+  kubuntu_unstable:
+    url: https://github.com/libhybris/libhybris.git
+
+https://github.com/debian-packaging/mintupdate:
+  kubuntu_unstable:
+     url: https://github.com/blueshell-next/mintupdate
+
+https://github.com/debian-packaging/*mint*:
+  kubuntu_unstable:
+    url: https://github.com/linuxmint/<%= name %>
+
+https://github.com/*/*calamares*:
+  kubuntu_unstable:
+    url: https://github.com/calamares/calamares
+
+https://github.com/netrunner-odroid/xserver-xorg-video-mali:
+  kubuntu_unstable:
+    url: https://github.com/mdrjr/c1_mali_ddx
+
+https://github.com/netrunner-odroid/mali-x11:
+  kubuntu_unstable:
+    url: https://github.com/mdrjr/c1_mali_libs
+
+https://github.com/rpi2-stuff/mesa:
+  kubuntu_unstable:
+    url: git://anongit.freedesktop.org/mesa/mesa
+    branch: 11.1
+
+https://github.com/netrunner-odroid/odroid-boot-services:
+  kubuntu_unstable:
+    url: https://github.com/netrunner-odroid/odroid-boot-services
+    branch: kubuntu_unstable
+
+https://github.com/debian-packaging/simplemenu:
+  kubuntu_unstable:
+    url: git://anongit.kde.org/scratch/hein/simplemenu.git
+
+## FOR TESTING ONLY! - THIS NEEDS TO STAY HERE
+git.debian.org:/git/pkg-kde/yolo/kittens:
+  kubuntu_unstable:
+    type: svn
+    url: svn://anonsvn.kde.org/home/kde/trunk/KDE/plasma-workspace-wallpapers

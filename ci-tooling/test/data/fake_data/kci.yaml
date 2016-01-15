@@ -1,0 +1,11 @@
+series:
+  wily: "15.10"
+  vivid: "15.04"
+architectures:
+  - amd64
+  - i386
+extra_architectures:
+  - armhf
+types:
+  - stable
+  - unstable

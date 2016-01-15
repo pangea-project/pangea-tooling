@@ -1,0 +1,33 @@
+Format: 1.8
+Date: Sat, 12 Dec 2015 11:09:05 +0000
+Source: gpgmepp
+Binary: libkf5gpgmepp5 libkf5gpgmepp-pthread5 libkf5gpgmepp-dev libkf5qgpgme5 gpgmepp-dbg
+Architecture: source
+Version: 15.08.2+git20151212.1109+15.04-0
+Distribution: vivid
+Urgency: medium
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Changed-By: Kubuntu CI <kubuntu-ci@lists.launchpad.net>
+Description:
+ gpgmepp-dbg - c++ wrapper library for gpgme - debug symbols
+ libkf5gpgmepp-dev - c++ wrapper library for gpgme - development files
+ libkf5gpgmepp-pthread5 - c++ wrapper library for gpgme
+ libkf5gpgmepp5 - c++ wrapper library for gpgme
+ libkf5qgpgme5 - library for GpgME++ integration with Qt
+Changes:
+ gpgmepp (15.08.2+git20151212.1109+15.04-0) vivid; urgency=medium
+ .
+   * Automatic Ubuntu CI Build
+Checksums-Sha1:
+ 845129c8f5dc1b6394bbf11ea54b9436f8c8a738 1671 gpgmepp_15.08.2+git20151212.1109+15.04-0.dsc
+ 8c7b3dbd85a6f978404d62224d949d3238a25670 67376 gpgmepp_15.08.2+git20151212.1109+15.04.orig.tar.xz
+ d433a01bf5fa96beb2953567de96e3d49c898cce 2856 gpgmepp_15.08.2+git20151212.1109+15.04-0.debian.tar.xz
+Checksums-Sha256:
+ 67fc2d5bd38bd302f6d54fea58d37be23aab4796fec058ffbf45a211ee0833a1 1671 gpgmepp_15.08.2+git20151212.1109+15.04-0.dsc
+ 9eaba28173cbcca009321e3d72d0c77ce0e3b6fca97b6099b01913aa0159e7bf 67376 gpgmepp_15.08.2+git20151212.1109+15.04.orig.tar.xz
+ 7094169ebe86f0f50ca145348f04d6ca7d897ee143f1a7c377142c7f842a2062 2856 gpgmepp_15.08.2+git20151212.1109+15.04-0.debian.tar.xz
+Files:
+ 081a1228d62bd98019466a08da643941 1671 libs optional gpgmepp_15.08.2+git20151212.1109+15.04-0.dsc
+ 827c3d1c1ef2abc07ec1e36ff4579d3b 67376 libs optional gpgmepp_15.08.2+git20151212.1109+15.04.orig.tar.xz
+ fa1759e139eebb50a49aa34a8c35e383 2856 libs optional gpgmepp_15.08.2+git20151212.1109+15.04-0.debian.tar.xz
+Original-Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>

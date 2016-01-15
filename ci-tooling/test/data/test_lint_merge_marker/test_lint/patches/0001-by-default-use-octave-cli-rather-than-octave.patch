@@ -1,0 +1,36 @@
+From 1d71ce87887fd01cff7a906612a6194a4fc48437 Mon Sep 17 00:00:00 2001
+From: Harald Sitter <sitter@kde.org>
+Date: Thu, 15 Oct 2015 15:37:30 +0200
+Subject: [PATCH] by default use octave-cli rather than octave
+
+'octave' can randomly decide to load its GUI rather than the CLI depending
+on environmental factors. We cannot stdin control the GUI, so there is no
+point in introducing this instability but instead call octave-cli directly
+since it is the only possibly operation mode we support.
+
+(NB there also is a --no-gui switch which for me doesn't appear to work for
+ some reason, so octave-cli directly seems the most reliable approach to
+ this)
+
+Conflicts:
+	src/backends/octave/octavebackend.kcfg
+---
+ src/backends/octave/octavebackend.kcfg | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/backends/octave/octavebackend.kcfg b/src/backends/octave/octavebackend.kcfg
+index be3f4f4..286910b 100644
+--- a/src/backends/octave/octavebackend.kcfg
++++ b/src/backends/octave/octavebackend.kcfg
+@@ -8,7 +8,7 @@
+   <group name="OctaveBackend">
+     <entry name="Path" type="Url">
+       <label>Path to the Octave executable</label>
+-      <default code="true">QUrl::fromLocalFile(QStandardPaths::findExecutable( QLatin1String("octave") ))</default>
++      <default code="true">QUrl::fromLocalFile(QStandardPaths::findExecutable( QLatin1String("octave-cli") ))</default>
+     </entry>
+     <entry name="integratePlots" type="Bool">
+       <label>Integrate Plots into the Worksheet</label>
+-- 
+2.1.4
+

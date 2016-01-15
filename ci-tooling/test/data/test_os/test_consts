@@ -1,0 +1,9 @@
+NAME="Medbuntu"
+VERSION="15.01 (Magical Ponies)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Medbuntu 15.01"
+VERSION_ID="15.01"
+HOME_URL="http://www.medubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"

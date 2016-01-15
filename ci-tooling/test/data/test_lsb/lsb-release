@@ -1,0 +1,4 @@
+DISTRIB_ID=Mebuntu
+DISTRIB_RELEASE=15.01
+DISTRIB_CODENAME=codename
+DISTRIB_DESCRIPTION="Mebuntu CodeName (development branch)"

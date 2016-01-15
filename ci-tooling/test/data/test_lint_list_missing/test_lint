@@ -1,0 +1,43 @@
+ building package `cantor-dbg' in `../cantor-dbg_15.04.0+git20150428.0243+15.04-0ubuntu0_amd64.deb'.
+INFO: pkgstriptranslations version 121
+INFO: Disabling pkgstriptranslations for PPA build
+INFO: Disabling pkgmaintainermangler for PPA build
+INFO: Disabling pkgstripfiles for PPA build
+dpkg-deb: building package `cantor-backend-python' in `../cantor-backend-python_15.04.0+git20150428.0243+15.04-0ubuntu0_all.deb'.
+=== Start list-missing
+-./etc
+-./usr/lib
+=== End list-missing
+dpkg-genchanges > ../.pkg-kde-lintian.changes
+dpkg-genchanges: including full source code in upload
+=== Start lintian
+warning: the authors of lintian do not recommend running it with root privileges!
+W: cantor source: out-of-date-standards-version 3.9.5 (current is 3.9.6)
+W: cantor-backend-octave: package-has-long-file-name 73 (82) > 80
+W: cantor: desktop-mime-but-no-exec-code usr/share/applications/org.kde.cantor.desktop
+W: cantor: desktop-mime-but-no-exec-code usr/share/applications/org.kde.cantor.desktop1
+E: foo
+I: bar
+N: 2 tags overridden (1 error, 1 warning)
+=== End lintian
+rm ../.pkg-kde-lintian.changes
+make[1]: Leaving directory '/build/buildd/cantor-15.04.0+git20150428.0243+15.04'
+# "binary" target is done
+-- SUCCESS making standard target 'binary'.
+ dpkg-genchanges -b -mUbuntu Build Daemon <buildd@lgw01-18.buildd> >../cantor_15.04.0+git20150428.0243+15.04-0ubuntu0_amd64.changes
+dpkg-genchanges: binary-only upload (no source code included)
+ dpkg-source --after-build cantor-15.04.0+git20150428.0243+15.04
+dpkg-buildpackage: binary-only upload (no source included)
+******************************************************************************
+Build finished at 20150428-0254
+
+chroot-autobuild/build/buildd/cantor_15.04.0+git20150428.0243+15.04-0ubuntu0_amd64.deb:
+ new debian package, version 2.0.
+ size 372596 bytes: control archive=3863 bytes.
+     138 bytes,     5 lines      conffiles            
+    2260 bytes,    30 lines      control              
+    6062 bytes,    71 lines      md5sums              
+     135 bytes,     7 lines   *  postinst             #!/bin/sh
+     132 bytes,     7 lines   *  postrm               #!/bin/sh
+      61 bytes,     1 lines      shlibs               
+ Package: cantor

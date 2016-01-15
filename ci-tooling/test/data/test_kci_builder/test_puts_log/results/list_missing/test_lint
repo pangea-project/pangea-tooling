@@ -1,0 +1,23 @@
+---
+- !ruby/object:Lint::Result
+  valid: false
+  errors: []
+  warnings: []
+  informations: []
+- !ruby/object:Lint::Result
+  valid: true
+  errors:
+  - 'E: foo'
+  warnings:
+  - 'W: cantor: desktop-mime-but-no-exec-code usr/share/applications/org.kde.cantor.desktop'
+  - 'W: cantor: desktop-mime-but-no-exec-code usr/share/applications/org.kde.cantor.desktop1'
+  informations:
+  - 'I: bar'
+  - 'N: 2 tags overridden (1 error, 1 warning)'
+- !ruby/object:Lint::Result
+  valid: true
+  errors:
+  - "-./etc"
+  - "-./usr/lib"
+  warnings: []
+  informations: []

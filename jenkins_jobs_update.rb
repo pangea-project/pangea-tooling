@@ -118,7 +118,8 @@ class ProjectUpdater
     docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
-    enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
+    tooling_test = enqueue(MGMTToolingDeployJob.new(downstreams: [tooling_deploy]))
+    enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_test]))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
     enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
   end

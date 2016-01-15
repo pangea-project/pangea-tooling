@@ -1,0 +1,195 @@
+{
+  "all_repos" : [ "frameworks" ],
+  "selective_repos" : {
+      "plasma" : [
+        "baloo",
+        "bluedevil",
+        "bluez-qt",
+        "breeze",
+        "kdecoration",
+        "kdeplasma-addons",
+        "kfilemetadata",
+        "kinfocenter",
+        "kscreenlocker",
+        "kwin",
+        "kwayland",
+        "kwayland-integration",
+        "kwrited",
+        "libkscreen",
+        "libksysguard",
+        "milou",
+        "muon",
+        "plasma-discover",
+        "plasma-pa",
+        "plasma-nm",
+        "plasma-sdk",
+        "plasma-workspace",
+        "powerdevil",
+        "kwallet-pam",
+        "kaccounts-mobile"
+      ],
+      "applications" : [
+        "kaccounts-integration",
+        "kaccounts-providers",
+        "signon-kwallet-extension",
+        "kio-extras",
+        "marble",
+        "gpgmepp"
+      ],
+      "kde-extras" : [
+        "debconf-kde",
+        "kdeconnect-plasma",
+        "koko",
+        "libkgapi",
+        "qapt"
+      ],
+      "kde-req" : [
+        "qca-qt5"
+      ]
+    },
+
+    "custom_ci" : [
+        {
+          "type" : "github",
+          "org"  : "plasma-phone-packaging",
+          "repos" : [
+            "simplelogin-packaging",
+            "plasma-phone-components-packaging",
+            "plasma-phone-settings-packaging",
+            "plasma-camera-packaging",
+            "plasma-mobile-packaging",
+            "plasma-settings-packaging",
+            "plasma-phone-dev-setup-packaging",
+            "plasma-maliit-framework-packaging",
+            "plasma-maliit-plugins-packaging",
+            "plasma-samegame-packaging",
+            "okular",
+            "mtp-server",
+            "libepoxy",
+            "plasma-phone-meta",
+            "kcontacts",
+            "kcalcore",
+            "kpeoplevcard",
+            "screenshotapp",
+            "inputcontext-gtk",
+            "libhybris",
+            "peruse",
+            "appstream"
+          ]
+        }
+    ],
+
+    "launchpad" : [
+        {
+            "repos": [
+                "qtubuntu-cameraplugin-fake",
+                "unity-action-api",
+                "ubuntu-ui-toolkit",
+                "ubuntu-filemanager-app"
+            ]
+        }
+    ],
+
+    "static_ci": [
+      {
+        "type": "neon",
+        "repos": [
+          {
+            "path": "qt/qtbase",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtbase-opensource-src/qtbase-opensource-src_5.5.1+dfsg.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtmultimedia",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtmultimedia-opensource-src/qtmultimedia-opensource-src_5.5.1.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtscript",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtscript-opensource-src/qtscript-opensource-src_5.5.1+dfsg.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtdeclarative",
+            "branch": "neon_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtdeclarative-opensource-src/qtdeclarative-opensource-src_5.5.1.orig.tar.xz"
+          },
+          {
+            "path": "qt/qttools",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qttools-opensource-src/qttools-opensource-src_5.5.1.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtgraphicaleffects",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtgraphicaleffects-opensource-src/qtgraphicaleffects-opensource-src_5.5.1.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtxmlpatterns",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtxmlpatterns-opensource-src/qtxmlpatterns-opensource-src_5.5.1.orig.tar.xz"
+          },
+          {
+            "path": "qt/qt5webkit",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.5.1+dfsg.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtx11extras",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtx11extras-opensource-src/qtx11extras-opensource-src_5.5.1.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtwayland",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtwayland-opensource-src/qtwayland-opensource-src_5.5.1.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtsvg",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtsvg-opensource-src/qtsvg-opensource-src_5.5.1.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtlocation",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtlocation-opensource-src/qtlocation-opensource-src_5.5.1.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtquickcontrols",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtquickcontrols-opensource-src/qtquickcontrols-opensource-src_5.5.1.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtsensors",
+            "branch": "kubuntu_vivid_mobile",
+            "tarball": "http://http.debian.net/debian/pool/main/q/qtsensors-opensource-src/qtsensors-opensource-src_5.5.1.orig.tar.xz"
+          },
+          {
+            "path": "qt/qtpim",
+            "branch": "neon_vivid_mobile",
+            "tarball": "http://archive.ubuntu.com/ubuntu/pool/main/q/qtpim-opensource-src/qtpim-opensource-src_5.0~git20140515~29475884.orig.tar.gz"
+          }
+        ]
+      },
+      {
+        "type": "debian",
+        "repos": [
+          {
+            "path": "pkg-xorg/xserver/xorg-server",
+            "branch": "debian-experimental",
+            "tarball": "http://http.debian.net/debian/pool/main/x/xorg-server/xorg-server_1.18.0.orig.tar.gz"
+          },
+          {
+            "path": "pkg-xorg/proto/x11proto-core",
+            "branch": "debian-unstable",
+            "tarball": "http://http.debian.net/debian/pool/main/x/x11proto-core/x11proto-core_7.0.28.orig.tar.gz"
+          },
+          {
+            "path": "pkg-xorg/proto/x11proto-randr",
+            "branch": "debian-unstable",
+            "tarball": "http://http.debian.net/debian/pool/main/x/x11proto-randr/x11proto-randr_1.5.0.orig.tar.gz"
+          }
+        ]
+      }
+    ]
+}

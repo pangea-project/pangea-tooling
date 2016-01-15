@@ -1,0 +1,11 @@
+series:
+  xenial: "16.04"
+  wily: "15.10"
+architectures:
+  - amd64
+  - i386
+extra_architectures:
+  - armhf
+types:
+  - stable
+  - unstable

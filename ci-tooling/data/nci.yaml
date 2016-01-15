@@ -1,0 +1,7 @@
+series:
+  wily: "15.10"
+architectures:
+  - amd64
+extra_architectures:
+types:
+  - unstable

@@ -1,0 +1,9 @@
+kdelibs4support (5.15.0-0ubuntu1) UNRELEASED; urgency=medium
+
+  [ Scarlett Clark ]
+  * Vivid backport
+
+  [ Jonathan Riddell ]
+  * new upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 05 Oct 2015 19:44:57 +0100
