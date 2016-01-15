@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.2">
+      <useBuildBlocker>false</useBuildBlocker>
+      <blockLevel>GLOBAL</blockLevel>
+      <scanQueueFor>DISABLED</scanQueueFor>
+      <blockingJobs></blockingJobs>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.14.0">
+      <projectUrl>http://github.com/blue-systems/pangea-tooling/</projectUrl>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    <org.jenkinsci.plugins.gitlablogo.GitlabLogoProperty plugin="gitlab-logo@1.0.1">
+      <repositoryName></repositoryName>
+    </org.jenkinsci.plugins.gitlablogo.GitlabLogoProperty>
+    <org.bstick12.jenkinsci.plugins.leastload.LeastLoadDisabledProperty plugin="leastload@1.0.3">
+      <leastLoadDisabled>false</leastLoadDisabled>
+    </org.bstick12.jenkinsci.plugins.leastload.LeastLoadDisabledProperty>
+    <com.suryagaddipati.jenkins.SlaveUtilizationProperty plugin="slave-utilization-plugin@1.8">
+      <needsExclusiveAccessToNode>false</needsExclusiveAccessToNode>
+      <singleInstancePerSlave>false</singleInstancePerSlave>
+      <slaveUtilizationPercentage>0</slaveUtilizationPercentage>
+    </com.suryagaddipati.jenkins.SlaveUtilizationProperty>
+    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
+      <maxConcurrentPerNode>0</maxConcurrentPerNode>
+      <maxConcurrentTotal>0</maxConcurrentTotal>
+      <throttleEnabled>false</throttleEnabled>
+      <throttleOption>project</throttleOption>
+    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.14.0">
+      <spec></spec>
+    </com.cloudbees.jenkins.GitHubPushTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.37">
+      <project>mgmt_tooling_progenitor</project>
+      <filter></filter>
+      <target></target>
+      <excludes></excludes>
+      <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
+        <fallbackToLastSuccessful>true</fallbackToLastSuccessful>
+        <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
+        <allowUpstreamDependencies>false</allowUpstreamDependencies>
+      </selector>
+      <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
+    </hudson.plugins.copyartifact.CopyArtifact>
+    <hudson.tasks.Shell>
+      <command>export GEM_HOME=$(ruby -rubygems -e &apos;puts Gem.user_dir&apos;)
+export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
+export PATH=$GEM_HOME/bin:$PATH
+hostname
+lsb_release -a
+ruby -e &apos;print Gem.user_dir&apos;
+env
+ls -ah
+
+pwd
+
+tar -xf *.tar.gz
+
+bundle install --jobs=`nproc` --no-cache --local --frozen --system
+
+rake test</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.tasks.BuildTrigger>
+      <childProjects><%= downstreams.join(', ') %></childProjects>
+      <threshold>
+        <name>UNSTABLE</name>
+        <ordinal>1</ordinal>
+        <color>YELLOW</color>
+        <completeBuild>true</completeBuild>
+      </threshold>
+    </hudson.tasks.BuildTrigger>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.2">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+  </buildWrappers>
+</project>
