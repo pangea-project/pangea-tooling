@@ -1,0 +1,84 @@
+{
+    "all_repos" : [ "frameworks", "plasma", "applications", "kubuntu" ],
+    "selective_repos" : {
+        "kde-std" : [ "sddm" ],
+        "kde-extras" : [
+            "debconf-kde",
+            "kdeconnect-plasma",
+            "koko",
+            "kamoso",
+            "konversation",
+            "qapt",
+            "qtcurve",
+            "qt-gstreamer",
+            "telepathy-accounts-signon"
+        ],
+        "kde-req" : [ "qca-qt5" ]
+    },
+
+    "custom_ci" : [
+        {
+            "type" : "github",
+            "org" : "maui-debian",
+            "repos" : [ "all" ]
+        },
+        {
+          "type" : "github",
+          "org" : "calamares",
+          "repos" : [ "calamares-debian" ]
+        },
+        {
+          "type" : "github",
+          "org"  : "netrunner",
+          "repos" : [ "netrunner-default-settings",
+            "netrunner-artwork",
+            "netrunner-artwork-firefox",
+            "netrunner-artwork-icons",
+            "netrunner-artwork-thunderbird",
+            "netrunner-system",
+            "netrunner-artwork-backgrounds",
+            "netrunner-systemsettings-settings",
+            "kio-sysinfo",
+            "welcome"
+          ]
+        },
+        {
+          "type" : "github",
+          "org"  : "netrunner-debian",
+          "repos" : [ "base-files",
+            "plymouth-theme-netrunner-logo",
+            "netrunner-desktop",
+            "calamares-branding",
+            "syslinux-theme-netrunner"
+          ]
+        },
+        {
+          "type" : "github",
+          "org"  : "plasmazilla",
+          "repos" : ["mozilla-kde-support"]
+        },
+        {
+          "type" : "github",
+          "org"  : "debian-packaging",
+          "repos" : ["all"]
+        },
+
+        {
+          "type"  : "github",
+          "org"   : "plasma-phone-packaging",
+          "repos" : [ "libhybris",
+                      "libepoxy" ]
+        },
+        {
+          "type"  : "github",
+          "org"   : "netrunner-arm",
+          "repos" : [ "calamares-post-debian",
+                      "calamares-branding",
+                      "kwin",
+                      "mali-x11",
+                      "netrunner-default-settings",
+                      "xserver-xorg-video-mali"]
+        }
+
+    ]
+}

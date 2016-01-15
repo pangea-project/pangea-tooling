@@ -1,0 +1,15 @@
+dh_strip debug symbol extraction: not enabling -a because /CurrentlyBuilding exists
+dh_strip debug symbol extraction: not doing anything since NO_PKG_MANGLE is given
+make[2]: Leaving directory '/«BUILDDIR»/kdepimlibs-15.08.1+git20150917.2243+15.10'
+# Running override target (override_dh_makeshlibs)
+test -z "`ls debian/*.debhelper.log 2>/dev/null`" || sed -i '/^override_dh_makeshlibs[[:space:]]/d' debian/*.debhelper.log
+/usr/bin/make -f debian/rules override_dh_makeshlibs DH_INTERNAL_OVERRIDE="dh_makeshlibs"  
+make[2]: Entering directory '/«BUILDDIR»/kdepimlibs-15.08.1+git20150917.2243+15.10'
+dh_makeshlibs '-Xusr/lib/libkdeinit5_*'  -Xkcm_akonadicontact_actions.so -Xakonadi_serializer_socialfeeditem.so
+dpkg-gensymbols: warning: some new symbols appeared in the symbols file: see diff output below
+dpkg-gensymbols: warning: debian/libkf5akonadicore5/DEBIAN/symbols doesn't match completely debian/libkf5akonadicore5.symbols
+dh_shlibdeps  
+dh_installdeb  
+dh_sameversiondep
+dh_gencontrol  
+dpkg-gencontrol: warning: File::FcntlLock not available; using flock which is not NFS-safe

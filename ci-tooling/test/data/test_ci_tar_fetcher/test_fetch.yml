@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://people.ubuntu.com/~apachelogger/.static/testu-1.0.tar.xz
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 15 Oct 2015 09:26:41 GMT
+      Server:
+      - Apache/2.2.22 (Ubuntu)
+      Last-Modified:
+      - Thu, 15 Oct 2015 08:18:24 GMT
+      Etag:
+      - '"9c8339-a8-52220529ef400"'
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '168'
+      Content-Type:
+      - application/x-tar
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        /Td6WFoAAATm1rRGAgAhARwAAAAQz1jM4Cf/AGZdADoZSs4gy/DAYrgNf3R0
+        bBAjL2HxhxIEwzzFax8cZh2NARLZrDpb6KOBD93j5NFDuCu6bDyTXMvo27tL
+        twesux291KizGlN4gUK+CXv//jz4evTfMJts6/ddQp6atO1F5tCbPiZ7AAAA
+        AJ3+0sjUXcMjAAGCAYBQAAA10KgsscRn+wIAAAAABFla
+    http_version: 
+  recorded_at: Thu, 15 Oct 2015 09:26:41 GMT
+recorded_with: VCR 2.9.3

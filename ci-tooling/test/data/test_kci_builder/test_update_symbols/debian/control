@@ -1,0 +1,287 @@
+Source: kdepimlibs
+Section: libs
+Priority: optional
+Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Uploaders: Sune Vuorela <sune@debian.org>,
+           Fathi Boudra <fabo@debian.org>,
+           Modestas Vainius <modax@debian.org>,
+           George Kiagiadakis <kiagiadakis.george@gmail.com>,
+           Eshat Cakar <info@eshat.de>,
+           Lisandro Damián Nicanor Pérez Meyer <lisandro@debian.org>,
+           Maximiliano Curia <maxy@debian.org>
+Build-Depends: cmake,
+               debhelper (>= 9),
+               extra-cmake-modules,
+               kdoctools-dev,
+               kio-dev,
+               libboost-dev,
+               libkf5akonadiserver-dev,
+               libkf5calendarcore-dev,
+               libkf5completion-dev,
+               libkf5config-dev,
+               libkf5contacts-dev,
+               libkf5dbusaddons-dev,
+               libkf5i18n-dev,
+               libkf5itemmodels-dev,
+               libkf5itemviews-dev,
+               libkf5kdelibs4support-dev,
+               libkf5ldap-dev,
+               libkf5mbox-dev,
+               libkf5mime-dev,
+               libkf5prison-dev,
+               libkf5solid-dev,
+               libphonon4qt5-dev,
+               libphonon4qt5experimental-dev,
+               libprison-dev,
+               libsasl2-dev,
+               libxslt1-dev,
+               pkg-config,
+               pkg-kde-tools (>= 0.12),
+               qtbase5-dev,
+               qttools5-dev,
+               shared-mime-info (>= 0.30),
+               xsltproc
+Standards-Version: 3.9.6
+XS-Testsuite: autopkgtest
+Homepage: http://pim.kde.org/
+Vcs-Browser: http://anonscm.debian.org/cgit/pkg-kde/applications/kdepimlibs.git
+Vcs-Git: git://anonscm.debian.org/pkg-kde/applications/kdepimlibs.git
+
+Package: libkf5akonadi-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: foreign
+Depends: libboost-dev,
+         libkf5akonadiagentbase5 (= ${binary:Version}),
+         libkf5akonadicore5 (= ${binary:Version}),
+         libkf5akonadiserver-dev,
+         libkf5akonadiwidgets5 (= ${binary:Version}),
+         libkf5akonadixml5 (= ${binary:Version}),
+         libkf5completion-dev,
+         libkf5itemmodels-dev,
+         libkf5jobwidgets-dev,
+         libkf5kdelibs4support-dev,
+         libkf5service-dev,
+         libkf5solid-dev,
+         libkf5xmlgui-dev,
+         qtbase5-dev,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Replaces: kdepim-runtime (<< 4:4.13), kdepimlibs5-dev (<< 4.14.10-1ubuntu2~)
+Breaks: kdepim-runtime (<< 4:4.13), kdepimlibs5-dev (<< 4.14.10-1ubuntu2~)
+Description: development files for the KDE Development Platform PIM libraries
+ This package contains development files for building software that uses
+ the KDE Development Platform Personal Information Management libraries.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+
+Package: kdepimlibs-kio-plugins
+Architecture: any
+Depends: libsasl2-modules, ${misc:Depends}, ${shlibs:Depends}
+Description: kio slaves used by KDE PIM applications
+ This package contains the imap4, ldap, mbox, nntp, pop3, sieve and smtp kio
+ slaves.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+
+Package: libkf5akonadicore5
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Recommends: libkf5akonadiwidgets5 (= ${binary:Version})
+Description: Akonadi core library
+ This library contains Akonadi PIM data server core classes.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+
+Package: kdepimlibs-bin
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: libkf5akonadiwidgets5 (<< 4:15.08.0+git20150827.0900)
+Replaces: libkf5akonadiwidgets5 (<< 4:15.08.0+git20150827.0900)
+Description: kdepimlibs - binary files
+ This package contains binary files for all libraries that are part of
+ kdepimlibs.
+
+Package: libkf5akonadiwidgets5
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Recommends: kdepimlibs-bin (>= ${binary:Version})
+Breaks: libkf5akonadicore5 (<< 4:15.07.90+git20150817.0936)
+Replaces: libkf5akonadicore5 (<< 4:15.07.90+git20150817.0936)
+Description: Akonadi widgets library
+ This library contains standard widgets for the Akonadi PIM data server.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+
+Package: kdepimlibs-data
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: libakoandi-kf5 (<< 4:15.07.90+git20150819.1000),
+        libkf5akonadicontact5 (<< 4:15.07.90+git20150819.1000),
+        libkf5akonadimime5 (<< 4:15.07.90+git20150819.1000),
+        libkf5akonadisocialutils5 (<< 4:15.07.90+git20150819.1000),
+        libkf5akonadixml5 (<< 4:15.07.90+git20150819.1000)
+Replaces: libakoandi-kf5 (<< 4:15.07.90+git20150819.1000),
+          libkf5akonadicontact5 (<< 4:15.07.90+git20150819.1000),
+          libkf5akonadimime5 (<< 4:15.07.90+git20150819.1000),
+          libkf5akonadisocialutils5 (<< 4:15.07.90+git20150819.1000),
+          libkf5akonadixml5 (<< 4:15.07.90+git20150819.1000)
+Description: kdepimlibs - data files
+ This package contains data files for all libraries that are part of kdepimlibs.
+
+Package: libkf5akonadiagentbase5
+Architecture: any
+Multi-Arch: same
+Depends: kdepimlibs-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Akonadi agent base library
+ This library contains classes to implement agents for the Akonadi PIM
+ data server.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+
+Package: libkf5akonadicontact5
+Architecture: any
+Multi-Arch: same
+Depends: kdepimlibs-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Akonadi contacts access library
+ This library provides contacts manipulation helpers using the
+ Akonadi PIM data server.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+
+Package: libkf5akonadicontact-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: foreign
+Depends: libkf5akonadi-dev (= ${binary:Version}),
+         libkf5akonadicontact5 (= ${binary:Version}),
+         libkf5calendarcore-dev,
+         libkf5contacts-dev,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Akonadi contacts access library - development files
+ This library provides contacts manipulation helpers using the
+ Akonadi PIM data server.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+ .
+ This package contains the development files.
+
+Package: libkf5akonadimime5
+Architecture: any
+Multi-Arch: same
+Depends: kdepimlibs-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Akonadi MIME handling library
+ This library provides MIME handling helpers using the
+ Akonadi PIM data server.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+
+Package: libkf5akonadimime-dev
+Section: libdevel
+Architecture: any
+Depends: libkf5akonadi-dev (= ${binary:Version}),
+         libkf5akonadimime5 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Akonadi MIME handling library
+ This library provides MIME handling helpers using the
+ Akonadi PIM data server.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+ .
+ This package contains the development files.
+
+Package: libakonadi-kf5
+Depends: kdepimlibs-data, ${misc:Depends}
+Architecture: all
+Priority: extra
+Section: oldlibs
+Description: transitional dummy package
+ This is a transitional dummy package. It can safely be removed.
+
+Package: libkf5akonadisocialutils5
+Architecture: any
+Multi-Arch: same
+Depends: kdepimlibs-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Akonadi resources for handling social feeds
+ Akonadi resource types for social media related feeds.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+
+Package: libkf5akonadisocialutils-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: foreign
+Depends: libkf5akonadi-dev (= ${binary:Version}),
+         libkf5akonadisocialutils5 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Akonadi resources for handling social feeds - development files
+ Akonadi resource types for social media related feeds.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+ .
+ This package contains the development files.
+
+Package: libkf5akonadinotes5
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Akonadi notes access library
+ This library provides notes manipulation helpers using the
+ Akonadi PIM data server.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+
+Package: libkf5akonadinotes-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: foreign
+Depends: libkf5akonadi-dev (= ${binary:Version}),
+         libkf5akonadinotes5 (= ${binary:Version}),
+         libkf5kdelibs4support-dev,
+         libkf5mime-dev,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Akonadi notes access library - development files
+ This library provides notes manipulation helpers using the
+ Akonadi PIM data server.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+ .
+ This package contains the development files.
+
+Package: libkf5akonadixml5
+Architecture: any
+Multi-Arch: same
+Depends: kdepimlibs-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Akonadi XML helper library
+ This library provides XML helpers using the Akonadi PIM data server.
+ .
+ This package is part of the KDE Development Platform PIM libraries module.
+
+Package: kdepimlibs-dbg
+Section: debug
+Architecture: any
+Multi-Arch: same
+Priority: extra
+Depends: ${allLibraries}, ${misc:Depends}
+Recommends: kdepimlibs-kio-plugins (= ${binary:Version})
+Description: debugging symbols for the KDE Development Platform PIM libraries
+ This package contains debugging files used to investigate problems with
+ binaries included in the KDE Development Platform PIM libraries module.

@@ -1,0 +1,19 @@
+dh_auto_configure '--buildsystem=kf5' --parallel  
+-- Found KF5KIO: /usr/lib/x86_64-linux-gnu/cmake/KF5KIO/KF5KIOConfig.cmake (found version "5.8.0") 
+-- Found KF5NewStuff: /usr/lib/x86_64-linux-gnu/cmake/KF5NewStuff/KF5NewStuffConfig.cmake (found version "5.8.0") 
+-- Found KF5: success (found version "5.8.0") found components:  I18n Crash Sonnet Config ConfigWidgets CoreAddons Declarative DocTools KIO NewStuff 
+-- 
+-- The following OPTIONAL packages have not been found:
+
+ * Qt5TextToSpeech
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /build/buildd/kanagram-14.12.2+git20150228.0146+15.04/obj-x86_64-linux-gnu
+make[1]: Leaving directory '/build/buildd/kanagram-14.12.2+git20150228.0146+15.04'
+touch debian/dhmk_configure
+# "configure" target is done
+/usr/bin/make -f debian/rules dhmk_run_build_commands DHMK_TARGET="build"
+make[1]: Entering directory '/build/buildd/kanagram-14.12.2+git20150228.0146+15.04'
+dh_testdir  
+dh_auto_build '--buildsystem=kf5' --parallel 

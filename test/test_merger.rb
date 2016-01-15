@@ -9,6 +9,8 @@ class MergerTest < TestCase
   def in_repo(&_block)
     Dir.mktmpdir(__callee__.to_s) do |t|
       g = Git.clone(repo, t)
+      g.config('user.name', 'Merger Test')
+      g.config('user.email', 'noreply')
       g.chdir do
         yield g
       end

@@ -1,0 +1,17 @@
+# Files
+## ruby autotest runner config
+.autotest
+## vim temporaries
+*~
+
+# Directories
+## ruby documentation cache
+.yardoc/
+## projects git dir
+git/
+## yard documentation output
+doc/
+## test report ouput (junit reports etc.)
+test/reports/
+## coverage reports
+coverage/

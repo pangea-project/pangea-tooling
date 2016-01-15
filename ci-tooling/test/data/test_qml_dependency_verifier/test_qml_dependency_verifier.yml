@@ -1,0 +1,628 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.launchpad.net/devel/ubuntu/vivid
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Cache-Control:
+      - max-age=0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.launchpad.net
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 17 Mar 2015 08:36:34 GMT
+      Server:
+      - zope.server.http (HTTP)
+      X-Powered-By:
+      - Zope (www.zope.org), Python (www.python.org)
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=15552000
+      Vary:
+      - Accept,Accept-Encoding
+      Etag:
+      - '"9ef26c015a680f25e319924fc6661242901291b2-223faffb6e5e847d51c288f2984514384151339a"'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Lazr-Notifications:
+      - "[]"
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from nutmeg.canonical.com
+      X-Cache-Lookup:
+      - HIT from nutmeg.canonical.com:3128
+      Via:
+      - 1.0 nutmeg.canonical.com:3128 (squid/2.7.STABLE7)
+      Content-Length:
+      - '1736'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"main_archive_link": "https://api.launchpad.net/devel/ubuntu/+archive/primary",
+        "supported": false, "registrant_link": "https://api.launchpad.net/devel/~adconrad",
+        "drivers_collection_link": "https://api.launchpad.net/devel/ubuntu/vivid/drivers",
+        "official_bug_tags": ["a11y", "bisect-done", "bitesize", "cherry-pick", "compat-wireless",
+        "ftbfs", "gnome3", "hibernate", "hw-specific", "kernel-bug", "manpage", "metabug",
+        "multiarch", "needs-bisect", "needs-design", "needs-packaging", "needs-reassignment",
+        "packaging", "patch", "patch-accepted-debian", "patch-accepted-upstream",
+        "patch-forwarded-debian", "patch-forwarded-upstream", "patch-needswork", "patch-rejected",
+        "patch-rejected-debian", "patch-rejected-upstream", "performing-bisect", "precise",
+        "regression-proposed", "regression-release", "regression-update", "resume",
+        "string-fix", "suspend", "systemd-boot", "testcase", "touch", "trusty", "upgrade-software-version",
+        "utopic", "verification-done", "verification-failed", "verification-needed",
+        "vivid"], "active_milestones_collection_link": "https://api.launchpad.net/devel/ubuntu/vivid/active_milestones",
+        "all_specifications_collection_link": "https://api.launchpad.net/devel/ubuntu/vivid/all_specifications",
+        "all_milestones_collection_link": "https://api.launchpad.net/devel/ubuntu/vivid/all_milestones",
+        "previous_series_link": "https://api.launchpad.net/devel/ubuntu/utopic", "bug_reported_acknowledgement":
+        "Thank you for spending your time helping to make Ubuntu better with this
+        bug report.  Reporting a bug is the first step in the bug fixing process.  As
+        a part of that process you may need to answer some questions to help developers
+        work on your bug.  You can learn more about how we triage bug reports at http://wiki.ubuntu.com/Bugs/HowToTriage.\n",
+        "title": "The Vivid Vervet", "component_names": ["main", "restricted", "universe",
+        "multiverse"], "http_etag": "\"9ef26c015a680f25e319924fc6661242901291b2-223faffb6e5e847d51c288f2984514384151339a\"",
+        "version": "15.04", "self_link": "https://api.launchpad.net/devel/ubuntu/vivid",
+        "fullseriesname": "Ubuntu Vivid", "resource_type_link": "https://api.launchpad.net/devel/#distro_series",
+        "status": "Active Development", "datereleased": null, "translations_usage":
+        "Launchpad", "displayname": "Vivid", "description": "The Ubuntu release that
+        will be delivered in April 2015, designated 15.04.", "valid_specifications_collection_link":
+        "https://api.launchpad.net/devel/ubuntu/vivid/valid_specifications", "bug_reporting_guidelines":
+        "Are you uncertain if your issue is really a bug?  Then ask a support question
+        about Ubuntu at http://answers.launchpad.net/ubuntu/ - these can be made into
+        bugs later.  Another support venue is http://askubuntu.com.\n\nIf you are
+        certain this is a bug please include the source package the bug is in.  For
+        help see https://wiki.ubuntu.com/Bugs/FindRightPackage.\n\nWe also need:\n\n1)
+        The release of Ubuntu you are using, via ''lsb_release -rd'' or System -\u003e
+        About Ubuntu\n2) The version of the package you are using, via ''apt-cache
+        policy pkgname'' or by checking in Software Center\n3) What you expected to
+        happen\n4) What happened instead\n\nMost of this information is gathered when
+        you use apport to report the bug. See https://help.ubuntu.com/community/ReportingBugs
+        for complete details.\n\nThe Ubuntu community has also created debugging procedures
+        for a wide variety of packages at https://wiki.ubuntu.com/DebuggingProcedures.  Following
+        the debugging instructions for the affected package will make your bug report
+        much more complete. Thanks!", "active": true, "architectures_collection_link":
+        "https://api.launchpad.net/devel/ubuntu/vivid/architectures", "nominatedarchindep_link":
+        "https://api.launchpad.net/devel/ubuntu/vivid/amd64", "suite_names": ["Release",
+        "Security", "Updates", "Proposed", "Backports"], "changeslist": "\u003cemail
+        address hidden\u003e", "name": "vivid", "driver_link": "https://api.launchpad.net/devel/~ubuntu-release",
+        "distribution_link": "https://api.launchpad.net/devel/ubuntu", "web_link":
+        "https://launchpad.net/ubuntu/vivid", "summary": "The Ubuntu release that
+        will be delivered in April 2015, designated 15.04.", "include_long_descriptions":
+        false, "owner_link": "https://api.launchpad.net/devel/~techboard", "date_created":
+        "2014-10-20T14:07:27.007208+00:00", "language_pack_full_export_requested":
+        false}'
+    http_version: 
+  recorded_at: Tue, 17 Mar 2015 08:36:34 GMT
+- request:
+    method: get
+    uri: https://api.launchpad.net/devel/ubuntu/vivid/amd64
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Cache-Control:
+      - max-age=0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.launchpad.net
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 17 Mar 2015 08:36:35 GMT
+      Server:
+      - zope.server.http (HTTP)
+      X-Powered-By:
+      - Zope (www.zope.org), Python (www.python.org)
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=15552000
+      Vary:
+      - Accept,Accept-Encoding
+      Etag:
+      - '"20ace29098286829c256064a9f95503a96f917af-37d09535b06479cf4b93d668e04cc16efe8104b1"'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Lazr-Notifications:
+      - "[]"
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from nutmeg.canonical.com
+      X-Cache-Lookup:
+      - HIT from nutmeg.canonical.com:3128
+      Via:
+      - 1.0 nutmeg.canonical.com:3128 (squid/2.7.STABLE7)
+      Content-Length:
+      - '429'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"display_name": "Ubuntu Vivid amd64", "chroot_url": "http://launchpadlibrarian.net/188038169/chroot-ubuntu-vivid-amd64.tar.bz2",
+        "title": "The Vivid Vervet for amd64 (amd64)", "package_count": 49012, "supports_virtualized":
+        true, "official": true, "enabled": true, "web_link": "https://launchpad.net/ubuntu/vivid/amd64",
+        "processor_link": "https://api.launchpad.net/devel/+processors/amd64", "owner_link":
+        "https://api.launchpad.net/devel/~techboard", "http_etag": "\"20ace29098286829c256064a9f95503a96f917af-37d09535b06479cf4b93d668e04cc16efe8104b1\"",
+        "main_archive_link": "https://api.launchpad.net/devel/ubuntu/+archive/primary",
+        "is_nominated_arch_indep": true, "self_link": "https://api.launchpad.net/devel/ubuntu/vivid/amd64",
+        "architecture_tag": "amd64", "distroseries_link": "https://api.launchpad.net/devel/ubuntu/vivid",
+        "resource_type_link": "https://api.launchpad.net/devel/#distro_arch_series"}'
+    http_version: 
+  recorded_at: Tue, 17 Mar 2015 08:36:35 GMT
+- request:
+    method: get
+    uri: https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Cache-Control:
+      - max-age=0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.launchpad.net
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 17 Mar 2015 08:36:35 GMT
+      Server:
+      - zope.server.http (HTTP)
+      X-Powered-By:
+      - Zope (www.zope.org), Python (www.python.org)
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=15552000
+      Vary:
+      - Accept,Accept-Encoding
+      Etag:
+      - '"ac44e2c0cb9292984e18630c86f20e3e03ac3dab-34532db1e8291829a85aabb5d5be6b91a6e23967"'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Lazr-Notifications:
+      - "[]"
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from nutmeg.canonical.com
+      X-Cache-Lookup:
+      - HIT from nutmeg.canonical.com:3128
+      Via:
+      - 1.0 nutmeg.canonical.com:3128 (squid/2.7.STABLE7)
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"status": "Active", "dependencies_collection_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/dependencies",
+        "external_dependencies": null, "displayname": "Kubuntu CI Unstable", "description":
+        "Direct landing PPA - very unstable\n\nDO NOT USE THIS UNLESS YOU KNOW WHAT
+        YOU ARE DOING.\n\nppa:kubuntu-ci/unstable-daily is much nicer\nppa:kubuntu-ci/unstable-weekly
+        is even nicer than daily", "reference": "~kubuntu-ci/ubuntu/unstable", "distribution_link":
+        "https://api.launchpad.net/devel/ubuntu", "require_virtualized": true, "web_link":
+        "https://launchpad.net/~kubuntu-ci/+archive/ubuntu/unstable", "private": false,
+        "authorized_size": 16384, "http_etag": "\"ac44e2c0cb9292984e18630c86f20e3e03ac3dab-34532db1e8291829a85aabb5d5be6b91a6e23967\"",
+        "owner_link": "https://api.launchpad.net/devel/~kubuntu-ci", "relative_build_score":
+        0, "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable",
+        "enabled_restricted_processors_collection_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/enabled_restricted_processors",
+        "signing_key_fingerprint": "D807A3EA3406394874332063A12B6139432062D1", "resource_type_link":
+        "https://api.launchpad.net/devel/#archive", "suppress_subscription_notifications":
+        false, "name": "unstable"}'
+    http_version: 
+  recorded_at: Tue, 17 Mar 2015 08:36:35 GMT
+- request:
+    method: get
+    uri: https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable?source_name=kdeplasma-addons&status=Published&version=4:5.2.1%2Bgit20150316.1204%2B15.04-0ubuntu0&ws.op=getPublishedSources
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Cache-Control:
+      - max-age=0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.launchpad.net
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 17 Mar 2015 08:36:35 GMT
+      Server:
+      - zope.server.http (HTTP)
+      X-Powered-By:
+      - Zope (www.zope.org), Python (www.python.org)
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=15552000
+      Vary:
+      - Accept,Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Lazr-Notifications:
+      - "[]"
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from nutmeg.canonical.com
+      X-Cache-Lookup:
+      - HIT from nutmeg.canonical.com:3128
+      Via:
+      - 1.0 nutmeg.canonical.com:3128 (squid/2.7.STABLE7)
+      Content-Length:
+      - '597'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"total_size": 1, "start": 0, "entries": [{"package_creator_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci", "package_signer_link": "https://api.launchpad.net/devel/~neon-builder",
+        "source_package_name": "kdeplasma-addons", "removal_comment": null, "sponsor_link":
+        null, "display_name": "kdeplasma-addons 4:5.2.1+git20150316.1204+15.04-0ubuntu0
+        in vivid", "creator_link": null, "source_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0",
+        "date_superseded": null, "http_etag": "\"853004ac10813d38fb3c27c365953163c7040083-e078107176741e1e4a75794f4223b11c3d1b9c90\"",
+        "packageupload_link": "https://api.launchpad.net/devel/ubuntu/vivid/+upload/8849687",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+sourcepub/4839082",
+        "distro_series_link": "https://api.launchpad.net/devel/ubuntu/vivid", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:11:31.945417+00:00", "removed_by_link": null,
+        "section_name": "utils", "date_made_pending": null, "resource_type_link":
+        "https://api.launchpad.net/devel/#source_package_publishing_history", "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "package_maintainer_link":
+        "https://api.launchpad.net/devel/~ubuntu-devel-discuss-lists", "date_created":
+        "2015-03-16T12:05:14.911591+00:00", "scheduled_deletion_date": null}]}'
+    http_version: 
+  recorded_at: Tue, 17 Mar 2015 08:36:35 GMT
+- request:
+    method: get
+    uri: https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+sourcepub/4839082?ws.op=getPublishedBinaries
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Cache-Control:
+      - max-age=0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.launchpad.net
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 17 Mar 2015 08:36:36 GMT
+      Server:
+      - zope.server.http (HTTP)
+      X-Powered-By:
+      - Zope (www.zope.org), Python (www.python.org)
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=15552000
+      Vary:
+      - Accept,Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Lazr-Notifications:
+      - "[]"
+      Content-Type:
+      - application/json
+      X-Cache:
+      - MISS from nutmeg.canonical.com
+      X-Cache-Lookup:
+      - HIT from nutmeg.canonical.com:3128
+      Via:
+      - 1.0 nutmeg.canonical.com:3128 (squid/2.7.STABLE7)
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"total_size": 20, "start": 0, "entries": [{"distro_arch_series_link":
+        "https://api.launchpad.net/devel/ubuntu/vivid/amd64", "phased_update_percentage":
+        null, "removal_comment": null, "display_name": "kdeplasma-addons-data 4:5.2.1+git20150316.1204+15.04-0ubuntu0
+        in vivid amd64", "date_made_pending": null, "date_superseded": null, "priority_name":
+        "OPTIONAL", "http_etag": "\"681fcabe745a31ead409f083e7d5c898abc586cd-2e9667578ea3f5b5978ceb56f6efc3a340b9bc81\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970943",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "kdeplasma-addons-data", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        false, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/arm64",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "kdeplasma-addons-data 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid arm64",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "OPTIONAL",
+        "http_etag": "\"681fcabe745a31ead409f083e7d5c898abc586cd-d88a1c91ab76e7fada0f684b82f6548f3afff233\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970944",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "kdeplasma-addons-data", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        false, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/armhf",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "kdeplasma-addons-data 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid armhf",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "OPTIONAL",
+        "http_etag": "\"681fcabe745a31ead409f083e7d5c898abc586cd-8627dfbd43e328590d9cddd8ec91622d056029d3\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970945",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "kdeplasma-addons-data", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        false, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/i386",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "kdeplasma-addons-data 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid i386",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "OPTIONAL",
+        "http_etag": "\"681fcabe745a31ead409f083e7d5c898abc586cd-1b81ef334b75f0f7e623b58a1663a4293cf58561\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970946",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "kdeplasma-addons-data", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        false, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/powerpc",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "kdeplasma-addons-data 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid powerpc",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "OPTIONAL",
+        "http_etag": "\"681fcabe745a31ead409f083e7d5c898abc586cd-312f7dc49b5f686136a05f05bcade1db6a57ee1a\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970947",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "kdeplasma-addons-data", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        false, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/ppc64el",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "kdeplasma-addons-data 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid ppc64el",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "OPTIONAL",
+        "http_etag": "\"681fcabe745a31ead409f083e7d5c898abc586cd-ecc057e9d778b639e61248fc024e43db9ef7dda3\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970948",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "kdeplasma-addons-data", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        false, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/amd64",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "kdeplasma-addons-dbg 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid amd64",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "EXTRA",
+        "http_etag": "\"8b335c155d02986d5039b74e95a8bf2145cf2791-f494b79a0d403d4a83f24b1cb5d5910b862b1885\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970941",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "debug", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "kdeplasma-addons-dbg", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/i386",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "kdeplasma-addons-dbg 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid i386",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "EXTRA",
+        "http_etag": "\"8b335c155d02986d5039b74e95a8bf2145cf2791-44b9ab885930673eb50ca6adae008ade461173c2\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970940",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "debug", "date_created": "2015-03-16T12:17:19.597481+00:00",
+        "binary_package_name": "kdeplasma-addons-dbg", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/amd64",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "kwin-addons 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid amd64", "date_made_pending":
+        null, "date_superseded": null, "priority_name": "OPTIONAL", "http_etag": "\"4f989968154760444741cf2545bc9ccc2e788935-92dd8e4d07cbec2fc0325d4bbe5536e5315009d9\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970951",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "kwin-addons", "is_debug": false, "archive_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable",
+        "architecture_specific": true, "scheduled_deletion_date": null}, {"distro_arch_series_link":
+        "https://api.launchpad.net/devel/ubuntu/vivid/i386", "phased_update_percentage":
+        null, "removal_comment": null, "display_name": "kwin-addons 4:5.2.1+git20150316.1204+15.04-0ubuntu0
+        in vivid i386", "date_made_pending": null, "date_superseded": null, "priority_name":
+        "OPTIONAL", "http_etag": "\"4f989968154760444741cf2545bc9ccc2e788935-c84d23bc7c141cf275dbfcfe4c97d54c718c87d6\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970936",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.597481+00:00",
+        "binary_package_name": "kwin-addons", "is_debug": false, "archive_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable",
+        "architecture_specific": true, "scheduled_deletion_date": null}, {"distro_arch_series_link":
+        "https://api.launchpad.net/devel/ubuntu/vivid/amd64", "phased_update_percentage":
+        null, "removal_comment": null, "display_name": "plasma-dataengines-addons
+        4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid amd64", "date_made_pending":
+        null, "date_superseded": null, "priority_name": "OPTIONAL", "http_etag": "\"ac95ba502b563897ba6db7f219456b64f77379b0-7ad186adc24390ee90e2dfb5bb8dffa660467b88\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970953",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "plasma-dataengines-addons", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/i386",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "plasma-dataengines-addons 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid
+        i386", "date_made_pending": null, "date_superseded": null, "priority_name":
+        "OPTIONAL", "http_etag": "\"ac95ba502b563897ba6db7f219456b64f77379b0-0aafa2c571a0d0b441878aa15997642af0689a5d\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970934",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.597481+00:00",
+        "binary_package_name": "plasma-dataengines-addons", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/amd64",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "plasma-runners-addons 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid amd64",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "OPTIONAL",
+        "http_etag": "\"2ffb1b4c021babfeed1b5e3d43b4499d4ca9dd31-6b07c533be82e61402d1eb26332faeacdb79fc00\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970942",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "plasma-runners-addons", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/i386",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "plasma-runners-addons 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid i386",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "OPTIONAL",
+        "http_etag": "\"2ffb1b4c021babfeed1b5e3d43b4499d4ca9dd31-36bff3981cd748da12af07adb0866135f696b14c\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970937",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.597481+00:00",
+        "binary_package_name": "plasma-runners-addons", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/amd64",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "plasma-wallpapers-addons 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid
+        amd64", "date_made_pending": null, "date_superseded": null, "priority_name":
+        "OPTIONAL", "http_etag": "\"72acad29ee170aba69fd260ea8a24c2adf8b70ee-01c0c3f8cc94d84f0112e657a549eb5db745354f\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970952",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "plasma-wallpapers-addons", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/i386",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "plasma-wallpapers-addons 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid
+        i386", "date_made_pending": null, "date_superseded": null, "priority_name":
+        "OPTIONAL", "http_etag": "\"72acad29ee170aba69fd260ea8a24c2adf8b70ee-59f3ee47ecaede7d8e3d13de16b0eb67e8b8d81b\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970939",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.597481+00:00",
+        "binary_package_name": "plasma-wallpapers-addons", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/amd64",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "plasma-widget-kimpanel 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid amd64",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "OPTIONAL",
+        "http_etag": "\"f8c7d9bde9b8accec40a688bd9deb0069d820ef0-b2a010ca54d9331a73a0af8629cead1aab337a56\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970949",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "plasma-widget-kimpanel", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/i386",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "plasma-widget-kimpanel 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid i386",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "OPTIONAL",
+        "http_etag": "\"f8c7d9bde9b8accec40a688bd9deb0069d820ef0-4b842ad6df137e36f8ca0d0ad6ce007210bc036e\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970935",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.597481+00:00",
+        "binary_package_name": "plasma-widget-kimpanel", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/amd64",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "plasma-widgets-addons 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid amd64",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "OPTIONAL",
+        "http_etag": "\"02e419bff4b60d6c28ef4e7f20bd4f26530b8e9b-51f211d17a03628f9aa99b7f6ab3bbec6c4f0c02\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970950",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.938847+00:00",
+        "binary_package_name": "plasma-widgets-addons", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}, {"distro_arch_series_link": "https://api.launchpad.net/devel/ubuntu/vivid/i386",
+        "phased_update_percentage": null, "removal_comment": null, "display_name":
+        "plasma-widgets-addons 4:5.2.1+git20150316.1204+15.04-0ubuntu0 in vivid i386",
+        "date_made_pending": null, "date_superseded": null, "priority_name": "OPTIONAL",
+        "http_etag": "\"02e419bff4b60d6c28ef4e7f20bd4f26530b8e9b-157872e6b5157cfb853861973cb521b719f583e6\"",
+        "self_link": "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable/+binarypub/55970938",
+        "binary_package_version": "4:5.2.1+git20150316.1204+15.04-0ubuntu0", "resource_type_link":
+        "https://api.launchpad.net/devel/#binary_package_publishing_history", "component_name":
+        "main", "status": "Published", "date_removed": null, "pocket": "Release",
+        "date_published": "2015-03-16T12:21:20.748281+00:00", "removed_by_link": null,
+        "section_name": "kde", "date_created": "2015-03-16T12:17:19.597481+00:00",
+        "binary_package_name": "plasma-widgets-addons", "is_debug": false, "archive_link":
+        "https://api.launchpad.net/devel/~kubuntu-ci/+archive/ubuntu/unstable", "architecture_specific":
+        true, "scheduled_deletion_date": null}]}'
+    http_version: 
+  recorded_at: Tue, 17 Mar 2015 08:36:36 GMT
+recorded_with: VCR 2.9.3

@@ -1,0 +1,17 @@
+---
+- !ruby/object:Lint::Result
+  valid: true
+  errors: []
+  warnings:
+    - KF5Package
+  informations: []
+- !ruby/object:Lint::Result
+  valid: false
+  errors: []
+  warnings: []
+  informations: []
+- !ruby/object:Lint::Result
+  valid: false
+  errors: []
+  warnings: []
+  informations: []

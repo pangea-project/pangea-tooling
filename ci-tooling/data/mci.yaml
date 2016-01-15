@@ -1,0 +1,7 @@
+series:
+  vivid: "15.04"
+architectures:
+  - amd64
+  - armhf
+types:
+  - unstable

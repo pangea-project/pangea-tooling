@@ -1,0 +1,11 @@
+{
+  "custom_ci": [
+    {
+      "type": "FOO",
+      "org": "",
+      "repos": [
+            "foo"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+org.kde.kwin 1.0
+org.kde.plasma                                              
+org.kde.plasma.abc           2.0
+org.kde.plasma.*	1.0  # inline comment
+
+# comment
