@@ -5,6 +5,23 @@ require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/mobilekci'
 require_relative '../lib/mgmt/deployer'
 
+require 'jenkins_api_client'
+
+JOB_NAME = ENV.fetch('JOB_NAME')
+remotes = %w(dci.pangea.pub)
+
+remotes.each do |server|
+  fork do
+    client = JenkinsApi::Client.new(server_ip: server)
+    while client.queue.list.include?(JOB_NAME)
+      puts "Waiting for #{server} to start mgmt job"
+      sleep 10
+    end
+  end
+end
+
+Process.waitall
+
 # KCI and mobile *can* have series overlap, they both use ubuntu as a base
 # though, so union the series keys and create images for the superset.
 

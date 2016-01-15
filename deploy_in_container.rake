@@ -36,6 +36,7 @@ task :deploy_in_container do
     rescue Gem::LoadError
       sh 'gem install bundler'
     end
+
     bundle_args = []
     bundle_args << "--jobs=#{`nproc`.strip}"
     bundle_args << '--local'
@@ -44,6 +45,13 @@ task :deploy_in_container do
     bundle_args << '--system'
     bundle_args << '--without development test'
     sh "bundle install #{bundle_args.join(' ')}"
+
+    # Clean up now unused gems. This prevents unused versions of a gem
+    # lingering in the image blowing up its size.
+    clean_args = []
+    clean_args << '--verbose'
+    clean_args << '--force' # Force system clean!
+    sh "bundle clean #{clean_args.join(' ')}"
 
     # Trap common exit signals to make sure the ownership of the forwarded
     # volume is correct once we are done.
@@ -63,7 +71,44 @@ task :deploy_in_container do
     end
   end
 
+
   require_relative 'ci-tooling/lib/apt'
+
+  File.open('/etc/dpkg/dpkg.cfg.d/00_paths', 'w') do |file|
+    # Do not install locales other than en/en_US.
+    # Do not install manpages, infopages, groffpages.
+    # Do not install docs.
+    path = {
+      rxcludes: %w(
+        /usr/share/locale/**/**
+        /usr/share/man/**/**
+        /usr/share/info/**/**
+        /usr/share/groff/**/**
+        /usr/share/doc/**/**
+      ),
+      excludes: %w(
+        /usr/share/locale/*
+        /usr/share/man/*
+        /usr/share/info/*
+        /usr/share/groff/*
+        /usr/share/doc/*
+      ),
+      includes: %w(
+        /usr/share/locale/en
+        /usr/share/locale/en_US
+        /usr/share/locale/locale.alias
+      )
+    }
+    path[:excludes].each { |e| file.write("path-exclude=#{e}") }
+    path[:includes].each { |i| file.write("path-include=#{i}") }
+    path[:rxcludes].each do |ruby_exclude|
+      Dir.glob(ruby_exclude).each do |match|
+        next if path[:includes].any? { |i| File.fnmatch(i, match) }
+        next unless File.exist?(match)
+        FileUtils.rm_r(match)
+      end
+    end
+  end
 
   # Use apt.
   Apt.update
@@ -90,6 +135,7 @@ task :deploy_in_container do
                   cdbs
                   dh-autoreconf
                   germinate))
+  Apt.autoremove(args: '--purge')
   Apt.clean
 
   # Ubuntu's language-pack-en-base calls this internally, since this is

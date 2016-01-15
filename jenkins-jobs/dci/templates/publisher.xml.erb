@@ -21,6 +21,17 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
+      <project><%= basename %>_src</project>
+      <filter></filter>
+      <target></target>
+      <excludes></excludes>
+      <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
+        <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
+      </selector>
+      <flatten>true</flatten>
+      <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
+    </hudson.plugins.copyartifact.CopyArtifact>
+    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
       <project><%= basename %>_bin_amd64</project>
       <filter></filter>
       <target></target>
@@ -44,22 +55,8 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
-ec=0
-for c in *.changes; do
-  if ! grep -q Files: $c
-  then
-    continue
-  fi
-
-  dput --debug -f -u dci:<%= repo %> $c
-  if [ $? -ne 0 ]
-  then
-    ec=$?
-  fi
-done
-
-exit $ec
-      </command>
+~/tooling/dci/publisher --port 8080 --repo <%= repo %> *.changes
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
