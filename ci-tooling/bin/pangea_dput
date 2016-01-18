@@ -36,13 +36,14 @@ parser.parse!
 
 abort parser.help if ARGV.empty? || options.repo.nil?
 
-case options.gateway.scheme
-when 'ssh'
-  gateway = Net::SSH::Gateway.new(options.gateway.host, options.gateway.user)
-  gateway.open('localhost', options.port, options.port)
-when nil
-else
-  abort 'Gateway scheme not supported'
+unless options.nil?
+  case options.gateway.scheme
+  when 'ssh'
+    gateway = Net::SSH::Gateway.new(options.gateway.host, options.gateway.user)
+    gateway.open('localhost', options.port, options.port)
+  else
+    abort 'Gateway scheme not supported'
+  end
 end
 
 Aptly.configure do |config|
