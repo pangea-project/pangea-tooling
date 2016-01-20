@@ -26,7 +26,8 @@
         "plasma-workspace",
         "powerdevil",
         "kwallet-pam",
-        "kaccounts-mobile"
+        "kaccounts-mobile",
+        "kde-cli-tools"
       ],
       "applications" : [
         "kaccounts-integration",
