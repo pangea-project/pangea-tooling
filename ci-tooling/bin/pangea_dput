@@ -14,7 +14,7 @@ options.repo = nil
 options.gateway = nil
 
 parser = OptionParser.new do |opts|
-  opts.banner = "Usage: #{opts.program_name} [options] CHANGESFILE"
+  opts.banner = "Usage: #{opts.program_name} [options] --repo yolo CHANGESFILE"
 
   opts.on('-h', '--host HOST', "host name (#{options.host})") do |v|
     options.host = v
