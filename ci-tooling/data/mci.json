@@ -41,7 +41,8 @@
         "kdeconnect-plasma",
         "koko",
         "libkgapi",
-        "qapt"
+        "qapt",
+        "telepathy-accounts-signon"
       ],
       "kde-req" : [
         "qca-qt5"
