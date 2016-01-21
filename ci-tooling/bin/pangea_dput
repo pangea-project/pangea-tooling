@@ -5,6 +5,7 @@ require 'digest'
 require 'optparse'
 require 'ostruct'
 require 'uri'
+require 'net/ssh'
 
 require_relative '../lib/debian/changes'
 
