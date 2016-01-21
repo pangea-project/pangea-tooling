@@ -5,6 +5,9 @@ require 'fileutils'
 
 fail 'No live-config found!' unless File.exist?('live-config')
 
+# Add the ppa from Ubuntu's train service
+@ppa = 'ppa:ci-train-ppa-service/stable-snapshot'
+Apt::Repository.add(@ppa)
 Apt.update
 Apt.install(%w(ubuntu-defaults-builder))
 
