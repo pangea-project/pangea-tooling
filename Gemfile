@@ -7,6 +7,7 @@ gem 'jenkins_api_client'
 gem 'logger-colors'
 gem 'oauth'
 gem 'octokit'
+gem 'net-ssh'
 
 # Git URI management
 gem 'git_clone_url', '~> 2.0'
