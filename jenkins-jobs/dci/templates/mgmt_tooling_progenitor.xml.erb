@@ -50,10 +50,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>export GEM_HOME=$(ruby -rubygems -e &apos;puts Gem.user_dir&apos;)
-export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
-export PATH=$GEM_HOME/bin:$PATH
-lsb_release -a
+      <command>lsb_release -a
 ruby -e &apos;print Gem.user_dir&apos;
 env
 ls -ah
@@ -92,5 +89,13 @@ tar -cp * | gzip --rsyncable -1 &gt; tooling.tar.gz
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.2">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+    <ruby-proxy-object>
+      <ruby-object ruby-class="Jenkins::Plugin::Proxies::BuildWrapper" pluginid="rvm">
+        <pluginid pluginid="rvm" ruby-class="String">rvm</pluginid>
+        <object ruby-class="RvmWrapper" pluginid="rvm">
+          <impl pluginid="rvm" ruby-class="String">2.2.3</impl>
+        </object>
+      </ruby-object>
+    </ruby-proxy-object>
   </buildWrappers>
 </project>
