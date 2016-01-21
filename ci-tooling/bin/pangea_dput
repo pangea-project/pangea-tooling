@@ -36,7 +36,7 @@ parser.parse!
 
 fail parser.help if ARGV.empty? || options.repo.nil?
 
-unless options.gateway.nil?
+if options.gateway
   case options.gateway.scheme
   when 'ssh'
     gateway = Net::SSH::Gateway.new(options.gateway.host, options.gateway.user)
