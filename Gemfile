@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'aptly'
+gem 'aptly-api'
 gem 'docker-api', '~> 1.24.0' # Container.refresh! only introduced in 1.23
 gem 'git'
 gem 'jenkins_api_client'
