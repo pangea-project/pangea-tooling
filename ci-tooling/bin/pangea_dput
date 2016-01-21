@@ -4,6 +4,7 @@ require 'aptly'
 require 'digest'
 require 'optparse'
 require 'ostruct'
+require 'uri'
 
 require_relative '../lib/debian/changes'
 
@@ -29,7 +30,7 @@ parser = OptionParser.new do |opts|
   end
 
   opts.on('-g', '--gateway URI', 'open gateway to remote') do |v|
-    options.gateway = v
+    options.gateway = URI(v)
   end
 end
 parser.parse!
