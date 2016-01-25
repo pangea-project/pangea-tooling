@@ -18,5 +18,11 @@ module CI
     def test_tarball
       SCM.new('tarball', 'http://www.example.com/foo.tar.xz')
     end
+
+    def test_cleanup_uri
+      assert_equal('/a/b', SCM.cleanup_uri('/a//b/'))
+      assert_equal('http://a.com/b', SCM.cleanup_uri('http://a.com//b//'))
+      assert_equal('//host/b', SCM.cleanup_uri('//host/b/'))
+    end
   end
 end

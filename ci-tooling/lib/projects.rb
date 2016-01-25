@@ -1,6 +1,5 @@
+require 'forwardable' # For cleanup_uri delegation
 require 'json'
-require 'pathname'
-require 'uri'
 require 'fileutils'
 
 require_relative 'ci/upstream_scm'
@@ -51,6 +50,12 @@ class Project
 
   class << self
     attr_accessor :default_url
+
+    # TODO: drop cleanup_uri
+    extend Deprecate
+    extend Forwardable
+    def_delegator CI::SCM, :cleanup_uri, :cleanup_uri
+    deprecate :cleanup_uri, 'SCM::CI::cleanup_uri', 2016, 02
   end
 
   # Init
@@ -102,9 +107,9 @@ class Project
     else
       # Assume git
       # Clean up path to remove useless slashes and colons.
-      packaging_scm_url =
-        Project.cleanup_uri("#{url_base}/#{component}/#{name}")
-      @packaging_scm = CI::SCM.new('git', packaging_scm_url, branch)
+      @packaging_scm = CI::SCM.new('git',
+                                   "#{url_base}/#{component}/#{name}",
+                                   branch)
       component_dir = "git/#{component}"
       FileUtils.mkdir_p(component_dir) unless Dir.exist?(component_dir)
     end
@@ -139,12 +144,6 @@ class Project
         end
       end
     end
-  end
-
-  def self.cleanup_uri(uri)
-    uri = URI(uri) unless uri.is_a?(URI)
-    uri.path = Pathname.new(uri.path).cleanpath.to_s
-    uri.to_s
   end
 
   # @param uri <String> uri of the repo to clone

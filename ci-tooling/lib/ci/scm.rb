@@ -1,3 +1,6 @@
+require 'pathname'
+require 'uri'
+
 module CI
   # SCM Base Class
   class SCM
@@ -22,8 +25,14 @@ module CI
       # FIXME: type should be a symbol really
       # FIXME: maybe even replace type with an is_a check?
       @type = type
-      @url = url
+      @url = self.class.cleanup_uri(url)
       @branch = branch
+    end
+
+    def self.cleanup_uri(url)
+      uri = URI(url)
+      uri.path = Pathname.new(uri.path).cleanpath.to_s
+      uri.to_s
     end
   end
 end
