@@ -1,23 +1,12 @@
-require_relative '../deprecate'
-require_relative '../mutable_uri'
-
 module CI
   # SCM Base Class
   class SCM
-    extend Deprecate
-
     # @return [String] a type identifier (e.g. 'git', 'svn')
     attr_reader :type
     # @return [String] branch of the SCM to use (if applicable)
     attr_reader :branch
-    # @return [MutableURI] mutaed URI of the repo (can be readable or writable
-    #   or both)
-    attr_reader :uri
-
     # @return [String] valid git URL to the SCM
     attr_reader :url
-    # TODO: remove URL
-    deprecate :url, :uri, 2016, 01
 
     # Constructs an upstream SCM description from a packaging SCM description.
     #
@@ -35,7 +24,6 @@ module CI
       @type = type
       @url = url
       @branch = branch
-      # @uri = MutableURI.parse(url)
     end
   end
 end
