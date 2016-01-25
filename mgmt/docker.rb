@@ -3,6 +3,7 @@
 require_relative '../ci-tooling/lib/dci'
 require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/mobilekci'
+require_relative '../ci-tooling/lib/nci'
 require_relative '../lib/mgmt/deployer'
 
 require 'jenkins_api_client'
@@ -27,7 +28,7 @@ Process.waitall
 
 pid_map = {}
 
-ubuntu_series = (KCI.series.keys | MCI.series.keys)
+ubuntu_series = (KCI.series.keys | MCI.series.keys | NCI.series.keys)
 ubuntu_series.each_index do |index|
   series = ubuntu_series[index]
   origins = ubuntu_series[index + 1..-1]
