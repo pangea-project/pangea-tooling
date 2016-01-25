@@ -109,24 +109,18 @@ class Project
       FileUtils.mkdir_p(component_dir) unless Dir.exist?(component_dir)
     end
     Dir.chdir(component_dir) do
-      unless File.exist?(name)
-        5.times do
-          if component == 'launchpad'
-            break if system("bzr branch #{@packaging_scm.url}")
-          else
-            get_git(@packaging_scm.url, name)
-          end
-        end
-      end
-      unless File.exist?(name)
-        fail GitTransactionError, "Could not clone #{@packaging_scm.url}"
+      if component == 'launchpad'
+        get_bzr(@packaging_scm.url, name)
+      else
+        get_git(@packaging_scm.url, name)
       end
       Dir.chdir(name) do
         if component == 'launchpad'
-          system('bzr pull')
+          update_bzr
         else
           update_git
 
+          # FIXME: bzr has no concept of branches?
           unless system("git checkout #{branch}")
             fail GitTransactionError, "No branch #{branch}"
           end
@@ -193,6 +187,19 @@ class Project
       break if system('git pull', err: '/dev/null')
     end
     fail GitTransactionError, 'Failed to pull' if i >= 5
+  end
+
+  # @see {get_git}
+  def get_bzr(uri, dest)
+    return if File.exist?(dest)
+    5.times do
+      break if system("bzr branch #{uri} #{dest}")
+    end
+    fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
+  end
+
+  def update_bzr
+    system('bzr pull')
   end
 end
 
