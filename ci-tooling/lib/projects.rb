@@ -42,7 +42,7 @@ class Project
   # Packaging SCM instance
   attr_reader :packaging_scm
 
-  DEFAULT_URL = 'git.debian.org:/git/pkg-kde'
+  DEFAULT_URL = 'git.debian.org:/git/pkg-kde'.freeze
   @default_url = DEFAULT_URL
 
   class << self
