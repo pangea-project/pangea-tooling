@@ -41,7 +41,7 @@ class BuildJob < JenkinsJob
       p @dependees
     end
     @dependencies = project.dependencies.collect { |d| build_name(d) }.compact
-    @packaging_scm = project.packaging_scm_scm
+    @packaging_scm = project.packaging_scm.dup
     # FIXME: why ever does the job have to do that?
     # Try the distribution specific branch name first
     warn 'build.rb does not use the branch attr of SCM and has a problem there'

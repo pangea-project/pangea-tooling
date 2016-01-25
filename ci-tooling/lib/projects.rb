@@ -41,9 +41,6 @@ class Project
 
   # Packaging SCM instance
   attr_reader :packaging_scm
-  # TODO: drop _scm_scm
-  alias_method :packaging_scm_scm, :packaging_scm
-  deprecate :packaging_scm_scm, :packaging_scm, 2016, 01
 
   DEFAULT_URL = 'git.debian.org:/git/pkg-kde'
   @default_url = DEFAULT_URL
