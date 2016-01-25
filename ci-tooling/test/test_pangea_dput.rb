@@ -35,7 +35,7 @@ class PangeaDPutTest < TestCase
     ARGV << '--port' << '111999'
     ARGV << '--repo' << 'kitten'
     ARGV << 'yolo.changes'
-    Test.http_serve(Dir.pwd, port: 111999) do
+    Test.http_serve(Dir.pwd, port: 111_999) do
       load(@dput)
     end
   end
