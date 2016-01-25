@@ -139,8 +139,15 @@ class Project
         #        future
         @autopkgtest = c.source['xs-testsuite'] == 'autopkgtest'
 
-        unless Debian::Source.new(Dir.pwd).format.type == :native
-          @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url, branch)
+        if @component != 'launchpad'
+          # NOTE: assumption is that launchpad always is native even when
+          #  otherwise noted in packaging. This is somewhat meh and probably
+          #  should be looked into at some point.
+          #  Primary motivation are compound UDD branches as well as shit
+          #  packages that are dpkg-source v1...
+          unless Debian::Source.new(Dir.pwd).format.type == :native
+            @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url, branch)
+          end
         end
       end
     end

@@ -256,6 +256,7 @@ class ProjectTest < TestCase
                       'lp:')
     assert_equal('unity-action-api', pro.name)
     assert_equal('launchpad', pro.component)
+    assert_equal(nil, pro.upstream_scm)
   end
 
   def test_default_url
