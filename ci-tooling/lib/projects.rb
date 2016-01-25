@@ -154,9 +154,7 @@ class Project
   # @param dest <String> directory name of the dir to clone as
   def get_git(uri, dest)
     return if File.exist?(dest)
-    5.times do
-      break if system("git clone #{uri} #{dest}", err: '/dev/null')
-    end
+    5.times { break if system("git clone #{uri} #{dest}", err: '/dev/null') }
     fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
   end
 
@@ -176,9 +174,7 @@ class Project
   # @see {get_git}
   def get_bzr(uri, dest)
     return if File.exist?(dest)
-    5.times do
-      break if system("bzr checkout #{uri} #{dest}")
-    end
+    5.times { break if system("bzr checkout #{uri} #{dest}") }
     fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
   end
 
