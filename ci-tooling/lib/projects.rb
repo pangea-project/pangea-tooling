@@ -129,16 +129,6 @@ class Project
           @provided_binaries << binary['package']
         end
 
-        if component != 'launchpad'
-          branches = `git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
-          branches.each do |b|
-            @series_branches << b.gsub('refs/remotes/origin/', '')
-          end
-          unless Debian::Source.new(Dir.pwd).format.type == :native
-            @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url, branch)
-          end
-        end
-
         # FIXME: Probably should be converted to a symbol at a later point
         #        since xs-testsuite could change to random other string in the
         #        future
@@ -207,8 +197,15 @@ class Project
       unless system("git checkout #{branch}")
         fail GitTransactionError, "No branch #{branch}"
       end
-    end
 
+      branches = `git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
+      branches.each do |b|
+        @series_branches << b.gsub('refs/remotes/origin/', '')
+      end
+      unless Debian::Source.new(Dir.pwd).format.type == :native
+        @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url, branch)
+      end
+    end
   end
 end
 
