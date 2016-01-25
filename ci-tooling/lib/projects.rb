@@ -113,8 +113,8 @@ class Project
         5.times do
           if component == 'launchpad'
             break if system("bzr branch #{@packaging_scm.url}")
-          elsif system("git clone #{@packaging_scm.url}", err: '/dev/null')
-            break
+          else
+            get_git(@packaging_scm.url, name)
           end
         end
       end
@@ -125,16 +125,7 @@ class Project
         if component == 'launchpad'
           system('bzr pull')
         else
-          system('git clean -fd')
-          system('git reset --hard')
-
-          i = 0
-          while (i += 1) < 5
-            system('git gc')
-            system('git config remote.origin.prune true')
-            break if system('git pull', err: '/dev/null')
-          end
-          fail GitTransactionError, 'Failed to pull' if i >= 5
+          update_git
 
           unless system("git checkout #{branch}")
             fail GitTransactionError, "No branch #{branch}"
@@ -179,6 +170,29 @@ class Project
     uri = URI(uri) unless uri.is_a?(URI)
     uri.path = Pathname.new(uri.path).cleanpath.to_s
     uri.to_s
+  end
+
+  # @param uri <String> uri of the repo to clone
+  # @param dest <String> directory name of the dir to clone as
+  def get_git(uri, dest)
+    return if File.exist?(dest)
+    5.times do
+      break if system("git clone #{uri} #{dest}", err: '/dev/null')
+    end
+    fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
+  end
+
+  def update_git
+    system('git clean -fd')
+    system('git reset --hard')
+
+    i = 0
+    while (i += 1) < 5
+      system('git gc')
+      system('git config remote.origin.prune true')
+      break if system('git pull', err: '/dev/null')
+    end
+    fail GitTransactionError, 'Failed to pull' if i >= 5
   end
 end
 
