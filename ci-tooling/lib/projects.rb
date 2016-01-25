@@ -177,13 +177,13 @@ class Project
   def get_bzr(uri, dest)
     return if File.exist?(dest)
     5.times do
-      break if system("bzr branch #{uri} #{dest}")
+      break if system("bzr checkout #{uri} #{dest}")
     end
     fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
   end
 
   def update_bzr
-    system('bzr pull')
+    system('bzr up')
   end
 
   def get
