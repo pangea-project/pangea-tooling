@@ -31,7 +31,7 @@ module CI
 
     def self.cleanup_uri(url)
       uri = URI(url)
-      uri.path = Pathname.new(uri.path).cleanpath.to_s
+      uri.path &&= Pathname.new(uri.path).cleanpath.to_s
       uri.to_s
     end
   end

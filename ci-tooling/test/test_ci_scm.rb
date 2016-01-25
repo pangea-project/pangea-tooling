@@ -23,6 +23,11 @@ module CI
       assert_equal('/a/b', SCM.cleanup_uri('/a//b/'))
       assert_equal('http://a.com/b', SCM.cleanup_uri('http://a.com//b//'))
       assert_equal('//host/b', SCM.cleanup_uri('//host/b/'))
+      # This parses as opaque component with lp as scheme. We only clean path
+      # so we cannot clean this without assuming that opaque is in fact
+      # equal to path (Which it is not...)
+      assert_equal('lp:kitten', SCM.cleanup_uri('lp:kitten'))
+      assert_equal('lp:kitten///', SCM.cleanup_uri('lp:kitten///'))
     end
   end
 end
