@@ -7,7 +7,6 @@ module CI
     def test_init
       type = 'git'
       url = 'git.debian.org:/git/pkg-kde/yolo'
-      read_url = 'git://anonscm.debian.org/pkg-kde/yolo'
       branch = 'master'
       scm = SCM.new(type, url, branch)
       assert_equal(type, scm.type)
