@@ -133,6 +133,10 @@ class Project
         #        since xs-testsuite could change to random other string in the
         #        future
         @autopkgtest = c.source['xs-testsuite'] == 'autopkgtest'
+
+        unless Debian::Source.new(Dir.pwd).format.type == :native
+          @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url, branch)
+        end
       end
     end
   end
@@ -201,9 +205,6 @@ class Project
       branches = `git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
       branches.each do |b|
         @series_branches << b.gsub('refs/remotes/origin/', '')
-      end
-      unless Debian::Source.new(Dir.pwd).format.type == :native
-        @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url, branch)
       end
     end
   end
