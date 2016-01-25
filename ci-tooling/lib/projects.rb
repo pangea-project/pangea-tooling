@@ -91,11 +91,11 @@ class Project
 
     # FIXME: git dir needs to be set somewhere, somehow, somewhat, lol, kittens?
     if component == 'launchpad'
-      if url_base.end_with? ':'
-        packaging_scm_url = "#{url_base}#{name}"
-      else
-        packaging_scm_url = "#{url_base}/#{name}"
-      end
+      packaging_scm_url = if url_base.end_with?(':')
+                            "#{url_base}#{name}"
+                          else
+                            "#{url_base}/#{name}"
+                          end
       @packaging_scm = CI::SCM.new('bzr', packaging_scm_url)
       FileUtils.mkdir_p('launchpad') unless Dir.exist?('launchpad')
       component_dir = 'launchpad'
@@ -113,8 +113,8 @@ class Project
         5.times do
           if component == 'launchpad'
             break if system("bzr branch #{@packaging_scm.url}")
-          else
-            break if system("git clone #{@packaging_scm.url}")
+          elsif system("git clone #{@packaging_scm.url}")
+            break
           end
         end
       end
