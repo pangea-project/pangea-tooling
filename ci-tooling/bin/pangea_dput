@@ -62,18 +62,17 @@ ARGV.each do |changes_file|
 
   files_to_upload = []
 
-  if changes.fields
-    changes.fields['checksums-sha256'].each do |checksum|
-      file = checksum.file_name
-      fail "File not found #{file}" unless File.exist?(file)
+  next unless changes.fields
 
-      sum = Digest::SHA256.hexdigest(File.read(file))
-      fail "File #{file} has incorrect checksum" unless sum == checksum.sum
+  changes.fields['checksums-sha256'].each do |checksum|
+    file = checksum.file_name
+    fail "File not found #{file}" unless File.exist?(file)
 
-      files_to_upload << File.absolute_path(file)
-    end
+    sum = Digest::SHA256.hexdigest(File.read(file))
+    fail "File #{file} has incorrect checksum" unless sum == checksum.sum
+
+    files_to_upload << File.absolute_path(file)
   end
-
   fail 'Changes lists no files to upload!?' if files_to_upload.empty?
 
   repo.upload(files_to_upload)
