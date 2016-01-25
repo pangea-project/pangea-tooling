@@ -6,7 +6,7 @@
         {
           "path": "pkg-kde/qt/qtx11extras",
           "branch": "experimental",
-          "tarball": "http://abc%2Bdfsg.tar.xz"
+          "tarball": "http://yolo.com/abc%2Bdfsg.tar.xz"
         }
       ]
     }

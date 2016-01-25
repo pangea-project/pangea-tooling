@@ -1,6 +1,5 @@
+require 'forwardable' # For cleanup_uri delegation
 require 'json'
-require 'pathname'
-require 'uri'
 require 'fileutils'
 
 require_relative 'ci/upstream_scm'
@@ -42,15 +41,18 @@ class Project
 
   # Packaging SCM instance
   attr_reader :packaging_scm
-  # TODO: drop _scm_scm
-  alias_method :packaging_scm_scm, :packaging_scm
-  deprecate :packaging_scm_scm, :packaging_scm, 2016, 01
 
-  DEFAULT_URL = 'git.debian.org:/git/pkg-kde'
+  DEFAULT_URL = 'git.debian.org:/git/pkg-kde'.freeze
   @default_url = DEFAULT_URL
 
   class << self
     attr_accessor :default_url
+
+    # TODO: drop cleanup_uri
+    extend Deprecate
+    extend Forwardable
+    def_delegator CI::SCM, :cleanup_uri, :cleanup_uri
+    deprecate :cleanup_uri, 'SCM::CI::cleanup_uri', 2016, 02
   end
 
   # Init
@@ -89,57 +91,10 @@ class Project
       fail NameError, "component contains a slash: #{@component}"
     end
 
-    # FIXME: git dir needs to be set somewhere, somehow, somewhat, lol, kittens?
-    if component == 'launchpad'
-      if url_base.end_with? ':'
-        packaging_scm_url = "#{url_base}#{name}"
-      else
-        packaging_scm_url = "#{url_base}/#{name}"
-      end
-      @packaging_scm = CI::SCM.new('bzr', packaging_scm_url)
-      FileUtils.mkdir_p('launchpad') unless Dir.exist?('launchpad')
-      component_dir = 'launchpad'
-    else
-      # Assume git
-      # Clean up path to remove useless slashes and colons.
-      packaging_scm_url =
-        Project.cleanup_uri("#{url_base}/#{component}/#{name}")
-      @packaging_scm = CI::SCM.new('git', packaging_scm_url, branch)
-      component_dir = "git/#{component}"
-      FileUtils.mkdir_p(component_dir) unless Dir.exist?(component_dir)
-    end
-    Dir.chdir(component_dir) do
-      unless File.exist?(name)
-        5.times do
-          if component == 'launchpad'
-            break if system("bzr branch #{@packaging_scm.url}")
-          else
-            break if system("git clone #{@packaging_scm.url}")
-          end
-        end
-      end
-      unless File.exist?(name)
-        fail GitTransactionError, "Could not clone #{@packaging_scm.url}"
-      end
+    Dir.chdir(set_packaging_scm(url_base, branch)) do
+      get
       Dir.chdir(name) do
-        if component == 'launchpad'
-          system('bzr pull')
-        else
-          system('git clean -fd')
-          system('git reset --hard')
-
-          i = 0
-          while (i += 1) < 5
-            system('git gc')
-            system('git config remote.origin.prune true')
-            break if system('git pull')
-          end
-          fail GitTransactionError, 'Failed to pull' if i >= 5
-
-          unless system("git checkout #{branch}")
-            fail GitTransactionError, "No branch #{branch}"
-          end
-        end
+        update(branch)
 
         next unless File.exist?('debian/control')
 
@@ -157,28 +112,116 @@ class Project
           @provided_binaries << binary['package']
         end
 
-        if component != 'launchpad'
-          branches = `git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
-          branches.each do |b|
-            @series_branches << b.gsub('refs/remotes/origin/', '')
-          end
-          unless Debian::Source.new(Dir.pwd).format.type == :native
-            @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url, branch)
-          end
-        end
-
         # FIXME: Probably should be converted to a symbol at a later point
         #        since xs-testsuite could change to random other string in the
         #        future
         @autopkgtest = c.source['xs-testsuite'] == 'autopkgtest'
+
+        if @component != 'launchpad'
+          # NOTE: assumption is that launchpad always is native even when
+          #  otherwise noted in packaging. This is somewhat meh and probably
+          #  should be looked into at some point.
+          #  Primary motivation are compound UDD branches as well as shit
+          #  packages that are dpkg-source v1...
+          unless Debian::Source.new(Dir.pwd).format.type == :native
+            @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url, branch)
+          end
+        end
       end
     end
   end
 
-  def self.cleanup_uri(uri)
-    uri = URI(uri) unless uri.is_a?(URI)
-    uri.path = Pathname.new(uri.path).cleanpath.to_s
-    uri.to_s
+  private
+
+  def set_packaging_scm_git(url_base, branch)
+    # Assume git
+    # Clean up path to remove useless slashes and colons.
+    @packaging_scm = CI::SCM.new('git',
+                                 "#{url_base}/#{@component}/#{@name}",
+                                 branch)
+    component_dir = "git/#{@component}"
+    FileUtils.mkdir_p(component_dir) unless Dir.exist?(component_dir)
+    component_dir
+  end
+
+  def set_packaging_scm_bzr(url_base)
+    packaging_scm_url = if url_base.end_with?(':')
+                          "#{url_base}#{@name}"
+                        else
+                          "#{url_base}/#{@name}"
+                        end
+    @packaging_scm = CI::SCM.new('bzr', packaging_scm_url)
+    component_dir = 'launchpad'
+    FileUtils.mkdir_p(component_dir) unless Dir.exist?(component_dir)
+    component_dir
+  end
+
+  # @return component_dir to use for cloning etc.
+  def set_packaging_scm(url_base, branch)
+    # FIXME: git dir needs to be set somewhere, somehow, somewhat, lol, kittens?
+    if @component == 'launchpad'
+      set_packaging_scm_bzr(url_base)
+    else
+      set_packaging_scm_git(url_base, branch)
+    end
+  end
+
+  # @param uri <String> uri of the repo to clone
+  # @param dest <String> directory name of the dir to clone as
+  def get_git(uri, dest)
+    return if File.exist?(dest)
+    5.times { break if system("git clone #{uri} #{dest}", err: '/dev/null') }
+    fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
+  end
+
+  def update_git
+    system('git clean -fd')
+    system('git reset --hard')
+
+    i = 0
+    while (i += 1) < 5
+      system('git gc')
+      system('git config remote.origin.prune true')
+      break if system('git pull', err: '/dev/null')
+    end
+    fail GitTransactionError, 'Failed to pull' if i >= 5
+  end
+
+  # @see {get_git}
+  def get_bzr(uri, dest)
+    return if File.exist?(dest)
+    5.times { break if system("bzr checkout #{uri} #{dest}") }
+    fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
+  end
+
+  def update_bzr
+    system('bzr up')
+  end
+
+  def get
+    if @component == 'launchpad'
+      get_bzr(@packaging_scm.url, @name)
+    else
+      get_git(@packaging_scm.url, @name)
+    end
+  end
+
+  def update(branch)
+    if @component == 'launchpad'
+      update_bzr
+    else
+      update_git
+
+      # FIXME: bzr has no concept of branches?
+      unless system("git checkout #{branch}")
+        fail GitTransactionError, "No branch #{branch}"
+      end
+
+      branches = `git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
+      branches.each do |b|
+        @series_branches << b.gsub('refs/remotes/origin/', '')
+      end
+    end
   end
 end
 

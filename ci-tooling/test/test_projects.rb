@@ -245,7 +245,7 @@ class ProjectTest < TestCase
     assert_equal("#{repo_base}/pkg-kde/qt/qtx11extras", pro.packaging_scm.url)
     assert_equal('experimental', pro.packaging_scm.branch)
     assert_equal('tarball', pro.upstream_scm.type)
-    assert_equal('http://abc+dfsg.tar.xz', pro.upstream_scm.url)
+    assert_equal('http://yolo.com/abc+dfsg.tar.xz', pro.upstream_scm.url)
   ensure
     Project.default_url = Project::DEFAULT_URL
   end
@@ -256,6 +256,8 @@ class ProjectTest < TestCase
                       'lp:')
     assert_equal('unity-action-api', pro.name)
     assert_equal('launchpad', pro.component)
+    assert_equal(nil, pro.upstream_scm)
+    assert_equal('lp:unity-action-api', pro.packaging_scm.url)
   end
 
   def test_default_url
