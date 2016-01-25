@@ -26,7 +26,8 @@
         "plasma-workspace",
         "powerdevil",
         "kwallet-pam",
-        "kaccounts-mobile"
+        "kaccounts-mobile",
+        "kde-cli-tools"
       ],
       "applications" : [
         "kaccounts-integration",
@@ -41,7 +42,8 @@
         "kdeconnect-plasma",
         "koko",
         "libkgapi",
-        "qapt"
+        "qapt",
+        "telepathy-accounts-signon"
       ],
       "kde-req" : [
         "qca-qt5"

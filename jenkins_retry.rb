@@ -71,6 +71,7 @@ BlockingThreadPool.run do
       if strict_mode
         skip = true
         downstreams = Jenkins.job.get_downstream_projects(name)
+        downstreams << Jenkins.job.list_details(name.gsub(/_src/, '_pub'))
         downstreams.each do |downstream|
           downstream_status = Jenkins.job.status(downstream['name'])
           next if %w(success unstable).include?(downstream_status)

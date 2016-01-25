@@ -4,6 +4,8 @@ require 'aptly'
 require 'digest'
 require 'optparse'
 require 'ostruct'
+require 'uri'
+require 'net/ssh/gateway'
 
 require_relative '../lib/debian/changes'
 
@@ -14,7 +16,7 @@ options.repo = nil
 options.gateway = nil
 
 parser = OptionParser.new do |opts|
-  opts.banner = "Usage: #{opts.program_name} [options] CHANGESFILE"
+  opts.banner = "Usage: #{opts.program_name} [options] --repo yolo CHANGESFILE"
 
   opts.on('-h', '--host HOST', "host name (#{options.host})") do |v|
     options.host = v
@@ -29,20 +31,20 @@ parser = OptionParser.new do |opts|
   end
 
   opts.on('-g', '--gateway URI', 'open gateway to remote') do |v|
-    options.gateway = v
+    options.gateway = URI(v)
   end
 end
 parser.parse!
 
-abort parser.help if ARGV.empty? || options.repo.nil?
+fail parser.help if ARGV.empty? || options.repo.nil?
 
-unless options.nil?
+if options.gateway
   case options.gateway.scheme
   when 'ssh'
     gateway = Net::SSH::Gateway.new(options.gateway.host, options.gateway.user)
     gateway.open('localhost', options.port, options.port)
   else
-    abort 'Gateway scheme not supported'
+    fail 'Gateway scheme not supported'
   end
 end
 
@@ -51,7 +53,7 @@ Aptly.configure do |config|
   config.port = options.port
 end
 
-abort 'Repository does not exist' unless Aptly::Repository.exist?(options.repo)
+fail 'Repository does not exist' unless Aptly::Repository.exist?(options.repo)
 repo = Aptly::Repository.get(options.repo)
 
 ARGV.each do |changes_file|
@@ -61,14 +63,14 @@ ARGV.each do |changes_file|
   files_to_upload = []
   changes.fields['checksums-sha256'].each do |checksum|
     file = checksum.file_name
-    abort "File not found #{file}" unless File.exist?(file)
+    fail "File not found #{file}" unless File.exist?(file)
 
     sum = Digest::SHA256.hexdigest(File.read(file))
-    abort "File #{file} has incorrect checksum" unless sum == checksum.sum
+    fail "File #{file} has incorrect checksum" unless sum == checksum.sum
 
     files_to_upload << File.absolute_path(file)
   end
-  abort 'Changes lists no files to upload!?' if files_to_upload.empty?
+  fail 'Changes lists no files to upload!?' if files_to_upload.empty?
 
   repo.upload(files_to_upload)
 end

@@ -1,1 +1,107 @@
-mgmt_monitor.xml.erb
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>remote</name>
+          <description/>
+          <defaultValue>yes</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.37">
+      <project>mgmt_tooling_progenitor</project>
+      <filter></filter>
+      <target></target>
+      <excludes></excludes>
+      <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
+        <fallbackToLastSuccessful>true</fallbackToLastSuccessful>
+        <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
+        <allowUpstreamDependencies>false</allowUpstreamDependencies>
+      </selector>
+      <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
+    </hudson.plugins.copyartifact.CopyArtifact>
+    <hudson.tasks.Shell>
+      <command>hostname
+lsb_release -a
+ruby -e &apos;print Gem.user_dir&apos;
+env
+ls -ah
+
+pwd
+
+tar -xf *.tar.gz
+
+gem install --no-rdoc bundler
+bundle install --jobs=`nproc` --no-cache --local --frozen --system
+
+rake clean
+rake deploy
+
+# KCI uses versioned dirs, parts of the new tooling don&apos;t.
+# This needs a capistrano-like solution for versioning.
+rm -rf ~/tooling
+ln -s tooling3 ~/tooling
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.tasks.BuildTrigger>
+      <childProjects><%= downstreams.join(', ') %></childProjects>
+      <threshold>
+        <name>UNSTABLE</name>
+        <ordinal>1</ordinal>
+        <color>YELLOW</color>
+        <completeBuild>true</completeBuild>
+      </threshold>
+    </hudson.tasks.BuildTrigger>
+    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
+      <deleteDirs>false</deleteDirs>
+      <skipWhenFailed>false</skipWhenFailed>
+      <cleanWhenSuccess>true</cleanWhenSuccess>
+      <cleanWhenUnstable>true</cleanWhenUnstable>
+      <cleanWhenFailure>true</cleanWhenFailure>
+      <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
+      <cleanWhenAborted>true</cleanWhenAborted>
+      <notFailBuild>false</notFailBuild>
+      <cleanupMatrixParent>false</cleanupMatrixParent>
+      <externalDelete></externalDelete>
+    </hudson.plugins.ws__cleanup.WsCleanup>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.28">
+      <deleteDirs>false</deleteDirs>
+      <cleanupParameter></cleanupParameter>
+      <externalDelete></externalDelete>
+    </hudson.plugins.ws__cleanup.PreBuildCleanup>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.2">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+    <ruby-proxy-object>
+      <ruby-object ruby-class="Jenkins::Plugin::Proxies::BuildWrapper" pluginid="rvm">
+        <pluginid pluginid="rvm" ruby-class="String">rvm</pluginid>
+        <object ruby-class="RvmWrapper" pluginid="rvm">
+          <impl pluginid="rvm" ruby-class="String">2.2.3</impl>
+        </object>
+      </ruby-object>
+    </ruby-proxy-object>
+  </buildWrappers>
+  <executionStrategy class="hudson.matrix.DefaultMatrixExecutionStrategyImpl">
+    <runSequentially>false</runSequentially>
+  </executionStrategy>
+</project>

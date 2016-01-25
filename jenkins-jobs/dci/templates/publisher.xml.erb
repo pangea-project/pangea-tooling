@@ -55,7 +55,7 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
-~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://dci@dci.ds9.pub --port 8080 --repo <%= repo %> *.changes
+~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://dci@dci.ds9.pub --port 8081 --repo <%= repo %> *.changes
 </command>
     </hudson.tasks.Shell>
   </builders>
@@ -96,6 +96,14 @@
     </hudson.plugins.ws__cleanup.WsCleanup>
   </publishers>
   <buildWrappers>
+    <ruby-proxy-object>
+      <ruby-object ruby-class="Jenkins::Plugin::Proxies::BuildWrapper" pluginid="rvm">
+        <pluginid pluginid="rvm" ruby-class="String">rvm</pluginid>
+        <object ruby-class="RvmWrapper" pluginid="rvm">
+          <impl pluginid="rvm" ruby-class="String">2.2.3</impl>
+        </object>
+      </ruby-object>
+    </ruby-proxy-object>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.26">
       <deleteDirs>false</deleteDirs>
       <cleanupParameter></cleanupParameter>

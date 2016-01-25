@@ -1,0 +1,27 @@
+Format: 1.8
+Date: Sat, 12 Dec 2015 11:09:05 +0000
+Source: gpgmepp
+Binary: libkf5gpgmepp5 libkf5gpgmepp-pthread5 libkf5gpgmepp-dev libkf5qgpgme5 gpgmepp-dbg
+Architecture: source
+Version: 15.08.2+git20151212.1109+15.04-0
+Distribution: vivid
+Urgency: medium
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Changed-By: Kubuntu CI <kubuntu-ci@lists.launchpad.net>
+Description:
+ gpgmepp-dbg - c++ wrapper library for gpgme - debug symbols
+ libkf5gpgmepp-dev - c++ wrapper library for gpgme - development files
+ libkf5gpgmepp-pthread5 - c++ wrapper library for gpgme
+ libkf5gpgmepp5 - c++ wrapper library for gpgme
+ libkf5qgpgme5 - library for GpgME++ integration with Qt
+Changes:
+ gpgmepp (15.08.2+git20151212.1109+15.04-0) vivid; urgency=medium
+ .
+   * Automatic Ubuntu CI Build
+Checksums-Sha1:
+ da39a3ee5e6b4b0d3255bfef95601890afd80709 0 file
+Checksums-Sha256:
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 file
+Files:
+ d41d8cd98f00b204e9800998ecf8427e 0 libs optional file 
+Original-Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>

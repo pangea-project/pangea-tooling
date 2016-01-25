@@ -61,6 +61,10 @@ git.debian.org:/git/pkg-kde/kde-extras/qt-gstreamer:
   '*':
     url: git://anongit.freedesktop.org/gstreamer/qt-gstreamer
 
+git.debian.org:/git/pkg-kde/kde-extras/telepathy-accounts-signon:
+  '*':
+    url: https://gitlab.com/accounts-sso/telepathy-accounts-signon.git
+
 git.debian.org:/git/pkg-kde/kubuntu/libkolab:
   '*':
     url: https://git.kolab.org/diffusion/LK/libkolab.git
