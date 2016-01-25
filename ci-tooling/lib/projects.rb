@@ -91,26 +91,7 @@ class Project
       fail NameError, "component contains a slash: #{@component}"
     end
 
-    # FIXME: git dir needs to be set somewhere, somehow, somewhat, lol, kittens?
-    if component == 'launchpad'
-      packaging_scm_url = if url_base.end_with?(':')
-                            "#{url_base}#{name}"
-                          else
-                            "#{url_base}/#{name}"
-                          end
-      @packaging_scm = CI::SCM.new('bzr', packaging_scm_url)
-      FileUtils.mkdir_p('launchpad') unless Dir.exist?('launchpad')
-      component_dir = 'launchpad'
-    else
-      # Assume git
-      # Clean up path to remove useless slashes and colons.
-      @packaging_scm = CI::SCM.new('git',
-                                   "#{url_base}/#{component}/#{name}",
-                                   branch)
-      component_dir = "git/#{component}"
-      FileUtils.mkdir_p(component_dir) unless Dir.exist?(component_dir)
-    end
-    Dir.chdir(component_dir) do
+    Dir.chdir(set_packaging_scm(url_base, branch)) do
       get
       Dir.chdir(name) do
         update(branch)
@@ -147,6 +128,41 @@ class Project
           end
         end
       end
+    end
+  end
+
+  private
+
+  def set_packaging_scm_git(url_base, branch)
+    # Assume git
+    # Clean up path to remove useless slashes and colons.
+    @packaging_scm = CI::SCM.new('git',
+                                 "#{url_base}/#{@component}/#{@name}",
+                                 branch)
+    component_dir = "git/#{@component}"
+    FileUtils.mkdir_p(component_dir) unless Dir.exist?(component_dir)
+    component_dir
+  end
+
+  def set_packaging_scm_bzr(url_base)
+    packaging_scm_url = if url_base.end_with?(':')
+                          "#{url_base}#{@name}"
+                        else
+                          "#{url_base}/#{@name}"
+                        end
+    @packaging_scm = CI::SCM.new('bzr', packaging_scm_url)
+    component_dir = 'launchpad'
+    FileUtils.mkdir_p(component_dir) unless Dir.exist?(component_dir)
+    component_dir
+  end
+
+  # @return component_dir to use for cloning etc.
+  def set_packaging_scm(url_base, branch)
+    # FIXME: git dir needs to be set somewhere, somehow, somewhat, lol, kittens?
+    if @component == 'launchpad'
+      set_packaging_scm_bzr(url_base)
+    else
+      set_packaging_scm_git(url_base, branch)
     end
   end
 
