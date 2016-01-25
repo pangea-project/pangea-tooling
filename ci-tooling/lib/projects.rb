@@ -113,7 +113,7 @@ class Project
         5.times do
           if component == 'launchpad'
             break if system("bzr branch #{@packaging_scm.url}")
-          elsif system("git clone #{@packaging_scm.url}")
+          elsif system("git clone #{@packaging_scm.url}", err: '/dev/null')
             break
           end
         end
@@ -132,7 +132,7 @@ class Project
           while (i += 1) < 5
             system('git gc')
             system('git config remote.origin.prune true')
-            break if system('git pull')
+            break if system('git pull', err: '/dev/null')
           end
           fail GitTransactionError, 'Failed to pull' if i >= 5
 
