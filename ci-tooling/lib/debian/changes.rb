@@ -26,11 +26,13 @@ module Debian
       }
       @fields = parse_paragraph(lines, fields)
 
-      if @fields['files']
-        # Mangle list fields into structs.
-        @fields['files'] = parse_types(@fields['files'], File)
-        %w(checksums-sha1 checksums-sha256).each do |key|
-          @fields[key] = parse_types(@fields[key], Checksum)
+      if @fields
+        if @fields['files']
+          # Mangle list fields into structs.
+          @fields['files'] = parse_types(@fields['files'], File)
+          %w(checksums-sha1 checksums-sha256).each do |key|
+            @fields[key] = parse_types(@fields[key], Checksum)
+          end
         end
       end
 
