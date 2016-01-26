@@ -57,19 +57,8 @@
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
-      <command>cat &lt;&lt; EOF &gt; ~/.dput.cf
-[localhost]
-fqdn = localhost
-login = publisher
-method = sftp
-incoming = ~/incoming
-allow_dcut = 1
-post_upload_command = ssh publisher@localhost reprepro -V -b /srv/archive/mci --waitforlock 1000 deleteunreferenced &amp;&amp; ssh publisher@localhost reprepro -V -b /srv/archive/mci --waitforlock 1000 processincoming default
-EOF
-
-for c in *.changes; do
-  [ -s $c ] &amp;&amp; dput --debug -f -u localhost $c
-done
+      <command>
+        ~/tooling/ci-tooling/bin/pangea_dput --port 9090 --repo unstable *.changes
       </command>
     </hudson.tasks.Shell>
   </builders>
