@@ -11,8 +11,9 @@ require_relative 'deprecate'
 # A thing that gets built.
 class Project
   class Error < Exception; end
-  # FIXME: this should maybe drop git to also fit bzr
-  class GitTransactionError < Error; end
+  class TransactionError < Error; end
+  class BzrTransactionError < TransactionError; end
+  class GitTransactionError < TransactionError; end
 
   extend Deprecate
 
@@ -146,7 +147,7 @@ class Project
     def get_bzr(uri, dest)
       return if File.exist?(dest)
       5.times { break if system("bzr checkout #{uri} #{dest}") }
-      fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
+      fail BzrTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
     end
 
     def update_git
