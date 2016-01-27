@@ -133,7 +133,6 @@ end
 
 # dpkg-buildpackage
 Dir.chdir('build/source/') do
-  # FIXME: harcoded vivid
   debline = "deb http://46.101.170.116 #{LSB::DISTRIB_CODENAME} main"
   Apt::Repository.add(debline)
   Net::HTTP.start('46.101.170.116') do |http|
