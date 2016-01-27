@@ -5,6 +5,7 @@ require 'fileutils'
 require_relative 'ci/upstream_scm'
 require_relative 'debian/control'
 require_relative 'debian/source'
+require_relative 'retry'
 
 require_relative 'deprecate'
 
@@ -139,32 +140,30 @@ class Project
     # @param dest <String> directory name of the dir to clone as
     def get_git(uri, dest)
       return if File.exist?(dest)
-      5.times { break if system("git clone #{uri} #{dest}", err: '/dev/null') }
-      fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
+      return if system("git clone #{uri} #{dest}", err: '/dev/null')
+      fail GitTransactionError, "Could not clone #{uri}"
     end
 
     # @see {get_git}
     def get_bzr(uri, dest)
       return if File.exist?(dest)
-      5.times { break if system("bzr checkout #{uri} #{dest}") }
-      fail BzrTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
+      return if system("bzr checkout #{uri} #{dest}")
+      fail BzrTransactionError, "Could not checkout #{uri}"
     end
 
     def update_git
       system('git clean -fd')
       system('git reset --hard')
 
-      i = 0
-      while (i += 1) < 5
-        system('git gc')
-        system('git config remote.origin.prune true')
-        break if system('git pull', err: '/dev/null')
-      end
-      fail GitTransactionError, 'Failed to pull' if i >= 5
+      system('git gc')
+      system('git config remote.origin.prune true')
+      return if system('git pull', err: '/dev/null')
+      fail GitTransactionError, 'Failed to pull'
     end
 
     def update_bzr
-      fail BzrTransactionError, 'Failed to update' unless system('bzr up')
+      return if system('bzr up')
+      fail BzrTransactionError, 'Failed to update'
     end
   end
 
@@ -202,36 +201,40 @@ class Project
   end
 
   def get
-    if @component == 'launchpad'
-      self.class.get_bzr(@packaging_scm.url, @name)
-    else
-      self.class.get_git(@packaging_scm.url, @name)
+    Retry.retry_it(errors: [TransactionError], times: 5) do
+      if @component == 'launchpad'
+        self.class.get_bzr(@packaging_scm.url, @name)
+      else
+        self.class.get_git(@packaging_scm.url, @name)
+      end
     end
   end
 
   def update(branch)
-    if @component == 'launchpad'
-      self.class.update_bzr
-    else
-      self.class.update_git
+    Retry.retry_it(errors: [TransactionError], times: 5) do
+      if @component == 'launchpad'
+        self.class.update_bzr
+      else
+        self.class.update_git
 
-      # FIXME: git
-      # FIXME: git
-      # FIXME: git
-      # FIXME: git
-      # FIXME: git
-      # FIXME: git
+        # FIXME: git
+        # FIXME: git
+        # FIXME: git
+        # FIXME: git
+        # FIXME: git
+        # FIXME: git
 
-      # FIXME: bzr has no concept of branches?
-      unless system("git checkout #{branch}")
-        fail GitTransactionError, "No branch #{branch}"
-      end
+        # FIXME: bzr has no concept of branches?
+        unless system("git checkout #{branch}")
+          fail GitTransactionError, "No branch #{branch}"
+        end
 
-      # FIXME: We are not sure this is even useful anymore. It certainly was
-      #   not actively used since utopic.
-      branches = `git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
-      branches.each do |b|
-        @series_branches << b.gsub('refs/remotes/origin/', '')
+        # FIXME: We are not sure this is even useful anymore. It certainly was
+        #   not actively used since utopic.
+        branches = `git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
+        branches.each do |b|
+          @series_branches << b.gsub('refs/remotes/origin/', '')
+        end
       end
     end
   end
