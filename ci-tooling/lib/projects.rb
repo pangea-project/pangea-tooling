@@ -133,6 +133,40 @@ class Project
 
   private
 
+  class << self
+    # @param uri <String> uri of the repo to clone
+    # @param dest <String> directory name of the dir to clone as
+    def get_git(uri, dest)
+      return if File.exist?(dest)
+      5.times { break if system("git clone #{uri} #{dest}", err: '/dev/null') }
+      fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
+    end
+
+    # @see {get_git}
+    def get_bzr(uri, dest)
+      return if File.exist?(dest)
+      5.times { break if system("bzr checkout #{uri} #{dest}") }
+      fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
+    end
+
+    def update_git
+      system('git clean -fd')
+      system('git reset --hard')
+
+      i = 0
+      while (i += 1) < 5
+        system('git gc')
+        system('git config remote.origin.prune true')
+        break if system('git pull', err: '/dev/null')
+      end
+      fail GitTransactionError, 'Failed to pull' if i >= 5
+    end
+
+    def update_bzr
+      system('bzr up')
+    end
+  end
+
   def set_packaging_scm_git(url_base, branch)
     # Assume git
     # Clean up path to remove useless slashes and colons.
@@ -166,57 +200,34 @@ class Project
     end
   end
 
-  # @param uri <String> uri of the repo to clone
-  # @param dest <String> directory name of the dir to clone as
-  def get_git(uri, dest)
-    return if File.exist?(dest)
-    5.times { break if system("git clone #{uri} #{dest}", err: '/dev/null') }
-    fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
-  end
-
-  def update_git
-    system('git clean -fd')
-    system('git reset --hard')
-
-    i = 0
-    while (i += 1) < 5
-      system('git gc')
-      system('git config remote.origin.prune true')
-      break if system('git pull', err: '/dev/null')
-    end
-    fail GitTransactionError, 'Failed to pull' if i >= 5
-  end
-
-  # @see {get_git}
-  def get_bzr(uri, dest)
-    return if File.exist?(dest)
-    5.times { break if system("bzr checkout #{uri} #{dest}") }
-    fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
-  end
-
-  def update_bzr
-    system('bzr up')
-  end
-
   def get
     if @component == 'launchpad'
-      get_bzr(@packaging_scm.url, @name)
+      self.class.get_bzr(@packaging_scm.url, @name)
     else
-      get_git(@packaging_scm.url, @name)
+      self.class.get_git(@packaging_scm.url, @name)
     end
   end
 
   def update(branch)
     if @component == 'launchpad'
-      update_bzr
+      self.class.update_bzr
     else
-      update_git
+      self.class.update_git
+
+      # FIXME: git
+      # FIXME: git
+      # FIXME: git
+      # FIXME: git
+      # FIXME: git
+      # FIXME: git
 
       # FIXME: bzr has no concept of branches?
       unless system("git checkout #{branch}")
         fail GitTransactionError, "No branch #{branch}"
       end
 
+      # FIXME: We are not sure this is even useful anymore. It certainly was
+      #   not actively used since utopic.
       branches = `git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
       branches.each do |b|
         @series_branches << b.gsub('refs/remotes/origin/', '')
