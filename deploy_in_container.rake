@@ -138,6 +138,8 @@ task :deploy_in_container do
                                                      cdbs
                                                      dh-autoreconf
                                                      germinate))
+    # FIXME: Workaround for apt buggines on Debian
+    system('apt-get -f install')
     fail 'Autoremove failed' unless Apt.autoremove(args: '--purge')
     fail 'Clean failed' unless Apt.clean
   end
