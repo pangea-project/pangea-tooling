@@ -135,6 +135,30 @@ class ProjectTest < TestCase
     FileUtils.rm_rf(gitrepo) unless gitrepo.nil?
   end
 
+  # Tests init with explicit branch name instead of just type specifier.
+  # The branch is meant to not exist. We expect an error here!
+  def test_init_branch_not_available
+    name = 'tn'
+    component = 'tc'
+
+    gitrepo = create_fake_git(name: name,
+                              component: component,
+                              branches: %w())
+    assert_not_nil(gitrepo)
+    assert_not_equal(gitrepo, '')
+
+    tmpdir = Dir.mktmpdir(self.class.to_s)
+    Dir.chdir(tmpdir) do
+      slashed_gitrepo = gitrepo.gsub('/', '//').sub('//', '/') + '/'
+      assert_raise Project::GitTransactionError do
+        Project.new(name, component, slashed_gitrepo, branch: 'kittens')
+      end
+    end
+  ensure
+    FileUtils.rm_rf(tmpdir) unless tmpdir.nil?
+    FileUtils.rm_rf(gitrepo) unless gitrepo.nil?
+  end
+
   def test_native
     name = 'tn'
     component = 'tc'
