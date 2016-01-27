@@ -115,7 +115,8 @@ task :deploy_in_container do
   Retry.retry_it(times: 5, sleep: 8) do
     # Use apt.
     fail 'Update failed' unless Apt.update
-    fail 'Dist upgrade failed' unless Apt.dist_upgrade
+    # FIXME: Don't upgrade to see what happens
+    # fail 'Dist upgrade failed' unless Apt.dist_upgrade
     # FIXME: install reallly should allow array as input. that's not tested and
     # actually fails though
     fail 'Apt install failed' unless Apt.install(*%w(xz-utils
