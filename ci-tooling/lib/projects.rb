@@ -164,7 +164,7 @@ class Project
     end
 
     def update_bzr
-      system('bzr up')
+      fail BzrTransactionError, 'Failed to update' unless system('bzr up')
     end
   end
 
