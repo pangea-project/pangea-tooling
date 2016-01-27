@@ -135,6 +135,13 @@ class ProjectTest < TestCase
     FileUtils.rm_rf(gitrepo) unless gitrepo.nil?
   end
 
+  # Attempt to clone a bad repo. Should result in error!
+  def test_init_bad_repo
+    assert_raise Project::GitTransactionError do
+      Project.new('tn', 'tc', 'file:///yolo', branch: 'kittens')
+    end
+  end
+
   # Tests init with explicit branch name instead of just type specifier.
   # The branch is meant to not exist. We expect an error here!
   def test_init_branch_not_available
