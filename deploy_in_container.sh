@@ -15,6 +15,9 @@ echo "LANG=$LANG" >> /etc/environment
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00aptitude
 echo 'APT::Color "1";' > /etc/apt/apt.conf.d/99color
 
+# FIXME: Testing workaround for fixing apt being broken
+rm -rf /var/lib/apt/lists/*
+
 i="3"
 while [ $i -gt 0 ]; do
   apt-get update && break
