@@ -110,33 +110,37 @@ task :deploy_in_container do
     end
   end
 
-  # Use apt.
-  Apt.update
-  Apt.dist_upgrade
-  # FIXME: install reallly should allow array as input. that's not tested and
-  # actually fails though
-  Apt.install(*%w(xz-utils
-                  dpkg-dev
-                  dput
-                  debhelper
-                  pkg-kde-tools
-                  devscripts
-                  python-launchpadlib
-                  ubuntu-dev-tools
-                  git
-                  dh-systemd
-                  zlib1g-dev
-                  python-paramiko
-                  sudo
-                  locales
-                  pxz
-                  aptitude
-                  autotools-dev
-                  cdbs
-                  dh-autoreconf
-                  germinate))
-  Apt.autoremove(args: '--purge')
-  Apt.clean
+
+  require_relative 'ci-tooling/lib/retry'
+  Retry.retry_it(times: 5, sleep: 8) do
+    # Use apt.
+    fail 'Update failed' unless Apt.update
+    fail 'Dist upgrade failed' unless Apt.dist_upgrade
+    # FIXME: install reallly should allow array as input. that's not tested and
+    # actually fails though
+    fail 'Apt install failed' unless Apt.install(*%w(xz-utils
+                                                     dpkg-dev
+                                                     dput
+                                                     debhelper
+                                                     pkg-kde-tools
+                                                     devscripts
+                                                     python-launchpadlib
+                                                     ubuntu-dev-tools
+                                                     git
+                                                     dh-systemd
+                                                     zlib1g-dev
+                                                     python-paramiko
+                                                     sudo
+                                                     locales
+                                                     pxz
+                                                     aptitude
+                                                     autotools-dev
+                                                     cdbs
+                                                     dh-autoreconf
+                                                     germinate))
+    fail 'Autoremove failed' unless Apt.autoremove(args: '--purge')
+    fail 'Clean failed' unless Apt.clean
+  end
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
   # unavailable on Debian, call it manually.
