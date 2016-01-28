@@ -58,7 +58,7 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
-~/tooling/ci-tooling/bin/pangea_dput --port 9090 --repo mci *.changes
+~/tooling/ci-tooling/bin/pangea_dput --port 9090 --repo <%= distribution %> *.changes
       </command>
     </hudson.tasks.Shell>
   </builders>
