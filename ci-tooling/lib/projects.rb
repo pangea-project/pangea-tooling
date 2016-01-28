@@ -151,17 +151,21 @@ class Project
       fail BzrTransactionError, "Could not checkout #{uri}"
     end
 
-    def update_git
+    def update_git(branch)
       system('git clean -fd')
       system('git reset --hard')
 
       system('git gc')
       system('git config remote.origin.prune true')
-      return if system('git pull', err: '/dev/null')
-      fail GitTransactionError, 'Failed to pull'
+      unless system('git pull', err: '/dev/null')
+        fail GitTransactionError, 'Failed to pull'
+      end
+      unless system("git checkout #{branch}")
+        fail GitTransactionError, "No branch #{branch} in #{Dir.pwd}"
+      end
     end
 
-    def update_bzr
+    def update_bzr(_branch)
       return if system('bzr up')
       fail BzrTransactionError, 'Failed to update'
     end
@@ -213,21 +217,9 @@ class Project
   def update(branch)
     Retry.retry_it(errors: [TransactionError], times: 5) do
       if @component == 'launchpad'
-        self.class.update_bzr
+        self.class.update_bzr(branch)
       else
-        self.class.update_git
-
-        # FIXME: git
-        # FIXME: git
-        # FIXME: git
-        # FIXME: git
-        # FIXME: git
-        # FIXME: git
-
-        # FIXME: bzr has no concept of branches?
-        unless system("git checkout #{branch}")
-          fail GitTransactionError, "No branch #{branch}"
-        end
+        self.class.update_git(branch)
 
         # FIXME: We are not sure this is even useful anymore. It certainly was
         #   not actively used since utopic.
