@@ -134,7 +134,7 @@ https://github.com/plasma-phone-packaging/screenshotapp:
 
 https://github.com/plasma-phone-packaging/peruse:
   kubuntu_unstable:
-    url: https://github.com/plasma-apps/peruse.git
+    url: git://anongit.kde.org/peruse
 
 https://github.com/plasma-phone-packaging/inputcontext-gtk:
   kubuntu_unstable:
