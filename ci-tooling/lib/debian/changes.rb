@@ -9,6 +9,7 @@ module Debian
     File = Struct.new(:md5, :size, :section, :priority, :name)
     Checksum = Struct.new(:sum, :size, :file_name)
 
+    # FIXME: pretty sure that should be in the base
     def initialize(file)
       @file = file
       @fields = CaseHash.new
@@ -36,8 +37,18 @@ module Debian
         end
       end
 
-      # FIXME: gpg
       # TODO: Strip custom fields and add a Control::flags_for(entry) method.
+
+      # FIXME: signing verification not implemented
+      #   this code works; needs to be somewhere generic
+      #   also needs to rescue GPGME::Error::NoData
+      #   in case the file is not signed
+      # crypto = GPGME::Crypto.new
+      # results = []
+      # crypto.verify(data) do |signature|
+      #   results << signature.valid?
+      #
+      # !results.empty? && results.all?
     end
 
     private
