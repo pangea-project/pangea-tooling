@@ -15,11 +15,9 @@ module CI
       # @version
       # @tar
       @release = release
+      @release_version = LSB::DISTRIB_RELEASE
 
-      # FIXME: hardcoded
-      @build_rev = 1
-      # FIXME: hardcoded
-      @flavor = 'kubuntu'
+      @build_rev = ENV.fetch('BUILD_NUMBER')
 
       @packagingdir = File.absolute_path('packaging')
 
@@ -71,7 +69,7 @@ module CI
         base_version = base_version.split('ubuntu')
         base_version = base_version[0..-2].join('ubuntu')
       end
-      base_version = "#{base_version}#{@flavor}#{@build_rev}"
+      base_version = "#{base_version}+#{@release_version}+build#{@build_rev}"
       # FIXME: code copy from build_source
       # FIXME: dch should include build url
       dch = %w(dch)
