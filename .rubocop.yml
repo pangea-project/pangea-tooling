@@ -1,3 +1,6 @@
+AllCops:
+  TargetRubyVersion: 2.1
+
 Style/Next:
   Enabled: false
 
