@@ -1,12 +1,15 @@
 #!/usr/bin/env ruby
 
 require_relative '../lib/apt'
+require_relative '../lib/retry'
 require 'fileutils'
 
 fail 'No live-config found!' unless File.exist?('live-config')
 
-Apt.update
-Apt.install(%w(live-build live-images qemu-user-static))
+Retry.retry_it(times: 5) do
+  fail 'Apt update failed' unless Apt.update
+  fail 'Apt install failed' unless Apt.install(%w(live-build live-images qemu-user-static))
+end
 
 ec = 0
 
