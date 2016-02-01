@@ -118,6 +118,7 @@ task :deploy_in_container do
     fail 'Dist upgrade failed' unless Apt.dist_upgrade
     # FIXME: install reallly should allow array as input. that's not tested and
     # actually fails though
+    fail 'Workaround failed' unless Apt.install(*%w(rsync))
     fail 'Apt install failed' unless Apt.install(*%w(xz-utils
                                                      dpkg-dev
                                                      dput
