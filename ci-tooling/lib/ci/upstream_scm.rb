@@ -49,7 +49,7 @@ module CI
 
       super('git', "git://anongit.kde.org/#{@name.chomp('-qt4')}", 'master')
 
-      return if ENV.key?(PANGEA_NEW_OVERRIDE)
+      return if ENV.key?('PANGEA_NEW_OVERRIDE')
       global_override!
       repo_override!
     end
