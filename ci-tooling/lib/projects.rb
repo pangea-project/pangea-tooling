@@ -93,7 +93,16 @@ class Project
       fail NameError, "component contains a slash: #{@component}"
     end
 
-    Dir.chdir(set_packaging_scm(url_base, branch)) do
+    cache_dir = set_packaging_scm(url_base, branch)
+
+    if ENV.key?('PANGEA_NEW_OVERRIDE') # override
+      require_relative 'ci/overrides'
+      o = CI::Overrides.new
+      @override_rule = o.rules_for_scm(@packaging_scm)
+      override_apply('packaging_scm')
+    end
+
+    Dir.chdir(cache_dir) do
       get
       Dir.chdir(name) do
         update(branch)
@@ -131,9 +140,32 @@ class Project
         end
       end
     end
+
+    if ENV.key?('PANGEA_NEW_OVERRIDE') # override everything else
+      @override_rule.each do |member, _|
+        override_apply(member)
+      end
+    end
   end
 
   private
+
+  # TODO: this doesn't do deep-application. So we can override attributes of
+  #   our instance vars, but not of the instance var's instance vars.
+  #   (no use case right now)
+  def override_apply(member)
+    return unless @override_rule
+    object = instance_variable_get("@#{member}")
+    rule = @override_rule.delete(member) || {}
+    rule.each do |var, value|
+      # Versions would be a float. Coerce into string.
+      value = value.to_s
+      value = ERB.new(value).result(binding)
+      next unless value
+      # TODO: object.override! can jump in here and do what it wants
+      object.instance_variable_set("@#{var}", value)
+    end
+  end
 
   class << self
     # @param uri <String> uri of the repo to clone

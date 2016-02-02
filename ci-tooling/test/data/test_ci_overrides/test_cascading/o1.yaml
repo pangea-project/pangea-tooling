@@ -1,0 +1,6 @@
+git://packaging.neon.kde.org.uk/plasma/kitten:
+  kubuntu_stable:
+    packaging_scm:
+      branch: kitten
+    upstream_scm:
+      branch: kitten
