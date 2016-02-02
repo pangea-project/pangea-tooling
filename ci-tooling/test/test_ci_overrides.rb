@@ -22,9 +22,17 @@ require_relative 'lib/testcase'
 # Test ci/overrides
 module CI
   class OverridesTest < TestCase
+    def setup
+      CI::Overrides.default_files = [] # Disable overrides by default.
+    end
+
+    def teardown
+      CI::Overrides.default_files = nil # Reset
+    end
+
     def test_pattern_match
       # FIXME: this uses live data
-      o = Overrides.new
+      o = Overrides.new([data('o1.yaml')])
       scm = SCM.new('git', 'git://packaging.neon.kde.org.uk/plasma/kitten', 'kubuntu_stable')
       overrides = o.rules_for_scm(scm)
       refute_nil overrides
