@@ -8,6 +8,7 @@ fail 'No live-config found!' unless File.exist?('live-config')
 
 Retry.retry_it(times: 5) do
   fail 'Apt update failed' unless Apt.update
+  fail 'Apt update failed' unless Apt.dist_upgrade
   fail 'Apt install failed' unless Apt.install(%w(live-build live-images qemu-user-static))
 end
 
