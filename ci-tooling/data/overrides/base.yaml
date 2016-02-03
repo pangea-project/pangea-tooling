@@ -212,12 +212,6 @@ https://github.com/rpi2-stuff/mesa:
       url: git://anongit.freedesktop.org/mesa/mesa
       branch: 11.1
 
-https://github.com/netrunner-odroid/odroid-boot-services:
-  kubuntu_unstable:
-    upstream_scm:
-      url: https://github.com/netrunner-odroid/odroid-boot-services
-      branch: kubuntu_unstable
-
 https://github.com/debian-packaging/simplemenu:
   kubuntu_unstable:
     upstream_scm:
