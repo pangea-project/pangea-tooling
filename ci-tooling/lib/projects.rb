@@ -165,6 +165,9 @@ class Project
       # TODO: object.override! can jump in here and do what it wants
       object.instance_variable_set("@#{var}", value)
     end
+  rescue => e
+    warn "Failed to override #{member} with rule #{rule}"
+    raise e
   end
 
   class << self
