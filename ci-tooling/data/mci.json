@@ -36,6 +36,7 @@
         "kio-extras",
         "marble",
         "gpgmepp",
+        "kcalcore",
         "kcontacts"
       ],
       "kde-extras" : [
@@ -70,7 +71,6 @@
             "mtp-server",
             "libepoxy",
             "plasma-phone-meta",
-            "kcalcore",
             "kpeoplevcard",
             "screenshotapp",
             "inputcontext-gtk",
