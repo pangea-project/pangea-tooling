@@ -11,7 +11,7 @@ Retry.retry_it(times: 5) do
   fail 'Apt update failed' unless Apt.update
   fail 'Apt upgrade failed' unless Apt.dist_upgrade
   fail 'Apt install failed' unless Apt.install(%w(aptitude))
-  fail 'Aptitude install failed' unless system('aptitude install qemu-user-static live-build live-images')
+  fail 'Aptitude install failed' unless system('aptitude -y install qemu-user-static live-build live-images')
 end
 
 # Workaround a broken debootstrap on Debian
