@@ -127,6 +127,17 @@ class VCSBuilderTest < TestCase
     assert_not_include(files, 'test.symbols.armhf')
   end
 
+  def test_symbols_strip_latest
+    builder = CI::VcsSourceBuilder.new(release: KCI.latest_series, strip_symbols: true).run
+    Dir.chdir('build')
+    tar = Dir.glob('*.tar.gz')
+    assert_equal(1, tar.size)
+    files = tar_file_list(tar[0])
+    assert_not_include(files, 'symbols')
+    assert_not_include(files, 'test.symbols')
+    assert_not_include(files, 'test.symbols.armhf')
+  end
+
   def assert_changelogid(osid, author)
     send("fake_os_#{osid}".to_sym)
     source = CI::VcsSourceBuilder.new(release: @release).run

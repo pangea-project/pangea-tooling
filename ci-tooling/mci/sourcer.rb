@@ -10,7 +10,7 @@ Apt::Key.add("#{__dir__}/Pangea CI.gpg.key")
 Apt.update
 Apt.install(%w(pkg-kde-tools))
 
-builder = CI::VcsSourceBuilder.new(release: DIST)
+builder = CI::VcsSourceBuilder.new(release: DIST, strip_symbols: true)
 source = builder.run
 # Write out metadata
 File.write('build/source.yaml', YAML.dump(source))
