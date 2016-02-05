@@ -443,12 +443,12 @@ class Projects < Array
       end
     end
 
-    self.collect! do |project|
+    collect! do |project|
       project.dependencies.collect! do |dependency|
         next unless provided_by.include?(dependency)
         dependency = provided_by[dependency]
         # Reverse insert us into the list of dependees of our dependency
-        self.collect! do |dep_project|
+        collect! do |dep_project|
           next dep_project if dep_project.name != dependency
           dep_project.dependees << project.name
           dep_project.dependees.compact!
