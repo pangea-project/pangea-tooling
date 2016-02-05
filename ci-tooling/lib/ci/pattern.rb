@@ -43,7 +43,7 @@ module CI
 
     # Convenience equality.
     # Patterns are considered equal when compared with another Pattern object
-    # with wich the pattern attribute matches. When compared with a String that
+    # with which the pattern attribute matches. When compared with a String that
     # matches the pattern attribute. Otherwise defers to super.
     def ==(other)
       return true if other.respond_to?(:pattern) && other.pattern == @pattern
