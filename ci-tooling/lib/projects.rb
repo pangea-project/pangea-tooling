@@ -300,6 +300,7 @@ class ProjectFactory
     when 'all_repos'
       value.each do |component|
         repos = list_all_repos(component)
+        repos.sort!
         repos.each do |name|
           begin
             ret << Project.new(name, component, type: type)
