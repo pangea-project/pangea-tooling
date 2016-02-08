@@ -1,85 +1,89 @@
 # Plasma
 
-git.debian.org:/git/pkg-kde/plasma/*:
+'*{git.debian,packaging.neon}*/plasma/*':
   kubuntu_stable:
     upstream_scm:
       branch: Plasma/5.5
 
-git.debian.org:/git/pkg-kde/plasma/plasma-discover:
+'*{git.debian,packaging.neon}*/plasma/plasma-discover':
   '*':
     upstream_scm:
       url: git://anongit.kde.org/discover.git
 
 # Apps
 
-git.debian.org:/git/pkg-kde/applications/*:
+'*{git.debian,packaging.neon}*/applications/*':
   kubuntu_stable:
     upstream_scm:
       branch: Applications/15.12
 
 # Extras
 
-git.debian.org:/git/pkg-kde/*/libkgapi:
+'*{git.debian,packaging.neon}*/*/libkgapi':
   kubuntu_stable:
     upstream_scm:
       branch: LibKGAPI/5.0
 
 # Other stuff
 
-git.debian.org:/git/pkg-kde/qt/*:
+'*{git.debian,packaging.neon}*/qt/*':
   kubuntu_unstable:
     upstream_scm:
       url: http://code.qt.io/git/qt/<%= name %>.git
       branch: 5.4
+  kubuntu_vivid_mobile:
+    upstream_scm:
+      type: tarball
+      url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1.orig.tar.xz
 
-git.debian.org:/git/pkg-kde/qt/qt5webkit:
+'*{git.debian,packaging.neon}*/qt/qt5webkit':
   kubuntu_unstable:
     upstream_scm:
       url: http://code.qt.io/git/qt/qtwebkit.git
       branch: 5.4
 
-git.debian.org:/git/pkg-kde/frameworks/prison:
+'*{git.debian,packaging.neon}*/frameworks/prison':
   kubuntu_unstable:
     upstream_scm:
       branch: frameworks
 
-git.debian.org:/git/pkg-kde/kde-extras/debconf-kde:
+'*{git.debian,packaging.neon}*/kde-extras/debconf-kde':
   kubuntu_unstable:
     upstream_scm:
       url: git://anongit.kde.org/libdebconf-kde.git
 
-git.debian.org:/git/pkg-kde/kde-extras/kdeconnect-plasma:
+'*{git.debian,packaging.neon}*/kde-extras/kdeconnect-plasma':
   kubuntu_unstable:
     upstream_scm:
       url: git://anongit.kde.org/kdeconnect-kde.git
 
-git.debian.org:/git/pkg-kde/kde-extras/qapt:
+'*{git.debian,packaging.neon}*/kde-extras/qapt':
   kubuntu_unstable:
     upstream_scm:
       url: git://anongit.kde.org/libqapt.git
 
-git.debian.org:/git/pkg-kde/kde-req/qca-qt5:
+'*{git.debian,packaging.neon}*/kde-req/qca-qt5':
   kubuntu_unstable:
     upstream_scm:
       url: git://anongit.kde.org/qca.git
       branch: qt5
 
-git.debian.org:/git/pkg-kde/kde-std/sddm:
+'*{git.debian,packaging.neon}*/kde-std/sddm':
   kubuntu_unstable:
     upstream_scm:
       url: https://github.com/sddm/sddm.git
 
-git.debian.org:/git/pkg-kde/kde-extras/qt-gstreamer:
+'*{git.debian,packaging.neon}*/kde-extras/qt-gstreamer':
   '*':
     upstream_scm:
       url: git://anongit.freedesktop.org/gstreamer/qt-gstreamer
 
-git.debian.org:/git/pkg-kde/kde-extras/telepathy-accounts-signon:
+'*{git.debian,packaging.neon}*/kde-extras/telepathy-accounts-signon':
   '*':
     upstream_scm:
       url: https://gitlab.com/accounts-sso/telepathy-accounts-signon.git
 
-git.debian.org:/git/pkg-kde/kubuntu/libkolab:
+'*{git.debian,packaging.neon}*/kubuntu/libkolab':
   '*':
     upstream_scm:
       url: https://git.kolab.org/diffusion/LK/libkolab.git
