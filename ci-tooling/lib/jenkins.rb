@@ -25,6 +25,8 @@ module JenkinsApi
   # {AutoConfigJenkinsClient}.
   class Client
     prepend AutoConfigJenkinsClient
+
+    attr_reader :server_ip
   end
 end
 
