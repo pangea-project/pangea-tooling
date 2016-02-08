@@ -1,5 +1,7 @@
 require 'yaml'
 
+require_relative '../deprecate'
+
 module CI
   # A PatternArray.
   # PatternArray is a specific Array meant to be used for Pattern objects.
@@ -29,7 +31,7 @@ module CI
     # Sorting pattern thusly means that the lowest pattern is the most concrete
     # pattern.
     def <=>(other)
-      return nil unless other.is_a?(Pattern)
+      return nil unless other.is_a?(PatternBase)
       if match?(other)
         return 0 if other.match?(self)
         return 1
@@ -52,7 +54,7 @@ module CI
     end
 
     def to_s
-      "#{@pattern}"
+      @pattern.to_s
     end
 
     # FIXME returns difference on what you put in
@@ -79,7 +81,7 @@ module CI
         if recurse && value.is_a?(Hash)
           value = convert_hash(value, recurse: recurse)
         end
-        memo[CI::Pattern.new(key)] = value
+        memo[new(key)] = value
         memo
       end
       new_hash
@@ -99,7 +101,14 @@ module CI
     end
   end
 
-  Pattern = FNMatchPattern # Compat
+  # @deprecated use FNMatchPattern
+  class Pattern < FNMatchPattern # Compat
+    extend Deprecate
+    def initialize(*args)
+      super
+    end
+    deprecate :initialize, :FNMatchPattern, 2016, 02
+  end
 
   # Simple .include? pattern. An instance of this pattern matches a reference
   # if it is included in the reference in any form or fashion at any given
