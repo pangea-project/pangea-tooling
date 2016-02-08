@@ -1,5 +1,3 @@
-require 'yaml'
-
 require_relative '../deprecate'
 
 module CI
