@@ -83,4 +83,17 @@ class CIPatternTest < TestCase
     CI::Pattern.new('a')
     CI::FNMatchPattern.new('a')
   end
+
+  def test_fn_extglob
+    pattern = CI::FNMatchPattern.new('*{packaging.neon,git.debian}*/plasma/plasma-discover')
+    assert pattern.match?('git.debian.org:/git/pkg-kde/plasma/plasma-discover')
+    assert pattern.match?('git://packaging.neon.kde.org.uk/plasma/plasma-discover')
+  end
+
+  def test_fn_extglob_unbalanced
+    # count of { and } are not the same, this isn't an extglob!
+    pattern = CI::FNMatchPattern.new('*{packaging.neon,git.debian*/plasma/plasma-discover')
+    refute pattern.match?('git.debian.org:/git/pkg-kde/plasma/plasma-discover')
+    refute pattern.match?('git://packaging.neon.kde.org.uk/plasma/plasma-discover')
+  end
 end

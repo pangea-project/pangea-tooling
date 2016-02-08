@@ -97,7 +97,12 @@ module CI
     # @return true if the pattern matches the refernece
     def match?(reference)
       reference = reference.pattern if reference.respond_to?(:pattern)
-      File.fnmatch(@pattern, reference)
+      args = []
+      if @pattern.count('{') > 0 &&
+         @pattern.count('{') == @pattern.count('}')
+        args << File::FNM_EXTGLOB
+      end
+      File.fnmatch(@pattern, reference, *args)
     end
   end
 
