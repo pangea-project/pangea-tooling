@@ -7,7 +7,7 @@ module AutoConfigJenkinsClient
   # Monkey patched initialize. Merges the passed args with the data read
   # from the config file and then calls the proper initialize.
   def initialize(args = {})
-    config_file = "#{ENV['HOME']}/.config/pangea-jenkins.json"
+    config_file = args.delete(:config_file) || "#{ENV['HOME']}/.config/pangea-jenkins.json"
     config_data = {}
     if File.exist?(config_file)
       config_data = JSON.parse(File.read(config_file), symbolize_names: true)
