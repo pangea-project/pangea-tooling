@@ -41,13 +41,13 @@ module CI
     def rules_for_scm(scm)
       # FIXME: branches make no sense for lunchpad, need a flat structure there.
       @overrides ||= global_override_load
-      repo_patterns = CI::Pattern.filter(scm.url, @overrides)
-      repo_patterns = CI::Pattern.sort_hash(repo_patterns)
+      repo_patterns = CI::FNMatchPattern.filter(scm.url, @overrides)
+      repo_patterns = CI::FNMatchPattern.sort_hash(repo_patterns)
       return {} if repo_patterns.empty?
 
       branches = @overrides[repo_patterns.flatten.first]
-      branch_patterns = CI::Pattern.filter(scm.branch, branches)
-      branch_patterns = CI::Pattern.sort_hash(branch_patterns)
+      branch_patterns = CI::FNMatchPattern.filter(scm.branch, branches)
+      branch_patterns = CI::FNMatchPattern.sort_hash(branch_patterns)
       return {} if branch_patterns.empty?
 
       branches[branch_patterns.flatten.first]
@@ -60,9 +60,9 @@ module CI
       @default_paths.each do |path|
         hash.deep_merge!(YAML.load(File.read(path)))
       end
-      hash = CI::Pattern.convert_hash(hash, recurse: false)
+      hash = CI::FNMatchPattern.convert_hash(hash, recurse: false)
       hash.each do |k, v|
-        hash[k] = CI::Pattern.convert_hash(v, recurse: false)
+        hash[k] = CI::FNMatchPattern.convert_hash(v, recurse: false)
       end
       hash
     end
