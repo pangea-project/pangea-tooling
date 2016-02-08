@@ -150,23 +150,28 @@ class Project
 
   private
 
+  def render_override(erb)
+    # Versions would be a float. Coerce into string.
+    ERB.new(erb.to_s).result(binding)
+  end
+
+  def override_rule_for(member)
+    @override_rule.delete(member) || {}
+  end
+
   # TODO: this doesn't do deep-application. So we can override attributes of
   #   our instance vars, but not of the instance var's instance vars.
   #   (no use case right now)
   def override_apply(member)
     return unless @override_rule
-    object = instance_variable_get("@#{member}")
-    rule = @override_rule.delete(member) || {}
-    rule.each do |var, value|
-      # Versions would be a float. Coerce into string.
-      value = value.to_s
-      value = ERB.new(value).result(binding)
-      next unless value
+    return unless (object = instance_variable_get("@#{member}"))
+    override_rule_for(member).each do |var, value|
+      next unless (value = render_override(value))
       # TODO: object.override! can jump in here and do what it wants
       object.instance_variable_set("@#{var}", value)
     end
   rescue => e
-    warn "Failed to override #{member} with rule #{rule}"
+    warn "Failed to override #{member} of #{name} with rule #{rule}"
     raise e
   end
 
