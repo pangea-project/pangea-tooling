@@ -36,11 +36,19 @@
       type: tarball
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1.orig.tar.xz
 
+'*{git.debian,packaging.neon}*/qt/{qtbase,qtscript}':
+  kubuntu_vivid_mobile:
+    upstream_scm:
+      url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1+dfsg.orig.tar.xz
+
 '*{git.debian,packaging.neon}*/qt/qt5webkit':
   kubuntu_unstable:
     upstream_scm:
       url: http://code.qt.io/git/qt/qtwebkit.git
       branch: 5.4
+  kubuntu_vivid_mobile:
+    upstream_scm:
+      url: http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.5.1+dfsg.orig.tar.xz
 
 '*{git.debian,packaging.neon}*/frameworks/prison':
   kubuntu_unstable:
