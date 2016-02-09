@@ -70,9 +70,12 @@ class ProjectUpdater
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
         require_relative 'ci-tooling/lib/projects/factory'
-        projects = ProjectsFactory.from_file("#{__dir__}/ci-tooling/data/projects/nci.yaml")
-        # projects = Projects.new(type: type, allow_custom_ci: true,
-        #                         projects_file: 'ci-tooling/data/projects_nci.json')
+        if ENV.key?('PANGEA_NEW_OVERRIDE')
+          projects = ProjectsFactory.from_file("#{__dir__}/ci-tooling/data/projects/nci.yaml")
+        else
+          projects = Projects.new(type: type, allow_custom_ci: true,
+                                  projects_file: 'ci-tooling/data/projects_nci.json')
+        end
         projects << Project.new('pkg-kde-tools', '', branch: 'kubuntu_xenial_archive')
         projects.sort_by!(&:name)
         projects.each do |project|
