@@ -8,6 +8,9 @@ class Builder2 < JenkinsJob
     dependees = project.dependees.collect do |d|
       Builder.basename(kwords[:distribution], kwords[:type], project.component, d)
     end
+    dependees.compact!
+    dependees.uniq!
+    dependees.sort!
     project.dependees.clear
 
     jobs = Builder.job(*args, kwords)
