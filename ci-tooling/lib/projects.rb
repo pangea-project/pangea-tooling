@@ -1,7 +1,28 @@
+# frozen_string_literal: true
+#
+# Copyright (C) 2014-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2014-2016 Rohan Garg <rohan@garg.io>
+# Copyright (C) 2015 Jonathan Riddell <jr@jriddell.org>
+# Copyright (C) 2015 Bhushan Shah <bshah@kde.org>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
 require 'forwardable' # For cleanup_uri delegation
 require 'json'
 require 'fileutils'
 
+require_relative 'ci/overrides'
 require_relative 'ci/upstream_scm'
 require_relative 'debian/control'
 require_relative 'debian/source'
@@ -95,12 +116,8 @@ class Project
 
     cache_dir = set_packaging_scm(url_base, branch)
 
-    if ENV.key?('PANGEA_NEW_OVERRIDE') # override
-      require_relative 'ci/overrides'
-      o = CI::Overrides.new
-      @override_rule = o.rules_for_scm(@packaging_scm)
-      override_apply('packaging_scm')
-    end
+    @override_rule = CI::Overrides.new.rules_for_scm(@packaging_scm)
+    override_apply('packaging_scm')
 
     Dir.chdir(cache_dir) do
       get
@@ -141,10 +158,8 @@ class Project
       end
     end
 
-    if ENV.key?('PANGEA_NEW_OVERRIDE') # override everything else
-      @override_rule.each do |member, _|
-        override_apply(member)
-      end
+    @override_rule.each do |member, _|
+      override_apply(member)
     end
   end
 
@@ -165,6 +180,8 @@ class Project
   # TODO: when overriding with value nil the thing should be undefined
   # TODO: when overriding with an object that object should be used instead
   #   e.g. when the yaml has one !ruby/object:CI::UpstreamSCM...
+  # FIXME: failure not test covered as we cannot supply a broken override
+  #   without having one in the live data.
   def override_apply(member)
     return unless @override_rule
     return unless (object = instance_variable_get("@#{member}"))
