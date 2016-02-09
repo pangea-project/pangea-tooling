@@ -87,8 +87,6 @@ class ProjectUpdater
     end
     docker = enqueue(MGMTDockerJob.new(dependees: []))
     enqueue(MGMTToolingJob.new(downstreams: [docker]))
-    File.write('k', YAML.dump(@top))
-    abort
   end
 end
 
