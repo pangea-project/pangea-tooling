@@ -162,6 +162,9 @@ class Project
   # TODO: this doesn't do deep-application. So we can override attributes of
   #   our instance vars, but not of the instance var's instance vars.
   #   (no use case right now)
+  # TODO: when overriding with value nil the thing should be undefined
+  # TODO: when overriding with an object that object should be used instead
+  #   e.g. when the yaml has one !ruby/object:CI::UpstreamSCM...
   def override_apply(member)
     return unless @override_rule
     return unless (object = instance_variable_get("@#{member}"))

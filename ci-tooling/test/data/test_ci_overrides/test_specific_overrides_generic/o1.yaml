@@ -1,0 +1,21 @@
+'*{git.debian,packaging.neon}*/qt/*':
+  kubuntu_unstable:
+    upstream_scm:
+      url: http://code.qt.io/git/qt/<%= name %>.git
+      branch: 5.4
+  kubuntu_vivid_mobile:
+    upstream_scm:
+      type: tarball
+      url: http://http.debian.net/<%= name %>.tar.xz
+
+'*{git.debian,packaging.neon}*/qt/qt5webkit':
+  '*':
+    upstream_scm:
+      branch:
+  kubuntu_unstable:
+    upstream_scm:
+      url: http://code.qt.io/git/qt/qtwebkit.git
+      branch: 5.4
+  kubuntu_vivid_mobile:
+    upstream_scm:
+      url: http://http.debian.net/qtwebkit.tar.xz

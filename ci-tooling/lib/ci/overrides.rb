@@ -21,6 +21,7 @@ require 'yaml'
 require_relative 'pattern'
 
 module CI
+  # General prupose overrides handling (mostly linked to Project overrides).
   class Overrides
     DEFAULT_FILES = [
       File.expand_path("#{__dir__}/../../data/overrides/base.yaml")
@@ -40,20 +41,58 @@ module CI
 
     def rules_for_scm(scm)
       # FIXME: branches make no sense for lunchpad, need a flat structure there.
+      repo_patterns = repo_patterns_for_scm(scm)
+
+      branch_patterns = repo_patterns.collect do |_pattern, branches|
+        next nil unless branches
+        patterns = CI::FNMatchPattern.filter(scm.branch, branches)
+        patterns = CI::FNMatchPattern.sort_hash(patterns)
+        next patterns if patterns
+        nil
+      end.compact # compact nils away.
+
+      override_patterns_to_rules(branch_patterns)
+    end
+
+    private
+
+    def repo_patterns_for_scm(scm)
       @overrides ||= global_override_load
       repo_patterns = CI::FNMatchPattern.filter(scm.url, @overrides)
       repo_patterns = CI::FNMatchPattern.sort_hash(repo_patterns)
       return {} if repo_patterns.empty?
-
-      branches = @overrides[repo_patterns.flatten.first]
-      branch_patterns = CI::FNMatchPattern.filter(scm.branch, branches)
-      branch_patterns = CI::FNMatchPattern.sort_hash(branch_patterns)
-      return {} if branch_patterns.empty?
-
-      branches[branch_patterns.flatten.first]
+      repo_patterns
     end
 
-    private
+    # Flattens a pattern hash array into a hash of override rules.
+    # Namely the overrides will be deep merged in order to cascade all relevant
+    # rules against the first one.
+    # @param branch_patterns Array<<Hash[PatternBase => Hash]> a pattern to
+    #  rule hash sorted by precedence (lower index = better)
+    # @return Hash of overrides
+    def override_patterns_to_rules(branch_patterns)
+      rules = {}
+      branch_patterns.each do |patterns|
+        patterns.each do |_pattern, override|
+          # deep_merge() and deep_merge!() are different!
+          # deep_merge! will merge and overwrite any unmergeables in destination
+          #   hash
+          # deep_merge will merge and skip any unmergeables in destination hash
+          # NOTE: it is not clear to me why, but apparently we have unmergables
+          #   probably however strings are unmergable and as such would either
+          #   be replaced or not (this is the most mind numbingly dumb behavior
+          #   attached to foo! that I ever saw, in particular considering the
+          #   STL uses ! to mean in-place. So deep_merge! is behaviorwise not
+          #   equal to merge! but deeper...)
+          rules = rules.deep_merge(override)
+        end
+      end
+      rules
+    end
+
+    def overrides
+      @overrides ||= global_override_load
+    end
 
     def global_override_load
       hash = {}

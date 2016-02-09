@@ -65,7 +65,20 @@ module CI
     end
 
     def test_specific_overrides_generic
-      pend('needs test impl. applications/* should have override and applications/yolo should override the override but otherwise cascade')
+      o = Overrides.new([data('o1.yaml')])
+      scm = SCM.new('git', 'git://packaging.neon.kde.org.uk/qt/qt5webkit', 'kubuntu_vivid_mobile')
+
+      overrides = o.rules_for_scm(scm)
+
+      refute_nil overrides
+      expected = {
+        'upstream_scm' => {
+          'branch' => nil,
+          'type' => 'tarball',
+          'url' => 'http://http.debian.net/qtwebkit.tar.xz'
+        }
+      }
+      assert_equal(expected, overrides)
     end
   end
 end
