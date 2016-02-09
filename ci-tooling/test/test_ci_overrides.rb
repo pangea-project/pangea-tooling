@@ -63,5 +63,9 @@ module CI
       assert_equal({"packaging_scm"=>{"branch"=>"kitten"}, "upstream_scm"=>{"branch"=>"kitten"}},
                    overrides)
     end
+
+    def test_specific_overrides_generic
+      pend('needs test impl. applications/* should have override and applications/yolo should override the override but otherwise cascade')
+    end
   end
 end
