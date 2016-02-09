@@ -36,15 +36,27 @@ module Docker
     end
 
     def remove_container(container, force: false)
-      image = container.info.fetch('Image') { nil }
+      # Get the live data. Docker in various versions spits out convenience
+      # data in the listing .refresh! uses, .json is the raw dump.
+      # Using the raw dump we can then translate to either an image name or
+      # hash.
+      container_json = container.json
+      # API 1.21 introduced a new property
+      image_id = container_json.fetch('ImageID') { nil }
+      # Before 1.21 Image was the hot stuff.
+      image_id = container_json.fetch('Image') { nil } unless image_id
+      image = Docker::Image.get(image_id)
       unless image
         abort 'While cleaning up containers we found a container that has ' \
               'no image associated with it. This should not happen: ' \
               " #{container}"
       end
-      repo, _tag = Docker::Util.parse_repo_tag(image)
+      image.refresh! # Make sure we have live data and RepoTags available.
+      repo_tags = image.info.fetch('RepoTags') { [] }
+      # We only care about first possible tag.
+      repo, _tag = Docker::Util.parse_repo_tag(repo_tags.first || '')
       # Remove all our containers and containers from a dangling image.
-      # Danglign this case would be any image that isn't tagged.
+      # Dangling in this case would be any image that isn't tagged.
       return unless force || !repo.include?(CI::PangeaImage.namespace)
       begin
         log.warn "Removing container #{container.id}"

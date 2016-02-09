@@ -49,6 +49,7 @@ module CI
 
       super('git', "git://anongit.kde.org/#{@name.chomp('-qt4')}", 'master')
 
+      return if ENV.key?('PANGEA_NEW_OVERRIDE')
       global_override!
       repo_override!
     end
@@ -73,22 +74,22 @@ module CI
       base = File.expand_path(File.dirname(File.dirname(File.dirname(__FILE__))))
       file = File.join(base, 'data', 'upstream-scm.yml')
       hash = YAML.load(File.read(file))
-      hash = CI::Pattern.convert_hash(hash, recurse: false)
+      hash = CI::FNMatchPattern.convert_hash(hash, recurse: false)
       hash.each do |k, v|
-        hash[k] = CI::Pattern.convert_hash(v, recurse: false)
+        hash[k] = CI::FNMatchPattern.convert_hash(v, recurse: false)
       end
       hash
     end
 
     def global_override!
       overrides = global_override_load
-      repo_patterns = CI::Pattern.filter(@packaging_repo, overrides)
-      repo_patterns = CI::Pattern.sort_hash(repo_patterns)
+      repo_patterns = CI::FNMatchPattern.filter(@packaging_repo, overrides)
+      repo_patterns = CI::FNMatchPattern.sort_hash(repo_patterns)
       return if repo_patterns.empty?
 
       branches = overrides[repo_patterns.flatten.first]
-      branch_patterns = CI::Pattern.filter(@packaging_branch, branches)
-      branch_patterns = CI::Pattern.sort_hash(branch_patterns)
+      branch_patterns = CI::FNMatchPattern.filter(@packaging_branch, branches)
+      branch_patterns = CI::FNMatchPattern.sort_hash(branch_patterns)
       return if branch_patterns.empty?
 
       override_apply(branches[branch_patterns.flatten.first])

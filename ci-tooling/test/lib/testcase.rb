@@ -55,6 +55,7 @@ EOT
 
   def priority_setup
     fail ATFILEFAIL unless self.class.file
+    ENV.delete('BUILD_NUMBER')
     script_base_path = File.expand_path(File.dirname(self.class.file))
     script_name = File.basename(self.class.file, '.rb')
     @datadir = File.join(script_base_path, 'data', script_name)

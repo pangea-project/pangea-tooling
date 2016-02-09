@@ -6,7 +6,7 @@ require_relative 'pangeaimage'
 
 module CI
   class Containment
-    TRAP_SIGNALS = %w(EXIT HUP INT QUIT TERM)
+    TRAP_SIGNALS = %w(EXIT HUP INT QUIT TERM).freeze
 
     attr_reader :name
     attr_reader :image

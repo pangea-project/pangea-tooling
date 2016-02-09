@@ -14,7 +14,7 @@ module CI
   class VcsSourceBuilder
     BUILD_DIR = 'build/'
 
-    def initialize(release:)
+    def initialize(release:, strip_symbols: false)
       @release = release
       @flavor = OS::ID.to_sym
       @data = YAML.load_file("#{File.dirname(__FILE__)}/data/maintainer.yaml")
@@ -36,6 +36,7 @@ module CI
       end
 
       @tar_version = @source.build_version.tar
+      @strip_symbols = strip_symbols
     end
 
     def copy_source
@@ -167,7 +168,7 @@ module CI
           end
         end
         # Rip out symbol files unless we are on latest
-        unless @release == KCI.latest_series
+        if @strip_symbols || @release != KCI.latest_series
           symbols = Dir.glob('debian/symbols') +
                     Dir.glob('debian/*.symbols') +
                     Dir.glob('debian/*.symbols.*')

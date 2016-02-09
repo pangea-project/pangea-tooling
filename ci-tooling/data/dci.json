@@ -11,7 +11,8 @@
             "qapt",
             "qtcurve",
             "qt-gstreamer",
-            "telepathy-accounts-signon" ],
+            "telepathy-accounts-signon",
+            "kpmcore" ],
         "kde-req" : [ "qca-qt5" ]
     },
 

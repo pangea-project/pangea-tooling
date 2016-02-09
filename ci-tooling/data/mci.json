@@ -35,7 +35,9 @@
         "signon-kwallet-extension",
         "kio-extras",
         "marble",
-        "gpgmepp"
+        "gpgmepp",
+        "kcalcore",
+        "kcontacts"
       ],
       "kde-extras" : [
         "debconf-kde",
@@ -69,8 +71,6 @@
             "mtp-server",
             "libepoxy",
             "plasma-phone-meta",
-            "kcontacts",
-            "kcalcore",
             "kpeoplevcard",
             "screenshotapp",
             "inputcontext-gtk",

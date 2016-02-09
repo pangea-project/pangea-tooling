@@ -5,14 +5,16 @@ require 'fileutils'
 require_relative 'ci/upstream_scm'
 require_relative 'debian/control'
 require_relative 'debian/source'
+require_relative 'retry'
 
 require_relative 'deprecate'
 
 # A thing that gets built.
 class Project
   class Error < Exception; end
-  # FIXME: this should maybe drop git to also fit bzr
-  class GitTransactionError < Error; end
+  class TransactionError < Error; end
+  class BzrTransactionError < TransactionError; end
+  class GitTransactionError < TransactionError; end
 
   extend Deprecate
 
@@ -91,7 +93,16 @@ class Project
       fail NameError, "component contains a slash: #{@component}"
     end
 
-    Dir.chdir(set_packaging_scm(url_base, branch)) do
+    cache_dir = set_packaging_scm(url_base, branch)
+
+    if ENV.key?('PANGEA_NEW_OVERRIDE') # override
+      require_relative 'ci/overrides'
+      o = CI::Overrides.new
+      @override_rule = o.rules_for_scm(@packaging_scm)
+      override_apply('packaging_scm')
+    end
+
+    Dir.chdir(cache_dir) do
       get
       Dir.chdir(name) do
         update(branch)
@@ -129,9 +140,76 @@ class Project
         end
       end
     end
+
+    if ENV.key?('PANGEA_NEW_OVERRIDE') # override everything else
+      @override_rule.each do |member, _|
+        override_apply(member)
+      end
+    end
   end
 
   private
+
+  def render_override(erb)
+    # Versions would be a float. Coerce into string.
+    ERB.new(erb.to_s).result(binding)
+  end
+
+  def override_rule_for(member)
+    @override_rule.delete(member) || {}
+  end
+
+  # TODO: this doesn't do deep-application. So we can override attributes of
+  #   our instance vars, but not of the instance var's instance vars.
+  #   (no use case right now)
+  def override_apply(member)
+    return unless @override_rule
+    return unless (object = instance_variable_get("@#{member}"))
+    override_rule_for(member).each do |var, value|
+      next unless (value = render_override(value))
+      # TODO: object.override! can jump in here and do what it wants
+      object.instance_variable_set("@#{var}", value)
+    end
+  rescue => e
+    warn "Failed to override #{member} of #{name} with rule #{rule}"
+    raise e
+  end
+
+  class << self
+    # @param uri <String> uri of the repo to clone
+    # @param dest <String> directory name of the dir to clone as
+    def get_git(uri, dest)
+      return if File.exist?(dest)
+      return if system("git clone #{uri} #{dest}", err: '/dev/null')
+      fail GitTransactionError, "Could not clone #{uri}"
+    end
+
+    # @see {get_git}
+    def get_bzr(uri, dest)
+      return if File.exist?(dest)
+      return if system("bzr checkout #{uri} #{dest}")
+      fail BzrTransactionError, "Could not checkout #{uri}"
+    end
+
+    def update_git(branch)
+      system('git clean -fd')
+      system('git reset --hard')
+
+      system('git gc')
+      system('git config remote.origin.prune true')
+      unless system('git pull', err: '/dev/null')
+        fail GitTransactionError, 'Failed to pull'
+      end
+      unless system("git checkout #{branch}")
+        fail GitTransactionError, "No branch #{branch} in #{Dir.pwd}"
+      end
+    end
+
+    def update_bzr(_branch)
+      return if system('bzr up')
+      fail BzrTransactionError, 'Failed to update'
+    end
+  end
 
   def set_packaging_scm_git(url_base, branch)
     # Assume git
@@ -166,60 +244,29 @@ class Project
     end
   end
 
-  # @param uri <String> uri of the repo to clone
-  # @param dest <String> directory name of the dir to clone as
-  def get_git(uri, dest)
-    return if File.exist?(dest)
-    5.times { break if system("git clone #{uri} #{dest}", err: '/dev/null') }
-    fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
-  end
-
-  def update_git
-    system('git clean -fd')
-    system('git reset --hard')
-
-    i = 0
-    while (i += 1) < 5
-      system('git gc')
-      system('git config remote.origin.prune true')
-      break if system('git pull', err: '/dev/null')
-    end
-    fail GitTransactionError, 'Failed to pull' if i >= 5
-  end
-
-  # @see {get_git}
-  def get_bzr(uri, dest)
-    return if File.exist?(dest)
-    5.times { break if system("bzr checkout #{uri} #{dest}") }
-    fail GitTransactionError, "Could not clone #{uri}" unless File.exist?(dest)
-  end
-
-  def update_bzr
-    system('bzr up')
-  end
-
   def get
-    if @component == 'launchpad'
-      get_bzr(@packaging_scm.url, @name)
-    else
-      get_git(@packaging_scm.url, @name)
+    Retry.retry_it(errors: [TransactionError], times: 5) do
+      if @component == 'launchpad'
+        self.class.get_bzr(@packaging_scm.url, @name)
+      else
+        self.class.get_git(@packaging_scm.url, @name)
+      end
     end
   end
 
   def update(branch)
-    if @component == 'launchpad'
-      update_bzr
-    else
-      update_git
+    Retry.retry_it(errors: [TransactionError], times: 5) do
+      if @component == 'launchpad'
+        self.class.update_bzr(branch)
+      else
+        self.class.update_git(branch)
 
-      # FIXME: bzr has no concept of branches?
-      unless system("git checkout #{branch}")
-        fail GitTransactionError, "No branch #{branch}"
-      end
-
-      branches = `git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
-      branches.each do |b|
-        @series_branches << b.gsub('refs/remotes/origin/', '')
+        # FIXME: We are not sure this is even useful anymore. It certainly was
+        #   not actively used since utopic.
+        branches = `git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
+        branches.each do |b|
+          @series_branches << b.gsub('refs/remotes/origin/', '')
+        end
       end
     end
   end
@@ -258,6 +305,7 @@ class ProjectFactory
     when 'all_repos'
       value.each do |component|
         repos = list_all_repos(component)
+        repos.sort!
         repos.each do |name|
           begin
             ret << Project.new(name, component, type: type)
@@ -400,12 +448,12 @@ class Projects < Array
       end
     end
 
-    self.collect! do |project|
+    collect! do |project|
       project.dependencies.collect! do |dependency|
         next unless provided_by.include?(dependency)
         dependency = provided_by[dependency]
         # Reverse insert us into the list of dependees of our dependency
-        self.collect! do |dep_project|
+        collect! do |dep_project|
           next dep_project if dep_project.name != dependency
           dep_project.dependees << project.name
           dep_project.dependees.compact!

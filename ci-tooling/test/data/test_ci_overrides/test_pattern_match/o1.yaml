@@ -1,0 +1,4 @@
+git://packaging.neon.kde.org.uk/plasma/*:
+  '*':
+    upstream_scm:
+      branch: Plasma/5.5

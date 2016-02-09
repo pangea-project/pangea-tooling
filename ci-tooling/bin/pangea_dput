@@ -61,6 +61,9 @@ ARGV.each do |changes_file|
   changes.parse!
 
   files_to_upload = []
+
+  next unless changes.fields
+
   changes.fields['checksums-sha256'].each do |checksum|
     file = checksum.file_name
     fail "File not found #{file}" unless File.exist?(file)

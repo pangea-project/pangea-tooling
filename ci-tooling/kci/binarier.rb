@@ -52,15 +52,9 @@ end
 dir = dirs[0]
 
 Dir.chdir(dir) do
-  debline = "deb http://46.101.170.116 #{LSB::DISTRIB_CODENAME} main"
+  debline = "deb http://mobile.neon.pangea.pub #{LSB::DISTRIB_CODENAME} main"
   Apt::Repository.add(debline)
-  Net::HTTP.start('46.101.170.116') do |http|
-    response = http.get('/Pangea CI.gpg.key')
-    File.open('/tmp/key', 'w') do |file|
-      file.write(response.body)
-    end
-  end
-  Apt::Key.add('/tmp/key')
+  Apt::Key.add("#{__dir__}/Pangea CI.gpg.key")
   Apt::Repository.add('ppa:plasma-phone/ppa')
   if DPKG::BUILD_ARCH == 'armhf'
     debline2 = "deb http://ports.ubuntu.com/ubuntu-ports #{LSB::DISTRIB_CODENAME}-backports main restricted universe multiverse"

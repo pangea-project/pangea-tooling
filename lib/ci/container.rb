@@ -105,7 +105,7 @@ module CI
         env << 'PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
         env << 'LANG=en_US.UTF-8'
         env << 'DEBIAN_FRONTEND=noninteractive  '
-        %w(DIST TYPE).each do |v|
+        %w(DIST TYPE BUILD_NUMBER).each do |v|
           next unless ENV.include?(v)
           env << format('%s=%s', v, ENV[v])
         end
