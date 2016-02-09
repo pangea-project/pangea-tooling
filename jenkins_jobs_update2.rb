@@ -50,6 +50,8 @@ class ProjectUpdater
   private
 
   def enqueue(obj)
+    @top ||= []
+    @top << obj
     @job_queue << obj
     obj
   end
@@ -67,9 +69,12 @@ class ProjectUpdater
     all_meta_builds = []
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
-        projects = Projects.new(type: type, allow_custom_ci: true,
-                                projects_file: 'ci-tooling/data/projects_nci.json')
+        require_relative 'ci-tooling/lib/projects/factory'
+        projects = ProjectsFactory.from_file("#{__dir__}/ci-tooling/data/projects/nci.yaml")
+        # projects = Projects.new(type: type, allow_custom_ci: true,
+        #                         projects_file: 'ci-tooling/data/projects_nci.json')
         projects << Project.new('pkg-kde-tools', '', branch: 'kubuntu_xenial_archive')
+        projects.sort_by!(&:name)
         projects.each do |project|
           builder = Builder2.job(project, distribution: distribution, type: type, architectures: NCI.architectures)
           builder.each { |b| enqueue(b) }
@@ -84,6 +89,8 @@ class ProjectUpdater
     end
     docker = enqueue(MGMTDockerJob.new(dependees: []))
     enqueue(MGMTToolingJob.new(downstreams: [docker]))
+    File.write('k', YAML.dump(@top))
+    abort
   end
 end
 
