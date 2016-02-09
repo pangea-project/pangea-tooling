@@ -123,7 +123,7 @@ end
 # gets a semaphore with up to five concurrent slots they can use.
 # Additional processes are held until a slot frees up.
 class Semaphore
-  HOSTS = [:debian, :kde, nil].freeze
+  HOSTS = [:debian, :kde, :neon, nil].freeze
 
   attr_reader :host_semaphores
 
