@@ -1,0 +1,4 @@
+'*/qt/qtbase':
+  kubuntu_unstable:
+    packaging_scm:
+      branch: <%= name %>

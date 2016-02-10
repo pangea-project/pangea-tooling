@@ -1,0 +1,12 @@
+packaging.neon.kde.org.uk:
+  - frameworks/attica
+  - plasma:
+    - '*'
+  - frameworks:
+    - solid
+  - qt:
+    - qtbase
+
+git.debian.org:
+  - pkg-kde/frameworks:
+    - ki18n

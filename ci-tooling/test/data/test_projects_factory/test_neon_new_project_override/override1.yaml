@@ -1,0 +1,7 @@
+'*/qt/qtbase':
+  kubuntu_unstable:
+    packaging_scm:
+      branch: kitten
+    upstream_scm:
+      type: tarball
+      url: http://http.debian.net/debian/pool/main/q/qtbase-opensource-src/qtbase-opensource-src_5.5.1.orig.tar.xz
