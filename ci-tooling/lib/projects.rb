@@ -124,6 +124,7 @@ class Project
       Dir.chdir(name) do
         update(branch)
 
+        # FIXME: shouldn't this raise something?
         next unless File.exist?('debian/control')
 
         c = DebianControl.new
