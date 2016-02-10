@@ -22,6 +22,13 @@ require_relative 'base'
 class ProjectsFactory
   # Debian specific project factory.
   class GitHub < Base
+    DEFAULT_URL_BASE = 'https://github.com'.freeze
+
+    # FIXME: same as in neon
+    def self.url_base
+      @url_base ||= DEFAULT_URL_BASE
+    end
+
     def self.understand?(type)
       type == 'github.com'
     end
@@ -41,7 +48,7 @@ class ProjectsFactory
       {
         name: name,
         component: component,
-        url_base: 'https://github.com/',
+        url_base: "#{self.class.url_base}/",
         branch: 'kubuntu_unstable'
       }
     end
