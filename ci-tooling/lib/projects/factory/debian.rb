@@ -22,6 +22,7 @@ class ProjectsFactory
   class Debian < Base
     DEFAULT_URL_BASE = 'git://anonscm.debian.org'.freeze
 
+    # FIXME: same as in neon
     def self.url_base
       @url_base ||= DEFAULT_URL_BASE
     end
