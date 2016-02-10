@@ -28,7 +28,7 @@ group :development, :test do
   gem 'ruby-progressbar'
   gem 'simplecov'
   gem 'simplecov-rcov'
-  gem 'test-unit', '>= 3.0'
+  gem 'test-unit', '~> 3.0'
   gem 'vcr', '~> 2'
   gem 'webmock'
 end
