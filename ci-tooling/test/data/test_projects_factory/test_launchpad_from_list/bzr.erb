@@ -1,0 +1,5 @@
+#!/bin/sh
+
+args=`echo "$@" | sed 's/lp:/<%= remote.gsub('/', '\/') %>\//'`
+echo "/usr/bin/bzr $args"
+/usr/bin/bzr $args

@@ -329,15 +329,27 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
   end
 
   def test_launchpad_from_list
-    pend('this uses live servers')
-    Dir.mkdir('remote')
-    Dir.chdir('remote') do
+    # This test fakes bzr entirely to bypass the lp: pseudo-protocol
+    # Overall this still tightly checks behavior.
+
+    remote = File.absolute_path('remote')
+    FileUtils.mkpath("#{remote}/qtubuntu-cameraplugin-fake")
+    Dir.chdir("#{remote}/qtubuntu-cameraplugin-fake") do
       `bzr init .`
       File.write('file', '')
       `bzr add file`
       `bzr whoami --branch 'Test <test@test.com>'`
       `bzr commit -m 'commit'`
     end
+
+    bzr_template = File.read(data('bzr.erb'))
+    bzr_render = ERB.new(bzr_template).result(binding)
+    bin = File.absolute_path('bin')
+    Dir.mkdir(bin)
+    bzr = "#{bin}/bzr"
+    File.write(bzr, bzr_render)
+    File.chmod(0744, bzr)
+    ENV['PATH'] = "#{bin}:#{ENV['PATH']}"
 
     factory = ProjectsFactory::Launchpad.new('launchpad.net')
     projects = factory.factorize(['qtubuntu-cameraplugin-fake'])
