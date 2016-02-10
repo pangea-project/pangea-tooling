@@ -308,7 +308,16 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
   end
 
   def test_github_from_list
-    pend('this uses live servers')
+    github_repos = %w(calamares/calamares-debian)
+    github_dir = create_fake_git(branches: %w(master kubuntu_unstable),
+                                 repos: github_repos)
+    ProjectsFactory::GitHub.instance_variable_set(:@url_base, github_dir)
+
+    # mock the octokit query
+    resource = Struct.new(:name)
+    Octokit.expects(:organization_repositories)
+           .returns([resource.new('calamares-debian')])
+
     factory = ProjectsFactory::GitHub.new('github.com')
     projects = factory.factorize([{ 'calamares' => ['calamares-debian'] }])
 
@@ -319,7 +328,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     assert_is_a(project, Project)
     assert_equal 'calamares-debian', project.name
     assert_equal 'git', project.packaging_scm.type
-    assert_equal 'https://github.com/calamares/calamares-debian', project.packaging_scm.url
+    assert_equal "#{github_dir}/calamares/calamares-debian", project.packaging_scm.url
     assert_equal 'kubuntu_unstable', project.packaging_scm.branch
   end
 
