@@ -7,11 +7,11 @@ require_relative '../retry'
 
 module CI
   class PackageBuilder
-    BUILD_DIR  = 'build'
-    RESULT_DIR = 'result'
+    BUILD_DIR  = 'build'.freeze
+    RESULT_DIR = 'result'.freeze
 
     class DependencyResolver
-      RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'
+      RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'.freeze
 
       def self.resolve(dir)
         fail "Can't find #{RESOLVER_BIN}!" unless File.executable?(RESOLVER_BIN)

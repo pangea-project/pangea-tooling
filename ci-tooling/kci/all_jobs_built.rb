@@ -9,7 +9,7 @@ require_relative 'lib/jenkins'
 require_relative 'lib/retry'
 require_relative 'lib/thread_pool'
 
-QUALIFIER_STATES = %w(success unstable)
+QUALIFIER_STATES = %w(success unstable).freeze
 
 @log = Logger.new(STDOUT).tap do |l|
   l.progname = 'all_jobs_built'

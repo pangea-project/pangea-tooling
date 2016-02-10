@@ -20,8 +20,6 @@ module LSB
     remove_instance_variable(:@hash) if defined?(@hash)
   end
 
-  private
-
   def self.parse(lines)
     hash = {}
     lines.each do |line|

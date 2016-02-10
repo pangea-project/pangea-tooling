@@ -12,7 +12,7 @@ require_relative 'source'
 module CI
   # Class to build out source package from a VCS
   class VcsSourceBuilder
-    BUILD_DIR = 'build/'
+    BUILD_DIR = 'build/'.freeze
 
     def initialize(release:, strip_symbols: false)
       @release = release
@@ -29,11 +29,11 @@ module CI
 
       @source.name = changelog.name
       @source.build_version = CI::BuildVersion.new(changelog)
-      if @source.type == :native
-        @source.version = @source.build_version.base
-      else
-        @source.version = @source.build_version.full
-      end
+      @source.version = if @source.type == :native
+                          @source.build_version.base
+                        else
+                          @source.build_version.full
+                        end
 
       @tar_version = @source.build_version.tar
       @strip_symbols = strip_symbols
@@ -44,11 +44,11 @@ module CI
       FileUtils.rm_rf(BUILD_DIR, verbose: true)
 
       # Allow support for format 1.0 and quilt
-      if @source.type == :native
-        source_dir = 'packaging'
-      else
-        source_dir = 'source'
-      end
+      source_dir = if @source.type == :native
+                     'packaging'
+                   else
+                     'source'
+                   end
 
       FileUtils.mkpath("#{BUILD_DIR}/source")
       # Legacy behavior was to ignore missing source directories. Using the
@@ -110,8 +110,8 @@ module CI
       end
 
       Dir.chdir(BUILD_DIR) do
-        dsc = Dir.glob("*.dsc")
-        fail "Exactly one dsc not found" if dsc.size != 1
+        dsc = Dir.glob('*.dsc')
+        fail 'Exactly one dsc not found' if dsc.size != 1
         @source.dsc = dsc[0]
       end
     end

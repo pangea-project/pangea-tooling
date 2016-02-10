@@ -21,7 +21,8 @@ OptionParser.new do |opts|
     options.keep_merger = true
   end
 
-  opts.on('--type [TYPE]', KCI.types, 'Choose type to expunge (or multiple)') do |v|
+  opts.on('--type [TYPE]', KCI.types,
+          'Choose type to expunge (or multiple)') do |v|
     options.types ||= []
     options.types << v.to_s
   end

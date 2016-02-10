@@ -1,12 +1,9 @@
 require_relative '../lib/lsb'
+require_relative 'lib/testcase'
 
 # Test lsb
-class LSBTest < Test::Unit::TestCase
+class LSBTest < TestCase
   def setup
-    script_base_path = File.expand_path(File.dirname(__FILE__))
-    script_name = File.basename(__FILE__, '.rb')
-    @datadir = File.join(script_base_path, 'data', script_name)
-
     @orig_file = LSB.instance_variable_get(:@file)
     LSB.instance_variable_set(:@file, File.join(@datadir, method_name))
     LSB.reset

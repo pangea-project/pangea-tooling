@@ -16,7 +16,7 @@ class ProjectUpdater
   MODULE_MAP = {
     dci: DCI,
     mci: MCI
-  }
+  }.freeze
 
   def initialize(flavor:)
     @job_queue = Queue.new

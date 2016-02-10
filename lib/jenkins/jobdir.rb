@@ -1,6 +1,8 @@
 require 'fileutils'
 
 module Jenkins
+  # A Jenkins job directory handler. That is a directory in jobs/ and its
+  # metadata.
   class JobDir
     STATE_SYMLINKS = %w(
       lastFailedBuild
@@ -8,7 +10,7 @@ module Jenkins
       lastSuccessfulBuild
       lastUnstableBuild
       lastUnsuccessfulBuild
-    )
+    ).freeze
 
     def self.age(file)
       ((Time.now - File.mtime(file)) / 60 / 60 / 24).to_i

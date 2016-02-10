@@ -30,7 +30,7 @@ Project = Struct.new(:series, :type)
 project = Project.new(ENV.fetch('DIST'), ENV.fetch('TYPE'))
 
 module VerifablePPA
-  EXISTING_STATES = %w(Pending Published)
+  EXISTING_STATES = %w(Pending Published).freeze
 
   # @param packages [Hash<String, String>] Hash of package-versions
   # @return [Array<String>] array of source names that are existing

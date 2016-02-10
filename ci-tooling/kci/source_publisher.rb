@@ -15,7 +15,7 @@ class SourcePublisher
     'Currently building',
     'Uploading build',
     'Cancelling build'
-  ]
+  ].freeze
   FAILED_STATES = [
     'Chroot problem',
     'Failed to upload',
@@ -23,8 +23,8 @@ class SourcePublisher
     'Build for superseded Source',
     'Cancelled build',
     'Dependency wait'
-  ]
-  SUCCESS_STATES = ['Successfully built']
+  ].freeze
+  SUCCESS_STATES = ['Successfully built'].freeze
 
   def initialize(source_name, source_version, ppa = 'unstable')
     @ppa = Launchpad::Rubber.from_path("~kubuntu-ci/+archive/ubuntu/#{ppa}")
