@@ -31,34 +31,6 @@ module CI
       # FIXME: builder should generate a Source instance
     end
 
-    # FIXME: why would the builder need to know how to get the source?
-    def retrieve_tar
-      fetcher = WatchTarFetcher.new("#{@packagingdir}/debian/watch")
-      fetcher.fetch(@builddir)
-    end
-    deprecate :retrieve_tar, WatchTarFetcher, 2015, 11
-    alias_method :get_tar, :retrieve_tar
-
-    # FIXME: this needs to happen magically somehow?
-    def sourcepath
-      return @sourcedir if @sourcedir
-      Dir.chdir('build') do
-        tar = Dir.glob('*.tar.*')
-        abort unless tar.size != 1 || tar.zie != 2
-        tar = tar[0]
-        abort unless system('tar', '-xf', tar)
-        # FIXME: this should possibly simply extract to a subdir and make sure
-        #        that the everything is in ONE subdir or else move it in one.
-        #        the present code wouldn't handle tars with multiple files
-        #        rather than a dir.
-        dirs = Dir.glob('*').reject { |d| !File.directory?(d) }
-        abort unless dirs.size == 1
-        @sourcedir = File.absolute_path(dirs[0])
-      end
-      @sourcedir
-    end
-    deprecate :sourcepath, "#{Tarball}.extract", 2015, 11
-
     def log_change
       # FIXME: this has email and fullname from env, see build_source
       # FIXME: code copy from build_source
