@@ -19,7 +19,7 @@ module Lint
           => :parse_package,
         'CMake Warning' \
           => :parse_warning
-      }
+      }.freeze
 
       def lint(data)
         r = Result.new

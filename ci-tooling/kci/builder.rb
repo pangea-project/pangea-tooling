@@ -44,8 +44,8 @@ require_relative '../lib/retry'
 class KCIBuilder
   class CoverageError < Exception; end
 
-  DPUTCONF = '/var/lib/jenkins/tooling/dput.cf'
-  KEYID = '6A0C5BF2'
+  DPUTCONF = '/var/lib/jenkins/tooling/dput.cf'.freeze
+  KEYID = '6A0C5BF2'.freeze
   Project = Struct.new(:series, :stability, :name)
 
   class << self

@@ -111,6 +111,25 @@ https://github.com/*/samba-mounter:
 
 ## Mobile
 
+### Xorg
+'*{git.debian,packaging.neon}*/xserver/xorg-server':
+  debian-experimental:
+    upstream_scm:
+      type: tarball
+      url: http://http.debian.net/debian/pool/main/x/xorg-server/xorg-server_1.18.0.orig.tar.gz
+
+'*{git.debian,packaging.neon}*/proto/x11proto-core':
+  debian-unstable:
+    upstream_scm:
+      type: tarball
+      url: http://http.debian.net/debian/pool/main/x/x11proto-core/x11proto-core_7.0.28.orig.tar.gz
+
+'*{git.debian,packaging.neon}*/proto/x11proto-randr':
+  debian-unstable:
+    upstream_scm:
+      type: tarball
+      url: http://http.debian.net/debian/pool/main/x/x11proto-randr/x11proto-randr_1.5.0.orig.tar.gz
+
 https://github.com/plasma-phone-packaging/simplelogin-packaging:
   kubuntu_unstable:
     upstream_scm:

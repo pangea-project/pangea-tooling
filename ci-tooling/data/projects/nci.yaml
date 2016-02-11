@@ -1,0 +1,12 @@
+packaging.neon.kde.org.uk:
+  - frameworks:
+    - '*'
+  - plasma:
+    - '*'
+  - kde-req:
+    - qca-qt5
+  - neon:
+    - seeds
+  - qt:
+    - '*':
+        branch: kubuntu_vivid_mobile

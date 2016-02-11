@@ -9,7 +9,7 @@ require_relative 'result'
 module Lint
   # Lints a debian patches seris file
   class Series
-    EXCLUDES = %w(series ignore)
+    EXCLUDES = %w(series ignore).freeze
 
     attr_reader :package_directory
 

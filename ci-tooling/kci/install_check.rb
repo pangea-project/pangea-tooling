@@ -218,7 +218,7 @@ abort 'failed to install minimal' unless Apt.install('ubuntu-minimal')
 system('apt-get install wamerican')
 
 daily_ppa = CiPPA.new("#{project.stability}-daily", project.series)
-live_ppa = CiPPA.new("#{project.stability}", project.series)
+live_ppa = CiPPA.new(project.stability.to_s, project.series)
 live_ppa.remove # remove live before attempting to use daily.
 
 # Add the present daily snapshot, install everything.

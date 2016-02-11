@@ -2,11 +2,11 @@ require_relative '../dpkg'
 
 # Management construct for QML related bits.
 module QML
-  SEARCH_PATHS = ["/usr/lib/#{DPKG::HOST_MULTIARCH}/qt5/qml"]
+  SEARCH_PATHS = ["/usr/lib/#{DPKG::HOST_MULTIARCH}/qt5/qml"].freeze
 
   # Describes a QML module.
   class Module
-    IMPORT_SEPERATOR = '.'
+    IMPORT_SEPERATOR = '.'.freeze
 
     attr_reader :identifier
     attr_reader :version

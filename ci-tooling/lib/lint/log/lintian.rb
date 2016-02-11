@@ -26,7 +26,7 @@ module Lint
         # FIXME: needs test probably
         'debian-revision-should-not-be-zero',
         'bad-distribution-in-changes-file'
-      ]
+      ].freeze
 
       def lint(data)
         r = Result.new

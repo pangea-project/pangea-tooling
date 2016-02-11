@@ -50,7 +50,7 @@ OptionParser.new do |opts|
   opts.banner = "Usage: #{$PROGRAM_NAME} [options] ppa:PPA_IDENTIFIER"
 
   opts.on('-s SERIES', '--series SERIES',
-          'Ubuntu series to run on (or nil for all)')  do |v|
+          'Ubuntu series to run on (or nil for all)') do |v|
     options[:series] = v
   end
 end.parse!
@@ -67,7 +67,8 @@ target_ppa = Launchpad::Rubber.from_path("~#{target.team}/+archive/ubuntu/#{targ
 sources = []
 if options[:series]
   series = Launchpad::Rubber.from_path("ubuntu/#{options[:series]}")
-  sources = origin_ppa.getPublishedSources(status: 'Published', distro_series: series)
+  sources = origin_ppa.getPublishedSources(status: 'Published',
+                                           distro_series: series)
 else
   sources = origin_ppa.getPublishedSources(status: 'Published')
 end
@@ -79,7 +80,7 @@ BlockingThreadPool.run do
     source = source_queue.pop(true)
     has_arm = false
     source.getBuilds.each do |build|
-      has_arm = true and break if build.arch_tag == 'armhf'
+      has_arm = true && break if build.arch_tag == 'armhf'
     end
     next unless has_arm
 

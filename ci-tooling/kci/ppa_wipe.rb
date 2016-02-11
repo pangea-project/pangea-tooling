@@ -58,7 +58,7 @@ Launchpad.authenticate
 
 KCI.types.each do |type|
   LOG.info "Working on #{type}"
-  Archive.new("#{type}", options.series).wipe
+  Archive.new(type.to_s, options.series).wipe
   %w(daily weekly).each do |snapshot|
     LOG.info "Working on #{type}-#{snapshot}"
     Archive.new("#{type}-#{snapshot}", options.series).wipe
