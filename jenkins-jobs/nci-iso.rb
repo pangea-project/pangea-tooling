@@ -8,7 +8,7 @@ class NeonIsoJob < JenkinsJob
   attr_reader :imagename
 
   def initialize(type:, distribution:, architecture:, metapackage:, imagename:)
-    super("iso_#{distribution}_#{type}_#{architecture}", 'nci-iso.xml.erb')
+    super("iso_#{imagename}_#{distribution}_#{type}_#{architecture}", 'nci-iso.xml.erb')
     @type = type
     @distribution = distribution
     @metapackage = metapackage
