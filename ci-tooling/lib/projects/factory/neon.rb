@@ -22,6 +22,7 @@ class ProjectsFactory
   class Neon < Base
     DEFAULT_URL_BASE = 'git://packaging.neon.kde.org.uk'.freeze
 
+    # FIXME: needs a writer!
     def self.url_base
       @url_base ||= DEFAULT_URL_BASE
     end
