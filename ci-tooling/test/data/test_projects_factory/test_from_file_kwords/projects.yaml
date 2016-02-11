@@ -1,0 +1,7 @@
+packaging.neon.kde.org.uk:
+  - qt:
+    - '*':
+        branch: kubuntu_vivid_mobile
+    - qtbase
+    - sni-qt:
+        branch: kubuntu_stable

@@ -221,6 +221,34 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     assert_equal('kubuntu_stable', project.packaging_scm.branch)
   end
 
+  def test_from_file_kwords
+    # Same as with_properties but we override the default via a kword for
+    # from_file.
+    neon_repos = %w(qt/qtbase
+                    qt/sni-qt
+                    qt/qtsvg)
+    neon_dir = create_fake_git(branches: %w(master kitten kubuntu_stable kubuntu_vivid_mobile),
+                               repos: neon_repos)
+    ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
+    # Cache a mocked listing for Neon
+    cache_neon_backtick(gitolite_ls(neon_repos))
+
+    projects = ProjectsFactory.from_file("#{data}/projects.yaml",
+                                         branch: 'kitten')
+
+    project = projects.find { |p| p.name == 'qtbase' }
+    refute_nil(project, 'qtbase is missing from the projects :(')
+    assert_equal('kitten', project.packaging_scm.branch)
+
+    project = projects.find { |p| p.name == 'qtsvg' }
+    refute_nil(project, 'qtsvg is missing from the projects :(')
+    assert_equal('kubuntu_vivid_mobile', project.packaging_scm.branch)
+
+    project = projects.find { |p| p.name == 'sni-qt' }
+    refute_nil(project, 'sni-qt is missing from the projects :(')
+    assert_equal('kubuntu_stable', project.packaging_scm.branch)
+  end
+
   def test_neon_understand
     assert ProjectsFactory::Neon.understand?('packaging.neon.kde.org.uk')
     refute ProjectsFactory::Neon.understand?('git.debian.org')

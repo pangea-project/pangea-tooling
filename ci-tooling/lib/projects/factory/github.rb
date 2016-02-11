@@ -43,20 +43,20 @@ class ProjectsFactory
       [name, component]
     end
 
-    def default_params(str)
+    def params(str)
       name, component = split_entry(str)
-      {
+      default_params.merge(
         name: name,
         component: component,
         url_base: "#{self.class.url_base}/",
         branch: 'kubuntu_unstable'
-      }
+      )
     end
 
     # FIXME: test needs to check that we get the correct url out
     # FIXME: same as in neon
     def from_string(str, params = {})
-      kwords = default_params(str)
+      kwords = params(str)
       kwords.merge!(symbolize(params))
       new_project(**kwords)
     rescue Project::GitTransactionError, RuntimeError => e

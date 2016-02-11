@@ -18,6 +18,10 @@
 class ProjectsFactory
   # Base class.
   class Base
+    DEFAULT_PARAMS = {
+      branch: 'kubuntu_unstable' # FIXME: kubuntu
+    }.freeze
+
     class << self
       def from_type(type)
         return nil unless understand?(type)
@@ -28,6 +32,8 @@ class ProjectsFactory
         false
       end
     end
+
+    attr_accessor :default_params
 
     # Factorize from data. Defaults to data being an array.
     def factorize(data)
@@ -53,12 +59,13 @@ class ProjectsFactory
       end
     end
 
-    def symbolize(hsh)
-      Hash[hsh.map { |(key, value)| [key.to_sym, value] }]
-    end
-
     def initialize(type)
       @type = type
+      @default_params = DEFAULT_PARAMS
+    end
+
+    def symbolize(hsh)
+      Hash[hsh.map { |(key, value)| [key.to_sym, value] }]
     end
 
     # FIXME: this is a workaround until Project gets entirely redone

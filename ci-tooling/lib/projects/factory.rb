@@ -39,7 +39,7 @@ class ProjectsFactory
     selection
   end
 
-  def self.from_file(file)
+  def self.from_file(file, **kwords)
     data = YAML.load(File.read(file))
     fail unless data.is_a?(Hash)
     projects = data.collect do |type, list|
@@ -47,6 +47,7 @@ class ProjectsFactory
       fail unless list.is_a?(Array)
       factory = factory_for(type)
       fail unless factory
+      factory.default_params = factory.default_params.merge(kwords)
       factory.factorize(list)
     end.flatten.compact
 

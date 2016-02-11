@@ -39,22 +39,22 @@ class ProjectsFactory
       [name, component]
     end
 
-    def default_params(str)
+    def params(str)
       # FIXME: branch hardcoded!!@#!$%!!
       # FIXME: also in debian
       # FIXME: also in github
       name, component = split_entry(str)
-      {
+      default_params.merge(
         name: name,
         component: component,
         url_base: self.class.url_base,
-        branch: 'kubuntu_unstable'
-      }
+      )
     end
 
     def from_string(str, params = {})
-      kwords = default_params(str)
+      kwords = params(str)
       kwords.merge!(symbolize(params))
+      puts "new_project(#{kwords})"
       new_project(**kwords)
     rescue Project::GitTransactionError, RuntimeError => e
       # FIXME: eating exception
