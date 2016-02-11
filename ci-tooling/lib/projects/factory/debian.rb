@@ -47,8 +47,7 @@ class ProjectsFactory
       default_params.merge(
         name: name,
         component: component,
-        url_base: "#{self.class.url_base}/#{prefix.join('/')}",
-        branch: 'kubuntu_unstable'
+        url_base: "#{self.class.url_base}/#{prefix.join('/')}"
       )
     end
 
