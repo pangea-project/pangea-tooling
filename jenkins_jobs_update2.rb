@@ -80,11 +80,18 @@ class ProjectUpdater
         NCI.architectures.each do |architecture|
           isoargs = { type: type,
                       distribution: distribution,
-                      architecture: architecture }
+                      architecture: architecture,
+                      meta: "neon-desktop"}
           enqueue(NeonIsoJob.new(isoargs))
+          waylandIsoargs = { type: type,
+                             distribution: distribution,
+                             architecture: architecture,
+                             meta: "plasma-wayland-ci-live" }
+          enqueue(NeonIsoJob.new(waylandIsoargs))
         end
       end
     end
+
     docker = enqueue(MGMTDockerJob.new(dependees: []))
     enqueue(MGMTToolingJob.new(downstreams: [docker]))
   end
