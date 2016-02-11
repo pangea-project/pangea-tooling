@@ -11,6 +11,7 @@ class NeonIsoJob < JenkinsJob
     super("iso_#{distribution}_#{type}_#{architecture}", 'nci-iso.xml.erb')
     @type = type
     @distribution = distribution
-    @meta = meta
+    @metapackage = metapackage
+    @imagename = imagename
   end
 end
