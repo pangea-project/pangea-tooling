@@ -73,7 +73,15 @@ class ProjectUpdater
     all_mergers = []
     KCI.series.each_key do |distribution|
       KCI.types.each do |type|
-        projects = Projects.new(type: type)
+        if ENV.key?('PANGEA_NEW_FACTORY')
+          require_relative 'ci-tooling/lib/projects/factory'
+          ProjectsFactory::Debian.instance_variable_set(:@url_base,
+                                                        'git.debian.org:/git')
+          file = "#{__dir__}/ci-tooling/data/projects/kci.yaml"
+          projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
+        else
+          projects = Projects.new(type: type)
+        end
         all_builds = projects.collect do |project|
           # FIXME: super fucked up dupe prevention
           if type == 'unstable' && distribution == KCI.series.keys[0]
