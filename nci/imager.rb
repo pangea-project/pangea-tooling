@@ -10,7 +10,8 @@ JOB_NAME = ENV.fetch('JOB_NAME')
 DIST = ENV.fetch('DIST')
 TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
-META = ENV.fetch('META')
+METAPACKAGE = ENV.fetch('METAPACKAGE')
+IMAGENAME = ENV.fetch('IMAGENAME')
 
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
@@ -23,12 +24,12 @@ c = CI::Containment.new(JOB_NAME,
                         image: CI::PangeaImage.new(:ubuntu, DIST),
                         binds: binds,
                         privileged: true)
-cmd = ["#{TOOLING_PATH}/nci/imager/build.sh", Dir.pwd, DIST, ARCH, TYPE, META]
+cmd = ["#{TOOLING_PATH}/nci/imager/build.sh", Dir.pwd, DIST, ARCH, TYPE, METAPACKAGE, IMAGENAME]
 status_code = c.run(Cmd: cmd)
 exit status_code unless status_code == 0
 
 DATE = File.read('result/date_stamp').strip
-WEBSITE_PATH = "/var/www/images/#{META}-#{TYPE}-proposed/"
+WEBSITE_PATH = "/var/www/images/#{IMAGENAME}-#{TYPE}-proposed/"
 PUB_PATH = "#{WEBSITE_PATH}#{DATE}"
 FileUtils.mkpath(PUB_PATH)
 %w(iso manifest zsync).each do |type|

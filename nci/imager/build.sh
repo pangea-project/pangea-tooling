@@ -15,9 +15,10 @@ export WD=$1
 export DIST=$2
 export ARCH=$3
 export TYPE=$4
-export META=$5
+export METAPACKAGE=$5
+export IMAGENAME=$6
 
-if [ -z $WD ] || [ -z $DIST ] || [ -z $ARCH ] || [ -z $TYPE ]; then
+if [ -z $WD ] || [ -z $DIST ] || [ -z $ARCH ] || [ -z $TYPE ] || [ -z $METAPACKAGE ] || [ -z $IMAGENAME ]; then
     echo "!!! Not all arguments provided! ABORT !!!"
     env
     exit 1
@@ -66,15 +67,9 @@ export LB_ZSYNC=true # This is overridden by silly old defaults-image...
 
 export CONFIG_HOOKS="$(dirname "$0")/config-hooks"
 
-if [ $META = "wayland" ]; then
-    META_PACKAGE="plasma-wayland-ci-live"
-else
-    META_PACKAGE="neon-desktop"
-fi
-
 # Preserve envrionment -E plz.
 sudo -E $(dirname "$0")/ubuntu-defaults-image \
-    --package $META_PACKAGE \
+    --package $METAPACKAGE \
     --arch $ARCH \
     --release $DIST \
     --flavor kubuntu \
@@ -90,7 +85,7 @@ mv livecd.kubuntu.* ../result/
 cd ../result/
 
 for f in *; do
-    new_name=$(echo $f | sed "s/livecd\.kubuntu/${META}-${DATE}-${ARCH}/")
+    new_name=$(echo $f | sed "s/livecd\.kubuntu/${IMAGENAME}-${DATE}-${ARCH}/")
     mv $f $new_name
 done
 
