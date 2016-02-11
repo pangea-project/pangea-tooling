@@ -69,7 +69,9 @@ class ProjectsFactory
       provided_by
     end
 
-    def resolved_dependency(dependency, provided_by, projects)
+    # FIXME: this actually isn't test covered as the factory tests have no
+    #   actual dependency chains
+    def resolved_dependency(project, dependency, provided_by, projects)
       # NOTE: if this was an instance we could cache provided_by!
       return nil unless provided_by.include?(dependency)
       dependency = provided_by[dependency]
@@ -87,7 +89,7 @@ class ProjectsFactory
       provided_by = provided_by(projects)
       projects.collect do |project|
         project.dependencies.collect! do |dependency|
-          next resolved_dependency(dependency, provided_by, projects)
+          next resolved_dependency(project, dependency, provided_by, projects)
         end
         # Ditch nil and duplicates
         project.dependencies.compact!
