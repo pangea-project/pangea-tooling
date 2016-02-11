@@ -79,7 +79,13 @@ class ProjectUpdater
     all_meta_builds = []
     @CI_MODULE.series.each_key do |distribution|
       @CI_MODULE.types.each do |type|
-        projects = Projects.new(type: type, allow_custom_ci: true, projects_file: "ci-tooling/data/#{@flavor}.json")
+        if ENV.key?('PANGEA_NEW_FACTORY')
+          require_relative 'ci-tooling/lib/projects/factory'
+          file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}.yaml"
+          projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
+        else
+          projects = Projects.new(type: type, allow_custom_ci: true, projects_file: "ci-tooling/data/#{@flavor}.json")
+        end
         all_builds = projects.collect do |project|
           Builder.job(project, distribution: distribution, type: type,
                                architectures: @CI_MODULE.architectures,
