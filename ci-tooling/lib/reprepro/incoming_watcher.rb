@@ -38,10 +38,10 @@ require 'rb-inotify'
 require 'logger'
 require 'thwait'
 
-S3MIRRORS = ['pangea-data', 'pangea-data-lax-dci']
+S3MIRRORS = ['pangea-data', 'pangea-data-lax-dci'].freeze
 repos = []
 threads = []
-FOLDER_NAME = {}
+FOLDER_NAME = {}.freeze
 
 logger = Logger.new(STDOUT)
 logger.info 'Starting ...'

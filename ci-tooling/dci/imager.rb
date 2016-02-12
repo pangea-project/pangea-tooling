@@ -15,7 +15,7 @@ FLAVOR = ARGV[2]
 OWNCLOUD_PREF = "config/archives/owncloud.pref << EOF
 Package: owncloud*
 Pin: release o=\"http://pangea-data.s3.amazonaws.com/dci\"
-Pin-Priority: 1001"
+Pin-Priority: 1001".freeze
 
 REPO_KEY = '-----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1
@@ -45,7 +45,7 @@ GZCJiO0hg8SivtuaIUOyg2ppJ7GL8yDTbqeEv/vuR6u3FIInf5fkoq8UAVZW1kk9
 E8h+hEwC9yn+GErgrWtihLpm7ZHIePi3vhCkwiMh7wJQSvHQfd4k037jj8v3Tf4M
 a4hw1LvfpbOxVBwDdqEFgH6LQI5eXNGwR9Ps3F1KA3yNVI2FKbArVPQ=
 =UBq7
------END PGP PUBLIC KEY BLOCK-----'
+-----END PGP PUBLIC KEY BLOCK-----'.freeze
 
 def workarounds
   system('rm -rf config/bootloaders/*')
@@ -92,8 +92,8 @@ logger = DCILogger.instance
 
 Dir.mkdir('build') unless Dir.exist? 'build'
 
-MIRROR = 'http://127.0.0.1:3142/debian'
-CLOUDFRONT_MIRROR = 'http://cloudfront.debian.net/debian'
+MIRROR = 'http://127.0.0.1:3142/debian'.freeze
+CLOUDFRONT_MIRROR = 'http://cloudfront.debian.net/debian'.freeze
 Dir.chdir('build') do
   logger.info('Installing some extra utils')
   dci_run_cmd('apt-get update')

@@ -1,4 +1,5 @@
 module Debian
+  # A debian policy version handling class.
   class Version
     attr_reader :full
     attr_reader :epoch

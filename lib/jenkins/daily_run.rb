@@ -38,9 +38,8 @@ module Jenkins
       out_of_date_range = false
       builds = @builds.delete_if do |build|
         next true if out_of_date_range
-        if build.number > @build_number
-          next true
-        elsif build.number == @build_number
+        next true if build.number > @build_number
+        if build.number == @build_number
           current_build = build
           current_build_date = Date.parse(Time.at(build.timestamp / 1000).to_s)
           next true

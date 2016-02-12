@@ -8,16 +8,16 @@ logger = DCILogger.instance
 logger.info('Starting source only build')
 
 if File.exist? 'source/debian/source/format'
-  PACKAGING_DIR = 'source'
+  PACKAGING_DIR = 'source'.freeze
 else
-  PACKAGING_DIR = 'packaging'
+  PACKAGING_DIR = 'packaging'.freeze
 end
 
 Dir.chdir(PACKAGING_DIR) do
   $changelog = Changelog.new
 end
 
-REPOS_FILE = 'debian/meta/extra_repos.json'
+REPOS_FILE = 'debian/meta/extra_repos.json'.freeze
 
 repos = ['default']
 Dir.chdir("#{ENV['WORKSPACE']}/#{PACKAGING_DIR}") do
@@ -31,9 +31,9 @@ SOURCE_NAME = $changelog.name
 RELEASE = ENV['JOB_NAME'].split('_')[-1]
 
 if RbConfig::CONFIG['host_cpu'] == 'arm'
-  ARCH = 'armhf'
+  ARCH = 'armhf'.freeze
 else
-  ARCH = 'amd64'
+  ARCH = 'amd64'.freeze
 end
 
 system("schroot -u root -c #{RELEASE}-#{ARCH} -d #{ENV['WORKSPACE']} \

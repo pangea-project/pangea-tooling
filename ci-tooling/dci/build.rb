@@ -25,7 +25,7 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-RESULT_DIR = '/build/'
+RESULT_DIR = '/build/'.freeze
 
 logger = DCILogger.instance
 
@@ -50,7 +50,7 @@ else
     File.delete(extra_file) if File.exist?(extra_file)
 
     Dir.chdir(options[:workspace]) do
-      EXTRA_REPOS = 'extra_repos.json'
+      EXTRA_REPOS = 'extra_repos.json'.freeze
       next unless File.exist? EXTRA_REPOS
       extra_repos = JSON.parse(File.read(EXTRA_REPOS))
       options[:repos].each do |repo|
