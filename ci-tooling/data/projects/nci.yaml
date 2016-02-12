@@ -9,4 +9,4 @@ packaging.neon.kde.org.uk:
     - seeds
   - qt:
     - '*':
-        branch: kubuntu_vivid_mobile
+        branch: Neon/5.5
