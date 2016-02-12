@@ -3,7 +3,7 @@ require 'thread'
 # Thread-safe queue container.
 # Queue is monkey patched to support incredibly useful Array<=>Queue conversion.
 class Queue
-  alias_method :super_init, :initialize
+  alias super_init initialize
 
   def initialize(array = nil)
     super_init
