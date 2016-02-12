@@ -13,7 +13,8 @@ class CaseHash < Hash
   end
 
   def fetch(key, default)
-    key.respond_to?(:downcase) ? super(key.downcase, default) : super(key, default)
+    super(key.downcase, default) if key.respond_to?(:downcase)
+    super(key, default)
   end
 end
 
@@ -55,6 +56,7 @@ module Debian
     end
   end
 
+  # Deb822 specification parser.
   class Deb822
     def parse_relationships(line)
       ret = []
