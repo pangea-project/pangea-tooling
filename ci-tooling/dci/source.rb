@@ -48,7 +48,7 @@ if !options[:repos].nil? && options[:repos].count > 1
   File.delete(extra_file) if File.exist?(extra_file)
 
   Dir.chdir(options[:workspace]) do
-    EXTRA_REPOS = 'extra_repos.json'
+    EXTRA_REPOS = 'extra_repos.json'.freeze
     next unless File.exist? EXTRA_REPOS
     extra_repos = JSON.parse(File.read(EXTRA_REPOS))
     options[:repos].each do |repo|
@@ -78,7 +78,7 @@ dci_run_cmd("apt-get -y install #{packages}")
 Dir.chdir(ARGV[1]) do
   # Get source name and what not
 
-  PACKAGING_DIR = 'packaging'
+  PACKAGING_DIR = 'packaging'.freeze
   source_dir = 'source'
   s = nil
   Dir.chdir(PACKAGING_DIR) do

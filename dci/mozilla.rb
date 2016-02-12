@@ -1,7 +1,7 @@
 raise "Need a mozilla product to build for!" unless ARGV[1]
 raise "Need a release to build for!" unless ARGV[2]
 
-KEYID = '125B4BCF'
+KEYID = '125B4BCF'.freeze
 
 PACKAGE = ARGV[1]
 RELEASE = ARGV[2]

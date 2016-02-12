@@ -6,8 +6,8 @@ logger = DCILogger.instance
 
 RELEASE = `grep Distribution #{ARGV[1]}`.split(':')[-1].strip
 PACKAGE = `grep Source #{ARGV[1]}`.split(':')[-1].strip
-RESULT_DIR = '/var/lib/sbuild/build'
-REPOS_FILE = 'debian/meta/extra_repos.json'
+RESULT_DIR = '/var/lib/sbuild/build'.freeze
+REPOS_FILE = 'debian/meta/extra_repos.json'.freeze
 
 logger.info("Starting binary build for #{RELEASE}")
 repos = ['default']
