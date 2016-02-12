@@ -42,7 +42,11 @@ class ProjectTest < TestCase
   def create_fake_git(name:, component:, branches:)
     path = "#{component}/#{name}"
 
-    remotetmpdir = Dir.mktmpdir(self.class.to_s)
+    # Create a new tmpdir within our existing tmpdir.
+    # This is so that multiple fake_gits don't clash regardless of prefix
+    # or not.
+    remotetmpdir = Dir::Tmpname.create('d', "#{@tmpdir}/remote") {}
+    FileUtils.mkpath(remotetmpdir)
     Dir.chdir(remotetmpdir) do
       git_init_repo(path)
       git_init_commit(path, branches)

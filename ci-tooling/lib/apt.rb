@@ -1,3 +1,20 @@
+# frozen_string_literal: true
+#
+# Copyright (C) 2014-2016 Harald Sitter <sitter@kde.org>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
 require 'logger'
 
 # Cow powers!
@@ -65,23 +82,21 @@ module Apt
   # Apt key management using apt-key binary
   class Key
     def self.method_missing(name, *caller_args)
-      system('apt-key', name.to_s.gsub('_', '-'), *caller_args)
+      system('apt-key', name.to_s.tr('_', '-'), *caller_args)
     end
   end
 
   def self.method_missing(name, *caller_args)
-    Abstrapt.run('apt-get', name.to_s.gsub('_', '-'), *caller_args)
+    Abstrapt.run('apt-get', name.to_s.tr('_', '-'), *caller_args)
   end
 
   # More cow powers!
   # Calls apt-get instead of apt. Otherwise the same as {Apt}
   module Get
     def self.method_missing(name, *caller_args)
-      Abstrapt.run('apt-get', name.to_s.gsub('_', '-'), *caller_args)
+      Abstrapt.run('apt-get', name.to_s.tr('_', '-'), *caller_args)
     end
   end
-
-  private
 
   # Abstract base for apt execution.
   module Abstrapt
@@ -90,8 +105,6 @@ module Apt
       auto_update unless operation == 'update'
       run_internal(cmd, operation, *caller_args)
     end
-
-    private
 
     def self.run_internal(cmd, operation, *caller_args)
       injection_args = []

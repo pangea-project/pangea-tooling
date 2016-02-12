@@ -55,7 +55,7 @@ module CI
       @pattern.to_s
     end
 
-    # FIXME returns difference on what you put in
+    # FIXME: returns difference on what you put in
     def self.filter(reference, enumerable)
       if reference.respond_to?(:reject!)
         enumerable.each do |e, *|

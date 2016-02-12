@@ -51,15 +51,11 @@ class MergerTest < TestCase
   end
 
   def setup
-    @tmpdir = Dir.mktmpdir(self.class.to_s)
-    Dir.chdir(@tmpdir)
     KCI.send(:data_dir=, File.join(File.dirname(@datadir), 'fake_data'))
   end
 
   def teardown
     KCI.send(:reset!)
-    Dir.chdir('/')
-    FileUtils.rm_rf(@tmpdir)
   end
 
   def test_full_merge_chain
