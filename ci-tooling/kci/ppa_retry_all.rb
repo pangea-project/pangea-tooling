@@ -37,9 +37,9 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-fail 'More than one ppa identifier given' if ARGV.size > 1
+raise 'More than one ppa identifier given' if ARGV.size > 1
 ppa_name = ARGV.pop
-fail 'No valid ppa identifier' unless ppa_name.start_with?('ppa:')
+raise 'No valid ppa identifier' unless ppa_name.start_with?('ppa:')
 ppa_name = ppa_name.split('ppa:').last
 ppa_team, ppa_name = ppa_name.split('/')
 

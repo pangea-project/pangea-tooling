@@ -46,6 +46,6 @@ system("schroot -u root -c #{RELEASE}-#{ARCH} -d #{ENV['WORKSPACE']} \
 
 Dir.mkdir('build') unless Dir.exist? 'build'
 
-fail 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{SOURCE_NAME}*.changes build/")
+raise 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{SOURCE_NAME}*.changes build/")
 
 logger.close

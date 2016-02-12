@@ -133,13 +133,13 @@ class KCIBuilder
     end unless testing
 
     Retry.retry_it(times: 5, sleep: 8) do
-      fail 'Failed to add' unless Apt::Repository.add(@ppa)
+      raise 'Failed to add' unless Apt::Repository.add(@ppa)
     end
     Retry.retry_it(times: 5, sleep: 8) do
-      fail 'Failed to apt update' unless Apt.update
+      raise 'Failed to apt update' unless Apt.update
     end
     Retry.retry_it(times: 5, sleep: 8) do
-      fail 'Failed to install' unless Apt.install(%w(pkg-kde-tools))
+      raise 'Failed to install' unless Apt.install(%w(pkg-kde-tools))
     end
     source = CI::VcsSourceBuilder.new(release: project.series).run
 
@@ -163,7 +163,7 @@ class KCIBuilder
       abort e
     end
 
-    fail CoverageError, 'Testing disabled after arch twiddle' if testing
+    raise CoverageError, 'Testing disabled after arch twiddle' if testing
 
     # Sign
     Dir.chdir('build/') do

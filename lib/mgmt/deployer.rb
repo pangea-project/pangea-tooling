@@ -31,7 +31,7 @@ module MGMT
     def init_logging
       @log = Logger.new(STDERR)
 
-      fail 'Could not initialize logger' if @log.nil?
+      raise 'Could not initialize logger' if @log.nil?
 
       Thread.new do
         # :nocov:
@@ -95,7 +95,7 @@ module MGMT
       c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"])
       ret = c.wait
       status_code = ret.fetch('StatusCode', 1)
-      fail "Bad return #{ret}" if status_code != 0
+      raise "Bad return #{ret}" if status_code != 0
       c.stop!
       c
     end

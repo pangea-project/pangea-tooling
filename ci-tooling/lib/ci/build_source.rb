@@ -24,7 +24,7 @@ module CI
       Dir.chdir('packaging') do
         @source.type = Debian::Source.new(Dir.pwd).format.type
         changelog = Changelog.new
-        fail "Can't parse changelog!" if changelog.nil?
+        raise "Can't parse changelog!" if changelog.nil?
       end
 
       @source.name = changelog.name
@@ -69,11 +69,11 @@ module CI
     def create_orig_tar
       Dir.chdir(BUILD_DIR) do
         tar = "#{@source.name}_#{@tar_version}.orig.tar"
-        fail 'Failed to create a tarball' unless system("tar -cf #{tar} source")
+        raise 'Failed to create a tarball' unless system("tar -cf #{tar} source")
         r = system("pxz -6 #{tar}")
         unless r
           warn 'Falling back to slower single threaded compression'
-          fail 'Failed to compress the tarball' unless system("xz -6 #{tar}")
+          raise 'Failed to compress the tarball' unless system("xz -6 #{tar}")
         end
       end
     end
@@ -93,7 +93,7 @@ module CI
           # :nocov:
           # dch cannot actually fail because we parse the changelog beforehand
           # so it is of acceptable format here already.
-          fail 'Failed to create changelog entry'
+          raise 'Failed to create changelog entry'
           # :nocov:
         end
       end
@@ -105,13 +105,13 @@ module CI
         system('update-maintainer')
         # Force -sa as reprepreo refuses to accept uploads without orig.
         unless system('dpkg-buildpackage', '-us', '-uc', '-S', '-d', '-sa')
-          fail 'Could not run dpkg-buildpackage!'
+          raise 'Could not run dpkg-buildpackage!'
         end
       end
 
       Dir.chdir(BUILD_DIR) do
         dsc = Dir.glob('*.dsc')
-        fail 'Exactly one dsc not found' if dsc.size != 1
+        raise 'Exactly one dsc not found' if dsc.size != 1
         @source.dsc = dsc[0]
       end
     end

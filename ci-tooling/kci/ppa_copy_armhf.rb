@@ -36,7 +36,7 @@ class PPAString
 
   def initialize(string)
     unless string.start_with?('ppa:')
-      fail PrefixError, 'No valid ppa identifier, needs to start with ppa:'
+      raise PrefixError, 'No valid ppa identifier, needs to start with ppa:'
     end
     ppa_name = string.split('ppa:').last
     @team, @name = ppa_name.split('/')
@@ -55,8 +55,8 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-fail 'Less than two ppa identifier given' if ARGV.size < 2
-fail 'More than two ppa identifier given' if ARGV.size > 2
+raise 'Less than two ppa identifier given' if ARGV.size < 2
+raise 'More than two ppa identifier given' if ARGV.size > 2
 origin = PPAString.new(ARGV.shift)
 target = PPAString.new(ARGV.pop)
 

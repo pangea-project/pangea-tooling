@@ -105,7 +105,7 @@ class ProjectsFactory
 
     def from_hash(hash)
       base, subset = split_hash(hash)
-      fail 'not array' unless subset.is_a?(Array)
+      raise 'not array' unless subset.is_a?(Array)
 
       selection = self.class.ls(base).collect do |name|
         matches = match_path_to_subsets(base, name, subset)

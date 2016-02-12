@@ -35,7 +35,7 @@ module CI
       # FIXME: this has email and fullname from env, see build_source
       # FIXME: code copy from build_source
       changelog = Changelog.new
-      fail "Can't parse changelog!" if changelog.nil?
+      raise "Can't parse changelog!" if changelog.nil?
       base_version = changelog.version
       if base_version.include?('ubuntu')
         base_version = base_version.split('ubuntu')
@@ -53,7 +53,7 @@ module CI
         # :nocov:
         # dch cannot actually fail because we parse the changelog beforehand
         # so it is of acceptable format here already.
-        fail 'Failed to create changelog entry'
+        raise 'Failed to create changelog entry'
         # :nocov:
       end
     end
@@ -75,7 +75,7 @@ module CI
         system('update-maintainer')
         # Force -sa as reprepreo refuses to accept uploads without orig.
         return if system('dpkg-buildpackage', '-us', '-uc', '-S', '-d', '-sa')
-        fail 'Could not run dpkg-buildpackage!'
+        raise 'Could not run dpkg-buildpackage!'
       end
     end
   end

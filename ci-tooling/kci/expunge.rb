@@ -34,7 +34,7 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-fail 'Need a project name as argument' unless ARGV[0]
+raise 'Need a project name as argument' unless ARGV[0]
 options.name = ARGV[0]
 
 # Defaults

@@ -88,14 +88,14 @@ Dir.chdir(ARGV[1]) do
   end
 
   unless defined? PACKAGING_DIR
-    fail 'Source contains packaging but is not a native package'
+    raise 'Source contains packaging but is not a native package'
   end
 
   cl = nil
   Dir.chdir(PACKAGING_DIR) do
     cl = Changelog.new
     system('/usr/lib/pbuilder/pbuilder-satisfydepends')
-    fail "Can't install build deps!" unless $?.success?
+    raise "Can't install build deps!" unless $?.success?
   end
 
   source_name = cl.name
@@ -114,9 +114,9 @@ Dir.chdir(ARGV[1]) do
   tar = "#{source_name}_#{bv.tar}.orig.tar"
   File.delete(tar) if File.exist? tar
   unless system("tar -cf #{tar} #{source_dir}")
-    fail 'Failed to create a tarball'
+    raise 'Failed to create a tarball'
   end
-  fail 'Failed to compress the tarball' unless system("xz -6 #{tar}")
+  raise 'Failed to compress the tarball' unless system("xz -6 #{tar}")
 
   if s.format.type == :quilt
     system("cp -aR #{PACKAGING_DIR}/debian #{source_dir}")
@@ -127,7 +127,7 @@ Dir.chdir(ARGV[1]) do
             'DEBEMAIL' => 'null@debian.org' }
     cmd = "dch -b -v #{version} -D #{options[:release]}" \
           " 'Automatic Debian Build'"
-    fail 'Failed to create changelog entry' unless system(env, cmd)
+    raise 'Failed to create changelog entry' unless system(env, cmd)
     # Rip out locale install and upstream patches
     Dir.glob('debian/*.install').each do |install_file_path|
       # Strip localized manpages
@@ -183,7 +183,7 @@ Dir.chdir(ARGV[1]) do
     Dir.chdir("#{dir}/#{source_dir}") do
       # dpkg-buildpackage
       unless system('dpkg-buildpackage -S -uc -us')
-        fail 'Failed to build source package'
+        raise 'Failed to build source package'
       end
     end
 

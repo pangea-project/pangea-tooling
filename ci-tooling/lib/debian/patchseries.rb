@@ -6,7 +6,7 @@ module Debian
     def initialize(package_path, filename = 'series')
       @package_path = package_path
       @filename = filename
-      fail 'not a package path' unless Dir.exist?("#{package_path}/debian")
+      raise 'not a package path' unless Dir.exist?("#{package_path}/debian")
       @patches = []
       parse
     end

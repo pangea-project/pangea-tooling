@@ -6,7 +6,7 @@ module MutableURI
     class NoURIError < StandardError; end
 
     def initialize(uri)
-      fail unless uri.is_a?(URI::Generic)
+      raise unless uri.is_a?(URI::Generic)
       @writable = to_writable(uri)
       @readable = to_readable(uri)
     end
@@ -15,26 +15,26 @@ module MutableURI
     # @raise [NoURIError] if no readable URI is available
     def readable
       return @readable if @readable
-      fail NoURIError, "No readable URI available for #{self}"
+      raise NoURIError, "No readable URI available for #{self}"
     end
 
     # @return [URI::Generic] writeable URI
     # @raise [NoURIError] if no writable URI is available
     def writable
       return @writable if @writable
-      fail NoURIError, "No writable URI available for #{self}"
+      raise NoURIError, "No writable URI available for #{self}"
     end
 
     private
 
     # @return [URI::Generic] a template URI to append path to
     def read_uri_template
-      fail 'No read URI template defined'
+      raise 'No read URI template defined'
     end
 
     # @return [URI::Generic] a template URI to append path to
     def write_uri_template
-      fail 'No write URI template defined'
+      raise 'No write URI template defined'
     end
 
     # @return [String] cleanup path to make it suitable for the templates

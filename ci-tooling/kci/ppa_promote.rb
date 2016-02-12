@@ -54,7 +54,7 @@ module VerifablePPA
     if sources.size > 1
       LOG.error "Found more than one matching source for #{name}=#{version}"
       LOG.error sources
-      fail "Found more than one matching source for #{name}=#{version}"
+      raise "Found more than one matching source for #{name}=#{version}"
     end
     false
   end
@@ -103,7 +103,7 @@ class Archive
         false
       end
       unless packages.empty?
-        fail "Not all packages copied successfully #{packages}"
+        raise "Not all packages copied successfully #{packages}"
       end
     end
   end

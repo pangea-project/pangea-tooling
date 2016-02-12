@@ -80,7 +80,7 @@ module XCI
     return @data if defined?(@data)
     file = File.join(data_dir, data_file_name)
     p file
-    fail "Data file not found (#{file})" unless File.exist?(file)
+    raise "Data file not found (#{file})" unless File.exist?(file)
     @data = YAML.load(File.read(file))
   end
 

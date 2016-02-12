@@ -118,7 +118,7 @@ module Debian
             # For multiline we want to preserve right hand side whitespaces.
             data[current_header] << value
           else
-            fail "A field is folding that is not allowed to #{current_header}"
+            raise "A field is folding that is not allowed to #{current_header}"
           end
 
           next
@@ -126,7 +126,7 @@ module Debian
 
         # TODO: user defined fields
 
-        fail "Paragraph parsing ran into an unknown line: '#{line}'"
+        raise "Paragraph parsing ran into an unknown line: '#{line}'"
       end
 
       # If the entire stanza was commented out we can end up with no data, it
@@ -136,14 +136,14 @@ module Debian
       mandatory_fields.each do |field|
         # TODO: this should really make a list and complain all at once or
         # something.
-        fail "Missing mandatory field #{field}" unless data.include?(field)
+        raise "Missing mandatory field #{field}" unless data.include?(field)
       end
 
       data
     end
 
     def parse!
-      fail 'Not implemented'
+      raise 'Not implemented'
     end
   end
 end

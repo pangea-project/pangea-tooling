@@ -15,18 +15,18 @@ $stdout = $stderr
 
 dscs = Dir.glob('*.dsc')
 if dscs.size > 1
-  fail "Too many dscs #{dscs}"
+  raise "Too many dscs #{dscs}"
 elsif dscs.size < 1
-  fail "Too few dscs #{dscs}"
+  raise "Too few dscs #{dscs}"
 end
 dsc = dscs[0]
 
 system('dpkg-source', '-x', dsc)
 dirs = Dir.glob('*').select { |f| File.directory?(f) }
 if dirs.size > 1
-  fail "Too many dirs #{dirs}"
+  raise "Too many dirs #{dirs}"
 elsif dirs.size < 1
-  fail "Too few dirs #{dirs}"
+  raise "Too few dirs #{dirs}"
 end
 dir = dirs[0]
 

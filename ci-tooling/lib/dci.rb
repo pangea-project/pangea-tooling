@@ -7,7 +7,7 @@ def dci_run_cmd(cmd)
   retry_count = 0
   begin
     if retry_count <= 5
-      fail unless system(cmd)
+      raise unless system(cmd)
     else
       $logger.fatal("#{cmd} keeps failing! :(")
       exit 1

@@ -24,7 +24,7 @@ class Changelog
     # 2: version
     # 3: distribution series
     # 4: urgency
-    fail 'E: Cannot read debian/changelog' if match.nil? || match.size != 5
+    raise 'E: Cannot read debian/changelog' if match.nil? || match.size != 5
     @name = match[1]
     @version = match[2]
     # Don't even bother with the rest, we don't care right now.

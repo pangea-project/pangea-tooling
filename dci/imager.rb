@@ -1,8 +1,8 @@
 require_relative '../ci-tooling/lib/logger'
 require 'fileutils'
 
-fail 'Need a release to build for!' unless ARGV[1]
-fail 'Need a flavor!' unless ARGV[2]
+raise 'Need a release to build for!' unless ARGV[1]
+raise 'Need a flavor!' unless ARGV[2]
 
 RELEASE = ARGV[1]
 FLAVOR = ARGV[2]

@@ -69,7 +69,7 @@ class HostSemaphore
       end
       if acquired
         @log.warn "failed to release lock for #{pid}"
-        fail LockReleaseError, "failed to release lock for #{pid}"
+        raise LockReleaseError, "failed to release lock for #{pid}"
       end
     end
   end
