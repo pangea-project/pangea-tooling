@@ -21,9 +21,9 @@ class SourcerJob < JenkinsJob
     @packaging_scm.url.gsub!('git.debian.org:/git/', 'git://anonscm.debian.org/')
     # FIXME: why ever does the job have to do that?
     # Try the distribution specific branch name first.
-    @packaging_branch = "kubuntu_#{type}_#{distribution}"
-    unless project.series_branches.include?(@packaging_branch)
-      @packaging_branch = "kubuntu_#{type}"
+    @packaging_branch = @packaging_scm.branch
+    if project.series_branches.include?(@packaging_branch)
+      @packaging_branch = "kubuntu_#{type}_#{distribution}"
     end
 
     @downstream_triggers = []
