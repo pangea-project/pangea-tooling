@@ -19,7 +19,7 @@ class JenkinsJob
     @template_directory = "#{@@flavor_dir}/templates/"
     @template_path = "#{@template_directory}#{template_name}"
     unless File.exist?(@template_path)
-      fail "Template #{template_name} not found at #{@template_path}"
+      raise "Template #{template_name} not found at #{@template_path}"
     end
   end
 

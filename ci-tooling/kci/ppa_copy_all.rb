@@ -27,7 +27,7 @@ require_relative 'lib/lp'
 distribution = 'utopic'
 # to_copy = ARGV
 
-fail 'need dist arg' if ARGV.empty?
+raise 'need dist arg' if ARGV.empty?
 # distribution = ARGV[0]
 
 # to_copy = %x[ssh git.debian.org ls /git/pkg-kde/frameworks]

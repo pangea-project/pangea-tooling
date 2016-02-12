@@ -82,15 +82,15 @@ else
   logger.info('Extracting source')
   Dir.mktmpdir do |dir|
     Dir.chdir(dir) do
-      fail "Can't copy changes!" unless system("dcmd cp -v #{ARGV[1]} #{dir}")
-      fail "Can't extract dsc!" unless system('dpkg-source -x *.dsc')
+      raise "Can't copy changes!" unless system("dcmd cp -v #{ARGV[1]} #{dir}")
+      raise "Can't extract dsc!" unless system('dpkg-source -x *.dsc')
 
       package_folder = Dir.glob("#{package_name}*").select do |fn|
         File.directory?(fn)
       end
       Dir.chdir(package_folder[0]) do
         system('/usr/lib/pbuilder/pbuilder-satisfydepends')
-        fail "Can't install build deps!" unless $?.success?
+        raise "Can't install build deps!" unless $?.success?
         logger.info('Finished installing build deps')
 
         logger.info('Start building the package')

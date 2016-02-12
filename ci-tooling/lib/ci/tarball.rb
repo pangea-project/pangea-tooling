@@ -33,7 +33,7 @@ module CI
       name = File.basename(@path)
       dir = File.dirname(@path)
       match = name.match(/(?<name>.+)-(?<version>[\d.]+)\.(?<ext>tar(.*))/)
-      fail "Could not parse tarball #{name}" unless match
+      raise "Could not parse tarball #{name}" unless match
       old_path = @path
       @path = "#{dir}/#{match[:name]}_#{match[:version]}.orig.#{match[:ext]}"
       FileUtils.cp(old_path, @path) if File.exist?(old_path)

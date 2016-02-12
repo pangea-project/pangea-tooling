@@ -103,7 +103,7 @@ class ProjectsFactory
 
     def from_hash(hash)
       base, subset = split_hash(hash)
-      fail 'not array' unless subset.is_a?(Array)
+      raise 'not array' unless subset.is_a?(Array)
 
       selection = self.class.ls.collect do |path|
         next nil unless path.start_with?(base) # speed-up, these can't match...
@@ -119,7 +119,7 @@ class ProjectsFactory
         return @listing if defined?(@listing) # Cache in class scope.
         listing = `ssh gitolite3@packaging.neon.kde.org.uk`.chop.split($/)
         # FIXME: proper error
-        fail unless $? == 0
+        raise unless $? == 0
         listing.shift # welcome message leading, drop it.
         @listing = listing.collect do |entry|
           entry.split(' ')[-1]

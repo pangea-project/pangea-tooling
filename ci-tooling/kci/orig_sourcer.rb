@@ -12,7 +12,7 @@ module KCI
         tarball ||= KCI::OrigSourcer.fetch_url
         tarball ||= KCI::OrigSourcer.fetch_watch
         return tarball if tarball
-        fail 'Could not find a tarball'
+        raise 'Could not find a tarball'
       end
 
       def lookup_tarball

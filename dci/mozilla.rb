@@ -1,5 +1,5 @@
-fail "Need a mozilla product to build for!" unless ARGV[1]
-fail "Need a release to build for!" unless ARGV[2]
+raise "Need a mozilla product to build for!" unless ARGV[1]
+raise "Need a release to build for!" unless ARGV[2]
 
 KEYID = '125B4BCF'
 
@@ -14,9 +14,9 @@ system("schroot -u root -c #{RELEASE}-amd64 -d #{ENV['WORKSPACE']} -o jenkins.wo
 
 Dir.mkdir('build') unless Dir.exist? 'build'
 
-fail 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{PACKAGE}*.changes build/")
+raise 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{PACKAGE}*.changes build/")
 
 unless DEBIAN_RELEASES.include? RELEASE
-  fail "Can't sign!" unless system("debsign -k#{KEYID} build/*.changes")
+  raise "Can't sign!" unless system("debsign -k#{KEYID} build/*.changes")
   fail "Can't upload!" unless system("dput ppa:plasmazilla/builds build/*.changes")
 end

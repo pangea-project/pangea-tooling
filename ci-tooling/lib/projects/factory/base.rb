@@ -42,7 +42,7 @@ class ProjectsFactory
         next from_string(entry) if entry.is_a?(String)
         next from_hash(entry) if entry.is_a?(Hash)
         # FIXME: use a proper error here.
-        fail 'unkown type'
+        raise 'unkown type'
       end.flatten.compact
     end
 

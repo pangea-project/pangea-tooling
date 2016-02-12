@@ -30,7 +30,7 @@ module CI
 
     def self.volume_specification_check(str)
       if str.count(':') > 1
-        fail ExcessColonError, 'Invalid docker volume notation'
+        raise ExcessColonError, 'Invalid docker volume notation'
       end
     end
 

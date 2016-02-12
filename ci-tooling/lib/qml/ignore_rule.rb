@@ -45,10 +45,10 @@ module QML
       @identifier = identifier
       @version = version
       unless @version.nil? || @version.is_a?(String)
-        fail 'Version must either be nil or a string'
+        raise 'Version must either be nil or a string'
       end
       return unless @identifier.nil? || @identifier.empty?
-      fail 'No valid identifier set. Needs to be a string and not empty'
+      raise 'No valid identifier set. Needs to be a string and not empty'
     end
 
     def match_version?(qml_module)

@@ -14,19 +14,22 @@ module CI
       RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'.freeze
 
       def self.resolve(dir)
-        fail "Can't find #{RESOLVER_BIN}!" unless File.executable?(RESOLVER_BIN)
+        unless File.executable?(RESOLVER_BIN)
+          raise "Can't find #{RESOLVER_BIN}!"
+        end
 
         Retry.retry_it(times: 5) do
           system('sudo', RESOLVER_BIN, '--control', "#{dir}/debian/control")
-          fail 'Failed to satisfy depends' unless $? == 0
+          raise 'Failed to satisfy depends' unless $? == 0
         end
       end
     end
 
     def extract
       FileUtils.rm_rf(BUILD_DIR, verbose: true)
-      fail 'Something went terribly wrong with extracting the source' unless
-       system('dpkg-source', '-x', @dsc, BUILD_DIR)
+      unless system('dpkg-source', '-x', @dsc, BUILD_DIR)
+        raise 'Something went terribly wrong with extracting the source'
+      end
     end
 
     def build_package
@@ -73,14 +76,14 @@ module CI
       changes.select! { |e| !e.include? 'source.changes' }
 
       unless changes.size == 1
-        fail "Not exactly one changes file WTF -> #{changes}"
+        raise "Not exactly one changes file WTF -> #{changes}"
       end
 
       system('dcmd', 'cp', '-v', *changes, 'result/')
     end
 
     def build
-      fail 'Not exactly one dsc!' unless Dir.glob('*.dsc').count == 1
+      raise 'Not exactly one dsc!' unless Dir.glob('*.dsc').count == 1
 
       @dsc = Dir.glob('*.dsc')[0]
 

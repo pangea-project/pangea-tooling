@@ -62,7 +62,7 @@ class BuildJob < JenkinsJob
     when 'svn'
       render('upstream-scms/svn.xml.erb')
     else
-      fail "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
+      raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
     end
   end
 

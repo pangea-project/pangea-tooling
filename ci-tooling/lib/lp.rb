@@ -127,7 +127,7 @@ module Launchpad
       Retry.retry_it(times: IO_RETRIES, sleep: @io_retry_sleeps) do
         response = token.get(uri.to_s)
         unless response.is_a? Net::HTTPSuccess
-          fail Net::HTTPRetriableError.new(response.body, response)
+          raise Net::HTTPRetriableError.new(response.body, response)
         end
         return response.body
       end
@@ -149,7 +149,7 @@ module Launchpad
                     use_ssl: (uri.scheme == 'https')) do |http|
       response = http.request_get(uri, 'Cache-Control' => 'max-age=0')
       unless response.is_a?(Net::HTTPSuccess)
-        fail Net::HTTPRetriableError.new(response.body, response)
+        raise Net::HTTPRetriableError.new(response.body, response)
       end
       return response.body
     end
@@ -161,12 +161,12 @@ module Launchpad
   # @return [String] body of response
   def self.post(uri)
     token = Launchpad.token
-    fail 'Launchpad.authenticate must be called before any post' unless token
+    raise 'Launchpad.authenticate must be called before any post' unless token
     # Posting always requires a token.
     Retry.retry_it(times: IO_RETRIES, sleep: @io_retry_sleeps) do
       response = token.post(uri.path, uri.query)
       unless response.is_a? Net::HTTPSuccess
-        fail Net::HTTPRetriableError.new(response.body, response)
+        raise Net::HTTPRetriableError.new(response.body, response)
       end
       return response.body
     end

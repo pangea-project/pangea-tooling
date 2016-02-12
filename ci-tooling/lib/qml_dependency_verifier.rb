@@ -37,8 +37,8 @@ class QMLDependencyVerifier
     sources = ppa.getPublishedSources(status: 'Published',
                                       source_name: source.name,
                                       version: source.version)
-    fail 'more than one source package match on launchpad' if sources.size > 1
-    fail 'no source package match on launchpad' if sources.size < 1
+    raise 'more than one source package match on launchpad' if sources.size > 1
+    raise 'no source package match on launchpad' if sources.size < 1
     source = sources[0]
     binaries = source.getPublishedBinaries
     packages = {}

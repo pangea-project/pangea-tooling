@@ -18,6 +18,6 @@ module MutableURI
       next unless klass.is_a?(Class) && klass.match(uri)
       return klass.send(:new, uri)
     end
-    fail InvalidURIError, "Could not match to URI class #{url}"
+    raise InvalidURIError, "Could not match to URI class #{url}"
   end
 end

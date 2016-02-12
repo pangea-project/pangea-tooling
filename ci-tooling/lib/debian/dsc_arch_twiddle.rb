@@ -35,7 +35,7 @@ module Debian
       Dir.chdir(directory_with_dsc) do
         dsc = Dir.glob('*.dsc')
         unless dsc.size == 1
-          fail CountError, "Not exactly one dsc WTF -> #{dsc}"
+          raise CountError, "Not exactly one dsc WTF -> #{dsc}"
         end
         dsc = File.expand_path(dsc[0])
       end
@@ -47,7 +47,7 @@ module Debian
       lines = File.read(dsc).lines
       lines.collect! do |line|
         if line_after && line.start_with?(' ')
-          fail MultilineError, 'Line after Architecture starts with space.'
+          raise MultilineError, 'Line after Architecture starts with space.'
         end
         line_after = false
 
@@ -63,14 +63,14 @@ module Debian
         arches.flatten!
         arches.compact!
         arches.uniq!
-        fail EmptyError, "Ripped all arches out of '#{line}'" if arches.empty?
+        raise EmptyError, "Ripped all arches out of '#{line}'" if arches.empty?
         saw_architecture = true
         line_after = true
         "Architecture: #{arches.join(' ')}\n"
       end
       File.write(dsc, lines.join)
       return if saw_architecture
-      fail EmptyError, 'There apparently was no Architecture field!'
+      raise EmptyError, 'There apparently was no Architecture field!'
     end
   end
 end

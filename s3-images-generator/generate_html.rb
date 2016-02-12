@@ -23,7 +23,7 @@ class Image
       @architecture = architecture if file_name.include?(architecture)
     end
     return if @architecture
-    fail "Could not determine architecture of #{object_key}"
+    raise "Could not determine architecture of #{object_key}"
   end
 end
 

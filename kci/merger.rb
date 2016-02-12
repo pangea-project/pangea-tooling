@@ -81,7 +81,7 @@ class Merger
     if KCI.latest_series == series
       target = remote_branch('kubuntu_stable')
       target = remote_branch('kubuntu_unstable') unless target
-      fail 'There is no stable or unstable branch!' unless target
+      raise 'There is no stable or unstable branch!' unless target
     end
     return @log.error 'There is no backports or archive branch!' unless source
     return @log.error 'There is no stable or unstable branch!' unless target
@@ -164,7 +164,7 @@ class Merger
   # Hard resets to head, cleans everything, and sets dpkg-mergechangelogs in
   # .gitattributes afterwards.
   def cleanup(target = @git.current_branch)
-    fail 'not current branch' unless @git.current_branch.include?(target)
+    raise 'not current branch' unless @git.current_branch.include?(target)
     @git.reset("remotes/origin/#{target}", hard: true)
     @git.clean(force: true, d: true)
     File.write('.gitattributes',

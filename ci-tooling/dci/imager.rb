@@ -6,8 +6,8 @@ require_relative '../lib/dci'
 
 pp ENV.to_h
 
-fail 'Need a release to build for!' unless ARGV[1]
-fail 'Need a flavor to  build!' unless ARGV[2]
+raise 'Need a release to build for!' unless ARGV[1]
+raise 'Need a flavor to  build!' unless ARGV[2]
 
 RELEASE = ARGV[1]
 FLAVOR = ARGV[2]
@@ -203,7 +203,7 @@ Dir.chdir('build') do
 
   system('lb build')
 
-  fail 'Oops! Something went wrong, see the log' unless $?.success?
+  raise 'Oops! Something went wrong, see the log' unless $?.success?
 
   files = Dir.glob('live-image*')
   new_files = []

@@ -108,10 +108,10 @@ class Project
     # contain additional slashes as then they'd be $pathtype/$pathtype which
     # often will need different code (mkpath vs. mkdir).
     if @name.include?('/')
-      fail NameError, "name value contains a slash: #{@name}"
+      raise NameError, "name value contains a slash: #{@name}"
     end
     if @component.include?('/')
-      fail NameError, "component contains a slash: #{@component}"
+      raise NameError, "component contains a slash: #{@component}"
     end
 
     cache_dir = set_packaging_scm(url_base, branch)
@@ -202,14 +202,14 @@ class Project
     def get_git(uri, dest)
       return if File.exist?(dest)
       return if system("git clone #{uri} #{dest}", err: '/dev/null')
-      fail GitTransactionError, "Could not clone #{uri}"
+      raise GitTransactionError, "Could not clone #{uri}"
     end
 
     # @see {get_git}
     def get_bzr(uri, dest)
       return if File.exist?(dest)
       return if system("bzr checkout #{uri} #{dest}")
-      fail BzrTransactionError, "Could not checkout #{uri}"
+      raise BzrTransactionError, "Could not checkout #{uri}"
     end
 
     def update_git(branch)
@@ -219,16 +219,16 @@ class Project
       system('git gc')
       system('git config remote.origin.prune true')
       unless system('git pull', err: '/dev/null')
-        fail GitTransactionError, 'Failed to pull'
+        raise GitTransactionError, 'Failed to pull'
       end
       unless system("git checkout #{branch}")
-        fail GitTransactionError, "No branch #{branch} in #{Dir.pwd}"
+        raise GitTransactionError, "No branch #{branch} in #{Dir.pwd}"
       end
     end
 
     def update_bzr(_branch)
       return if system('bzr up')
-      fail BzrTransactionError, 'Failed to update'
+      raise BzrTransactionError, 'Failed to update'
     end
   end
 
@@ -303,7 +303,7 @@ class ProjectFactory
     # where former probably derives from latter as to get very close testing
     # coverage.
     output = `#{hostcmd} find #{searchpath} -maxdepth 1 -type d`
-    fail 'Failed to find repo list on host' unless $? == 0
+    raise 'Failed to find repo list on host' unless $? == 0
     output.chop.split(' ')
   end
 
@@ -393,7 +393,7 @@ class ProjectFactory
         end
         # Ultimate fallback if special type handling failed to produce repos.
         repos = custom_ci['repos'] if repos.empty?
-        fail if repos.empty? # Shouldn't be empty here. Must be something wrong
+        raise if repos.empty? # Shouldn't be empty here. Must be something wrong
         # Create actual Project instances.
         repos.each do |repo|
           # FIXME: why the fucking fuck is the component field called org
@@ -408,7 +408,7 @@ class ProjectFactory
       value.each do |static_ci|
         unless static_ci['type'] == 'debian' ||
                static_ci['type'] == 'neon'
-          fail "Unknown type #{static_ci['type']}"
+          raise "Unknown type #{static_ci['type']}"
         end
         repos = static_ci['repos'].collect { |e| p OpenStruct.new(e) }
         repos.each do |repo|
@@ -443,7 +443,7 @@ class ProjectFactory
         end
       end
     else
-      fail "ProjectFactory encountered an unknown configuration key: #{key}"
+      raise "ProjectFactory encountered an unknown configuration key: #{key}"
     end
     ret
   end

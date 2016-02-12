@@ -105,7 +105,7 @@ class ProjectsFactory
 
     def from_hash(hash)
       base, subset = split_hash(hash)
-      fail 'not array' unless subset.is_a?(Array)
+      raise 'not array' unless subset.is_a?(Array)
 
       selection = self.class.ls(base).collect do |path|
         next nil unless path.start_with?(base) # speed-up, these can't match...
@@ -129,7 +129,7 @@ class ProjectsFactory
         @list_cache ||= {}
         return @list_cache[base] if @list_cache.key?(base)
         output = `ssh git.debian.org find /git/#{base} -maxdepth 1 -type d`
-        fail 'Failed to find repo list on host' unless $? == 0
+        raise 'Failed to find repo list on host' unless $? == 0
         @list_cache[base] = cleanup_ls(output).freeze
       end
 

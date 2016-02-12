@@ -7,11 +7,11 @@ module CI
   class WatchTarFetcher
     def initialize(watchfile)
       unless File.basename(watchfile) == 'watch'
-        fail "path not a watch file #{watchfile}"
+        raise "path not a watch file #{watchfile}"
       end
       debiandir = File.dirname(File.absolute_path(watchfile))
       unless File.basename(debiandir) == 'debian'
-        fail "path not a debian dir #{debiandir}"
+        raise "path not a debian dir #{debiandir}"
       end
       @dir = File.dirname(debiandir)
     end

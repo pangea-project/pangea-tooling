@@ -61,7 +61,7 @@ module CI
       base = @changelog.version(Changelog::BASE)
       base = base.chop until base.empty? || base[-1].match(/[\d\.]/)
       return base unless base.empty?
-      fail 'Failed to find numeric version in the changelog version:' \
+      raise 'Failed to find numeric version in the changelog version:' \
            " #{@changelog.version(Changelog::BASE)}"
     end
 
@@ -72,7 +72,7 @@ module CI
       end
 
       return '9' if OS::ID == 'debian'
-      fail 'VERSION_ID not defined!'
+      raise 'VERSION_ID not defined!'
     end
   end
 end

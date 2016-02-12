@@ -41,7 +41,7 @@ class SourcePublisher
       sleep(60)
       fail_count -= 1
       if fail_count <= 0
-        fail 'Upload was likely rejected, we have been waiting for well' \
+        raise 'Upload was likely rejected, we have been waiting for well' \
              ' over 30 minutes!'
       end
     end
@@ -66,7 +66,7 @@ class SourcePublisher
         when *SUCCESS_STATES
           # all is cool
         else
-          fail "Build state '#{build.buildstate}' is not being handled"
+          raise "Build state '#{build.buildstate}' is not being handled"
         end
       end
 
@@ -168,7 +168,7 @@ class SourcePublisher
         tmpfile = open(build.build_log_url)
       end
       unless tmpfile.is_a?(Tempfile)
-        fail IOError, 'open() did not return a Tempfile'
+        raise IOError, 'open() did not return a Tempfile'
       end
       FileUtils.cp(tmpfile, "#{log_dir}/#{build.arch_tag}.log")
       tmpfile.close
@@ -186,7 +186,9 @@ class SourcePublisher
                                        version: @source_version,
                                        exact_match: true)
     return nil if sources.size < 1
-    fail "Unexpectedly too many matching sources #{sources}" if sources.size > 1
+    if sources.size > 1
+      raise "Unexpectedly too many matching sources #{sources}"
+    end
     @source = sources[0]
   end
 

@@ -7,8 +7,8 @@ require 'open-uri'
 require 'thwait'
 require 'date'
 
-fail 'Need a mozilla product to build for!' unless ARGV[1]
-fail 'Need a release to build for!' unless ARGV[2]
+raise 'Need a mozilla product to build for!' unless ARGV[1]
+raise 'Need a release to build for!' unless ARGV[2]
 
 @logger = DCILogger.instance
 
@@ -132,7 +132,7 @@ def build_firefox(release_info)
   release_version = release_info[:ubuntu].to_i
   hg_url = "http://www.rosenauer.org/hg/mozilla/#firefox#{release_version}"
   system("hg clone #{hg_url} suse")
-  fail 'Could not clone mercurial repo!' unless $?.success?
+  raise 'Could not clone mercurial repo!' unless $?.success?
 
   firefox_dir = Dir['firefox-*'][0]
   Dir.chdir(firefox_dir) do

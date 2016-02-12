@@ -3,12 +3,14 @@ require 'thread'
 # Thread-safe queue container.
 # Queue is monkey patched to support incredibly useful Array<=>Queue conversion.
 class Queue
-  alias_method :super_init, :initialize
+  alias super_init initialize
 
   def initialize(array = nil)
     super_init
     return if array.nil?
-    fail 'Queue can only be constructed from an Array' unless array.is_a?(Array)
+    unless array.is_a?(Array)
+      raise 'Queue can only be constructed from an Array'
+    end
     array.each { |i| self << i }
   end
 

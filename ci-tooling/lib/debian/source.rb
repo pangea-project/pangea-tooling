@@ -33,7 +33,7 @@ module Debian
 
     def initialize(package_path)
       @package_path = package_path
-      fail 'not a package path' unless Dir.exist?("#{package_path}/debian")
+      raise 'not a package path' unless Dir.exist?("#{package_path}/debian")
       parse
     end
 
