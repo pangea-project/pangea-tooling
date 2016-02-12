@@ -36,7 +36,7 @@ module CI
     end
 
     def to_str
-      "#{@@namespace}/#{@flavor}:#{@tag}"
+      "#{repo}:#{tag}"
     end
   end
 end
