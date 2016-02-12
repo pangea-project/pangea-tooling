@@ -1,6 +1,7 @@
 require 'tmpdir'
 
 module CI
+  # A tarball handling class.
   class Tarball
     attr_reader :path
 
@@ -11,7 +12,7 @@ module CI
     def to_s
       @path
     end
-    alias_method :to_str, :to_s
+    alias to_str to_s
 
     def orig?
       self.class.orig?(@path)

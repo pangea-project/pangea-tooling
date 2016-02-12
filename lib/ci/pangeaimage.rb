@@ -1,29 +1,23 @@
 module CI
+  # Convenience wrapper to construct and handle pangea image names.
   class PangeaImage
     attr_accessor :tag
     attr_accessor :flavor
 
-    @@namespace = "pangea"
+    class << self
+      def namespace
+        @namespace ||= 'pangea'
+      end
+      attr_writer :namespace
+    end
 
     def initialize(flavor, tag)
       @flavor = flavor
       @tag = tag
     end
 
-    def namespace
-      @@namespace
-    end
-
-    def self.namespace
-      @@namespace
-    end
-
-    def self.namespace=(string)
-      @@namespace = string
-    end
-
     def repo
-      "#{@@namespace}/#{@flavor}"
+      "#{self.class.namespace}/#{@flavor}"
     end
 
     # Tagging arguments for Image.tag.
