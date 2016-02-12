@@ -186,7 +186,9 @@ class SourcePublisher
                                        version: @source_version,
                                        exact_match: true)
     return nil if sources.size < 1
-    raise "Unexpectedly too many matching sources #{sources}" if sources.size > 1
+    if sources.size > 1
+      raise "Unexpectedly too many matching sources #{sources}"
+    end
     @source = sources[0]
   end
 

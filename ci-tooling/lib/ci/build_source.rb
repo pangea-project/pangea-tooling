@@ -69,7 +69,9 @@ module CI
     def create_orig_tar
       Dir.chdir(BUILD_DIR) do
         tar = "#{@source.name}_#{@tar_version}.orig.tar"
-        raise 'Failed to create a tarball' unless system("tar -cf #{tar} source")
+        unless system("tar -cf #{tar} source")
+          raise 'Failed to create a tarball'
+        end
         r = system("pxz -6 #{tar}")
         unless r
           warn 'Falling back to slower single threaded compression'

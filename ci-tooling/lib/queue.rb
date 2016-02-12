@@ -8,7 +8,9 @@ class Queue
   def initialize(array = nil)
     super_init
     return if array.nil?
-    raise 'Queue can only be constructed from an Array' unless array.is_a?(Array)
+    unless array.is_a?(Array)
+      raise 'Queue can only be constructed from an Array'
+    end
     array.each { |i| self << i }
   end
 

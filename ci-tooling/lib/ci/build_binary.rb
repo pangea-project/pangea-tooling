@@ -14,7 +14,9 @@ module CI
       RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'.freeze
 
       def self.resolve(dir)
-        raise "Can't find #{RESOLVER_BIN}!" unless File.executable?(RESOLVER_BIN)
+        unless File.executable?(RESOLVER_BIN)
+          raise "Can't find #{RESOLVER_BIN}!"
+        end
 
         Retry.retry_it(times: 5) do
           system('sudo', RESOLVER_BIN, '--control', "#{dir}/debian/control")
@@ -25,8 +27,9 @@ module CI
 
     def extract
       FileUtils.rm_rf(BUILD_DIR, verbose: true)
-      raise 'Something went terribly wrong with extracting the source' unless
-       system('dpkg-source', '-x', @dsc, BUILD_DIR)
+      unless system('dpkg-source', '-x', @dsc, BUILD_DIR)
+        raise 'Something went terribly wrong with extracting the source'
+      end
     end
 
     def build_package

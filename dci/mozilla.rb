@@ -18,5 +18,5 @@ raise 'Cant move files!' unless system("dcmd mv /var/lib/sbuild/build/#{PACKAGE}
 
 unless DEBIAN_RELEASES.include? RELEASE
   raise "Can't sign!" unless system("debsign -k#{KEYID} build/*.changes")
-  raise "Can't upload!" unless system("dput ppa:plasmazilla/builds build/*.changes")
+  fail "Can't upload!" unless system("dput ppa:plasmazilla/builds build/*.changes")
 end
