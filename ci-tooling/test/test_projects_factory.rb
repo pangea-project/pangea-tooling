@@ -26,6 +26,8 @@ require_relative 'lib/testcase'
 require 'mocha/test_unit'
 
 class ProjectsFactoryTest < TestCase
+  required_binaries %w(git)
+
   def setup
     CI::Overrides.default_files = [] # Disable overrides by default.
   end
@@ -370,6 +372,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
   end
 
   def test_launchpad_from_list
+    require_binaries('bzr')
     # This test fakes bzr entirely to bypass the lp: pseudo-protocol
     # Overall this still tightly checks behavior.
 
