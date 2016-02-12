@@ -24,7 +24,7 @@ group :development, :test do
   gem 'rack'
   gem 'rake'
   gem 'rake-notes'
-  gem 'rubocop'
+  gem 'rubocop', '>= 0.37'
   gem 'rubocop-checkstyle_formatter'
   gem 'rugged'
   gem 'ruby-progressbar'
