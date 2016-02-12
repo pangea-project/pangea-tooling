@@ -1,5 +1,5 @@
 series:
-  vivid: "15.04"
+  xenial: "16.04"
 architectures:
   - amd64
   - armhf
