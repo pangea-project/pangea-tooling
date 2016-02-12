@@ -83,7 +83,11 @@ class ProjectsFactoryTest < TestCase
   def create_fake_git(prefix: nil, repo: nil, repos: [], branches:)
     repos << repo if repo
 
-    remotetmpdir = Dir.mktmpdir(self.class.to_s)
+    # Create a new tmpdir within our existing tmpdir.
+    # This is so that multiple fake_gits don't clash regardless of prefix
+    # or not.
+    remotetmpdir = Dir::Tmpname.create('d', "#{@tmpdir}/remote") {}
+    FileUtils.mkpath(remotetmpdir)
     Dir.chdir(remotetmpdir) do
       repos.each do |r|
         path = File.join(*[prefix, r].compact)
