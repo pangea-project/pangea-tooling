@@ -7,7 +7,7 @@ require_relative 'ci-tooling/lib/thread_pool'
 
 require 'optparse'
 
-Dir.glob(File.expand_path('jenkins-jobs/*.rb', File.dirname(__FILE__))).each do |file|
+Dir.glob(File.expand_path('jenkins-jobs/*.rb', __dir__)).each do |file|
   require file
 end
 
