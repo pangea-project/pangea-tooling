@@ -30,6 +30,7 @@ sudo apt update
 sudo apt dist-upgrade -y
 sudo apt install -y --no-install-recommends git ubuntu-defaults-builder wget ca-certificates zsync distro-info syslinux-utils
 # TODO get this built in neon ci and install from there
+rm -f livecd-rootfs*.deb*
 wget http://weegie.edinburghlinux.co.uk/~jr/tmp/livecd-rootfs_2.377neon1_amd64.deb
 sudo dpkg --install livecd-rootfs_2.377neon1_amd64.deb
 
@@ -87,12 +88,10 @@ fi
 mv livecd.neon.* ../result/
 cd ../result/
 
-if [ $IMAGENAME != "neon" ]; then
-  for f in *; do
-      new_name=$(echo $f | sed "s/livecd\.neon/${IMAGENAME}-${DATE}-${ARCH}/")
-      mv $f $new_name
-  done
-fi
+for f in *; do
+    new_name=$(echo $f | sed "s/livecd\.neon/${IMAGENAME}-${DATE}-${ARCH}/")
+    mv $f $new_name
+done
 
 zsyncmake *.iso
 
