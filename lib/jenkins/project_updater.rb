@@ -39,6 +39,7 @@ module Jenkins
 
     private
 
+    # FIXME: this installs all plugins used by all CIs, not the ones at hand
     def plugins_to_install
       plugins = []
       installed_plugins = Jenkins.plugin_manager.list_installed.keys
