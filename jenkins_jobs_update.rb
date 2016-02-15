@@ -21,23 +21,21 @@ class ProjectUpdater
   def initialize(flavor:)
     @job_queue = Queue.new
     @flavor = flavor
-    @CI_MODULE = MODULE_MAP[@flavor]
+    @ci_module = MODULE_MAP[@flavor]
 
-    JenkinsJob.flavor_dir =
-      "#{File.expand_path(File.dirname(__FILE__))}/jenkins-jobs/#{@flavor}"
+    JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
 
-    upload_map =
-     "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.upload.yaml"
+    upload_map = "#{__dir__}/data/#{@flavor}.upload.yaml"
     @upload_map = nil
-    if File.exist? upload_map
-      @upload_map = YAML.load_file(upload_map)
-    end
+    return unless File.exist?(upload_map)
+    @upload_map = YAML.load_file(upload_map)
   end
 
   def update
     populate_queue
     run_queue
   end
+
   def install_plugins
     # Autoinstall all possibly used plugins.
     installed_plugins = Jenkins.plugin_manager.list_installed.keys
@@ -82,8 +80,8 @@ class ProjectUpdater
   def populate_queue
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
-    @CI_MODULE.series.each_key do |distribution|
-      @CI_MODULE.types.each do |type|
+    @ci_module.series.each_key do |distribution|
+      @ci_module.types.each do |type|
         if ENV.key?('PANGEA_NEW_FACTORY')
           require_relative 'ci-tooling/lib/projects/factory'
           file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}.yaml"
@@ -93,7 +91,7 @@ class ProjectUpdater
         end
         all_builds = projects.collect do |project|
           Builder.job(project, distribution: distribution, type: type,
-                               architectures: @CI_MODULE.architectures,
+                               architectures: @ci_module.architectures,
                                upload_map: @upload_map)
         end
         all_builds.flatten!
@@ -113,8 +111,7 @@ class ProjectUpdater
         "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.image.yaml"
 
       if File.exist? image_job_config
-        image_jobs =
-        YAML.load_file(image_job_config)
+        image_jobs = YAML.load_file(image_job_config)
 
         image_jobs.each do |_, v|
           enqueue(DCIImageJob.new(distribution: distribution,
