@@ -78,15 +78,15 @@ class ProjectUpdater
           isoargs = { type: type,
                       distribution: distribution,
                       architecture: architecture,
-                      metapackage: "neon-desktop",
-                      imagename: "neon"}
+                      metapackage: 'neon-desktop',
+                      imagename: 'neon' }
           enqueue(NeonIsoJob.new(isoargs))
-          waylandIsoargs = { type: type,
-                             distribution: distribution,
-                             architecture: architecture,
-                             metapackage: "plasma-wayland-ci-live",
-                             imagename: "plasma-wayland" }
-          enqueue(NeonIsoJob.new(waylandIsoargs))
+          wayland_isoargs = { type: type,
+                              distribution: distribution,
+                              architecture: architecture,
+                              metapackage: 'plasma-wayland-ci-live',
+                              imagename: 'plasma-wayland' }
+          enqueue(NeonIsoJob.new(wayland_isoargs))
         end
       end
     end
