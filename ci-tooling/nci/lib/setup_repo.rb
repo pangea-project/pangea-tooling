@@ -3,6 +3,7 @@ require 'open-uri'
 require_relative '../../lib/apt'
 require_relative '../../lib/lsb'
 
+# Neon CI specific helpers.
 module NCI
   module_function
 
