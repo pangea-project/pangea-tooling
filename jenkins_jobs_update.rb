@@ -74,11 +74,7 @@ class ProjectUpdater
     BlockingThreadPool.run do
       until @job_queue.empty?
         job = @job_queue.pop(true)
-        begin
-          job.update
-        rescue => e
-          print "Error on job update :: #{e}\n"
-        end
+        job.update
       end
     end
   end
