@@ -50,8 +50,6 @@ class ProjectUpdater
   private
 
   def enqueue(obj)
-    @top ||= []
-    @top << obj
     @job_queue << obj
     obj
   end
@@ -66,7 +64,6 @@ class ProjectUpdater
   end
 
   def populate_queue
-    all_meta_builds = []
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
         require_relative 'ci-tooling/lib/projects/factory'
@@ -74,8 +71,8 @@ class ProjectUpdater
         projects << Project.new('pkg-kde-tools', '', branch: 'kubuntu_xenial_archive')
         projects.sort_by!(&:name)
         projects.each do |project|
-          builder = Builder2.job(project, distribution: distribution, type: type, architectures: NCI.architectures)
-          builder.each { |b| enqueue(b) }
+          jobs = ProjectJob.job(project, distribution: distribution, type: type, architectures: NCI.architectures)
+          jobs.each { |j| enqueue(j) }
         end
         NCI.architectures.each do |architecture|
           isoargs = { type: type,
