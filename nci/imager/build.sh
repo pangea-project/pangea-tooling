@@ -87,10 +87,12 @@ fi
 mv livecd.neon.* ../result/
 cd ../result/
 
-for f in *; do
-    new_name=$(echo $f | sed "s/livecd\.kubuntu/${IMAGENAME}-${DATE}-${ARCH}/")
-    mv $f $new_name
-done
+if [ $IMAGENAME != "neon" ]; then
+  for f in *; do
+      new_name=$(echo $f | sed "s/livecd\.neon/${IMAGENAME}-${DATE}-${ARCH}/")
+      mv $f $new_name
+  done
+fi
 
 zsyncmake *.iso
 

@@ -10,3 +10,6 @@ packaging.neon.kde.org.uk:
   - qt:
     - '*':
         branch: Neon/5.5
+
+launchpad.net:
+  - ~jr/livecd-rootfs/neon
