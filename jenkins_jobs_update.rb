@@ -4,6 +4,7 @@ require_relative 'ci-tooling/lib/mobilekci'
 require_relative 'ci-tooling/lib/dci'
 require_relative 'ci-tooling/lib/projects'
 require_relative 'ci-tooling/lib/thread_pool'
+require_relative 'lib/jenkins/project_updater'
 
 require 'optparse'
 
@@ -12,14 +13,14 @@ Dir.glob(File.expand_path('jenkins-jobs/*.rb', __dir__)).each do |file|
 end
 
 # Updates Jenkins Projects
-class ProjectUpdater
+class ProjectUpdater < Jenkins::ProjectUpdater
   MODULE_MAP = {
     dci: DCI,
     mci: MCI
   }.freeze
 
   def initialize(flavor:)
-    @job_queue = Queue.new
+    super()
     @flavor = flavor
     @ci_module = MODULE_MAP[@flavor]
 
@@ -31,51 +32,7 @@ class ProjectUpdater
     @upload_map = YAML.load_file(upload_map)
   end
 
-  def update
-    populate_queue
-    run_queue
-  end
-
-  def install_plugins
-    # Autoinstall all possibly used plugins.
-    installed_plugins = Jenkins.plugin_manager.list_installed.keys
-    plugins_to_install.each do |plugin|
-      next if installed_plugins.include?(plugin)
-      puts "--- Installing #{plugin} ---"
-      Jenkins.plugin_manager.install(plugin)
-    end
-  end
-
   private
-
-  def plugins_to_install
-    plugins = []
-    installed_plugins = Jenkins.plugin_manager.list_installed.keys
-    Dir.glob('jenkins-jobs/templates/**/**.xml.erb').each do |path|
-      File.readlines(path).each do |line|
-        match = line.match(/.*plugin="(.+)".*/)
-        next unless match && match.size == 2
-        plugin = match[1].split('@').first
-        next if installed_plugins.include?(plugin)
-        plugins << plugin
-      end
-    end
-    plugins.uniq.compact
-  end
-
-  def enqueue(obj)
-    @job_queue << obj
-    obj
-  end
-
-  def run_queue
-    BlockingThreadPool.run do
-      until @job_queue.empty?
-        job = @job_queue.pop(true)
-        job.update
-      end
-    end
-  end
 
   def populate_queue
     # FIXME: maybe for meta lists we can use the return arrays via collect?
