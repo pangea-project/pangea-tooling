@@ -75,16 +75,16 @@ sudo -E $(dirname "$0")/ubuntu-defaults-image \
     --package $METAPACKAGE \
     --arch $ARCH \
     --release $DIST \
-    --flavor kubuntu \
+    --flavor neon \
     --components main,restricted,universe,multiverse
 
-if [ ! -e livecd.kubuntu.iso ]; then
+if [ ! -e livecd.neon.iso ]; then
     echo "ISO Build Failed."
     cleanup
     exit 1
 fi
 
-mv livecd.kubuntu.* ../result/
+mv livecd.neon.* ../result/
 cd ../result/
 
 for f in *; do
