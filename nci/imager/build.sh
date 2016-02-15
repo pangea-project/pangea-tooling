@@ -29,6 +29,9 @@ cat /proc/self/cgroup
 sudo apt update
 sudo apt dist-upgrade -y
 sudo apt install -y --no-install-recommends git ubuntu-defaults-builder wget ca-certificates zsync distro-info syslinux-utils
+# TODO get this built in neon ci and install from there
+wget http://weegie.edinburghlinux.co.uk/~jr/tmp/livecd-rootfs_2.377neon1_amd64.deb
+sudo dpkg --install livecd-rootfs_2.377neon1_amd64.deb
 
 cd $WD
 ls -lah
