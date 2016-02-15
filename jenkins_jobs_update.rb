@@ -4,81 +4,41 @@ require_relative 'ci-tooling/lib/mobilekci'
 require_relative 'ci-tooling/lib/dci'
 require_relative 'ci-tooling/lib/projects'
 require_relative 'ci-tooling/lib/thread_pool'
+require_relative 'lib/jenkins/project_updater'
 
 require 'optparse'
 
-Dir.glob(File.expand_path('jenkins-jobs/*.rb', File.dirname(__FILE__))).each do |file|
+Dir.glob(File.expand_path('jenkins-jobs/*.rb', __dir__)).each do |file|
   require file
 end
 
 # Updates Jenkins Projects
-class ProjectUpdater
+class ProjectUpdater < Jenkins::ProjectUpdater
   MODULE_MAP = {
     dci: DCI,
     mci: MCI
   }.freeze
 
   def initialize(flavor:)
-    @job_queue = Queue.new
+    super()
     @flavor = flavor
-    @CI_MODULE = MODULE_MAP[@flavor]
+    @ci_module = MODULE_MAP[@flavor]
 
-    JenkinsJob.flavor_dir =
-      "#{File.expand_path(File.dirname(__FILE__))}/jenkins-jobs/#{@flavor}"
+    JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
 
-    upload_map =
-     "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.upload.yaml"
+    upload_map = "#{__dir__}/data/#{@flavor}.upload.yaml"
     @upload_map = nil
-    if File.exist? upload_map
-      @upload_map = YAML.load_file(upload_map)
-    end
-  end
-
-  def update
-    populate_queue
-    run_queue
-  end
-
-  def install_plugins
-    # Autoinstall all possibly used plugins.
-    installed_plugins = Jenkins.plugin_manager.list_installed.keys
-    Dir.glob("#{JenkinsJob.flavor_dir}/**/**.xml.erb").each do |path|
-      File.readlines(path).each do |line|
-        match = line.match(/.*plugin="(.+)".*/)
-        next unless match && match.size == 2
-        plugin = match[1].split('@').first
-        next if installed_plugins.include?(plugin)
-        puts "--- Installing #{plugin} ---"
-        Jenkins.plugin_manager.install(plugin)
-      end
-    end
+    return unless File.exist?(upload_map)
+    @upload_map = YAML.load_file(upload_map)
   end
 
   private
 
-  def enqueue(obj)
-    @job_queue << obj
-    obj
-  end
-
-  def run_queue
-    BlockingThreadPool.run do
-      until @job_queue.empty?
-        job = @job_queue.pop(true)
-        begin
-          job.update
-        rescue => e
-          print "Error on job update :: #{e}\n"
-        end
-      end
-    end
-  end
-
   def populate_queue
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
-    @CI_MODULE.series.each_key do |distribution|
-      @CI_MODULE.types.each do |type|
+    @ci_module.series.each_key do |distribution|
+      @ci_module.types.each do |type|
         if ENV.key?('PANGEA_NEW_FACTORY')
           require_relative 'ci-tooling/lib/projects/factory'
           file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}.yaml"
@@ -88,7 +48,7 @@ class ProjectUpdater
         end
         all_builds = projects.collect do |project|
           Builder.job(project, distribution: distribution, type: type,
-                               architectures: @CI_MODULE.architectures,
+                               architectures: @ci_module.architectures,
                                upload_map: @upload_map)
         end
         all_builds.flatten!
@@ -108,8 +68,7 @@ class ProjectUpdater
         "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.image.yaml"
 
       if File.exist? image_job_config
-        image_jobs =
-        YAML.load_file(image_job_config)
+        image_jobs = YAML.load_file(image_job_config)
 
         image_jobs.each do |_, v|
           enqueue(DCIImageJob.new(distribution: distribution,
