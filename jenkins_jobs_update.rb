@@ -38,23 +38,32 @@ class ProjectUpdater
     populate_queue
     run_queue
   end
-
   def install_plugins
     # Autoinstall all possibly used plugins.
     installed_plugins = Jenkins.plugin_manager.list_installed.keys
-    Dir.glob("#{JenkinsJob.flavor_dir}/**/**.xml.erb").each do |path|
+    plugins_to_install.each do |plugin|
+      next if installed_plugins.include?(plugin)
+      puts "--- Installing #{plugin} ---"
+      Jenkins.plugin_manager.install(plugin)
+    end
+  end
+
+  private
+
+  def plugins_to_install
+    plugins = []
+    installed_plugins = Jenkins.plugin_manager.list_installed.keys
+    Dir.glob('jenkins-jobs/templates/**/**.xml.erb').each do |path|
       File.readlines(path).each do |line|
         match = line.match(/.*plugin="(.+)".*/)
         next unless match && match.size == 2
         plugin = match[1].split('@').first
         next if installed_plugins.include?(plugin)
-        puts "--- Installing #{plugin} ---"
-        Jenkins.plugin_manager.install(plugin)
+        plugins << plugin
       end
     end
+    plugins.uniq.compact
   end
-
-  private
 
   def enqueue(obj)
     @job_queue << obj
