@@ -8,7 +8,7 @@ class Builder
     basename = basename(distribution, type, project.component, project.name)
 
     dependees = project.dependees.collect do |d|
-      "#{basename(distribution, type, d.component, d)}_src"
+      "#{basename(distribution, type, project.component, d)}_src"
     end.compact
     sourcer = SourcerJob.new(basename,
                              type: type,
