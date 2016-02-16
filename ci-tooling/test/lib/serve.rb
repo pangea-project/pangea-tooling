@@ -28,6 +28,7 @@ module Test
   def self.kill(pid)
     Process.kill('KILL', pid)
     Process.waitpid(pid)
+    system('true') # Reset $? to prevent subsquent failure!
   end
 
   def self.nuke
