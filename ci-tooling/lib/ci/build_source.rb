@@ -17,7 +17,7 @@ module CI
     def initialize(release:, strip_symbols: false)
       @release = release
       @flavor = OS::ID.to_sym
-      @data = YAML.load_file("#{File.dirname(__FILE__)}/data/maintainer.yaml")
+      @data = YAML.load_file("#{__dir__}/data/maintainer.yaml")
 
       @source = CI::Source.new
       changelog = nil
