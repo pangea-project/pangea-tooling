@@ -1,3 +1,21 @@
+# frozen_string_literal: true
+#
+# Copyright (C) 2015 Rohan Garg <rohan@garg.io>
+# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
 require 'date'
 require 'fileutils'
 require 'yaml'
@@ -8,6 +26,7 @@ require_relative '../kci'
 require_relative '../os'
 require_relative 'build_version'
 require_relative 'source'
+require_relative 'version_enforcer'
 
 module CI
   # Class to build out source package from a VCS
@@ -15,9 +34,9 @@ module CI
     BUILD_DIR = 'build/'.freeze
 
     def initialize(release:, strip_symbols: false)
-      @release = release
-      @flavor = OS::ID.to_sym
-      @data = YAML.load_file("#{File.dirname(__FILE__)}/data/maintainer.yaml")
+      @release = release # e.g. vivid
+      @flavor = OS::ID.to_sym # e.g. Ubuntu
+      @data = YAML.load_file("#{__dir__}/data/maintainer.yaml")
 
       @source = CI::Source.new
       changelog = nil
@@ -37,6 +56,9 @@ module CI
 
       @tar_version = @source.build_version.tar
       @strip_symbols = strip_symbols
+
+      @version_enforcer = VersionEnforcer.new
+      @version_enforcer.validate(@source.version)
     end
 
     def copy_source
@@ -116,6 +138,8 @@ module CI
         raise 'Exactly one dsc not found' if dsc.size != 1
         @source.dsc = dsc[0]
       end
+
+      @version_enforcer.record!(@source.version)
     end
 
     def cleanup
@@ -149,7 +173,11 @@ module CI
 
           # FIXME: bloody workaround for kconfigwidgets, kdelibs4support
           # and ubuntu-ui-toolkit containing legit locale data
-          next if %w(kconfigwidgets kdelibs4support ubuntu-ui-toolkit).include?(@source.name)
+          if %w(kconfigwidgets
+                kdelibs4support
+                ubuntu-ui-toolkit).include?(@source.name)
+            next
+          end
 
           locale_regex = %r{^.*usr/share/locale.*$}
           subbed = File.open(install_file_path).read.gsub(locale_regex, '')
