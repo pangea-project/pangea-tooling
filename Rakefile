@@ -14,11 +14,6 @@ begin
 rescue LoadError
   puts 'rake-notes not installed, skipping'
 end
-begin
-  require 'rubocop/rake_task'
-rescue LoadError
-  puts 'rubocop not installed, skipping'
-end
 
 BIN_DIRS = %w(
   .
@@ -89,17 +84,23 @@ task :cloc do
 end
 CLEAN << 'cloc.xml'
 
-desc 'Run RuboCop on the lib directory'
-RuboCop::RakeTask.new(:rubocop) do |task|
-  task.requires << 'rubocop/formatter/checkstyle_formatter'
-  BIN_DIRS.each { |bindir| task.patterns << "#{bindir}/*.rb" }
-  SOURCE_DIRS.each { |srcdir| task.patterns << "#{srcdir}/**/*.rb" }
-  task.formatters = ['RuboCop::Formatter::CheckstyleFormatter']
-  task.options << '--out' << 'checkstyle.xml'
-  task.fail_on_error = false
-  task.verbose = false
+begin
+  require 'rubocop/rake_task'
+
+  desc 'Run RuboCop on the lib directory'
+  RuboCop::RakeTask.new(:rubocop) do |task|
+    task.requires << 'rubocop/formatter/checkstyle_formatter'
+    BIN_DIRS.each { |bindir| task.patterns << "#{bindir}/*.rb" }
+    SOURCE_DIRS.each { |srcdir| task.patterns << "#{srcdir}/**/*.rb" }
+    task.formatters = ['RuboCop::Formatter::CheckstyleFormatter']
+    task.options << '--out' << 'checkstyle.xml'
+    task.fail_on_error = false
+    task.verbose = false
+  end
+  CLEAN << 'checkstyle.xml'
+rescue LoadError
+  puts 'rubocop not installed, skipping'
 end
-CLEAN << 'checkstyle.xml'
 
 desc 'deploy host and containment tooling'
 task :deploy do
