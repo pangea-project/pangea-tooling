@@ -1,15 +1,24 @@
 require 'bundler/setup' # Make sure load paths are in order
 
+require 'fileutils'
+require 'rake/clean'
+require 'rake/testtask'
+
 begin
   require 'ci/reporter/rake/test_unit'
 rescue LoadError
   puts 'ci_reporter_test_unit not installed, skipping'
 end
-require 'fileutils'
-require 'rake/clean'
-require 'rake/notes/rake_task'
-require 'rake/testtask'
-require 'rubocop/rake_task'
+begin
+  require 'rake/notes/rake_task'
+rescue LoadError
+  puts 'rake-notes not installed, skipping'
+end
+begin
+  require 'rubocop/rake_task'
+rescue LoadError
+  puts 'rubocop not installed, skipping'
+end
 
 BIN_DIRS = %w(
   .
