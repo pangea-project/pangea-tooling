@@ -4,7 +4,7 @@ module Test
   @children = []
 
   # Reserved ports:
-  # 9474 OrigSourcerTestCase
+  # 9474 KCI::OrigSourcerTestCase
   # 9475 TarFetcherTest
    #111999 PangeaDPutTest
 
