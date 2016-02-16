@@ -36,7 +36,7 @@ module KCI
     def test_url
       Dir.mkdir('source')
       File.write('source/url',
-                 "http://localhost:9473/dragon-15.08.1.tar.xz\n")
+                 "http://localhost:#{SERVE_PORT}/dragon-15.08.1.tar.xz\n")
       Test.http_serve(data, port: SERVE_PORT) do
         VCR.use_cassette(__method__, erb: true) do
           tarball = KCI::OrigSourcer.tarball
