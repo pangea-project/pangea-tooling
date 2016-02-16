@@ -40,7 +40,7 @@ ubuntu_series.each_index do |index|
   pid_map[pid] = "ubuntu-#{series}"
 end
 
-debian_series = (DCI.series.keys | NDCI.series.keys )
+debian_series = (DCI.series.keys | NDCI.series.keys)
 debian_series.each do |k|
   pid = fork do
     d = MGMT::Deployer.new('debian', k)
