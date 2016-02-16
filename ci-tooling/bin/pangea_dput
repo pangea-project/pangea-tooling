@@ -36,7 +36,7 @@ parser = OptionParser.new do |opts|
 end
 parser.parse!
 
-fail parser.help if ARGV.empty? || options.repo.nil?
+raise parser.help if ARGV.empty? || options.repo.nil?
 
 if options.gateway
   case options.gateway.scheme
@@ -44,7 +44,7 @@ if options.gateway
     gateway = Net::SSH::Gateway.new(options.gateway.host, options.gateway.user)
     gateway.open('localhost', options.port, options.port)
   else
-    fail 'Gateway scheme not supported'
+    raise 'Gateway scheme not supported'
   end
 end
 
@@ -53,7 +53,7 @@ Aptly.configure do |config|
   config.port = options.port
 end
 
-fail 'Repository does not exist' unless Aptly::Repository.exist?(options.repo)
+raise 'Repository does not exist' unless Aptly::Repository.exist?(options.repo)
 repo = Aptly::Repository.get(options.repo)
 
 ARGV.each do |changes_file|
@@ -66,14 +66,14 @@ ARGV.each do |changes_file|
 
   changes.fields['checksums-sha256'].each do |checksum|
     file = checksum.file_name
-    fail "File not found #{file}" unless File.exist?(file)
+    raise "File not found #{file}" unless File.exist?(file)
 
     sum = Digest::SHA256.hexdigest(File.read(file))
-    fail "File #{file} has incorrect checksum" unless sum == checksum.sum
+    raise "File #{file} has incorrect checksum" unless sum == checksum.sum
 
     files_to_upload << File.absolute_path(file)
   end
-  fail 'Changes lists no files to upload!?' if files_to_upload.empty?
+  raise 'Changes lists no files to upload!?' if files_to_upload.empty?
 
   repo.upload(files_to_upload)
 end
