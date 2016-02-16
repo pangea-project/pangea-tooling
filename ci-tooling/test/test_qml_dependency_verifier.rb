@@ -29,6 +29,8 @@ class QMLDependencyVerifierTest < TestCase
     Apt::Repository.send(:reset)
     # Disable automatic update
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
+
+    reset_child_status! # Make sure $? is fine before we start!
   end
 
   def teardown
