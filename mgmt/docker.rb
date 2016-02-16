@@ -4,6 +4,7 @@ require_relative '../ci-tooling/lib/dci'
 require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/mobilekci'
 require_relative '../ci-tooling/lib/nci'
+require_relative '../ci-tooling/lib/ndci'
 require_relative '../lib/mgmt/deployer'
 
 require 'jenkins_api_client'
