@@ -119,7 +119,15 @@ class ProjectsFactory
       def ls(base)
         @list_cache ||= {}
         return @list_cache[base] if @list_cache.key?(base)
-        repos = Octokit.organization_repositories(base)
+        # Github sends over paginated replies, make sure we iterate till
+        # no more results are being returned.
+        page = 1
+        loop do
+          paginated_repos = Octokit.org_repos(base, page: page)
+          break if paginated_repos.count == 0
+          repos += paginated_repos
+          page += 1
+        end
         @list_cache[base] = repos.collect(&:name).freeze
       end
     end
