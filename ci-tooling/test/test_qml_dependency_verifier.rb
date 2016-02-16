@@ -27,6 +27,8 @@ class QMLDependencyVerifierTest < TestCase
     # Disable automatic update
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
 
+    reset_child_status! # Make sure $? is fine before we start!
+
     # Let all backtick or system calls that are not expected fall into
     # an error trap!
     Object.any_instance.expects(:`).never
@@ -36,8 +38,6 @@ class QMLDependencyVerifierTest < TestCase
     Object.any_instance.stubs(:`)
           .with('dpkg-architecture -qDEB_HOST_ARCH')
           .returns('amd64')
-
-    reset_child_status! # Make sure $? is fine before we start!
   end
 
   def teardown
