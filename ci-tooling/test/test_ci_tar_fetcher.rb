@@ -7,6 +7,8 @@ require_relative '../lib/ci/tar_fetcher'
 
 module CI
   class TarFetcherTest < TestCase
+    SERVER_PORT = '9475'.freeze
+
     def setup
       VCR.configure do |config|
         config.cassette_library_dir = @datadir
@@ -49,7 +51,7 @@ module CI
         # Not a debian dir
       end
 
-      Test.http_serve(data('http')) do
+      Test.http_serve(data('http'), SERVER_PORT) do
         f = WatchTarFetcher.new(data('debian/watch'))
         t = f.fetch(Dir.pwd)
 

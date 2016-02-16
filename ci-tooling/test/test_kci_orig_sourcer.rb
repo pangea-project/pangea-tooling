@@ -7,10 +7,12 @@ require_relative '../kci/orig_sourcer.rb'
 
 module KCI
   class OrigSourcerTestCase < TestCase
+    SERVE_PORT = '9474'.freeze
+
     def test_tarball # also tests watch
       require_binaries('uscan')
       FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
-      Test.http_serve(data('http')) do
+      Test.http_serve(data('http'), port: SERVE_PORT) do
         tarball = KCI::OrigSourcer.tarball
         assert_not_equal(nil, tarball)
         assert_equal('dragon_15.08.1.orig.tar.xz', File.basename(tarball.path))
@@ -35,7 +37,7 @@ module KCI
       Dir.mkdir('source')
       File.write('source/url',
                  "http://localhost:9473/dragon-15.08.1.tar.xz\n")
-      Test.http_serve(data) do
+      Test.http_serve(data, port: SERVE_PORT) do
         VCR.use_cassette(__method__, erb: true) do
           tarball = KCI::OrigSourcer.tarball
           assert_not_equal(nil, tarball)
