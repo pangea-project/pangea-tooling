@@ -30,6 +30,7 @@ class ProjectsFactoryTest < TestCase
 
   def setup
     CI::Overrides.default_files = [] # Disable overrides by default.
+    reset_child_status!
   end
 
   def teardown
@@ -108,10 +109,6 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
 
 #{paths.map { |p| " R W    #{p}" }.join("\n")}
     EOF
-  end
-
-  def reset_child_status!
-    system('true') # Resets $? to all good
   end
 
   def cache_neon_backtick(return_value)
