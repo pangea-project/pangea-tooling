@@ -6,3 +6,4 @@ architectures:
 extra_architectures: []
 types:
   - unstable
+  - stable
