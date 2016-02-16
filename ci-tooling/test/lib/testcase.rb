@@ -95,4 +95,8 @@ EOT
   ensure
     ENV['HOME'] = home_
   end
+
+  def reset_child_status!
+    system('true') # Resets $? to all good
+  end
 end

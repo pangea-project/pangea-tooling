@@ -12,6 +12,7 @@ module Test
                                   AccessLog: [],
                                   Logger: log)
       s.start
+      exit(0)
     else # parent
       @children << pid
       at_exit { nuke } # Make sure the child dies even on raised error exits.
@@ -27,6 +28,7 @@ module Test
   def self.kill(pid)
     Process.kill('KILL', pid)
     Process.waitpid(pid)
+    system('true') # Reset $? to prevent subsquent failure!
   end
 
   def self.nuke
