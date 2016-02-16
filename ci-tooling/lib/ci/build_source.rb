@@ -149,7 +149,11 @@ module CI
 
           # FIXME: bloody workaround for kconfigwidgets, kdelibs4support
           # and ubuntu-ui-toolkit containing legit locale data
-          next if %w(kconfigwidgets kdelibs4support ubuntu-ui-toolkit).include?(@source.name)
+          if %w(kconfigwidgets
+                kdelibs4support
+                ubuntu-ui-toolkit).include?(@source.name)
+            next
+          end
 
           locale_regex = %r{^.*usr/share/locale.*$}
           subbed = File.open(install_file_path).read.gsub(locale_regex, '')
