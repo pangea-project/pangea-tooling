@@ -26,6 +26,7 @@ require_relative '../kci'
 require_relative '../os'
 require_relative 'build_version'
 require_relative 'source'
+require_relative 'version_enforcer'
 
 module CI
   # Class to build out source package from a VCS
@@ -55,6 +56,9 @@ module CI
 
       @tar_version = @source.build_version.tar
       @strip_symbols = strip_symbols
+
+      @version_enforcer = VersionEnforcer.new
+      @version_enforcer.validate(@source.version)
     end
 
     def copy_source
@@ -134,6 +138,8 @@ module CI
         raise 'Exactly one dsc not found' if dsc.size != 1
         @source.dsc = dsc[0]
       end
+
+      @version_enforcer.record!(@source.version)
     end
 
     def cleanup

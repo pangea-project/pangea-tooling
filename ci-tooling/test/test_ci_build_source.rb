@@ -1,3 +1,21 @@
+# frozen_string_literal: true
+#
+# Copyright (C) 2015 Rohan Garg <rohan@garg.io>
+# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
 require 'rubygems/package'
 require 'zlib'
 
@@ -69,8 +87,11 @@ class VCSBuilderTest < TestCase
     assert_equal(:quilt, r.type)
     assert_equal('hello', r.name)
     assert_equal("2.10+git20150717.1756+#{OS::VERSION_ID}-0", r.version)
-    assert_equal("hello_2.10+git20150717.1756+15.04-0.dsc", r.dsc)
+    assert_equal('hello_2.10+git20150717.1756+15.04-0.dsc', r.dsc)
     assert_not_nil(r.build_version)
+
+    assert(File.read('last_version').start_with?('2.10+git'),
+           "New version not recorded? -> #{File.read('last_version')}")
   end
 
   def test_native
@@ -183,5 +204,27 @@ class VCSBuilderTest < TestCase
       file = "#{source.name}-#{source.build_version.tar}/.hidden-file"
       assert_path_exist(file)
     end
+  end
+
+  def test_epoch_bump_fail
+    File.write('last_version', '10:1.0')
+    assert_raise CI::VersionEnforcer::UnauthorizedChangeError do
+      CI::VcsSourceBuilder.new(release: @release).run
+    end
+  end
+
+  def test_epoch_decrement_fail
+    File.write('last_version', '1.0')
+    assert_raise CI::VersionEnforcer::UnauthorizedChangeError do
+      CI::VcsSourceBuilder.new(release: @release).run
+    end
+  end
+
+  def test_epoch_retain
+    File.write('last_version', '5:1.0')
+    CI::VcsSourceBuilder.new(release: @release).run
+    # pend "assert last_version changed"
+    assert(File.read('last_version').start_with?('5:2.10'),
+           "New version not recorded? -> #{File.read('last_version')}")
   end
 end
