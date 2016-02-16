@@ -1,6 +1,10 @@
 require 'bundler/setup' # Make sure load paths are in order
 
-require 'ci/reporter/rake/test_unit'
+begin
+  require 'ci/reporter/rake/test_unit'
+rescue LoadError
+  puts 'ci_reporter_test_unit not installed, skipping'
+end
 require 'fileutils'
 require 'rake/clean'
 require 'rake/notes/rake_task'
