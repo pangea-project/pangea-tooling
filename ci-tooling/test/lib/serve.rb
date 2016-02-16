@@ -3,7 +3,12 @@ require 'webrick'
 module Test
   @children = []
 
-  def self.http_serve(dir, port: '9473')
+  # Reserved ports:
+  # 9474 OrigSourcerTestCase
+  # 9475 TarFetcherTest
+   #111999 PangeaDPutTest
+
+  def self.http_serve(dir, port: '0')
     case pid = fork
     when nil # child
       log = WEBrick::Log.new(nil, WEBrick::BasicLog::FATAL)
