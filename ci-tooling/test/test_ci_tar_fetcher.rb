@@ -51,7 +51,7 @@ module CI
         # Not a debian dir
       end
 
-      Test.http_serve(data('http'), SERVER_PORT) do
+      Test.http_serve(data('http'), port: SERVER_PORT) do
         f = WatchTarFetcher.new(data('debian/watch'))
         t = f.fetch(Dir.pwd)
 
