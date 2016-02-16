@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:9475/dragon-15.08.1.tar.xz
+    uri: http://localhost:9474/dragon-15.08.1.tar.xz
     body:
       encoding: US-ASCII
       string: ''
