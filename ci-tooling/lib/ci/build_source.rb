@@ -33,8 +33,8 @@ module CI
     BUILD_DIR = 'build/'.freeze
 
     def initialize(release:, strip_symbols: false)
-      @release = release
-      @flavor = OS::ID.to_sym
+      @release = release # e.g. vivid
+      @flavor = OS::ID.to_sym # e.g. Ubuntu
       @data = YAML.load_file("#{__dir__}/data/maintainer.yaml")
 
       @source = CI::Source.new
