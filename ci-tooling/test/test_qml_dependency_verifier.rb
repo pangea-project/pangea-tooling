@@ -2,15 +2,12 @@ require 'fileutils'
 require 'vcr'
 
 require_relative '../lib/qml_dependency_verifier'
-require_relative 'lib/assert_backtick'
-require_relative 'lib/assert_system'
 require_relative 'lib/testcase'
+
+require 'mocha/test_unit'
 
 # Test qml dep verifier
 class QMLDependencyVerifierTest < TestCase
-  prepend AssertBacktick
-  prepend AssertSystem
-
   def const_reset(klass, symbol, obj)
     klass.send(:remove_const, symbol)
     klass.const_set(symbol, obj)
@@ -29,6 +26,16 @@ class QMLDependencyVerifierTest < TestCase
     Apt::Repository.send(:reset)
     # Disable automatic update
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
+
+    # Let all backtick or system calls that are not expected fall into
+    # an error trap!
+    Object.any_instance.expects(:`).never
+    Object.any_instance.expects(:system).never
+
+    # Default stub architecture as amd64
+    Object.any_instance.stubs(:`)
+          .with('dpkg-architecture -qDEB_HOST_ARCH')
+          .returns('amd64')
 
     reset_child_status! # Make sure $? is fine before we start!
   end
@@ -64,18 +71,19 @@ class QMLDependencyVerifierTest < TestCase
   end
 
   def test_binaries
-    assert_backtick(['dpkg-architecture -qDEB_HOST_ARCH']) do
-      assert_equal(ref, QMLDependencyVerifier.new.binaries)
-    end
+    assert_equal(ref, QMLDependencyVerifier.new.binaries)
   end
 
   def test_add_ppa
-    assert_system([%w(apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true update),
-                   %w(apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true install software-properties-common),
-                   %w(add-apt-repository -y ppa:kubuntu-ci/unstable),
-                   %w(apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true update)]) do
-      QMLDependencyVerifier.new.add_ppa
-    end
+    [%w(apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true update),
+     %w(apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true install software-properties-common),
+     %w(add-apt-repository -y ppa:kubuntu-ci/unstable),
+     %w(apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true update)]. each do |c|
+       Object.any_instance.expects(:system)
+             .with(*c)
+             .returns(true)
+     end
+    QMLDependencyVerifier.new.add_ppa
   end
 
   def test_missing_modules
@@ -84,32 +92,34 @@ class QMLDependencyVerifierTest < TestCase
     assert(File.exist?('packaging/debian/plasma-widgets-addons.qml-ignore'))
     # Prepare sequences, divert search path and run verification.
     const_reset(QML, :SEARCH_PATHS, [File.join(data, 'qml')])
-    system_sequence = JSON.parse(File.read(data('system_sequence')))
-    backtick_sequence = JSON.parse(File.read(data('backtick_sequence')))
-    assert_system(system_sequence) do
-      assert_backtick(backtick_sequence) do
-        missing = QMLDependencyVerifier.new.missing_modules
-        assert_equal(1, missing.size, 'More things missing than expected' \
-                                      " #{missing}")
 
-        assert(missing.key?('plasma-widgets-addons'))
-        missing = missing.fetch('plasma-widgets-addons')
-        assert_equal(1, missing.size, 'More modules missing than expected' \
-                     " #{missing}")
-
-        missing = missing.first
-        assert_equal('QtWebKit', missing.identifier)
-      end
+    system_sequence = sequence('system')
+    backtick_sequence = sequence('backtick')
+    JSON.parse(File.read(data('system_sequence'))).each do |cmd|
+      Object.any_instance.expects(:system)
+            .with(*cmd)
+            .returns(true)
+            .in_sequence(system_sequence)
     end
-  end
-
-  def backtick_intercept(args)
-    case args[0]
-    when 'dpkg-architecture -qDEB_HOST_ARCH'
-      return 'amd64'
-    when 'dpkg -L plasma-widgets-addons'
-      return data('main.qml')
+    JSON.parse(File.read(data('backtick_sequence'))).each do |cmd|
+      Object.any_instance.expects(:`)
+            .with(*cmd)
+            .returns('')
+            .in_sequence(backtick_sequence)
     end
-    return '' if args[0].start_with?('dpkg -L ')
+    Object.any_instance.stubs(:`)
+          .with('dpkg -L plasma-widgets-addons')
+          .returns(data('main.qml'))
+    missing = QMLDependencyVerifier.new.missing_modules
+    assert_equal(1, missing.size, 'More things missing than expected' \
+                                  " #{missing}")
+
+    assert(missing.key?('plasma-widgets-addons'))
+    missing = missing.fetch('plasma-widgets-addons')
+    assert_equal(1, missing.size, 'More modules missing than expected' \
+                 " #{missing}")
+
+    missing = missing.first
+    assert_equal('QtWebKit', missing.identifier)
   end
 end
