@@ -14,7 +14,7 @@ require 'rubocop/rake_task'
 BIN_DIRS = %w(
   .
   ci-tooling
-)
+).freeze
 SOURCE_DIRS = %w(
   ci-tooling/ci
   ci-tooling/dci
@@ -32,7 +32,7 @@ SOURCE_DIRS = %w(
   mgmt
   mobster
   s3-images-generator
-)
+).freeze
 
 desc 'run unit tests'
 Rake::TestTask.new do |t|
