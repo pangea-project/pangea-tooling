@@ -21,6 +21,7 @@ group :development, :test do
   gem 'equivalent-xml'
   gem 'mocha'
   gem 'net-scp'
+  gem 'parallel_tests'
   gem 'rack'
   gem 'rake'
   gem 'rake-notes'
