@@ -1,2 +1,2 @@
 version=3
-http://localhost:9473/dragon-([\d\.]*).tar.xz
+http://localhost:9474/dragon-([\d\.]*).tar.xz
