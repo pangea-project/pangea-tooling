@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016 Rohan Garg <rohan@garg.io>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -15,14 +15,14 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'octokit'
+require 'gitlab'
 
 require_relative 'base'
 
 class ProjectsFactory
   # Debian specific project factory.
-  class GitHub < Base
-    DEFAULT_URL_BASE = 'https://github.com'.freeze
+  class Gitlab < Base
+    DEFAULT_URL_BASE = 'https://gitlab.com'.freeze
 
     # FIXME: same as in neon
     def self.url_base
@@ -30,7 +30,7 @@ class ProjectsFactory
     end
 
     def self.understand?(type)
-      type == 'github.com'
+      type == 'gitlab.com'
     end
 
     private
@@ -39,7 +39,7 @@ class ProjectsFactory
     def split_entry(entry)
       parts = entry.split('/')
       name = parts[-1]
-      component = parts[0..-2].join('_') || 'github'
+      component = parts[0..-2].join('_') || 'gitlab'
       [name, component]
     end
 
@@ -119,17 +119,19 @@ class ProjectsFactory
       def ls(base)
         @list_cache ||= {}
         return @list_cache[base] if @list_cache.key?(base)
-        # Github sends over paginated replies, make sure we iterate till
+        # Gitlab sends over paginated replies, make sure we iterate till
         # no more results are being returned.
+
+        base_id = ::Gitlab.group_search(base)[0].id
         repos = []
         page = 1
         loop do
-          paginated_repos = Octokit.org_repos(base, page: page)
+          paginated_repos = ::Gitlab.group_projects(base_id, page: page)
           break if paginated_repos.count == 0
           repos += paginated_repos
           page += 1
         end
-        @list_cache[base] = repos.collect(&:name).freeze
+        @list_cache[base] = repos.collect(&:path).freeze
       end
     end
   end

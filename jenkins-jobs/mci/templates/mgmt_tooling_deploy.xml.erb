@@ -75,7 +75,7 @@ pwd
 tar -xf *.tar.gz
 
 gem install --no-rdoc bundler
-bundle install --jobs=`nproc` --no-cache --local --frozen --system
+bundle install --jobs=`nproc` --no-cache --local --frozen --system --without development test
 
 rake clean
 rake deploy
