@@ -26,8 +26,8 @@
 
 # Other stuff
 
-'*{git.debian,packaging.neon}*/qt/*':
-  '{kubuntu_unstable,Neon/unstable}':
+'*{git.debian,packaging.neon,gitlab.com}*/{qt,netrunner-debian-qt}/*':
+  kubuntu_unstable:
     upstream_scm:
       url: http://code.qt.io/git/qt/<%= name %>.git
       branch: 5.4
@@ -39,6 +39,11 @@
     upstream_scm:
       type: tarball
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1.orig.tar.xz
+  Netrunner/stable:
+    upstream_scm:
+      type: tarball
+      url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1.orig.tar.xz
+
 
 '*{git.debian,packaging.neon}*/qt/{qtbase,qtscript}':
   kubuntu_vivid_mobile:

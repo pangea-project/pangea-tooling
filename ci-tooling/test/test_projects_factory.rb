@@ -347,7 +347,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     # mock the octokit query
     resource = Struct.new(:name)
     Octokit.expects(:organization_repositories)
-           .returns([resource.new('calamares-debian')])
+           .returns([resource.new('calamares-debian')]).at_most(2)
 
     factory = ProjectsFactory::GitHub.new('github.com')
     projects = factory.factorize([{ 'calamares' => ['calamares-debian'] }])
