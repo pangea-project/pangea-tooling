@@ -9,6 +9,14 @@ module KCI
   class OrigSourcerTestCase < TestCase
     SERVE_PORT = '9474'.freeze
 
+    def setup
+      WebMock.disable_net_connect!(allow_localhost: true)
+    end
+
+    def teardown
+      WebMock.allow_net_connect!
+    end
+
     def test_tarball # also tests watch
       require_binaries('uscan')
       FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
