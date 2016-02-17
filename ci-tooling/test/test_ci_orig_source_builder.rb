@@ -50,6 +50,7 @@ module CI
       assert_false(Dir.glob('*').empty?)
 
       tarball = WatchTarFetcher.new('packaging/debian/watch').fetch(Dir.pwd)
+      refute_nil(tarball, 'failed to get the tarball :O')
 
       builder = OrigSourceBuilder.new(release: 'unstable')
       builder.build(tarball)
