@@ -8,6 +8,9 @@ gem 'jenkins_api_client'
 gem 'logger-colors'
 gem 'oauth'
 gem 'octokit'
+gem 'gitlab',
+    git: 'https://github.com/shadeslayer/gitlab',
+    branch: 'master'
 gem 'net-ssh-gateway'
 
 # Git URI management
