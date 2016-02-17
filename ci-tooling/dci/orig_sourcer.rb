@@ -40,6 +40,6 @@ module DCI
 end
 
 if __FILE__ == $PROGRAM_NAME
-  sourcer = CI::OrigSourceBuilder.new(ENV.fetch('DIST'))
+  sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'))
   sourcer.build(DCI::OrigSourcer.tarball)
 end

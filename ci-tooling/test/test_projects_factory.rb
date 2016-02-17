@@ -398,7 +398,6 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     assert_equal 'kubuntu_unstable', project.packaging_scm.branch
   end
 
-
   def test_launchpad_understand
     assert ProjectsFactory::Launchpad.understand?('launchpad.net')
     refute ProjectsFactory::Launchpad.understand?('git.debian.org')
