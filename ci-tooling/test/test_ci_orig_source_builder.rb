@@ -9,6 +9,8 @@ module CI
     def setup
       LSB.reset
       LSB.instance_variable_set(:@hash, DISTRIB_CODENAME: 'vivid', DISTRIB_RELEASE: '15.04')
+      OS.reset
+      OS.instance_variable_set(:@hash, VERSION_ID: '15.10')
       ENV['BUILD_NUMBER'] = '3'
       FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
     end

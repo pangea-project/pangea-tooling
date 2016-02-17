@@ -2,6 +2,7 @@ require 'fileutils'
 
 require_relative '../debian/changelog'
 require_relative '../lsb'
+require_relative '../os'
 require_relative 'build_version'
 require_relative 'source'
 require_relative 'tar_fetcher'
@@ -15,7 +16,7 @@ module CI
       # @version
       # @tar
       @release = release
-      @release_version = LSB::DISTRIB_RELEASE
+      @release_version = OS::VERSION_ID
 
       @build_rev = ENV.fetch('BUILD_NUMBER')
 
