@@ -2,6 +2,7 @@
 
 require_relative 'ci-tooling/lib/mobilekci'
 require_relative 'ci-tooling/lib/dci'
+require_relative 'ci-tooling/lib/ndci'
 require_relative 'ci-tooling/lib/projects'
 require_relative 'ci-tooling/lib/thread_pool'
 require_relative 'lib/jenkins/project_updater'
@@ -16,6 +17,7 @@ end
 class ProjectUpdater < Jenkins::ProjectUpdater
   MODULE_MAP = {
     dci: DCI,
+    ndci: NDCI,
     mci: MCI
   }.freeze
 
@@ -93,7 +95,7 @@ end
 options = {}
 options[:flavor] = :mci
 OptionParser.new do |opts|
-  opts.on('--ci [flavor]', [:dci, :mci], 'Run for CI flavor (dci, mci)') do |f|
+  opts.on('--ci [flavor]', [:dci, :mci, :ndci], 'Run for CI flavor (dci, mci)') do |f|
     options[:flavor] = f
   end
 end.parse!
