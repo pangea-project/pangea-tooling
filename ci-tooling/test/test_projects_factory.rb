@@ -372,10 +372,10 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     # mock the octokit query
     group = Struct.new(:id)
     resource = Struct.new(:path)
-    Gitlab.expects(:group_search)
-          .returns([group.new('999')])
-    Gitlab.expects(:group_projects)
-          .multiple_yields([[resource.new('calamares-debian')]])
+    ::Gitlab.expects(:group_search)
+            .returns([group.new('999')])
+    ::Gitlab.expects(:group_projects)
+            .multiple_yields([[resource.new('calamares-debian')]])
 
     factory = ProjectsFactory::Gitlab.new('gitlab.com')
     projects = factory.factorize([{ 'calamares' => ['calamares-debian'] }])
