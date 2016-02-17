@@ -374,8 +374,15 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     resource = Struct.new(:path)
     ::Gitlab.expects(:group_search)
             .returns([group.new('999')])
+
+    # Construct call sequence for Gitlab
+    gitlab_sequence = sequence('gitlab')
     ::Gitlab.expects(:group_projects)
-            .multiple_yields([[resource.new('calamares-debian')]])
+            .returns([resource.new('calamares-debian')])
+            .in_sequence(gitlab_sequence)
+    ::Gitlab.expects(:group_projects)
+            .returns
+            .in_sequence(gitlab_sequence)
 
     factory = ProjectsFactory::Gitlab.new('gitlab.com')
     projects = factory.factorize([{ 'calamares' => ['calamares-debian'] }])
@@ -390,6 +397,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     assert_equal "#{gitlab_dir}/calamares/calamares-debian", project.packaging_scm.url
     assert_equal 'kubuntu_unstable', project.packaging_scm.branch
   end
+
 
   def test_launchpad_understand
     assert ProjectsFactory::Launchpad.understand?('launchpad.net')
