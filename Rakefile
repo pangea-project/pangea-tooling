@@ -66,6 +66,7 @@ task :test_ci_parallel do
   opts << '--serialize-stdout'
   opts << '--combine-stderr'
   opts << '--nice'
+  opts << '--verbose'
   test_files = FileList['ci-tooling/test/test_*.rb']
   sh('parallel_test', *opts, *test_files)
 end
