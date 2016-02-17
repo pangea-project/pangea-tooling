@@ -125,8 +125,10 @@ class ProjectsFactory
         base_id = ::Gitlab.group_search(base)[0].id
         repos = []
         page = 1
+
         loop do
           paginated_repos = ::Gitlab.group_projects(base_id, page: page)
+          break unless paginated_repos
           break if paginated_repos.count == 0
           repos += paginated_repos
           page += 1
