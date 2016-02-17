@@ -121,8 +121,8 @@ class ProjectsFactory
         return @list_cache[base] if @list_cache.key?(base)
         # Github sends over paginated replies, make sure we iterate till
         # no more results are being returned.
-        page = 1
         repos = []
+        page = 1
         loop do
           paginated_repos = Octokit.org_repos(base, page: page)
           break if paginated_repos.count == 0
