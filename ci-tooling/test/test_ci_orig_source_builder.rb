@@ -29,7 +29,7 @@ module CI
 
       # On 14.04 the default was .gz, newer versions may yield .xz
       debian_tar = Dir.glob('build/dragon_15.08.1-0+15.04+build3.debian.tar.*')
-      assert_false(debian_tar.empty?)
+      assert_false(debian_tar.empty?, "no tar #{Dir.glob('build/*')}")
       assert_path_exist('build/dragon_15.08.1-0+15.04+build3_source.changes')
       assert_path_exist('build/dragon_15.08.1-0+15.04+build3.dsc')
       assert_path_exist('build/dragon_15.08.1.orig.tar.xz')
@@ -56,7 +56,7 @@ module CI
       builder.build(tarball)
 
       debian_tar = Dir.glob('build/dragon_15.08.1-0+15.04+build3.debian.tar.*')
-      assert_false(debian_tar.empty?)
+      assert_false(debian_tar.empty?, "no tar #{Dir.glob('build/*')}")
       assert_path_exist('build/dragon_15.08.1-0+15.04+build3_source.changes')
       assert_path_exist('build/dragon_15.08.1-0+15.04+build3.dsc')
       assert_path_exist('build/dragon_15.08.1.orig.tar.xz')
