@@ -22,7 +22,10 @@ class JenkinsJobTest < TestCase
   def test_init
     Dir.mkdir('templates')
     File.write('templates/kitten.xml.erb', '')
-    JenkinsJob.new('kitten', 'kitten.xml.erb')
+    j = JenkinsJob.new('kitten', 'kitten.xml.erb')
+    assert_equal('kitten', j.job_name)
+    assert_equal("#{Dir.pwd}/config/", j.config_directory)
+    assert_equal("#{Dir.pwd}/templates/kitten.xml.erb", j.template_path)
   end
 
   def test_to_s
