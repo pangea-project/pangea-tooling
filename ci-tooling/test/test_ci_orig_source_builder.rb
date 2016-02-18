@@ -17,6 +17,7 @@ module CI
 
     def teardown
       LSB.reset
+      OS.reset
     end
 
     def tar_file_list(path)
