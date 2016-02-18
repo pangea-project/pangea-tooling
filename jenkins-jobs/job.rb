@@ -34,6 +34,7 @@ class JenkinsJob
   # Creates or updates the Jenkins job.
   # @return the job_name
   def update
+    # FIXME: this should use retry_it
     xml = render_template
     begin
       print "Updating #{job_name}\n"
@@ -68,6 +69,6 @@ class JenkinsJob
   def xml_debug(data)
     require 'rexml/document'
     doc = REXML::Document.new(data)
-    REXML::Formatters::Pretty.new.write(doc, STDOUT)
+    REXML::Formatters::Pretty.new.write(doc, $stdout)
   end
 end

@@ -1,0 +1,104 @@
+require_relative '../ci-tooling/test/lib/testcase'
+require_relative '../jenkins-jobs/job'
+
+require 'mocha/test_unit'
+
+class JenkinsJobTest < TestCase
+  def setup
+    # FIXME: wtf wtf wtf wtf
+    # Error: test_init(JenkinsJobTest):
+    #  NameError: uninitialized class variable @@flavor_dir in JenkinsJob
+    #  Did you mean?  flavor_dir
+    #                 flavor_dir=
+    JenkinsJob.flavor_dir = Dir.pwd
+  end
+
+  def test_class_var
+    # FIXME: wtf class var wtf wtf wtf
+    JenkinsJob.flavor_dir = '/kittens'
+    assert_equal('/kittens', JenkinsJob.flavor_dir)
+  end
+
+  def test_init
+    Dir.mkdir('templates')
+    File.write('templates/kitten.xml.erb', '')
+    JenkinsJob.new('kitten', 'kitten.xml.erb')
+  end
+
+  def test_to_s
+    Dir.mkdir('templates')
+    File.write('templates/kitten.xml.erb', '')
+    j = JenkinsJob.new('kitten', 'kitten.xml.erb')
+    assert_equal('kitten', j.to_s)
+    assert_equal('kitten', j.to_str)
+  end
+
+  def test_init_fail
+    # FIXME: see test_init
+    assert_raise RuntimeError do
+      JenkinsJob.new('kitten', 'kitten.xml.erb')
+    end
+  end
+
+  def test_render_template
+    Dir.mkdir('templates')
+    File.write('templates/kitten.xml.erb', '<%= job_name %>')
+    job = JenkinsJob.new('kitten', 'kitten.xml.erb')
+    render = job.render_template
+    assert_equal('kitten', render) # job_name
+  end
+
+  def test_render_path
+    Dir.mkdir('templates')
+    File.write('templates/kitten.xml.erb', '')
+    File.write('templates/path.xml.erb', '<%= job_name %>')
+    job = JenkinsJob.new('fruli', 'kitten.xml.erb')
+    render = job.render('path.xml.erb')
+    assert_equal('fruli', render) # job_name from path.xml
+  end
+
+  def test_update
+    mock_job = mock('jenkins-api-job')
+    mock_job.expects(:create_or_update).with('kitten', 'kitten').returns('')
+    Jenkins.expects(:job).at_least_once.returns(mock_job)
+
+    Dir.mkdir('templates')
+    File.write('templates/kitten.xml.erb', '<%= job_name %>')
+    job = JenkinsJob.new('kitten', 'kitten.xml.erb')
+    job.update
+  end
+
+  def test_update_raise
+    mock_job = mock('jenkins-api-job')
+    mock_job.expects(:create_or_update)
+            .twice
+            .with('kitten', 'kitten')
+            .raises(RuntimeError)
+            .then
+            .returns('')
+    Jenkins.expects(:job).at_least_once.returns(mock_job)
+
+    Dir.mkdir('templates')
+    File.write('templates/kitten.xml.erb', '<%= job_name %>')
+    job = JenkinsJob.new('kitten', 'kitten.xml.erb')
+    job.update
+  end
+
+  def trap_stdout
+    iotrap = StringIO.new
+    $stdout = iotrap
+    yield
+    return iotrap.string
+  ensure
+    $stdout = STDOUT
+  end
+
+  def test_xml_debug
+    Dir.mkdir('templates')
+    File.write('templates/kitten.xml.erb', '')
+    stdout = trap_stdout do
+      JenkinsJob.new('kitten', 'kitten.xml.erb').send(:xml_debug, '<hi/>')
+    end
+    assert_equal('<hi/>', stdout)
+  end
+end
