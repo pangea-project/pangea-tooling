@@ -1,5 +1,7 @@
 require 'webrick'
 
+require_relative '../../lib/retry'
+
 module Test
   @children = []
 
@@ -7,6 +9,15 @@ module Test
   # 9474 KCI::OrigSourcerTestCase
   # 9475 TarFetcherTest
   # 111999 PangeaDPutTest
+
+  def self.wait_for_connect(port:)
+    # 5 times every second try to open a connection to our child.
+    # Leave error raising if this fails as we then failed to fire up our
+    # serving test.
+    Retry.retry_it(times: 5, sleep: 1, errors: [Errno::ECONNREFUSED]) do
+      Net::HTTP.start('localhost', port) {}
+    end
+  end
 
   def self.http_serve(dir, port: '0')
     case pid = fork
@@ -21,6 +32,7 @@ module Test
     else # parent
       @children << pid
       at_exit { nuke } # Make sure the child dies even on raised error exits.
+      wait_for_connect(port: port)
       yield
     end
   ensure
