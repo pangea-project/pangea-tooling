@@ -72,7 +72,6 @@ module CI
     end
 
     def mangle!
-      # Rip out symbol files unless we are on latest
       if @strip_symbols
         Dir.chdir(@sourcepath) do
           symbols = Dir.glob('debian/symbols') +

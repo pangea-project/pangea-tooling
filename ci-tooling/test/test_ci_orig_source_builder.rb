@@ -19,6 +19,18 @@ module CI
       LSB.reset
     end
 
+    def tar_file_list(path)
+      files = []
+      Gem::Package::TarReader.new(Zlib::GzipReader.open(path)).tap do |reader|
+        reader.rewind
+        reader.each do |entry|
+          files << File.basename(entry.full_name) if entry.file?
+        end
+        reader.close
+      end
+      files
+    end
+
     def test_run
       assert_false(Dir.glob('*').empty?)
 
@@ -62,6 +74,23 @@ module CI
       assert_path_exist('build/dragon_15.08.1.orig.tar.xz')
       changes = File.read('build/dragon_15.08.1-0+15.04+build3_source.changes')
       assert_include(changes.split($/), 'Distribution: unstable')
+    end
+
+    def test_symbols_strip
+      assert_false(Dir.glob('*').empty?)
+
+      tarball = WatchTarFetcher.new('packaging/debian/watch').fetch(Dir.pwd)
+
+      builder = OrigSourceBuilder.new(strip_symbols: true)
+      builder.build(tarball)
+      Dir.chdir('build') do
+        tar = Dir.glob('*.tar.gz')
+        assert_equal(1, tar.size)
+        files = tar_file_list(tar[0])
+        assert_not_include(files, 'symbols')
+        assert_not_include(files, 'dragonplayer.symbols')
+        assert_not_include(files, 'dragonplayer.symbols.armhf')
+      end
     end
   end
 end
