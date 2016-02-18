@@ -68,7 +68,8 @@ class JenkinsJobTest < TestCase
     Dir.mkdir('templates')
     File.write('templates/kitten.xml.erb', '<%= job_name %>')
     job = JenkinsJob.new('kitten', 'kitten.xml.erb')
-    job.update
+    ret = job.update
+    assert_equal('kitten', ret)
   end
 
   def test_update_raise
@@ -84,7 +85,8 @@ class JenkinsJobTest < TestCase
     Dir.mkdir('templates')
     File.write('templates/kitten.xml.erb', '<%= job_name %>')
     job = JenkinsJob.new('kitten', 'kitten.xml.erb')
-    job.update
+    ret = job.update
+    assert_equal('kitten', ret)
   end
 
   def trap_stdout
