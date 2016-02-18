@@ -6,7 +6,7 @@ module Test
   # Reserved ports:
   # 9474 KCI::OrigSourcerTestCase
   # 9475 TarFetcherTest
-   #111999 PangeaDPutTest
+  # 111999 PangeaDPutTest
 
   def self.http_serve(dir, port: '0')
     case pid = fork
