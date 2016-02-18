@@ -80,6 +80,10 @@ github.com:
 
 launchpad.net:
   - ubuntu-filemanager-app
+  - music-app
+  - ubuntu-calculator-app
+  - ubuntu-docviewer-app
+  - ubuntu-weather-app
 
 packaging.neon.kde.org.uk:
   - qt:

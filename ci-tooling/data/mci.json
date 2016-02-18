@@ -84,7 +84,11 @@
     "launchpad" : [
         {
             "repos": [
-                "ubuntu-filemanager-app"
+                "ubuntu-filemanager-app",
+                "music-app",
+                "ubuntu-calculator-app",
+                "ubuntu-docviewer-app",
+                "ubuntu-weather-app"
             ]
         }
     ],
