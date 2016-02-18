@@ -1,4 +1,4 @@
-require 'vcr'
+require 'webmock/test_unit'
 
 require_relative 'lib/serve'
 require_relative 'lib/testcase'
