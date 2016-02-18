@@ -56,10 +56,12 @@ ec = Process.waitall
 exit_status = 0
 
 ec.each do |pid, status|
-  unless status.success?
-    puts "ERROR: Creating container for #{pid_map[pid]} failed"
-    exit_status = 1
-  end
+  next if status.success?
+  # Don't fail on unstable as apparently we don't need it anyway.
+  # <shadeslayer> well, it'll be fixed as soon as Debian unstable gets fixed?
+  next if pid_map[pid] == 'debian-unstable'
+  puts "ERROR: Creating container for #{pid_map[pid]} failed"
+  exit_status = 1
 end
 
 exit exit_status
