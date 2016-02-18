@@ -1,3 +1,4 @@
+require 'vcr'
 require 'webmock/test_unit'
 
 require_relative 'lib/serve'
@@ -10,11 +11,16 @@ module KCI
     SERVE_PORT = '9474'.freeze
 
     def setup
-      WebMock.disable_net_connect!(allow_localhost: true)
-    end
-
-    def teardown
-      WebMock.allow_net_connect!
+      # For unknown reasons we require VCR for our in-process connections as
+      # otherwise VCR and/or webmock will fall over dead or funnier yet,
+      # connection errors will be raised for no apparent reason.
+      VCR.configure do |config|
+        config.cassette_library_dir = @datadir
+        config.hook_into :webmock
+        config.default_cassette_options = {
+          match_requests_on: [:method, :uri, :body]
+        }
+      end
     end
 
     def test_tarball # also tests watch
@@ -46,10 +52,12 @@ module KCI
       File.write('source/url',
                  "http://localhost:#{SERVE_PORT}/dragon-15.08.1.tar.xz\n")
       Test.http_serve(data, port: SERVE_PORT) do
-        tarball = KCI::OrigSourcer.tarball
-        assert_not_equal(nil, tarball)
-        assert_equal('dragon_15.08.1.orig.tar.xz',
-                     File.basename(tarball.path))
+        VCR.use_cassette(__method__) do
+          tarball = KCI::OrigSourcer.tarball
+          assert_not_equal(nil, tarball)
+          assert_equal('dragon_15.08.1.orig.tar.xz',
+                       File.basename(tarball.path))
+        end
       end
     end
   end
