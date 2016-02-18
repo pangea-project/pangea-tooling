@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'fileutils'
+
 require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
 
@@ -40,6 +42,8 @@ module DCI
 end
 
 if __FILE__ == $PROGRAM_NAME
+  # Nuke symbols
+  FileUtils.rm_rf(Dir.glob('packaging/debian/*.symbols'), verbose: true)
   sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'))
   sourcer.build(DCI::OrigSourcer.tarball)
 end
