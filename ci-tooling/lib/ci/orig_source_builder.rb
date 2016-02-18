@@ -11,12 +11,13 @@ module CI
   class OrigSourceBuilder
     extend Gem::Deprecate
 
-    def initialize(release: LSB::DISTRIB_CODENAME)
+    def initialize(release: LSB::DISTRIB_CODENAME, strip_symbols: false)
       # @name
       # @version
       # @tar
       @release = release
       @release_version = OS::VERSION_ID
+      @strip_symbols = strip_symbols
 
       @build_rev = ENV.fetch('BUILD_NUMBER')
 
@@ -65,7 +66,20 @@ module CI
       FileUtils.cp_r(Dir.glob("#{@packagingdir}/*"), @sourcepath)
       Dir.chdir(@sourcepath) do
         log_change
+        mangle!
         build_internal
+      end
+    end
+
+    def mangle!
+      # Rip out symbol files unless we are on latest
+      if @strip_symbols
+        Dir.chdir(@sourcepath) do
+          symbols = Dir.glob('debian/symbols') +
+                    Dir.glob('debian/*.symbols') +
+                    Dir.glob('debian/*.symbols.*')
+          symbols.each { |s| FileUtils.rm(s) }
+        end
       end
     end
 

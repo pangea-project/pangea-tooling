@@ -42,8 +42,7 @@ module DCI
 end
 
 if __FILE__ == $PROGRAM_NAME
-  # Nuke symbols
-  FileUtils.rm_rf(Dir.glob('packaging/debian/*.symbols'), verbose: true)
-  sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'))
+  sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'),
+                                      strip_symbols: true)
   sourcer.build(DCI::OrigSourcer.tarball)
 end
