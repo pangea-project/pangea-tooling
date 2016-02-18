@@ -8,10 +8,15 @@ Dir.glob(File.expand_path('jenkins-jobs/*.rb', __dir__)).each do |file|
   require file
 end
 
+Dir.glob(File.expand_path('jenkins-jobs/nci/*.rb', __dir__)).each do |file|
+  require file
+end
+
 # Updates Jenkins Projects
 class ProjectUpdater
   def initialize
     @job_queue = Queue.new
+    @flavor = 'nci'
     JenkinsJob.flavor_dir =
       "#{File.expand_path(File.dirname(__FILE__))}/jenkins-jobs/#{@flavor}"
   end

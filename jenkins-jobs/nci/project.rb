@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'builder'
+require_relative '../builder'
 require_relative 'multijob_phase'
 
 # Magic builder to create an array of build steps

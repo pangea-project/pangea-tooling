@@ -4,6 +4,9 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty plugin="dependency-queue-plugin@1.1">
+      <blockWhileUpstreamQueued>false</blockWhileUpstreamQueued>
+    </org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty>
   </properties>
   <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.4">
     <scms>
@@ -34,7 +37,7 @@
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
-  <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
@@ -46,7 +49,7 @@ export TYPE=<%= type %>
 <% if upstream_scm && upstream_scm.type == 'tarball' %>
   <%= '~/tooling/kci/contain.rb ~/ci-tooling/kci/orig_sourcer.rb' %>
 <% else %>
-  <%= '~/tooling/kci/contain.rb ~/ci-tooling/kci/sourcer.rb $JOB_NAME `pwd`' %>
+  <%= '~/tooling/kci/contain.rb ~/ci-tooling/kci/sourcer2.rb' %>
 <% end %></command>
     </hudson.tasks.Shell>
   </builders>

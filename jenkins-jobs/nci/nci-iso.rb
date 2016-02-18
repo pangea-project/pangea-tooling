@@ -1,4 +1,4 @@
-require_relative 'job'
+require_relative '../job'
 
 class NeonIsoJob < JenkinsJob
   attr_reader :type
