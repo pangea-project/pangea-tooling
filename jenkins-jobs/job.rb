@@ -24,7 +24,11 @@ class JenkinsJob
   end
 
   def self.flavor_dir=(dir)
-    @@flavor_dir = dir
+    # This is handled as a class variable because we want all instances of
+    # JenkinsJob to have the same flavor set. Class instance variables OTOH
+    # would need additional code to properly apply it to all instances, which
+    # is mostly useless.
+    @@flavor_dir = dir # rubocop:disable Style/ClassVars
   end
 
   def self.flavor_dir

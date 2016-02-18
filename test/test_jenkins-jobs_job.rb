@@ -5,11 +5,6 @@ require 'mocha/test_unit'
 
 class JenkinsJobTest < TestCase
   def setup
-    # FIXME: wtf wtf wtf wtf
-    # Error: test_init(JenkinsJobTest):
-    #  NameError: uninitialized class variable @@flavor_dir in JenkinsJob
-    #  Did you mean?  flavor_dir
-    #                 flavor_dir=
     JenkinsJob.flavor_dir = Dir.pwd
   end
 
