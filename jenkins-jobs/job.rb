@@ -53,16 +53,16 @@ class JenkinsJob
   end
 
   def render(path)
-    if Pathname.new(path).absolute?
-      data = File.read(path)
-    else
-      data = File.read("#{@template_directory}/#{path}")
-    end
+    data = if Pathname.new(path).absolute?
+             File.read(path)
+           else
+             File.read("#{@template_directory}/#{path}")
+           end
     ERB.new(data).result(binding)
   end
 
-  alias_method :to_s, :job_name
-  alias_method :to_str, :to_s
+  alias to_s job_name
+  alias to_str to_s
 
   private
 
