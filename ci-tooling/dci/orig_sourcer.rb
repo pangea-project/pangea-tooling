@@ -4,6 +4,8 @@ require 'fileutils'
 
 require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
+require_relative '../lib/os'
+require_relative '../lib/apt'
 
 module DCI
   class OrigSourcer
@@ -42,7 +44,23 @@ module DCI
 end
 
 if __FILE__ == $PROGRAM_NAME
-  sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'),
+
+  dist = ENV.fetch['DIST']
+  repos = []
+  # Debian stable has too old a pkg-kde-tool
+  repos = %w(qt5) if dist == 'stable'
+
+  if repos
+    repos.each do |repo|
+      Apt::Repository.add("deb http://dci.ds9.pub:8080/#{repo}/ #{dist} main")
+    end
+
+    Apt::Key.add("#{__dir__}/dci_apt.key")
+    Apt.update
+    Apt.dist_upgrade
+  end
+
+  sourcer = CI::OrigSourceBuilder.new(release: dist,
                                       strip_symbols: true)
   sourcer.build(DCI::OrigSourcer.tarball)
 end
