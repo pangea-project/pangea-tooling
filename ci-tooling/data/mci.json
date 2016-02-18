@@ -84,10 +84,11 @@
     "launchpad" : [
         {
             "repos": [
-                "qtubuntu-cameraplugin-fake",
-                "unity-action-api",
-                "ubuntu-ui-toolkit",
-                "ubuntu-filemanager-app"
+                "ubuntu-filemanager-app",
+                "music-app",
+                "ubuntu-calculator-app",
+                "ubuntu-docviewer-app",
+                "ubuntu-weather-app"
             ]
         }
     ],
@@ -98,7 +99,7 @@
         "repos": [
           {
             "path": "qt/qtbase",
-            "branch": "kubuntu_vivid_mobile",
+            "branch": "neon_mobile",
             "tarball": "http://http.debian.net/debian/pool/main/q/qtbase-opensource-src/qtbase-opensource-src_5.5.1+dfsg.orig.tar.xz"
           },
           {

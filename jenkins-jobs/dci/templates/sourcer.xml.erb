@@ -47,7 +47,12 @@
       <command>
 export DIST=<%= distribution %>
 export TYPE=<%= type %>
-~/tooling/dci/contain.rb /var/lib/jenkins/ci-tooling/ci/sourcer.rb
+<%= fetch_tarball %>
+<% if upstream_scm && upstream_scm.type == 'tarball' %>
+  <%= '~/tooling/dci/contain.rb /var/lib/jenkins/ci-tooling/dci/orig_sourcer.rb' %>
+<% else %>
+  <%= '~/tooling/dci/contain.rb /var/lib/jenkins/ci-tooling/ci/sourcer.rb' %>
+<% end %>
       </command>
     </hudson.tasks.Shell>
   </builders>

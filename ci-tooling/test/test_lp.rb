@@ -108,6 +108,7 @@ class LaunchpadTest < TestCase
 
   def teardown
     Launchpad.instance_variable_set(:@conf_path, Dir.home)
+    WebMock.allow_net_connect!
   end
 
   # Helper to redirect stdin so we can simulate user input as authentication
@@ -265,6 +266,7 @@ class LaunchpadRubberTest < TestCase
 
   def teardown
     assert_equal(Launchpad.token, nil)
+    WebMock.allow_net_connect!
   end
 
   def test_from_url

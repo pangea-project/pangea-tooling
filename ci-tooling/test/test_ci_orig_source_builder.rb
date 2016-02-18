@@ -1,5 +1,6 @@
-require_relative 'lib/testcase'
+require 'rubygems/package'
 
+require_relative 'lib/testcase'
 require_relative '../lib/ci/orig_source_builder'
 
 module CI
@@ -9,12 +10,27 @@ module CI
     def setup
       LSB.reset
       LSB.instance_variable_set(:@hash, DISTRIB_CODENAME: 'vivid', DISTRIB_RELEASE: '15.04')
+      OS.reset
+      OS.instance_variable_set(:@hash, VERSION_ID: '15.04')
       ENV['BUILD_NUMBER'] = '3'
       FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
     end
 
     def teardown
       LSB.reset
+      OS.reset
+    end
+
+    def tar_file_list(path)
+      files = []
+      Gem::Package::TarReader.new(Zlib::GzipReader.open(path)).tap do |reader|
+        reader.rewind
+        reader.each do |entry|
+          files << File.basename(entry.full_name) if entry.file?
+        end
+        reader.close
+      end
+      files
     end
 
     def test_run
@@ -27,7 +43,7 @@ module CI
 
       # On 14.04 the default was .gz, newer versions may yield .xz
       debian_tar = Dir.glob('build/dragon_15.08.1-0+15.04+build3.debian.tar.*')
-      assert_false(debian_tar.empty?)
+      assert_false(debian_tar.empty?, "no tar #{Dir.glob('build/*')}")
       assert_path_exist('build/dragon_15.08.1-0+15.04+build3_source.changes')
       assert_path_exist('build/dragon_15.08.1-0+15.04+build3.dsc')
       assert_path_exist('build/dragon_15.08.1.orig.tar.xz')
@@ -48,17 +64,35 @@ module CI
       assert_false(Dir.glob('*').empty?)
 
       tarball = WatchTarFetcher.new('packaging/debian/watch').fetch(Dir.pwd)
+      refute_nil(tarball, 'failed to get the tarball :O')
 
       builder = OrigSourceBuilder.new(release: 'unstable')
       builder.build(tarball)
 
       debian_tar = Dir.glob('build/dragon_15.08.1-0+15.04+build3.debian.tar.*')
-      assert_false(debian_tar.empty?)
+      assert_false(debian_tar.empty?, "no tar #{Dir.glob('build/*')}")
       assert_path_exist('build/dragon_15.08.1-0+15.04+build3_source.changes')
       assert_path_exist('build/dragon_15.08.1-0+15.04+build3.dsc')
       assert_path_exist('build/dragon_15.08.1.orig.tar.xz')
       changes = File.read('build/dragon_15.08.1-0+15.04+build3_source.changes')
       assert_include(changes.split($/), 'Distribution: unstable')
+    end
+
+    def test_symbols_strip
+      assert_false(Dir.glob('*').empty?)
+
+      tarball = WatchTarFetcher.new('packaging/debian/watch').fetch(Dir.pwd)
+
+      builder = OrigSourceBuilder.new(strip_symbols: true)
+      builder.build(tarball)
+      Dir.chdir('build') do
+        tar = Dir.glob('*.tar.gz')
+        assert_equal(1, tar.size)
+        files = tar_file_list(tar[0])
+        assert_not_include(files, 'symbols')
+        assert_not_include(files, 'dragonplayer.symbols')
+        assert_not_include(files, 'dragonplayer.symbols.armhf')
+      end
     end
   end
 end

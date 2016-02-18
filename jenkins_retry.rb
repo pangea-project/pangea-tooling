@@ -75,6 +75,9 @@ job_names.each do |name|
   job_name_queue << name
 end
 
+@log.info 'Setting system into maintenance mode.'
+Jenkins.system.quiet_down
+
 BlockingThreadPool.run do
   until job_name_queue.empty?
     name = job_name_queue.pop(true)

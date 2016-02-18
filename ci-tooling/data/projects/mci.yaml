@@ -79,11 +79,43 @@ github.com:
     - appstream
 
 launchpad.net:
-  - qtubuntu-cameraplugin-fake
-  - unity-action-api
-  - ubuntu-ui-toolkit
+  - ubuntu-filemanager-app
+  - music-app
+  - ubuntu-calculator-app
+  - ubuntu-docviewer-app
+  - ubuntu-weather-app
 
 packaging.neon.kde.org.uk:
   - qt:
-    - '*':
+    - qtbase:
+        branch: neon_mobile
+    - qtmultimedia:
         branch: kubuntu_vivid_mobile
+    - qtscript:
+        branch: kubuntu_vivid_mobile
+    - qtdeclarative:
+        branch: neon_vivid_mobile
+    - qttools:
+        branch: kubuntu_vivid_mobile
+    - qtgraphicaleffects:
+        branch: kubuntu_vivid_mobile
+    - qtxmlpatterns:
+        branch: kubuntu_vivid_mobile
+    - qt5webkit:
+        branch: kubuntu_vivid_mobile
+    - qtx11extras:
+        branch: kubuntu_vivid_mobile
+    - qtwayland:
+        branch: kubuntu_vivid_mobile
+    - qtsvg:
+        branch: kubuntu_vivid_mobile
+    - qtlocation:
+        branch: kubuntu_vivid_mobile
+    - qtquickcontrols:
+        branch: kubuntu_vivid_mobile
+    - qtsensors:
+        branch: kubuntu_vivid_mobile
+    - qtpim:
+        branch: neon_vivid_mobile
+
+

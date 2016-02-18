@@ -52,8 +52,8 @@ class SourcerJob < JenkinsJob
     return '' unless @upstream_scm && @upstream_scm.type == 'tarball'
     "if [ ! -d source ]; then
     mkdir source
-    echo '#{@upstream_scm.url}' > source/url
-    fi"
+    fi
+    echo '#{@upstream_scm.url}' > source/url"
   end
 
   def fetch_bzr

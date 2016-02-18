@@ -50,6 +50,10 @@ module Jenkins
   def plugin_manager
     @plugin_manager ||= client.plugin
   end
+
+  def system
+    @system ||= client.system
+  end
 end
 
 # @deprecated Use {Jenkins.client}.
