@@ -1,5 +1,6 @@
 # update-projects
 git/*
+launchpad/*
 # align-dependencies
 meta-dep/*
 # test stuff
