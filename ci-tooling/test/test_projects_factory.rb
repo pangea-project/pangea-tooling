@@ -346,13 +346,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
 
     # mock the octokit query
     resource = Struct.new(:name)
-    github_sequence = sequence('github')
     Octokit.expects(:org_repos)
            .returns([resource.new('calamares-debian')])
-           .in_sequence(github_sequence)
-    Octokit.expects(:org_repos)
-           .returns
-           .in_sequence(github_sequence)
 
     factory = ProjectsFactory::GitHub.new('github.com')
     projects = factory.factorize([{ 'calamares' => ['calamares-debian'] }])
@@ -380,14 +375,11 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     ::Gitlab.expects(:group_search)
             .returns([group.new('999')])
 
-    # Construct call sequence for Gitlab
-    gitlab_sequence = sequence('gitlab')
+    response =
+      ::Gitlab::PaginatedResponse.new([resource.new('calamares-debian')])
+
     ::Gitlab.expects(:group_projects)
-            .returns([resource.new('calamares-debian')])
-            .in_sequence(gitlab_sequence)
-    ::Gitlab.expects(:group_projects)
-            .returns
-            .in_sequence(gitlab_sequence)
+            .returns(response)
 
     factory = ProjectsFactory::Gitlab.new('gitlab.com')
     projects = factory.factorize([{ 'calamares' => ['calamares-debian'] }])

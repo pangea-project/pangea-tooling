@@ -58,11 +58,13 @@ cis = ci_configs.collect do |config|
 end
 
 cis.each do |ci|
+  @log.info "Setting system #{ci.server_ip} into maintenance mode."
+  ci.system.quiet_down
   node_client = ci.node
   node_client.list.each do |node|
     next if node == 'master'
-    next unless node_client.is_offline?(node)
-    @log.info "Taking #{node} on #{ci.server_ip} online"
+    next if node_client.is_offline?(node)
+    @log.info "Taking #{node} on #{ci.server_ip} offline"
     node_client.toggle_temporarilyOffline(node, 'Maintenance')
   end
 end

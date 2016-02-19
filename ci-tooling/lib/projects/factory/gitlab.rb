@@ -124,16 +124,7 @@ class ProjectsFactory
         # no more results are being returned.
 
         base_id = ::Gitlab.group_search(base)[0].id
-        repos = []
-        page = 1
-
-        loop do
-          paginated_repos = ::Gitlab.group_projects(base_id, page: page)
-          break unless paginated_repos
-          break if paginated_repos.count == 0
-          repos += paginated_repos
-          page += 1
-        end
+        repos = ::Gitlab.group_projects(base_id).auto_paginate
         @list_cache[base] = repos.collect(&:path).freeze
       end
     end
