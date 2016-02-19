@@ -25,6 +25,8 @@ class NCISetupRepoTest < TestCase
   def setup
     LSB.instance_variable_set(:@hash, DISTRIB_CODENAME: 'vivid')
 
+    # Reset caching.
+    Apt::Repository.send(:reset)
     # Make sure $? is fine before we start!
     reset_child_status!
     # Disable all system invocation.
