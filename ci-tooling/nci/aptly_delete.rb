@@ -20,6 +20,7 @@ require 'aptly'
 require 'logger'
 require 'logger/colors'
 require 'net/ssh/gateway'
+require 'ostruct'
 
 options = OpenStruct.new
 parser = OptionParser.new do |opts|
