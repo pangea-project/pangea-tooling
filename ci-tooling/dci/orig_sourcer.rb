@@ -45,7 +45,7 @@ end
 
 if __FILE__ == $PROGRAM_NAME
 
-  dist = ENV.fetch['DIST']
+  dist = ENV.fetch('DIST')
   repos = []
   # Debian stable has too old a pkg-kde-tool
   repos = %w(qt5) if dist == 'stable'

@@ -125,6 +125,7 @@ class ProjectsFactory
         page = 1
         loop do
           paginated_repos = Octokit.org_repos(base, page: page)
+          break unless paginated_repos
           break if paginated_repos.count == 0
           repos += paginated_repos
           page += 1

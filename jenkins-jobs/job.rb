@@ -24,7 +24,11 @@ class JenkinsJob
   end
 
   def self.flavor_dir=(dir)
-    @@flavor_dir = dir
+    # This is handled as a class variable because we want all instances of
+    # JenkinsJob to have the same flavor set. Class instance variables OTOH
+    # would need additional code to properly apply it to all instances, which
+    # is mostly useless.
+    @@flavor_dir = dir # rubocop:disable Style/ClassVars
   end
 
   def self.flavor_dir
@@ -34,6 +38,7 @@ class JenkinsJob
   # Creates or updates the Jenkins job.
   # @return the job_name
   def update
+    # FIXME: this should use retry_it
     xml = render_template
     begin
       print "Updating #{job_name}\n"
@@ -52,22 +57,22 @@ class JenkinsJob
   end
 
   def render(path)
-    if Pathname.new(path).absolute?
-      data = File.read(path)
-    else
-      data = File.read("#{@template_directory}/#{path}")
-    end
+    data = if Pathname.new(path).absolute?
+             File.read(path)
+           else
+             File.read("#{@template_directory}/#{path}")
+           end
     ERB.new(data).result(binding)
   end
 
-  alias_method :to_s, :job_name
-  alias_method :to_str, :to_s
+  alias to_s job_name
+  alias to_str to_s
 
   private
 
   def xml_debug(data)
     require 'rexml/document'
     doc = REXML::Document.new(data)
-    REXML::Formatters::Pretty.new.write(doc, STDOUT)
+    REXML::Formatters::Pretty.new.write(doc, $stdout)
   end
 end

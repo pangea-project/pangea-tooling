@@ -83,11 +83,11 @@ Aptly::Repository.list.each do |repo|
   next unless options.types.include?(repo.Name)
 
   # Query all relevant packages.
-  # Any package with source and any architecture (not arch:source)
-  query = "($Source (#{options.name}), $Architecture (any))"
+  # Any package with source as source.
+  query = "($Source (#{options.name}))"
   # Or the source itself
-  query += " | #{options.name} {source}"
-  packages = repo.packages(q: query)
+  query += " | (#{options.name} {source})"
+  packages = repo.packages(q: query).compact.uniq
   next if packages.empty?
 
   log.info "Deleting packages from repo #{repo.Name}: #{packages}"
