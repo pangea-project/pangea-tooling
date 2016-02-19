@@ -48,7 +48,7 @@ class ProjectsFactory
       default_params.merge(
         name: name,
         component: component,
-        url_base: self.class.url_base,
+        url_base: self.class.url_base
       )
     end
 
