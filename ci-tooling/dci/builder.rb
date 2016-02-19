@@ -15,6 +15,7 @@ end
 
 Apt::Key.add("#{__dir__}/dci_apt.key")
 Apt.update
+Apt.dist_upgrade
 
 builder = CI::PackageBuilder.new
 builder.build
