@@ -30,7 +30,6 @@ module NCI
     IO.popen(['apt-key', 'add', '-'], 'w') do |io|
       io.puts open('http://archive.neon.kde.org.uk/public.key').read
       io.close_write
-      puts io
     end
   end
 
