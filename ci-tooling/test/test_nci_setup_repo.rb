@@ -27,6 +27,8 @@ class NCISetupRepoTest < TestCase
 
     # Reset caching.
     Apt::Repository.send(:reset)
+    # Disable automatic update
+    Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
     # Make sure $? is fine before we start!
     reset_child_status!
     # Disable all system invocation.
@@ -43,7 +45,6 @@ class NCISetupRepoTest < TestCase
 
   def test_setup_repo
     system_calls = [
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'update'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'software-properties-common'],
       ['add-apt-repository', '-y', 'deb http://archive.neon.kde.org.uk/unstable vivid main'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'update'],
