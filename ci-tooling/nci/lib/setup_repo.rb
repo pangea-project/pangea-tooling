@@ -17,7 +17,7 @@ module NCI
       puts io
     end
     abort 'Failed to import key' unless $? == 0
-    abort 'apt updated failed' unless Apt.update
+    Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
     abort 'failed to install deps' unless Apt.install(%w(pkg-kde-tools))
   end
 end
