@@ -7,6 +7,7 @@ packaging.neon.kde.org.uk:
     - qca-qt5
   - neon:
     - seeds
+        branch: master
   - qt:
     - '*':
         branch: Neon/5.5
