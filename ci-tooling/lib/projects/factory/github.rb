@@ -119,17 +119,9 @@ class ProjectsFactory
       def ls(base)
         @list_cache ||= {}
         return @list_cache[base] if @list_cache.key?(base)
-        # Github sends over paginated replies, make sure we iterate till
-        # no more results are being returned.
-        repos = []
-        page = 1
-        loop do
-          paginated_repos = Octokit.org_repos(base, page: page)
-          break unless paginated_repos
-          break if paginated_repos.count == 0
-          repos += paginated_repos
-          page += 1
-        end
+
+        Octokit.auto_paginate = true
+        repos = Octokit.org_repos(base)
         @list_cache[base] = repos.collect(&:name).freeze
       end
     end
