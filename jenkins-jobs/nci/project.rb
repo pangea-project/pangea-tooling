@@ -23,7 +23,10 @@ class ProjectJob < JenkinsJob
   def self.job(*args, **kwords)
     project = args[0]
     dependees = project.dependees.collect do |d|
-      Builder.basename(kwords[:distribution], kwords[:type], project.component, d)
+      Builder.basename(kwords[:distribution],
+                       kwords[:type],
+                       project.component,
+                       d)
     end
     dependees.compact!
     dependees.uniq!
@@ -38,7 +41,10 @@ class ProjectJob < JenkinsJob
     end
     basename = jobs[0].job_name.rpartition('_')[0]
 
-    jobs << new(basename, project: project, jobs: jobs.collect(&:job_name), dependees: dependees)
+    jobs << new(basename,
+                project: project,
+                jobs: jobs.collect(&:job_name),
+                dependees: dependees)
     jobs
   end
 
