@@ -39,6 +39,8 @@ class SourcerJob < JenkinsJob
       render('upstream-scms/git.xml.erb')
     when 'svn'
       render('upstream-scms/svn.xml.erb')
+    when 'uscan'
+      ''
     when 'tarball'
       ''
     when 'bzr'
