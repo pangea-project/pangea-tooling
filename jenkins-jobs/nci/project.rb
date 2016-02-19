@@ -38,7 +38,7 @@ class ProjectJob < JenkinsJob
     end
     basename = jobs[0].job_name.rpartition('_')[0]
 
-    jobs << new(basename, jobs: jobs.collect(&:job_name), dependees: dependees)
+    jobs << new(basename, project: project, jobs: jobs.collect(&:job_name), dependees: dependees)
     jobs
   end
 
@@ -46,12 +46,22 @@ class ProjectJob < JenkinsJob
   #   @return [Array<String>] name of jobs depending on this job
   attr_reader :dependees
 
+  # @! attribute [r] project
+  #   @return [Project] project instance of this job
+  attr_reader :project
+
+  # @! attribute [r] upstream_scm
+  #   @return [CI::UpstreamSCM] upstream scm instance of this job_name
+  # FIXME: this is a compat thingy for sourcer (see render method)
+  attr_reader :upstream_scm
+
   private
 
-  def initialize(basename, jobs:, dependees: [])
+  def initialize(basename, project:, jobs:, dependees: [])
     super(basename, 'builder2.xml.erb')
     @jobs = jobs
     @dependees = dependees
+    @project = project
   end
 
   def render_phases
@@ -61,5 +71,22 @@ class ProjectJob < JenkinsJob
                                phased_jobs: [job]).render_template
     end
     ret
+  end
+
+  def render_upstream_scm
+    @upstream_scm = @project.upstream_scm # FIXME: compat assignment
+    return '' unless @upstream_scm
+    case @upstream_scm.type
+    when 'git'
+      render('upstream-scms/git.xml.erb')
+    when 'svn'
+      render('upstream-scms/svn.xml.erb')
+    when 'tarball'
+      ''
+    when 'bzr'
+      ''
+    else
+      raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
+    end
   end
 end
