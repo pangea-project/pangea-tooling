@@ -41,5 +41,6 @@ module NCI
     raise 'Failed to import key' unless $? == 0
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
     raise 'failed to install deps' unless Apt.install(%w(pkg-kde-tools))
+    Apt.install('bzr')
   end
 end
