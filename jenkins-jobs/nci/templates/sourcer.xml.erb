@@ -23,6 +23,7 @@
 export DIST=<%= distribution %>
 export TYPE=<%= type %>
 <%= fetch_tarball %>
+<%= fetch_bzr %>
 <% if upstream_scm && upstream_scm.type == 'tarball' %>
   <%= '~/tooling/kci/contain.rb ~/ci-tooling/kci/orig_sourcer.rb' %>
 <% else %>
