@@ -56,15 +56,17 @@ class NCISetupRepoTest < TestCase
             .in_sequence(system_sequence)
     end
 
-    # key_catcher
+    key_catcher = StringIO.new
     IO.expects(:popen)
       .with(['apt-key', 'add', '-'], 'w')
-      .yields(StringIO.new)
+      .yields(key_catcher)
       .returns(true)
 
     stub_request(:get, 'http://archive.neon.kde.org.uk/public.key')
       .to_return(status: 200, body: 'abc')
 
     NCI.setup_repo!
+
+    assert_equal("abc\n", key_catcher.string)
   end
 end
