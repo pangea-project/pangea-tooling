@@ -89,8 +89,6 @@ class ProjectJob < JenkinsJob
       render('upstream-scms/svn.xml.erb')
     when 'tarball'
       ''
-    when 'bzr'
-      ''
     else
       raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
     end
