@@ -1,4 +1,4 @@
-require_relative 'job'
+require_relative '../job'
 
 # a phase partial
 # FIXME: this really should be refactored. JenkinsJob is not an appropriate base
