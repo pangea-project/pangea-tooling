@@ -19,6 +19,7 @@ require 'open-uri'
 
 require_relative '../../lib/apt'
 require_relative '../../lib/lsb'
+require_relative '../../lib/retry'
 
 # Neon CI specific helpers.
 module NCI
