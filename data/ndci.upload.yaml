@@ -1,16 +1,1 @@
----
-  default: "plasma"
-  maui-debian: "maui"
-  qt: "qt5"
-  frameworks: "frameworks"
-  calamares: "calamares"
-  netrunner: "netrunner"
-  netrunner-debian: "netrunner"
-  plasmazilla: "plasmazilla"
-  debian-packaging: "extras"
-  netrunner-odroid: "odroid"
-  netrunner-debian-yacy: "yacy"
-  netrunner-debian-owncloud: "owncloud"
-  netrunner-debian-i2p: "i2p"
-  rpi2-stuff: "rpi"
-  netrunner-core: "netrunner-core"
+dci.upload.yaml
