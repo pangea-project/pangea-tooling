@@ -52,7 +52,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
         projects = ProjectsFactory.from_file("#{__dir__}/ci-tooling/data/projects/nci.yaml", branch: "Neon/#{type}")
-        projects << Project.new('pkg-kde-tools', '', branch: 'kubuntu_xenial_archive')
         projects.sort_by!(&:name)
         projects.each do |project|
           jobs = ProjectJob.job(project,
