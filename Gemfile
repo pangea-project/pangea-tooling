@@ -6,7 +6,7 @@ gem 'docker-api', '~> 1.24' # Container.refresh! only introduced in 1.23
 gem 'git'
 gem 'jenkins_api_client'
 gem 'logger-colors'
-gem 'oauth'
+gem 'oauth', '< 0.5' # 0.5 introduced a regression https://github.com/oauth-xx/oauth-ruby/pull/107
 gem 'octokit'
 gem 'gitlab',
     git: 'https://github.com/shadeslayer/gitlab',
