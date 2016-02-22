@@ -23,11 +23,13 @@ class MgmtProgenitorJob < JenkinsJob
   attr_reader :daily_trigger
   attr_reader :downstream_triggers
   attr_reader :dependees
+  attr_reader :blockables
 
-  def initialize(downstream_jobs:, dependees: [])
+  def initialize(downstream_jobs:, dependees: [], blockables: [])
     super('mgmt_progenitor', 'mgmt-progenitor.xml.erb')
     @daily_trigger = '0 0 * * *'
     @downstream_triggers = downstream_jobs.collect(&:job_name)
     @dependees = dependees.collect(&:job_name)
+    @blockables = blockables.collect(&:job_name)
   end
 end

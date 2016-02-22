@@ -15,11 +15,12 @@
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
+    <% unless blockables.empty? %>
     <hudson.plugins.parameterizedtrigger.TriggerBuilder plugin="parameterized-trigger@2.25">
       <configs>
         <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
           <configs class="empty-list"/>
-          <projects>mgmt_merger</projects>
+          <projects><%= blockables.join(', ') %></projects>
           <condition>ALWAYS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
           <block>
@@ -34,6 +35,7 @@
         </hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
       </configs>
     </hudson.plugins.parameterizedtrigger.TriggerBuilder>
+    <% end %>
   </builders>
   <publishers>
     <hudson.tasks.BuildTrigger>
