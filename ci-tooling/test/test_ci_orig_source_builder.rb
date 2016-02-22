@@ -13,7 +13,10 @@ module CI
       OS.reset
       OS.instance_variable_set(:@hash, VERSION_ID: '15.04')
       ENV['BUILD_NUMBER'] = '3'
-      FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
+      @tarname = 'dragon_15.08.1.orig.tar.xz'
+      @tarfile = "#{Dir.pwd}/#{@tarname}"
+      FileUtils.cp_r(Dir.glob("#{data}/."), Dir.pwd)
+      FileUtils.cp_r("#{@datadir}/http/dragon-15.08.1.tar.xz", @tarfile)
     end
 
     def teardown
@@ -36,7 +39,7 @@ module CI
     def test_run
       assert_false(Dir.glob('*').empty?)
 
-      tarball = WatchTarFetcher.new('packaging/debian/watch').fetch(Dir.pwd)
+      tarball = Tarball.new(@tarfile)
 
       builder = OrigSourceBuilder.new
       builder.build(tarball)
@@ -63,8 +66,7 @@ module CI
     def test_unreleased_changelog
       assert_false(Dir.glob('*').empty?)
 
-      tarball = WatchTarFetcher.new('packaging/debian/watch').fetch(Dir.pwd)
-      refute_nil(tarball, 'failed to get the tarball :O')
+      tarball = Tarball.new(@tarfile)
 
       builder = OrigSourceBuilder.new(release: 'unstable')
       builder.build(tarball)
@@ -81,7 +83,7 @@ module CI
     def test_symbols_strip
       assert_false(Dir.glob('*').empty?)
 
-      tarball = WatchTarFetcher.new('packaging/debian/watch').fetch(Dir.pwd)
+      tarball = Tarball.new(@tarfile)
 
       builder = OrigSourceBuilder.new(strip_symbols: true)
       builder.build(tarball)
