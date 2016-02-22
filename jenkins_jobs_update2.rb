@@ -37,7 +37,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         projects << Project.new('pkg-kde-tools', '', branch: 'kubuntu_xenial_archive')
         projects.sort_by!(&:name)
         projects.each do |project|
-          jobs = ProjectJob.job(project, distribution: distribution, type: type, architectures: NCI.architectures)
+          jobs = ProjectJob.job(project,
+                                distribution: distribution,
+                                type: type,
+                                architectures: NCI.architectures)
           jobs.each { |j| enqueue(j) }
         end
         NCI.architectures.each do |architecture|
