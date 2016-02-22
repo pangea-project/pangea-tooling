@@ -47,6 +47,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   end
 
   def populate_queue
+    all_builds = []
+    all_meta_builds = []
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
         projects = ProjectsFactory.from_file("#{__dir__}/ci-tooling/data/projects/nci.yaml", branch: "Neon/#{type}")
@@ -58,7 +60,19 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                 type: type,
                                 architectures: NCI.architectures)
           jobs.each { |j| enqueue(j) }
+          all_builds += jobs
         end
+
+        # Meta builders.
+        all_builds.reject! { |j| j.is_a?(ProjectJob) }
+        meta_args = {
+          type: type,
+          distribution: distribution,
+          downstream_jobs: all_builds
+        }
+        all_meta_builds << enqueue(MetaBuildJob.new(meta_args))
+
+        # ISOs
         NCI.architectures.each do |architecture|
           isoargs = { type: type,
                       distribution: distribution,
@@ -77,7 +91,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
 
     docker = enqueue(MGMTDockerJob.new(dependees: []))
-    enqueue(MGMTToolingJob.new(downstreams: [docker]))
+    tooling = enqueue(MGMTToolingJob.new(downstreams: [docker]))
+    progenitor = enqueue(MgmtProgenitorJob.new(downstream_jobs:
+      all_meta_builds + tooling + docker))
+    enqueue(MGMTPauseIntegrationJob.new(downstreams: progenitor))
   end
 end
 
