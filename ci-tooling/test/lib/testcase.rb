@@ -63,6 +63,9 @@ EOT
     @tmpdir = Dir.mktmpdir(self.class.to_s.tr(':', '_'))
     Dir.chdir(@tmpdir)
     require_binaries(self.class.required_binaries)
+
+    # Make sure we reset $?, so tests can freely mock system and ``
+    reset_child_status!
   end
 
   def priority_teardown
