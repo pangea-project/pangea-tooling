@@ -45,7 +45,7 @@ class DeployUpgradeTest < TestCase
       config.filter_sensitive_data('<%= Dir.pwd %>') { Dir.pwd }
     end
 
-    @repo = self.class.to_s
+    @repo = self.class.to_s.downcase
     @image = "#{@repo}:latest"
 
     @job_name = @repo.tr(':', '_')
