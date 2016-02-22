@@ -94,7 +94,7 @@ module CI
       @chown_handler = proc do
         chown_container =
           CI::Containment.new("#{@name}_chown", image: @image, binds: binds_,
-                              no_exit_handlers: true)
+                                                no_exit_handlers: true)
         chown_container.run(Cmd: %w(chown -R jenkins:jenkins) + binds_)
       end
     end
