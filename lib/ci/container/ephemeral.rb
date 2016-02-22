@@ -2,6 +2,16 @@ require_relative '../container'
 
 module CI
   class EphemeralContainer < Container
+    @safety_sleep = 5
+
+    class << self
+      # @!attribute rw safety_sleep
+      #    How long to sleep before attempting to kill a container. This is
+      #    to prevent docker consistency issues at unmounting. The longer the
+      #    sleep the more reliable.
+      attr_accessor :safety_sleep
+    end
+
     def stop(options = {})
       super(options)
       kill!(options)
@@ -33,7 +43,7 @@ module CI
       #    would happen. Should it happen though we still want it to be fatal
       #    though as the assumption is that a containment always is clean which
       #    we couldn't ensure if a previous container can not be removed.
-      sleep 5
+      sleep self.class.safety_sleep
       remove
       # :nocov:
     rescue Docker::Error::ServerError => e
