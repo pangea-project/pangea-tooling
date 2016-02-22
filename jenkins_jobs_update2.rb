@@ -64,7 +64,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         end
 
         # Meta builders.
-        all_builds.reject! { |j| j.is_a?(ProjectJob) }
+        all_builds.reject! { |j| !j.is_a?(ProjectJob) }
         meta_args = {
           type: type,
           distribution: distribution,
