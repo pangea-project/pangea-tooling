@@ -48,7 +48,11 @@ module CI
 
       @source.name = changelog.name
       @source.build_version = CI::BuildVersion.new(changelog)
-      @source.version = @source.build_version.full
+      @source.version = if @source.type == :native
+                          @source.build_version.base
+                        else
+                          @source.build_version.full
+                        end
 
       @tar_version = @source.build_version.tar
       @strip_symbols = strip_symbols
