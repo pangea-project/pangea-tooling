@@ -48,7 +48,8 @@ class NCISetupRepoTest < TestCase
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'software-properties-common'],
       ['add-apt-repository', '-y', 'deb http://archive.neon.kde.org.uk/unstable vivid main'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'update'],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'pkg-kde-tools']
+      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'pkg-kde-tools'],
+      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'bzr']
     ]
 
     system_sequence = sequence('system-calls')
