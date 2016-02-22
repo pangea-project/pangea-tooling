@@ -54,13 +54,13 @@ EOT
   end
 
   def priority_setup
-    fail ATFILEFAIL unless self.class.file
+    raise ATFILEFAIL unless self.class.file
     ENV.delete('BUILD_NUMBER')
     script_base_path = File.expand_path(File.dirname(self.class.file))
     script_name = File.basename(self.class.file, '.rb')
     @datadir = File.join(script_base_path, 'data', script_name)
     @previous_pwd = Dir.pwd
-    @tmpdir = Dir.mktmpdir(self.class.to_s.gsub(':', '_'))
+    @tmpdir = Dir.mktmpdir(self.class.to_s.tr(':', '_'))
     Dir.chdir(@tmpdir)
     require_binaries(self.class.required_binaries)
   end
@@ -85,7 +85,7 @@ EOT
     caller = _method_name
     file = File.join(*[@datadir, caller, path].compact)
     return file if File.exist?(file)
-    fail "Could not find data file #{file}"
+    raise "Could not find data file #{file}"
   end
 
   def fake_home(home = Dir.pwd, &block)
