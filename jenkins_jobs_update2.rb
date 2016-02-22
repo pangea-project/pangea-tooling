@@ -35,6 +35,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
     @job_queue = Queue.new
     @flavor = 'nci'
+    @projects_dir = "#{__dir__}/ci-tooling/data/projects"
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
   end
 
@@ -51,7 +52,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     all_meta_builds = []
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
-        projects = ProjectsFactory.from_file("#{__dir__}/ci-tooling/data/projects/nci.yaml", branch: "Neon/#{type}")
+        projects = ProjectsFactory.from_file("#{@projects_dir}/nci.yaml",
+                                             branch: "Neon/#{type}")
         projects.each do |project|
           jobs = ProjectJob.job(project,
                                 distribution: distribution,
