@@ -54,22 +54,35 @@ class DeployUpgradeTest < TestCase
     FileUtils.cp_r(Dir.glob("#{@tooling_path}/deploy_upgrade_container.sh"),
                    Dir.pwd)
     FileUtils.cp_r("#{@datadir}/deploy_in_container.sh", Dir.pwd)
-
-    VCR.turned_off do
-      cleanup_container
-      cleanup_image
-      create_container
-    end
   end
 
   def teardown
     VCR.turned_off do
       cleanup_container
     end
+    CI::EphemeralContainer.safety_sleep = 5
+  end
+
+  def vcr_it(meth, **kwords)
+    defaults = {
+      erb: true
+    }
+    VCR.use_cassette(meth, defaults.merge(kwords)) do |cassette|
+      if cassette.recording?
+        VCR.turned_off do
+          cleanup_container
+          cleanup_image
+          create_container
+        end
+      else
+        CI::EphemeralContainer.safety_sleep = 0
+      end
+      yield cassette
+    end
   end
 
   def test_no_argv0
-    VCR.use_cassette(__method__, erb: true) do
+    vcr_it(__method__) do
       c = CI::Containment.new(@job_name, image: @image, binds: @binds)
       cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh']
       ret = c.run(Cmd: cmd)
@@ -78,7 +91,7 @@ class DeployUpgradeTest < TestCase
   end
 
   def test_no_argv1
-    VCR.use_cassette(__method__, erb: true) do
+    vcr_it(__method__) do
       c = CI::Containment.new(@job_name, image: @image, binds: @binds)
       cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh',
              'vivid']
@@ -88,7 +101,7 @@ class DeployUpgradeTest < TestCase
   end
 
   def test_success
-    VCR.use_cassette(__method__, erb: true) do
+    vcr_it(__method__) do
       c = CI::Containment.new(@job_name, image: @image, binds: @binds)
       cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh',
              'vivid', 'wily']

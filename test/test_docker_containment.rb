@@ -25,6 +25,7 @@ class DockerContainmentTest < TestCase
       config.default_cassette_options = {
         match_requests_on:  [:method, :uri, :body]
       }
+      config.filter_sensitive_data('<%= Dir.pwd %>', :erb_pwd) { Dir.pwd }
     end
     # Chdir to root, as Containment will set the working dir to PWD and this
     # is slightly unwanted for tmpdir tests.
@@ -38,12 +39,20 @@ class DockerContainmentTest < TestCase
 
   def teardown
     VCR.turned_off { cleanup_container }
+    CI::EphemeralContainer.safety_sleep = 5
+  end
+
+  def vcr_it(meth, **kwords)
+    VCR.use_cassette(meth, kwords) do |cassette|
+      CI::EphemeralContainer.safety_sleep = 0 unless cassette.recording?
+      yield cassette
+    end
   end
 
   def test_init
     binds = [Dir.pwd, 'a:a']
     volumes = { Dir.pwd => {}, 'a' => {} }
-    VCR.use_cassette(__method__) do
+    vcr_it(__method__, erb: true, tag: :erb_pwd) do
       c = Containment.new(@job_name, image: @image, binds: binds)
       assert_equal(@job_name, c.name)
       assert_equal(@image, c.image)
@@ -52,7 +61,7 @@ class DockerContainmentTest < TestCase
   end
 
   def test_run
-    VCR.use_cassette(__method__) do
+    vcr_it(__method__) do
       c = Containment.new(@job_name, image: @image, binds: [])
       ret = c.run(Cmd: ['bash', '-c', "echo #{@job_name}"])
       assert_equal(0, ret)
@@ -62,7 +71,7 @@ class DockerContainmentTest < TestCase
   end
 
   def test_run_fail
-    VCR.use_cassette(__method__) do
+    vcr_it(__method__, erb: true, tag: :erb_pwd) do
       c = Containment.new(@job_name, image: @image, binds: [])
       ret = c.run(Cmd: ['garbage_fail'])
       assert_not_equal(0, ret)
@@ -71,7 +80,7 @@ class DockerContainmentTest < TestCase
 
   def test_run_env
     binds = []
-    VCR.use_cassette(__method__) do
+    vcr_it(__method__) do
       c = Containment.new(@job_name, image: @image, binds: binds)
       ENV['DIST'] = 'dist'
       ENV['TYPE'] = 'type'
@@ -85,7 +94,7 @@ class DockerContainmentTest < TestCase
   end
 
   def test_cleanup_on_new
-    VCR.use_cassette(__method__) do
+    vcr_it(__method__) do
       # Implicity via ctor
       Docker::Container.create(Image: @image).tap { |c| c.rename(@job_name) }
       Containment.new(@job_name, image: @image, binds: [])
@@ -96,7 +105,7 @@ class DockerContainmentTest < TestCase
   end
 
   def test_cleanup_on_contain
-    VCR.use_cassette(__method__) do
+    vcr_it(__method__) do
       begin
         # Implicit via contain. First construct containment then contain. Should
         # clean up first resulting in a different hash.
@@ -117,7 +126,7 @@ class DockerContainmentTest < TestCase
   def test_bad_version
     # For the purposes of this test the fixture needs to be manually edited
     # when re-created to make the version appear incompatible again.
-    VCR.use_cassette(__method__) do
+    vcr_it(__method__) do
       assert_raise do
         Containment.new(@job_name, image: @image, binds: [])
       end
@@ -125,7 +134,7 @@ class DockerContainmentTest < TestCase
   end
 
   def test_ulimit
-    VCR.use_cassette(__method__) do
+    vcr_it(__method__) do
       c = Containment.new(@job_name, image: @image, binds: [])
       # 1025 should be false
       ret = c.run(Cmd: ['bash', '-c',
