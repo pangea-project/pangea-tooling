@@ -93,8 +93,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     docker = enqueue(MGMTDockerJob.new(dependees: []))
     tooling = enqueue(MGMTToolingJob.new(downstreams: [docker]))
     progenitor = enqueue(MgmtProgenitorJob.new(downstream_jobs:
-      all_meta_builds + tooling + docker))
-    enqueue(MGMTPauseIntegrationJob.new(downstreams: progenitor))
+      all_meta_builds + [tooling, docker]))
+    enqueue(MGMTPauseIntegrationJob.new(downstreams: [progenitor]))
   end
 end
 
