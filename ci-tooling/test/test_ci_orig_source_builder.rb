@@ -88,8 +88,8 @@ module CI
       builder = OrigSourceBuilder.new(strip_symbols: true)
       builder.build(tarball)
       Dir.chdir('build') do
-        tar = Dir.glob('*.tar.gz')
-        assert_equal(1, tar.size)
+        tar = Dir.glob('*.debian.tar.gz')
+        assert_equal(1, tar.size, "Could not find debian tar #{Dir.glob('*')}")
         files = tar_file_list(tar[0])
         assert_not_include(files, 'symbols')
         assert_not_include(files, 'dragonplayer.symbols')
