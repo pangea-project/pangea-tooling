@@ -5,6 +5,16 @@ require 'tmpdir'
 require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../kci/merger'
 
+class Logger
+  def self.new_for_merger
+    Logger.new('/dev/null')
+  end
+
+  def self.new_for_git
+    Logger.new('/dev/null')
+  end
+end
+
 class MergerTest < TestCase
   def in_repo(&_block)
     Dir.mktmpdir(__callee__.to_s) do |t|
