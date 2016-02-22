@@ -5,7 +5,7 @@
     upstream_scm:
       branch: Plasma/5.5
 
-'*{git.debian,packaging.neon}*/plasma/plasma-discover':
+'*{debian.org,packaging.neon}*/plasma/plasma-discover':
   '*':
     upstream_scm:
       url: git://anongit.kde.org/discover.git
