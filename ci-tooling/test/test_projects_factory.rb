@@ -436,4 +436,30 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     assert_equal 'lp:qtubuntu-cameraplugin-fake', project.packaging_scm.url
     assert_equal nil, project.packaging_scm.branch
   end
+
+  def test_empty_base
+    neon_repos = %w(pkg-kde-tools)
+    neon_dir = create_fake_git(branches: %w(master kittens),
+                               repos: neon_repos)
+    ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
+    # Cache a mocked listing for Neon
+    cache_neon_backtick(gitolite_ls(neon_repos))
+
+    factory = ProjectsFactory::Neon.new('packaging.neon.kde.org.uk')
+    projects = factory.factorize([{
+      '' => [
+        {
+          'pkg-kde-tools' => { 'branch' => 'kittens' }
+        }
+      ]
+    }])
+
+    refute_nil(projects)
+    assert_equal(1, projects.size)
+    project = projects[0]
+    assert_is_a(project, Project)
+    assert_equal('pkg-kde-tools', project.name)
+    assert_equal('', project.component)
+    assert_equal("#{neon_dir}/pkg-kde-tools", project.packaging_scm.url)
+  end
 end

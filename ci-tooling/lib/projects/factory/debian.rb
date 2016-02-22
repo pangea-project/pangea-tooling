@@ -77,7 +77,7 @@ class ProjectsFactory
         # Convert the subset into a pattern matching set by converting the
         # keys into suitable patterns.
         key = sub.keys[0]
-        sub[CI::FNMatchPattern.new("#{base}/#{key}")] = sub.delete(key)
+        sub[CI::FNMatchPattern.new(join_path(base, key))] = sub.delete(key)
         sub
       end
       [base, subset]

@@ -68,6 +68,11 @@ class ProjectsFactory
       Hash[hsh.map { |(key, value)| [key.to_sym, value] }]
     end
 
+    # Joins path parts but skips empties and nils.
+    def join_path(*parts)
+      File.join(*parts.reject { |x| x.nil? || x.empty? })
+    end
+
     # FIXME: this is a workaround until Project gets entirely redone
     def new_project(name:, component:, url_base:, branch:)
       # puts "new_project(#{name}, #{component}, #{url_base})"
