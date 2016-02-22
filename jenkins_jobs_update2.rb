@@ -18,8 +18,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
     @job_queue = Queue.new
     @flavor = 'nci'
-    JenkinsJob.flavor_dir =
-      "#{File.expand_path(File.dirname(__FILE__))}/jenkins-jobs/#{@flavor}"
+    JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
   end
 
   def all_template_files
