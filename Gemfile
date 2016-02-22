@@ -35,7 +35,7 @@ group :development, :test do
   gem 'simplecov'
   gem 'simplecov-rcov'
   gem 'test-unit', '~> 3.0'
-  gem 'vcr', '~> 2'
+  gem 'vcr', '>= 3.0.1'
   gem 'webmock'
 end
 
