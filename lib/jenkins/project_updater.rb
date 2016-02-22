@@ -39,11 +39,15 @@ module Jenkins
 
     private
 
+    def all_template_files
+      Dir.glob('jenkins-jobs/templates/**/**.xml.erb')
+    end
+
     # FIXME: this installs all plugins used by all CIs, not the ones at hand
     def plugins_to_install
       plugins = []
       installed_plugins = Jenkins.plugin_manager.list_installed.keys
-      Dir.glob('jenkins-jobs/templates/**/**.xml.erb').each do |path|
+      all_template_files.each do |path|
         File.readlines(path).each do |line|
           match = line.match(/.*plugin="(.+)".*/)
           next unless match && match.size == 2
