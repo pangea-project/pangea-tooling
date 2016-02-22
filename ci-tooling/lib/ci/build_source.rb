@@ -48,11 +48,7 @@ module CI
 
       @source.name = changelog.name
       @source.build_version = CI::BuildVersion.new(changelog)
-      @source.version = if @source.type == :native
-                          @source.build_version.base
-                        else
-                          @source.build_version.full
-                        end
+      @source.version = @source.build_version.full
 
       @tar_version = @source.build_version.tar
       @strip_symbols = strip_symbols
@@ -66,11 +62,7 @@ module CI
       FileUtils.rm_rf(BUILD_DIR, verbose: true)
 
       # Allow support for format 1.0 and quilt
-      source_dir = if @source.type == :native
-                     'packaging'
-                   else
-                     'source'
-                   end
+      source_dir = 'source'
 
       FileUtils.mkpath("#{BUILD_DIR}/source")
       # Legacy behavior was to ignore missing source directories. Using the
