@@ -2,6 +2,7 @@
 
 require_relative 'ci-tooling/lib/nci'
 require_relative 'ci-tooling/lib/projects'
+require_relative 'ci-tooling/lib/projects/factory'
 require_relative 'ci-tooling/lib/thread_pool'
 require_relative 'lib/jenkins/project_updater'
 
@@ -31,7 +32,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def populate_queue
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
-        require_relative 'ci-tooling/lib/projects/factory'
         projects = ProjectsFactory.from_file("#{__dir__}/ci-tooling/data/projects/nci.yaml", branch: "Neon/#{type}")
         projects << Project.new('pkg-kde-tools', '', branch: 'kubuntu_xenial_archive')
         projects.sort_by!(&:name)
