@@ -33,12 +33,9 @@ class BuildJob < JenkinsJob
     @dependees = project.dependees.collect { |d| build_name(d) }.compact
     # FIXME: frameworks is special, very special ...
     if project.component == 'frameworks'
-      puts '========================================='
-      p @dependees
       @dependees += project.dependees.collect do |d|
-        self.class.build_name(@distribution, 'stable', d)
+        self.class.build_name(@distribution, 'stable', d.name)
       end
-      p @dependees
     end
     @dependencies = project.dependencies.collect { |d| build_name(d) }.compact
     @packaging_scm = project.packaging_scm.dup
@@ -66,8 +63,8 @@ class BuildJob < JenkinsJob
     end
   end
 
-  def build_name(name)
-    BuildJob.build_name(@distribution, @type, name)
+  def build_name(project)
+    BuildJob.build_name(@distribution, @type, project.name)
   end
 
   def self.build_name(dist, type, name)

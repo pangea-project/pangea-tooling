@@ -25,8 +25,8 @@ class ProjectJob < JenkinsJob
     dependees = project.dependees.collect do |d|
       Builder.basename(kwords[:distribution],
                        kwords[:type],
-                       project.component,
-                       d)
+                       d.component,
+                       d.name)
     end
     dependees.compact!
     dependees.uniq!

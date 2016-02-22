@@ -78,7 +78,7 @@ class ProjectsFactory
       # Reverse insert us into the list of dependees of our dependency
       projects.collect! do |dep_project|
         next dep_project if dep_project.name != dependency
-        dep_project.dependees << project.name
+        dep_project.dependees << project
         dep_project.dependees.compact!
         break dep_project
       end

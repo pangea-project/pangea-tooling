@@ -8,10 +8,7 @@ class Builder
     basename = basename(distribution, type, project.component, project.name)
 
     dependees = project.dependees.collect do |d|
-      # FIXME: this is broken. project.component != dependee.component
-      #   unless we have the right component of the dependee the entire dep
-      #   chainging is pointless
-      "#{basename(distribution, type, project.component, d)}_src"
+      "#{basename(distribution, type, d.component, d.name)}_src"
     end.compact
     sourcer = SourcerJob.new(basename,
                              type: type,
