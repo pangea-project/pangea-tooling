@@ -22,12 +22,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
   end
 
+  private
+
+  # Append nci templates to list.
   def all_template_files
     files = super
     files + Dir.glob("#{JenkinsJob.flavor_dir}/templates/**.xml.erb")
   end
-
-  private
 
   def populate_queue
     NCI.series.each_key do |distribution|
