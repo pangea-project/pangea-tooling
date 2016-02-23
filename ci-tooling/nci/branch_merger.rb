@@ -37,7 +37,8 @@ target = nil
 create = true
 
 parser = OptionParser.new do |opts|
-  opts.banner = "Usage: #{opts.program_name} --origin ORIGIN --target TARGET GIT-SUBDIR"
+  opts.banner =
+    "Usage: #{opts.program_name} --origin ORIGIN --target TARGET GIT-SUBDIR"
 
   opts.on('-o ORIGIN_BRANCH', '--origin BRANCH',
           'Branch to merge or branch from. Multiple origins can be given',

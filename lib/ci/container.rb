@@ -102,7 +102,8 @@ module CI
 
       def environment
         env = []
-        env << 'PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
+        env <<
+          'PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
         env << 'LANG=en_US.UTF-8'
         env << 'DEBIAN_FRONTEND=noninteractive  '
         %w(DIST TYPE BUILD_NUMBER).each do |v|

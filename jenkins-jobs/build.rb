@@ -81,13 +81,13 @@ class BuildJob < JenkinsJob
     super
   end
 
-  private
-
   def self.config(directory)
     return @config if defined?(@config)
     @config = YAML.load(File.read("#{directory}/build.yml"))
     @config = CI::FNMatchPattern.convert_hash(@config, recurse: true)
   end
+
+  private
 
   def config
     self.class.config(@config_directory).clone

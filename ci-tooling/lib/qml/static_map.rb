@@ -5,7 +5,7 @@ require_relative 'module'
 module QML
   # Statically maps specific QML modules to fixed packages.
   class StaticMap
-    @base_dir = File.expand_path(File.dirname(File.dirname(File.dirname(__FILE__))))
+    @base_dir = File.expand_path("#{__dir__}/../../")
     @data_file = File.join(@base_dir, 'data', 'qml-static-map.yml')
 
     class << self

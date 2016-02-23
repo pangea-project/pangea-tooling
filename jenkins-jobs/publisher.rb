@@ -10,7 +10,8 @@ class PublisherJob < JenkinsJob
   attr_reader :basename
   attr_reader :repo
 
-  def initialize(basename, type:, distribution:, dependees:, component:, upload_map:)
+  def initialize(basename, type:, distribution:, dependees:,
+                 component:, upload_map:)
     super("#{basename}_pub", 'publisher.xml.erb')
     @type = type
     @distribution = distribution

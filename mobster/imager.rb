@@ -23,4 +23,3 @@ c = CI::Containment.new(JOB_NAME,
 cmd = ["#{Dir.pwd}/remote-remaster"]
 status_code = c.run(Cmd: cmd)
 exit status_code
-

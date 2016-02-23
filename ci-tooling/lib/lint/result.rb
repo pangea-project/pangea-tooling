@@ -50,14 +50,14 @@ module Lint
       end
     end
 
+    def self.puts_kci(type, str)
+      puts "KCI-#{type} :: #{str}"
+    end
+
     private
 
     def puts_kci(type, str)
       self.class.puts_kci(type, str)
-    end
-
-    def self.puts_kci(type, str)
-      puts "KCI-#{type} :: #{str}"
     end
   end
 end

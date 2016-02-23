@@ -1,5 +1,6 @@
 require_relative 'job'
 
+# Meta merger depending on all merges and is able to trigger them.
 class MetaMergeJob < JenkinsJob
   attr_reader :downstream_triggers
 

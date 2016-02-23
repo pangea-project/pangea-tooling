@@ -1,3 +1,23 @@
+# frozen_string_literal: true
+#
+# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) version 3, or any
+# later version accepted by the membership of KDE e.V. (or its
+# successor approved by the membership of KDE e.V.), which shall
+# act as a proxy defined in Section 6 of version 3 of the license.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
 require 'logger'
 require 'logger/colors'
 
@@ -5,6 +25,7 @@ require_relative 'container/ephemeral'
 require_relative 'pangeaimage'
 
 module CI
+  # Containment class sitting on top of an {EphemeralContainer}.
   class Containment
     TRAP_SIGNALS = %w(EXIT HUP INT QUIT TERM).freeze
 
@@ -13,16 +34,15 @@ module CI
     attr_reader :binds
     attr_reader :privileged
 
-    def initialize(name, image:, binds: [Dir.pwd], privileged: false, no_exit_handlers: false)
+    def initialize(name, image:, binds: [Dir.pwd], privileged: false,
+                   no_exit_handlers: false)
       EphemeralContainer.assert_version
 
       @name = name
       @image = image # Can be a PangeaImage
       @binds = binds
       @privileged = privileged
-      @log = Logger.new(STDERR)
-      @log.level = Logger::INFO
-      @log.progname = self.class
+      @log = new_logger
       cleanup
       # TODO: finalize object and clean up container
       trap! unless no_exit_handlers
@@ -85,6 +105,13 @@ module CI
     end
 
     private
+
+    def new_logger
+      Logger.new(STDERR).tap do |l|
+        l.level = Logger::INFO
+        l.progname = self.class
+      end
+    end
 
     def chown_handler
       STDERR.puts 'Running chown handler'

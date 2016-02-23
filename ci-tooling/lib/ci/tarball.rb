@@ -62,7 +62,8 @@ module CI
 
     def self.orig?(path)
       # FIXME: copied from debian::version's upstream regex
-      !File.basename(path).match(/(.+)_([A-Za-z0-9.+:~-]+?)\.orig\.tar(.*)/).nil?
+      expression = /(.+)_([A-Za-z0-9.+:~-]+?)\.orig\.tar(.*)/
+      !File.basename(path).match(expression).nil?
     end
 
     private

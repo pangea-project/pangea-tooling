@@ -7,16 +7,22 @@ module AutoConfigJenkinsClient
   # Monkey patched initialize. Merges the passed args with the data read
   # from the config file and then calls the proper initialize.
   def initialize(args = {})
-    config_file = args.delete(:config_file) || "#{ENV['HOME']}/.config/pangea-jenkins.json"
-    config_data = {}
+    config_file = args.delete(:config_file) ||
+                  "#{ENV['HOME']}/.config/pangea-jenkins.json"
+    kwords = default_config_data
     if File.exist?(config_file)
-      config_data = JSON.parse(File.read(config_file), symbolize_names: true)
+      kwords.merge!(JSON.parse(File.read(config_file), symbolize_names: true))
     end
-    config_data[:server_ip] ||= 'kci.pangea.pub'
-    config_data[:server_port] ||= '80'
-    config_data[:log_level] ||= Logger::FATAL
-    config_data.merge!(args)
-    super(config_data)
+    kwords.merge!(args)
+    super(kwords)
+  end
+
+  def default_config_data
+    {
+      server_ip: 'kci.pangea.pub',
+      server_port: '80',
+      log_level: Logger::FATAL
+    }
   end
 end
 

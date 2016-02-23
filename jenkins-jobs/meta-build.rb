@@ -1,5 +1,6 @@
 require_relative 'job'
 
+# Meta builder depending on all builds and being able to trigger them.
 class MetaBuildJob < JenkinsJob
   attr_reader :downstream_triggers
 

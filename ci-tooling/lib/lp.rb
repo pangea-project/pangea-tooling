@@ -287,8 +287,7 @@ module Launchpad
 
     def self.from_path(path, prefix = 'devel')
       prefix = ''
-      prefix = 'devel' unless path.start_with?('devel/') ||
-                              path.start_with?('/devel/')
+      prefix = 'devel' unless path.start_with?('devel/', '/devel/')
       Rubber.from_url("https://api.launchpad.net/#{prefix}/#{path}")
     end
   end

@@ -1,6 +1,9 @@
 require_relative '../container'
 
 module CI
+  # An ephemeral container. It gets automatically removed after it closes.
+  # This is slightly more reliable than Docker's own implementation as
+  # this goes to extra lengths to make sure the container disappears.
   class EphemeralContainer < Container
     @safety_sleep = 5
 
@@ -30,8 +33,8 @@ module CI
       # Possibly related as well:
       # https://github.com/docker/docker/issues/7636
       # Apparently the AUFS backend is a bit meh and craps out randomly when
-      # removing a container. To prevent this from making a build fail two things
-      # happen here:
+      # removing a container. To prevent this from making a build fail two
+      # things happen here:
       # 1. sleep 5 seconds before trying to kill. This avoids an apparently also
       #    existing timing issue which might or might not be the root of this.
       # 2. catch server errors from remove and turn them into logable offences
