@@ -88,7 +88,7 @@ launchpad.net:
 packaging.neon.kde.org.uk:
   - qt:
     - qtbase:
-        branch: neon_mobile
+        branch: Neon/5.5
     - qtmultimedia:
         branch: kubuntu_vivid_mobile
     - qtscript:
