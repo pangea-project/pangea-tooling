@@ -66,7 +66,7 @@ class ProjectsFactory
       provided_by = {}
       projects.each do |project|
         project.provided_binaries.each do |binary|
-          provided_by[binary] = project.name
+          provided_by[binary] = project
         end
       end
       provided_by
