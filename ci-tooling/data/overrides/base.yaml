@@ -1,6 +1,6 @@
 # Plasma
 
-'*{git.debian,packaging.neon}*/plasma/*':
+'*{debian.org,packaging.neon}*/plasma/*':
   '{kubuntu_stable,Neon/stable}':
     upstream_scm:
       branch: Plasma/5.5
@@ -12,21 +12,21 @@
 
 # Apps
 
-'*{git.debian,packaging.neon}*/applications/*':
+'*{debian.org,packaging.neon}*/applications/*':
   '{kubuntu_stable,Neon/stable}':
     upstream_scm:
       branch: Applications/15.12
 
 # Extras
 
-'*{git.debian,packaging.neon}*/*/libkgapi':
+'*{debian.org,packaging.neon}*/*/libkgapi':
   '{kubuntu_stable,Neon/stable}':
     upstream_scm:
       branch: LibKGAPI/5.0
 
 # Other stuff
 
-'*{git.debian,packaging.neon,gitlab.com}*/{qt,netrunner-debian-qt}/*':
+'*{debian.org,packaging.neon,gitlab.com}*/{qt,netrunner-debian-qt}/*':
   kubuntu_unstable:
     upstream_scm:
       url: http://code.qt.io/git/qt/<%= name %>.git
@@ -45,7 +45,7 @@
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1.orig.tar.xz
 
 
-'*{git.debian,packaging.neon}*/qt/{qtbase,qtscript}':
+'*{debian.org,packaging.neon}*/qt/{qtbase,qtscript}':
   kubuntu_vivid_mobile:
     upstream_scm:
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1+dfsg.orig.tar.xz
@@ -53,7 +53,7 @@
     upstream_scm:
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1+dfsg.orig.tar.xz
 
-'*{git.debian,packaging.neon}*/qt/qt5webkit':
+'*{debian.org,packaging.neon}*/qt/qt5webkit':
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       url: http://code.qt.io/git/qt/qtwebkit.git
@@ -65,48 +65,48 @@
     upstream_scm:
       url: http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.5.1+dfsg.orig.tar.xz
 
-'*{git.debian,packaging.neon}*/frameworks/prison':
+'*{debian.org,packaging.neon}*/frameworks/prison':
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       branch: frameworks
 
-'*{git.debian,packaging.neon}*/kde-extras/debconf-kde':
+'*{debian.org,packaging.neon}*/kde-extras/debconf-kde':
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       url: git://anongit.kde.org/libdebconf-kde.git
 
-'*{git.debian,packaging.neon}*/kde-extras/kdeconnect-plasma':
+'*{debian.org,packaging.neon}*/kde-extras/kdeconnect-plasma':
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       url: git://anongit.kde.org/kdeconnect-kde.git
 
-'*{git.debian,packaging.neon}*/kde-extras/qapt':
+'*{debian.org,packaging.neon}*/kde-extras/qapt':
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       url: git://anongit.kde.org/libqapt.git
 
-'*{git.debian,packaging.neon}*/kde-req/qca-qt5':
+'*{debian.org,packaging.neon}*/kde-req/qca-qt5':
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       url: git://anongit.kde.org/qca.git
       branch: qt5
 
-'*{git.debian,packaging.neon}*/kde-std/sddm':
+'*{debian.org,packaging.neon}*/kde-std/sddm':
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       url: https://github.com/sddm/sddm.git
 
-'*{git.debian,packaging.neon}*/kde-extras/qt-gstreamer':
+'*{debian.org,packaging.neon}*/kde-extras/qt-gstreamer':
   '*':
     upstream_scm:
       url: git://anongit.freedesktop.org/gstreamer/qt-gstreamer
 
-'*{git.debian,packaging.neon}*/kde-extras/telepathy-accounts-signon':
+'*{debian.org,packaging.neon}*/kde-extras/telepathy-accounts-signon':
   '*':
     upstream_scm:
       url: https://gitlab.com/accounts-sso/telepathy-accounts-signon.git
 
-'*{git.debian,packaging.neon}*/kubuntu/libkolab':
+'*{debian.org,packaging.neon}*/kubuntu/libkolab':
   '*':
     upstream_scm:
       url: https://git.kolab.org/diffusion/LK/libkolab.git
@@ -127,19 +127,19 @@ https://github.com/*/samba-mounter:
 ## Mobile
 
 ### Xorg
-'*{git.debian,packaging.neon}*/xserver/xorg-server':
+'*{debian.org,packaging.neon}*/xserver/xorg-server':
   debian-experimental:
     upstream_scm:
       type: tarball
       url: http://http.debian.net/debian/pool/main/x/xorg-server/xorg-server_1.18.0.orig.tar.gz
 
-'*{git.debian,packaging.neon}*/proto/x11proto-core':
+'*{debian.org,packaging.neon}*/proto/x11proto-core':
   debian-unstable:
     upstream_scm:
       type: tarball
       url: http://http.debian.net/debian/pool/main/x/x11proto-core/x11proto-core_7.0.28.orig.tar.gz
 
-'*{git.debian,packaging.neon}*/proto/x11proto-randr':
+'*{debian.org,packaging.neon}*/proto/x11proto-randr':
   debian-unstable:
     upstream_scm:
       type: tarball
