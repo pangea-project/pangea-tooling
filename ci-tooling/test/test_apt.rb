@@ -1,6 +1,28 @@
+# frozen_string_literal: true
+#
+# Copyright (C) 2014-2016 Harald Sitter <sitter@kde.org>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) version 3, or any
+# later version accepted by the membership of KDE e.V. (or its
+# successor approved by the membership of KDE e.V.), which shall
+# act as a proxy defined in Section 6 of version 3 of the license.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
 require_relative '../lib/apt'
 require_relative 'lib/assert_system'
 require_relative 'lib/testcase'
+
+require 'mocha/test_unit'
 
 # Test Apt
 class AptTest < TestCase
@@ -87,10 +109,52 @@ class AptTest < TestCase
     end
   end
 
-  def test_apt_key_add
-    assert_system(%w(apt-key add abc)) do
-      Apt::Key.add('abc')
+  def test_apt_key_add_invalid_file
+    assert_raise Errno::ENOENT do
+      assert_false Apt::Key.add('abc')
     end
+  end
+
+  def test_apt_key_add_rel_file
+    File.write('abc', 'keyly')
+    # Expect IO.popen() {}
+    popen_catcher = StringIO.new
+    IO.expects(:popen)
+      .with(['apt-key', 'add', '-'], 'w')
+      .yields(popen_catcher)
+
+    assert Apt::Key.add('abc')
+    assert_equal("keyly\n", popen_catcher.string)
+  end
+
+  def test_apt_key_add_absolute_file
+    File.write('abc', 'keyly')
+    path = File.absolute_path('abc')
+    # Expect IO.popen() {}
+    popen_catcher = StringIO.new
+    IO.expects(:popen)
+      .with(['apt-key', 'add', '-'], 'w')
+      .yields(popen_catcher)
+
+    assert Apt::Key.add(path)
+    assert_equal("keyly\n", popen_catcher.string)
+  end
+
+  def test_apt_key_add_url
+    url = 'http://kittens.com/key'
+    # Expect open()
+    data_output = StringIO.new('keyly')
+    Object.any_instance.expects(:open)
+          .with(url)
+          .returns(data_output)
+    # Expect IO.popen() {}
+    popen_catcher = StringIO.new
+    IO.expects(:popen)
+      .with(['apt-key', 'add', '-'], 'w')
+      .yields(popen_catcher)
+
+    assert Apt::Key.add(url)
+    assert_equal("keyly\n", popen_catcher.string)
   end
 
   def test_automatic_update

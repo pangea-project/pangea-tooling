@@ -19,6 +19,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'logger'
+require 'open-uri'
 
 # Cow powers!
 #
@@ -86,6 +87,18 @@ module Apt
   class Key
     def self.method_missing(name, *caller_args)
       system('apt-key', name.to_s.tr('_', '-'), *caller_args)
+    end
+
+    # Add a GPG key to APT.
+    # @param str [String] can be a file path, or an http/https/ftp URI or
+    #   anything {OpenURI} can automatically open.
+    def self.add(str)
+      data = open(str).read
+      IO.popen(['apt-key', 'add', '-'], 'w') do |io|
+        io.puts(data)
+        io.close_write
+      end
+      $?.success?
     end
   end
 

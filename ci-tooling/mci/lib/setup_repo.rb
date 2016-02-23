@@ -19,8 +19,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'open-uri'
-
 require_relative '../../lib/apt'
 require_relative '../../lib/dpkg'
 require_relative '../../lib/lsb'
@@ -30,19 +28,11 @@ require_relative '../../lib/retry'
 module MCI
   module_function
 
-  def setup_repo_key!
-    # FIXME: this needs to be in the apt module!
-    IO.popen(['apt-key', 'add', '-'], 'w') do |io|
-      io.puts open('http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key').read
-      io.close_write
-    end
-  end
-
   def setup_repo!
     debline = format('deb http://mobile.neon.pangea.pub %s main',
                      LSB::DISTRIB_CODENAME)
     raise 'adding repo failed' unless Apt::Repository.add(debline)
-    setup_repo_key!
+    Apt::Key.add('http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key')
     raise 'Failed to import key' unless $? == 0
 
     srcline = 'deb %<host>s %<series>s %<pockets>s'
