@@ -338,21 +338,11 @@ deploy</tasks>
       <onlyIfLocalSCMChanges>false</onlyIfLocalSCMChanges>
     </hudson.plugins.downstream__ext.DownstreamTrigger>
     <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.26">
-      <targets>
-        <hudson.plugins.im.GroupChatIMMessageTarget plugin="instant-messaging@1.35">
-          <name>#apacheloggerslounge</name>
-          <notificationOnly>true</notificationOnly>
-        </hudson.plugins.im.GroupChatIMMessageTarget>
-        <hudson.plugins.im.GroupChatIMMessageTarget plugin="instant-messaging@1.35">
-          <name>#kubuntu-ci</name>
-          <notificationOnly>false</notificationOnly>
-        </hudson.plugins.im.GroupChatIMMessageTarget>
-      </targets>
-      <strategy>ALL</strategy>
+      <strategy>FAILURE_AND_FIXED</strategy>
       <notifyOnBuildStart>false</notifyOnBuildStart>
-      <notifySuspects>true</notifySuspects>
-      <notifyCulprits>true</notifyCulprits>
-      <notifyFixers>true</notifyFixers>
+      <notifySuspects>false</notifySuspects>
+      <notifyCulprits>false</notifyCulprits>
+      <notifyFixers>false</notifyFixers>
       <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
       <buildToChatNotifier class="hudson.plugins.im.build_notify.PrintFailingTestsBuildToChatNotifier" plugin="instant-messaging@1.35"/>
       <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
