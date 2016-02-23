@@ -18,7 +18,7 @@
 
 require 'fileutils'
 
-require_relative '../lib/docker/containment'
+require_relative '../lib/ci/containment'
 
 TOOLING_PATH = File.dirname(__dir__)
 
