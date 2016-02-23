@@ -3,7 +3,7 @@
 require 'thwait'
 
 require_relative 'ci-tooling/lib/kci'
-require_relative 'ci-tooling/lib/projects'
+require_relative 'ci-tooling/lib/projects/factory'
 require_relative 'ci-tooling/lib/thread_pool'
 Dir.glob(File.expand_path('jenkins-jobs/*.rb',
                           File.dirname(__FILE__))).each do |file|
@@ -73,15 +73,10 @@ class ProjectUpdater
     all_mergers = []
     KCI.series.each_key do |distribution|
       KCI.types.each do |type|
-        if ENV.key?('PANGEA_NEW_FACTORY')
-          require_relative 'ci-tooling/lib/projects/factory'
-          ProjectsFactory::Debian.instance_variable_set(:@url_base,
-                                                        'git.debian.org:/git')
-          file = "#{__dir__}/ci-tooling/data/projects/kci.yaml"
-          projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
-        else
-          projects = Projects.new(type: type)
-        end
+        ProjectsFactory::Debian.instance_variable_set(:@url_base,
+                                                      'git.debian.org:/git')
+        file = "#{__dir__}/ci-tooling/data/projects/kci.yaml"
+        projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
         all_builds = projects.collect do |project|
           # FIXME: super fucked up dupe prevention
           if type == 'unstable' && distribution == KCI.series.keys[0]

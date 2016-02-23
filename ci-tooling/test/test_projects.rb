@@ -1,19 +1,25 @@
+# frozen_string_literal: true
+#
+# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
 require 'fileutils'
 require 'tmpdir'
 
 require_relative '../lib/projects'
 require_relative 'lib/testcase'
-
-# Mixin a prepend to overload the list_all_repos function with something testable.
-module FakeProjectFactory
-  def list_all_repos(_component)
-    %w(kinfocenter)
-  end
-end
-
-class ProjectFactory
-  prepend FakeProjectFactory
-end
 
 class ProjectTest < TestCase
   def git_init_commit(repo, branches = %w(master kubuntu_unstable))
@@ -186,103 +192,10 @@ class ProjectTest < TestCase
     end
   end
 
-  def test_array_init_unstable
-    require_binaries('git', 'bzr')
-
-    repos = "#{Dir.pwd}/repo"
-    %w(plasma/kinfocenter kde-applications/gwenview).each do |path|
-      r = "#{repos}/#{path}"
-      git_init_commit(git_init_repo(r))
-    end
-
-    Project.default_url = repos
-
-    reference_projects = %w(kinfocenter gwenview qtubuntu-cameraplugin-fake)
-    projects = Projects.new(type: 'unstable',
-                            projects_file: "#{@datadir}/projects.json")
-    assert_not_nil(projects)
-    assert_equal(projects.size, reference_projects.size)
-    tmpref = reference_projects.clone
-    projects.each do |project|
-      tmpref.delete_if { |name| name == project.name }
-    end
-    assert_equal(tmpref.size, 0)
-  ensure
-    Project.default_url = Project::DEFAULT_URL
-  end
-
   def test_cleanup_uri
     assert_equal('/a/b', Project.cleanup_uri('/a//b/'))
     assert_equal('http://a.com/b', Project.cleanup_uri('http://a.com//b//'))
     assert_equal('//host/b', Project.cleanup_uri('//host/b/'))
-  end
-
-  def test_git_listing
-    output = ProjectFactory.find_all_repos(data, hostcmd: '')
-    assert_not_empty(output)
-    output = ProjectFactory.split_find_output(output)
-    assert_include(output, 'real1')
-    assert_include(output, 'real2')
-    # find includes path itself by default (since it is a dir...)
-    assert_not_include(output, File.basename(data))
-    assert_not_include(output, 'link1')
-    assert_not_include(output, 'link2')
-    assert_not_include(output, 'file1')
-  end
-
-  def test_custom_ci_invalid
-    assert_raise Project::GitTransactionError do
-      Projects.new(type: 'unstable', allow_custom_ci: true, projects_file: data('invalid.json'))
-    end
-  end
-
-  def test_custom_ci
-    projects = Projects.new(type: 'unstable', allow_custom_ci: true,
-                            projects_file: data('projects.json'))
-    assert_equal(2, projects.size)
-    pro = projects[0]
-    assert_equal('simplelogin-packaging', pro.name)
-    assert_equal('plasma-phone-packaging', pro.component)
-    assert_equal('git', pro.packaging_scm.type)
-    assert_equal('https://github.com/plasma-phone-packaging/simplelogin-packaging', pro.packaging_scm.url)
-    assert_equal('kubuntu_unstable', pro.packaging_scm.branch)
-    assert_equal('git', pro.upstream_scm.type)
-    assert_equal('git://anongit.kde.org/scratch/davidedmundson/simplelogin.git', pro.upstream_scm.url)
-
-    pro = projects[1]
-    assert_equal('seeds', pro.name)
-    assert_equal('neon', pro.component)
-    assert_equal('git', pro.packaging_scm.type)
-    assert_equal('git://packaging.neon.kde.org.uk/neon/seeds', pro.packaging_scm.url)
-    assert_equal('kubuntu_unstable', pro.packaging_scm.branch)
-  ensure
-    Project.default_url = Project::DEFAULT_URL
-  end
-
-  def test_static_ci
-    repo_base = "#{Dir.pwd}/repo"
-    git_init_commit(git_init_repo("#{repo_base}/pkg-kde/qt/qtx11extras"),
-                    %w(master experimental))
-
-    Project.default_url = repo_base
-
-    assert_raise RuntimeError do
-      Projects.new(type: 'unstable', projects_file: data('invalid.json'))
-    end
-
-    projects = Projects.new(type: 'unstable',
-                            projects_file: data('projects.json'))
-    assert_equal(1, projects.size)
-    pro = projects[0]
-    assert_equal('qtx11extras', pro.name)
-    assert_equal('qt', pro.component)
-    assert_equal('git', pro.packaging_scm.type)
-    assert_equal("#{repo_base}/pkg-kde/qt/qtx11extras", pro.packaging_scm.url)
-    assert_equal('experimental', pro.packaging_scm.branch)
-    assert_equal('tarball', pro.upstream_scm.type)
-    assert_equal('http://yolo.com/abc+dfsg.tar.xz', pro.upstream_scm.url)
-  ensure
-    Project.default_url = Project::DEFAULT_URL
   end
 
   def test_launchpad
