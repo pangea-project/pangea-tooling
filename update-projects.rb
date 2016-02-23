@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'thwait'
-
 require_relative 'ci-tooling/lib/kci'
 require_relative 'ci-tooling/lib/projects/factory'
 require_relative 'ci-tooling/lib/thread_pool'
