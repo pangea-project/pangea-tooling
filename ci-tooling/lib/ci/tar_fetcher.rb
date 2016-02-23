@@ -20,10 +20,10 @@ module CI
       Dir.mktmpdir do |tmpdir|
         Dir.chdir(@dir) do
           system('uscan',
-                 '--report-status',
-                 '--force-download',
+                 '--verbose',
                  '--download-current-version',
-                 "--destdir=#{tmpdir}")
+                 "--destdir=#{tmpdir}",
+                 '--rename')
         end
         tar = Dir.glob("#{tmpdir}/*.orig.tar*")
         return nil unless tar.size == 1
