@@ -1,0 +1,73 @@
+Source: unity-action-api
+Section: libs
+Priority: optional
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Antti Kaijanmäki <antti.kaijanmaki@canonical.com>
+Build-Depends: cmake,
+               debhelper (>= 9),
+               pkg-config,
+               libhud2-dev,
+               qt5-default,
+               qt5-qmake,
+               qtbase5-dev,
+               qtbase5-dev-tools,
+               qtdeclarative5-dev,
+               qtdeclarative5-dev-tools,
+               qtdeclarative5-qtquick2-plugin,
+               qtdeclarative5-test-plugin,
+               dbus-test-runner,
+               doxygen,
+               graphviz,
+Standards-Version: 3.9.4
+Homepage: https://launchpad.net/unity-action-api
+# If you aren't a member of ~unity-team but need to upload packaging changes,
+# just go ahead.  ~unity-team will notice and sync up the code again.
+Vcs-Bzr: lp:unity-action-api
+Vcs-Browser: https://code.launchpad.net/unity-action-api
+
+Package: libunity-action-qt1
+Architecture: any
+Pre-Depends: ${misc:Pre-Depends}
+Multi-Arch: same
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Description: Unity Action Qt API
+ Unity Common Action API
+
+Package: libunity-action-qt1-dev
+Section: libdevel
+Architecture: any
+Pre-Depends: ${misc:Pre-Depends}
+Multi-Arch: same
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         libunity-action-qt1 (= ${binary:Version}),
+         qtbase5-dev,
+         libhud2-dev,
+Suggests: unity-action-doc,
+Description: Unity Action Qt API - development files
+ Unity Common Action API
+ .
+ This package contains development files to develop against the library.
+
+Package: qtdeclarative5-unity-action-plugin
+Architecture: any
+Pre-Depends: ${misc:Pre-Depends}
+Multi-Arch: same
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         libunity-action-qt1 (= ${binary:Version}),
+Description: Unity Action QML Components
+ Unity Common Action API
+ .
+ This package contains the qtdeclarative binding for the unity-action library.
+
+Package: unity-action-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Description: Unity Action API - documentation
+ Unity Common Action API
+ .
+ This package contains developer documentation.

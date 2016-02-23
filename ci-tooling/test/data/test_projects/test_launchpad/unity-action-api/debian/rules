@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Comment this to turn off verbose mode.
+#export DH_VERBOSE=1
+
+export DPKG_GENSYMBOLS_CHECK_LEVEL=4
+
+%:
+	dh $@ --parallel --fail-missing
+
+override_dh_auto_configure:
+	dh_auto_configure -- -DGENERATE_DOCUMENTATION=ON
+
+override_dh_makeshlibs:
+	dh_makeshlibs -Nqtdeclarative5-unity-action-plugin

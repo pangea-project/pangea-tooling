@@ -21,6 +21,8 @@ require 'tmpdir'
 require_relative '../lib/projects'
 require_relative 'lib/testcase'
 
+require 'mocha/test_unit'
+
 class ProjectTest < TestCase
   def git_init_commit(repo, branches = %w(master kubuntu_unstable))
     repo = File.absolute_path(repo)
@@ -199,7 +201,27 @@ class ProjectTest < TestCase
   end
 
   def test_launchpad
-    require_binaries('bzr')
+    reset_child_status!
+
+    Object.any_instance.expects(:`).never
+    Object.any_instance.expects(:system).never
+
+    system_sequence = sequence('test_launchpad-system')
+    Object.any_instance.expects(:system)
+          .with do |x|
+            next unless x == 'bzr checkout lp:unity-action-api unity-action-api'
+            # .returns runs in a different binding so the chdir is wrong....
+            # so we copy here.
+            FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
+            true
+          end
+          .returns(true)
+          .in_sequence(system_sequence)
+    Object.any_instance.expects(:system)
+          .with('bzr up')
+          .returns(true)
+          .in_sequence(system_sequence)
+
     pro = Project.new('unity-action-api', 'launchpad',
                       'lp:')
     assert_equal('unity-action-api', pro.name)
