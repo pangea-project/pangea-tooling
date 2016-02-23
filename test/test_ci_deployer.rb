@@ -56,6 +56,13 @@ class DeployTest < TestCase
     ENV['HOME'] = @oldhome
   end
 
+  def vcr_it(meth, **kwords)
+    VCR.use_cassette(meth, kwords) do |cassette|
+      CI::EphemeralContainer.safety_sleep = 0 unless cassette.recording?
+      yield cassette
+    end
+  end
+
   def copy_data
     FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
   end
@@ -100,17 +107,19 @@ class DeployTest < TestCase
 
     ENV['HOME'] = Dir.pwd
 
-    VCR.turned_off do
-      @ubuntu_series.each do |k|
-        remove_base('ubuntu', k)
+    vcr_it(__method__, erb: true) do |cassette|
+      if cassette.recording?
+        VCR.turned_off do
+          @ubuntu_series.each do |k|
+            remove_base('ubuntu', k)
+          end
+
+          @debian_series.each do |k|
+            remove_base('debian', k)
+          end
+        end
       end
 
-      @debian_series.each do |k|
-        remove_base('debian', k)
-      end
-    end
-
-    VCR.use_cassette(__method__, erb: true) do
       assert_nothing_raised do
         deploy_all
       end
@@ -122,17 +131,19 @@ class DeployTest < TestCase
 
     ENV['HOME'] = Dir.pwd
 
-    VCR.turned_off do
-      @ubuntu_series.each do |k|
-        create_base('ubuntu', k)
+    vcr_it(__method__, erb: true) do |cassette|
+      if cassette.recording?
+        VCR.turned_off do
+          @ubuntu_series.each do |k|
+            create_base('ubuntu', k)
+          end
+
+          @debian_series.each do |k|
+            create_base('debian', k)
+          end
+        end
       end
 
-      @debian_series.each do |k|
-        create_base('debian', k)
-      end
-    end
-
-    VCR.use_cassette(__method__, erb: true) do
       assert_nothing_raised do
         deploy_all
       end
@@ -146,12 +157,15 @@ class DeployTest < TestCase
     # indicate an upgrade.
     copy_data
     ENV['HOME'] = Dir.pwd
-    VCR.turned_off do
-      remove_base(:ubuntu, 'wily')
-      remove_base(:ubuntu, __method__)
-    end
 
-    VCR.use_cassette(__method__, erb: true) do
+    vcr_it(__method__, erb: true) do |cassette|
+      if cassette.recording?
+        VCR.turned_off do
+          remove_base(:ubuntu, 'wily')
+          remove_base(:ubuntu, __method__)
+        end
+      end
+
       # Wily should exist so the fallback upgrade shouldn't be used.
       d = MGMT::Deployer.new(:ubuntu, 'wily', %w(vivid))
       upgrade = d.create_base
