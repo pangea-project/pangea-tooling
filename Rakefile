@@ -122,8 +122,6 @@ task :deploy do
   FileUtils.cp_r(Dir.glob('*'), tooling_path)
 
   # Live for host.
-  # FIXME: not all host jobs are blocked by mgmt_tooling and can run into
-  # problems when reading a file while we deploy.
   tooling_path = File.join(Dir.home, 'tooling3')
   FileUtils.rm_rf(tooling_path)
   FileUtils.mkpath(tooling_path)
