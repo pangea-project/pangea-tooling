@@ -71,9 +71,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         all_builds.reject! { |project| !project.job_name.end_with?('_src') }
 
         # This could actually returned into a collect if placed below
-        all_meta_builds << enqueue(MetaBuildJob.new(type: type,
-                                                    distribution: distribution,
-                                                    downstream_jobs: all_builds))
+        meta_build = MetaBuildJob.new(type: type,
+                                      distribution: distribution,
+                                      downstream_jobs: all_builds)
+        all_meta_builds << enqueue(meta_build)
       end
 
       image_job_config =
@@ -95,7 +96,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
-    tooling_test = enqueue(MGMTToolingTestJob.new(downstreams: [tooling_deploy]))
+    tooling_test =
+      enqueue(MGMTToolingTestJob.new(downstreams: [tooling_deploy]))
     enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_test]))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
     enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
