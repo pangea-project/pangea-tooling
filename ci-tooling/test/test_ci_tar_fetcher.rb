@@ -38,6 +38,14 @@ module CI
       end
     end
 
+    def test_fetch_escaped_orig
+      VCR.use_cassette(__method__) do
+        f = URLTarFetcher.new('http://http.debian.net/debian/pool/main/libd/libdbusmenu-qt/libdbusmenu-qt_0.9.3%2B15.10.20150604.orig.tar.gz')
+        t = f.fetch(Dir.pwd)
+        assert(t.orig?)
+      end
+    end
+
     # TODO: maybe split
     def test_watch_fetch
       require_binaries(%w(uscan))
