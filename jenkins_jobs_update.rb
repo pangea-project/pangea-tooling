@@ -20,7 +20,6 @@ require_relative 'ci-tooling/lib/mobilekci'
 require_relative 'ci-tooling/lib/dci'
 require_relative 'ci-tooling/lib/ndci'
 require_relative 'ci-tooling/lib/projects/factory'
-require_relative 'ci-tooling/lib/thread_pool'
 require_relative 'lib/jenkins/project_updater'
 
 require 'optparse'
