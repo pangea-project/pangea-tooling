@@ -102,15 +102,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   end
 end
 
-options = {}
-options[:flavor] = :mci
-OptionParser.new do |opts|
-  opts.on('--ci [flavor]', [:dci, :mci, :ndci], 'Run for CI flavor (dci, mci)') do |f|
-    options[:flavor] = f
-  end
-end.parse!
-
 if __FILE__ == $PROGRAM_NAME
+  options = {}
+  options[:flavor] = :mci
+  OptionParser.new do |opts|
+    opts.on('--ci [flavor]', [:dci, :mci, :ndci],
+            'Run for CI flavor (dci, mci)') do |f|
+      options[:flavor] = f
+    end
+  end.parse!
+
   updater = ProjectUpdater.new(flavor: options[:flavor])
   updater.update
   updater.install_plugins
