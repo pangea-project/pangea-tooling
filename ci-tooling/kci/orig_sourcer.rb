@@ -4,6 +4,7 @@ require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
 
 module KCI
+  # Helper methods for retrieving an orig tarball from existing sources.
   class OrigSourcer
     class << self
       def tarball
