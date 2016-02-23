@@ -20,8 +20,6 @@ Project = Struct.new(:series, :stability, :name)
 
 $stdout = $stderr
 
-# TODO: we get the jobname in ARGV0 but do not use it
-
 # PWD
 WORKSPACE_PATH = ARGV[1]
 unless Dir.chdir(WORKSPACE_PATH)
@@ -39,20 +37,15 @@ at_exit do
 end
 
 dscs = Dir.glob('*.dsc')
-if dscs.size > 1
-  raise "Too many dscs #{dscs}"
-elsif dscs.size < 1
-  raise "Too few dscs #{dscs}"
-end
+raise "Too many dscs #{dscs}" if dscs.size > 1
+raise "Too few dscs #{dscs}" if dscs.size < 1
 dsc = dscs[0]
 
 system('dpkg-source', '-x', dsc)
 dirs = Dir.glob('*').select { |f| File.directory?(f) }
-if dirs.size > 1
-  raise "Too many dirs #{dirs}"
-elsif dirs.size < 1
-  raise "Too few dirs #{dirs}"
-end
+raise "Too many dirs #{dirs}" if dirs.size > 1
+raise "Too few dirs #{dirs}" if dirs.size < 1
+
 dir = dirs[0]
 
 Dir.chdir(dir) do
@@ -60,11 +53,15 @@ Dir.chdir(dir) do
   Apt::Repository.add(debline)
   Apt::Key.add("#{__dir__}/Pangea CI.gpg.key")
   Apt::Repository.add('ppa:plasma-phone/ppa')
-  if DPKG::BUILD_ARCH == 'armhf'
-    debline2 = "deb http://ports.ubuntu.com/ubuntu-ports #{LSB::DISTRIB_CODENAME}-backports main restricted universe multiverse"
-  else
-    debline2 = "deb http://archive.ubuntu.com/ubuntu #{LSB::DISTRIB_CODENAME}-backports main restricted universe multiverse"
-  end
+  srcline = 'deb %<host>s %<series>s %<pockets>s'
+  debline2 = format(srcline,
+                    host: if DPKG::BUILD_ARCH == 'armhf'
+                            'http://ports.ubuntu.com/ubuntu-ports'
+                          else
+                            'http://archive.ubuntu.com/ubuntu'
+                          end,
+                    series: "#{LSB::DISTRIB_CODENAME}-backports",
+                    pockets: 'main restricted universe multiverse')
   Apt::Repository.add(debline2)
   Apt.update
   Apt.install('pbuilder')
