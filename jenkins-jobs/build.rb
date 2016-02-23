@@ -72,9 +72,9 @@ class BuildJob < JenkinsJob
   end
 
   def update
-    repos = CI::Pattern.filter(@packaging_scm.url, config)
+    repos = CI::FNMatchPattern.filter(@packaging_scm.url, config)
     repos.sort_by(&:first).each do |_, job_patterns|
-      CI::Pattern.filter(@job_name, job_patterns).each do |_, enabled|
+      CI::FNMatchPattern.filter(@job_name, job_patterns).each do |_, enabled|
         return nil unless enabled
       end
     end
@@ -86,7 +86,7 @@ class BuildJob < JenkinsJob
   def self.config(directory)
     return @config if defined?(@config)
     @config = YAML.load(File.read("#{directory}/build.yml"))
-    @config = CI::Pattern.convert_hash(@config, recurse: true)
+    @config = CI::FNMatchPattern.convert_hash(@config, recurse: true)
   end
 
   def config
