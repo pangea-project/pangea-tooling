@@ -19,8 +19,9 @@
 require_relative 'ci-tooling/lib/kci'
 require_relative 'ci-tooling/lib/projects/factory'
 require_relative 'ci-tooling/lib/thread_pool'
-Dir.glob(File.expand_path('jenkins-jobs/*.rb',
-                          File.dirname(__FILE__))).each do |file|
+require_relative 'lib/jenkins/project_updater'
+
+Dir.glob(File.expand_path('jenkins-jobs/*.rb', __dir__)).each do |file|
   require file
 end
 
