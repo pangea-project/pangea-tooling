@@ -72,12 +72,20 @@ task :test_ci_parallel do
 end
 task :test_ci_parallel => 'ci:setup:testunit'
 
-desc 'run pangea-tooling tests'
-Rake::TestTask.new(:test_pangea) do |t|
-  t.ruby_opts << "-r#{File.expand_path(__dir__)}/test/helper.rb"
-  t.test_files = FileList['test/test_*.rb']
+desc 'run pangea-tooling (parse) test'
+Rake::TestTask.new(:test_pangea_parse) do |t|
+  # Parse takes forever, so we run it concurrent to the other tests.
+  t.test_files = FileList['test/test_parse.rb']
   t.verbose = true
 end
+
+desc 'run pangea-tooling tests'
+Rake::TestTask.new(:test_pangea_core) do |t|
+  t.ruby_opts << "-r#{File.expand_path(__dir__)}/test/helper.rb"
+  t.test_files = FileList['test/test_*.rb'].exclude('test/test_parse.rb')
+  t.verbose = true
+end
+multitask :test_pangea => [:test_pangea_parse, :test_pangea_core]
 
 desc 'generate line count report'
 task :cloc do
