@@ -60,6 +60,14 @@ if __FILE__ == $PROGRAM_NAME
     Apt.dist_upgrade
   end
 
+  # Install devscripts from backports
+  if dist == 'stable'
+    backports = "deb http://ftp.debian.org/debian #{dist}-backports main"
+    Apt::Repository.add(backports)
+    Apt.update
+    Apt.install('devscripts=2.16.1~bpo8+1')
+  end
+
   sourcer = CI::OrigSourceBuilder.new(release: dist,
                                       strip_symbols: true)
   sourcer.build(DCI::OrigSourcer.tarball)
