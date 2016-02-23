@@ -35,16 +35,6 @@ module MCI
     Apt::Key.add('http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key')
     raise 'Failed to import key' unless $? == 0
 
-    srcline = 'deb %<host>s %<series>s %<pockets>s'
-    debline2 = format(srcline,
-                      host: if DPKG::BUILD_ARCH == 'armhf'
-                              'http://ports.ubuntu.com/ubuntu-ports'
-                            else
-                              'http://archive.ubuntu.com/ubuntu'
-                            end,
-                      series: "#{LSB::DISTRIB_CODENAME}-backports",
-                      pockets: 'main restricted universe multiverse')
-    Apt::Repository.add(debline2)
     Apt::Repository.add('ppa:plasma-phone/ppa')
 
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
