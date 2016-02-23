@@ -18,7 +18,7 @@ LOG.warn 'PPA Promote'
 
 options = OpenStruct.new(series: nil, ppa: nil)
 parser = OptionParser.new do |opts|
-  opts.on('-s SERIES', '--series SERIES', 'Ubuntu series to run on')  do |v|
+  opts.on('-s SERIES', '--series SERIES', 'Ubuntu series to run on') do |v|
     options[:series] = v
   end
 end
@@ -26,6 +26,7 @@ parser.parse!
 
 abort parser.help if options[:series].nil?
 
+# A PPA.
 class Archive
   attr_accessor :ppa
 

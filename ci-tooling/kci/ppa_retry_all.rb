@@ -32,7 +32,7 @@ OptionParser.new do |opts|
   opts.banner = "Usage: #{$PROGRAM_NAME} [options] ppa:PPA_IDENTIFIER"
 
   opts.on('-s SERIES', '--series SERIES',
-          'Ubuntu series to run on (or nil for all)')  do |v|
+          'Ubuntu series to run on (or nil for all)') do |v|
     options[:series] = v
   end
 end.parse!
@@ -65,6 +65,7 @@ THREAD_COUNT.times do |i|
     log.level = Logger::INFO
     log.datetime_format = ''
 
+    # rubocop:disable Style/AssignmentInCondition
     while source = source_queue.pop(true)
       begin
         log.info "Retrying #{source.display_name}"

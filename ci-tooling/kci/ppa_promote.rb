@@ -29,6 +29,7 @@ LOG.warn 'PPA Promote'
 Project = Struct.new(:series, :type)
 project = Project.new(ENV.fetch('DIST'), ENV.fetch('TYPE'))
 
+# Helpers for verifying a PPA.
 module VerifablePPA
   EXISTING_STATES = %w(Pending Published).freeze
 
@@ -60,6 +61,7 @@ module VerifablePPA
   end
 end
 
+# A PPA.
 class Archive
   attr_accessor :ppa
 
