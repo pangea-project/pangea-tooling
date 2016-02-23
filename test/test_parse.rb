@@ -3,7 +3,7 @@ require_relative '../lib/shebang'
 
 class ParseTest < Test::Unit::TestCase
   def test_syntax
-    basedir = File.dirname(File.expand_path(File.dirname(__FILE__)))
+    basedir = File.dirname(__dir__)
     Dir.chdir(basedir)
 
     source_dirs = %w(
