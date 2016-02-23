@@ -61,7 +61,7 @@ gem install --no-document bundler
 bundle pack --all --all-platforms --no-install
 
 rm tooling.tar.gz || true
-tar -cp * | gzip --rsyncable -1 &gt; tooling.tar.gz
+tar -cp . | gzip --rsyncable -1 &gt; tooling.tar.gz
 </command>
     </hudson.tasks.Shell>
   </builders>
