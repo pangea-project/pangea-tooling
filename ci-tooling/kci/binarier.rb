@@ -10,6 +10,10 @@ require_relative 'lib/apt'
 require_relative 'lib/dpkg'
 require_relative 'lib/lsb'
 
+# TODO: remove
+warn 'WARNING: kci/binarier.rb is deprecated, use lib/ci/build_binary instead' \
+     ' (see nci/builder.rb for example)'
+
 ENV['HOME'] = '/var/lib/jenkins'
 
 Project = Struct.new(:series, :stability, :name)
