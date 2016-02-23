@@ -42,7 +42,8 @@ module CI
       VCR.use_cassette(__method__) do
         f = URLTarFetcher.new('http://http.debian.net/debian/pool/main/libd/libdbusmenu-qt/libdbusmenu-qt_0.9.3%2B15.10.20150604.orig.tar.gz')
         t = f.fetch(Dir.pwd)
-        assert(t.orig?)
+        file = File.basename(t.origify.path)
+        assert_equal('libdbusmenu-qt_0.9.3+15.10.20150604.orig.tar.gz', file)
       end
     end
 
