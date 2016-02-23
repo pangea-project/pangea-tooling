@@ -99,7 +99,7 @@
         "repos": [
           {
             "path": "qt/qtbase",
-            "branch": "neon_mobile",
+            "branch": "Neon/5.5",
             "tarball": "http://http.debian.net/debian/pool/main/q/qtbase-opensource-src/qtbase-opensource-src_5.5.1+dfsg.orig.tar.xz"
           },
           {
