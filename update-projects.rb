@@ -34,7 +34,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   private
 
   def populate_queue
-    # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_metas = []
     all_promoters = []
     all_mergers = []
@@ -45,10 +44,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         file = "#{__dir__}/ci-tooling/data/projects/kci.yaml"
         projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
         all_builds = projects.collect do |project|
-          # FIXME: super fucked up dupe prevention
           if type == 'unstable' && distribution == KCI.series.keys[0]
             dependees = []
-            # FIXME: I hate my life.
             # Mergers need to be upstreams to the build jobs otherwise the
             # build jobs can trigger before the merge is done (e.g. when)
             # there was an upstream change resulting in pointless build
@@ -72,7 +69,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                               distribution: distribution,
                                               downstream_jobs: all_builds))
 
-        # FIXME: this maybe should be moved into MetaIsoJob or something
         # all_isos is actually unused
         KCI.architectures.each do |architecture|
           isoargs = { type: type,
@@ -80,7 +76,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                       architecture: architecture }
           enqueue(IsoJob.new(isoargs))
         end
-        # FIXME: doesn't automatically add new ISOs ...
         enqueue(MetaIsoJob.new(type: type, distribution: distribution))
       end
     end
