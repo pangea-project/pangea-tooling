@@ -26,13 +26,11 @@ fi
 
 cat /proc/self/cgroup
 
+wget -qO - 'http://archive.neon.kde.org.uk/public.key' | sudo apt-key add -
+sudo apt-add-repository http://archive.neon.kde.org.uk/unstable
 sudo apt update
 sudo apt dist-upgrade -y
-sudo apt install -y --no-install-recommends git ubuntu-defaults-builder wget ca-certificates zsync distro-info syslinux-utils
-# TODO get this built in neon ci and install from there
-rm -f livecd-rootfs*.deb*
-wget http://weegie.edinburghlinux.co.uk/~jr/tmp/livecd-rootfs_2.377neon1_amd64.deb
-sudo dpkg --install livecd-rootfs_2.377neon1_amd64.deb
+sudo apt install -y --no-install-recommends git ubuntu-defaults-builder wget ca-certificates zsync distro-info syslinux-utils livecd-rootfs
 
 cd $WD
 ls -lah
