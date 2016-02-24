@@ -9,7 +9,7 @@ gem 'logger-colors'
 gem 'oauth', '< 0.5' # 0.5 introduced a regression https://github.com/oauth-xx/oauth-ruby/pull/107
 gem 'octokit'
 gem 'gitlab',
-    git: 'https://github.com/shadeslayer/gitlab',
+    git: 'https://github.com/NARKOZ/gitlab',
     branch: 'master'
 gem 'net-ssh-gateway'
 
