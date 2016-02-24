@@ -82,8 +82,11 @@ module CI
         FileUtils.cp_r("#{source_dir}/.", "#{BUILD_DIR}/source/", verbose: true)
       end
 
-      %w(.bzr .git .hg .svn debian).each do |dir|
+      %w(.bzr .git .hg .svn).each do |dir|
         FileUtils.rm_rf(Dir.glob("#{BUILD_DIR}/source/**/#{dir}"))
+      end
+      if Dir.exist?("#{BUILD_DIR}/source/debian")
+        FileUtils.rm_rf(Dir.glob("#{BUILD_DIR}/source/debian"))
       end
     end
 
