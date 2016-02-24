@@ -43,7 +43,9 @@ module DCI
     raise 'Failed to import key' unless Apt::Key.add(key)
 
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
-    raise 'failed to install deps' unless Apt.dist_upgrade
+    # Install ppp-dev for NetworkManager source build
+    raise 'failed to install deps' unless Apt.install('ppp-dev')
+    raise 'failed to upgrade' unless Apt.dist_upgrade
   end
 
   def setup_backports!
