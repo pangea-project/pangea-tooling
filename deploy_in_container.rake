@@ -138,8 +138,7 @@ task :deploy_in_container do
                                                       cdbs
                                                       dh-autoreconf
                                                       germinate
-                                                      gobject-introspection
-                                                      libnet-frame-perl))
+                                                      gobject-introspection))
     raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
     raise 'Clean failed' unless Apt.clean
   end
