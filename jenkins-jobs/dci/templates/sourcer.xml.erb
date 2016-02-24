@@ -48,7 +48,7 @@
 export DIST=<%= distribution %>
 export TYPE=<%= type %>
 <%= fetch_tarball %>
-<% if upstream_scm && upstream_scm.type == 'tarball' || upstream_scm.type == 'uscan' %>
+<% if upstream_scm && (upstream_scm.type == 'tarball' || upstream_scm.type == 'uscan') %>
   <%= '~/tooling/dci/contain.rb /var/lib/jenkins/ci-tooling/dci/orig_sourcer.rb' %>
 <% else %>
   <%= '~/tooling/dci/contain.rb /var/lib/jenkins/ci-tooling/ci/sourcer.rb' %>
