@@ -49,7 +49,7 @@ if __FILE__ == $PROGRAM_NAME
   dist = ENV.fetch('DIST')
   repos = []
   # Debian stable has too old a pkg-kde-tool
-  repos = %w(qt5) if dist == 'stable'
+  repos = %w(qt5 backports) if dist == 'stable'
 
   if repos
     repos.each do |repo|

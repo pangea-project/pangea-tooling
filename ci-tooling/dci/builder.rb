@@ -6,7 +6,7 @@ require_relative '../lib/apt'
 
 dist = ENV.fetch('DIST')
 repos = %w(frameworks plasma odroid netrunner)
-repos += %w(qt5) if dist == 'stable'
+repos += %w(qt5 backports) if dist == 'stable'
 
 # FIXME: Fix repo addition
 repos.each do |repo|
