@@ -4,8 +4,7 @@ require 'fileutils'
 
 require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
-require_relative '../lib/os'
-require_relative '../lib/apt'
+require_relative 'lib/setup_repo'
 
 module DCI
   class OrigSourcer
@@ -47,27 +46,7 @@ end
 if __FILE__ == $PROGRAM_NAME
 
   dist = ENV.fetch('DIST')
-  repos = []
-  # Debian stable has too old a pkg-kde-tool
-  repos = %w(backports) if dist == 'stable'
-
-  if repos
-    repos.each do |repo|
-      Apt::Repository.add("deb http://dci.ds9.pub:8080/#{repo}/ #{dist} main")
-    end
-
-    Apt::Key.add("#{__dir__}/dci_apt.key")
-    Apt.update
-    Apt.dist_upgrade
-  end
-
-  # Install devscripts from backports
-  if dist == 'stable'
-    backports = "deb http://ftp.debian.org/debian #{dist}-backports main"
-    Apt::Repository.add(backports)
-    Apt.update
-    Apt.install('devscripts=2.16.1~bpo8+1')
-  end
+  DCI.setup_repo!
 
   sourcer = CI::OrigSourceBuilder.new(release: dist,
                                       strip_symbols: true)
