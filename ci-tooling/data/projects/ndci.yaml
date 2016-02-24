@@ -2,3 +2,20 @@ packaging.neon.kde.org.uk:
   - qt:
     - '*':
         branch: Neon/5.5
+
+git.debian.org:
+  - frameworks:
+    - '*':
+        branch: master
+  - pkg-kde/kde-req:
+    - 'polkit-qt-1':
+        branch: experimental
+  - pkg-kde/krap:
+      - 'libdbusmenu-qt':
+          branch: master
+
+github.com:
+  - netrunner-odroid:
+    - mali-x11
+    - xserver-xorg-video-mali
+    - odroid-boot-services

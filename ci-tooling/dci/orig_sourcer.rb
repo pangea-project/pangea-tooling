@@ -12,7 +12,8 @@ module DCI
     class << self
       def tarball
         Dir.mkdir('source') unless Dir.exist?('source')
-        tarball ||= DCI::OrigSourcer.lookup_tarball
+        # Disable tarball lookup since workspace isn't cleaned
+        # tarball ||= DCI::OrigSourcer.lookup_tarball
         tarball ||= DCI::OrigSourcer.fetch_url
         tarball ||= DCI::OrigSourcer.fetch_watch
         return tarball if tarball
