@@ -17,6 +17,8 @@ git.debian.org:
     - libkgapi
     - qapt
     - telepathy-accounts-signon
+    - libaccounts-glib:
+        branch: master
   - pkg-kde/kde-req:
     - qca-qt5
   - pkg-kde/plasma:
@@ -118,4 +120,6 @@ packaging.neon.kde.org.uk:
     - qtpim:
         branch: neon_vivid_mobile
 
-
+  - pkg-kde/kde-extras:
+    - libaccounts-glib:
+        branch: Neon/mobile
