@@ -30,7 +30,7 @@ module DCI
   module_function
 
   def setup_repo!
-    setup_backports!
+    setup_backports! unless ENV.fetch('DIST') == 'unstable'
 
     repos = %w(frameworks plasma odroid netrunner)
     repos += %w(backports qt5) if ENV.fetch('DIST') == 'stable'
@@ -47,14 +47,13 @@ module DCI
   end
 
   def setup_backports!
-    debline = format('deb http://ftp.debian.org/debian %s-backports main',
-                      ENV.fetch('DIST'))
-    raise 'adding backports failed' unless Apt::Repository.add(debline)
-    Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
-
     # Because we have no /etc/lsb_release
     Apt.install('lsb-release')
     release = `lsb_release -sc`.strip
+
+    debline = "deb http://ftp.debian.org/debian #{release}-backports main"
+    raise 'adding backports failed' unless Apt::Repository.add(debline)
+    Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
 
     # Need a newer uscan
     Apt.install("devscripts/#{release}-backports")
