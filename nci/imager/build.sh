@@ -27,6 +27,7 @@ fi
 cat /proc/self/cgroup
 
 wget -qO - 'http://archive.neon.kde.org.uk/public.key' | sudo apt-key add -
+sudo apt install -y software-properties-common
 sudo apt-add-repository http://archive.neon.kde.org.uk/unstable
 sudo apt update
 sudo apt dist-upgrade -y
