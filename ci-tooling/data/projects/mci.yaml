@@ -8,6 +8,7 @@ git.debian.org:
     - gpgmepp
     - kcalcore
     - kcontacts
+    - ktp-common-internals
   - pkg-kde/frameworks:
     - '*'
   - pkg-kde/kde-extras:
