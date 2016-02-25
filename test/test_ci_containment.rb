@@ -206,6 +206,7 @@ module CI
     end
 
     def test_ulimit
+      ENV['EXCON_DEBUG'] = 'true'
       vcr_it(__method__) do
         c = Containment.new(@job_name, image: @image, binds: [])
         # 1025 should be false
@@ -217,6 +218,8 @@ module CI
                           'if [ "$(ulimit -n)" != "1024" ]; then exit 1; else exit 0; fi'])
         assert_equal(0, ret, 'ulimit -n is not 1024 but should be')
       end
+    ensure
+      ENV.delete('EXCON_DEBUG')
     end
 
     def test_image_is_pangeaimage
