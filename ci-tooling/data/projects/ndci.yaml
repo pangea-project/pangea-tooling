@@ -2,20 +2,39 @@ packaging.neon.kde.org.uk:
   - qt:
     - '*':
         branch: Neon/5.5
-
-git.debian.org:
   - frameworks:
     - '*':
         branch: master
+    - 'purpose':
+        branch: kubuntu_xenial_archive
+  - plasma:
+    - '*':
+        branch: master
+
+git.debian.org:
   - pkg-kde/kde-req:
     - 'polkit-qt-1':
         branch: experimental
   - pkg-kde/krap:
       - 'libdbusmenu-qt':
           branch: master
+  - collab-maint:
+      - 'pkg-ppp':
+          branch: master
 
 github.com:
   - netrunner-odroid:
-    - mali-x11
-    - xserver-xorg-video-mali
-    - odroid-boot-services
+    - mali-x11:
+        branch: kubuntu_unstable
+    - xserver-xorg-video-mali:
+        branch: kubuntu_unstable
+    - odroid-boot-services:
+        branch: kubuntu_unstable
+
+gitlab.com:
+  - pkg-utopia:
+    - network-manager:
+        branch: Netrunner/stable
+  - netrunner-debian-frameworks:
+    - '*':
+        branch: Netrunner/stable
