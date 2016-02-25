@@ -15,3 +15,5 @@
   rpi2-stuff: "rpi"
   netrunner-core: "netrunner-core"
   pkg-utopia: "backports"
+  collab-maint: "backports"
+  netrunner-debian-frameworks: "frameworks"
