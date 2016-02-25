@@ -10,4 +10,4 @@ SimpleCov.formatters = [
 
 SimpleCov.start
 
-require 'ci/reporter/rake/test_unit_loader'
+require 'ci/reporter/rake/test_unit_loader' if ENV.include?('JENKINS_HOME')
