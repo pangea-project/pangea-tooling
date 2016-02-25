@@ -58,6 +58,8 @@ module DCI
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
 
     # Need a newer uscan
-    Apt.install("devscripts/#{release}-backports pbuilder/#{release}-backports")
+    packages = ["devscripts/#{release}-backports",
+                "pbuilder/#{release}-backports"]
+    Apt.install(packages)
   end
 end
