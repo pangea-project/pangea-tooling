@@ -157,7 +157,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     projects = ProjectsFactory.from_file("#{data}/projects.yaml")
 
     assert projects.is_a?(Array)
-    projects.each { |p| assert_is_a(p, Project) }
+    projects.each { |p| refute_equal(p, nil)}
 
     ki18n = projects.find { |p| p.name == 'ki18n' }
     refute_nil ki18n, 'ki18n is missing from the projects :('
@@ -199,7 +199,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     assert projects.is_a?(Array)
     refute_equal(0, projects.size)
     projects.each do |x|
-      assert_is_a(x, Project)
+      refute_equal(x, nil)
     end
 
     project = projects.find { |p| p.name == 'qtsvg' }
@@ -282,7 +282,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     refute_nil(projects)
     assert_equal(1, projects.size)
     project = projects[0]
-    assert_is_a(project, Project)
+    refute_equal(project, nil)
     assert_equal('attica', project.name)
     assert_equal('frameworks', project.component)
     assert_equal("#{neon_dir}/frameworks/attica", project.packaging_scm.url)
@@ -310,7 +310,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     refute_nil(projects)
     assert_equal(1, projects.size)
     project = projects[0]
-    assert_is_a(project, Project)
+    refute_equal(project, nil)
     assert_equal 'qtbase', project.name
     assert_equal("#{neon_dir}/qt/qtbase", project.packaging_scm.url)
     assert_equal 'qtbase', project.packaging_scm.branch # overridden to name via erb
@@ -334,7 +334,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     refute_nil(projects)
     assert_equal(1, projects.size)
     project = projects[0]
-    assert_is_a(project, Project)
+    refute_equal(project, nil)
     assert_equal 'solid', project.name
     assert_equal 'git', project.packaging_scm.type
     assert_equal "#{debian_dir}/pkg-kde/frameworks/solid", project.packaging_scm.url
@@ -357,9 +357,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
 
     refute_nil(projects)
     assert_equal(1, projects.size)
-    assert_is_a(projects[0], Project)
     project = projects[0]
-    assert_is_a(project, Project)
+    refute_equal(project, nil)
     assert_equal 'calamares-debian', project.name
     assert_equal 'git', project.packaging_scm.type
     assert_equal "#{github_dir}/calamares/calamares-debian", project.packaging_scm.url
@@ -389,9 +388,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
 
     refute_nil(projects)
     assert_equal(1, projects.size)
-    assert_is_a(projects[0], Project)
     project = projects[0]
-    assert_is_a(project, Project)
+    refute_equal(project, nil)
     assert_equal 'calamares-debian', project.name
     assert_equal 'git', project.packaging_scm.type
     assert_equal "#{gitlab_dir}/calamares/calamares-debian", project.packaging_scm.url
@@ -433,7 +431,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     refute_nil(projects)
     assert_equal(1, projects.size)
     project = projects[0]
-    assert_is_a(project, Project)
+    refute_equal(project, nil)
     assert_equal 'qtubuntu-cameraplugin-fake', project.name
     assert_equal 'bzr', project.packaging_scm.type
     assert_equal 'lp:qtubuntu-cameraplugin-fake', project.packaging_scm.url
@@ -460,7 +458,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     refute_nil(projects)
     assert_equal(1, projects.size)
     project = projects[0]
-    assert_is_a(project, Project)
+    refute_equal(project, nil)
     assert_equal('pkg-kde-tools', project.name)
     assert_equal('', project.component)
     assert_equal("#{neon_dir}/pkg-kde-tools", project.packaging_scm.url)
