@@ -221,6 +221,11 @@ https://github.com/plasma-phone-packaging/peruse:
     upstream_scm:
       url: git://anongit.kde.org/peruse
 
+https://github.com/plasma-phone-packaging/spacebar:
+  '{kubuntu_unstable,Neon/unstable}':
+    upstream_scm:
+      url: git://anongit.kde.org/spacebar
+
 https://github.com/plasma-phone-packaging/inputcontext-gtk:
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
