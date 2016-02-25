@@ -217,8 +217,8 @@ class Project
       raise BzrTransactionError, "Could not checkout #{uri}"
     end
 
-    def update_git(branch)
-      repo = Git.open(Dir.pwd)
+    def update_git(branch, dir = Dir.pwd)
+      repo = Git.open(dir)
       repo.clean(force: true, d: true)
       repo.reset(nil, hard: true)
       repo.gc
