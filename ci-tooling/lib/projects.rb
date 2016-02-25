@@ -107,16 +107,8 @@ class Project
     @series_branches = []
     @autopkgtest = false
 
-    # Jenkins doesn't like slashes. Nor should it have to, any sort of ordering
-    # would be the result of component/name, which is precisely why neither must
-    # contain additional slashes as then they'd be $pathtype/$pathtype which
-    # often will need different code (mkpath vs. mkdir).
-    if @name.include?('/')
-      raise NameError, "name value contains a slash: #{@name}"
-    end
-    if @component.include?('/')
-      raise NameError, "component contains a slash: #{@component}"
-    end
+    # FIXME: this should run at the end. test currently assume it isn't though
+    validate!
 
     cache_dir = set_packaging_scm(url_base, branch)
 
@@ -139,6 +131,19 @@ class Project
   end
 
   private
+
+  def validate!
+    # Jenkins doesn't like slashes. Nor should it have to, any sort of ordering
+    # would be the result of component/name, which is precisely why neither must
+    # contain additional slashes as then they'd be $pathtype/$pathtype which
+    # often will need different code (mkpath vs. mkdir).
+    if @name.include?('/')
+      raise NameError, "name value contains a slash: #{@name}"
+    end
+    if @component.include?('/')
+      raise NameError, "component contains a slash: #{@component}"
+    end
+  end
 
   def init_from_source(directory)
     control = Debian::Control.new(directory)
