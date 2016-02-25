@@ -12,13 +12,13 @@ class RetryHelper
   def count_up
     @count ||= 0
     @count += 1
-    fail 'random' unless @count == @max_count
+    raise 'random' unless @count == @max_count
   end
 
   def error
     @error_at ||= -1
     return if @error_at >= @errors.size - 1
-    fail @errors[@error_at += 1].new('error')
+    raise @errors[@error_at += 1].new('error')
   end
 end
 
