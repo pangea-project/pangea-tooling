@@ -23,6 +23,7 @@
 
 require 'fileutils'
 require 'forwardable' # For cleanup_uri delegation
+require 'git'
 require 'json'
 
 require_relative 'ci/overrides'
@@ -204,8 +205,9 @@ class Project
     # @param dest <String> directory name of the dir to clone as
     def get_git(uri, dest)
       return if File.exist?(dest)
-      return if system("git clone #{uri} #{dest}", err: '/dev/null')
-      raise GitTransactionError, "Could not clone #{uri}"
+      Git.clone(uri, dest)
+    rescue Git::GitExecuteError => e
+      raise GitTransactionError, e
     end
 
     # @see {get_git}
@@ -216,17 +218,15 @@ class Project
     end
 
     def update_git(branch)
-      system('git clean -fd')
-      system('git reset --hard')
-
-      system('git gc')
-      system('git config remote.origin.prune true')
-      unless system('git pull', err: '/dev/null')
-        raise GitTransactionError, 'Failed to pull'
-      end
-      unless system("git checkout #{branch}")
-        raise GitTransactionError, "No branch #{branch} in #{Dir.pwd}"
-      end
+      repo = Git.open(Dir.pwd)
+      repo.clean(force: true, d: true)
+      repo.reset(nil, hard: true)
+      repo.gc
+      repo.config('remote.origin.prune', true)
+      repo.fetch('origin')
+      repo.checkout("origin/#{branch}")
+    rescue Git::GitExecuteError => e
+      raise GitTransactionError, e
     end
 
     def update_bzr(_branch)
