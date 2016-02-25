@@ -33,6 +33,17 @@ class RetryTest < TestCase
     assert_equal(times, helper.count)
   end
 
+  def test_zero_retry
+    # On zero retries we want to be called once and only once.
+    times = 0
+    helper = RetryHelper.new(max_count: times)
+    assert_raise RuntimeError do
+      Retry.retry_it(times: times, silent: true) do
+        helper.count_up
+      end
+    end
+  end
+
   def test_errors
     errors = [NameError, LoadError]
 
