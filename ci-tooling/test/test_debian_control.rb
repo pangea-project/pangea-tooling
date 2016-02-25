@@ -21,36 +21,38 @@
 require_relative '../lib/debian/control'
 require_relative 'lib/testcase'
 
-# Test debian/source/format
-class DebianControlFormatTest < TestCase
-  def setup
-    FileUtils.cp_r("#{@datadir}/.", Dir.pwd)
-  end
-
-  def test_parse
-    assert_nothing_raised do
-      c = DebianControl.new
-      c.parse!
+# Test debian/control
+module Debian
+  class ControlTest < TestCase
+    def setup
+      FileUtils.cp_r("#{@datadir}/.", Dir.pwd)
     end
-  end
 
-  def test_key
-    c = DebianControl.new
-    c.parse!
-    assert_not_nil(c.source.key?('build-depends'))
-  end
+    def test_parse
+      assert_nothing_raised do
+        c = Control.new
+        c.parse!
+      end
+    end
 
-  def test_value
-    c = DebianControl.new
-    c.parse!
-    assert_equal(1, c.source['build-depends'].size)
-    assert_nil(c.source.fetch('magic', nil))
-  end
+    def test_key
+      c = Control.new
+      c.parse!
+      assert_not_nil(c.source.key?('build-depends'))
+    end
 
-  def test_no_build_deps # Also tests !pwd opening
-    c = DebianControl.new(__method__)
-    c.parse!
-    assert_equal(nil, c.source.fetch('build-depends', nil),
-                 "Found a build dep #{c.source.fetch('build-depends', nil)}")
+    def test_value
+      c = Control.new
+      c.parse!
+      assert_equal(1, c.source['build-depends'].size)
+      assert_nil(c.source.fetch('magic', nil))
+    end
+
+    def test_no_build_deps # Also tests !pwd opening
+      c = Control.new(__method__)
+      c.parse!
+      assert_equal(nil, c.source.fetch('build-depends', nil),
+                   "Found a build dep #{c.source.fetch('build-depends', nil)}")
+    end
   end
 end
