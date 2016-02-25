@@ -28,6 +28,10 @@ module Debian
       FileUtils.cp_r("#{@datadir}/.", Dir.pwd)
     end
 
+    def test_old_names
+      assert(Kernel.const_defined?(:DebianControl))
+    end
+
     def test_parse
       assert_nothing_raised do
         c = Control.new
