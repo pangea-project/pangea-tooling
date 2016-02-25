@@ -21,9 +21,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'fileutils'
 require 'forwardable' # For cleanup_uri delegation
 require 'json'
-require 'fileutils'
 
 require_relative 'ci/overrides'
 require_relative 'ci/upstream_scm'
