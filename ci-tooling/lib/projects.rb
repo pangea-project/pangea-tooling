@@ -144,7 +144,22 @@ class Project
     control = Debian::Control.new(directory)
     # TODO: raise? return?
     control.parse!
+    init_from_control(control)
 
+    if @component != 'launchpad'
+      # NOTE: assumption is that launchpad always is native even when
+      #  otherwise noted in packaging. This is somewhat meh and probably
+      #  should be looked into at some point.
+      #  Primary motivation are compound UDD branches as well as shit
+      #  packages that are dpkg-source v1...
+      unless Debian::Source.new(directory).format.type == :native
+        @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url,
+                                            @packaging_scm.branch)
+      end
+    end
+  end
+
+  def init_from_control(control)
     %w(build-depends build-depends-indep).each do |field|
       control.source.fetch(field, []).each do |dep|
         @dependencies << dep.name
@@ -159,18 +174,6 @@ class Project
     #        since xs-testsuite could change to random other string in the
     #        future
     @autopkgtest = control.source['xs-testsuite'] == 'autopkgtest'
-
-    if @component != 'launchpad'
-      # NOTE: assumption is that launchpad always is native even when
-      #  otherwise noted in packaging. This is somewhat meh and probably
-      #  should be looked into at some point.
-      #  Primary motivation are compound UDD branches as well as shit
-      #  packages that are dpkg-source v1...
-      unless Debian::Source.new(directory).format.type == :native
-        @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url,
-                                            @packaging_scm.branch)
-      end
-    end
   end
 
   def render_override(erb)
