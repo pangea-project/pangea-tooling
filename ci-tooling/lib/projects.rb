@@ -141,24 +141,24 @@ class Project
   private
 
   def init_from_source(directory)
-    c = Debian::Control.new(directory)
+    control = Debian::Control.new(directory)
     # TODO: raise? return?
-    c.parse!
+    control.parse!
 
     %w(build-depends build-depends-indep).each do |field|
-      c.source.fetch(field, []).each do |dep|
+      control.source.fetch(field, []).each do |dep|
         @dependencies << dep.name
       end
     end
 
-    c.binaries.each do |binary|
+    control.binaries.each do |binary|
       @provided_binaries << binary['package']
     end
 
     # FIXME: Probably should be converted to a symbol at a later point
     #        since xs-testsuite could change to random other string in the
     #        future
-    @autopkgtest = c.source['xs-testsuite'] == 'autopkgtest'
+    @autopkgtest = control.source['xs-testsuite'] == 'autopkgtest'
 
     if @component != 'launchpad'
       # NOTE: assumption is that launchpad always is native even when
