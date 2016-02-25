@@ -110,7 +110,7 @@ class Project
     # FIXME: this should run at the end. test currently assume it isn't though
     validate!
 
-    cache_dir = set_packaging_scm(url_base, branch)
+    cache_dir = init_packaging_scm(url_base, branch)
 
     @override_rule = CI::Overrides.new.rules_for_scm(@packaging_scm)
     override_apply('packaging_scm')
@@ -246,7 +246,7 @@ class Project
     end
   end
 
-  def set_packaging_scm_git(url_base, branch)
+  def init_packaging_scm_git(url_base, branch)
     # Assume git
     # Clean up path to remove useless slashes and colons.
     @packaging_scm = CI::SCM.new('git',
@@ -257,7 +257,7 @@ class Project
     component_dir
   end
 
-  def set_packaging_scm_bzr(url_base)
+  def init_packaging_scm_bzr(url_base)
     packaging_scm_url = if url_base.end_with?(':')
                           "#{url_base}#{@name}"
                         else
@@ -270,12 +270,12 @@ class Project
   end
 
   # @return component_dir to use for cloning etc.
-  def set_packaging_scm(url_base, branch)
+  def init_packaging_scm(url_base, branch)
     # FIXME: git dir needs to be set somewhere, somehow, somewhat, lol, kittens?
     if @component == 'launchpad'
-      set_packaging_scm_bzr(url_base)
+      init_packaging_scm_bzr(url_base)
     else
-      set_packaging_scm_git(url_base, branch)
+      init_packaging_scm_git(url_base, branch)
     end
   end
 
