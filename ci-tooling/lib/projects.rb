@@ -127,39 +127,9 @@ class Project
       get
       Dir.chdir(name) do
         update(branch)
-
         # FIXME: shouldn't this raise something?
         next unless File.exist?('debian/control')
-
-        c = DebianControl.new
-        # TODO: raise? return?
-        c.parse!
-
-        %w(build-depends build-depends-indep).each do |field|
-          c.source.fetch(field, []).each do |dep|
-            @dependencies << dep.name
-          end
-        end
-
-        c.binaries.each do |binary|
-          @provided_binaries << binary['package']
-        end
-
-        # FIXME: Probably should be converted to a symbol at a later point
-        #        since xs-testsuite could change to random other string in the
-        #        future
-        @autopkgtest = c.source['xs-testsuite'] == 'autopkgtest'
-
-        if @component != 'launchpad'
-          # NOTE: assumption is that launchpad always is native even when
-          #  otherwise noted in packaging. This is somewhat meh and probably
-          #  should be looked into at some point.
-          #  Primary motivation are compound UDD branches as well as shit
-          #  packages that are dpkg-source v1...
-          unless Debian::Source.new(Dir.pwd).format.type == :native
-            @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url, branch)
-          end
-        end
+        init_from_source(Dir.pwd)
       end
     end
 
@@ -169,6 +139,39 @@ class Project
   end
 
   private
+
+  def init_from_source(directory)
+    c = DebianControl.new(directory)
+    # TODO: raise? return?
+    c.parse!
+
+    %w(build-depends build-depends-indep).each do |field|
+      c.source.fetch(field, []).each do |dep|
+        @dependencies << dep.name
+      end
+    end
+
+    c.binaries.each do |binary|
+      @provided_binaries << binary['package']
+    end
+
+    # FIXME: Probably should be converted to a symbol at a later point
+    #        since xs-testsuite could change to random other string in the
+    #        future
+    @autopkgtest = c.source['xs-testsuite'] == 'autopkgtest'
+
+    if @component != 'launchpad'
+      # NOTE: assumption is that launchpad always is native even when
+      #  otherwise noted in packaging. This is somewhat meh and probably
+      #  should be looked into at some point.
+      #  Primary motivation are compound UDD branches as well as shit
+      #  packages that are dpkg-source v1...
+      unless Debian::Source.new(directory).format.type == :native
+        @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url,
+                                            @packaging_scm.branch)
+      end
+    end
+  end
 
   def render_override(erb)
     # Versions would be a float. Coerce into string.
