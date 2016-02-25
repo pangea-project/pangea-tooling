@@ -141,7 +141,7 @@ class Project
   private
 
   def init_from_source(directory)
-    c = DebianControl.new(directory)
+    c = Debian::Control.new(directory)
     # TODO: raise? return?
     c.parse!
 
