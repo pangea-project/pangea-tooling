@@ -60,6 +60,7 @@ class ProjectsFactory
     def from_string(str, params = {})
       kwords = params(str)
       kwords.merge!(symbolize(params))
+      puts "new_project(#{kwords})"
       new_project(**kwords)
     rescue Project::GitTransactionError, RuntimeError => e
       p e
