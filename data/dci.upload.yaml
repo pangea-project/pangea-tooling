@@ -17,3 +17,7 @@
   pkg-utopia: "backports"
   collab-maint: "backports"
   netrunner-debian-frameworks: "frameworks"
+  pkg-kde: "backports"
+  wayland: "backports"
+  lib: "backports"
+  pkg-cmake: "backports"
