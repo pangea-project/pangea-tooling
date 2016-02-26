@@ -40,12 +40,19 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     all_metas = []
     all_promoters = []
     all_mergers = []
+
+    type_projects = {}
+    KCI.types.each do |type|
+      ProjectsFactory::Debian.instance_variable_set(:@url_base,
+                                                    'git.debian.org:/git')
+      file = "#{__dir__}/ci-tooling/data/projects/kci.yaml"
+      projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
+      type_projects[type] = projects
+    end
+
     KCI.series.each_key do |distribution|
       KCI.types.each do |type|
-        ProjectsFactory::Debian.instance_variable_set(:@url_base,
-                                                      'git.debian.org:/git')
-        file = "#{__dir__}/ci-tooling/data/projects/kci.yaml"
-        projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
+        projects = type_projects.fetch(type, nil)
         all_builds = projects.collect do |project|
           if type == 'unstable' && distribution == KCI.series.keys[0]
             dependees = []
