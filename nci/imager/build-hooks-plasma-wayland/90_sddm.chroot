@@ -3,7 +3,7 @@ set -e
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D807A3EA3406394874332063A12B6139432062D1
 echo "deb http://ppa.launchpad.net/kubuntu-ci/unstable/ubuntu wily main" >> /etc/apt/sources.list.d/kubuntu-ci.list
 apt-get update
-apt-get install -y sddm
+apt-get -o Dpkg::Options::=--force-confnew install -y sddm
 
 cat <<EOF > /etc/sddm.conf
 [Autologin]
