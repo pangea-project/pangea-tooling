@@ -19,8 +19,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'bundler/setup'
-require 'ci/reporter/rake/test_unit_loader'
+REPORTER = 'ci_reporter_test_unit-5c6c30d120a3'.freeze
+require format("#{Gem.default_dir}/bundler/gems/#{REPORTER}/lib/%s",
+               'ci/reporter/rake/test_unit_loader')
 require 'logger'
 require 'logger/colors'
 require 'open-uri'
