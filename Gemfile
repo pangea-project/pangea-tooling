@@ -17,10 +17,13 @@ gem 'net-ssh-gateway'
 gem 'git_clone_url', '~> 2.0'
 gem 'uri-ssh_git', '~> 2.0'
 
+# Test logging as junit (also used at runtime for linting)
+gem 'test-unit', '~> 3.0'
+gem 'ci_reporter_test_unit',
+     git: 'https://github.com/apachelogger/ci_reporter_test_unit',
+     branch: 'test-unit-3'
+
 group :development, :test do
-  gem 'ci_reporter_test_unit',
-      git: 'https://github.com/apachelogger/ci_reporter_test_unit',
-      branch: 'test-unit-3'
   gem 'equivalent-xml'
   gem 'mocha'
   gem 'net-scp'
@@ -34,7 +37,6 @@ group :development, :test do
   gem 'ruby-progressbar'
   gem 'simplecov'
   gem 'simplecov-rcov'
-  gem 'test-unit', '~> 3.0'
   gem 'vcr', '>= 3.0.1'
   gem 'webmock'
 end
