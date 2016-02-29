@@ -77,18 +77,17 @@ class ContainerTest < TestCase
       CI::Container::DirectBindingArray.to_bindings([path])
     end
 
-
     # This is a string containing colons but is already a binding map because
     # it is symetric.
     path = '/tmp:/tmp:/tmp:/tmp'
     assert_raise do
-      CI::Container::DirectBindingArray.to_bindings(["#{path}"])
+      CI::Container::DirectBindingArray.to_bindings([path.to_s])
     end
 
     # Not symetric but the part after the first colon is an absolute path.
     path = '/tmp:/tmp:/tmp'
     assert_raise do
-      CI::Container::DirectBindingArray.to_bindings(["#{path}"])
+      CI::Container::DirectBindingArray.to_bindings([path.to_s])
     end
   end
 end
