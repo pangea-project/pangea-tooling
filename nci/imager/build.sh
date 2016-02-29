@@ -68,7 +68,7 @@ export LB_COMPRESSION=xz
 ## Create a zsync file allowing over-http delta-downloads.
 export LB_ZSYNC=true # This is overridden by silly old defaults-image...
 
-export CONFIG_HOOKS="$(dirname "$0")/config-hooks"
+export CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
 
 # Preserve envrionment -E plz.
 sudo -E $(dirname "$0")/ubuntu-defaults-image \
