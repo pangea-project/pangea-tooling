@@ -37,7 +37,12 @@ class LintCMakeTest < TestCase
   def test_disabled_feature
     r = Lint::Log::CMake.new.lint(data)
     assert(r.valid)
-    assert_equal(['XCB-CURSOR , Required for XCursor support'],
-                 r.warnings)
+    assert_equal(['XCB-CURSOR , Required for XCursor support'], r.warnings)
+  end
+
+  def test_missing_runtime
+    r = Lint::Log::CMake.new.lint(data)
+    assert(r.valid)
+    assert_equal(['Qt5Multimedia'], r.warnings)
   end
 end

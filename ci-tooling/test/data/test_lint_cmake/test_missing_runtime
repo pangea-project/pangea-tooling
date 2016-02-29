@@ -27,9 +27,10 @@ dh_auto_configure '--buildsystem=kf5' --parallel
  * X11 , X11 libraries , <http://www.x.org>
  * XCB , X protocol C-language Binding , <http://xcb.freedesktop.org>
 
--- The following features have been disabled:
+-- The following RUNTIME packages have not been found:
 
- * XCB-CURSOR , Required for XCursor support
+ * Qt5Multimedia
+   Runtime-only dependency for effect video playback
 
 Building KWin with OpenGL support
 -- Looking for include file unistd.h

@@ -13,6 +13,8 @@ module Lint
       METHS = {
         'The following OPTIONAL packages have not been found' \
           => :parse_summary,
+        'The following RUNTIME packages have not been found' \
+          => :parse_summary,
         'The following features have been disabled' \
           => :parse_summary,
         'Could not find a package configuration file provided by' \
