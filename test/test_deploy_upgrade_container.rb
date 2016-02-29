@@ -35,7 +35,6 @@ class DeployUpgradeTest < TestCase
   # :nocov:
 
   def setup
-    ENV['EXCON_DEBUG'] = 'true'
     VCR.configure do |config|
       config.cassette_library_dir = @datadir
       config.hook_into :excon
@@ -58,7 +57,6 @@ class DeployUpgradeTest < TestCase
   end
 
   def teardown
-    ENV.delete('EXCON_DEBUG')
     VCR.turned_off do
       cleanup_container
     end

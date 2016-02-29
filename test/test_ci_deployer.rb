@@ -14,7 +14,6 @@ require_relative '../lib/mgmt/deployer'
 
 class DeployTest < TestCase
   def setup
-    ENV['EXCON_DEBUG'] = 'true'
     VCR.configure do |config|
       config.cassette_library_dir = @datadir
       config.hook_into :excon
@@ -52,7 +51,6 @@ class DeployTest < TestCase
   end
 
   def teardown
-    ENV.delete('EXCON_DEBUG')
     VCR.configuration.default_cassette_options.delete(:tag)
     CI::PangeaImage.namespace = @oldnamespace
     ENV['HOME'] = @oldhome
