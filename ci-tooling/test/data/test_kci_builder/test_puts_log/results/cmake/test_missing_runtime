@@ -3,7 +3,7 @@
   valid: true
   errors: []
   warnings:
-  - KF5Package
+  - Qt5Multimedia
   informations: []
 - !ruby/object:Lint::Result
   valid: false

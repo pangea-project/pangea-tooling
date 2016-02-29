@@ -13,7 +13,7 @@
   - 'W: cantor: desktop-mime-but-no-exec-code usr/share/applications/org.kde.cantor.desktop1'
   informations:
   - 'I: bar'
-  - 'N: 2 tags overridden (1 error, 1 warning)'
+  - 'I: kittens'
 - !ruby/object:Lint::Result
   valid: false
   errors: []

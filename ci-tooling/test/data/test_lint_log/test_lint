@@ -93,6 +93,7 @@ W: cantor: desktop-mime-but-no-exec-code usr/share/applications/org.kde.cantor.d
 W: cantor: desktop-mime-but-no-exec-code usr/share/applications/org.kde.cantor.desktop1
 E: foo
 I: bar
+I: kittens
 N: 2 tags overridden (1 error, 1 warning)
 === End lintian
 rm ../.pkg-kde-lintian.changes
