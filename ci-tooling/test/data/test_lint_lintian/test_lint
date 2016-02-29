@@ -17,7 +17,9 @@ W: cantor: desktop-mime-but-no-exec-code usr/share/applications/org.kde.cantor.d
 E: cantor: symbols-file-contains-current-version-with-debian-revision on symbol _ZN5CEGUI10ButtonBase11onMouseMoveERNS_14MouseEventArgsE@Base and 9031 others
 E: foo
 I: bar
+I: kittens
 N: 2 tags overridden (1 error, 1 warning)
+random garbage line
 === End lintian
 rm ../.pkg-kde-lintian.changes
 make[1]: Leaving directory '/build/buildd/cantor-15.04.0+git20150428.0243+15.04'

@@ -40,9 +40,15 @@ module Lint
 
       private
 
-      def exclude?(line)
+      def static_exclude?(line)
         # Always exclude random warnings from lintian itself.
         return true if line.start_with?('warning: ')
+        # Also silly override reports.
+        return true if line =~ /N: \d+ tags overridden \(.*\)/
+      end
+
+      def exclude?(line)
+        return true if static_exclude?(line)
         EXCLUSION.each do |e|
           next unless line.include?(e)
           return true
@@ -61,9 +67,10 @@ module Lint
           result.warnings << line
         when 'E:'
           result.errors << line
-        else
+        when 'I:'
           result.informations << line
         end
+        # else: skip
       end
     end
   end
