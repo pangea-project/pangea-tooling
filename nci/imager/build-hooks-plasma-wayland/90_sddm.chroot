@@ -1,7 +1,10 @@
 #!/bin/sh
 set -e
-wget https://launchpad.net/~kubuntu-ci/+archive/ubuntu/unstable/+files/sddm_0.13.0+git20160222.0023+15.10-0_amd64.deb
-dpkg --install sddm_0.13.0+git20160222.0023+15.10-0_amd64.deb || apt -f -y install
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D807A3EA3406394874332063A12B6139432062D1
+echo "deb http://ppa.launchpad.net/kubuntu-ci/unstable/ubuntu wily main" >> /etc/apt/sources.list.d/kubuntu-ci.list
+apt-get update
+apt-get install -y sddm
+
 cat <<EOF > /etc/sddm.conf
 [Autologin]
 User=ubuntu
