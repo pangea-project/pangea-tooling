@@ -84,15 +84,12 @@ class DeployUpgradeTest < TestCase
   end
 
   def test_no_argv0
-    ENV['EXCON_DEBUG'] = 'true'
     vcr_it(__method__) do
       c = CI::Containment.new(@job_name, image: @image, binds: @binds)
       cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh']
       ret = c.run(Cmd: cmd)
       assert_equal(1, ret)
     end
-  ensure
-    ENV.delete('EXCON_DEBUG')
   end
 
   def test_no_argv1
