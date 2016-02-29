@@ -27,4 +27,4 @@ NCI.setup_repo!
 builder = CI::PackageBuilder.new
 builder.build
 
-require_relative 'lint_bin'
+require_relative 'lint_bin' if File.exist?('build_url')
