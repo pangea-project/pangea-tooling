@@ -15,6 +15,7 @@ git.debian.org:
     - qtcurve
     - qt-gstreamer
     - telepathy-accounts-signon
+    - libkgapi
   - pkg-kde/kde-req/qca-qt5
   - pkg-kde/kde-std/sddm
   - pkg-kde/plasma:
