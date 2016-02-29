@@ -105,6 +105,13 @@ class VCSBuilderTest < TestCase
     assert_equal("2.10+git20150717.1756+#{OS::VERSION_ID}", r.version)
     assert_equal("hello_2.10+git20150717.1756+15.04.dsc", r.dsc)
     assert_not_nil(r.build_version)
+
+    # Make sure we have source files in our tarball.
+    Dir.chdir('build/') do
+      assert(system("dpkg-source -x #{r.dsc}"))
+      assert_path_exist("#{r.name}-#{r.version}/debian")
+      assert_path_exist("#{r.name}-#{r.version}/sourcey.file")
+    end
   end
 
   def test_empty_install
