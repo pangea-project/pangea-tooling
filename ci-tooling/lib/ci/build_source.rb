@@ -64,30 +64,24 @@ module CI
       @version_enforcer.validate(@source.version)
     end
 
+    # Copies the source/ source tree into the target and strips it off a
+    # possible debian/ directory.
+    # @note this wipes BUILD_DIR
     def copy_source
       # copy sources around
       FileUtils.rm_rf(BUILD_DIR, verbose: true)
-
-      # Allow support for format 1.0 and quilt
-      source_dir = 'source'
-
-      FileUtils.mkpath("#{BUILD_DIR}/source")
-      # Legacy behavior was to ignore missing source directories. Using the
-      # fileutils /. notation does not allow for this though.
-      # FIXME: deprecate away from this and let missing sources fail!
-      #   if a native doesn't have packaging or a non-native no source that is
-      #   rather a problem
-      if Dir.exist?(source_dir)
-        # NOTE: /. is fileutils notation for recursive content
-        FileUtils.cp_r("#{source_dir}/.", "#{BUILD_DIR}/source/", verbose: true)
-      end
-
-      %w(.bzr .git .hg .svn).each do |dir|
-        FileUtils.rm_rf(Dir.glob("#{BUILD_DIR}/source/**/#{dir}"))
-      end
+      copy_source_tree('source')
       if Dir.exist?("#{BUILD_DIR}/source/debian")
         FileUtils.rm_rf(Dir.glob("#{BUILD_DIR}/source/debian"))
       end
+    end
+
+    # Copies the packaging/ source tree into the target.
+    # This overwrites files previously created by #{copy_source} if there are
+    # name clashes.
+    def copy_packaging
+      # Copy some more
+      copy_source_tree('packaging')
     end
 
     def create_orig_tar
@@ -102,11 +96,6 @@ module CI
           raise 'Failed to compress the tarball' unless system("xz -6 #{tar}")
         end
       end
-    end
-
-    def copy_packaging
-      # Copy some more
-      FileUtils.cp_r('packaging/debian', 'build/source/', verbose: true)
     end
 
     def log_change
@@ -160,6 +149,22 @@ module CI
     end
 
     private
+
+    # Copies a source tree to the target source directory
+    # @param source_dir the directory to copy from (all content within will
+    #   be copied)
+    # @note this will create BUILD_DIR/source if it doesn't exist
+    # @note this will strip the copied source of version control directories
+    def copy_source_tree(source_dir)
+      FileUtils.mkpath("#{BUILD_DIR}/source")
+      if Dir.exist?(source_dir)
+        # /. is fileutils notation for recursive content
+        FileUtils.cp_r("#{source_dir}/.", "#{BUILD_DIR}/source/", verbose: true)
+      end
+      %w(.bzr .git .hg .svn).each do |dir|
+        FileUtils.rm_rf(Dir.glob("#{BUILD_DIR}/source/**/#{dir}"))
+      end
+    end
 
     def mangle!
       # Rip out locale install
