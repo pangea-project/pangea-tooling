@@ -329,36 +329,6 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:04 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/f7cdc410371fc96322aa30ebfc70e9ab72c0212cd523bdbb8be363a9b2070d4e/attach?stderr=true&stdout=true&stream=true
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Swipely/Docker-API 1.22.4
-      Content-Type:
-      - text/plain
-  response:
-    status:
-      code: 200
-      message: 
-    headers:
-      Content-Type:
-      - application/vnd.docker.raw-stream
-    body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        AgAAAAAAAAMrIFsBAAAAAAAAcC90b29saW5nLXBlbmRpbmcvZGVwbG95X3Vw
-        Z3JhZGVfY29udGFpbmVyLnNoIGNhbGxlZCB3aXRoIG5vIGFyZ3VtZW50IGZy
-        b20gd2hlcmUgdG8gdHJhbnNpdGlvbiBmcm9tIChhcmd1bWVudCAxKQoCAAAA
-        AAAAhyAteiAgXQorIGVjaG8gL3Rvb2xpbmctcGVuZGluZy9kZXBsb3lfdXBn
-        cmFkZV9jb250YWluZXIuc2ggY2FsbGVkIHdpdGggbm8gYXJndW1lbnQgZnJv
-        bSB3aGVyZSB0byB0cmFuc2l0aW9uIGZyb20gKGFyZ3VtZW50IDEpCisgZXhp
-        dCAxCg==
-    http_version: 
-  recorded_at: Thu, 01 Oct 2015 10:43:04 GMT
-- request:
-    method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/f7cdc410371fc96322aa30ebfc70e9ab72c0212cd523bdbb8be363a9b2070d4e/wait
     body:
       encoding: US-ASCII

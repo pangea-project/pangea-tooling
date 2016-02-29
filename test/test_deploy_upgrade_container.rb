@@ -35,6 +35,12 @@ class DeployUpgradeTest < TestCase
   # :nocov:
 
   def setup
+    # Disable attaching as on failure attaching can happen too late or not
+    # at all as it depends on thread execution order.
+    # This can cause falky tests and is not relevant to the test outcome for
+    # any test.
+    CI::Containment.no_attach = true
+
     VCR.configure do |config|
       config.cassette_library_dir = @datadir
       config.hook_into :excon
