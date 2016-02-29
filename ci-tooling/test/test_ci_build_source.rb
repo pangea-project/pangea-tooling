@@ -103,7 +103,7 @@ class VCSBuilderTest < TestCase
     assert_equal(:native, r.type)
     assert_equal('hello', r.name)
     assert_equal("2.10+git20150717.1756+#{OS::VERSION_ID}", r.version)
-    assert_equal("hello_2.10+git20150717.1756+15.04.dsc", r.dsc)
+    assert_equal('hello_2.10+git20150717.1756+15.04.dsc', r.dsc)
     assert_not_nil(r.build_version)
 
     # Make sure we have source files in our tarball.
