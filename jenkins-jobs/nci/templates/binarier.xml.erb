@@ -33,11 +33,17 @@
       <command>
 export DIST=<%= distribution %>
 export TYPE=<%= type %>
+echo $BUILD_URL > build_url # for lint_bin
 ~/tooling/kci/contain.rb /var/lib/jenkins/ci-tooling/nci/builder.rb $JOB_NAME `pwd`
       </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.9">
+      <testResults>reports/*.xml</testResults>
+      <keepLongStdio>false</keepLongStdio>
+      <healthScaleFactor>1.0</healthScaleFactor>
+    </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.tasks.ArtifactArchiver>
       <artifacts>*.deb,*.changes</artifacts>
       <excludes>*_source.changes</excludes>

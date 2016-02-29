@@ -26,3 +26,5 @@ NCI.setup_repo!
 
 builder = CI::PackageBuilder.new
 builder.build
+
+require_relative 'lint_bin'
