@@ -10,6 +10,8 @@ packaging.neon.kde.org.uk:
         branch: master
     - base-files:
         branch: master
+    - plasma-wayland-meta:
+        branch: master
   - qt:
     - '*':
         branch: Neon/5.5

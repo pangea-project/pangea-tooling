@@ -84,7 +84,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           wayland_isoargs = { type: type,
                               distribution: distribution,
                               architecture: architecture,
-                              metapackage: 'plasma-wayland-ci-live',
+                              metapackage: 'plasma-wayland-desktop',
                               imagename: 'plasma-wayland' }
           enqueue(NeonIsoJob.new(wayland_isoargs))
         end
