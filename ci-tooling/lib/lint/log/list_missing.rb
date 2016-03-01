@@ -12,7 +12,11 @@ module Lint
         data = segmentify(data,
                           "=== Start list-missing\n",
                           "=== End list-missing\n")
-        r.valid = !data.empty?
+        # TODO: This doesn't really make sense? What does valid mean anyway?
+        #  should probably be if the linting was able to be done, which is not
+        #  asserted by this at all. segmentify would need to raise on
+        # missing blocks
+        r.valid = true
         data.each do |line|
           r.errors << line
         end
