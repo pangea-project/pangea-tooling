@@ -169,7 +169,7 @@ class KCIBuilderTest < TestCase
         dir = File.basename(File.dirname(f))
         file = File.basename(f)
         ref = YAML.load(File.read("#{results_dir}/#{dir}/#{file}"))
-        assert_equal(ref, results)
+        assert_equal(ref, results, "#{dir}/#{file}")
       end
       results.each do |result|
         result.all.each do |message|
