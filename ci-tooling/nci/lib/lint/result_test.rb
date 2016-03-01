@@ -37,7 +37,8 @@ module Lint
   # Convenience class to test lint results
   class ResultTest < Test::Unit::TestCase
     def join(array)
-      array.join("\n")
+      # Add terminating nils to get an extra newlines
+      (array + [nil, nil]).join("\n")
     end
 
     def result_notify(array)
