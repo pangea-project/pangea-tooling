@@ -42,7 +42,8 @@ BUILD_URL = File.read('build_url').chop
 LOG_URL = "#{BUILD_URL}/consoleText".freeze
 
 module Lint
-  class TestCase < Test::Unit::TestCase
+  # Convenience class to test lint results
+  class ResultTest < Test::Unit::TestCase
     def assert_result(result)
       notify(result.warnings.join("\n")) unless result.warnings.empty?
       notify(result.informations.join("\n")) unless result.informations.empty?
@@ -52,7 +53,8 @@ module Lint
     end
   end
 
-  class TestLog < TestCase
+  # Test build log data.
+  class TestLog < ResultTest
     def initialize(*args)
       super
       @log_orig = open(LOG_URL).read.freeze
@@ -75,7 +77,8 @@ module Lint
     end
   end
 
-  class TestPackaging < TestCase
+  # Test static files.
+  class TestPackaging < ResultTest
     def setup
       @dir = 'build'.freeze
     end
