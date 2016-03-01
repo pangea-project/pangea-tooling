@@ -172,7 +172,7 @@ class ProjectTest < TestCase
     tmpdir = Dir.mktmpdir(self.class.to_s)
     Dir.chdir(tmpdir) do
       slashed_gitrepo = gitrepo.gsub('/', '//').sub('//', '/') + '/'
-      assert_raise Project::GitTransactionError do
+      assert_raise Project::GitNoBranchError do
         Project.new(name, component, slashed_gitrepo, branch: 'kittens')
       end
     end

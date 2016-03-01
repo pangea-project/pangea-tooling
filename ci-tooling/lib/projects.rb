@@ -40,6 +40,9 @@ class Project
   class TransactionError < Error; end
   class BzrTransactionError < TransactionError; end
   class GitTransactionError < TransactionError; end
+  # Derives from RuntimeError because someone decided to resuce Transaction
+  # and Runtime in factories only...
+  class GitNoBranchError < RuntimeError; end
 
   extend Deprecate
 
@@ -228,6 +231,17 @@ class Project
       raise BzrTransactionError, "Could not checkout #{uri}"
     end
 
+    # Separation method. Within the context of a checkout an execution error
+    # is not a transaction error, but simply means the branch does not exist.
+    # This type of error is different from a TransactionError in that it is
+    # not retriable (or rather it makes no sense to retry as the branch is not
+    # going to magically appear).
+    def git_checkout(repo, branch)
+      repo.checkout("origin/#{branch}")
+    rescue Git::GitExecuteError
+      raise GitNoBranchError, "origin/#{branch}"
+    end
+
     def update_git(branch, dir = Dir.pwd)
       repo = Git.open(dir)
       repo.clean(force: true, d: true)
@@ -235,7 +249,7 @@ class Project
       repo.gc
       repo.config('remote.origin.prune', true)
       repo.fetch('origin')
-      repo.checkout("origin/#{branch}")
+      git_checkout(repo, branch)
     rescue Git::GitExecuteError => e
       raise GitTransactionError, e
     end
