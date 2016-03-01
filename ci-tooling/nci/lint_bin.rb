@@ -19,6 +19,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+# FIXME: we manually load the reporter here because we install it from git
+#   and would need bundler to load it properly, alas, bundler can't help
+#   either because in containers we throw away gemfile and friends on
+#   account of only using ci-tooling/
+#   Ideally we'd simply have the gem updated properly so we don't need
+#   git anymore.
 REPORTER = 'ci_reporter_test_unit-5c6c30d120a3'.freeze
 require format("#{Gem.default_dir}/bundler/gems/#{REPORTER}/lib/%s",
                'ci/reporter/rake/test_unit_loader')
