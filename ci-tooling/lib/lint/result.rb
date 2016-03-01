@@ -20,6 +20,13 @@ module Lint
       @informations += other.informations
     end
 
+    def uniq
+      @errors.uniq!
+      @warnings.uniq!
+      @informations.uniq!
+      self
+    end
+
     def all
       @errors + @warnings + @informations
     end

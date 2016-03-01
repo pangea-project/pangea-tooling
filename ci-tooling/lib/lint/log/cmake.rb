@@ -28,9 +28,7 @@ module Lint
         data = segmentify(data, 'dh_auto_configure', 'dh_auto_build')
         r.valid = !data.empty?
         parse(data, r)
-        r.informations.uniq!
-        r.warnings.uniq!
-        r.errors.uniq!
+        r.uniq
         r
       end
 
