@@ -36,11 +36,23 @@ require 'test/unit'
 module Lint
   # Convenience class to test lint results
   class ResultTest < Test::Unit::TestCase
+    def join(array)
+      array.join("\n")
+    end
+
+    def result_notify(array)
+      notify(join(array)) unless array.empty?
+    end
+
+    def result_flunk(array)
+      flunk(join(array)) unless array.empty?
+    end
+
     def assert_result(result)
-      notify(result.warnings.join("\n")) unless result.warnings.empty?
-      notify(result.informations.join("\n")) unless result.informations.empty?
+      result_notify(result.warnings)
+      result_notify(result.informations)
       # Flunking fails the test entirely, so this needs to be at the very end!
-      flunk(result.errors.join("\n")) unless result.errors.empty?
+      result_flunk(result.errors)
       # FIXME: valid means nothing concrete so we skip it for now
       # assert(result.valid, "Lint result not valid ::\n #{result.inspect}")
     end
