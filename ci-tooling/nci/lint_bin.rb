@@ -48,7 +48,7 @@ module Lint
       notify(result.informations.join("\n")) unless result.informations.empty?
       # Flunking fails the test entirely, so this needs to be at the very end!
       flunk(result.errors.join("\n")) unless result.errors.empty?
-      assert(result.valid, "Lint result not valid ::\n #{result}")
+      assert(result.valid, "Lint result not valid ::\n #{result.inspect}")
     end
   end
 
