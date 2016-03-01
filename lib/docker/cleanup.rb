@@ -55,6 +55,10 @@ module Docker
       repo_tags = image.info.fetch('RepoTags') { [] }
       # We only care about first possible tag.
       repo, _tag = Docker::Util.parse_repo_tag(repo_tags.first || '')
+      # <shadeslayer> well, it'll be fixed as soon as Debian unstable gets
+      #   fixed?
+      # Also see mgmt/docker.rb
+      force = true if repo == 'pangea/debian'
       # Remove all our containers and containers from a dangling image.
       # Dangling in this case would be any image that isn't tagged.
       return unless force || !repo.include?(CI::PangeaImage.namespace)
