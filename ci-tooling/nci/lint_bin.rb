@@ -36,6 +36,7 @@ require_relative '../lib/lint/symbols'
 
 ENV['CI_REPORTS'] = "#{Dir.pwd}/reports".freeze
 
+# FIXME: should use env not the marker file
 # BUILD_URL = ENV.fetch('BUILD_URL')
 BUILD_URL = File.read('build_url').chop
 LOG_URL = "#{BUILD_URL}/consoleText".freeze
