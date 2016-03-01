@@ -3,6 +3,7 @@ require_relative 'build_log_segmenter'
 
 module Lint
   class Log
+    # Parses list-missing block from a build log.
     class ListMissing < Linter
       include BuildLogSegmenter
 
