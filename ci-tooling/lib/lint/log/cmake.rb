@@ -86,7 +86,7 @@ module Lint
         return [] if line.include?('CMake Warning at ' \
           '/usr/share/kde4/apps/cmake/modules/MacroOptionalFindPackage.cmake')
         # Lines coming from find_package (from old parsing).
-        return [] if line.match(/CMake Warning at [^ :]+:\d+ \(find_package\)/)
+        return [] if line =~ /CMake Warning at [^ :]+:\d+ \(find_package\)/
         # Lines coming from warnings inside the actual CMakeLists.txt as those
         # can be arbitrary.
         # ref: "CMake Warning at src/worker/CMakeLists.txt:33 (message):"
