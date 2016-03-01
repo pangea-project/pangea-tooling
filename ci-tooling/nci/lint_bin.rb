@@ -44,11 +44,11 @@ LOG_URL = "#{BUILD_URL}/consoleText".freeze
 module Lint
   class TestCase < Test::Unit::TestCase
     def assert_result(result)
-      assert(result.valid, "Lint result not valid ::\n #{result}")
       notify(result.warnings.join("\n")) unless result.warnings.empty?
       notify(result.informations.join("\n")) unless result.informations.empty?
       # Flunking fails the test entirely, so this needs to be at the very end!
       flunk(result.errors.join("\n")) unless result.errors.empty?
+      assert(result.valid, "Lint result not valid ::\n #{result}")
     end
   end
 
