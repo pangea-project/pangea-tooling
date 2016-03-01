@@ -55,7 +55,7 @@ module Lint
   class TestLog < TestCase
     def initialize(*args)
       super
-      @log_orig = open(LOG_URL).read
+      @log_orig = open(LOG_URL).read.freeze
     end
 
     def setup
