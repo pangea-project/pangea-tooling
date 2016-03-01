@@ -294,7 +294,7 @@ class Project
   end
 
   def get
-    Retry.retry_it(errors: [TransactionError], times: 5) do
+    Retry.retry_it(errors: [TransactionError], times: 2, sleep: 5) do
       if @component == 'launchpad'
         self.class.get_bzr(@packaging_scm.url, @name)
       else
@@ -304,7 +304,7 @@ class Project
   end
 
   def update(branch)
-    Retry.retry_it(errors: [TransactionError], times: 5) do
+    Retry.retry_it(errors: [TransactionError], times: 2, sleep: 5) do
       if @component == 'launchpad'
         self.class.update_bzr(branch)
       else
