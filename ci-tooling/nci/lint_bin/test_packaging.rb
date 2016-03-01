@@ -43,8 +43,10 @@ module Lint
       assert_result Symbols.new(@dir).lint
     end
 
-    def test_merge_markers
-      assert_result MergeMarker.new(@dir).lint
-    end
+    # FIXME: merge_marker disabled as we run after build and after build
+    #   debian/ contains debian/tmp and others with binary artifacts etcpp..
+    # def test_merge_markers
+    #   assert_result MergeMarker.new("#{@dir}/debian").lint
+    # end
   end
 end
