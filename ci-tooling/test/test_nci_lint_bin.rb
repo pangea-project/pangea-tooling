@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # frozen_string_literal: true
 #
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
@@ -19,12 +18,43 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-ENV['CI_REPORTS'] = "#{Dir.pwd}/reports".freeze
-# FIXME: should use env not the marker file
-# BUILD_URL = ENV.fetch('BUILD_URL')
-BUILD_URL = File.read('build_url').strip
-ENV['LOG_URL'] = "#{BUILD_URL}/consoleText".freeze
+require_relative 'lib/testcase'
 
-Dir.glob(File.expand_path('lint_bin/test_*.rb', __dir__)).each do |file|
-  require file
+class NCILintBinTest < TestCase
+  def setup
+    ENV['BUILD_URL'] = '/'
+  end
+
+  def teardown
+    ENV.delete('BUILD_URL')
+  end
+
+  def run!
+    `ruby #{__dir__}/../nci/lint_bin.rb 2> /dev/stdout`
+  end
+
+  description 'fail to run on account of no url file'
+  def test_fail
+    run!
+
+    assert_not_equal(0, $?.to_i)
+    assert_path_not_exist('reports')
+  end
+
+  description 'should work with a good url'
+  def test_run
+    ENV['BUILD_URL'] = data
+    File.write('build_url', data)
+
+    FileUtils.mkpath('build') # Dump a fake debian in.
+    FileUtils.cp_r("#{@datadir}/debian", "#{Dir.pwd}/build")
+
+    run!
+
+    assert_equal(0, $?.to_i)
+    assert_path_exist('reports')
+    Dir.glob("#{data('reports')}/*").each do |r|
+      assert_path_exist("reports/#{File.basename(r)}")
+    end
+  end
 end

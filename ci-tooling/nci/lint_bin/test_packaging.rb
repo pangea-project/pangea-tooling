@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # frozen_string_literal: true
 #
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
@@ -19,12 +18,33 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-ENV['CI_REPORTS'] = "#{Dir.pwd}/reports".freeze
-# FIXME: should use env not the marker file
-# BUILD_URL = ENV.fetch('BUILD_URL')
-BUILD_URL = File.read('build_url').strip
-ENV['LOG_URL'] = "#{BUILD_URL}/consoleText".freeze
+require_relative '../../lib/lint/control'
+require_relative '../../lib/lint/merge_marker'
+require_relative '../../lib/lint/series'
+require_relative '../../lib/lint/symbols'
+require_relative '../lib/lint/result_test'
 
-Dir.glob(File.expand_path('lint_bin/test_*.rb', __dir__)).each do |file|
-  require file
+module Lint
+  # Test static files.
+  class TestPackaging < ResultTest
+    def setup
+      @dir = 'build'.freeze
+    end
+
+    def test_control
+      assert_result Control.new(@dir).lint
+    end
+
+    def test_series
+      assert_result Series.new(@dir).lint
+    end
+
+    def test_symbols
+      assert_result Symbols.new(@dir).lint
+    end
+
+    def test_merge_markers
+      assert_result MergeMarker.new(@dir).lint
+    end
+  end
 end
