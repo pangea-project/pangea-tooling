@@ -37,7 +37,7 @@ require_relative '../lib/lint/symbols'
 ENV['CI_REPORTS'] = "#{Dir.pwd}/reports".freeze
 
 # BUILD_URL = ENV.fetch('BUILD_URL')
-BUILD_URL = File.read('build_url')
+BUILD_URL = File.read('build_url').chop
 LOG_URL = "#{BUILD_URL}/consoleText".freeze
 
 module Lint
