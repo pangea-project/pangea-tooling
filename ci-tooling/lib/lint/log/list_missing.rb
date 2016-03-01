@@ -17,9 +17,10 @@ module Lint
         #  asserted by this at all. segmentify would need to raise on
         # missing blocks
         r.valid = true
-        data.each do |line|
-          r.errors << line
-        end
+        data.each { |line| r.errors << line }
+        r
+      rescue BuildLogSegmenter::SegmentMissingError => e
+        puts "#{self.class}: in log #{e.message}"
         r
       end
     end

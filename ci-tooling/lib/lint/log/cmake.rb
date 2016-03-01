@@ -26,9 +26,11 @@ module Lint
       def lint(data)
         r = Result.new
         data = segmentify(data, 'dh_auto_configure', 'dh_auto_build')
-        r.valid = !data.empty?
+        r.valid = true
         parse(data, r)
         r.uniq
+      rescue BuildLogSegmenter::SegmentMissingError => e
+        puts "#{self.class}: in log #{e.message}"
         r
       end
 

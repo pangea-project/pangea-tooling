@@ -31,10 +31,13 @@ module Lint
       def lint(data)
         r = Result.new
         data = segmentify(data, "=== Start lintian\n", "=== End lintian\n")
-        r.valid = !data.empty?
+        r.valid = true
         data.each do |line|
           lint_line(line, r)
         end
+        r
+      rescue BuildLogSegmenter::SegmentMissingError => e
+        puts "#{self.class}: in log #{e.message}"
         r
       end
 
