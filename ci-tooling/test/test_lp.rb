@@ -156,6 +156,9 @@ class LaunchpadTest < TestCase
       .to_return(body: access_response)
 
     stdinit do |input|
+      # Make sure we don't simply #gets without IO object as that would read
+      # ARGV which would then attempt to read the file 'drumpf'
+      ARGV << 'drumpf'
       input.puts 'done'
       token = Launchpad.authenticate
     end
@@ -166,6 +169,8 @@ class LaunchpadTest < TestCase
     assert_equal(@oauth_token_secret, token.secret)
     assert_equal(JSON.parse(@token_json),
                  JSON.parse(File.read('.config/lp-tokens.json')))
+  ensure
+    ARGV.pop if ARGV[-1] == 'drumpf'
   end
 
   def test_get_through_token

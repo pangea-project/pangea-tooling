@@ -101,7 +101,7 @@ module Launchpad
     puts request_token.authorize_url(oauth_callback: '')
     loop do
       puts 'Type "done" and hit enter when done'
-      break if gets.strip == 'done'
+      break if $stdin.gets.strip == 'done'
     end
     request_token.get_access_token.params
   end
