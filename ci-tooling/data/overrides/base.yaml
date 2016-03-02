@@ -10,6 +10,11 @@
     upstream_scm:
       url: git://anongit.kde.org/discover.git
 
+'*{debian.org,packaging.neon}*/plasma/kactivitymanagerd':
+  '{kubuntu_stable,Neon/stable}':
+    upstream_scm:
+      branch: master
+
 # Apps
 
 '*{debian.org,packaging.neon}*/applications/*':
