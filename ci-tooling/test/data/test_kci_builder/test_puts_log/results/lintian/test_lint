@@ -15,7 +15,7 @@
   - 'I: bar'
   - 'I: kittens'
 - !ruby/object:Lint::Result
-  valid: false
+  valid: true
   errors: []
   warnings: []
   informations: []

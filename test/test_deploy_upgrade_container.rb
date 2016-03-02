@@ -35,7 +35,12 @@ class DeployUpgradeTest < TestCase
   # :nocov:
 
   def setup
-    ENV['EXCON_DEBUG'] = 'true'
+    # Disable attaching as on failure attaching can happen too late or not
+    # at all as it depends on thread execution order.
+    # This can cause falky tests and is not relevant to the test outcome for
+    # any test.
+    CI::Containment.no_attach = true
+
     VCR.configure do |config|
       config.cassette_library_dir = @datadir
       config.hook_into :excon
@@ -58,7 +63,6 @@ class DeployUpgradeTest < TestCase
   end
 
   def teardown
-    ENV.delete('EXCON_DEBUG')
     VCR.turned_off do
       cleanup_container
     end
@@ -84,15 +88,12 @@ class DeployUpgradeTest < TestCase
   end
 
   def test_no_argv0
-    ENV['EXCON_DEBUG'] = 'true'
     vcr_it(__method__) do
       c = CI::Containment.new(@job_name, image: @image, binds: @binds)
       cmd = ['sh', '/tooling-pending/deploy_upgrade_container.sh']
       ret = c.run(Cmd: cmd)
       assert_equal(1, ret)
     end
-  ensure
-    ENV.delete('EXCON_DEBUG')
   end
 
   def test_no_argv1

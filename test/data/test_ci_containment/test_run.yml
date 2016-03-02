@@ -329,30 +329,6 @@ http_interactions:
   recorded_at: Tue, 15 Sep 2015 11:16:01 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/e65597d7e6ec06652ed78cc2a3f3d8936d557b0122ae41e12a3ec68bbc24205b/attach?stderr=true&stdout=true&stream=true
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Swipely/Docker-API 1.22.4
-      Content-Type:
-      - text/plain
-  response:
-    status:
-      code: 200
-      message: 
-    headers:
-      Content-Type:
-      - application/vnd.docker.raw-stream
-    body:
-      encoding: UTF-8
-      string: !binary |-
-        AQAAAAAAABR2aXZpZF91bnN0YWJsZV90ZXN0Cg==
-    http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:16:01 GMT
-- request:
-    method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/e65597d7e6ec06652ed78cc2a3f3d8936d557b0122ae41e12a3ec68bbc24205b/wait
     body:
       encoding: US-ASCII
@@ -630,29 +606,6 @@ http_interactions:
     headers:
       Date:
       - Tue, 15 Sep 2015 11:16:06 GMT
-    body:
-      encoding: UTF-8
-      string: ''
-    http_version: 
-  recorded_at: Tue, 15 Sep 2015 11:16:06 GMT
-- request:
-    method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/44f1937cbdb10f127fdada2f9cb1543eb34ac826633e675d4fedd06696180e35/attach?stderr=true&stdout=true&stream=true
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Swipely/Docker-API 1.22.4
-      Content-Type:
-      - text/plain
-  response:
-    status:
-      code: 200
-      message: 
-    headers:
-      Content-Type:
-      - application/vnd.docker.raw-stream
     body:
       encoding: UTF-8
       string: ''

@@ -29,6 +29,10 @@ module CI
   class Containment
     TRAP_SIGNALS = %w(EXIT HUP INT QUIT TERM).freeze
 
+    class << self
+      attr_accessor :no_attach
+    end
+
     attr_reader :name
     attr_reader :image
     attr_reader :binds
@@ -98,7 +102,7 @@ module CI
     def run(args)
       c = contain(args)
       # FIXME: port to logger
-      stdout_thread = attach_thread(c)
+      stdout_thread = attach_thread(c) unless self.class.no_attach
       return rescued_start(c)
     ensure
       stdout_thread.kill if defined?(stdout_thread) && !stdout_thread.nil?

@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # frozen_string_literal: true
 #
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
@@ -19,12 +18,34 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-ENV['CI_REPORTS'] = "#{Dir.pwd}/reports".freeze
-# FIXME: should use env not the marker file
-# BUILD_URL = ENV.fetch('BUILD_URL')
-BUILD_URL = File.read('build_url').strip
-ENV['LOG_URL'] = "#{BUILD_URL}/consoleText".freeze
+require 'open-uri'
 
-Dir.glob(File.expand_path('lint_bin/test_*.rb', __dir__)).each do |file|
-  require file
+require_relative '../../lib/lint/log'
+require_relative '../lib/lint/result_test'
+
+module Lint
+  # Test build log data.
+  # @note needs LOG_URL defined!
+  class TestLog < ResultTest
+    def initialize(*args)
+      super
+      @log_orig = open(ENV.fetch('LOG_URL')).read.freeze
+    end
+
+    def setup
+      @log = @log_orig.dup
+    end
+
+    def test_cmake
+      assert_result Log::CMake.new.lint(@log)
+    end
+
+    def test_lintian
+      assert_result Log::Lintian.new.lint(@log)
+    end
+
+    def test_list_missing
+      assert_result Log::ListMissing.new.lint(@log)
+    end
+  end
 end

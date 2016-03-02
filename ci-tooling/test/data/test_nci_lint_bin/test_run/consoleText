@@ -1,0 +1,117 @@
+dh_auto_configure '--buildsystem=kf5' --parallel  
+-- The C compiler identification is GNU 4.9.2
+-- The CXX compiler identification is GNU 4.9.2
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Looking for __GLIBC__
+-- Looking for __GLIBC__ - found
+-- Performing Test _OFFT_IS_64BIT
+-- Performing Test _OFFT_IS_64BIT - Success
+-- Found KF5GuiAddons: /usr/lib/x86_64-linux-gnu/cmake/KF5GuiAddons/KF5GuiAddonsConfig.cmake (found version "5.7.0") 
+-- Found Gettext: /usr/bin/msgmerge (found version "0.19.2") 
+-- Found PythonInterp: /usr/bin/python (found version "2.7.9") 
+-- Found KF5I18n: /usr/lib/x86_64-linux-gnu/cmake/KF5I18n/KF5I18nConfig.cmake (found version "5.7.0") 
+-- Found KF5KDELibs4Support: /usr/lib/x86_64-linux-gnu/cmake/KF5KDELibs4Support/KF5KDELibs4SupportConfig.cmake (found version "5.7.0") 
+-- Found KF5Parts: /usr/lib/x86_64-linux-gnu/cmake/KF5Parts/KF5PartsConfig.cmake (found version "5.7.0") 
+-- Found KF5WidgetsAddons: /usr/lib/x86_64-linux-gnu/cmake/KF5WidgetsAddons/KF5WidgetsAddonsConfig.cmake (found version "5.7.0") 
+-- Found KF5: success (found version "5.7.0") found components:  GuiAddons I18n KDELibs4Support Parts WidgetsAddons 
+CMake Warning at CMakeLists.txt:24 (find_package):
+  By not providing "FindKF5Package.cmake" in CMAKE_MODULE_PATH this project has
+  asked CMake to find a package configuration file provided by "KF5Package", but
+  CMake did not find one.
+
+  Could not find a package configuration file provided by "KF5Package" with any of
+  the following names:
+
+    KF5PackageConfig.cmake
+    KF5Package-config.cmake
+
+  Add the installation prefix of "KF5Package" to CMAKE_PREFIX_PATH or set
+  "KF5Package_DIR" to a directory containing one of the above files.  If "KF5Package"
+  provides a separate development package or SDK, be sure it has been
+  installed.
+
+
+-- Looking for include file ieeefp.h
+-- Looking for include file ieeefp.h - not found
+-- 
+-- The following REQUIRED packages have been found:
+
+ * ECM (required version >= 1.3.0)
+ * Qt5Core
+ * Qt5Gui
+ * Qt5Svg
+ * Qt5Widgets
+ * Qt5PrintSupport
+ * Qt5 (required version >= 5.3.0)
+ * KF5GuiAddons
+ * Gettext
+ * PythonInterp
+ * KF5I18n
+ * KF5KDELibs4Support
+ * KF5Parts
+ * KF5WidgetsAddons
+ * KF5
+
+-- The following OPTIONAL packages have not been found:
+
+ * KF5Package
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/me/src/git/k/kmplot/build
+make[1]: Leaving directory '/build/buildd/kanagram-14.12.2+git20150228.0146+15.04'
+touch debian/dhmk_configure
+# "configure" target is done
+/usr/bin/make -f debian/rules dhmk_run_build_commands DHMK_TARGET="build"
+make[1]: Entering directory '/build/buildd/kanagram-14.12.2+git20150228.0146+15.04'
+dh_testdir  
+dh_auto_build '--buildsystem=kf5' --parallel 
+ building package `cantor-dbg' in `../cantor-dbg_15.04.0+git20150428.0243+15.04-0ubuntu0_amd64.deb'.
+INFO: pkgstriptranslations version 121
+INFO: Disabling pkgstriptranslations for PPA build
+INFO: Disabling pkgmaintainermangler for PPA build
+INFO: Disabling pkgstripfiles for PPA build
+dpkg-deb: building package `cantor-backend-python' in `../cantor-backend-python_15.04.0+git20150428.0243+15.04-0ubuntu0_all.deb'.
+=== Start list-missing
+=== End list-missing
+dpkg-genchanges > ../.pkg-kde-lintian.changes
+dpkg-genchanges: including full source code in upload
+=== Start lintian
+warning: the authors of lintian do not recommend running it with root privileges!
+W: cantor source: out-of-date-standards-version 3.9.5 (current is 3.9.6)
+W: cantor-backend-octave: package-has-long-file-name 73 (82) > 80
+W: cantor: desktop-mime-but-no-exec-code usr/share/applications/org.kde.cantor.desktop
+W: cantor: desktop-mime-but-no-exec-code usr/share/applications/org.kde.cantor.desktop1
+I: bar
+I: kittens
+N: 2 tags overridden (1 error, 1 warning)
+random garbage line
+=== End lintian
+rm ../.pkg-kde-lintian.changes
+make[1]: Leaving directory '/build/buildd/cantor-15.04.0+git20150428.0243+15.04'
+# "binary" target is done
+-- SUCCESS making standard target 'binary'.
+ dpkg-genchanges -b -mUbuntu Build Daemon <buildd@lgw01-18.buildd> >../cantor_15.04.0+git20150428.0243+15.04-0ubuntu0_amd64.changes
+dpkg-genchanges: binary-only upload (no source code included)
+ dpkg-source --after-build cantor-15.04.0+git20150428.0243+15.04
+dpkg-buildpackage: binary-only upload (no source included)
+******************************************************************************
+Build finished at 20150428-0254
+
+chroot-autobuild/build/buildd/cantor_15.04.0+git20150428.0243+15.04-0ubuntu0_amd64.deb:
+ new debian package, version 2.0.
+ size 372596 bytes: control archive=3863 bytes.
+     138 bytes,     5 lines      conffiles            
+    2260 bytes,    30 lines      control              
+    6062 bytes,    71 lines      md5sums              
+     135 bytes,     7 lines   *  postinst             #!/bin/sh
+     132 bytes,     7 lines   *  postrm               #!/bin/sh
+      61 bytes,     1 lines      shlibs               
+ Package: cantor
