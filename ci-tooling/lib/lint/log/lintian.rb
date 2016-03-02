@@ -20,6 +20,8 @@ module Lint
         # ignore any and all manpage warnings to save Harald from having to
         # override them in every single application repository.
         'binary-without-manpage',
+        # Equally we don't really care enough about malformed manpages.
+        'manpage-has-errors-from-man',
         # TODO: check if we still need or want these
         # next if line.include?('not-binnmuable-any-depends-all')
         # Lintian is made for stupid people.
