@@ -227,16 +227,6 @@ https://github.com/plasma-phone-packaging/screenshotapp:
     upstream_scm:
       url: https://github.com/plasma-apps/screenshotapp.git
 
-https://github.com/plasma-phone-packaging/peruse:
-  '{kubuntu_unstable,Neon/unstable}':
-    upstream_scm:
-      url: git://anongit.kde.org/peruse
-
-https://github.com/plasma-phone-packaging/spacebar:
-  '{kubuntu_unstable,Neon/unstable}':
-    upstream_scm:
-      url: git://anongit.kde.org/spacebar
-
 https://github.com/plasma-phone-packaging/inputcontext-gtk:
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
@@ -247,6 +237,12 @@ https://github.com/plasma-phone-packaging/libhybris:
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       url: https://github.com/libhybris/libhybris.git
+
+https://github.com/plasma-phone-packaging/videoPlayer-packaging
+  '{kubuntu_unstable,Neon/unstable}':
+    upstream_scm:
+      url: https://github.com/plasma-apps/videoPlayer.git
+      branch: plasma
 
 https://github.com/debian-packaging/mintupdate:
   '{kubuntu_unstable,Neon/unstable}':

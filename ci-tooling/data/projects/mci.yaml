@@ -80,7 +80,7 @@ github.com:
     - inputcontext-gtk
     - libhybris
     - peruse
-    - appstream
+    - videoPlayer-packaging
 
 launchpad.net:
   - ubuntu-filemanager-app
