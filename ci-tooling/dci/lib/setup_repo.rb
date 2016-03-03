@@ -32,7 +32,7 @@ module DCI
   def setup_repo!
     setup_backports! unless ENV.fetch('DIST') == 'unstable'
 
-    repos = %w(frameworks plasma odroid netrunner)
+    repos = %w(frameworks plasma odroid)
     repos += %w(backports qt5) if ENV.fetch('DIST') == 'stable'
 
     repos.each do |repo|

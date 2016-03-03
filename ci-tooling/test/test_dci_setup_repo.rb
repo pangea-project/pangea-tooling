@@ -55,7 +55,6 @@ class DCISetupRepoTest < TestCase
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/frameworks stable main'],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/plasma stable main'],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/odroid stable main'],
-      ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/netrunner stable main'],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/backports stable main'],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/qt5 stable main'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'update'],
