@@ -80,7 +80,7 @@ bundle pack --all --all-platforms --no-install
 find ./vendor/cache/* -maxdepth 0 -type d | xargs rm -r
 
 rm tooling.tar.gz || true
-tar -cp . | gzip --rsyncable -1 &gt; tooling.tar.gz
+tar -cp * .rubocop.yml | gzip --rsyncable -1 &gt; tooling.tar.gz
 </command>
     </hudson.tasks.Shell>
   </builders>
