@@ -21,3 +21,4 @@
   wayland: "backports"
   lib: "backports"
   pkg-cmake: "backports"
+  pkg-fonts: "backports"
