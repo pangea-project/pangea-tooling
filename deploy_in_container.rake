@@ -141,7 +141,7 @@ task :deploy_in_container do
                                                       gobject-introspection
                                                       sphinx-common
                                                       pep8
-                                                      pyflakes3
+                                                      pyflakes
                                                       ppp-dev))
     raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
     raise 'Clean failed' unless Apt.clean
