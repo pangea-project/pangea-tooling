@@ -139,7 +139,10 @@ task :deploy_in_container do
                                                       dh-autoreconf
                                                       germinate
                                                       gobject-introspection
-                                                      sphinx-common))
+                                                      sphinx-common
+                                                      pep8
+                                                      pyflakes3
+                                                      ppp-dev))
     raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
     raise 'Clean failed' unless Apt.clean
   end
