@@ -51,11 +51,17 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def populate_queue
     all_builds = []
     all_meta_builds = []
+
+    type_projects = {}
+    NCI.types.each do |type|
+      projects = ProjectsFactory.from_file("#{@projects_dir}/nci.yaml",
+                                           branch: "Neon/#{type}")
+      type_projects[type] = projects
+    end
+
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
-        projects = ProjectsFactory.from_file("#{@projects_dir}/nci.yaml",
-                                             branch: "Neon/#{type}")
-        projects.each do |project|
+        type_projects[type].each do |project|
           jobs = ProjectJob.job(project,
                                 distribution: distribution,
                                 type: type,
