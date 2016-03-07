@@ -33,6 +33,6 @@ module NCI
     Apt::Key.add('http://archive.neon.kde.org.uk/public.key')
     raise 'Failed to import key' unless $? == 0
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
-    raise 'failed to install deps' unless Apt.install(%w(pkg-kde-tools))
+    raise 'failed to install deps' unless Apt.install(%w(pkg-kde-tools pep8 pyflakes3))
   end
 end
