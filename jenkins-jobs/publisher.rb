@@ -9,6 +9,7 @@ class PublisherJob < JenkinsJob
   attr_reader :downstream_triggers
   attr_reader :basename
   attr_reader :repo
+  attr_reader :component
 
   def initialize(basename, type:, distribution:, dependees:,
                  component:, upload_map:)
@@ -19,6 +20,7 @@ class PublisherJob < JenkinsJob
     @dependees = dependees
     @downstream_triggers = []
     @basename = basename
+    @component = component
 
     if upload_map
       @repo = upload_map[component]

@@ -31,6 +31,17 @@ class ProjectJob < JenkinsJob
                        d.component,
                        d.name)
     end
+    # FIXME: frameworks is special, very special ...
+    # Base builds have no stable thingy but their unstable version is equal
+    # to their not unstable version.
+    if %w(frameworks qt).include?(project.component)
+      dependees += project.dependees.collect do |d|
+        Builder.basename(kwords[:distribution],
+                         'stable',
+                         d.component,
+                         d.name)
+      end
+    end
     dependees.compact!
     dependees.uniq!
     dependees.sort!
