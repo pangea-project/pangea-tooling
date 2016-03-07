@@ -2,6 +2,7 @@ require_relative 'job'
 
 # binary builder
 class BinarierJob < JenkinsJob
+  attr_reader :basename
   attr_reader :type
   attr_reader :distribution
   attr_reader :architecture
@@ -10,6 +11,7 @@ class BinarierJob < JenkinsJob
 
   def initialize(basename, type:, distribution:, architecture:)
     super("#{basename}_bin_#{architecture}", 'binarier.xml.erb')
+    @basename = basename
     @type = type
     @distribution = distribution
     @architecture = architecture

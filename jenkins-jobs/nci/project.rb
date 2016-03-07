@@ -62,6 +62,10 @@ class ProjectJob < JenkinsJob
     jobs
   end
 
+  # @! attribute [r] jobs
+  #   @return [Array<String>] jobs invoked as part of the multi-phases
+  attr_reader :jobs
+
   # @! attribute [r] dependees
   #   @return [Array<String>] name of jobs depending on this job
   attr_reader :dependees
@@ -79,9 +83,9 @@ class ProjectJob < JenkinsJob
 
   def initialize(basename, project:, jobs:, dependees: [])
     super(basename, 'builder2.xml.erb')
-    @jobs = jobs
-    @dependees = dependees
-    @project = project
+    @jobs = jobs.freeze
+    @dependees = dependees.freeze
+    @project = project.freeze
   end
 
   def render_phases

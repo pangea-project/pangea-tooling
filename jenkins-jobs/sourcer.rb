@@ -3,6 +3,7 @@ require_relative 'job'
 # source builder
 class SourcerJob < JenkinsJob
   attr_reader :name
+  attr_reader :basename
   attr_reader :upstream_scm
   attr_reader :type
   attr_reader :distribution
@@ -13,6 +14,7 @@ class SourcerJob < JenkinsJob
   def initialize(basename, project:, type:, distribution:)
     super("#{basename}_src", 'sourcer.xml.erb')
     @name = project.name
+    @basename = basename
     @upstream_scm = project.upstream_scm
     @type = type
     @distribution = distribution
