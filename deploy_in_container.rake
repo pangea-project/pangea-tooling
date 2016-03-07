@@ -142,7 +142,8 @@ task :deploy_in_container do
                                                       sphinx-common
                                                       pep8
                                                       pyflakes
-                                                      ppp-dev))
+                                                      ppp-dev
+                                                      dh-di))
     raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
     raise 'Clean failed' unless Apt.clean
   end
