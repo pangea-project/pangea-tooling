@@ -36,15 +36,27 @@ module Lint
       @log = @log_orig.dup
     end
 
+    def result_lintian
+      @result_lintian ||= Log::Lintian.new.lint(@log)
+    end
+
+    def result_listmissing
+      @result_listmissing ||= Log::ListMissing.new.lint(@log)
+    end
+
+    def result_cmake
+      @result_cmake ||= Log::CMake.new.tap do |cmake|
+        cmake.load_include_ignores('build/debian/meta/cmake-ignore')
+        cmake.ignores << CI::IncludePattern.new('Qt5TextToSpeech')
+      end.lint(@log)
+    end
+
     %i(CMake Lintian ListMissing).each do |klass_name|
       %w(warnings informations errors).each do |meth_type|
         class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def test_#{klass_name.downcase}_#{meth_type}
-            log_klass = Log::#{klass_name}
             assert_meth = "assert_#{meth_type}".to_sym
-
-            result = @result_#{klass_name} ||= log_klass.new.lint(@log)
-            send(assert_meth, result)
+            send(assert_meth, result_#{klass_name.downcase})
           end
         RUBY
       end
