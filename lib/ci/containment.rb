@@ -39,7 +39,7 @@ module CI
     attr_reader :privileged
 
     def initialize(name, image:, binds: [Dir.pwd], privileged: false,
-                   no_exit_handlers: false)
+                   no_exit_handlers: privileged)
       EphemeralContainer.assert_version
 
       @name = name
@@ -120,7 +120,6 @@ module CI
     def chown_handler
       STDERR.puts 'Running chown handler'
       return @chown_handler if defined?(@chown_handler)
-      return nil if @privileged
       binds_ = @binds.dup # Remove from object context so Proc can be a closure.
       @chown_handler = proc do
         chown_container =
