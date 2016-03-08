@@ -21,6 +21,7 @@
 require 'open-uri'
 
 require_relative '../../lib/lint/log'
+require_relative '../../lib/retry'
 require_relative '../lib/lint/result_test'
 
 module Lint
@@ -29,7 +30,11 @@ module Lint
   class TestLog < ResultTest
     def initialize(*args)
       super
-      @log_orig = open(ENV.fetch('LOG_URL')).read.freeze
+      Retry.retry_it(times: 2, sleep: 8) do
+        uri = ENV.fetch('LOG_URL')
+        puts "Reading #{uri}"
+        @log_orig = open(uri).read.freeze
+      end
     end
 
     def setup
