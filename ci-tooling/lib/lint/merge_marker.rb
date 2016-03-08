@@ -28,9 +28,7 @@ module Lint
     def lint_file(result, path)
       File.open(path, 'r') do |file|
         file.each_line do |line|
-          unless line.start_with?('<<<<<<< ') || line.start_with?('>>>>>>> ')
-            next
-          end
+          next unless line.start_with?('<<<<<<< ', '>>>>>>> ')
           result.errors << "File #{path} contains merge markers!"
           break
         end
