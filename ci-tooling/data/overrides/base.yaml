@@ -238,7 +238,7 @@ https://github.com/plasma-phone-packaging/libhybris:
     upstream_scm:
       url: https://github.com/libhybris/libhybris.git
 
-https://github.com/plasma-phone-packaging/videoPlayer-packaging
+https://github.com/plasma-phone-packaging/videoPlayer-packaging:
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       url: https://github.com/plasma-apps/videoPlayer.git
