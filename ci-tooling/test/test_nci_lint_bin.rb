@@ -35,9 +35,9 @@ class NCILintBinTest < TestCase
 
   description 'fail to run on account of no url file'
   def test_fail
-    run!
+    output = run!
 
-    assert_not_equal(0, $?.to_i)
+    assert_not_equal(0, $?.to_i, output)
     assert_path_not_exist('reports')
   end
 
@@ -49,9 +49,9 @@ class NCILintBinTest < TestCase
     FileUtils.mkpath('build') # Dump a fake debian in.
     FileUtils.cp_r("#{@datadir}/debian", "#{Dir.pwd}/build")
 
-    run!
+    output = run!
 
-    assert_equal(0, $?.to_i)
+    assert_equal(0, $?.to_i, output)
     assert_path_exist('reports')
     Dir.glob("#{data('reports')}/*").each do |r|
       assert_path_exist("reports/#{File.basename(r)}")

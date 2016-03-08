@@ -49,11 +49,23 @@ module Lint
       flunk(join(array)) unless array.empty?
     end
 
-    def assert_result(result)
+    def assert_warnings(result)
       result_notify(result.warnings)
+    end
+
+    def assert_informations(result)
       result_notify(result.informations)
+    end
+
+    def assert_errors(result)
       # Flunking fails the test entirely, so this needs to be at the very end!
       result_flunk(result.errors)
+    end
+
+    def assert_result(result)
+      assert_warnings(result)
+      assert_informations(result)
+      assert_errors(result)
       # FIXME: valid means nothing concrete so we skip it for now
       # assert(result.valid, "Lint result not valid ::\n #{result.inspect}")
     end

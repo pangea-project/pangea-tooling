@@ -31,16 +31,18 @@ module Lint
       @dir = 'build'.freeze
     end
 
-    def test_control
-      assert_result Control.new(@dir).lint
-    end
+    %i(Control Series Symbols).each do |klass_name|
+      %w(warnings informations errors).each do |meth_type|
+        class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          def test_#{klass_name.downcase}_#{meth_type}
+            log_klass = #{klass_name}
+            assert_meth = "assert_#{meth_type}".to_sym
 
-    def test_series
-      assert_result Series.new(@dir).lint
-    end
-
-    def test_symbols
-      assert_result Symbols.new(@dir).lint
+            result = @result_#{klass_name} ||= log_klass.new(@dir).lint
+            send(assert_meth, result)
+          end
+        RUBY
+      end
     end
 
     # FIXME: merge_marker disabled as we run after build and after build
