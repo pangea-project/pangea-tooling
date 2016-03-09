@@ -37,6 +37,7 @@ module CI
     attr_reader :image
     attr_reader :binds
     attr_reader :privileged
+    attr_reader :trap_run
 
     def initialize(name, image:, binds: [Dir.pwd], privileged: false,
                    no_exit_handlers: privileged)
@@ -47,6 +48,7 @@ module CI
       @binds = binds
       @privileged = privileged
       @log = new_logger
+      @trap_run = false
       cleanup
       # TODO: finalize object and clean up container
       trap! unless no_exit_handlers
@@ -139,6 +141,7 @@ module CI
           previous.call if previous
         end
       end
+      @trap_run = true
     end
 
     def rescued_start(c)

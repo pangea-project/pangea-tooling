@@ -120,9 +120,8 @@ module CI
       sigs.each { |sig| assert_handler_not_set(sig) }
       vcr_it(__method__) do
         c = Containment.new(@job_name, image: @image, privileged: true)
-        assert_nil(c.send(:chown_handler))
+        assert_false(c.trap_run)
       end
-      sigs.each { |sig| assert_handler_set(sig) }
     end
 
     def test_init
