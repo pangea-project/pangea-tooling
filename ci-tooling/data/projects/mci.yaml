@@ -49,6 +49,7 @@ git.debian.org:
     - kwallet-pam
     - kaccounts-mobile
     - kde-cli-tools
+    - kactivitymanagerd
   - pkg-xorg/xserver:
     - xorg-server:
         branch: debian-experimental
