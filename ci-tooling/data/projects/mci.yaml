@@ -30,7 +30,8 @@ git.debian.org:
     - kfilemetadata
     - kinfocenter
     - kscreenlocker
-    - kwin
+    - kwin:
+        branch: kubuntu_xenial_mobile
     - kwayland
     - kwayland-integration
     - kwrited
@@ -43,6 +44,7 @@ git.debian.org:
     - plasma-nm
     - plasma-sdk
     - plasma-workspace
+    - plasma-integration
     - powerdevil
     - kwallet-pam
     - kaccounts-mobile
