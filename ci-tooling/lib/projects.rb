@@ -248,13 +248,14 @@ class Project
       repo.reset(nil, hard: true)
       repo.gc
       repo.config('remote.origin.prune', true)
-      repo.fetch('origin')
+      repo.fetch('origin') unless ENV.include?('NO_UPDATE')
       git_checkout(repo, branch)
     rescue Git::GitExecuteError => e
       raise GitTransactionError, e
     end
 
     def update_bzr(_branch)
+      return if ENV.include?('NO_UPDATE')
       return if system('bzr up')
       raise BzrTransactionError, 'Failed to update'
     end
