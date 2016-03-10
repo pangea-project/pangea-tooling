@@ -215,6 +215,8 @@ class KCIMerger
   end
 
   def push_all_pending
+    # Coerce Git::Branch entities into strings
+    @push_pending.collect! { |x| x.respond_to?(:name) ? x.name : x }
     @log.info @git.push('origin', @push_pending.uniq)
     @push_pending = []
   end
