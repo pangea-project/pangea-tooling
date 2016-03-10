@@ -56,7 +56,6 @@ class Merger
     @git.config('merge.dpkg-mergechangelogs.driver',
                 'dpkg-mergechangelogs -m %O %A %B %A')
     @push_pending = []
-    @clean_branches = []
   end
 
   def remote_branch(name)
@@ -124,16 +123,6 @@ class Merger
     @log.info "triggered by #{trigger_branch}"
 
     @push_pending = []
-    # FIXME: fuck my life. so.... due to very bad design we must cleanup every
-    #        branch *when it is supposed to merge*. Now stable is merged into
-    #        more than once which would with postponed pushes mean that the
-    #        second merge into stable undoes (cleans up) the previous merge.
-    #        Since we don't want that we use this bloody workaround to make sure
-    #        that stable doesn't get cleaned up twice.....
-    #        What we should do is expand the git::branch class with the logic
-    #        we presently have in the merge function and then make sure that
-    #        each branch (i.e. instace of the object) only gets cleaned once.
-    @clean_branches = []
     @git.checkout('master')
     cleanup('master')
 
@@ -164,9 +153,15 @@ class Merger
   # Hard resets to head, cleans everything, and sets dpkg-mergechangelogs in
   # .gitattributes afterwards.
   def cleanup(target = @git.current_branch)
+    # FIXME: we could get rid of resetting if we simply separated working dir
+    #   from repo dir.
     raise 'not current branch' unless @git.current_branch.include?(target)
+    @git.branches.local.each { |b| b.current ? next : b.delete }
     @git.reset("remotes/origin/#{target}", hard: true)
     @git.clean(force: true, d: true)
+    @git.reset(nil, hard: true)
+    @git.gc
+    @git.config('remote.origin.prune', true)
     File.write('.gitattributes',
                "debian/changelog merge=dpkg-mergechangelogs\n")
   end
@@ -201,10 +196,6 @@ class Merger
     source = source.first
     target = target.name if target.respond_to?(:name)
     @git.checkout(target)
-    unless @clean_branches.include?(target)
-      cleanup(target)
-      @clean_branches << target
-    end
     msg = "Merging #{source.full} into #{target}."
     if noci_merge?(source)
       msg = "Merging #{source.full} into #{target}.\n\nNOCI"
