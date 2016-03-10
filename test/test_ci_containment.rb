@@ -115,13 +115,14 @@ module CI
       sigs.each { |sig| assert_handler_set(sig) }
     end
 
-    def test_AAA_trap_its_privileged
+    def test_AAA_trap_its_privileged_and_trap_run_indicates_no_handlers
       sigs = Containment::TRAP_SIGNALS
       sigs.each { |sig| assert_handler_not_set(sig) }
       vcr_it(__method__) do
         c = Containment.new(@job_name, image: @image, privileged: true)
         assert_false(c.trap_run)
       end
+      # Make sure trap_run *actually* is false iff the handlers were not set.
       sigs.each { |sig| assert_handler_not_set(sig) }
     end
 
