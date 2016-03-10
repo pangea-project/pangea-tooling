@@ -36,11 +36,11 @@ end
 
 # Merger merges delpoyment branches into KCI integration branches and KCI
 # integration branches into one another.
-class Merger
+class KCIMerger
   # Logger instance used by the Merger.
   attr_reader :log
 
-  # Creates a new Merger. Creates a logger, sets up dpkg-mergechangelogs and
+  # Creates a new KCIMerger. Creates a logger, sets up dpkg-mergechangelogs and
   # opens Dir.pwd as a Git::Base.
   def initialize
     @log = Logger.new_for_merger
@@ -222,7 +222,7 @@ end
 
 # :nocov:
 if __FILE__ == $PROGRAM_NAME
-  Merger.new.run(ENV['GIT_BRANCH'])
+  KCIMerger.new.run(ENV['GIT_BRANCH'])
   sleep(5)
 end
 # :nocov:

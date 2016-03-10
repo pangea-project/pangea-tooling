@@ -15,11 +15,11 @@ class Logger
   end
 end
 
-class MergerTest < TestCase
+class KCIMergerTest < TestCase
   def in_repo(&_block)
     Dir.mktmpdir(__callee__.to_s) do |t|
       g = Git.clone(repo, t)
-      g.config('user.name', 'Merger Test')
+      g.config('user.name', 'KCIMerger Test')
       g.config('user.email', 'noreply')
       g.chdir do
         yield g
@@ -79,7 +79,7 @@ class MergerTest < TestCase
     end
 
     in_repo do
-      assert_nothing_raised { Merger.new.run('origin/kubuntu_vivid_archive') }
+      assert_nothing_raised { KCIMerger.new.run('origin/kubuntu_vivid_archive') }
     end
 
     in_repo do |g|
@@ -135,7 +135,7 @@ class MergerTest < TestCase
     end
 
     in_repo do
-      Merger.new.run('origin/kubuntu_stable')
+      KCIMerger.new.run('origin/kubuntu_stable')
     end
 
     in_repo do |g|
@@ -155,7 +155,7 @@ class MergerTest < TestCase
 
     in_repo do
       assert_nothing_raised do
-        Merger.new.run('origin/kubuntu_stable')
+        KCIMerger.new.run('origin/kubuntu_stable')
       end
     end
   end
@@ -168,7 +168,7 @@ class MergerTest < TestCase
 
     in_repo do
       assert_raise do
-        Merger.new.run('origin/master')
+        KCIMerger.new.run('origin/master')
       end
     end
   end
@@ -195,7 +195,7 @@ class MergerTest < TestCase
     end
 
     in_repo do
-      Merger.new.run('origin/kubuntu_vivid_archive')
+      KCIMerger.new.run('origin/kubuntu_vivid_archive')
     end
 
     in_repo do |g|
@@ -228,7 +228,7 @@ class MergerTest < TestCase
     end
 
     in_repo do
-      Merger.new.run('origin/kubuntu_vivid_archive')
+      KCIMerger.new.run('origin/kubuntu_vivid_archive')
     end
 
     in_repo do |g|
