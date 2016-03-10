@@ -43,7 +43,6 @@ class ProjectsFactoryTest < TestCase
     end
   end
 
-   #FIXME: port to rugged?
   def git_init_commit(repo_path, branches = %w(master kubuntu_unstable))
     repo_path = File.absolute_path(repo_path)
     repo_name = File.basename(repo_path)
