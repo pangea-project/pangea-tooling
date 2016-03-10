@@ -122,6 +122,7 @@ module CI
         c = Containment.new(@job_name, image: @image, privileged: true)
         assert_false(c.trap_run)
       end
+      sigs.each { |sig| assert_handler_not_set(sig) }
     end
 
     def test_init
