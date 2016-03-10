@@ -38,7 +38,7 @@ class QMLDependencyVerifier
                                       source_name: source.name,
                                       version: source.version)
     raise 'more than one source package match on launchpad' if sources.size > 1
-    raise 'no source package match on launchpad' if sources.size < 1
+    raise 'no source package match on launchpad' if sources.empty?
     source = sources[0]
     binaries = source.getPublishedBinaries
     packages = {}
@@ -88,7 +88,7 @@ class QMLDependencyVerifier
     static_map = QML::StaticMap.new
     missing_modules = {}
     binaries.each do |package, version|
-      next if package.end_with?('-dbg') || package.end_with?('-dev')
+      next if package.end_with?('-dbg', '-dev')
       @log.info "Checking #{package}: #{version}"
       # FIXME: need to fail otherwise, the results will be skewed
       Apt.install("#{package}=#{version}")

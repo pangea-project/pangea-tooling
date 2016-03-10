@@ -185,7 +185,7 @@ class SourcePublisher
     sources = @ppa.getPublishedSources(source_name: @source_name,
                                        version: @source_version,
                                        exact_match: true)
-    return nil if sources.size < 1
+    return nil if sources.empty?
     if sources.size > 1
       raise "Unexpectedly too many matching sources #{sources}"
     end
