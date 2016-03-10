@@ -51,8 +51,7 @@
     <hudson.tasks.Shell>
       <command>env
 gem install --no-rdoc bundler
-bundle install --jobs=`nproc`
-bundle update --jobs=`nproc`
+bundle update --jobs=`nproc` || bundle install --jobs=`nproc`
 </command>
     </hudson.tasks.Shell>
     <hudson.plugins.rake.Rake plugin="rake@1.8.0">
