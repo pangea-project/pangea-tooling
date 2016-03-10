@@ -79,7 +79,7 @@ class KCIMergerTest < TestCase
     end
 
     in_repo do
-      assert_nothing_raised { KCIMerger.new.run('origin/kubuntu_vivid_archive') }
+      KCIMerger.new.run('origin/kubuntu_vivid_archive')
     end
 
     in_repo do |g|
