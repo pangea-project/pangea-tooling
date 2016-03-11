@@ -23,7 +23,7 @@ require_relative 'base'
 class ProjectsFactory
   # Neon specific project factory.
   class Neon < Base
-    DEFAULT_URL_BASE = 'git://packaging.neon.kde.org.uk'.freeze
+    DEFAULT_URL_BASE = 'git://packaging.neon.kde.org'.freeze
 
     # FIXME: needs a writer!
     def self.url_base
@@ -31,7 +31,7 @@ class ProjectsFactory
     end
 
     def self.understand?(type)
-      type == 'packaging.neon.kde.org.uk'
+      %w(packaging.neon.kde.org.uk packaging.neon.kde.org).include?(type)
     end
 
     private
