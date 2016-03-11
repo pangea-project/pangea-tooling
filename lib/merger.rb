@@ -24,6 +24,8 @@ require 'logger'
 require 'logger/colors'
 require 'tmpdir'
 
+require_relative 'merger/branch_sequence'
+
 # Stdlib Logger. Monkey patch with factory methods.
 class Logger
   def self.merger_formatter
@@ -91,7 +93,7 @@ class Merger
   end
 
   def sequence(starting_point)
-    BranchSequence.new(starting_point, repo: @repo)
+    BranchSequence.new(starting_point, git: @repo)
   end
 
   private
