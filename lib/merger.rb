@@ -89,17 +89,6 @@ class Merger
     configure_repo(@repo)
   end
 
-  def configure_repo(repo)
-    repo.config('merge.dpkg-mergechangelogs.name',
-                'debian/changelog merge driver')
-    repo.config('merge.dpkg-mergechangelogs.driver',
-                'dpkg-mergechangelogs -m %O %A %B %A')
-    repo_path = repo.repo.path
-    FileUtils.mkpath("#{repo_path}/info")
-    File.write("#{repo_path}/info/attributes",
-               "debian/changelog merge=dpkg-mergechangelogs\n")
-  end
-
   def sequence(starting_point)
     BranchSequence.new(starting_point, repo: @repo)
   end
@@ -117,6 +106,17 @@ class Merger
     raise e if repo_path.end_with?('.git', '.git/')
     repo_path = "#{repo_path}/.git"
     retry
+  end
+
+  def configure_repo(repo)
+    repo.config('merge.dpkg-mergechangelogs.name',
+                'debian/changelog merge driver')
+    repo.config('merge.dpkg-mergechangelogs.driver',
+                'dpkg-mergechangelogs -m %O %A %B %A')
+    repo_path = repo.repo.path
+    FileUtils.mkpath("#{repo_path}/info")
+    File.write("#{repo_path}/info/attributes",
+               "debian/changelog merge=dpkg-mergechangelogs\n")
   end
 
   def noci_merge?(source)
