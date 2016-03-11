@@ -52,7 +52,9 @@ class Logger
   end
 end
 
-# A Merger.
+# A Merger base class. Sets up a repo instance with a working directory
+# in a tmpdir that is cleaned upon instance finalization.
+# i.e. this keeps the actual clone clean.
 class Merger
   class << self
     # Workign directory used by merger.
