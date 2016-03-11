@@ -14,3 +14,9 @@ vendor/*
 # yard 
 .yardoc/*
 doc/*
+
+# bundler config
+.bundle
+
+# ctags
+.tags*
