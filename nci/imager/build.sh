@@ -91,9 +91,9 @@ cd ../result/
 for f in *; do
     new_name=$(echo $f | sed "s/livecd\.neon/${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}/")
     mv $f $new_name
-    ln -s ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso neon-${TYPE}-current.iso
 done
 
+ln -s ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso neon-${TYPE}-current.iso
 zsyncmake neon-${TYPE}-current.iso
 
 echo $DATETIME > date_stamp
