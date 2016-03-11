@@ -81,7 +81,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         # ISOs
         NCI.architectures.each do |architecture|
-          isoargs = { type: type,
+          isoargs = { type: 'dev-unstable',
                       distribution: distribution,
                       architecture: architecture,
                       metapackage: 'neon-desktop',
