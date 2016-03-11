@@ -53,7 +53,7 @@ DATE = File.read('result/date_stamp').strip
 WEBSITE_PATH = "/var/www/images/#{IMAGENAME}-#{TYPE}-proposed/".freeze
 PUB_PATH = "#{WEBSITE_PATH}#{DATE}".freeze
 FileUtils.mkpath(PUB_PATH)
-%w(iso manifest zsync).each do |type|
+%w(iso manifest zsync sha256sum).each do |type|
   unless system("cp -r --no-preserve=ownership result/*.#{type} #{PUB_PATH}/")
     abort "File type #{type} failed to copy to public directory."
   end

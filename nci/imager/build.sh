@@ -95,6 +95,7 @@ done
 
 ln -s ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso neon-${TYPE}-current.iso
 zsyncmake neon-${TYPE}-current.iso
+sha256sum ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso > ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.sha256sum
 
 echo $DATETIME > date_stamp
 
