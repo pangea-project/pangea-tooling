@@ -26,21 +26,22 @@ require 'tmpdir'
 
 # Stdlib Logger. Monkey patch with factory methods.
 class Logger
-  def self.new_for_merger
-    l = Logger.new(STDOUT)
-    l.progname = 'merger'
-    l.level = Logger::INFO
-    l.formatter = proc { |severity, _datetime, progname, msg|
+  def self.merger_formatter
+    proc do |severity, _datetime, progname, msg|
       max_line = 80
       white_space_count = 2
       spacers = (max_line - msg.size - white_space_count) / 2
       spacers = ' ' * spacers
-      if severity == 'ANY'
-        "\n\e[1m#{spacers} #{msg} #{spacers}\e[0m\n"
-      else
-        "[#{severity[0]}] #{progname}: #{msg}\n"
-      end
-    }
+      next "\n\e[1m#{spacers} #{msg} #{spacers}\e[0m\n" if severity == 'ANY'
+      "[#{severity[0]}] #{progname}: #{msg}\n"
+    end
+  end
+
+  def self.new_for_merger
+    l = Logger.new(STDOUT)
+    l.progname = 'merger'
+    l.level = Logger::INFO
+    l.formatter = merger_formatter
     l
   end
 
