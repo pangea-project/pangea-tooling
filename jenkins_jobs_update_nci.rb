@@ -59,8 +59,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                            branch: "Neon/#{type}")
       type_projects[type] = projects
 
-      next unless all_mergers.empty?
+      next unless type == 'unstable'
       projects.each do |project|
+        branch = project.packaging_scm.branch
+        next unless branch && branch.start_with?('Neon/unstable', 'Neon/stable')
         # FIXME: this is fairly hackish
         dependees = []
         # Mergers need to be upstreams to the build jobs otherwise the
