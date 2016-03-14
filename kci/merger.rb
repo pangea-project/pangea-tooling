@@ -99,7 +99,7 @@ class KCIMerger < Merger
 
     @push_pending = []
     @git.checkout('master')
-    cleanup('master')
+    cleanup_repo!('master')
 
     # NOTE: trigger branches must be explicitly added to the jenkins job class
     #       as such. Otherwise the merger job will not start.
@@ -124,20 +124,6 @@ class KCIMerger < Merger
   end
 
   private
-
-  # Hard resets to head, cleans everything, and sets dpkg-mergechangelogs in
-  # .gitattributes afterwards.
-  def cleanup(target = @git.current_branch)
-    # FIXME: we could get rid of resetting if we simply separated working dir
-    #   from repo dir.
-    raise 'not current branch' unless @git.current_branch.include?(target)
-    @git.branches.local.each { |b| b.current ? next : b.delete }
-    @git.reset("remotes/origin/#{target}", hard: true)
-    @git.clean(force: true, d: true)
-    @git.reset(nil, hard: true)
-    @git.gc
-    @git.config('remote.origin.prune', true)
-  end
 
   # Merges source into target and pushes the merge result.
   # @param source either a Git::Branch or a String specifying the branch from

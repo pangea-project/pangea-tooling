@@ -90,9 +90,12 @@ class Merger
 
     @repo = open_repo(repo_path)
     configure_repo!
+    cleanup_repo!
   end
 
   def sequence(starting_point)
+    @repo.checkout(starting_point)
+    cleanup_repo!
     BranchSequence.new(starting_point, git: @repo)
   end
 
@@ -120,6 +123,18 @@ class Merger
     FileUtils.mkpath("#{repo_path}/info")
     File.write("#{repo_path}/info/attributes",
                "debian/changelog merge=dpkg-mergechangelogs\n")
+  end
+
+  # Hard resets to head, cleans everything, and sets dpkg-mergechangelogs in
+  # .gitattributes afterwards.
+  def cleanup_repo!(target = @git.current_branch)
+    raise 'not current branch' unless @git.current_branch.include?(target)
+    @repo.branches.local.each { |b| b.current ? next : b.delete }
+    @repo.reset("remotes/origin/#{target}", hard: true)
+    @repo.clean(force: true, d: true)
+    @repo.reset(nil, hard: true)
+    @repo.gc
+    @repo.config('remote.origin.prune', true)
   end
 
   def noci_merge?(source)
