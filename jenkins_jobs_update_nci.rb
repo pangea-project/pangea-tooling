@@ -55,7 +55,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     type_projects = {}
     NCI.types.each do |type|
-      projects = ProjectsFactory.from_file("#{@projects_dir}/nci.yaml",
+      projects_file = "#{@projects_dir}/nci.yaml"
+      projects_file = "#{@projects_dir}/nci_stable.yaml" if type == 'stable'
+      projects = ProjectsFactory.from_file(projects_file,
                                            branch: "Neon/#{type}")
       type_projects[type] = projects
 
