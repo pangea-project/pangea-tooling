@@ -136,7 +136,16 @@ class Merger
   end
 
   def randomly_detatch
-    @repo.checkout(@repo.branches.remote.fetch(0).full)
+    index ||= 0
+    remote = @repo.branches.remote.fetch(index)
+    remote.checkout
+  rescue Git::GitExecuteError
+    @log.warn "failed to detatch remote #{remote.full}"
+    index += 1
+    retry
+  rescue IndexError => e
+    @log.fatal 'Could not find a remote to detatch from'
+    raise e
   end
 
   def noci_merge?(source)
