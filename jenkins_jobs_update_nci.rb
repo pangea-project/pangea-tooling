@@ -51,12 +51,32 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def populate_queue
     all_builds = []
     all_meta_builds = []
+    all_mergers = []
 
     type_projects = {}
     NCI.types.each do |type|
       projects = ProjectsFactory.from_file("#{@projects_dir}/nci.yaml",
                                            branch: "Neon/#{type}")
       type_projects[type] = projects
+
+      next unless all_mergers.empty?
+      projects.each do |project|
+        # FIXME: this is fairly hackish
+        dependees = []
+        # Mergers need to be upstreams to the build jobs otherwise the
+        # build jobs can trigger before the merge is done (e.g. when)
+        # there was an upstream change resulting in pointless build
+        # cycles.
+        branches = (NCI.types + ['stable']).collect { |x| "Neon/#{x}" }
+        NCI.series.each_key do |d|
+          (NCI.types + ['stable']).each do |t|
+            dependees << Builder.basename(d, t, project.component, project.name)
+          end
+        end
+        all_mergers << enqueue(NCIMergerJob.new(project,
+                                                dependees: dependees,
+                                                branches: branches))
+      end
     end
 
     NCI.series.each_key do |distribution|
@@ -97,8 +117,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
     end
 
+    merger = enqueue(MetaMergeJob.new(downstream_jobs: all_mergers))
     progenitor = enqueue(
-      MgmtProgenitorJob.new(downstream_jobs: all_meta_builds)
+      MgmtProgenitorJob.new(downstream_jobs: all_meta_builds,
+                            blockables: [merger])
     )
     enqueue(MGMTPauseIntegrationJob.new(downstreams: [progenitor]))
     docker = enqueue(MGMTDockerJob.new(dependees: [progenitor]))

@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
+      <maxConcurrentPerNode>0</maxConcurrentPerNode>
+      <maxConcurrentTotal>0</maxConcurrentTotal>
+      <categories>
+        <string>merger</string>
+      </categories>
+      <throttleEnabled>true</throttleEnabled>
+      <throttleOption>category</throttleOption>
+    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.7">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>origin</name>
+        <url><%= packaging_scm.url %></url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <% for merge_branch in merge_branches %>
+        <hudson.plugins.git.BranchSpec>
+          <name>*/<%= merge_branch %></name>
+        </hudson.plugins.git.BranchSpec>
+      <% end %>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions>
+      <hudson.plugins.git.extensions.impl.UserIdentity>
+        <name>Neon CI</name>
+        <email>sitter@kde.org</email>
+      </hudson.plugins.git.extensions.impl.UserIdentity>
+      <hudson.plugins.git.extensions.impl.UserExclusion>
+        <excludedUsers>Neon CI</excludedUsers>
+      </hudson.plugins.git.extensions.impl.UserExclusion>
+      <hudson.plugins.git.extensions.impl.PruneStaleBranch/>
+      <hudson.plugins.git.extensions.impl.CleanBeforeCheckout/>
+    </extensions>
+  </scm>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.SCMTrigger>
+      <spec></spec>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>
+ssh-keygen -F packaging.neon.kde.org.uk || ssh-keyscan -H packaging.neon.kde.org.uk >> ~/.ssh/known_hosts
+git config --remove-section url."gitolite3@packaging.neon.kde.org.uk:"
+git config --local --add url."gitolite3@packaging.neon.kde.org.uk:".pushInsteadOf "git://packaging.neon.kde.org/"
+~/tooling/nci/merger.rb
+      </command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.25">
+      <targets>
+      </targets>
+      <strategy>FAILURE_AND_FIXED</strategy>
+      <notifyOnBuildStart>false</notifyOnBuildStart>
+      <notifySuspects>true</notifySuspects>
+      <notifyCulprits>true</notifyCulprits>
+      <notifyFixers>true</notifyFixers>
+      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
+      <buildToChatNotifier class="hudson.plugins.im.build_notify.SummaryOnlyBuildToChatNotifier" plugin="instant-messaging@1.30"/>
+      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
+      <channels/>
+    </hudson.plugins.ircbot.IrcPublisher>
+    <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.25">
+      <configs>
+        <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+          <configs class="empty-list"/>
+          <projects><%= dependees.join(', ') %>, </projects>
+          <condition>UNSTABLE_OR_BETTER</condition>
+          <triggerWithNoParameters>false</triggerWithNoParameters>
+        </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+      </configs>
+    </hudson.plugins.parameterizedtrigger.BuildTrigger>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.14">
+      <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
+        <timeoutMinutes>15</timeoutMinutes>
+      </strategy>
+      <operationList>
+        <hudson.plugins.build__timeout.operations.FailOperation/>
+      </operationList>
+    </hudson.plugins.build__timeout.BuildTimeoutWrapper>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+  </buildWrappers>
+</project>
