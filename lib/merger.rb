@@ -89,7 +89,7 @@ class Merger
     end
 
     @repo = open_repo(repo_path)
-    configure_repo(@repo)
+    configure_repo!
   end
 
   def sequence(starting_point)
@@ -111,12 +111,12 @@ class Merger
     retry
   end
 
-  def configure_repo(repo)
-    repo.config('merge.dpkg-mergechangelogs.name',
-                'debian/changelog merge driver')
-    repo.config('merge.dpkg-mergechangelogs.driver',
-                'dpkg-mergechangelogs -m %O %A %B %A')
-    repo_path = repo.repo.path
+  def configure_repo!
+    @repo.config('merge.dpkg-mergechangelogs.name',
+                 'debian/changelog merge driver')
+    @repo.config('merge.dpkg-mergechangelogs.driver',
+                 'dpkg-mergechangelogs -m %O %A %B %A')
+    repo_path = @repo.repo.path
     FileUtils.mkpath("#{repo_path}/info")
     File.write("#{repo_path}/info/attributes",
                "debian/changelog merge=dpkg-mergechangelogs\n")
