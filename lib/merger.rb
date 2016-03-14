@@ -129,10 +129,14 @@ class Merger
   def cleanup_repo!
     @repo.reset(nil, hard: true)
     @repo.clean(force: true, d: true)
-    @repo.checkout('origin/HEAD')
+    randomly_detatch
     @repo.branches.local.each { |b| b.current ? next : b.delete }
     @repo.gc
     @repo.config('remote.origin.prune', true)
+  end
+
+  def randomly_detatch
+    @repo.checkout(@repo.branches.remote.fetch(0).full)
   end
 
   def noci_merge?(source)
