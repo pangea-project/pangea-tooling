@@ -43,7 +43,8 @@ binds = [
 c = CI::Containment.new(JOB_NAME,
                         image: CI::PangeaImage.new(:ubuntu, DIST),
                         binds: binds,
-                        privileged: true)
+                        privileged: true,
+                        no_exit_handlers: false)
 cmd = ["#{TOOLING_PATH}/nci/imager/build.sh",
        Dir.pwd, DIST, ARCH, TYPE, METAPACKAGE, IMAGENAME]
 status_code = c.run(Cmd: cmd)
