@@ -71,9 +71,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         # build jobs can trigger before the merge is done (e.g. when)
         # there was an upstream change resulting in pointless build
         # cycles.
-        branches = (NCI.types + ['stable']).collect { |x| "Neon/#{x}" }
+        branches = NCI.types.collect { |x| "Neon/#{x}" }
         NCI.series.each_key do |d|
-          (NCI.types + ['stable']).each do |t|
+          NCI.types.each do |t|
             dependees << Builder.basename(d, t, project.component, project.name)
           end
         end
