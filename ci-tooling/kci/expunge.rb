@@ -61,6 +61,13 @@ log.info 'JENKINS'
 Jenkins.job.list_all.each do |name|
   next unless job_names.delete(name)
   log.info "-- deleting :: #{name} --"
+  begin
+    Retry.retry_it(times: 5) do
+      Jenkins.job.wipe_out_workspace(name)
+    end
+  rescue
+    log.info "Wiping of #{name} failed. Continue without wipe."
+  end
   log.debug Jenkins.job.delete(name)
 end
 
