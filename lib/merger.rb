@@ -94,8 +94,6 @@ class Merger
   end
 
   def sequence(starting_point)
-    @repo.checkout(starting_point)
-    cleanup_repo!
     BranchSequence.new(starting_point, git: @repo)
   end
 
@@ -106,7 +104,6 @@ class Merger
                     repository: repo_path,
                     log: Logger.new_for_git)
     repo.branches # Trigger an execution to possibly raise an error.
-    configure_repo(repo)
     repo
   rescue Git::GitExecuteError => e
     raise e if repo_path.end_with?('.git', '.git/')
@@ -125,14 +122,15 @@ class Merger
                "debian/changelog merge=dpkg-mergechangelogs\n")
   end
 
-  # Hard resets to head, cleans everything, and sets dpkg-mergechangelogs in
-  # .gitattributes afterwards.
-  def cleanup_repo!(target = @git.current_branch)
-    raise 'not current branch' unless @git.current_branch.include?(target)
-    @repo.branches.local.each { |b| b.current ? next : b.delete }
-    @repo.reset("remotes/origin/#{target}", hard: true)
-    @repo.clean(force: true, d: true)
+  # Hard resets the repository. This deletes ALL local branches in preparation
+  # for merging. Deleting all branches makes sure that we do not run into
+  # outdated local branches or god forbid local branches that failed to push
+  # and now can't be updated properly.
+  def cleanup_repo!
     @repo.reset(nil, hard: true)
+    @repo.clean(force: true, d: true)
+    @repo.checkout('origin/HEAD')
+    @repo.branches.local.each { |b| b.current ? next : b.delete }
     @repo.gc
     @repo.config('remote.origin.prune', true)
   end

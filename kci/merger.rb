@@ -98,8 +98,6 @@ class KCIMerger < Merger
     @log.info "triggered by #{trigger_branch}"
 
     @push_pending = []
-    @git.checkout('master')
-    cleanup_repo!('master')
 
     # NOTE: trigger branches must be explicitly added to the jenkins job class
     #       as such. Otherwise the merger job will not start.
