@@ -35,7 +35,8 @@ module Jenkins
     def install_plugins
       # Autoinstall all possibly used plugins.
       installed_plugins = Jenkins.plugin_manager.list_installed.keys
-      plugins_to_install.each do |plugin|
+      plugins = (plugins_to_install + standard_plugins).uniq
+      plugins.each do |plugin|
         next if installed_plugins.include?(plugin)
         puts "--- Installing #{plugin} ---"
         Jenkins.plugin_manager.install(plugin)
@@ -46,6 +47,18 @@ module Jenkins
 
     def all_template_files
       Dir.glob('jenkins-jobs/templates/**/**.xml.erb')
+    end
+
+    # Standard plugins not showing up in templates but generally useful to have
+    # for our CIs. These should as a general rule not change behavior or
+    # add functionality or have excessive depedencies as to not slow down
+    # jenkins for no good reason.
+    def standard_plugins
+      %w(
+        greenballs
+        status-view
+        simple-theme-plugin
+      )
     end
 
     # FIXME: this installs all plugins used by all CIs, not the ones at hand
