@@ -8,13 +8,13 @@ packaging.neon.kde.org.uk:
   - neon:
     - seeds:
         branch: master
-    - base-files:
-        branch: master
     - plasma-wayland-meta:
         branch: master
     - settings:
         branch: master
   - forks:
+    - base-files:
+        branch: master
     - live-build:
         branch: master
   - qt:
