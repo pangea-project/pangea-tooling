@@ -17,8 +17,9 @@ export ARCH=$3
 export TYPE=$4
 export METAPACKAGE=$5
 export IMAGENAME=$6
+export NEONARCHIVE=$7
 
-if [ -z $WD ] || [ -z $DIST ] || [ -z $ARCH ] || [ -z $TYPE ] || [ -z $METAPACKAGE ] || [ -z $IMAGENAME ]; then
+if [ -z $WD ] || [ -z $DIST ] || [ -z $ARCH ] || [ -z $TYPE ] || [ -z $METAPACKAGE ] || [ -z $IMAGENAME ] || [ -z $NEONARCHIVE ]; then
     echo "!!! Not all arguments provided! ABORT !!!"
     env
     exit 1
@@ -26,9 +27,9 @@ fi
 
 cat /proc/self/cgroup
 
-wget -qO - 'http://archive.neon.kde.org.uk/public.key' | sudo apt-key add -
+wget -qO - 'http://archive.neon.kde.org/public.key' | sudo apt-key add -
 sudo apt install -y software-properties-common
-sudo apt-add-repository http://archive.neon.kde.org.uk/unstable
+sudo apt-add-repository http://archive.neon.kde.org/${NEONARCHIVE}
 sudo apt update
 sudo apt dist-upgrade -y
 sudo apt install -y --no-install-recommends git ubuntu-defaults-builder wget ca-certificates zsync distro-info syslinux-utils livecd-rootfs

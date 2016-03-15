@@ -32,6 +32,7 @@ TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
 METAPACKAGE = ENV.fetch('METAPACKAGE')
 IMAGENAME = ENV.fetch('IMAGENAME')
+NEONARCHIVE = ENV.fetch('NEONARCHIVE')
 
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
@@ -46,7 +47,7 @@ c = CI::Containment.new(JOB_NAME,
                         privileged: true,
                         no_exit_handlers: false)
 cmd = ["#{TOOLING_PATH}/nci/imager/build.sh",
-       Dir.pwd, DIST, ARCH, TYPE, METAPACKAGE, IMAGENAME]
+       Dir.pwd, DIST, ARCH, TYPE, METAPACKAGE, IMAGENAME, NEONARCHIVE]
 status_code = c.run(Cmd: cmd)
 exit status_code unless status_code == 0
 

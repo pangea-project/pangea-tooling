@@ -105,17 +105,26 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         # ISOs
         NCI.architectures.each do |architecture|
-          isoargs = { type: 'dev-unstable',
+          dev_unstable_isoargs = { type: 'dev-unstable',
                       distribution: distribution,
                       architecture: architecture,
                       metapackage: 'neon-desktop',
-                      imagename: 'neon' }
-          enqueue(NeonIsoJob.new(isoargs))
-          wayland_isoargs = { type: type,
+                      imagename: 'neon',
+                      neonarchive: 'unstable' }
+          enqueue(NeonIsoJob.new(dev_unstable_isoargs))
+          dev_stable_isoargs = { type: 'dev-stable',
+                      distribution: distribution,
+                      architecture: architecture,
+                      metapackage: 'neon-desktop',
+                      imagename: 'neon',
+                      neonarchive: 'stable' }
+          enqueue(NeonIsoJob.new(dev_stable_isoargs))
+          wayland_isoargs = { type: "unstable",
                               distribution: distribution,
                               architecture: architecture,
                               metapackage: 'plasma-wayland-desktop',
-                              imagename: 'plasma-wayland' }
+                              imagename: 'plasma-wayland',
+                              neonarchive: 'unstable' }
           enqueue(NeonIsoJob.new(wayland_isoargs))
         end
       end
