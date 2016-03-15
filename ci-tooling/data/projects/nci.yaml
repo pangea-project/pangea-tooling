@@ -14,6 +14,7 @@ packaging.neon.kde.org.uk:
         branch: master
     - settings:
         branch: master
+  - forks:
     - live-build:
         branch: master
   - qt:
