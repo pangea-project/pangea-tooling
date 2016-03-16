@@ -87,6 +87,7 @@ if [ ! -e livecd.neon.iso ]; then
 fi
 
 mv livecd.neon.* ../result/
+mv source.debian.tar.xz ../result/
 cd ../result/
 
 for f in *; do
