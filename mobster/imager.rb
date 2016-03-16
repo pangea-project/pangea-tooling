@@ -12,8 +12,8 @@ DIST = ENV.fetch('DIST')
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
 binds = [
-  "#{TOOLING_PATH}:#{TOOLING_PATH}",
-  "#{Dir.pwd}:#{Dir.pwd}"
+  TOOLING_PATH,
+  Dir.pwd
 ]
 
 c = CI::Containment.new(JOB_NAME,
