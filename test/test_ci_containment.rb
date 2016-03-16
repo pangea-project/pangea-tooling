@@ -126,6 +126,15 @@ module CI
       sigs.each { |sig| assert_handler_not_set(sig) }
     end
 
+    def test_BBB_chown_handle_bindings_in_docker_notation
+      vcr_it(__method__) do
+        c = Containment.new(@job_name, image: @image, binds: ['/asd:/asd'])
+        assert_raises RuntimeError do
+          c.send(:chown_handler)
+        end
+      end
+    end
+
     def test_init
       binds = [Dir.pwd, 'a:a']
       priv = true

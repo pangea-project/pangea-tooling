@@ -119,10 +119,18 @@ module CI
       end
     end
 
+    def chown_any_mapped(binds)
+      return unless binds.any? { |b| DirectBindingArray.mapped?(b) }
+      raise 'One or more binds uses the : notation, we do not support' \
+            ' chown handling for this! Stop using : to map paths or expand' \
+            ' the functionality'
+    end
+
     def chown_handler
       STDERR.puts 'Running chown handler'
       return @chown_handler if defined?(@chown_handler)
       binds_ = @binds.dup # Remove from object context so Proc can be a closure.
+      chown_any_mapped(binds_)
       @chown_handler = proc do
         chown_container =
           CI::Containment.new("#{@name}_chown", image: @image, binds: binds_,
