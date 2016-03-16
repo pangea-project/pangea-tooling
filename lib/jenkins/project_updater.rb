@@ -20,8 +20,8 @@
 
 require_relative '../../ci-tooling/lib/thread_pool'
 
-# Updates Jenkins Projects
 module Jenkins
+  # Updates Jenkins Projects
   class ProjectUpdater
     def initialize
       @job_queue = Queue.new
