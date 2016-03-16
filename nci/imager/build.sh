@@ -90,7 +90,7 @@ mv livecd.neon.* ../result/
 mv source.debian.tar.xz ../result/
 cd ../result/
 
-for f in *; do
+for f in live*; do
     new_name=$(echo $f | sed "s/livecd\.neon/${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}/")
     mv $f $new_name
 done
