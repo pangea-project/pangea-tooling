@@ -9,7 +9,7 @@ cleanup() {
     fi
     rm -rf $WD/result/*
     rm -rf $WD/build/livecd.ubuntu.*
-    rm -rf $WD/build/source.debian.*
+    rm -rf $WD/build/source.debian*
 }
 
 export WD=$1
