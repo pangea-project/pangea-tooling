@@ -38,7 +38,7 @@ task :deploy_in_container do
     end
 
     bundle_args = []
-    bundle_args << "--jobs=#{`nproc`.strip}"
+    bundle_args << '--jobs=1'
     bundle_args << '--local'
     bundle_args << '--no-cache'
     bundle_args << '--frozen'
@@ -70,7 +70,6 @@ task :deploy_in_container do
       FileUtils.cp_r(Dir.glob('*'), final_path)
     end
   end
-
 
   require_relative 'ci-tooling/lib/apt'
 
