@@ -25,6 +25,58 @@ require 'logger/colors'
 require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/optparse'
 
+class Node
+  ONLINE = :online
+  OFFLINE = :offline
+
+  class << self
+    def states
+      [ONLINE, OFFLINE]
+    end
+
+    attr_accessor :target_state
+  end
+
+  def initialize(name, client)
+    @name = name
+    @client = client
+  end
+
+  def skip?
+    master? || filtered? || already_target_state?
+  end
+
+  def toggle!
+    @client.toggle_temporarilyOffline(@name, 'Maintenance')
+  end
+
+  private
+
+  def target_state
+    self.class.target_state
+  end
+
+  def master?
+    @name == 'master'
+  end
+
+  def filtered?
+    false # Can be used to filter out specific names
+  end
+
+  def state
+    @client.is_offline?(@name) ? OFFLINE : ONLINE
+  end
+
+  def already_target_state?
+    target_state == state
+  end
+
+  def to_s
+    @name
+  end
+end
+
 ci_configs = []
 
 parser = OptionParser.new do |opts|
@@ -36,6 +88,12 @@ This does not put the instances into maintenance mode, nor does it wait for
 the queue to clear!
 EOF
   opts.separator('')
+
+  opts.on('-s STATE', '--state STATE', Node.states,
+          'Which state to switch to',
+          'EXPECTED') do |v|
+    Node.target_state = v.to_sym
+  end
 
   opts.on('-c CONFIG', '--config CONFIG',
           'The Pangea jenkins config to load to create api client instances.',
@@ -61,13 +119,19 @@ cis = ci_configs.collect do |config|
 end
 
 cis.each do |ci|
-  @log.info "Setting system #{ci.server_ip} into maintenance mode."
-  ci.system.quiet_down
+  if Node.target_state == Node::OFFLINE
+    @log.info "Setting system #{ci.server_ip} into maintenance mode."
+    ci.system.quiet_down
+  end
   node_client = ci.node
-  node_client.list.each do |node|
-    next if node == 'master'
-    next if node_client.is_offline?(node)
-    @log.info "Taking #{node} on #{ci.server_ip} offline"
-    node_client.toggle_temporarilyOffline(node, 'Maintenance')
+  node_client.list.each do |name|
+    node = Node.new(name, node_client)
+    next if node.skip?
+    @log.info "Taking #{node} on #{ci.server_ip} #{Node.target_state}"
+    node.toggle!
+  end
+  if Node.target_state == Node::ONLINE
+    @log.info "Taking system #{ci.server_ip} out of maintenance mode."
+    ci.system.cancel_quiet_down
   end
 end
