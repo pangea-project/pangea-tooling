@@ -42,7 +42,7 @@ module CI
       ]
       # Automatically decide how many concurrent build jobs we can support.
       # NOTE: special cased for trusty master servers to pass
-      dpkg_buildopts << '-jauto' unless pretty_old_system?
+      dpkg_buildopts << '-j1' unless pretty_old_system?
 
       if DPKG::BUILD_ARCH == 'amd64'
         # On arch:all only build the binaries, the source is already built.
