@@ -20,13 +20,9 @@
 
 require 'fileutils'
 
-require_relative '../debian/changelog'
 require_relative '../lsb'
 require_relative '../os'
-require_relative 'build_version'
-require_relative 'source'
 require_relative 'sourcer_base'
-require_relative 'tar_fetcher'
 
 module CI
   # Builds a source package from an existing tarball.

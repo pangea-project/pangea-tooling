@@ -19,17 +19,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'date'
 require 'fileutils'
-require 'yaml'
 
-require_relative '../debian/changelog'
-require_relative '../debian/source'
 require_relative '../kci'
-require_relative '../os'
-require_relative 'build_version'
-require_relative 'source'
-require_relative 'version_enforcer'
 
 module CI
   class SourcerBase
