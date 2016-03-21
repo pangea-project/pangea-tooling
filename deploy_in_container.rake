@@ -45,7 +45,7 @@ task :deploy_in_container do
     bundle_args << '--no-cache'
     bundle_args << '--frozen'
     bundle_args << '--system'
-    bundle_args << '--without development test'
+    bundle_args << '--without' << 'development' << 'test'
     bundle(*bundle_args)
 
     # Clean up now unused gems. This prevents unused versions of a gem
