@@ -56,5 +56,18 @@ module CI
       # orig
       @sourcepath = "#{@builddir}/source" # Created by extract.
     end
+
+    def create_changelog_entry(version, message)
+      dch = [
+        'dch',
+        '--force-bad-version',
+        '--distribution', @release,
+        '--newversion', version,
+        message
+      ]
+      # dch cannot actually fail because we parse the changelog beforehand
+      # so it is of acceptable format here already.
+      raise 'Failed to create changelog entry' unless system(*dch)
+    end
   end
 end
