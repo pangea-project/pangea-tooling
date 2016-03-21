@@ -26,7 +26,7 @@ require_relative 'sourcer_base'
 
 module CI
   # Builds a source package from an existing tarball.
-  class OrigSourcer < SourcerBase
+  class OrigSourceBuilder < SourcerBase
     def initialize(release: LSB::DISTRIB_CODENAME, strip_symbols: false)
       super
 
