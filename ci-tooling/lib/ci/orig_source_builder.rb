@@ -54,20 +54,7 @@ module CI
         base_version = base_version[0..-2].join('ubuntu')
       end
       base_version = "#{base_version}+#{@release_version}+build#{@build_rev}"
-      # FIXME: code copy from build_source
-      # FIXME: dch should include build url
-      dch = %w(dch)
-      dch << '--force-bad-version'
-      dch << '--distribution' << @release
-      dch << '-v' << base_version
-      dch << 'Automatic CI Build'
-      unless system(*dch)
-        # :nocov:
-        # dch cannot actually fail because we parse the changelog beforehand
-        # so it is of acceptable format here already.
-        raise 'Failed to create changelog entry'
-        # :nocov:
-      end
+      create_changelog_entry(base_version)
     end
 
     def build(tarball)
