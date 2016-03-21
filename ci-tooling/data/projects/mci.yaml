@@ -82,6 +82,7 @@ github.com:
     - libhybris
     - peruse
     - videoPlayer-packaging
+    - kirigami
 
 launchpad.net:
   - ubuntu-filemanager-app
