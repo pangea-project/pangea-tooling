@@ -9,8 +9,6 @@ require_relative 'tar_fetcher'
 
 module CI
   class OrigSourceBuilder
-    extend Gem::Deprecate
-
     def initialize(release: LSB::DISTRIB_CODENAME, strip_symbols: false)
       # @name
       # @version
