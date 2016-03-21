@@ -171,51 +171,62 @@ module CI
       end
     end
 
+    def mangle_manpages(file)
+      # Strip localized manpages
+      # e.g.  usr /share /man /  *  /man 7 /kf5options.7
+      man_regex = %r{^.*usr/share/man/(\*|\w+)/man\d/.*$}
+      subbed = File.open(file).read.gsub(man_regex, '')
+      File.write(file, subbed)
+    end
+
+    def mangle_locale(file)
+      locale_regex = %r{^.*usr/share/locale.*$}
+      subbed = File.open(file).read.gsub(locale_regex, '')
+      File.write(file, subbed)
+    end
+
+    def mangle_lintian_of(file)
+      return unless File.open(file, 'r').read.strip.empty?
+      package_name = File.basename(file, '.install')
+      lintian_overrides_path = file.gsub('.install', '.lintian-overrides')
+      puts "#{package_name} is now empty, trying to add lintian override"
+      File.open(lintian_overrides_path, 'a') do |f|
+        f.write("#{package_name}: empty-binary-package\n")
+      end
+    end
+
+    def mangle_install_file(file)
+      mangle_manpages(file)
+      # FIXME: bloody workaround for kconfigwidgets, kdelibs4support
+      # and ubuntu-ui-toolkit containing legit locale data
+      if %w(kconfigwidgets
+            kdelibs4support
+            ubuntu-ui-toolkit).include?(@source.name)
+        return
+      end
+      mangle_locale(file)
+      # If the package is now empty, lintian override the empty warning
+      # to avoid false positives
+      mangle_lintian_of(file)
+    end
+
+    def mangle_symbols
+      # Rip out symbol files unless we are on latest
+      if @strip_symbols || @release != KCI.latest_series
+        symbols = Dir.glob('debian/symbols') +
+                  Dir.glob('debian/*.symbols') +
+                  Dir.glob('debian/*.symbols.*')
+        symbols.each { |s| FileUtils.rm(s) }
+      end
+    end
+
     def mangle!
       # Rip out locale install
       Dir.chdir("#{@build_dir}/source/") do
         Dir.glob('debian/*.install').each do |install_file_path|
-          # Strip localized manpages
-          # e.g.  usr /share /man /  *  /man 7 /kf5options.7
-          man_regex = %r{^.*usr/share/man/(\*|\w+)/man\d/.*$}
-          subbed = File.open(install_file_path).read.gsub(man_regex, '')
-          File.open(install_file_path, 'w') do |f|
-            f << subbed
-          end
-
-          # FIXME: bloody workaround for kconfigwidgets, kdelibs4support
-          # and ubuntu-ui-toolkit containing legit locale data
-          if %w(kconfigwidgets
-                kdelibs4support
-                ubuntu-ui-toolkit).include?(@source.name)
-            next
-          end
-
-          locale_regex = %r{^.*usr/share/locale.*$}
-          subbed = File.open(install_file_path).read.gsub(locale_regex, '')
-          File.open(install_file_path, 'w') do |f|
-            f << subbed
-          end
+          mangle_install_file(install_file_path)
         end
-        # If the package is now empty, lintian override the empty warning
-        # to avoid false positives
-        Dir.glob('debian/*.install').each do |install_file_path|
-          next unless File.open(install_file_path, 'r').read.strip.empty?
-          package_name = File.basename(install_file_path, '.install')
-          lintian_overrides_path = install_file_path.gsub('.install',
-                                                          '.lintian-overrides')
-          puts "#{package_name} is now empty, trying to add lintian override"
-          File.open(lintian_overrides_path, 'a') do |file|
-            file.write("#{package_name}: empty-binary-package\n")
-          end
-        end
-        # Rip out symbol files unless we are on latest
-        if @strip_symbols || @release != KCI.latest_series
-          symbols = Dir.glob('debian/symbols') +
-                    Dir.glob('debian/*.symbols') +
-                    Dir.glob('debian/*.symbols.*')
-          symbols.each { |s| FileUtils.rm(s) }
-        end
+        mangle_symbols
       end
     end
   end
