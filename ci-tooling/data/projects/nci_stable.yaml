@@ -1,6 +1,13 @@
 packaging.neon.kde.org.uk:
   - plasma:
     - '*'
+  - neon:
+    - seeds:
+        branch: master
+    - settings:
+        branch: master
+    - syslinux-themes-neon:
+        branch: master
   - '':
     - pkg-kde-tools: # Version in wily is too old for features used in Debian master.
         branch: kubuntu_xenial_archive
