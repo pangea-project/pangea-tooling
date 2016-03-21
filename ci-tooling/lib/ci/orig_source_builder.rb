@@ -29,7 +29,8 @@ require_relative 'sourcer_base'
 require_relative 'tar_fetcher'
 
 module CI
-  class OrigSourceBuilder < SourcerBase
+  # Builds a source package from an existing tarball.
+  class OrigSourcer < SourcerBase
     def initialize(release: LSB::DISTRIB_CODENAME, strip_symbols: false)
       super
 
