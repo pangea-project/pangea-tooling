@@ -102,16 +102,7 @@ module CI
       Dir.chdir("#{@build_dir}/source/") do
         ENV['DEBFULLNAME'] = @data[@flavor][:name]
         ENV['DEBEMAIL'] = @data[@flavor][:email]
-        dch = [
-          'dch',
-          '--force-bad-version',
-          '--distribution', @release,
-          '--newversion', @source.version,
-          "Automatic #{@flavor.capitalize} CI Build"
-        ]
-        # dch cannot actually fail because we parse the changelog beforehand
-        # so it is of acceptable format here already.
-        raise 'Failed to create changelog entry' unless system(*dch)
+        create_changelog_entry
       end
     end
 
@@ -150,6 +141,19 @@ module CI
     end
 
     private
+
+    def create_changelog_entry
+      dch = [
+        'dch',
+        '--force-bad-version',
+        '--distribution', @release,
+        '--newversion', @source.version,
+        "Automatic #{@flavor.capitalize} CI Build"
+      ]
+      # dch cannot actually fail because we parse the changelog beforehand
+      # so it is of acceptable format here already.
+      raise 'Failed to create changelog entry' unless system(*dch)
+    end
 
     # Copies a source tree to the target source directory
     # @param source_dir the directory to copy from (all content within will
