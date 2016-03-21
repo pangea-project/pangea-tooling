@@ -24,6 +24,7 @@ require 'fileutils'
 require_relative '../kci'
 
 module CI
+  # Base class for sourcer implementations.
   class SourcerBase
     private
 
