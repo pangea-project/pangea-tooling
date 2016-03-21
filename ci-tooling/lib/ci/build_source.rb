@@ -29,14 +29,15 @@ require_relative '../kci'
 require_relative '../os'
 require_relative 'build_version'
 require_relative 'source'
+require_relative 'sourcer_base'
 require_relative 'version_enforcer'
 
 module CI
   # Class to build out source package from a VCS
-  class VcsSourceBuilder
+  class VcsSourceBuilder < SourcerBase
     def initialize(release:, strip_symbols: false)
-      @build_dir = "#{Dir.pwd}/build/"
-      @release = release # e.g. vivid
+      super
+      # FIXME: use packagingdir and sourcedir
       @flavor = OS::ID.to_sym # e.g. Ubuntu
       @data = YAML.load_file("#{__dir__}/data/maintainer.yaml")
 
@@ -57,7 +58,6 @@ module CI
                         end
 
       @tar_version = @source.build_version.tar
-      @strip_symbols = strip_symbols
 
       @version_enforcer = VersionEnforcer.new
       @version_enforcer.validate(@source.version)
@@ -67,8 +67,6 @@ module CI
     # possible debian/ directory.
     # @note this wipes @build_dir
     def copy_source
-      # copy sources around
-      FileUtils.rm_rf(@build_dir, verbose: true)
       copy_source_tree('source')
       if Dir.exist?("#{@build_dir}/source/debian")
         FileUtils.rm_rf(Dir.glob("#{@build_dir}/source/debian"))
