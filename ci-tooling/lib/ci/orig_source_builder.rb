@@ -20,6 +20,7 @@
 
 require 'fileutils'
 
+require_relative '../debian/changelog'
 require_relative '../lsb'
 require_relative '../os'
 require_relative 'sourcer_base'
