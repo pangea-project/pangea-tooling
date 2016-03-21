@@ -57,6 +57,16 @@ module CI
       @sourcepath = "#{@builddir}/source" # Created by extract.
     end
 
+    def mangle_symbols
+      # Rip out symbol files unless we are on latest
+      if @strip_symbols || @release != KCI.latest_series
+        symbols = Dir.glob('debian/symbols') +
+                  Dir.glob('debian/*.symbols') +
+                  Dir.glob('debian/*.symbols.*')
+        symbols.each { |s| FileUtils.rm(s) }
+      end
+    end
+
     def create_changelog_entry(version, message = 'Automatic CI Build')
       dch = [
         'dch',

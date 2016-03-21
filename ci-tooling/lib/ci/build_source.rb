@@ -192,16 +192,6 @@ module CI
       mangle_lintian_of(file)
     end
 
-    def mangle_symbols
-      # Rip out symbol files unless we are on latest
-      if @strip_symbols || @release != KCI.latest_series
-        symbols = Dir.glob('debian/symbols') +
-                  Dir.glob('debian/*.symbols') +
-                  Dir.glob('debian/*.symbols.*')
-        symbols.each { |s| FileUtils.rm(s) }
-      end
-    end
-
     def mangle!
       # Rip out locale install
       Dir.chdir("#{@build_dir}/source/") do

@@ -43,6 +43,19 @@ module CI
       # FIXME: builder should generate a Source instance
     end
 
+    def build(tarball)
+      FileUtils.cp(tarball.path, @builddir)
+      tarball.extract(@sourcepath)
+      FileUtils.cp_r(Dir.glob("#{@packagingdir}/*"), @sourcepath)
+      Dir.chdir(@sourcepath) do
+        log_change
+        mangle!
+        build_internal
+      end
+    end
+
+    private
+
     def log_change
       # FIXME: this has email and fullname from env, see build_source
       changelog = Changelog.new
@@ -56,26 +69,8 @@ module CI
       create_changelog_entry(base_version)
     end
 
-    def build(tarball)
-      FileUtils.cp(tarball.path, @builddir)
-      tarball.extract(@sourcepath)
-      FileUtils.cp_r(Dir.glob("#{@packagingdir}/*"), @sourcepath)
-      Dir.chdir(@sourcepath) do
-        log_change
-        mangle!
-        build_internal
-      end
-    end
-
     def mangle!
-      if @strip_symbols
-        Dir.chdir(@sourcepath) do
-          symbols = Dir.glob('debian/symbols') +
-                    Dir.glob('debian/*.symbols') +
-                    Dir.glob('debian/*.symbols.*')
-          symbols.each { |s| FileUtils.rm(s) }
-        end
-      end
+      mangle_symbols
     end
 
     def build_internal
