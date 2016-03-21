@@ -45,9 +45,8 @@ module CI
 
     def log_change
       # FIXME: this has email and fullname from env, see build_source
-      # FIXME: code copy from build_source
       changelog = Changelog.new
-      raise "Can't parse changelog!" if changelog.nil?
+      raise "Can't parse changelog!" unless changelog
       base_version = changelog.version
       if base_version.include?('ubuntu')
         base_version = base_version.split('ubuntu')
