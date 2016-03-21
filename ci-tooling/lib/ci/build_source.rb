@@ -169,7 +169,7 @@ module CI
 
     def mangle!
       # Rip out locale install
-      Dir.chdir('build/source/') do
+      Dir.chdir("#{@build_dir}/source/") do
         Dir.glob('debian/*.install').each do |install_file_path|
           # Strip localized manpages
           # e.g.  usr /share /man /  *  /man 7 /kf5options.7
