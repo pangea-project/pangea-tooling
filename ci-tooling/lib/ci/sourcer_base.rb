@@ -57,7 +57,7 @@ module CI
       @sourcepath = "#{@builddir}/source" # Created by extract.
     end
 
-    def create_changelog_entry(version, message)
+    def create_changelog_entry(version, message = 'Automatic CI Build')
       dch = [
         'dch',
         '--force-bad-version',
