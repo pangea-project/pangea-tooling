@@ -164,7 +164,9 @@ module CI
       FileUtils.mkpath("#{@build_dir}/source")
       if Dir.exist?(source_dir)
         # /. is fileutils notation for recursive content
-        FileUtils.cp_r("#{source_dir}/.", "#{@build_dir}/source/", verbose: true)
+        FileUtils.cp_r("#{source_dir}/.",
+                       "#{@build_dir}/source/",
+                       verbose: true)
       end
       %w(.bzr .git .hg .svn).each do |dir|
         FileUtils.rm_rf(Dir.glob("#{@build_dir}/source/**/#{dir}"))
