@@ -103,14 +103,16 @@ module CI
       Dir.chdir("#{BUILD_DIR}/source/") do
         ENV['DEBFULLNAME'] = @data[@flavor][:name]
         ENV['DEBEMAIL'] = @data[@flavor][:email]
-        unless system("dch -b -v #{@source.version} -D #{@release} \
-                      'Automatic #{@flavor.capitalize} CI Build'")
-          # :nocov:
-          # dch cannot actually fail because we parse the changelog beforehand
-          # so it is of acceptable format here already.
-          raise 'Failed to create changelog entry'
-          # :nocov:
-        end
+        dch = [
+          'dch',
+          '--force-bad-version',
+          '--distribution', @release,
+          '--newversion', @source.version,
+          "Automatic #{@flavor.capitalize} CI Build"
+        ]
+        # dch cannot actually fail because we parse the changelog beforehand
+        # so it is of acceptable format here already.
+        raise 'Failed to create changelog entry' unless system(*dch)
       end
     end
 
