@@ -22,14 +22,7 @@
 require 'aptly'
 require 'net/ssh/gateway'
 
-# SSH tunnel so we can talk to the repo
-gateway = Net::SSH::Gateway.new('drax', 'root')
-gateway.open('localhost', 9090, 9090)
-
-Aptly.configure do |config|
-  config.host = 'localhost'
-  config.port = 9090
-end
+require_relative '../lib/debian/version'
 
 class Package
   # A package short key (key without uid)
@@ -57,11 +50,15 @@ class Package
   # e.g.
   # "Psource kactivities-kf5 5.18.0+git20160312.0713+15.10-0 8ebad520d672f51c"
   class Key < ShortKey
+    # FIXME: maybe should be called hash?
     attr_reader :uid
 
     def self.from_string(str)
       match = REGEX.match(str)
-      kwords = Hash[regex.names.map { |name| [name.to_sym, match[name]] }]
+      unless match
+        raise ArgumentError, "String doesn't appear to match our regex: #{str}"
+      end
+      kwords = Hash[match.names.map { |name| [name.to_sym, match[name]] }]
       new(**kwords)
     end
 
@@ -90,118 +87,81 @@ class Package
   end
 end
 
-require_relative '../lib/debian/version'
-
-class Query
-  class Field
-    OPERATORS = {
-      :== => '=',
-      :>= => '<=',
-      :<= => '<=',
-      :>> => '>>',
-      :<< => '<<',
-      :% => '%',
-      :~ => '~'
-    }.freeze
-
-    attr_reader :str
-
-    def initialize(query)
-      @query = query
-      @str = ''
-    end
-
-    def ==(other)
-      @str += format(' (= %s)', other)
-      @query
-    end
-
-    def method_missing(name, *args)
-      return super unless args.size == 1
-      other = args.shift
-      @str += " (#{OPERATORS.fetch(name)} #{other})"
-      @query
-    end
+# Cleans up an Aptly::Repository by removing all versions of source+bin that
+# are older than the newest version.
+class RepoCleaner
+  def initialize(repo, keep_amount:)
+    @repo = repo
+    @keep_amount = keep_amount
   end
 
-  DOLLAR_PREFIX = %i(
-    Source
-    SourceVersion
-    Architecture
-    Version
-    PackageType).freeze
-
-  def initialize
-    @str = ''
-    @pending_field = nil
-  end
-
-  def names
-    @names ||= Hash[DOLLAR_PREFIX.map { |p| [p, "$#{p}"] }]
-  end
-
-  def method_missing(name, *args)
-    return super unless name.to_s[0].upcase == name.to_s[0]
-    @str += names.fetch(name, name.to_s)
-    @pending_field = Field.new(self)
-  end
-
-  def and
-    close
-    @str += ', '
-    self
-  end
-
-  def close
-    if @pending_field
-      @str += @pending_field.str
-      @pending_field = nil
-    end
-    self
-  end
-
-  def to_s
-    close
-    @str
-  end
-end
-
-def query(&block)
-  yield query = Query.new
-  query.close
-end
-
-# p query { |x|
-#   x.Source.==('name')
-#    .and.SourceVersion.==('1')
-#    .and.Kitten.~('autogram')
-# }.to_s
-#
-# exit
-
-Aptly::Repository.list.each do |repo|
-  next unless repo.Name == 'unstable' || repo.Name == 'stable'
-
-  packages = repo.packages(q: '$Architecture (source)').compact.uniq
-
-  packages.collect! { |key| Package::Key.from_string(key) }
-  package_hash = packages.group_by(&:name)
-  package_hash.each do |_, names_packages|
-    versions = names_packages.group_by(&:version)
-    versions = Hash[versions.map { |k, v| [Debian::Version.new(k), v] }]
-    versions = versions.sort.to_h
-    while versions.size > 1
-      _, keys = versions.shift
-      keys.each do |key|
-        query = format('$Source (%s), $SourceVersion (%s)',
-                       key.name,
-                       key.version)
-        binaries = repo.packages(q: query)
-        repo.delete_package(key.to_s)
-        repo.delete_packages(binaries)
+  # Iterate over each source. Sort its versions and drop lowest ones.
+  def clean
+    sources_hash.each do |_, names_packages|
+      versions = debian_versions(names_packages).sort.to_h
+      # For each version get the relevant keys and drop the keys until
+      # we have sufficiently few versions remaining
+      while versions.size > @keep_amount
+        _, keys = versions.shift
+        keys.each do |source_key|
+          delete(source_key)
+        end
       end
     end
+    @repo.published_in(&:update!)
   end
 
-  repo.published_in(&:update!)
+  def self.clean(repo_whitelist = [], keep_amount: 1)
+    Aptly::Repository.list.each do |repo|
+      next unless repo_whitelist.include?(repo.Name)
+      RepoCleaner.new(repo, keep_amount: keep_amount).clean
+    end
+  end
+
+  private
+
+  def sources
+    @sources ||= @repo.packages(q: '$Architecture (source)')
+                      .compact
+                      .uniq
+                      .collect { |key| Package::Key.from_string(key) }
+  end
+
+  # Group the sources in a Hash by their name attribute, so we can process
+  # one source at a time.
+  def sources_hash
+    @sources_hash ||= sources.group_by(&:name)
+  end
+
+  # Group the keys in a Hash by their version. This is so we can easily
+  # sort the versions.
+  def debian_versions(names_packages)
+    # Group the keys in a Hash by their version. This is so we can easily
+    # sort the versions.
+    versions = names_packages.group_by(&:version)
+    # Pack them in a Debian::Version object for sorting
+    Hash[versions.map { |k, v| [Debian::Version.new(k), v] }]
+  end
+
+  def delete(source_key)
+    query = format('$Source (%s), $SourceVersion (%s)',
+                   source_key.name,
+                   source_key.version)
+    binaries = @repo.packages(q: query)
+    puts "@repo.delete_packages(#{([source_key.to_s] + binaries).inspect})"
+    @repo.delete_packages([source_key.to_s] + binaries)
+  end
+end
+
+if __FILE__ == $PROGRAM_NAME || ENV.include?('PANGEA_TEST_EXECUTION')
+  # SSH tunnel so we can talk to the repo
+  gateway = Net::SSH::Gateway.new('drax', 'root')
+  gateway_port = gateway.open('localhost', 9090)
+
+  Aptly.configure do |config|
+    config.host = 'localhost'
+    config.port = gateway_port
+  end
+
+  RepoCleaner.clean(%w(unstable stable))
 end
