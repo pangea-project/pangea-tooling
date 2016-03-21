@@ -100,7 +100,8 @@ module CI
       Dir.chdir("#{@build_dir}/source/") do
         ENV['DEBFULLNAME'] = @data[@flavor][:name]
         ENV['DEBEMAIL'] = @data[@flavor][:email]
-        create_changelog_entry
+        create_changelog_entry(@source.version,
+                               "Automatic #{@flavor.capitalize} CI Build")
       end
     end
 
@@ -140,13 +141,13 @@ module CI
 
     private
 
-    def create_changelog_entry
+    def create_changelog_entry(version, message)
       dch = [
         'dch',
         '--force-bad-version',
         '--distribution', @release,
-        '--newversion', @source.version,
-        "Automatic #{@flavor.capitalize} CI Build"
+        '--newversion', version,
+        message
       ]
       # dch cannot actually fail because we parse the changelog beforehand
       # so it is of acceptable format here already.
