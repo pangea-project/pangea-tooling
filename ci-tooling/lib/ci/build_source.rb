@@ -107,13 +107,7 @@ module CI
 
     def build
       # dpkg-buildpackage
-      Dir.chdir("#{@build_dir}/source/") do
-        system('update-maintainer')
-        # Force -sa as reprepreo refuses to accept uploads without orig.
-        unless system('dpkg-buildpackage', '-us', '-uc', '-S', '-d', '-sa')
-          raise 'Could not run dpkg-buildpackage!'
-        end
-      end
+      Dir.chdir("#{@build_dir}/source/") { dpkg_buildpackage }
 
       Dir.chdir(@build_dir) do
         dsc = Dir.glob('*.dsc')

@@ -79,14 +79,7 @@ module CI
     end
 
     def build_internal
-      # FIXME: code copy from build_source
-      # dpkg-buildpackage
-      Dir.chdir(@sourcepath) do
-        system('update-maintainer')
-        # Force -sa as reprepreo refuses to accept uploads without orig.
-        return if system('dpkg-buildpackage', '-us', '-uc', '-S', '-d', '-sa')
-        raise 'Could not run dpkg-buildpackage!'
-      end
+      Dir.chdir(@sourcepath) { dpkg_buildpackage }
     end
   end
 end

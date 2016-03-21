@@ -69,5 +69,16 @@ module CI
       # so it is of acceptable format here already.
       raise 'Failed to create changelog entry' unless system(*dch)
     end
+
+    def dpkg_buildpackage
+      system('update-maintainer')
+      args = [
+        'dpkg-buildpackage',
+        '-us', '-uc', # Do not sign .dsc / .changes
+        '-S', # Only build source
+        '-d' # Do not enforce build-depends
+      ]
+      raise 'Could not run dpkg-buildpackage!' unless system(*args)
+    end
   end
 end
