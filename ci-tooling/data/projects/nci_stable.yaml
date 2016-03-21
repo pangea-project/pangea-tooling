@@ -11,3 +11,7 @@ packaging.neon.kde.org.uk:
   - '':
     - pkg-kde-tools: # Version in wily is too old for features used in Debian master.
         branch: kubuntu_xenial_archive
+
+launchpad.net:
+  - livecd-rootfs-neon
+  - ubiquity-neon
