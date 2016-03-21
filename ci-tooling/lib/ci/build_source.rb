@@ -34,9 +34,8 @@ require_relative 'version_enforcer'
 module CI
   # Class to build out source package from a VCS
   class VcsSourceBuilder
-    BUILD_DIR = 'build/'.freeze
-
     def initialize(release:, strip_symbols: false)
+      @build_dir = "#{Dir.pwd}/build/"
       @release = release # e.g. vivid
       @flavor = OS::ID.to_sym # e.g. Ubuntu
       @data = YAML.load_file("#{__dir__}/data/maintainer.yaml")
@@ -66,13 +65,13 @@ module CI
 
     # Copies the source/ source tree into the target and strips it off a
     # possible debian/ directory.
-    # @note this wipes BUILD_DIR
+    # @note this wipes @build_dir
     def copy_source
       # copy sources around
-      FileUtils.rm_rf(BUILD_DIR, verbose: true)
+      FileUtils.rm_rf(@build_dir, verbose: true)
       copy_source_tree('source')
-      if Dir.exist?("#{BUILD_DIR}/source/debian")
-        FileUtils.rm_rf(Dir.glob("#{BUILD_DIR}/source/debian"))
+      if Dir.exist?("#{@build_dir}/source/debian")
+        FileUtils.rm_rf(Dir.glob("#{@build_dir}/source/debian"))
       end
     end
 
@@ -85,7 +84,7 @@ module CI
     end
 
     def create_orig_tar
-      Dir.chdir(BUILD_DIR) do
+      Dir.chdir(@build_dir) do
         tar = "#{@source.name}_#{@tar_version}.orig.tar"
         unless system("tar -cf #{tar} source")
           raise 'Failed to create a tarball'
@@ -100,7 +99,7 @@ module CI
 
     def log_change
       # Create changelog entry
-      Dir.chdir("#{BUILD_DIR}/source/") do
+      Dir.chdir("#{@build_dir}/source/") do
         ENV['DEBFULLNAME'] = @data[@flavor][:name]
         ENV['DEBEMAIL'] = @data[@flavor][:email]
         dch = [
@@ -118,7 +117,7 @@ module CI
 
     def build
       # dpkg-buildpackage
-      Dir.chdir("#{BUILD_DIR}/source/") do
+      Dir.chdir("#{@build_dir}/source/") do
         system('update-maintainer')
         # Force -sa as reprepreo refuses to accept uploads without orig.
         unless system('dpkg-buildpackage', '-us', '-uc', '-S', '-d', '-sa')
@@ -126,7 +125,7 @@ module CI
         end
       end
 
-      Dir.chdir(BUILD_DIR) do
+      Dir.chdir(@build_dir) do
         dsc = Dir.glob('*.dsc')
         raise 'Exactly one dsc not found' if dsc.size != 1
         @source.dsc = dsc[0]
@@ -136,7 +135,7 @@ module CI
     end
 
     def cleanup
-      FileUtils.rm_rf("#{BUILD_DIR}/source")
+      FileUtils.rm_rf("#{@build_dir}/source")
     end
 
     def run
@@ -155,16 +154,16 @@ module CI
     # Copies a source tree to the target source directory
     # @param source_dir the directory to copy from (all content within will
     #   be copied)
-    # @note this will create BUILD_DIR/source if it doesn't exist
+    # @note this will create @build_dir/source if it doesn't exist
     # @note this will strip the copied source of version control directories
     def copy_source_tree(source_dir)
-      FileUtils.mkpath("#{BUILD_DIR}/source")
+      FileUtils.mkpath("#{@build_dir}/source")
       if Dir.exist?(source_dir)
         # /. is fileutils notation for recursive content
-        FileUtils.cp_r("#{source_dir}/.", "#{BUILD_DIR}/source/", verbose: true)
+        FileUtils.cp_r("#{source_dir}/.", "#{@build_dir}/source/", verbose: true)
       end
       %w(.bzr .git .hg .svn).each do |dir|
-        FileUtils.rm_rf(Dir.glob("#{BUILD_DIR}/source/**/#{dir}"))
+        FileUtils.rm_rf(Dir.glob("#{@build_dir}/source/**/#{dir}"))
       end
     end
 
