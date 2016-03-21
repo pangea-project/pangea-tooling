@@ -34,7 +34,7 @@ class ProjectJob < JenkinsJob
     # FIXME: frameworks is special, very special ...
     # Base builds have no stable thingy but their unstable version is equal
     # to their not unstable version.
-    if %w(frameworks qt).include?(project.component)
+    if %w(syslinux-themes-neon frameworks qt).include?(project.component)
       dependees += project.dependees.collect do |d|
         Builder.basename(kwords[:distribution],
                          'stable',

@@ -65,7 +65,7 @@
     <hudson.tasks.Shell>
       <command>
 ~/tooling/ci-tooling/bin/pangea_dput --port 9090 --repo <%= type %> *.changes
-<% if %w(frameworks qt).include?(component) %>
+<% if %w(syslinux-themes-neon frameworks qt).include?(component) %>
   # This has no stable version, the unstable version is supplying stable.
   ~/tooling/ci-tooling/bin/pangea_dput --port 9090 --repo stable *.changes
 <% end %>
