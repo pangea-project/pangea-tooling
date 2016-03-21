@@ -9,7 +9,7 @@ raise 'No live-config found!' unless File.exist?('live-config')
 @ppa = 'ppa:ci-train-ppa-service/stable-snapshot'
 Apt::Repository.add(@ppa)
 Apt.update
-Apt.install(%w(ubuntu-defaults-builder))
+Apt.install(%w(livecd-rootfs))
 
 ec = 0
 
