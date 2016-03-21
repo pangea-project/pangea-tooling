@@ -33,6 +33,8 @@ require_relative 'version_enforcer'
 
 module CI
   class SourcerBase
+    private
+
     def initialize(release:, strip_symbols:)
       @release = release # e.g. vivid
       @strip_symbols = strip_symbols
