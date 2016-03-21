@@ -2,6 +2,8 @@ require 'etc'
 require 'fileutils'
 require 'tmpdir'
 
+require_relative 'lib/rake/bundle'
+
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
   require_relative 'ci-tooling/lib/dpkg'
@@ -37,21 +39,21 @@ task :deploy_in_container do
       sh 'gem install bundler'
     end
 
-    bundle_args = []
+    bundle_args = ['install']
     bundle_args << '--jobs=1'
     bundle_args << '--local'
     bundle_args << '--no-cache'
     bundle_args << '--frozen'
     bundle_args << '--system'
     bundle_args << '--without development test'
-    sh "bundle install #{bundle_args.join(' ')}"
+    bundle(*bundle_args)
 
     # Clean up now unused gems. This prevents unused versions of a gem
     # lingering in the image blowing up its size.
-    clean_args = []
+    clean_args = ['clean']
     clean_args << '--verbose'
     clean_args << '--force' # Force system clean!
-    sh "bundle clean #{clean_args.join(' ')}"
+    bundle(*clean_args)
 
     # Trap common exit signals to make sure the ownership of the forwarded
     # volume is correct once we are done.
