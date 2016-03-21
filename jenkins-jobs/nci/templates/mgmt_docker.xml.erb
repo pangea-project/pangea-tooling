@@ -32,6 +32,12 @@
   </builders>
   <publishers>
     <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.26">
+      <targets>
+        <hudson.plugins.im.GroupChatIMMessageTarget plugin="instant-messaging@1.35">
+          <name>#pangea-monitoring</name>
+          <notificationOnly>true</notificationOnly>
+        </hudson.plugins.im.GroupChatIMMessageTarget>
+      </targets>
       <strategy>FAILURE_AND_FIXED</strategy>
       <notifyOnBuildStart>false</notifyOnBuildStart>
       <notifySuspects>false</notifySuspects>
