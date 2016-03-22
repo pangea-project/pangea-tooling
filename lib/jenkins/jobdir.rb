@@ -45,7 +45,7 @@ module Jenkins
       abs_link == abs_file
     end
 
-    def self.prune(dir, min_count: 6, max_age: 14)
+    def self.prune(dir, min_count: 6, max_age: 14, paths: %w(log archive))
       buildsdir = "#{dir}/builds"
       return unless File.exist?(buildsdir)
       content = Dir.glob("#{buildsdir}/*")
@@ -66,13 +66,11 @@ module Jenkins
 
       content.sort_by! { |c| File.basename(c).to_i }
       content[0..-min_count].each do |d| # Always keep the last N builds.
-        log = "#{d}/log"
-        archive = "#{d}/archive"
-        if File.exist?(log)
-          FileUtils.rm(File.realpath(log)) if age(log) > max_age
-        end
-        if File.exist?(archive)
-          FileUtils.rm_r(File.realpath(archive)) if age(archive) > max_age
+        paths.each do |path|
+          path = "#{d}/#{path}"
+          if File.exist?(path) && (age(path) > max_age)
+            FileUtils.rm_r(File.realpath(path), verbose: true)
+          end
         end
       end
     end

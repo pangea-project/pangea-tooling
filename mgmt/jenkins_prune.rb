@@ -46,6 +46,11 @@ EOF
           'Builds below this limit are also kept if they are too old') do |v|
     options[:min_count] = v.to_i
   end
+
+  opts.on('--paths archive,log,etc', Array,
+          'List of paths to drop') do |v|
+    options[:paths] = v
+  end
 end
 parser.parse!
 
