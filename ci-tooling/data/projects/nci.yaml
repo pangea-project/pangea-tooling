@@ -22,6 +22,8 @@ packaging.neon.kde.org.uk:
   - qt:
     - '*':
         branch: Neon/5.5
+    - qtchooser:
+        branch: Neon/release
   - '':
     - pkg-kde-tools: # Version in wily is too old for features used in Debian master.
         branch: kubuntu_xenial_archive
