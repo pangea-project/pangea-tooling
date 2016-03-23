@@ -50,6 +50,8 @@ module CI
     private
 
     def uscan(chdir, destdir)
+      destdir = File.absolute_path(destdir)
+      FileUtils.mkpath(destdir) unless Dir.exist?(destdir)
       system('uscan',
              '--verbose',
              '--download-current-version',
