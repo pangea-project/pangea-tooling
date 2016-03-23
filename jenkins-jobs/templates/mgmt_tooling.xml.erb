@@ -49,7 +49,8 @@
   <builders>
     <com.cloudbees.jenkins.GitHubSetCommitStatusBuilder plugin="github@1.13.3"/>
     <hudson.tasks.Shell>
-      <command>env
+      <command>
+rm -rf .bundle || true
 gem install --no-rdoc bundler
 bundle update --jobs=`nproc` || bundle install --jobs=`nproc`
 </command>
