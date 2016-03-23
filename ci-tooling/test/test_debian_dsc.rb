@@ -21,8 +21,8 @@
 require_relative '../lib/debian/dsc'
 require_relative 'lib/testcase'
 
-# Test debian .changes
-class DebianChangesTest < TestCase
+# Test debian .dsc
+class DebianDSCTest < TestCase
   def setup
     # Change into our fixture dir as this stuff is read-only anyway.
     Dir.chdir(@datadir)
