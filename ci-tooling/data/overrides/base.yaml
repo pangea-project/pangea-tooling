@@ -65,6 +65,11 @@
     upstream_scm:
       url: http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.5.1+dfsg.orig.tar.xz
 
+'*{debian.org,packaging.neon}*/qt/qtchooser':
+  Neon/release:
+    upstream_scm:
+      url: http://http.debian.net/debian/pool/main/q/qtchooser/qtchooser_52-gae5eeef.orig.tar.xz
+
 '*{debian.org,packaging.neon}*/frameworks/prison':
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
