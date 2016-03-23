@@ -2,6 +2,7 @@ require 'rubygems/package'
 
 require_relative 'lib/testcase'
 require_relative '../lib/ci/orig_source_builder'
+require_relative '../lib/ci/tarball'
 
 module CI
   class OrigSourceBuilderTest < TestCase
