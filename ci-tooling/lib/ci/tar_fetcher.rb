@@ -24,6 +24,7 @@ require 'tmpdir'
 require_relative 'tarball'
 
 module CI
+  # Fetch tarballs via uscan using debian/watch.
   class WatchTarFetcher
     def initialize(watchfile)
       unless File.basename(watchfile) == 'watch'
@@ -37,16 +38,24 @@ module CI
     end
 
     def fetch(destdir)
+      # FIXME: this should use DEHS output to get url and target name
+      #   without downloading. then decide whether to wipe destdir and download
+      #   or not.
+      abort 'uscan failed' unless uscan(@dir, destdir)
+      tar = Dir.glob("#{destdir}/*.orig.tar*")
+      return nil unless tar.size == 1
+      Tarball.new("#{destdir}/#{File.basename(tar[0])}")
+    end
+
+    private
+
+    def uscan(chdir, destdir)
       system('uscan',
              '--verbose',
              '--download-current-version',
              "--destdir=#{destdir}",
              '--rename',
-             chdir: @dir)
-      tar = Dir.glob("#{destdir}/*.orig.tar*")
-      return nil unless tar.size == 1
-      tar = tar[0]
-      Tarball.new("#{destdir}/#{File.basename(tar)}")
+             chdir: chdir)
     end
   end
 
