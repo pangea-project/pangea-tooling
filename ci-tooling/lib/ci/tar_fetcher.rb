@@ -67,8 +67,10 @@ module CI
     def fetch(destdir)
       filename = URI.unescape(File.basename(@uri.path))
       target = File.join(destdir, filename)
-      puts "Downloading #{@uri}"
-      File.write(target, open(@uri).read)
+      unless File.exist?(target)
+        puts "Downloading #{@uri}"
+        File.write(target, open(@uri).read)
+      end
       puts "Tarball: #{target}"
       Tarball.new(target)
     end

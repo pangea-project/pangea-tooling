@@ -1,4 +1,5 @@
 require 'vcr'
+require 'webmock/test_unit'
 
 require_relative 'lib/serve'
 require_relative 'lib/testcase'
@@ -70,6 +71,24 @@ module CI
         assert(t.orig?) # uscan mangles by default, we expect it like that
         assert_equal('dragon_15.08.1.orig.tar.xz',
                      File.basename(t.origify.path))
+      end
+    end
+
+    def test_url_fetch_twice
+      VCR.turned_off do
+        stub_request(:get, 'http://troll/dragon-15.08.1.tar.xz')
+          .to_return(body: File.read(data('http/dragon-15.08.1.tar.xz')))
+
+        f = URLTarFetcher.new('http://troll/dragon-15.08.1.tar.xz')
+        t = f.fetch(Dir.pwd)
+        assert_false(t.orig?, "File orig but was not meant to #{t.inspect}")
+
+        # And again this actually should not do a request.
+        f = URLTarFetcher.new('http://troll/dragon-15.08.1.tar.xz')
+        t = f.fetch(Dir.pwd)
+        assert_false(t.orig?, "File orig but was not meant to #{t.inspect}")
+
+        assert_requested(:get, 'http://troll/dragon-15.08.1.tar.xz', times: 1)
       end
     end
   end
