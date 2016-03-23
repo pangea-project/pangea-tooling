@@ -19,9 +19,9 @@ Changes:
  .
    * Automatic Ubuntu CI Build
 Checksums-Sha1:
- da39a3ee5e6b4b0d3255bfef95601890afd80709 0 file
+ f0b6f1a6c6c0e03969a72953a14b83230483a3ec 0 yolo.dsc
 Checksums-Sha256:
- e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 file
+ ff9a16b9a24169159faebc708d79c59bd5a0bc560a2422082a10ff3e13a863b7 0 yolo.dsc
 Files:
- d41d8cd98f00b204e9800998ecf8427e 0 libs optional file 
+ 546de41ea78486a0818f40c6e131fc91 0 libs optional yolo.dsc 
 Original-Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
