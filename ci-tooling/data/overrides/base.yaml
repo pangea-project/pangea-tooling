@@ -68,6 +68,7 @@
 '*{debian.org,packaging.neon}*/qt/qtchooser':
   Neon/release:
     upstream_scm:
+      type: tarball
       url: http://http.debian.net/debian/pool/main/q/qtchooser/qtchooser_52-gae5eeef.orig.tar.xz
 
 '*{debian.org,packaging.neon}*/frameworks/prison':
