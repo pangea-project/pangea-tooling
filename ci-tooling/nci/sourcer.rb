@@ -23,4 +23,21 @@ require_relative 'lib/setup_repo'
 
 NCI.setup_repo!
 
-require_relative '../ci/sourcer.rb'
+def orig_source(fetcher)
+  tarball = fetcher.fetch('source')
+  raise 'Failed to fetch tarball' unless tarball
+  sourcer = CI::OrigSourceBuilder.new
+  sourcer.build(tarball.origify)
+end
+
+case ARGV.fetch(0, nil)
+when 'tarball'
+  puts 'Downloading tarball from URL'
+  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
+when 'uscan'
+  puts 'Downloading tarball via uscan'
+  orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
+else
+  puts 'Unspecified source type, defaulting to VCS build...'
+  require_relative '../ci/sourcer.rb'
+end
