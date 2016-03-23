@@ -1,0 +1,28 @@
+Format: 3.0 (quilt)
+Source: gpgmepp
+Binary: libkf5gpgmepp5, libkf5gpgmepp-pthread5, libkf5gpgmepp-dev, libkf5qgpgme5, gpgmepp-dbg
+Architecture: any
+Version: 15.08.2+git20151212.1109+15.04-0
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Homepage: https://projects.kde.org/projects/kde/pim/gpgmepp
+Standards-Version: 3.9.6
+Vcs-Browser: http://anonscm.debian.org/cgit/pkg-kde/applications/gpgmepp.git
+Vcs-Git: git://anonscm.debian.org/pkg-kde/applications/gpgmepp.git
+Testsuite: autopkgtest
+Build-Depends: cmake (>= 2.8.12~), debhelper (>= 9), extra-cmake-modules (>= 5.12.0~), libboost-dev, libgpgme11-dev, pkg-kde-tools (>> 0.15.15), qtbase5-dev
+Package-List:
+ gpgmepp-dbg deb debug extra arch=any
+ libkf5gpgmepp-dev deb libdevel optional arch=any
+ libkf5gpgmepp-pthread5 deb libs optional arch=any
+ libkf5gpgmepp5 deb libs optional arch=any
+ libkf5qgpgme5 deb libs optional arch=any
+Checksums-Sha1:
+ 8c7b3dbd85a6f978404d62224d949d3238a25670 67376 gpgmepp_15.08.2+git20151212.1109+15.04.orig.tar.xz
+ d433a01bf5fa96beb2953567de96e3d49c898cce 2856 gpgmepp_15.08.2+git20151212.1109+15.04-0.debian.tar.xz
+Checksums-Sha256:
+ 9eaba28173cbcca009321e3d72d0c77ce0e3b6fca97b6099b01913aa0159e7bf 67376 gpgmepp_15.08.2+git20151212.1109+15.04.orig.tar.xz
+ 7094169ebe86f0f50ca145348f04d6ca7d897ee143f1a7c377142c7f842a2062 2856 gpgmepp_15.08.2+git20151212.1109+15.04-0.debian.tar.xz
+Files:
+ 827c3d1c1ef2abc07ec1e36ff4579d3b 67376 gpgmepp_15.08.2+git20151212.1109+15.04.orig.tar.xz
+ fa1759e139eebb50a49aa34a8c35e383 2856 gpgmepp_15.08.2+git20151212.1109+15.04-0.debian.tar.xz
+Original-Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
