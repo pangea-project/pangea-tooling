@@ -21,6 +21,7 @@
 
 require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
+require_relative 'lib/setup_env'
 require_relative 'lib/setup_repo'
 
 NCI.setup_repo!
