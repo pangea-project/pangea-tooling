@@ -21,5 +21,5 @@ Checksums-Sha1:
 Checksums-Sha256:
  e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 file
 Files:
- d41d8cd98f00b204e9800998ecf8427e 0 file 
+ d41d8cd98f00b204e9800998ecf8427e 0 file
 Original-Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>

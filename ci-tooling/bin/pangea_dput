@@ -97,8 +97,9 @@ def open_changes(file)
   # Switch .changes to .dsc to make sure aptly will have everything it
   # expects, in particular the .orig.tar
   # https://github.com/smira/aptly/issues/370
-  puts "Switching #{File.basename(file)} to its .dsc version for upload ..."
   dsc = changes.fields['files'].find { |x| x.name.end_with?('.dsc') }
+  return changes unless dsc
+  puts "Switching #{File.basename(file)} to its .dsc version for upload ..."
   open_dsc(dsc.name)
 end
 
