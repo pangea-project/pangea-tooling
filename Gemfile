@@ -10,6 +10,7 @@ gem 'gitlab',
 gem 'jenkins_api_client'
 gem 'logger-colors'
 gem 'net-ssh-gateway'
+gem 'nokogiri'
 gem 'oauth', '~> 0.4'
 gem 'octokit'
 
