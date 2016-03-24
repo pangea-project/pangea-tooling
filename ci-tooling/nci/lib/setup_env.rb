@@ -23,7 +23,7 @@ module NCI
   module_function
 
   def setup_env!
-    ENV['DEBFULLNAME'] = 'Neon CI Bot'
+    ENV['DEBFULLNAME'] = 'Neon CI'
     ENV['DEBEMAIL'] = 'neon@kde.org'
   end
 end
