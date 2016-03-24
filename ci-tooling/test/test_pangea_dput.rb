@@ -35,6 +35,10 @@ class PangeaDPutTest < TestCase
     ARGV << '--port' << '111999'
     ARGV << '--repo' << 'kitten'
     ARGV << 'yolo.changes'
+    # Binary only builds will not have a dsc in their list, stick with .changes.
+    # This in particular prevents our .changes -> .dsc fallthru from falling
+    # into a whole when processing .changes without an associated .dsc.
+    ARGV << 'binary-without-dsc.changes'
     Test.http_serve(Dir.pwd, port: 111_999) do
       load(@dput)
     end
