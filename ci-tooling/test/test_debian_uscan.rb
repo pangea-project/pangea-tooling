@@ -28,6 +28,7 @@ module Debian
       assert_equal(2, packages.size)
       assert_equal(UScan::States::NEWER_AVAILABLE, packages[0].status)
       assert_equal(UScan::States::NEWER_AVAILABLE, packages[1].status)
+      assert_equal('5.6.0', packages[1].upstream_version)
     end
 
     def test_dehs_up_to_date

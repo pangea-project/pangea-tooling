@@ -37,6 +37,7 @@ module Debian
       class Package
         attr_reader :name
         attr_reader :status
+        attr_reader :upstream_version
 
         def initialize(name)
           @name = name
