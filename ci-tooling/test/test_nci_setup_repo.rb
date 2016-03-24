@@ -49,7 +49,7 @@ class NCISetupRepoTest < TestCase
   def test_setup_repo
     system_calls = [
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'software-properties-common'],
-      ['add-apt-repository', '-y', 'deb http://archive.neon.kde.org.uk/unstable vivid main'],
+      ['add-apt-repository', '-y', 'deb http://archive.neon.kde.org/unstable vivid main'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'update'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'pkg-kde-tools']
     ]
@@ -68,7 +68,7 @@ class NCISetupRepoTest < TestCase
       .yields(key_catcher)
       .returns(true)
 
-    stub_request(:get, 'http://archive.neon.kde.org.uk/public.key')
+    stub_request(:get, 'http://archive.neon.kde.org/public.key')
       .to_return(status: 200, body: 'abc')
 
     NCI.setup_repo!

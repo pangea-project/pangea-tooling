@@ -27,10 +27,10 @@ module NCI
   module_function
 
   def setup_repo!
-    debline = format('deb http://archive.neon.kde.org.uk/unstable %s main',
+    debline = format('deb http://archive.neon.kde.org/unstable %s main',
                      LSB::DISTRIB_CODENAME)
     raise 'adding repo failed' unless Apt::Repository.add(debline)
-    Apt::Key.add('http://archive.neon.kde.org.uk/public.key')
+    Apt::Key.add('http://archive.neon.kde.org/public.key')
     raise 'Failed to import key' unless $? == 0
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
     raise 'failed to install deps' unless Apt.install(%w(pkg-kde-tools))
