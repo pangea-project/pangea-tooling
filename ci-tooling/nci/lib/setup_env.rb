@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # frozen_string_literal: true
 #
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
@@ -19,28 +18,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '../lib/ci/orig_source_builder'
-require_relative '../lib/ci/tar_fetcher'
-require_relative 'lib/setup_repo'
+# Neon CI specific helpers.
+module NCI
+  module_function
 
-NCI.setup_repo!
-NCI.setup_env!
-
-def orig_source(fetcher)
-  tarball = fetcher.fetch('source')
-  raise 'Failed to fetch tarball' unless tarball
-  sourcer = CI::OrigSourceBuilder.new
-  sourcer.build(tarball.origify)
-end
-
-case ARGV.fetch(0, nil)
-when 'tarball'
-  puts 'Downloading tarball from URL'
-  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
-when 'uscan'
-  puts 'Downloading tarball via uscan'
-  orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
-else
-  puts 'Unspecified source type, defaulting to VCS build...'
-  require_relative '../ci/sourcer.rb'
+  def setup_env!
+    ENV['DEBFULLNAME'] = 'Neon CI Bot'
+    ENV['DEBEMAIL'] = 'neon@kde.org'
+  end
 end
