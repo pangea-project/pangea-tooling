@@ -38,6 +38,7 @@ module Debian
         attr_reader :name
         attr_reader :status
         attr_reader :upstream_version
+        attr_reader :upstream_url
 
         def initialize(name)
           @name = name
