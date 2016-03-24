@@ -28,17 +28,21 @@ module Lint
   # Test build log data.
   # @note needs LOG_URL defined!
   class TestLog < ResultTest
-    def initialize(*args)
-      super
-      Retry.retry_it(times: 2, sleep: 8) do
-        uri = ENV.fetch('LOG_URL')
-        puts "Reading #{uri}"
-        @log_orig = open(uri).read.freeze
+    class << self
+      def log_orig
+        @log_orig ||= Retry.retry_it(times: 2, sleep: 8) do
+          uri = ENV.fetch('LOG_URL')
+          open(uri).read.freeze
+        end
       end
     end
 
+    def initialize(*args)
+      super
+    end
+
     def setup
-      @log = @log_orig.dup
+      @log = self.class.log_orig.dup
     end
 
     def result_lintian
