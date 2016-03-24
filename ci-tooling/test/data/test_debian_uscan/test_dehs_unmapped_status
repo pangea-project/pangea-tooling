@@ -1,0 +1,8 @@
+<dehs>
+<package>libksysguard</package>
+<debian-uversion>5.6.0</debian-uversion>
+<debian-mangled-uversion>5.6.0</debian-mangled-uversion>
+<upstream-version>5.5.95</upstream-version>
+<upstream-url>http://download.kde.org/unstable/plasma/5.5.95/libksysguard-5.5.95.tar.xz</upstream-url>
+<status>Fake status to cause error</status>
+</dehs>

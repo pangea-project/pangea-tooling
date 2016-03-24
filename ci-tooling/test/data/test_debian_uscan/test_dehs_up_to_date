@@ -1,0 +1,14 @@
+<dehs>
+<package>libksysguard</package>
+<debian-uversion>5.6.0</debian-uversion>
+<debian-mangled-uversion>5.6.0</debian-mangled-uversion>
+<upstream-version>5.5.95</upstream-version>
+<upstream-url>http://download.kde.org/unstable/plasma/5.5.95/libksysguard-5.5.95.tar.xz</upstream-url>
+<status>Debian version newer than remote site</status>
+<package>libksysguard</package>
+<debian-uversion>5.6.0</debian-uversion>
+<debian-mangled-uversion>5.6.0</debian-mangled-uversion>
+<upstream-version>5.6.0</upstream-version>
+<upstream-url>http://download.kde.org/stable/plasma/5.6.0/libksysguard-5.6.0.tar.xz</upstream-url>
+<status>up to date</status>
+</dehs>
