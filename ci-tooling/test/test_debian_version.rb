@@ -81,4 +81,13 @@ class DebianVersionTest < TestCase
     assert_v_equal(Debian::Version.new('0:1-0'), Debian::Version.new('1'))
     assert_v_equal(Debian::Version.new('0:1-0'), Debian::Version.new('1'))
   end
+
+  def test_manipulation
+    v = Debian::Version.new('5:1.0-1')
+    assert_equal('5:1.0-1', v.to_s)
+    assert_equal('5:1.0-1', v.full)
+    v.upstream = '2.0'
+    assert_equal('5:2.0-1', v.to_s)
+    assert_equal('5:2.0-1', v.full)
+  end
 end

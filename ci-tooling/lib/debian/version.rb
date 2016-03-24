@@ -21,21 +21,27 @@
 module Debian
   # A debian policy version handling class.
   class Version
-    attr_reader :full
-    attr_reader :epoch
-    attr_reader :upstream
-    attr_reader :revision
+    attr_accessor :epoch
+    attr_accessor :upstream
+    attr_accessor :revision
 
     def initialize(string)
-      @full = string
       @epoch = nil
       @upstream = nil
       @revision = nil
-      parse
+      parse(string)
+    end
+
+    def full
+      comps = []
+      comps << "#{epoch}:" if epoch
+      comps << upstream
+      comps << "-#{revision}" if revision
+      comps.join
     end
 
     def to_s
-      @full
+      full
     end
 
     # We could easily reimplement version comparision from Version.pm, but
@@ -60,11 +66,11 @@ module Debian
       system('dpkg', *args)
     end
 
-    def parse
+    def parse(string)
       regex = /^(?:(?<epoch>\d+):)?
                 (?<upstream>[A-Za-z0-9.+:~-]+?)
                 (?:-(?<revision>[A-Za-z0-9.~+]+))?$/x
-      match = @full.match(regex)
+      match = string.match(regex)
       @epoch = match[:epoch]
       @upstream = match[:upstream]
       @revision = match[:revision]
