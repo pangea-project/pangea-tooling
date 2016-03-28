@@ -70,6 +70,7 @@ export LB_COMPRESSION=xz
 ## Create a zsync file allowing over-http delta-downloads.
 export LB_ZSYNC=true # This is overridden by silly old defaults-image...
 
+export CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}.sh"
 export CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
 export BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}"
 

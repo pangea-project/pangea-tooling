@@ -205,6 +205,11 @@ done
 $SUDO lb clean
 rm -f .stage/config
 
+# Neon addition to easily override some variables
+if [ -e "$CONFIG_SETTINGS" ]; then
+    . $CONFIG_SETTINGS
+fi
+
 SUITE="$SUITE" PROJECT="$FLAVOR" ARCH="$ARCH" LB_ARCHITECTURES="$ARCH" \
     LB_MIRROR_BOOTSTRAP="$MIRROR" LB_MIRROR_CHROOT_SECURITY="$SECURITY_MIRROR" \
     IMAGEFORMAT=squashfs BINARYFORMAT=iso-hybrid lb config
