@@ -120,7 +120,7 @@ class ProjectsFactory
     class << self
       def ls
         return @listing if defined?(@listing) # Cache in class scope.
-        listing = `ssh gitolite3@packaging.neon.kde.org.uk`.chop.split($/)
+        listing = `ssh gitolite3@packaging.neon.kde.org`.chop.split($/)
         # FIXME: proper error
         raise unless $? == 0
         listing.shift # welcome message leading, drop it.
