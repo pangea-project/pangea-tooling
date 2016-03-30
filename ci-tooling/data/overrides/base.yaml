@@ -1,3 +1,10 @@
+# UScan releases
+
+'*packaging.neon*:
+  'Neon/release':
+    upstream_scm:
+      type: uscan
+
 # Plasma
 
 '*{debian.org,packaging.neon}*/plasma/*':
