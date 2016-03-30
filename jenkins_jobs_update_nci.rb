@@ -136,8 +136,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                             blockables: [merger])
     )
     enqueue(MGMTPauseIntegrationJob.new(downstreams: [progenitor]))
+    aptly = enqueue(MGMTAptlyJob.new(dependees: [progenitor]))
     docker = enqueue(MGMTDockerJob.new(dependees: [progenitor]))
-    enqueue(MGMTToolingJob.new(downstreams: [docker]))
+    enqueue(MGMTToolingJob.new(downstreams: [docker, aptly]))
   end
 end
 
