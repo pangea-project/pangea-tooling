@@ -27,7 +27,8 @@ module NCI
   module_function
 
   def setup_repo!
-    debline = format('deb http://archive.neon.kde.org/unstable %s main',
+    debline = format('deb http://archive.neon.kde.org/%s %s main',
+                     ENV.fetch('TYPE'),
                      LSB::DISTRIB_CODENAME)
     raise 'adding repo failed' unless Apt::Repository.add(debline)
     Apt::Key.add('http://archive.neon.kde.org/public.key')

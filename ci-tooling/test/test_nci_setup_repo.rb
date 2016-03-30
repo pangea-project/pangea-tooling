@@ -39,11 +39,14 @@ class NCISetupRepoTest < TestCase
     Object.any_instance.expects(:system).never
     # Disable all web (used for key).
     WebMock.disable_net_connect!
+
+    ENV['TYPE'] = 'unstable'
   end
 
   def teardown
     WebMock.allow_net_connect!
     LSB.reset
+    ENV.delete('TYPE')
   end
 
   def test_setup_repo
