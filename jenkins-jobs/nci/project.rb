@@ -109,6 +109,8 @@ class ProjectJob < JenkinsJob
       ''
     when 'bzr'
       ''
+    when 'uscan'
+      ''
     else
       raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
     end
