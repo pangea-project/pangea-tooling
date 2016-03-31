@@ -2,6 +2,11 @@ packaging.neon.kde.org.uk:
   - qt:
     - '*':
         branch: Neon/5.5
+  - kde-extras:
+    - kpmcore:
+        branch: kubuntu_unstable
+    - yakuake:
+        branch: master
   - frameworks:
     - '*':
         branch: master
@@ -85,6 +90,8 @@ packaging.neon.kde.org.uk:
     - user-manager:
         branch: master
   - applications:
+    - kde4libs:
+        branch: master
     - akonadi:
         branch: master
     - akonadi-calendar:
@@ -491,8 +498,16 @@ git.debian.org:
   - pkg-cmake:
       - cmake:
           branch: master
+  - pkg-fonts:
+      - fonts-noto:
+          branch: master
 
 github.com:
+  - plasma-phone-packaging:
+    - libhybris:
+        branch: kubuntu_unstable
+    - libepoxy:
+        branch: kubuntu_unstable
   - netrunner-odroid:
     - mali-x11:
         branch: kubuntu_unstable
@@ -500,11 +515,57 @@ github.com:
         branch: kubuntu_unstable
     - odroid-boot-services:
         branch: kubuntu_unstable
+  - netrunner-debian:
+    - calamares:
+        branch: Debian/stable
+    - calamares-branding:
+        branch: Debian/stable
+    - syslinux-theme-netrunner:
+        branch: Debian/stable
+    - netrunner-desktop:
+        branch: Debian/stable
+    - plymouth-theme-netrunner-logo:
+        branch: Debian/stable
+    - base-files:
+        branch: Debian/stable
+  - netrunner:
+    - netrunner-artwork:
+        branch: Debian/stable
+    - netrunner-artwork-firefox:
+        branch: Debian/stable
+    - netrunner-artwork-icons:
+        branch: Debian/stable
+    - netrunner-artwork-thunderbird:
+        branch: Debian/stable
+    - netrunner-system:
+        branch: Debian/stable
+    - netrunner-artwork-backgrounds:
+        branch: Debian/stable
+    - netrunner-systemsettings-settings:
+        branch: Debian/stable
+    - kio-sysinfo:
+        branch: Debian/stable
+    - welcome:
+        branch: Debian/stable
+  - netrunner-debian-extras-packaging:
+    - '*':
+        branch: kubuntu_unstable
+    - 'kcm-about-extended':
+        branch: master
+  - netrunner-core:
+    - 'netrunner-default-settings':
+        branch: Debian/stable
+    - 'calamares-post-debian':
+        branch: Debian/stable
+    - 'calamares-branding':
+        branch: Debian/stable
+    - 'netrunner-core':
+        branch: Debian/stable
 
 gitlab.com:
   - pkg-utopia:
     - network-manager:
-        branch: Netrunner/stable
+        branch: Debian/stable
   - netrunner-debian-frameworks:
     - '*':
-        branch: Netrunner/stable
+        branch: Debian/stable
