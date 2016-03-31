@@ -1,0 +1,20 @@
+<hudson.plugins.git.GitSCM plugin="git@2.3.5">
+  <configVersion>2</configVersion>
+  <userRemoteConfigs>
+    <hudson.plugins.git.UserRemoteConfig>
+      <url><%= scm.url %></url>
+    </hudson.plugins.git.UserRemoteConfig>
+  </userRemoteConfigs>
+  <branches>
+    <hudson.plugins.git.BranchSpec>
+      <name>*/<%= scm.branch %></name>
+    </hudson.plugins.git.BranchSpec>
+  </branches>
+  <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+  <submoduleCfg class="list"/>
+  <extensions>
+    <hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+      <relativeTargetDir>packaging</relativeTargetDir>
+    </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+  </extensions>
+</hudson.plugins.git.GitSCM>

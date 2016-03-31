@@ -97,6 +97,10 @@ class ProjectJob < JenkinsJob
     ret
   end
 
+  def render_packaging_scm
+    PackagingSCMTemplate.new(scm: @project.packaging_scm).render_template
+  end
+
   def render_upstream_scm
     @upstream_scm = @project.upstream_scm # FIXME: compat assignment
     return '' unless @upstream_scm
