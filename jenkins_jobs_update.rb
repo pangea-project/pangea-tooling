@@ -87,10 +87,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         image_jobs = YAML.load_file(image_job_config)
 
         image_jobs.each do |_, v|
-          enqueue(DCIImageJob.new(distribution: distribution,
-                                  architecture: v[:architecture],
-                                  repo: v[:repo],
-                                  component: v[:component]))
+          v[:architectures].each do |arch|
+            enqueue(DCIImageJob.new(distribution: distribution,
+                                    architecture: arch,
+                                    repo: v[:repo],
+                                    component: v[:component],
+                                    branch: v[:branch] || 'master'))
+          end
         end
       end
     end

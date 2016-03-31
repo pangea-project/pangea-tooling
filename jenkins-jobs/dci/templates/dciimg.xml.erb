@@ -19,7 +19,7 @@
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>*/master</name>
+        <name>*/<%= @branch %></name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -60,7 +60,7 @@ export DIST=<%= distribution %>
           <flatten>true</flatten>
         </hudson.plugins.s3.Entry>
         <hudson.plugins.s3.Entry>
-          <bucket>pangea-data/dci/images/<%= architecture %>/<%= component %>/${BUILD_TIMESTAMP}/${BUILD_NUMBER}</bucket>
+          <bucket>pangea-data/dci/images/<%= distribution %>/<%= architecture %>/<%= component %>/${BUILD_TIMESTAMP}/${BUILD_NUMBER}</bucket>
           <sourceFile>result/*</sourceFile>
           <storageClass>STANDARD</storageClass>
           <selectedRegion>ap-southeast-2</selectedRegion>
