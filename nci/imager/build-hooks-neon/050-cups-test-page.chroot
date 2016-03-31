@@ -1,7 +1,0 @@
-#!/bin/sh
-
-set -e
-
-# Remove this in Neon as it contains Ubuntu logo
-
-rm -f /usr/share/cups/data/default-testpage.pdf
