@@ -82,7 +82,7 @@ class ProjectJob < JenkinsJob
   private
 
   def initialize(basename, project:, jobs:, dependees: [])
-    super(basename, 'builder2.xml.erb')
+    super(basename, 'project.xml.erb')
     @jobs = jobs.freeze
     @dependees = dependees.freeze
     @project = project.freeze
