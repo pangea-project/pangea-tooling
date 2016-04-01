@@ -65,7 +65,7 @@ FileUtils.ln_s(PUB_PATH, "#{WEBSITE_PATH}current")
 
 # copy to depot using same directory without -proposed for now, later we want this to
 # only be published if passing some QA test
-WEBSITE_PATH_REMOTE = "/var/www/images/#{IMAGENAME}-#{TYPE}/".freeze
+WEBSITE_PATH_REMOTE = "#{IMAGENAME}-#{TYPE}/".freeze
 PUB_PATH_REMOTE = "#{WEBSITE_PATH_REMOTE}#{DATE}".freeze
 system("ssh neon@depot.kde.org mkdir -p neon/#{PUB_PATH_REMOTE}")
 %w(amd64.iso manifest zsync sha256sum).each do |type|
