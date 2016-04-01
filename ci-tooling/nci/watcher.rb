@@ -32,6 +32,8 @@ require_relative 'lib/setup_env'
 
 NCI.setup_env!
 
+abort 'No debain/watch found!' unless File.exist?('debian/watch')
+
 data = `uscan --report --dehs`
 
 newer = Debian::UScan::DEHS.parse_packages(data).collect do |package|
