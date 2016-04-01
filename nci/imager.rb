@@ -67,13 +67,13 @@ FileUtils.ln_s(PUB_PATH, "#{WEBSITE_PATH}current")
 # only be published if passing some QA test
 WEBSITE_PATH_REMOTE = "/var/www/images/#{IMAGENAME}-#{TYPE}/".freeze
 PUB_PATH_REMOTE = "#{WEBSITE_PATH_REMOTE}#{DATE}".freeze
-system("ssh neon@depot.kde.org mkdir neon/#{PUB_PATH_REMOTE}")
+system("ssh neon@depot.kde.org mkdir -p neon/#{PUB_PATH_REMOTE}")
 %w(amd64.iso manifest zsync sha256sum).each do |type|
   unless system("scp result/*#{type} neon@depot.kde.org:neon/#{PUB_PATH_REMOTE}/")
     abort "File type #{type} failed to scp to depot.kde.org."
   end
 end
 system("ssh neon@depot.kde.org cd neon/#{PUB_PATH_REMOTE}; ln -s *amd64.iso #{IMAGENAME}-#{TYPE}-current.iso")
-system("ssh neon@depot.kde.org cd neon/; rm current; ln -s #{PUB_PATH_REMOTE} current")
+system("ssh neon@depot.kde.org cd neon/; rm -f current; ln -s #{PUB_PATH_REMOTE} current")
 
 exit 0
