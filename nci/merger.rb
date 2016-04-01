@@ -25,7 +25,8 @@ require_relative '../lib/merger'
 # NCI merger.
 class NCIMerger < Merger
   def run
-    sequence('Neon/stable')
+    sequence('Neon/release')
+      .merge_into('Neon/stable')
       .merge_into('Neon/unstable')
       .push
   end
