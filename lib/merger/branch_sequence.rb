@@ -75,8 +75,7 @@ class BranchSequence
     # FIXME: we should new differently so we can pass the resolved target
     # without having to resolve it again
     dirty = mergerino(resolve_name(target))
-    BranchSequence.new(dirty ? target : @source,
-                       dirty: dirty, parent: self, git: @git)
+    BranchSequence.new(target, dirty: dirty, parent: self, git: @git)
   end
 
   def push
