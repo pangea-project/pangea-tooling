@@ -73,7 +73,7 @@ system("ssh neon@depot.kde.org mkdir -p neon/#{PUB_PATH_REMOTE}")
     abort "File type #{type} failed to scp to depot.kde.org."
   end
 end
-system("ssh neon@depot.kde.org cd neon/#{PUB_PATH_REMOTE}; ln -s *amd64.iso #{IMAGENAME}-#{TYPE}-current.iso")
-system("ssh neon@depot.kde.org cd neon/; rm -f current; ln -s #{PUB_PATH_REMOTE} current")
+system("ssh neon@depot.kde.org 'cd neon/#{PUB_PATH_REMOTE}; ln -s *amd64.iso #{IMAGENAME}-#{TYPE}-current.iso'")
+system("ssh neon@depot.kde.org 'cd neon/#{WEBSITE_PATH_REMOTE}; rm -f current; ln -s #{DATE} current'")
 
 exit 0
