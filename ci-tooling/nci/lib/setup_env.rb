@@ -25,5 +25,10 @@ module NCI
   def setup_env!
     ENV['DEBFULLNAME'] = 'Neon CI'
     ENV['DEBEMAIL'] = 'neon@kde.org'
+
+    ENV['GIT_AUTHOR_NAME'] = ENV.fetch('DEBFULLNAME')
+    ENV['GIT_AUTHOR_EMAIL'] = ENV.fetch('DEBEMAIL')
+    ENV['GIT_COMMITTER_NAME'] = ENV.fetch('DEBFULLNAME')
+    ENV['GIT_COMMITTER_EMAIL'] = ENV.fetch('DEBEMAIL')
   end
 end
