@@ -34,7 +34,8 @@ class ProjectJob < JenkinsJob
     # FIXME: frameworks is special, very special ...
     # Base builds have no stable thingy but their unstable version is equal
     # to their not unstable version.
-    if %w(forks frameworks qt).include?(project.component)
+    # NB: '' is for pkg-kde-tools which lives in /
+    if (%w(forks frameworks qt) << '').include?(project.component)
       dependees += project.dependees.collect do |d|
         # Stable is a dependee
         Builder.basename(kwords[:distribution],
