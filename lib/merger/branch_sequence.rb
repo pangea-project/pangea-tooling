@@ -22,6 +22,7 @@ require 'git'
 
 class BranchSequence
   attr_reader :parent
+  attr_reader :source
 
   def initialize(name, git:, parent: nil, dirty: false)
     @name = name
@@ -29,6 +30,8 @@ class BranchSequence
     @git = git
     @dirty = dirty
     @source = resolve_name(name)
+    # FIXME: what happens if the first source doesn't exist?
+    @source = parent.source if parent && !@source
   end
 
   def resolve_name(name)
