@@ -29,10 +29,12 @@ class WatcherJob < JenkinsJob
 
   def initialize(project)
     super("watcher_release_#{project.name}", 'watcher.xml.erb')
-    @scm_readable = project.packaging_scm.dup
-    @scm_writable = project.packaging_scm.dup
+    @scm_readable = Marshal.load(Marshal.dump(project.packaging_scm))
+    @scm_writable = Marshal.load(Marshal.dump(project.packaging_scm))
+    # FIXME: brrr the need for deep copy alone should ring alarm bells
     @scm_writable.url.gsub!('git://packaging.neon.kde.org/',
                             'gitolite3@packaging.neon.kde.org.uk:')
+    @scm_writable.branch.replace('Neon/release')
     @nci = NCI
   end
 end
