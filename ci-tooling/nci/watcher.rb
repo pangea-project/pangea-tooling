@@ -25,6 +25,7 @@ require 'pp'
 require_relative '../lib/debian/changelog'
 require_relative '../lib/debian/uscan'
 require_relative '../lib/debian/version'
+require_relative '../lib/nci'
 require_relative 'lib/setup_env'
 
 # FIXME: needs tests
@@ -58,7 +59,7 @@ version.revision = '0neon0' if version.revision && !version.revision.empty?
 # FIXME: stolen from sourcer
 dch = [
   'dch',
-  '--distribution', 'wily',
+  '--distribution', NCI.latest_series,
   '--newversion', version.to_s,
   'New release'
 ]
