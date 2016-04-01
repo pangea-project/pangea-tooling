@@ -54,7 +54,7 @@ puts "newest #{newest.inspect}"
 
 version = Debian::Version.new(Changelog.new(Dir.pwd).version)
 version.upstream = newest
-version.revision = '0neon0' if version.revision && !version.revision.empty?
+version.revision = '0neon' if version.revision && !version.revision.empty?
 
 # FIXME: stolen from sourcer
 dch = [
