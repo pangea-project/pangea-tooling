@@ -40,7 +40,7 @@ newer = Debian::UScan::DEHS.parse_packages(data).collect do |package|
 end.compact
 pp newer
 
-return if newer.empty?
+exit 0 if newer.empty?
 
 merged = (system('git merge origin/Neon/stable') || system('git merge origin/Neon/unstable'))
 raise 'Could not merge anything' unless merged
