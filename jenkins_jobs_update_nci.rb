@@ -95,6 +95,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           jobs.each { |j| enqueue(j) }
           all_builds += jobs
 
+          # FIXME: presently not forcing release versions of things we have a
+          #   stable for
+          next unless type == 'unstable'
           next unless project.component == 'frameworks'
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
