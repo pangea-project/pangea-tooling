@@ -36,8 +36,15 @@ class ProjectJob < JenkinsJob
     # to their not unstable version.
     if %w(forks frameworks qt).include?(project.component)
       dependees += project.dependees.collect do |d|
+        # Stable is a dependee
         Builder.basename(kwords[:distribution],
                          'stable',
+                         d.component,
+                         d.name)
+        # Release is as well, but only iff component is not one we release.
+        next if project.component == 'frameworks'
+        Builder.basename(kwords[:distribution],
+                         'release',
                          d.component,
                          d.name)
       end

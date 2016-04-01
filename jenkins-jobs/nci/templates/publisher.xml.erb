@@ -69,6 +69,10 @@
   # This has no stable version, the unstable version is supplying stable.
   ~/tooling/ci-tooling/bin/pangea_dput --port 9090 --repo stable *.changes
 <% end %>
+<% if %w(forks qt).include?(component) %>
+  # This has no release version, the unstable version is supplying release.
+  ~/tooling/ci-tooling/bin/pangea_dput --port 9090 --repo release *.changes
+<% end %>
       </command>
     </hudson.tasks.Shell>
   </builders>
