@@ -19,11 +19,13 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative '../job'
+require_relative '../../ci-tooling/lib/nci'
 
 # Watches for releases.
 class WatcherJob < JenkinsJob
   attr_reader :scm_readable
   attr_reader :scm_writable
+  attr_reader :nci
 
   def initialize(project)
     super("watcher_release_#{project.name}", 'watcher.xml.erb')
@@ -31,5 +33,6 @@ class WatcherJob < JenkinsJob
     @scm_writable = project.packaging_scm.dup
     @scm_writable.url.gsub!('git://packaging.neon.kde.org/',
                             'gitolite3@packaging.neon.kde.org.uk:')
+    @nci = NCI
   end
 end
