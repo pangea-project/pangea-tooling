@@ -104,9 +104,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           watchers[watcher.job_name] = watcher
 
           # FIXME: BRR WTF
-          project.packaging_scm.instance_variable_set(:@branch, 'Neon/release')
-          project.upstream_scm.instance_variable_set(:@type, 'uscan')
-          jobs = ProjectJob.job(project,
+          release_project = project.dup
+          packaging_scm = release_project.packaging_scm
+          packaging_scm = Marshal.load(Marshal.dump(packaging_scm))
+          packaging_scm.instance_variable_set(:@branch, 'Neon/release')
+          upstream_scm = release_project.upstream_scm
+          upstream_scm = Marshal.load(Marshal.dump(upstream_scm))
+          upstream_scm.instance_variable_set(:@type, 'uscan')
+          release_project.instance_variable_set(:@packaging_scm, packaging_scm)
+          release_project.instance_variable_set(:@upstream_scm, upstream_scm)
+          jobs = ProjectJob.job(release_project,
                                 distribution: distribution,
                                 type: 'release',
                                 architectures: NCI.architectures)
