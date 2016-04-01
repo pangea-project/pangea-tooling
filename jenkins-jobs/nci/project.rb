@@ -53,7 +53,6 @@ class ProjectJob < JenkinsJob
     dependees.compact!
     dependees.uniq!
     dependees.sort!
-    project.dependees.clear
 
     jobs = Builder.job(*args, kwords)
     jobs.each do |j|
