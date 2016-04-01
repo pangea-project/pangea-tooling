@@ -72,6 +72,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         # there was an upstream change resulting in pointless build
         # cycles.
         branches = NCI.types.collect { |x| "Neon/#{x}" }
+        branches << 'Neon/release'
         NCI.series.each_key do |d|
           NCI.types.each do |t|
             dependees << Builder.basename(d, t, project.component, project.name)
@@ -83,6 +84,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
     end
 
+    watchers = {}
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
         type_projects[type].each do |project|
@@ -92,6 +94,20 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                 architectures: NCI.architectures)
           jobs.each { |j| enqueue(j) }
           all_builds += jobs
+
+          next unless project.component == 'frameworks'
+          watcher = WatcherJob.new(project)
+          next if watchers.key?(watcher.job_name) # Already have one.
+          watchers[watcher.job_name] = watcher
+
+          # FIXME: BRR WTF
+          project.packaging_scm.instance_variable_set(:@branch, 'Neon/release')
+          project.upstream_scm.instance_variable_set(:@type, 'uscan')
+          jobs = ProjectJob.job(project,
+                                distribution: distribution,
+                                type: 'release',
+                                architectures: NCI.architectures)
+          jobs.each { |j| enqueue(j) }
         end
 
         # Meta builders.
@@ -129,6 +145,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         end
       end
     end
+
+    watchers.each { |_, w| enqueue(w) }
 
     merger = enqueue(MetaMergeJob.new(downstream_jobs: all_mergers))
     progenitor = enqueue(
