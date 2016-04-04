@@ -7,6 +7,7 @@ gem 'git'
 gem 'gitlab',
     git: 'https://github.com/NARKOZ/gitlab',
     branch: 'master'
+gem 'insensitive_hash'
 gem 'jenkins_api_client'
 gem 'logger-colors'
 gem 'net-ssh-gateway'

@@ -18,6 +18,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'insensitive_hash/minimal'
+
 require_relative 'deb822'
 
 module Debian
@@ -32,7 +34,7 @@ module Debian
     # FIXME: pretty sure that should be in the base
     def initialize(file)
       @file = file
-      @fields = CaseHash.new
+      @fields = InsensitiveHash.new
     end
 
     def parse!

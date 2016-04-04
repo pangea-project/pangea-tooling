@@ -18,27 +18,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'insensitive_hash/minimal'
+
 require_relative 'relationship'
-
-# Helper class that ignores the case on its key.
-class CaseHash < Hash
-  def [](key)
-    key.respond_to?(:downcase) ? super(key.downcase) : super(key)
-  end
-
-  def []=(key, value)
-    key.respond_to?(:downcase) ? super(key.downcase, value) : super(key, value)
-  end
-
-  def key?(key)
-    key.respond_to?(:downcase) ? super(key.downcase) : super(key)
-  end
-
-  def fetch(key, default)
-    super(key.downcase, default) if key.respond_to?(:downcase)
-    super(key, default)
-  end
-end
 
 module Debian
   # Deb822 specification parser.
@@ -60,7 +42,7 @@ module Debian
       relationship_fields = fields[:relationship] || []
 
       current_header = nil
-      data = CaseHash.new
+      data = InsensitiveHash.new
 
       while (line = lines.shift) && line && !line.strip.empty?
         next if line.start_with?('#') # Comment
