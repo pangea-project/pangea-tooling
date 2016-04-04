@@ -21,38 +21,100 @@
 module Debian
   # A package relationship.
   class Relationship
+    # Name of the package related to
     attr_reader :name
-    attr_reader :operator
-    attr_reader :version
+    # Architecture qualification of the package (foo:amd64)
+    attr_accessor :architecture
+    # Version relationship operator (>=, << etc.)
+    attr_accessor :operator
+    # Related to version of the named package
+    attr_accessor :version
+
+    # Not public because not needed for now.
+    # [architecture restriction] https://www.debian.org/doc/debian-policy/ch-customized-programs.html#s-arch-spec
+    # attr_accessor :architectures
+    # <build profile restriction> https://wiki.debian.org/BuildProfileSpec
+    # attr_accessor :profiles
+
+    # Borrowed from Deps.pm. Added capture group names:
+    #   [name, architecture, operator, architectures, restrictions]
+    REGEX = /
+      ^\s*                           # skip leading whitespace
+       (?<name>
+        [a-zA-Z0-9][a-zA-Z0-9+.-]*)  # package name
+       (?:                           # start of optional part
+         :                           # colon for architecture
+         (?<architecture>
+          [a-zA-Z0-9][a-zA-Z0-9-]*)  # architecture name
+       )?                            # end of optional part
+       (?:                           # start of optional part
+         \s* \(                      # open parenthesis for version part
+         \s* (?<operator>
+              <<|<=|=|>=|>>|[<>])    # relation part
+         \s* (?<version>.*?)         # do not attempt to parse version
+         \s* \)                      # closing parenthesis
+       )?                            # end of optional part
+       (?:                           # start of optional architecture
+         \s* \[                      # open bracket for architecture
+         \s* (?<architectures>
+              .*?)                   # don't parse architectures now
+         \s* \]                      # closing bracket
+       )?                            # end of optional architecture
+       (?:                           # start of optional restriction
+         \s* <                       # open bracket for restriction
+         \s* (?<profiles>
+              .*)                    # do not parse restrictions now
+         \s* >                       # closing bracket
+       )?                            # end of optional restriction
+       \s*$                          # trailing spaces at end
+     /x
 
     def initialize(string)
-      @name = nil
-      @operator = nil
-      @version = nil
-
-      string.strip!
+      string = string.strip
       return if string.empty?
 
-      # Fancy plain text description:
-      # - Start of line
-      # - any word character, at least once
-      # - 0-n space characters
-      # - at the most once:
-      #  - (
-      #  - any of the version operators, but only once
-      #  - anything before closing ')'
-      #  - )
-      # Random note: all matches are stripped, so we don't need to
-      #              handle whitespaces being in the matches.
-      match = string.match(/^(\S+)\s*(\((<|<<|<=|=|>=|>>|>){1}(.*)\))?/)
-      # 0 full match
-      # 1 name
-      # 2 version definition (or nil)
-      # 3  operator
-      # 4  version
-      @name = match[1] ? match[1].strip : nil
-      @operator = match[3] ? match[3].strip : nil
-      @version = match[4] ? match[4].strip : nil
+      match = string.match(REGEX)
+      return @name = string unless match
+      match.names.each do |name|
+        data = match[name]
+        data.strip! if data
+        instance_variable_set("@#{name}".to_sym, data)
+      end
+    end
+
+    def substvar?
+      @name.start_with?('${') && @name.end_with?('}')
+    end
+
+    def <=>(other)
+      if substvar? || other.substvar? # any is a substvar
+        return -1 unless other.substvar? # substvar always looses
+        return 1 unless substvar? # non-substvar always wins
+        return substvarcmp(other) # substvars are compared among themself
+      end
+      @name <=> other.name
+    end
+
+    def to_s
+      output = @name
+      output += f(':%s', @architecture)
+      output += f(' (%s %s)', @operator, @version)
+      output += f(' [%s]', @architectures)
+      output += f(' <%s>', @profiles)
+      output
+    end
+
+    private
+
+    def substvarcmp(other)
+      ours = @name.gsub('${', '').tr('}', '')
+      theirs = other.name.gsub('${', '').tr('}', '')
+      ours <=> theirs
+    end
+
+    def f(str, *params)
+      return '' if params.any?(&:nil?)
+      format(str, *params)
     end
   end
 end
