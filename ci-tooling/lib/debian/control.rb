@@ -37,47 +37,54 @@ module Debian
       lines = File.new("#{@directory}/debian/control").readlines
 
       # Source Paragraph
-      fields = {}
-      fields[:mandatory] = %w(
-        source
-        maintainer
-      )
-      fields[:relationship] = %w(
-        build-depends
-        build-depends-indep
-        build-conflicts
-        build-conflicts-indep
-      )
-      fields[:foldable] = ['uploaders'] + fields[:relationship]
-      @source = parse_paragraph(lines, fields)
+      @source = parse_paragraph(lines, source_fields)
 
       # Binary Paragraphs
-      fields = {}
-      fields[:mandatory] = %w(
-        package
-        architecture
-        description
-      )
-      fields[:multiline] = ['description']
-      fields[:relationship] = %w(
-        depends
-        recommends
-        suggests
-        enhances
-        pre-depends
-        breaks
-        replaces
-        conflicts
-        provides
-      )
-      fields[:foldable] = fields[:relationship]
       @binaries = []
       until lines.empty?
-        data = parse_paragraph(lines, fields)
+        data = parse_paragraph(lines, binary_fields)
         @binaries << data if data
       end
 
       # TODO: Strip custom fields and add a Control::flags_for(entry) method.
+    end
+
+    private
+
+    def source_fields
+      @source_fields ||= {}.tap do |fields|
+        fields[:mandatory] = %w(source maintainer)
+        fields[:relationship] = %w(
+          build-depends
+          build-depends-indep
+          build-conflicts
+          build-conflicts-indep
+        )
+        fields[:foldable] = ['uploaders'] + fields[:relationship]
+      end
+    end
+
+    def binary_fields
+      @binary_fields ||= {}.tap do |fields|
+        fields[:mandatory] = %w(
+          package
+          architecture
+          description
+        )
+        fields[:multiline] = ['description']
+        fields[:relationship] = %w(
+          depends
+          recommends
+          suggests
+          enhances
+          pre-depends
+          breaks
+          replaces
+          conflicts
+          provides
+        )
+        fields[:foldable] = fields[:relationship]
+      end
     end
   end
 end
