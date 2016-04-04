@@ -97,28 +97,48 @@ class RepoCleaner
 
   # Iterate over each source. Sort its versions and drop lowest ones.
   def clean
-    sources_hash.each do |_, names_packages|
-      versions = debian_versions(names_packages).sort.to_h
-      # For each version get the relevant keys and drop the keys until
-      # we have sufficiently few versions remaining
-      while versions.size > @keep_amount
-        _, keys = versions.shift
-        keys.each do |source_key|
-          delete(source_key)
-        end
-      end
-    end
+    clean_sources
+    clean_binaries
     @repo.published_in(&:update!)
   end
 
   def self.clean(repo_whitelist = [], keep_amount: 1)
     Aptly::Repository.list.each do |repo|
       next unless repo_whitelist.include?(repo.Name)
+      puts "-- cleaning #{repo.Name} --"
       RepoCleaner.new(repo, keep_amount: keep_amount).clean
     end
   end
 
   private
+
+  def clean_sources
+    sources_hash.each do |_name, names_packages|
+      delete?(names_packages) do |key|
+        delete_source(key)
+      end
+    end
+  end
+
+  def clean_binaries
+    binaries_hash.each do |_name, names_packages|
+      delete?(names_packages) do |key|
+        delete_binary(key)
+      end
+    end
+  end
+
+  def delete?(names_packages)
+    versions = debian_versions(names_packages).sort.to_h
+    # For each version get the relevant keys and drop the keys until
+    # we have sufficiently few versions remaining
+    while versions.size > @keep_amount
+      _, keys = versions.shift
+      keys.each do |source_key|
+        yield source_key
+      end
+    end
+  end
 
   def sources
     @sources ||= @repo.packages(q: '$Architecture (source)')
@@ -127,10 +147,23 @@ class RepoCleaner
                       .collect { |key| Package::Key.from_string(key) }
   end
 
+  def binaries
+    @binaries ||= @repo.packages(q: '!$Architecture (source)')
+                       .compact
+                       .uniq
+                       .collect { |key| Package::Key.from_string(key) }
+  end
+
   # Group the sources in a Hash by their name attribute, so we can process
   # one source at a time.
   def sources_hash
     @sources_hash ||= sources.group_by(&:name)
+  end
+
+  # Group the binaries in a Hash by their name attribute, so we can process
+  # one source at a time.
+  def binaries_hash
+    @binaries_hash ||= binaries.group_by(&:name)
   end
 
   # Group the keys in a Hash by their version. This is so we can easily
@@ -143,13 +176,21 @@ class RepoCleaner
     Hash[versions.map { |k, v| [Debian::Version.new(k), v] }]
   end
 
-  def delete(source_key)
+  def delete_source(source_key)
     query = format('$Source (%s), $SourceVersion (%s)',
                    source_key.name,
                    source_key.version)
     binaries = @repo.packages(q: query)
-    puts "@repo.delete_packages(#{([source_key.to_s] + binaries).inspect})"
-    @repo.delete_packages([source_key.to_s] + binaries)
+    delete([source_key.to_s] + binaries)
+  end
+
+  def delete_binary(key)
+    delete(key)
+  end
+
+  def delete(keys)
+    puts "@repo.delete_packages(#{keys})"
+    @repo.delete_packages(keys)
   end
 end
 
