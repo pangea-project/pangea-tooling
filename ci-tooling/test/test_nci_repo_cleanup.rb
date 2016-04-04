@@ -61,6 +61,9 @@ class NCIRepoCleanupTest < TestCase
                            'Psource kactivities-kf5 4 jkl',
                            'Psource kactivities-kf5 2 def'])
     fake_unstable.expects(:packages)
+                 .with(q: '!$Architecture (source)')
+                 .returns([])
+    fake_unstable.expects(:packages)
                  .with(q: '$Source (kactivities-kf5), $SourceVersion (1)')
                  .returns(['Pamd64 kactivy 1 abc',
                            'Pall kactivy-data 1 def'])
@@ -95,11 +98,16 @@ class NCIRepoCleanupTest < TestCase
     fake_stable.expects(:packages)
                .with(q: '$Architecture (source)')
                .returns([])
+    fake_stable.expects(:packages)
+               .with(q: '!$Architecture (source)')
+               .returns(['Pamd64 kactivities-kf5 1 abc',
+                         'Pamd64 kactivities-kf5 3 ghi'])
+    fake_stable.expects(:delete_packages)
+               .with('Pamd64 kactivities-kf5 1 abc')
     fake_stable.expects(:published_in)
                .returns(mock.responds_like_instance_of(Aptly::PublishedRepository))
     Aptly::Repository.expects(:list)
                      .returns([fake_unstable, fake_stable])
-    version_seq = sequence('version')
     {
       %w(1 gt 3) => 1 > 3,
       %w(1 lt 3) => 1 < 3,
@@ -115,7 +123,7 @@ class NCIRepoCleanupTest < TestCase
         .expects(:system)
         .with('dpkg', '--compare-versions', *arg_array)
         .returns(return_value)
-        .in_sequence(version_seq)
+        .at_least_once
     end
 
     # RepoCleaner.clean(%w(unstable stable))
