@@ -52,7 +52,7 @@ class NCIRepoCleanupTest < TestCase
                 .returns(9091)
     Net::SSH::Gateway.expects(:new).returns(fake_gateway)
 
-    fake_unstable = mock
+    fake_unstable = mock('unstable')
     fake_unstable.expects(:Name).returns('unstable')
     fake_unstable.expects(:packages)
                  .with(q: '$Architecture (source)')
@@ -90,7 +90,7 @@ class NCIRepoCleanupTest < TestCase
     fake_unstable.expects(:packages)
                  .with(q: '$Source (kactivities-kf5), $SourceVersion (4)')
                  .never
-    fake_stable = mock
+    fake_stable = mock('stable')
     fake_stable.expects(:Name).returns('stable')
     fake_stable.expects(:packages)
                .with(q: '$Architecture (source)')
