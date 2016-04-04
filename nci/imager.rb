@@ -67,6 +67,7 @@ FileUtils.ln_s(PUB_PATH, "#{WEBSITE_PATH}current")
 # only be published if passing some QA test
 WEBSITE_PATH_REMOTE = "#{IMAGENAME}-#{TYPE}/".freeze
 PUB_PATH_REMOTE = "#{WEBSITE_PATH_REMOTE}#{DATE}".freeze
+current_images = `ssh neon@depot.kde.org 'cd neon/#{WEBSITE_PATH_REMOTE}; ls -d 20*'` # needs date update next century
 system("ssh neon@depot.kde.org mkdir -p neon/#{PUB_PATH_REMOTE}")
 %w(amd64.iso manifest zsync sha256sum).each do |type|
   unless system("scp result/*#{type} neon@depot.kde.org:neon/#{PUB_PATH_REMOTE}/")
@@ -75,5 +76,6 @@ system("ssh neon@depot.kde.org mkdir -p neon/#{PUB_PATH_REMOTE}")
 end
 system("ssh neon@depot.kde.org 'cd neon/#{PUB_PATH_REMOTE}; ln -s *amd64.iso #{IMAGENAME}-#{TYPE}-current.iso'")
 system("ssh neon@depot.kde.org 'cd neon/#{WEBSITE_PATH_REMOTE}; rm -f current; ln -s #{DATE} current'")
+system("ssh neon@depot.kde.org 'cd neon/#{WEBSITE_PATH_REMOTE}; echo \"#{current_images}\" | xargs rm -r'") #remove old images
 
 exit 0
