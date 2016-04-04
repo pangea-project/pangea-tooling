@@ -73,5 +73,33 @@ module Debian
       assert_equal(nil, c.source.fetch('build-depends', nil),
                    "Found a build dep #{c.source.fetch('build-depends', nil)}")
     end
+
+    def test_write_nochange
+      c = Control.new(__method__)
+      c.parse!
+      build_deps = c.source.fetch('build-depends', nil)
+      assert_not_equal(nil, build_deps)
+      assert_equal(File.read("#{__method__}/debian/control").split($/),
+                   c.dump.split($/))
+    end
+
+    description 'changing build-deps works and can be written and read'
+    def test_write
+      c = Control.new(__method__)
+      c.parse!
+      build_deps = c.source.fetch('build-depends', nil)
+      gwenview = build_deps.find { |x| x.name == 'gwenview' }
+      gwenview.operator = '='
+      gwenview.version = '1.0'
+      File.write("#{__method__}/debian/control", c.dump)
+
+      # read again and make sure the expected values are present
+      c = Control.new(__method__)
+      c.parse!
+      build_deps = c.source.fetch('build-depends', nil)
+      gwenview = build_deps.find { |x| x.name == 'gwenview' }
+      assert_equal('=', gwenview.operator)
+      assert_equal('1.0', gwenview.version)
+    end
   end
 end

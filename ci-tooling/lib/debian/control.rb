@@ -49,6 +49,22 @@ module Debian
       # TODO: Strip custom fields and add a Control::flags_for(entry) method.
     end
 
+    def dump
+      output = ''
+
+      # Source Paragraph
+      output += dump_paragraph(@source, source_fields)
+      return output unless @binaries
+
+      # Binary Paragraphs
+      output += "\n"
+      @binaries.each do |b|
+        output += dump_paragraph(b, binary_fields)
+      end
+
+      output + "\n"
+    end
+
     private
 
     def source_fields
