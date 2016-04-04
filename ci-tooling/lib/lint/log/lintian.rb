@@ -22,6 +22,7 @@ module Lint
         'binary-without-manpage',
         # Equally we don't really care enough about malformed manpages.
         'manpage-has-errors-from-man',
+        'manpage-has-bad-whatis-entry',
         # TODO: check if we still need or want these
         # next if line.include?('not-binnmuable-any-depends-all')
         # Lintian is made for stupid people.
