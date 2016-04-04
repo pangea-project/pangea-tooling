@@ -49,13 +49,27 @@ end
 repos = {
   'unstable' => 'dev_unstable',
   'stable' => 'dev_stable',
-  'release' => ':tmp_release'
+  'release' => 'tmp_release'
 }
 repos.each do |repo_name, publish_name|
   next if Aptly::Repository.exist?(repo_name)
   repo = Aptly::Repository.create(repo_name)
   repo.publish(publish_name || repo_name,
                Distribution: 'wily',
+               Origin: 'Neon',
+               Label: 'Neon',
+               Architectures: %w(source i386 amd64 all))
+end
+
+repos = {
+  'unstable_xenial' => 'dev_unstable',
+  'stable_xenial' => 'dev_stable'
+}
+repos.each do |repo_name, publish_name|
+  next if Aptly::Repository.exist?(repo_name)
+  repo = Aptly::Repository.create(repo_name)
+  repo.publish(publish_name || repo_name,
+               Distribution: 'xenial',
                Origin: 'Neon',
                Label: 'Neon',
                Architectures: %w(source i386 amd64 all))
