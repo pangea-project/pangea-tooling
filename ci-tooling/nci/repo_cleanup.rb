@@ -184,7 +184,7 @@ class RepoCleaner
   end
 
   def delete_binary(key)
-    delete(key)
+    delete(key.to_s)
   end
 
   def delete(keys)
