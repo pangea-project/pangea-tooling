@@ -59,7 +59,7 @@ module CI
       end
 
       Dir.chdir(BUILD_DIR) do
-        system('dpkg-buildpackage', *dpkg_buildopts)
+        raise 'build failed' unless system('dpkg-buildpackage', *dpkg_buildopts)
       end
     end
 
