@@ -47,7 +47,7 @@ module Debian
       while (line = lines.shift) && line && !line.strip.empty?
         next if line.start_with?('#') # Comment
 
-        header_match = line.match(/^(\S+):(.*)/)
+        header_match = line.match(/^(\S+):(.*\n?)$/)
         unless header_match.nil?
           # 0 = full match
           # 1 = key match
@@ -55,10 +55,18 @@ module Debian
           key = header_match[1].lstrip
           value = header_match[2].lstrip
           current_header = key
-          if relationship_fields.include?(key.downcase)
-            value = parse_relationships(value)
-          elsif foldable_fields.include?(key.downcase)
-            value = [value.chomp(',').strip]
+          if foldable_fields.include?(key.downcase)
+            # We do not care about whitespaces for folds, so strip everything.
+            if relationship_fields.include?(key.downcase)
+              value = parse_relationships(value)
+            else
+              value = [value.chomp(',').strip]
+            end
+          elsif multiline_fields.include?(key.downcase)
+            # For multiline we want to preserve right hand side whitespaces.
+            value
+          else
+            value.strip!
           end
           data[key] = value
           next

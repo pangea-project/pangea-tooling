@@ -50,6 +50,21 @@ module Debian
       c.parse!
       assert_equal(1, c.source['build-depends'].size)
       assert_nil(c.source.fetch('magic', nil))
+      # We want accurate newlines preserved for description
+      assert_equal("meow\nkitten\n.\na\n", c.binaries[0].fetch('Description'))
+    end
+
+    def test_multiline_nwelines
+      c = Control.new
+      c.parse!
+      # We want accurate newlines preserved for multilines
+      assert_equal("meow\nkitten\n.\na\n", c.binaries[0].fetch('Description'))
+    end
+
+    def test_no_final_newline
+      c = Control.new(__method__)
+      c.parse!
+      assert_equal('woof', c.binaries[-1].fetch('Homepage'))
     end
 
     def test_no_build_deps # Also tests !pwd opening
