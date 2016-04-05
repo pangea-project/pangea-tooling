@@ -74,11 +74,14 @@ pwd
 
 tar -xf *.tar.gz
 
+rm -rv .bundle || true
 gem install --no-rdoc bundler
 bundle install --jobs=`nproc` --no-cache --local --frozen --system --without development test
 
 rake clean
 rake deploy
+
+find ~/tooling-pending/vendor/cache/* -maxdepth 0 -type d | xargs -r rm -rv
 
 # KCI uses versioned dirs, parts of the new tooling don&apos;t.
 # This needs a capistrano-like solution for versioning.
