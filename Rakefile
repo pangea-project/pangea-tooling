@@ -115,7 +115,7 @@ end
 
 desc 'deploy host and containment tooling'
 task :deploy do
-  bundle(*%w(pack --all --all-platforms --no-install))
+  bundle(*%w(pack --all-platforms --no-install))
 
   # Pending for pickup by LXC.
   tooling_path = File.join(Dir.home, 'tooling-pending')
