@@ -19,6 +19,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require_relative '../lib/ci/build_source'
 require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
 require_relative 'lib/setup_env'
@@ -43,5 +44,7 @@ when 'uscan'
   orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
 else
   puts 'Unspecified source type, defaulting to VCS build...'
-  require_relative '../ci/sourcer.rb'
+  builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
+                                     strip_symbols: true)
+  builder.run
 end
