@@ -128,4 +128,5 @@ task :deploy do
   FileUtils.rm_rf(tooling_path)
   FileUtils.mkpath(tooling_path)
   FileUtils.cp_r(Dir.glob('*'), tooling_path)
+  FileUtils.cp_r('.noexec.yml', tooling_path)
 end
