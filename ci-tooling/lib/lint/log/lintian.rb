@@ -15,6 +15,7 @@ module Lint
         # get bumped by the pkg-kde team anyway.
         'out-of-date-standards-version',
         'newer-standards-version',
+        'ancient-standards-version',
         # We package an enormous amount of GUI apps without manpages (in fact
         # they arguably wouldn't even make sense what with being GUI apps). So
         # ignore any and all manpage warnings to save Harald from having to
