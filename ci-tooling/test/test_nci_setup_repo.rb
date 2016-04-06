@@ -37,8 +37,13 @@ class NCISetupRepoTest < TestCase
     # Disable all system invocation.
     Object.any_instance.expects(:`).never
     Object.any_instance.expects(:system).never
+    # Don't actually sleep.
+    Object.any_instance.stubs(:sleep)
     # Disable all web (used for key).
     WebMock.disable_net_connect!
+
+    # Reset possible cached mirrors results.
+    NCI::Mirrors.reset!
 
     ENV['TYPE'] = 'unstable'
   end
@@ -71,8 +76,28 @@ class NCISetupRepoTest < TestCase
       .yields(key_catcher)
       .returns(true)
 
+    stub_request(:get, 'http://mirrors.ubuntu.com/mirrors.txt')
+      .to_return(status: 200, body: 'http://ubuntu.uni-klu.ac.at/ubuntu/')
     stub_request(:get, 'http://archive.neon.kde.org/public.key')
       .to_return(status: 200, body: 'abc')
+
+    mock_tcp_uni_klu = mock('mock_tcp_uni_klu')
+    mock_tcp_uni_klu.responds_like_instance_of(Net::Ping::TCP)
+    mock_tcp_uni_klu.stubs(:ping).at_least_once
+    mock_tcp_uni_klu.stubs(:exception).returns(nil)
+    mock_tcp_uni_klu.stubs(:host).returns('ubuntu.uni-klu.ac.at')
+    mock_tcp_uni_klu.stubs(:duration).returns(0.003)
+
+    Net::Ping::TCP.expects(:new)
+                  .times(1)
+                  .with('ubuntu.uni-klu.ac.at', 80, 1)
+                  .returns(mock_tcp_uni_klu)
+
+    File.expects(:read)
+        .with('/etc/apt/sources.list')
+        .returns("deb http://archive.ubuntu.com/ubuntu/ willy yo\ndeb http://archive.neon.kde.org willy yo\n")
+    File.expects(:write)
+        .with('/etc/apt/sources.list', "deb http://ubuntu.uni-klu.ac.at/ubuntu/ willy yo\ndeb http://archive.neon.kde.org willy yo\n")
 
     NCI.setup_repo!
 
