@@ -42,6 +42,10 @@ export DIST=<%= distribution %>
 export TYPE=<%= type %>
 <%= fetch_tarball %>
 ~/tooling/kci/contain.rb ~/ci-tooling/nci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
+<% if type == 'wily' %>
+  echo 'wiping git clones on wily'
+  rm -rf packaging source
+<% end %>
 </command>
     </hudson.tasks.Shell>
   </builders>
