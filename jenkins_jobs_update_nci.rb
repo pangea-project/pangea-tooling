@@ -95,6 +95,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           jobs.each { |j| enqueue(j) }
           all_builds += jobs
 
+          # FIXME: transition from wily guarded as we only want these once!
+          next unless distribution == 'xenial'
+
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
           next unless type == 'unstable'
@@ -119,6 +122,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                 architectures: NCI.architectures)
           jobs.each { |j| enqueue(j) }
         end
+
+        # FIXME: transition from wily to xenial!
+        next if distribution == 'xenial'
 
         # Meta builders.
         all_builds.reject! { |j| !j.is_a?(ProjectJob) }
