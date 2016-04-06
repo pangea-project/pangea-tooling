@@ -1,5 +1,6 @@
 series:
   wily: "15.10"
+  xenial: "16.04"
 architectures:
   - amd64
 extra_architectures:
