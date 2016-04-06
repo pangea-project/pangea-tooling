@@ -66,7 +66,7 @@ module NCI
         @best ||= begin
           durations = list.inject({}) do |hash, url|
             time = Pinger.new(url).best_time
-            next nil unless time
+            next hash unless time
             hash.merge!(time => url)
           end
           durations.sort.to_h.values[0]

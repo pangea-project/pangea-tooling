@@ -68,6 +68,9 @@ class NCISetupRepoTest < TestCase
   end
 
   def test_pinger_fail
+    stub_request(:get, 'http://mirrors.ubuntu.com/mirrors.txt')
+      .to_return(status: 200, body: 'http://ubuntu.uni-klu.ac.at/ubuntu/')
+
     mock_tcp_uni_klu = mock('ubuntu.uni-klu.ac.at')
     mock_tcp_uni_klu.responds_like_instance_of(Net::Ping::TCP)
     mock_tcp_uni_klu.stubs(:ping).at_least_once
@@ -75,10 +78,13 @@ class NCISetupRepoTest < TestCase
     mock_tcp_uni_klu.stubs(:host).returns('ubuntu.uni-klu.ac.at')
 
     Net::Ping::TCP.expects(:new)
+                  .twice # Once for Pinger, once for Mirrors
                   .with('ubuntu.uni-klu.ac.at', 80, 1)
                   .returns(mock_tcp_uni_klu)
 
     pinger = NCI::Mirrors::Pinger.new('http://ubuntu.uni-klu.ac.at/ubuntu/')
+
     assert_equal(nil, pinger.best_time)
+    assert_equal(nil, NCI::Mirrors.best)
   end
 end
