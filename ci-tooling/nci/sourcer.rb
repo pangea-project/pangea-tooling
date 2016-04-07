@@ -31,7 +31,7 @@ NCI.setup_env!
 def orig_source(fetcher)
   tarball = fetcher.fetch('source')
   raise 'Failed to fetch tarball' unless tarball
-  sourcer = CI::OrigSourceBuilder.new
+  sourcer = CI::OrigSourceBuilder.new(strip_symbols: true)
   sourcer.build(tarball.origify)
 end
 
