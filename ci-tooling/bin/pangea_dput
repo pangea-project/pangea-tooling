@@ -63,15 +63,17 @@ if options.gateway
   case options.gateway.scheme
   when 'ssh'
     gateway = Net::SSH::Gateway.new(options.gateway.host, options.gateway.user)
-    gateway.open('localhost', options.port, options.port)
+    port = gateway.open('localhost', options.port)
   else
     raise 'Gateway scheme not supported'
   end
 end
 
+port ||= options.port
+
 Aptly.configure do |config|
   config.host = options.host
-  config.port = options.port
+  config.port = port
 end
 
 raise 'Repository does not exist' unless Aptly::Repository.exist?(options.repo)
@@ -111,6 +113,7 @@ def open_dsc(file)
 end
 
 ARGV.each do |file|
+  next unless File.size?(file)
   Dir.chdir(File.dirname(file)) do
     dsc = open_changes(file)
     next unless dsc.fields
