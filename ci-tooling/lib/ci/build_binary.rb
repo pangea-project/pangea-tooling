@@ -59,7 +59,8 @@ module CI
       end
 
       Dir.chdir(BUILD_DIR) do
-        ec = system('dpkg-buildpackage', *dpkg_buildopts)
+        system('dpkg-buildpackage', *dpkg_buildopts)
+        ec = $?.exitstatus
         # Do not abort the build when dpkg-buildpackage fails to build a arch
         # all package on !amd64 since our current architecture creates armhf jobs
         # even for sources that only have arch all binaries
