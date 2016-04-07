@@ -123,9 +123,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           jobs.each { |j| enqueue(j) }
         end
 
-        # FIXME: transition from wily to xenial!
-        next if distribution == 'xenial'
-
         # Meta builders.
         all_builds.reject! { |j| !j.is_a?(ProjectJob) }
         meta_args = {
