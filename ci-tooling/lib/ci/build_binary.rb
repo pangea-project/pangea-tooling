@@ -59,7 +59,11 @@ module CI
       end
 
       Dir.chdir(BUILD_DIR) do
-        raise 'build failed' unless system('dpkg-buildpackage', *dpkg_buildopts)
+        ec = system('dpkg-buildpackage', *dpkg_buildopts)
+        # Do not abort the build when dpkg-buildpackage fails to build a arch
+        # all package on !amd64 since our current architecture creates armhf jobs
+        # even for sources that only have arch all binaries
+        raise unless ec == 2 || ec == 0
       end
     end
 
