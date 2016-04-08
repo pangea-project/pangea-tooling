@@ -86,7 +86,9 @@ module NCI
           Retry.retry_it(times: 2) do
             data = open('http://mirrors.ubuntu.com/mirrors.txt').read
           end
-          data.split($/).compact.freeze
+          data = data.split($/).compact
+          data.reject! { |x| x.include?('mirror.23media.de/ubuntu') }
+          data.freeze
         end
       end
     end
