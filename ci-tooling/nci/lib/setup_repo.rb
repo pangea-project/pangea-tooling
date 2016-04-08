@@ -30,7 +30,7 @@ module NCI
   module_function
 
   def setup_repo!
-    switch_mirrors!
+    # switch_mirrors!
     add_repo!
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     raise 'failed to install deps' unless Apt.install(%w(pkg-kde-tools))
