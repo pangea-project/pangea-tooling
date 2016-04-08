@@ -70,6 +70,13 @@
       </conditionalbuilders>
     </org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder>
     <%= render_phases %>
+    <hudson.tasks.Shell>
+      <command>
+        <% jobs.each do |job| %>
+          rm -rvf $JENKINS_HOME/jobs/<%= job %>/builds/lastSuccessfulBuild/archive
+        <% end %>
+      </command>
+    </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.26">
