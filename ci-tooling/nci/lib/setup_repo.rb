@@ -31,18 +31,24 @@ module NCI
 
   def setup_repo!
     switch_mirrors!
-    debline = format('deb http://archive.neon.kde.org/%s %s main',
-                     ENV.fetch('TYPE'),
-                     LSB::DISTRIB_CODENAME)
-    raise 'adding repo failed' unless Apt::Repository.add(debline)
-    Apt::Key.add('http://archive.neon.kde.org/public.key')
-    raise 'Failed to import key' unless $? == 0
+    add_repo!
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     raise 'failed to install deps' unless Apt.install(%w(pkg-kde-tools))
   end
 
   class << self
     private
+
+    def add_repo!
+      debline = format('deb http://archive.neon.kde.org/%s %s main',
+                       ENV.fetch('TYPE'),
+                       LSB::DISTRIB_CODENAME)
+      Retry.retry_it(times: 5, sleep: 4) do
+        raise 'adding repo failed' unless Apt::Repository.add(debline)
+      end
+      Apt::Key.add('http://archive.neon.kde.org/public.key')
+      raise 'Failed to import key' unless $? == 0
+    end
 
     def switch_mirrors!
       file = '/etc/apt/sources.list'
