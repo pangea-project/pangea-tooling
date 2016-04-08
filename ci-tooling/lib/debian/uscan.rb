@@ -24,7 +24,8 @@ module Debian
   class UScan
     # UScan state strings.
     module States
-      NEWER_AVAILABLE = 'Newer version available'.freeze
+      NEWER_AVAILABLE = ['Newer version available',
+                         'newer package available'].freeze
       UP_TO_DATE = 'up to date'.freeze
       DEBIAN_NEWER = 'Debian version newer than remote site'.freeze
       OLDER_ONLY = 'only older package available'.freeze
@@ -75,7 +76,8 @@ module Debian
         def verify(element)
           return unless element.name == 'status'
           return if States.constants.any? do |const|
-            States.const_get(const) == element.content
+            obj = States.const_get(const) # string or array
+            obj == element.content || obj.include?(element.content)
           end
           raise ParseError, "Unmapped status: '#{element.content}'"
         end
