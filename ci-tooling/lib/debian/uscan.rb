@@ -22,13 +22,24 @@ require 'nokogiri'
 
 module Debian
   class UScan
-    # UScan state strings.
+    # State identifier strings.
     module States
-      NEWER_AVAILABLE = ['Newer version available',
-                         'newer package available'].freeze
+      NEWER_AVAILABLE = 'Newer version available'.freeze
       UP_TO_DATE = 'up to date'.freeze
       DEBIAN_NEWER = 'Debian version newer than remote site'.freeze
       OLDER_ONLY = 'only older package available'.freeze
+
+      # Compatiblity map because uscan randomly changes the bloody strings.
+      # @param [String] string actual uscan string we want to map
+      # @return [String] const representation of that string
+      def self.map(string)
+        case string
+        when 'newer package available'
+          NEWER_AVAILABLE
+        else
+          string
+        end
+      end
     end
 
     # UScan's debian external health status format parser.
@@ -65,19 +76,21 @@ module Debian
             if element.name == 'package'
               next packages << Package.new(element.content)
             end
+            verify_status(element)
             packages[-1]._apply_element(element)
-            verify(element)
           end
           packages
         end
 
         private
 
-        def verify(element)
+        def verify_status(element)
           return unless element.name == 'status'
+          # Edit the content to the mapped value, so we always get consistent
+          # strings.
+          element.content = States.map(element.content)
           return if States.constants.any? do |const|
-            obj = States.const_get(const) # string or array
-            obj == element.content || obj.include?(element.content)
+            States.const_get(const) == element.content
           end
           raise ParseError, "Unmapped status: '#{element.content}'"
         end

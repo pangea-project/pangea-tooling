@@ -1,0 +1,12 @@
+<dehs>
+<package>user-manager</package>
+<debian-uversion>5.5.4</debian-uversion>
+<debian-mangled-uversion>5.5.4</debian-mangled-uversion>
+<upstream-version>5.6.2</upstream-version>
+<upstream-url>http://download.kde.org/stable/plasma/5.6.2/user-manager-5.6.2.tar.xz</upstream-url>
+<status>newer package available</status>
+<messages>Not downloading upstream package: user-manager-5.6.2.tar.xz
+</messages>
+<warnings>more than one main upstream tarballs listed.
+</warnings>
+</dehs>

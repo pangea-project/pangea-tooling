@@ -51,5 +51,11 @@ module Debian
       assert_equal(UScan::States::OLDER_ONLY, packages[0].status)
       assert_equal(UScan::States::UP_TO_DATE, packages[1].status)
     end
+
+    def test_map
+      packages = UScan::DEHS.parse_packages(File.read(data))
+      assert_equal(1, packages.size)
+      assert_equal(UScan::States::NEWER_AVAILABLE, packages[0].status)
+    end
   end
 end
