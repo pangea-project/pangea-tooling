@@ -101,7 +101,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
           next unless type == 'unstable'
-          next unless project.component == 'frameworks'
+          next unless %w(frameworks plasma).include?(project.component)
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
           watchers[watcher.job_name] = watcher
