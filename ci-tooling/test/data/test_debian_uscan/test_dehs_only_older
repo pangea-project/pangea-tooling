@@ -1,0 +1,20 @@
+<dehs>
+<package>krunner</package>
+<debian-uversion>5.20.0</debian-uversion>
+<debian-mangled-uversion>5.20.0</debian-mangled-uversion>
+<upstream-version>4.100.0</upstream-version>
+<upstream-url>http://download.kde.org/unstable/frameworks/4.100.0/portingAids/krunner-4.100.0.tar.xz</upstream-url>
+<status>only older package available</status>
+<messages>Not downloading upstream package: krunner-4.100.0.tar.xz
+</messages>
+<package>krunner</package>
+<debian-uversion>5.20.0</debian-uversion>
+<debian-mangled-uversion>5.20.0</debian-mangled-uversion>
+<upstream-version>5.20.0</upstream-version>
+<upstream-url>http://download.kde.org/stable/frameworks/5.20/portingAids/krunner-5.20.0.tar.xz</upstream-url>
+<status>up to date</status>
+<messages>Not downloading upstream package: krunner-5.20.0.tar.xz
+</messages>
+<warnings>more than one main upstream tarballs listed.
+</warnings>
+</dehs>

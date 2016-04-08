@@ -27,6 +27,7 @@ module Debian
       NEWER_AVAILABLE = 'Newer version available'.freeze
       UP_TO_DATE = 'up to date'.freeze
       DEBIAN_NEWER = 'Debian version newer than remote site'.freeze
+      OLDER_ONLY = 'only older package available'.freeze
     end
 
     # UScan's debian external health status format parser.

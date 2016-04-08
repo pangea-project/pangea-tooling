@@ -44,5 +44,12 @@ module Debian
         UScan::DEHS.parse_packages(File.read(data))
       end
     end
+
+    def test_dehs_only_older
+      packages = UScan::DEHS.parse_packages(File.read(data))
+      assert_equal(2, packages.size)
+      assert_equal(UScan::States::OLDER_ONLY, packages[0].status)
+      assert_equal(UScan::States::UP_TO_DATE, packages[1].status)
+    end
   end
 end
