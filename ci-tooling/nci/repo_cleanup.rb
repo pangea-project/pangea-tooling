@@ -203,5 +203,5 @@ if __FILE__ == $PROGRAM_NAME || ENV.include?('PANGEA_TEST_EXECUTION')
     config.port = gateway_port
   end
 
-  RepoCleaner.clean(%w(unstable stable))
+  RepoCleaner.clean(%w(unstable stable unstable_xenial stable_xenial))
 end
