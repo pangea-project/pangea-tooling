@@ -143,8 +143,8 @@ module Apt
 
     def self.auto_update
       return unless @last_update.nil? || (Time.now - @last_update) >= (5 * 60)
+      return unless Apt.update
       @last_update = Time.now
-      Apt.update
     end
 
     # @return [Array<String>] default arguments to inject into apt call
