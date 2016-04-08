@@ -72,7 +72,7 @@ module Apt
 
       def install_add_apt_repository
         return if defined?(@add_apt_repository_installed)
-        Apt.install('software-properties-common')
+        return unless Apt.install('software-properties-common')
         @add_apt_repository_installed = true
       end
 

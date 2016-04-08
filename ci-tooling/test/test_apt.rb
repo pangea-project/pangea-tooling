@@ -184,4 +184,65 @@ class AptTest < TestCase
       Apt.update
     end
   end
+
+  # Test that the deep nesting bullshit behind Repository.add with implicit
+  # crap garbage caching actually yields correct return values and is
+  # retriable on error.
+  def test_fucking_shit_fuck_shit
+    Object.any_instance.expects(:system).never
+
+    add_call_chain = proc do |sequence, returns|
+      # sequence is a sequence
+      # returns is an array of nil/false/true values
+      #   first = update
+      #   second = install
+      #   third = add
+      # a nil returns means this call must not occur (can only be 1st & 2nd)
+      apt = ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true']
+
+      unless (ret = returns.shift).nil?
+        Object
+          .any_instance
+          .expects(:system)
+          .in_sequence(sequence)
+          .with(*apt, 'update')
+          .returns(ret)
+      end
+
+      unless (ret = returns.shift).nil?
+        Object
+          .any_instance
+          .expects(:system)
+          .in_sequence(sequence)
+          .with(*apt, 'install', 'software-properties-common')
+          .returns(ret)
+      end
+
+      Object
+        .any_instance
+        .expects(:system)
+        .in_sequence(sequence)
+        .with('add-apt-repository', '-y', 'kittenshit')
+        .returns(returns.shift)
+    end
+
+    seq = sequence('apt-add-repo')
+
+    # Enable automatic update. We want to test that we can retry the update
+    # if it fails.
+    Apt::Abstrapt.send(:instance_variable_set, :@last_update, nil)
+
+    # update failed, install failed, invocation failed
+    add_call_chain.call(seq, [false, false, false])
+    assert_false(Apt::Repository.add('kittenshit'))
+    # update worked, install failed, invocation failed
+    add_call_chain.call(seq, [true, false, false])
+    assert_false(Apt::Repository.add('kittenshit'))
+    # update noop, install worked, invocation failed
+    add_call_chain.call(seq, [nil, true, false])
+    assert_false(Apt::Repository.add('kittenshit'))
+    # update noop, install noop, invocation worked
+    add_call_chain.call(seq, [nil, nil, true])
+    assert(Apt::Repository.add('kittenshit'))
+  end
 end
