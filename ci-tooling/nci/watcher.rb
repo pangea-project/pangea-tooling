@@ -45,7 +45,14 @@ pp newer
 
 exit 0 if newer.empty?
 
-merged = (system('git merge origin/Neon/stable') || system('git merge origin/Neon/unstable'))
+merged = false
+if system('git merge origin/Neon/stable')
+  merged = true
+  newer.reject! { |x| !x.upstream_url.include?('stable') }
+elsif system('git merge origin/Neon/unstable')
+  merged = true
+  newer.reject! { |x| !x.upstream_url.include?('unstable') }
+end
 raise 'Could not merge anything' unless merged
 
 newer = newer.group_by(&:upstream_version)
