@@ -42,7 +42,7 @@ export DIST=<%= distribution %>
 export TYPE=<%= type %>
 <%= fetch_tarball %>
 ~/tooling/kci/contain.rb ~/ci-tooling/nci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
-<% if dist == 'wily' || type == 'release' %>
+<% if distribution == 'wily' || type == 'release' %>
   echo 'wiping git clones'
   rm -rf packaging source
 <% end %>
