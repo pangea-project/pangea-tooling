@@ -32,8 +32,9 @@ module DCI
   def setup_repo!
     setup_backports! unless ENV.fetch('DIST') == 'unstable'
 
-    repos = %w(frameworks plasma odroid)
+    repos = %w(frameworks plasma)
     repos += %w(backports qt5) if ENV.fetch('DIST') == 'stable'
+    repos += %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
 
     repos.each do |repo|
       debline = "deb http://dci.ds9.pub:8080/#{repo} #{ENV.fetch('DIST')} main"
