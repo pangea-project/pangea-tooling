@@ -160,6 +160,27 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           enqueue(NeonIsoJob.new(wayland_isoargs))
         end
       end
+
+      # Add special types. This is somewhat, ehm, naughty...
+      %w(testing).each do |type|
+        next unless distribution == 'xenial'
+        projects_file = "#{@projects_dir}/nci/#{type}.yaml"
+        ProjectsFactory.from_file(projects_file).each do |project|
+          jobs = ProjectJob.job(project,
+                                distribution: distribution,
+                                type: type,
+                                architectures: NCI.architectures)
+          jobs.each { |j| enqueue(j) }
+
+          all_builds.reject! { |j| !j.is_a?(ProjectJob) }
+          meta_args = {
+            type: type,
+            distribution: distribution,
+            downstream_jobs: all_builds
+          }
+          all_meta_builds << enqueue(MetaBuildJob.new(meta_args))
+        end
+      end
     end
 
     watchers.each { |_, w| enqueue(w) }
