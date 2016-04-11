@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # frozen_string_literal: true
 #
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
@@ -20,32 +19,17 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '../lib/ci/build_source'
-require_relative '../lib/ci/orig_source_builder'
-require_relative '../lib/ci/tar_fetcher'
-require_relative 'lib/setup_repo'
+# Debian CI specific helpers.
+module DCI
+  module_function
 
-DCI.setup_repo!
-DCI.setup_env!
+  def setup_env!
+    ENV['DEBFULLNAME'] = 'Debian CI'
+    ENV['DEBEMAIL'] = 'null@debian.org'
 
-def orig_source(fetcher)
-  tarball = fetcher.fetch('source')
-  raise 'Failed to fetch tarball' unless tarball
-  sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'),
-                                      strip_symbols: true)
-  sourcer.build(tarball.origify)
-end
-
-case ARGV.fetch(0, nil)
-when 'tarball'
-  puts 'Downloading tarball from URL'
-  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
-when 'uscan'
-  puts 'Downloading tarball via uscan'
-  orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
-else
-  puts 'Unspecified source type, defaulting to VCS build...'
-  builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
-                                     strip_symbols: true)
-  builder.run
+    ENV['GIT_AUTHOR_NAME'] = ENV.fetch('DEBFULLNAME')
+    ENV['GIT_AUTHOR_EMAIL'] = ENV.fetch('DEBEMAIL')
+    ENV['GIT_COMMITTER_NAME'] = ENV.fetch('DEBFULLNAME')
+    ENV['GIT_COMMITTER_EMAIL'] = ENV.fetch('DEBEMAIL')
+  end
 end
