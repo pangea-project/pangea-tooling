@@ -78,6 +78,9 @@
   Neon/5.5:
     upstream_scm:
       url: http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.5.1+dfsg.orig.tar.xz
+  Neon/testing:
+    upstream_scm:
+      url: http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.6.0+dfsg.orig.tar.xz
 
 '*{debian.org,packaging.neon}*/qt/qtchooser':
   Neon/testing:
