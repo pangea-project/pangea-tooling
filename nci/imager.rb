@@ -77,5 +77,6 @@ end
 system("ssh neon@depot.kde.org 'cd neon/#{PUB_PATH_REMOTE}; ln -s *amd64.iso #{IMAGENAME}-#{TYPE}-current.iso'")
 system("ssh neon@depot.kde.org 'cd neon/#{WEBSITE_PATH_REMOTE}; rm -f current; ln -s #{DATE} current'")
 system("ssh neon@depot.kde.org 'cd neon/#{WEBSITE_PATH_REMOTE}; echo \"#{current_images}\" | xargs rm -r'") #remove old images
+system("prune-images")
 
 exit 0
