@@ -1,3 +1,4 @@
+require 'vcr'
 require 'webmock'
 require 'webmock/test_unit'
 
@@ -6,6 +7,7 @@ require_relative 'lib/serve'
 
 class PangeaDPutTest < TestCase
   def setup
+    VCR.turn_off!
     WebMock.disable_net_connect!
     @dput = File.join(__dir__, '../bin/pangea_dput')
     ARGV.clear
@@ -13,6 +15,7 @@ class PangeaDPutTest < TestCase
 
   def teardown
     WebMock.allow_net_connect!
+    VCR.turn_on!
   end
 
   def test_run
