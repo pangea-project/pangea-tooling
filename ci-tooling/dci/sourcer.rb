@@ -24,6 +24,7 @@ require_relative '../lib/ci/build_source'
 require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
 require_relative 'lib/setup_repo'
+require_relative 'lib/setup_env'
 
 DCI.setup_repo!
 DCI.setup_env!
