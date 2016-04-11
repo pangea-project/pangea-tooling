@@ -30,7 +30,8 @@ class KCIBuilderTest < TestCase
     if OS::ID == 'debian'
       @release = 'sid'
       OS.instance_variable_set(:@hash, VERSION_ID: '9', ID: 'debian')
-    elsif OS::ID == 'ubuntu'
+    else
+      # Force ubuntu.
       @release = 'vivid'
       OS.instance_variable_set(:@hash, VERSION_ID: '15.04', ID: 'ubuntu')
     end
