@@ -63,7 +63,8 @@ end
 
 repos = {
   'unstable_xenial' => 'dev_unstable',
-  'stable_xenial' => 'dev_stable'
+  'stable_xenial' => 'dev_stable',
+  'testing_xenial' => 'tmp_testing'
 }
 repos.each do |repo_name, publish_name|
   next if Aptly::Repository.exist?(repo_name)
