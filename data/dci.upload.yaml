@@ -22,3 +22,5 @@
   lib: "backports"
   pkg-cmake: "backports"
   pkg-fonts: "backports"
+  netrunner-common: 'netrunner'
+  netrunner-artwork: 'netrunner'
