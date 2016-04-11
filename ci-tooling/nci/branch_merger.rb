@@ -129,6 +129,9 @@ Dir.mktmpdir('stabilizer') do |tmpdir|
         git.checkout(origin)
         log.warn "Creating #{origin} ⇢ #{target}"
         git.checkout(target, new_branch: true)
+      else
+        log.error "target branch '#{target}' not here and not creating one"
+        break
       end
       acted = true
       break
