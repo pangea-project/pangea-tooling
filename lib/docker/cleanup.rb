@@ -16,21 +16,34 @@ module Docker
     end
 
     def containers_exited
+      # Filter all pseudo-exited and exited states.
+      filters = { status: %w(exited dead) }
       containers = Docker::Container.all(all: true,
-                                         filters: '{"status":["exited"]}')
+                                         filters: JSON.generate(filters))
       containers.each do |container|
         remove_container(container)
       end
     end
 
+    def container_creation(container)
+      container.refresh! # List information is somewhat sparse. Get full data.
+      created_prop = container.info.fetch('Created')
+      created = if created_prop.is_a?(Fixnum)
+                  Time.at(created_prop)
+                else
+                  DateTime.parse(created_prop)
+                end
+      created.to_datetime
+    end
+
     def containers_running(days_old:)
+      # Filter all pseudo-running and running states.
+      filters = { status: %w(created restarting running paused) }
       containers = Docker::Container.all(all: true,
-                                         filters: '{"status":["running"]}')
+                                         filters: JSON.generate(filters))
       containers.each do |container|
-        container.refresh! # List information is somewhat sparse. Get full data.
-        started_at = container.info.fetch('State').fetch('StartedAt')
-        started = DateTime.parse(started_at)
-        next if (DateTime.now - started).to_i < days_old
+        created = container_creation(container)
+        next if (DateTime.now - created).to_i < days_old
         remove_container(container, force: true)
       end
     end
