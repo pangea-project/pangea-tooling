@@ -51,7 +51,10 @@ if system('git merge origin/Neon/stable')
   newer.reject! { |x| !x.upstream_url.include?('stable') }
 elsif system('git merge origin/Neon/unstable')
   merged = true
-  newer.reject! { |x| !x.upstream_url.include?('unstable') }
+  # Do not filter paths when unstable was merged. We use unstable as common
+  # branch, so e.g. frameworks have only Neon/unstable but their download path
+  # is http://download.kde.org/stable/frameworks/...
+  # We thusly cannot kick stable.
 end
 raise 'Could not merge anything' unless merged
 
@@ -61,6 +64,7 @@ newer = newer.sort.to_h
 newest = newer.keys[-1]
 
 puts "newest #{newest.inspect}"
+raise 'No newest version found' unless newest
 
 version = Debian::Version.new(Changelog.new(Dir.pwd).version)
 version.upstream = newest
