@@ -10,4 +10,13 @@ SimpleCov.formatters = [
 
 SimpleCov.start
 
-require 'ci/reporter/rake/test_unit_loader' if ENV.include?('JENKINS_HOME')
+if ENV.include?('JENKINS_HOME')
+  # Compatibility output to JUnit format.
+  require 'ci/reporter/rake/test_unit_loader'
+
+  # Force VCR to not ever record anything.
+  require 'vcr'
+  VCR.configure do |c|
+    c.default_cassette_options = { record: :none }
+  end
+end
