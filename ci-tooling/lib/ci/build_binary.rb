@@ -60,6 +60,13 @@ module CI
       end
     end
 
+    def build_env
+      deb_build_options = ENV.fetch('DEB_BUILD_OPTIONS', '').split(' ')
+      {
+        'DEB_BUILD_OPTIONS' => (deb_build_options + ['nocheck']).join(' ')
+      }
+    end
+
     def build_package
       # FIXME: buildpackage probably needs to be a method on the DPKG module
       #   for logging purposes and so on and so forth
@@ -72,7 +79,7 @@ module CI
       dpkg_buildopts += build_flags
 
       Dir.chdir(BUILD_DIR) do
-        system('dpkg-buildpackage', *dpkg_buildopts)
+        system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
         ec = $?.exitstatus
         # Do not abort the build when dpkg-buildpackage fails to build a arch
         # all package on !amd64 since our current architecture creates armhf
