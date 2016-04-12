@@ -7,3 +7,4 @@ extra_architectures:
 types:
   - unstable
   - stable
+  - release

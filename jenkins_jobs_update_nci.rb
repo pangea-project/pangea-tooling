@@ -55,8 +55,15 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     type_projects = {}
     NCI.types.each do |type|
-      projects_file = "#{@projects_dir}/nci.yaml"
-      projects_file = "#{@projects_dir}/nci_stable.yaml" if type == 'stable'
+      # FIXME: align path handling
+      projects_file = case type
+                      when 'unstable'
+                        "#{@projects_dir}/nci.yaml"
+                      when 'stable'
+                        "#{@projects_dir}/nci_stable.yaml"
+                      else
+                        "#{@projects_dir}/nci/#{type}.yaml"
+                      end
       projects = ProjectsFactory.from_file(projects_file,
                                            branch: "Neon/#{type}")
       type_projects[type] = projects
@@ -64,7 +71,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       next unless type == 'unstable'
       projects.each do |project|
         branch = project.packaging_scm.branch
-        next unless branch && branch.start_with?('Neon/unstable', 'Neon/stable')
+        next unless branch && branch.start_with?('Neon/unstable', 'Neon/stable',
+                                                 'Neon/release', 'Neon/testing')
         # FIXME: this is fairly hackish
         dependees = []
         # Mergers need to be upstreams to the build jobs otherwise the
@@ -72,7 +80,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         # there was an upstream change resulting in pointless build
         # cycles.
         branches = NCI.types.collect { |x| "Neon/#{x}" }
-        branches << 'Neon/release'
         NCI.series.each_key do |d|
           NCI.types.each do |t|
             dependees << Builder.basename(d, t, project.component, project.name)
@@ -105,22 +112,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
           watchers[watcher.job_name] = watcher
-
-          # FIXME: BRR WTF
-          release_project = project.dup
-          packaging_scm = release_project.packaging_scm
-          packaging_scm = Marshal.load(Marshal.dump(packaging_scm))
-          packaging_scm.instance_variable_set(:@branch, 'Neon/release')
-          upstream_scm = release_project.upstream_scm
-          upstream_scm = Marshal.load(Marshal.dump(upstream_scm))
-          upstream_scm.instance_variable_set(:@type, 'uscan')
-          release_project.instance_variable_set(:@packaging_scm, packaging_scm)
-          release_project.instance_variable_set(:@upstream_scm, upstream_scm)
-          jobs = ProjectJob.job(release_project,
-                                distribution: distribution,
-                                type: 'release',
-                                architectures: NCI.architectures)
-          jobs.each { |j| enqueue(j) }
         end
 
         # Meta builders.

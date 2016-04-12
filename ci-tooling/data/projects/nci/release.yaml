@@ -1,0 +1,19 @@
+packaging.neon.kde.org.uk:
+  - frameworks:
+    - '*'
+  - plasma:
+    - '*'
+  - neon:
+    - seeds:
+        branch: master
+    - plasma-wayland-meta:
+        branch: master
+    - settings:
+        branch: master
+    - syslinux-themes-neon:
+        branch: master
+  - forks:
+    - base-files:
+        branch: master
+    - live-build:
+        branch: master
