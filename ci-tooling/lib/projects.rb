@@ -167,12 +167,21 @@ class Project
     end
   end
 
-  def init_from_control(control)
-    %w(build-depends build-depends-indep).each do |field|
+  def init_deps_from_control(control)
+    fields = %w(build-depends)
+    # Do not cover indep for Qt because Qt packages have a dep loop in them.
+    unless control.source.fetch('Source', '').include?('-opensource-src')
+      fields << 'build-depends-indep'
+    end
+    fields.each do |field|
       control.source.fetch(field, []).each do |dep|
         @dependencies << dep.name
       end
     end
+  end
+
+  def init_from_control(control)
+    init_deps_from_control(control)
 
     control.binaries.each do |binary|
       @provided_binaries << binary['package']
