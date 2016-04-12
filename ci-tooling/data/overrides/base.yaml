@@ -55,6 +55,10 @@
       type: tarball
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1.orig.tar.xz
 
+'*{debian.org,packaging.neon}*/qt/qtgraphicaleffects':
+  Neon/testing:
+    upstream_scm:
+      type: uscan
 
 '*{debian.org,packaging.neon}*/qt/{qtbase,qtscript}':
   kubuntu_vivid_mobile:
