@@ -62,8 +62,8 @@ module CI
         system('dpkg-buildpackage', *dpkg_buildopts)
         ec = $?.exitstatus
         # Do not abort the build when dpkg-buildpackage fails to build a arch
-        # all package on !amd64 since our current architecture creates armhf jobs
-        # even for sources that only have arch all binaries
+        # all package on !amd64 since our current architecture creates armhf
+        # jobs even for sources that only have arch all binaries
         raise unless ec == 2 || ec == 0
       end
     end
