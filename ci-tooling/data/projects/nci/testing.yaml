@@ -1,0 +1,4 @@
+packaging.neon.kde.org.uk:
+  - qt:
+    - '*':
+        branch: Neon/testing
