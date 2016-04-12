@@ -28,7 +28,15 @@ require 'mocha/test_unit'
 # Test ci/build_binary
 module CI
   class BuildBinaryTest < TestCase
-    required_binaries %w(dpkg-buildpackage dpkg dh)
+    required_binaries %w(dpkg-buildpackage dpkg-source dpkg dh)
+
+    def refute_bin_only(builder)
+      refute(builder.instance_variable_get(:@bin_only))
+    end
+
+    def assert_bin_only(builder)
+      assert(builder.instance_variable_get(:@bin_only))
+    end
 
     def test_build_package
       FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
@@ -43,6 +51,8 @@ module CI
       changes.parse!
       assert_equal(['hello_2.10-1_amd64.deb'],
                    changes.fields['files'].map(&:name))
+
+      refute_bin_only(builder)
     end
 
     def test_dep_resolve_bin_only
@@ -60,6 +70,32 @@ module CI
             .returns(true)
 
       PackageBuilder::DependencyResolver.resolve(Dir.pwd, bin_only: true)
+    end
+
+    def test_build_bin_only
+      FileUtils.cp_r("#{data}/.", Dir.pwd)
+
+      Dir.chdir('build') { system('dpkg-buildpackage -S -us -uc') }
+
+      PackageBuilder::DependencyResolver.expects(:resolve)
+                                        .with('build')
+                                        .raises(RuntimeError.new)
+      PackageBuilder::DependencyResolver.expects(:resolve)
+                                        .with('build', bin_only: true)
+                                        .returns(true)
+
+      builder = PackageBuilder.new
+      builder.build
+
+      refute_equal([], Dir.glob('build/*'))
+      refute_equal([], Dir.glob('*.deb'))
+      assert_path_exist('test-build-bin-only_2.10-1_amd64.changes')
+      changes = Debian::Changes.new('test-build-bin-only_2.10-1_amd64.changes')
+      changes.parse!
+      assert_equal(['test-build-bin-only_2.10-1_amd64.deb'],
+                   changes.fields['files'].map(&:name))
+
+      assert_bin_only(builder)
     end
   end
 end

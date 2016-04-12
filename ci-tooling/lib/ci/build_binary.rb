@@ -22,6 +22,7 @@
 require 'fileutils'
 
 require_relative 'source'
+require_relative '../debian/control'
 require_relative '../dpkg'
 require_relative '../os'
 require_relative '../retry'
@@ -30,6 +31,9 @@ module CI
   class PackageBuilder
     BUILD_DIR  = 'build'.freeze
     RESULT_DIR = 'result'.freeze
+
+    BIN_ONLY_WHITELIST = %w(qtbase qtxmlpatterns qtdeclarative qtwebkit
+                            test-build-bin-only).freeze
 
     class DependencyResolver
       RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'.freeze
@@ -43,8 +47,8 @@ module CI
           opts = []
           opts << '--binary-arch' if bin_only
           opts << '--control' << "#{dir}/debian/control"
-          system('sudo', RESOLVER_BIN, *opts)
-          raise 'Failed to satisfy depends' unless $? == 0
+          ret = system('sudo', RESOLVER_BIN, *opts)
+          raise 'Failed to satisfy depends' unless ret
         end
       end
     end
@@ -115,7 +119,23 @@ module CI
 
     def install_dependencies
       DependencyResolver.resolve(BUILD_DIR)
+    rescue RuntimeError => e
+      raise e unless bin_only_possible?
+      DependencyResolver.resolve(BUILD_DIR, bin_only: true)
+      @bin_only = true
     end
+
+    # @return [Bool] whether to mangle the build for Qt
+    def bin_only_possible?
+      @bin_only_possible ||= begin
+        control = Debian::Control.new(BUILD_DIR)
+        control.parse!
+        source_name = control.source.fetch('Build-Depends-Indep', '')
+        false unless BIN_ONLY_WHITELIST.include?(source_name)
+        control.source.key?('Build-Depends-Indep')
+      end
+    end
+
     # @return [Array<String>] of build flags (-b -j etc.)
     def build_flags
       dpkg_buildopts = []
@@ -135,6 +155,7 @@ module CI
         # to the repo.
         dpkg_buildopts << '-B'
       end
+      dpkg_buildopts.collect! { |x| (x == '-b') ? '-B' : x } if @bin_only
       dpkg_buildopts
     end
 
