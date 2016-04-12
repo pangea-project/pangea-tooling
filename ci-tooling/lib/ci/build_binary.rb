@@ -81,8 +81,7 @@ module CI
       @dsc = Dir.glob('*.dsc')[0]
 
       extract
-      DependencyResolver.resolve(BUILD_DIR)
-
+      install_dependencies
       build_package
       copy_binaries
       print_contents
@@ -90,6 +89,9 @@ module CI
 
     private
 
+    def install_dependencies
+      DependencyResolver.resolve(BUILD_DIR)
+    end
     # @return [Array<String>] of build flags (-b -j etc.)
     def build_flags
       dpkg_buildopts = []
