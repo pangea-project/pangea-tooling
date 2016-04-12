@@ -142,21 +142,21 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                    architecture: architecture,
                                    metapackage: 'neon-desktop',
                                    imagename: 'neon',
-                                   neonarchive: 'unstable' }
+                                   neonarchive: 'dev/unstable' }
           enqueue(NeonIsoJob.new(dev_unstable_isoargs))
           dev_stable_isoargs = { type: 'devedition-gitstable',
                                  distribution: distribution,
                                  architecture: architecture,
                                  metapackage: 'neon-desktop',
                                  imagename: 'neon',
-                                 neonarchive: 'stable' }
+                                 neonarchive: 'dev/stable' }
           enqueue(NeonIsoJob.new(dev_stable_isoargs))
           wayland_isoargs = { type: 'devedition-gitunstable',
                               distribution: distribution,
                               architecture: architecture,
                               metapackage: 'plasma-wayland-desktop',
                               imagename: 'plasma-wayland',
-                              neonarchive: 'unstable' }
+                              neonarchive: 'dev/unstable' }
           enqueue(NeonIsoJob.new(wayland_isoargs))
         end
       end
