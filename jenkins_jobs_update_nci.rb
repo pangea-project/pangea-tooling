@@ -94,6 +94,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     watchers = {}
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
+        next if type == 'release' && distribution != 'xenial'
         type_projects[type].each do |project|
           jobs = ProjectJob.job(project,
                                 distribution: distribution,
