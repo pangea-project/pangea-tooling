@@ -18,7 +18,7 @@ module CI
       assert_path_exist('hello_2.10-1_amd64.changes')
       changes = Debian::Changes.new('hello_2.10-1_amd64.changes')
       changes.parse!
-      assert_equal(["hello_2.10-1_amd64.deb"],
+      assert_equal(['hello_2.10-1_amd64.deb'],
                    changes.fields['files'].map(&:name))
     end
   end
