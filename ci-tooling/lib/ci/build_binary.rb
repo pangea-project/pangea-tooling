@@ -41,22 +41,7 @@ module CI
         '-uc'
       ]
 
-      if DPKG::BUILD_ARCH == 'amd64'
-        # Automatically decide how many concurrent build jobs we can support.
-        # NOTE: special cased for trusty master servers to pass
-        dpkg_buildopts << '-j1' unless pretty_old_system?
-        # On arch:all only build the binaries, the source is already built.
-        dpkg_buildopts << '-b'
-      else
-        # Automatically decide how many concurrent build jobs we can support.
-        # NOTE: special cased for trusty master servers to pass
-        dpkg_buildopts << '-jauto' unless pretty_old_system?
-        # We only build arch:all on amd64, all other architectures must only
-        # build architecture dependent packages. Otherwise we have confliciting
-        # checksums when publishing arch:all packages of different architectures
-        # to the repo.
-        dpkg_buildopts << '-B'
-      end
+      dpkg_buildopts += build_flags
 
       Dir.chdir(BUILD_DIR) do
         system('dpkg-buildpackage', *dpkg_buildopts)
@@ -104,6 +89,28 @@ module CI
     end
 
     private
+
+    # @return [Array<String>] of build flags (-b -j etc.)
+    def build_flags
+      dpkg_buildopts = []
+      if DPKG::BUILD_ARCH == 'amd64'
+        # Automatically decide how many concurrent build jobs we can support.
+        # NOTE: special cased for trusty master servers to pass
+        dpkg_buildopts << '-j1' unless pretty_old_system?
+        # On arch:all only build the binaries, the source is already built.
+        dpkg_buildopts << '-b'
+      else
+        # Automatically decide how many concurrent build jobs we can support.
+        # NOTE: special cased for trusty master servers to pass
+        dpkg_buildopts << '-jauto' unless pretty_old_system?
+        # We only build arch:all on amd64, all other architectures must only
+        # build architecture dependent packages. Otherwise we have confliciting
+        # checksums when publishing arch:all packages of different architectures
+        # to the repo.
+        dpkg_buildopts << '-B'
+      end
+      dpkg_buildopts
+    end
 
     def pretty_old_system?
       OS::VERSION_ID == '14.04'
