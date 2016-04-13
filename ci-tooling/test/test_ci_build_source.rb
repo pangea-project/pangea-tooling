@@ -26,6 +26,7 @@ require_relative 'lib/assert_system'
 require_relative 'lib/testcase'
 
 require_relative '../lib/ci/build_source'
+require_relative '../lib/debian/control'
 require_relative '../lib/os'
 
 class VCSBuilderTest < TestCase
@@ -236,5 +237,26 @@ class VCSBuilderTest < TestCase
     # pend "assert last_version changed"
     assert(File.read('last_version').start_with?('5:2.10'),
            "New version not recorded? -> #{File.read('last_version')}")
+  end
+
+  def test_ci_substvars
+    source = CI::VcsSourceBuilder.new(release: @release).run
+    assert_not_nil(source.dsc)
+    Dir.chdir('build') do
+      dsc = source.dsc
+      assert(system('dpkg-source', '-x', dsc))
+      path = "#{source.name}-#{source.build_version.tar}/"
+      assert_path_exist(path)
+      control = Debian::Control.new(path)
+      control.parse!
+      bin = control.binaries[0]
+      replaces = bin['Replaces']
+      assert_equal(1, replaces.size)
+      replace = replaces[0]
+      assert_equal('kitten', replace.name)
+      assert_equal('<<', replace.operator)
+      # version should be the actual version not the substvar
+      assert_equal(source.build_version.to_s, replace.version)
+    end
   end
 end

@@ -60,6 +60,15 @@ module CI
       end
     end
 
+    def substvars!(version)
+      Dir.glob('**/**') do |path|
+        next unless File.file?(path)
+        data = File.read(path)
+        data.gsub!('${ci:BuildVersion}', version)
+        File.write(path, data)
+      end
+    end
+
     def create_changelog_entry(version, message = 'Automatic CI Build')
       dch = [
         'dch',
@@ -71,6 +80,7 @@ module CI
       # dch cannot actually fail because we parse the changelog beforehand
       # so it is of acceptable format here already.
       raise 'Failed to create changelog entry' unless system(*dch)
+      substvars!(version)
     end
 
     def dpkg_buildpackage
