@@ -19,6 +19,8 @@ packaging.neon.kde.org.uk:
         branch: master
     - live-build:
         branch: master
+    - packagekit:
+        branch: master
   - qt:
     - '*':
         branch: Neon/5.5

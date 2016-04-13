@@ -16,6 +16,8 @@ packaging.neon.kde.org.uk:
         branch: master
     - live-build:
         branch: master
+    - packagekit:
+        branch: master
 
 launchpad.net:
   - livecd-rootfs-neon

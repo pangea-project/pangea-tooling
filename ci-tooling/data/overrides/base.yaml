@@ -92,6 +92,11 @@
       type: tarball
       url: http://http.debian.net/debian/pool/main/q/qtchooser/qtchooser_52-gae5eeef.orig.tar.xz
 
+'*packaging.neon*/forks/packagekit':
+  master:
+    upstream_scm:
+      type: uscan
+
 '*{debian.org,packaging.neon}*/frameworks/prison':
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
