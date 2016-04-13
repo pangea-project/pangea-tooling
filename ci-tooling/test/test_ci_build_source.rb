@@ -245,9 +245,12 @@ class VCSBuilderTest < TestCase
     Dir.chdir('build') do
       dsc = source.dsc
       assert(system('dpkg-source', '-x', dsc))
-      path = "#{source.name}-#{source.build_version.tar}/"
-      assert_path_exist(path)
-      control = Debian::Control.new(path)
+      dir = "#{source.name}-#{source.build_version.tar}/"
+      assert_path_exist(dir)
+      readme = "#{dir}/README"
+      # Readme should not have been mangled.
+      assert_equal("${ci:BuildVersion}\n", File.read(readme))
+      control = Debian::Control.new(dir)
       control.parse!
       bin = control.binaries[0]
       replaces = bin['Replaces']
@@ -256,7 +259,7 @@ class VCSBuilderTest < TestCase
       assert_equal('kitten', replace.name)
       assert_equal('<<', replace.operator)
       # version should be the actual version not the substvar
-      assert_equal(source.build_version.to_s, replace.version)
+      assert_equal(source.version, replace.version)
     end
   end
 end
