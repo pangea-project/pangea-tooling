@@ -32,6 +32,10 @@ module NCI
   def setup_repo!
     # switch_mirrors!
     add_repo!
+    if ENV.fetch('TYPE') == 'testing'
+      ENV['TYPE'] = 'release'
+      add_repo!
+    end
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     raise 'failed to install deps' unless Apt.install(%w(pkg-kde-tools))
   end
