@@ -61,7 +61,7 @@ module CI
     end
 
     def substvars!(version)
-      Dir.glob('debian/**/**') do |path|
+      Dir.glob('debian/*') do |path|
         next unless File.file?(path)
         data = File.read(path)
         data.gsub!('${ci:BuildVersion}', version)
