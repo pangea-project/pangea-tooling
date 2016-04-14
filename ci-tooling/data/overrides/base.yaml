@@ -101,7 +101,7 @@
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       branch: frameworks
-  Neon/stable:
+  'Neon/{release,stable}'':
     upstream_scm:
       type: tarball
       url: https://launchpad.net/ubuntu/+archive/primary/+files/prison-kf5_1.2~git20150223.orig.tar.gz
