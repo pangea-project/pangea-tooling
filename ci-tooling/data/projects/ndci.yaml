@@ -15,6 +15,11 @@ packaging.neon.kde.org.uk:
   - plasma:
     - '*':
         branch: Neon/release
+  - kde-extras:
+      - debconf-kde:
+          branch: master
+      - qapt:
+          branch: master
   - applications:
     - kde4libs:
         branch: master
@@ -429,6 +434,9 @@ git.debian.org:
   - pkg-fonts:
       - fonts-noto:
           branch: master
+  - pkg-utopia:
+    - network-manager:
+        branch: master
 
 github.com:
   - netrunner-common-extras:
@@ -491,7 +499,3 @@ github.com:
         branch: Debian/jessie
     - 'netrunner-debian-owncloud':
         branch: Debian/jessie
-gitlab.com:
-  - pkg-utopia:
-    - network-manager:
-        branch: Debian/stable

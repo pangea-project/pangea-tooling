@@ -28,5 +28,5 @@
       - armhf
       - amd64
     :repo: https://github.com/netrunner-core/live-config
-    :component: netrunner-core
+    :component: netrunner-core-jessie
     :branch: Debian/jessie
