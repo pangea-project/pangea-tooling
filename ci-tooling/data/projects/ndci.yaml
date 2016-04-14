@@ -1,7 +1,7 @@
 packaging.neon.kde.org.uk:
   - qt:
     - '*':
-        branch: Neon/5.5
+        branch: Neon/testing
   - kde-extras:
     - kpmcore:
         branch: kubuntu_unstable
@@ -9,86 +9,86 @@ packaging.neon.kde.org.uk:
         branch: master
   - frameworks:
     - '*':
-        branch: master
+        branch: Neon/release
     - 'purpose':
         branch: kubuntu_xenial_archive
   - plasma:
     - bluedevil:
-        branch: master
+        branch: Neon/release
     - breeze:
-        branch: master
+        branch: Neon/release
     - breeze-gtk:
-        branch: master
+        branch: Neon/release
     - discover:
-        branch: master
+        branch: Neon/release
     - kde-cli-tools:
-        branch: master
+        branch: Neon/release
     - kde-gtk-config:
-        branch: master
+        branch: Neon/release
     - kdecoration:
-        branch: master
+        branch: Neon/release
     - kdeplasma-addons:
-        branch: master
+        branch: Neon/release
     - kgamma5:
-        branch: master
+        branch: Neon/release
     - khelpcenter:
-        branch: master
+        branch: Neon/release
     - khotkeys:
-        branch: master
+        branch: Neon/release
     - kinfocenter:
-        branch: master
+        branch: Neon/release
     - kmenuedit:
-        branch: master
+        branch: Neon/release
     - kscreen:
-        branch: master
+        branch: Neon/release
     - kscreenlocker:
-        branch: master
+        branch: Neon/release
     - ksshaskpass:
-        branch: master
+        branch: Neon/release
     - ksysguard:
-        branch: master
+        branch: Neon/release
     - kwallet-pam:
-        branch: master
+        branch: Neon/release
     - kwayland:
-        branch: master
+        branch: Neon/release
     - kwayland-integration:
-        branch: master
+        branch: Neon/release
     - kwin:
-        branch: master
+        branch: Neon/release
     - kwrited:
-        branch: master
+        branch: Neon/release
     - libkscreen:
-        branch: master
+        branch: Neon/release
     - libksysguard:
-        branch: master
+        branch: Neon/release
     - milou:
-        branch: master
+        branch: Neon/release
     - oxygen:
-        branch: master
+        branch: Neon/release
     - plasma-desktop:
-        branch: master
+        branch: Neon/release
     - plasma-mediacenter:
-        branch: master
+        branch: Neon/release
     - plasma-nm:
-        branch: master
+        branch: Neon/release
     - plasma-pa:
-        branch: master
+        branch: Neon/release
     - plasma-sdk:
-        branch: master
+        branch: Neon/release
     - plasma-workspace:
-        branch: master
+        branch: Neon/release
     - plasma-workspace-wallpapers:
-        branch: master
+        branch: Neon/release
     - polkit-kde-agent-1:
-        branch: master
+        branch: Neon/release
     - powerdevil:
-        branch: master
+        branch: Neon/release
     - sddm-kcm:
-        branch: master
+        branch: Neon/release
     - systemsettings:
-        branch: master
+        branch: Neon/release
     - user-manager:
-        branch: master
+        branch: Neon/release
   - applications:
     - kde4libs:
         branch: master
@@ -495,6 +495,8 @@ git.debian.org:
           branch: master
       - libwacom:
           branch: master
+      - harfbuzz:
+          branch: master
   - pkg-cmake:
       - cmake:
           branch: master
@@ -503,6 +505,12 @@ git.debian.org:
           branch: master
 
 github.com:
+  - netrunner-common:
+    - '*':
+        branch: Debian/jessie
+  - netrunner-artwork:
+    - '*':
+        branch: Debian/jessie
   - plasma-phone-packaging:
     - libhybris:
         branch: kubuntu_unstable
@@ -529,23 +537,9 @@ github.com:
     - base-files:
         branch: Debian/stable
   - netrunner:
-    - netrunner-artwork:
-        branch: Debian/stable
-    - netrunner-artwork-firefox:
-        branch: Debian/stable
-    - netrunner-artwork-icons:
-        branch: Debian/stable
-    - netrunner-artwork-thunderbird:
-        branch: Debian/stable
-    - netrunner-system:
-        branch: Debian/stable
     - netrunner-artwork-backgrounds:
         branch: Debian/stable
     - netrunner-systemsettings-settings:
-        branch: Debian/stable
-    - kio-sysinfo:
-        branch: Debian/stable
-    - welcome:
         branch: Debian/stable
   - netrunner-debian-extras-packaging:
     - '*':
@@ -561,11 +555,16 @@ github.com:
         branch: Debian/stable
     - 'netrunner-core':
         branch: Debian/stable
-
+  - netrunner-debian-owncloud:
+    - 'netrunner-default-settings':
+        branch: Debian/stable
+    - 'calamares-post-debian':
+        branch: Debian/stable
+    - 'calamares-branding':
+        branch: Debian/stable
+    - 'netrunner-debian-owncloud':
+        branch: Debian/stable
 gitlab.com:
   - pkg-utopia:
     - network-manager:
-        branch: Debian/stable
-  - netrunner-debian-frameworks:
-    - '*':
         branch: Debian/stable
