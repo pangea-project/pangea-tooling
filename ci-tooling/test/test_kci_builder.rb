@@ -84,9 +84,9 @@ class KCIBuilderTest < TestCase
     Dir.chdir('build')
     content = Dir.glob('*')
     assert_include(content,
-                   'hello_2.10+git20150717.1756+15.04_source.changes')
-    assert_include(content, 'hello_2.10+git20150717.1756+15.04.dsc')
-    assert_include(content, 'hello_2.10+git20150717.1756+15.04.tar.gz')
+                   'hello_2.10+p15.04+git20150717.1756_source.changes')
+    assert_include(content, 'hello_2.10+p15.04+git20150717.1756.dsc')
+    assert_include(content, 'hello_2.10+p15.04+git20150717.1756.tar.gz')
   end
 
   def test_bad_project

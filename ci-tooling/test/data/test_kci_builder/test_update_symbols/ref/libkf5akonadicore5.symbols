@@ -1,4 +1,4 @@
-# SymbolsHelper-Confirmed: 4:15.08.0+git20150717.1756+15.04 amd64
+# SymbolsHelper-Confirmed: 4:15.08.0+p15.04+git20150717.1756 amd64
 libKF5AkonadiCore.so.5 libkf5akonadicore5 #MINVER#
  _Z5qHashRKN7Akonadi10CollectionE@Base 15.07.90
  _Z5qHashRKN7Akonadi3TagE@Base 15.07.90
@@ -1573,7 +1573,7 @@ libKF5AkonadiCore.so.5 libkf5akonadicore5 #MINVER#
  _ZN7Akonadi8ItemSync11qt_metacastEPKc@Base 15.07.90
  _ZN7Akonadi8ItemSync12deliveryDoneEv@Base 15.07.90
  _ZN7Akonadi8ItemSync12setBatchSizeEi@Base 15.07.90
- _ZN7Akonadi8ItemSync12setMergeModeENS0_9MergeModeE@Base 4:15.08.0+git20150717.1756+15.04
+ _ZN7Akonadi8ItemSync12setMergeModeENS0_9MergeModeE@Base 4:15.08.0+p15.04+git20150717.1756
  _ZN7Akonadi8ItemSync13setFetchScopeERNS_14ItemFetchScopeE@Base 15.07.90
  _ZN7Akonadi8ItemSync13setTotalItemsEi@Base 15.07.90
  _ZN7Akonadi8ItemSync16setFullSyncItemsERK7QVectorINS_4ItemEE@Base 15.07.90
@@ -2164,7 +2164,7 @@ libKF5AkonadiCore.so.5 libkf5akonadicore5 #MINVER#
  _ZNK7Akonadi3Tag7setTypeERK10QByteArray@Base 15.07.90
  _ZNK7Akonadi3Tag8remoteIdEv@Base 15.07.90
  _ZNK7Akonadi3TageqERKS0_@Base 15.07.90
- _ZNK7Akonadi3TagneERKS0_@Base 4:15.08.0+git20150717.1756+15.04
+ _ZNK7Akonadi3TagneERKS0_@Base 4:15.08.0+p15.04+git20150717.1756
  _ZNK7Akonadi4Item10hasPayloadEv@Base 15.07.90
  _ZNK7Akonadi4Item11payloadBaseEv@Base 15.07.90
  _ZNK7Akonadi4Item11payloadDataEv@Base 15.07.90
@@ -2225,7 +2225,7 @@ libKF5AkonadiCore.so.5 libkf5akonadicore5 #MINVER#
  _ZNK7Akonadi7Session9sessionIdEv@Base 15.07.90
  _ZNK7Akonadi8ItemSync10metaObjectEv@Base 15.07.90
  _ZNK7Akonadi8ItemSync9batchSizeEv@Base 15.07.90
- _ZNK7Akonadi8ItemSync9mergeModeEv@Base 4:15.08.0+git20150717.1756+15.04
+ _ZNK7Akonadi8ItemSync9mergeModeEv@Base 4:15.08.0+p15.04+git20150717.1756
  _ZNK7Akonadi8Relation11setRemoteIdERK10QByteArray@Base 15.07.90
  _ZNK7Akonadi8Relation4leftEv@Base 15.07.90
  _ZNK7Akonadi8Relation4typeEv@Base 15.07.90

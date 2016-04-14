@@ -1,4 +1,4 @@
-# SymbolsHelper-Confirmed: 4:15.08.0+git20150717.1756+15.04 amd64
+# SymbolsHelper-Confirmed: 4:15.08.0+p15.04+git20150717.1756 amd64
 libKF5AkonadiAgentBase.so.5 libkf5akonadiagentbase5 #MINVER#
  _ZN7Akonadi12ResourceBase10cancelTaskERK7QString@Base 15.07.90
  _ZN7Akonadi12ResourceBase10cancelTaskEv@Base 15.07.90
@@ -27,7 +27,7 @@ libKF5AkonadiAgentBase.so.5 libkf5akonadiagentbase5 #MINVER#
  _ZN7Akonadi12ResourceBase18itemsRetrievalDoneEv@Base 15.07.90
  _ZN7Akonadi12ResourceBase18relationsRetrievedERK7QVectorINS_8RelationEE@Base 15.07.90
  _ZN7Akonadi12ResourceBase18scheduleCustomTaskEP7QObjectPKcRK8QVariantNS0_16SchedulePriorityE@Base 15.07.90
- _ZN7Akonadi12ResourceBase18setItemMergingModeENS_8ItemSync9MergeModeE@Base 4:15.08.0+git20150717.1756+15.04
+ _ZN7Akonadi12ResourceBase18setItemMergingModeENS_8ItemSync9MergeModeE@Base 4:15.08.0+p15.04+git20150717.1756
  _ZN7Akonadi12ResourceBase19requestItemDeliveryExRK7QStringS3_RK11QStringList@Base 15.07.90
  _ZN7Akonadi12ResourceBase20collectionsRetrievedERK7QVectorINS_10CollectionEE@Base 15.07.90
  _ZN7Akonadi12ResourceBase20setItemSyncBatchSizeEi@Base 15.07.90

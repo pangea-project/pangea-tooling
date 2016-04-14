@@ -38,7 +38,7 @@ module CI
 
     def initialize(changelog)
       @changelog = changelog
-      @suffix = format('+git%s+%s', time, version_id)
+      @suffix = format('+p%s+git%s', version_id, time)
       @tar = "#{clean_base}#{@suffix}"
       @base = "#{changelog.version(Changelog::EPOCH)}#{clean_base}#{@suffix}"
       @full = "#{base}-0"

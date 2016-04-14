@@ -90,11 +90,11 @@ class VCSBuilderTest < TestCase
     r = s.run
     assert_equal(:quilt, r.type)
     assert_equal('hello', r.name)
-    assert_equal("2.10+git20150717.1756+#{OS::VERSION_ID}-0", r.version)
-    assert_equal('hello_2.10+git20150717.1756+15.04-0.dsc', r.dsc)
+    assert_equal("2.10+p#{OS::VERSION_ID}+git20150717.1756-0", r.version)
+    assert_equal('hello_2.10+p15.04+git20150717.1756-0.dsc', r.dsc)
     assert_not_nil(r.build_version)
 
-    assert(File.read('last_version').start_with?('2.10+git'),
+    assert(File.read('last_version').start_with?('2.10+p'),
            "New version not recorded? -> #{File.read('last_version')}")
   end
 
@@ -103,8 +103,8 @@ class VCSBuilderTest < TestCase
     r = s.run
     assert_equal(:native, r.type)
     assert_equal('hello', r.name)
-    assert_equal("2.10+git20150717.1756+#{OS::VERSION_ID}", r.version)
-    assert_equal('hello_2.10+git20150717.1756+15.04.dsc', r.dsc)
+    assert_equal("2.10+p#{OS::VERSION_ID}+git20150717.1756", r.version)
+    assert_equal('hello_2.10+p15.04+git20150717.1756.dsc', r.dsc)
     assert_not_nil(r.build_version)
 
     # Make sure we have source files in our tarball.
@@ -120,7 +120,7 @@ class VCSBuilderTest < TestCase
     r = s.run
     assert_equal(:native, r.type)
     assert_equal('hello', r.name)
-    assert_equal("2.10+git20150717.1756+#{OS::VERSION_ID}", r.version)
+    assert_equal("2.10+p#{OS::VERSION_ID}+git20150717.1756", r.version)
     assert_not_nil(r.dsc)
 
     Dir.chdir('build/') do

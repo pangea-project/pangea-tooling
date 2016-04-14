@@ -40,9 +40,9 @@ class CIBuildVersionTest < TestCase
     assert_equal(v.send(:time), REF_TIME)
     parts = suffix.split('+')
     assert_empty(parts[0])
-    assert_equal("git#{v.time}", parts[1])
-    assert_equal(OS::VERSION_ID, parts[2])
-    assert_equal("+git#{v.time}+#{OS::VERSION_ID}", suffix)
+    assert_equal("p#{OS::VERSION_ID}", parts[1])
+    assert_equal("git#{v.time}", parts[2])
+    assert_equal("+p#{OS::VERSION_ID}+git#{v.time}", suffix)
 
     # Check actual versions.
     assert_equal("4:5.2.2#{suffix}", v.base)
@@ -59,7 +59,7 @@ class CIBuildVersionTest < TestCase
     v = CI::BuildVersion.new(c)
     suffix = v.send(:instance_variable_get, :@suffix)
     parts = suffix.split('+')
-    assert_equal('9', parts[2])
+    assert_equal('p9', parts[1])
 
     OS.instance_variable_set(:@hash, ID: 'ubuntu')
     c = Changelog.new(data)
