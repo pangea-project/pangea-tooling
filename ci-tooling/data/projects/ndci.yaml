@@ -13,81 +13,7 @@ packaging.neon.kde.org.uk:
     - 'purpose':
         branch: kubuntu_xenial_archive
   - plasma:
-    - bluedevil:
-        branch: Neon/release
-    - breeze:
-        branch: Neon/release
-    - breeze-gtk:
-        branch: Neon/release
-    - discover:
-        branch: Neon/release
-    - kde-cli-tools:
-        branch: Neon/release
-    - kde-gtk-config:
-        branch: Neon/release
-    - kdecoration:
-        branch: Neon/release
-    - kdeplasma-addons:
-        branch: Neon/release
-    - kgamma5:
-        branch: Neon/release
-    - khelpcenter:
-        branch: Neon/release
-    - khotkeys:
-        branch: Neon/release
-    - kinfocenter:
-        branch: Neon/release
-    - kmenuedit:
-        branch: Neon/release
-    - kscreen:
-        branch: Neon/release
-    - kscreenlocker:
-        branch: Neon/release
-    - ksshaskpass:
-        branch: Neon/release
-    - ksysguard:
-        branch: Neon/release
-    - kwallet-pam:
-        branch: Neon/release
-    - kwayland:
-        branch: Neon/release
-    - kwayland-integration:
-        branch: Neon/release
-    - kwin:
-        branch: Neon/release
-    - kwrited:
-        branch: Neon/release
-    - libkscreen:
-        branch: Neon/release
-    - libksysguard:
-        branch: Neon/release
-    - milou:
-        branch: Neon/release
-    - oxygen:
-        branch: Neon/release
-    - plasma-desktop:
-        branch: Neon/release
-    - plasma-mediacenter:
-        branch: Neon/release
-    - plasma-nm:
-        branch: Neon/release
-    - plasma-pa:
-        branch: Neon/release
-    - plasma-sdk:
-        branch: Neon/release
-    - plasma-workspace:
-        branch: Neon/release
-    - plasma-workspace-wallpapers:
-        branch: Neon/release
-    - polkit-kde-agent-1:
-        branch: Neon/release
-    - powerdevil:
-        branch: Neon/release
-    - sddm-kcm:
-        branch: Neon/release
-    - systemsettings:
-        branch: Neon/release
-    - user-manager:
+    - '*':
         branch: Neon/release
   - applications:
     - kde4libs:
@@ -505,6 +431,9 @@ git.debian.org:
           branch: master
 
 github.com:
+  - netrunner-common-extras:
+    - kio-sysinfo:
+        branch: Debian/jessie
   - netrunner-common:
     - '*':
         branch: Debian/jessie
@@ -525,45 +454,43 @@ github.com:
         branch: kubuntu_unstable
   - netrunner-debian:
     - calamares:
-        branch: Debian/stable
+        branch: Debian/jessie
     - calamares-branding:
-        branch: Debian/stable
+        branch: Debian/jessie
     - syslinux-theme-netrunner:
-        branch: Debian/stable
+        branch: Debian/jessie
     - netrunner-desktop:
-        branch: Debian/stable
+        branch: Debian/jessie
     - plymouth-theme-netrunner-logo:
-        branch: Debian/stable
+        branch: Debian/jessie
     - base-files:
-        branch: Debian/stable
+        branch: Debian/jessie
   - netrunner:
     - netrunner-artwork-backgrounds:
-        branch: Debian/stable
-    - netrunner-systemsettings-settings:
-        branch: Debian/stable
+        branch: Debian/jessie
   - netrunner-debian-extras-packaging:
     - '*':
-        branch: kubuntu_unstable
+        branch: Debian/jessie
     - 'kcm-about-extended':
         branch: master
   - netrunner-core:
     - 'netrunner-default-settings':
-        branch: Debian/stable
+        branch: Debian/jessie
     - 'calamares-post-debian':
-        branch: Debian/stable
+        branch: Debian/jessie
     - 'calamares-branding':
-        branch: Debian/stable
+        branch: Debian/jessie
     - 'netrunner-core':
-        branch: Debian/stable
+        branch: Debian/jessie
   - netrunner-debian-owncloud:
     - 'netrunner-default-settings':
-        branch: Debian/stable
+        branch: Debian/jessie
     - 'calamares-post-debian':
-        branch: Debian/stable
+        branch: Debian/jessie
     - 'calamares-branding':
-        branch: Debian/stable
+        branch: Debian/jessie
     - 'netrunner-debian-owncloud':
-        branch: Debian/stable
+        branch: Debian/jessie
 gitlab.com:
   - pkg-utopia:
     - network-manager:
