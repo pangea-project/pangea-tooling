@@ -28,7 +28,7 @@ module Docker
     def container_creation(container)
       container.refresh! # List information is somewhat sparse. Get full data.
       created_prop = container.info.fetch('Created')
-      created = if created_prop.is_a?(Fixnum)
+      created = if created_prop.is_a?(Numeric)
                   Time.at(created_prop)
                 else
                   DateTime.parse(created_prop)
