@@ -17,3 +17,7 @@ packaging.neon.kde.org.uk:
         branch: Neon/release
     - packagekit:
         branch: Neon/release
+
+launchpad.net:
+  - livecd-rootfs-neon
+  - ubiquity-neon
