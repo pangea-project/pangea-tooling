@@ -5,17 +5,15 @@ packaging.neon.kde.org.uk:
     - '*'
   - neon:
     - seeds:
-        branch: master
-    - plasma-wayland-meta:
-        branch: master
+        branch: Neon/release
     - settings:
-        branch: master
+        branch: Neon/release
     - syslinux-themes-neon:
-        branch: master
+        branch: Neon/release
   - forks:
     - base-files:
-        branch: master
+        branch: Neon/release
     - live-build:
-        branch: master
+        branch: Neon/release
     - packagekit:
-        branch: master
+        branch: Neon/release
