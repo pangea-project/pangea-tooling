@@ -84,45 +84,34 @@ github.com:
     - videoPlayer-packaging
     - kirigami
 
-launchpad.net:
-  - ubuntu-filemanager-app
-  - music-app
-  - ubuntu-calculator-app
-  - ubuntu-docviewer-app
-  - ubuntu-weather-app
-
 packaging.neon.kde.org.uk:
   - qt:
     - qtbase:
-        branch: Neon/5.5
+        branch: Neon/testing
     - qtmultimedia:
-        branch: kubuntu_vivid_mobile
+        branch: Neon/testing
     - qtscript:
-        branch: kubuntu_vivid_mobile
+        branch: Neon/testing
     - qtdeclarative:
-        branch: neon_vivid_mobile
+        branch: Neon/testing
     - qttools:
-        branch: kubuntu_vivid_mobile
+        branch: Neon/testing
     - qtgraphicaleffects:
-        branch: kubuntu_vivid_mobile
+        branch: Neon/testing
     - qtxmlpatterns:
-        branch: kubuntu_vivid_mobile
+        branch: Neon/testing
     - qt5webkit:
-        branch: kubuntu_vivid_mobile
+        branch: Neon/testing
     - qtx11extras:
-        branch: kubuntu_vivid_mobile
+        branch: Neon/testing
     - qtwayland:
-        branch: kubuntu_vivid_mobile
+        branch: Neon/testing
     - qtsvg:
-        branch: kubuntu_vivid_mobile
+        branch: Neon/testing
     - qtlocation:
-        branch: kubuntu_vivid_mobile
+        branch: Neon/testing
     - qtquickcontrols:
-        branch: kubuntu_vivid_mobile
-    - qtsensors:
-        branch: kubuntu_vivid_mobile
-    - qtpim:
-        branch: neon_vivid_mobile
+        branch: Neon/testing
   - kde-extras:
     - libaccounts-glib:
         branch: Neon/mobile
