@@ -1,0 +1,29 @@
+Format: 1.8
+Date: Mon, 18 Apr 2016 10:09:10 +0000
+Source: ki18n
+Binary: libkf5i18n-dev libkf5i18n5 libkf5i18n-data libkf5i18n5-dbg
+Architecture: all amd64
+Version: 5.21.0+p16.04+git20160418.1009-0
+Distribution: xenial
+Urgency: medium
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Changed-By: Kubuntu CI <kubuntu-ci@lists.launchpad.net>
+Description:
+ libkf5i18n-data - Advanced internationalization framework.
+ libkf5i18n-dev - Advanced internationalization framework.
+ libkf5i18n5 - Advanced internationalization framework.
+ libkf5i18n5-dbg - debug symbols for ki18n
+Changes:
+ ki18n (5.21.0+p16.04+git20160418.1009-0) xenial; urgency=medium
+ .
+   * Automatic Ubuntu CI Build
+Checksums-Sha1:
+ c1aa1f8bebacdf5b33535a491efb3e8e243c8bd6 5082 libkf5i18n-data_5.21.0+p16.04+git20160418.1009-0_all.deb
+ afebbbf8d2aa4e36d932f3fd2ca49e363c4564a6 24252 libkf5i18n-dev_5.21.0+p16.04+git20160418.1009-0_amd64.deb
+Checksums-Sha256:
+ e4e5cdbd2e3a89b8850d2aef5011d92679546bd4d65014fb0f016ff6109cd3d3 5082 libkf5i18n-data_5.21.0+p16.04+git20160418.1009-0_all.deb
+ af3e1908e68d22e5fd99bd4cb4cf5561801a7e90e8f0000ec3c211c88bd5e09e 24252 libkf5i18n-dev_5.21.0+p16.04+git20160418.1009-0_amd64.deb
+Files:
+ 7f7ad29730f3c38d053a2a9f764931c6 5082 libs optional libkf5i18n-data_5.21.0+p16.04+git20160418.1009-0_all.deb
+ 1b4e5f1a1a86d8f0a42adb87821b294a 24252 libdevel optional libkf5i18n-dev_5.21.0+p16.04+git20160418.1009-0_amd64.deb
+Original-Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>

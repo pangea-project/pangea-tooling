@@ -27,8 +27,7 @@ require 'ostruct'
 require 'uri'
 require 'net/ssh/gateway'
 
-require_relative '../lib/debian/changes'
-require_relative '../lib/debian/dsc'
+require_relative '../lib/ci/deb822_lister'
 
 options = OpenStruct.new
 options.host = 'localhost'
@@ -79,51 +78,12 @@ end
 raise 'Repository does not exist' unless Aptly::Repository.exist?(options.repo)
 repo = Aptly::Repository.get(options.repo)
 
-def files_to_upload(checksums)
-  files = []
-  checksums.each do |checksum|
-    file = checksum.file_name
-    raise "File not found #{file}" unless File.exist?(file)
-
-    sum = Digest::SHA256.hexdigest(File.read(file))
-    raise "File #{file} has incorrect checksum" unless sum == checksum.sum
-
-    files << File.absolute_path(file)
-  end
-  files
-end
-
-def open_changes(file)
-  changes = Debian::Changes.new(file)
-  changes.parse!
-  # Switch .changes to .dsc to make sure aptly will have everything it
-  # expects, in particular the .orig.tar
-  # https://github.com/smira/aptly/issues/370
-  dsc = changes.fields['files'].find { |x| x.name.end_with?('.dsc') }
-  return changes unless dsc
-  puts "Switching #{File.basename(file)} to its .dsc version for upload ..."
-  open_dsc(dsc.name)
-end
-
-def open_dsc(file)
-  puts "Opening #{file}..."
-  dsc = Debian::DSC.new(file)
-  dsc.parse!
-  dsc
-end
-
 ARGV.each do |file|
   next unless File.size?(file)
-  Dir.chdir(File.dirname(file)) do
-    dsc = open_changes(file)
-    next unless dsc.fields
-
-    files_to_upload = files_to_upload(dsc.fields['checksums-sha256'])
-    raise 'Changes lists no files to upload!?' if files_to_upload.empty?
-
-    puts 'Uploading files...'
-    repo.upload(files_to_upload)
-  end
+  files = CI::Deb822Lister.files_to_upload_for(file)
+  raise 'Changes lists no files to upload!?' if files.empty?
+  puts "Uploading files... #{files}"
+  repo.upload(files)
 end
 
 repo.published_in.each(&:update!)
