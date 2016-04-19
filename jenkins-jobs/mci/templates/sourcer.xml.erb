@@ -48,7 +48,7 @@ export DIST=<%= distribution %>
 export TYPE=<%= type %>
 <%= fetch_tarball %>
 <%= fetch_bzr %>
-~/tooling/mci/contain.rb ~/ci-tooling/mci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
+~/tooling/kci/contain.rb ~/ci-tooling/mci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
 </command>
     </hudson.tasks.Shell>
   </builders>
