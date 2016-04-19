@@ -28,6 +28,7 @@ class NCIMerger < Merger
     sequence('Neon/release')
       .merge_into('Neon/stable')
       .merge_into('Neon/unstable')
+      .merge_into('Neon/mobile')
       .push
   end
 end
