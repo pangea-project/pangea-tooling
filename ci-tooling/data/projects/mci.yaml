@@ -9,8 +9,6 @@ git.debian.org:
     - kcalcore
     - kcontacts
     - ktp-common-internals
-  - pkg-kde/frameworks:
-    - '*'
   - pkg-kde/kde-extras:
     - debconf-kde
     - kdeconnect-plasma
@@ -20,36 +18,6 @@ git.debian.org:
     - telepathy-accounts-signon
   - pkg-kde/kde-req:
     - qca-qt5
-  - pkg-kde/plasma:
-    - baloo
-    - bluedevil
-    - bluez-qt
-    - breeze
-    - kdecoration
-    - kdeplasma-addons
-    - kfilemetadata
-    - kinfocenter
-    - kscreenlocker
-    - kwin:
-        branch: kubuntu_xenial_mobile
-    - kwayland
-    - kwayland-integration
-    - kwrited
-    - libkscreen
-    - libksysguard
-    - milou
-    - muon
-    - plasma-discover
-    - plasma-pa
-    - plasma-nm
-    - plasma-sdk
-    - plasma-workspace
-    - plasma-integration
-    - powerdevil
-    - kwallet-pam
-    - kaccounts-mobile
-    - kde-cli-tools
-    - kactivitymanagerd
   - pkg-xorg/xserver:
     - xorg-server:
         branch: debian-experimental
@@ -112,6 +80,64 @@ packaging.neon.kde.org.uk:
         branch: Neon/testing
     - qtquickcontrols:
         branch: Neon/testing
+    - qtsensors:
+        branch: Neon/testing
+  - frameworks:
+    - '*':
+        branch: Neon/unstable
   - kde-extras:
     - libaccounts-glib:
         branch: Neon/mobile
+  - plasma:
+    - bluedevil:
+        branch: Neon/unstable
+    - breeze:
+        branch: Neon/unstable
+    - kdecoration:
+        branch: Neon/unstable
+    - kdeplasma-addons:
+        branch: Neon/unstable
+    - kfilemetadata:
+        branch: Neon/unstable
+    - kinfocenter:
+        branch: Neon/unstable
+    - kscreenlocker:
+        branch: Neon/unstable
+    - kwin:
+        branch: kubuntu_xenial_mobile
+    - kwayland:
+        branch: Neon/unstable
+    - kwayland-integration:
+        branch: Neon/unstable
+    - kwrited:
+        branch: Neon/unstable
+    - libkscreen:
+        branch: Neon/unstable
+    - libksysguard:
+        branch: Neon/unstable
+    - milou:
+        branch: Neon/unstable
+    - muon:
+        branch: Neon/unstable
+    - plasma-discover:
+        branch: Neon/unstable
+    - plasma-pa:
+        branch: Neon/unstable
+    - plasma-nm:
+        branch: Neon/unstable
+    - plasma-sdk:
+        branch: Neon/unstable
+    - plasma-workspace:
+        branch: Neon/unstable
+    - plasma-integration:
+        branch: Neon/unstable
+    - powerdevil:
+        branch: Neon/unstable
+    - kwallet-pam:
+        branch: Neon/unstable
+    - kaccounts-mobile:
+        branch: Neon/unstable
+    - kde-cli-tools:
+        branch: Neon/unstable
+    - kactivitymanagerd:
+        branch: Neon/unstable
