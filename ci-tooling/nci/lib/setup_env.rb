@@ -23,6 +23,7 @@ module NCI
   module_function
 
   def setup_env!
+    ENV['DH_BUILD_DDEBS'] = '1'
     ENV['DEBFULLNAME'] = 'Neon CI'
     ENV['DEBEMAIL'] = 'neon@kde.org'
 
