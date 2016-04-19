@@ -104,7 +104,7 @@ packaging.neon.kde.org.uk:
     - kscreenlocker:
         branch: Neon/unstable
     - kwin:
-        branch: kubuntu_xenial_mobile
+        branch: Neon/mobile
     - kwayland:
         branch: Neon/unstable
     - kwayland-integration:
