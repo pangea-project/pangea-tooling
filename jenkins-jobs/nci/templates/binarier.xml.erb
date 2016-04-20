@@ -83,8 +83,8 @@ echo $BUILD_URL > build_url # for lint_bin
     <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
       <deleteDirs>false</deleteDirs>
       <skipWhenFailed>false</skipWhenFailed>
-      <cleanWhenSuccess>false</cleanWhenSuccess>
-      <cleanWhenUnstable>false</cleanWhenUnstable>
+      <cleanWhenSuccess>true</cleanWhenSuccess>
+      <cleanWhenUnstable>true</cleanWhenUnstable>
       <cleanWhenFailure>true</cleanWhenFailure>
       <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
       <cleanWhenAborted>true</cleanWhenAborted>
