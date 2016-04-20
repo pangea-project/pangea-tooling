@@ -49,7 +49,7 @@ module ADT
         @result = case result
                   when 'PASS' then Summary::Result::PASS
                   when 'FAIL' then Summary::Result::FAIL
-                  else raise
+                  else raise "unknown result type #{result}"
                   end
         @detail = detail
       end
