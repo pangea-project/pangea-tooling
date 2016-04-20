@@ -9,6 +9,7 @@ gem 'gitlab',
     branch: 'master'
 gem 'insensitive_hash'
 gem 'jenkins_api_client'
+gem 'jenkins_junit_builder'
 gem 'logger-colors'
 gem 'net-ping'
 gem 'net-ssh-gateway'

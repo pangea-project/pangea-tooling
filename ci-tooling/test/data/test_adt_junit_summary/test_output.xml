@@ -1,0 +1,10 @@
+<testsuites>
+  <testsuite name="autopkgtest" package="autopkgtest">
+    <testcase name="testsuite" time="0" classname="autopkgtest.testsuite">
+      <failure/>
+      <system-out></system-out>
+      <system-err>abc 
+</system-err>
+    </testcase>
+  </testsuite>
+</testsuites>
