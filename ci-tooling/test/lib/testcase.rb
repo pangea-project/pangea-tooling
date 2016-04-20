@@ -1,9 +1,13 @@
 require 'test/unit'
 require 'tmpdir'
 
+require_relative 'assert_xml'
+
 # Test case base class handling fixtures and chdirring to not pollute the source
 # dir.
 class TestCase < Test::Unit::TestCase
+  include EquivalentXmlAssertations
+
   ATFILEFAIL = 'Could not determine the basename of the file of the' \
                ' class inheriting TestCase. Either flatten your inheritance' \
                ' graph or set the name manually using `self.file = __FILE__`' \
