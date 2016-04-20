@@ -64,7 +64,11 @@ module CI
       Dir.glob('debian/*') do |path|
         next unless File.file?(path)
         data = File.read(path)
-        data.gsub!('${ci:BuildVersion}', version)
+        begin
+          data.gsub!('${ci:BuildVersion}', version)
+        rescue
+          raise "Failed to gsub #{path}"
+        end
         File.write(path, data)
       end
     end
