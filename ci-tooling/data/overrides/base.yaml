@@ -247,7 +247,7 @@ https://github.com/plasma-phone-packaging/okular:
 https://github.com/plasma-phone-packaging/plasma-maliit-framework-packaging:
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
-      url: git@github.com:plasma-mobile/plasma-maliit-framework.git
+      url: git://anongit.kde.org/plasma-maliit-framework.git
 https://github.com/plasma-phone-packaging/libepoxy:
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
