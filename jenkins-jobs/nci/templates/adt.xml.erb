@@ -4,7 +4,7 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
-    <org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty plugin="dependency-queue-plugin@1.1">
+    <org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty plugin="dependency-queue-plugin@1.2-SNAPSHOT">
       <blockWhileUpstreamQueued>false</blockWhileUpstreamQueued>
     </org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty>
   </properties>
@@ -35,56 +35,21 @@
         </hudson.plugins.copyartifact.CopyArtifact>
       </conditionalbuilders>
     </org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder>
-    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
-      <project><%= artifact_origin %></project>
-      <filter></filter>
-      <target></target>
-      <excludes></excludes>
-      <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
-        <fallbackToLastSuccessful>true</fallbackToLastSuccessful>
-        <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
-      </selector>
-      <flatten>true</flatten>
-      <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
-    </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
 export DIST=<%= distribution %>
 export TYPE=<%= type %>
-echo $BUILD_URL > build_url # for lint_bin
-~/tooling/kci/contain.rb /var/lib/jenkins/ci-tooling/nci/builder.rb $JOB_NAME `pwd`
+
+~/tooling/kci/contain.rb ~/ci-tooling/nci/adt.rb
       </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.9">
-      <testResults>reports/*.xml</testResults>
-      <keepLongStdio>false</keepLongStdio>
-      <healthScaleFactor>1.0</healthScaleFactor>
-      <allowEmptyResults>true</allowEmptyResults>
-    </hudson.tasks.junit.JUnitResultArchiver>
-    <hudson.tasks.ArtifactArchiver>
-      <artifacts>*.deb,*.changes</artifacts>
-      <excludes>*_source.changes</excludes>
-      <allowEmptyArchive>false</allowEmptyArchive>
-      <onlyIfSuccessful>false</onlyIfSuccessful>
-      <fingerprint>false</fingerprint>
-      <defaultExcludes>true</defaultExcludes>
-    </hudson.tasks.ArtifactArchiver>
-    <hudson.tasks.BuildTrigger>
-      <childProjects><%= downstream_triggers.join(', ') %></childProjects>
-      <threshold>
-        <name>UNSTABLE</name>
-        <ordinal>1</ordinal>
-        <color>YELLOW</color>
-        <completeBuild>true</completeBuild>
-      </threshold>
-    </hudson.tasks.BuildTrigger>
     <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
       <deleteDirs>false</deleteDirs>
       <skipWhenFailed>false</skipWhenFailed>
-      <cleanWhenSuccess>false</cleanWhenSuccess>
-      <cleanWhenUnstable>false</cleanWhenUnstable>
+      <cleanWhenSuccess>true</cleanWhenSuccess>
+      <cleanWhenUnstable>true</cleanWhenUnstable>
       <cleanWhenFailure>true</cleanWhenFailure>
       <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
       <cleanWhenAborted>true</cleanWhenAborted>
@@ -94,14 +59,14 @@ echo $BUILD_URL > build_url # for lint_bin
     </hudson.plugins.ws__cleanup.WsCleanup>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6.2"/>
-    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.26">
-      <deleteDirs>false</deleteDirs>
-      <cleanupParameter></cleanupParameter>
-      <externalDelete></externalDelete>
-    </hudson.plugins.ws__cleanup.PreBuildCleanup>
-    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.4"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.2">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+    <com.datalex.jenkins.plugins.nodestalker.wrapper.NodeStalkerBuildWrapper plugin="job-node-stalker@1.0.5">
+      <job><%= build_origin %></job>
+      <shareWorkspace>true</shareWorkspace>
+      <firstTimeFlag>false</firstTimeFlag>
+    </com.datalex.jenkins.plugins.nodestalker.wrapper.NodeStalkerBuildWrapper>
   </buildWrappers>
 </project>
