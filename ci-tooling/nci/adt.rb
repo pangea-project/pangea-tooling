@@ -21,6 +21,8 @@
 
 require 'fileutils'
 require_relative 'lib/setup_repo'
+require_relative 'lib/adt/summary'
+require_relative 'lib/adt/junit/summary'
 
 NCI.setup_repo!
 
