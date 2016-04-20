@@ -2,7 +2,6 @@
 
 require_relative '../lib/apt'
 require_relative '../lib/retry'
-require_relative '../lib/os'
 require 'fileutils'
 
 raise 'No live-config found!' unless File.exist?('live-config')
@@ -13,12 +12,6 @@ Retry.retry_it(times: 5) do
   raise 'Apt install failed' unless Apt.install(%w(qemu-user-static
                                                    live-build
                                                    live-images))
-end
-
-# Workaround a broken debootstrap on Debian
-if OS::ID == 'debian'
-  system('wget -P /tmp ftp://ftp.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.73~bpo8+1_all.deb')
-  system('dpkg -i /tmp/debootstrap_1.0.73~bpo8+1_all.deb')
 end
 
 begin
