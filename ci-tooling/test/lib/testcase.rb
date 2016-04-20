@@ -95,6 +95,16 @@ EOT
     raise "Could not find data file #{file}"
   end
 
+  # Different from data in that it does not assume ext will be a directory
+  # but a simple extension. i.e.
+  # data/caller.foo instead of data/caller/foo
+  def fixture_file(ext)
+    caller = _method_name
+    file = File.join(*[@datadir, "#{caller}#{ext}"].compact)
+    return file if File.exist?(file)
+    raise "Could not find data file #{file}"
+  end
+
   def fake_home(home = Dir.pwd, &block)
     home_ = ENV.fetch('HOME')
     ENV['HOME'] = home
