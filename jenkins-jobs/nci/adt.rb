@@ -34,6 +34,6 @@ class ADTJob < JenkinsJob
     @type = type
     @distribution = distribution
     @architecture = 'amd64'
-    @build_origin = "#{basename}_#{@architecture}"
+    @build_origin = "#{basename}_bin_#{@architecture}"
   end
 end
