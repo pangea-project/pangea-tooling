@@ -1,4 +1,14 @@
 packaging.neon.kde.org.uk:
+  - frameworks:
+    - plasma-framework:
+        branch: Neon/release
+    - kdeclarative:
+        branch: Neon/release
+    - frameworkintegration:
+        branch: Neon/release
+  - plasma:
+    - plasma-integration:
+        branch: Neon/release
   - qt:
     - '*':
         branch: Neon/testing
