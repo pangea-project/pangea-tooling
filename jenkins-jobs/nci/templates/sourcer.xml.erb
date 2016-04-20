@@ -42,7 +42,7 @@ export DIST=<%= distribution %>
 export TYPE=<%= type %>
 <%= fetch_tarball %>
 ~/tooling/kci/contain.rb ~/ci-tooling/nci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
-<% if distribution == 'wily' || type == 'release' || job_name.include?('oxygen-icons5') || job_name.include?('breeze') || job_name.include?('wallpapers') %>
+<% if type == 'release' || job_name.include?('oxygen-icons5') || job_name.include?('breeze') || job_name.include?('wallpapers') %>
   echo 'wiping git clones'
   rm -rf packaging source
 <% end %>

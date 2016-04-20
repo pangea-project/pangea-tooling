@@ -103,9 +103,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           jobs.each { |j| enqueue(j) }
           all_builds += jobs
 
-          # FIXME: transition from wily guarded as we only want these once!
-          next unless distribution == 'xenial'
-
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
           next unless type == 'unstable'
@@ -123,9 +120,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           downstream_jobs: all_builds
         }
         all_meta_builds << enqueue(MetaBuildJob.new(meta_args))
-
-        # Ignore ISO jobs for wily now
-        next if distribution == 'wily'
 
         # ISOs
         NCI.architectures.each do |architecture|
