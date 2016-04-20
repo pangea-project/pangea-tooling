@@ -63,6 +63,8 @@ module CI
     def substvars!(version)
       Dir.glob('debian/*') do |path|
         next unless File.file?(path)
+        # FIXME: This should probably be done properly
+        next if path.include? '.tar.'
         data = File.read(path)
         begin
           data.gsub!('${ci:BuildVersion}', version)
