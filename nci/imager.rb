@@ -63,23 +63,21 @@ end
 FileUtils.rm("#{WEBSITE_PATH}current", force: true)
 FileUtils.ln_s(PUB_PATH, "#{WEBSITE_PATH}current")
 
-
-if TYPE != "useredition"
-  # copy to depot using same directory without -proposed for now, later we want this to
-  # only be published if passing some QA test
-  WEBSITE_PATH_REMOTE = "#{IMAGENAME}-#{TYPE}/".freeze
-  PUB_PATH_REMOTE = "#{WEBSITE_PATH_REMOTE}#{DATE}".freeze
-  current_images = `ssh neon@depot.kde.org 'cd neon/#{WEBSITE_PATH_REMOTE}; ls -d 20*'` # needs date update next century
-  system("ssh neon@depot.kde.org mkdir -p neon/#{PUB_PATH_REMOTE}")
-  %w(amd64.iso manifest zsync sha256sum).each do |type|
-    unless system("scp result/*#{type} neon@depot.kde.org:neon/#{PUB_PATH_REMOTE}/")
-      abort "File type #{type} failed to scp to depot.kde.org."
-    end
+# copy to depot using same directory without -proposed for now, later we want this to
+# only be published if passing some QA test
+WEBSITE_PATH_REMOTE = "#{IMAGENAME}-#{TYPE}/".freeze
+PUB_PATH_REMOTE = "#{WEBSITE_PATH_REMOTE}#{DATE}".freeze
+IMAGE_DIR = "neon/images/"
+current_images = `ssh neon@depot.kde.org 'cd #{IMAGE_DIR}#{WEBSITE_PATH_REMOTE}; ls -d 20*'` # needs date update next century
+system("ssh neon@depot.kde.org mkdir -p #{IMAGE_DIR}#{PUB_PATH_REMOTE}")
+%w(amd64.iso manifest zsync sha256sum).each do |type|
+  unless system("scp result/*#{type} neon@depot.kde.org:#{IMAGE_DIR}#{PUB_PATH_REMOTE}/")
+    abort "File type #{type} failed to scp to depot.kde.org."
   end
-  system("ssh neon@depot.kde.org 'cd neon/#{PUB_PATH_REMOTE}; ln -s *amd64.iso #{IMAGENAME}-#{TYPE}-current.iso'")
-  system("ssh neon@depot.kde.org 'cd neon/#{WEBSITE_PATH_REMOTE}; rm -f current; ln -s #{DATE} current'")
-  system("ssh neon@depot.kde.org 'cd neon/#{WEBSITE_PATH_REMOTE}; echo \"#{current_images}\" | xargs rm -r'") #remove old images
 end
+system("ssh neon@depot.kde.org 'cd #{IMAGE_DIR}#{PUB_PATH_REMOTE}; ln -s *amd64.iso #{IMAGENAME}-#{TYPE}-current.iso'")
+system("ssh neon@depot.kde.org 'cd #{IMAGE_DIR}#{WEBSITE_PATH_REMOTE}; rm -f current; ln -s #{DATE} current'")
+system("ssh neon@depot.kde.org 'cd #{IMAGE_DIR}#{WEBSITE_PATH_REMOTE}; echo \"#{current_images}\" | xargs rm -r'") #remove old images
 system("prune-images")
 
 exit 0
