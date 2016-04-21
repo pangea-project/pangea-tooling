@@ -1,0 +1,11 @@
+<testsuites>
+  <testsuite name="autopkgtest" package="autopkgtest">
+    <testcase name="testsuite" time="0" classname="autopkgtest.testsuite"/>
+    <testcase name="othertestsuite" time="0" classname="autopkgtest.othertestsuite">
+      <skipped/>
+      <system-out></system-out>
+      <system-err>abc 
+</system-err>
+    </testcase>
+  </testsuite>
+</testsuites>

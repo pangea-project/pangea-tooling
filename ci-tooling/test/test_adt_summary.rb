@@ -48,5 +48,16 @@ module ADT
         Summary.from_file("#{data}/summary")
       end
     end
+
+    def test_skip_all
+      # When we encounter * SKIP that means all have been skipped as there are
+      # no tests. This is in junit then dropped as uninteresting information.
+      summary = Summary.from_file("#{data}/summary")
+      assert_equal(1, summary.entries.size)
+      entry = summary.entries[0]
+      assert_equal('*', entry.name)
+      assert_equal(Summary::Result::SKIP, entry.result)
+      assert_equal('no tests in this package', entry.detail)
+    end
   end
 end

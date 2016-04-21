@@ -1,0 +1,3 @@
+<testsuites>
+  <testsuite name="autopkgtest" package="autopkgtest"/>
+</testsuites>

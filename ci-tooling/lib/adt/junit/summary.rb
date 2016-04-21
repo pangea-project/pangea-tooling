@@ -48,11 +48,13 @@ module ADT
           ADT::Summary::Result::PASS =>
             JenkinsJunitBuilder::Case::RESULT_PASSED,
           ADT::Summary::Result::FAIL =>
-            JenkinsJunitBuilder::Case::RESULT_FAILURE
+            JenkinsJunitBuilder::Case::RESULT_FAILURE,
+          ADT::Summary::Result::SKIP =>
+            JenkinsJunitBuilder::Case::RESULT_SKIPPED
         }.freeze
 
         def output?
-          @entry.result == ADT::Summary::Result::FAIL
+          @entry.result != ADT::Summary::Result::PASS
         end
 
         def stdout
@@ -79,6 +81,11 @@ module ADT
         @suite.package = 'autopkgtest'
         dir = File.dirname(summary.path)
         summary.entries.each do |entry|
+          if entry.name == '*' && entry.result == ADT::Summary::Result::SKIP
+            # * SKIP is used to indicate that all were skipped because there
+            # were none, we don't care as we simply represent no testcases then
+            next
+          end
           @suite.add_case(Entry.new(entry, dir).to_case)
         end
       end
@@ -86,10 +93,6 @@ module ADT
       def to_xml
         @suite.build_report
       end
-
-      private
-
-
     end
   end
 end

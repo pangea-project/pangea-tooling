@@ -27,6 +27,7 @@ module ADT
     module Result
       PASS = :pass
       FAIL = :fail
+      SKIP = :skip
     end.freeze
 
     # A Summary Entry.
@@ -49,6 +50,7 @@ module ADT
         @result = case result
                   when 'PASS' then Summary::Result::PASS
                   when 'FAIL' then Summary::Result::FAIL
+                  when 'SKIP' then Summary::Result::SKIP
                   else raise "unknown result type #{result}"
                   end
         @detail = detail

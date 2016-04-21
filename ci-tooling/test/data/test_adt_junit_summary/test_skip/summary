@@ -1,0 +1,2 @@
+testsuite            PASS hooray
+othertestsuite       SKIP oh noes!

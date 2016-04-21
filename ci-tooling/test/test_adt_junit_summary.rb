@@ -44,5 +44,19 @@ module ADT
       summary = JUnit::Summary.new(summary)
       assert_xml_equal(File.read(fixture_file('.xml')), summary.to_xml)
     end
+
+    def test_skip_all
+      # * SKIP should yield no testcases
+      summary = Summary.from_file("#{data}/summary")
+      summary = JUnit::Summary.new(summary)
+      assert_xml_equal(File.read(fixture_file('.xml')), summary.to_xml)
+    end
+
+    def test_skip
+      # This also expects output!
+      summary = Summary.from_file("#{data}/summary")
+      summary = JUnit::Summary.new(summary)
+      assert_xml_equal(File.read(fixture_file('.xml')), summary.to_xml)
+    end
   end
 end
