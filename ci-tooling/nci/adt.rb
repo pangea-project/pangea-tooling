@@ -27,6 +27,12 @@ require_relative 'lib/setup_repo'
 
 NCI.setup_repo!
 
+# Gecos is additonal information that would be prompted
+system('adduser',
+       '--disabled-password',
+       '--gecos', '',
+       'adt')
+
 Apt.install(%w(autopkgtest))
 
 FileUtils.rm_r('adt-output') if File.exist?('adt-output')
@@ -38,7 +44,9 @@ end
 # args << '--unbuilt-tree' << 'krunner-5.18.0+git20160314.0121+15.10'
 args << '--built-tree' << "#{Dir.pwd}/build"
 args << '--output-dir' << 'adt-output'
+args << '--user=adt'
 args << '---' << 'null'
+puts "adt-run #{args.join(' ')}"
 system('adt-run', *args)
 
 summary = ADT::Summary.from_file('adt-output/summary')
