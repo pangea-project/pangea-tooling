@@ -21,6 +21,8 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'fileutils'
+require 'net/sftp'
+require 'net/ssh'
 
 require_relative '../lib/ci/containment'
 
@@ -65,19 +67,35 @@ FileUtils.ln_s(PUB_PATH, "#{WEBSITE_PATH}current")
 
 # copy to depot using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
-WEBSITE_PATH_REMOTE = "#{IMAGENAME}-#{TYPE}/".freeze
-PUB_PATH_REMOTE = "#{WEBSITE_PATH_REMOTE}#{DATE}".freeze
-IMAGE_DIR = 'neon/images/'.freeze
-current_images = `ssh neon@depot.kde.org 'cd #{IMAGE_DIR}#{WEBSITE_PATH_REMOTE}; ls -d 20*'` # needs date update next century
-system("ssh neon@depot.kde.org mkdir -p #{IMAGE_DIR}#{PUB_PATH_REMOTE}")
-%w(amd64.iso manifest zsync sha256sum).each do |type|
-  unless system("scp result/*#{type} neon@depot.kde.org:#{IMAGE_DIR}#{PUB_PATH_REMOTE}/")
-    abort "File type #{type} failed to scp to depot.kde.org."
+ISONAME = "#{IMAGENAME}-#{TYPE}".freeze
+REMOTE_DIR = "neon/images/#{ISONAME}/".freeze
+REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}".freeze
+
+Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
+  sftp.mkdir!(REMOTE_PUB_DIR)
+  %w(amd64.iso manifest zsync sha256sum).each do |type|
+    Dir.glob("result/*#{type}").each do |file|
+      name = File.basename(file)
+      puts "Uploading #{file}..."
+      sftp.upload!(file, "#{REMOTE_PUB_DIR}/#{name}")
+    end
+  end
+
+  # Need a second SSH session here, since the SFTP one is busy looping.
+  Net::SSH.start('depot.kde.org', 'neon') do |ssh|
+    ssh.exec!("cd #{REMOTE_PUB_DIR}; ln -s *amd64.iso #{ISONAME}-current.iso")
+    ssh.exec!("cd #{REMOTE_DIR}; rm -f current; ln -s #{DATE} current")
+  end
+
+  sftp.dir.glob(REMOTE_DIR, '*') do |entry|
+    next unless entry.directory?
+    path = "#{REMOTE_DIR}/#{entry.name}"
+    next if path.include?(REMOTE_PUB_DIR)
+    puts "rm #{path}"
+    sftp.rmdir!(path)
   end
 end
-system("ssh neon@depot.kde.org 'cd #{IMAGE_DIR}#{PUB_PATH_REMOTE}; ln -s *amd64.iso #{IMAGENAME}-#{TYPE}-current.iso'")
-system("ssh neon@depot.kde.org 'cd #{IMAGE_DIR}#{WEBSITE_PATH_REMOTE}; rm -f current; ln -s #{DATE} current'")
-system("ssh neon@depot.kde.org 'cd #{IMAGE_DIR}#{WEBSITE_PATH_REMOTE}; echo \"#{current_images}\" | xargs rm -r'") #remove old images
-system("prune-images")
+
+system('prune-images')
 
 exit 0
