@@ -20,8 +20,7 @@ begin
     system('make clean')
     system('./configure')
     raise unless system('make')
-    FileUtils.mv(Dir.glob('live*'), '../result', verbose: true)
-    FileUtils.mv(Dir.glob('logfile*'), '../result', verbose: true)
+    FileUtils.mv(Dir.glob('*.iso'), '../result', verbose: true)
   end
 ensure
   Dir.chdir('live-config') do
