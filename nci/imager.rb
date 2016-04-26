@@ -63,11 +63,11 @@ end
 FileUtils.rm("#{WEBSITE_PATH}current", force: true)
 FileUtils.ln_s(PUB_PATH, "#{WEBSITE_PATH}current")
 
-# copy to depot using same directory without -proposed for now, later we want this to
-# only be published if passing some QA test
+# copy to depot using same directory without -proposed for now, later we want
+# this to only be published if passing some QA test
 WEBSITE_PATH_REMOTE = "#{IMAGENAME}-#{TYPE}/".freeze
 PUB_PATH_REMOTE = "#{WEBSITE_PATH_REMOTE}#{DATE}".freeze
-IMAGE_DIR = "neon/images/"
+IMAGE_DIR = 'neon/images/'.freeze
 current_images = `ssh neon@depot.kde.org 'cd #{IMAGE_DIR}#{WEBSITE_PATH_REMOTE}; ls -d 20*'` # needs date update next century
 system("ssh neon@depot.kde.org mkdir -p #{IMAGE_DIR}#{PUB_PATH_REMOTE}")
 %w(amd64.iso manifest zsync sha256sum).each do |type|
