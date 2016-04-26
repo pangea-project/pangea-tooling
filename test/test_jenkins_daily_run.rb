@@ -14,6 +14,7 @@ class JenkinsDailyRunTest < TestCase
       config.cassette_library_dir = @datadir
       config.hook_into :webmock
     end
+    WebMock.disable_net_connect!
   end
 
   def test_manually_triggered
