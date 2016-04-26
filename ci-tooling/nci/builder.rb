@@ -22,9 +22,14 @@
 require_relative 'lib/setup_repo'
 require_relative '../lib/ci/build_binary'
 
+TYPE = ENV.fetch('TYPE')
+LINT_EXCLUSION = %w(forks launchpad qt).freeze
+
 NCI.setup_repo!
 
 builder = CI::PackageBuilder.new
 builder.build
 
-require_relative 'lint_bin' if File.exist?('build_url')
+if File.exist?('build_url') && !LINT_EXCLUSION.include?(TYPE)
+  require_relative 'lint_bin'
+end
