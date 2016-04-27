@@ -1,5 +1,6 @@
 require 'test/unit'
 require 'tmpdir'
+require 'webmock'
 
 require_relative 'assert_xml'
 
@@ -70,6 +71,8 @@ EOT
 
     # Make sure we reset $?, so tests can freely mock system and ``
     reset_child_status!
+    #FIXME: Drop when VCR gets fixed
+    WebMock.enable!
   end
 
   def priority_teardown
