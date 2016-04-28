@@ -92,6 +92,7 @@ Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
     path = "#{REMOTE_DIR}/#{entry.name}"
     next if path.include?(REMOTE_PUB_DIR)
     puts "rm #{path}"
+    sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
     sftp.rmdir!(path)
   end
 end
