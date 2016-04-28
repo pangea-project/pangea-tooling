@@ -88,7 +88,7 @@ Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
   end
 
   sftp.dir.glob(REMOTE_DIR, '*') do |entry|
-    next unless entry.directory?
+    next unless entry.directory? # current is a symlink
     path = "#{REMOTE_DIR}/#{entry.name}"
     next if path.include?(REMOTE_PUB_DIR)
     puts "rm #{path}"
