@@ -76,7 +76,7 @@ Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
   %w(amd64.iso manifest zsync sha256sum).each do |type|
     Dir.glob("result/*#{type}").each do |file|
       name = File.basename(file)
-      puts "Uploading #{file}..."
+      STDERR.puts "Uploading #{file}..."
       sftp.upload!(file, "#{REMOTE_PUB_DIR}/#{name}")
     end
   end
@@ -91,7 +91,7 @@ Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
     next unless entry.directory? # current is a symlink
     path = "#{REMOTE_DIR}/#{entry.name}"
     next if path.include?(REMOTE_PUB_DIR)
-    puts "rm #{path}"
+    STDERR.puts "rm #{path}"
     sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
     sftp.rmdir!(path)
   end
