@@ -22,7 +22,6 @@
 require_relative 'lib/setup_repo'
 require_relative '../lib/ci/build_binary'
 
-JOB_NAME = ENV.fetch('JOB_NAME')
 LINT_EXCLUSION = %w(_forks_ _launchpad_ _qt_).freeze
 
 NCI.setup_repo!
@@ -31,8 +30,9 @@ builder = CI::PackageBuilder.new
 builder.build
 
 if File.exist?('build_url')
-  if LINT_EXCLUSION.any? { |x| JOB_NAME.include?(x) }
-    puts 'Not linting, #{JOB_NAME} is in exclusion list.'
+  url = File.read('build_url').strip
+  if LINT_EXCLUSION.any? { |x| url.include?(x) }
+    puts "Not linting, #{url} is in exclusion list."
     exit
   end
   require_relative 'lint_bin'
