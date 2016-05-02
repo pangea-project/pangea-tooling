@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,21 +18,14 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'xci'
+require_relative 'lib/testcase'
+require_relative '../lib/nci'
 
-# NCI specific data.
-module NCI
-  extend XCI
-
-  module_function
-
-  # This is a list of job_name parts that we want to not have any QA done on.
-  # The implementation is a bit ugh so this should be used very very very very
-  # sparely and best avoided if at all possible as we can expect this property
-  # to go away for a better solution at some point in the future.
-  # The array values basically are job_name.include?(x) matched.
-  # @return [Array<String>] .include match exclusions
-  def experimental_skip_qa
-    data['experimental_skip_qa']
+# Test NCI extensions on top of xci
+class XCITest < TestCase
+  def test_experimental_skip_qa
+    skip = NCI.experimental_skip_qa
+    assert_false(skip.empty?)
+    assert(skip.is_a?(Array))
   end
 end

@@ -7,3 +7,13 @@ types:
   - unstable
   - stable
   - release
+
+# This is a list of job_name parts that we want to not have any QA done on.
+# The implementation is a bit ugh so this should be used very very very very
+# sparely and best avoided if at all possible as we can expect this property
+# to go away for a better solution at some point in the future.
+# The array values basically are job_name.include?(x) matched.
+experimental_skip_qa:
+  - _forks_
+  - _launchpad_
+  - _qt_

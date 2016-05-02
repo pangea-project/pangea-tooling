@@ -21,8 +21,7 @@
 
 require_relative 'lib/setup_repo'
 require_relative '../lib/ci/build_binary'
-
-LINT_EXCLUSION = %w(_forks_ _launchpad_ _qt_).freeze
+require_relative '../lib/nci'
 
 NCI.setup_repo!
 
@@ -31,7 +30,7 @@ builder.build
 
 if File.exist?('build_url')
   url = File.read('build_url').strip
-  if LINT_EXCLUSION.any? { |x| url.include?(x) }
+  if NCI.experimental_skip_qa.any? { |x| url.include?(x) }
     puts "Not linting, #{url} is in exclusion list."
     exit
   end
