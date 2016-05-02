@@ -406,8 +406,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     # Overall this still tightly checks behavior.
 
     remote = File.absolute_path('remote')
-    FileUtils.mkpath("#{remote}/qtubuntu-cameraplugin-fake")
-    Dir.chdir("#{remote}/qtubuntu-cameraplugin-fake") do
+    FileUtils.mkpath("#{remote}/qt/qtubuntu-cameraplugin-fake")
+    Dir.chdir("#{remote}/qt/qtubuntu-cameraplugin-fake") do
       `bzr init .`
       File.write('file', '')
       `bzr add file`
@@ -425,7 +425,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     ENV['PATH'] = "#{bin}:#{ENV['PATH']}"
 
     factory = ProjectsFactory::Launchpad.new('launchpad.net')
-    projects = factory.factorize(['qtubuntu-cameraplugin-fake'])
+    projects = factory.factorize(['qt/qtubuntu-cameraplugin-fake'])
 
     refute_nil(projects)
     assert_equal(1, projects.size)
@@ -433,7 +433,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     refute_equal(project, nil)
     assert_equal 'qtubuntu-cameraplugin-fake', project.name
     assert_equal 'bzr', project.packaging_scm.type
-    assert_equal 'lp:qtubuntu-cameraplugin-fake', project.packaging_scm.url
+    assert_equal 'lp:qt/qtubuntu-cameraplugin-fake', project.packaging_scm.url
     assert_equal nil, project.packaging_scm.branch
   end
 
