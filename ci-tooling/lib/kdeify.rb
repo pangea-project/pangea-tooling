@@ -47,10 +47,12 @@ Description: #{package} package for integration with KDE
     end
 
     def firefox!
-      clone_patches
-      apply_patches
-      install_kde_js
-      add_plasma_package('firefox')
+      Dir.chdir('packaging') do
+        clone_patches
+        apply_patches
+        install_kde_js
+        add_plasma_package('firefox')
+      end
     end
 
     def thunderbird!
