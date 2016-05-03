@@ -40,7 +40,7 @@ class KDEIfy
 Architecture: any
 Depends: @MOZ_PKG_NAME@ (= ${binary:Version}), mozilla-kde-support
 Description: #{package} package for integration with KDE
-Install this package if you'd like #{package} with Plasma integration
+ Install this package if you'd like #{package} with Plasma integration
 "
       File.write('debian/control.in', control)
       system('debian/rules debian/control')
