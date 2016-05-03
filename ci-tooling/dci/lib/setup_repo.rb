@@ -30,7 +30,7 @@ module DCI
   module_function
 
   def setup_repo!
-    setup_i386
+    setup_i3869
     setup_backports! unless ENV.fetch('DIST') == 'unstable'
 
     repos = %w(frameworks plasma)
@@ -64,6 +64,6 @@ module DCI
   end
 
   def setup_i386
-    system('dpkg --add-architecture i386') if DPKG::BUILD_ARCH == 'amd64'
+    system('dpkg --add-architecture i386')
   end
 end
