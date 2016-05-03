@@ -146,7 +146,7 @@ module CI
           STDERR.puts 'Running cleanup and handlers'
           cleanup
           chown_handler.call if chown_handler
-          previous.call if previous
+          previous.call if previous && previous.respond_to?(:call)
         end
       end
       @trap_run = true
