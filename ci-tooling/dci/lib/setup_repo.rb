@@ -30,6 +30,7 @@ module DCI
   module_function
 
   def setup_repo!
+    setup_i386
     setup_backports! unless ENV.fetch('DIST') == 'unstable'
 
     repos = %w(frameworks plasma)
@@ -60,5 +61,9 @@ module DCI
     packages = ["devscripts/#{release}-backports",
                 "pbuilder/#{release}-backports"]
     Apt.install(packages)
+  end
+
+  def setup_i386
+    system('dpkg --add-architecture i386') if DPKG::BUILD_ARCH == 'amd64'
   end
 end

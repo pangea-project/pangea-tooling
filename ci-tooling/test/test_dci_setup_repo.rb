@@ -47,6 +47,7 @@ class DCISetupRepoTest < TestCase
   def test_setup_repos
     release = `lsb_release -sc`.strip
     system_calls = [
+      ['dpkg --add-architecture i386'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'lsb-release'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'software-properties-common'],
       ['add-apt-repository', '-y', "deb http://ftp.debian.org/debian #{release}-backports main"],
@@ -57,7 +58,7 @@ class DCISetupRepoTest < TestCase
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/backports stable main'],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/qt5 stable main'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'update'],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'dist-upgrade']
+      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'dist-upgrade'],
     ]
 
 
