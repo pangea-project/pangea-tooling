@@ -145,11 +145,24 @@ module CI
         Signal.trap(signal) do
           STDERR.puts 'Running cleanup and handlers'
           cleanup
-          chown_handler.call if chown_handler
-          previous.call if previous && previous.respond_to?(:call)
+          run_signal_handler(signal, chown_handler)
+          run_signal_handler(signal, previous)
         end
       end
       @trap_run = true
+    end
+
+    def run_signal_handler(signal, handler)
+      if !handler || !handler.respond_to?(:call)
+        # Default traps are strings, we can't call them.
+        case handler
+        when 'IGNORE', 'SIG_IGN'
+          # Skip ignores, all others we want to raise.
+          return
+        end
+        handler = proc { raise SignalException, signal }
+      end
+      handler.call
     end
 
     def rescued_start(c)
