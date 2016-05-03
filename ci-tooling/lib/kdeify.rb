@@ -19,7 +19,7 @@ class KDEIfy
     end
 
     def apply_patches
-      patches = %w(debian/patches/unity-menubar.patch ../suse/firefox-kde.patch ../suse/mozilla-kde.patch)
+      patches = %w(debian/patches/unity-menubar.patch ../suse/firefox-kde.patch)
       # Need to remove unity menubar from patches first since it interferes with
       # the KDE patches
       system('quilt delete unity-menubar.patch')
