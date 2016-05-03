@@ -1,5 +1,5 @@
 keyfile="/tmp/tmp.key"
 rm -rf $keyfile
-wget -O $keyfile "http://archive.neon.kde.org.uk/public.key"
+wget -O $keyfile "http://archive.neon.kde.org/public.key"
 gpg --no-default-keyring --primary-keyring config/archives/ubuntu-defaults.key --import $keyfile
-echo "deb http://archive.neon.kde.org.uk/unstable $SUITE main" >> config/archives/plasma-wayland.list
+echo "deb http://archive.neon.kde.org/unstable $SUITE main" >> config/archives/plasma-wayland.list
