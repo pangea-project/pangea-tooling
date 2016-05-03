@@ -4,6 +4,10 @@ require_relative 'debian/changelog'
 
 class KDEIfy
   class << self
+    def init_env
+      ENV['QUILT_PATCHES'] = 'debian/patches'
+    end
+
     def clone_patches
       Mercurial.configure do |conf|
         conf.hg_binary_path = '/usr/bin/hg'
@@ -47,6 +51,7 @@ Description: #{package} package for integration with KDE
     end
 
     def firefox!
+      init_env
       Dir.chdir('packaging') do
         clone_patches
         apply_patches
