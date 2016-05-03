@@ -18,6 +18,7 @@ gem 'net-sftp'
 gem 'nokogiri'
 gem 'oauth', '~> 0.4'
 gem 'octokit'
+gem 'mercurial-ruby'
 
 # Git URI management
 gem 'git_clone_url', '~> 2.0'
