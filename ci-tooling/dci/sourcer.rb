@@ -23,6 +23,7 @@
 require_relative '../lib/ci/build_source'
 require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
+require_relative '../lib/kdeify'
 require_relative 'lib/setup_repo'
 require_relative 'lib/setup_env'
 
@@ -44,6 +45,10 @@ when 'tarball'
 when 'uscan'
   puts 'Downloading tarball via uscan'
   orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
+when 'firefox'
+  puts 'Special case building for firefox'
+  KDEIfy.firefox!
+  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
 else
   puts 'Unspecified source type, defaulting to VCS build...'
   builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
