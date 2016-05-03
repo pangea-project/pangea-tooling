@@ -30,7 +30,7 @@ module DCI
   module_function
 
   def setup_repo!
-    setup_i3869
+    setup_i386
     setup_backports! unless ENV.fetch('DIST') == 'unstable'
 
     repos = %w(frameworks plasma)
