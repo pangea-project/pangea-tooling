@@ -133,6 +133,7 @@ task :deploy_in_container do
                                                       python-paramiko
                                                       sudo
                                                       locales
+                                                      mercurial
                                                       pxz
                                                       aptitude
                                                       autotools-dev
