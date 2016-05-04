@@ -142,7 +142,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                    architecture: architecture,
                                    metapackage: 'neon-desktop',
                                    imagename: 'neon',
-                                   neonarchive: 'tmp/release' }
+                                   neonarchive: 'user' }
           enqueue(NeonIsoJob.new(user_release_isoargs))
           wayland_isoargs = { type: 'devedition-gitunstable',
                               distribution: distribution,
