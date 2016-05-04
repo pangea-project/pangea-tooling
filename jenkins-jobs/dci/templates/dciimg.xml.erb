@@ -49,21 +49,10 @@ export DIST='unstable'
       <profileName>DCI S3</profileName>
       <entries>
         <hudson.plugins.s3.Entry>
-          <bucket>pangea-data/dci/images/<%= @branch.split('/')[-1] %>/<%= architecture %>/<%= component %>/latest</bucket>
+          <bucket>ds9-eu/dci/images/<%= @branch.split('/')[-1] %>/<%= architecture %>/<%= component %>/</bucket>
           <sourceFile>result/*</sourceFile>
           <storageClass>REDUCED_REDUNDANCY</storageClass>
-          <selectedRegion>ap-southeast-2</selectedRegion>
-          <noUploadOnFailure>false</noUploadOnFailure>
-          <uploadFromSlave>true</uploadFromSlave>
-          <managedArtifacts>false</managedArtifacts>
-          <useServerSideEncryption>true</useServerSideEncryption>
-          <flatten>true</flatten>
-        </hudson.plugins.s3.Entry>
-        <hudson.plugins.s3.Entry>
-          <bucket>pangea-data/dci/images/<%= @branch.split('/')[-1] %>/<%= architecture %>/<%= component %>/${BUILD_TIMESTAMP}/${BUILD_NUMBER}</bucket>
-          <sourceFile>result/*</sourceFile>
-          <storageClass>STANDARD</storageClass>
-          <selectedRegion>ap-southeast-2</selectedRegion>
+          <selectedRegion>eu-central-1</selectedRegion>
           <noUploadOnFailure>false</noUploadOnFailure>
           <uploadFromSlave>true</uploadFromSlave>
           <managedArtifacts>false</managedArtifacts>
