@@ -1,6 +1,7 @@
 Format: 3.0 (quilt)
 Source: gpgmepp
-Binary: libkf5gpgmepp5, libkf5gpgmepp-pthread5, libkf5gpgmepp-dev, libkf5qgpgme5, gpgmepp-dbg
+Binary: libkf5gpgmepp5, libkf5gpgmepp-pthread5, libkf5gpgmepp-dev,
+ libkf5qgpgme5, gpgmepp-dbg
 Architecture: any
 Version: 15.08.2+git20151212.1109+15.04-0
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>

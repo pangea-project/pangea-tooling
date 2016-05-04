@@ -45,7 +45,7 @@ module Debian
                  relationship: %w(build-depends build-depends-indep
                                   build-conflicts build-conflicts-indep),
                  multiline: %w(checksums-sha1 checksums-sha256 files) }
-      fields[:foldable] = %w(package-list) + fields[:relationship]
+      fields[:foldable] = %w(package-list binary) + fields[:relationship]
       @fields = parse_paragraph(lines, fields)
       post_process
 
