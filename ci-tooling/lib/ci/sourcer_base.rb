@@ -65,7 +65,11 @@ module CI
         next unless File.file?(path)
         data = File.read(path)
         begin
+          # used in discover
           data.gsub!('${ci:BuildVersion}', version)
+          # used in plasma-framework
+          data.gsub!('${source:Version}~ciBuild', version)
+          data.gsub!('${binary:Version}~ciBuild', version)
         rescue
           raise "Failed to gsub #{path}"
         end
