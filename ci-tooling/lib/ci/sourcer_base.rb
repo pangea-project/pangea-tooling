@@ -67,9 +67,9 @@ module CI
         begin
           # used in discover
           data.gsub!('${ci:BuildVersion}', version)
-          # used in plasma-framework
-          data.gsub!('${source:Version}~ciBuild', version)
-          data.gsub!('${binary:Version}~ciBuild', version)
+          # used in plasma-framework: ${source:Version}~ciBuild
+          # These are expanded by default to something useful, so we don't
+          # sub them, only the watcher switches them for live versions.
         rescue
           raise "Failed to gsub #{path}"
         end
