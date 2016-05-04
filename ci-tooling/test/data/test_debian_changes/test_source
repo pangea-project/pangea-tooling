@@ -1,7 +1,8 @@
 Format: 1.8
 Date: Sat, 12 Dec 2015 11:09:05 +0000
 Source: gpgmepp
-Binary: libkf5gpgmepp5 libkf5gpgmepp-pthread5 libkf5gpgmepp-dev libkf5qgpgme5 gpgmepp-dbg
+Binary: libkf5gpgmepp5 libkf5gpgmepp-pthread5 libkf5gpgmepp-dev 
+ libkf5qgpgme5 gpgmepp-dbg
 Architecture: source
 Version: 15.08.2+git20151212.1109+15.04-0
 Distribution: vivid

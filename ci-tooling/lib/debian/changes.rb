@@ -44,7 +44,7 @@ module Debian
       fields = {
         mandatory: %w(format date source binary architecture version distribution maintainer description changes checksums-sha1 checksums-sha256 files),
         relationship: %w(),
-        foldable: %w() + %w(),
+        foldable: %w(binary) + %w(),
         multiline: %w(description changes checksums-sha1 checksums-sha256 files)
       }
       @fields = parse_paragraph(lines, fields)
