@@ -7,6 +7,26 @@ packaging.neon.kde.org.uk:
         branch: kubuntu_unstable
     - yakuake:
         branch: master
+    - debconf-kde:
+        branch: master
+    - qapt:
+        branch: master
+    - signond:
+        branch: master
+    - libaccounts-qt:
+        branch: master
+    - libaccounts-glib:
+        branch: master
+    - qt-gstreamer:
+        branch: master
+    - telepathy-accounts-signon:
+        branch: master
+    - signon-ui:
+        branch: master
+    - signon-plugin-oauth2:
+        branch: master
+    - libsignon-glib:
+        branch: master
   - frameworks:
     - '*':
         branch: Neon/release
@@ -15,11 +35,9 @@ packaging.neon.kde.org.uk:
   - plasma:
     - '*':
         branch: Neon/release
-  - kde-extras:
-      - debconf-kde:
-          branch: master
-      - qapt:
-          branch: master
+  - kde-sc:
+    - 'kate':
+        branch: master
   - applications:
     - kde4libs:
         branch: master
@@ -397,6 +415,11 @@ packaging.neon.kde.org.uk:
         branch: master
 
 git.debian.org:
+  - pkg-kde/kde-extras/kde-telepathy:
+    - telepathy-qt4:
+        branch: master
+    - telepathy-logger-qt:
+        branch: master
   - pkg-kde:
       - pkg-kde-tools:
           branch: master
@@ -409,6 +432,8 @@ git.debian.org:
         branch: master
   - pkg-kde/kde-std:
     - sddm:
+        branch: master
+    - phonon-backend-gstreamer:
         branch: master
   - pkg-kde/krap:
       - grantlee:
@@ -428,6 +453,8 @@ git.debian.org:
           branch: master
       - harfbuzz:
           branch: master
+      - dbus-test-runner:
+          branch: master
   - pkg-cmake:
       - cmake:
           branch: master
@@ -439,9 +466,6 @@ git.debian.org:
         branch: master
 
 github.com:
-  - netrunner-common-extras:
-    - kio-sysinfo:
-        branch: Debian/jessie
   - netrunner-common:
     - '*':
         branch: Debian/jessie
@@ -461,9 +485,7 @@ github.com:
     - odroid-boot-services:
         branch: kubuntu_unstable
   - netrunner-debian:
-    - calamares:
-        branch: Debian/jessie
-    - calamares-branding:
+    - calamares-full:
         branch: Debian/jessie
     - syslinux-theme-netrunner:
         branch: Debian/jessie
@@ -482,11 +504,9 @@ github.com:
     - 'kcm-about-extended':
         branch: master
   - netrunner-core:
-    - 'netrunner-default-settings':
+    - 'netrunner-core-settings':
         branch: Debian/jessie
-    - 'calamares-post-debian':
-        branch: Debian/jessie
-    - 'calamares-branding':
+    - 'calamares-core':
         branch: Debian/jessie
     - 'netrunner-core':
         branch: Debian/jessie
@@ -499,3 +519,6 @@ github.com:
         branch: Debian/jessie
     - 'netrunner-debian-owncloud':
         branch: Debian/jessie
+
+launchpad.net:
+  - firefox/stable
