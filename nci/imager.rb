@@ -53,27 +53,16 @@ cmd = ["#{TOOLING_PATH}/nci/imager/build.sh",
 status_code = c.run(Cmd: cmd)
 exit status_code unless status_code == 0
 
-DATE = File.read('result/date_stamp').strip
-WEBSITE_PATH = "/var/www/images/#{IMAGENAME}-#{TYPE}-proposed/".freeze
-PUB_PATH = "#{WEBSITE_PATH}#{DATE}".freeze
-FileUtils.mkpath(PUB_PATH)
-%w(tar.xz).each do |type|
-  unless system("cp -r --no-preserve=ownership result/*.#{type} #{PUB_PATH}/")
-    abort "File type #{type} failed to copy to public directory."
-  end
-end
-FileUtils.rm("#{WEBSITE_PATH}current", force: true)
-FileUtils.ln_s(PUB_PATH, "#{WEBSITE_PATH}current")
-
 # copy to depot using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
+DATE = File.read('result/date_stamp').strip
 ISONAME = "#{IMAGENAME}-#{TYPE}".freeze
 REMOTE_DIR = "neon/images/#{ISONAME}/".freeze
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}".freeze
 
 Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
   sftp.mkdir!(REMOTE_PUB_DIR)
-  %w(amd64.iso manifest zsync sha256sum).each do |type|
+  %w(source.tar.xz amd64.iso manifest zsync sha256sum).each do |type|
     Dir.glob("result/*#{type}").each do |file|
       name = File.basename(file)
       STDERR.puts "Uploading #{file}..."
