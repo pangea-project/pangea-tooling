@@ -580,7 +580,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:40 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:stable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -611,7 +611,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:unstable","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%=
+      string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:stable","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%=
         Dir.pwd %>":{}}}'
     headers:
       User-Agent:
@@ -786,7 +786,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:43 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:stable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -842,7 +842,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:43 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/50df4dd5b760f151943223f170ca7e8f2dea8efc1d65b11801bc25b790c8d3c1/tag?force=true&repo=pangea-testing%2Fdebian&tag=unstable
+    uri: unix:///var/run/docker.sock/v1.16/images/50df4dd5b760f151943223f170ca7e8f2dea8efc1d65b11801bc25b790c8d3c1/tag?force=true&repo=pangea-testing%2Fdebian&tag=stable
     body:
       encoding: US-ASCII
       string: ''
