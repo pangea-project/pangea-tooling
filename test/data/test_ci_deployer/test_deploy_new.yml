@@ -920,7 +920,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:52 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:stable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -943,12 +943,12 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        No such image: pangea-testing/debian:unstable
+        No such image: pangea-testing/debian:stable
     http_version: 
   recorded_at: Wed, 09 Dec 2015 09:31:52 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:stable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -971,12 +971,12 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        No such image: pangea-testing/debian:unstable
+        No such image: pangea-testing/debian:stable
     http_version: 
   recorded_at: Wed, 09 Dec 2015 09:31:52 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:stable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -999,12 +999,12 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        No such image: pangea-testing/debian:unstable
+        No such image: pangea-testing/debian:stable
     http_version: 
   recorded_at: Wed, 09 Dec 2015 09:31:52 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:stable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -1027,12 +1027,12 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        No such image: pangea-testing/debian:unstable
+        No such image: pangea-testing/debian:stable
     http_version: 
   recorded_at: Wed, 09 Dec 2015 09:31:52 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/create?fromImage=debian%3Aunstable
+    uri: unix:///var/run/docker.sock/v1.16/images/create?fromImage=debian%3Astable
     body:
       encoding: US-ASCII
       string: ''
@@ -1052,16 +1052,16 @@ http_interactions:
       - Wed, 09 Dec 2015 09:31:55 GMT
     body:
       encoding: UTF-8
-      string: "{\"status\":\"Pulling from debian\",\"id\":\"unstable\"}\r\n{\"status\":\"Already
+      string: "{\"status\":\"Pulling from debian\",\"id\":\"stable\"}\r\n{\"status\":\"Already
         exists\",\"progressDetail\":{},\"id\":\"7c282da526d4\"}{\"status\":\"Already
         exists\",\"progressDetail\":{},\"id\":\"d6b20e4e9ed2\"}{\"status\":\"Digest:
         sha256:2ba5dc38c1dda96eba5b4e72cf2390cbc7cbd1b224e7656ea467320b0795b40b\"}\r\n{\"status\":\"Status:
-        Image is up to date for debian:unstable\"}\r\n"
+        Image is up to date for debian:stable\"}\r\n"
     http_version: 
   recorded_at: Wed, 09 Dec 2015 09:31:55 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/debian:unstable/json
+    uri: unix:///var/run/docker.sock/v1.16/images/debian:stable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -1089,7 +1089,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:55 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/d6b20e4e9ed2fc047c0b6d6a24089082417e4973a69cc3dc92c2a68b2c81047a/tag?repo=pangea-testing%2Fdebian&tag=unstable
+    uri: unix:///var/run/docker.sock/v1.16/images/d6b20e4e9ed2fc047c0b6d6a24089082417e4973a69cc3dc92c2a68b2c81047a/tag?repo=pangea-testing%2Fdebian&tag=stable
     body:
       encoding: US-ASCII
       string: ''
@@ -1119,7 +1119,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:unstable","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%=
+      string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:stable","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%=
         Dir.pwd %>":{}}}'
     headers:
       User-Agent:
@@ -1294,7 +1294,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:57 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:unstable/json
+    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:stable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -1350,7 +1350,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:57 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/952133673c0cce1a6acb2f150775efbdee65e02021664a5aa27595ce4d2efe41/tag?force=true&repo=pangea-testing%2Fdebian&tag=unstable
+    uri: unix:///var/run/docker.sock/v1.16/images/952133673c0cce1a6acb2f150775efbdee65e02021664a5aa27595ce4d2efe41/tag?force=true&repo=pangea-testing%2Fdebian&tag=stable
     body:
       encoding: US-ASCII
       string: ''
