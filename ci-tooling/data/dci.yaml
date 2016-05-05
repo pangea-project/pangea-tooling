@@ -1,8 +1,8 @@
 series:
-  unstable: "9"
+  stable: "8"
 architectures:
   - amd64
   - armhf
 extra_architectures: []
 types:
-  - unstable
+  - stable

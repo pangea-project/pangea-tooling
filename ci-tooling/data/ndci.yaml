@@ -1,8 +1,0 @@
-series:
-  stable: "8"
-architectures:
-  - amd64
-  - armhf
-extra_architectures: []
-types:
-  - stable

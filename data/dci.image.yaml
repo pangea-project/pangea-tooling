@@ -1,36 +1,32 @@
 ---
-  netrunner:
-    :architectures:
-      - amd64
-    :repo: https://github.com/netrunner-debian/live-config
-    :component: netrunner-debian
-
-  netrunner-cloud:
+  netrunner-debian-owncloud:
     :architectures:
       - armhf
+      - amd64
     :repo: https://github.com/netrunner-debian-owncloud/live-config
     :component: netrunner-debian-owncloud
-
-  netrunner-yacy:
-    :architectures:
-      - armhf
-    :repo: https://github.com/netrunner-debian-yacy/live-config
-    :component: netrunner-debian-yacy
-
-  plasma5:
-    :architectures:
-      - armhf
-    :repo: https://github.com/shadeslayer/live-config
-    :component: plasma5
-
-  netrunner-i2p:
-    :architectures:
-      - armhf
-    :repo: https://github.com/netrunner-debian-i2p/live-config
-    :component: netrunner-debian-i2p
+    :branch: Debian/stable
 
   netrunner-core:
     :architectures:
       - armhf
+      - amd64
     :repo: https://github.com/netrunner-core/live-config
     :component: netrunner-core
+    :branch: Debian/stable
+
+  netrunner-debian:
+    :architectures:
+      - armhf
+      - amd64
+    :repo: https://github.com/netrunner-debian/live-config
+    :component: netrunner-debian
+    :branch: Debian/stable
+
+  netrunner-core-jessie:
+    :architectures:
+      - armhf
+      - amd64
+    :repo: https://github.com/netrunner-core/live-config
+    :component: netrunner-core-jessie
+    :branch: Debian/jessie
