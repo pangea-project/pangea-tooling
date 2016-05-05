@@ -11,7 +11,7 @@ class DCITest < TestCase
   end
 
   def test_types
-    assert_equal_collection(%w(unstable), DCI.types)
+    assert_equal_collection(%w(stable), DCI.types)
   end
 
   def test_architectures
@@ -27,16 +27,16 @@ class DCITest < TestCase
   end
 
   def test_series
-    assert_equal_collection(%w(unstable), DCI.series.keys)
-    assert_equal_collection(%w(9), DCI.series.values)
-    assert_equal('9', DCI.series['unstable'])
+    assert_equal_collection(%w(stable), DCI.series.keys)
+    assert_equal_collection(%w(8), DCI.series.values)
+    assert_equal('8', DCI.series['stable'])
 
     # With sorting
-    assert_equal('unstable', DCI.series(sort: :ascending).keys.first)
-    assert_equal('unstable', DCI.series(sort: :descending).keys.first)
+    assert_equal('stable', DCI.series(sort: :ascending).keys.first)
+    assert_equal('stable', DCI.series(sort: :descending).keys.first)
   end
 
   def test_latest_series
-    assert_equal('unstable', DCI.latest_series)
+    assert_equal('stable', DCI.latest_series)
   end
 end
