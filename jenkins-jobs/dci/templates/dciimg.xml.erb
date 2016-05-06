@@ -39,8 +39,8 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-export DIST='unstable'
-~/tooling/dci/priv_contain.rb /var/lib/jenkins/ci-tooling/ci/imager.rb
+export DIST='<%= @distribution %>'
+~/tooling/dci/priv_contain.rb /var/lib/jenkins/ci-tooling/dci/imager.rb
       </command>
     </hudson.tasks.Shell>
   </builders>
@@ -50,7 +50,7 @@ export DIST='unstable'
       <entries>
         <hudson.plugins.s3.Entry>
           <bucket>ds9-eu/dci/images/<%= @branch.split('/')[-1] %>/<%= architecture %>/<%= component %></bucket>
-          <sourceFile>result/*</sourceFile>
+          <sourceFile>live-config/result/*</sourceFile>
           <storageClass>REDUCED_REDUNDANCY</storageClass>
           <selectedRegion>eu-central-1</selectedRegion>
           <noUploadOnFailure>false</noUploadOnFailure>
@@ -76,11 +76,11 @@ export DIST='unstable'
       <externalDelete/>
     </hudson.plugins.ws__cleanup.WsCleanup>
     <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
-      <regexp>Publish artifacts to S3 Bucket bucket=ds9-eu/([^\s]*), file=([^\s]*)</regexp>
+      <regexp>Publish artifacts to S3 Bucket bucket=(.*?)\/([^\s]*), file=(.*(?&lt;!iso.zsync|latest.iso|latest.tar)) region=([^\s]+),</regexp>
       <regexpForFailed></regexpForFailed>
-      <description>&lt;a href=&quot;http://ds9-eu.s3-website.eu-central-1.amazonaws.com/\1/\2&quot;&gt;\2&lt;/a&gt;</description>
+      <description>&lt;a href=&quot;http://\1.s3-website.\4.amazonaws.com/\2/\3&quot;&gt;\3&lt;/a&gt;</description>
       <setForMatrix>false</setForMatrix>
-    </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>    
+    </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.28">
