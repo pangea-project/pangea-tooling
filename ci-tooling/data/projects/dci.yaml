@@ -521,6 +521,9 @@ github.com:
         branch: Debian/jessie
     - 'netrunner-debian-owncloud':
         branch: Debian/jessie
+  - blue-systems:
+    - 'live-build':
+        branch: Debian/jessie
 
 launchpad.net:
   - firefox/stable
