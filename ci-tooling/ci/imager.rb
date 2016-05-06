@@ -23,4 +23,11 @@ Dir.chdir('live-config') do
   system('lb clean --purge')
 end
 
-raise 'Build failed' if Dir.glob('result/*.{iso,tar}*').empty?
+Dir.chdir('result') do
+  @images = Dir.glob('*.{iso,tar}*')
+  raise 'Build failed!' unless @images.size == 1
+
+  # Symlink in the result folder so that S3 gets a generic entry pointing to the latest tar or ISO
+  FileUtils.ln_s(@images[0], 'latest.iso', verbose: true) if @images[0].end_with? '.iso'
+  FileUtils.ln_s(@images[0], 'latest.tar', verbose: true) if @images[0].end_with? '.tar'
+end
