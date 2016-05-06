@@ -466,6 +466,9 @@ git.debian.org:
         branch: master
 
 github.com:
+  - plasmazilla:
+    - mozilla-kde-support:
+        branch: kubuntu_unstable
   - netrunner-common:
     - '*':
         branch: Debian/jessie
@@ -495,10 +498,9 @@ github.com:
         branch: Debian/jessie
     - base-files:
         branch: Debian/jessie
-  - netrunner:
-    - netrunner-artwork-backgrounds:
+    - netrunner-full-wallpapers:
         branch: Debian/jessie
-  - netrunner-debian-extras-packaging:
+  - netrunner-debian-packaging:
     - '*':
         branch: Debian/jessie
     - 'kcm-about-extended':
