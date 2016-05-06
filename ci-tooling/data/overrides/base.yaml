@@ -46,7 +46,7 @@
     upstream_scm:
       type: tarball
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1.orig.tar.xz
-  Neon/testing:
+  Neon/release:
     upstream_scm:
       type: tarball
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.6.0.orig.tar.xz
@@ -56,7 +56,7 @@
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1.orig.tar.xz
 
 '*{debian.org,packaging.neon}*/qt/qtgraphicaleffects':
-  Neon/testing:
+  Neon/release:
     upstream_scm:
       type: uscan
 
@@ -67,7 +67,7 @@
   Neon/5.5:
     upstream_scm:
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1+dfsg.orig.tar.xz
-  Neon/testing:
+  Neon/release:
     upstream_scm:
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.6.0+dfsg.orig.tar.xz
 
@@ -82,12 +82,12 @@
   Neon/5.5:
     upstream_scm:
       url: http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.5.1+dfsg.orig.tar.xz
-  Neon/testing:
+  Neon/release:
     upstream_scm:
       url: http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.6.0+dfsg.orig.tar.xz
 
 '*{debian.org,packaging.neon}*/qt/qtchooser':
-  Neon/testing:
+  Neon/release:
     upstream_scm:
       type: tarball
       url: http://http.debian.net/debian/pool/main/q/qtchooser/qtchooser_52-gae5eeef.orig.tar.xz
