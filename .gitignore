@@ -20,3 +20,5 @@ doc/*
 
 # ctags
 .tags*
+
+Gemfile.lock
