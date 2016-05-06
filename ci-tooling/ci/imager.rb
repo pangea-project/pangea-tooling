@@ -14,16 +14,13 @@ Retry.retry_it(times: 5) do
                                                    live-images))
 end
 
-begin
-  FileUtils.mkdir_p 'result'
-  Dir.chdir('live-config') do
-    system('make clean')
-    system('./configure')
-    raise unless system('make')
-    FileUtils.mv(Dir.glob('*.{iso,tar}*'), '../result', verbose: true)
-  end
-ensure
-  Dir.chdir('live-config') do
-    system('make clean')
-  end
+FileUtils.mkdir_p 'result'
+Dir.chdir('live-config') do
+  system('make clean')
+  system('./configure')
+  system('lb build')
+  FileUtils.mv(Dir.glob('*.{iso,tar}*'), '../result', verbose: true)
+  system('lb clean --purge')
 end
+
+raise 'Build failed' if Dir.glob('result/*.{iso,tar}*').empty?
