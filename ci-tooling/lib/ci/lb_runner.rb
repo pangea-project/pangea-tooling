@@ -24,18 +24,18 @@ class LiveBuildRunner
       begin
         raise BuildFailedError unless system('lb build')
         FileUtils.mkdir_p('result')
-        @images = Dir.glob('*.{iso,tar}*')
+        @images = Dir.glob('*.{iso,tar}')
         FileUtils.cp(@images, 'result', verbose: true)
+        latest_symlink
       ensure
         system('lb clean')
       end
-      latest_symlink
     end
   end
 
   def latest_symlink
     # Symlink to latest
-    Dir.chdir("#{@config_dir}/result") do
+    Dir.chdir('result') do
       raise Error unless @images.size == 1
       latest = "latest#{File.extname(@images[0])}"
       File.rm(latest) if File.exist? latest
