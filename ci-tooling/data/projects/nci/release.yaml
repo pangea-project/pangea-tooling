@@ -3,6 +3,14 @@ packaging.neon.kde.org.uk:
     - '*'
   - plasma:
     - '*'
+  - applications:
+    - ark
+    - dolphin
+    - kate
+    - konsole
+    - print-manager
+  - kde-extras:
+    - yakuake
   - neon:
     - seeds:
         branch: Neon/release
