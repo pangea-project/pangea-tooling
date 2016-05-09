@@ -3,17 +3,17 @@ require 'fileutils'
 require_relative 'debian/changelog'
 
 class KDEIfy
+  PATCHES = %w(../suse/firefox-kde.patch ../suse/mozilla-kde.patch)
   class << self
     def init_env
       ENV['QUILT_PATCHES'] = 'debian/patches'
     end
 
     def apply_patches
-      patches = %w(../suse/firefox-kde.patch ../suse/mozilla-kde.patch)
       # Need to remove unity menubar from patches first since it interferes with
       # the KDE patches
       system('quilt delete unity-menubar.patch')
-      patches.each do |patch|
+      PATCHES.each do |patch|
         system("quilt import #{patch}")
       end
     end
@@ -40,10 +40,11 @@ Description: #{package} package for integration with KDE
       system('debian/rules debian/control')
     end
 
-    def thunderbird_filterdiff
-      patch = 'suse/mozilla-kde.patch'
-      filterdiff = `filterdiff --addprefix=a/mozilla/ --strip 1 #{patch}`
-      File.write(patch, filterdiff)
+    def filterdiff
+      PATCHES.each do |patch|
+        filterdiff = `filterdiff --addprefix=a/mozilla/ --strip 1 #{patch}`
+        File.write(patch, filterdiff)
+      end
     end
 
     def firefox!
@@ -57,8 +58,8 @@ Description: #{package} package for integration with KDE
 
     def thunderbird!
       init_env
-      thunderbird_filterdiff
       Dir.chdir('packaging') do
+        filterdiff
         apply_patches
         install_kde_js
         add_plasma_package('thunderbird')
