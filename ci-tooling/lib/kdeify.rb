@@ -8,16 +8,6 @@ class KDEIfy
       ENV['QUILT_PATCHES'] = 'debian/patches'
     end
 
-    def clone_patches
-      Mercurial.configure do |conf|
-        conf.hg_binary_path = '/usr/bin/hg'
-      end
-      changelog = Changelog.new
-      version = changelog.version(Changelog::BASE).to_i
-      repo_url = "http://www.rosenauer.org/hg/mozilla/#firefox#{version}"
-      Mercurial::Repository.clone(repo_url, '../suse', {})
-    end
-
     def apply_patches
       patches = %w(../suse/firefox-kde.patch ../suse/mozilla-kde.patch)
       # Need to remove unity menubar from patches first since it interferes with
@@ -53,7 +43,6 @@ Description: #{package} package for integration with KDE
     def firefox!
       init_env
       Dir.chdir('packaging') do
-        clone_patches
         apply_patches
         install_kde_js
         add_plasma_package('firefox')
@@ -61,6 +50,12 @@ Description: #{package} package for integration with KDE
     end
 
     def thunderbird!
+      init_env
+      Dir.chdir('packaging') do
+        apply_patches
+        install_kde_js
+        add_plasma_package('thunderbird')
+      end
     end
   end
 end
