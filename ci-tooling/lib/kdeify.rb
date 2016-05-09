@@ -40,6 +40,12 @@ Description: #{package} package for integration with KDE
       system('debian/rules debian/control')
     end
 
+    def thunderbird_filterdiff
+      patch = 'suse/mozilla-kde.patch'
+      filterdiff = `filterdiff --addprefix=a/mozilla/ --strip 1 #{patch}`
+      File.write(patch, filterdiff)
+    end
+
     def firefox!
       init_env
       Dir.chdir('packaging') do
@@ -52,6 +58,7 @@ Description: #{package} package for integration with KDE
     def thunderbird!
       init_env
       Dir.chdir('packaging') do
+        thunderbird_filterdiff
         apply_patches
         install_kde_js
         add_plasma_package('thunderbird')
