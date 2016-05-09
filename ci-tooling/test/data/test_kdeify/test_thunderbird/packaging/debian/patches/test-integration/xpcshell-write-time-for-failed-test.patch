@@ -1,0 +1,28 @@
+Description: Write test duration to the JUnit results when the test fails
+Author: Chris Coulson <chris.coulson@Canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-26.0~a1~hg20130902r145224/mozilla/testing/xpcshell/runxpcshelltests.py
+===================================================================
+--- firefox-trunk-26.0~a1~hg20130902r145224.orig/mozilla/testing/xpcshell/runxpcshelltests.py	2013-09-03 11:09:32.130478473 +0100
++++ firefox-trunk-26.0~a1~hg20130902r145224/mozilla/testing/xpcshell/runxpcshelltests.py	2013-09-03 11:11:33.882479106 +0100
+@@ -591,6 +591,9 @@
+             result = not (self.has_failure_output or
+                           (self.getReturnCode(proc) != 0))
+ 
++            now = time.time()
++            self.xunit_result["time"] = now - startTime
++
+             if result != expected:
+                 if self.retry:
+                     self.clean_temp_dirs(name, stdout)
+@@ -620,9 +623,7 @@
+                             f.write('%s = %s\n' % (k, v))
+ 
+             else:
+-                now = time.time()
+                 timeTaken = (now - startTime) * 1000
+-                self.xunit_result["time"] = now - startTime
+ 
+                 with LOG_MUTEX:
+                     self.log.info("TEST-%s | %s | test passed (time: %.3fms)" % ("PASS" if expected else "KNOWN-FAIL", name, timeTaken))

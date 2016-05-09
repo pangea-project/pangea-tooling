@@ -1,0 +1,127 @@
+#!/usr/bin/make -f
+
+MOZ_PKG_BASENAME	:= thunderbird
+
+include $(CURDIR)/debian/build/config.mk
+
+MOZ_APP			:= mail
+MOZ_VENDOR		:=
+MOZ_MOZDIR		:= mozilla
+
+MOZ_BRANDING		:= $(CHANNEL)
+ifneq (,$(filter release beta, $(MOZ_BRANDING)))
+MOZ_BRANDING		:= official
+endif
+ifeq (1,$(MOZ_FORCE_UNOFFICIAL_BRANDING))
+ifneq (,$(filter official aurora, $(MOZ_BRANDING)))
+MOZ_BRANDING		:= nightly
+endif
+endif
+ifeq (official,$(MOZ_BRANDING))
+MOZ_BRANDING_DIR	:= other-licenses/branding/thunderbird
+MOZ_BRANDING_OPTION	:= --enable-official-branding
+else
+MOZ_BRANDING_DIR	:= $(MOZ_APP)/branding/$(MOZ_BRANDING)
+MOZ_BRANDING_OPTION	:= --with-branding=$(MOZ_BRANDING_DIR)
+endif
+
+MOZ_SEARCHPLUGIN_DIR	= $(MOZ_LIBDIR)/distribution/searchplugins
+
+ifneq (,$(filter precise, $(DISTRIB_CODENAME)))
+UNITY_DEPENDS	:= libindicate5, libdbusmenu-gtk4, libunity9, libebook-1.2-12, libedataserver-1.2-15
+else
+ifneq (,$(filter quantal raring saucy, $(DISTRIB_CODENAME)))
+UNITY_DEPENDS	:= libmessaging-menu0, libunity9, libebook-1.2-14, libedataserver-1.2-17
+else
+UNITY_DEPENDS	:= libmessaging-menu0, libunity9
+endif
+endif
+
+# Make sure thunderbird-couchdb is removed on upgrade to 12.10
+# See https://launchpad.net/bugs/1040839
+ifeq (,$(filter precise, $(DISTRIB_CODENAME)))
+TB_COUCHDB_BREAKS	:= thunderbird-couchdb
+endif
+
+MOZ_LIGHTNING_PKG_NAME		= $(addsuffix $(subst $(MOZ_PKG_BASENAME),,$(MOZ_PKG_NAME)),xul-ext-lightning)
+MOZ_CALENDAR_TZ_PKG_NAME	= $(addsuffix $(subst $(MOZ_PKG_BASENAME),,$(MOZ_PKG_NAME)),xul-ext-calendar-timezones)
+MOZ_GDATA_PROVIDER_PKG_NAME	= $(addsuffix $(subst $(MOZ_PKG_BASENAME),,$(MOZ_PKG_NAME)),xul-ext-gdata-provider)
+
+MOZ_PKG_SUPPORT_SUGGESTS = $(MOZ_PKG_NAME)-gnome-support
+
+MOZ_PKGNAME_SUBST_FILES = \
+	debian/$(MOZ_PKG_BASENAME).sh \
+	debian/apport/blacklist \
+	debian/apport/native-origins \
+	debian/apport/source_$(MOZ_PKG_NAME).py \
+	$(NULL)
+
+include $(CURDIR)/debian/build/rules.mk
+
+#MOZ_EXECUTABLES_$(MOZ_PKG_NAME)-testsuite =	$(MOZ_LIBDIR)/testing/run_xpcshell_tests \
+						$(MOZ_LIBDIR)/xpcshell \
+						$(MOZ_LIBDIR)/testing/filter_results \
+						$(NULL)
+
+debian/control::
+	sed -i -e 's/@MOZ_LIGHTNING_PKG_NAME@/$(MOZ_LIGHTNING_PKG_NAME)/g' \
+	       -e 's/@MOZ_CALENDAR_TZ_PKG_NAME@/$(MOZ_CALENDAR_TZ_PKG_NAME)/g' \
+	       -e 's/@MOZ_GDATA_PROVIDER_PKG_NAME@/$(MOZ_GDATA_PROVIDER_PKG_NAME)/g' debian/control
+
+make-messagingmenu-addon: debian/messagingmenu/messagingmenu@mozilla.com.xpi
+debian/messagingmenu/messagingmenu@mozilla.com.xpi:
+	cd $(CURDIR)/debian/messagingmenu; \
+		sh build.sh || exit 1; \
+		mv $(CURDIR)/debian/messagingmenu/messagingmenu.xpi $(CURDIR)/debian/messagingmenu/messagingmenu@mozilla.com.xpi
+
+make-eds-addon: debian/eds/edsintegration@mozilla.com.xpi
+debian/eds/edsintegration@mozilla.com.xpi:
+	cd $(CURDIR)/debian/eds; \
+		LIBXUL_SDK=$(CURDIR)/$(MOZ_DISTDIR) sh build.sh || exit 1; \
+		mv $(CURDIR)/debian/eds/edsintegration.xpi $(CURDIR)/debian/eds/edsintegration@mozilla.com.xpi
+
+common-build-arch:: make-messagingmenu-addon make-eds-addon
+
+WRITE_SUBSTVARS = $(shell echo "$(2)=$(3)" | sed 's/[ \t\n]\+/ /g' >> debian/$(1).substvars)
+
+ifeq (thunderbird,$(MOZ_PKG_NAME))
+TB_REPLACES = mozilla-thunderbird, thunderbird-gnome-support (<= 3.0.4+nobinonly-0ubuntu3)
+TB_CONFLICTS = mozilla-thunderbird
+TB_BREAKS = thunderbird-gnome-support (<= 3.0.4+nobinonly-0ubuntu3), $(TB_COUCHDB_BREAKS)
+install/thunderbird::
+	$(call WRITE_SUBSTVARS,thunderbird,transitional:Replaces,$(TB_REPLACES))
+	$(call WRITE_SUBSTVARS,thunderbird,transitional:Conflicts,$(TB_CONFLICTS))
+	$(call WRITE_SUBSTVARS,thunderbird,transitional:Breaks,$(TB_BREAKS))
+else
+TB_BREAKS = $(TB_COUCHDB_BREAKS)
+install/$(MOZ_PKG_NAME)::
+	$(call WRITE_SUBSTVARS,$(MOZ_PKG_NAME),transitional:Breaks,$(TB_BREAKS))
+endif
+
+ifneq (,$(UNITY_DEPENDS))
+install/$(MOZ_PKG_NAME)-gnome-support::
+	$(call WRITE_SUBSTVARS,$(MOZ_PKG_NAME)-gnome-support,unity:Depends,$(UNITY_DEPENDS))
+endif
+
+binary-install/$(MOZ_PKG_NAME)::
+	convert -resize 32x32 debian/$(MOZ_PKG_NAME)/usr/share/pixmaps/$(MOZ_APP_NAME).png debian/$(MOZ_PKG_NAME)/usr/share/pixmaps/$(MOZ_APP_NAME).xpm
+	echo "/usr/share/applications/$(MOZ_APP_NAME).desktop" > debian/$(MOZ_PKG_NAME)/usr/share/indicators/messages/applications/$(MOZ_APP_NAME)
+
+binary-install/$(MOZ_LIGHTNING_PKG_NAME)::
+	dh_installdirs -p$(MOZ_LIGHTNING_PKG_NAME) $(MOZ_ADDONDIR)/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}
+	unzip -o -d debian/$(MOZ_LIGHTNING_PKG_NAME)/$(MOZ_ADDONDIR)/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/ $(MOZ_DISTDIR)/xpi-stage/lightning-*.xpi
+
+binary-install/$(MOZ_GDATA_PROVIDER_PKG_NAME)::
+	dh_installdirs -p$(MOZ_GDATA_PROVIDER_PKG_NAME) $(MOZ_ADDONDIR)/extensions/{a62ef8ec-5fdc-40c2-873c-223b8a6925cc}
+	unzip -o -d debian/$(MOZ_GDATA_PROVIDER_PKG_NAME)/$(MOZ_ADDONDIR)/extensions/{a62ef8ec-5fdc-40c2-873c-223b8a6925cc}/ $(MOZ_DISTDIR)/xpi-stage/gdata-provider-*.xpi
+
+pre-build::
+	$(shell /usr/bin/docbook-to-man $(CURDIR)/debian/thunderbird.sgml > $(CURDIR)/debian/$(MOZ_APP_NAME).1)
+
+clean::
+	rm -f debian/messagingmenu/*.xpi
+	rm -f debian/eds/*.xpi
+	rm -f debian/eds/components/*.xpt
+	rm -f debian/$(MOZ_APP_NAME).1
+
+.PHONY: make-eds-addon make-messagingmenu-addon

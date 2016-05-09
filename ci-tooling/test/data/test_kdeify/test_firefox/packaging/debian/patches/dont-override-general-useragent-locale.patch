@@ -1,0 +1,22 @@
+Index: firefox-trunk-42.0~a1~hg20150713r252644/browser/app/profile/firefox.js
+===================================================================
+--- firefox-trunk-42.0~a1~hg20150713r252644.orig/browser/app/profile/firefox.js	2015-07-14 08:22:42.862120365 +0100
++++ firefox-trunk-42.0~a1~hg20150713r252644/browser/app/profile/firefox.js	2015-07-14 08:22:42.858120358 +0100
+@@ -257,7 +257,6 @@
+ pref("keyword.enabled", true);
+ pref("browser.fixup.domainwhitelist.localhost", true);
+ 
+-pref("general.useragent.locale", "@AB_CD@");
+ pref("general.skins.selectedSkin", "classic/1.0");
+ 
+ pref("general.smoothScroll", true);
+Index: firefox-trunk-42.0~a1~hg20150713r252644/browser/locales/en-US/firefox-l10n.js
+===================================================================
+--- firefox-trunk-42.0~a1~hg20150713r252644.orig/browser/locales/en-US/firefox-l10n.js	2015-07-14 08:21:22.965991976 +0100
++++ firefox-trunk-42.0~a1~hg20150713r252644/browser/locales/en-US/firefox-l10n.js	2015-07-14 08:23:02.010151143 +0100
+@@ -7,5 +7,3 @@
+ # LOCALIZATION NOTE: this preference is set to true for en-US specifically,
+ # locales without this line have the setting set to false by default.
+ pref("browser.search.geoSpecificDefaults", true);
+-
+-pref("general.useragent.locale", "@AB_CD@");

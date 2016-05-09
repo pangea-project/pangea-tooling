@@ -1,0 +1,74 @@
+%%ifdef DEB_BUILD_GNU_TYPE
+ac_add_options --build=@DEB_BUILD_GNU_TYPE@
+%%endif
+ac_add_options --host=@DEB_HOST_GNU_TYPE@
+ac_add_options --prefix=/usr
+ac_add_options --libexecdir=/@MOZ_LIBDIR@
+ac_add_options --with-l10n-base=@TOPSRCDIR@/l10n
+ac_add_options --srcdir=@TOPSRCDIR@/mozilla
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/@MOZ_OBJDIR@
+ac_add_options --enable-release
+ac_add_options --disable-install-strip
+ac_add_options --disable-updater
+ac_add_options --enable-application=mail
+ac_add_options --enable-startup-notification
+ac_add_options --with-distribution-id=com.ubuntu
+%%if DEB_HOST_ARCH == armel
+%%if DISTRIB_VERSION < 1210
+ac_add_options --enable-thumb2
+%%else
+ac_add_options --disable-methodjit
+%%endif
+%%endif
+%%ifdef MOZ_NO_OPTIMIZE
+ac_add_options --disable-optimize
+%%else
+%%ifndef MOZ_VALGRIND
+ac_add_options --enable-optimize
+%%else
+ac_add_options --enable-optimize="-g -O -freorder-blocks"
+%%endif
+%%endif
+%%ifdef MOZ_VALGRIND
+ac_add_options --disable-jemalloc
+ac_add_options --enable-valgrind
+%%endif
+%%ifdef DEB_PARALLEL_JOBS
+mk_add_options MOZ_MAKE_FLAGS=-j@DEB_PARALLEL_JOBS@
+%%endif
+ac_add_options --enable-tests
+%%ifdef MOZ_ENABLE_BREAKPAD
+ac_add_options --enable-crashreporter
+%%else
+ac_add_options --disable-crashreporter
+%%endif
+ac_add_options @MOZ_BRANDING_OPTION@
+%%ifdef MOZ_BUILD_PGO
+mk_add_options PROFILE_GEN_SCRIPT='xvfb-run -a @MOZ_PYTHON@ @TOPSRCDIR@/@MOZ_OBJDIR@/_profile/pgo/profileserver.py'
+%%endif
+ac_add_options --disable-gnomevfs
+ac_add_options --enable-gio
+ac_add_options --enable-update-channel=@MOZ_UPDATE_CHANNEL@
+%%ifdef MOZ_DEBUG
+ac_add_options --enable-debug
+%%else
+ac_add_options --disable-debug
+%%endif
+ac_add_options --disable-elf-hack
+%%if MOZ_APP_NAME != MOZ_DEFAULT_APP_NAME
+ac_add_options --with-app-name=@MOZ_APP_NAME@
+%%endif
+%%ifdef MOZ_APP_PROFILE
+ac_add_options --with-app-profile=@MOZ_APP_PROFILE@
+%%endif
+%%if DEB_HOST_ARCH != i386
+%%if DEB_HOST_ARCH != amd64
+ac_add_options --disable-webrtc
+%%endif
+%%endif
+%%if DEB_HOST_ARCH == arm64
+ac_add_options --enable-system-ffi
+%%endif
+ac_add_options --enable-calendar
+export DISABLE_LIGHTNING_INSTALL=1
+ac_add_options --disable-gstreamer

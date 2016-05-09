@@ -1,0 +1,14 @@
+#@MOZ_LIBDIR@/components/httpd.js
+#@MOZ_LIBDIR@/components/httpd.manifest
+#@MOZ_LIBDIR@/components/test_necko.xpt
+#@MOZ_LIBDIR@/OCSPStaplingServer
+#@MOZ_LIBDIR@/xpcshell
+#@MOZ_LIBDIR@/testing
+
+#debian/testing/extra.test.zip @MOZ_LIBDIR@/testing
+
+#debian/testing/run_mochitest @MOZ_LIBDIR@/testing
+#debian/testing/run_reftest @MOZ_LIBDIR@/testing
+#debian/testing/run_xpcshell_tests @MOZ_LIBDIR@/testing
+#debian/testing/testrunhelper.py @MOZ_LIBDIR@/testing
+#debian/testing/filter_results @MOZ_LIBDIR@/testing

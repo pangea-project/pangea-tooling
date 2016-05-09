@@ -1,0 +1,18 @@
+Description: Remove permissions set earlier in test_messagemanager_assertpermission.html
+ to prevent failures in subsequent tests
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-19.0~a1~hg20121114r113217/content/base/test/test_messagemanager_assertpermission.html
+===================================================================
+--- firefox-trunk-19.0~a1~hg20121114r113217.orig/content/base/test/test_messagemanager_assertpermission.html	2012-11-14 21:07:28.000000000 +0000
++++ firefox-trunk-19.0~a1~hg20121114r113217/content/base/test/test_messagemanager_assertpermission.html	2012-11-20 21:30:39.057447271 +0000
+@@ -172,6 +172,8 @@
+ function tearDown() {
+   SpecialPowers.clearUserPref("dom.mozBrowserFramesEnabled");
+   SpecialPowers.clearUserPref("dom.ipc.browser_frames.oop_by_default");
++  SpecialPowers.removePermission("browser", location.href);
++  SpecialPowers.removePermission("embed-apps", location.href);
+   SimpleTest.finish();
+ }
+ 

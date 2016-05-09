@@ -1,0 +1,12 @@
+# Symlinks for legacy folders
+@MOZ_ADDONDIR@/extensions @MOZ_LIBDIR@/browser/extensions
+@MOZ_ADDONDIR@/plugins @MOZ_LIBDIR@/browser/plugins
+@MOZ_ADDONDIR@/searchplugins @MOZ_LIBDIR@/browser/searchplugins
+@MOZ_ADDONDIR@/distribution/extensions @MOZ_LIBDIR@/distribution/extensions
+
+# System dictionaries
+usr/share/hunspell @MOZ_LIBDIR@/dictionaries
+
+@MOZ_LIBDIR@/firefox.sh usr/bin/@MOZ_APP_NAME@
+@MOZ_LIBDIR@/browser/icons/mozicon128.png usr/share/pixmaps/@MOZ_APP_NAME@.png
+etc/@MOZ_PKG_NAME@/syspref.js @MOZ_LIBDIR@/browser/defaults/preferences/syspref.js

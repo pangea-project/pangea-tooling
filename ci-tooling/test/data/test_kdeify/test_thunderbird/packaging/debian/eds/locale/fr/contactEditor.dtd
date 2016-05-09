@@ -1,0 +1,24 @@
+<!ENTITY Telephone.tab "Téléphone">
+<!ENTITY SecondWorkPhone.label "2e ligne professionnelle :">
+<!ENTITY AssistantPhone.label "Assistant :">
+<!ENTITY IM.tab "Messagerie instantanée">
+<!ENTITY WebAddresses.tab "Adresses web">
+<!ENTITY HomePage.label "Page d\'accueil :">
+<!ENTITY Blog.label "Blog :">
+<!ENTITY Calendar.label "Agenda :">
+<!ENTITY FreeBusy.label "Libre / Occupé :">
+<!ENTITY VideoChat.label "Chat vidéo :">
+<!ENTITY Spouse.label "Épouse :">
+<!ENTITY SpouseAnniversary.label "Anniversaire :">
+<!ENTITY Profession.label "Profession :">
+<!ENTITY Manager.label "Directeur :">
+<!ENTITY Assistant.label "Assistant :">
+<!ENTITY POBox.label "Boîte postale :">
+<!ENTITY WorkOffice.label "Bureau :">
+<!ENTITY OtherAddress.label "Adresse :">
+<!ENTITY OtherAddress2.label "Complément d\'adresse :">
+<!ENTITY OtherCity.label "Ville :">
+<!ENTITY OtherState.label "Pays / Région :">
+<!ENTITY OtherZipCode.label "Code postal :">
+<!ENTITY OtherCountry.label "Pays :">
+<!ENTITY EDSPhoto.label "Conserver la photo actuelle">

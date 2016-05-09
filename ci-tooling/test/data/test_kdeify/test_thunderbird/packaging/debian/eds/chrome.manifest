@@ -1,0 +1,35 @@
+content edsintegration content/
+
+locale edsintegration en-US locale/en-US/
+
+interfaces components/nsIAbEDSDirectory.xpt
+interfaces components/nsIAbEDSCard.xpt
+interfaces components/nsIAbEDSPhone.xpt
+interfaces components/nsIAbEDSIMAccount.xpt
+interfaces components/nsIAbEDSMailingList.xpt
+interfaces components/nsIAbEDSEmailAddress.xpt
+
+component {5455275c-32b0-44c2-80bd-2a4457f854df} components/nsEDSAbBootstrap.js
+contract @mozilla.org/addressbook/eds-bootrapper;1 {5455275c-32b0-44c2-80bd-2a4457f854df}
+
+component {9bb88c4e-2498-4bc0-95b7-a80f3809ba04} components/nsEDSAbBootstrap.js
+contract @mozilla.org/addressbook/directory;1?type=moz-abedsdirectory {9bb88c4e-2498-4bc0-95b7-a80f3809ba04}
+
+component {d44d17c2-70a6-4c0c-8b5f-de4b7d478275} components/nsEDSAbBootstrap.js
+contract @mozilla.org/addressbook/directory-factory;1?name=moz-abedsdirectory {d44d17c2-70a6-4c0c-8b5f-de4b7d478275}
+
+component {71e30b23-9bd0-41a0-8496-a10052698a00} components/nsEDSAbBootstrap.js
+contract @mozilla.org/addressbook/directory;1?type=moz-abedsmailinglist {71e30b23-9bd0-41a0-8496-a10052698a00}
+
+component {cc40aa8e-9041-484d-83ec-c307e87a78e1} components/nsEDSAbBootstrap.js
+contract @mozilla.org/addressbook/moz-abedscard;1 {cc40aa8e-9041-484d-83ec-c307e87a78e1}
+
+category profile-after-change nsEDSAbBootstrap @mozilla.org/addressbook/eds-bootrapper;1
+
+overlay chrome://messenger/content/addressbook/abCardOverlay.xul chrome://edsintegration/content/contactEditorOverlay.xul
+overlay chrome://messenger/content/addressbook/abMailListDialog.xul chrome://edsintegration/content/newListOverlay.xul
+overlay chrome://messenger/content/addressbook/abEditListDialog.xul chrome://edsintegration/content/editListDialogOverlay.xul
+overlay chrome://messenger/content/addressbook/addressbook.xul chrome://edsintegration/content/addressbookOverlay.xul
+overlay chrome://messenger/content/addressbook/abNewCardDialog.xul chrome://edsintegration/content/newContactOverlay.xul
+
+resource edsintegration res/

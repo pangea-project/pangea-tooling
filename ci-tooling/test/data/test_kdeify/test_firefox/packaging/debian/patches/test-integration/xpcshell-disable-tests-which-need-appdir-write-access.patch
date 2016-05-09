@@ -1,0 +1,40 @@
+Description: Disable xpcshell tests that always fail in Jenkins because they
+ require write access to the application directory
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-31.0~a1~hg20140427r180452/browser/components/places/tests/unit/xpcshell.ini
+===================================================================
+--- firefox-trunk-31.0~a1~hg20140427r180452.orig/browser/components/places/tests/unit/xpcshell.ini	2014-04-27 19:09:42.099275084 +0100
++++ firefox-trunk-31.0~a1~hg20140427r180452/browser/components/places/tests/unit/xpcshell.ini	2014-04-27 19:09:42.095275084 +0100
+@@ -14,6 +14,9 @@
+ [test_browserGlue_corrupt_nobackup.js]
+ [test_browserGlue_corrupt_nobackup_default.js]
+ [test_browserGlue_distribution.js]
++# This test requires write access to the application directory
++skip-if = true
++
+ [test_browserGlue_migrate.js]
+ [test_browserGlue_prefs.js]
+ [test_browserGlue_restore.js]
+Index: firefox-trunk-31.0~a1~hg20140427r180452/toolkit/mozapps/extensions/test/xpcshell/xpcshell-shared.ini
+===================================================================
+--- firefox-trunk-31.0~a1~hg20140427r180452.orig/toolkit/mozapps/extensions/test/xpcshell/xpcshell-shared.ini	2014-04-27 19:09:42.099275084 +0100
++++ firefox-trunk-31.0~a1~hg20140427r180452/toolkit/mozapps/extensions/test/xpcshell/xpcshell-shared.ini	2014-04-27 19:09:42.095275084 +0100
+@@ -255,12 +255,12 @@
+ run-sequentially = Uses hardcoded ports in xpi files.
+ [test_update_compatmode.js]
+ [test_upgrade.js]
+-# Bug 676992: test consistently hangs on Android
+-skip-if = os == "android"
++# This needs to write to the application directory
++skip-if = true
+ run-sequentially = Uses global XCurProcD dir.
+ [test_upgrade_strictcompat.js]
+-# Bug 676992: test consistently hangs on Android
+-skip-if = os == "android"
++# This needs to write to the application directory
++skip-if = true
+ run-sequentially = Uses global XCurProcD dir.
+ [test_overrideblocklist.js]
+ run-sequentially = Uses global XCurProcD dir.

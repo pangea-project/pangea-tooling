@@ -1,0 +1,48 @@
+# Everything under browser/ except for extensions/ (installed in to
+# MOZ_ADDONDIR) and searchplugins/ (installed in distribution/searchplugins)
+@MOZ_LIBDIR@/browser/chrome
+@MOZ_LIBDIR@/browser/components
+@MOZ_LIBDIR@/browser/features
+@MOZ_LIBDIR@/browser/icons
+@MOZ_LIBDIR@/browser/blocklist.xml
+@MOZ_LIBDIR@/browser/chrome.manifest
+@MOZ_LIBDIR@/browser/omni.ja
+
+# Everything under webapprt/
+@MOZ_LIBDIR@/webapprt
+
+# GRE files (except for dictionaries/, which we symlink elsewhere)
+@MOZ_LIBDIR@/defaults
+@MOZ_LIBDIR@/gmp-clearkey
+@MOZ_LIBDIR@/gtk2
+@MOZ_LIBDIR@/omni.ja
+@MOZ_LIBDIR@/*.so
+@MOZ_LIBDIR@/*.ini
+@MOZ_LIBDIR@/dependentlibs.list
+%%ifdef MOZ_ENABLE_BREAKPAD
+@MOZ_LIBDIR@/Throbber-small.gif
+%%endif
+
+# Binaries
+@MOZ_LIBDIR@/@MOZ_APP_NAME@
+@MOZ_LIBDIR@/plugin-container
+@MOZ_LIBDIR@/webapprt-stub
+%%ifdef MOZ_ENABLE_BREAKPAD
+@MOZ_LIBDIR@/crashreporter
+%%endif
+
+debian/distribution.ini @MOZ_LIBDIR@/distribution
+
+@MOZ_LIBDIR@/browser/extensions/\{972ce4c6-7e08-4474-a285-3208198ce6fd\}.xpi @MOZ_ADDONDIR@/extensions
+
+debian/@MOZ_APP_NAME@.desktop usr/share/applications
+debian/apport/source_@MOZ_PKG_NAME@.py usr/share/apport/package-hooks/
+debian/firefox.sh @MOZ_LIBDIR@
+
+# Prefs
+debian/vendor-gre.js @MOZ_LIBDIR@/defaults/pref
+debian/vendor-firefox.js @MOZ_LIBDIR@/browser/defaults/preferences
+debian/vendor-webapprt.js @MOZ_LIBDIR@/webapprt/defaults/preferences
+debian/syspref.js etc/@MOZ_PKG_NAME@
+
+debian/usr.bin.@MOZ_PKG_NAME@ etc/apparmor.d

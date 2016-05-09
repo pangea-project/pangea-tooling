@@ -1,0 +1,47 @@
+Index: thunderbird-trunk-40.0~a1~hg20150407r17729.237989/mail/test/mozmill/Makefile.in
+===================================================================
+--- thunderbird-trunk-40.0~a1~hg20150407r17729.237989.orig/mail/test/mozmill/Makefile.in	2015-04-08 13:47:29.000000000 +0100
++++ thunderbird-trunk-40.0~a1~hg20150407r17729.237989/mail/test/mozmill/Makefile.in	2015-04-29 20:47:57.178119689 +0100
+@@ -36,7 +36,7 @@
+ 	rm -rf $(VIRTUALENV_DIR) && \
+ 	mkdir $(VIRTUALENV_DIR) && \
+ 	unset MACOSX_DEPLOYMENT_TARGET && \
+-	$(PYTHON) $(_DEST_DIR)/resources/installmozmill.py $(VIRTUALENV_DIR) $(MOZILLA_DIR)/testing/mozbase
++	$(PYTHON) $(_DEST_DIR)/resources/installmozmill.py $(VIRTUALENV_DIR) $(MOZILLA_DIR)/testing/mozbase $(MOZILLA_DIR)/python
+ 
+ libs:: mozmill-virtualenv
+ 
+Index: thunderbird-trunk-40.0~a1~hg20150407r17729.237989/mail/test/resources/installmozmill.py
+===================================================================
+--- thunderbird-trunk-40.0~a1~hg20150407r17729.237989.orig/mail/test/resources/installmozmill.py	2015-04-08 13:47:29.000000000 +0100
++++ thunderbird-trunk-40.0~a1~hg20150407r17729.237989/mail/test/resources/installmozmill.py	2015-04-29 20:47:07.857843740 +0100
+@@ -56,11 +56,12 @@
+   source=os.path.abspath(os.path.dirname(__file__))
+ 
+   # directory to install to
+-  if len(args) == 2:
++  if len(args) == 3:
+     destination = os.path.abspath(args[0])
+     mozbase = os.path.abspath(args[1])
++    mozpython = os.path.abspath(args[2])
+   else:
+-    print "Usage: %s destination path/to/mozbase" % sys.argv[0]
++    print "Usage: %s destination path/to/mozbase path/to/mozpython" % sys.argv[0]
+     sys.exit(1)
+ 
+   os.chdir(source)
+@@ -84,6 +85,14 @@
+     sys.exit(returncode)
+   pip = entry_point_path(destination, 'pip')
+ 
++  # Install packages from $(MOZILLA)/python to the virtualenv
++  mozpython_packages = ['blessings']
++  returncode = call([pip, 'install'] +
++    [os.path.join(mozpython, package) for package in mozpython_packages], env=env)
++  if returncode:
++    print 'Failure to install packages'
++    sys.exit(returncode)
++
+   # Install mozbase packages to the virtualenv
+   mozbase_packages = ['manifestparser', 'mozfile', 'mozinfo', 'mozlog',
+     'mozprofile', 'mozcrash', 'moznetwork', 'mozprocess', 'mozdevice',

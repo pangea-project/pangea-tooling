@@ -1,0 +1,67 @@
+#!/usr/bin/python
+
+import sys
+import os.path
+from testrunhelper import TestRunHelper
+
+class XPCShellTestsHelper(TestRunHelper):
+  def __init__(self):
+    PASSTHROUGH_ARGS = [
+      '--interactive',
+      '--verbose',
+      '--manifest',
+      '--debugger',
+      '--debugger-args',
+      '--debugger-interactive',
+      '--testing-modules-dir',
+      '--tests-root-dir',
+      '--xunit-file',
+      '--xunit-suite-name'
+    ]
+
+    TestRunHelper.__init__(self, 'xpcshell/runxpcshelltests.py',
+                           lambda g: g['XPCShellOptions'](),
+                           pass_args=PASSTHROUGH_ARGS,
+                           paths=[],
+                           need_x=True)
+
+    self.add_option('--xpcshell',
+                    dest='xpcshell', default=None,
+                    help='Override the path to the xpcshell binary')
+    self.add_option('--logfiles',
+                    action='store_true', dest='logfiles', default=False,
+                    help='Create log files')
+
+def main():
+
+  DEFAULTS = {
+    '--test-plugin-path': lambda: os.path.join(helper.root, 'bin/plugins')
+  }
+
+  def pre_run_cb(options, args):
+    if not options.logfiles:
+      sys.argv.append('--no-logfiles')
+
+    if '--xunit-file' in sys.argv and '--tests-root-dir' not in sys.argv and \
+       '--manifest' in sys.argv:
+        sys.argv.extend(['--tests-root-dir', os.path.dirname(options.manifest)])
+
+    for arg in args:
+      if arg.endswith('.js'):
+        if len(args) > 1:
+          raise Exception('Can only specify one file at a time')
+        sys.argv.extend(['--test-path', os.path.basename(arg)])
+        args[0] = os.path.dirname(arg)
+
+    xpcshell = options.xpcshell
+    if xpcshell == None and helper.xredir != None:
+      xpcshell = os.path.join(helper.xredir, 'xpcshell')
+    if xpcshell == None:
+      xpcshell = os.path.join(helper.root, 'bin', 'xpcshell')
+    sys.argv.append(xpcshell)
+
+  helper = XPCShellTestsHelper()
+  sys.exit(helper.run(defaults=DEFAULTS, pre_run_cb=pre_run_cb))
+
+if __name__ == '__main__':
+  main()

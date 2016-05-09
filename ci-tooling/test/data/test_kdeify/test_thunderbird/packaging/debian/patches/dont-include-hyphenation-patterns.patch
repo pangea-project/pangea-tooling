@@ -1,0 +1,18 @@
+Description: Don't bundle our own hyphenation patterns
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: not-needed
+Bug-Ubuntu: https://launchpad.net/bugs/894166
+
+Index: thunderbird-trunk-38.0~a1~hg20150115r17352.223960/mail/installer/package-manifest.in
+===================================================================
+--- thunderbird-trunk-38.0~a1~hg20150115r17352.223960.orig/mail/installer/package-manifest.in	2015-01-15 17:02:16.266896850 +0000
++++ thunderbird-trunk-38.0~a1~hg20150115r17352.223960/mail/installer/package-manifest.in	2015-01-15 17:04:24.316748760 +0000
+@@ -52,7 +52,7 @@
+ @RESPATH@/@PREF_DIR@/all-l10n.js
+ @RESPATH@/searchplugins/*
+ @RESPATH@/dictionaries/*
+-@RESPATH@/hyphenation/*
++; @RESPATH@/hyphenation/*
+ #ifdef XP_WIN32
+ @BINPATH@/uninstall/helper.exe
+ #endif

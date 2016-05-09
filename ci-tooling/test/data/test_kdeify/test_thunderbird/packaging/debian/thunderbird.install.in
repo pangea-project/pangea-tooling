@@ -1,0 +1,34 @@
+@MOZ_LIBDIR@/chrome/icons
+@MOZ_LIBDIR@/components/components.manifest
+@MOZ_LIBDIR@/components/lib*.so
+@MOZ_LIBDIR@/defaults/messenger
+@MOZ_LIBDIR@/isp
+@MOZ_LIBDIR@/omni.ja
+@MOZ_LIBDIR@/*.so
+@MOZ_LIBDIR@/@MOZ_APP_NAME@
+%%ifdef MOZ_ENABLE_BREAKPAD
+@MOZ_LIBDIR@/crashreporter
+@MOZ_LIBDIR@/Throbber-small.gif
+%%endif
+@MOZ_LIBDIR@/plugin-container
+@MOZ_LIBDIR@/chrome.manifest
+@MOZ_LIBDIR@/blocklist.xml
+@MOZ_LIBDIR@/dependentlibs.list
+@MOZ_LIBDIR@/extensions/\{972ce4c6-7e08-4474-a285-3208198ce6fd\} @MOZ_ADDONDIR@/extensions
+debian/messagingmenu/messagingmenu@mozilla.com.xpi @MOZ_ADDONDIR@/extensions
+%%if DISTRIB_VERSION < 1404
+debian/eds/edsintegration@mozilla.com.xpi @MOZ_ADDONDIR@/extensions
+%%endif
+@MOZ_LIBDIR@/*.ini
+
+@MOZ_LIBDIR@/defaults/pref/channel-prefs.js
+
+debian/@MOZ_APP_NAME@.desktop usr/share/applications
+
+debian/apport/source_@MOZ_PKG_NAME@.py usr/share/apport/package-hooks/
+
+debian/thunderbird.sh @MOZ_LIBDIR@
+#debian/distribution.ini @MOZ_LIBDIR@/distribution
+debian/vendor.js @MOZ_LIBDIR@/defaults/pref
+
+debian/syspref.js etc/@MOZ_PKG_NAME@

@@ -1,0 +1,360 @@
+# vim:noexpandtab:
+Source: @MOZ_PKG_NAME@
+Section: web
+Priority: optional
+Maintainer: Ubuntu Mozilla Team <ubuntu-mozillateam@lists.ubuntu.com>
+Vcs-Bzr: https://code.launchpad.net/~mozillateam/thunderbird/thunderbird.trusty
+Build-Depends: cdbs (>= 0.4.27),
+	debhelper (>= 7),
+	autotools-dev,
+	autoconf2.13,
+	quilt,
+	zip,
+	libx11-dev,
+	libxt-dev,
+	libxext-dev,
+	libgtk2.0-dev (>= 2.14),
+	libglib2.0-dev (>= 2.18),
+	libpango1.0-dev (>= 1.14.0),
+	libfontconfig1-dev,
+	libfreetype6-dev (>= 2.0.1),
+	libgconf2-dev (>= 1.2.1),
+	libgnomeui-dev (>= 2.2.0),
+	libstartup-notification0-dev,
+	libasound2-dev,
+	libcurl4-openssl-dev,
+	libdbus-glib-1-dev (>= 0.60),
+	lsb-release,
+	libiw-dev,
+	mesa-common-dev,
+	libnotify-dev,
+	libxrender-dev,
+	libpulse-dev,
+	yasm (>= 1.1),
+	imagemagick,
+	docbook-to-man,
+	libkrb5-dev,
+	unzip,
+	dbus-x11,
+	xvfb,
+	python (>= 2.7),
+	libffi-dev (>= 3.0.9) [arm64]
+#Build-Conflicts: python-progressbar
+Standards-Version: 3.9.1
+#XS-Testsuite: autopkgtest
+
+Package: @MOZ_PKG_NAME@
+Architecture: any
+Depends: ${shlibs:Depends},
+	${misc:Depends}
+Recommends: myspell-en-us | hunspell-dictionary | myspell-dictionary,
+	${support:Recommends},
+	libcanberra0,
+	libdbusmenu-glib4,
+	libdbusmenu-gtk4
+Suggests: ${support:Suggests},
+	ttf-lyx
+Breaks: ${transitional:Breaks}
+Replaces: ${transitional:Replaces}
+Conflicts: ${app:Conflicts},
+	${transitional:Conflicts}
+Provides: mail-reader,
+	${app:Provides}
+Section: mail
+Description: Email, RSS and newsgroup client with integrated spam filter
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+
+Package: @MOZ_PKG_NAME@-gnome-support
+Architecture: any
+Section: gnome
+Depends: ${shlibs:Depends},
+	@MOZ_PKG_NAME@ (= ${binary:Version}),
+	${misc:Depends},
+	${unity:Depends},
+	libnotify4 | libnotify1
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Email, RSS and newsgroup client - GNOME support
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+ .
+ This package depends on the GNOME libraries which allow Thunderbird to take
+ advantage of technologies such as GConf, GIO and libnotify
+
+Package: @MOZ_PKG_NAME@-dev
+Architecture: any
+Section: devel
+Depends: @MOZ_PKG_NAME@ (= ${binary:Version}),
+	${misc:Depends},
+	${shlibs:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Email, RSS and newsgroup client - development files
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+ .
+ This package contains the headers and SDK for building plugins and extensions
+ with Thunderbird
+
+Package: @MOZ_PKG_NAME@-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Depends: @MOZ_PKG_NAME@ (= ${binary:Version}),
+	${shlibs:Depends},
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Email, RSS and newsgroup client - debug symbols
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+ .
+ This package contains the debugging symbols for Thunderbird
+
+Package: @MOZ_PKG_NAME@-mozsymbols
+Architecture: amd64 i386 armel
+Section: debug
+Priority: extra
+Depends: ${shlibs:Depends},
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Email, RSS and newsgroup client - Breakpad symbols
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+ .
+ This package contains the Firefox symbols in a format expected by Mozilla's
+ Breakpad. Eventually this package should go away and the symbol upload be
+ implemented in soyuz (or other builders that build this package)
+
+Package: @MOZ_PKG_NAME@-testsuite
+Architecture: any
+Section: misc
+Priority: extra
+Depends: ${shlibs:Depends},
+	${misc:Depends},
+	@MOZ_PKG_NAME@ (= ${binary:Version}),
+	@MOZ_PKG_NAME@-gnome-support (= ${binary:Version}),
+	@MOZ_LOCALE_PKGS@,
+	python,
+	dbus-x11,
+	xvfb,
+	make,
+	metacity,
+	gnome-session,
+	gnome-settings-daemon,
+	ubuntu-settings,
+	light-themes,
+	unzip,
+	libgl1-mesa-dri
+Provides: ${app:Provides}
+Conflicts: ${app:Conflicts}
+Description: Email, RSS and newsgroup client - testsuite
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+ .
+ This package contains the Thunderbird testsuite
+
+Package: @MOZ_LIGHTNING_PKG_NAME@
+Architecture: any
+Depends: @MOZ_PKG_NAME@ (= ${binary:Version}),
+	${shlibs:Depends},
+	${misc:Depends}
+Recommends: @MOZ_GDATA_PROVIDER_PKG_NAME@,
+	@MOZ_CALENDAR_TZ_PKG_NAME@
+Enhances: @MOZ_PKG_NAME@
+Description: Calendar Extension for Thunderbird
+ Lighting is the Mozilla Calendar extension for Thunderbird, based
+ on Sunbird - the Mozilla Standalone Calendar application. It is tightly 
+ integrated with Thunderbird, allowing it to easily perform email-related 
+ calendaring tasks.
+
+Package: @MOZ_GDATA_PROVIDER_PKG_NAME@
+Architecture: any
+Depends: @MOZ_LIGHTNING_PKG_NAME@ (= ${binary:Version}),
+	${shlibs:Depends},
+	${misc:Depends}
+Enhances: @MOZ_PKG_NAME@, @MOZ_LIGHTNING_PKG_NAME@
+Description: Calendar Extension for Thunderbird - Google Calendar support
+ Lighting is the Mozilla Calendar extension for Thunderbird, based
+ on Sunbird - the Mozilla Standalone Calendar application. It is tightly 
+ integrated with Thunderbird, allowing it to easily perform email-related 
+ calendaring tasks.
+ .
+ This package provides Google Calendar support. It's a recommended component 
+ if you want to connect to your google calendar.
+
+# Transitional packages below here
+
+# Can be dropped after 14.04
+Package: @MOZ_PKG_NAME@-globalmenu
+Architecture: any
+Section: oldlibs
+Priority: extra
+Depends: @MOZ_PKG_NAME@,
+	${misc:Depends}
+Description: Email, RSS and newsgroup client (transitional package)
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+# Can be dropped after 14.04
+Package: @MOZ_CALENDAR_TZ_PKG_NAME@
+Architecture: any
+Section: oldlibs
+Priority: extra
+Depends: ${misc:Depends}
+Description: Calendar Extension for Thunderbird (transitional package)
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-gnome-support-dbg
+Architecture: any
+Depends: thunderbird-gnome-support, thunderbird-dbg, ${misc:Depends}
+Description: Email, RSS and newsgroup client - transitional package
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-bn-bd
+Architecture: all
+Depends: thunderbird-locale-bn, ${misc:Depends}
+Description: Transitional Bengali language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-en-gb
+Architecture: all
+Depends: thunderbird-locale-en, ${misc:Depends}
+Description: Transitional English language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-en-us
+Architecture: all
+Depends: thunderbird-locale-en, ${misc:Depends}
+Description: Transitional English language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-es-ar
+Architecture: all
+Depends: thunderbird-locale-es, ${misc:Depends}
+Description: Transitional Spanish language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-es-es
+Architecture: all
+Depends: thunderbird-locale-es, ${misc:Depends}
+Description: Transitional Spanish language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-fy-nl
+Architecture: all
+Depends: thunderbird-locale-fy, ${misc:Depends}
+Description: Transitional Western Frisian language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-ga-ie
+Architecture: all
+Depends: thunderbird-locale-ga, ${misc:Depends}
+Description: Transitional Irish language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-nb-no
+Architecture: all
+Depends: thunderbird-locale-nb, ${misc:Depends}
+Description: Transitional Norwegian language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-nn-no
+Architecture: all
+Depends: thunderbird-locale-nn, ${misc:Depends}
+Description: Transitional Norwegian language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-pa-in
+Architecture: all
+Depends: thunderbird-locale-pa, ${misc:Depends}
+Description: Transitional Punjabi language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-pt-br
+Architecture: all
+Depends: thunderbird-locale-pt, ${misc:Depends}
+Description: Transitional Portugese language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-pt-pt
+Architecture: all
+Depends: thunderbird-locale-pt, ${misc:Depends}
+Description: Transitional Portugese language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-sv-se
+Architecture: all
+Depends: thunderbird-locale-sv, ${misc:Depends}
+Description: Transitional Swedish language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-ta-lk
+Architecture: all
+Depends: thunderbird-locale-ta, ${misc:Depends}
+Description: Transitional Tamil language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-zh-cn
+Architecture: all
+Depends: thunderbird-locale-zh-hans, ${misc:Depends}
+Description: Transitional Simplified Chinese language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-zh-tw
+Architecture: all
+Depends: thunderbird-locale-zh-hant, ${misc:Depends}
+Description: Transitional Traditional Chinese language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+# Language packs below here

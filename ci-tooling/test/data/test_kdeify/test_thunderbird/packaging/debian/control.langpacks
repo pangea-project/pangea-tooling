@@ -1,0 +1,10 @@
+
+Package: @MOZ_PKG_NAME@-locale-@LANGCODE@
+Architecture: any
+Depends: @MOZ_PKG_NAME@ (>= ${source:Version}), @MOZ_PKG_NAME@ (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: @LANG@ language pack for Thunderbird
+ This package contains @LANG@ translations and search plugins
+ for Thunderbird

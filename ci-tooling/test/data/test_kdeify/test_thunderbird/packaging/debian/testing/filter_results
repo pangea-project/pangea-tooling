@@ -1,0 +1,176 @@
+#!/usr/bin/python
+
+from optparse import OptionParser
+from glob import glob
+import sys
+import xml.dom.minidom
+import os.path
+import json
+import re
+
+class FilterOptions(OptionParser):
+  def __init__(self):
+    OptionParser.__init__(self)
+
+    self.add_option('-d', '--results-dir', dest='input',
+                    help='Specify the directory containing the test results')
+    self.add_option('-m', '--manifest', dest='manifest',
+                    help='Specify the manifest file')
+    self.add_option('-o', '--output-dir', dest='output',
+                    help='Specify the directory in which to store the filtered results')
+
+
+def main():
+  parser = FilterOptions()
+  (options, args) = parser.parse_args()
+
+  if options.manifest == None:
+    print >> sys.stderr, 'Must specify a manifest file'
+    sys.exit(1)
+
+  if options.input == None:
+    options.input = os.getcwd()
+
+  if options.output == None:
+    options.output = options.input
+
+  config = {}
+
+  with open(options.manifest, 'r') as f:
+    m = json.load(f)
+    for i in m:
+      if 'testsuite' not in i or 'classname' not in i:
+        print >> sys.stderr, 'Manifest entry missing mandatory entries'
+        continue
+
+      testsuite = i['testsuite']
+      classname = i['classname']
+      name = i['name'] if 'name' in i else '__all__'
+
+      if testsuite not in config:
+        config[testsuite] = {}
+      if classname not in config[testsuite]:
+        config[testsuite][classname] = {}
+      if name in config[testsuite][classname]:
+        print >> sys.stderr, 'Already got entry for %s.%s.%s' % (testsuite, classname, name)
+        continue
+
+      if 'pass-ok' not in i:
+        i['pass-ok'] = False
+      if 'condition' in i or 'type' in i or 'message' in i:
+        if 'matches' in i:
+          print >> sys.stderr, 'Invalid entry for %s.%s.%s' % (testsuite, classname, name)
+          continue
+        i['matches'] = []
+        i['matches'].append({ 'type': i['type'] if 'type' in i else '.*',
+                              'message': i['message'] if 'message' in i else '.*',
+                              'condition': i['condition'] if 'condition' in i else None })
+      else:
+        if 'matches' not in i:
+          i['matches'] = []
+        if len(i['matches']) == 0:
+          i['matches'].append({})
+        for m in i['matches']:
+          if 'type' not in m:
+            m['type'] = '.*'
+          if 'message' not in m:
+            m['message'] = '.*'
+
+      config[testsuite][classname][name] = i
+
+  for f in glob(os.path.join(options.input, '*.xml')):
+    print 'Processing file %s' % f
+    doc = xml.dom.minidom.parse(f)
+    doc.normalize()
+    if doc.documentElement.tagName != 'testsuite':
+      print >> sys.stderr, "Skipping invalid result file %s with document element '%s'" % (f, doc.documentElement.tagName)
+      continue
+
+    testsuite = doc.documentElement.getAttribute('name')
+    print 'Testsuite name %s' % testsuite
+
+    adjust = 0
+    testcases = doc.getElementsByTagName('testcase')
+    for t in testcases:
+      classname = t.getAttribute('classname')
+      name = t.getAttribute('name')
+
+      for n in [name, '__all__']:
+        c = None
+        try:
+          c = config[testsuite][classname][n]
+        except:
+          pass
+
+        if c == None:
+          continue
+
+        filters = c['matches']
+        pass_ok = c['pass-ok']
+        seen = False
+
+        failures = t.getElementsByTagName('failure')
+        for failure in failures:
+          for flt in filters:
+            type_match = re.match(flt['type'], failure.getAttribute('type'))
+            message_match = re.match(flt['message'], failure.getAttribute('message'))
+
+            condition = True
+            if 'condition' in flt and flt['condition'] != None:
+
+              def reftest_fuzzy(maxDiff, diffCount):
+                m = re.match('image comparison \(==\), max difference: ([0-9]*), number of differing pixels: ([0-9]*)',
+                             failure.getAttribute('message'))
+                if m == None:
+                  return False
+                return int(m.groups()[0]) <= maxDiff and int(m.groups()[1]) <= diffCount
+
+              sandbox_global = {}
+              sandbox_global['__builtins__'] = { 'None': None }
+              sandbox_global['type_match'] = type_match.groups() if type_match != None else None
+              sandbox_global['message_match'] = message_match.groups() if message_match != None else None
+              sandbox_global['message'] = failure.getAttribute('message')
+              sandbox_global['type'] = failure.getAttribute('type')
+              sandbox_global['reftest_fuzzy'] = reftest_fuzzy
+              condition = eval(flt['condition'], sandbox_global)
+
+            if type_match and message_match and condition:
+              print 'Removing expected failure from %s.%s%s' % (classname, name, ' (%s)' % c['note'] if 'note' in c else '')
+              t.removeChild(failure)
+              seen = True
+              adjust -= 1
+
+        if seen == False and len(failures) == 0 and pass_ok == False:
+          print 'Adding unexpected pass to %s.%s' % (classname, name)
+          adjust += 1
+          failure = doc.createElement('failure')
+          t.appendChild(failure)
+          failure.setAttribute('type', 'TEST-UNEXPECTED-PASS')
+          failure.setAttribute('message', 'This test should have failed (inserted by filter_results)')
+
+    if adjust != 0:
+      old_count = int(doc.documentElement.getAttribute("failures"))
+      new_count = old_count + adjust
+      print 'Adjusting failure count from %d to %d' % (old_count, new_count)
+      doc.documentElement.setAttribute("failures", str(new_count))
+
+    def remove_empty_text_nodes(node):
+      remove = []
+      for child in node.childNodes:
+        if child.nodeType == 3 and len(child.data.strip()) == 0:
+          remove.append(child)
+        else:
+          remove_empty_text_nodes(child)
+      for r in remove:
+        node.removeChild(r)
+
+    remove_empty_text_nodes(doc)
+
+    with open(os.path.join(options.output, os.path.basename(f)), 'w+') as f:
+      doc.writexml(f, addindent='  ', newl='\n', encoding='utf-8')
+
+    print 'Finished processing file %s' % f
+
+
+if __name__ == '__main__':
+  main()

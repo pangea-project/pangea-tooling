@@ -1,0 +1,13 @@
+Index: firefox-trunk-37.0~a1~hg20150107r222415/mozilla/media/libvpx/moz.build
+===================================================================
+--- firefox-trunk-37.0~a1~hg20150107r222415.orig/mozilla/media/libvpx/moz.build	2015-01-07 22:09:30.000000000 +0000
++++ firefox-trunk-37.0~a1~hg20150107r222415/mozilla/media/libvpx/moz.build	2015-01-12 13:55:31.396615520 +0000
+@@ -64,7 +64,7 @@
+ 
+     for f in SOURCES:
+         if f.endswith('.c') and 'neon' in f:
+-            SOURCES[f].flags += ['-march=armv7-a', '-mthumb', '-mfloat-abi=softfp', '-mfpu=neon']
++            SOURCES[f].flags += ['-march=armv7-a', '-mthumb', '-mfpu=neon']
+ 
+ # boolhuff_armv5te.asm defines the same functions as boolhuff.c instead of
+ # using RTCD, so we have to make sure we only add one of the two.

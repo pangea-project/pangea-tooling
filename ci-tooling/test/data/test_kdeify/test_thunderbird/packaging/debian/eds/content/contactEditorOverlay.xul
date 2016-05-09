@@ -1,0 +1,384 @@
+<?xml version="1.0"?>
+<!-- ***** BEGIN LICENSE BLOCK *****
+  -   Version: MPL 1.1/GPL 2.0/LGPL 2.1
+  -
+  - The contents of this file are subject to the Mozilla Public License Version
+  - 1.1 (the "License"); you may not use this file except in compliance with
+  - the License. You may obtain a copy of the License at
+  - http://www.mozilla.org/MPL/
+  - 
+  - Software distributed under the License is distributed on an "AS IS" basis,
+  - WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+  - for the specific language governing rights and limitations under the
+  - License.
+  -
+  - The Original Code is edsintegration.
+  - 
+  - The Initial Developer of the Original Code is
+  - Mozilla Corp.
+  - Portions created by the Initial Developer are Copyright (C) 2011
+  - the Initial Developer. All Rights Reserved.
+  - 
+  - Contributor(s):
+  - Mike Conley <mconley@mozilla.com> 
+  -
+  - Alternatively, the contents of this file may be used under the terms of
+  - either the GNU General Public License Version 2 or later (the "GPL"), or
+  - the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+  - in which case the provisions of the GPL or the LGPL are applicable instead
+  - of those above. If you wish to allow use of your version of this file only
+  - under the terms of either the GPL or the LGPL, and not to allow others to
+  - use your version of this file under the terms of the MPL, indicate your
+  - decision by deleting the provisions above and replace them with the notice
+  - and other provisions required by the GPL or the LGPL. If you do not delete
+  - the provisions above, a recipient may use your version of this file under
+  - the terms of any one of the MPL, the GPL or the LGPL.
+  - 
+  - ***** END LICENSE BLOCK ***** -->
+
+<!DOCTYPE window [
+<!ENTITY % contactEditorDTD SYSTEM "chrome://edsintegration/locale/contactEditor.dtd">
+%contactEditorDTD;
+<!ENTITY % abCardOverlayDTD SYSTEM "chrome://messenger/locale/addressbook/abCardOverlay.dtd">
+%abCardOverlayDTD;
+]>
+
+<overlay id="edsintegration-contact-editor-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="contactEditorOverlay.js" />
+
+<vbox id="namesAndEmailAddresses">
+  <vbox id="emailAddresses" insertafter="SecondaryEmailContainer">
+    <hbox id="email-1-Container" align="center">
+      <spacer flex="1"/>
+      <menulist id="emailField-1-Type">
+        <menupopup id="emailField-1-TypeContainer">
+        </menupopup>
+      </menulist>
+      <hbox class="CardEditWidth">
+        <textbox id="emailField-1" flex="1" class="PhoneEditWidth"/>
+      </hbox>
+    </hbox>
+    <hbox id="email-2-Container" align="center">
+      <spacer flex="1"/>
+      <menulist id="emailField-2-Type">
+        <menupopup>
+        </menupopup>
+      </menulist>
+      <hbox class="CardEditWidth">
+        <textbox id="emailField-2" flex="1" class="PhoneEditWidth"/>
+      </hbox>
+    </hbox>
+    <hbox id="email-3-Container" align="center">
+      <spacer flex="1"/>
+      <menulist id="emailField-3-Type">
+        <menupopup>
+        </menupopup>
+      </menulist>
+      <hbox class="CardEditWidth">
+        <textbox id="emailField-3" flex="1" class="PhoneEditWidth"/>
+      </hbox>
+    </hbox>
+    <hbox id="email-4-Container" align="center">
+      <spacer flex="1"/>
+      <menulist id="emailField-4-Type">
+        <menupopup>
+        </menupopup>
+      </menulist>
+      <hbox class="CardEditWidth">
+        <textbox id="emailField-4" flex="1" class="PhoneEditWidth"/>
+      </hbox>
+    </hbox>
+  </vbox>
+</vbox>
+
+<!-- Add the Telephone tab button -->
+<tabs id="abTabs">
+  <tab id="telephoneTabButton" label="&Telephone.tab;" insertafter="contactTabButton"/> <!-- TODO: access key -->
+</tabs>
+
+<!-- Add the Telephone tab -->
+<tabpanels id="abTabPanels" flex="1">
+  <vbox id="abTelephoneTab" insertafter="abNameTab">
+    <hbox>
+      <vbox id="phoneNumbers">
+        <hbox id="telephone-1-Container" align="center">
+          <spacer flex="1"/>
+          <menulist id="telephoneField-1-Type">
+            <menupopup id="telephoneField-1-TypeContainer">
+            </menupopup>
+          </menulist>
+          <hbox class="CardEditWidth">
+            <textbox id="telephoneField-1" flex="1" class="PhoneEditWidth"/>
+          </hbox>
+        </hbox>
+        <hbox id="telephone-2-Container" align="center">
+          <spacer flex="1"/>
+          <menulist id="telephoneField-2-Type">
+            <menupopup>
+            </menupopup>
+          </menulist>
+          <hbox class="CardEditWidth">
+            <textbox id="telephoneField-2" flex="1" class="PhoneEditWidth"/>
+          </hbox>
+        </hbox>
+        <hbox id="telephone-3-Container" align="center">
+          <spacer flex="1"/>
+          <menulist id="telephoneField-3-Type">
+            <menupopup>
+            </menupopup>
+          </menulist>
+          <hbox class="CardEditWidth">
+            <textbox id="telephoneField-3" flex="1" class="PhoneEditWidth"/>
+          </hbox>
+        </hbox>
+        <hbox id="telephone-4-Container" align="center">
+          <spacer flex="1"/>
+          <menulist id="telephoneField-4-Type">
+            <menupopup>
+            </menupopup>
+          </menulist>
+          <hbox class="CardEditWidth">
+            <textbox id="telephoneField-4" flex="1" class="PhoneEditWidth"/>
+          </hbox>
+        </hbox>
+        <hbox id="telephone-5-Container" align="center">
+          <spacer flex="1"/>
+          <menulist id="telephoneField-5-Type">
+            <menupopup>
+            </menupopup>
+          </menulist>
+          <hbox class="CardEditWidth">
+            <textbox id="telephoneField-5" flex="1" class="PhoneEditWidth"/>
+          </hbox>
+        </hbox>
+        <hbox id="telephone-6-Container" align="center">
+          <spacer flex="1"/>
+          <menulist id="telephoneField-6-Type">
+            <menupopup>
+            </menupopup>
+          </menulist>
+          <hbox class="CardEditWidth">
+            <textbox id="telephoneField-6" flex="1" class="PhoneEditWidth"/>
+          </hbox>
+        </hbox>
+        <hbox id="telephone-7-Container" align="center">
+          <spacer flex="1"/>
+          <menulist id="telephoneField-7-Type">
+            <menupopup>
+            </menupopup>
+          </menulist>
+          <hbox class="CardEditWidth"> 
+            <textbox id="telephoneField-7" flex="1" class="PhoneEditWidth"/>
+          </hbox>
+        </hbox>
+        <hbox id="telephone-8-Container" align="center">
+          <spacer flex="1"/>
+          <menulist id="telephoneField-8-Type">
+            <menupopup>
+            </menupopup>
+          </menulist>
+          <hbox class="CardEditWidth">
+            <textbox id="telephoneField-8" flex="1" class="PhoneEditWidth"/>
+          </hbox>
+        </hbox>
+
+      </vbox>
+    </hbox>
+  </vbox>
+</tabpanels>
+
+
+<!-- Add the Instant Messaging tab -->
+<hbox id="abChatTab">
+  <vbox id="EDSIMAccounts">
+    <hbox id="IM-3-Container" align="center">
+      <spacer flex="1"/>
+      <menulist id="IM-1-Type">
+        <menupopup>
+        </menupopup>
+      </menulist>
+      <hbox class="CardEditWidth">
+        <textbox id="IM-1" flex="1" />
+      </hbox>
+    </hbox>
+    <hbox id="IM-2-Container" align="center">
+      <spacer flex="1"/>
+      <menulist id="IM-2-Type">
+        <menupopup>
+        </menupopup>
+      </menulist>
+      <hbox class="CardEditWidth">
+        <textbox id="IM-2" flex="1" />
+      </hbox>
+    </hbox>
+    <hbox id="IM-3-Container" align="center">
+      <spacer flex="1"/>
+      <menulist id="IM-3-Type">
+        <menupopup>
+        </menupopup>
+      </menulist>
+      <hbox class="CardEditWidth">
+        <textbox id="IM-3" flex="1" />
+      </hbox>
+    </hbox>
+    <hbox id="IM-4-Container" align="center">
+      <spacer flex="1"/>
+      <menulist id="IM-4-Type">
+        <menupopup>
+        </menupopup>
+      </menulist>
+      <hbox class="CardEditWidth">
+        <textbox id="IM-4" flex="1" />
+      </hbox>
+    </hbox>
+  </vbox>
+</hbox>
+
+
+<!-- Add the Instant Messaging tab button -->
+<tabs id="abTabs">
+  <tab id="webAddressesTabButton" label="&WebAddresses.tab;" insertafter="IMTabButton"/> <!-- TODO: access key -->
+</tabs>
+
+<!-- Add the Instant Messaging tab -->
+<tabpanels id="abTabPanels" flex="1">
+  <vbox id="abWebAddressesTab" insertafter="abIMTab">
+        <hbox id="HomePage-Container" align="center">
+          <spacer flex="1"/>
+          <label id="HomePage-Label" control="HomePage" value="&HomePage.label;"/>
+          <hbox class="AddressCardEditWidth" align="center">
+            <textbox id="HomePage" flex="1" class="uri-element"/>
+          </hbox>
+        </hbox>
+        <hbox id="Blog-Container" align="center">
+          <spacer flex="1"/>
+          <label id="Blog-Label" control="Blog" value="&Blog.label;"/>
+          <hbox class="AddressCardEditWidth" align="center">
+            <textbox id="Blog" flex="1" class="uri-element"/>
+          </hbox>
+        </hbox>
+        <hbox id="Calendar-Container" align="center">
+          <spacer flex="1"/>
+          <label id="Calendar-Label" control="Calendar" value="&Calendar.label;"/>
+          <hbox class="AddressCardEditWidth" align="center">
+            <textbox id="Calendar" flex="1" class="uri-element"/>
+          </hbox>
+        </hbox>
+        <hbox id="FreeBusy-Container" align="center">
+          <spacer flex="1"/>
+          <label id="FreeBusy-Label" control="FreeBusy" value="&FreeBusy.label;"/>
+          <hbox class="AddressCardEditWidth" align="center">
+            <textbox id="FreeBusy" flex="1" class="uri-element"/>
+          </hbox>
+        </hbox>
+        <hbox id="VideoChat-Container" align="center">
+          <spacer flex="1"/>
+          <label id="VideoChat-Label" control="VideoChat" value="&VideoChat.label;"/>
+          <hbox class="AddressCardEditWidth" align="center">
+            <textbox id="VideoChat" flex="1" class="uri-element"/>
+          </hbox>
+        </hbox>
+  </vbox>
+</tabpanels>
+
+<vbox id="abHomeTab">
+  <hbox id="HomeCityContainer">
+    <hbox id="HomeCityFieldContainer">
+      <label id="HomePOBox-Label" control="HomePOXBox" value="&POBox.label;" insertafter="HomeCity" /> <!-- TODO: Access key -->
+      <textbox id="HomePOBox" flex="1" insertafter="HomePOBox-Label" />
+    </hbox>    
+  </hbox>
+
+  <hbox id="SpouseContainer" align="center" insertafter="birthdayField">
+    <spacer flex="1"/>
+    <label control="Spouse" value="&Spouse.label;" /> <!-- TODO: Access key -->
+    <hbox class="AddressCardEditWidth" align="center">
+      <textbox id="Spouse" flex="1"/>
+      <label control="SpouseAnniversary" value="&SpouseAnniversary.label;" /> <!-- TODO: Access key -->
+      <datepicker id="SpouseAnniversary" type="popup" flex="1"/>
+      <label value="&In.label;"/>
+      <textbox id="AnniversaryYear" maxlength="4" placeholder="&Year.placeholder;" class="YearWidth" />
+    </hbox>
+  </hbox>
+</vbox>
+
+<vbox id="abBusinessTab">
+  <hbox id="ProfessionContainer" align="center" insertbefore="JobTitleDepartmentContainer">
+    <spacer flex="1"/>
+    <label control="Profession" value="&Profession.label;" /> <!-- TODO: Access key -->
+    <hbox class="AddressCardEditWidth" align="center">
+      <textbox id="Profession" flex="1"/>
+      <label id="WorkOffice-Label" control="Office" value="&WorkOffice.label;" /> <!-- TODO: Access key -->
+      <textbox id="WorkOffice" flex="1" />
+    </hbox>
+  </hbox>
+
+  <hbox id="ManagerAssistantContainer" align="center" insertafter="CompanyContainer">
+    <spacer flex="1"/>
+    <label control="Manager" value="&Manager.label;" /> <!-- TODO: Access key -->
+    <hbox class="AddressCardEditWidth" align="center">
+      <textbox id="Manager" flex="1"/>
+      <label control="Assistant" value="&Assistant.label;" /> <!-- TODO: Access key -->
+      <textbox id="Assistant" flex="1"/>
+    </hbox>
+  </hbox>
+  <hbox id="WorkCityContainer">
+    <hbox id="WorkCityFieldContainer">
+      <label id="WorkPOBox-Label" control="WorkPOBox" value="&POBox.label;" insertafter="WorkCity" /> <!-- TODO: Access key -->
+      <textbox id="WorkPOBox" flex="1" insertafter="WorkPOBox-Label" />
+    </hbox>
+  </hbox>
+</vbox>
+
+<vbox id="abOtherTab">
+  <vbox id="OtherAddressContainer" insertafter="customFields">
+    <hbox align="center">
+      <spacer flex="1"/>
+      <label control="OtherAddress" value="&OtherAddress.label;"/> <!-- TODO: Access key -->
+      <hbox class="AddressCardEditWidth">
+        <textbox id="OtherAddress" flex="1"/>
+      </hbox>
+    </hbox>
+    <hbox align="center">
+      <spacer flex="1"/>
+      <label control="OtherAddress2" value="&OtherAddress2.label;"/> <!-- TODO: Access key -->
+      <hbox class="AddressCardEditWidth">
+        <textbox id="OtherAddress2" flex="1"/>
+      </hbox>
+    </hbox>
+    <hbox id="OtherCityContainer" align="center">
+      <spacer flex="1"/>
+      <label control="OtherCity" value="&OtherCity.label;"/> <!-- TODO: Access key -->
+      <hbox id="OtherCityFieldContainer" align="center" class="AddressCardEditWidth">
+        <textbox id="OtherCity" flex="1"/>
+        <label id="OtherPOBox-Label" control="OtherPOBox" value="&POBox.label;"/>
+        <textbox id="OtherPOBox" flex="1" />
+      </hbox>
+    </hbox>
+    <hbox align="center">
+      <spacer flex="1"/>
+      <label control="OtherState" value="&OtherState.label;"/> <!-- TODO: Access key -->
+      <hbox align="center" class="AddressCardEditWidth">
+        <textbox id="OtherState" flex="1"/>
+        <spacer class="stateZipSpacer"/>
+        <label control="OtherZipCode" value="&OtherZipCode.label;"/>
+        <textbox id="OtherZipCode" class="ZipWidth"/>
+      </hbox>
+    </hbox>
+    <hbox align="center">
+      <spacer flex="1"/>
+      <label control="OtherCountry" value="&OtherCountry.label;"/> <!-- TODO: Access key -->
+      <hbox class="AddressCardEditWidth">
+        <textbox id="OtherCountry" flex="1"/>
+      </hbox>
+    </hbox>
+  </vbox>
+</vbox>
+
+<radiogroup id="PhotoType">
+  <vbox id="EDSPhotoContainer" insertbefore="GenericPhotoContainer">
+    <radio id="EDSPhotoType" value="eds" label="&EDSPhoto.label;"/> <!-- TODO: Access key -->
+  </vbox>
+</radiogroup>
+</overlay>

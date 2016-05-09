@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -e
+
+MOZ_PKG_NAME=@MOZ_PKG_NAME@
+
+# Prepare to move a conffile without triggering a dpkg question
+prepare_mv_conffile() {
+    local PKGNAME="$1"
+    local CONFFILE="$2"
+
+    [ -e "$CONFFILE" ] || return 0
+
+    local md5sum="$(md5sum $CONFFILE | sed -e 's/ .*//')"
+    local old_md5sum="$(dpkg-query -W -f='${Conffiles}' $PKGNAME | \
+            sed -n -e "\' $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
+	#'
+    if [ "$md5sum" = "$old_md5sum" ]; then
+        mv -f "$CONFFILE" "$CONFFILE.dpkg-remove"
+    fi
+}
+
+if [ "$1" = "install" ] || [ "$1" = "upgrade" ] ; then
+    prepare_mv_conffile "${MOZ_PKG_NAME}" "/etc/${MOZ_PKG_NAME}/pref/thunderbird.js"
+fi
+
+#DEBHELPER#

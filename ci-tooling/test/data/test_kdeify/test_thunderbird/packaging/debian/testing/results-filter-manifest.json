@@ -1,0 +1,7 @@
+[
+  { "testsuite": "xpcshell", "classname": "toolkit.components.search.tests.xpcshell", "name": "test_nocache.js", "pass-ok": true, "note": "https://bugzilla.mozilla.org/show_bug.cgi?id=828223#c14" },
+  { "testsuite": "xpcshell", "classname": "toolkit.components.telemetry.tests.unit", "name": "test_TelemetryPing.js" },
+  { "testsuite": "xpcshell", "classname": "toolkit.mozapps.extensions.test.xpcshell", "name": "test_update.js", "note": "https://launchpad.net/bugs/1194159" },
+  { "testsuite": "xpcshell", "classname": "toolkit.mozapps.extensions.test.xpcshell-unpack", "name": "test_update.js", "note": "https://launchpad.net/bugs/1194159" },
+  { "testsuite": "xpcshell", "classname": "uriloader.exthandler.tests.unit", "name": "test_handlerService.js", "note": "https://launchpad.net/bugs/1158899" }
+]

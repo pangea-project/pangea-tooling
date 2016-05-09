@@ -1,0 +1,44 @@
+Description: Don't return a non-zero exit status from runxpcshelltests.py if
+ there are test failures. This sends the build red in Jenkins, and makes it
+ impossible to apply our own filter to the test results. This is more consistent
+ with the other test suites
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-26.0~a1~hg20130902r145224/mozilla/testing/xpcshell/runxpcshelltests.py
+===================================================================
+--- firefox-trunk-26.0~a1~hg20130902r145224.orig/mozilla/testing/xpcshell/runxpcshelltests.py	2013-09-03 11:03:29.214476586 +0100
++++ firefox-trunk-26.0~a1~hg20130902r145224/mozilla/testing/xpcshell/runxpcshelltests.py	2013-09-03 11:03:29.382476587 +0100
+@@ -1208,12 +1208,13 @@
+         self.pluginsPath = pluginsPath
+         self.sequential = sequential
+ 
++        self.testCount = 0
++
+         if not testdirs and not manifest:
+             # nothing to test!
+             self.log.error("Error: No test dirs or test manifest specified!")
+             return False
+ 
+-        self.testCount = 0
+         self.passCount = 0
+         self.failCount = 0
+         self.todoCount = 0
+@@ -1525,6 +1526,8 @@
+                         help="path to file where failure manifest will be written.")
+ 
+ def main():
++    global gotSIGINT
++
+     parser = XPCShellOptions()
+     options, args = parser.parse_args()
+ 
+@@ -1541,7 +1544,7 @@
+         print >>sys.stderr, "Error: You must specify a test filename in interactive mode!"
+         sys.exit(1)
+ 
+-    if not xpcsh.runTests(args[0], testdirs=args[1:], **options.__dict__):
++    if not xpcsh.runTests(args[0], testdirs=args[1:], **options.__dict__) and (xpcsh.testCount == 0 or gotSIGINT):
+         sys.exit(1)
+ 
+ if __name__ == '__main__':

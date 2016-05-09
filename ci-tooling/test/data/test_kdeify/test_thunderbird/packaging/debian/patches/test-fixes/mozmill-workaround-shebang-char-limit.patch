@@ -1,0 +1,14 @@
+Index: thunderbird-trunk-20.0~a1~hg20121127r11622.114253/mail/test/resources/installmozmill.py
+===================================================================
+--- thunderbird-trunk-20.0~a1~hg20121127r11622.114253.orig/mail/test/resources/installmozmill.py	2012-11-28 23:53:49.515624064 +0000
++++ thunderbird-trunk-20.0~a1~hg20121127r11622.114253/mail/test/resources/installmozmill.py	2012-11-28 23:54:30.867625763 +0000
+@@ -85,7 +85,8 @@
+     print 'Failure to install virtualenv'
+     sys.exit(returncode)
+   pip = entry_point_path(destination, 'pip')
+-  returncode = call([pip, 'install'] + [os.path.abspath(package) for package in packages], env=env)
++  interp = entry_point_path(destination, 'python')
++  returncode = call([interp, pip, 'install'] + [os.path.abspath(package) for package in packages], env=env)
+   if returncode:
+     print 'Failure to install packages'
+     sys.exit(returncode)

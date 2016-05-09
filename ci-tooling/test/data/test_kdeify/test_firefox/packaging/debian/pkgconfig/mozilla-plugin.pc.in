@@ -1,0 +1,8 @@
+prefix=/usr
+sdkdir=/@MOZ_SDKDIR@
+includedir=/@MOZ_INCDIR@
+
+Name: Mozilla Plug-In API
+Description: Firefox Plug-In API
+Version: @MOZ_VERSION@
+Cflags: -I${includedir} -DXP_UNIX

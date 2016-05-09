@@ -1,0 +1,12 @@
+%%if DISTRIB_VERSION < 1210
+@MOZ_LIBDIR@ @MOZ_SDKDIR@/bin
+@MOZ_IDLDIR@ @MOZ_SDKDIR@/idl
+@MOZ_INCDIR@ @MOZ_SDKDIR@/include
+@MOZ_SDKDIR@/sdk/lib @MOZ_SDKDIR@/lib
+@MOZ_LIBDIR@/libnspr4.so @MOZ_SDKDIR@/sdk/lib/libnspr4.so
+@MOZ_LIBDIR@/libplc4.so @MOZ_SDKDIR@/sdk/lib/libplc4.so
+@MOZ_LIBDIR@/libplds4.so @MOZ_SDKDIR@/sdk/lib/libplds4.so
+@MOZ_LIBDIR@/libmozalloc.so @MOZ_SDKDIR@/sdk/lib/libmozalloc.so
+@MOZ_LIBDIR@/libxpcom.so @MOZ_SDKDIR@/sdk/lib/libxpcom.so
+@MOZ_LIBDIR@/libxul.so @MOZ_SDKDIR@/sdk/lib/libxul.so
+%%endif

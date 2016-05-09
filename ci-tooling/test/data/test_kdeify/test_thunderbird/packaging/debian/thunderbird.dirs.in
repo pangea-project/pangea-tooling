@@ -1,0 +1,8 @@
+@MOZ_ADDONDIR@/distribution/extensions
+@MOZ_ADDONDIR@/extensions
+@MOZ_ADDONDIR@/plugins
+@MOZ_ADDONDIR@/searchplugins
+@MOZ_LIBDIR@/distribution/searchplugins/common
+usr/share/indicators/messages/applications
+etc/apport/blacklist.d
+etc/apport/native-origins.d

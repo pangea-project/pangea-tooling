@@ -1,0 +1,6 @@
+@MOZ_INCDIR@
+@MOZ_IDLDIR@
+
+@MOZ_SDKDIR@/sdk/lib/*.a
+@MOZ_SDKDIR@/*.h
+@MOZ_SDKDIR@/sdk/bin

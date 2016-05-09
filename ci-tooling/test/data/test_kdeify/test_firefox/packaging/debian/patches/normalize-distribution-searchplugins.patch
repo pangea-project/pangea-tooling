@@ -1,0 +1,35 @@
+Description: Normalize the paths to distribution searchplugins so that
+ associated metadata is not lost on upgrades (when the install location changes)
+Author: Alexander Sack <asac@ubuntu.com>
+Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=534663
+Forwarded: no
+---
+ toolkit/components/search/nsSearchService.js |    9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+Index: firefox-trunk-45.0~a1~hg20151119r273359/toolkit/components/search/nsSearchService.js
+===================================================================
+--- firefox-trunk-45.0~a1~hg20151119r273359.orig/toolkit/components/search/nsSearchService.js	2015-11-20 13:30:00.280078306 +0000
++++ firefox-trunk-45.0~a1~hg20151119r273359/toolkit/components/search/nsSearchService.js	2015-11-20 13:30:00.236078144 +0000
+@@ -54,6 +54,7 @@
+ const MODE_TRUNCATE = 0x20;
+ 
+ // Directory service keys
++const NS_XPCOM_CURRENT_PROCESS_DIR = "XCurProcD";
+ const NS_APP_SEARCH_DIR_LIST  = "SrchPluginsDL";
+ const NS_APP_DISTRIBUTION_SEARCH_DIR_LIST = "SrchPluginsDistDL";
+ const NS_APP_USER_SEARCH_DIR  = "UsrSrchPlugns";
+@@ -3382,6 +3383,13 @@
+       if (!file.isFile() || file.fileSize == 0 || file.isHidden())
+         continue;
+ 
++      var appdirstr = getDir (NS_XPCOM_CURRENT_PROCESS_DIR).path
++                      + "/distribution/searchplugins";
++
++      // normalize distribution searchplugins if they are following links
++      if (file.path.indexOf(appdirstr) == 0)
++        file.normalize();
++
+       var fileURL = NetUtil.ioService.newFileURI(file).QueryInterface(Ci.nsIURL);
+       var fileExtension = fileURL.fileExtension.toLowerCase();
+ 

@@ -1,0 +1,5 @@
+1) Even though we are using source format 3.0 (quilt), we don't build or extract the source packages with patches applied. This is because we preprocess the series file to allow for per-arch and per-release patchsets, from a single packaging branch
+
+2) To create the fully patched source, just run "debian/rules apply-patches" in the source directory
+
+3) To remove any changes applied to the packaging, run "fakeroot debian/rules clean". This will remove all patches and delete auto-generated files

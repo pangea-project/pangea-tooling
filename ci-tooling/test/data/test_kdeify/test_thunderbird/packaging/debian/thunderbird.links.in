@@ -1,0 +1,9 @@
+@MOZ_ADDONDIR@/extensions @MOZ_LIBDIR@/extensions
+@MOZ_ADDONDIR@/plugins @MOZ_LIBDIR@/plugins
+@MOZ_ADDONDIR@/searchplugins @MOZ_LIBDIR@/searchplugins
+@MOZ_ADDONDIR@/distribution/extensions @MOZ_LIBDIR@/distribution/extensions
+usr/share/hunspell @MOZ_LIBDIR@/dictionaries
+usr/share/hyphen @MOZ_LIBDIR@/hyphenation
+@MOZ_LIBDIR@/thunderbird.sh usr/bin/@MOZ_APP_NAME@
+@MOZ_LIBDIR@/chrome/icons/default/default256.png usr/share/pixmaps/@MOZ_APP_NAME@.png
+etc/@MOZ_PKG_NAME@/syspref.js @MOZ_LIBDIR@/defaults/pref/syspref.js

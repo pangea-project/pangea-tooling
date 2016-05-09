@@ -1,0 +1,43 @@
+# HG changeset patch
+# Parent 0e8cbb3674e7a0aaa09daa97e5c91f002219ce06
+# User Chris Coulson <chris.coulson@canonical.com>
+
+Index: firefox-trunk-28.0~a1~hg20131112r154534/testing/mochitest/browser-harness.xul
+===================================================================
+--- firefox-trunk-28.0~a1~hg20131112r154534.orig/testing/mochitest/browser-harness.xul	2013-11-12 20:36:13.122338871 +0000
++++ firefox-trunk-28.0~a1~hg20131112r154534/testing/mochitest/browser-harness.xul	2013-11-12 20:36:13.118338871 +0000
+@@ -204,7 +204,12 @@
+                                   gConfig.thisChunk, gConfig.chunkByDir);
+       }
+ 
+-      createTester(fileNames.map(function (f) { return new browserTest(f); }));
++      function loadTestList2(manifest) {
++        fileNames = filterTests(manifest, fileNames, false, gConfig);
++        createTester(fileNames.map(function (f) { return new browserTest(f); }));
++      }
++
++      getTestManifest("http://mochi.test:8888/" + gConfig.testManifest, null, loadTestList2);
+     }
+ 
+     function setStatus(aStatusString) {
+Index: firefox-trunk-28.0~a1~hg20131112r154534/testing/mochitest/manifestLibrary.js
+===================================================================
+--- firefox-trunk-28.0~a1~hg20131112r154534.orig/testing/mochitest/manifestLibrary.js	2013-11-12 20:36:13.122338871 +0000
++++ firefox-trunk-28.0~a1~hg20131112r154534/testing/mochitest/manifestLibrary.js	2013-11-12 20:36:13.118338871 +0000
+@@ -64,13 +64,15 @@
+  returns:
+    filtered version of testList
+ */
+-function filterTests(filter, testList, runOnly) {
++function filterTests(filter, testList, runOnly, c) {
+ 
+   var filteredTests = [];
+   var removedTests = [];
+   var runtests = {};
+   var excludetests = {};
+ 
++  var config = c || config;
++
+   if (filter == null) {
+     return testList;
+   }

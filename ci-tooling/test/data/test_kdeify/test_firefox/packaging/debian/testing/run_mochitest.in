@@ -1,0 +1,73 @@
+#!/usr/bin/python
+
+import sys
+import os.path
+from testrunhelper import TestRunHelper
+
+class MochitestHelper(TestRunHelper):
+  def __init__(self):
+    PASSTHROUGH_ARGS = [
+      '--a11y',
+      '--browser-chrome',
+      '--chrome',
+      '--chunk-by-dir',
+      '--console-level',
+      '--ipcplugins',
+      '--install-extension',
+      '--log-file',
+      '--file-level',
+      '--setpref',
+      '--test-manifest',
+      '--test-path',
+      '--this-chunk',
+      '--timeout',
+      '--total-chunks',
+      '--xunit-file',
+      '--xunit-name',
+      '--debugger',
+      '--debugger-args',
+      '--debugger-interactive',
+    ]
+
+    TestRunHelper.__init__(self, 'mochitest/runtests.py',
+                           lambda g: g['MochitestOptions'](g['Automation']()),
+                           pass_args=PASSTHROUGH_ARGS,
+                           need_x=True)
+
+    self.add_option('--no-autorun',
+                    action='store_true', dest='noAutorun', default=False,
+                    help="Don't start running tests when the application starts")
+    self.add_option('--no-close-when-done',
+                    action='store_true', dest='noCloseWhenDone',
+                    help="Don't close the application when tests have finished running")
+
+def main():
+  DEFAULTS = {
+    '--appname': lambda: os.path.join(helper.xredir, '@MOZ_APP_NAME@'),
+    '--console-level': 'INFO',
+    '--utility-path': lambda: os.path.join(helper.root, 'bin'),
+    '--certificate-path': lambda: os.path.join(helper.root, 'certs')
+  }
+
+  def pre_run_cb(options, args):
+    if not options.noAutorun:
+      sys.argv.append('--autorun')
+    if not options.noCloseWhenDone:
+      sys.argv.append('--close-when-done')
+    if '--test-manifest' not in sys.argv:
+      if '--a11y' in sys.argv:
+        manifest = 'mochitest-a11y.json'
+      elif '--browser-chrome' in sys.argv:
+        manifest = 'mochitest-browser-chrome.json'
+      elif '--chrome' in sys.argv:
+        manifest = 'mochitest-chrome.json'
+      else:
+        manifest = 'mochitest.json'
+      if os.path.exists(os.path.join(helper.root, 'mochitest', manifest)):
+          sys.argv.extend(['--test-manifest', manifest])
+
+  helper = MochitestHelper()
+  sys.exit(helper.run(defaults=DEFAULTS, pre_run_cb=pre_run_cb))
+
+if __name__ == '__main__':
+  main()

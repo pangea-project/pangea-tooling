@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+
+MOZ_PKG_NAME=@MOZ_PKG_NAME@
+
+abort_mv_conffile() {
+    local CONFFILE="$1"
+
+    if [ -e "$CONFFILE.dpkg-remove" ]; then
+        echo "Reinstalling $CONFFILE that was moved away"
+        mv "$CONFFILE.dpkg-remove" "$CONFFILE"
+    fi
+}
+
+if [ "$1" = "abort-install" -o "$1" = "abort-upgrade" ] ; then
+    abort_mv_conffile "/etc/${MOZ_PKG_NAME}/pref/thunderbird.js"
+fi
+
+#DEBHELPER#

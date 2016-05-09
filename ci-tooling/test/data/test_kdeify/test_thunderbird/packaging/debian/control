@@ -1,0 +1,943 @@
+# vim:noexpandtab:
+Source: thunderbird
+Section: web
+Priority: optional
+Maintainer: Ubuntu Mozilla Team <ubuntu-mozillateam@lists.ubuntu.com>
+Vcs-Bzr: https://code.launchpad.net/~mozillateam/thunderbird/thunderbird.trusty
+Build-Depends: cdbs (>= 0.4.27),
+	debhelper (>= 7),
+	autotools-dev,
+	autoconf2.13,
+	quilt,
+	zip,
+	libx11-dev,
+	libxt-dev,
+	libxext-dev,
+	libgtk2.0-dev (>= 2.14),
+	libglib2.0-dev (>= 2.18),
+	libpango1.0-dev (>= 1.14.0),
+	libfontconfig1-dev,
+	libfreetype6-dev (>= 2.0.1),
+	libgconf2-dev (>= 1.2.1),
+	libgnomeui-dev (>= 2.2.0),
+	libstartup-notification0-dev,
+	libasound2-dev,
+	libcurl4-openssl-dev,
+	libdbus-glib-1-dev (>= 0.60),
+	lsb-release,
+	libiw-dev,
+	mesa-common-dev,
+	libnotify-dev,
+	libxrender-dev,
+	libpulse-dev,
+	yasm (>= 1.1),
+	imagemagick,
+	docbook-to-man,
+	libkrb5-dev,
+	unzip,
+	dbus-x11,
+	xvfb,
+	python (>= 2.7),
+	libffi-dev (>= 3.0.9) [arm64]
+#Build-Conflicts: python-progressbar
+Standards-Version: 3.9.1
+#XS-Testsuite: autopkgtest
+
+Package: thunderbird
+Architecture: any
+Depends: ${shlibs:Depends},
+	${misc:Depends}
+Recommends: myspell-en-us | hunspell-dictionary | myspell-dictionary,
+	${support:Recommends},
+	libcanberra0,
+	libdbusmenu-glib4,
+	libdbusmenu-gtk4
+Suggests: ${support:Suggests},
+	ttf-lyx
+Breaks: ${transitional:Breaks}
+Replaces: ${transitional:Replaces}
+Conflicts: ${app:Conflicts},
+	${transitional:Conflicts}
+Provides: mail-reader,
+	${app:Provides}
+Section: mail
+Description: Email, RSS and newsgroup client with integrated spam filter
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+
+Package: thunderbird-gnome-support
+Architecture: any
+Section: gnome
+Depends: ${shlibs:Depends},
+	thunderbird (= ${binary:Version}),
+	${misc:Depends},
+	${unity:Depends},
+	libnotify4 | libnotify1
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Email, RSS and newsgroup client - GNOME support
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+ .
+ This package depends on the GNOME libraries which allow Thunderbird to take
+ advantage of technologies such as GConf, GIO and libnotify
+
+Package: thunderbird-dev
+Architecture: any
+Section: devel
+Depends: thunderbird (= ${binary:Version}),
+	${misc:Depends},
+	${shlibs:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Email, RSS and newsgroup client - development files
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+ .
+ This package contains the headers and SDK for building plugins and extensions
+ with Thunderbird
+
+Package: thunderbird-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Depends: thunderbird (= ${binary:Version}),
+	${shlibs:Depends},
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Email, RSS and newsgroup client - debug symbols
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+ .
+ This package contains the debugging symbols for Thunderbird
+
+Package: thunderbird-mozsymbols
+Architecture: amd64 i386 armel
+Section: debug
+Priority: extra
+Depends: ${shlibs:Depends},
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Email, RSS and newsgroup client - Breakpad symbols
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+ .
+ This package contains the Firefox symbols in a format expected by Mozilla's
+ Breakpad. Eventually this package should go away and the symbol upload be
+ implemented in soyuz (or other builders that build this package)
+
+Package: thunderbird-testsuite
+Architecture: any
+Section: misc
+Priority: extra
+Depends: ${shlibs:Depends},
+	${misc:Depends},
+	thunderbird (= ${binary:Version}),
+	thunderbird-gnome-support (= ${binary:Version}),
+	thunderbird-locale-bn-bd (= ${binary:Version}), thunderbird-locale-en-gb (= ${binary:Version}), thunderbird-locale-en-us (= ${binary:Version}), thunderbird-locale-es-ar (= ${binary:Version}), thunderbird-locale-es-es (= ${binary:Version}), thunderbird-locale-fy-nl (= ${binary:Version}), thunderbird-locale-ga-ie (= ${binary:Version}), thunderbird-locale-nb-no (= ${binary:Version}), thunderbird-locale-nn-no (= ${binary:Version}), thunderbird-locale-pa-in (= ${binary:Version}), thunderbird-locale-pt-br (= ${binary:Version}), thunderbird-locale-pt-pt (= ${binary:Version}), thunderbird-locale-sv-se (= ${binary:Version}), thunderbird-locale-ta-lk (= ${binary:Version}), thunderbird-locale-zh-cn (= ${binary:Version}), thunderbird-locale-zh-tw (= ${binary:Version}), thunderbird-locale-af (= ${binary:Version}), thunderbird-locale-ar (= ${binary:Version}), thunderbird-locale-ast (= ${binary:Version}), thunderbird-locale-be (= ${binary:Version}), thunderbird-locale-bg (= ${binary:Version}), thunderbird-locale-bn (= ${binary:Version}), thunderbird-locale-br (= ${binary:Version}), thunderbird-locale-ca (= ${binary:Version}), thunderbird-locale-cs (= ${binary:Version}), thunderbird-locale-cy (= ${binary:Version}), thunderbird-locale-da (= ${binary:Version}), thunderbird-locale-de (= ${binary:Version}), thunderbird-locale-dsb (= ${binary:Version}), thunderbird-locale-el (= ${binary:Version}), thunderbird-locale-en (= ${binary:Version}), thunderbird-locale-es (= ${binary:Version}), thunderbird-locale-et (= ${binary:Version}), thunderbird-locale-eu (= ${binary:Version}), thunderbird-locale-fi (= ${binary:Version}), thunderbird-locale-fr (= ${binary:Version}), thunderbird-locale-fy (= ${binary:Version}), thunderbird-locale-ga (= ${binary:Version}), thunderbird-locale-gd (= ${binary:Version}), thunderbird-locale-gl (= ${binary:Version}), thunderbird-locale-he (= ${binary:Version}), thunderbird-locale-hr (= ${binary:Version}), thunderbird-locale-hsb (= ${binary:Version}), thunderbird-locale-hu (= ${binary:Version}), thunderbird-locale-hy (= ${binary:Version}), thunderbird-locale-id (= ${binary:Version}), thunderbird-locale-is (= ${binary:Version}), thunderbird-locale-it (= ${binary:Version}), thunderbird-locale-ja (= ${binary:Version}), thunderbird-locale-ka (= ${binary:Version}), thunderbird-locale-ko (= ${binary:Version}), thunderbird-locale-lt (= ${binary:Version}), thunderbird-locale-mk (= ${binary:Version}), thunderbird-locale-nb (= ${binary:Version}), thunderbird-locale-nl (= ${binary:Version}), thunderbird-locale-nn (= ${binary:Version}), thunderbird-locale-pa (= ${binary:Version}), thunderbird-locale-pl (= ${binary:Version}), thunderbird-locale-pt (= ${binary:Version}), thunderbird-locale-rm (= ${binary:Version}), thunderbird-locale-ro (= ${binary:Version}), thunderbird-locale-ru (= ${binary:Version}), thunderbird-locale-si (= ${binary:Version}), thunderbird-locale-sk (= ${binary:Version}), thunderbird-locale-sl (= ${binary:Version}), thunderbird-locale-sq (= ${binary:Version}), thunderbird-locale-sr (= ${binary:Version}), thunderbird-locale-sv (= ${binary:Version}), thunderbird-locale-ta (= ${binary:Version}), thunderbird-locale-tr (= ${binary:Version}), thunderbird-locale-uk (= ${binary:Version}), thunderbird-locale-vi (= ${binary:Version}), thunderbird-locale-zh-hans (= ${binary:Version}), thunderbird-locale-zh-hant (= ${binary:Version}),,
+	python,
+	dbus-x11,
+	xvfb,
+	make,
+	metacity,
+	gnome-session,
+	gnome-settings-daemon,
+	ubuntu-settings,
+	light-themes,
+	unzip,
+	libgl1-mesa-dri
+Provides: ${app:Provides}
+Conflicts: ${app:Conflicts}
+Description: Email, RSS and newsgroup client - testsuite
+ Thunderbird is a full-featured email, RSS and newsgroup client that makes
+ emailing safer, faster and easier than ever before. It supports different mail
+ accounts (POP, IMAP, Gmail), has a simple mail account setup wizard, one-
+ click address book, tabbed interface, an integrated learning spam filter,
+ advanced search and indexing capabilities, and offers easy organization
+ of mails with tagging and virtual folders. It also features unrivalled
+ extensibility.
+ .
+ This package contains the Thunderbird testsuite
+
+Package: xul-ext-lightning
+Architecture: any
+Depends: thunderbird (= ${binary:Version}),
+	${shlibs:Depends},
+	${misc:Depends}
+Recommends: xul-ext-gdata-provider,
+	xul-ext-calendar-timezones
+Enhances: thunderbird
+Description: Calendar Extension for Thunderbird
+ Lighting is the Mozilla Calendar extension for Thunderbird, based
+ on Sunbird - the Mozilla Standalone Calendar application. It is tightly 
+ integrated with Thunderbird, allowing it to easily perform email-related 
+ calendaring tasks.
+
+Package: xul-ext-gdata-provider
+Architecture: any
+Depends: xul-ext-lightning (= ${binary:Version}),
+	${shlibs:Depends},
+	${misc:Depends}
+Enhances: thunderbird, xul-ext-lightning
+Description: Calendar Extension for Thunderbird - Google Calendar support
+ Lighting is the Mozilla Calendar extension for Thunderbird, based
+ on Sunbird - the Mozilla Standalone Calendar application. It is tightly 
+ integrated with Thunderbird, allowing it to easily perform email-related 
+ calendaring tasks.
+ .
+ This package provides Google Calendar support. It's a recommended component 
+ if you want to connect to your google calendar.
+
+# Transitional packages below here
+
+# Can be dropped after 14.04
+Package: thunderbird-globalmenu
+Architecture: any
+Section: oldlibs
+Priority: extra
+Depends: thunderbird,
+	${misc:Depends}
+Description: Email, RSS and newsgroup client (transitional package)
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+# Can be dropped after 14.04
+Package: xul-ext-calendar-timezones
+Architecture: any
+Section: oldlibs
+Priority: extra
+Depends: ${misc:Depends}
+Description: Calendar Extension for Thunderbird (transitional package)
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-gnome-support-dbg
+Architecture: any
+Depends: thunderbird-gnome-support, thunderbird-dbg, ${misc:Depends}
+Description: Email, RSS and newsgroup client - transitional package
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-bn-bd
+Architecture: all
+Depends: thunderbird-locale-bn, ${misc:Depends}
+Description: Transitional Bengali language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-en-gb
+Architecture: all
+Depends: thunderbird-locale-en, ${misc:Depends}
+Description: Transitional English language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-en-us
+Architecture: all
+Depends: thunderbird-locale-en, ${misc:Depends}
+Description: Transitional English language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-es-ar
+Architecture: all
+Depends: thunderbird-locale-es, ${misc:Depends}
+Description: Transitional Spanish language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-es-es
+Architecture: all
+Depends: thunderbird-locale-es, ${misc:Depends}
+Description: Transitional Spanish language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-fy-nl
+Architecture: all
+Depends: thunderbird-locale-fy, ${misc:Depends}
+Description: Transitional Western Frisian language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-ga-ie
+Architecture: all
+Depends: thunderbird-locale-ga, ${misc:Depends}
+Description: Transitional Irish language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-nb-no
+Architecture: all
+Depends: thunderbird-locale-nb, ${misc:Depends}
+Description: Transitional Norwegian language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-nn-no
+Architecture: all
+Depends: thunderbird-locale-nn, ${misc:Depends}
+Description: Transitional Norwegian language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-pa-in
+Architecture: all
+Depends: thunderbird-locale-pa, ${misc:Depends}
+Description: Transitional Punjabi language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-pt-br
+Architecture: all
+Depends: thunderbird-locale-pt, ${misc:Depends}
+Description: Transitional Portugese language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-pt-pt
+Architecture: all
+Depends: thunderbird-locale-pt, ${misc:Depends}
+Description: Transitional Portugese language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-sv-se
+Architecture: all
+Depends: thunderbird-locale-sv, ${misc:Depends}
+Description: Transitional Swedish language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-ta-lk
+Architecture: all
+Depends: thunderbird-locale-ta, ${misc:Depends}
+Description: Transitional Tamil language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-zh-cn
+Architecture: all
+Depends: thunderbird-locale-zh-hans, ${misc:Depends}
+Description: Transitional Simplified Chinese language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+Package: thunderbird-locale-zh-tw
+Architecture: all
+Depends: thunderbird-locale-zh-hant, ${misc:Depends}
+Description: Transitional Traditional Chinese language pack for Thunderbird
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+# Language packs below here
+
+Package: thunderbird-locale-af
+Architecture: any
+Depends: ${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Transitional package for unavailable language
+ This language is unavailable for the current version of Thunderbird
+ .
+ This is an empty transitional package to ensure a clean upgrade
+ process. You can safely remove this package after installation.
+
+Package: thunderbird-locale-ar
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Arabic language pack for Thunderbird
+ This package contains Arabic translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-ast
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Asturian language pack for Thunderbird
+ This package contains Asturian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-be
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Belarusian language pack for Thunderbird
+ This package contains Belarusian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-bg
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Bulgarian language pack for Thunderbird
+ This package contains Bulgarian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-bn
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Bengali language pack for Thunderbird
+ This package contains Bengali translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-br
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Breton language pack for Thunderbird
+ This package contains Breton translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-ca
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Catalan; Valencian language pack for Thunderbird
+ This package contains Catalan; Valencian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-cs
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Czech language pack for Thunderbird
+ This package contains Czech translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-cy
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Welsh language pack for Thunderbird
+ This package contains Welsh translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-da
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Danish language pack for Thunderbird
+ This package contains Danish translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-de
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: German language pack for Thunderbird
+ This package contains German translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-dsb
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Sorbian, Lower language pack for Thunderbird
+ This package contains Sorbian, Lower translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-el
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Greek language pack for Thunderbird
+ This package contains Greek translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-en
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: English language pack for Thunderbird
+ This package contains English translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-es
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Spanish; Castilian language pack for Thunderbird
+ This package contains Spanish; Castilian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-et
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Estonian language pack for Thunderbird
+ This package contains Estonian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-eu
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Basque language pack for Thunderbird
+ This package contains Basque translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-fi
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Finnish language pack for Thunderbird
+ This package contains Finnish translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-fr
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: French language pack for Thunderbird
+ This package contains French translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-fy
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Western Frisian language pack for Thunderbird
+ This package contains Western Frisian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-ga
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Irish language pack for Thunderbird
+ This package contains Irish translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-gd
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Gaelic; Scottish Gaelic language pack for Thunderbird
+ This package contains Gaelic; Scottish Gaelic translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-gl
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Galician language pack for Thunderbird
+ This package contains Galician translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-he
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Hebrew language pack for Thunderbird
+ This package contains Hebrew translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-hr
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Croatian language pack for Thunderbird
+ This package contains Croatian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-hsb
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Sorbian, Upper language pack for Thunderbird
+ This package contains Sorbian, Upper translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-hu
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Hungarian language pack for Thunderbird
+ This package contains Hungarian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-hy
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Armenian language pack for Thunderbird
+ This package contains Armenian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-id
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Indonesian language pack for Thunderbird
+ This package contains Indonesian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-is
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Icelandic language pack for Thunderbird
+ This package contains Icelandic translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-it
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Italian language pack for Thunderbird
+ This package contains Italian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-ja
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Japanese language pack for Thunderbird
+ This package contains Japanese translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-ka
+Architecture: any
+Depends: ${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Transitional package for unavailable language
+ This language is unavailable for the current version of Thunderbird
+ .
+ This is an empty transitional package to ensure a clean upgrade
+ process. You can safely remove this package after installation.
+
+Package: thunderbird-locale-ko
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Korean language pack for Thunderbird
+ This package contains Korean translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-lt
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Lithuanian language pack for Thunderbird
+ This package contains Lithuanian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-mk
+Architecture: any
+Depends: ${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Transitional package for unavailable language
+ This language is unavailable for the current version of Thunderbird
+ .
+ This is an empty transitional package to ensure a clean upgrade
+ process. You can safely remove this package after installation.
+
+Package: thunderbird-locale-nb
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Bokmål, Norwegian; Norwegian Bokmål language pack for Thunderbird
+ This package contains Bokmål, Norwegian; Norwegian Bokmål translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-nl
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Dutch; Flemish language pack for Thunderbird
+ This package contains Dutch; Flemish translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-nn
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Norwegian Nynorsk; Nynorsk, Norwegian language pack for Thunderbird
+ This package contains Norwegian Nynorsk; Nynorsk, Norwegian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-pa
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Panjabi; Punjabi language pack for Thunderbird
+ This package contains Panjabi; Punjabi translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-pl
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Polish language pack for Thunderbird
+ This package contains Polish translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-pt
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Portuguese language pack for Thunderbird
+ This package contains Portuguese translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-rm
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Romansh language pack for Thunderbird
+ This package contains Romansh translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-ro
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Romanian language pack for Thunderbird
+ This package contains Romanian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-ru
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Russian language pack for Thunderbird
+ This package contains Russian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-si
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Sinhala; Sinhalese language pack for Thunderbird
+ This package contains Sinhala; Sinhalese translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-sk
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Slovak language pack for Thunderbird
+ This package contains Slovak translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-sl
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Slovenian language pack for Thunderbird
+ This package contains Slovenian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-sq
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Albanian language pack for Thunderbird
+ This package contains Albanian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-sr
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Serbian language pack for Thunderbird
+ This package contains Serbian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-sv
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Swedish language pack for Thunderbird
+ This package contains Swedish translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-ta
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Tamil language pack for Thunderbird
+ This package contains Tamil translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-tr
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Turkish language pack for Thunderbird
+ This package contains Turkish translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-uk
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Ukrainian language pack for Thunderbird
+ This package contains Ukrainian translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-vi
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Vietnamese language pack for Thunderbird
+ This package contains Vietnamese translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-zh-hans
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Simplified Chinese language pack for Thunderbird
+ This package contains Simplified Chinese translations and search plugins
+ for Thunderbird
+
+Package: thunderbird-locale-zh-hant
+Architecture: any
+Depends: thunderbird (>= ${source:Version}), thunderbird (<< ${source:Version}.1~),
+	${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Traditional Chinese language pack for Thunderbird
+ This package contains Traditional Chinese translations and search plugins
+ for Thunderbird

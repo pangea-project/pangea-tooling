@@ -1,0 +1,18 @@
+{
+ "runtests": {},
+ "excludetests": {
+  "content/canvas/test/webgl/test_webgl_conformance_test_suite.html": "UNSUPPORTED",
+  "dom/browser-element/mochitest/test_browserElement_NoWhitelist.html": "HANGS, https://launchpad.net/bugs/1166254",
+  "dom/imptests/html/webgl": "UNSUPPORTED",
+  "dom/media/tests/mochitest/test_peerConnection_basicAudio.html": "HANGS, https://bugzilla.mozilla.org/show_bug.cgi?id=841150, https://bugzilla.mozilla.org/show_bug.cgi?id=839677",
+  "dom/media/tests/mochitest/test_peerConnection_basicAudioVideo.html": "HANGS, https://bugzilla.mozilla.org/show_bug.cgi?id=841150",
+  "dom/media/tests/mochitest/test_peerConnection_basicAudioVideoCombined.html": "HANGS, https://bugzilla.mozilla.org/show_bug.cgi?id=841150",
+  "dom/media/tests/mochitest/test_peerConnection_basicVideo.html": "HANGS, https://bugzilla.mozilla.org/show_bug.cgi?id=841150",
+  "dom/media/tests/mochitest/test_peerConnection_bug840344.html": "HANGS, https://bugzilla.mozilla.org/show_bug.cgi?id=841496",
+  "dom/tests/mochitest/general/test_framedhistoryframes.html": "HANGS, https://launchpad.net/bugs/1165040",
+  "dom/tests/mochitest/geolocation/": "CRASHES, https://launchpad.net/bugs/TBD",
+  "dom/workers/test/test_suspend.html": "HANGS, https://launchpad.net/bugs/1165040",
+  "toolkit/components/passwordmgr/test/test_notifications_popup.html": "HANGS, https://launchpad.net/bugs/1159077",
+  "toolkit/content/tests/widgets/test_contextmenu_nested.xul": "HANGS, https://launchpad.net/bugs/1158796"
+ }
+}

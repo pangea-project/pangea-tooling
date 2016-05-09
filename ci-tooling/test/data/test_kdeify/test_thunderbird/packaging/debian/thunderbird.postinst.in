@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -e
+
+MOZ_PKG_NAME=@MOZ_PKG_NAME@
+
+# Move a conffile without triggering a dpkg question
+finish_mv_conffile() {
+    local OLDCONFFILE="$1"
+    local NEWCONFFILE="$2"
+
+    rm -f $OLDCONFFILE.dpkg-remove
+
+    [ -e "$OLDCONFFILE" ] || return 0
+
+    echo "Preserving user changes to $NEWCONFFILE (renamed from $OLDCONFFILE)..."
+    mv -f "$NEWCONFFILE" "$NEWCONFFILE.dpkg-new"
+    mv -f "$OLDCONFFILE" "$NEWCONFFILE"
+}
+
+if [ "$1" = "configure" ] ; then
+    finish_mv_conffile "/etc/${MOZ_PKG_NAME}/pref/thunderbird.js" "/etc/${MOZ_PKG_NAME}/syspref.js"
+fi
+
+#DEBHELPER#

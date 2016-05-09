@@ -1,0 +1,727 @@
+Description: Use monochrome icons for the addressbook window toolbar
+Origin: https://bugzilla.mozilla.org/attachment.cgi?id=563037
+Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=665871
+
+# HG changeset patch
+# Parent 18ff4ebe90f42b2c108942ab49c786713124d428
+
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/addressbook.css
+===================================================================
+--- thunderbird-trunk-16.0~a1~hg20120619r10480.97006.orig/mail/themes/linux/mail/addrbook/addressbook.css	2012-06-20 03:57:20.000000000 +0100
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/addressbook.css	2012-06-20 13:41:39.839867975 +0100
+@@ -37,111 +37,185 @@
+ }
+ 
+ #button-newcard {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar.png");
+-  -moz-image-region: rect(44px 22px 66px 0px); /* contact-add.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newcard.svg");
++  -moz-image-region: auto;
++}
++
++#button-newcard:hover {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newcard-hover.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #button-newcard[disabled="true"] {
+-  -moz-image-region: rect(66px 22px 88px 0px); /* contact-add-disabled.png */
+-} 
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newcard-disabled.svg");
++  -moz-image-region: auto;
++}
+ 
+ #button-newlist {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar.png");
+-  -moz-image-region: rect(88px 22px 110px 0px); /* contact-list-add.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newlist.svg");
++  -moz-image-region: auto;
++}
++
++#button-newlist:hover {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newlist-hover.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #button-newlist[disabled="true"] {
+-  -moz-image-region: rect(110px 22px 132px 0px); /* contact-list-add-disabled.png */
+-} 
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newlist-disabled.svg");
++  -moz-image-region: auto;
++}
+ 
+ #button-editcard {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar.png");
+-  -moz-image-region: rect(132px 22px 154px 0px); /* contact-properties.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-info.svg");
++  -moz-image-region: auto;
++}
++
++#button-editcard:hover {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-info-hover.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #button-editcard[disabled="true"] {
+-  -moz-image-region: rect(154px 22px 176px 0px); /* contact-properties-disabled.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-info-disabled.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #button-newmessage {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar.png");
+-  -moz-image-region: rect(176px 22px 198px 0px); /* message-compose.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newmsg.svg");
++  -moz-image-region: auto;
++}
++
++#button-newmessage:hover {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newmsg-hover.svg");
++  -moz-image-region: auto;
+ }
+ 
+-#button-newmessage[disabled] {
+-  -moz-image-region: rect(198px 22px 220px 0px); /* message-compose-disabled.png */
++#button-newmessage[disabled="true"] {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newmsg-disabled.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #button-newim {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar.png");
+-  -moz-image-region: rect(0px 22px 22px 0px); /* chat-new.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newim.svg");
++  -moz-image-region: auto;
+ }
+  
+-#button-newim[disabled] {
+-  -moz-image-region: rect(22px 22px 44px 0px); /* chat-new-disabled.png */
+-} 
++#button-newim:hover {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newim-hover.svg");
++  -moz-image-region: auto;
++}
++
++#button-newim[disabled="true"] {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newim-disabled.svg");
++  -moz-image-region: auto;
++}
+ 
+ #button-abdelete {
+-  list-style-image: url("moz-icon://stock/gtk-delete?size=toolbar")
++  list-style-image: url("chrome://messenger/skin/icons/button-delete.svg");
++  -moz-image-region: auto;
+ }
+ 
+-#button-abdelete[disabled] {
+-  list-style-image: url("moz-icon://stock/gtk-delete?size=toolbar&state=disabled")
++#button-abdelete:hover {
++  list-style-image: url("chrome://messenger/skin/icons/button-delete-hover.svg");
++  -moz-image-region: auto;
++}
++
++#button-abdelete[disabled="true"] {
++  list-style-image: url("chrome://messenger/skin/icons/button-delete-disabled.svg");
++  -moz-image-region: auto;
+ }
+ 
+ /* ::::: small primary toolbar buttons ::::: */
+ 
+ toolbar[iconsize="small"] #button-newcard {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar-small.png");
+-  -moz-image-region: rect(32px 16px 48px 0px); /* contact-add-small.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newcard-small.svg");
++  -moz-image-region: auto;
++}
++
++toolbar[iconsize="small"] #button-newcard:hover {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newcard-small-hover.svg");
++  -moz-image-region: auto;
+ }
+ 
+-toolbar[iconsize="small"] #button-newcard[disabled] {
+-  -moz-image-region: rect(48px 16px 64px 0px); /* contact-add-small-disabled.png */
++toolbar[iconsize="small"] #button-newcard[disabled="true"] {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newcard-small-disabled.svg");
++  -moz-image-region: auto;
+ }
+ 
+ toolbar[iconsize="small"] #button-newlist {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar-small.png");
+-  -moz-image-region: rect(64px 16px 80px 0px); /* contact-list-add-small.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newlist-small.svg");
++  -moz-image-region: auto;
+ }
+ 
+-toolbar[iconsize="small"] #button-newlist[disabled] {
+-  -moz-image-region: rect(80px 16px 96px 0px); /* contact-list-add-small-disabled.png */
++toolbar[iconsize="small"] #button-newlist:hover {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newlist-small-hover.svg");
++  -moz-image-region: auto;
++}
++
++toolbar[iconsize="small"] #button-newlist[disabled="true"] {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newlist-small-disabled.svg");
++  -moz-image-region: auto;
+ }
+ 
+ toolbar[iconsize="small"] #button-editcard {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar-small.png");
+-  -moz-image-region: rect(96px 16px 112px 0px); /* contact-properties-small.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-info-small.svg");
++  -moz-image-region: auto;
++}
++
++toolbar[iconsize="small"] #button-editcard:hover {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-info-small-hover.svg");
++  -moz-image-region: auto;
+ }
+ 
+ toolbar[iconsize="small"] #button-editcard[disabled="true"] {
+-  -moz-image-region: rect(112px 16px 128px 0px); /* contact-properties-small-disabled.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-info-small-disabled.svg");
++  -moz-image-region: auto;
+ }
+ 
+ toolbar[iconsize="small"] #button-newmessage {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar-small.png");
+-  -moz-image-region: rect(128px 16px 144px 0px); /* message-compose-small.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newmsg-small.svg");
++  -moz-image-region: auto;
+ }
+ 
+-toolbar[iconsize="small"] #button-newmessage[disabled] {
+-  -moz-image-region: rect(144px 16px 160px 0px); /* message-compose-small-disabled.png */
++toolbar[iconsize="small"] #button-newmessage:hover {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newmsg-small-hover.svg");
++  -moz-image-region: auto;
++}
++
++toolbar[iconsize="small"] #button-newmessage[disabled="true"] {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newmsg-small-disabled.svg");
++  -moz-image-region: auto;
+ }
+ 
+ toolbar[iconsize="small"] #button-newim {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar-small.png");
+-  -moz-image-region: rect(0px 16px 16px 0px); /* chat-new-small.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newim-small.svg");
++  -moz-image-region: auto;
++}
++
++toolbar[iconsize="small"] #button-newim:hover {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newim-small-hover.svg");
++  -moz-image-region: auto;
+ }
+ 
+-toolbar[iconsize="small"] #button-newim[disabled] {
+-  -moz-image-region: rect(16px 16px 32px 0px); /* chat-new-small-disabled.png */
++toolbar[iconsize="small"] #button-newim[disabled="true"] {
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newim-small-disabled.svg");
++  -moz-image-region: auto;
+ }
+ 
+ toolbar[iconsize="small"] #button-abdelete {
+-  list-style-image: url("moz-icon://stock/gtk-delete?size=menu");
++  list-style-image: url("chrome://messenger/skin/icons/button-delete-small.svg");
++  -moz-image-region: auto;
++}
++
++toolbar[iconsize="small"] #button-abdelete:hover {
++  list-style-image: url("chrome://messenger/skin/icons/button-delete-small-hover.svg");
++  -moz-image-region: auto;
+ }
+ 
+-toolbar[iconsize="small"] #button-abdelete[disabled] {
+-  list-style-image: url("moz-icon://stock/gtk-delete?size=menu&state=disabled");
++toolbar[iconsize="small"] #button-abdelete[disabled="true"] {
++  list-style-image: url("chrome://messenger/skin/icons/button-delete-small-disabled.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #abContent {
+@@ -317,25 +391,25 @@
+ 
+ #menu_newContact,
+ #dirTreeContext-newcard {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar-small.png");
+-  -moz-image-region: rect(32px 16px 48px 0px); /* contact-add-small.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newcard-small.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #menu_newList,
+ #dirTreeContext-newlist {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar-small.png");
+-  -moz-image-region: rect(64px 16px 80px 0px); /* contact-list-add-small.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newlist-small.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #menu_newMessage,
+ #abResultsTreeContext-newmessage {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar-small.png");
+-  -moz-image-region: rect(128px 16px 144px 0px); /* message-compose-small.png */
++  list-style-image: url("chrome://messenger/skin/icons/button-newmsg-small.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #abResultsTreeContext-newim {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar-small.png");
+-  -moz-image-region: rect(0px 16px 16px 0px); /* chat-new-small.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newim-small.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #menu_search_addresses {
+@@ -345,8 +419,8 @@
+ #menu_properties,
+ #dirTreeContext-properties,
+ #abResultsTreeContext-properties {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar-small.png");
+-  -moz-image-region: rect(96px 16px 112px 0px); /* contact-properties-small.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-info-small.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #dirTreeContext-delete,
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info-disabled.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info-disabled.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 12,3 c -4.9705629,0 -9,4.0294372 -9,9 0,4.970564 4.0294371,9 9,9 4.970564,0 9,-4.029436 9,-9 0,-4.9705628 -4.029436,-9 -9,-9 z m -0.393918,5.0216039 0.84403,0 c 0.311625,0 0.5625,0.250875 0.5625,0.5625 l 0,0.8533961 c 0,0.311625 -0.250875,0.5625 -0.5625,0.5625 l -0.84403,0 c -0.311625,0 -0.5625,-0.250875 -0.5625,-0.5625 l 0,-0.8533961 c 0,-0.311625 0.250875,-0.5625 0.5625,-0.5625 z M 11,11 l 2,0 0,6 -2,0 z"
++  fill="GrayText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info-hover.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info-hover.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 12,3 c -4.9705629,0 -9,4.0294372 -9,9 0,4.970564 4.0294371,9 9,9 4.970564,0 9,-4.029436 9,-9 0,-4.9705628 -4.029436,-9 -9,-9 z m -0.393918,5.0216039 0.84403,0 c 0.311625,0 0.5625,0.250875 0.5625,0.5625 l 0,0.8533961 c 0,0.311625 -0.250875,0.5625 -0.5625,0.5625 l -0.84403,0 c -0.311625,0 -0.5625,-0.250875 -0.5625,-0.5625 l 0,-0.8533961 c 0,-0.311625 0.250875,-0.5625 0.5625,-0.5625 z M 11,11 l 2,0 0,6 -2,0 z"
++  fill="ButtonText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info-small-disabled.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info-small-disabled.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++    <path
++       d="M 8 0 C 3.5817219 1.1842379e-15 0 3.5817219 0 8 C 0 12.418279 3.5817219 16 8 16 C 12.418279 16 16 12.418279 16 8 C 16 3.5817219 12.418279 0 8 0 z M 7.5 4 L 8.5 4 C 8.777 4 9 4.223 9 4.5 L 9 5.5 C 9 5.777 8.777 6 8.5 6 L 7.5 6 C 7.223 6 7 5.777 7 5.5 L 7 4.5 C 7 4.223 7.223 4 7.5 4 z M 7 7 L 9 7 L 9 13 L 7 13 L 7 7 z "
++  fill="GrayText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info-small-hover.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info-small-hover.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++    <path
++       d="M 8 0 C 3.5817219 1.1842379e-15 0 3.5817219 0 8 C 0 12.418279 3.5817219 16 8 16 C 12.418279 16 16 12.418279 16 8 C 16 3.5817219 12.418279 0 8 0 z M 7.5 4 L 8.5 4 C 8.777 4 9 4.223 9 4.5 L 9 5.5 C 9 5.777 8.777 6 8.5 6 L 7.5 6 C 7.223 6 7 5.777 7 5.5 L 7 4.5 C 7 4.223 7.223 4 7.5 4 z M 7 7 L 9 7 L 9 13 L 7 13 L 7 7 z "
++  fill="ButtonText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info-small.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info-small.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++    <path
++       d="M 8 0 C 3.5817219 1.1842379e-15 0 3.5817219 0 8 C 0 12.418279 3.5817219 16 8 16 C 12.418279 16 16 12.418279 16 8 C 16 3.5817219 12.418279 0 8 0 z M 7.5 4 L 8.5 4 C 8.777 4 9 4.223 9 4.5 L 9 5.5 C 9 5.777 8.777 6 8.5 6 L 7.5 6 C 7.223 6 7 5.777 7 5.5 L 7 4.5 C 7 4.223 7.223 4 7.5 4 z M 7 7 L 9 7 L 9 13 L 7 13 L 7 7 z "
++  fill="-moz-menubartext"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-info.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 12,3 c -4.9705629,0 -9,4.0294372 -9,9 0,4.970564 4.0294371,9 9,9 4.970564,0 9,-4.029436 9,-9 0,-4.9705628 -4.029436,-9 -9,-9 z m -0.393918,5.0216039 0.84403,0 c 0.311625,0 0.5625,0.250875 0.5625,0.5625 l 0,0.8533961 c 0,0.311625 -0.250875,0.5625 -0.5625,0.5625 l -0.84403,0 c -0.311625,0 -0.5625,-0.250875 -0.5625,-0.5625 l 0,-0.8533961 c 0,-0.311625 0.250875,-0.5625 0.5625,-0.5625 z M 11,11 l 2,0 0,6 -2,0 z"
++  fill="-moz-menubartext"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard-disabled.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard-disabled.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 11.96875,2.96875 c -3.311164,0 -6,2.7065615 -6,6.03125 0,2.248664 1.2119558,4.185144 3.03125,5.21875 L 9,15 5.96875,15 C 4.3229999,15 3,16.363743 3,18.03125 L 3,23 21,23 21,18.03125 C 21,16.363743 19.676985,15 18.03125,15 L 15,15 15,14.15625 C 16.769972,13.109794 17.9375,11.211607 17.9375,9 c 0,-3.3246885 -2.657588,-6.03125 -5.96875,-6.03125 z M 11,6 l 2,0 0,2 2,0 0,2 -2,0 0,2 -2,0 0,-2 -2,0 0,-2 2,0 0,-2 z"
++  fill="GrayText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard-hover.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard-hover.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 11.96875,2.96875 c -3.311164,0 -6,2.7065615 -6,6.03125 0,2.248664 1.2119558,4.185144 3.03125,5.21875 L 9,15 5.96875,15 C 4.3229999,15 3,16.363743 3,18.03125 L 3,23 21,23 21,18.03125 C 21,16.363743 19.676985,15 18.03125,15 L 15,15 15,14.15625 C 16.769972,13.109794 17.9375,11.211607 17.9375,9 c 0,-3.3246885 -2.657588,-6.03125 -5.96875,-6.03125 z M 11,6 l 2,0 0,2 2,0 0,2 -2,0 0,2 -2,0 0,-2 -2,0 0,-2 2,0 0,-2 z"
++  fill="ButtonText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard-small-disabled.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard-small-disabled.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++  <path
++     d="M 8.5,1 C 6.0147186,1 4,3.0147188 4,5.5 4,7.0680581 4.7837896,8.4444261 6,9.25 L 6,10 3.96875,10 C 2.87074,10 2,10.892 2,12 l 0,3.03125 13,0 L 15,12 c 0,-1.108 -0.87075,-2 -1.96875,-2 L 11,10 11,9.25 C 12.21621,8.4444261 13,7.0680581 13,5.5 13,3.0147188 10.985281,1 8.5,1 z M 8,3 9,3 9,5 11,5 11,6 9,6 9,8 8,8 8,6 6,6 6,5 8,5 8,3 z"
++  fill="GrayText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard-small-hover.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard-small-hover.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++  <path
++     d="M 8.5,1 C 6.0147186,1 4,3.0147188 4,5.5 4,7.0680581 4.7837896,8.4444261 6,9.25 L 6,10 3.96875,10 C 2.87074,10 2,10.892 2,12 l 0,3.03125 13,0 L 15,12 c 0,-1.108 -0.87075,-2 -1.96875,-2 L 11,10 11,9.25 C 12.21621,8.4444261 13,7.0680581 13,5.5 13,3.0147188 10.985281,1 8.5,1 z M 8,3 9,3 9,5 11,5 11,6 9,6 9,8 8,8 8,6 6,6 6,5 8,5 8,3 z"
++  fill="ButtonText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard-small.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard-small.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++  <path
++     d="M 8.5,1 C 6.0147186,1 4,3.0147188 4,5.5 4,7.0680581 4.7837896,8.4444261 6,9.25 L 6,10 3.96875,10 C 2.87074,10 2,10.892 2,12 l 0,3.03125 13,0 L 15,12 c 0,-1.108 -0.87075,-2 -1.96875,-2 L 11,10 11,9.25 C 12.21621,8.4444261 13,7.0680581 13,5.5 13,3.0147188 10.985281,1 8.5,1 z M 8,3 9,3 9,5 11,5 11,6 9,6 9,8 8,8 8,6 6,6 6,5 8,5 8,3 z"
++  fill="-moz-menubartext"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newcard.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 11.96875,2.96875 c -3.311164,0 -6,2.7065615 -6,6.03125 0,2.248664 1.2119558,4.185144 3.03125,5.21875 L 9,15 5.96875,15 C 4.3229999,15 3,16.363743 3,18.03125 L 3,23 21,23 21,18.03125 C 21,16.363743 19.676985,15 18.03125,15 L 15,15 15,14.15625 C 16.769972,13.109794 17.9375,11.211607 17.9375,9 c 0,-3.3246885 -2.657588,-6.03125 -5.96875,-6.03125 z M 11,6 l 2,0 0,2 2,0 0,2 -2,0 0,2 -2,0 0,-2 -2,0 0,-2 2,0 0,-2 z"
++  fill="-moz-menubartext"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim-disabled.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim-disabled.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="M 4.90625,4.03125 C 3.847781,4.03125 3,4.8790314 3,5.9375 l 0,9.1875 c 0,1.058469 0.847781,1.90625 1.90625,1.90625 l 8.15625,0 3.9375,4 0,-4 2.125,0 c 1.058469,0 1.90625,-0.847781 1.90625,-1.90625 l 0,-9.1875 c 0,-1.0584686 -0.847781,-1.90625 -1.90625,-1.90625 l -14.21875,0 z"
++  fill="GrayText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim-hover.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim-hover.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="M 4.90625,4.03125 C 3.847781,4.03125 3,4.8790314 3,5.9375 l 0,9.1875 c 0,1.058469 0.847781,1.90625 1.90625,1.90625 l 8.15625,0 3.9375,4 0,-4 2.125,0 c 1.058469,0 1.90625,-0.847781 1.90625,-1.90625 l 0,-9.1875 c 0,-1.0584686 -0.847781,-1.90625 -1.90625,-1.90625 l -14.21875,0 z"
++  fill="ButtonText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim-small-disabled.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim-small-disabled.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++    <path
++       d="m 2.0945545,2.0450505 c -0.576124,0 -1.0625,0.455126 -1.0625,1.03125 l 0,7.9374995 c 0,0.576124 0.486376,1.03125 1.0625,1.03125 l 6.8125,0 3.1562495,3.03125 0,-3.03125 1.909072,0 c 0.576124,0 1.03125,-0.455126 1.03125,-1.03125 l 0,-7.9374995 c 0,-0.576124 -0.455126,-1.03125 -1.03125,-1.03125 z"
++  fill="GrayText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim-small-hover.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim-small-hover.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++    <path
++       d="m 2.0945545,2.0450505 c -0.576124,0 -1.0625,0.455126 -1.0625,1.03125 l 0,7.9374995 c 0,0.576124 0.486376,1.03125 1.0625,1.03125 l 6.8125,0 3.1562495,3.03125 0,-3.03125 1.909072,0 c 0.576124,0 1.03125,-0.455126 1.03125,-1.03125 l 0,-7.9374995 c 0,-0.576124 -0.455126,-1.03125 -1.03125,-1.03125 z"
++  fill="ButtonText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim-small.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim-small.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++    <path
++       d="m 2.0945545,2.0450505 c -0.576124,0 -1.0625,0.455126 -1.0625,1.03125 l 0,7.9374995 c 0,0.576124 0.486376,1.03125 1.0625,1.03125 l 6.8125,0 3.1562495,3.03125 0,-3.03125 1.909072,0 c 0.576124,0 1.03125,-0.455126 1.03125,-1.03125 l 0,-7.9374995 c 0,-0.576124 -0.455126,-1.03125 -1.03125,-1.03125 z"
++  fill="-moz-menubartext"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newim.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="M 4.90625,4.03125 C 3.847781,4.03125 3,4.8790314 3,5.9375 l 0,9.1875 c 0,1.058469 0.847781,1.90625 1.90625,1.90625 l 8.15625,0 3.9375,4 0,-4 2.125,0 c 1.058469,0 1.90625,-0.847781 1.90625,-1.90625 l 0,-9.1875 c 0,-1.0584686 -0.847781,-1.90625 -1.90625,-1.90625 l -14.21875,0 z"
++  fill="-moz-menubartext"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist-disabled.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist-disabled.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 13.53125,1.96875 c -3.039395,0 -5.5,2.4606049 -5.5,5.5 0,2.125635 1.2054528,3.959242 2.96875,4.875 L 11,14 7.75,14 C 6.2413957,14 5.03125,15.252702 5.03125,16.78125 L 5.03125,21 22,21 22,16.78125 C 22,15.252702 20.789763,14.015254 19.28125,14 l -3.1875,0 0,-1.65625 c 1.749204,-0.920287 2.9375,-2.759764 2.9375,-4.875 0,-3.0393951 -2.460605,-5.5 -5.5,-5.5 z M 7.96875,3 c -2.7702816,0 -5,2.2609684 -5,5.03125 0,1.6448547 0.8081044,3.085265 2.03125,4 L 5,13 3.1875,13 C 1.9761576,13 1,14.022644 1,15.25 L 1,19 4,19 4,16.96875 C 4,15.987008 4.3043716,15.002821 4.96875,14.25 5.6331284,13.497179 6.6678229,13 7.9375,13 L 10,13 10,12.96875 C 8.210112,11.808809 7.03125,9.8033464 7.03125,7.5 c 0,-1.715819 0.6732417,-3.2649803 1.75,-4.4375 C 8.512537,3.0177954 8.2497738,3 7.96875,3 z M 13,4 l 1,0 0,3 3,0 0,0.96875 -3,0 0,3.03125 -1,0 0,-3.03125 -3,0 L 10,7 13,7 13,4 z"
++  fill="GrayText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist-hover.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist-hover.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 13.53125,1.96875 c -3.039395,0 -5.5,2.4606049 -5.5,5.5 0,2.125635 1.2054528,3.959242 2.96875,4.875 L 11,14 7.75,14 C 6.2413957,14 5.03125,15.252702 5.03125,16.78125 L 5.03125,21 22,21 22,16.78125 C 22,15.252702 20.789763,14.015254 19.28125,14 l -3.1875,0 0,-1.65625 c 1.749204,-0.920287 2.9375,-2.759764 2.9375,-4.875 0,-3.0393951 -2.460605,-5.5 -5.5,-5.5 z M 7.96875,3 c -2.7702816,0 -5,2.2609684 -5,5.03125 0,1.6448547 0.8081044,3.085265 2.03125,4 L 5,13 3.1875,13 C 1.9761576,13 1,14.022644 1,15.25 L 1,19 4,19 4,16.96875 C 4,15.987008 4.3043716,15.002821 4.96875,14.25 5.6331284,13.497179 6.6678229,13 7.9375,13 L 10,13 10,12.96875 C 8.210112,11.808809 7.03125,9.8033464 7.03125,7.5 c 0,-1.715819 0.6732417,-3.2649803 1.75,-4.4375 C 8.512537,3.0177954 8.2497738,3 7.96875,3 z M 13,4 l 1,0 0,3 3,0 0,0.96875 -3,0 0,3.03125 -1,0 0,-3.03125 -3,0 L 10,7 13,7 13,4 z"
++  fill="ButtonText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist-small-disabled.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist-small-disabled.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++  <path
++     d="M 9.46875 2.03125 C 7.5357534 2.03125 5.96875 3.5982534 5.96875 5.53125 C 5.96875 6.4977483 6.3666246 7.3666246 7 8 L 7 9 L 5.96875 9 C 4.87074 9 4.0057113 9.8920147 4 11 L 4 14.0625 L 15 14.0625 L 15 11 C 15 9.892 14.12925 9 13.03125 9 L 12 9 L 12 7.9375 C 12.598035 7.3095645 12.96875 6.4668602 12.96875 5.53125 C 12.96875 3.5982534 11.401747 2.03125 9.46875 2.03125 z M 9 3.03125 L 10 3.03125 L 10 5.03125 L 12 5.03125 L 12 6.03125 L 10 6.03125 L 10 8.03125 L 9 8.03125 L 9 6.03125 L 7 6.03125 L 7 5.03125 L 9 5.03125 L 9 3.03125 z M 4.46875 4 C 3.0966676 4 2 5.1149734 2 6.5 C 2 7.3188118 2.3986453 8.0423046 3 8.5 L 3 9.03125 L 1.96875 9.03125 C 0.87074 9.03125 -0.00807677 9.923279 0 11.03125 L 0 13 L 2.96875 13 L 2.96875 11.0625 C 2.96875 10.373169 3.2772784 9.6452582 3.78125 9.0625 C 4.2534923 8.5164313 4.931883 8.1142502 5.71875 8.0625 C 5.231082 7.3429728 4.9375 6.4952892 4.9375 5.5625 C 4.9375 5.0559159 5.0318719 4.583332 5.1875 4.125 C 4.9575053 4.0550527 4.720678 4 4.46875 4 z "
++  fill="GrayText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist-small-hover.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist-small-hover.svg	2012-06-20 13:41:39.843867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++  <path
++     d="M 9.46875 2.03125 C 7.5357534 2.03125 5.96875 3.5982534 5.96875 5.53125 C 5.96875 6.4977483 6.3666246 7.3666246 7 8 L 7 9 L 5.96875 9 C 4.87074 9 4.0057113 9.8920147 4 11 L 4 14.0625 L 15 14.0625 L 15 11 C 15 9.892 14.12925 9 13.03125 9 L 12 9 L 12 7.9375 C 12.598035 7.3095645 12.96875 6.4668602 12.96875 5.53125 C 12.96875 3.5982534 11.401747 2.03125 9.46875 2.03125 z M 9 3.03125 L 10 3.03125 L 10 5.03125 L 12 5.03125 L 12 6.03125 L 10 6.03125 L 10 8.03125 L 9 8.03125 L 9 6.03125 L 7 6.03125 L 7 5.03125 L 9 5.03125 L 9 3.03125 z M 4.46875 4 C 3.0966676 4 2 5.1149734 2 6.5 C 2 7.3188118 2.3986453 8.0423046 3 8.5 L 3 9.03125 L 1.96875 9.03125 C 0.87074 9.03125 -0.00807677 9.923279 0 11.03125 L 0 13 L 2.96875 13 L 2.96875 11.0625 C 2.96875 10.373169 3.2772784 9.6452582 3.78125 9.0625 C 4.2534923 8.5164313 4.931883 8.1142502 5.71875 8.0625 C 5.231082 7.3429728 4.9375 6.4952892 4.9375 5.5625 C 4.9375 5.0559159 5.0318719 4.583332 5.1875 4.125 C 4.9575053 4.0550527 4.720678 4 4.46875 4 z "
++  fill="ButtonText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist-small.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist-small.svg	2012-06-20 13:41:39.847867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++  <path
++     d="M 9.46875 2.03125 C 7.5357534 2.03125 5.96875 3.5982534 5.96875 5.53125 C 5.96875 6.4977483 6.3666246 7.3666246 7 8 L 7 9 L 5.96875 9 C 4.87074 9 4.0057113 9.8920147 4 11 L 4 14.0625 L 15 14.0625 L 15 11 C 15 9.892 14.12925 9 13.03125 9 L 12 9 L 12 7.9375 C 12.598035 7.3095645 12.96875 6.4668602 12.96875 5.53125 C 12.96875 3.5982534 11.401747 2.03125 9.46875 2.03125 z M 9 3.03125 L 10 3.03125 L 10 5.03125 L 12 5.03125 L 12 6.03125 L 10 6.03125 L 10 8.03125 L 9 8.03125 L 9 6.03125 L 7 6.03125 L 7 5.03125 L 9 5.03125 L 9 3.03125 z M 4.46875 4 C 3.0966676 4 2 5.1149734 2 6.5 C 2 7.3188118 2.3986453 8.0423046 3 8.5 L 3 9.03125 L 1.96875 9.03125 C 0.87074 9.03125 -0.00807677 9.923279 0 11.03125 L 0 13 L 2.96875 13 L 2.96875 11.0625 C 2.96875 10.373169 3.2772784 9.6452582 3.78125 9.0625 C 4.2534923 8.5164313 4.931883 8.1142502 5.71875 8.0625 C 5.231082 7.3429728 4.9375 6.4952892 4.9375 5.5625 C 4.9375 5.0559159 5.0318719 4.583332 5.1875 4.125 C 4.9575053 4.0550527 4.720678 4 4.46875 4 z "
++  fill="-moz-menubartext"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newlist.svg	2012-06-20 13:41:39.847867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 13.53125,1.96875 c -3.039395,0 -5.5,2.4606049 -5.5,5.5 0,2.125635 1.2054528,3.959242 2.96875,4.875 L 11,14 7.75,14 C 6.2413957,14 5.03125,15.252702 5.03125,16.78125 L 5.03125,21 22,21 22,16.78125 C 22,15.252702 20.789763,14.015254 19.28125,14 l -3.1875,0 0,-1.65625 c 1.749204,-0.920287 2.9375,-2.759764 2.9375,-4.875 0,-3.0393951 -2.460605,-5.5 -5.5,-5.5 z M 7.96875,3 c -2.7702816,0 -5,2.2609684 -5,5.03125 0,1.6448547 0.8081044,3.085265 2.03125,4 L 5,13 3.1875,13 C 1.9761576,13 1,14.022644 1,15.25 L 1,19 4,19 4,16.96875 C 4,15.987008 4.3043716,15.002821 4.96875,14.25 5.6331284,13.497179 6.6678229,13 7.9375,13 L 10,13 10,12.96875 C 8.210112,11.808809 7.03125,9.8033464 7.03125,7.5 c 0,-1.715819 0.6732417,-3.2649803 1.75,-4.4375 C 8.512537,3.0177954 8.2497738,3 7.96875,3 z M 13,4 l 1,0 0,3 3,0 0,0.96875 -3,0 0,3.03125 -1,0 0,-3.03125 -3,0 L 10,7 13,7 13,4 z"
++  fill="-moz-menubartext"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg-disabled.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg-disabled.svg	2012-06-20 13:41:39.847867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 17.460345,3.0648058 c -0.368725,1.4e-6 -0.724912,0.1744779 -1.007443,0.4555389 L 6.0579158,13.861078 10.179276,17.960927 20.574262,7.6201946 c 0.565062,-0.5621218 0.565062,-1.487806 0,-2.0499249 L 18.467789,3.5203447 C 18.185257,3.2392866 17.82907,3.0648058 17.460345,3.0648058 z M 5.0046793,14.863264 3.035585,21.013038 9.1718324,19.008667 5.0046793,14.863264 z"
++  fill="GrayText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg-hover.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg-hover.svg	2012-06-20 13:41:39.847867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 17.460345,3.0648058 c -0.368725,1.4e-6 -0.724912,0.1744779 -1.007443,0.4555389 L 6.0579158,13.861078 10.179276,17.960927 20.574262,7.6201946 c 0.565062,-0.5621218 0.565062,-1.487806 0,-2.0499249 L 18.467789,3.5203447 C 18.185257,3.2392866 17.82907,3.0648058 17.460345,3.0648058 z M 5.0046793,14.863264 3.035585,21.013038 9.1718324,19.008667 5.0046793,14.863264 z"
++  fill="ButtonText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg-small-disabled.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg-small-disabled.svg	2012-06-20 13:41:39.847867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++<path
++  d="m 11.590464,2.0032864 c -0.251625,6e-7 -0.494695,0.1196918 -0.6875,0.3125 l -7.0937504,7.09375 2.8125,2.8124996 7.0937504,-7.0937496 c 0.38561,-0.3856163 0.38561,-1.0206364 0,-1.40625 l -1.4375,-1.40625 c -0.192805,-0.1928068 -0.435875,-0.3125006 -0.6875,-0.3125 z m -8.5000004,8.0937496 -1.34375,4.21875 4.1875,-1.375 -2.84375,-2.84375 z"
++  fill="GrayText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg-small-hover.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg-small-hover.svg	2012-06-20 13:41:39.847867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++<path
++  d="m 11.590464,2.0032864 c -0.251625,6e-7 -0.494695,0.1196918 -0.6875,0.3125 l -7.0937504,7.09375 2.8125,2.8124996 7.0937504,-7.0937496 c 0.38561,-0.3856163 0.38561,-1.0206364 0,-1.40625 l -1.4375,-1.40625 c -0.192805,-0.1928068 -0.435875,-0.3125006 -0.6875,-0.3125 z m -8.5000004,8.0937496 -1.34375,4.21875 4.1875,-1.375 -2.84375,-2.84375 z"
++  fill="ButtonText"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg-small.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg-small.svg	2012-06-20 13:41:39.847867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="16"
++   height="16">
++<path
++  d="m 11.590464,2.0032864 c -0.251625,6e-7 -0.494695,0.1196918 -0.6875,0.3125 l -7.0937504,7.09375 2.8125,2.8124996 7.0937504,-7.0937496 c 0.38561,-0.3856163 0.38561,-1.0206364 0,-1.40625 l -1.4375,-1.40625 c -0.192805,-0.1928068 -0.435875,-0.3125006 -0.6875,-0.3125 z m -8.5000004,8.0937496 -1.34375,4.21875 4.1875,-1.375 -2.84375,-2.84375 z"
++  fill="-moz-menubartext"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg.svg
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/addrbook/button-newmsg.svg	2012-06-20 13:41:39.847867975 +0100
+@@ -0,0 +1,7 @@
++<svg xmlns="http://www.w3.org/2000/svg"
++   width="24"
++   height="24">
++  <path
++     d="m 17.460345,3.0648058 c -0.368725,1.4e-6 -0.724912,0.1744779 -1.007443,0.4555389 L 6.0579158,13.861078 10.179276,17.960927 20.574262,7.6201946 c 0.565062,-0.5621218 0.565062,-1.487806 0,-2.0499249 L 18.467789,3.5203447 C 18.185257,3.2392866 17.82907,3.0648058 17.460345,3.0648058 z M 5.0046793,14.863264 3.035585,21.013038 9.1718324,19.008667 5.0046793,14.863264 z"
++  fill="-moz-menubartext"/>
++</svg>
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/compose/messengercompose.css
+===================================================================
+--- thunderbird-trunk-16.0~a1~hg20120619r10480.97006.orig/mail/themes/linux/mail/compose/messengercompose.css	2012-06-20 03:57:21.000000000 +0100
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/compose/messengercompose.css	2012-06-20 13:41:39.847867975 +0100
+@@ -648,13 +648,13 @@
+ 
+ /** Stock icons for the menu items. */
+ #menu_NewMessage {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar.png");
+-  -moz-image-region: rect(176px 22px 198px 0px); /* message-compose.png */
++  list-style-image: url("chrome://messenger/skin/icons/button-newmsg-small.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #menu_NewContact {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar.png");
+-  -moz-image-region: rect(44px 22px 66px 0px); /* contact-add.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newcard-small.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #menu_SaveCmd {
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/messenger.css
+===================================================================
+--- thunderbird-trunk-16.0~a1~hg20120619r10480.97006.orig/mail/themes/linux/mail/messenger.css	2012-06-20 03:57:22.000000000 +0100
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/mail/messenger.css	2012-06-20 13:41:39.847867975 +0100
+@@ -197,8 +197,8 @@
+ }
+ 
+ #menu_newCard {
+-  list-style-image: url("chrome://messenger/skin/addressbook/icons/addressbook-toolbar.png");
+-  -moz-image-region: rect(44px 22px 66px 0px); /* contact-add.png */
++  list-style-image: url("chrome://messenger/skin/addressbook/icons/button-newcard.svg");
++  -moz-image-region: auto;
+ }
+ 
+ #openMessageFileMenuitem {
+Index: thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/jar.mn
+===================================================================
+--- thunderbird-trunk-16.0~a1~hg20120619r10480.97006.orig/mail/themes/linux/jar.mn	2012-06-20 13:38:58.000000000 +0100
++++ thunderbird-trunk-16.0~a1~hg20120619r10480.97006/mail/themes/linux/jar.mn	2012-06-20 13:52:36.907856299 +0100
+@@ -83,8 +83,36 @@
+   skin/classic/messenger/addressbook/icons/ablist.png         (mail/addrbook/ablist.png)
+   skin/classic/messenger/addressbook/icons/contact-generic.png             (mail/addrbook/contact-generic.png)
+   skin/classic/messenger/addressbook/icons/contact-generic-tiny.png        (mail/addrbook/contact-generic-tiny.png)
+-  skin/classic/messenger/addressbook/icons/addressbook-toolbar.png         (mail/addrbook/addressbook-toolbar.png)
+-  skin/classic/messenger/addressbook/icons/addressbook-toolbar-small.png   (mail/addrbook/addressbook-toolbar-small.png)
++  skin/classic/messenger/addressbook/icons/button-info-disabled.svg        (mail/addrbook/button-info-disabled.svg)
++  skin/classic/messenger/addressbook/icons/button-info-hover.svg           (mail/addrbook/button-info-hover.svg)
++  skin/classic/messenger/addressbook/icons/button-info-small-disabled.svg  (mail/addrbook/button-info-small-disabled.svg)
++  skin/classic/messenger/addressbook/icons/button-info-small-hover.svg     (mail/addrbook/button-info-small-hover.svg)
++  skin/classic/messenger/addressbook/icons/button-info-small.svg           (mail/addrbook/button-info-small.svg)
++  skin/classic/messenger/addressbook/icons/button-info.svg                 (mail/addrbook/button-info.svg)
++  skin/classic/messenger/addressbook/icons/button-newcard-disabled.svg     (mail/addrbook/button-newcard-disabled.svg)
++  skin/classic/messenger/addressbook/icons/button-newcard-hover.svg        (mail/addrbook/button-newcard-hover.svg)
++  skin/classic/messenger/addressbook/icons/button-newcard-small-disabled.svg  (mail/addrbook/button-newcard-small-disabled.svg)
++  skin/classic/messenger/addressbook/icons/button-newcard-small-hover.svg  (mail/addrbook/button-newcard-small-hover.svg)
++  skin/classic/messenger/addressbook/icons/button-newcard-small.svg        (mail/addrbook/button-newcard-small.svg)
++  skin/classic/messenger/addressbook/icons/button-newcard.svg              (mail/addrbook/button-newcard.svg)
++  skin/classic/messenger/addressbook/icons/button-newim-disabled.svg       (mail/addrbook/button-newim-disabled.svg)
++  skin/classic/messenger/addressbook/icons/button-newim-hover.svg          (mail/addrbook/button-newim-hover.svg)
++  skin/classic/messenger/addressbook/icons/button-newim-small-disabled.svg  (mail/addrbook/button-newim-small-disabled.svg)
++  skin/classic/messenger/addressbook/icons/button-newim-small-hover.svg    (mail/addrbook/button-newim-small-hover.svg)
++  skin/classic/messenger/addressbook/icons/button-newim-small.svg          (mail/addrbook/button-newim-small.svg)
++  skin/classic/messenger/addressbook/icons/button-newim.svg                (mail/addrbook/button-newim.svg)
++  skin/classic/messenger/addressbook/icons/button-newlist-disabled.svg     (mail/addrbook/button-newlist-disabled.svg)
++  skin/classic/messenger/addressbook/icons/button-newlist-hover.svg        (mail/addrbook/button-newlist-hover.svg)
++  skin/classic/messenger/addressbook/icons/button-newlist-small-disabled.svg  (mail/addrbook/button-newlist-small-disabled.svg)
++  skin/classic/messenger/addressbook/icons/button-newlist-small-hover.svg  (mail/addrbook/button-newlist-small-hover.svg)
++  skin/classic/messenger/addressbook/icons/button-newlist-small.svg        (mail/addrbook/button-newlist-small.svg)
++  skin/classic/messenger/addressbook/icons/button-newlist.svg              (mail/addrbook/button-newlist.svg)
++  skin/classic/messenger/addressbook/icons/button-newmsg-disabled.svg      (mail/addrbook/button-newmsg-disabled.svg)
++  skin/classic/messenger/addressbook/icons/button-newmsg-hover.svg         (mail/addrbook/button-newmsg-hover.svg)
++  skin/classic/messenger/addressbook/icons/button-newmsg-small-disabled.svg  (mail/addrbook/button-newmsg-small-disabled.svg)
++  skin/classic/messenger/addressbook/icons/button-newmsg-small-hover.svg   (mail/addrbook/button-newmsg-small-hover.svg)
++  skin/classic/messenger/addressbook/icons/button-newmsg-small.svg         (mail/addrbook/button-newmsg-small.svg)
++  skin/classic/messenger/addressbook/icons/button-newmsg.svg               (mail/addrbook/button-newmsg.svg)
+   skin/classic/messenger/addressbook/icons/abcard-large.png   (mail/addrbook/abcard-large.png)
+   skin/classic/messenger/addressbook/icons/remote-addrbook.png (mail/addrbook/remote-addrbook.png)
+   skin/classic/messenger/addressbook/icons/remote-addrbook-error.png      (mail/addrbook/remote-addrbook-error.png)

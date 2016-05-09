@@ -1,0 +1,184 @@
+# vim:noexpandtab:
+Source: @MOZ_PKG_NAME@
+Section: web
+Priority: optional
+Maintainer: Ubuntu Mozilla Team <ubuntu-mozillateam@lists.ubuntu.com>
+Vcs-Bzr: https://code.launchpad.net/~mozillateam/firefox/firefox.trusty
+Build-Depends: cdbs,
+	locales,
+	debhelper (>= 7),
+	autotools-dev,
+	autoconf2.13,
+	quilt,
+	zip,
+	libx11-dev,
+	libxt-dev,
+	libxext-dev,
+	libgtk2.0-dev (>= 2.14),
+	libgtk-3-dev (>= 3.4),
+	libglib2.0-dev (>= 2.18),
+	libpango1.0-dev (>= 1.14.0),
+	libfontconfig1-dev,
+	libfreetype6-dev (>= 2.0.1),
+	libgconf2-dev (>= 1.2.1),
+	libgnomeui-dev (>= 2.2.0),
+	libstartup-notification0-dev,
+	libasound2-dev,
+	libcurl4-openssl-dev,
+	libdbus-glib-1-dev (>= 0.60),
+	libgstreamer1.0-dev | libgstreamer0.10-dev,
+	libgstreamer-plugins-base1.0-dev | libgstreamer-plugins-base0.10-dev,
+	hardening-wrapper,
+	lsb-release,
+	libiw-dev,
+	mesa-common-dev,
+	libnotify-dev (>= 0.4),
+	libxrender-dev,
+	libpulse-dev,
+	yasm (>= 1.1),
+	unzip,
+	dbus-x11,
+	xvfb,
+	python (>= 2.7),
+	libffi-dev (>= 3.0.9) [arm64]
+Standards-Version: 3.9.1
+#XS-Testsuite: autopkgtest
+
+Package: @MOZ_PKG_NAME@
+Architecture: any
+Depends: lsb-release,
+	${misc:Depends},
+	${shlibs:Depends}
+Recommends: xul-ext-ubufox,
+	${support:Recommends},
+	libcanberra0,
+	libdbusmenu-glib4,
+	libdbusmenu-gtk4
+Provides: www-browser,
+	iceweasel,
+	gnome-www-browser,
+	${app:Provides}
+Suggests: fonts-lyx,
+	${support:Suggests}
+Breaks: ${transitional:Breaks}
+Replaces: ${transitional:Replaces}
+Conflicts: ${app:Conflicts},
+	${transitional:Conflicts}
+XB-Xul-AppId: {ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+Description: Safe and easy web browser from Mozilla
+ Firefox delivers safe, easy web browsing. A familiar user interface,
+ enhanced security features including protection from online identity theft,
+ and integrated search let you get the most out of the web.
+
+Package: @MOZ_PKG_NAME@-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Depends: ${shlibs:Depends}, 
+	${misc:Depends}, 
+	@MOZ_PKG_NAME@ (= ${binary:Version})
+Provides: ${app:Provides}
+Conflicts: ${app:Conflicts},
+Description: Safe and easy web browser from Mozilla - debug symbols
+ Firefox delivers safe, easy web browsing. A familiar user interface,
+ enhanced security features including protection from online identity theft,
+ and integrated search let you get the most out of the web.
+ .
+ This package contains the debugging symbols for the Firefox web
+ browser
+
+Package: @MOZ_PKG_NAME@-dev
+Architecture: any
+Section: devel
+Priority: extra
+Depends: ${shlibs:Depends},
+	${misc:Depends},
+	@MOZ_PKG_NAME@ (= ${binary:Version})
+Provides: ${app:Provides}
+Conflicts: xulrunner-2.0-dev,
+	xulrunner-1.9.2-dev,
+	xulrunner-1.9-dev,
+	${app:Conflicts}
+Description: Safe and easy web browser from Mozilla - development files
+ Firefox delivers safe, easy web browsing. A familiar user interface,
+ enhanced security features including protection from online identity theft,
+ and integrated search let you get the most out of the web.
+ .
+ This package contains the headers and SDK for building plugins with Firefox
+
+Package: @MOZ_PKG_NAME@-mozsymbols
+Architecture: amd64 i386 armel
+Section: debug
+Priority: extra
+Depends: ${shlibs:Depends}, 
+	${misc:Depends},
+Provides: ${app:Provides}
+Conflicts: ${app:Conflicts}
+Description: Safe and easy web browser from Mozilla - Breakpad symbols
+ Firefox delivers safe, easy web browsing. A familiar user interface,
+ enhanced security features including protection from online identity theft,
+ and integrated search let you get the most out of the web.
+ .
+ This package contains the Firefox symbols in a format expected by Mozilla's
+ Breakpad. Eventually this package should go away and the symbol upload be
+ implemented in soyuz (or other builders that build this package)
+
+Package: @MOZ_PKG_NAME@-testsuite
+Architecture: any
+Section: misc
+Priority: extra
+Depends: ${shlibs:Depends},
+	${misc:Depends},
+	@MOZ_PKG_NAME@ (= ${binary:Version}),
+	@MOZ_LOCALE_PKGS@
+	python,
+	dbus-x11,
+	xvfb,
+	make,
+	notify-osd,
+	metacity,
+	language-pack-en-base,
+	language-pack-es-base,
+	language-pack-fr-base,
+	language-pack-pt-base,
+	fonts-arabeyes,
+	fonts-kacst,
+	fonts-takao-mincho,
+	fonts-takao-gothic,
+	fonts-wqy-zenhei | ttf-wqy-zenhei,
+	fonts-arphic-uming,
+	fonts-arphic-ukai | ttf-arphic-ukai,
+	fonts-nanum,
+	fonts-nanum-coding,
+	fonts-unfonts-core,
+	fonts-liberation,
+	gnome-session,
+	gnome-settings-daemon,
+	ubuntu-settings,
+	light-themes,
+	unzip,
+	hunspell-en-us,
+	libgl1-mesa-dri
+Provides: ${app:Provides}
+Conflicts: ${app:Conflicts}
+Description: Safe and easy web browser from Mozilla - testsuite
+ Firefox delivers safe, easy web browsing. A familiar user interface,
+ enhanced security features including protection from online identity theft,
+ and integrated search let you get the most out of the web.
+ .
+ This package contains the Firefox testsuite
+
+# Transitional packages below here
+
+# Can be dropped after 14.04
+Package: @MOZ_PKG_NAME@-globalmenu
+Architecture: any
+Section: oldlibs
+Priority: extra
+Depends: @MOZ_PKG_NAME@,
+	${misc:Depends}
+Description: Safe and easy web browser from Mozilla (transitional package)
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
+
+# Language packs below here

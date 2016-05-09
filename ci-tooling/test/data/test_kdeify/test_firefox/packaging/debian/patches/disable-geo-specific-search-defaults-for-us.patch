@@ -1,0 +1,18 @@
+Description: Disable geo-specific search defaults for users in the US, as
+ these override the locale-specific defaults even on partner builds
+Author: Chris Coulson <chris.coulson@canonical.com>
+Bug-Ubuntu: https://launchpad.net/bugs/1485741
+Forwarded: no
+
+Index: firefox-40.0+build4/browser/locales/en-US/firefox-l10n.js
+===================================================================
+--- firefox-40.0+build4.orig/browser/locales/en-US/firefox-l10n.js	2015-08-18 21:02:56.000000000 +0100
++++ firefox-40.0+build4/browser/locales/en-US/firefox-l10n.js	2015-08-18 22:08:11.522281907 +0100
+@@ -3,7 +3,3 @@
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+ #filter substitution
+-
+-# LOCALIZATION NOTE: this preference is set to true for en-US specifically,
+-# locales without this line have the setting set to false by default.
+-pref("browser.search.geoSpecificDefaults", true);

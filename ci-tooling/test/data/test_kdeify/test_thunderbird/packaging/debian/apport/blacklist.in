@@ -1,0 +1,4 @@
+%%ifdef MOZ_ENABLE_BREAKPAD
+/@MOZ_LIBDIR@/@MOZ_APP_NAME@
+/@MOZ_LIBDIR@/plugin-container
+%%endif

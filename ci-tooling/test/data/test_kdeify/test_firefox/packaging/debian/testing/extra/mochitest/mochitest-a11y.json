@@ -1,0 +1,7 @@
+{
+ "runtests": {},
+ "excludetests": {
+  "accessible/tests/mochitest/events/test_focus_general.*": "HANGS, https://launchpad.net/bugs/1158821",
+  "accessible/tests/mochitest/events/test_textattrchange.html": "HANGS, https://launchpad.net/bugs/1158836"
+ }
+}

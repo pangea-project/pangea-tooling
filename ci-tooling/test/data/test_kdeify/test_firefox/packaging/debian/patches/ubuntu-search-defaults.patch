@@ -1,0 +1,55 @@
+Index: firefox-trunk-37.0~a1~hg20150107r222415/l10n/be/browser/chrome/browser-region/region.properties
+===================================================================
+--- firefox-trunk-37.0~a1~hg20150107r222415.orig/l10n/be/browser/chrome/browser-region/region.properties	2015-01-07 22:09:57.000000000 +0000
++++ firefox-trunk-37.0~a1~hg20150107r222415/l10n/be/browser/chrome/browser-region/region.properties	2015-01-09 09:34:52.531971242 +0000
+@@ -7,10 +7,10 @@
+ # the l10n-drivers team (this includes en-US). In order to get one,
+ # please file a bug, add the "productization" keyword and CC l10n@mozilla.com.
+ 
+-browser.search.defaultenginename = Яндекс
+-browser.search.order.1 = Яндекс
+-browser.search.order.2 = Yahoo
+-browser.search.order.3 = Google
++browser.search.defaultenginename = Google
++browser.search.order.1 = Google
++browser.search.order.2 = Яндекс
++browser.search.order.3 = Yahoo
+ browser.contentHandlers.types.0.title = Netvibes
+ browser.contentHandlers.types.0.uri = http://www.netvibes.com/subscribe.php?url=%s
+ browser.contentHandlers.types.1.title = Мой Yahoo!
+Index: firefox-trunk-37.0~a1~hg20150107r222415/l10n/kk/browser/chrome/browser-region/region.properties
+===================================================================
+--- firefox-trunk-37.0~a1~hg20150107r222415.orig/l10n/kk/browser/chrome/browser-region/region.properties	2015-01-07 22:11:20.000000000 +0000
++++ firefox-trunk-37.0~a1~hg20150107r222415/l10n/kk/browser/chrome/browser-region/region.properties	2015-01-09 09:36:58.375947198 +0000
+@@ -3,11 +3,11 @@
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+ # Default search engine
+-browser.search.defaultenginename=Яндекс
++browser.search.defaultenginename=Google
+ 
+ # Search engine order (order displayed in the search bar dropdown)s
+-browser.search.order.1=Яндекс
+-browser.search.order.2=Google
++browser.search.order.1=Google
++browser.search.order.2=Яндекс
+ 
+ # This is the default set of web based feed handlers shown in the reader
+ # selection UI
+Index: firefox-trunk-37.0~a1~hg20150107r222415/l10n/ru/browser/chrome/browser-region/region.properties
+===================================================================
+--- firefox-trunk-37.0~a1~hg20150107r222415.orig/l10n/ru/browser/chrome/browser-region/region.properties	2015-01-07 22:12:00.000000000 +0000
++++ firefox-trunk-37.0~a1~hg20150107r222415/l10n/ru/browser/chrome/browser-region/region.properties	2015-01-09 09:35:37.239962946 +0000
+@@ -7,9 +7,9 @@
+ # the l10n-drivers team (this includes en-US). In order to get one,
+ # please file a bug, add the "productization" keyword and CC l10n@mozilla.com.
+ 
+-browser.search.defaultenginename = Яндекс
+-browser.search.order.1 = Яндекс
+-browser.search.order.2 = Google
++browser.search.defaultenginename = Google
++browser.search.order.1 = Google
++browser.search.order.2 = Яндекс
+ browser.contentHandlers.types.0.title = Яндекс.Подписки
+ browser.contentHandlers.types.0.uri = http://mail.yandex.ru/lenta/add?feed_url=%s
+ browser.contentHandlers.types.1.title = RSS2Email

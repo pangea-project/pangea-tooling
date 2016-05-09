@@ -1,0 +1,129 @@
+#!/usr/bin/make -f
+
+MOZ_PKG_BASENAME	:= firefox
+
+include $(CURDIR)/debian/build/config.mk
+
+MOZ_APP			:= browser
+MOZ_VENDOR		:= Mozilla
+MOZ_MOZDIR		:=
+
+MOZ_APP_SUBDIR	:= browser
+
+MOZ_BRANDING		:= $(CHANNEL)
+ifneq (,$(filter release beta, $(MOZ_BRANDING)))
+MOZ_BRANDING		:= official
+endif
+ifeq (1,$(MOZ_FORCE_UNOFFICIAL_BRANDING))
+ifneq (,$(filter official aurora, $(MOZ_BRANDING)))
+MOZ_BRANDING		:= unofficial
+endif
+endif
+MOZ_BRANDING_DIR 	:= $(MOZ_APP)/branding/$(MOZ_BRANDING)
+ifeq (official,$(MOZ_BRANDING))
+MOZ_BRANDING_OPTION	:= --enable-official-branding
+else
+MOZ_BRANDING_OPTION	:= --with-branding=$(MOZ_BRANDING_DIR)
+endif
+
+MOZ_PKGNAME_SUBST_FILES = \
+	debian/usr.bin.$(MOZ_PKG_NAME) \
+	debian/README.Debian \
+	debian/$(MOZ_PKG_NAME)-locale.preinst \
+	debian/$(MOZ_PKG_BASENAME).sh \
+	debian/apport/blacklist \
+	debian/apport/native-origins \
+	debian/apport/source_$(MOZ_PKG_NAME).py \
+	debian/testing/run_mochitest \
+	debian/testing/run_reftest \
+	$(NULL)
+
+MOZ_APPNAME_SUBST_FILES = \
+	debian/$(MOZ_APP_NAME).1 \
+	$(NULL)
+
+MOZ_PKGCONFIG_FILES = \
+	debian/pkgconfig/mozilla-plugin.pc \
+	$(NULL)
+
+ifeq (1,${MOZ_OFFICIAL_BUILD})
+export MOZILLA_OFFICIAL=1
+endif
+ifeq (1,${MOZ_ENABLE_TELEMETRY})
+export MOZ_TELEMETRY_REPORTING=1
+export MOZ_SOURCE_REPO=${MOZILLA_REPO}
+export MOZ_SOURCE_CHANGESET=$(shell cat $(DEB_SRCDIR)/SOURCE_CHANGESET)
+endif
+
+include $(CURDIR)/debian/build/rules.mk
+
+#MOZ_EXECUTABLES_$(MOZ_PKG_NAME)-testsuite =	$(MOZ_LIBDIR)/testing/run_mochitest \
+						$(MOZ_LIBDIR)/testing/run_reftest \
+						$(MOZ_LIBDIR)/testing/run_xpcshell_tests \
+						$(MOZ_LIBDIR)/xpcshell \
+						$(MOZ_LIBDIR)/testing/filter_results \
+						$(NULL)
+
+debian/usr.bin.firefox.in:
+	if [ '$(DISTRIB_VERSION_MAJOR)$(DISTRIB_VERSION_MINOR)' -ge '1410' ]; then \
+		cp $(CURDIR)/debian/usr.bin.firefox.apparmor.14.10 $(CURDIR)/debian/usr.bin.firefox.in ; \
+	elif [ '$(DISTRIB_VERSION_MAJOR)$(DISTRIB_VERSION_MINOR)' -ge '1310' ]; then \
+		cp $(CURDIR)/debian/usr.bin.firefox.apparmor.13.10 $(CURDIR)/debian/usr.bin.firefox.in ; \
+	else \
+		cp $(CURDIR)/debian/usr.bin.firefox.apparmor.12.04 $(CURDIR)/debian/usr.bin.firefox.in ; \
+	fi
+
+ifeq (firefox, $(MOZ_APP_NAME))
+ifneq (,$(filter precise, $(DISTRIB_CODENAME)))
+PLUGIN_BREAKS := flashplugin-installer (<= 11.1.102.63ubuntu1), adobe-flashplugin (<= 11.1.102.63-0precise1)
+PLUGIN_CONFLICTS := gcu-plugin (<= 0.12.10-1ubuntu1)
+endif
+endif
+
+WRITE_SUBSTVARS = $(shell echo "$(2)=$(3)" | sed 's/[ \t\n]\+/ /g' >> debian/$(1).substvars)
+
+ifeq (firefox, $(MOZ_PKG_NAME))
+ifeq (,$(filter precise, $(DISTRIB_CODENAME)))
+install/firefox::
+	$(call WRITE_SUBSTVARS,firefox,transitional:Replaces,kubuntu-firefox-installer)
+else
+FIREFOX_REPLACES = abrowser, abrowser-branding, firefox-branding, kubuntu-firefox-installer
+FIREFOX_BREAKS = abrowser (<= 4.0~b11+build3+nobinonly-0ubuntu1), abrowser-branding (<= 4.0~b11+build3+nobinonly-0ubuntu1), \
+		 firefox-branding (<= 4.0~b11+build3+nobinonly-0ubuntu1), $(PLUGIN_BREAKS)
+install/firefox::
+	$(call WRITE_SUBSTVARS,firefox,transitional:Replaces,$(FIREFOX_REPLACES))
+	$(call WRITE_SUBSTVARS,firefox,transitional:Breaks,$(FIREFOX_BREAKS))
+	$(call WRITE_SUBSTVARS,firefox,transitional:Conflicts,$(PLUGIN_CONFLICTS))
+endif
+endif
+
+binary-post-install/$(MOZ_PKG_NAME):: install-distribution-searchplugins-$(MOZ_PKG_NAME)
+
+$(patsubst %,binary-post-install/%,$(MOZ_LOCALE_PKGS)):: binary-post-install/%: install-webapprt-langpack-links-% install-distribution-searchplugins-%
+
+install-webapprt-langpack-links-%: XPIS = $(notdir $(wildcard debian/$*/$(MOZ_ADDONDIR)/extensions/*.xpi))
+install-webapprt-langpack-links-%:
+	$(foreach xpi,$(XPIS),dh_link -p$* $(MOZ_ADDONDIR)/extensions/$(xpi) $(MOZ_LIBDIR)/webapprt/extensions/$(xpi);)
+
+$(patsubst %,install-distribution-searchplugins-%,$(MOZ_LOCALE_PKGS) $(MOZ_PKG_NAME)) :: install-distribution-searchplugins-% :
+	@echo ""
+	@echo "Installing distribution searchplugins for $*"
+$(patsubst %,install-distribution-searchplugins-%,$(MOZ_LOCALE_PKGS) $(MOZ_PKG_NAME)) :: install-distribution-searchplugins-% : install-distribution-searchplugins-IMPL-%
+$(patsubst %,install-distribution-searchplugins-%,$(MOZ_LOCALE_PKGS) $(MOZ_PKG_NAME)) :: install-distribution-searchplugins-% :
+	@echo ""
+
+install-distribution-searchplugins-IMPL-%:
+	$(foreach lang,$(call locales_for_langpack,$*), \
+		python debian/install-distribution-searchplugins.py -c debian/config/searchplugins.conf -l $(lang) -u $(firstword $(wildcard $(MOZ_DISTDIR)/xpi-stage/locale-$(lang)/browser/chrome/$(lang)/locale/browser/searchplugins) $(MOZ_DISTDIR)/bin/browser/chrome/en-US/locale/browser/searchplugins) -d debian/$*/$(MOZ_LIBDIR)/distribution/searchplugins/locale/$(lang) -s debian/searchplugins;)
+
+make-langpack-preinsts:: $(foreach langpack,$(MOZ_LOCALE_PKGS),debian/$(langpack).preinst)
+$(patsubst %,debian/%.preinst,$(MOZ_LOCALE_PKGS)) :: debian/%.preinst : debian/$(MOZ_PKG_NAME)-locale.preinst
+	cp $< $@
+
+pre-build:: make-langpack-preinsts
+
+clean::
+	rm -f debian/$(MOZ_PKG_NAME)-locale-*.preinst
+	rm -f debian/usr.bin.firefox.in
+
+.PHONY: make-langpack-preinsts

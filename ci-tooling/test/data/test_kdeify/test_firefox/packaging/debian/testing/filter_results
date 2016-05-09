@@ -1,0 +1,244 @@
+#!/usr/bin/python
+
+from glob import glob
+import json
+from optparse import OptionParser
+import os.path
+import re
+import sys
+import xml.dom.minidom
+
+class ReadOnlyDict(dict):
+  def __init__(self, d = {}):
+    dict.__init__(self, d)
+
+  def __setitem__(self, key, value):
+    raise TypeError('ReadOnlyDict does not support assignment')
+
+class SandboxGlobal(ReadOnlyDict):
+
+  builtins = ReadOnlyDict({'None': None, 'False': False, 'True': True})
+
+  def __init__(self, d = {}):
+    ReadOnlyDict.__init__(self, {
+        '__builtins__': self.builtins,
+        'reftest_fuzzy_pass': self.reftest_fuzzy_pass})
+
+    self._vars = d
+
+  def __getitem__(self, key):
+    if key in self._vars:
+      return self._vars[key]
+
+    return ReadOnlyDict.__getitem__(self, key)
+
+  def reftest_fuzzy_pass(self, max_diff, diff_count):
+    m = re.match('image comparison \(==\), max difference: ([0-9]*), '
+                 'number of differing pixels: ([0-9]*)',
+                 self._vars['message'])
+    if m == None:
+      return False
+    return int(m.groups()[0]) <= max_diff and int(m.groups()[1]) <= diff_count
+
+class Sandbox(object):
+  def __init__(self, type, message):
+    self._global = SandboxGlobal({'type': type, 'message': message})
+
+  def eval(self, str):
+    return eval(str, self._global, {})
+
+class FilterOptions(OptionParser):
+  def __init__(self):
+    OptionParser.__init__(self)
+
+    self.add_option('-d', '--results-dir', dest='input',
+                    help='Specify the directory containing the test results')
+    self.add_option('-m', '--manifest', dest='manifest',
+                    help='Specify the manifest file')
+    self.add_option('-o', '--output-dir', dest='output',
+                    help='Specify the directory in which to store the '
+                         'filtered results')
+    self.add_option('-x', '--xunit-file', dest='xunit_file',
+                    help='Specify a filename to store xunit results from '
+                         'this script')
+
+def main():
+  parser = FilterOptions()
+  (options, args) = parser.parse_args()
+
+  if options.manifest == None:
+    print >> sys.stderr, 'Must specify a manifest file'
+    sys.exit(1)
+
+  if options.input == None:
+    options.input = os.getcwd()
+
+  if options.output == None:
+    options.output = options.input
+
+  if options.xunit_file != None and not os.path.isabs(options.xunit_file):
+    options.xunit_file = os.path.join(options.output, options.xunit_file)
+
+  config = []
+  with open(options.manifest, 'r') as f:
+    config = json.load(f)
+
+  for i in config:
+    for f in ['id', 'type', 'message']:
+      if f in i:
+        i[f] = re.compile(i[f])
+      else:
+        i[f] = re.compile('.*')
+    if 'random' not in i:
+      i['random'] = False
+    if 'expected_count' in i:
+      i['max_expected_count'] = i['min_expected_count'] = i['expected_count']
+    if 'min_expected_count' not in i or i['random'] == True:
+      i['min_expected_count'] = 0
+    if 'max_expected_count' not in i:
+      i['max_expected_count'] = sys.maxint
+    i['count'] = 0
+
+  for file in glob(os.path.join(options.input, '*.xml')):
+    print 'Processing file %s' % file
+    doc = xml.dom.minidom.parse(file)
+    doc.normalize()
+    if doc.documentElement.tagName != 'testsuite':
+      print >> sys.stderr, "Skipping invalid result file %s with document " + \
+                           "element '%s'" % (f, doc.documentElement.tagName)
+      continue
+
+    testsuite = doc.documentElement.getAttribute('name')
+    print 'Testsuite name %s' % testsuite
+
+    adjust = 0
+    testcases = doc.getElementsByTagName('testcase')
+    for t in testcases:
+      t_id = testsuite + '.' + t.getAttribute('classname') + \
+             '.' + t.getAttribute('name')
+      failures = t.getElementsByTagName('failure')
+
+      for c in config:
+        if not c['id'].match(t_id):
+          continue
+
+        match = False
+        for f in failures:
+          type = f.getAttribute('type')
+          message = f.getAttribute('message')
+
+          if not c['type'].match(type):
+            continue
+
+          if not c['message'].match(message):
+            continue
+
+          if 'condition' in c:
+            s = Sandbox(type, message)
+            if not s.eval(c['condition']):
+              continue
+
+          match = True
+
+          print 'Removing expected failure from %s%s' % \
+                (t_id, ' (%s)' % c['note'] if 'note' in c else '')
+          adjust -= 1
+          t.removeChild(f)
+
+        if match:
+          c['count'] += 1
+        elif c['random'] == False:
+          failure = doc.createElement('failure')
+          failure.setAttribute('type', 'TEST-UNEXPECTED-PASS')
+          failure.setAttribute('message',
+              'A failure was expected here (inserted by filter_results)')
+          cdata = doc.createCDATASection(
+              "Filter parameters:\n"
+              "'id': %s\n'type': %s\n"
+              "'message': %s\n"
+              "'condition': %s\n"
+              "'min_expected_count': %d\n"
+              "'max_expected_count': %d" %
+              (c['id'].pattern, c['type'].pattern, c['message'].pattern,
+               (c['condition'] if 'condition' in c else "None"),
+               c['min_expected_count'], c['max_expected_count']))
+          failure.appendChild(cdata)
+
+          print 'Adding unexpected pass to %s' % t_id
+          t.appendChild(failure)
+          adjust += 1
+
+    if adjust != 0:
+      old_count = int(doc.documentElement.getAttribute("failures"))
+      new_count = old_count + adjust
+      print 'Adjusting failure count from %d to %d' % (old_count, new_count)
+      doc.documentElement.setAttribute("failures", str(new_count))
+
+    def remove_empty_text_nodes(node):
+      remove = []
+      for child in node.childNodes:
+        if child.nodeType == 3 and len(child.data.strip()) == 0:
+          remove.append(child)
+        else:
+          remove_empty_text_nodes(child)
+      for r in remove:
+        node.removeChild(r)
+
+    remove_empty_text_nodes(doc)
+
+    with open(os.path.join(options.output, os.path.basename(file)), 'w+') as fd:
+      doc.writexml(fd, addindent='  ', newl='\n', encoding='utf-8')
+
+    print 'Finished processing file %s' % file
+
+  if options.xunit_file == None:
+    return
+
+  result_doc = xml.dom.minidom.Document()
+  testsuite = result_doc.createElement('testsuite')
+  testsuite.setAttribute('name', 'filter-results')
+  result_doc.appendChild(testsuite)
+
+  testcase = result_doc.createElement('testcase')
+  testcase.setAttribute('classname', 'root')
+  testcase.setAttribute('name', 'filter-results')
+  testsuite.appendChild(testcase)
+
+  for c in config:
+    if (c['count'] > c['max_expected_count'] or
+        c['count'] < c['min_expected_count']):
+      failure = result_doc.createElement('failure')
+      failure.setAttribute('type', 'TEST-UNEXPECTED-FAIL')
+      failure.setAttribute('message',
+          'Unexpected number of test failure matches ' +
+          '(got %d, expected %s)' %
+          (c['count'],
+           (('%d' % c['min_expected_count'])
+            if c['min_expected_count'] == c['max_expected_count'] else
+            ('between %d and %d' % (c['min_expected_count'],
+             c['max_expected_count'])))))
+      cdata = result_doc.createCDATASection(
+          "Filter parameters:\n"
+          "'id': %s\n"
+          "'type': %s\n"
+          "'message': %s\n"
+          "'condition': %s\n"
+          "'random': %s\n"
+          "'min_expected_count': %s\n"
+          "'max_expected_count': %s" %
+          (c['id'].pattern, c['type'].pattern, c['message'].pattern,
+           c['condition'] if 'condition' in c else 'None',
+           str(c['random']),
+           str(c['min_expected_count']),
+           str(c['max_expected_count'])))
+      failure.appendChild(cdata)
+      testcase.appendChild(failure)
+
+  testsuite.setAttribute('tests', '1')
+  testsuite.setAttribute('failures', str(len(testcase.childNodes)))
+
+  with open(options.xunit_file, 'w+') as fd:
+    result_doc.writexml(fd, addindent='  ', newl='\n', encoding='utf-8')
+
+if __name__ == '__main__':
+  main()

@@ -1,0 +1,3 @@
+extend-diff-ignore = "^\.mozconfig\."
+extend-diff-ignore = ".pyc$"
+extend-diff-ignore = "^obj\-"

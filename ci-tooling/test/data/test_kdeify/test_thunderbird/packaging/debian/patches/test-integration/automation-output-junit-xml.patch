@@ -1,0 +1,449 @@
+Description: Add JUnit XML output support for reftest and mochitest harnesses.
+ This is required for integration with Jenkins
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-35.0~a1~hg20141004r208732/mozilla/build/automation.py.in
+===================================================================
+--- firefox-trunk-35.0~a1~hg20141004r208732.orig/mozilla/build/automation.py.in	2014-10-04 13:12:23.213350651 +0100
++++ firefox-trunk-35.0~a1~hg20141004r208732/mozilla/build/automation.py.in	2014-10-04 13:12:23.209350651 +0100
+@@ -20,6 +20,8 @@
+ import sqlite3
+ from datetime import datetime, timedelta
+ from string import Template
++import xml.dom.minidom
++import urlparse
+ 
+ SCRIPT_DIR = os.path.abspath(os.path.realpath(os.path.dirname(sys.argv[0])))
+ sys.path.insert(0, SCRIPT_DIR)
+@@ -129,6 +131,182 @@
+     self.port = port
+     self.options = options
+ 
++
++class TestFailure:
++  "Represents a test failure"
++
++  def __init__(self, type, message, log):
++    self.type = type
++    self.message = message
++    self.log = log
++
++
++class TestState(object):
++  "Represents state about a a test"
++
++  def __init__(self, url, root=''):
++    self._root = urlparse.urlparse(root)
++    self.url = url
++    self._start_time = datetime.now()
++    self._end_time = None
++    self._skipped = False
++    self._pass_count = 0
++    self.failures = []
++
++  def finish(self):
++    self._end_time = datetime.now()
++
++  def get_url(self):
++    return self._url
++
++  def set_url(self, url):
++    if isinstance(url, urlparse.ParseResult):
++      self._url = url
++    else:
++      self._url = urlparse.urlparse(url)
++
++  url = property(get_url, set_url)
++
++  @property
++  def classname(self):
++    try:
++      url = self.url
++      if self.url.scheme == 'view-source':
++        url = urlparse.urlparse(url.path)
++      if url.scheme == self._root.scheme and url.netloc == self._root.netloc and \
++         os.path.commonprefix([url.path, self._root.path]) == self._root.path:
++        return re.sub(r'^/', '', os.path.relpath(os.path.dirname(url.path), self._root.path)).replace('/', '.')
++      else:
++        return ''
++    except ValueError:
++      return ''
++
++  @property
++  def name(self):
++    url = self.url
++    if self.url.scheme == 'view-source':
++      url = urlparse.urlparse(url.path)
++    if url.scheme == self._root.scheme and url.netloc == self._root.netloc and \
++       os.path.commonprefix([url.path, self._root.path]) == self._root.path:
++      if url == self.url:
++        return os.path.basename(url.path)
++      else:
++        return self.url.scheme + ':' + os.path.basename(url.path)
++    else:
++      return url.path
++
++  @property
++  def time(self):
++    if self._end_time == None:
++      raise Exception("Test hasn't finished yet")
++
++    if self._skipped == True:
++      return 0.000000
++    else:
++      return (self._end_time - self._start_time).total_seconds()
++
++  @property
++  def loadOnly(self):
++    return self._pass_count == 0 and not self._skipped and len(self.failures) == 0
++
++  def get_skipped(self):
++    return self._skipped
++
++  def set_skipped(self, skipped):
++    if skipped == True:
++      assert self._pass_count == 0 and len(self.failures) == 0
++    self._skipped = skipped
++
++  skipped = property(get_skipped, set_skipped)
++
++  def get_pass_count(self):
++    return self._pass_count
++
++  def set_pass_count(self, count):
++    if count > 0:
++      assert self._skipped == False
++    self._pass_count = count
++
++  pass_count = property(get_pass_count, set_pass_count)
++
++  def add_failure(self, failure):
++    assert self._skipped == False
++    self.failures.append(failure)
++
++  def __str__(self):
++    return self.url.geturl()
++
++
++class XunitLogHandler(logging.Handler):
++
++  RE = re.compile(r'.*TEST-(UNEXPECTED|PASS|KNOWN|START)-?(PASS|FAIL|SLOW)?(\([^\)]*\))?\s+\|\s+(\S+)\s*\|?\s*(.*)')
++
++  def __init__(self, root):
++    logging.Handler.__init__(self)
++    self._buffer = []
++    self._root = root
++    self._currentTest = None
++    self._currentFailure = None
++    self.results = []
++
++  def _startNewTest(self, url):
++    if self._currentTest != None and self._currentTest.loadOnly:
++      self._currentTest.url = url
++    else:
++      if self._currentTest != None:
++        self._currentTest.finish()
++      self._currentTest = TestState(url, self._root)
++      self.results.append(self._currentTest)
++      self._buffer = []
++    self._currentFailure = None
++
++  def done(self):
++    if self._currentTest != None:
++      self._currentTest.finish()
++      self._currentTest = None
++
++  def emit(self, record):
++    line = record.getMessage()
++
++    m = self.RE.match(line)
++
++    if m != None and m.groups()[0] == "START":
++      self._startNewTest(m.groups()[3].strip())
++
++    self._buffer.append(line)
++
++    if m != None and m.groups()[0] == "UNEXPECTED":
++      url = urlparse.urlparse(m.groups()[3].strip())
++
++      f = TestFailure('TEST-UNEXPECTED-' + m.groups()[1].strip(), m.groups()[4].strip(), self._buffer)
++      self._buffer = []
++
++      if self._currentTest == None or url != self._currentTest.url or self._currentTest.skipped:
++        self._startNewTest(url)
++
++      self._currentFailure = f
++      self._currentTest.add_failure(self._currentFailure)
++
++    elif m != None and (m.groups()[0] == "PASS" or m.groups()[0] == "KNOWN"):
++      url = urlparse.urlparse(m.groups()[3].strip())
++      self._currentFailure = None
++
++      if self._currentTest == None or url != self._currentTest.url:
++        self._startNewTest(url)
++
++      if "(SKIP)" in m.groups()[4] or "(SKIPPED" in m.groups()[4] or m.groups()[1] == "SLOW":
++        if self._currentTest.pass_count > 0 or len(self._currentTest.failures) > 0:
++          self._startNewTest(url)
++        self._currentTest.skipped = True
++      else:
++        if self._currentTest.skipped:
++          self._startNewTest(url)
++        self._currentTest.pass_count += 1
++
++    elif self._currentFailure != None:
++      self._currentFailure.log.append(line)
++
++
+ class Automation(object):
+   """
+   Runs the browser from a script, and provides useful utilities
+@@ -396,6 +574,16 @@
+                       dest = "extraPrefs", metavar = "PREF=VALUE",
+                       help = "defines an extra user preference")
+ 
++    parser.add_option("--xunit-file",
++                      action = "store", type = "string",
++                      dest = "xunitFile",
++                      help = "specify a filename to output JUnit results to")
++
++    parser.add_option("--xunit-name",
++                      action = "store", type = "string",
++                      dest = "xunitName",
++                      help = "specify a name for the xUnit results")
++
+   def fillCertificateDB(self, profileDir, certPath, utilityPath, xrePath):
+     pwfilePath = os.path.join(profileDir, ".crtdbpw")
+     pwfile = open(pwfilePath, "w")
+@@ -809,12 +997,62 @@
+   def checkForCrashes(self, minidumpDir, symbolsPath):
+     return mozcrash.check_for_crashes(minidumpDir, symbolsPath, test_name=self.lastTestSeen)
+ 
++  def writeXunitResults(self, xunitFile, xunitName, xunitResults):
++    doc = xml.dom.minidom.Document()
++    testsuite = doc.createElement("testsuite")
++    doc.appendChild(testsuite)
++    testsuite.setAttribute("name", xunitName)
++
++    passed = 0
++    failed = 0
++    skipped = 0
++
++    for res in xunitResults:
++      testcase = doc.createElement("testcase")
++      testsuite.appendChild(testcase)
++
++      testcase.setAttribute("name", res.name)
++      testcase.setAttribute("classname", res.classname)
++      testcase.setAttribute("time", str(res.time))
++
++      if res.skipped:
++        assert res.pass_count == 0 and len(res.failures) == 0
++        skipped += 1
++
++        testcase.appendChild(doc.createElement("skipped"))
++
++      else:
++        passed += res.pass_count
++        failed += len(res.failures)
++
++        for f in res.failures:
++          failure = doc.createElement("failure")
++          testcase.appendChild(failure)
++
++          failure.setAttribute("type", f.type)
++          failure.setAttribute("message", f.message)
++
++          cdata = ('\n'.join(f.log)).decode("utf-8")
++          cdata = cdata.replace("]]>", "]] >")
++          cdata = cdata.replace("\x07", "")
++
++          text = doc.createCDATASection(cdata)
++          failure.appendChild(text)
++
++    testsuite.setAttribute("tests", str(passed + failed))
++    testsuite.setAttribute("failures", str(failed))
++    testsuite.setAttribute("skipped", str(skipped))
++
++    with open(xunitFile, 'w+') as fd:
++      doc.writexml(fd, addindent="  ", newl="\n", encoding="utf-8")
++
+   def runApp(self, testURL, env, app, profileDir, extraArgs,
+              runSSLTunnel = False, utilityPath = None,
+              xrePath = None, certPath = None,
+              debuggerInfo = None, symbolsPath = None,
+              timeout = -1, maxTime = None, onLaunch = None,
+-             detectShutdownLeaks = False, screenshotOnFail=False, testPath=None, bisectChunk=None):
++             detectShutdownLeaks = False, screenshotOnFail=False, testPath=None, bisectChunk=None,
++             xunitFile = None, xunitName = None, xunitRoot = None):
+     """
+     Run the app, log the duration it took to execute, return the status code.
+     Kills the app if it runs for longer than |maxTime| seconds, or outputs nothing for |timeout| seconds.
+@@ -829,6 +1067,11 @@
+     if timeout == -1:
+       timeout = self.DEFAULT_TIMEOUT
+ 
++    if xunitFile != None:
++      assert xunitName != None
++    if xunitRoot == None:
++      xunitRoot = ''
++
+     # copy env so we don't munge the caller's environment
+     env = dict(env);
+     env["NO_EM_RESTART"] = "1"
+@@ -876,9 +1119,17 @@
+       # app is launched.
+       onLaunch()
+ 
++    if xunitFile != None:
++      xunitHandler = XunitLogHandler(xunitRoot)
++      self.log.addHandler(xunitHandler)
++
+     status = self.waitForFinish(proc, utilityPath, timeout, maxTime, startTime, debuggerInfo, symbolsPath)
+     self.log.info("INFO | automation.py | Application ran for: %s", str(datetime.now() - startTime))
+ 
++    if xunitFile != None:
++      xunitHandler.done()
++      self.writeXunitResults(xunitFile, xunitName, xunitHandler.results)
++
+     # Do a final check for zombie child processes.
+     zombieProcesses = self.checkForZombies(processLog, utilityPath, debuggerInfo)
+ 
+Index: firefox-trunk-35.0~a1~hg20141004r208732/mozilla/layout/tools/reftest/reftest.js
+===================================================================
+--- firefox-trunk-35.0~a1~hg20141004r208732.orig/mozilla/layout/tools/reftest/reftest.js	2014-10-04 13:12:23.213350651 +0100
++++ firefox-trunk-35.0~a1~hg20141004r208732/mozilla/layout/tools/reftest/reftest.js	2014-10-04 13:12:23.209350651 +0100
+@@ -1215,17 +1215,17 @@
+         var test = gURLs[0];
+         if (test.expected == EXPECTED_DEATH) {
+             ++gTestResults.Skip;
+-            gDumpLog("REFTEST TEST-KNOWN-FAIL | " + test.url1.spec + " | (SKIP)\n");
++            gDumpLog("REFTEST TEST-KNOWN-FAIL | " + test.prettyPath + " | (SKIP)\n");
+             gURLs.shift();
+         } else if (test.needsFocus && !Focus()) {
+             // FIXME: Marking this as a known fail is dangerous!  What
+             // if it starts failing all the time?
+             ++gTestResults.Skip;
+-            gDumpLog("REFTEST TEST-KNOWN-FAIL | " + test.url1.spec + " | (SKIPPED; COULDN'T GET FOCUS)\n");
++            gDumpLog("REFTEST TEST-KNOWN-FAIL | " + test.prettyPath + " | (SKIPPED; COULDN'T GET FOCUS)\n");
+             gURLs.shift();
+         } else if (test.slow && !gRunSlowTests) {
+             ++gTestResults.Slow;
+-            gDumpLog("REFTEST TEST-KNOWN-SLOW | " + test.url1.spec + " | (SLOW)\n");
++            gDumpLog("REFTEST TEST-KNOWN-SLOW | " + test.prettyPath + " | (SLOW)\n");
+             gURLs.shift();
+         } else {
+             break;
+@@ -1307,11 +1307,11 @@
+             if (e == "bad pref") {
+                 var test = gURLs[0];
+                 if (test.expected == EXPECTED_FAIL) {
+-                    gDumpLog("REFTEST TEST-KNOWN-FAIL | " + test.url1.spec +
++                    gDumpLog("REFTEST TEST-KNOWN-FAIL | " + test.prettyPath +
+                              " | (SKIPPED; " + badPref + " not known or wrong type)\n");
+                     ++gTestResults.Skip;
+                 } else {
+-                    gDumpLog("REFTEST TEST-UNEXPECTED-FAIL | " + test.url1.spec +
++                    gDumpLog("REFTEST TEST-UNEXPECTED-FAIL | " + test.prettyPath +
+                              " | " + badPref + " not known or wrong type\n");
+                     ++gTestResults.UnexpectedFail;
+                 }
+Index: firefox-trunk-35.0~a1~hg20141004r208732/mozilla/layout/tools/reftest/runreftest.py
+===================================================================
+--- firefox-trunk-35.0~a1~hg20141004r208732.orig/mozilla/layout/tools/reftest/runreftest.py	2014-10-04 13:12:23.213350651 +0100
++++ firefox-trunk-35.0~a1~hg20141004r208732/mozilla/layout/tools/reftest/runreftest.py	2014-10-04 13:13:49.321349927 +0100
+@@ -328,6 +328,15 @@
+       reftestlist = self.getManifestPath(testPath)
+       if cmdlineArgs == None:
+         cmdlineArgs = ['-reftest', reftestlist]
++      xunitName = "reftest"
++      testsRootDir = None
++      if options.xunitFile != None:
++        if options.testsRootDir == None:
++          print "Error: Need to specify the root test directory when outputting xunit results"
++          sys.exit(1)
++        if options.xunitName != None:
++          xunitName = options.xunitName
++        testsRootDir = "file://" + os.path.abspath(options.testsRootDir)
+       profile = self.createReftestProfile(options, reftestlist)
+       profileDir = profile.profile # name makes more sense
+ 
+@@ -343,7 +352,10 @@
+                                  symbolsPath=options.symbolsPath,
+                                  # give the JS harness 30 seconds to deal
+                                  # with its own timeouts
+-                                 timeout=options.timeout + 30.0)
++                                 timeout=options.timeout + 30.0,
++                                 xunitFile=options.xunitFile,
++                                 xunitName=xunitName,
++                                 xunitRoot=testsRootDir)
+       processLeakLog(self.leakLogFile, options.leakThresholds, options.ignoreMissingLeaks)
+       self.automation.log.info("\nREFTEST INFO | runreftest.py | Running tests: end.")
+     finally:
+@@ -481,6 +493,11 @@
+                     help = "enables content processes")
+     defaults["e10s"] = False
+ 
++    self.add_option("--tests-root-dir",
++                    action = "store", type = "string", dest = "testsRootDir",
++                    help = "specify the root directory of the tests")
++    defaults["testsRootDir"] = None
++
+     self.set_defaults(**defaults)
+ 
+   def verifyCommonOptions(self, options, reftest):
+Index: firefox-trunk-35.0~a1~hg20141004r208732/mozilla/testing/mochitest/runtests.py
+===================================================================
+--- firefox-trunk-35.0~a1~hg20141004r208732.orig/mozilla/testing/mochitest/runtests.py	2014-10-04 13:12:23.213350651 +0100
++++ firefox-trunk-35.0~a1~hg20141004r208732/mozilla/testing/mochitest/runtests.py	2014-10-04 13:12:23.209350651 +0100
+@@ -1668,6 +1668,28 @@
+ 
+     return result
+ 
++  def getXunitParams(self, options):
++    if options.a11y:
++      xunitRoot = "chrome://mochitests/content/a11y"
++      xunitName = "mochitest.a11y"
++    elif options.browserChrome:
++      xunitRoot = "chrome://mochitests/content/browser"
++      xunitName = "mochitest.browser"
++    elif options.chrome:
++      xunitRoot = "chrome://mochitests/content/chrome"
++      xunitName = "mochitest.chrome"
++    elif options.ipcplugins:
++      xunitRoot = os.path.join("/" + self.TEST_PATH, "dom/plugins/test")
++      xunitName = "mochitest.ipcplugins"
++    else:
++      xunitRoot = "/" + self.TEST_PATH
++      xunitName = "mochitest.plain"
++
++    if options.xunitName != None:
++      xunitName = options.xunitName
++
++    return (xunitName, xunitRoot)
++
+   def runTests(self, options, onLaunch=None):
+     """ Prepare, configure, run tests and cleanup """
+ 
+@@ -1811,6 +1833,8 @@
+       if options.vmwareRecording:
+         self.startVMwareRecording(options);
+ 
++      (xunitName, xunitRoot) = self.getXunitParams(options)
++
+       # detect shutdown leaks for m-bc runs
+       detectShutdownLeaks = mozinfo.info["debug"] and options.browserChrome and not options.webapprtChrome
+ 
+@@ -1830,7 +1854,10 @@
+                              screenshotOnFail=options.screenshotOnFail,
+                              testPath=options.testPath,
+                              bisectChunk=options.bisectChunk,
+-                             quiet=options.quiet
++                             quiet=options.quiet,
++                             xunitFile=options.xunitFile,
++                             xunitName=xunitName,
++                             xunitRoot=xunitRoot
+         )
+       except KeyboardInterrupt:
+         self.log.info("runtests.py | Received keyboard interrupt.\n");

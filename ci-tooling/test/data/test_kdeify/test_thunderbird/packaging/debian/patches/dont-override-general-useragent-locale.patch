@@ -1,0 +1,22 @@
+Index: mozilla/mail/app/profile/all-thunderbird.js
+===================================================================
+--- mozilla.orig/mail/app/profile/all-thunderbird.js	2012-03-12 22:42:59.447829110 +0000
++++ mozilla/mail/app/profile/all-thunderbird.js	2012-03-12 22:45:03.987834226 +0000
+@@ -44,7 +44,6 @@
+ #endif
+ #endif
+ 
+-pref("general.useragent.locale", "@AB_CD@");
+ pref("general.skins.selectedSkin", "classic/1.0");
+ 
+ #ifdef XP_MACOSX
+Index: mozilla/mail/locales/en-US/all-l10n.js
+===================================================================
+--- mozilla.orig/mail/locales/en-US/all-l10n.js	2012-03-12 02:43:40.000000000 +0000
++++ mozilla/mail/locales/en-US/all-l10n.js	2012-03-12 22:44:45.083833451 +0000
+@@ -36,5 +36,4 @@
+ 
+ #filter substitution
+ 
+-pref("general.useragent.locale", "@AB_CD@");
+ pref("spellchecker.dictionary", "@AB_CD@");

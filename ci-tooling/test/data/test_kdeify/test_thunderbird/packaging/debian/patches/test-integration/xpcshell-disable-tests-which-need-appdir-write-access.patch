@@ -1,0 +1,50 @@
+Description: Disable xpcshell tests that always fail in Jenkins because they
+ require write access to the application directory
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: thunderbird-trunk-20.0~a1~hg20121128r11629.114362/mail/base/test/unit/xpcshell.ini
+===================================================================
+--- thunderbird-trunk-20.0~a1~hg20121128r11629.114362.orig/mail/base/test/unit/xpcshell.ini	2012-11-29 02:43:42.000000000 +0000
++++ thunderbird-trunk-20.0~a1~hg20121128r11629.114362/mail/base/test/unit/xpcshell.ini	2012-11-30 11:30:11.181218953 +0000
+@@ -13,3 +13,5 @@
+ [test_windows_font_migration.js]
+ skip-if = os != "win"
+ [test_mailGlue_distribution.js]
++# Requires write access to the application directory
++skip-if = true
+Index: firefox-trunk-27.0~a1~hg20131021r151486/mozilla/toolkit/mozapps/extensions/test/xpcshell/xpcshell-shared.ini
+===================================================================
+--- firefox-trunk-27.0~a1~hg20131021r151486.orig/mozilla/toolkit/mozapps/extensions/test/xpcshell/xpcshell-shared.ini	2013-10-21 19:59:44.000000000 +0100
++++ firefox-trunk-27.0~a1~hg20131021r151486/mozilla/toolkit/mozapps/extensions/test/xpcshell/xpcshell-shared.ini	2013-10-21 20:48:10.720902510 +0100
+@@ -255,12 +255,12 @@
+ run-sequentially = Uses hardcoded ports in xpi files.
+ [test_update_compatmode.js]
+ [test_upgrade.js]
+-# Bug 676992: test consistently hangs on Android
+-skip-if = os == "android"
++# This needs to write to the application directory
++skip-if = true
+ run-sequentially = Uses global XCurProcD dir.
+ [test_upgrade_strictcompat.js]
+-# Bug 676992: test consistently hangs on Android
+-skip-if = os == "android"
++# This needs to write to the application directory
++skip-if = true
+ run-sequentially = Uses global XCurProcD dir.
+ [test_overrideblocklist.js]
+ run-sequentially = Uses global XCurProcD dir.
+Index: thunderbird-trunk-20.0~a1~hg20121128r11629.114362/mailnews/base/test/unit/xpcshell.ini
+===================================================================
+--- thunderbird-trunk-20.0~a1~hg20121128r11629.114362.orig/mailnews/base/test/unit/xpcshell.ini	2012-11-29 02:44:16.000000000 +0000
++++ thunderbird-trunk-20.0~a1~hg20121128r11629.114362/mailnews/base/test/unit/xpcshell.ini	2012-11-29 21:59:56.925067807 +0000
+@@ -7,6 +7,9 @@
+ [test_accountMigration.js]
+ [test_acctRepair.js]
+ [test_autoconfigFetchDisk.js]
++# Requires write access to application directory
++skip-if = true
++
+ [test_autoconfigUtils.js]
+ [test_autoconfigXML.js]
+ [test_bccInDatabase.js]

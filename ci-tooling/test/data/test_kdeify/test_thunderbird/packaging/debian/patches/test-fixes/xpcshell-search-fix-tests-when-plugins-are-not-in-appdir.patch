@@ -1,0 +1,110 @@
+Description: Fix test_json_cache.js to work when search plugins aren't installed
+ in to the application searchplugin directory
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-24.0~a1~hg20130623r136205/mozilla/toolkit/components/search/tests/xpcshell/test_json_cache.js
+===================================================================
+--- firefox-trunk-24.0~a1~hg20130623r136205.orig/mozilla/toolkit/components/search/tests/xpcshell/test_json_cache.js	2013-06-24 03:18:15.000000000 +0100
++++ firefox-trunk-24.0~a1~hg20130623r136205/mozilla/toolkit/components/search/tests/xpcshell/test_json_cache.js	2013-06-26 10:15:15.605897301 +0100
+@@ -31,7 +31,7 @@
+   return _dirSvc.get(aKey, aIFace || Ci.nsIFile);
+ }
+ 
+-let cacheTemplate, appPluginsPath, profPlugins;
++let cacheTemplate, appPluginsPaths, profPlugins;
+ 
+ /**
+  * Test reading from search.json
+@@ -54,12 +54,19 @@
+   let engineTemplateFile = do_get_file("data/engine.xml");
+   engineTemplateFile.copyTo(engineFile.parent, "test-search-engine.xml");
+ 
+-  // Add the app's searchplugins directory to the cache so it won't be ignored.
+-  let appSearchPlugins = getDir(NS_APP_SEARCH_DIR);
+-  appPluginsPath = appSearchPlugins.path;
+-  cacheTemplate.directories[appPluginsPath] = {};
+-  cacheTemplate.directories[appPluginsPath].lastModifiedTime = appSearchPlugins.lastModifiedTime;
+-  cacheTemplate.directories[appPluginsPath].engines = [];
++  // Add the app's searchplugins directoresy to the cache so they won't be ignored.
++  appPluginsPaths = [];
++  let searchPluginsDirList = getDir(NS_APP_SEARCH_DIR_LIST, Ci.nsISimpleEnumerator);
++  while (searchPluginsDirList.hasMoreElements()) {
++    let d = searchPluginsDirList.getNext().QueryInterface(Ci.nsIFile);
++    if (d.path != engineFile.parent.path && d.directoryEntries.hasMoreElements()) {
++      let path = d.path;
++      appPluginsPaths.push(path);
++      cacheTemplate.directories[path] = {};
++      cacheTemplate.directories[path].lastModifiedTime = d.lastModifiedTime;
++      cacheTemplate.directories[path].engines = [];
++    }
++  }
+ 
+   // Replace the profile placeholder with the correct path.
+   profPlugins = engineFile.parent.path;
+@@ -163,8 +170,10 @@
+         // Check that the search.json cache matches the template
+ 
+         let cacheWritten = readJSONFile(cache);
+-        // Delete the app search plugins directory from the template since it's not currently written out.
+-        delete cacheTemplate.directories[appPluginsPath];
++        // Delete the app search plugins directories from the template since they're not currently written out.
++        for each (let path in appPluginsPaths) {
++          delete cacheTemplate.directories[path];
++        }
+ 
+         do_print("Check search.json");
+         isSubObjectOf(cacheTemplate, cacheWritten);
+Index: firefox-trunk-24.0~a1~hg20130623r136205/mozilla/toolkit/components/search/tests/xpcshell/head_search.js
+===================================================================
+--- firefox-trunk-24.0~a1~hg20130623r136205.orig/mozilla/toolkit/components/search/tests/xpcshell/head_search.js	2013-06-24 03:18:14.000000000 +0100
++++ firefox-trunk-24.0~a1~hg20130623r136205/mozilla/toolkit/components/search/tests/xpcshell/head_search.js	2013-06-26 10:17:17.269899256 +0100
+@@ -10,6 +10,7 @@
+ 
+ const BROWSER_SEARCH_PREF = "browser.search.";
+ const NS_APP_SEARCH_DIR = "SrchPlugns";
++const NS_APP_SEARCH_DIR_LIST = "SrchPluginsDL";
+ 
+ const MODE_RDONLY = FileUtils.MODE_RDONLY;
+ const MODE_WRONLY = FileUtils.MODE_WRONLY;
+@@ -19,6 +20,40 @@
+ // Need to create and register a profile folder.
+ var gProfD = do_get_profile();
+ 
++// We register this to make the browser directory provider work
++// correctly for NS_APP_SEARCH_DIR_LIST. This is necessary when
++// the default plugins are in distribution/searchplugins rather
++// than the application directory
++Services.dirsvc.registerProvider({
++  QueryInterface: function(iid) {
++    if (iid.equals(Ci.nsISupports) ||
++        iid.equals(Ci.nsIDirectoryServiceProvider2) ||
++        iid.equals(Ci.nsIDirectoryServiceProvider)) {
++      return this;
++    }
++
++    throw Cr.NS_ERROR_NO_INTERFACE;
++  },
++
++  getFiles: function(prop) {
++    if (prop == "XREExtDL") {
++      return {
++        QueryInterface: function(iid) {
++          if (iid.equals(Ci.nsISupports) ||
++              iid.equals(Ci.nsISimpleEnumerator)) {
++            return this;
++          }
++
++          throw Cr.NS_ERROR_NO_INTERFACE;
++        },
++
++        hasMoreElements: function() { return false; },
++        getNext: function() { throw Cr.NS_ERROR_FAILURE; }
++      };
++    }
++  }
++});
++
+ function dumpn(text)
+ {
+   dump("search test: " + text + "\n");

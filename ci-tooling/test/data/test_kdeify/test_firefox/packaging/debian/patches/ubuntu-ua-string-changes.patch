@@ -1,0 +1,78 @@
+Description: Add "Ubuntu" to the platform part of the UA string
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: not-needed
+
+Index: firefox-trunk-43.0~a1~hg20150916r262830/netwerk/protocol/http/nsHttpHandler.cpp
+===================================================================
+--- firefox-trunk-43.0~a1~hg20150916r262830.orig/netwerk/protocol/http/nsHttpHandler.cpp	2015-09-17 19:42:31.429286277 +0100
++++ firefox-trunk-43.0~a1~hg20150916r262830/netwerk/protocol/http/nsHttpHandler.cpp	2015-09-17 19:43:17.257423792 +0100
+@@ -172,6 +172,9 @@
+     , mLegacyAppName("Mozilla")
+     , mLegacyAppVersion("5.0")
+     , mProduct("Gecko")
++#ifdef MOZ_UA_VENDOR
++    , mVendor(MOZ_UA_VENDOR)
++#endif
+     , mCompatFirefoxEnabled(false)
+     , mUserAgentIsDirty(true)
+     , mPromptTempRedirect(true)
+@@ -343,6 +346,9 @@
+     LOG(("> misc = %s\n", mMisc.get()));
+     LOG(("> product = %s\n", mProduct.get()));
+     LOG(("> product-sub = %s\n", mProductSub.get()));
++#ifdef MOZ_UA_VENDOR
++    LOG(("> vendor = %s\n", mVendor.get()));
++#endif
+     LOG(("> app-name = %s\n", mAppName.get()));
+     LOG(("> app-version = %s\n", mAppVersion.get()));
+     LOG(("> compat-firefox = %s\n", mCompatFirefox.get()));
+@@ -639,8 +645,10 @@
+                            mCompatFirefox.Length() +
+                            mCompatDevice.Length() +
+                            mDeviceModelId.Length() +
+-                           13);
+-
++#ifdef MOZ_UA_VENDOR
++                           mVendor.Length() + 
++#endif
++                           15);
+     // Application portion
+     mUserAgent.Assign(mLegacyAppName);
+     mUserAgent += '/';
+@@ -655,6 +663,10 @@
+       mUserAgent.AppendLiteral("; ");
+     }
+ #endif
++#ifdef MOZ_UA_VENDOR
++    mUserAgent += mVendor;
++    mUserAgent.AppendLiteral("; ");
++#endif
+     if (!mCompatDevice.IsEmpty()) {
+         mUserAgent += mCompatDevice;
+         mUserAgent.AppendLiteral("; ");
+Index: firefox-trunk-43.0~a1~hg20150916r262830/netwerk/protocol/http/nsHttpHandler.h
+===================================================================
+--- firefox-trunk-43.0~a1~hg20150916r262830.orig/netwerk/protocol/http/nsHttpHandler.h	2015-09-17 19:42:31.429286277 +0100
++++ firefox-trunk-43.0~a1~hg20150916r262830/netwerk/protocol/http/nsHttpHandler.h	2015-09-17 19:42:31.369286096 +0100
+@@ -441,6 +441,7 @@
+     // useragent components
+     nsCString      mLegacyAppName;
+     nsCString      mLegacyAppVersion;
++    nsCString      mVendor;
+     nsCString      mPlatform;
+     nsCString      mOscpu;
+     nsCString      mMisc;
+Index: firefox-trunk-43.0~a1~hg20150916r262830/netwerk/protocol/http/Makefile.in
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ firefox-trunk-43.0~a1~hg20150916r262830/netwerk/protocol/http/Makefile.in	2015-09-17 19:42:31.369286096 +0100
+@@ -0,0 +1,9 @@
++# This Source Code Form is subject to the terms of the Mozilla Public
++# License, v. 2.0. If a copy of the MPL was not distributed with this
++# file, You can obtain one at http://mozilla.org/MPL/2.0/.
++
++include $(topsrcdir)/config/rules.mk
++
++ifdef MOZ_UA_VENDOR
++DEFINES += -DMOZ_UA_VENDOR=\""$(MOZ_UA_VENDOR)"\"
++endif

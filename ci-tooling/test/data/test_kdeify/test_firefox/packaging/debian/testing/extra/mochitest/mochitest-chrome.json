@@ -1,0 +1,7 @@
+{
+ "runtests": {},
+ "excludetests": {
+  "content/canvas/test/chrome/test_webgl_debug_renderer_info.html": "UNSUPPORTED",
+  "dom/tests/mochitest/chrome/test_geolocation.xul": "CRASHES, https://launchpad.net/bugs/TBD"
+ }
+}

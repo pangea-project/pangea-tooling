@@ -1,0 +1,67 @@
+Description: Fix uriloader/exthandler xpcshell tests to not write to the
+ application directory
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-19.0~a1~hg20121114r113217/mozilla/uriloader/exthandler/tests/unit/head_handlerService.js
+===================================================================
+--- firefox-trunk-19.0~a1~hg20121114r113217.orig/mozilla/uriloader/exthandler/tests/unit/head_handlerService.js	2012-11-14 21:08:42.000000000 +0000
++++ firefox-trunk-19.0~a1~hg20121114r113217/mozilla/uriloader/exthandler/tests/unit/head_handlerService.js	2012-11-16 15:33:08.455818000 +0000
+@@ -47,6 +47,9 @@
+   // Initialization & Destruction
+   
+   init: function HandlerServiceTest_init() {
++    // Get a temporary profile
++    do_get_profile();
++
+     // Register ourselves as a directory provider for the datasource file
+     // if there isn't one registered already.
+     try {
+@@ -56,11 +59,6 @@
+       this._providerRegistered = true;
+     }
+ 
+-    // Delete the existing datasource file, if any, so we start from scratch.
+-    // We also do this after finishing the tests, so there shouldn't be an old
+-    // file lying around, but just in case we delete it here as well.
+-    this._deleteDatasourceFile();
+-
+     // Turn on logging so we can troubleshoot problems with the tests.
+     var prefBranch = Cc["@mozilla.org/preferences-service;1"].
+                      getService(Ci.nsIPrefBranch);
+@@ -68,9 +66,6 @@
+   },
+ 
+   destroy: function HandlerServiceTest_destroy() {
+-    // Delete the existing datasource file, if any, so we don't leave test files
+-    // lying around and we start from scratch the next time.
+-    this._deleteDatasourceFile();
+     // Unregister the directory service provider
+     if (this._providerRegistered)
+       this._dirSvc.unregisterProvider(this);
+@@ -86,7 +81,7 @@
+     persistent.value = true;
+ 
+     if (property == "UMimTyp") {
+-      var datasourceFile = this._dirSvc.get("CurProcD", Ci.nsIFile);
++      var datasourceFile = this._dirSvc.get("ProfD", Ci.nsIFile);
+       datasourceFile.append("mimeTypes.rdf");
+       return datasourceFile;
+     }
+@@ -105,15 +100,6 @@
+   // Utilities
+ 
+   /**
+-   * Delete the datasource file.
+-   */
+-  _deleteDatasourceFile: function HandlerServiceTest__deleteDatasourceFile() {
+-    var file = this._dirSvc.get("UMimTyp", Ci.nsIFile);
+-    if (file.exists())
+-      file.remove(false);
+-  },
+-
+-  /**
+    * Get the contents of the datasource as a serialized string.  Useful for
+    * debugging problems with test failures, i.e.:
+    *
+

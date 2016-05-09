@@ -1,0 +1,23 @@
+{
+ "runtests": {},
+ "excludetests": {
+  "browser/base/content/test/browser_aboutHome.js": "UNSUPPORTED UBUNTU-SEARCHPLUGINS",
+  "browser/base/content/test/browser_contextSearchTabPosition.js": "UNSUPPORTED UBUNTU-SEARCHPLUGINS",
+  "browser/base/content/test/browser_urlbar_search_healthreport.js": "UNSUPPORTED UBUNTU-SEARCHPLUGINS",
+  "browser/components/search/test/browser_google.js": "UNSUPPORTED UBUNTU-SEARCHPLUGINS",
+  "browser/devtools/framework/test/browser_toolbox_options.js": "FAILS, https://launchpad.net/bugs/1172026",
+  "dom/tests/browser/browser_geolocation_privatebrowsing_perwindowpb.js": "https://launchpad.net/bugs/1167106",
+  "toolkit/mozapps/extensions/test/browser/browser_bug557956.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
+  "toolkit/mozapps/extensions/test/browser/browser_bug562797.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
+  "toolkit/mozapps/extensions/test/browser/browser_bug572561.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
+  "toolkit/mozapps/extensions/test/browser/browser_bug577990.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
+  "toolkit/mozapps/extensions/test/browser/browser_checkAddonCompatibility.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
+  "toolkit/mozapps/extensions/test/browser/browser_details.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
+  "toolkit/mozapps/extensions/test/browser/browser_select_confirm.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
+  "toolkit/mozapps/extensions/test/browser/browser_select_selection.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
+  "toolkit/mozapps/extensions/test/browser-window/browser_bug562797.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
+  "toolkit/mozapps/extensions/test/browser-window/browser_bug572561.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
+  "toolkit/mozapps/extensions/test/browser-window/browser_bug577990.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
+  "toolkit/mozapps/extensions/test/browser-window/browser_details.js": "UNSUPPORTED UBUNTU-EXTENSIONS"
+ }
+}

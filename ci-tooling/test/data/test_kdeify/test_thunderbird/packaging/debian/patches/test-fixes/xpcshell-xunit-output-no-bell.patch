@@ -1,0 +1,17 @@
+Description: Clean the terminal bell character from the test output, as this
+ breaks Jenkins
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-22.0~a1~hg20130314r124794/mozilla/testing/xpcshell/runxpcshelltests.py
+===================================================================
+--- firefox-trunk-22.0~a1~hg20130314r124794.orig/mozilla/testing/xpcshell/runxpcshelltests.py   2013-03-15 11:07:36.353751094 +0000
++++ firefox-trunk-22.0~a1~hg20130314r124794/mozilla/testing/xpcshell/runxpcshelltests.py    2013-03-15 11:10:15.865757647 +0000
+@@ -538,6 +538,7 @@
+                     cdata = ""
+ 
+                 cdata = cdata.replace("]]>", "]] >")
++                cdata = cdata.replace("\x07", "")
+                 text = doc.createCDATASection(cdata)
+                 failure.appendChild(text)
+                 testcase.appendChild(failure)

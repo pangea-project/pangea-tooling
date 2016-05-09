@@ -1,0 +1,26 @@
+Description: Introduce --with-app-profile to change the profile location, so
+ that we can have nightly builds that are fully coinstallable with release
+ builds
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-36.0~a1~hg20141113r215607/mozilla/configure.in
+===================================================================
+--- firefox-trunk-36.0~a1~hg20141113r215607.orig/mozilla/configure.in	2014-11-14 13:36:25.000000000 +0000
++++ firefox-trunk-36.0~a1~hg20141113r215607/mozilla/configure.in	2014-11-14 13:37:55.348948101 +0000
+@@ -4158,6 +4158,15 @@
+     MOZ_APP_BASENAME="$WITH_APP_BASENAME"
+ fi
+ 
++MOZ_ARG_WITH_STRING(app-profile,
++[--with-app-profile=APPPROFILE sets MOZ_APP_PROFILE to APPPROFILE],
++WITH_APP_PROFILE=$withval,
++)
++
++if test -n "$WITH_APP_PROFILE" ; then
++    MOZ_APP_PROFILE="$WITH_APP_PROFILE"
++fi
++
+ # Now is a good time to test for logic errors, define mismatches, etc.
+ case "$MOZ_BUILD_APP" in
+ xulrunner)

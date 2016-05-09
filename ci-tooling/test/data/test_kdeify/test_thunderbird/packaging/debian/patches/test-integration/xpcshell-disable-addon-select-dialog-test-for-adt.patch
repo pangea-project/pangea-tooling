@@ -1,0 +1,31 @@
+Description: Make toolkit/mozapps/extensions/test/xpcshell/test_bug596343.js
+ work when the selection UI is disabled
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-32.0~a1~hg20140603r186425/mozilla/toolkit/mozapps/extensions/test/xpcshell/test_bug596343.js
+===================================================================
+--- firefox-trunk-32.0~a1~hg20140603r186425.orig/mozilla/toolkit/mozapps/extensions/test/xpcshell/test_bug596343.js	2014-06-04 22:26:11.904179780 +0100
++++ firefox-trunk-32.0~a1~hg20140603r186425/mozilla/toolkit/mozapps/extensions/test/xpcshell/test_bug596343.js	2014-06-05 00:28:50.624218035 +0100
+@@ -71,10 +71,20 @@
+   // an existing profile shows the selection UI
+   Services.prefs.clearUserPref(PREF_SHOWN_SELECTION_UI);
+ 
++  // When running on an installed system, the selection UI is disabled in
++  // vendor-firefox.js. But ensure the selection UI is tested when running
++  // from the build tree
++  let selectionUIDisabled = false;
++  try {
++    selectionUIDisabled = Services.prefs.getBoolPref(PREF_SHOWN_SELECTION_UI);
++  } catch(e) {}
++
+   restartManager("2");
+ 
+   do_check_true(Services.prefs.getBoolPref(PREF_SHOWN_SELECTION_UI));
+-  do_check_eq(gExpectedURL, null);
++  if (!selectionUIDisabled) {
++    do_check_eq(gExpectedURL, null);
++  }
+ 
+   // Once we've seen the selection UI once, future upgrades will show the update dialog
+   // but only if this upgrade disabled an add-on

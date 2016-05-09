@@ -1,0 +1,11 @@
+
+Package: @MOZ_PKG_NAME@-locale-@LANGCODE@
+Architecture: any
+Depends: ${misc:Depends}
+Conflicts: ${app:Conflicts}
+Provides: ${app:Provides}
+Description: Transitional package for unavailable language
+ This language is unavailable for the current version of Firefox
+ .
+ This is an empty transitional package to ensure a clean upgrade
+ process. You can safely remove this package after installation.

@@ -1,0 +1,19 @@
+Description: Ensure the WM class is set to the remoting name rather than
+ the application name, so that window matching works in the shell with
+ parallel installs
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-36.0~a1~hg20141113r215607/mozilla/toolkit/xre/nsAppRunner.cpp
+===================================================================
+--- firefox-trunk-36.0~a1~hg20141113r215607.orig/mozilla/toolkit/xre/nsAppRunner.cpp	2014-11-14 09:30:08.000000000 +0000
++++ firefox-trunk-36.0~a1~hg20141113r215607/mozilla/toolkit/xre/nsAppRunner.cpp	2014-11-14 13:16:28.186684790 +0000
+@@ -3547,7 +3547,7 @@
+ 
+   // Set program name to the one defined in application.ini.
+   {
+-    nsAutoCString program(gAppData->name);
++    nsAutoCString program(gAppData->remotingName);
+     ToLowerCase(program);
+     g_set_prgname(program.get());
+   }

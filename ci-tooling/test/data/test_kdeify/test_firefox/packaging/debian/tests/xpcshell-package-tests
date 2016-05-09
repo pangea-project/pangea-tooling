@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+TESTSUITE_DIR=/$($(dirname $0)/../rules echo-MOZ_LIBDIR 2>/dev/null)/testing
+TESTRESULTS_DIR=${ADTRESULTSDIR:-"/tmp/testresults"}
+
+export LC_ALL=en_US.UTF-8
+
+mkdir -p $TESTRESULTS_DIR
+$TESTSUITE_DIR/run_xpcshell_tests --own-session --verbose --xunit-file $TESTRESULTS_DIR/xpcshell-package-tests.xml --xunit-suite-name "xpcshell.package" --manifest xpcshell/package-tests/xpcshell.ini

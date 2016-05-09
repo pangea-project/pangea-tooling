@@ -1,0 +1,129 @@
+<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+
+<!-- Process this file with docbook-to-man to generate an nroff manual
+     page: `docbook-to-man manpage.sgml > manpage.1'.  You may view
+     the manual page with: `docbook-to-man manpage.sgml | nroff -man |
+     less'.  A typical entry in a Makefile or Makefile.am is:
+
+manpage.1: manpage.sgml
+	docbook-to-man $< > $@
+
+    
+	The docbook-to-man binary is found in the docbook-to-man package.
+	Please remember that if you create the nroff version in one of the
+	debian/rules file targets (such as build), you will need to include
+	docbook-to-man in your Build-Depends control field.
+
+  -->
+
+  <!-- Fill in your name for FIRSTNAME and SURNAME. -->
+  <!ENTITY dhfirstname "<firstname>Alexander</firstname>">
+  <!ENTITY dhsurname   "<surname>Sack</surname>">
+  <!-- Please adjust the date whenever revising the manpage. -->
+  <!ENTITY dhdate      "<date>September 28, 2003</date>">
+  <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
+       allowed: see man(7), man(1). -->
+  <!ENTITY dhsection   "<manvolnum>1</manvolnum>">
+  <!ENTITY dhemail     "<email>asac@jwsdot.com</email>">
+  <!ENTITY dhusername  "Alexander Sack">
+  <!ENTITY dhucpackage "<refentrytitle>THUNDERBIRD</refentrytitle>">
+  <!ENTITY dhpackage   "thunderbird">
+
+  <!ENTITY debian      "<productname>Debian</productname>">
+  <!ENTITY gnu         "<acronym>MPL</acronym>">
+  <!ENTITY gpl         "&gnu; <acronym></acronym>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <address>
+      &dhemail;
+    </address>
+    <author>
+      &dhfirstname;
+      &dhsurname;
+    </author>
+    <copyright>
+      <year>2003</year>
+      <holder>&dhusername;</holder>
+    </copyright>
+    &dhdate;
+  </refentryinfo>
+  <refmeta>
+    &dhucpackage;
+
+    &dhsection;
+  </refmeta>
+  <refnamediv>
+    <refname>&dhpackage;</refname>
+
+    <refpurpose> thunderbird - Mail User Agent (MUA) and newsgroup/RSS
+        client for X11 derived from the Mozilla suite.</refpurpose>
+  </refnamediv>
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>thunderbird</command>
+
+      <arg><option>-P <replaceable>profile</replaceable></option></arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+  <refsect1>
+    <title>DESCRIPTION</title>
+
+    <para>Thunderbird provides IMAP/POP support, a built-in RSS reader,
+        support for HTML mail, powerful quick search, saved search
+        folders, advanced message filtering, junk mail controls,
+        message grouping, labels, return receipts, smart address book
+        LDAP address completion, import tools, and the ability to
+        manage multiple identities in email and newsgroup accounts.
+        Thunderbird provides enterprise and government grade security
+        such as S/MIME, digital signing, message encryption, and support
+        for certificates and security devices.</para>
+
+  </refsect1>
+  <refsect1>
+    <title>OPTIONS</title>
+
+    <variablelist>
+      <varlistentry>
+        <term><option>-P <replaceable>profile</replaceable></option>
+        </term>
+        <listitem>
+          <para>If  no profile is given to the -P option, the profile
+                manager will pop-up. You will be allowed to create or
+                select a profile.  Thunderbird then launches with the
+                selected profile.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+  <refsect1>
+    <title>SEE ALSO</title>
+    <literallayout>
+The Thunderbird Homepage:
+http://www.mozilla.org/projects/thunderbird/
+
+The Debian Thunderbird FAQ:
+http://www.jwsdot.com/debian/faq.html
+</literallayout>
+  </refsect1>
+</refentry>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->
+
+

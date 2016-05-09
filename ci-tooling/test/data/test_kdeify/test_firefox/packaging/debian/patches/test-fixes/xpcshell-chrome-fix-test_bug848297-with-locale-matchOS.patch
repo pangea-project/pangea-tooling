@@ -1,0 +1,17 @@
+Description: Disable intl.locale.matchOS, as it breaks this test
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-23.0~a1~hg20130508r131030/chrome/test/unit/test_bug848297.js
+===================================================================
+--- firefox-trunk-23.0~a1~hg20130508r131030.orig/chrome/test/unit/test_bug848297.js	2013-05-08 03:07:31.000000000 +0100
++++ firefox-trunk-23.0~a1~hg20130508r131030/chrome/test/unit/test_bug848297.js	2013-05-08 20:46:07.778086675 +0100
+@@ -32,6 +32,8 @@
+ 
+ function run_test() {
+ 
++  prefService.setBoolPref("intl.locale.matchOS", false);
++
+   // without override
+   prefService.setCharPref("general.useragent.locale", "de");
+   do_check_eq(chromeReg.getSelectedLocale("basepack"), "en-US");
