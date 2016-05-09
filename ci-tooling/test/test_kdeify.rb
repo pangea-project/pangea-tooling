@@ -1,9 +1,10 @@
 require_relative '../lib/kdeify'
 require_relative '../lib/debian/control'
 require_relative 'lib/testcase'
-require 'vcr'
 
 class KDEIfyTest < TestCase
+  required_binaries %w(quilt filterdiff)
+
   def setup
     FileUtils.cp_r("#{data}/.", Dir.pwd)
   end
