@@ -43,6 +43,11 @@ Description: #{package} package for integration with KDE
     def filterdiff
       PATCHES.each do |patch|
         filterdiff = `filterdiff --addprefix=a/mozilla/ --strip 1 #{patch}`
+        # Newly created files are represented as /dev/null in the old prefix
+        # This leads to issues when we add the new prefix via filterdiff
+        # gsub'ing the path's back to /dev/null allows for the patches to
+        # apply properly
+        filterdiff.gsub!(/a\/mozilla\/\/dev\/null/, '/dev/null')
         File.write(patch, filterdiff)
       end
     end
