@@ -72,7 +72,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       projects.each do |project|
         branch = project.packaging_scm.branch
         next unless branch && branch.start_with?('Neon/unstable', 'Neon/stable',
-                                                 'Neon/release', 'Neon/testing')
+                                                 'Neon/release', 'Neon/testing',
+                                                 'master')
         # FIXME: this is fairly hackish
         dependees = []
         # Mergers need to be upstreams to the build jobs otherwise the
