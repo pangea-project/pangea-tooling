@@ -49,6 +49,10 @@ when 'firefox'
   puts 'Special case building for firefox'
   KDEIfy.firefox!
   orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
+when 'thunderbird'
+  puts 'Special case building for thunderbird'
+  KDEIfy.thunderbird!
+  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
 else
   puts 'Unspecified source type, defaulting to VCS build...'
   builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
