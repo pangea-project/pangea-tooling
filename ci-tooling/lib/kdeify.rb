@@ -57,8 +57,8 @@ Description: #{package} package for integration with KDE
 
     def thunderbird!
       init_env
+      thunderbird_filterdiff
       Dir.chdir('packaging') do
-        thunderbird_filterdiff
         apply_patches
         install_kde_js
         add_plasma_package('thunderbird')
