@@ -63,7 +63,8 @@ module CI
     def build_env
       deb_build_options = ENV.fetch('DEB_BUILD_OPTIONS', '').split(' ')
       {
-        'DEB_BUILD_OPTIONS' => (deb_build_options + ['nocheck']).join(' ')
+        'DEB_BUILD_OPTIONS' => (deb_build_options + ['nocheck']).join(' '),
+        'DH_BUILD_DDEBS' => '1'
       }
     end
 
