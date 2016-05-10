@@ -6,6 +6,7 @@ packaging.neon.kde.org.uk:
   - applications:
     - ark
     - dolphin
+    - gwenview
     - kate
     - konsole
     - print-manager
