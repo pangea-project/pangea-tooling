@@ -82,6 +82,8 @@ dch = [
 raise 'Failed to create changelog entry' unless system(*dch)
 
 # FIXME: almost code copy from sourcer_base
+# --- Unset revision from this point on, so we get the base version ---
+version.revision = nil
 Dir.glob('debian/*') do |path|
   next unless path.end_with?('changelog', 'control', 'rules')
   next unless File.file?(path)
