@@ -18,6 +18,8 @@ packaging.neon.kde.org.uk:
         branch: master
     - packagekit:
         branch: master
+    - pyqt5:
+        branch: master
 
 launchpad.net:
   - livecd-rootfs-neon
