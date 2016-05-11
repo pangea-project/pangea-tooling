@@ -84,18 +84,22 @@ raise 'Failed to create changelog entry' unless system(*dch)
 # FIXME: almost code copy from sourcer_base
 # --- Unset revision from this point on, so we get the base version ---
 version.revision = nil
+something_changed = false
 Dir.glob('debian/*') do |path|
   next unless path.end_with?('changelog', 'control', 'rules')
   next unless File.file?(path)
   data = File.read(path)
   begin
-    data.gsub!('${source:Version}~ciBuild', version.to_s)
-    data.gsub!('${binary:Version}~ciBuild', version.to_s)
+    source_change = data.gsub!('${source:Version}~ciBuild', version.to_s)
+    binary_change = data.gsub!('${binary:Version}~ciBuild', version.to_s)
+    something_changed ||= !(source_change || binary_change).nil?
   rescue
     raise "Failed to gsub #{path}"
   end
   File.write(path, data)
 end
+
+system('wrap-and-sort') if something_changed
 
 system('git diff')
 system("git commit -a -m 'New release'")
