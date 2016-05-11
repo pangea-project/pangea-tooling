@@ -9,7 +9,10 @@ packaging.neon.kde.org.uk:
     - gwenview
     - kate
     - konsole
+    - libkdcraw
+    - libkipi
     - print-manager
+    - spectacle
   - kde-extras:
     - yakuake
   - neon:
