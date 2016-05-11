@@ -33,6 +33,8 @@
 
 # Other stuff
 
+## Qt
+
 '*{debian.org,packaging.neon,gitlab.com}*/{qt,netrunner-debian-qt}/*':
   kubuntu_unstable:
     upstream_scm:
@@ -91,6 +93,20 @@
     upstream_scm:
       type: tarball
       url: http://http.debian.net/debian/pool/main/q/qtchooser/qtchooser_52-gae5eeef.orig.tar.xz
+
+### Bindings
+
+'*packaging.neon*/forks/pyqt5':
+  Neon/release:
+    upstream_scm:
+      type: tarball
+      url: http://archive.ubuntu.com/ubuntu/ubuntu/ubuntu/ubuntu/ubuntu/ubuntu/ubuntu/ubuntu/pool/universe/p/pyqt5/pyqt5_5.5.1+dfsg.orig.tar.gz
+  master:
+    upstream_scm:
+      type: tarball
+      url: http://archive.ubuntu.com/ubuntu/ubuntu/ubuntu/ubuntu/ubuntu/ubuntu/ubuntu/ubuntu/pool/universe/p/pyqt5/pyqt5_5.5.1+dfsg.orig.tar.gz
+
+## Misc
 
 '*packaging.neon*/forks/packagekit':
   master:
