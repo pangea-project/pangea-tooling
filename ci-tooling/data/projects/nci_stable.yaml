@@ -5,7 +5,7 @@ packaging.neon.kde.org.uk:
     - seeds:
         branch: master
     - settings:
-        branch: master
+        branch: Neon/stable
     - syslinux-themes-neon:
         branch: master
   - '':

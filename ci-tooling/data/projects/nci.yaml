@@ -11,7 +11,7 @@ packaging.neon.kde.org.uk:
     - plasma-wayland-meta:
         branch: master
     - settings:
-        branch: master
+        branch: Neon/unstable
     - syslinux-themes-neon:
         branch: master
   - forks:
