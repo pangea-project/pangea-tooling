@@ -81,5 +81,19 @@ dch = [
 # so it is of acceptable format here already.
 raise 'Failed to create changelog entry' unless system(*dch)
 
+# FIXME: almost code copy from sourcer_base
+Dir.glob('debian/*') do |path|
+  next unless path.end_with?('changelog', 'control', 'rules')
+  next unless File.file?(path)
+  data = File.read(path)
+  begin
+    data.gsub!('${source:Version}~ciBuild', version.to_s)
+    data.gsub!('${binary:Version}~ciBuild', version.to_s)
+  rescue
+    raise "Failed to gsub #{path}"
+  end
+  File.write(path, data)
+end
+
 system('git diff')
 system("git commit -a -m 'New release'")
