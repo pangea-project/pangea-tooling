@@ -4,29 +4,23 @@
       - armhf
       - amd64
     :repo: https://github.com/netrunner-debian-owncloud/live-config
-    :component: netrunner-debian-owncloud
-    :branch: Debian/stable
+    :releases:
+      stable: Debian/stable
 
   netrunner-core:
     :architectures:
       - armhf
       - amd64
     :repo: https://github.com/netrunner-core/live-config
-    :component: netrunner-core
-    :branch: Debian/stable
+    :releases:
+      stable: Debian/stable
+      jessie: Debian/jessie
 
   netrunner-debian:
     :architectures:
       - armhf
       - amd64
     :repo: https://github.com/netrunner-debian/live-config
-    :component: netrunner-debian
-    :branch: Debian/stable
-
-  netrunner-core-jessie:
-    :architectures:
-      - armhf
-      - amd64
-    :repo: https://github.com/netrunner-core/live-config
-    :component: netrunner-core-jessie
-    :branch: Debian/jessie
+    :releases:
+      stable: Debian/stable
+      jessie: Debian/jessie

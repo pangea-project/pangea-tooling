@@ -2,16 +2,16 @@ require_relative 'job'
 
 class DCIImageJob < JenkinsJob
   attr_reader :repo
-  attr_reader :distribution
+  attr_reader :release
   attr_reader :architecture
-  attr_reader :component
+  attr_reader :flavor
 
-  def initialize(distribution:, architecture:, repo:, component:, branch:)
-    super("img_#{component}_#{distribution}_#{architecture}", 'dciimg.xml.erb')
-    @distribution = distribution
+  def initialize(flavor:, release:, architecture:, repo:, branch:)
+    @flavor = flavor
+    @release = release
     @architecture = architecture
     @repo = repo
-    @component = component
     @branch = branch
+    super("img_#{flavor}_#{release}_#{architecture}", 'dciimg.xml.erb')
   end
 end

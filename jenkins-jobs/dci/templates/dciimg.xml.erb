@@ -39,7 +39,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-export DIST='<%= @distribution %>'
+export DIST='stable'
 ~/tooling/dci/priv_contain.rb /var/lib/jenkins/ci-tooling/dci/imager.rb
       </command>
     </hudson.tasks.Shell>
@@ -49,12 +49,12 @@ export DIST='<%= @distribution %>'
       <profileName>DCI S3</profileName>
       <entries>
         <hudson.plugins.s3.Entry>
-          <bucket>ds9-eu/dci/images/<%= @branch.split('/')[-1] %>/<%= architecture %>/<%= component %></bucket>
+          <bucket>ds9-eu/dci/images/<%= @release %>/<%= @architecture %>/<%= @flavor %></bucket>
           <sourceFile>live-config/result/*</sourceFile>
           <storageClass>REDUCED_REDUNDANCY</storageClass>
           <selectedRegion>eu-central-1</selectedRegion>
           <noUploadOnFailure>false</noUploadOnFailure>
-          <uploadFromSlave>true</uploadFromSlave>
+          <uploadFromSlave>false</uploadFromSlave>
           <managedArtifacts>false</managedArtifacts>
           <useServerSideEncryption>true</useServerSideEncryption>
           <flatten>true</flatten>

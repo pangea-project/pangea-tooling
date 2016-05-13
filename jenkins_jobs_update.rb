@@ -77,20 +77,22 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                       downstream_jobs: all_builds)
         all_meta_builds << enqueue(meta_build)
       end
+    end
 
-      image_job_config =
-        "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.image.yaml"
+    image_job_config =
+      "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.image.yaml"
 
-      if File.exist? image_job_config
-        image_jobs = YAML.load_file(image_job_config)
+    if File.exist? image_job_config
+      image_jobs = YAML.load_file(image_job_config)
 
-        image_jobs.each do |_, v|
-          v[:architectures].each do |arch|
-            enqueue(DCIImageJob.new(distribution: distribution,
+      image_jobs.each do |flavor, v|
+        v[:architectures].each do |arch|
+          v[:releases].each do |release, branch|
+            enqueue(DCIImageJob.new(flavor: flavor,
+                                    release: release,
                                     architecture: arch,
                                     repo: v[:repo],
-                                    component: v[:component],
-                                    branch: v[:branch] || 'master'))
+                                    branch: branch))
           end
         end
       end
