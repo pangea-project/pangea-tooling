@@ -1,6 +1,6 @@
 require_relative 'job'
 
-class DCIImageJob < JenkinsJob
+class ImageJob < JenkinsJob
   attr_reader :repo
   attr_reader :release
   attr_reader :architecture
@@ -12,6 +12,6 @@ class DCIImageJob < JenkinsJob
     @architecture = architecture
     @repo = repo
     @branch = branch
-    super("img_#{flavor}_#{release}_#{architecture}", 'dciimg.xml.erb')
+    super("img_#{flavor}_#{release}_#{architecture}", 'img.xml.erb')
   end
 end
