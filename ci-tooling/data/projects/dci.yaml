@@ -1,12 +1,12 @@
 packaging.neon.kde.org.uk:
   - qt:
     - '*':
-        branch: Neon/testing
+        branch: Neon/release
   - kde-extras:
     - kpmcore:
         branch: kubuntu_unstable
     - yakuake:
-        branch: master
+        branch: Neon/release
     - debconf-kde:
         branch: master
     - qapt:
@@ -50,7 +50,7 @@ packaging.neon.kde.org.uk:
     - analitza:
         branch: master
     - ark:
-        branch: master
+        branch: Neon/release
     - artikulate:
         branch: master
     - audiocd-kio:
@@ -68,7 +68,7 @@ packaging.neon.kde.org.uk:
     - cervisia:
         branch: master
     - dolphin:
-        branch: master
+        branch: Neon/release
     - dolphin-plugins:
         branch: master
     - dragon:
@@ -82,7 +82,7 @@ packaging.neon.kde.org.uk:
     - granatier:
         branch: master
     - gwenview:
-        branch: master
+        branch: Neon/release
     - jovie:
         branch: master
     - juk:
@@ -110,7 +110,7 @@ packaging.neon.kde.org.uk:
     - kapptemplate:
         branch: master
     - kate:
-        branch: master
+        branch: Neon/release
     - katomic:
         branch: master
     - kblackbox:
@@ -260,7 +260,7 @@ packaging.neon.kde.org.uk:
     - konquest:
         branch: master
     - konsole:
-        branch: master
+        branch: Neon/release
     - kontactinterface:
         branch: master
     - kopete:
@@ -394,13 +394,13 @@ packaging.neon.kde.org.uk:
     - poxml:
         branch: master
     - print-manager:
-        branch: master
+        branch: Neon/release
     - rocs:
         branch: master
     - signon-kwallet-extension:
         branch: master
     - spectacle:
-        branch: master
+        branch: Neon/release
     - step:
         branch: master
     - svgpart:
@@ -464,12 +464,21 @@ git.debian.org:
   - pkg-utopia:
     - network-manager:
         branch: master
+  - debian-med:
+    - libquazip:
+        branch: master
 
 github.com:
+  - netrunner-common:
+    - '*':
+        branch: Debian/jessie
+  - calamares:
+    - calamares-debian:
+        branch: master
   - plasmazilla:
     - mozilla-kde-support:
         branch: kubuntu_unstable
-  - netrunner-common:
+  - netrunner-extras:
     - '*':
         branch: Debian/jessie
   - netrunner-artwork:
@@ -481,12 +490,8 @@ github.com:
     - libepoxy:
         branch: kubuntu_unstable
   - netrunner-odroid:
-    - mali-x11:
-        branch: kubuntu_unstable
-    - xserver-xorg-video-mali:
-        branch: kubuntu_unstable
-    - odroid-boot-services:
-        branch: kubuntu_unstable
+    - '*':
+        branch: Debian/jessie
   - netrunner-debian:
     - calamares-full:
         branch: Debian/jessie
@@ -526,4 +531,6 @@ github.com:
         branch: Debian/jessie
 
 launchpad.net:
-  - firefox/stable
+  - ~mozillateam/firefox/firefox.xenial
+  - ~mozillateam/thunderbird/thunderbird.xenial
+  - ubuntu/wily/hunspell-en-us
