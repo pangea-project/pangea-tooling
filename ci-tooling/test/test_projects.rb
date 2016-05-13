@@ -212,7 +212,7 @@ class ProjectTest < TestCase
     system_sequence = sequence('test_launchpad-system')
     Object.any_instance.expects(:system)
           .with do |x|
-            next unless x == 'bzr checkout --lightweight lp:unity-action-api unity-action-api'
+            next unless x == 'bzr checkout lp:unity-action-api unity-action-api'
             # .returns runs in a different binding so the chdir is wrong....
             # so we copy here.
             FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
