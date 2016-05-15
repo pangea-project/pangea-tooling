@@ -86,7 +86,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       image_jobs = YAML.load_file(image_job_config)
 
       image_jobs.each do |flavor, v|
-        @ci_module.architectures.each do |arch|
+        v[:architectures] ||= @ci_module.architectures
+        v[:architectures].each do |arch|
           v[:releases].each do |release, branch|
             enqueue(ImageJob.new(flavor: flavor,
                                     release: release,
