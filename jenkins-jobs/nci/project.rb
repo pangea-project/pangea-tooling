@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require_relative '../../ci-tooling/lib/nci'
 require_relative '../builder'
 require_relative 'multijob_phase'
 
@@ -62,6 +63,12 @@ class ProjectJob < JenkinsJob
       j.send(:instance_variable_set, :@downstream_triggers, [])
     end
     basename = jobs[0].job_name.rpartition('_')[0]
+
+    unless NCI.experimental_skip_qa.any? { |x| jobs[0].job_name.include?(x) }
+      jobs.insert(-2, ADTJob.new(basename,
+                                 distribution: kwords[:distribution],
+                                 type: kwords[:type]))
+    end
 
     jobs << new(basename,
                 project: project,
