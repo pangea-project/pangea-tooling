@@ -27,6 +27,30 @@ require_relative 'lib/setup_repo'
 
 NCI.setup_repo!
 
+TESTS_DIR = 'build/debian/tests'.freeze
+JUNIT_FILE = 'adt-junit.xml'.freeze
+
+unless Dir.exist?(TESTS_DIR)
+  puts "Package doesn't appear to be autopkgtested. Skipping."
+  exit
+end
+
+if Dir.glob("#{TESTS_DIR}/*").any? { |x| File.read(x).include?('Xephyr') }
+  suite = JenkinsJunitBuilder::Suite.new
+  suite.name = 'autopkgtest'
+  suite.package = 'autopkgtest'
+  suite.add_case(JenkinsJunitBuilder::Case.new.tap do |c|
+    c.name = 'XephyrUsage'
+    c.time = 0
+    c.classname = 'XephyrUsage'
+    c.result = JenkinsJunitBuilder::Case::RESULT_SKIPPED
+    c.system_out.message = 'Tests using xephyr; would get stuck.'
+  end)
+  suite.build_report
+  File.write(JUNIT_FILE, suite.build_report)
+  exit
+end
+
 # Gecos is additonal information that would be prompted
 system('adduser',
        '--disabled-password',
@@ -51,4 +75,4 @@ system('adt-run', *args)
 
 summary = ADT::Summary.from_file('adt-output/summary')
 unit = ADT::JUnit::Summary.new(summary)
-File.write('adt-junit.xml', unit.to_xml)
+File.write(JUNIT_FILE, unit.to_xml)
