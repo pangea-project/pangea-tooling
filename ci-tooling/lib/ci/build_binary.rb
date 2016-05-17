@@ -53,7 +53,7 @@ module CI
     end
 
     def initialize(build_dir = Dir.pwd)
-      @build_dir = File.expand_path("#{build_dir}/build").freeze
+      @build_dir = "#{build_dir}/build".freeze
     end
 
     def extract
