@@ -29,7 +29,6 @@ require_relative '../retry'
 
 module CI
   class PackageBuilder
-    BUILD_DIR  = 'build'.freeze
     RESULT_DIR = 'result'.freeze
 
     BIN_ONLY_WHITELIST = %w(qtbase qtxmlpatterns qtdeclarative qtwebkit
@@ -53,9 +52,13 @@ module CI
       end
     end
 
+    def initialize(build_dir = Dir.pwd)
+      @build_dir = "#{build_dir}/build".freeze
+    end
+
     def extract
-      FileUtils.rm_rf(BUILD_DIR, verbose: true)
-      unless system('dpkg-source', '-x', @dsc, BUILD_DIR)
+      FileUtils.rm_rf(@build_dir, verbose: true)
+      unless system('dpkg-source', '-x', @dsc, @build_dir)
         raise 'Something went terribly wrong with extracting the source'
       end
     end
@@ -79,7 +82,7 @@ module CI
 
       dpkg_buildopts += build_flags
 
-      Dir.chdir(BUILD_DIR) do
+      Dir.chdir(@build_dir) do
         system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
         ec = $?.exitstatus
         # Do not abort the build when dpkg-buildpackage fails to build a arch
@@ -100,7 +103,7 @@ module CI
 
     def copy_binaries
       Dir.mkdir(RESULT_DIR) unless Dir.exist?(RESULT_DIR)
-      changes = Dir.glob("#{BUILD_DIR}/../*.changes")
+      changes = Dir.glob("#{@build_dir}/../*.changes")
 
       changes.select! { |e| !e.include? 'source.changes' }
 
@@ -114,8 +117,7 @@ module CI
     def build
       raise 'Not exactly one dsc!' unless Dir.glob('*.dsc').count == 1
 
-      @dsc = Dir.glob('*.dsc')[0]
-
+      @dsc = File.absolute_path(Dir.glob('*.dsc')[0])
       extract
       install_dependencies
       build_package
@@ -126,17 +128,17 @@ module CI
     private
 
     def install_dependencies
-      DependencyResolver.resolve(BUILD_DIR)
+      DependencyResolver.resolve(@build_dir)
     rescue RuntimeError => e
       raise e unless bin_only_possible?
-      DependencyResolver.resolve(BUILD_DIR, bin_only: true)
+      DependencyResolver.resolve(@build_dir, bin_only: true)
       @bin_only = true
     end
 
     # @return [Bool] whether to mangle the build for Qt
     def bin_only_possible?
       @bin_only_possible ||= begin
-        control = Debian::Control.new(BUILD_DIR)
+        control = Debian::Control.new(@build_dir)
         control.parse!
         source_name = control.source.fetch('Build-Depends-Indep', '')
         false unless BIN_ONLY_WHITELIST.include?(source_name)

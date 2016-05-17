@@ -46,10 +46,10 @@ module CI
 
       refute_equal([], Dir.glob('build/*'))
       refute_equal([], Dir.glob('*.deb'))
-      assert_path_exist('hello_2.10-1_amd64.changes')
-      changes = Debian::Changes.new('hello_2.10-1_amd64.changes')
+      assert_path_exist('hello_2.10_amd64.changes')
+      changes = Debian::Changes.new('hello_2.10_amd64.changes')
       changes.parse!
-      assert_equal(['hello_2.10-1_amd64.deb'],
+      assert_equal(['hello_2.10_amd64.deb'],
                    changes.fields['files'].map(&:name))
 
       refute_bin_only(builder)
@@ -78,10 +78,10 @@ module CI
       Dir.chdir('build') { system('dpkg-buildpackage -S -us -uc') }
 
       PackageBuilder::DependencyResolver.expects(:resolve)
-                                        .with('build')
+                                        .with("#{Dir.pwd}/build")
                                         .raises(RuntimeError.new)
       PackageBuilder::DependencyResolver.expects(:resolve)
-                                        .with('build', bin_only: true)
+                                        .with("#{Dir.pwd}/build", bin_only: true)
                                         .returns(true)
 
       builder = PackageBuilder.new
@@ -89,10 +89,10 @@ module CI
 
       refute_equal([], Dir.glob('build/*'))
       refute_equal([], Dir.glob('*.deb'))
-      assert_path_exist('test-build-bin-only_2.10-1_amd64.changes')
-      changes = Debian::Changes.new('test-build-bin-only_2.10-1_amd64.changes')
+      assert_path_exist('test-build-bin-only_2.10_amd64.changes')
+      changes = Debian::Changes.new('test-build-bin-only_2.10_amd64.changes')
       changes.parse!
-      assert_equal(['test-build-bin-only_2.10-1_amd64.deb'],
+      assert_equal(['test-build-bin-only_2.10_amd64.deb'],
                    changes.fields['files'].map(&:name))
 
       assert_bin_only(builder)
