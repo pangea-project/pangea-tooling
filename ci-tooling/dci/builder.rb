@@ -6,8 +6,12 @@ require_relative '../lib/ci/build_binary'
 require_relative 'lib/setup_repo'
 
 DCI.setup_repo!
+@workspace = Dir.pwd
 Dir.mktmpdir do |tmpdir|
-  builder = CI::PackageBuilder.new(tmpdir)
-  builder.build
-  FileUtils.cp_r("#{tmpdir}/result", Dir.pwd, verbose: true)
+  FileUtils.cp_r("#{@workspace}/*", tmpdir)
+  Dir.chdir(tmpdir) do
+    builder = CI::PackageBuilder.new
+    builder.build
+  end
+  FileUtils.cp_r("#{tmpdir}/result", @workspace, verbose: true)
 end
