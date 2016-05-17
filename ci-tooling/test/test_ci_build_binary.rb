@@ -78,10 +78,10 @@ module CI
       Dir.chdir('build') { system('dpkg-buildpackage -S -us -uc') }
 
       PackageBuilder::DependencyResolver.expects(:resolve)
-                                        .with("#{Dir.pwd}/build")
+                                        .with('build')
                                         .raises(RuntimeError.new)
       PackageBuilder::DependencyResolver.expects(:resolve)
-                                        .with("#{Dir.pwd}/build", bin_only: true)
+                                        .with('build', bin_only: true)
                                         .returns(true)
 
       builder = PackageBuilder.new
