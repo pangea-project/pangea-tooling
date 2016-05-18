@@ -40,6 +40,13 @@ if Dir.glob("#{TESTS_DIR}/*").any? { |x| File.read(x).include?('Xephyr') }
   suite.name = 'autopkgtest'
   suite.package = 'autopkgtest'
   suite.add_case(JenkinsJunitBuilder::Case.new.tap do |c|
+    c.name = 'TestsPresent'
+    c.time = 0
+    c.classname = 'TestsPresent'
+    c.result = JenkinsJunitBuilder::Case::RESULT_PASSED
+    c.system_out.message = 'debian/tests/ is present'
+  end)
+  suite.add_case(JenkinsJunitBuilder::Case.new.tap do |c|
     c.name = 'XephyrUsage'
     c.time = 0
     c.classname = 'XephyrUsage'
