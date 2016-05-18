@@ -24,6 +24,74 @@ require_relative '../kci/install_check'
 require 'mocha/test_unit'
 require 'webmock/test_unit'
 
+class KCICiPPATest < TestCase
+  def setup
+    # Make sure $? is fine before we start!
+    reset_child_status!
+    # Disable all system invocation.
+    Object.any_instance.expects(:`).never
+    Object.any_instance.expects(:system).never
+    # Disable automatic update.
+    Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
+  end
+
+  def test_init
+    ppa = CiPPA.new('unstable', 'wily')
+    assert_equal('unstable', ppa.type)
+    assert_equal('wily', ppa.series)
+  end
+
+  def test_remove
+    repo = mock('mock_repo') do
+      expects(:remove).returns(true)
+    end
+
+    Apt::Repository.expects(:new).with('ppa:kubuntu-ci/unstable').returns(repo)
+    Apt.expects(:update).returns(true)
+
+    ppa = CiPPA.new('unstable', 'wily')
+    ppa.remove
+  end
+
+  def test_add
+    repo = mock('mock_repo') do
+      expects(:add).returns(true)
+    end
+
+    Apt::Repository.expects(:new).with('ppa:kubuntu-ci/unstable').returns(repo)
+    Apt.expects(:update).returns(true)
+
+    ppa = CiPPA.new('unstable', 'wily')
+    ppa.add
+  end
+
+  def test_add_fail
+    add_repo = mock('add_mock_repo') do
+      expects(:add).returns(true)
+    end
+
+    remove_repo = mock('remove_mock_repo') do
+      expects(:remove).returns(true)
+    end
+
+    seq = sequence('new_sequence')
+    Apt::Repository
+      .expects(:new)
+      .in_sequence(seq)
+      .with('ppa:kubuntu-ci/unstable')
+      .returns(add_repo)
+    Apt.expects(:update).returns(false).twice
+    Apt::Repository
+      .expects(:new)
+      .in_sequence(seq)
+      .with('ppa:kubuntu-ci/unstable')
+      .returns(remove_repo)
+
+    ppa = CiPPA.new('unstable', 'wily')
+    ppa.add
+  end
+end
+
 class KCIInstallCheckTest < TestCase
   def setup
     # Make sure $? is fine before we start!

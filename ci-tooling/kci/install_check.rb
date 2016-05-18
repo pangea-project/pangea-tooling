@@ -21,32 +21,26 @@ class CiPPA
     @type = type
     @series = series
     @added = false
+    @log = Logger.new(STDOUT)
+    @log.level = Logger::INFO
   end
 
   def add
     return if @added
-    LOG.info "Adding PPA #{@type} to apt."
+    @log.info "Adding PPA #{@type} to apt."
     @added = software_properties(:add)
   end
 
   def remove
     # Always remove even if !@added to make sure it is really gone.
-    LOG.info "Removing PPA #{@type} from apt."
+    @log.info "Removing PPA #{@type} from apt."
     @added = software_properties(:remove)
-  end
-
-  def ppa_sources
-    return @ppa_sources if @ppa_sources
-    series = Launchpad::Rubber.from_path("ubuntu/#{@series}")
-    ppa = Launchpad::Rubber.from_path("~kubuntu-ci/+archive/ubuntu/#{@type}")
-    @ppa_sources = ppa.getPublishedSources(status: 'Published',
-                                           distro_series: series)
   end
 
   def sources
     return @sources if @sources
 
-    LOG.info "Getting sources list for PPA #{@type}."
+    @log.info "Getting sources list for PPA #{@type}."
 
     @sources = {}
     ppa_sources.each do |s|
@@ -58,7 +52,7 @@ class CiPPA
   def packages
     return @packages if @packages
 
-    LOG.info "Building package list for PPA #{@type}."
+    @log.info "Building package list for PPA #{@type}."
 
     series = Launchpad::Rubber.from_path("ubuntu/#{@series}")
     host_arch = Launchpad::Rubber.from_url("#{series.self_link}/" \
@@ -81,8 +75,8 @@ class CiPPA
     until binary_queue.empty?
       binaries = binary_queue.pop(true)
       binaries.each do |binary|
-        if LOG.debug?
-          LOG.debug format('%s | %s | %s',
+        if @log.debug?
+          @log.debug format('%s | %s | %s',
                            binary.binary_package_name,
                            binary.architecture_specific,
                            binary.distro_arch_series_link)
@@ -101,7 +95,7 @@ class CiPPA
         next if binary.binary_package_name == 'kubuntu-plasma5-desktop'
         if binary.architecture_specific
           unless binary.distro_arch_series_link == host_arch.self_link
-            LOG.debug '  skipping unsuitable arch of bin'
+            @log.debug '  skipping unsuitable arch of bin'
             next
           end
         end
@@ -109,12 +103,12 @@ class CiPPA
       end
     end
 
-    LOG.debug "Built package list: #{packages.keys.join(', ')}"
+    @log.debug "Built package list: #{packages.keys.join(', ')}"
     @packages = packages
   end
 
   def install
-    LOG.info "Installing PPA #{@type}."
+    @log.info "Installing PPA #{@type}."
     return false if packages.empty?
     pin!
     args = %w(ubuntu-minimal)
@@ -123,12 +117,20 @@ class CiPPA
   end
 
   def purge
-    LOG.info "Purging PPA #{@type}."
+    @log.info "Purging PPA #{@type}."
     return false if packages.empty?
     Apt.purge(packages.keys)
   end
 
   private
+
+  def ppa_sources
+    return @ppa_sources if @ppa_sources
+    series = Launchpad::Rubber.from_path("ubuntu/#{@series}")
+    ppa = Launchpad::Rubber.from_path("~kubuntu-ci/+archive/ubuntu/#{@type}")
+    @ppa_sources = ppa.getPublishedSources(status: 'Published',
+                                           distro_series: series)
+  end
 
   def pin!
     File.open('/etc/apt/preferences.d/superpin', 'w') do |file|
@@ -145,7 +147,7 @@ class CiPPA
     updated = Apt.update
     if !updated && !to_remove
       # Updated failed. Rip the PPA out again.
-      LOG.error "#{@type} caused an apt update fail, removing it again..."
+      @log.error "#{@type} caused an apt update fail, removing it again..."
       return software_properties(:remove)
     end
     !to_remove # Return whether or not this ppa is now added.
