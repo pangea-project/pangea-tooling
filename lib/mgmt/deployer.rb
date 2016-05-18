@@ -44,7 +44,7 @@ module MGMT
       upgrade = nil
       base_image = "#{@base.flavor}:#{@base.tag}"
       if DPKG::HOST_ARCH == 'armhf'
-        base_image = "armbuild/#{@base.flavor}:#{@base.tag}"
+        base_image = "armhf/#{@base.flavor}:#{@base.tag}"
       end
 
       trying_tag = @base.tag
