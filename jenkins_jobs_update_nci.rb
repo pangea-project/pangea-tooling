@@ -71,16 +71,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       next unless type == 'unstable'
       projects.each do |project|
         branch = project.packaging_scm.branch
-        next unless branch && branch.start_with?('Neon/unstable', 'Neon/stable',
-                                                 'Neon/release', 'Neon/testing',
-                                                 'master')
         # FIXME: this is fairly hackish
         dependees = []
         # Mergers need to be upstreams to the build jobs otherwise the
         # build jobs can trigger before the merge is done (e.g. when)
         # there was an upstream change resulting in pointless build
         # cycles.
-        branches = NCI.types.collect { |x| "Neon/#{x}" }
+        branches = NCI.types.collect { |x| "Neon/#{x}" } << 'master'
+        next unless branch && branch.start_with?(*branches)
         NCI.series.each_key do |d|
           NCI.types.each do |t|
             dependees << Builder.basename(d, t, project.component, project.name)
