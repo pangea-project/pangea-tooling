@@ -90,6 +90,63 @@ class KCICiPPATest < TestCase
     ppa = CiPPA.new('unstable', 'wily')
     ppa.add
   end
+
+  def test_purge
+    ppa = CiPPA.new('unstable', 'wily')
+    ppa.expects(:packages).returns('pkg1' => '1.0', 'pkg2' => '2.0').twice
+    Apt.expects(:purge).with(%w(pkg1 pkg2)).returns(true)
+    assert(ppa.purge)
+  end
+
+  def test_purge_false
+    ppa = CiPPA.new('unstable', 'wily')
+    ppa.expects(:packages).returns({})
+    assert_false(ppa.purge)
+  end
+
+  def test_install
+    ppa = CiPPA.new('unstable', 'wily')
+    ppa.expects(:packages).returns('pkg1' => '1.0', 'pkg2' => '2.0').twice
+    ppa.expects(:pin!).returns(true)
+    Apt.expects(:install)
+       .with(%w(ubuntu-minimal pkg1=1.0 pkg2=2.0))
+       .returns(true)
+    assert(ppa.install)
+  end
+
+  def test_sources
+    src1 = mock('src1') do
+      stubs(:source_package_name).returns('src1')
+      stubs(:source_package_version).returns('1.0')
+    end
+    src2 = mock('src2') do
+      stubs(:source_package_name).returns('src2')
+      stubs(:source_package_version).returns('2.0')
+    end
+
+    mock_series = mock('mock_series') do
+    end
+
+    Launchpad::Rubber
+      .expects(:from_path)
+      .with('ubuntu/wily')
+      .returns(mock_series)
+
+    mock_ppa = mock('mock_ppa') do
+      expects(:getPublishedSources)
+        .with(status: 'Published', distro_series: mock_series)
+        .returns([src1, src2])
+    end
+
+    Launchpad::Rubber
+      .expects(:from_path)
+      .with('~kubuntu-ci/+archive/ubuntu/unstable')
+      .returns(mock_ppa)
+
+
+    ppa = CiPPA.new('unstable', 'wily')
+    assert_equal({"src1"=>"1.0", "src2"=>"2.0"}, ppa.sources)
+  end
 end
 
 class KCIInstallCheckTest < TestCase

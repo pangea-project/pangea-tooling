@@ -49,6 +49,23 @@ class CiPPA
     @sources
   end
 
+  def install
+    @log.info "Installing PPA #{@type}."
+    return false if packages.empty?
+    pin!
+    args = %w(ubuntu-minimal)
+    args += packages.map { |k, v| "#{k}=#{v}" }
+    Apt.install(args)
+  end
+
+  def purge
+    @log.info "Purging PPA #{@type}."
+    return false if packages.empty?
+    Apt.purge(packages.keys)
+  end
+
+  private
+
   def packages
     return @packages if @packages
 
@@ -106,23 +123,6 @@ class CiPPA
     @log.debug "Built package list: #{packages.keys.join(', ')}"
     @packages = packages
   end
-
-  def install
-    @log.info "Installing PPA #{@type}."
-    return false if packages.empty?
-    pin!
-    args = %w(ubuntu-minimal)
-    args += packages.map { |k, v| "#{k}=#{v}" }
-    Apt.install(args)
-  end
-
-  def purge
-    @log.info "Purging PPA #{@type}."
-    return false if packages.empty?
-    Apt.purge(packages.keys)
-  end
-
-  private
 
   def ppa_sources
     return @ppa_sources if @ppa_sources
