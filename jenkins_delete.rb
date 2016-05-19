@@ -62,6 +62,10 @@ module Jenkins
     def wipe!
       Jenkins.job.wipe_out_workspace(@name)
     end
+
+    def enable!
+      Jenkins.job.enable(@name)
+    end
   end
 end
 
@@ -76,6 +80,9 @@ BlockingThreadPool.run do
       end
     rescue
       @log.info "Wiping of #{name} failed. Continue without wipe."
+    end
+    Retry.retry_it(times: 5) do
+      job.enable!
     end
     Retry.retry_it(times: 5) do
       @log.info "Deleting #{name}"
