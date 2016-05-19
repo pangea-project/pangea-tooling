@@ -107,11 +107,15 @@ class KCICiPPATest < TestCase
   def test_install
     ppa = CiPPA.new('unstable', 'wily')
     ppa.expects(:packages).returns('pkg1' => '1.0', 'pkg2' => '2.0').twice
-    ppa.expects(:pin!).returns(true)
+    superpin_io = StringIO.new
+    File.expects(:open)
+        .with('/etc/apt/preferences.d/superpin', 'w')
+        .yields(superpin_io)
     Apt.expects(:install)
        .with(%w(ubuntu-minimal pkg1=1.0 pkg2=2.0))
        .returns(true)
     assert(ppa.install)
+    assert_equal("Package: *\nPin: release o=LP-PPA-kubuntu-ci-unstable\nPin-Priority: 999\n", superpin_io.string)
   end
 
   def test_sources
