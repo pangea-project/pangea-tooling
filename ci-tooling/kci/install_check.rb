@@ -12,41 +12,34 @@ require_relative 'lib/lp'
 require_relative 'lib/retry'
 require_relative 'lib/thread_pool'
 
-# Helper to add/remove/list PPAs
-class CiPPA
-  attr_reader :type
-  attr_reader :series
-
-  def initialize(type, series)
-    @type = type
-    @series = series
-    @added = false
+# FIXME: maybe this should be a module that gets prepended
+# init options are questionable through
+# with a prepend we can easily have global as well as repo specific package
+# filters though as a hook-mechanic without having to explicitly do stupid
+# hooks
+class Repository
+  def initialize(name)
     @log = Logger.new(STDOUT)
     @log.level = Logger::INFO
+
+    # FIXME: daft, we should only have one repo and add/remove it
+    #        can't do this currently because equality sequence with old code
+    #        demands multiple repos
+    @_name = name
+    # @_repo = Apt::Repository.new(name)
   end
 
   def add
-    return if @added
-    @log.info "Adding PPA #{@type} to apt."
-    @added = software_properties(:add)
+    repo = Apt::Repository.new(@_name)
+    return true if repo.add && Apt.update
+    remove
+    false
   end
 
   def remove
-    # Always remove even if !@added to make sure it is really gone.
-    @log.info "Removing PPA #{@type} from apt."
-    @added = software_properties(:remove)
-  end
-
-  def sources
-    return @sources if @sources
-
-    @log.info "Getting sources list for PPA #{@type}."
-
-    @sources = {}
-    ppa_sources.each do |s|
-      @sources[s.source_package_name] = s.source_package_version
-    end
-    @sources
+    repo = Apt::Repository.new(@_name)
+    return true if repo.remove && Apt.update
+    false
   end
 
   def install
@@ -62,6 +55,31 @@ class CiPPA
     @log.info "Purging PPA #{@type}."
     return false if packages.empty?
     Apt.purge(packages.keys)
+  end
+end
+
+# Helper to add/remove/list PPAs
+class CiPPA < Repository
+  attr_reader :type
+  attr_reader :series
+
+  def initialize(type, series)
+    @type = type
+    @series = series
+    @added = false
+    super("ppa:kubuntu-ci/#{@type}")
+  end
+
+  def sources
+    return @sources if @sources
+
+    @log.info "Getting sources list for PPA #{@type}."
+
+    @sources = {}
+    ppa_sources.each do |s|
+      @sources[s.source_package_name] = s.source_package_version
+    end
+    @sources
   end
 
   private
@@ -139,27 +157,56 @@ class CiPPA
       file << "Pin-Priority: 999\n"
     end
   end
-
-  def software_properties(cmd)
-    to_remove = cmd == :remove
-    repo = Apt::Repository.new("ppa:kubuntu-ci/#{@type}")
-    to_remove ? repo.remove : repo.add
-    updated = Apt.update
-    if !updated && !to_remove
-      # Updated failed. Rip the PPA out again.
-      @log.error "#{@type} caused an apt update fail, removing it again..."
-      return software_properties(:remove)
-    end
-    !to_remove # Return whether or not this ppa is now added.
-  end
 end
 
-class InstallCheck
+class InstallCheckBase
   def initialize
     @log = Logger.new(STDOUT)
     @log.level = Logger::INFO
   end
 
+  def run(candidate_ppa, target_ppa)
+    target_ppa.remove # remove live before attempting to use daily.
+
+    # Add the present daily snapshot, install everything.
+    # If this fails then the current snapshot is kaputsies....
+    if candidate_ppa.add
+      unless candidate_ppa.install
+        @log.info 'daily failed to install.'
+        daily_purged = candidate_ppa.purge
+        unless daily_purged
+          @log.info 'daily failed to install and then failed to purge. Maybe check' \
+                   ' maintscripts?'
+        end
+      end
+    end
+    @log.unknown 'done with daily'
+
+    # NOTE: If daily failed to install, no matter if we can upgrade live it is
+    # an improvement just as long as it can be installed...
+    # So we purged daily again, and even if that fails we try to install live
+    # to see what happens. If live is ok we are good, otherwise we would fail anyway
+
+    target_ppa.add
+    unless target_ppa.install
+      @log.error 'all is vain! live PPA is not installing!'
+      exit 1
+    end
+
+    # All is lovely. Let's make sure all live packages uninstall again
+    # (maintscripts!) and then start the promotion.
+    unless target_ppa.purge
+      @log.error 'live PPA installed just fine, but can not be uninstalled again.' \
+                ' Maybe check maintscripts?'
+      exit 1
+    end
+
+    @log.info "writing package list in #{Dir.pwd}"
+    File.write('sources-list.json', JSON.generate(target_ppa.sources))
+  end
+end
+
+class InstallCheck < InstallCheckBase
   def install_fake_pkg(name)
     Dir.mktmpdir do |tmpdir|
       Dir.chdir(tmpdir) do
@@ -220,43 +267,7 @@ class InstallCheck
       system('apt-get install wamerican')
     end
 
-    target_ppa.remove # remove live before attempting to use daily.
-
-    # Add the present daily snapshot, install everything.
-    # If this fails then the current snapshot is kaputsies....
-    if candidate_ppa.add
-      unless candidate_ppa.install
-        @log.info 'daily failed to install.'
-        daily_purged = candidate_ppa.purge
-        unless daily_purged
-          @log.info 'daily failed to install and then failed to purge. Maybe check' \
-                   ' maintscripts?'
-        end
-      end
-    end
-    @log.unknown 'done with daily'
-
-    # NOTE: If daily failed to install, no matter if we can upgrade live it is
-    # an improvement just as long as it can be installed...
-    # So we purged daily again, and even if that fails we try to install live
-    # to see what happens. If live is ok we are good, otherwise we would fail anyway
-
-    target_ppa.add
-    unless target_ppa.install
-      @log.error 'all is vain! live PPA is not installing!'
-      exit 1
-    end
-
-    # All is lovely. Let's make sure all live packages uninstall again
-    # (maintscripts!) and then start the promotion.
-    unless target_ppa.purge
-      @log.error 'live PPA installed just fine, but can not be uninstalled again.' \
-                ' Maybe check maintscripts?'
-      exit 1
-    end
-
-    @log.info "writing package list in #{Dir.pwd}"
-    File.write('sources-list.json', JSON.generate(target_ppa.sources))
+    super
   end
 end
 
