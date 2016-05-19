@@ -66,7 +66,6 @@ class CiPPA < Repository
   def initialize(type, series)
     @type = type
     @series = series
-    @added = false
     super("ppa:kubuntu-ci/#{@type}")
   end
 
