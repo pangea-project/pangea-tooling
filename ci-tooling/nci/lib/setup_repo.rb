@@ -29,6 +29,11 @@ require_relative 'mirrors'
 module NCI
   module_function
 
+  def add_repo_key!
+    Apt::Key.add('http://archive.neon.kde.org/public.key')
+    raise 'Failed to import key' unless $? == 0
+  end
+
   def setup_repo!
     # switch_mirrors!
     add_repo!
@@ -50,8 +55,7 @@ module NCI
       Retry.retry_it(times: 5, sleep: 4) do
         raise 'adding repo failed' unless Apt::Repository.add(debline)
       end
-      Apt::Key.add('http://archive.neon.kde.org/public.key')
-      raise 'Failed to import key' unless $? == 0
+      add_repo_key!
     end
 
     def switch_mirrors!
