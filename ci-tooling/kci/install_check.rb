@@ -111,9 +111,9 @@ class CiPPA < Repository
       binaries.each do |binary|
         if @log.debug?
           @log.debug format('%s | %s | %s',
-                           binary.binary_package_name,
-                           binary.architecture_specific,
-                           binary.distro_arch_series_link)
+                            binary.binary_package_name,
+                            binary.architecture_specific,
+                            binary.distro_arch_series_link)
         end
         # Do not include debug packages, they can't conflict anyway, and if
         # they did we still wouldn't care.
