@@ -88,6 +88,7 @@ class AptlyRepository < Repository
       arch_filter = [DPKG::HOST_ARCH, 'all']
       packages.reject! { |x| !arch_filter.include?(x.architecture) }
       packages.reject! { |x| x.name.end_with?('-dbg', '-dbgsym') }
+      packages.reject! { |x| x.name.start_with?('oem-config') }
       packages.map { |x| [x.name, x.version] }.to_h
     end
   end
