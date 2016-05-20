@@ -1,6 +1,18 @@
 packaging.neon.kde.org.uk:
   - plasma:
     - '*'
+  - applications:
+    - ark
+    - dolphin
+    - gwenview
+    - kate
+    - konsole
+    - libkdcraw
+    - libkipi
+    - print-manager
+    - spectacle
+  - kde-extras:
+    - yakuake
   - neon:
     - seeds:
         branch: master
