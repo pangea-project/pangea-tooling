@@ -7,6 +7,7 @@ require 'open3'
 require 'tmpdir'
 
 require_relative 'lib/apt'
+require_relative 'lib/aptly-ext/filter'
 require_relative 'lib/dpkg'
 require_relative 'lib/lp'
 require_relative 'lib/retry'
@@ -55,6 +56,37 @@ class Repository
     @log.info "Purging PPA #{@type}."
     return false if packages.empty?
     Apt.purge(packages.keys)
+  end
+end
+
+# An aptly repo for install testing
+class AptlyRepository < Repository
+  def initialize(repo, prefix)
+    @repo = repo
+    # FIXME: snapshot has no published_in
+    # raise unless @repo.published_in.any? { |x| x.Prefix == prefix }
+    super("http://archive.neon.kde.org/#{prefix}")
+  end
+
+  def sources
+    [] # not implemented, not sure why we needed this at all.
+  end
+
+  private
+
+  def packages
+    @packages ||= begin
+      packages = @repo.packages(q: '!$Architecture (source)')
+      packages = Aptly::Ext::LatestVersionFilter.filter(packages)
+      arch_filter = [DPKG::HOST_ARCH, 'all']
+      packages.reject! { |x| !arch_filter.include?(x.architecture) }
+      packages.reject! { |x| x.name.end_with?('-dbg', '-dbgsym') }
+      packages.map { |x| [x.name, x.version] }.to_h
+    end
+  end
+
+  def pin!
+    # FIXME: not implemented.
   end
 end
 
