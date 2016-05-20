@@ -55,7 +55,7 @@ class Repository
   def purge
     @log.info "Purging PPA #{@type}."
     return false if packages.empty?
-    Apt.purge(packages.keys)
+    Apt.purge(packages.keys.delete_if { |x| x.include?('base-files') })
   end
 end
 
