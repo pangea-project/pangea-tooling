@@ -22,70 +22,7 @@
 require 'aptly'
 require 'net/ssh/gateway'
 
-require_relative '../lib/debian/version'
-
-class Package
-  # A package short key (key without uid)
-  # e.g.
-  # "Psource kactivities-kf5 5.18.0+git20160312.0713+15.10-0"
-  class ShortKey
-    attr_reader :architecture
-    attr_reader :name
-    attr_reader :version
-
-    private
-
-    def initialize(architecture:, name:, version:)
-      @architecture = architecture
-      @name = name
-      @version = version
-    end
-
-    def to_s
-      "P#{@architecture} #{@name} #{@version}"
-    end
-  end
-
-  # A package key
-  # e.g.
-  # "Psource kactivities-kf5 5.18.0+git20160312.0713+15.10-0 8ebad520d672f51c"
-  class Key < ShortKey
-    # FIXME: maybe should be called hash?
-    attr_reader :uid
-
-    def self.from_string(str)
-      match = REGEX.match(str)
-      unless match
-        raise ArgumentError, "String doesn't appear to match our regex: #{str}"
-      end
-      kwords = Hash[match.names.map { |name| [name.to_sym, match[name]] }]
-      new(**kwords)
-    end
-
-    def to_s
-      "#{super} #{@uid}"
-    end
-
-    private
-
-    REGEX = /
-      ^
-      P(?<architecture>[^\s]+)
-      \s
-      (?<name>[^\s]+)
-      \s
-      (?<version>[^\s]+)
-      \s
-      (?<uid>[^\s]+)
-      $
-    /x
-
-    def initialize(architecture:, name:, version:, uid:)
-      super(architecture: architecture, name: name, version: version)
-      @uid = uid
-    end
-  end
-end
+require_relative '../lib/aptly-ext/filter'
 
 # Cleans up an Aptly::Repository by removing all versions of source+bin that
 # are older than the newest version.
@@ -112,67 +49,31 @@ class RepoCleaner
   private
 
   def clean_sources
-    sources_hash.each do |_name, names_packages|
-      delete?(names_packages) do |key|
-        delete_source(key)
-      end
-    end
+    keep = Aptly::Ext::LatestVersionFilter.filter(sources, @keep_amount)
+    (sources - keep).each { |x| delete_source(x) }
   end
 
   def clean_binaries
-    binaries_hash.each do |_name, names_packages|
-      delete?(names_packages) do |key|
-        delete_binary(key)
-      end
-    end
-  end
-
-  def delete?(names_packages)
-    versions = debian_versions(names_packages).sort.to_h
-    # For each version get the relevant keys and drop the keys until
-    # we have sufficiently few versions remaining
-    while versions.size > @keep_amount
-      _, keys = versions.shift
-      keys.each do |source_key|
-        yield source_key
-      end
-    end
+    keep = Aptly::Ext::LatestVersionFilter.filter(binaries, @keep_amount)
+    (binaries - keep).each { |x| delete_binary(x) }
   end
 
   def sources
     @sources ||= @repo.packages(q: '$Architecture (source)')
                       .compact
                       .uniq
-                      .collect { |key| Package::Key.from_string(key) }
+                      .collect do |key|
+                        Aptly::Ext::Package::Key.from_string(key)
+                      end
   end
 
   def binaries
     @binaries ||= @repo.packages(q: '!$Architecture (source)')
                        .compact
                        .uniq
-                       .collect { |key| Package::Key.from_string(key) }
-  end
-
-  # Group the sources in a Hash by their name attribute, so we can process
-  # one source at a time.
-  def sources_hash
-    @sources_hash ||= sources.group_by(&:name)
-  end
-
-  # Group the binaries in a Hash by their name attribute, so we can process
-  # one source at a time.
-  def binaries_hash
-    @binaries_hash ||= binaries.group_by(&:name)
-  end
-
-  # Group the keys in a Hash by their version. This is so we can easily
-  # sort the versions.
-  def debian_versions(names_packages)
-    # Group the keys in a Hash by their version. This is so we can easily
-    # sort the versions.
-    versions = names_packages.group_by(&:version)
-    # Pack them in a Debian::Version object for sorting
-    Hash[versions.map { |k, v| [Debian::Version.new(k), v] }]
+                       .collect do |key|
+                         Aptly::Ext::Package::Key.from_string(key)
+                       end
   end
 
   def delete_source(source_key)

@@ -132,7 +132,7 @@ class NCIRepoCleanupTest < TestCase
   end
 
   def test_key_from_string
-    key = Package::Key.from_string('Psource kactivities-kf5 1 abc')
+    key = Aptly::Ext::Package::Key.from_string('Psource kactivities-kf5 1 abc')
     assert_equal('source', key.architecture)
     assert_equal('kactivities-kf5', key.name)
     assert_equal('1', key.version)
@@ -142,11 +142,11 @@ class NCIRepoCleanupTest < TestCase
 
   def test_key_invalid
     assert_raises ArgumentError do
-      Package::Key.from_string('P kactivities-kf5 1 abc')
+      Aptly::Ext::Package::Key.from_string('P kactivities-kf5 1 abc')
     end
 
     assert_raises ArgumentError do
-      Package::Key.from_string('Psource kactivities-kf5 1 abc asdf')
+      Aptly::Ext::Package::Key.from_string('Psource kactivities-kf5 1 abc asdf')
     end
   end
 end
