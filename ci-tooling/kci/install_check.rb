@@ -76,7 +76,14 @@ class AptlyRepository < Repository
 
   def packages
     @packages ||= begin
-      packages = @repo.packages(q: '!$Architecture (source)')
+      sources = @repo.packages(q: '$Architecture (source)')
+      sources = Aptly::Ext::LatestVersionFilter.filter(sources)
+
+      packages = sources.collect do |source|
+        q = format('!$Architecture (source), $Source (%s), $SourceVersion (%s)',
+                   source.name, source.version)
+        @repo.packages(q: q)
+      end.flatten
       packages = Aptly::Ext::LatestVersionFilter.filter(packages)
       arch_filter = [DPKG::HOST_ARCH, 'all']
       packages.reject! { |x| !arch_filter.include?(x.architecture) }
