@@ -200,7 +200,7 @@ class KCIInstallCheckTest < TestCase
       .returns([])
 
     checker = InstallCheck.new
-    checker.run(daily_ppa, live_ppa)
+    checker.run(live_ppa, daily_ppa)
 
     assert_path_exist('sources-list.json')
   end

@@ -197,14 +197,14 @@ class InstallCheckBase
   end
 
   def run(candidate_ppa, target_ppa)
-    target_ppa.remove # remove live before attempting to use daily.
+    candidate_ppa.remove # remove live before attempting to use daily.
 
     # Add the present daily snapshot, install everything.
     # If this fails then the current snapshot is kaputsies....
-    if candidate_ppa.add
-      unless candidate_ppa.install
+    if target_ppa.add
+      unless target_ppa.install
         @log.info 'daily failed to install.'
-        daily_purged = candidate_ppa.purge
+        daily_purged = target_ppa.purge
         unless daily_purged
           @log.info 'daily failed to install and then failed to purge. Maybe check' \
                    ' maintscripts?'
@@ -218,22 +218,22 @@ class InstallCheckBase
     # So we purged daily again, and even if that fails we try to install live
     # to see what happens. If live is ok we are good, otherwise we would fail anyway
 
-    target_ppa.add
-    unless target_ppa.install
+    candidate_ppa.add
+    unless candidate_ppa.install
       @log.error 'all is vain! live PPA is not installing!'
       exit 1
     end
 
     # All is lovely. Let's make sure all live packages uninstall again
     # (maintscripts!) and then start the promotion.
-    unless target_ppa.purge
+    unless candidate_ppa.purge
       @log.error 'live PPA installed just fine, but can not be uninstalled again.' \
                 ' Maybe check maintscripts?'
       exit 1
     end
 
     @log.info "writing package list in #{Dir.pwd}"
-    File.write('sources-list.json', JSON.generate(target_ppa.sources))
+    File.write('sources-list.json', JSON.generate(candidate_ppa.sources))
   end
 end
 
