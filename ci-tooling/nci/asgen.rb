@@ -19,24 +19,39 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'fileutils'
+
 require_relative '../lib/apt'
+require_relative '../lib/asgen'
 
-Apt.install(%w(npm nodejs-legacy optipng)) || raise
+# Build
+Apt.install(%w(dub libappstream-dev libgdk-pixbuf2.0-dev libarchive-dev
+               librsvg2-dev liblmdb-dev libglib2.0-dev libcairo2-dev
+               libcurl4-gnutls-dev)) || raise
 
-system('npm install -g bower') || raise
-system('make js') || raise
+system('make update-submodule') || raise
+system('dub build --parallel') || raise
+
+# Run
+Apt.install(%w(npm nodejs-legacy optipng liblmdb0)) || raise
+
+system(*%w(npm install -g bower)) || raise
+# This needs pitchy patching in the config script to enable usage as root.
+system(*%w(make js)) || raise
 
 config = ASGEN::Conf.new('KDE neon')
 config.ArchiveRoot = '/home/nci/public/user'
-# config.MediaBaseUrl
-# config.HtmlBaseUrl
+config.MediaBaseUrl = 'http://metadata.tanglu.org/appstream/media'
+config.HtmlBaseUrl = 'http://metadata.tanglu.org/appstream/'
 config.Backend = 'debian'
 config.Features['validateMetainfo'] = true
 config.Suites << ASGEN::Suite.new('xenial', ['main'], ['amd64'])
 
+build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
 FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
 config.write("#{run_dir}/asgen-config.json")
-system(%w(appstream-generator process xenial), chdir: run_dir) || raise
+system("#{build_dir}/appstream-generator", 'process', 'xenial',
+       chdir: run_dir) || raise
 
 puts FileUtils.glob("#{run_dir}/**/**").join("\n")
