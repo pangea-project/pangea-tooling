@@ -40,7 +40,7 @@ system(*%w(npm install -g bower)) || raise
 system(*%w(make js)) || raise
 
 config = ASGEN::Conf.new('KDE neon')
-config.ArchiveRoot = '/home/nci/public/user'
+config.ArchiveRoot = File.absolute_path('public/user')
 config.MediaBaseUrl = 'http://metadata.tanglu.org/appstream/media'
 config.HtmlBaseUrl = 'http://metadata.tanglu.org/appstream/'
 config.Backend = 'debian'
