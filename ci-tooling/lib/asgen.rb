@@ -53,6 +53,7 @@ module ASGEN
 
   # Configuration main class.
   class Conf
+    # rubocop:disable Style/VariableName
     include MemberSerialize
 
     attr_accessor :ProjectName
