@@ -53,5 +53,3 @@ FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
 config.write("#{run_dir}/asgen-config.json")
 system("#{build_dir}/appstream-generator", 'process', 'xenial',
        chdir: run_dir) || raise
-
-puts FileUtils.glob("#{run_dir}/**/**").join("\n")
