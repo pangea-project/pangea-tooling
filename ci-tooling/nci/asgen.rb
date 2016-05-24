@@ -39,7 +39,7 @@ system(*%w(npm install -g bower)) || raise
 # This needs pitchy patching in the config script to enable usage as root.
 system(*%w(make js)) || raise
 
-config = ASGEN::Conf.new('KDE neon')
+config = ASGEN::Conf.new('neon/user')
 config.ArchiveRoot = File.absolute_path('public/user')
 config.MediaBaseUrl = 'http://metadata.tanglu.org/appstream/media'
 config.HtmlBaseUrl = 'http://metadata.tanglu.org/appstream/'
