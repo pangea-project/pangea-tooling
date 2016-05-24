@@ -44,7 +44,7 @@ class Repository
   end
 
   def install
-    @log.info "Installing PPA #{@type}."
+    @log.info "Installing PPA #{@_name}."
     return false if packages.empty?
     pin!
     args = %w(ubuntu-minimal)
@@ -53,7 +53,7 @@ class Repository
   end
 
   def purge
-    @log.info "Purging PPA #{@type}."
+    @log.info "Purging PPA #{@_name}."
     return false if packages.empty?
     Apt.purge(packages.keys.delete_if { |x| x.include?('base-files') })
   end
