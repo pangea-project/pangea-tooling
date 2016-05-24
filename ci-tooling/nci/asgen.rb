@@ -23,6 +23,7 @@ require 'fileutils'
 
 require_relative '../lib/apt'
 require_relative '../lib/asgen'
+require_relative '../lib/debian/release'
 
 # Build
 Apt.install(%w(dub libappstream-dev libgdk-pixbuf2.0-dev libarchive-dev
@@ -53,3 +54,27 @@ FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
 config.write("#{run_dir}/asgen-config.json")
 system("#{build_dir}/appstream-generator", 'process', 'xenial',
        chdir: run_dir) || raise
+
+export_dir = "#{run_dir}/export"
+repo_dir = "#{export_dir}/repo"
+dep11_dir = "#{repo_dir}/main/dep11"
+FileUtils.rm_r(repo_dir) if Dir.exist?(repo_dir)
+FileUtils.mkpath(dep11_dir)
+FileUtils.cp_r("#{export_dir}/data/xenial/main/.", dep11_dir, verbose: true)
+
+release = Debian::Release.new("#{config.ArchiveRoot}/dists/xenial/Release")
+release.parse!
+
+Dir.glob("#{dep11_dir}/*").each do |f|
+  %w(MD5Sum SHA1 SHA256 SHA512).each do |s|
+    tool = "#{s.downcase}sum"
+    tool = tool.gsub('sumsum', 'sum') # make sure md5sumsum becomes md5sum
+    sum = `#{tool} #{f}`.strip.split(' ')[0]
+    raise unless $? == 0
+    size = File.size(f)
+    name = f.split('main/dep11/')[-1]
+    checksum = Debian::Release::Checksum.new(sum, size, "main/dep11/#{name}")
+    release.fields[s] << checksum
+  end
+end
+File.write("#{repo_dir}/Release", release.dump)
