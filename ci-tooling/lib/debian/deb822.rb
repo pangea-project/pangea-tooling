@@ -144,7 +144,7 @@ module Debian
         else
           # FIXME: rstrip because multiline do not get their trailing newline
           #   stripped in parsing
-          output += value.rstrip
+          output += (value || value.rstrip)
         end
         output += "\n"
       end
