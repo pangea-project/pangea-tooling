@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'fileutils'
+require 'tmpdir'
 
 require_relative '../lib/apt'
 require_relative '../lib/asgen'
@@ -65,16 +66,27 @@ FileUtils.cp_r("#{export_dir}/data/xenial/main/.", dep11_dir, verbose: true)
 release = Debian::Release.new("#{config.ArchiveRoot}/dists/xenial/Release")
 release.parse!
 
+def checksum(tool, f)
+  sum = `#{tool} #{f}`.strip.split(' ')[0]
+  raise unless $? == 0
+  size = File.size(f)
+  name = f.split('main/dep11/')[-1]
+  checksum = Debian::Release::Checksum.new(sum, size, "main/dep11/#{name}")
+  release.fields[s] << checksum
+end
+
 Dir.glob("#{dep11_dir}/*").each do |f|
   %w(MD5Sum SHA1 SHA256 SHA512).each do |s|
     tool = "#{s.downcase}sum"
     tool = tool.gsub('sumsum', 'sum') # make sure md5sumsum becomes md5sum
-    sum = `#{tool} #{f}`.strip.split(' ')[0]
-    raise unless $? == 0
-    size = File.size(f)
-    name = f.split('main/dep11/')[-1]
-    checksum = Debian::Release::Checksum.new(sum, size, "main/dep11/#{name}")
-    release.fields[s] << checksum
+    release.fields[s] << checksum(tool, f)
+    next unless file.end_with?('.gz')
+    Dir.mktmpdir do |tmpdir|
+      Dir.chdir(tmpdir) do
+        system("gunzip #{f}") || raise
+        release.fields[s] << checksum(tool, f.gsub('.gz', ''))
+      end
+    end
   end
 end
 File.write("#{repo_dir}/Release", release.dump)
