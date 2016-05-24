@@ -137,7 +137,7 @@ module Debian
         if multiline_fields.include?(field)
           output += output_multiline(value)
         # elsif foldable_fields.include?(field)
-          # output += output_foldable(value)
+          # output += output_foldable(value, key.length)
         elsif relationship_fields.include?(field)
           # relationships are always foldable
           output += output_relationship(value, key.length)
