@@ -154,6 +154,8 @@ module Debian
     private
 
     def output_multiline(data)
+      data = data.join("\n") if data.respond_to?(:join)
+      data = data.to_s unless data.is_a?(String)
       data.gsub("\n", "\n ").chomp(' ')
     end
 
