@@ -25,10 +25,14 @@ module ASGEN
   module MemberSerialize
     def to_json(options = nil)
       instance_variables.collect do |x|
-        value = instance_variable_get(x)
+        value = to_json_instance(x)
         next nil unless value
         [x.to_s.tr('@', ''), value]
       end.compact.to_h.to_json(options)
+    end
+
+    def to_json_instance(var)
+      instance_variable_get(var)
     end
   end
 
@@ -48,6 +52,12 @@ module ASGEN
       @name = name
       @sections = sections
       @architectures = architectures
+    end
+
+    def to_json_instance(var)
+      value = super(var)
+      return nil if var == :@name # Don't serialize name
+      value
     end
   end
 
@@ -73,6 +83,12 @@ module ASGEN
 
     def write(file)
       File.write(file, JSON.generate(self))
+    end
+
+    def to_json_instance(var)
+      value = super(var)
+      value = value.map { |x| [x.name, x] }.to_h if var == :@Suites
+      value
     end
   end
 end
