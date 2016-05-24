@@ -21,7 +21,7 @@
 
 require_relative '../lib/apt'
 
-Apt.install(%w(npm optipng)) || raise
+Apt.install(%w(npm nodejs-legacy optipng)) || raise
 
 system('npm install -g bower') || raise
 system('make js') || raise
