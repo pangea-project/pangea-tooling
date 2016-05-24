@@ -21,7 +21,7 @@
 
 require_relative '../lib/apt'
 
-Apt.install(%w(install dub libappstream-dev libgdk-pixbuf2.0-dev libarchive-dev
+Apt.install(%w(dub libappstream-dev libgdk-pixbuf2.0-dev libarchive-dev
                librsvg2-dev liblmdb-dev libglib2.0-dev libcairo2-dev
                libcurl4-gnutls-dev)) || raise
 
