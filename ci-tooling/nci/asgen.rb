@@ -67,12 +67,12 @@ release = Debian::Release.new("#{config.ArchiveRoot}/dists/xenial/Release")
 release.parse!
 
 def checksum(tool, f)
+  puts "#{tool} #{f}"
   sum = `#{tool} #{f}`.strip.split(' ')[0]
   raise unless $? == 0
   size = File.size(f)
   name = f.split('main/dep11/')[-1]
-  checksum = Debian::Release::Checksum.new(sum, size, "main/dep11/#{name}")
-  release.fields[s] << checksum
+  Debian::Release::Checksum.new(sum, size, "main/dep11/#{name}")
 end
 
 Dir.glob("#{dep11_dir}/*").each do |f|
@@ -80,11 +80,13 @@ Dir.glob("#{dep11_dir}/*").each do |f|
     tool = "#{s.downcase}sum"
     tool = tool.gsub('sumsum', 'sum') # make sure md5sumsum becomes md5sum
     release.fields[s] << checksum(tool, f)
-    next unless file.end_with?('.gz')
+    next unless f.end_with?('.gz')
     Dir.mktmpdir do |tmpdir|
       Dir.chdir(tmpdir) do
-        system("gunzip #{f}") || raise
-        release.fields[s] << checksum(tool, f.gsub('.gz', ''))
+        FileUtils.cp(f, Dir.pwd)
+        basename = File.basename(f)
+        system("gunzip #{basename}") || raise
+        release.fields[s] << checksum(tool, basename.gsub('.gz', ''))
       end
     end
   end
