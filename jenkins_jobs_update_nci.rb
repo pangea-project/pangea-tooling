@@ -119,6 +119,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         }
         all_meta_builds << enqueue(MetaBuildJob.new(meta_args))
 
+        enqueue(DailyPromoteJob.new(type: type,
+                                    distribution: distribution,
+                                    dependees: all_builds))
+
         # ISOs
         NCI.architectures.each do |architecture|
           dev_unstable_isoargs = { type: 'devedition-gitunstable',
