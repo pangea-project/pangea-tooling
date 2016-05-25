@@ -105,8 +105,6 @@ packaging.neon.kde.org.uk:
         branch: Neon/unstable
     - kwin:
         branch: Neon/mobile
-    - kwayland:
-        branch: Neon/unstable
     - kwayland-integration:
         branch: Neon/unstable
     - kwrited:
