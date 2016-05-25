@@ -42,6 +42,7 @@ system(*%w(npm install -g bower)) || raise
 system(*%w(make js)) || raise
 
 config = ASGEN::Conf.new('neon/user')
+config.dataPriority = 1
 config.ArchiveRoot = File.absolute_path('public/user')
 config.MediaBaseUrl = 'http://metadata.tanglu.org/appstream/media'
 config.HtmlBaseUrl = 'http://metadata.tanglu.org/appstream/'
@@ -55,6 +56,10 @@ FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
 config.write("#{run_dir}/asgen-config.json")
 system("#{build_dir}/appstream-generator", 'process', 'xenial',
        chdir: run_dir) || raise
+
+# TODO
+# [15:03] <ximion> sitter: the version number changing isn't an issue - it does nothing with one architecture, and it's an optimization if you have at least one other architecture.
+# [15:03] <ximion> sitter: you should run ascli cleanup every once in a while though, to collect garbage
 
 export_dir = "#{run_dir}/export"
 repo_dir = "#{export_dir}/repo"
