@@ -87,4 +87,4 @@ File.write(JUNIT_FILE, unit.to_xml)
 # Agressively compress the output for archiving. We want to save as much
 # space as possible, since we have lots of these.
 system('tar -cf adt-output.tar adt-output')
-system('xz -9 adt-output.tar.xz')
+system('xz -9 adt-output.tar')
