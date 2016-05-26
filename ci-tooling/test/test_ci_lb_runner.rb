@@ -31,7 +31,7 @@ class LiveBuildRunnerTest < TestCase
     copy_data
     system_calls = ['./configure',
                     'lb build',
-                    'lb clean']
+                    'lb clean --purge']
     system_sequence = sequence('system-calls')
     system_calls.each do |cmd|
       Object.any_instance.expects(:system)
@@ -51,7 +51,7 @@ class LiveBuildRunnerTest < TestCase
     copy_data
     system_calls = ['lb config',
                     'lb build',
-                    'lb clean']
+                    'lb clean --purge']
     system_sequence = sequence('system-calls')
     system_calls.each do |cmd|
       Object.any_instance.expects(:system)
@@ -79,7 +79,7 @@ class LiveBuildRunnerTest < TestCase
           .returns(false)
 
     Object.any_instance.expects(:system)
-          .with('lb clean')
+          .with('lb clean --purge')
           .returns(true)
 
     lb = LiveBuildRunner.new

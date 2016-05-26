@@ -28,7 +28,7 @@ class LiveBuildRunner
         FileUtils.cp(@images, 'result', verbose: true)
         latest_symlink
       ensure
-        system('lb clean')
+        system('lb clean --purge')
       end
     end
   end
