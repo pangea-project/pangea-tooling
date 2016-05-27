@@ -76,7 +76,7 @@
         <command>
           <% jobs.each do |job| %>
             <% next unless job.end_with?('_adt') %>
-            rm -rvf $JENKINS_HOME/jobs/<%= job %>/builds/lastSuccessfulBuild/archive
+            #rm -rvf $JENKINS_HOME/jobs/<%= job %>/builds/lastSuccessfulBuild/archive
           <% end %>
         </command>
       </buildStep>
