@@ -22,6 +22,8 @@ packaging.neon.kde.org.uk:
         branch: Neon/release
     - syslinux-themes-neon:
         branch: Neon/release
+    - ubiquity-slideshow:
+        branch: master
   - forks:
     - base-files:
         branch: Neon/release

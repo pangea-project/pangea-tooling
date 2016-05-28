@@ -26,6 +26,8 @@ packaging.neon.kde.org.uk:
         branch: Neon/unstable
     - syslinux-themes-neon:
         branch: master
+    - ubiquity-slideshow:
+        branch: master
   - forks:
     - base-files:
         branch: master

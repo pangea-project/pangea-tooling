@@ -20,6 +20,8 @@ packaging.neon.kde.org.uk:
         branch: Neon/stable
     - syslinux-themes-neon:
         branch: master
+    - ubiquity-slideshow:
+        branch: master
   - '':
     - pkg-kde-tools: # Version in wily is too old for features used in Debian master.
         branch: kubuntu_xenial_archive
