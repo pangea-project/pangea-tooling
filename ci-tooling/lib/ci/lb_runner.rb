@@ -4,6 +4,7 @@ class LiveBuildRunner
   class Error < Exception; end
   class ConfigError < Error; end
   class BuildFailedError < Error; end
+  class FlashFailedError < Error; end
 
   def initialize(config_dir = Dir.pwd)
     @config_dir = config_dir
@@ -25,12 +26,17 @@ class LiveBuildRunner
         raise BuildFailedError unless system('lb build')
         FileUtils.mkdir_p('result')
         @images = Dir.glob('*.{iso,tar}')
+        flash! if File.exist? 'flash'
         FileUtils.cp(@images, 'result', verbose: true)
         latest_symlink
       ensure
         system('lb clean --purge')
       end
     end
+  end
+
+  def flash!
+    raise FlashFailedError unless system('./flash')
   end
 
   def latest_symlink
