@@ -84,7 +84,7 @@ summary = ADT::Summary.from_file('adt-output/summary')
 unit = ADT::JUnit::Summary.new(summary)
 File.write(JUNIT_FILE, unit.to_xml)
 
-FileUtils.rm_r('adt-output/binaries') if Dir.exist?('adt-output/binaries')
+FileUtils.rm_rf('adt-output/binaries', verbose: true)
 # Agressively compress the output for archiving. We want to save as much
 # space as possible, since we have lots of these.
 system('tar -cf adt-output.tar adt-output')
