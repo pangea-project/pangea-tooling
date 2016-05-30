@@ -25,7 +25,7 @@ class LiveBuildRunner
       begin
         raise BuildFailedError unless system('lb build')
         FileUtils.mkdir_p('result')
-        @images = Dir.glob('*.{iso,tar}')
+        @images = Dir.glob('*.{iso,tar,img}')
         flash! if File.exist? 'flash'
         FileUtils.cp(@images, 'result', verbose: true)
         latest_symlink
