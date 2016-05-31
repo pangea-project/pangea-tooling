@@ -26,6 +26,11 @@
 
 # Extras
 
+'*{debian.org,packaging.neon}*/*/{kdeconnect,kdeconnect-plasma}':
+  '*':
+    upstream_scm:
+      url: git://anongit.kde.org/kdeconnect-kde.git
+
 '*{debian.org,packaging.neon}*/*/libkgapi':
   '{kubuntu_stable,Neon/stable}':
     upstream_scm:

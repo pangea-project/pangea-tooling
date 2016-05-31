@@ -12,6 +12,7 @@ packaging.neon.kde.org.uk:
     - print-manager
     - spectacle
   - kde-extras:
+    - kdeconnect
     - yakuake
   - neon:
     - seeds:
