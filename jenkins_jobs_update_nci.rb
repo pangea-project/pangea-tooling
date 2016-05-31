@@ -55,15 +55,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     type_projects = {}
     NCI.types.each do |type|
-      # FIXME: align path handling
-      projects_file = case type
-                      when 'unstable'
-                        "#{@projects_dir}/nci.yaml"
-                      when 'stable'
-                        "#{@projects_dir}/nci_stable.yaml"
-                      else
-                        "#{@projects_dir}/nci/#{type}.yaml"
-                      end
+      projects_file = "#{projects_dir}/nci/#{type}.yaml"
       projects = ProjectsFactory.from_file(projects_file,
                                            branch: "Neon/#{type}")
       type_projects[type] = projects
