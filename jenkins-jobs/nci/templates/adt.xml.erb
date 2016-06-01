@@ -46,10 +46,10 @@ export TYPE=<%= type %>
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>adt-output.tar.xz</artifacts>
+      <artifacts>adt-output.tar.xz, run_stamp</artifacts>
       <allowEmptyArchive>true</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
-      <fingerprint>false</fingerprint>
+      <fingerprint>true</fingerprint>
       <defaultExcludes>true</defaultExcludes>
       <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
