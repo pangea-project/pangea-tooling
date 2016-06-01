@@ -26,6 +26,8 @@ require 'tmpdir'
 
 require_relative '../ci-tooling/lib/debian/release'
 
+APTLY_REPOSITORY = ENV.fetch('APTLY_REPOSITORY')
+
 archive_dir = File.absolute_path('aptly-repository')
 run_dir = File.absolute_path('run')
 
@@ -69,7 +71,7 @@ File.write("#{repo_dir}/Release", release.dump)
 
 repodir = File.absolute_path('run/export/repo')
 tmpdir = '/home/nci/asgen_push'
-targetdir = "/home/nci/aptly/#{ENV.fetch('APTLY_REPOSITORY')}/dists/xenial"
+targetdir = "/home/nci/aptly/#{APTLY_REPOSITORY}/dists/xenial"
 
 Net::SSH.start('localhost', 'nci') do |ssh|
   puts ssh.exec!("rm -rf #{tmpdir}")
@@ -79,3 +81,11 @@ Net::SSH.start('localhost', 'nci') do |ssh|
   puts ssh.exec!("gpg --digest-algo SHA256 --armor --detach-sign -s -o #{tmpdir}/Release.gpg  #{tmpdir}/Release")
   puts ssh.exec!("cp -rv #{tmpdir}/. #{targetdir}/")
 end
+FileUtils.rm_rf("#{export_dir}/data")
+FileUtils.rm_rf(repodir)
+
+# FIXME: should be separate by repo but we can't forward repo into container
+#        when generating the paths :/
+pubdir = "/var/www/metadata/appstream/" ##{APTLY_REPOSITORY}"
+FileUtils.mkpath(pubdir)
+FileUtils.cp_r("#{export_dir}/.", pubdir)
