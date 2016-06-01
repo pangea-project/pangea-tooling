@@ -44,8 +44,8 @@ system(*%w(make js)) || raise
 config = ASGEN::Conf.new('neon/user')
 config.dataPriority = 1
 config.ArchiveRoot = File.absolute_path('aptly-repository')
-config.MediaBaseUrl = 'http://archive.neon.kde.org/appstream/media'
-config.HtmlBaseUrl = 'http://archive.neon.kde.org/appstream/html'
+config.MediaBaseUrl = 'http://metadata.neon.kde.org/appstream/media'
+config.HtmlBaseUrl = 'http://metadata.neon.kde.org/appstream/html'
 config.Backend = 'debian'
 config.Features['validateMetainfo'] = true
 config.Suites << ASGEN::Suite.new('xenial', ['main'], ['amd64'])
