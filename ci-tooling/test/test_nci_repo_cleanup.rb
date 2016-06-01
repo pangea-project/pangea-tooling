@@ -53,7 +53,7 @@ class NCIRepoCleanupTest < TestCase
     Net::SSH::Gateway.expects(:new).returns(fake_gateway)
 
     fake_unstable = mock('unstable')
-    fake_unstable.expects(:Name).returns('unstable')
+    fake_unstable.stubs(:Name).returns('unstable')
     fake_unstable.expects(:packages)
                  .with(q: '$Architecture (source)')
                  .returns(['Psource kactivities-kf5 1 abc',
@@ -94,7 +94,7 @@ class NCIRepoCleanupTest < TestCase
                  .with(q: '$Source (kactivities-kf5), $SourceVersion (4)')
                  .never
     fake_stable = mock('stable')
-    fake_stable.expects(:Name).returns('stable')
+    fake_stable.stubs(:Name).returns('stable')
     fake_stable.expects(:packages)
                .with(q: '$Architecture (source)')
                .returns([])
@@ -106,7 +106,7 @@ class NCIRepoCleanupTest < TestCase
                .with('Pamd64 kactivities-kf5 1 abc')
     fake_stable.expects(:published_in)
                .returns(mock.responds_like_instance_of(Aptly::PublishedRepository))
-    Aptly::Repository.expects(:list)
+    Aptly::Repository.stubs(:list)
                      .returns([fake_unstable, fake_stable])
     {
       %w(1 gt 3) => 1 > 3,
