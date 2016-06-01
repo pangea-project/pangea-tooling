@@ -22,6 +22,9 @@
 require 'fileutils'
 require 'net/sftp'
 require 'net/ssh'
+require 'tmpdir'
+
+require_relative '../ci-tooling/lib/debian/release'
 
 archive_dir = File.absolute_path('aptly-repository')
 run_dir = File.absolute_path('run')
