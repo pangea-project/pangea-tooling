@@ -47,6 +47,10 @@ config.Suites << ASGEN::Suite.new('xenial', ['main'], ['amd64']).tap do |s|
   s.dataPriority = 1
 end
 
+# Generate
+# Install theme to hopefully override icons with breeze version.
+# TODO: This currently isn't using the actual neon version.
+Apt.install('breeze-icon-theme')
 build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
 FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
