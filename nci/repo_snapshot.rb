@@ -46,8 +46,6 @@ puts "Currently published snapshots: #{published_snapshots}"
 snapshots = Aptly::Snapshot.list.select do |x|
   x.Name.start_with?(release.Name)
 end
-require 'pp'
-pp snapshots
 puts "Available snapshots: #{snapshots.map(&:Name)}"
 
 dangling_snapshots = snapshots.reject do |x|
