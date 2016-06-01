@@ -43,4 +43,21 @@ end
 published_snapshots = published_snapshots.map(&:Sources).flatten.map(&:Name)
 puts "Currently published snapshots: #{published_snapshots}"
 
-puts "Available snapshots: #{Aptly::Snapshot.list.map(&:Name)}"
+snapshots = Aptly::Snapshot.list.select do |x|
+  x.Name.start_with?(release.Name)
+end
+require 'pp'
+pp snapshots
+puts "Available snapshots: #{snapshots.map(&:Name)}"
+
+dangling_snapshots = snapshots.reject do |x|
+  published_snapshots.include?(x.Name)
+end
+dangling_snapshots.each do |x|
+  x.CreatedAt = DateTime.parse(x.CreatedAt)
+end
+dangling_snapshots.sort_by!(&:CreatedAt)
+dangling_snapshots.pop # Pop newest dangle as a backup.
+puts "Dangling snapshots: #{dangling_snapshots.map(&:Name)}"
+dangling_snapshots.each(&:delete)
+puts 'Dangling snapshots deleted'
