@@ -71,7 +71,7 @@ File.write("#{repo_dir}/Release", release.dump)
 
 repodir = File.absolute_path('run/export/repo')
 tmpdir = '/home/nci/asgen_push'
-targetdir = "/home/nci/aptly/#{APTLY_REPOSITORY}/dists/xenial"
+targetdir = "/home/nci/aptly/public/#{APTLY_REPOSITORY}/dists/xenial"
 
 Net::SSH.start('localhost', 'nci') do |ssh|
   puts ssh.exec!("rm -rf #{tmpdir}")
