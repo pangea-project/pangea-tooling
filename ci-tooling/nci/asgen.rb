@@ -42,13 +42,14 @@ system(*%w(npm install -g bower)) || raise
 system(*%w(make js)) || raise
 
 config = ASGEN::Conf.new('neon/user')
-config.dataPriority = 1
 config.ArchiveRoot = File.absolute_path('aptly-repository')
 config.MediaBaseUrl = 'http://metadata.neon.kde.org/appstream/media'
 config.HtmlBaseUrl = 'http://metadata.neon.kde.org/appstream/html'
 config.Backend = 'debian'
 config.Features['validateMetainfo'] = true
-config.Suites << ASGEN::Suite.new('xenial', ['main'], ['amd64'])
+config.Suites << ASGEN::Suite.new('xenial', ['main'], ['amd64']).tap do |s|
+  s.dataPriority = 1
+end
 
 build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
