@@ -43,7 +43,7 @@ system(*%w(make js)) || raise
 
 config = ASGEN::Conf.new('neon/user')
 config.dataPriority = 1
-config.ArchiveRoot = File.absolute_path('public/user')
+config.ArchiveRoot = File.absolute_path('aptly-repository')
 config.MediaBaseUrl = 'http://archive.neon.kde.org/appstream/media'
 config.HtmlBaseUrl = 'http://archive.neon.kde.org/appstream/html'
 config.Backend = 'debian'

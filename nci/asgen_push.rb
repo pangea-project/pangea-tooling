@@ -22,7 +22,7 @@
 require 'net/sftp'
 require 'net/ssh'
 
-archive_dir = File.absolute_path('public/user')
+archive_dir = File.absolute_path('aptly-repository')
 run_dir = File.absolute_path('run')
 
 # Mangle the Release file.
@@ -65,7 +65,7 @@ File.write("#{repo_dir}/Release", release.dump)
 
 repodir = File.absolute_path('run/export/repo')
 tmpdir = '/home/nci/asgen_push'
-targetdir = '/home/nci/aptly/public/release/dists/xenial'
+targetdir = "/home/nci/aptly/#{ENV.fetch('APTLY_REPOSITORY')}/dists/xenial"
 
 Net::SSH.start('localhost', 'nci') do |ssh|
   puts ssh.exec!("rm -rf #{tmpdir}")
