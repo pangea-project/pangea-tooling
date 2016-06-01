@@ -111,4 +111,5 @@ Aptly::Repository.list.each do |repo|
 
   log.info "Deleting packages from repo #{repo.Name}: #{packages}"
   repo.delete_packages(packages)
+  repo.published_in.each(&:update!)
 end
