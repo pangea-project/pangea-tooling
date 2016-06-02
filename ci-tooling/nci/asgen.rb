@@ -22,7 +22,6 @@
 require 'fileutils'
 
 require_relative 'lib/setup_repo'
-
 require_relative '../lib/apt'
 require_relative '../lib/asgen'
 
@@ -43,10 +42,10 @@ system(*%w(npm install -g bower)) || raise
 # This needs pitchy patching in the config script to enable usage as root.
 system(*%w(make js)) || raise
 
-config = ASGEN::Conf.new('neon/user')
+config = ASGEN::Conf.new("neon/#{TYPE}")
 config.ArchiveRoot = File.absolute_path('aptly-repository')
-config.MediaBaseUrl = 'http://metadata.neon.kde.org/appstream/media'
-config.HtmlBaseUrl = 'http://metadata.neon.kde.org/appstream/html'
+config.MediaBaseUrl = "http://metadata.neon.kde.org/appstream/#{TYPE}/media"
+config.HtmlBaseUrl = "http://metadata.neon.kde.org/appstream/#{TYPE}/html"
 config.Backend = 'debian'
 config.Features['validateMetainfo'] = true
 config.Suites << ASGEN::Suite.new('xenial', ['main'], ['amd64']).tap do |s|
