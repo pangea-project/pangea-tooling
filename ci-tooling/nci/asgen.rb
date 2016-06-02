@@ -25,6 +25,8 @@ require_relative 'lib/setup_repo'
 require_relative '../lib/apt'
 require_relative '../lib/asgen'
 
+TYPE = ENV.fetch('TYPE')
+
 NCI.setup_repo!
 
 # Build
