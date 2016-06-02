@@ -48,7 +48,9 @@ config.MediaBaseUrl = "http://metadata.neon.kde.org/appstream/#{TYPE}/media"
 config.HtmlBaseUrl = "http://metadata.neon.kde.org/appstream/#{TYPE}/html"
 config.Backend = 'debian'
 config.Features['validateMetainfo'] = true
-config.Suites << ASGEN::Suite.new('xenial', ['main'], ['amd64']).tap do |s|
+config.Suites << ASGEN::Suite.new('xenial').tap do |s|
+  s.sections = %w(main)
+  s.architectures = %w(amd64 all)
   s.dataPriority = 1
   s.useIconTheme = 'breeze'
 end
