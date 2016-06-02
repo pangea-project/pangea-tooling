@@ -52,7 +52,7 @@ def checksum(tool, f)
 end
 
 def insert(sum, ary)
-  matches = ary.select { |x| x.file_name == sum.file_name }
+  matches = ary.select { |x| x.include?(sum.file_name) }
   puts "insert:match #{matches}"
   unless matches.empty? # ditch existing sum
     raise unless matches.size == 1 # we only want one match
