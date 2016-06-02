@@ -21,8 +21,12 @@
 
 require 'fileutils'
 
+require_relative 'lib/setup_repo'
+
 require_relative '../lib/apt'
 require_relative '../lib/asgen'
+
+NCI.setup_repo!
 
 # Build
 Apt.install(%w(dub libappstream-dev libgdk-pixbuf2.0-dev libarchive-dev
