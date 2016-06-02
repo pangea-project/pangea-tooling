@@ -51,7 +51,7 @@ def checksum(tool, f)
   Debian::Release::Checksum.new(sum, size, "main/dep11/#{name}")
 end
 
-def insert(sum, ary)
+def insert(ary, sum)
   matches = ary.select { |x| x.include?(sum.file_name) }
   puts "insert:match #{matches}"
   unless matches.empty? # ditch existing sum
