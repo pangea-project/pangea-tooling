@@ -51,18 +51,28 @@ def checksum(tool, f)
   Debian::Release::Checksum.new(sum, size, "main/dep11/#{name}")
 end
 
+def insert(sum, ary)
+  matches = ary.select { |x| x.file_name == sum.file_name }
+  puts "insert:match #{matches}"
+  unless matches.empty? # ditch existing sum
+    raise unless matches.size == 1 # we only want one match
+    matches.each { |x| ary.delete(x) }
+  end
+  ary << sum
+end
+
 Dir.glob("#{dep11_dir}/*").each do |f|
   %w(MD5Sum SHA1 SHA256 SHA512).each do |s|
     tool = "#{s.downcase}sum"
     tool = tool.gsub('sumsum', 'sum') # make sure md5sumsum becomes md5sum
-    release.fields[s] << checksum(tool, f)
+    insert(release.fields[s], checksum(tool, f))
     next unless f.end_with?('.gz')
     Dir.mktmpdir do |tmpdir|
       Dir.chdir(tmpdir) do
         FileUtils.cp(f, Dir.pwd)
         basename = File.basename(f)
         system("gunzip #{basename}") || raise
-        release.fields[s] << checksum(tool, basename.gsub('.gz', ''))
+        insert(release.fields[s], checksum(tool, basename.gsub('.gz', '')))
       end
     end
   end
