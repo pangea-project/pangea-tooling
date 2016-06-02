@@ -56,6 +56,26 @@ class RepoCleaner
   def clean_binaries
     keep = Aptly::Ext::LatestVersionFilter.filter(binaries, @keep_amount)
     (binaries - keep).each { |x| delete_binary(x) }
+    keep.each { |x| delete_binary(x) unless has_source?(x) }
+  end
+
+  def source_name_and_version_for(package)
+    name = package.Package
+    version = package.Version
+    if package.Source
+      source = package.Source
+      match = source.match(/^(?<name>[^\s]+)( \((?<version>[^\)]+)\))?$/)
+      name = match[:name]
+      # Version can be nil, handle this correctly.
+      version = match[:version] || version
+    end
+    [name, version]
+  end
+
+  def has_source?(bin)
+    package = Aptly::Ext::Package.get(bin)
+    name, version = source_name_and_version_for(package)
+    sources.any? { |x| x.name == name && x.version == version }
   end
 
   def sources

@@ -93,11 +93,12 @@ class NCIRepoCleanupTest < TestCase
     fake_unstable.expects(:packages)
                  .with(q: '$Source (kactivities-kf5), $SourceVersion (4)')
                  .never
+
     fake_stable = mock('stable')
     fake_stable.stubs(:Name).returns('stable')
     fake_stable.expects(:packages)
                .with(q: '$Architecture (source)')
-               .returns([])
+               .returns(['Psource kactivities-src-kf5 4 jkl'])
     fake_stable.expects(:packages)
                .with(q: '!$Architecture (source)')
                .returns(['Pamd64 kactivities-kf5 1 abc',
@@ -106,6 +107,16 @@ class NCIRepoCleanupTest < TestCase
                .with('Pamd64 kactivities-kf5 1 abc')
     fake_stable.expects(:published_in)
                .returns(mock.responds_like_instance_of(Aptly::PublishedRepository))
+
+    fake_unstable_package = mock('kactivities-kf5')
+    fake_unstable_package.stubs(:Package).returns('kactivities-kf5')
+    fake_unstable_package.stubs(:Version).returns('3')
+    fake_unstable_package.stubs(:Source).returns('kactivities-src-kf5 (4)')
+
+    Aptly::Ext::Package
+      .expects(:get)
+      .with { |x| x.to_s == 'Pamd64 kactivities-kf5 3 ghi' }
+      .returns(fake_unstable_package)
     Aptly::Repository.stubs(:list)
                      .returns([fake_unstable, fake_stable])
     {

@@ -18,9 +18,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'addressable/uri'
+require 'aptly/representation'
+
 module Aptly
   module Ext
-    class Package
+    class Package < Representation
       # A package short key (key without uid)
       # e.g.
       # "Psource kactivities-kf5 5.18.0+git20160312.0713+15.10-0"
@@ -63,6 +66,8 @@ module Aptly
           "#{super} #{@uid}"
         end
 
+        # TODO: maybe to_package? should be in base one presumes?
+
         private
 
         REGEX = /
@@ -80,6 +85,16 @@ module Aptly
         def initialize(architecture:, name:, version:, uid:)
           super(architecture: architecture, name: name, version: version)
           @uid = uid
+        end
+      end
+
+      class << self
+        def get(key, connection = Connection.new)
+          path = "/packages/#{key}"
+          response = connection.send(:get, Addressable::URI.escape(path))
+          o = new(connection, JSON.parse(response.body, symbolize_names: true))
+          o.Key = key.is_a?(Key) ? key : Key.from_string(o.Key)
+          o
         end
       end
     end
