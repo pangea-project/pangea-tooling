@@ -30,6 +30,8 @@ packaging.neon.kde.org.uk:
         branch: master
     - ubiquity-slideshow:
         branch: master
+    - adwaita-icon-theme:
+        branch: master
   - forks:
     - base-files:
         branch: master
