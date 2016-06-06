@@ -32,6 +32,8 @@ packaging.neon.kde.org.uk:
         branch: master
     - adwaita-icon-theme:
         branch: master
+    - neon-keyring:
+        branch: master
   - forks:
     - base-files:
         branch: master

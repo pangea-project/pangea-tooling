@@ -26,6 +26,8 @@ packaging.neon.kde.org.uk:
         branch: master
     - adwaita-icon-theme:
         branch: master
+    - neon-keyring:
+        branch: master
   - '':
     - pkg-kde-tools: # Version in wily is too old for features used in Debian master.
         branch: kubuntu_xenial_archive
