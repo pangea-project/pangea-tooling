@@ -52,7 +52,7 @@ config.Backend = 'debian'
 config.Features['validateMetainfo'] = true
 config.Suites << ASGEN::Suite.new('xenial').tap do |s|
   s.sections = %w(main)
-  s.architectures = %w(amd64 all)
+  s.architectures = %w(amd64)
   s.dataPriority = 1
   s.useIconTheme = 'breeze'
 end
