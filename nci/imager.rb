@@ -60,9 +60,11 @@ ISONAME = "#{IMAGENAME}-#{TYPE}".freeze
 REMOTE_DIR = "neon/images/#{ISONAME}/".freeze
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}".freeze
 
+system("gpg2 --armor --detach-sign -o result/#{ISONAME}-#{DATE}-amd64.iso.sig result/#{ISONAME}-#{DATE}-amd64.iso") || raise
+
 Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
   sftp.mkdir!(REMOTE_PUB_DIR)
-  %w(source.tar.xz amd64.iso manifest zsync sha256sum).each do |type|
+  %w(source.tar.xz amd64.iso amd64.iso.sig manifest zsync sha256sum).each do |type|
     Dir.glob("result/*#{type}").each do |file|
       name = File.basename(file)
       STDERR.puts "Uploading #{file}..."
