@@ -53,3 +53,4 @@ packaging.neon.kde.org.uk:
 launchpad.net:
   - livecd-rootfs-neon
   - ubiquity-neon
+  - software-properties-neon
