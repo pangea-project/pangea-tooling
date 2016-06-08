@@ -5,6 +5,8 @@ require 'fileutils'
 require_relative '../lib/ci/build_binary'
 require_relative 'lib/setup_repo'
 
+ENV['DEBIAN_FRONTEND'] = 'noninteractive'
+
 DCI.setup_repo!
 @workspace = Dir.pwd
 Dir.mktmpdir do |tmpdir|
