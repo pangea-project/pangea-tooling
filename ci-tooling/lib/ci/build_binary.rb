@@ -37,6 +37,7 @@ module CI
 
     class DependencyResolver
       RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'.freeze
+      RESOLVER_ENV = { 'DEBIAN_FRONTEND' => 'noninteractive' }
 
       def self.resolve(dir, bin_only: false)
         unless File.executable?(RESOLVER_BIN)
@@ -47,7 +48,7 @@ module CI
           opts = []
           opts << '--binary-arch' if bin_only
           opts << '--control' << "#{dir}/debian/control"
-          ret = system('sudo', RESOLVER_BIN, *opts)
+          ret = system(RESOLVER_ENV, RESOLVER_BIN, *opts)
           raise 'Failed to satisfy depends' unless ret
         end
       end

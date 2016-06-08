@@ -64,7 +64,8 @@ module CI
 
       Object.any_instance
             .expects(:system)
-            .with('sudo', '/usr/lib/pbuilder/pbuilder-satisfydepends',
+            .with({'DEBIAN_FRONTEND' => 'noninteractive'},
+                  '/usr/lib/pbuilder/pbuilder-satisfydepends',
                   '--binary-arch',
                   '--control', "#{Dir.pwd}/debian/control")
             .returns(true)
