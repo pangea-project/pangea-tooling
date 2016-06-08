@@ -127,6 +127,7 @@ task :deploy_in_container do
                                                       devscripts
                                                       python-launchpadlib
                                                       ubuntu-dev-tools
+                                                      gnome-pkg-tools
                                                       git
                                                       dh-systemd
                                                       zlib1g-dev
