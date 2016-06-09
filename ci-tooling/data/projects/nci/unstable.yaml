@@ -10,6 +10,7 @@ packaging.neon.kde.org.uk:
     - kate
     - kholidays
     - konsole
+    - kteatime
     - libkdcraw
     - libkipi
     - print-manager
