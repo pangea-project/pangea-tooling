@@ -7,8 +7,9 @@ class NeonIsoJob < JenkinsJob
   attr_reader :metapackage
   attr_reader :imagename
   attr_reader :neonarchive
+  attr_reader :cronjob
 
-  def initialize(type:, distribution:, architecture:, metapackage:, imagename:, neonarchive:)
+  def initialize(type:, distribution:, architecture:, metapackage:, imagename:, neonarchive:, cronjob:,)
     super("iso_#{imagename}_#{distribution}_#{type}_#{architecture}", 'nci-iso.xml.erb')
     @type = type
     @distribution = distribution
@@ -16,5 +17,6 @@ class NeonIsoJob < JenkinsJob
     @metapackage = metapackage
     @imagename = imagename
     @neonarchive = neonarchive
+    @cronjob = cronjob
   end
 end

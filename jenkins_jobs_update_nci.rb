@@ -122,28 +122,32 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                    architecture: architecture,
                                    metapackage: 'neon-desktop',
                                    imagename: 'neon',
-                                   neonarchive: 'dev/unstable' }
+                                   neonarchive: 'dev/unstable',
+                                   cronjob: H H * * * }
           enqueue(NeonIsoJob.new(dev_unstable_isoargs))
           dev_stable_isoargs = { type: 'devedition-gitstable',
                                  distribution: distribution,
                                  architecture: architecture,
                                  metapackage: 'neon-desktop',
                                  imagename: 'neon',
-                                 neonarchive: 'dev/stable' }
+                                 neonarchive: 'dev/stable',
+                                 cronjob: H H * * * }
           enqueue(NeonIsoJob.new(dev_stable_isoargs))
           user_release_isoargs = { type: 'useredition',
                                    distribution: distribution,
                                    architecture: architecture,
                                    metapackage: 'neon-desktop',
                                    imagename: 'neon',
-                                   neonarchive: 'user' }
+                                   neonarchive: 'user',
+                                   cronjob: H H * * 4 }
           enqueue(NeonIsoJob.new(user_release_isoargs))
           wayland_isoargs = { type: 'devedition-gitunstable',
                               distribution: distribution,
                               architecture: architecture,
                               metapackage: 'plasma-wayland-desktop',
                               imagename: 'plasma-wayland',
-                              neonarchive: 'dev/unstable' }
+                              neonarchive: 'dev/unstable',
+                              cronjob: H H * * * }
           enqueue(NeonIsoJob.new(wayland_isoargs))
         end
       end
