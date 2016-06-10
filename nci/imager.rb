@@ -75,6 +75,7 @@ Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
   # Need a second SSH session here, since the SFTP one is busy looping.
   Net::SSH.start('depot.kde.org', 'neon') do |ssh|
     ssh.exec!("cd #{REMOTE_PUB_DIR}; ln -s *amd64.iso #{ISONAME}-current.iso")
+    ssh.exec!("cd #{REMOTE_PUB_DIR}; ln -s *amd64.iso.sig #{ISONAME}-current.iso.sig")
     ssh.exec!("cd #{REMOTE_DIR}; rm -f current; ln -s #{DATE} current")
   end
 
