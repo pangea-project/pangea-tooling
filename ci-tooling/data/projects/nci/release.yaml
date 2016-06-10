@@ -15,6 +15,16 @@ packaging.neon.kde.org.uk:
     - libkipi
     - print-manager
     - spectacle
+    - filelight
+    - kcalc
+    - kcharselect
+    - kdebugsettings
+    - kdf
+    - kfloppy
+    - kgpg
+    - kremotecontrol
+    - ktimer
+    - sweeper
   - kde-extras:
     - kdeconnect
     - yakuake
