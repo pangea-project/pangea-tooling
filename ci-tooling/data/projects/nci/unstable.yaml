@@ -25,6 +25,9 @@ packaging.neon.kde.org.uk:
     - kremotecontrol
     - ktimer
     - sweeper
+    - kcron
+    - ksystemlog
+    - kuser
   - kde-extras:
     - kdeconnect
     - yakuake
