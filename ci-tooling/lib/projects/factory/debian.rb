@@ -19,10 +19,12 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative 'base'
+require_relative 'common'
 
 class ProjectsFactory
   # Debian specific project factory.
   class Debian < Base
+    include ProjectsFactoryCommon
     DEFAULT_URL_BASE = 'git://anonscm.debian.org'.freeze
 
     # FIXME: same as in neon
