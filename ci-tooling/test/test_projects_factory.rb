@@ -453,11 +453,12 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     obj
   end
 
-  def test_l10n_from_list
+  def test_kde_l10n_from_hash
     l10n_repos = %w(kde-l10n-ru kde-l10n-de)
-    l10n_dir = create_fake_git(branches: %w(master),
-                                 repos: l10n_repos)
-    ProjectsFactory::L10N.instance_variable_set(:@url_base, l10n_dir)
+    l10n_dir = create_fake_git(prefix: 'kde-l10n',
+                               branches: %w(kubuntu_unstable),
+                               repos: l10n_repos)
+    ProjectsFactory::KDEL10N.instance_variable_set(:@url_base, l10n_dir)
 
     fake_session = mock('sftp_session')
     fake_session.responds_like_instance_of(Net::SFTP::Session)
@@ -473,11 +474,12 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
              .yields(fake_session)
     fake_session.stubs(:dir).returns(fake_dir)
 
-    factory = ProjectsFactory::L10N.new('kde-l10n')
-    projects = factory.factorize(['16.04.1'])
+    factory = ProjectsFactory::KDEL10N.new('kde-l10n')
+    projects = factory.factorize([{'16.04.1' => ['kde-l10n-ru']}])
 
     refute_nil(projects)
-    assert_equal(2, projects.size)
+    assert_equal(1, projects.size)
+    assert_equal('kde-l10n-ru', projects[0].name)
   end
 
   def test_empty_base
