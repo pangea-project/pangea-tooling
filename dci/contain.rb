@@ -2,7 +2,7 @@
 
 require_relative '../lib/ci/containment'
 
-Docker.options[:read_timeout] = 5 * 60 * 60 # 5 hours.
+Docker.options[:read_timeout] = 7 * 60 * 60 # 5 hours.
 
 DIST = ENV.fetch('DIST')
 BUILD_TAG = ENV.fetch('BUILD_TAG')
