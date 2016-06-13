@@ -27,6 +27,7 @@ require_relative '../lib/projects/factory'
 require_relative 'lib/testcase'
 
 require 'mocha/test_unit'
+require 'webmock/test_unit'
 
 class ProjectsFactoryTest < TestCase
   required_binaries %w(git)
@@ -34,6 +35,8 @@ class ProjectsFactoryTest < TestCase
   def setup
     CI::Overrides.default_files = [] # Disable overrides by default.
     reset_child_status!
+    WebMock.disable_net_connect!(allow_localhost: true)
+    Net::SFTP.expects(:start).never
   end
 
   def teardown
@@ -41,6 +44,7 @@ class ProjectsFactoryTest < TestCase
     ProjectsFactory.factories.each do |factory|
       factory.send(:reset!)
     end
+    WebMock.allow_net_connect!
   end
 
   def git_init_commit(repo_path, branches = %w(master kubuntu_unstable))
@@ -435,6 +439,45 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     assert_equal 'bzr', project.packaging_scm.type
     assert_equal 'lp:qt/qtubuntu-cameraplugin-fake', project.packaging_scm.url
     assert_equal nil, project.packaging_scm.branch
+  end
+
+  def test_l10n_understand
+    assert ProjectsFactory::L10N.understand?('kde-l10n')
+    refute ProjectsFactory::L10N.understand?('git.debian.org')
+  end
+
+  def fake_dir_entry(name)
+    obj = mock("fake_dir_entry_#{name}")
+    obj.responds_like_instance_of(Net::SFTP::Protocol::V01::Name)
+    obj.expects(:name).at_least_once.returns(name)
+    obj
+  end
+
+  def test_l10n_from_list
+    l10n_repos = %w(kde-l10n-ru kde-l10n-de)
+    l10n_dir = create_fake_git(branches: %w(master),
+                                 repos: l10n_repos)
+    ProjectsFactory::L10N.instance_variable_set(:@url_base, l10n_dir)
+
+    fake_session = mock('sftp_session')
+    fake_session.responds_like_instance_of(Net::SFTP::Session)
+
+    fake_dir = mock('fake_dir')
+    fake_dir.responds_like_instance_of(Net::SFTP::Operations::Dir)
+    fake_dir.stubs(:glob)
+            .with('/home/ftpubuntu/stable/applications/16.04.1/src/kde-l10n/', '**/**.tar.*')
+            .returns([fake_dir_entry('kde-l10n-ru-16.04.1.tar.xz'), fake_dir_entry('kde-l10n-de-16.04.1.tar.xz')])
+
+    Net::SFTP.stubs(:start)
+             .with('depot.kde.org', 'ftpubuntu')
+             .yields(fake_session)
+    fake_session.stubs(:dir).returns(fake_dir)
+
+    factory = ProjectsFactory::L10N.new('kde-l10n')
+    projects = factory.factorize(['16.04.1'])
+
+    refute_nil(projects)
+    assert_equal(2, projects.size)
   end
 
   def test_empty_base
