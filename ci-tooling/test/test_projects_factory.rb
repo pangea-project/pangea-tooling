@@ -442,8 +442,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
   end
 
   def test_l10n_understand
-    assert ProjectsFactory::L10N.understand?('kde-l10n')
-    refute ProjectsFactory::L10N.understand?('git.debian.org')
+    assert ProjectsFactory::KDEL10N.understand?('kde-l10n')
+    refute ProjectsFactory::KDEL10N.understand?('git.debian.org')
   end
 
   def fake_dir_entry(name)
