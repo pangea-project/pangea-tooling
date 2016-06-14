@@ -19,9 +19,10 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 module CI
+  # Class to generate packaging for kde-l10n packages
   class LangPack
     def self.generate_packaging!(lang)
-      match_pattern = /aaaKDELANGNAMEbbb|aaaUBUNTULANGCODEbbb/.freeze
+      match_pattern = /aaaKDELANGNAMEbbb|aaaUBUNTULANGCODEbbb/
       Dir.glob('debian/*').each do |file|
         next unless File.file? file
         subbed = File.open(file).read.gsub(match_pattern, lang)
