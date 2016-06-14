@@ -24,6 +24,7 @@ require_relative '../lib/ci/build_source'
 require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
 require_relative '../lib/kdeify'
+require_relative '../lib/ci/generate_langpack_packaging'
 require_relative 'lib/setup_repo'
 require_relative 'lib/setup_env'
 
@@ -52,6 +53,14 @@ when 'firefox'
 when 'thunderbird'
   puts 'Special case building for thunderbird'
   KDEIfy.thunderbird!
+  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
+when 'kde-l10n'
+  lang = ARGV.fetch(1, nil)
+  raise 'No lang specified' unless lang
+  puts 'KDE L10N generation mode'
+  Dir.chdir('packaging') do
+    CI::LangPack.generate_packaging!(lang)
+  end
   orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
 else
   puts 'Unspecified source type, defaulting to VCS build...'
