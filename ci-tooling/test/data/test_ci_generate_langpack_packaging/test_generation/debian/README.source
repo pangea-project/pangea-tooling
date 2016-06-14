@@ -1,0 +1,57 @@
+Welcome to the magic kde-l10n-common branch.
+
+== Branch ==
+When applying changes to the packaging, you must only do this via the packaging
+branch, otherwise the changes will be dropoped with the next upload based on
+the branch!
+
+https://code.launchpad.net/~kubuntu-packagers/kubuntu-packaging/kde-l10n-common
+
+== Intro ==
+This branch is designed to be the one and only common base for KDE l10n packages
+concerning packaging in Kubuntu.
+From inspecting this debian/ directory you will see that crucial strings
+use weird keywords that can easily be substituted (such as
+aaaUBUNTULANGCODEbbb).
+Those will be manipulated by a magical script (debian/build-l10n.sh) to form
+a sensible package for each available language.
+
+== Requirements ==
+* Packaging skillz
+* Speedy internet access
+* Access to the Ubuntu account on depot (poke a random ninja for that)
+* bzr
+* bzr-buildpackage
+* subversion
+* git
+* git-buildpackage
+
+== General Workflow ==
+* Change
+* Commit
+* Push
+* Build
+
+Note: build-l10n.sh will NOT under any circumstances let you build the packages
+if you did not push all commits, nor will it include uncommited changes in the
+build!
+
+== Updates ==
+When applying upstream updates remember to change the tag date/revision in
+debian/rules, otherwise outdated desktop files will be merged into the package.
+
+== Internals ==
+* The magical script fetches all tarballs of the release as detected from
+  debian/changelog
+* Then branches the common branch for each downloaded language and replaces
+  the place holders with actual values
+* Builds a package using git-buildpackage
+
+Since this branch depends on source-format 3 there will not be a conversion from
+bz2 to gz, which speeds up everything quite a bit.
+
+Once all packages are built and you are happy, you just need to dput them.
+
+== Author ==
+* Harald Sitter <apachelogger@ubuntu.com>
+

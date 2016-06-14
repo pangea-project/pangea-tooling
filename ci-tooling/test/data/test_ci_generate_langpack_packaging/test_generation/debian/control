@@ -1,0 +1,49 @@
+Source: kde-l10n-aaaUBUNTULANGCODEbbb
+Section: kde
+Priority: optional
+Maintainer: Kubuntu Developers <kubuntu-devel@lists.ubuntu.com>
+Build-Depends: cmake,
+               debhelper (>= 7.4.13),
+               extra-cmake-modules,
+               kdelibs5-dev (>= 4:4.7.0),
+               kdoctools-dev,
+               libkf5i18n-dev,
+               pkg-kde-tools (>= 0.5.3),
+               python,
+               qttools5-dev,
+               qttools5-dev-tools
+Standards-Version: 3.9.6
+Homepage: http://l10n.kde.org/team-infos.php?teamcode=aaaKDELANGCODEbbb
+Vcs-Browser: http://bazaar.launchpad.net/~kubuntu-packagers/kubuntu-packaging/kde-l10n-common
+Vcs-Bzr: https://code.launchpad.net/~kubuntu-packagers/kubuntu-packaging/kde-l10n-common
+
+Package: kde-l10n-aaaUBUNTULANGCODEbbb
+Architecture: all
+Depends: libkdecore5 (>= 4:4.7.0), ${kubuntu:Depends}, ${misc:Depends}
+Breaks: kde-config-telepathy-accounts (<< 15.04),
+        kde-telepathy-approver (<< 15.04),
+        kde-telepathy-auth-handler (<< 15.04),
+        kde-telepathy-contact-list (<< 15.04),
+        kde-telepathy-data (<< 15.04),
+        kde-telepathy-desktop-applets (<< 15.04),
+        kde-telepathy-filetransfer-handler (<< 15.04),
+        kde-telepathy-integration-module (<< 15.04),
+        kde-telepathy-send-file (<< 15.04),
+        kde-telepathy-text-ui (<< 15.04),
+        kdenlive (<< 4:15.04),
+        plasma-runner-telepathy-contact (<< 15.04)
+Replaces: kde-config-telepathy-accounts (<< 15.04),
+          kde-telepathy-approver (<< 15.04),
+          kde-telepathy-auth-handler (<< 15.04),
+          kde-telepathy-contact-list (<< 15.04),
+          kde-telepathy-data (<< 15.04),
+          kde-telepathy-desktop-applets (<< 15.04),
+          kde-telepathy-filetransfer-handler (<< 15.04),
+          kde-telepathy-integration-module (<< 15.04),
+          kde-telepathy-send-file (<< 15.04),
+          kde-telepathy-text-ui (<< 15.04),
+          kdenlive (<< 4:15.04),
+          plasma-runner-telepathy-contact (<< 15.04)
+Description: aaaKDELANGNAMEbbb (aaaUBUNTULANGCODEbbb) localization for KDE
+ This package contains the translation files for all KDE core applications for
+ the language "aaaKDELANGNAMEbbb".

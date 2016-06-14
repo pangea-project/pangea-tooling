@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+###BOILERPLATE###
+
+%:
+	dh $@ --with kde --parallel
+
+override_dh_auto_install:
+	dh_auto_install
+	for file in `cat debian/overlapping-files`; do echo removing $${file}; rm -f debian/kde-l10n-*/usr/share/locale/*/LC_MESSAGES/$${file}.mo; done
+
+override_dh_gencontrol:
+	dh_gencontrol -- -Tdebian/substvars

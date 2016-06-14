@@ -1,0 +1,768 @@
+kde-l10n-aaaUBUNTULANGCODEbbb (4:15.12.3-0ubuntu3~ubuntu16.10~ppa1) yakkety; urgency=medium
+
+  * Added kcm_activities to overlapping-files as they are also in
+    plasma-desktop 5.6
+
+ -- Clive Johnston <clivejo@kubuntu.org>  Sat, 14 May 2016 11:40:14 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:15.12.3-0ubuntu1.1) xenial; urgency=medium
+
+  * Re-run translations for xenial. Closes: (LP: #1576455)
+
+ -- Scarlett Clark <sgclark@kubuntu.org>  Mon, 02 May 2016 21:11:07 -0700
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:15.12.3-0ubuntu1) xenial; urgency=medium
+
+  * Xenial bugfix release. Closes: (LP: #1576455)
+
+ -- Scarlett Clark <sgclark@kubuntu.org>  Mon, 02 May 2016 21:11:07 -0700
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:15.12.1-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release. 
+
+ -- Scarlett Clark <sgclark@kubuntu.org>  Fri, 11 Mar 2016 06:34:52 -0800
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:15.08.3-0ubuntu2~ubuntu16.04~ppa1) xenial; urgency=medium
+
+  * Blacklist kcm_device_automounter which moved in plasma 5.5 (PPA Build)
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Mon, 11 Jan 2016 21:42:05 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:15.08.3-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Wed, 06 Jan 2016 15:27:38 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:15.08.2-0ubuntu1) wily; urgency=medium
+
+  * New upstream release. 
+
+ -- Scarlett Clark <sgclark@kubuntu.org>  Tue, 13 Oct 2015 15:21:40 -0700
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:15.08.1-0ubuntu1) wily; urgency=medium
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 17 Sep 2015 23:11:28 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:15.08.0-0ubuntu1) wily; urgency=medium
+
+  * New upstream release 
+
+ -- Clive Johnston <clivejo@aol.com>  Fri, 21 Aug 2015 13:43:00 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:15.04.2-0ubuntu1) wily; urgency=medium
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 22 Jun 2015 12:46:50 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:15.04.0-0ubuntu1~ubuntu15.04~ppa4) vivid; urgency=medium
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 04 May 2015 15:00:08 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:14.12.3-0ubuntu2) vivid; urgency=medium
+
+  * Add breaks/replaces on kde-telepathy-desktop-applets for moved
+    translations LP: #1436395
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 15 Apr 2015 13:10:28 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:14.12.3-0ubuntu1) vivid; urgency=medium
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 24 Mar 2015 20:18:14 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:14.12.2-0ubuntu1) vivid; urgency=medium
+
+  * New upstream release, first version from KDE Applications
+  * Revert install to /usr/share/locale/
+  * Add debian/overlapping files to remove files that are in plasma5
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 21 Jan 2015 12:33:46 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.14.2-0ubuntu1) utopic; urgency=medium
+
+  * New upstream release 
+
+ -- Scarlett Clark <sgclark@kubuntu.org>  Tue, 14 Oct 2014 07:41:57 -0700
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.14.0-0ubuntu1) utopic; urgency=medium
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 18 Aug 2014 18:27:04 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.13.97-0ubuntu1) utopic; urgency=medium
+
+  * RC release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 01 Aug 2014 15:53:26 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.13.90-0ubuntu1) utopic; urgency=medium
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 25 Jul 2014 00:09:20 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.13.2-0ubuntu1) utopic; urgency=medium
+
+  * New upstream release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Thu, 12 Jun 2014 17:19:47 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.13.1-0ubuntu1) utopic; urgency=medium
+
+  * New upstream release
+  * Use -DLOCALE_INSTALL_DIR=/usr/share/locale-kdelibs4/ to move
+    translations into kdelibs directory so they don't clash with
+    incoming kf5 packages
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 20 May 2014 15:08:09 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.13.0-0ubuntu1) trusty; urgency=medium
+
+  * New upstream release of KDE Software Compilation
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 10 Apr 2014 12:22:05 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.12.97-0ubuntu1) trusty; urgency=medium
+
+  * New upstream release 
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Thu, 03 Apr 2014 17:09:06 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.12.95-0ubuntu1) trusty; urgency=medium
+
+  * New upstream release 
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Sun, 23 Mar 2014 13:16:21 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.12.90-0ubuntu1) trusty; urgency=medium
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 19 Mar 2014 12:36:07 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.12.80-0ubuntu1) trusty; urgency=medium
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 13 Mar 2014 11:35:13 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.12.2-0ubuntu1) trusty; urgency=medium
+
+  * New upstream bugfix release
+
+ -- Rohan Garg <rohangarg@kubuntu.org>  Tue, 04 Feb 2014 17:13:05 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.12.0-0ubuntu1) trusty; urgency=low
+
+  * new upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 16 Dec 2013 11:09:47 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.11.97-0ubuntu1) trusty; urgency=low
+
+  * New upstream RC release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 28 Nov 2013 12:31:35 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.11.80-0ubuntu1) trusty; urgency=low
+
+  * New upstream beta release 
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Sun, 24 Nov 2013 13:21:42 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.11.2-0ubuntu1) saucy; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 01 Oct 2013 12:08:06 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.11.1-0ubuntu1) saucy; urgency=low
+
+  * New upstream release 
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Sun, 08 Sep 2013 15:16:44 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.11.0-0ubuntu1) saucy; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 13 Aug 2013 19:26:53 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.10.97-0ubuntu1) saucy; urgency=low
+
+  * New upstream RC release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 26 Jul 2013 19:32:38 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.10.95-0ubuntu1) saucy; urgency=low
+
+  * New upstream RC release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 24 Jul 2013 14:17:50 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.10.90-0ubuntu1) saucy; urgency=low
+
+  * New upstream beta release
+
+ -- Howard Chan <smartboyhw@gmail.com>  Fri, 05 Jul 2013 22:50:13 +0800
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.10.80-0ubuntu1) saucy; urgency=low
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 21 Jun 2013 13:20:51 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.10.2-0ubuntu1) raring; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 04 Apr 2013 14:14:50 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.10.1-0ubuntu1) raring; urgency=low
+
+  * New upstream bugfix release 
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Wed, 06 Mar 2013 13:24:42 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.10.0-0ubuntu2) raring; urgency=low
+
+  * Bump with ibus input methods fixes
+
+ -- Michal Zajac <quintasan@kubuntu.org>  Mon, 18 Feb 2013 18:40:20 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.10.0-0ubuntu1) raring; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 06 Feb 2013 13:11:41 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.9.98-0ubuntu1) raring; urgency=low
+
+  * New upstream RC
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 18 Jan 2013 22:22:10 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.9.97-0ubuntu1) raring; urgency=low
+
+  * New upstream RC
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 04 Jan 2013 22:22:10 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.9.95-0ubuntu1) raring; urgency=low
+
+  * New upstream release candidate
+  * Add Breaks/Replaces against print-manager (<< 4:4.9.90).
+    It's now part of the KDE SC.
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Sun, 23 Dec 2012 14:20:52 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.9.90-0ubuntu1) raring; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 07 Dec 2012 11:48:14 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.9.80-0ubuntu1) raring; urgency=low
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 26 Nov 2012 14:16:42 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.9.3-0ubuntu1) raring; urgency=low
+
+  * New upstream release (LP: #1074747)
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Tue, 06 Nov 2012 11:00:32 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.9.2-0ubuntu1) quantal; urgency=low
+
+  [ Felix Geyer ]
+  * Build-depend on python as it's required by kde-l10n-sr.
+  * Compress debian tarballs with xz instead of bzip2.
+  * Bump Standards-Version to 3.9.3.
+  * Rename debian/config to debian/config-l10n as "config" is used by debconf.
+  * Enable parallel building.
+  * Drop unneeded dh_install override.
+
+  [ Jonathan Riddell ]
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 02 Oct 2012 17:04:55 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.9.1-0ubuntu1) quantal; urgency=low
+
+  * New upstream release
+
+ -- Felix Geyer <debfx@ubuntu.com>  Tue, 11 Sep 2012 11:10:45 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.9.0-0ubuntu1) quantal; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 01 Aug 2012 12:53:57 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.8.90-0ubuntu1) quantal; urgency=low
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 18 Jun 2012 13:16:36 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.8.3-0ubuntu1) quantal; urgency=low
+
+  * New upstream release (svn: 1292309, type: stable)
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Sun, 20 May 2012 21:21:10 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.8.2-0ubuntu1) precise; urgency=low
+
+  * New upstream release (svn: 1287586, type: stable)
+
+ -- Felix Geyer <debfx@ubuntu.com>  Tue, 10 Apr 2012 12:17:15 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.8.1-0ubuntu1) precise; urgency=low
+
+  * New upstream release (svn: 1283253, type: stable)
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Sun, 11 Mar 2012 13:48:07 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.8.0-0ubuntu1) precise; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 24 Jan 2012 20:43:54 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.7.3-0ubuntu1) precise; urgency=low
+
+  * New upstream release (svn: 1261159, type: stable)
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Wed, 07 Dec 2011 16:36:07 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.7.2-0ubuntu1) oneiric-proposed; urgency=low
+
+  * New upstream release (svn: 1256933, type: stable) LP: #872506
+
+ -- Philip Muškovac <yofel@kubuntu.org>  Wed, 19 Oct 2011 21:39:42 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.7.1-0ubuntu1) oneiric; urgency=low
+
+  * New upstream release (svn: 1250835, type: stable)
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Sun, 04 Sep 2011 14:35:50 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.7.0-0ubuntu1) oneiric; urgency=low
+
+  * New upstream release (svn: 1242643, type: stable)
+  * Bump kdelibs deps to 4.7.0
+  * Update readme.source with new branch url
+  * Update control VCS entries with new branch url
+  * Stop getting old kdepim 4.5 translations (4.7 is now in oneiric)
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Fri, 26 Aug 2011 16:23:10 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.6.90-0ubuntu1) oneiric; urgency=low
+
+  * Enable easy switching between stable and unstable translations
+  * Make module desktop fetching more robust by trying to step into every
+    element within the messages directory and if successful try to svn export
+    a related desktop file
+  * Update build script for new branch name
+  * Update build script to use ftpmaster rather than ktown
+  * Introduce new targets:
+    - get-l10n: called by the build script and
+      depends on all other targets that need execution to get l10n
+    - get-desktop: prerequisites all targets to get desktop file translations
+    - get-messages: prerequisites all targets to get UI translations
+    - get-messages-kdepim: gets all kdepim translations
+    - get-desktop-sc: gets all desktop files for all modules in the source tree
+    - get-desktop-extragear: gets all desktop files for extragera apps in main
+      (as per list installed by pkg-kde-tools)
+    - get-desktop-kdepim: copies kdepim's desktop file to kdepim_runtime
+  * Introduce new debian/config file which hold settings for rules and build
+    script.
+  * Check presence of necessary debian/config values in debian/rules
+  * Fetch desktop files by regex in debian/rules (split modules have multiple
+    desktop_* files in their SVN path)
+  * Bump standards version to 3.9.2
+  * Update VCS paths (now living in the kubuntu-packaging project)
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Wed, 13 Jul 2011 19:24:03 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.6.2-0ubuntu1) natty; urgency=low
+
+  [ Jonathan Riddell ]
+  * New upstream release
+
+  [ Felix Geyer ]
+  * Don't use quilt, obsolete with source format 3.0.
+  * Compress the debian packaging tarball with bzip2.
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 06 Apr 2011 14:12:09 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.6.1-0ubuntu1) natty; urgency=low
+
+  * New upstream release
+
+ -- Felix Geyer <debfx-pkg@fobos.de>  Fri, 04 Mar 2011 20:37:16 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.6.0-0ubuntu1) natty; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 24 Jan 2011 09:32:25 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.5.95-0ubuntu1) natty; urgency=low
+
+  * New upstream RC release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 06 Jan 2011 14:22:29 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.5.90-0ubuntu1) natty; urgency=low
+
+  * New upstream RC release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 23 Dec 2010 00:03:53 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.5.85-0ubuntu1) natty; urgency=low
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 06 Dec 2010 23:06:59 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.5.80-0ubuntu1) natty; urgency=low
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 29 Nov 2010 17:52:23 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.5.3-0ubuntu1) natty; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 04 Nov 2010 13:16:43 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.5.2-0ubuntu1~ppa1) maverick; urgency=low
+
+  * PPA build
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 05 Oct 2010 12:34:49 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.5.2-0ubuntu1) UNRELEASED; urgency=low
+
+  * New upstream version
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 05 Oct 2010 12:34:35 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.5.1-0ubuntu1) maverick; urgency=low
+
+  * New upstream release
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Thu, 02 Sep 2010 12:03:13 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.5.0b-0ubuntu1) maverick; urgency=low
+
+  * New tars from upstream
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 09 Aug 2010 14:40:59 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.5.0a-0ubuntu1) maverick; urgency=low
+
+  * New tars from upstream
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 04 Aug 2010 13:52:12 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.5.0-0ubuntu1) maverick; urgency=low
+
+  [ Jonathan Thomas ]
+  * Depend on libkdecore5 rather than on kdelibs5, since the latter is
+    transitional now
+
+  [ Harald Sitter ]
+  * New upstream release
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Sat, 31 Jul 2010 12:59:35 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.92-0ubuntu1) maverick; urgency=low
+
+  * New upstream release
+  * Download kdepim 4.4.5 translations as part of source build
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 12 Jul 2010 18:47:30 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.90-0ubuntu1) maverick; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 28 Jun 2010 11:19:59 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.85-0ubuntu1) maverick; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 11 Jun 2010 15:01:11 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.80-0ubuntu1) maverick; urgency=low
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Sat, 29 May 2010 22:51:03 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.3-0ubuntu1) maverick; urgency=low
+
+  * New upstream release
+  * Add cmake as build dep as per
+    https://wiki.kubuntu.org/KDECMakeBuildDependTransition
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Tue, 04 May 2010 14:16:07 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.2-0ubuntu7.1) lucid-proposed; urgency=low
+
+  * Map ptbr to appropriate Ubuntu code pt instead of br (LP: #561873)
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Thu, 29 Apr 2010 01:31:21 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.2-0ubuntu7) lucid; urgency=low
+
+  * Reapply apachelogger's patch from 4:4.4.2-0ubuntu3 to fix FTBFS
+
+ -- Scott Kitterman <scott@kitterman.com>  Mon, 19 Apr 2010 11:25:11 -0400
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.2-0ubuntu6) lucid; urgency=low
+
+  * Strip entry.desktop file to prevent duplication in KDE's various
+    locale listings, most importantly the locale selection button LP: #446739
+  * Reupload so that ca@valencia gets imported properly, now that it is in
+    main LP: #563755
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Thu, 15 Apr 2010 13:51:02 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.2-0ubuntu5) lucid; urgency=low
+
+  * Comment debian/rules a bit more.
+  * Make sure extragear and playground desktop files are coming from trunk,
+    we need a more sensible approach to this though (LP: #560411)
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Sun, 11 Apr 2010 12:39:55 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.2-0ubuntu4) lucid; urgency=low
+
+  * Fix wrong langpack-kde-* mappings
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Thu, 01 Apr 2010 15:50:26 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.2-0ubuntu3) lucid; urgency=low
+
+  * Fix building as per apachelogger, instead of kde-packager mailing list
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Wed, 31 Mar 2010 12:35:27 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.2-0ubuntu2) lucid; urgency=low
+
+  * Fix building of kde-l10n-sv as per advise on the kde-packager mailing list
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Wed, 31 Mar 2010 11:57:33 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.2-0ubuntu1) lucid; urgency=low
+
+  * New upstream release
+  * Base all kde-l10n packages on a common packaging
+    + add build script debian/build-l10n.sh to fetch source from upstream and
+      build source packages from that
+    + revise all files to be more auto-editable and include warnings
+      where possible, to ensure that out-of-branch edits do not happen
+  * Switch to source format 3
+    + add quilt as build-dep (get-desktop causes changes that end up as patches)
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Wed, 31 Mar 2010 04:52:10 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.1-0ubuntu2) lucid; urgency=low
+
+  * Don't use obsolete svn revision for desktop .po files
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 02 Mar 2010 23:51:52 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.1-0ubuntu1) lucid; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 02 Mar 2010 15:45:52 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.4.0-0ubuntu1) lucid; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 09 Feb 2010 23:10:05 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.3.95-0ubuntu1) lucid; urgency=low
+
+  * New upstream RC release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 22 Jan 2010 12:26:05 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.3.90-0ubuntu1) lucid; urgency=low
+
+  * New upstream RC release
+  * Replace old kde-i18n package
+  * Use source format 3.0 to preserve upstream .bz2
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 07 Jan 2010 16:22:40 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.3.85-0ubuntu1) lucid; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 21 Dec 2009 18:54:47 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.3.2-0ubuntu1) karmic; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 05 Oct 2009 15:35:17 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.3.1-0ubuntu1) karmic; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 01 Sep 2009 12:01:47 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.3.0-0ubuntu1) karmic; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 03 Aug 2009 15:28:14 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.2.98-0ubuntu1) karmic; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 23 Jul 2009 21:49:44 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.2.96-0ubuntu1) karmic; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 15 Jul 2009 12:46:37 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.2.2-0ubuntu3) jaunty; urgency=low
+
+  * Update rules to download desktop file translations
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 15 Apr 2009 18:09:39 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.2.2-0ubuntu2) jaunty; urgency=low
+
+  * Fix debian/rules to use KDE 4 l10n (LP: #355814)
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Tue, 07 Apr 2009 11:46:36 +0200
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.2.2-0ubuntu1) jaunty; urgency=low
+
+  * New upstream release
+  * Bump version requirements of kdelibs5(-dev) to 4:4.2.2-0ubuntu1
+
+ -- Steve Stalcup <vorian@ubuntu.com>  Sun, 29 Mar 2009 17:17:44 -0400
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.2.1-0ubuntu1) jaunty; urgency=low
+
+  * New upstream release
+
+ -- Steve Stalcup <vorian@ubuntu.com>  Sun, 01 Mar 2009 17:16:02 -0500
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.2.0-0ubuntu1) jaunty; urgency=low
+
+  * New upstream release
+  * Bump version requirements of kdelibs5(-dev) to 4:4.2.0-0ubuntu1
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Thu, 29 Jan 2009 22:40:33 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.1.96-0ubuntu1) jaunty; urgency=low
+
+  * New upstream release
+  * Bump version requirements of kdelibs5(-dev) to 4:4.1.96-0ubuntu1
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Sun, 18 Jan 2009 17:53:44 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.1.85-0ubuntu1) jaunty; urgency=low
+
+  * New upstream release
+  * Bump Standards-Version to 3.8.0
+  * Bump version requirements for KDE 4.1.85
+  * Replace internal kde.mk with kde4.mk from CDBS
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Mon, 22 Dec 2008 09:39:23 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.1.2-0ubuntu1) intrepid; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 03 Oct 2008 16:49:24 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.1.1-0ubuntu1) intrepid; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 08 Sep 2008 15:06:40 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.1.0-0ubuntu1) intrepid; urgency=low
+
+  * New upstream release
+  * Bump Standards-Version to 3.8.0
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 25 Jul 2008 14:54:07 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.0.98-0ubuntu1) intrepid; urgency=low
+
+  * New upstream release
+  * Bump Standards-Version to 3.8.0
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 17 Jul 2008 16:35:05 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.0.83-0ubuntu1) intrepid; urgency=low
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 25 Jun 2008 11:02:01 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.0.80-0ubuntu1) intrepid; urgency=low
+
+  * New upstream beta release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 04 Jun 2008 11:23:29 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.0.3-0ubuntu1) hardy; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 01 Apr 2008 14:35:52 +0100
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.0.2-0ubuntu1) hardy; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 04 Mar 2008 12:31:33 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.0.1-0ubuntu1) hardy; urgency=low
+
+  * New upstream release
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 08 Feb 2008 11:11:06 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.0.0-0ubuntu2) hardy; urgency=low
+
+  * Add cdbs and quilt to build-deps
+
+ -- Terence Simpson <stdin@stdin.me.uk>  Thu, 10 Jan 2008 03:35:26 +0000
+
+kde-l10n-aaaUBUNTULANGCODEbbb (4:4.0.0-0ubuntu1) hardy; urgency=low
+
+  * New upstream release, initial upload
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Sun, 06 Jan 2008 08:12:06 +0100
