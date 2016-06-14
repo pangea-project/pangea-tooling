@@ -59,10 +59,10 @@ class ProjectsFactory
       private
 
       def check_ftp(base)
-        stable_path = "/home/ftpubuntu/stable/applications/#{base}/src/kde-l10n/"
-                      .freeze
-        unstable_path = "/home/ftpubuntu/unstable/applications/#{base}/src/kde-l10n/"
-                        .freeze
+        stable_path =
+          "/home/ftpubuntu/stable/applications/#{base}/src/kde-l10n/".freeze
+        unstable_path =
+          "/home/ftpubuntu/unstable/applications/#{base}/src/kde-l10n/".freeze
         output = nil
         Net::SFTP.start('depot.kde.org', 'ftpubuntu') do |sftp|
           output = sftp.dir.glob(stable_path, '**/**.tar.*').map(&:name)
