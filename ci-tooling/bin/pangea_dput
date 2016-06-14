@@ -70,6 +70,10 @@ end
 
 port ||= options.port
 
+# Set the timeout to 5 minutes to allow upload of large packages such as firefox
+Faraday.default_connection_options =
+  Faraday::ConnectionOptions.new(timeout: 5 * 60)
+
 Aptly.configure do |config|
   config.host = options.host
   config.port = port
