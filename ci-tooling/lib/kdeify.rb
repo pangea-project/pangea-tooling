@@ -3,7 +3,7 @@ require 'fileutils'
 require_relative 'debian/changelog'
 
 class KDEIfy
-  PATCHES = %w(../suse/firefox-kde.patch ../suse/mozilla-kde.patch)
+  PATCHES = %w(../suse/firefox-kde.patch ../suse/mozilla-kde.patch).freeze
   class << self
     def init_env
       ENV['QUILT_PATCHES'] = 'debian/patches'
@@ -47,7 +47,7 @@ Description: #{package} package for integration with KDE
         # This leads to issues when we add the new prefix via filterdiff
         # gsub'ing the path's back to /dev/null allows for the patches to
         # apply properly
-        filterdiff.gsub!(/a\/mozilla\/\/dev\/null/, '/dev/null')
+        filterdiff.gsub!(%r{a\/mozilla\/\/dev\/null}, '/dev/null')
         File.write(patch, filterdiff)
       end
     end

@@ -90,10 +90,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         v[:architectures].each do |arch|
           v[:releases].each do |release, branch|
             enqueue(ImageJob.new(flavor: flavor,
-                                    release: release,
-                                    architecture: arch,
-                                    repo: v[:repo],
-                                    branch: branch))
+                                 release: release,
+                                 architecture: arch,
+                                 repo: v[:repo],
+                                 branch: branch))
           end
         end
       end
