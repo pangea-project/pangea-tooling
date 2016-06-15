@@ -32,19 +32,19 @@ packaging.neon.kde.org.uk:
     - qca-qt5
   - neon:
     - seeds:
-        branch: master
+        branch: Neon/unstable
     - plasma-wayland-meta:
-        branch: master
+        branch: Neon/unstable
     - settings:
         branch: Neon/unstable
     - syslinux-themes-neon:
-        branch: master
+        branch: Neon/unstable
     - ubiquity-slideshow:
-        branch: master
+        branch: Neon/unstable
     - adwaita-icon-theme:
-        branch: master
+        branch: Neon/unstable
     - neon-keyring:
-        branch: master
+        branch: Neon/unstable
   - forks:
     - base-files:
         branch: master

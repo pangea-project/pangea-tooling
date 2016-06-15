@@ -27,17 +27,17 @@ packaging.neon.kde.org.uk:
     - yakuake
   - neon:
     - seeds:
-        branch: master
+        branch: Neon/stable
     - settings:
         branch: Neon/stable
     - syslinux-themes-neon:
-        branch: master
+        branch: Neon/stable
     - ubiquity-slideshow:
-        branch: master
+        branch: Neon/stable
     - adwaita-icon-theme:
-        branch: master
+        branch: Neon/stable
     - neon-keyring:
-        branch: master
+        branch: Neon/stable
   - '':
     - pkg-kde-tools: # Version in wily is too old for features used in Debian master.
         branch: kubuntu_xenial_archive

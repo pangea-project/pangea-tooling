@@ -35,11 +35,11 @@ packaging.neon.kde.org.uk:
     - syslinux-themes-neon:
         branch: Neon/release
     - ubiquity-slideshow:
-        branch: master
+        branch: Neon/release
     - adwaita-icon-theme:
-        branch: master
+        branch: Neon/release
     - neon-keyring:
-        branch: master
+        branch: Neon/release
   - forks:
     - base-files:
         branch: Neon/release
