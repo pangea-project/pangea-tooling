@@ -22,6 +22,7 @@ packaging.neon.kde.org.uk:
     - kcron
     - ksystemlog
     - kuser
+    - khelpcenter
   - kde-extras:
     - kdeconnect
     - yakuake
