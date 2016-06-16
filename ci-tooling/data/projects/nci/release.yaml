@@ -25,6 +25,33 @@ packaging.neon.kde.org.uk:
     - ksystemlog
     - kuser
     - khelpcenter
+    - analitza
+    - artikulate
+    - blinken
+    - cantor
+    - kalgebra
+    - kalzium
+    - kanagram
+    - kbruch
+    - kdeedu-data
+    - kgeography
+    - khangman
+    - kig
+    - kiten
+    - klettres
+    - kmplot
+    - kqtquickcharts
+    - kstars
+    - ktouch
+    - kturtle
+    - kwordquiz
+    - libkdeedu
+    - libkeduvocdocument
+    - marble
+    - minuet
+    - parley
+    - rocs
+    - step
   - kde-extras:
     - kdeconnect
     - yakuake
