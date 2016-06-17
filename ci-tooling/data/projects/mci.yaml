@@ -88,6 +88,9 @@ packaging.neon.kde.org.uk:
   - kde-extras:
     - libaccounts-glib:
         branch: Neon/mobile
+  - applications:
+    - kholidays:
+        branch: Neon/unstable
   - plasma:
     - bluedevil:
         branch: Neon/unstable
