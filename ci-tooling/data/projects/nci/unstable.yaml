@@ -75,7 +75,7 @@ packaging.neon.kde.org.uk:
         branch: Neon/unstable
   - forks:
     - base-files:
-        branch: master
+        branch: Neon/unstable
     - live-build:
         branch: master
     - packagekit:

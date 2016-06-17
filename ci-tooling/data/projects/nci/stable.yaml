@@ -71,7 +71,7 @@ packaging.neon.kde.org.uk:
         branch: kubuntu_xenial_archive
   - forks:
     - base-files:
-        branch: master
+        branch: Neon/stable
     - live-build:
         branch: master
     - packagekit:
