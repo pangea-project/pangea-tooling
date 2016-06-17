@@ -33,7 +33,7 @@ module DCI
     setup_i386
     setup_backports! unless ENV.fetch('DIST') == 'unstable'
 
-    repos = %w(frameworks plasma)
+    repos = %w(frameworks plasma kde-applications)
     repos += %w(backports qt5) if ENV.fetch('DIST') == 'stable'
     repos += %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
 
