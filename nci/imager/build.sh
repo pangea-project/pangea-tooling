@@ -64,7 +64,8 @@ sudo apt install -y --no-install-recommends  syslinux-themes-ubuntu syslinux-the
 # around defaults-image by exporting the vars lb uses :O
 
 ## Super internal var used in lb_binary_disk to figure out the version of LB_DISTRIBUTION
-export RELEASE_${DIST}=${NEONARCHIVE}
+EDITION=$(echo $NEONARCHIVE | sed 's,/,,')
+export RELEASE_${DIST}=${EDITION}
 ## Bring down the overall size a bit by using a more sophisticated albeit expensive algorithm.
 export LB_COMPRESSION=xz
 ## Create a zsync file allowing over-http delta-downloads.
