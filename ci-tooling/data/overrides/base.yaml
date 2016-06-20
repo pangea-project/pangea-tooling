@@ -121,6 +121,12 @@
     upstream_scm:
       type: uscan
 
+'*packaging.neon*/forks/packagekit':
+  master:
+    upstream_scm:
+      type: tarball
+      url: ftp://ftp.heanet.ie/mirrors/download.sourceforge.net/pub/sourceforge/d/dr/drumstick/1.0.2/drumstick-1.0.2.tar.bz2
+
 '*{debian.org,packaging.neon}*/frameworks/prison':
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
