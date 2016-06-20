@@ -82,6 +82,8 @@ packaging.neon.kde.org.uk:
         branch: master
     - pyqt5:
         branch: master
+    - drumstick:
+        branch: master
   - qt:
     - '*':
         branch: Neon/release

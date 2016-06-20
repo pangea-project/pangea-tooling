@@ -76,6 +76,8 @@ packaging.neon.kde.org.uk:
         branch: master
     - packagekit:
         branch: master
+    - drumstick:
+        branch: master
 
 launchpad.net:
   - livecd-rootfs-neon
