@@ -121,7 +121,7 @@
     upstream_scm:
       type: uscan
 
-'*packaging.neon*/forks/packagekit':
+'*packaging.neon*/forks/drumstick':
   master:
     upstream_scm:
       type: tarball
