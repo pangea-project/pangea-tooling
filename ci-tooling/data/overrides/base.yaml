@@ -193,6 +193,12 @@
     upstream_scm:
       branch: libkolabxml-1.1
 
+'*debian.org*/krap/libindi':
+  'master':
+    upstream_scm:
+      type: tarball
+      url: http://http.debian.net/debian/pool/main/libi/libindi/libindi_1.2.0.orig.tar.gz
+
 ## Some Netrunner things
 
 https://github.com/*/ksuperkey:
