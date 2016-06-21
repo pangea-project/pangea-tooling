@@ -83,3 +83,7 @@ launchpad.net:
   - livecd-rootfs-neon
   - ubiquity-neon
   - software-properties-neon
+
+git.debian.org:
+  - pkg-kde/krap:
+    - libindi
