@@ -86,3 +86,4 @@ launchpad.net:
 git.debian.org:
   - pkg-kde/krap:
     - libindi
+        branch: master
