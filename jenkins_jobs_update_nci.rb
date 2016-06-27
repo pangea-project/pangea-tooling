@@ -102,6 +102,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           watchers[watcher.job_name] = watcher
         end
 
+        next if type.start_with?('testing')
+
         # Meta builders.
         all_builds.reject! { |j| !j.is_a?(ProjectJob) }
         meta_args = {
