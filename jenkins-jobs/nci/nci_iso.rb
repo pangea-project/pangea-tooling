@@ -1,5 +1,6 @@
 require_relative '../job'
 
+# Neon ISOs
 class NeonIsoJob < JenkinsJob
   attr_reader :type
   attr_reader :distribution
@@ -9,8 +10,10 @@ class NeonIsoJob < JenkinsJob
   attr_reader :neonarchive
   attr_reader :cronjob
 
-  def initialize(type:, distribution:, architecture:, metapackage:, imagename:, neonarchive:, cronjob:)
-    super("iso_#{imagename}_#{distribution}_#{type}_#{architecture}", 'nci-iso.xml.erb')
+  def initialize(type:, distribution:, architecture:, metapackage:, imagename:,
+                 neonarchive:, cronjob:)
+    super("iso_#{imagename}_#{distribution}_#{type}_#{architecture}",
+          'nci_iso.xml.erb')
     @type = type
     @distribution = distribution
     @architecture = architecture
