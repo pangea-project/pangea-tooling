@@ -4,6 +4,8 @@ require_relative '../lib/ci/containment.rb'
 require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../lib/ci/pangeaimage'
 
+require 'mocha/test_unit'
+
 module InterceptStartContainer
   def start(*args)
     if InterceptStartContainer.intercept_start_container
@@ -129,9 +131,16 @@ module CI
     def test_BBB_chown_handle_bindings_in_docker_notation
       vcr_it(__method__) do
         c = Containment.new(@job_name, image: @image, binds: ['/asd:/asd'])
-        assert_raises RuntimeError do
-          c.send(:chown_handler)
-        end
+        handler = c.send(:chown_handler)
+        stub_containment = mock('containment')
+        stub_containment.stubs(:run).returns(true)
+        Containment.expects(:new).never
+        Containment.expects(:new).with do |*_, **kwords|
+          assert_include(kwords, :binds)
+          assert_equal(kwords[:binds], ['/asd'])
+          true
+        end.returns(stub_containment)
+        handler.call
       end
     end
 
