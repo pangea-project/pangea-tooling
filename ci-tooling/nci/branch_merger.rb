@@ -35,6 +35,7 @@ require_relative '../lib/retry'
 origins = []
 target = nil
 create = true
+dir = nil
 
 parser = OptionParser.new do |opts|
   opts.banner =
@@ -57,6 +58,12 @@ parser = OptionParser.new do |opts|
           'Create the target branch if it does not exist yet.' \
           ' [default: on]') do |v|
     create = v
+  end
+
+  opts.on('--dir PATH',
+          'Use this directory. This can resume from previous runs.' \
+          ' [default: temporary]') do |v|
+    dir = v
   end
 end
 parser.parse!
@@ -96,6 +103,7 @@ logger.debug "repos: #{repos}"
 
 nothing_to_push = []
 Dir.mktmpdir('stabilizer') do |tmpdir|
+  tmpdir = dir if dir
   Dir.chdir(tmpdir)
   repos.each do |repo|
     log = Logger.new(STDOUT)
