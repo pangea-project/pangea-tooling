@@ -60,11 +60,16 @@ ISONAME = "#{IMAGENAME}-#{TYPE}".freeze
 REMOTE_DIR = "neon/images/#{ISONAME}/".freeze
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}".freeze
 
-system("gpg2 --armor --detach-sign -o result/#{ISONAME}-#{DATE}-amd64.iso.sig result/#{ISONAME}-#{DATE}-amd64.iso") || raise
+unless system('gpg2', '--armor', '--detach-sign', '-o',
+              "result/#{ISONAME}-#{DATE}-amd64.iso.sig",
+              "result/#{ISONAME}-#{DATE}-amd64.iso")
+  raise 'Failed to sign'
+end
 
 Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
   sftp.mkdir!(REMOTE_PUB_DIR)
-  %w(source.tar.xz amd64.iso amd64.iso.sig manifest zsync sha256sum).each do |type|
+  types = %w(source.tar.xz amd64.iso amd64.iso.sig manifest zsync sha256sum)
+  types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
       name = File.basename(file)
       STDERR.puts "Uploading #{file}..."
@@ -74,8 +79,10 @@ Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
 
   # Need a second SSH session here, since the SFTP one is busy looping.
   Net::SSH.start('depot.kde.org', 'neon') do |ssh|
-    ssh.exec!("cd #{REMOTE_PUB_DIR}; ln -s *amd64.iso #{ISONAME}-current.iso")
-    ssh.exec!("cd #{REMOTE_PUB_DIR}; ln -s *amd64.iso.sig #{ISONAME}-current.iso.sig")
+    ssh.exec!("cd #{REMOTE_PUB_DIR};" \
+              " ln -s *amd64.iso #{ISONAME}-current.iso")
+    ssh.exec!("cd #{REMOTE_PUB_DIR};" \
+              " ln -s *amd64.iso.sig #{ISONAME}-current.iso.sig")
     ssh.exec!("cd #{REMOTE_DIR}; rm -f current; ln -s #{DATE} current")
   end
 

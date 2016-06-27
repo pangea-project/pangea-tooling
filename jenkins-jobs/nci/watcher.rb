@@ -28,7 +28,8 @@ class WatcherJob < JenkinsJob
   attr_reader :nci
 
   def initialize(project)
-    super("watcher_release_#{project.component}_#{project.name}", 'watcher.xml.erb')
+    super("watcher_release_#{project.component}_#{project.name}",
+          'watcher.xml.erb')
     @scm_readable = Marshal.load(Marshal.dump(project.packaging_scm))
     @scm_writable = Marshal.load(Marshal.dump(project.packaging_scm))
     # FIXME: brrr the need for deep copy alone should ring alarm bells

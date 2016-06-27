@@ -25,6 +25,7 @@ require 'logger/colors'
 require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/optparse'
 
+# A Jenkins node.
 class Node
   ONLINE = :online
   OFFLINE = :offline
