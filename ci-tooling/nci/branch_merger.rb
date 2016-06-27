@@ -121,6 +121,10 @@ Dir.mktmpdir('stabilizer') do |tmpdir|
                'debian/changelog merge driver')
     git.config('merge.dpkg-mergechangelogs.driver',
                'dpkg-mergechangelogs -m %O %A %B %A')
+    FileUtils.mkpath("#{git.repo.path}/info")
+    File.open("#{git.repo.path}/info/attributes", 'a') do |f|
+      f.puts('debian/changelog merge=dpkg-mergechangelogs')
+    end
 
     acted = false
     origins.each do |origin|
