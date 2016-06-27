@@ -1,0 +1,18 @@
+packaging.neon.kde.org.uk:
+  - frameworks:
+    - kauth # ifdef
+    - kio # ifdef
+    - plasma-framework # abi
+    - kdeclarative # abi
+    - frameworkintegration # abi
+  - plasma:
+    - kwin # abi
+    - plasma-integration # abi
+  - forks:
+    - pyqt5: # abi
+        branch: master
+  - qt:
+    - '*'
+  - '*':
+    - '*':
+        branch: Neon/testing
