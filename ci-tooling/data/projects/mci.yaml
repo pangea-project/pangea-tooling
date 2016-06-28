@@ -55,33 +55,33 @@ github.com:
 packaging.neon.kde.org.uk:
   - qt:
     - qtbase:
-        branch: Neon/testing
+        branch: Neon/release
     - qtmultimedia:
-        branch: Neon/testing
+        branch: Neon/release
     - qtscript:
-        branch: Neon/testing
+        branch: Neon/release
     - qtdeclarative:
-        branch: Neon/testing
+        branch: Neon/release
     - qttools:
-        branch: Neon/testing
+        branch: Neon/release
     - qtgraphicaleffects:
-        branch: Neon/testing
+        branch: Neon/release
     - qtxmlpatterns:
-        branch: Neon/testing
+        branch: Neon/release
     - qt5webkit:
-        branch: Neon/testing
+        branch: Neon/release
     - qtx11extras:
-        branch: Neon/testing
+        branch: Neon/release
     - qtwayland:
-        branch: Neon/testing
+        branch: Neon/release
     - qtsvg:
-        branch: Neon/testing
+        branch: Neon/release
     - qtlocation:
-        branch: Neon/testing
+        branch: Neon/release
     - qtquickcontrols:
-        branch: Neon/testing
+        branch: Neon/release
     - qtsensors:
-        branch: Neon/testing
+        branch: Neon/release
   - frameworks:
     - '*':
         branch: Neon/unstable
