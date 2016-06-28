@@ -100,10 +100,14 @@
       url: http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.6.0+dfsg.orig.tar.xz
 
 '*{debian.org,packaging.neon}*/qt/qtchooser':
-  Neon/{release,testing}:
+  Neon/release:
     upstream_scm:
       type: tarball
       url: http://http.debian.net/debian/pool/main/q/qtchooser/qtchooser_52-gae5eeef.orig.tar.xz
+  Neon/testing:
+    upstream_scm:
+      type: tarball
+      url: http://http.debian.net/debian/pool/main/q/qtchooser/qtchooser_58-gfab25f1.orig.tar.xz
 
 ### Bindings
 
