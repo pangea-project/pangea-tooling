@@ -38,5 +38,5 @@ else
   c = CI::Containment.new(JOB_NAME, image: CI::PangeaImage.new(:ubuntu, DIST))
 end
 
-status_code = c.run(Cmd: ARGV)
+status_code = c.run(Cmd: ARGV, WorkingDir: PWD_BIND)
 exit status_code
