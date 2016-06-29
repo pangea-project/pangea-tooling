@@ -39,6 +39,10 @@
     upstream_scm:
       branch: LibKGAPI/5.0
 
+'*{debian.org,packaging.neon}*/applications/ktp-common-internals':
+  kubuntu_unstable:
+    upstream_scm:
+      branch: mklapetek/SpaceBar
 # Other stuff
 
 ## Qt
@@ -108,6 +112,12 @@
     upstream_scm:
       type: tarball
       url: http://http.debian.net/debian/pool/main/q/qtchooser/qtchooser_58-gfab25f1.orig.tar.xz
+
+'*{debian.org,packaging.neon}*/qt/qtpim':
+  Neon/mobile:
+    upstream_scm:
+      type: tarball
+      url: http://archive.ubuntu.com/ubuntu/pool/main/q/qtpim-opensource-src/qtpim-opensource-src_5.0~git20140515~29475884.orig.tar.gz
 
 ### Bindings
 

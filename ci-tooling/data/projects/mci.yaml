@@ -8,7 +8,6 @@ git.debian.org:
     - gpgmepp
     - kcalcore
     - kcontacts
-    - ktp-common-internals
   - pkg-kde/kde-extras:
     - debconf-kde
     - kdeconnect-plasma
@@ -82,6 +81,8 @@ packaging.neon.kde.org.uk:
         branch: Neon/release
     - qtsensors:
         branch: Neon/release
+    - qtpim:
+        branch: Neon/mobile
   - frameworks:
     - '*':
         branch: Neon/unstable
@@ -91,6 +92,8 @@ packaging.neon.kde.org.uk:
   - applications:
     - kholidays:
         branch: Neon/unstable
+    - ktp-common-internals:
+        branch: Neon/mobile
   - plasma:
     - bluedevil:
         branch: Neon/unstable
@@ -142,3 +145,11 @@ packaging.neon.kde.org.uk:
         branch: Neon/unstable
     - kactivitymanagerd:
         branch: Neon/unstable
+
+launchpad.net:
+  - ubuntu-ui-toolkit
+  - ubuntu-filemanager-app
+  - music-app
+  - ubuntu-calculator-app
+  - ubuntu-docviewer-app
+  - ubuntu-weather-app
