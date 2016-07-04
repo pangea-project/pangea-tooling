@@ -23,6 +23,8 @@ require 'aptly/representation'
 
 module Aptly
   module Ext
+    # A Package respresentation.
+    # TODO: should go into aptly once happy with API
     class Package < Representation
       # A package short key (key without uid)
       # e.g.

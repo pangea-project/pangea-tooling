@@ -22,7 +22,9 @@ require 'jenkins_junit_builder'
 
 module ADT
   module JUnit
+    # Wrapper converting an ADT summary into a JUnit suite.
     class Summary
+      # Wrapper converting an ADT summary entry into a JUnit case.
       class Entry
         def initialize(entry, dir)
           @entry = entry
