@@ -123,6 +123,12 @@ module Apt
     end
 
     def self.run_internal(cmd, operation, *caller_args)
+      args = run_internal_args(operation, *caller_args)
+      @log.warn "APT run (#{cmd}, #{args})"
+      system(cmd, *args)
+    end
+
+    def self.run_internal_args(operation, *caller_args)
       injection_args = []
       caller_args.delete_if do |arg|
         next false unless arg.is_a?(Hash)
@@ -130,15 +136,11 @@ module Apt
         injection_args = [*(arg[:args])]
         true
       end
-      args = []
-      args += default_args
-      args += injection_args
+      args = [] + default_args + injection_args
       args << operation
       # Flatten args. system doesn't support nested arrays anyway, so flattening
       # is probably what the caller had in mind (e.g. install(['a', 'b']))
-      args += [*caller_args].flatten
-      @log.warn "APT run (#{cmd}, #{args})"
-      system(cmd, *args)
+      args + [*caller_args].flatten
     end
 
     def self.auto_update

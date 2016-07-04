@@ -20,7 +20,8 @@ module CI
     # @param packaging_branch [String] branch of the packaging repo
     # @param working_directory [String] local directory path of directory
     #   containing debian/ (this is only used for repo-specific overrides)
-    def initialize(packaging_repo, packaging_branch, working_directory = Dir.pwd)
+    def initialize(packaging_repo, packaging_branch,
+                   working_directory = Dir.pwd)
       @packaging_repo = packaging_repo
       @packaging_branch = packaging_branch
       @name = File.basename(packaging_repo)
@@ -32,6 +33,7 @@ module CI
 end
 
 require_relative '../deprecate'
+# Deprecated. Don't use.
 class UpstreamSCM < CI::UpstreamSCM
   extend Deprecate
   deprecate :initialize, CI::UpstreamSCM, 2015, 12
