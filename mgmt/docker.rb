@@ -25,6 +25,7 @@ end
 
 debian_series = DCI.series.keys
 debian_series.each do |k|
+  next if k == 'stable'
   pid = fork do
     d = MGMT::Deployer.new('debian', k)
     d.run!
