@@ -26,11 +26,11 @@ require_relative 'tarball'
 module CI
   # Fetch tarballs via uscan using debian/watch.
   class WatchTarFetcher
-    def initialize(watchfile, mangleDownload=false)
+    def initialize(watchfile, mangleDownload = false)
       if mangleDownload
-        output = ""
+        output = ''
         File.open(watchfile).each do |line|
-          output += line.gsub(/download.kde.org\/stable\/plasma/,
+          output += line.gsub(%r{download.kde.org/stable/plasma},
                               'download.kde.org.uk/stable/plasma')
         end
         puts "Watch mangled to: " + output
