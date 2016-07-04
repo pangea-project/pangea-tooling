@@ -53,9 +53,13 @@ class VCSBuilderTest < TestCase
     fake_os_debian if OS::ID == 'debian'
     alias_time
     FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
+
+    KCI.instance_variable_set(:@data, 'series' => { 'xenial' => '16.04',
+                                                    'wily' => '15.10' })
   end
 
   def teardown
+    KCI.send(:reset!)
     OS.reset
     unalias_time
   end

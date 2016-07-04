@@ -6,7 +6,14 @@ require_relative 'lib/testcase'
 # Test debian/source/format
 module Debian
   class DSCArchTwiddleTest < TestCase
+    def setup
+      KCI.instance_variable_set(:@data,
+                                'architectures' => %w(amd64 i386),
+                                'extra_architectures' => %w(armhf))
+    end
+
     def teardown
+      KCI.send(:reset!)
       ENV.delete('ENABLED_EXTRA_ARCHITECTURES')
     end
 
