@@ -38,9 +38,9 @@ data = `uscan --report --dehs`
 puts "uscan failed (#{$?}) :: #{data}"
 
 puts 'mangling debian/watch'
-output = ""
+output = ''
 File.open('debian/watch').each do |line|
-  output += line.gsub(/download.kde.org\/stable\/plasma/,
+  output += line.gsub(%r{download.kde.org/stable/plasma},
                       'download.kde.org.uk/stable/plasma')
 end
 puts output
