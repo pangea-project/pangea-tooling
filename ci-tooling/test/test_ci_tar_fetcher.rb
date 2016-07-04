@@ -78,9 +78,10 @@ module CI
     # currently only works on stable/plasma
     def test_mangle_watch
       require_binaries(%w(uscan))
-      FileUtils.cp(data('watch'), data('debian/'))
-      f = WatchTarFetcher.new(data('debian/watch'), true)
-      File.open(data('debian/watch')).each do |line|
+      Dir.mkdir('debian')
+      FileUtils.cp(data('watch'), 'debian/')
+      WatchTarFetcher.new('debian/watch', true)
+      File.open('debian/watch').each do |line|
         line.chomp!
         assert_equal('http://download.kde.org.uk/stable/plasma/([\d.]+)/kgamma5-([\d.]+).tar.xz', line)
       end
