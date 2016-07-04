@@ -52,6 +52,7 @@ Aptly.configure do |config|
   config.port = gateway_port
 end
 
+repo = Aptly::Repository.get(REPO_NAME)
 snaps = Aptly::Snapshot.list.keep_if { |x| x.Name.start_with?(REPO_NAME) }
 raise "bad shots #{snaps}" unless snaps.size == 1
 snap = snaps[0]
