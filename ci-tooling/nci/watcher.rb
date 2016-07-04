@@ -37,6 +37,13 @@ abort 'No debain/watch found!' unless File.exist?('debian/watch')
 data = `uscan --report --dehs`
 puts "uscan failed (#{$?}) :: #{data}"
 
+output = ""
+File.open('debian/watch').each do |line|
+  output += line.gsub(/download.kde.org\/stable\/plasma/, 'download.kde.org.uk')
+end
+puts output
+File.open('debian/watch', 'w') { |file| file.write(output) }
+
 newer = Debian::UScan::DEHS.parse_packages(data).collect do |package|
   next nil unless package.status == Debian::UScan::States::NEWER_AVAILABLE
   package
@@ -101,5 +108,6 @@ end
 
 system('wrap-and-sort') if something_changed
 
+system('git checkout debian/watch')
 system('git diff')
 system("git commit -a -m 'New release'")

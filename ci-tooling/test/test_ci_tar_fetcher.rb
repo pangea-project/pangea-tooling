@@ -74,6 +74,18 @@ module CI
       end
     end
 
+    # test code to mange the watch file to look at alternative server
+    # currently only works on stable/plasma
+    def test_mangle_watch
+      require_binaries(%w(uscan))
+      FileUtils.cp(data('watch'), data('debian/'))
+      f = WatchTarFetcher.new(data('debian/watch'), true)
+      File.open(data('debian/watch')).each do |line|
+        line.chomp!
+        assert_equal('http://download.kde.org.uk/stable/plasma/([\d.]+)/kgamma5-([\d.]+).tar.xz', line)
+      end
+    end
+
     description 'when destdir does not exist uscan shits its pants'
     def test_watch_create_destdir
       require_binaries(%w(uscan))
