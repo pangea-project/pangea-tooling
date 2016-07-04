@@ -42,7 +42,7 @@ require_relative '../lib/retry'
 
 # The Kubuntu CI Builder class. So old. So naughty.
 class KCIBuilder
-  class CoverageError < Exception; end
+  class CoverageError < RuntimeError; end
 
   DPUTCONF = '/var/lib/jenkins/tooling/dput.cf'.freeze
   KEYID = '6A0C5BF2'.freeze
