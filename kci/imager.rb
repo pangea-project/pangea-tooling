@@ -54,13 +54,5 @@ FileUtils.mkpath(PUB_PATH)
   end
 end
 FileUtils.chown_R('jenkins', 'www-data', PUB_PATH, verbose: true)
-unless system("cp -avr #{PUB_PATH} /mnt/s3/kci/images/#{ARCH}/")
-  abort 'Failed to copy to s3 bucket.'
-end
-
-generate_html_cmd = ["#{__dir__}/../generate_html.rb"]
-generate_html_cmd << '-o' << '/mnt/s3/kci/index.html'
-generate_html_cmd << 'kci'
-system(*generate_html_cmd) # Ignore return value as this is not too important.
 
 exit 0
