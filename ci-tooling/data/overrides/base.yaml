@@ -52,10 +52,6 @@
     upstream_scm:
       url: http://code.qt.io/git/qt/<%= name %>.git
       branch: 5.4
-  kubuntu_vivid_mobile:
-    upstream_scm:
-      type: tarball
-      url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1.orig.tar.xz
   Neon/release:
     upstream_scm:
       type: uscan
@@ -64,19 +60,11 @@
       type: tarball
       url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1.orig.tar.xz
 
-'*{debian.org,packaging.neon}*/qt/{qtbase,qtscript}':
-  kubuntu_vivid_mobile:
-    upstream_scm:
-      url: http://http.debian.net/debian/pool/main/q/<%= name %>-opensource-src/<%= name %>-opensource-src_5.5.1+dfsg.orig.tar.xz
-
 '*{debian.org,packaging.neon}*/qt/qt5webkit':
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       url: http://code.qt.io/git/qt/qtwebkit.git
       branch: 5.4
-  kubuntu_vivid_mobile:
-    upstream_scm:
-      url: http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.5.1+dfsg.orig.tar.xz
   Neon/release:
     upstream_scm:
       url: http://http.debian.net/debian/pool/main/q/qtwebkit-opensource-src/qtwebkit-opensource-src_5.6.0+dfsg.orig.tar.xz
