@@ -81,6 +81,7 @@ packaging.neon.kde.org.uk:
   - kde-extras:
     - kdeconnect
     - yakuake
+    - kpmcore
   - neon:
     - seeds:
         branch: Neon/stable

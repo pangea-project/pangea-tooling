@@ -84,6 +84,7 @@ packaging.neon.kde.org.uk:
   - kde-extras:
     - kdeconnect
     - yakuake
+    - kpmcore
   - kde-req:
     - qca-qt5
   - neon:
