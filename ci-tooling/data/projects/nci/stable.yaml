@@ -50,6 +50,34 @@ packaging.neon.kde.org.uk:
     - parley
     - rocs
     - step
+    - bomber
+    - bovo
+    - granatier
+    - kapman
+    - katomic
+    - kblackbox
+    - kblocks
+    - kbounce
+    - kbreakout
+    - kdiamond
+    - kfourinline
+    - killbots
+    - kiriki
+    - kjumpingcube
+    - klickety
+    - klines
+    - kmahjongg
+    - kmines
+    - knavalbattle
+    - knetwalk
+    - kollision
+    - kpat
+    - kshisen
+    - ksquares
+    - ktuberling
+    - libkdegames
+    - libkmahjongg
+    - picmi
   - kde-extras:
     - kdeconnect
     - yakuake
