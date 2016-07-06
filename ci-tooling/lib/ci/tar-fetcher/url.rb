@@ -18,5 +18,26 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'tar-fetcher/url'
-require_relative 'tar-fetcher/watch'
+require 'open-uri'
+require 'tmpdir'
+
+require_relative '../tarball'
+
+module CI
+  class URLTarFetcher
+    def initialize(url)
+      @uri = URI.parse(url)
+    end
+
+    def fetch(destdir)
+      filename = URI.unescape(File.basename(@uri.path))
+      target = File.join(destdir, filename)
+      unless File.exist?(target)
+        puts "Downloading #{@uri}"
+        File.write(target, open(@uri).read)
+      end
+      puts "Tarball: #{target}"
+      Tarball.new(target)
+    end
+  end
+end
