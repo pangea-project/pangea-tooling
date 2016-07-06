@@ -76,7 +76,7 @@ module CI
 
     # test code to mange the watch file to look at alternative server
     # currently only works on stable/plasma
-    def test_mangle_watch
+    def test_watch_mangle
       require_binaries(%w(uscan))
       Dir.mkdir('debian')
       FileUtils.cp(data('watch'), 'debian/')
