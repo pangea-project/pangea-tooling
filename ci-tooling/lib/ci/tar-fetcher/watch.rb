@@ -27,15 +27,6 @@ module CI
   # Fetch tarballs via uscan using debian/watch.
   class WatchTarFetcher
     def initialize(watchfile, mangleDownload = false)
-      if mangleDownload
-        output = ''
-        File.open(watchfile).each do |line|
-          output += line.gsub(%r{download.kde.org/stable/plasma},
-                              'download.kde.org.uk/stable/plasma')
-        end
-        puts "Watch mangled to: " + output
-        File.open(watchfile, 'w') { |file| file.write(output) }
-      end
       unless File.basename(watchfile) == 'watch'
         raise "path not a watch file #{watchfile}"
       end
@@ -44,6 +35,7 @@ module CI
         raise "path not a debian dir #{debiandir}"
       end
       @dir = File.dirname(debiandir)
+      mangle(watchfile) if mangleDownload
     end
 
     def fetch(destdir)
@@ -57,6 +49,16 @@ module CI
     end
 
     private
+
+    def mangle(watchfile)
+      output = ''
+      File.open(watchfile).each do |line|
+        output += line.gsub(%r{download.kde.org/stable/plasma},
+                            'download.kde.org.uk/stable/plasma')
+      end
+      puts 'Watch mangled to: ' + output
+      File.open(watchfile, 'w') { |file| file.write(output) }
+    end
 
     def uscan(chdir, destdir)
       destdir = File.absolute_path(destdir)
