@@ -48,7 +48,7 @@ module CI
         raise 'uscan failed' unless uscan(@dir, destdir)
         tar = find_tar(destdir)
         return tar unless tar # can be nil from pop
-        Tarball.new("#{destdir}/#{File.basename(tar[0])}")
+        Tarball.new("#{destdir}/#{File.basename(tar)}")
       end
     end
 
