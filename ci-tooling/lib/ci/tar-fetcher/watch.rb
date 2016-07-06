@@ -51,13 +51,9 @@ module CI
     private
 
     def mangle(watchfile)
-      output = ''
-      File.open(watchfile).each do |line|
-        output += line.gsub(%r{download.kde.org/stable/plasma},
-                            'download.kde.org.uk/stable/plasma')
-      end
-      puts 'Watch mangled to: ' + output
-      File.open(watchfile, 'w') { |file| file.write(output) }
+      data = File.read(watchfile).gsub(%r{download.kde.org/stable/plasma},
+                                       'download.kde.org.uk/stable/plasma')
+      File.write(watchfile, data)
     end
 
     def uscan(chdir, destdir)
