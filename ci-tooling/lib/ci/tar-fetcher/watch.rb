@@ -26,7 +26,7 @@ require_relative '../tarball'
 module CI
   # Fetch tarballs via uscan using debian/watch.
   class WatchTarFetcher
-    def initialize(watchfile, mangleDownload = false)
+    def initialize(watchfile, mangle_download = false)
       unless File.basename(watchfile) == 'watch'
         raise "path not a watch file #{watchfile}"
       end
@@ -35,25 +35,35 @@ module CI
         raise "path not a debian dir #{debiandir}"
       end
       @dir = File.dirname(debiandir)
-      mangle(watchfile) if mangleDownload
+      @watchfile = watchfile
+      @mangle_download = mangle_download
     end
 
     def fetch(destdir)
       # FIXME: this should use DEHS output to get url and target name
       #   without downloading. then decide whether to wipe destdir and download
       #   or not.
-      abort 'uscan failed' unless uscan(@dir, destdir)
-      tar = Dir.glob("#{destdir}/*.orig.tar*")
-      return nil unless tar.size == 1
-      Tarball.new("#{destdir}/#{File.basename(tar[0])}")
+      maybe_mangle do
+        abort 'uscan failed' unless uscan(@dir, destdir)
+        tar = Dir.glob("#{destdir}/*.orig.tar*")
+        return nil unless tar.size == 1
+        Tarball.new("#{destdir}/#{File.basename(tar[0])}")
+      end
     end
 
     private
 
-    def mangle(watchfile)
-      data = File.read(watchfile).gsub(%r{download.kde.org/stable/plasma},
-                                       'download.kde.org.uk/stable/plasma')
-      File.write(watchfile, data)
+    def maybe_mangle(&block)
+      orig_data = File.read(@watchfile)
+      File.write(@watchfile, mangle_url(orig_data)) if @mangle_download
+      block.yield
+    ensure
+      File.write(@watchfile, orig_data)
+    end
+
+    def mangle_url(data)
+      data.gsub(%r{download.kde.org/stable/plasma},
+                'download.kde.org.uk/stable/plasma')
     end
 
     def uscan(chdir, destdir)
