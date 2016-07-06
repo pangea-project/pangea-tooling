@@ -22,6 +22,7 @@ require 'open-uri'
 require 'tmpdir'
 
 require_relative '../tarball'
+require_relative '../../debian/version'
 
 module CI
   # Fetch tarballs via uscan using debian/watch.
@@ -45,13 +46,27 @@ module CI
       #   or not.
       maybe_mangle do
         raise 'uscan failed' unless uscan(@dir, destdir)
-        tar = Dir.glob("#{destdir}/*.orig.tar*")
-        return nil unless tar.size == 1
+        tar = find_tar(destdir)
+        return tar unless tar # can be nil from pop
         Tarball.new("#{destdir}/#{File.basename(tar[0])}")
       end
     end
 
     private
+
+    def find_tar(destdir)
+      tars = Dir.glob("#{destdir}/*.orig.tar*").map do |x|
+        [Debian::Version.new(version_from_file(x)), x]
+      end.to_h
+      tars = tars.sort.to_h.values
+      tars[0..-2].each { |path| FileUtils.rm(path) }
+      tars.pop
+    end
+
+    def version_from_file(path)
+      filename = File.basename(path)
+      filename.slice(/_.*/)[1..-1].split('.orig.')[0]
+    end
 
     def maybe_mangle(&block)
       orig_data = File.read(@watchfile)

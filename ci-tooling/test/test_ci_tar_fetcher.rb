@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'mocha/test_unit'
 require 'vcr'
 require 'webmock/test_unit'
 
@@ -26,6 +25,9 @@ require_relative 'lib/serve'
 require_relative 'lib/testcase'
 
 require_relative '../lib/ci/tar_fetcher'
+
+# Needs to be after testcase to force proper patching.
+require 'mocha/test_unit'
 
 module CI
   class TarFetcherTest < TestCase
@@ -135,6 +137,38 @@ module CI
 
         assert_path_exist('source/dragon_15.08.1.orig.tar.xz')
       end
+    end
+
+    def test_watch_multiple_tars
+      Dir.mkdir('debian')
+      File.write('debian/watch', '')
+      # We fully fake this at runtime to not have to provide dummy files...
+
+      files = %w(
+        yolo_1.3.2.orig.tar.gz
+        yolo_1.2.3.orig.tar.gz
+      )
+
+      Object
+        .any_instance
+        .expects(:system)
+        .once
+        .with do |*args|
+          next false unless args[0] == 'uscan'
+          files.each { |f| File.write(f, '') }
+          true
+        end
+        .returns(true)
+      Object.any_instance.expects(:system)
+            .with('dpkg', '--compare-versions', '1.3.2', 'gt', '1.2.3')
+            .returns(true)
+
+      f = WatchTarFetcher.new('debian/watch')
+      tar = f.fetch(Dir.pwd)
+      assert_not_nil(tar)
+
+      assert_path_exist(files[0])
+      assert_path_not_exist(files[1])
     end
 
     def test_url_fetch_twice
