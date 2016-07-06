@@ -84,6 +84,7 @@ packaging.neon.kde.org.uk:
     - kdeconnect
     - yakuake
     - kpmcore
+    - partitionmanager
   - neon:
     - seeds:
         branch: Neon/release
