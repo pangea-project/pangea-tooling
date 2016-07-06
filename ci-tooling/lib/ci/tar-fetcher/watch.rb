@@ -44,7 +44,7 @@ module CI
       #   without downloading. then decide whether to wipe destdir and download
       #   or not.
       maybe_mangle do
-        abort 'uscan failed' unless uscan(@dir, destdir)
+        raise 'uscan failed' unless uscan(@dir, destdir)
         tar = Dir.glob("#{destdir}/*.orig.tar*")
         return nil unless tar.size == 1
         Tarball.new("#{destdir}/#{File.basename(tar[0])}")
