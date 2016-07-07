@@ -101,7 +101,7 @@ packaging.neon.kde.org.uk:
         branch: Neon/unstable
     - adwaita-icon-theme:
         branch: Neon/unstable
-    - neon-keyring:
+    - keyring:
         branch: Neon/unstable
   - forks:
     - base-files:

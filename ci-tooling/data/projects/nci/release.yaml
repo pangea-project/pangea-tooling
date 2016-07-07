@@ -96,7 +96,7 @@ packaging.neon.kde.org.uk:
         branch: Neon/release
     - adwaita-icon-theme:
         branch: Neon/release
-    - neon-keyring:
+    - keyring:
         branch: Neon/release
   - forks:
     - base-files:
