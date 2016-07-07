@@ -78,6 +78,15 @@ packaging.neon.kde.org.uk:
     - libkdegames
     - libkmahjongg
     - picmi
+    - gwenview
+    - kamera
+    - kcolorchooser
+    - kdegraphics-thumbnailers
+    - kruler
+    - libkexiv2
+    - libkface
+    - libkgeomap
+    - libksane
   - kde-extras:
     - kdeconnect
     - yakuake
