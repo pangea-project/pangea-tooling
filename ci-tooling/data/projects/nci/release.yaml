@@ -89,7 +89,7 @@ packaging.neon.kde.org.uk:
     - libkface
     - libkgeomap
     - libksane
-- kde-extras:
+  - kde-extras:
     - kdeconnect
     - yakuake
     - kpmcore
