@@ -97,6 +97,7 @@ class RepoCleaner
   end
 
   def delete_source(source_key)
+    sources.delete(source_key)
     query = format('$Source (%s), $SourceVersion (%s)',
                    source_key.name,
                    source_key.version)
@@ -105,6 +106,7 @@ class RepoCleaner
   end
 
   def delete_binary(key)
+    binaries.delete(key)
     delete(key.to_s)
   end
 
