@@ -89,6 +89,9 @@ packaging.neon.kde.org.uk:
     - libkface
     - libkgeomap
     - libksane
+    - dragon
+    - ffmpegthumbs
+    - kdenlive
   - kde-extras:
     - kdeconnect
     - yakuake
