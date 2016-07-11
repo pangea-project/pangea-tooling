@@ -80,7 +80,6 @@ packaging.neon.kde.org.uk:
     - libkdegames
     - libkmahjongg
     - picmi
-    - gwenview
     - kamera
     - kcolorchooser
     - kdegraphics-thumbnailers
@@ -92,6 +91,17 @@ packaging.neon.kde.org.uk:
     - dragon
     - ffmpegthumbs
     - kdenlive
+    - cervisia
+    - dolphin-plugins
+    - kapptemplate
+    - kde-dev-scripts
+    - kdesdk-thumbnailers
+    - kompare
+    - libkomparediff2
+    - lokalize
+    - okteta
+    - poxml
+    - umbrello
   - kde-extras:
     - kdeconnect
     - yakuake
