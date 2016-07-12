@@ -6,22 +6,25 @@ require 'logger/colors'
 require_relative '../ci/pangeaimage'
 
 module Docker
+  # helper for docker cleanup according to pangea expectations
   module Cleanup
     module_function
 
     # Remove exited jenkins containers.
     def containers
-      containers_exited
+      containers_exited(days_old: 2)
       containers_running(days_old: 2)
     end
 
-    def containers_exited
+    def containers_exited(days_old:)
       # Filter all pseudo-exited and exited states.
       filters = { status: %w(exited dead) }
       containers = Docker::Container.all(all: true,
                                          filters: JSON.generate(filters))
       containers.each do |container|
-        remove_container(container)
+        created = container_creation(container)
+        force = ((DateTime.now - created).to_i > days_old)
+        remove_container(container, force: force)
       end
     end
 
