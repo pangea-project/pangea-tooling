@@ -88,6 +88,25 @@ module Docker
       end
     end
 
+    def old_images
+      %w(pangea/ubuntu:wily ubuntu:wily).each do |name|
+        begin
+          remove_image(Docker::Image.get(name))
+        rescue => e
+          log.info "Failed to get #{name} :: #{e}"
+          next
+        end
+      end
+    end
+
+    def remove_image(image)
+      log.warn "Removing image #{image.id}"
+      image.delete
+    rescue Docker::Error::ConflictError => e
+      log.warn e.to_s
+      log.warn 'There was a conflict error, continuing.'
+    end
+
     # Remove all dangling images. It doesn't appear to be documented what
     # exactly a dangling image is, but from looking at the image count of both
     # a dangling query and a regular one I am infering that dangling images are
@@ -96,6 +115,7 @@ module Docker
     # none:none images.
     # @param filter [String] only allow dangling images with this name
     def images(filter: nil)
+      old_images
       # Trust docker to do something worthwhile.
       args = {
         all: true,
@@ -103,13 +123,8 @@ module Docker
       }
       args[:filter] = filter unless filter.nil?
       Docker::Image.all(args).each do |image|
-        log.warn "Removing image #{image.id}"
-        image.delete
+        remove_image(image)
       end
-    rescue Docker::Error::ConflictError => e
-      log.warn e.to_s
-      log.warn 'There was a conflict error, continuing.'
-
       # NOTE: Manual code implementing agggressive cleanups. Should docker be
       # stupid use this:
 
