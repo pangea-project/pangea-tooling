@@ -37,8 +37,8 @@ abort 'No debain/watch found!' unless File.exist?('debian/watch')
 puts 'mangling debian/watch'
 output = ''
 File.open('debian/watch').each do |line|
-  output += line.gsub(%r{download.kde.org/stable/plasma},
-                      'download.kde.org.uk/stable/plasma')
+  output += line.gsub(%r{download.kde.org/stable/applications},
+                      'download.kde.org.uk/stable/applications')
 end
 puts output
 File.open('debian/watch', 'w') { |file| file.write(output) }
