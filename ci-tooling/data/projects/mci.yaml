@@ -50,6 +50,8 @@ github.com:
     - peruse
     - videoPlayer-packaging
     - kirigami
+    - qtvirtualkeyboard:
+        branch: Neon/mobile
 
 packaging.neon.kde.org.uk:
   - qt:

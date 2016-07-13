@@ -216,6 +216,10 @@ https://github.com/plasma-phone-packaging/simplelogin-packaging:
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       url: git://anongit.kde.org/scratch/davidedmundson/simplelogin.git
+https://github.com/plasma-phone-packaging/qtvirtualkeyboard:
+  Neon/mobile:
+    upstream_scm:
+      type: uscan
 https://github.com/plasma-phone-packaging/plasma-phone-settings-packaging:
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
