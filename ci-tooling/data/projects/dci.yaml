@@ -1,3 +1,8 @@
+kde-l10n:
+  - '15.12.3':
+    - '*':
+        branch: master
+
 packaging.neon.kde.org.uk:
   - qt:
     - '*':
@@ -31,8 +36,10 @@ packaging.neon.kde.org.uk:
         branch: master
     - libsignon-glib:
         branch: master
-    - kdeconnect-plasma:
-        branch: kubuntu_xenial_archive
+    - kdeconnect:
+        branch: Neon/release
+    - kamoso:
+        branch: master
   - frameworks:
     - '*':
         branch: Neon/release
@@ -44,14 +51,21 @@ packaging.neon.kde.org.uk:
         branch: master
   - applications:
     - '*':
-        branch: Neon/stable
-
+        branch: Neon/release
+    - 'spectacle':
+        branch: Neon/release
+  - forks:
+    - drumstick:
+        branch: master
 git.debian.org:
+  - pkg-gnome/ubuntu:
+    - gsettings-desktop-schemas:
+        branch: master
   - debian-astro/packages:
     - astrometry.net:
         branch: debian
   - pkg-multimedia:
-    - libdrumstick:
+    - libmusicbrainz:
         branch: master
   - pkg-kde/kde-extras/kde-telepathy:
     - telepathy-qt4:
@@ -118,9 +132,6 @@ github.com:
   - plasmazilla:
     - mozilla-kde-support:
         branch: kubuntu_unstable
-  - netrunner-extras:
-    - '*':
-        branch: Debian/jessie
   - netrunner-artwork:
     - '*':
         branch: Debian/jessie
@@ -132,20 +143,18 @@ github.com:
   - netrunner-odroid:
     - '*':
         branch: Debian/jessie
-  - netrunner-debian:
-    - calamares-full:
+  - maui-debian:
+    - calamares-maui:
         branch: Debian/jessie
-    - syslinux-theme-netrunner:
+    - maui-desktop:
         branch: Debian/jessie
-    - netrunner-desktop:
-        branch: Debian/jessie
-    - plymouth-theme-netrunner-logo:
+    - plymouth-theme-maui-logo:
         branch: Debian/jessie
     - base-files:
         branch: Debian/jessie
-    - netrunner-full-wallpapers:
+    - maui-debian-wallpapers:
         branch: Debian/jessie
-  - netrunner-debian-packaging:
+  - ds9-debian-packaging:
     - '*':
         branch: Debian/jessie
     - kcm-about-extended:
@@ -159,8 +168,24 @@ github.com:
   - blue-systems:
     - live-build:
         branch: Debian/jessie
-
+  - ds9-debian-packaging-backports:
+    - '*':
+        branch: master
+  - ds9-common:
+    - '*':
+        branch: Debian/jessie
+  - maui-common:
+    - '*':
+        branch: Debian/jessie
+  - ds9-artwork:
+    - '*':
+        branch: master
+  - maui-artwork:
+    - '*':
+        branch: master
 launchpad.net:
   - ~mozillateam/firefox/firefox.xenial
   - ~mozillateam/thunderbird/thunderbird.xenial
   - ubuntu/wily/hunspell-en-us
+  - pkgbinarymangler
+  # - lp:~rohangarg/geonames/geonames
