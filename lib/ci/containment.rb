@@ -70,7 +70,6 @@ module CI
         # Docker
         Image: @image.to_str # Can be a PangeaImage instance
       }
-      @default_args
     end
 
     def contain(user_args)
