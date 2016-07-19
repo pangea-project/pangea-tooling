@@ -4,7 +4,7 @@ version: <%= version %>
 <%= { 'description' => description }.to_yaml.sub('---', '') %>
 
 apps:
-  <% apps.each do |app| %>
+  <% apps.uniq.each do |app| %>
     <%= app.to_yaml.sub('---', '').gsub("\n", "\n  ")%>
   <% end %>
 
@@ -15,7 +15,7 @@ parts:
       - shared-mime-info
     stage-packages:
       - <%= name %>
-    <% stagedepends.each do |stagedepends| %>
+    <% stagedepends.uniq.each do |stagedepends| %>
       <%= stagedepends.to_yaml.sub('---', '-').gsub("\n", '').sub("...", '').gsub("\n", '')%>
     <% end %>
     filesets:
