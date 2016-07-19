@@ -4,6 +4,13 @@ require 'tmpdir'
 
 require_relative 'lib/rake/bundle'
 
+DEPS = %w(xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
+          python-launchpadlib ubuntu-dev-tools gnome-pkg-tools git dh-systemd
+          zlib1g-dev python-paramiko sudo locales mercurial pxz aptitude
+          autotools-dev cdbs dh-autoreconf germinate gobject-introspection
+          sphinx-common pep8 pyflakes ppp-dev dh-di libgirepository1.0-dev
+          libglib2.0-dev).freeze
+
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
   require_relative 'ci-tooling/lib/dpkg'
@@ -119,34 +126,7 @@ task :deploy_in_container do
     # FIXME: install reallly should allow array as input. that's not tested and
     # actually fails though
     raise 'Workaround failed' unless Apt.install(*%w(rsync))
-    raise 'Apt install failed' unless Apt.install(*%w(xz-utils
-                                                      dpkg-dev
-                                                      dput
-                                                      debhelper
-                                                      pkg-kde-tools
-                                                      devscripts
-                                                      python-launchpadlib
-                                                      ubuntu-dev-tools
-                                                      gnome-pkg-tools
-                                                      git
-                                                      dh-systemd
-                                                      zlib1g-dev
-                                                      python-paramiko
-                                                      sudo
-                                                      locales
-                                                      mercurial
-                                                      pxz
-                                                      aptitude
-                                                      autotools-dev
-                                                      cdbs
-                                                      dh-autoreconf
-                                                      germinate
-                                                      gobject-introspection
-                                                      sphinx-common
-                                                      pep8
-                                                      pyflakes
-                                                      ppp-dev
-                                                      dh-di))
+    raise 'Apt install failed' unless Apt.install(*DEPS)
     raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
     raise 'Clean failed' unless Apt.clean
   end
