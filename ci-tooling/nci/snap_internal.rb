@@ -25,7 +25,8 @@ require_relative 'lib/snap.rb'
 require_relative 'lib/snapcraft.rb'
 
 snap = Snap.new
-snap.name = 'kcalc'
+# FIXME: cheeky
+snap.name = File.read('snap.name')
 snap.version = '16.04.1'
 snap.stagedepends = [snap.name, 'plasma-integration']
 snap.stagedepends.sort!
