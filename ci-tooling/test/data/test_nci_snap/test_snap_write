@@ -1,0 +1,66 @@
+name: name
+version: 
+
+summary: 
+
+
+description: 
+
+
+apps:
+  
+    
+  yolo:
+    command: qt5-launch usr/bin/yolo
+    plugs:
+    - x11
+    - unity7
+    - home
+    - opengl
+  
+  
+
+parts:
+  name:
+    plugin: nil
+    build-packages:
+      - shared-mime-info
+    stage-packages:
+      - name
+    
+      - stagedep
+    
+    filesets:
+      binaries:
+        - usr/bin
+      configs:
+        - etc
+      data:
+        - usr/share/*
+        - -usr/share/doc
+        - -usr/share/man
+        - -usr/share/perl
+        - -usr/share/wallpapers
+        - -usr/share/icons/breeze-dark
+        - -usr/share/icons/Breeze_Snow
+      libraries:
+        - lib/*
+        - usr/lib/*
+        - -usr/lib/*/perl
+      headers:
+        - usr/include/*
+        - usr/lib/*/cmake/*
+    stage:
+      - $configs
+      - $libraries
+      - $binaries
+      - $data
+    snap:
+      - $configs
+      - $libraries
+      - $binaries
+      - $data
+  environment:
+    plugin: copy
+    files:
+      qt5-launch: bin/qt5-launch

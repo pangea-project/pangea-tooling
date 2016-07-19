@@ -1,0 +1,54 @@
+name: <%= name %>
+version: <%= version %>
+<%= { 'summary' => summary }.to_yaml.sub('---', '') %>
+<%= { 'description' => description }.to_yaml.sub('---', '') %>
+
+apps:
+  <% apps.each do |app| %>
+    <%= app.to_yaml.sub('---', '').gsub("\n", "\n  ")%>
+  <% end %>
+
+parts:
+  <%= name %>:
+    plugin: nil
+    build-packages:
+      - shared-mime-info
+    stage-packages:
+      - <%= name %>
+    <% stagedepends.each do |stagedepends| %>
+      <%= stagedepends.to_yaml.sub('---', '-').gsub("\n", '').sub("...", '').gsub("\n", '')%>
+    <% end %>
+    filesets:
+      binaries:
+        - usr/bin
+      configs:
+        - etc
+      data:
+        - usr/share/*
+        - -usr/share/doc
+        - -usr/share/man
+        - -usr/share/perl
+        - -usr/share/wallpapers
+        - -usr/share/icons/breeze-dark
+        - -usr/share/icons/Breeze_Snow
+      libraries:
+        - lib/*
+        - usr/lib/*
+        - -usr/lib/*/perl
+      headers:
+        - usr/include/*
+        - usr/lib/*/cmake/*
+    stage:
+      - $configs
+      - $libraries
+      - $binaries
+      - $data
+    snap:
+      - $configs
+      - $libraries
+      - $binaries
+      - $data
+  environment:
+    plugin: copy
+    files:
+      qt5-launch: bin/qt5-launch
