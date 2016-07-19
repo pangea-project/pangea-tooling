@@ -41,6 +41,7 @@ appstreamer = AppStreamer.new(desktopfile)
 appstreamer.expand(snap)
 icon_url = appstreamer.icon_url
 snap.apps = [Snap::App.new(snap.name)]
+FileUtils.mkpath('snapcraft')
 File.write('snapcraft/snapcraft.yaml', snap.render)
 
 ##
