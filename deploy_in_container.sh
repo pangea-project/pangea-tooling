@@ -34,5 +34,19 @@ while [ $i -gt 0 ]; do
   i=$((i-1))
 done
 
+
+# Make sure our ruby version is atleast 2.2
+ruby_major_version=$(ruby -e "puts \"#{RbConfig::CONFIG['MAJOR']}\"")
+ruby_minor_version=$(ruby -e "puts \"#{RbConfig::CONFIG['MINOR']}\"")
+
+if [ $ruby_major_version -lt 2 ] && [ $ruby_minor_version -lt 2 ]; then
+  echo "Ruby Version ${ruby_major_version}.${ruby_minor_version}"
+  echo "Compiling our own ruby!"
+  apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true \
+    install ruby-build curl
+  curl -s https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.3.1 &> /tmp/2.3.1
+  ruby-build /tmp/2.3.1 /usr/local
+fi
+
 cd $SCRIPTDIR
 exec rake -f deploy_in_container.rake deploy_in_container
