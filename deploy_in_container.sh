@@ -39,7 +39,7 @@ done
 ruby_major_version=$(ruby -e "puts \"#{RbConfig::CONFIG['MAJOR']}\"")
 ruby_minor_version=$(ruby -e "puts \"#{RbConfig::CONFIG['MINOR']}\"")
 
-if [ $ruby_minor_version -lt 2 ] && [ $ruby_major_version -lt 2 ]; then
+if [ $ruby_minor_version -lt 2 ] && [ $ruby_major_version -le 2 ]; then
   echo "Ruby Version ${ruby_major_version}.${ruby_minor_version}"
   echo "Compiling our own ruby!"
   apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true \
