@@ -44,7 +44,7 @@ if [ $ruby_minor_version -lt 2 ] && [ $ruby_major_version -le 2 ]; then
   echo "Compiling our own ruby!"
   apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true \
     install ruby-build curl
-  curl -s https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.3.1 &> /tmp/2.3.1
+  curl -s https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.3.1 > /tmp/2.3.1
   ruby-build /tmp/2.3.1 /usr/local
 fi
 
