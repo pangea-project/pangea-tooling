@@ -28,8 +28,7 @@ snap = Snap.new
 # FIXME: cheeky
 snap.name = File.read('snap.name')
 snap.version = '16.04.1'
-snap.stagedepends = [snap.name, 'plasma-integration']
-snap.stagedepends.sort!
+snap.stagedepends = ['plasma-integration']
 p snap.stagedepends
 
 desktopfile = "org.kde.#{snap.name}.desktop"
