@@ -40,12 +40,12 @@ appstreamer = AppStreamer.new(desktopfile)
 appstreamer.expand(snap)
 icon_url = appstreamer.icon_url
 snap.apps = [Snap::App.new(snap.name)]
+
 FileUtils.mkpath('snapcraft')
-File.write('snapcraft/snapcraft.yaml', snap.render)
-
-##
-
 Dir.chdir('snapcraft')
+File.write('snapcraft.yaml', snap.render)
+FileUtils.cp("#{__dir__}/data/qt5-launch", '.')
+
 Snapcraft.pull
 
 desktop_url = "parts/#{snap.name}/install/usr/share/applications/#{desktopfile}"
