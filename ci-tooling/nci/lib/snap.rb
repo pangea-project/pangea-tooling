@@ -48,6 +48,8 @@ class Snap
   attr_accessor :apps
 
   def render
+    stagedepends.uniq!
+    apps.uniq!
     ERB.new(File.read("#{__dir__}/../data/snapcraft.yaml.erb")).result(binding)
   end
 end

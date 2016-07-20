@@ -46,4 +46,15 @@ class NCISnapTest < TestCase
     rend_yaml = YAML.load(s.render)
     assert_equal(ref_yaml, rend_yaml)
   end
+
+  def test_snap_dupes
+    s = Snap.new
+    s.name = 'name'
+    s.stagedepends = ['stagedep', 'stagedep']
+    s.apps = [Snap::App.new('yolo')]
+    rend_yaml = YAML.load(s.render)
+    p rend_yaml
+    assert_equal(["name", "stagedep"],
+                 rend_yaml['parts']['name']['stage-packages'])
+  end
 end
