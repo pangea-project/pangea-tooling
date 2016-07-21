@@ -49,4 +49,8 @@ if [ $ruby_minor_version -lt 2 ] && [ $ruby_major_version -le 2 ]; then
 fi
 
 cd $SCRIPTDIR
+# Some debug
+env
+which rake
+
 exec rake -f deploy_in_container.rake deploy_in_container
