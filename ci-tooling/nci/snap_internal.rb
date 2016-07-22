@@ -31,22 +31,10 @@ snap.version = '16.04.1'
 snap.stagedepends = ['plasma-integration']
 p snap.stagedepends
 
-## pull & get necessary data bits
+desktopfile = "org.kde.#{snap.name}.desktop"
+helpdesktopfile = 'org.kde.Help.desktop'
 
-Snapcraft.pull
-
-matches = Dir.glob("parts/#{snap.name}/install/" \
-                   "usr/share/applications/*#{snap.name}*.desktop")
-if matches.size > 1
-  matches.select! do |match|
-    match.end_with?("org.kde.#{snap.name}.desktop")
-  end
-end
-raise "can't find right desktop file #{matches}" if matches.size != 1
-desktop_url = matches[0]
-desktopfile = File.basename(desktopfile)
-
-## extract appstream data
+### appstream
 
 appstreamer = AppStreamer.new(desktopfile)
 appstreamer.expand(snap)
@@ -58,13 +46,17 @@ Dir.chdir('snapcraft')
 File.write('snapcraft.yaml', snap.render)
 FileUtils.cp("#{__dir__}/data/qt5-launch", '.')
 
-## copy data into place for snapcraft to find it
+Snapcraft.pull
+
+desktop_url = "parts/#{snap.name}/install/usr/share/applications/#{desktopfile}"
+help_desktop_url = "parts/#{snap.name}/install/usr/share/applications/#{helpdesktopfile}"
 
 FileUtils.mkpath('setup/gui/')
 FileUtils.cp(icon_url, 'setup/gui/icon') if icon_url
 FileUtils.cp(desktop_url, "setup/gui/#{desktopfile}") if desktop_url
-
-## finalize
+if File.exist?(help_desktop_url)
+  FileUtils.cp(help_desktop_url, "setup/gui/#{helpdesktopfile}")
+end
 
 Snapcraft.run
 
