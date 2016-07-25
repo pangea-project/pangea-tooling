@@ -22,7 +22,7 @@
 '*{debian.org,packaging.neon}*/applications/*':
   '{kubuntu_stable,Neon/stable}':
     upstream_scm:
-      branch: Applications/16.04
+      branch: Applications/16.08
 
 # Extras
 
