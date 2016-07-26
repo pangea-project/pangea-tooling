@@ -17,6 +17,7 @@ packaging.neon.kde.org.uk:
     - kcalc
     - kcharselect
     - kdebugsettings
+    - kdf
     - kfloppy
     - ktimer
     - kcron
@@ -42,7 +43,6 @@ packaging.neon.kde.org.uk:
     - ktouch
     - kturtle
     - kwordquiz
-    - libkdeedu
     - libkeduvocdocument
     - marble
     - minuet
@@ -88,6 +88,7 @@ packaging.neon.kde.org.uk:
     - dragon
     - ffmpegthumbs
     - kdenlive
+    - cervisia
     - dolphin-plugins
     - kapptemplate
     - kde-dev-scripts
