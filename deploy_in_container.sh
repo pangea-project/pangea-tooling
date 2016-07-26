@@ -36,5 +36,5 @@ done
 
 cd $SCRIPTDIR
 rake -f deploy_in_container.rake align_ruby
-which rake
-exec sh -c "rake -f deploy_in_container.rake deploy_in_container"
+gem install rake
+exec rake -f deploy_in_container.rake deploy_in_container

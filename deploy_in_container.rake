@@ -189,6 +189,4 @@ task :align_ruby do
     File.write(RUBY_2_3_1, open('https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.3.1').read)
     system("ruby-build #{RUBY_2_3_1} /usr/local")
   end
-
-  Gem.install('rake') unless Gem::Specification.map(&:name).include? 'rake'
 end
