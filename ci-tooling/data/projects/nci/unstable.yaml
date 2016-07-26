@@ -111,6 +111,7 @@ packaging.neon.kde.org.uk:
     - yakuake
     - kpmcore
     - partitionmanager
+    - konversation
   - kde-req:
     - qca-qt5
   - neon:

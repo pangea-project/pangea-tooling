@@ -110,6 +110,7 @@ packaging.neon.kde.org.uk:
     - yakuake
     - kpmcore
     - partitionmanager
+    - konversation
   - neon:
     - seeds:
         branch: Neon/release
