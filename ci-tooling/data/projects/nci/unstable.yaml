@@ -101,6 +101,11 @@ packaging.neon.kde.org.uk:
     - okteta
     - poxml
     - umbrello
+    - kdenetwork-filesharing
+    - kio-extras
+    - krdc
+    - krfb
+    - signon-kwallet-extension
   - kde-extras:
     - kdeconnect
     - yakuake
