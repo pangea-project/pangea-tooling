@@ -37,4 +37,6 @@ done
 cd $SCRIPTDIR
 rake -f deploy_in_container.rake align_ruby
 gem install rake
+which rake
+which ruby
 exec rake -f deploy_in_container.rake deploy_in_container
