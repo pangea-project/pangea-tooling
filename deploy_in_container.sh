@@ -35,5 +35,5 @@ while [ $i -gt 0 ]; do
 done
 
 cd $SCRIPTDIR
-exec rake -f deploy_in_container.rake align_ruby
+rake -f deploy_in_container.rake align_ruby
 exec rake -f deploy_in_container.rake deploy_in_container
