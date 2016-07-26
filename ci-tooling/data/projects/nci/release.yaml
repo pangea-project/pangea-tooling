@@ -105,6 +105,7 @@ packaging.neon.kde.org.uk:
     - krdc
     - krfb
     - signon-kwallet-extension
+    - kaccounts-integration
   - kde-extras:
     - kdeconnect
     - yakuake
