@@ -187,7 +187,7 @@ task :align_ruby do
   puts "Ruby version #{RbConfig::CONFIG['MAJOR']}.#{RbConfig::CONFIG['MINOR']}"
   if RbConfig::CONFIG['MAJOR'].to_i <= 2 && RbConfig::CONFIG['MINOR'].to_i < 2
     puts 'Compiling ruby'
-    system('apt-get install ruby-build')
+    system('apt-get -y install ruby-build')
     File.write(RUBY_2_3_1, open('https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.3.1').read)
     system("ruby-build #{RUBY_2_3_1} /usr/local")
   else
