@@ -185,7 +185,7 @@ end
 desc 'Upgrade to newer ruby if required'
 task :align_ruby do
   if RbConfig::CONFIG['MAJOR'].to_i < 2 && RbConfig::CONFIG['MINOR'].to_i < 2
-    system('apt-get install ruby-build curl')
+    system('apt-get install ruby-build')
     File.write(RUBY_2_3_1, open('https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.3.1').read)
     system("ruby-build #{RUBY_2_3_1} /usr/local")
   end
