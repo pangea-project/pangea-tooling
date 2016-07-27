@@ -156,6 +156,11 @@
     upstream_scm:
       url: https://gitlab.com/accounts-sso/libaccounts-glib.git
 
+'*{debian.org,packaging.neon}*/kde-extras/konversation':
+  '{kubuntu_stable,Neon/stable}':
+    upstream_scm:
+      branch: 1.6
+
 '*{debian.org,packaging.neon}*/kubuntu/libkolab':
   '*':
     upstream_scm:
