@@ -10,6 +10,7 @@ require_relative '../ci-tooling/lib/dci'
 require_relative '../ci-tooling/lib/dpkg'
 require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../lib/ci/pangeaimage'
+require_relative '../lib/ci/container/ephemeral'
 require_relative '../lib/mgmt/deployer'
 
 class DeployTest < TestCase
