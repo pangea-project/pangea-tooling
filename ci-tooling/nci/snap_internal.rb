@@ -38,9 +38,9 @@ File.write('snapcraft.yaml', snap.render)
 # run will re-run parts that changed however, so even if stagedepends
 # change after this they will end up in the stage properly.
 Snapcraft.pull
+root = "parts/#{snap.name}/install"
 
-matches = Dir.glob("parts/#{snap.name}/install/" \
-                   "usr/share/applications/*#{snap.name}*.desktop")
+matches = Dir.glob("#{root}/usr/share/applications/*#{snap.name}*.desktop")
 if matches.size > 1
   matches.select! do |match|
     match.end_with?("org.kde.#{snap.name}.desktop")
