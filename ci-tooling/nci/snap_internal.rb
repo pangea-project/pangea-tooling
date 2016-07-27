@@ -20,6 +20,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'shellwords'
+
 require_relative 'lib/appstreamer.rb'
 require_relative 'lib/snap.rb'
 require_relative 'lib/snapcraft.rb'
@@ -50,12 +52,25 @@ raise "can't find right desktop file #{matches}" if matches.size != 1
 desktop_url = matches[0]
 desktopfile = File.basename(desktop_url)
 
+# Find exectuable
+binname = File.read(desktop_url).split($/).select { |x| x.start_with?('Exec=') }
+binname = Shellwords.split(binname[0].split('=', 2)[1])[0]
+PATH = %w(/usr/sbin /usr/bin /sbin /bin /usr/games).freeze
+binpath = nil
+PATH.each do |path|
+  b = "#{root}/#{path}/#{binname}"
+  next unless File.exist?(b)
+  binpath = b
+  break
+end
+raise "can't find right binary #{binname}" unless binpath
+
 ## extract appstream data
 
 appstreamer = AppStreamer.new(desktopfile)
 appstreamer.expand(snap)
 icon_url = appstreamer.icon_url
-snap.apps = [Snap::App.new(snap.name)]
+snap.apps = [Snap::App.new(snap.name, binary: binpath)]
 
 File.write('snapcraft.yaml', snap.render)
 FileUtils.cp("#{__dir__}/data/qt5-launch", '.')
