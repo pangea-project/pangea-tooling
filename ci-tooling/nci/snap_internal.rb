@@ -26,34 +26,47 @@ require_relative 'lib/snapcraft.rb'
 
 snap = Snap.new(File.read('snap.name'), '16.04.1')
 snap.stagedepends = ['plasma-integration']
-p snap.stagedepends
 
-desktopfile = "org.kde.#{snap.name}.desktop"
-helpdesktopfile = 'org.kde.Help.desktop'
+FileUtils.mkpath('snapcraft')
+Dir.chdir('snapcraft')
+# Temporary write a minimal file so we can pull our package
+File.write('snapcraft.yaml', snap.render)
 
-### appstream
+## pull & get necessary data bits
+
+# This runs on the temporary incomplete data from above. Later snapcraft
+# run will re-run parts that changed however, so even if stagedepends
+# change after this they will end up in the stage properly.
+Snapcraft.pull
+
+matches = Dir.glob("parts/#{snap.name}/install/" \
+                   "usr/share/applications/*#{snap.name}*.desktop")
+if matches.size > 1
+  matches.select! do |match|
+    match.end_with?("org.kde.#{snap.name}.desktop")
+  end
+end
+raise "can't find right desktop file #{matches}" if matches.size != 1
+desktop_url = matches[0]
+desktopfile = File.basename(desktop_url)
+
+## extract appstream data
 
 appstreamer = AppStreamer.new(desktopfile)
 appstreamer.expand(snap)
 icon_url = appstreamer.icon_url
 snap.apps = [Snap::App.new(snap.name)]
 
-FileUtils.mkpath('snapcraft')
-Dir.chdir('snapcraft')
 File.write('snapcraft.yaml', snap.render)
 FileUtils.cp("#{__dir__}/data/qt5-launch", '.')
 
-Snapcraft.pull
-
-desktop_url = "parts/#{snap.name}/install/usr/share/applications/#{desktopfile}"
-help_desktop_url = "parts/#{snap.name}/install/usr/share/applications/#{helpdesktopfile}"
+## copy data into place for snapcraft to find it
 
 FileUtils.mkpath('setup/gui/')
 FileUtils.cp(icon_url, 'setup/gui/icon') if icon_url
 FileUtils.cp(desktop_url, "setup/gui/#{desktopfile}") if desktop_url
-if File.exist?(help_desktop_url)
-  FileUtils.cp(help_desktop_url, "setup/gui/#{helpdesktopfile}")
-end
+
+## finalize
 
 Snapcraft.run
 
