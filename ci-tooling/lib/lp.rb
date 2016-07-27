@@ -241,11 +241,6 @@ module Launchpad
     end
 
     # @!visibility private
-    def respond_to_missing?(_, _)
-      true # respond to everything, we pass it to REST
-    end
-
-    # @!visibility private
     def method_missing(name, *args, &_block)
       super unless method_missing_valid?(*args)
 
