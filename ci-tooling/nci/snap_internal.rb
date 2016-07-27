@@ -58,9 +58,10 @@ binname = Shellwords.split(binname[0].split('=', 2)[1])[0]
 PATH = %w(/usr/sbin /usr/bin /sbin /bin /usr/games).freeze
 binpath = nil
 PATH.each do |path|
-  b = "#{root}/#{path}/#{binname}"
-  next unless File.exist?(b)
+  b = "#{path}/#{binname}"
+  next unless File.exist?("#{root}/#{b}")
   binpath = b
+  puts "found binary #{b}"
   break
 end
 raise "can't find right binary #{binname}" unless binpath
@@ -72,6 +73,7 @@ appstreamer.expand(snap)
 icon_url = appstreamer.icon_url
 snap.apps = [Snap::App.new(snap.name, binary: binpath)]
 
+puts snap.render
 File.write('snapcraft.yaml', snap.render)
 FileUtils.cp("#{__dir__}/data/qt5-launch", '.')
 
