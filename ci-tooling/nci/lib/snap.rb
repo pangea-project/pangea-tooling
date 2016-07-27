@@ -52,6 +52,8 @@ class Snap
     @version = version
     @stagedepends = []
     @apps = []
+    @description = 'Undefined in automation'
+    @summary = 'Undefined in automation'
   end
 
   def render

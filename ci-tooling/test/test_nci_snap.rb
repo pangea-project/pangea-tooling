@@ -57,6 +57,13 @@ class NCISnapTest < TestCase
 
   def test_minimal_render
     s = Snap.new('meow', '2.0')
-    s.render # mustn't raise
+    yaml = YAML.load(s.render) # mustn't raise
+    # snapcraft will not accept nil values for these
+    assert_not_nil(yaml['description'])
+    assert_not_empty(yaml['description'])
+    assert_not_nil(yaml['summary'])
+    assert_not_empty(yaml['summary'])
+    # This one is a rendered array and should not exist when the array is empty
+    assert_false(yaml.key?('apps'))
   end
 end
