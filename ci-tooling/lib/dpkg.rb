@@ -25,7 +25,7 @@ module DPKG
     puts "backticking: #{cmd} #{args.join(' ')}"
     output = `#{cmd} #{args.join(' ')}`
     puts $?
-    return [] unless $?.zero?
+    return [] unless $?.to_i.zero?
     # FIXME: write test
     output.strip.split($/).compact
   end

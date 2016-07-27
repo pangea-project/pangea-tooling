@@ -1,3 +1,4 @@
+
 # Bundler can have itself injected in the env preventing bundlers forked from
 # ruby to work correctly. This helper helps with running bundlers in a way
 # that they do not have a "polluted" environment.
@@ -14,5 +15,5 @@ end
 def bundle(*args)
   args = ['bundle'] + args
   RakeBundleHelper.run(*args)
-  raise "Command failed (#{$?}) #{args}" unless $?.zero?
+  raise "Command failed (#{$?}) #{args}" unless $?.to_i.zero?
 end

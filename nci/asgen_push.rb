@@ -45,7 +45,7 @@ release.parse!
 def checksum(tool, f)
   puts "#{tool} #{f}"
   sum = `#{tool} #{f}`.strip.split(' ')[0]
-  raise unless $?.zero?
+  raise unless $?.to_i.zero?
   size = File.size(f)
   name = f.split('main/dep11/')[-1]
   Debian::Release::Checksum.new(sum, size, "main/dep11/#{name}")

@@ -86,7 +86,7 @@ module CI
         # Do not abort the build when dpkg-buildpackage fails to build a arch
         # all package on !amd64 since our current architecture creates armhf
         # jobs even for sources that only have arch all binaries
-        raise unless ec == 2 || ec.zero?
+        raise unless ec == 2 || ec.to_i.zero?
       end
     end
 

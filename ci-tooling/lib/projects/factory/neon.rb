@@ -122,7 +122,7 @@ class ProjectsFactory
         return @listing if defined?(@listing) # Cache in class scope.
         listing = `ssh gitolite3@packaging.neon.kde.org`.chop.split($/)
         # FIXME: proper error
-        raise unless $?.zero?
+        raise unless $?.to_i.zero?
         listing.shift # welcome message leading, drop it.
         @listing = listing.collect do |entry|
           entry.split(' ')[-1]

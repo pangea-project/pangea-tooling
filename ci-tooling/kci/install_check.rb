@@ -271,7 +271,7 @@ class InstallCheck < InstallCheckBase
   end
 
   def run(candidate_ppa, target_ppa)
-    if Process.uid.zero?
+    if Process.uid.to_i.zero?
       # Disable invoke-rc.d because it is crap and causes useless failure on
       # install when it fails to detect upstart/systemd running and tries to
       # invoke a sysv script that does not exist.

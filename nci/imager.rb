@@ -51,7 +51,7 @@ c = CI::Containment.new(JOB_NAME,
 cmd = ["#{TOOLING_PATH}/nci/imager/build.sh",
        Dir.pwd, DIST, ARCH, TYPE, METAPACKAGE, IMAGENAME, NEONARCHIVE]
 status_code = c.run(Cmd: cmd)
-exit status_code unless status_code.zero?
+exit status_code unless status_code.to_i.zero?
 
 # copy to depot using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test

@@ -44,7 +44,7 @@ c = CI::Containment.new(JOB_NAME,
                         privileged: true)
 cmd = ["#{TOOLING_PATH}/kci/imager/build_mobster.sh", Dir.pwd, DIST, ARCH, TYPE]
 status_code = c.run(Cmd: cmd)
-exit status_code unless status_code.zero?
+exit status_code unless status_code.to_i.zero?
 
 DATE = File.read('result/date_stamp').strip
 PUB_PATH = "/mnt/s3/mobile.kci/images/#{DATE}".freeze
