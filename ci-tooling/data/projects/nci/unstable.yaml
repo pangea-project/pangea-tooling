@@ -107,6 +107,41 @@ packaging.neon.kde.org.uk:
     - signon-kwallet-extension
     - kaccounts-integration
     - baloo-widgets
+    - akonadi
+    - akonadi-calendar
+    - akonadi-search
+    - calendarsupport
+    - eventviews
+    - gpgmepp
+    - grantleetheme
+    - incidenceeditor
+    - kalarmcal
+    - kblog
+    - kcalcore
+    - kcalutils
+    - kcontacts
+    - kdepim-addons
+    - kdepim-apps-libs
+    - kdgantt2
+    - kidentitymanagement
+    - kimap
+    - kldap
+    - kleopatra
+    - kmailtransport
+    - kmbox
+    - kmime
+    - kontactinterface
+    - kpimtextedit
+    - ktnef
+    - libgravatar
+    - libkdepim
+    - libkleo
+    - libksieve
+    - mailcommon
+    - mailimporter
+    - messagelib
+    - pimcommon
+    - syndication
   - kde-extras:
     - kdeconnect
     - yakuake
