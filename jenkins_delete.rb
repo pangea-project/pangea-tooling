@@ -78,7 +78,7 @@ BlockingThreadPool.run do
   until job_name_queue.empty?
     name = job_name_queue.pop(true)
     job = Jenkins::Job.new(name)
-    @log.info "Disabling #{name}"
+    @log.info "Mangling #{name}"
     Retry.retry_it(times: 5) do
       job.disable!
     end
