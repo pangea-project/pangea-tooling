@@ -19,6 +19,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'erb'
+require 'pathname'
 require 'yaml'
 
 # It's a snap!
@@ -29,9 +30,9 @@ class Snap
     attr_accessor :command
     attr_accessor :plugs
 
-    def initialize(name)
+    def initialize(name, binary: "usr/bin/#{name}")
       @name = name
-      @command = "qt5-launch usr/bin/#{name}"
+      @command = "qt5-launch #{Pathname.new(binary).cleanpath.sub(%r{^/}, '')}"
       @plugs = %w(x11 unity7 home opengl network network-bind)
     end
 

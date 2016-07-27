@@ -32,6 +32,15 @@ class NCISnapTest < TestCase
     assert_equal(a.name, 'yolo')
   end
 
+  def test_app_path_clean
+    a = Snap::App.new('yolo', binary: '///usr///bin/./kcalc')
+    assert_equal('qt5-launch usr/bin/kcalc', a.command)
+    a = Snap::App.new('yolo', binary: 'usr///bin/./kcalc')
+    assert_equal('qt5-launch usr/bin/kcalc', a.command)
+    a = Snap::App.new('yolo')
+    assert_equal('qt5-launch usr/bin/yolo', a.command)
+  end
+
   def test_to_yaml
     assert_equal("---\nyolo:\n  command: qt5-launch usr/bin/yolo\n  plugs:\n  - x11\n  - unity7\n  - home\n  - opengl\n  - network\n  - network-bind\n",
                  Snap::App.new('yolo').to_yaml)
