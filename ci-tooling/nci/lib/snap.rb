@@ -47,6 +47,13 @@ class Snap
   attr_accessor :description
   attr_accessor :apps
 
+  def initialize(name, version)
+    @name = name
+    @version = version
+    @stagedepends = []
+    @apps = []
+  end
+
   def render
     stagedepends.uniq!
     apps.uniq!

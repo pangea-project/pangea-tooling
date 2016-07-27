@@ -24,10 +24,7 @@ require_relative 'lib/appstreamer.rb'
 require_relative 'lib/snap.rb'
 require_relative 'lib/snapcraft.rb'
 
-snap = Snap.new
-# FIXME: cheeky
-snap.name = File.read('snap.name')
-snap.version = '16.04.1'
+snap = Snap.new(File.read('snap.name'), '16.04.1')
 snap.stagedepends = ['plasma-integration']
 p snap.stagedepends
 

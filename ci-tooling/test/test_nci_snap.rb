@@ -38,8 +38,7 @@ class NCISnapTest < TestCase
   end
 
   def test_snap_write
-    s = Snap.new
-    s.name = 'name'
+    s = Snap.new('name', nil)
     s.stagedepends = ['stagedep']
     s.apps = [Snap::App.new('yolo')]
     ref_yaml = YAML.load(File.read(data))
@@ -48,12 +47,16 @@ class NCISnapTest < TestCase
   end
 
   def test_snap_dupes
-    s = Snap.new
-    s.name = 'name'
+    s = Snap.new('name', nil)
     s.stagedepends = ['stagedep', 'stagedep']
     s.apps = [Snap::App.new('yolo')]
     rend_yaml = YAML.load(s.render)
     assert_equal(["name", "stagedep"],
                  rend_yaml['parts']['name']['stage-packages'])
+  end
+
+  def test_minimal_render
+    s = Snap.new('meow', '2.0')
+    s.render # mustn't raise
   end
 end
