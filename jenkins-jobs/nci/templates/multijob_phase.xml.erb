@@ -14,7 +14,7 @@
         <abortAllJob>true</abortAllJob>
         <condition></condition>
         <configs class="empty-list"/>
-        <killPhaseOnJobResultCondition>FAILURE</killPhaseOnJobResultCondition>
+        <killPhaseOnJobResultCondition><%= job.respond_to?(:murderous) ? 'FAILURE' : 'NEVER' %></killPhaseOnJobResultCondition>
         <buildOnlyIfSCMChanges>false</buildOnlyIfSCMChanges>
       </com.tikal.jenkins.plugins.multijob.PhaseJobsConfig>
     </phaseJobs>
