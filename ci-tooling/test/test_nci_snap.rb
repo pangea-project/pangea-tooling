@@ -33,7 +33,7 @@ class NCISnapTest < TestCase
   end
 
   def test_to_yaml
-    assert_equal("---\nyolo:\n  command: qt5-launch usr/bin/yolo\n  plugs:\n  - x11\n  - unity7\n  - home\n  - opengl\n",
+    assert_equal("---\nyolo:\n  command: qt5-launch usr/bin/yolo\n  plugs:\n  - x11\n  - unity7\n  - home\n  - opengl\n  - network\n  - network-bind\n",
                  Snap::App.new('yolo').to_yaml)
   end
 

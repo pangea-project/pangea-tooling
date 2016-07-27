@@ -17,6 +17,8 @@ apps:
     - unity7
     - home
     - opengl
+    - network
+    - network-bind
   
   
 

@@ -40,7 +40,7 @@ class NCIAppStreamerTest < TestCase
   def test_no_component
     @fake_db.stubs(:component_by_id).returns(nil)
 
-    fake_snap = Snap.new
+    fake_snap = Snap.new('fake', nil)
     a = AppStreamer.new('abc')
     a.expand(fake_snap)
     assert_equal(fake_snap.summary, 'No appstream summary, needs bug filed')
@@ -59,7 +59,7 @@ class NCIAppStreamerTest < TestCase
     fake_comp.stubs(:icons).returns([fake_icon])
     @fake_db.expects(:component_by_id).returns(fake_comp)
 
-    fake_snap = Snap.new
+    fake_snap = Snap.new('fake', nil)
     a = AppStreamer.new('abc')
     a.expand(fake_snap)
     assert_equal(fake_snap.summary, 'summary')
