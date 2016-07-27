@@ -51,7 +51,6 @@ class MCISetupRepoTest < TestCase
     system_calls = [
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'software-properties-common'],
       ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub vivid main'],
-      ['add-apt-repository', '-y', 'ppa:plasma-phone/ppa'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'update'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'pkg-kde-tools']
     ]

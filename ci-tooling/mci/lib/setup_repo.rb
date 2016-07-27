@@ -35,8 +35,6 @@ module MCI
     Apt::Key.add('http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key')
     raise 'Failed to import key' unless $? == 0
 
-    Apt::Repository.add('ppa:plasma-phone/ppa')
-
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
     raise 'failed to install deps' unless Apt.install(%w(pkg-kde-tools))
   end
