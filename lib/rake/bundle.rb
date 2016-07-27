@@ -14,5 +14,5 @@ end
 def bundle(*args)
   args = ['bundle'] + args
   RakeBundleHelper.run(*args)
-  raise "Command failed (#{$?}) #{args}" unless $? == 0
+  raise "Command failed (#{$?}) #{args}" unless $?.zero?
 end

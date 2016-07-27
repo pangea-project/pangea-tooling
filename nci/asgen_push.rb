@@ -45,7 +45,7 @@ release.parse!
 def checksum(tool, f)
   puts "#{tool} #{f}"
   sum = `#{tool} #{f}`.strip.split(' ')[0]
-  raise unless $? == 0
+  raise unless $?.zero?
   size = File.size(f)
   name = f.split('main/dep11/')[-1]
   Debian::Release::Checksum.new(sum, size, "main/dep11/#{name}")
@@ -96,6 +96,6 @@ FileUtils.rm_rf(repodir)
 
 # FIXME: should be separate by repo but we can't forward repo into container
 #        when generating the paths :/
-pubdir = "/var/www/metadata/appstream/" ##{APTLY_REPOSITORY}"
+pubdir = '/var/www/metadata/appstream/' # #{APTLY_REPOSITORY}"
 FileUtils.mkpath(pubdir)
 FileUtils.cp_r("#{export_dir}/.", pubdir)

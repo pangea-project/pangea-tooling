@@ -266,7 +266,7 @@ class KCIBuilder
     begin
       Timeout.timeout(timeout) do
         Process.waitpid(pid, 0)
-        return ($?.exitstatus == 0)
+        return $?.exitstatus.zero?
       end
     rescue Timeout::Error
       Process.kill(15, -Process.getpgid(pid))
@@ -341,7 +341,7 @@ class KCIBuilder
               symbol_patch(source.build_version.base,
                            architectures_with_log,
                            logs)
-              updated_symbols = ($? == 0)
+              updated_symbols = $?.zero?
               puts_info("Auto-updated symbols of #{lib_package}")
             end
             # Username et al apparently is somehow coming from .git or something

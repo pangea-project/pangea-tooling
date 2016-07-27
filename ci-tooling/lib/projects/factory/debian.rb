@@ -135,7 +135,7 @@ class ProjectsFactory
         @list_cache ||= {}
         return @list_cache[base] if @list_cache.key?(base)
         output = `ssh git.debian.org find /git/#{base} -maxdepth 1 -type d`
-        raise 'Failed to find repo list on host' unless $? == 0
+        raise 'Failed to find repo list on host' unless $?.zero?
         @list_cache[base] = cleanup_ls(output).freeze
       end
 

@@ -86,7 +86,7 @@ module CI
         # Do not abort the build when dpkg-buildpackage fails to build a arch
         # all package on !amd64 since our current architecture creates armhf
         # jobs even for sources that only have arch all binaries
-        raise unless ec == 2 || ec == 0
+        raise unless ec == 2 || ec.zero?
       end
     end
 
@@ -164,7 +164,7 @@ module CI
         # to the repo.
         dpkg_buildopts << '-B'
       end
-      dpkg_buildopts.collect! { |x| (x == '-b') ? '-B' : x } if @bin_only
+      dpkg_buildopts.collect! { |x| x == '-b' ? '-B' : x } if @bin_only
       dpkg_buildopts
     end
 

@@ -85,6 +85,10 @@ module Apt
 
   # Apt key management using apt-key binary
   class Key
+    def self.respond_to_missing?(_, _)
+      true
+    end
+
     def self.method_missing(name, *caller_args)
       system('apt-key', name.to_s.tr('_', '-'), *caller_args)
     end
@@ -102,6 +106,10 @@ module Apt
     end
   end
 
+  def self.respond_to_missing?(_, _)
+    true
+  end
+
   def self.method_missing(name, *caller_args)
     Abstrapt.run('apt-get', name.to_s.tr('_', '-'), *caller_args)
   end
@@ -109,6 +117,10 @@ module Apt
   # More cow powers!
   # Calls apt-get instead of apt. Otherwise the same as {Apt}
   module Get
+    def self.respond_to_missing?(_, _)
+      true
+    end
+
     def self.method_missing(name, *caller_args)
       Abstrapt.run('apt-get', name.to_s.tr('_', '-'), *caller_args)
     end

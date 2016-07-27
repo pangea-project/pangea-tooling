@@ -43,7 +43,7 @@ c = CI::Containment.new(JOB_NAME,
                         privileged: true)
 cmd = ["#{TOOLING_PATH}/kci/imager/build.sh", Dir.pwd, DIST, ARCH, TYPE]
 status_code = c.run(Cmd: cmd)
-exit status_code unless status_code == 0
+exit status_code unless status_code.zero?
 
 DATE = File.read('result/date_stamp').strip
 PUB_PATH = "/var/www/kci/images/#{ARCH}/#{DATE}".freeze
