@@ -52,16 +52,8 @@ module Jenkins
       @client.job.remove_downstream_projects(@name)
     end
 
-    def respond_to_missing?(name, include_private = false)
-      @client.job.respond_to_missing?(name, include_private)
-    end
-
     def method_missing(name, *args)
-      if respond_to_missing?(name)
-        @client.job.send(name, *([@name] + args))
-      else
-        super
-      end
+      @client.job.send(name, *([@name] + args))
     end
   end
 end

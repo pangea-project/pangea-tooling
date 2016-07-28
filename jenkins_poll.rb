@@ -93,17 +93,9 @@ module Jenkins
 
     private
 
-    def respond_to_missing?(name, include_private = false)
-      Jenkins.job.respond_to_missing?(name.to_sym, include_private)
-    end
-
     def method_missing(name, *args, &block)
-      if respond_to_missing?(name)
-        args.unshift(@name)
-        Jenkins.job.send(name.to_sym, *args, &block)
-      else
-        super
-      end
+      args.unshift(@name)
+      Jenkins.job.send(name.to_sym, *args, &block)
     end
   end
 end
