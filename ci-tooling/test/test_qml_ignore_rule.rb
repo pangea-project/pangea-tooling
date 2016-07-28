@@ -105,4 +105,8 @@ class QMLIgnoreRuleTest < TestCase
     # And with a string again.
     assert_not_include([id], m)
   end
+
+  def test_missing_file
+    assert_empty(QML::IgnoreRule.read('/yolokitten'))
+  end
 end

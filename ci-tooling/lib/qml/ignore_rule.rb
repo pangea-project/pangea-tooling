@@ -17,7 +17,9 @@ module QML
     end
 
     # @return [Array<QML::IgnoreRule>] array of ignore rules read from path
+    # @note can be empty if the file does not exist.
     def self.read(path)
+      return [] unless File.exist?(path)
       rules = File.read(path).split($/)
       rules.collect! do |line|
         line = line.split('#')[0]
