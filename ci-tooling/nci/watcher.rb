@@ -44,6 +44,11 @@ puts output
 File.open('debian/watch', 'w') { |file| file.write(output) }
 puts 'mangled debian/watch'
 
+if File.readlines("debian/watch").grep(/unstable/).any?
+  puts "Quitting watcher as debian/watch contains unstable and we only build stable tars in Neon"
+  exit 0
+end
+
 data = `uscan --report --dehs`
 puts "uscan failed (#{$?}) :: #{data}"
 
