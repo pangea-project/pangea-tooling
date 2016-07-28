@@ -26,6 +26,8 @@ while [ $i -gt 0 ]; do
   sleep 60 # sleep a bit to give problem a chance to resolve
 done
 
+gem uninstall rake
+
 ESSENTIAL_PACKAGES="rake ruby ruby-dev build-essential zlib1g-dev git-core"
 i="5"
 while [ $i -gt 0 ]; do
@@ -40,8 +42,6 @@ rake -f deploy_in_container.rake align_ruby
 # Bootstrap rake
 if [ -e /usr/local/bin/ruby ]; then
   gem install rake
-else
-  gem uninstall rake
 fi
 
 which rake
