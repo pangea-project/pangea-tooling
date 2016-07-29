@@ -16,7 +16,7 @@ parts:
     build-packages:
       - shared-mime-info
     stage-packages:
-      - <%= name %>
+      - <%= package %>
     <% stagedepends.each do |stagedepends| %>
       <%= stagedepends.to_yaml.sub('---', '-').gsub("\n", '').sub("...", '').gsub("\n", '')%>
     <% end %>

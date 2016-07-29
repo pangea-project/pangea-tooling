@@ -75,4 +75,10 @@ class NCISnapTest < TestCase
     # This one is a rendered array and should not exist when the array is empty
     assert_false(yaml.key?('apps'))
   end
+
+  def test_name_map
+    s = Snap.new('dragon', '1.0')
+    yaml = YAML.load(s.render)
+    assert_equal(['dragonplayer'], yaml['parts']['dragon']['stage-packages'])
+  end
 end

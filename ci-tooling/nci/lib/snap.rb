@@ -48,6 +48,10 @@ class Snap
   attr_accessor :description
   attr_accessor :apps
 
+  PACKAGE_MAP = {
+    'dragon' => 'dragonplayer'
+  }.freeze
+
   def initialize(name, version)
     @name = name
     @version = version
@@ -55,6 +59,10 @@ class Snap
     @apps = []
     @description = 'Undefined in automation'
     @summary = 'Undefined in automation'
+  end
+
+  def package
+    PACKAGE_MAP.fetch(name, name)
   end
 
   def render
