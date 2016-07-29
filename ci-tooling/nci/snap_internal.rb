@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 #
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
-#               2016 Scarlett Clark <sgclark@kde.org>
+# Copyright (C) 2016 Scarlett Clark <sgclark@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
