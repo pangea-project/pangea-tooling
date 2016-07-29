@@ -26,8 +26,24 @@ require_relative 'lib/appstreamer.rb'
 require_relative 'lib/snap.rb'
 require_relative 'lib/snapcraft.rb'
 
+# Exclude all libraries, plugins, kcm-only packages, all of kdepim (useless
+# without shared akonadi)
+EXCLUDE_SNAPS = %w(
+  eventviews gpgmepp grantleetheme incidenceeditor
+  kaccounts-integration kcalcore kcalutils kcron kde-dev-scripts
+  kdepim-addons kdepim-apps-libs kdgantt2 kholidays
+  kidentitymanagement kimap kldap kmailtransport kmbox kmime kontactinterface
+  kpimtextedit ktnef libgravatar libkdepim libkleo libkmahjongg
+  libkomparediff2 libksieve mailcommon mailimporter messagelib
+  pimcommon signon-kwallet-extension syndication akonadi akonadi-calendar
+  akonadi-search calendarsupport kalarmcal kblog kontacts kleopatra
+).freeze
+
 snap = Snap.new(File.read('snap.name'), '16.04.1')
 snap.stagedepends = ['plasma-integration']
+
+# Packages we skip entirely
+return if EXCLUDE_SNAPS.include?(snap.name)
 
 FileUtils.mkpath('snapcraft')
 Dir.chdir('snapcraft')
