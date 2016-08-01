@@ -95,7 +95,7 @@ EOT
     caller = _method_name
     file = File.join(*[@datadir, caller, path].compact)
     return file if File.exist?(file)
-    raise "Could not find data file #{file}"
+    raise "Could not find data path #{file}"
   end
 
   # Different from data in that it does not assume ext will be a directory
