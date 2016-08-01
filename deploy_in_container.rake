@@ -193,6 +193,8 @@ task :align_ruby do
     raise 'Failed to update ruby to 2.3.1' unless
       system("ruby-build #{RUBY_2_3_1} /usr/local")
     raise 'Failed to install gem' unless system('gem install rake')
+    puts 'Ruby bootstrapped, please run deployment again'
+    exit 0
   else
     puts 'Using system ruby'
   end
