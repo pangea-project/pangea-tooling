@@ -1,6 +1,7 @@
 require 'etc'
 require 'fileutils'
 require 'tmpdir'
+require 'open-uri'
 
 require_relative 'lib/rake/bundle'
 
@@ -31,7 +32,7 @@ def install_fake_pkg(name)
 end
 
 desc 'deploy inside the container'
-task :deploy_in_container do
+task :deploy_in_container => :align_ruby do
   home = '/var/lib/jenkins'
   # Deploy ci-tooling and bundle. We later use internal libraries to provision
   # so we need all dependencies met as early as possible in the process.
@@ -176,5 +177,23 @@ task :deploy_in_container do
   # if and when necessary.
   File.open("/etc/sudoers.d/#{uid}-#{uname}", 'w', 0440) do |f|
     f.puts('jenkins ALL=(ALL) NOPASSWD: ALL')
+  end
+end
+
+RUBY_2_3_1 = '/tmp/2.3.1'.freeze
+RUBY_2_3_1_URL = 'https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.3.1'.freeze
+
+desc 'Upgrade to newer ruby if required'
+task :align_ruby do
+  puts "Ruby version #{RbConfig::CONFIG['MAJOR']}.#{RbConfig::CONFIG['MINOR']}"
+  if RbConfig::CONFIG['MAJOR'].to_i <= 2 && RbConfig::CONFIG['MINOR'].to_i < 2
+    puts 'Bootstraping ruby'
+    system('apt-get -y install ruby-build')
+    File.write(RUBY_2_3_1, open(RUBY_2_3_1_URL).read)
+    raise 'Failed to update ruby to 2.3.1' unless
+      system("ruby-build #{RUBY_2_3_1} /usr/local")
+    raise 'Failed to install gem' unless system('gem install rake')
+  else
+    puts 'Using system ruby'
   end
 end
