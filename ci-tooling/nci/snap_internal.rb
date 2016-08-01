@@ -49,6 +49,7 @@ FileUtils.mkpath('snapcraft')
 Dir.chdir('snapcraft')
 # Temporary write a minimal file so we can pull our package
 File.write('snapcraft.yaml', snap.render)
+FileUtils.cp("#{__dir__}/data/qt5-launch", '.', verbose: true)
 
 ## pull & get necessary data bits
 
@@ -91,7 +92,6 @@ snap.apps = [Snap::App.new(snap.name, binary: binpath)]
 
 puts snap.render
 File.write('snapcraft.yaml', snap.render)
-FileUtils.cp("#{__dir__}/data/qt5-launch", '.')
 
 ## copy data into place for snapcraft to find it
 
@@ -101,6 +101,7 @@ FileUtils.cp(desktop_url, "setup/gui/#{desktopfile}") if desktop_url
 
 ## finalize
 
+Snapcraft.pull
 Snapcraft.run
 
 Dir.glob('*.snap') do |f|
