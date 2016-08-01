@@ -39,8 +39,6 @@ exit_status = 0
 
 ec.each do |pid, status|
   next if status.success?
-  # stable is also fucked with too old ruby.
-  next if pid_map[pid] == 'debian-stable'
   puts "ERROR: Creating container for #{pid_map[pid]} failed"
   exit_status = 1
 end
