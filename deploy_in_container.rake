@@ -1,7 +1,6 @@
 require 'etc'
 require 'fileutils'
 require 'tmpdir'
-require 'open-uri'
 
 require_relative 'lib/rake/bundle'
 
@@ -11,8 +10,6 @@ DEPS = %w(xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           autotools-dev cdbs dh-autoreconf germinate gobject-introspection
           sphinx-common pep8 pyflakes ppp-dev dh-di libgirepository1.0-dev
           libglib2.0-dev).freeze
-
-RUBY_2_3_1 = '/tmp/2.3.1'.freeze
 
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
@@ -179,18 +176,5 @@ task :deploy_in_container do
   # if and when necessary.
   File.open("/etc/sudoers.d/#{uid}-#{uname}", 'w', 0440) do |f|
     f.puts('jenkins ALL=(ALL) NOPASSWD: ALL')
-  end
-end
-
-desc 'Upgrade to newer ruby if required'
-task :align_ruby do
-  puts "Ruby version #{RbConfig::CONFIG['MAJOR']}.#{RbConfig::CONFIG['MINOR']}"
-  if RbConfig::CONFIG['MAJOR'].to_i <= 2 && RbConfig::CONFIG['MINOR'].to_i < 2
-    puts 'Compiling ruby'
-    system('apt-get -y install ruby-build')
-    File.write(RUBY_2_3_1, open('https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.3.1').read)
-    system("ruby-build #{RUBY_2_3_1} /usr/local")
-  else
-    puts 'Using system ruby'
   end
 end
