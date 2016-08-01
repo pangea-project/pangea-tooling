@@ -29,8 +29,12 @@ module Docker
     end
 
     def container_creation(container)
-      container.refresh! # List information is somewhat sparse. Get full data.
-      created_prop = container.info.fetch('Created')
+      object_creation(container)
+    end
+
+    def object_creation(obj)
+      obj.refresh! # List information is somewhat sparse. Get full data.
+      created_prop = obj.info.fetch('Created')
       created = if created_prop.is_a?(Numeric)
                   Time.at(created_prop)
                 else
@@ -99,6 +103,27 @@ module Docker
       end
     end
 
+    def image_broken?(image)
+      tags = image.info.fetch('RepoTags', [])
+      return false unless tags.any? { |x| x.start_with?('pangea/') }
+      created = object_creation(image)
+      # rubocop:disable Style/NumericLiterals
+      return false if Time.at(1470048138).to_datetime < created.to_datetime
+      # rubocop:enable Style/NumericLiterals
+      true
+    end
+
+    def broken_images
+      Docker::Image.all(all: true).each do |image|
+        begin
+          remove_image(image) if image_broken?(image)
+        rescue => e
+          log.info "Failed to get #{name} :: #{e}"
+          next
+        end
+      end
+    end
+
     def remove_image(image)
       log.warn "Removing image #{image.id}"
       image.delete
@@ -116,6 +141,7 @@ module Docker
     # @param filter [String] only allow dangling images with this name
     def images(filter: nil)
       old_images
+      broken_images
       # Trust docker to do something worthwhile.
       args = {
         all: true,
