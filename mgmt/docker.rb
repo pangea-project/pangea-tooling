@@ -42,6 +42,8 @@ ec.each do |pid, status|
   # Don't fail on unstable as apparently we don't need it anyway.
   # <shadeslayer> well, it'll be fixed as soon as Debian unstable gets fixed?
   next if pid_map[pid] == 'debian-unstable'
+  # stable is also fucked with too old ruby.
+  next if pid_map[pid] == 'debian-stable'
   puts "ERROR: Creating container for #{pid_map[pid]} failed"
   exit_status = 1
 end
