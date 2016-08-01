@@ -20,6 +20,9 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative 'lib/lint/qml'
+require_relative 'lib/setup_repo'
+
+NCI.add_repo_key!
 
 Aptly.configure do |config|
   config.host = 'archive.neon.kde.org'
