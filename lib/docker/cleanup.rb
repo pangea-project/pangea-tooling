@@ -65,23 +65,30 @@ module Docker
       image_id = container_json.fetch('ImageID') { nil }
       # Before 1.21 Image was the hot stuff.
       image_id = container_json.fetch('Image') { nil } unless image_id
-      image = Docker::Image.get(image_id)
-      unless image
-        abort 'While cleaning up containers we found a container that has ' \
-              'no image associated with it. This should not happen: ' \
-              " #{container}"
+      begin
+        image = Docker::Image.get(image_id)
+      rescue Docker::Error::NotFoundError
+        puts "Coulnd't find image."
+        image = nil
       end
-      image.refresh! # Make sure we have live data and RepoTags available.
-      repo_tags = image.info.fetch('RepoTags') { [] }
-      # We only care about first possible tag.
-      repo, _tag = Docker::Util.parse_repo_tag(repo_tags.first || '')
-      # <shadeslayer> well, it'll be fixed as soon as Debian unstable gets
-      #   fixed?
-      # Also see mgmt/docker.rb
-      force = true if repo == 'pangea/debian'
-      # Remove all our containers and containers from a dangling image.
-      # Dangling in this case would be any image that isn't tagged.
-      return unless force || !repo.include?(CI::PangeaImage.namespace)
+      if image
+        image.refresh! # Make sure we have live data and RepoTags available.
+        repo_tags = image.info.fetch('RepoTags') { [] }
+        # We only care about first possible tag.
+        repo, _tag = Docker::Util.parse_repo_tag(repo_tags.first || '')
+        # <shadeslayer> well, it'll be fixed as soon as Debian unstable gets
+        #   fixed?
+        # Also see mgmt/docker.rb
+        force = true if repo == 'pangea/debian'
+        # Remove all our containers and containers from a dangling image.
+        # Dangling in this case would be any image that isn't tagged.
+        return unless force || !repo.include?(CI::PangeaImage.namespace)
+      else
+        log.warn 'While cleaning up containers we found a container that has ' \
+                 'no image associated with it. This should not happen: ' \
+                 " #{container}"
+
+      end
       begin
         log.warn "Removing container #{container.id}"
         container.kill!
