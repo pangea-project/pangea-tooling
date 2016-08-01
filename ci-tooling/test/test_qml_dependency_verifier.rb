@@ -93,6 +93,15 @@ class QMLDependencyVerifierTest < TestCase
     # Prepare sequences, divert search path and run verification.
     const_reset(QML, :SEARCH_PATHS, [File.join(data, 'qml')])
 
+    fake_apt_repo = mock('apt_repo')
+    fake_apt_repo.stubs(:add).returns(true)
+    fake_apt_repo.stubs(:remove).returns(true)
+    Apt::Repository.expects(:new)
+                   .with('ppa:kubuntu-ci/unstable')
+                   .returns(fake_apt_repo)
+                   .at_least_once
+    Apt.stubs(:update).returns(true)
+
     system_sequence = sequence('system')
     backtick_sequence = sequence('backtick')
     JSON.parse(File.read(data('system_sequence'))).each do |cmd|
