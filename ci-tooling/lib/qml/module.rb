@@ -60,7 +60,7 @@ module QML
     end
 
     def installed?
-      static_package = QML::StaticMap.new.package(mod)
+      static_package = QML::StaticMap.new.package(self)
       return package_installed?(static_package) if static_package
       modules_installed?
     end
