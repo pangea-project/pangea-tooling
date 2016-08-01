@@ -12,8 +12,8 @@ module Docker
 
     # Remove exited jenkins containers.
     def containers
-      containers_exited(days_old: 2)
-      containers_running(days_old: 2)
+      containers_exited(days_old: 1)
+      containers_running(days_old: 1)
     end
 
     def containers_exited(days_old:)
@@ -56,6 +56,8 @@ module Docker
     end
 
     def remove_container(container, force: false)
+      puts "-- REMOVE_CONTAINER --"
+      p container
       # Get the live data. Docker in various versions spits out convenience
       # data in the listing .refresh! uses, .json is the raw dump.
       # Using the raw dump we can then translate to either an image name or
