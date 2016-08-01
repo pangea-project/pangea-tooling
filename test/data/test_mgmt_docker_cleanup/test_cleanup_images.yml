@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - Docker/1.11.1 (linux)
       Date:
-      - Mon, 01 Aug 2016 10:51:03 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
     body:
       encoding: UTF-8
       string: "{\"status\":\"Pulling from library/ubuntu\",\"id\":\"vivid\"}\r\n{\"status\":\"Already
@@ -32,7 +32,7 @@ http_interactions:
         sha256:16aaeb60ca8cee4ced9952fb89e020295a340e8507e25a9d7023265ece529018\"}\r\n{\"status\":\"Status:
         Image is up to date for ubuntu:vivid\"}\r\n"
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:03 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/ubuntu:vivid/json
@@ -54,7 +54,7 @@ http_interactions:
       Server:
       - Docker/1.11.1 (linux)
       Date:
-      - Mon, 01 Aug 2016 10:51:03 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '1533'
     body:
@@ -64,7 +64,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:03 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/build
@@ -74,7 +74,7 @@ http_interactions:
         eW9sbwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAADAwMDA2NDAAMDAwMDAwMAAwMDAwMDAwADAwMDAwMDAwMDAw
-        ADEyNzQ3NjI0NjI3ADAxMjIyNgAgMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        ADEyNzQ3NjQ3MTY2ADAxMjIzMQAgMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB1c3RhcgAwMHdoZWVs
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAd2hlZWwAAAAAAAAAAAAAAAAA
@@ -85,7 +85,7 @@ http_interactions:
         AAAAAAAAAAAAAAAAAAAAAABEb2NrZXJmaWxlAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDAwMDY0MAAwMDAwMDAwADAw
-        MDAwMDAAMDAwMDAwMDAxMzQAMTI3NDc2MjQ2MjcAMDEzMzIzACAwAAAAAAAA
+        MDAwMDAAMDAwMDAwMDAxMzQAMTI3NDc2NDcxNjYAMDEzMzI2ACAwAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAHVzdGFyADAwd2hlZWwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB3
@@ -143,15 +143,15 @@ http_interactions:
       Server:
       - Docker/1.11.1 (linux)
       Date:
-      - Mon, 01 Aug 2016 10:51:03 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
     body:
       encoding: UTF-8
       string: "{\"stream\":\"Step 1 : FROM sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43\\n\"}\r\n{\"stream\":\"
         ---\\u003e d1b55fd07600\\n\"}\r\n{\"stream\":\"Step 2 : ADD yolo /yolo\\n\"}\r\n{\"stream\":\"
-        ---\\u003e f022ed04b496\\n\"}\r\n{\"stream\":\"Removing intermediate container
-        d9f6880cde6e\\n\"}\r\n{\"stream\":\"Successfully built f022ed04b496\\n\"}\r\n"
+        ---\\u003e b05cbe2cd9ce\\n\"}\r\n{\"stream\":\"Removing intermediate container
+        d47bdada20a2\\n\"}\r\n{\"stream\":\"Successfully built b05cbe2cd9ce\\n\"}\r\n"
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/pangea/ubuntu:wily/json
@@ -175,7 +175,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '34'
     body:
@@ -184,7 +184,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/pangea/ubuntu:wily/json
@@ -208,7 +208,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '34'
     body:
@@ -217,7 +217,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/pangea/ubuntu:wily/json
@@ -241,7 +241,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '34'
     body:
@@ -250,7 +250,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/pangea/ubuntu:wily/json
@@ -274,7 +274,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '34'
     body:
@@ -283,7 +283,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/ubuntu:wily/json
@@ -307,7 +307,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '27'
     body:
@@ -316,7 +316,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/ubuntu:wily/json
@@ -340,7 +340,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '27'
     body:
@@ -349,7 +349,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/ubuntu:wily/json
@@ -373,7 +373,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '27'
     body:
@@ -382,7 +382,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/ubuntu:wily/json
@@ -406,7 +406,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '27'
     body:
@@ -415,7 +415,139 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/images/armhf/ubuntu:wily/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.29.2
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Server:
+      - Docker/1.11.1 (linux)
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Mon, 01 Aug 2016 13:28:22 GMT
+      Content-Length:
+      - '33'
+    body:
+      encoding: UTF-8
+      string: 'No such image: armhf/ubuntu:wily
+
+'
+    http_version: 
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/images/armhf/ubuntu:wily/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.29.2
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Server:
+      - Docker/1.11.1 (linux)
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Mon, 01 Aug 2016 13:28:22 GMT
+      Content-Length:
+      - '33'
+    body:
+      encoding: UTF-8
+      string: 'No such image: armhf/ubuntu:wily
+
+'
+    http_version: 
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/images/armhf/ubuntu:wily/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.29.2
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Server:
+      - Docker/1.11.1 (linux)
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Mon, 01 Aug 2016 13:28:22 GMT
+      Content-Length:
+      - '33'
+    body:
+      encoding: UTF-8
+      string: 'No such image: armhf/ubuntu:wily
+
+'
+    http_version: 
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.16/images/armhf/ubuntu:wily/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.29.2
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      Server:
+      - Docker/1.11.1 (linux)
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Mon, 01 Aug 2016 13:28:22 GMT
+      Content-Length:
+      - '33'
+    body:
+      encoding: UTF-8
+      string: 'No such image: armhf/ubuntu:wily
+
+'
+    http_version: 
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/json?all=true
@@ -437,16 +569,16 @@ http_interactions:
       Server:
       - Docker/1.11.1 (linux)
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '1540'
     body:
       encoding: UTF-8
-      string: '[{"Id":"sha256:f022ed04b496480bc51d49357de6ef2c367c12fe306edfee9ea5998a3347665a","ParentId":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","RepoTags":["\u003cnone\u003e:\u003cnone\u003e"],"RepoDigests":["\u003cnone\u003e@\u003cnone\u003e"],"Created":1470048664,"Size":131274281,"VirtualSize":131274281,"Labels":{}},{"Id":"sha256:dfa6e30db52ee571c4049f53e742e5a583464fdb0d038e2ee7ae4c857bf59301","ParentId":"sha256:537089ecf650e386cf7f3b988433a645297b18a4bd5db12a777e6f888bfccb6f","RepoTags":["kde-os-autoinst:latest"],"RepoDigests":null,"Created":1467119803,"Size":1290092979,"VirtualSize":1290092979,"Labels":{}},{"Id":"sha256:462d5f0566cdfa47f7e93730e3e11c21dd44c7e680aa21211b81da8030d0e571","ParentId":"","RepoTags":["jenkinsci/jenkins:2.0-beta-1"],"RepoDigests":null,"Created":1458807048,"Size":734107187,"VirtualSize":734107187,"Labels":{}},{"Id":"sha256:537089ecf650e386cf7f3b988433a645297b18a4bd5db12a777e6f888bfccb6f","ParentId":"","RepoTags":["ubuntu:16.04"],"RepoDigests":null,"Created":1458325560,"Size":118946371,"VirtualSize":118946371,"Labels":{}},{"Id":"sha256:76c9635986f4e1ac19a8aea585475e7ab85a4a048108bb4f7c0ccaf71d5c2f58","ParentId":"","RepoTags":["debian:stable"],"RepoDigests":null,"Created":1455657949,"Size":125103142,"VirtualSize":125103142,"Labels":{}},{"Id":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ParentId":"","RepoTags":["ubuntu:15.04","ubuntu:vivid"],"RepoDigests":null,"Created":1453830514,"Size":131274281,"VirtualSize":131274281,"Labels":null}]
+      string: '[{"Id":"sha256:b05cbe2cd9ce2ff31caf37968000a96e76ce859a639bb9e0047ca7611b6f353e","ParentId":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","RepoTags":["\u003cnone\u003e:\u003cnone\u003e"],"RepoDigests":["\u003cnone\u003e@\u003cnone\u003e"],"Created":1470058102,"Size":131274281,"VirtualSize":131274281,"Labels":{}},{"Id":"sha256:dfa6e30db52ee571c4049f53e742e5a583464fdb0d038e2ee7ae4c857bf59301","ParentId":"sha256:537089ecf650e386cf7f3b988433a645297b18a4bd5db12a777e6f888bfccb6f","RepoTags":["kde-os-autoinst:latest"],"RepoDigests":null,"Created":1467119803,"Size":1290092979,"VirtualSize":1290092979,"Labels":{}},{"Id":"sha256:462d5f0566cdfa47f7e93730e3e11c21dd44c7e680aa21211b81da8030d0e571","ParentId":"","RepoTags":["jenkinsci/jenkins:2.0-beta-1"],"RepoDigests":null,"Created":1458807048,"Size":734107187,"VirtualSize":734107187,"Labels":{}},{"Id":"sha256:537089ecf650e386cf7f3b988433a645297b18a4bd5db12a777e6f888bfccb6f","ParentId":"","RepoTags":["ubuntu:16.04"],"RepoDigests":null,"Created":1458325560,"Size":118946371,"VirtualSize":118946371,"Labels":{}},{"Id":"sha256:76c9635986f4e1ac19a8aea585475e7ab85a4a048108bb4f7c0ccaf71d5c2f58","ParentId":"","RepoTags":["debian:stable"],"RepoDigests":null,"Created":1455657949,"Size":125103142,"VirtualSize":125103142,"Labels":{}},{"Id":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ParentId":"","RepoTags":["ubuntu:15.04","ubuntu:vivid"],"RepoDigests":null,"Created":1453830514,"Size":131274281,"VirtualSize":131274281,"Labels":null}]
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.16/images/json?all=true&filters=%7B%22dangling%22%3A%5B%22true%22%5D%7D
@@ -468,19 +600,19 @@ http_interactions:
       Server:
       - Docker/1.11.1 (linux)
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '343'
     body:
       encoding: UTF-8
-      string: '[{"Id":"sha256:f022ed04b496480bc51d49357de6ef2c367c12fe306edfee9ea5998a3347665a","ParentId":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","RepoTags":["\u003cnone\u003e:\u003cnone\u003e"],"RepoDigests":["\u003cnone\u003e@\u003cnone\u003e"],"Created":1470048664,"Size":131274281,"VirtualSize":131274281,"Labels":{}}]
+      string: '[{"Id":"sha256:b05cbe2cd9ce2ff31caf37968000a96e76ce859a639bb9e0047ca7611b6f353e","ParentId":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","RepoTags":["\u003cnone\u003e:\u003cnone\u003e"],"RepoDigests":["\u003cnone\u003e@\u003cnone\u003e"],"Created":1470058102,"Size":131274281,"VirtualSize":131274281,"Labels":{}}]
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/sha256:f022ed04b496480bc51d49357de6ef2c367c12fe306edfee9ea5998a3347665a
+    uri: unix:///var/run/docker.sock/v1.16/images/sha256:b05cbe2cd9ce2ff31caf37968000a96e76ce859a639bb9e0047ca7611b6f353e
     body:
       encoding: US-ASCII
       string: ''
@@ -499,19 +631,19 @@ http_interactions:
       Server:
       - Docker/1.11.1 (linux)
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '174'
     body:
       encoding: UTF-8
-      string: '[{"Deleted":"sha256:f022ed04b496480bc51d49357de6ef2c367c12fe306edfee9ea5998a3347665a"},{"Deleted":"sha256:993670fb90443ad094509002a3630848237823cce7029193ac3f80ddc77ae6b8"}]
+      string: '[{"Deleted":"sha256:b05cbe2cd9ce2ff31caf37968000a96e76ce859a639bb9e0047ca7611b6f353e"},{"Deleted":"sha256:4436a329dee36c00ff1ef43d24e988bfac376902b178bf414146c9c90db20330"}]
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/f022ed04b496/json
+    uri: unix:///var/run/docker.sock/v1.16/images/b05cbe2cd9ce/json
     body:
       encoding: US-ASCII
       string: ''
@@ -532,19 +664,19 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '28'
     body:
       encoding: UTF-8
-      string: 'No such image: f022ed04b496
+      string: 'No such image: b05cbe2cd9ce
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/f022ed04b496/json
+    uri: unix:///var/run/docker.sock/v1.16/images/b05cbe2cd9ce/json
     body:
       encoding: US-ASCII
       string: ''
@@ -565,19 +697,19 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '28'
     body:
       encoding: UTF-8
-      string: 'No such image: f022ed04b496
+      string: 'No such image: b05cbe2cd9ce
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/f022ed04b496/json
+    uri: unix:///var/run/docker.sock/v1.16/images/b05cbe2cd9ce/json
     body:
       encoding: US-ASCII
       string: ''
@@ -598,19 +730,19 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '28'
     body:
       encoding: UTF-8
-      string: 'No such image: f022ed04b496
+      string: 'No such image: b05cbe2cd9ce
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/f022ed04b496/json
+    uri: unix:///var/run/docker.sock/v1.16/images/b05cbe2cd9ce/json
     body:
       encoding: US-ASCII
       string: ''
@@ -631,14 +763,14 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Date:
-      - Mon, 01 Aug 2016 10:51:04 GMT
+      - Mon, 01 Aug 2016 13:28:22 GMT
       Content-Length:
       - '28'
     body:
       encoding: UTF-8
-      string: 'No such image: f022ed04b496
+      string: 'No such image: b05cbe2cd9ce
 
 '
     http_version: 
-  recorded_at: Mon, 01 Aug 2016 10:51:04 GMT
+  recorded_at: Mon, 01 Aug 2016 13:28:22 GMT
 recorded_with: VCR 3.0.3
