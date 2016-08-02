@@ -44,6 +44,18 @@
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
     <builders>
+      <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.37">
+        <project><%= basename %></project>
+        <filter>run_stamp</filter>
+        <target></target>
+        <excludes></excludes>
+        <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
+          <fallbackToLastSuccessful>true</fallbackToLastSuccessful>
+          <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
+          <allowUpstreamDependencies>false</allowUpstreamDependencies>
+        </selector>
+        <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
+      </hudson.plugins.copyartifact.CopyArtifact>
       <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.38.1">
         <project><%= artifact_origin %></project>
         <filter>**/*.changes</filter>
@@ -64,6 +76,20 @@ export PWD_BIND=/workspace
       </hudson.tasks.Shell>
     </builders>
   <publishers>
+    <hudson.tasks.ArtifactArchiver>
+      <artifacts>run_stamp</artifacts>
+      <allowEmptyArchive>true</allowEmptyArchive>
+      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <fingerprint>true</fingerprint>
+      <defaultExcludes>true</defaultExcludes>
+      <caseSensitive>true</caseSensitive>
+    </hudson.tasks.ArtifactArchiver>
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.15">
+      <testResults>junit.xml</testResults>
+      <keepLongStdio>false</keepLongStdio>
+      <healthScaleFactor>1.0</healthScaleFactor>
+      <allowEmptyResults>false</allowEmptyResults>
+    </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.29">
       <deleteDirs>false</deleteDirs>
       <skipWhenFailed>false</skipWhenFailed>
