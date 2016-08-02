@@ -43,7 +43,7 @@ snap = Snap.new(File.read('snap.name'), '16.04.1')
 snap.stagedepends = ['plasma-integration']
 
 # Packages we skip entirely
-return if EXCLUDE_SNAPS.include?(snap.name)
+exit if EXCLUDE_SNAPS.include?(snap.name)
 
 FileUtils.mkpath('snapcraft')
 Dir.chdir('snapcraft')
