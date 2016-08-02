@@ -113,3 +113,5 @@ BlockingThreadPool.run do
     end
   end
 end
+
+@log.unknown "The CI is now in maintenance mode. Don't forget to unpause it!"
