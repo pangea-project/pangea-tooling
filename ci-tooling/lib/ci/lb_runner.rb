@@ -28,7 +28,6 @@ class LiveBuildRunner
         @images = Dir.glob('*.{iso,tar,img}')
         flash! if File.exist? 'flash'
         FileUtils.cp(@images, 'result', verbose: true)
-        latest_symlink
       ensure
         system('lb clean --purge')
       end
@@ -37,15 +36,5 @@ class LiveBuildRunner
 
   def flash!
     raise FlashFailedError unless system('./flash')
-  end
-
-  def latest_symlink
-    # Symlink to latest
-    Dir.chdir('result') do
-      raise Error unless @images.size == 1
-      latest = "latest#{File.extname(@images[0])}"
-      File.rm(latest) if File.exist? latest
-      FileUtils.ln_s(@images[0], latest)
-    end
   end
 end

@@ -44,7 +44,6 @@ class LiveBuildRunnerTest < TestCase
     lb.configure!
     lb.build!
     assert(File.exist?('result/Debian_20160506​.1544-amd64.hybrid.iso'))
-    assert(File.exist?('result/latest.iso'))
   end
 
   def test_auto
@@ -64,7 +63,6 @@ class LiveBuildRunnerTest < TestCase
     lb.configure!
     lb.build!
     assert(File.exist?('result/Debian_20160506​.1544-amd64.hybrid.iso'))
-    assert(File.exist?('result/latest.iso'))
   end
 
   def test_build_fail
