@@ -98,6 +98,12 @@ packaging.neon.kde.org.uk:
         branch: Neon/unstable
     - ktp-common-internals:
         branch: Neon/mobile
+    - libkdegames:
+        branch: Neon/unstable
+    - libkmahjongg:
+        branch: Neon/unstable
+    - kmahjongg:
+        branch: Neon/unstable
   - plasma:
     - bluedevil:
         branch: Neon/unstable
