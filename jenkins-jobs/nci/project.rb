@@ -70,6 +70,10 @@ class ProjectJob < JenkinsJob
                                  type: kwords[:type]))
     end
 
+    jobs.insert(-1, LintQMLJob.new(basename,
+                                   distribution: kwords[:distribution],
+                                   type: kwords[:type]))
+
     if project.component == 'applications' && kwords[:type] == 'release'
       jobs.insert(-1, SnapJob.new(basename, distribution: kwords[:distribution],
                                             type: kwords[:type]))
