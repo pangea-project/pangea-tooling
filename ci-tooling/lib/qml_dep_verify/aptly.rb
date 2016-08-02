@@ -30,9 +30,11 @@ module QMLDepVerify
         changes = Debian::Changes.new(Dir.glob('*.changes')[0])
         changes.parse!
 
+        p changes
         s = @repo.packages(q: format('%s (= %s) {source}',
                                      changes.fields['Source'],
                                      changes.fields['Version']))
+        p s
         s.collect { |x| Aptly::Ext::Package::Key.from_string(x) }
       end
     end
