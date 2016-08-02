@@ -31,9 +31,11 @@
     </extensions>
   </scm>
   <triggers>
+    <% unless @release == 'jessie' %>
     <hudson.triggers.TimerTrigger>
       <spec>H H(5-8) * * *</spec>
     </hudson.triggers.TimerTrigger>
+    <% end %>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
@@ -53,8 +55,8 @@ export DIST='stable'
           <sourceFile>live-config/result/*</sourceFile>
           <storageClass>REDUCED_REDUNDANCY</storageClass>
           <selectedRegion>eu-central-1</selectedRegion>
-          <noUploadOnFailure>false</noUploadOnFailure>
-          <uploadFromSlave>false</uploadFromSlave>
+          <noUploadOnFailure>true</noUploadOnFailure>
+          <uploadFromSlave>true</uploadFromSlave>
           <managedArtifacts>false</managedArtifacts>
           <useServerSideEncryption>true</useServerSideEncryption>
           <flatten>true</flatten>
@@ -81,6 +83,18 @@ export DIST='stable'
       <description>&lt;a href=&quot;http://\1.s3-website.\4.amazonaws.com/\2/\3&quot;&gt;\3&lt;/a&gt;</description>
       <setForMatrix>false</setForMatrix>
     </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
+    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.27">
+      <targets class="empty-list"/>
+      <strategy>ALL</strategy>
+      <notifyOnBuildStart>false</notifyOnBuildStart>
+      <notifySuspects>false</notifySuspects>
+      <notifyCulprits>false</notifyCulprits>
+      <notifyFixers>false</notifyFixers>
+      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
+      <buildToChatNotifier class="hudson.plugins.im.build_notify.SummaryOnlyBuildToChatNotifier" plugin="instant-messaging@1.35"/>
+      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
+      <channels/>
+    </hudson.plugins.ircbot.IrcPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.28">
