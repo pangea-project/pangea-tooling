@@ -166,6 +166,8 @@ packaging.neon.kde.org.uk:
     - keyring:
         branch: Neon/unstable
   - forks:
+    - appstream:
+        branch: master
     - base-files:
         branch: Neon/unstable
     - live-build:
