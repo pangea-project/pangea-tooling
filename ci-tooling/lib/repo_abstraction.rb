@@ -18,10 +18,13 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require_relative 'apt'
 require_relative 'aptly-ext/filter'
 require_relative 'dpkg'
 require_relative 'lsb'
 require_relative 'lp'
+
+require 'logger'
 
 # We can't really module this because it is used API. Ugh.
 
@@ -83,7 +86,7 @@ class AptlyRepository < Repository
   # FIXME: Why is this public?!
   def sources
     @sources ||= begin
-      @repo.packages(q: '$Architecture (source)')
+      sources = @repo.packages(q: '$Architecture (source)')
       Aptly::Ext::LatestVersionFilter.filter(sources)
     end
   end
