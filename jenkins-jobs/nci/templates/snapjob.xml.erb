@@ -57,8 +57,8 @@ printf &quot;<%= basename.split('_')[-1] %>&quot; &gt; snap.name
 
 #mkdir /var/www/metadata/snap || true
 #cp -v snapcraft/*.snap snapcraft/*.zsync /var/www/metadata/snap/
-scp snapcraft/*.snap distribute@distribute.kde.org:~/pub/snappy-testing/
-scp snapcraft/*.zsync distribute@distribute.kde.org:~/pub/snappy-testing/
+scp snapcraft/*.snap distribute@distribute.kde.org:~/pub/snappy-testing/ || true
+scp snapcraft/*.zsync distribute@distribute.kde.org:~/pub/snappy-testing/ || true
 </command>
         </hudson.tasks.Shell>
       </builders>
