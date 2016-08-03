@@ -142,6 +142,7 @@ packaging.neon.kde.org.uk:
     - messagelib
     - pimcommon
     - syndication
+    - kdepimlibs
   - kde-extras:
     - kdeconnect
     - yakuake
