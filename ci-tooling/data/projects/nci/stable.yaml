@@ -141,6 +141,8 @@ packaging.neon.kde.org.uk:
     - pimcommon
     - syndication
     - kdepimlibs
+    - kdepim-runtime
+    - kdepim
   - kde-extras:
     - kdeconnect
     - yakuake
