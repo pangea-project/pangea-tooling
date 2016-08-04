@@ -183,6 +183,12 @@
       type: tarball
       url: http://http.debian.net/debian/pool/main/libi/libindi/libindi_1.2.0.orig.tar.gz
 
+'*debian.org*/krap/grantlee':
+  'master':
+    upstream_scm:
+      type: tarball
+      url: http://mirror.sucs.swan.ac.uk/pub/linux/debian/pool/main/g/grantlee5/grantlee5_5.1.0.orig.tar.gz
+
 ## Some Netrunner things
 
 https://github.com/*/ksuperkey:

@@ -186,3 +186,5 @@ git.debian.org:
   - pkg-kde/krap:
     - libindi:
         branch: master
+    - grantlee:
+        branch: master
