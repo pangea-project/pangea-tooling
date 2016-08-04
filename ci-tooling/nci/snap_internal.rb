@@ -1,3 +1,4 @@
+
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
@@ -37,6 +38,7 @@ EXCLUDE_SNAPS = %w(
   libkomparediff2 libksieve mailcommon mailimporter messagelib
   pimcommon signon-kwallet-extension syndication akonadi akonadi-calendar
   akonadi-search calendarsupport kalarmcal kblog kontacts kleopatra
+  kontact
 ).freeze
 
 snap = Snap.new(File.read('snap.name'), '16.04.1')
