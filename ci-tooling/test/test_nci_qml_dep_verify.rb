@@ -36,6 +36,8 @@ class NCIQMLDepVerifyTest < TestCase
   end
 
   def test_dis
+    # Write a fake dsc, we'll later intercept the unpack call.
+    File.write('yolo.dsc', '')
     FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
     Apt.stubs(:install).returns(true)
     Apt.stubs(:update).returns(true)
@@ -77,11 +79,23 @@ class NCIQMLDepVerifyTest < TestCase
                .with('dpkg -s plasma-framework 2>&1 > /dev/null')
                .returns(false)
 
+    Lint::QML.any_instance.expects(:system).with('dpkg-source', '-x', 'yolo.dsc', 'packaging').returns(true)
+
     # v = QMLDependencyVerifier.new(QMLDependencyVerifier::AptlyRepository.new(fake_repo, 'unstable'))
     # missing = v.missing_modules
     # assert_not_empty(missing)
 
     Lint::QML.new('trollus', 'maximus').lint
     assert_path_exist('junit.xml')
+  end
+
+  # Detect when the packaging/* has no qml files inside and skip the entire
+  # madness.
+  def test_skip
+    File.write('yolo.dsc', '')
+    Lint::QML.any_instance.expects(:system).with('dpkg-source', '-x', 'yolo.dsc', 'packaging').returns(true)
+    Lint::QML.new('trollus', 'maximus').lint
+    # Nothing should have happened.
+    assert_path_not_exist('junit.xml')
   end
 end

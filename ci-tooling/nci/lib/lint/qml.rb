@@ -29,9 +29,11 @@ module Lint
       @type = type
       @repo = "#{type}_#{dist}"
       @missing_modules = []
+      prepare
     end
 
     def lint
+      return unless @has_qml
       aptly_repo = Aptly::Repository.get(@repo)
       qml_repo = QMLDepVerify::AptlyRepository.new(aptly_repo, @type)
       verifier = QMLDependencyVerifier.new(qml_repo)
@@ -53,6 +55,13 @@ module Lint
         self.result = JenkinsJunitBuilder::Case::RESULT_ERROR
         system_out.message = modules.join($/)
       end
+    end
+
+    def prepare
+      dsc = Dir.glob('*.dsc')[0] || raise
+      # Internally qml_dep_verify/package expects things to be in packaging/
+      system('dpkg-source', '-x', dsc, 'packaging') || raise
+      @has_qml = !Dir.glob('packaging/**/*.qml').empty?
     end
 
     def to_xml
