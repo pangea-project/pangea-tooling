@@ -49,7 +49,8 @@ class Snap
   attr_accessor :apps
 
   PACKAGE_MAP = {
-    'dragon' => 'dragonplayer'
+    'dragon' => 'dragonplayer',
+    'spectacle' => 'kde-spectacle'
   }.freeze
 
   def initialize(name, version)
