@@ -96,6 +96,7 @@ Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
   end
 end
 
-system('prune-images')
+# images not on drax currently
+# system('prune-images')
 
 exit 0
