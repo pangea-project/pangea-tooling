@@ -76,6 +76,7 @@ end
 args << '--built-tree' << "#{Dir.pwd}/build"
 args << '--output-dir' << 'adt-output'
 args << '--user=adt'
+args << "--timeout-test=#{60 * 60}"
 args << '---' << 'null'
 puts "adt-run #{args.join(' ')}"
 system('adt-run', *args)
