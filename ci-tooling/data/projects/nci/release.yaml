@@ -164,6 +164,8 @@ packaging.neon.kde.org.uk:
     - keyring:
         branch: Neon/release
   - forks:
+    - appstream:
+        branch: Neon/release
     - base-files:
         branch: Neon/release
     - live-build:
