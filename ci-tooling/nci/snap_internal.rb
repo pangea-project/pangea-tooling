@@ -60,10 +60,11 @@ FileUtils.cp("#{__dir__}/data/qt5-launch", '.', verbose: true)
 Snapcraft.pull
 root = "parts/#{snap.name}/install"
 
-matches = Dir.glob("#{root}/usr/share/applications/*#{snap.name}*.desktop")
+matches = Dir.glob("#{root}/usr/share/applications/*#{snap.name}*.desktop",
+                   File::FNM_CASEFOLD)
 if matches.size > 1
   matches.select! do |match|
-    match.end_with?("org.kde.#{snap.name}.desktop")
+    match.downcase.end_with?("org.kde.#{snap.name}.desktop".downcase)
   end
 end
 raise "can't find right desktop file #{matches}" if matches.size != 1
