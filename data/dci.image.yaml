@@ -1,17 +1,24 @@
 ---
-  netrunner-debian-owncloud:
-    :repo: https://github.com/netrunner-debian-owncloud/live-config
-    :releases:
-      stable: Debian/stable
-
   netrunner-core:
-    :repo: https://github.com/netrunner-core/live-config
+    :repo: https://github.com/netrunner-core/live-build
+    :architectures:
+      - amd64
     :releases:
       stable: Debian/stable
       jessie: Debian/jessie
 
-  netrunner-debian:
-    :repo: https://github.com/netrunner-debian/live-config
+  maui-debian:
+    :repo: https://github.com/maui-debian/live-build
+    :architectures:
+      - amd64
+    :releases:
+      stable: Debian/stable
+      jessie: Debian/jessie
+---
+  c1-netrunner-core:
+    :repo: https://github.com/netrunner-odroid/c1-live-build-core
+    :architectures:
+      - armhf
     :releases:
       stable: Debian/stable
       jessie: Debian/jessie

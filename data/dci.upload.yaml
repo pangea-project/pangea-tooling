@@ -7,7 +7,6 @@
   netrunner: "netrunner"
   netrunner-debian: "netrunner"
   plasmazilla: "plasmazilla"
-  netrunner-debian-packaging: "extras"
   netrunner-odroid: "odroid"
   netrunner-debian-yacy: "yacy"
   netrunner-debian-owncloud: "owncloud"
@@ -35,3 +34,4 @@
   applications: "kde-applications"
   maui-common: "maui"
   forks: "backports"
+  ds9-debian-packaging: 'extras'

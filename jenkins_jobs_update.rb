@@ -83,17 +83,19 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.image.yaml"
 
     if File.exist? image_job_config
-      image_jobs = YAML.load_file(image_job_config)
+      image_jobs = YAML.load_stream(File.read(image_job_config))
 
-      image_jobs.each do |flavor, v|
-        v[:architectures] ||= @ci_module.architectures
-        v[:architectures].each do |arch|
-          v[:releases].each do |release, branch|
-            enqueue(ImageJob.new(flavor: flavor,
-                                 release: release,
-                                 architecture: arch,
-                                 repo: v[:repo],
-                                 branch: branch))
+      image_jobs.each do |image_job|
+        image_job.each do |flavor, v|
+          v[:architectures] ||= @ci_module.architectures
+          v[:architectures].each do |arch|
+            v[:releases].each do |release, branch|
+              enqueue(ImageJob.new(flavor: flavor,
+                                   release: release,
+                                   architecture: arch,
+                                   repo: v[:repo],
+                                   branch: branch))
+            end
           end
         end
       end
