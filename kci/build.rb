@@ -23,7 +23,7 @@ require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/retry'
 require_relative '../lib/ci/containment'
 
-Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
+Docker.options[:read_timeout] = 10 * 60 * 60 # 4 hours.
 
 JENKINS_PATH = '/var/lib/jenkins'.freeze
 # This is a valid path on the host forwarded into the container.
