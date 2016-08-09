@@ -150,6 +150,7 @@ packaging.neon.kde.org.uk:
     - kpmcore
     - partitionmanager
     - konversation
+    - kirigami
   - neon:
     - seeds:
         branch: Neon/release
