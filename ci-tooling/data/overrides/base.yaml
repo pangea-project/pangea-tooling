@@ -107,9 +107,6 @@
       url: http://sourceforge.mirrorservice.org/d/dr/drumstick/1.0.2/drumstick-1.0.2.tar.bz2
 
 '*{debian.org,packaging.neon}*/frameworks/prison':
-  '{kubuntu_unstable,Neon/unstable}':
-    upstream_scm:
-      branch: frameworks
   'Neon/{release,stable}':
     upstream_scm:
       type: tarball
