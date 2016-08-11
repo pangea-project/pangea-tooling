@@ -197,6 +197,22 @@ class ProjectTest < TestCase
     end
   end
 
+  def test_fmt_1
+    name = 'skype'
+    component = 'ds9-debian-packaging'
+
+    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    assert_not_nil(gitrepo)
+    assert_not_equal(gitrepo, '')
+
+    Dir.mktmpdir(self.class.to_s) do |tmpdir|
+      Dir.chdir(tmpdir) do
+        project = Project.new(name, component, gitrepo, type: 'unstable')
+        assert_nil(project.upstream_scm)
+      end
+    end
+  end
+
   def test_cleanup_uri
     assert_equal('/a/b', Project.cleanup_uri('/a//b/'))
     assert_equal('http://a.com/b', Project.cleanup_uri('http://a.com//b//'))

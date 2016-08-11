@@ -342,3 +342,8 @@ https://github.com/debian-packaging/simplemenu:
   '{kubuntu_unstable,Neon/unstable}':
     upstream_scm:
       url: git://anongit.kde.org/scratch/hein/simplemenu.git
+
+# A slightly more greedy regex in order to accomodate for tests
+'*/skype':
+  '*':
+    upstream_scm:

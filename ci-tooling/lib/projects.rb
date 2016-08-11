@@ -199,7 +199,7 @@ class Project
   end
 
   def override_rule_for(member)
-    @override_rule.delete(member) || {}
+    @override_rule.delete(member)
   end
 
   # TODO: this doesn't do deep-application. So we can override attributes of
@@ -213,7 +213,15 @@ class Project
   def override_apply(member)
     return unless @override_rule
     return unless (object = instance_variable_get("@#{member}"))
-    override_rule_for(member).each do |var, value|
+    return unless @override_rule.include? member
+
+    rule = override_rule_for(member)
+    unless rule
+      instance_variable_set("@#{member}", nil)
+      return
+    end
+
+    rule.each do |var, value|
       next unless (value = render_override(value))
       # TODO: object.override! can jump in here and do what it wants
       object.instance_variable_set("@#{var}", value)
