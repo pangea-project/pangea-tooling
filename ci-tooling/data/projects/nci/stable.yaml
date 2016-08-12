@@ -152,6 +152,7 @@ packaging.neon.kde.org.uk:
     - partitionmanager
     - konversation
     - kirigami
+    - libkgapi
   - neon:
     - seeds:
         branch: Neon/stable

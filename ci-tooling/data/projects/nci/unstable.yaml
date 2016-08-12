@@ -155,6 +155,7 @@ packaging.neon.kde.org.uk:
     - konversation
     - kirigami
     - kdiagram
+    - libkgapi
   - kde-req:
     - qca-qt5
   - neon:
