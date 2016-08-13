@@ -37,7 +37,7 @@
 '*{debian.org,packaging.neon}*/*/libkgapi':
   '{kubuntu_stable,Neon/stable}':
     upstream_scm:
-      branch: LibKGAPI/5.0
+      branch: LibKGAPI/5.3
 
 '*{debian.org,packaging.neon}*/applications/ktp-common-internals':
   kubuntu_unstable:
