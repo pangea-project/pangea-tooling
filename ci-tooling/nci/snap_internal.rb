@@ -36,7 +36,7 @@ EXCLUDE_SNAPS = %w(
   kpimtextedit ktnef libgravatar libkdepim libkleo libkmahjongg
   libkomparediff2 libksieve mailcommon mailimporter messagelib
   pimcommon signon-kwallet-extension syndication akonadi akonadi-calendar
-  akonadi-search calendarsupport kalarmcal kblog kontacts kleopatra
+  akonadi-search calendarsupport kalarmcal kblog kcontacts kleopatra
   kdepim kdepim-runtime kdepimlibs baloo-widgets
 ).freeze
 
