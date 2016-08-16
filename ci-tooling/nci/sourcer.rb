@@ -41,7 +41,7 @@ when 'tarball'
   orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
 when 'uscan'
   puts 'Downloading tarball via uscan'
-  orig_source(CI::WatchTarFetcher.new('packaging/debian/watch', false))
+  orig_source(CI::WatchTarFetcher.new('packaging/debian/watch', true))
 else
   puts 'Unspecified source type, defaulting to VCS build...'
   builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
