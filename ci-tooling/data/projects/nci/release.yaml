@@ -19,6 +19,7 @@ packaging.neon.kde.org.uk:
     - kcalc
     - kcharselect
     - kdebugsettings
+    - kdf
     - kfloppy
     - ktimer
     - kcron
@@ -43,7 +44,6 @@ packaging.neon.kde.org.uk:
     - kstars
     - kturtle
     - kwordquiz
-    - libkdeedu
     - libkeduvocdocument
     - marble
     - minuet
@@ -89,6 +89,7 @@ packaging.neon.kde.org.uk:
     - dragon
     - ffmpegthumbs
     - kdenlive
+    - cervisia
     - dolphin-plugins
     - kapptemplate
     - kde-dev-scripts
@@ -141,9 +142,11 @@ packaging.neon.kde.org.uk:
     - messagelib
     - pimcommon
     - syndication
-    - kdepimlibs
     - kdepim-runtime
     - kdepim
+    - akonadi-contacts
+    - akonadi-mime
+    - akonadi-notes
   - kde-extras:
     - kdeconnect
     - yakuake
@@ -151,6 +154,7 @@ packaging.neon.kde.org.uk:
     - partitionmanager
     - konversation
     - kirigami
+    - libkgapi
   - neon:
     - seeds:
         branch: Neon/release
