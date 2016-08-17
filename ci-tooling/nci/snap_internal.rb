@@ -37,7 +37,11 @@ EXCLUDE_SNAPS = %w(
   libkomparediff2 libksieve mailcommon mailimporter messagelib
   pimcommon signon-kwallet-extension syndication akonadi akonadi-calendar
   akonadi-search calendarsupport kalarmcal kblog kcontacts kleopatra
-  kdepim kdepim-runtime kdepimlibs baloo-widgets ffmpegthumbs
+  kdepim kdepim-runtime kdepimlibs baloo-widgets ffmpegthumbs dolphin-plugins
+  akonadi-mime akonadi-notes analitza kamera kdeedu-data kdegraphics-thumbnailers
+  kdenetwork-filesharing kdesdk-thumbnailers khelpcenter kio-extras kqtquickcharts
+  kuser libkdcraw libkdegames libkeduvocdocument libkexiv2 libkface libkgeomap libkipi
+  libksane
 ).freeze
 
 snap = Snap.new(File.read('snap.name'), '16.04.1')
