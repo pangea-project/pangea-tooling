@@ -11,11 +11,15 @@ module Debian
       parse
     end
 
+    def exist?
+      @exist ||= false
+    end
+
     private
 
     def parse
       path = "#{@package_path}/debian/patches/#{@filename}"
-      return unless File.exist?(path)
+      return unless (@exist = File.exist?(path))
       data = File.read(path)
       data.split($/).each do |line|
         next if line.chop.strip.empty? || line.start_with?('#')

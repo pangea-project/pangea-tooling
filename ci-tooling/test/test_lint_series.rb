@@ -14,7 +14,7 @@ class LintSeriesTest < TestCase
     s = Lint::Series.new(data).lint
     assert(s.valid)
     assert_equal([], s.errors)
-    assert_equal(1, s.warnings.size)
+    assert_equal(2, s.warnings.size) # 1 missing + empty series
     assert_equal([], s.informations)
   end
 
@@ -28,6 +28,15 @@ class LintSeriesTest < TestCase
 
   def test_ignore
     # Has two missing but only one is reported as such.
+    s = Lint::Series.new(data).lint
+    assert(s.valid)
+    assert_equal([], s.errors)
+    assert_equal(2, s.warnings.size) # 1 missing + empty series
+    assert_equal([], s.informations)
+  end
+
+  def test_empty_series
+    # Empty but existing series file.
     s = Lint::Series.new(data).lint
     assert(s.valid)
     assert_equal([], s.errors)

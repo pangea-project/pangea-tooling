@@ -23,6 +23,14 @@ module Lint
     def lint
       result = Result.new
       result.valid = true
+      lint_lingering(result)
+      lint_empty(result)
+      result
+    end
+
+    private
+
+    def lint_lingering(result)
       Dir.glob("#{@patch_directory}/**/*").each do |patch|
         next if EXCLUDES.include?(File.basename(patch))
         patch = relative(patch, @patch_directory)
@@ -30,10 +38,13 @@ module Lint
         result.warnings << "Patch #{File.basename(patch)} in VCS but not" \
                            ' listed in debian/series file.'
       end
-      result
     end
 
-    private
+    def lint_empty(result)
+      return unless series.exist?
+      return unless series.patches.empty?
+      result.warnings << 'Series file in VCS but empty.'
+    end
 
     def skip?(patch)
       series.patches.include?(patch) || ignore.patches.include?(patch)

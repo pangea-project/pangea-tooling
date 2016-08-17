@@ -9,6 +9,7 @@ class DebianPatchSeriesTest < TestCase
     %w(a.patch b.patch above-is-garbage.patch level.patch).each do |f|
       assert_include(s.patches, f, "patch #{f} should be in series")
     end
+    assert_equal(true, s.exist?)
   end
 
   def test_read_from_name
@@ -17,5 +18,11 @@ class DebianPatchSeriesTest < TestCase
     %w(a.patch b.patch above-is-garbage.patch level.patch).each do |f|
       assert_include(s.patches, f, "patch #{f} should be in series")
     end
+  end
+
+  def test_no_exist
+    Dir.mkdir('debian') # otherwise we raise bogus directory error
+    s = Debian::PatchSeries.new(Dir.pwd)
+    assert_equal(false, s.exist?)
   end
 end
