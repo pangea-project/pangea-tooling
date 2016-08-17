@@ -35,7 +35,7 @@
       branch: 0.9
 
 '*{debian.org,packaging.neon}*/*/libkgapi':
-  '{kubuntu_stable,Neon/stable}':
+  '{kubuntu_stable,Neon/stable,Neon/release}':
     upstream_scm:
       branch: LibKGAPI/5.3
 
