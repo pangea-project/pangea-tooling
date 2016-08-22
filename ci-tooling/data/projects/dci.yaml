@@ -3,7 +3,7 @@ kde-l10n:
     - '*':
         branch: master
 
-packaging.neon.kde.org.uk:
+anongit.neon.kde.org:
   - qt:
     - '*':
         branch: Neon/release

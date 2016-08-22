@@ -52,7 +52,7 @@ github.com:
     - qtvirtualkeyboard:
         branch: Neon/mobile
 
-packaging.neon.kde.org.uk:
+anongit.neon.kde.org:
   - qt:
     - qtbase:
         branch: Neon/testing

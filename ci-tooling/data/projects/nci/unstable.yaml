@@ -1,4 +1,4 @@
-packaging.neon.kde.org:
+anongit.neon.kde.org:
   - frameworks:
     - '*'
   - plasma:
