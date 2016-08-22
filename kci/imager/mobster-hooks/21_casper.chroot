@@ -1,7 +1,0 @@
-cat << EOF > /etc/casper.conf
-export USERNAME="phablet"
-export USERFULLNAME="Live session user"
-export HOST="phablet"
-export BUILD_SYSTEM="Ubuntu"
-export FLAVOUR="Kubuntu"
-EOF
