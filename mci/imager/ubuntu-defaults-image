@@ -219,7 +219,7 @@ if [ "$COMPONENTS" ]; then
 	config/bootstrap
 fi
 
-sed -i "s/^\\(LB_SYSLINUX_THEME=\\).*/\\1\"neon\"/" config/binary
+sed -i "s/^\\(LB_SYSLINUX_THEME=\\).*/\\1\"ubuntu-$SUITE\"/" config/binary
 
 #++++
 # FIXME: addition: remove desktop task from install list as the task contains
