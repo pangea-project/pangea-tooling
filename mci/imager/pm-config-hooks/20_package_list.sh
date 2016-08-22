@@ -10,7 +10,6 @@ qtwayland5
 xwayland
 simplelogin
 qtdeclarative5-private-dev
-qml-module-org-kde-*
 plasma-phone-dev-setup
 plasma-phone-settings
 kpackagelauncherqml
