@@ -22,7 +22,6 @@ plasma-maliit-plugins
 plasma-sdk
 plasma-settings
 kdeconnect-plasma
-plasma-volume-control
 kinfocenter
 vlc
 gnome-chess
