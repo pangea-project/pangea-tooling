@@ -51,6 +51,7 @@ export LB_COMPRESSION=xz
 export LB_ZSYNC=true # This is overridden by silly old defaults-image...
 
 export CONFIG_HOOKS="$(dirname "$0")/pm-config-hooks"
+export BUILD_HOOKS="$(dirname "$0")/pm-hooks"
 
 # Preserve envrionment -E plz.
 sudo -E $(dirname "$0")/ubuntu-defaults-image \
