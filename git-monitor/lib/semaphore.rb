@@ -27,7 +27,9 @@ class HostSemaphore
   class Error < RuntimeError; end
   class LockReleaseError < Error; end
 
-  MAX_LOCKS = 5
+  # NB: anongit allows ~15 connections, BUT neon and kde come out
+  #     of the same limit, so per-type we only allow less connection still.
+  MAX_LOCKS = 6
 
   attr_reader :locks
 
