@@ -1,4 +1,4 @@
-packaging.neon.kde.org.uk:
+packaging.neon.kde.org:
   - frameworks:
     - '*'
   - plasma:
