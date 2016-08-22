@@ -33,8 +33,8 @@ class WatcherJob < JenkinsJob
     @scm_readable = Marshal.load(Marshal.dump(project.packaging_scm))
     @scm_writable = Marshal.load(Marshal.dump(project.packaging_scm))
     # FIXME: brrr the need for deep copy alone should ring alarm bells
-    @scm_writable.url.gsub!('git://packaging.neon.kde.org/',
-                            'gitolite3@packaging.neon.kde.org.uk:')
+    @scm_writable.url.gsub!('git://anongit.neon.kde.org/',
+                            'neon@git.neon.kde.org:')
     @scm_writable.branch.replace('Neon/release')
     @nci = NCI
   end

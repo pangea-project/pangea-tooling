@@ -23,7 +23,7 @@ require_relative 'base'
 class ProjectsFactory
   # Neon specific project factory.
   class Neon < Base
-    DEFAULT_URL_BASE = 'git://packaging.neon.kde.org'.freeze
+    DEFAULT_URL_BASE = 'git://anongit.neon.kde.org'.freeze
 
     # FIXME: needs a writer!
     def self.url_base
@@ -31,7 +31,8 @@ class ProjectsFactory
     end
 
     def self.understand?(type)
-      %w(packaging.neon.kde.org.uk packaging.neon.kde.org).include?(type)
+      %w(packaging.neon.kde.org.uk packaging.neon.kde.org
+         git.neon.kde.org anongit.neon.kde.org).include?(type)
     end
 
     private
@@ -120,7 +121,7 @@ class ProjectsFactory
     class << self
       def ls
         return @listing if defined?(@listing) # Cache in class scope.
-        listing = `ssh gitolite3@packaging.neon.kde.org`.chop.split($/)
+        listing = `ssh neon@git.neon.kde.org`.chop.split($/)
         # FIXME: proper error
         raise unless $?.to_i.zero?
         listing.shift # welcome message leading, drop it.

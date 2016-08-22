@@ -120,7 +120,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
   def cache_neon_backtick(return_value)
     reset_child_status!
     ProjectsFactory::Neon.expects(:`)
-                         .with('ssh gitolite3@packaging.neon.kde.org')
+                         .with('ssh neon@git.neon.kde.org')
                          .returns(return_value)
     ProjectsFactory::Neon.ls
   end

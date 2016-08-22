@@ -25,8 +25,7 @@ NETWORK_COMMANDS = %w(pull clone fetch push ls-remote).freeze
 HOSTS = {
   'git.debian.org' => :debian,
   'anongit.kde.org' => :kde,
-  'packaging.neon.kde.org.uk' => :neon,
-  'packaging.neon.kde.org' => :neon
+  'anongit.neon.kde.org' => :kde
 }.freeze
 
 def run(args)

@@ -55,9 +55,10 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-ssh-keygen -F packaging.neon.kde.org || ssh-keyscan -H packaging.neon.kde.org >> ~/.ssh/known_hosts
+ssh-keygen -F git.neon.kde.org || ssh-keyscan -H git.neon.kde.org >> ~/.ssh/known_hosts
 git config --remove-section url."gitolite3@packaging.neon.kde.org:" || true
-git config --local --add url."gitolite3@packaging.neon.kde.org:".pushInsteadOf "git://packaging.neon.kde.org/"
+git config --remove-section url."neon@git.neon.kde.org:" || true
+git config --local --add url."neon@git.neon.kde.org:".pushInsteadOf "git://anongit.neon.kde.org/"
 ~/tooling/nci/merger.rb
       </command>
     </hudson.tasks.Shell>
