@@ -49,7 +49,6 @@ github.com:
     - libhybris
     - peruse
     - videoPlayer-packaging
-    - kirigami
     - qtvirtualkeyboard:
         branch: Neon/mobile
 
@@ -93,6 +92,8 @@ packaging.neon.kde.org.uk:
   - kde-extras:
     - libaccounts-glib:
         branch: Neon/mobile
+    - kirigami:
+        branch: Neon/unstable
   - applications:
     - kholidays:
         branch: Neon/unstable
