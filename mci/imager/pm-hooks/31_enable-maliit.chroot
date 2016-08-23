@@ -1,0 +1,9 @@
+#!/bin/bash
+set -ex
+
+echo "Enabling maliit"
+
+sed s,QT_IM_MODULE.*,, /etc/environment -i
+sed s,GTK_IM_MODULE.*,, /etc/environment -i
+echo QT_IM_MODULE=maliit >> /etc/environment
+echo GTK_IM_MODULE=maliit >> /etc/environment
