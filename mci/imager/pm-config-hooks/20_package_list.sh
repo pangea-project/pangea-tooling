@@ -24,6 +24,8 @@ kdeconnect-plasma
 kinfocenter
 vlc
 gnome-chess
+kirigami
+peruse
 EOF
 
 cat << EOF > config/package-lists/livecd-rootfs.list.chroot_live
