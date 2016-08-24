@@ -43,6 +43,14 @@
   kubuntu_unstable:
     upstream_scm:
       branch: mklapetek/SpaceBar
+
+# STD
+
+'*anongit.neon*/kde-std/kdev*':
+  'Neon/stable':
+    upstream_scm:
+      branch: 5.0
+
 # Other stuff
 
 ## Qt
