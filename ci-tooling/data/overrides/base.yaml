@@ -47,7 +47,7 @@
 # STD
 
 '*anongit.neon*/kde-std/kdev*':
-  'Neon/stable':
+  '{Neon/stable,Neon/release}':
     upstream_scm:
       branch: 5.0
 
