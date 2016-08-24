@@ -156,6 +156,7 @@ anongit.neon.kde.org:
   - kde-std:
     - kdevelop
     - kdevplatform
+    - kdevelop-pg-qt
   - neon:
     - seeds:
         branch: Neon/stable

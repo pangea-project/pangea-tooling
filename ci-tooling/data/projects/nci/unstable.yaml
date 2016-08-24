@@ -159,6 +159,7 @@ anongit.neon.kde.org:
   - kde-std:
     - kdevelop
     - kdevplatform
+    - kdevelop-pg-qt
   - kde-req:
     - qca-qt5
   - neon:
