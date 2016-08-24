@@ -41,7 +41,7 @@ EXCLUDE_SNAPS = %w(
   akonadi-mime akonadi-notes analitza kamera kdeedu-data kdegraphics-thumbnailers
   kdenetwork-filesharing kdesdk-thumbnailers khelpcenter kio-extras kqtquickcharts
   kuser libkdcraw libkdegames libkeduvocdocument libkexiv2 libkface libkgeomap libkipi
-  libksane poxml akonadi-contacts print-manager marble
+  libksane poxml akonadi-contacts print-manager marble khangman
 ).freeze
 
 snap = Snap.new(File.read('snap.name'), '16.04.1')
