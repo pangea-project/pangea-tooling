@@ -156,6 +156,9 @@ anongit.neon.kde.org:
     - kirigami
     - kdiagram
     - libkgapi
+  - kde-std:
+    - kdevelop
+    - kdevplatform
   - kde-req:
     - qca-qt5
   - neon:

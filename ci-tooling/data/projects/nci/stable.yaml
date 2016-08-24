@@ -153,6 +153,9 @@ anongit.neon.kde.org:
     - konversation
     - kirigami
     - libkgapi
+  - kde-std:
+    - kdevelop
+    - kdevplatform
   - neon:
     - seeds:
         branch: Neon/stable
