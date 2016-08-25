@@ -155,7 +155,6 @@ anongit.neon.kde.org:
     - konversation
     - kirigami
     - libkgapi
-    - digikam
     - muon
   - kde-std:
     - kdevelop
@@ -185,6 +184,8 @@ anongit.neon.kde.org:
         branch: Neon/release
     - drumstick:
         branch: master
+    - digikam:
+        branch: Neon/release
 
 launchpad.net:
   - livecd-rootfs-neon

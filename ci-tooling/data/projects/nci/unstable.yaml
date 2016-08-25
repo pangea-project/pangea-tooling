@@ -156,7 +156,6 @@ anongit.neon.kde.org:
     - kirigami
     - kdiagram
     - libkgapi
-    - digikam
     - muon
   - kde-std:
     - kdevelop
@@ -192,6 +191,8 @@ anongit.neon.kde.org:
         branch: master
     - drumstick:
         branch: master
+    - digikam:
+        branch: Neon/unstable
   - qt:
     - '*':
         branch: Neon/release
