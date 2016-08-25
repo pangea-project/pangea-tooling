@@ -155,6 +155,8 @@ anongit.neon.kde.org:
     - konversation
     - kirigami
     - libkgapi
+    - digikam
+    - muon
   - kde-std:
     - kdevelop
     - kdevplatform

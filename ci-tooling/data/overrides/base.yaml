@@ -46,7 +46,17 @@
 
 # STD
 
-'*anongit.neon*/kde-std/kdev*':
+'*anongit.neon*/kde-std/kdevelop':
+  '{Neon/stable,Neon/release}':
+    upstream_scm:
+      branch: 5.0
+
+'*anongit.neon*/kde-std/kdevplatform':
+  '{Neon/stable,Neon/release}':
+    upstream_scm:
+      branch: 5.0
+
+'*anongit.neon*/kde-std/kdevelop-pg-qt':
   '{Neon/stable,Neon/release}':
     upstream_scm:
       branch: 5.0
