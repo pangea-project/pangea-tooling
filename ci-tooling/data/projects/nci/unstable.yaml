@@ -180,7 +180,7 @@ anongit.neon.kde.org:
         branch: Neon/unstable
   - forks:
     - appstream:
-        branch: master
+        branch: Neon/release
     - base-files:
         branch: Neon/unstable
     - live-build:

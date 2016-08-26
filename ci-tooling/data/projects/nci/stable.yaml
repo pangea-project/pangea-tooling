@@ -175,7 +175,7 @@ anongit.neon.kde.org:
         branch: kubuntu_xenial_archive
   - forks:
     - appstream:
-        branch: master
+        branch: Neon/release
     - base-files:
         branch: Neon/stable
     - live-build:
