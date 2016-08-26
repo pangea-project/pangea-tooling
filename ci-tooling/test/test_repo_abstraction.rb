@@ -35,6 +35,8 @@ class RepoAbstractionAptlyTest < TestCase
     Apt::Repository.expects(:`).never
     Apt::Abstrapt.expects(:system).never
     Apt::Abstrapt.expects(:`).never
+    Apt::Cache.expects(:system).never
+    Apt::Cache.expects(:`).never
 
     Apt::Repository.send(:reset)
     # Disable automatic update
@@ -77,4 +79,26 @@ class RepoAbstractionAptlyTest < TestCase
     r = AptlyRepository.new(repo, 'prefix')
     r.install
   end
+
+  def test_purge_exclusion
+    repo = mock('repo')
+    repo
+      .stubs(:packages)
+      .with(:q => '$Architecture (source)')
+      .returns(['Psource kactivities-kf5 4 jkl'])
+    repo
+      .stubs(:packages)
+      .with(:q => '!$Architecture (source), $Source (kactivities-kf5), $SourceVersion (4)')
+      .returns(['Pamd64 libkactivites 4 abc', 'Pamd64 kitteh 5 efd', 'Pamd64 base-files 5 efd'])
+    # kitteh we filter, base-files should be default filtered
+    Apt::Abstrapt
+      .expects(:system)
+      .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'purge', 'libkactivites')
+      .returns(true)
+
+    r = AptlyRepository.new(repo, 'prefix')
+    r.purge_exclusion << 'kitteh'
+    r.purge
+  end
+end
 end

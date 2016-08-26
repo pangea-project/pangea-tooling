@@ -34,6 +34,8 @@ require 'logger'
 # filters though as a hook-mechanic without having to explicitly do stupid
 # hooks
 class Repository
+  attr_accessor :purge_exclusion
+
   def initialize(name)
     @log = Logger.new(STDOUT)
     @log.level = Logger::INFO
@@ -43,6 +45,7 @@ class Repository
     #        demands multiple repos
     @_name = name
     # @_repo = Apt::Repository.new(name)
+    @purge_exclusion = %w(base-files)
   end
 
   def add
@@ -70,7 +73,13 @@ class Repository
   def purge
     @log.info "Purging PPA #{@_name}."
     return false if packages.empty?
-    Apt.purge(packages.keys.delete_if { |x| x.include?('base-files') })
+    Apt.purge(packages.keys.delete_if { |x| purge_excluded?(x) })
+  end
+
+  private
+
+  def purge_excluded?(package)
+    @purge_exclusion.any? { |x| x == package }
   end
 end
 
