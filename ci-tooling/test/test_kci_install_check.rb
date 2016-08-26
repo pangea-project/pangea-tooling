@@ -170,6 +170,10 @@ class KCIInstallCheckTest < TestCase
     live_ppa.responds_like_instance_of(CiPPA)
 
     check_seq = sequence('check_sequence')
+    daily_ppa
+      .expects(:remove)
+      .in_sequence(check_seq)
+      .returns(true)
     live_ppa
       .expects(:remove)
       .in_sequence(check_seq)

@@ -40,8 +40,23 @@ class InstallCheckBase
     @log.level = Logger::INFO
   end
 
-  def run(candidate_ppa, target_ppa)
-    candidate_ppa.remove # remove live before attempting to use daily.
+  def run(candidate_ppa, target_ppa, root: nil)
+    # Make sure all repos under testing are removed first.
+    target_ppa.remove
+    candidate_ppa.remove
+
+    # This is a possible root which ought to be installed before anything.
+    # In particular a root will usually install the base set of available
+    # packages from e.g. Ubuntu.
+    if root
+      @log.info 'Installing root.'
+      # FIXME: this is somewhat daft as we have to ignore errors here because
+      #   the package set is derived from whatever target contains, so packages
+      #   can be unavailable in the root, and that would cause apt install to
+      #   return with !0
+      root.install
+      @log.info 'Done with root.'
+    end
 
     # Add the present daily snapshot, install everything.
     # If this fails then the current snapshot is kaputsies....
