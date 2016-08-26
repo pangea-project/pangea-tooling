@@ -245,4 +245,19 @@ class AptTest < TestCase
     add_call_chain.call(seq, [nil, nil, true])
     assert(Apt::Repository.add('kittenshit'))
   end
+
+  def test_cache_exist
+    # Check if a package exists.
+
+    # Cache is different in that in includes abstrapt instead of calling it,
+    # this is because it actually overrides behavior. It also means we need
+    # to disable the auto-update for cache as the setting from Abstrapt
+    # doesn't carry over (set via setup).
+    Apt::Cache.send(:instance_variable_set, :@last_update, Time.now)
+    Apt::Cache.expects(:system).never
+    Apt::Cache.expects(:system).with('apt-cache', '-q', 'show', 'abc').returns(true)
+    Apt::Cache.expects(:system).with('apt-cache', '-q', 'show', 'cba').returns(false)
+    assert_true(Apt::Cache.exist?('abc'))
+    assert_false(Apt::Cache.exist?('cba'))
+  end
 end

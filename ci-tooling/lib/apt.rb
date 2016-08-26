@@ -172,4 +172,22 @@ module Apt
       othermod.extend(ClassMethods)
     end
   end
+
+  # apt-cache wrapper
+  module Cache
+    include Abstrapt
+
+    def self.exist?(pkg)
+      show(pkg)
+    end
+
+    def self.method_missing(name, *caller_args)
+      run('apt-cache', name.to_s.tr('_', '-'), *caller_args)
+    end
+
+    def self.default_args
+      # Can't use apt-get default arguments. They aren't compatible.
+      @default_args = %w(-q)
+    end
+  end
 end
