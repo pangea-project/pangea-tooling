@@ -24,6 +24,10 @@ require 'net/ssh/gateway'
 require_relative '../lib/aptly-ext/filter.rb'
 require_relative '../lib/aptly-ext/package.rb'
 
+Repo = Aptly::Repository
+Snap = Aptly::Snapshot
+Key = Aptly::Ext::Package::Key
+
 # SSH tunnel so we can talk to the repo
 gateway = Net::SSH::Gateway.new('drax', 'root')
 gateway_port = gateway.open('localhost', 9090)
