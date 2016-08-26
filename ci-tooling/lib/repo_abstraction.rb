@@ -46,6 +46,7 @@ class Repository
     #        demands multiple repos
     @_name = name
     # @_repo = Apt::Repository.new(name)
+    @install_exclusion = %w(base-files)
     @purge_exclusion = %w(base-files)
   end
 
@@ -70,7 +71,10 @@ class Repository
     # Map into install expressions, value can be nil so compact and join
     # to either get "key=value" or "key" depending on whether or not value
     # was nil.
-    args += packages.map { |k, v| [k, v].compact.join('=') }
+    args += packages.map do |k, v|
+      next '' if install_excluded?(k)
+      [k, v].compact.join('=')
+    end
     Apt.install(args)
   end
 
@@ -84,6 +88,10 @@ class Repository
 
   def purge_excluded?(package)
     @purge_exclusion.any? { |x| x == package }
+  end
+
+  def install_excluded?(package)
+    @install_exclusion.any? { |x| x == package }
   end
 end
 
