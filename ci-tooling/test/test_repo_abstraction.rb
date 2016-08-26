@@ -158,10 +158,16 @@ class RepoAbstractionRootOnAptlyTest < TestCase
     # This libkactivies actually would be called twice if optizmiation is
     # not working as expected. apt-cache calls are fairly expensive, so they
     # should be avoided when possible.
-    Apt::Cache.expects(:system).with('apt-cache', '-q', 'show', 'libkactivites').returns(true)
-    Apt::Cache.expects(:system).with('apt-cache', '-q', 'show', 'trollomatico').returns(true)
+    Apt::Cache.expects(:system)
+      .with('apt-cache', '-q', 'show', 'libkactivites', {[:out, :err]=>"/dev/null"})
+      .returns(true)
+    Apt::Cache.expects(:system)
+      .with('apt-cache', '-q', 'show', 'trollomatico', {[:out, :err]=>"/dev/null"})
+      .returns(true)
     # Exclude this.
-    Apt::Cache.expects(:system).with('apt-cache', '-q', 'show', 'unicornsparkles').returns(false)
+    Apt::Cache.expects(:system)
+      .with('apt-cache', '-q', 'show', 'unicornsparkles', {[:out, :err]=>"/dev/null"})
+      .returns(false)
 
     aptly_repo1 = AptlyRepository.new(mock_repo1, 'mock1')
     aptly_repo2 = AptlyRepository.new(mock_repo2, 'mock2')
