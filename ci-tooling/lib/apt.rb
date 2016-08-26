@@ -116,51 +116,60 @@ module Apt
 
   # Abstract base for apt execution.
   module Abstrapt
-    def self.run(cmd, operation, *caller_args)
-      @log ||= Logger.new(STDOUT)
-      auto_update unless operation == 'update'
-      run_internal(cmd, operation, *caller_args)
-    end
-
-    def self.run_internal(cmd, operation, *caller_args)
-      args = run_internal_args(operation, *caller_args)
-      @log.warn "APT run (#{cmd}, #{args})"
-      system(cmd, *args)
-    end
-
-    def self.run_internal_args(operation, *caller_args)
-      injection_args = []
-      caller_args.delete_if do |arg|
-        next false unless arg.is_a?(Hash)
-        next false unless arg.key?(:args)
-        injection_args = [*(arg[:args])]
-        true
+    module ClassMethods
+      def run(cmd, operation, *caller_args)
+        @log ||= Logger.new(STDOUT)
+        auto_update unless operation == 'update'
+        run_internal(cmd, operation, *caller_args)
       end
-      args = [] + default_args + injection_args
-      args << operation
-      # Flatten args. system doesn't support nested arrays anyway, so flattening
-      # is probably what the caller had in mind (e.g. install(['a', 'b']))
-      args + [*caller_args].flatten
+
+      def run_internal(cmd, operation, *caller_args)
+        args = run_internal_args(operation, *caller_args)
+        @log.warn "APT run (#{cmd}, #{args})"
+        system(cmd, *args)
+      end
+
+      def run_internal_args(operation, *caller_args)
+        injection_args = []
+        caller_args.delete_if do |arg|
+          next false unless arg.is_a?(Hash)
+          next false unless arg.key?(:args)
+          injection_args = [*(arg[:args])]
+          true
+        end
+        args = [] + default_args + injection_args
+        args << operation
+        # Flatten args. system doesn't support nested arrays anyway, so flattening
+        # is probably what the caller had in mind (e.g. install(['a', 'b']))
+        args + [*caller_args].flatten
+      end
+
+      def auto_update
+        return unless @last_update.nil? || (Time.now - @last_update) >= (5 * 60)
+        return unless Apt.update
+        @last_update = Time.now
+      end
+
+      # @return [Array<String>] default arguments to inject into apt call
+      def default_args
+        puts "ABSTRAPT DEFAULT"
+        @default_args if defined?(@default_args)
+        @default_args = []
+        @default_args << '-y'
+        @default_args << '-o' << 'APT::Get::force-yes=true'
+        @default_args << '-o' << 'Debug::pkgProblemResolver=true'
+        @default_args
+      end
+
+      def reset
+        @last_update = nil
+      end
     end
 
-    def self.auto_update
-      return unless @last_update.nil? || (Time.now - @last_update) >= (5 * 60)
-      return unless Apt.update
-      @last_update = Time.now
-    end
+    extend ClassMethods
 
-    # @return [Array<String>] default arguments to inject into apt call
-    def self.default_args
-      @default_args if defined?(@default_args)
-      @default_args = []
-      @default_args << '-y'
-      @default_args << '-o' << 'APT::Get::force-yes=true'
-      @default_args << '-o' << 'Debug::pkgProblemResolver=true'
-      @default_args
-    end
-
-    def self.reset
-      @last_update = nil
+    def self.included(othermod)
+      othermod.extend(ClassMethods)
     end
   end
 end
