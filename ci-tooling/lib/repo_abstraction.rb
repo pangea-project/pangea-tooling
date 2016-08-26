@@ -24,6 +24,7 @@ require_relative 'dpkg'
 require_relative 'lsb'
 require_relative 'lp'
 
+require 'concurrent'
 require 'logger'
 
 # We can't really module this because it is used API. Ugh.
@@ -157,17 +158,31 @@ class RootOnAptlyRepository < Repository
     # Ditch version for this. Latest is good enough, we expect no wanted repos
     # to be enabled at this point anyway.
     @packages ||= begin
-      packages = {}
-      @repos.each do |repo|
-        repo.send(:packages).each do |k, _|
-          # If the package is known. Add it to our package set, otherwise drop
-          # it entirely. This is necessary so we can expect apt to actually
-          # return success and install the relevant packages.
-          packages[k] = nil if !packages.key?(k) && Apt::Cache.exist?(k)
-        end
-      end
-      packages
+      Apt::Cache.auto_update # Force an auto-update to avoid threaded updates.
+      mangle_packages
     end
+  end
+
+  def mangle_packages(packages = {})
+    mangle_packages_with_futures(packages).each do |future|
+      future.wait # Simply wait for each future in sequence. We need all.
+      packages.delete(future.value![0]) unless future.value![1]
+    end
+    packages
+  end
+
+  def mangle_packages_with_futures(packages, futures = [])
+    @repos.each do |repo|
+      repo.send(:packages).each do |k, _|
+        # If the package is known. Add it to our package set, otherwise drop
+        # it entirely. This is necessary so we can expect apt to actually
+        # return success and install the relevant packages.
+        next if packages.key?(k)
+        packages[k] = nil
+        futures << Concurrent::Future.execute { [k, Apt::Cache.exist?(k)] }
+      end
+    end
+    futures
   end
 end
 

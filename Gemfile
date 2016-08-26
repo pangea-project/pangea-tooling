@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'aptly-api', '>= 0.4.0'
+gem 'concurrent-ruby'
 gem 'deep_merge', '~> 1.0'
 gem 'docker-api', '~> 1.24' # Container.refresh! only introduced in 1.23
 gem 'gir_ffi'
