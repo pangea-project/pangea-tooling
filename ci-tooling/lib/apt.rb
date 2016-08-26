@@ -178,7 +178,7 @@ module Apt
     include Abstrapt
 
     def self.exist?(pkg)
-      show(pkg)
+      show(pkg, [:out, :err] => '/dev/null')
     end
 
     def self.method_missing(name, *caller_args)

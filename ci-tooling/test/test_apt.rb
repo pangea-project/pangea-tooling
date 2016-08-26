@@ -255,8 +255,12 @@ class AptTest < TestCase
     # doesn't carry over (set via setup).
     Apt::Cache.send(:instance_variable_set, :@last_update, Time.now)
     Apt::Cache.expects(:system).never
-    Apt::Cache.expects(:system).with('apt-cache', '-q', 'show', 'abc').returns(true)
-    Apt::Cache.expects(:system).with('apt-cache', '-q', 'show', 'cba').returns(false)
+    Apt::Cache.expects(:system)
+      .with('apt-cache', '-q', 'show', 'abc', {[:out, :err] => '/dev/null'})
+      .returns(true)
+    Apt::Cache.expects(:system)
+      .with('apt-cache', '-q', 'show', 'cba', {[:out, :err] => '/dev/null'})
+      .returns(false)
     assert_true(Apt::Cache.exist?('abc'))
     assert_false(Apt::Cache.exist?('cba'))
   end
