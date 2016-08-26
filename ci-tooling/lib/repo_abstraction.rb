@@ -128,6 +128,49 @@ class AptlyRepository < Repository
   end
 end
 
+# This is an addon that sits on top of one or more Aptly repos and basically
+# replicates repo #add and #purge from Ubuntu repos but with the package list
+# from an AptlyRepository.
+# Useful to install the existing package set from Ubuntu and then upgrade on top
+# of that.
+class RootOnAptlyRepository < Repository
+  def initialize(repos = [])
+    super('ubuntu-fake-yolo-kitten')
+    @repos = repos
+  end
+
+  def add
+    true # noop
+  end
+
+  def remove
+    true # noop
+  end
+
+  def pin!
+    # We don't need a pin for this use case as latest is always best.
+  end
+
+  private
+
+  def packages
+    # Ditch version for this. Latest is good enough, we expect no wanted repos
+    # to be enabled at this point anyway.
+    @packages ||= begin
+      packages = {}
+      @repos.each do |repo|
+        repo.send(:packages).each do |k, _|
+          # If the package is known. Add it to our package set, otherwise drop
+          # it entirely. This is necessary so we can expect apt to actually
+          # return success and install the relevant packages.
+          packages[k] = nil if !packages.key?(k) && Apt::Cache.exist?(k)
+        end
+      end
+      packages
+    end
+  end
+end
+
 # Helper to add/remove/list PPAs
 class CiPPA < Repository
   attr_reader :type

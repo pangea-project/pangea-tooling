@@ -101,4 +101,74 @@ class RepoAbstractionAptlyTest < TestCase
     r.purge
   end
 end
+
+class RepoAbstractionRootOnAptlyTest < TestCase
+  required_binaries('dpkg')
+
+  def setup
+    WebMock.disable_net_connect!
+
+    # More slective so we can let DPKG through.
+    Apt::Repository.expects(:system).never
+    Apt::Repository.expects(:`).never
+    Apt::Abstrapt.expects(:system).never
+    Apt::Abstrapt.expects(:`).never
+    Apt::Cache.expects(:system).never
+    Apt::Cache.expects(:`).never
+
+    Apt::Repository.send(:reset)
+    # Disable automatic update
+    Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
+    Apt::Cache.send(:instance_variable_set, :@last_update, Time.now)
+  end
+
+  def test_init
+    repo = RootOnAptlyRepository.new
+    assert_empty(repo.send(:packages))
+    # Should not hit mocha never-expectations.
+    repo.add
+    repo.remove
+  end
+
+  def test_packages
+    mock_repo1 = mock('mock_repo1')
+    mock_repo1
+      .stubs(:packages)
+      .with(:q => '$Architecture (source)')
+      .returns(['Psource kactivities-kf5 4 jkl'])
+    mock_repo1
+      .stubs(:packages)
+      .with(:q => '!$Architecture (source), $Source (kactivities-kf5), $SourceVersion (4)')
+      .returns(['Pamd64 libkactivites 4 abc'])
+
+    mock_repo2 = mock('mock_repo2')
+    mock_repo2
+      .stubs(:packages)
+      .with(:q => '$Architecture (source)')
+      .returns(['Psource kactivities-kf5 4 jkl', 'Psource trollomatico 3 abc'])
+    mock_repo2
+      .stubs(:packages)
+      .with(:q => '!$Architecture (source), $Source (kactivities-kf5), $SourceVersion (4)')
+      .returns(['Pamd64 libkactivites 4 abc'])
+    mock_repo2
+      .stubs(:packages)
+      .with(:q => '!$Architecture (source), $Source (trollomatico), $SourceVersion (3)')
+      .returns(['Pamd64 trollomatico 3 edf', 'Pamd64 unicornsparkles 4 xyz'])
+
+    # This libkactivies actually would be called twice if optizmiation is
+    # not working as expected. apt-cache calls are fairly expensive, so they
+    # should be avoided when possible.
+    Apt::Cache.expects(:system).with('apt-cache', '-q', 'show', 'libkactivites').returns(true)
+    Apt::Cache.expects(:system).with('apt-cache', '-q', 'show', 'trollomatico').returns(true)
+    # Exclude this.
+    Apt::Cache.expects(:system).with('apt-cache', '-q', 'show', 'unicornsparkles').returns(false)
+
+    aptly_repo1 = AptlyRepository.new(mock_repo1, 'mock1')
+    aptly_repo2 = AptlyRepository.new(mock_repo2, 'mock2')
+
+    Apt::Abstrapt
+      .expects(:system)
+      .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'ubuntu-minimal', 'libkactivites', 'trollomatico')
+    RootOnAptlyRepository.new([aptly_repo1, aptly_repo2]).install
+  end
 end
