@@ -120,7 +120,7 @@ class InstallCheck < InstallCheckBase
     end
   end
 
-  def run(candidate_ppa, target_ppa)
+  def run(candidate_ppa, target_ppa, root: nil)
     if Process.uid.to_i.zero?
       # Disable invoke-rc.d because it is crap and causes useless failure on
       # install when it fails to detect upstart/systemd running and tries to
