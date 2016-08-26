@@ -37,6 +37,7 @@ proposed = AptlyRepository.new(Aptly::Repository.get('release_xenial'),
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
 target = AptlyRepository.new(snapshots[-1], 'user')
 target.purge_exclusion << 'neon-settings'
+root = RootOnAptlyRepository.new([proposed, target])
 
 checker = InstallCheck.new
-checker.run(proposed, target)
+checker.run(proposed, target, root: root))
