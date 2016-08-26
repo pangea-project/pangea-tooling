@@ -66,7 +66,10 @@ class Repository
     return false if packages.empty?
     pin!
     args = %w(ubuntu-minimal)
-    args += packages.map { |k, v| "#{k}=#{v}" }
+    # Map into install expressions, value can be nil so compact and join
+    # to either get "key=value" or "key" depending on whether or not value
+    # was nil.
+    args += packages.map { |k, v| [k, v].compact.join('=') }
     Apt.install(args)
   end
 
