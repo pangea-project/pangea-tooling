@@ -149,17 +149,21 @@ class InstallCheck < InstallCheckBase
         puts stderr.read
       end
       # Make sure everything is up-to-date.
-      abort 'failed to update' unless Apt.update
-      abort 'failed to dist upgrade' unless Apt.dist_upgrade
+      raise 'failed to update' unless Apt.update
+      raise 'failed to dist upgrade' unless Apt.dist_upgrade
       # Install ubuntu-minmal first to make sure foundations nonsense isn't
       # going to make the test fail half way through.
-      abort 'failed to install minimal' unless Apt.install('ubuntu-minimal')
+      raise 'failed to install minimal' unless Apt.install('ubuntu-minimal')
       # Because dependencies are fucked
       # [14:27] <sitter> dictionaries-common is a crap package
       # [14:27] <sitter> it suggests a wordlist but doesn't pre-depend them or
       # anything, intead it just craps out if a wordlist provider is installed
       # but there is no wordlist -.-
-      system('apt-get install wamerican')
+      system('apt-get install wamerican') || raise
+      # Hold base-files. If we get lsb_release switched mid-flight and things
+      # break we are dead in the water as we might not have a working pyapt
+      # setup anymore and thus can't edit the sources.list.d content.
+      system('apt-mark hold base-files') || raise
     end
 
     super
