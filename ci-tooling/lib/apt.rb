@@ -152,7 +152,6 @@ module Apt
 
       # @return [Array<String>] default arguments to inject into apt call
       def default_args
-        puts "ABSTRAPT DEFAULT"
         @default_args if defined?(@default_args)
         @default_args = []
         @default_args << '-y'
