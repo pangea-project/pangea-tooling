@@ -40,4 +40,4 @@ target.purge_exclusion << 'neon-settings'
 root = RootOnAptlyRepository.new([proposed, target])
 
 checker = InstallCheck.new
-checker.run(proposed, target, root: root))
+checker.run(proposed, target, root: root)
