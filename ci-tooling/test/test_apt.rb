@@ -284,6 +284,7 @@ class AptTest < TestCase
       .with('apt-cache', '-q', 'show', 'abc', {[:out, :err] => '/dev/null'})
       .returns(true)
 
-    Apt::Cache.disable_auto_update { Apt::Cache.exist?('abc') }
+    ret = Apt::Cache.disable_auto_update { Apt::Cache.exist?('abc'); '123' }
+    assert_equal('123', ret)
   end
 end

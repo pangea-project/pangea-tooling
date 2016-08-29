@@ -168,8 +168,9 @@ module Apt
 
       def disable_auto_update
         @auto_update_disabled = true
-        yield
+        ret = yield
         @auto_update_disabled = false
+        ret
       end
     end
 
