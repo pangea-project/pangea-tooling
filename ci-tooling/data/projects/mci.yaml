@@ -4,7 +4,6 @@ git.debian.org:
     - kaccounts-providers
     - signon-kwallet-extension
     - kio-extras
-    - marble
     - gpgmepp
     - kcalcore
     - kcontacts
@@ -86,6 +85,8 @@ anongit.neon.kde.org:
         branch: Neon/mobile
     - qtchooser:
         branch: Neon/testing
+    - qtserialport:
+        branch: Neon/testing
   - frameworks:
     - '*':
         branch: Neon/unstable
@@ -104,6 +105,8 @@ anongit.neon.kde.org:
     - libkmahjongg:
         branch: Neon/unstable
     - kmahjongg:
+        branch: Neon/unstable
+    - marble:
         branch: Neon/unstable
   - plasma:
     - bluedevil:
