@@ -54,39 +54,39 @@ github.com:
 anongit.neon.kde.org:
   - qt:
     - qtbase:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtmultimedia:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtscript:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtdeclarative:
-        branch: Neon/unstable
+        branch: Neon/release
     - qttools:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtgraphicaleffects:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtxmlpatterns:
-        branch: Neon/unstable
+        branch: Neon/release
     - qt5webkit:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtx11extras:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtwayland:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtsvg:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtlocation:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtquickcontrols:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtsensors:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtpim:
         branch: Neon/mobile
     - qtchooser:
-        branch: Neon/unstable
+        branch: Neon/release
     - qtserialport:
-        branch: Neon/unstable
+        branch: Neon/release
   - frameworks:
     - '*':
         branch: Neon/unstable
