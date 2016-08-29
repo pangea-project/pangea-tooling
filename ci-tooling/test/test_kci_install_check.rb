@@ -228,6 +228,7 @@ class NCIRootInstallCheckTest < TestCase
     seq = sequence(__method__)
     proposed.expects(:remove).returns(true).in_sequence(seq)
     root.expects(:install).returns(true).in_sequence(seq)
+    proposed.expects(:add).returns(true).in_sequence(seq)
     proposed.expects(:install).returns(true).in_sequence(seq)
     proposed.expects(:purge).returns(true).in_sequence(seq)
 
