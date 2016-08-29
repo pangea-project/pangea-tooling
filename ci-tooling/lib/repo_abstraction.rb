@@ -166,8 +166,7 @@ class RootOnAptlyRepository < Repository
     # Ditch version for this. Latest is good enough, we expect no wanted repos
     # to be enabled at this point anyway.
     @packages ||= begin
-      Apt::Cache.auto_update # Force an auto-update to avoid threaded updates.
-      mangle_packages
+      Apt::Cache.disable_auto_update { mangle_packages }
     end
   end
 
