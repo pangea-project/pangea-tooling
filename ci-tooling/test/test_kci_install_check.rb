@@ -247,6 +247,19 @@ class NCIRootInstallCheckTest < TestCase
     assert_raises { checker.run(proposed, root) }
   end
 
+  def test_run_bad_proposed_add
+    root = mock('root')
+    proposed = mock('proposed')
+
+    seq = sequence(__method__)
+    proposed.expects(:remove).returns(true).in_sequence(seq)
+    root.expects(:install).returns(true).in_sequence(seq)
+    proposed.expects(:add).returns(false).in_sequence(seq)
+
+    checker = RootInstallCheck.new
+    assert_raises { checker.run(proposed, root) }
+  end
+
   def test_run_bad_proposed
     root = mock('root')
     proposed = mock('proposed')
@@ -254,6 +267,7 @@ class NCIRootInstallCheckTest < TestCase
     seq = sequence(__method__)
     proposed.expects(:remove).returns(true).in_sequence(seq)
     root.expects(:install).returns(true).in_sequence(seq)
+    proposed.expects(:add).returns(true).in_sequence(seq)
     proposed.expects(:install).returns(false).in_sequence(seq)
 
     checker = RootInstallCheck.new
@@ -267,6 +281,7 @@ class NCIRootInstallCheckTest < TestCase
     seq = sequence(__method__)
     proposed.expects(:remove).returns(true).in_sequence(seq)
     root.expects(:install).returns(true).in_sequence(seq)
+    proposed.expects(:add).returns(true).in_sequence(seq)
     proposed.expects(:install).returns(true).in_sequence(seq)
     proposed.expects(:purge).returns(false).in_sequence(seq)
 

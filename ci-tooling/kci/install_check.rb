@@ -174,6 +174,10 @@ class RootInstallCheck < InstallCheck
     @log.info 'Done with root.'
 
     @log.info 'Installing proposed.'
+    unless proposed.add
+      @log.error 'Failed to add proposed repo.'
+      raise
+    end
     unless proposed.install
       @log.error 'all is vain! proposed is not installing!'
       raise
