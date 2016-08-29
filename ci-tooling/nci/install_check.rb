@@ -37,13 +37,6 @@ proposed = AptlyRepository.new(Aptly::Repository.get('release_xenial'),
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
 target = AptlyRepository.new(snapshots[-1], 'user')
 target.purge_exclusion << 'neon-settings'
-# root = RootOnAptlyRepository.new([proposed, target])
 
 checker = InstallCheck.new
-# Roots are somewhat broken conceptually. Roots would have to be the first
-# package installed. But to do that they would have to be before the target,
-# now if the target has lesser quality than the proposed then target will
-# fail and render the system into a broken state making proposed unable to
-# succeeed. I can't seem to find a way to make this work without having two
-# distinct tests. Unfortunately :/
-checker.run(proposed, target) #, root: root)
+checker.run(proposed, target)
