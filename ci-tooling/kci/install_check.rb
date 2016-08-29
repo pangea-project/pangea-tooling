@@ -157,6 +157,37 @@ class InstallCheck < InstallCheckBase
   end
 end
 
+# This overrides run behavior
+class RootInstallCheck < InstallCheck
+  # Override the core test which assumes a 'live' repo and a 'staging' repo.
+  # Instead we have a proposed repo and a root.
+  # The root is installed version-less. Then we upgrae to the proposed repo and
+  # hope everything is awesome.
+  def run_test(proposed, root)
+    proposed.remove
+
+    @log.info 'Installing root.'
+    unless root.install
+      @log.error 'Root failed to install!'
+      raise
+    end
+    @log.info 'Done with root.'
+
+    @log.info 'Installing proposed.'
+    unless proposed.install
+      @log.error 'all is vain! proposed is not installing!'
+      raise
+    end
+    @log.info 'Install of proposed successful. Trying to purge.'
+    unless proposed.purge
+      @log.error 'Failed to purge the candidate!'
+      raise
+    end
+
+    @log.info 'All good!'
+  end
+end
+
 if __FILE__ == $PROGRAM_NAME
   LOG = Logger.new(STDERR)
   LOG.level = Logger::INFO
