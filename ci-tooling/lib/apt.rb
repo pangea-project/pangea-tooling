@@ -145,6 +145,7 @@ module Apt
       end
 
       def auto_update
+        return if @auto_update_disabled
         return unless @last_update.nil? || (Time.now - @last_update) >= (5 * 60)
         return unless Apt.update
         @last_update = Time.now
@@ -162,6 +163,13 @@ module Apt
 
       def reset
         @last_update = nil
+        @auto_update_disabled = false
+      end
+
+      def disable_auto_update
+        @auto_update_disabled = true
+        yield
+        @auto_update_disabled = false
       end
     end
 

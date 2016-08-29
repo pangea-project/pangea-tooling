@@ -254,6 +254,10 @@ class AptTest < TestCase
     # to disable the auto-update for cache as the setting from Abstrapt
     # doesn't carry over (set via setup).
     Apt::Cache.send(:instance_variable_set, :@last_update, Time.now)
+    # Auto-update goes into abstrapt
+    Apt::Abstrapt.expects(:system).never
+    Apt::Abstrapt.expects(:`).never
+    # This is our stuff
     Apt::Cache.expects(:system).never
     Apt::Cache.expects(:system)
       .with('apt-cache', '-q', 'show', 'abc', {[:out, :err] => '/dev/null'})
@@ -263,5 +267,23 @@ class AptTest < TestCase
       .returns(false)
     assert_true(Apt::Cache.exist?('abc'))
     assert_false(Apt::Cache.exist?('cba'))
+  end
+
+  def test_apt_cache_disable_update
+    Apt::Cache.reset # make sure we can auto-update
+    # Auto-update goes into abstrapt
+    Apt::Abstrapt.expects(:system).never
+    Apt::Abstrapt.expects(:`).never
+    # This is our stuff
+    Apt::Cache.expects(:system).never
+    Apt::Cache.expects(:`).never
+
+    # We expect no update call!
+
+    Apt::Cache.expects(:system)
+      .with('apt-cache', '-q', 'show', 'abc', {[:out, :err] => '/dev/null'})
+      .returns(true)
+
+    Apt::Cache.disable_auto_update { Apt::Cache.exist?('abc') }
   end
 end
