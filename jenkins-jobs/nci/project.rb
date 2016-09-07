@@ -75,7 +75,7 @@ class ProjectJob < JenkinsJob
                                      type: kwords[:type]))
     end
 
-    if project.component == 'applications' && kwords[:type] == 'release'
+    if %w(applications kde-std).include?(project.component) && kwords[:type] == 'release'
       jobs.insert(-1, SnapJob.new(basename, distribution: kwords[:distribution],
                                             type: kwords[:type]))
     end
