@@ -147,6 +147,23 @@ anongit.neon.kde.org:
     - akonadi-contacts
     - akonadi-mime
     - akonadi-notes
+    - akonadi-calendar-tools
+    - akonadiconsole
+    - akonadi-import-wizard
+    - akregator
+    - blogilo
+    - grantlee-editor
+    - kaddressbook
+    - kalarm
+    - kmail
+    - kmail-account-wizard
+    - knotes
+    - kontact
+    - korganizer
+    - mbox-importer
+    - pim-data-exporter
+    - pim-sieve-editor
+    - pim-storage-service-manager
   - kde-extras:
     - kdeconnect
     - yakuake
