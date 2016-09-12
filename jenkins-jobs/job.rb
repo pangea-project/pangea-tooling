@@ -14,7 +14,6 @@ class JenkinsJob < Template
   # Creates or updates the Jenkins job.
   # @return the job_name
   def update
-    return unless job_name.include?('applications')
     # FIXME: this should use retry_it
     xml = render_template
     begin
