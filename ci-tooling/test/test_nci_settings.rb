@@ -49,4 +49,8 @@ class NCISettingsTest < TestCase
     File.write('job_name', 'xenial_unstable_libkolabxml_src')
     assert_equal({"sourcer"=>{"restricted_packaging_copy"=>true}}, NCI::Settings.for_job)
   end
+
+  def test_unknown_job
+    assert_equal({}, NCI::Settings.new.for_job)
+  end
 end

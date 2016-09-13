@@ -53,7 +53,10 @@ module NCI
     end
 
     def for_job
-      return {} unless job?
+      unless job?
+        puts 'Could not determine job_name. Stamp file missing'
+        return {}
+      end
       job_patterns = CI::FNMatchPattern.filter(job, settings)
       job_patterns = CI::FNMatchPattern.sort_hash(job_patterns)
       return {} if job_patterns.empty?
