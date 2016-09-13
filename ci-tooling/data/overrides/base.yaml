@@ -176,7 +176,7 @@
     upstream_scm:
       branch: 1.6
 
-'*{debian.org,anongit.neon}*/kubuntu/libkolab':
+'*{debian.org,anongit.neon}*/forks/libkolab':
   '*':
     upstream_scm:
       url: https://git.kolab.org/diffusion/LK/libkolab.git
@@ -184,7 +184,7 @@
     upstream_scm:
       branch: libkolab-1.0
 
-'*{debian.org,anongit.neon}*/kubuntu/libkolabxml':
+'*{debian.org,anongit.neon}*/forks/libkolabxml':
   '*':
     upstream_scm:
       url: https://git.kolab.org/diffusion/LKX/libkolabxml.git
