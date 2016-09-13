@@ -22,29 +22,64 @@
 require_relative '../lib/ci/build_source'
 require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
+require_relative 'lib/settings'
 require_relative 'lib/setup_env'
 require_relative 'lib/setup_repo'
 
-NCI.setup_repo!
-NCI.setup_env!
+module Sourcer
+  class << self
+    def sourcer_args
+      args = { strip_symbols: true }
+      settings = NCI::Settings.for_job
+      sourcer_settings = settings.fetch('sourcer', {})
+      restrict = sourcer_settings.fetch('restricted_packaging_copy',
+                                        nil)
+      return args unless restrict
+      args[:restricted_packaging_copy] = restrict
+      args
+    end
 
-def orig_source(fetcher)
-  tarball = fetcher.fetch('source')
-  raise 'Failed to fetch tarball' unless tarball
-  sourcer = CI::OrigSourceBuilder.new(strip_symbols: true)
-  sourcer.build(tarball.origify)
+    def orig_source(fetcher)
+      tarball = fetcher.fetch('source')
+      raise 'Failed to fetch tarball' unless tarball
+      sourcer = CI::OrigSourceBuilder.new(**sourcer_args)
+      sourcer.build(tarball.origify)
+    end
+
+    def run(type = ARGV.fetch(0, nil))
+      meths = {
+        'tarball' => method(:run_tarball),
+        'uscan' => method(:run_uscan)
+      }
+      meth = meths.fetch(type, method(:run_fallback))
+      meth.call
+    end
+
+    private
+
+    def run_tarball
+      puts 'Downloading tarball from URL'
+      orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
+    end
+
+    def run_uscan
+      puts 'Downloading tarball via uscan'
+      orig_source(CI::WatchTarFetcher.new('packaging/debian/watch', true))
+    end
+
+    def run_fallback
+      puts 'Unspecified source type, defaulting to VCS build...'
+      builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
+                                         **sourcer_args)
+      builder.run
+    end
+  end
 end
 
-case ARGV.fetch(0, nil)
-when 'tarball'
-  puts 'Downloading tarball from URL'
-  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
-when 'uscan'
-  puts 'Downloading tarball via uscan'
-  orig_source(CI::WatchTarFetcher.new('packaging/debian/watch', true))
-else
-  puts 'Unspecified source type, defaulting to VCS build...'
-  builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
-                                     strip_symbols: true)
-  builder.run
+# :nocov:
+if __FILE__ == $PROGRAM_NAME
+  NCI.setup_repo!
+  NCI.setup_env!
+  Sourcer.run
 end
+# :nocov:
