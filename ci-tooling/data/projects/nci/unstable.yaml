@@ -200,6 +200,10 @@ anongit.neon.kde.org:
         branch: Neon/release
     - base-files:
         branch: Neon/unstable
+    - libkolab:
+        branch: Neon/unstable
+    - libkolabxml:
+        branch: Neon/unstable
     - live-build:
         branch: master
     - packagekit:
