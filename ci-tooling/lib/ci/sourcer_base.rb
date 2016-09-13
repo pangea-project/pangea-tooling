@@ -28,9 +28,10 @@ module CI
   class SourcerBase
     private
 
-    def initialize(release:, strip_symbols:)
+    def initialize(release:, strip_symbols:, restricted_packaging_copy:)
       @release = release # e.g. vivid
       @strip_symbols = strip_symbols
+      @restricted_packaging_copy = restricted_packaging_copy
 
       # vcs
       @packaging_dir = File.absolute_path('packaging').freeze

@@ -266,4 +266,18 @@ class VCSBuilderTest < TestCase
       assert_equal(source.version, replace.version)
     end
   end
+
+  def test_quilt_full_source
+    source = CI::VcsSourceBuilder.new(release: @release,
+                                      restricted_packaging_copy: true).run
+    assert_equal(:quilt, source.type)
+    Dir.chdir('build') do
+      dsc = source.dsc
+      assert(system('dpkg-source', '-x', dsc))
+      dir = "#{source.name}-#{source.build_version.tar}/"
+      assert_path_exist(dir)
+      assert_path_not_exist("#{dir}/full_source1")
+      assert_path_not_exist("#{dir}/full_source2")
+    end
+  end
 end

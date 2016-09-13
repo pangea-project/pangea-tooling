@@ -33,7 +33,8 @@ require_relative 'version_enforcer'
 module CI
   # Class to build out source package from a VCS
   class VcsSourceBuilder < SourcerBase
-    def initialize(release:, strip_symbols: false)
+    def initialize(release:, strip_symbols: false,
+                   restricted_packaging_copy: false)
       super
       # FIXME: use packagingdir and sourcedir
       @flavor = OS::ID.to_sym # e.g. Ubuntu
@@ -76,7 +77,8 @@ module CI
     # name clashes.
     def copy_packaging
       # Copy some more
-      copy_source_tree('packaging')
+      args = [] << 'debian' if @restricted_packaging_copy
+      copy_source_tree('packaging', *args)
     end
 
     def create_orig_tar
@@ -138,11 +140,11 @@ module CI
     #   be copied)
     # @note this will create @build_dir/source if it doesn't exist
     # @note this will strip the copied source of version control directories
-    def copy_source_tree(source_dir)
+    def copy_source_tree(source_dir, dir = '.')
+      # /. is fileutils notation for recursive content
       FileUtils.mkpath("#{@build_dir}/source")
       if Dir.exist?(source_dir)
-        # /. is fileutils notation for recursive content
-        FileUtils.cp_r("#{source_dir}/.",
+        FileUtils.cp_r("#{source_dir}/#{dir}",
                        "#{@build_dir}/source/",
                        verbose: true)
       end
