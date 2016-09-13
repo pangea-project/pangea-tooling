@@ -36,7 +36,7 @@ require_relative 'deprecate'
 
 # A thing that gets built.
 class Project
-  class Error < Exception; end
+  class Error < RuntimeError; end
   class TransactionError < Error; end
   class BzrTransactionError < TransactionError; end
   class GitTransactionError < TransactionError; end
