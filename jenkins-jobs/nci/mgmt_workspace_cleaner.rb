@@ -24,7 +24,7 @@ require_relative '../job'
 class MGMTWorkspaceCleanerJob < JenkinsJob
   attr_reader :dependees
 
-  def initialize(dependees:)
+  def initialize(dependees: [])
     super('mgmt_workspace_cleaner', 'mgmt_workspace_cleaner.xml.erb')
     @dependees = dependees
   end
