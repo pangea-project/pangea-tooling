@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+wget http://weegie.edinburghlinux.co.uk/~jr/tmp/kde-l10n-ko.tar.gz
+tar xfv kde-l10n-ko.tar.gz -C /
+rm kde-l10n-ko.tar.gz
