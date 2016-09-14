@@ -19,6 +19,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'date'
+require 'fileutils'
+
 # A helper to clean up dangling (too old) workspaces that weren't properly
 # cleaned up by Jenkins itself.
 module WorkspaceCleaner
