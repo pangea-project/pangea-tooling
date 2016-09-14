@@ -2,5 +2,5 @@
 # terminal | xterm and doesn't know terminal is installed later in the tree
 cat << EOF > config/package-lists/ubuntu-defaults.list.chroot_install
 konsole
-neon-desktop
+neon-desktop-ko
 EOF
