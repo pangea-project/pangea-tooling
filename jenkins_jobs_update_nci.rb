@@ -173,8 +173,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     )
     enqueue(MGMTPauseIntegrationJob.new(downstreams: [progenitor]))
     aptly = enqueue(MGMTAptlyJob.new(dependees: [progenitor]))
+    # cleaner currently disregards deps entirely as technically it should be
+    # non-conflicting.
+    cleaner = enqueue(MGMTWorkspaceCleanerJob.new) # dependees: [progenitor]))
     docker = enqueue(MGMTDockerJob.new(dependees: [progenitor]))
-    enqueue(MGMTToolingJob.new(downstreams: [docker, aptly]))
+    enqueue(MGMTToolingJob.new(downstreams: [docker],
+                               dependees: [cleaner, aptly]))
   end
 end
 
