@@ -38,6 +38,7 @@ module CI
       return -1 if other.match?(self)
       # If we don't match other and other doesn't match us then the patterns are
       # not comparable
+      puts "Couldn't compare #{self} <=> #{other}"
       nil
     end
 
