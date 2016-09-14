@@ -32,7 +32,7 @@ module NCI
 
     class << self
       def for_job
-        @settings ||= instance.for_job
+        new.for_job
       end
 
       def default_files
@@ -40,12 +40,6 @@ module NCI
       end
 
       attr_writer :default_files
-
-      private
-
-      def instance
-        @instance ||= new
-      end
     end
 
     def initialize(files = self.class.default_files)
