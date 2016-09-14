@@ -27,6 +27,8 @@ require 'fileutils'
 module WorkspaceCleaner
   class << self
     DEFAULT_WORKSPACE_PATHS = ["#{Dir.home}/workspace",
+                               "#{Dir.home}/dci/workspace",
+                               "#{Dir.home}/mci/workspace",
                                "#{Dir.home}/nci/workspace"].freeze
 
     def workspace_paths
