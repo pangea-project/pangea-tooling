@@ -51,6 +51,9 @@ module WorkspaceCleaner
 
     def cleanup?(workspace)
       return true if workspace.include?('_ws-cleanup_')
+      # Never delete mgmt workspaces. Too dangerous as they are
+      # persistent.
+      return false if workspace.include?('mgmt_')
       days_old = ((Time.now - File.mtime(workspace)) / 60 / 60 / 24).to_i
       return true if days_old > 0
       false
