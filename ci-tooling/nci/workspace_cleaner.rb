@@ -50,13 +50,25 @@ module WorkspaceCleaner
     private
 
     def cleanup?(workspace)
-      return true if workspace.include?('_ws-cleanup_')
+      puts "Looking at #{workspace}"
+      if workspace.include?('_ws-cleanup_')
+        puts '  ws-cleanup => delete'
+        return true
+      end
       # Never delete mgmt workspaces. Too dangerous as they are
       # persistent.
-      return false if workspace.include?('mgmt_')
-      days_old = ((Time.now - File.mtime(workspace)) / 60 / 60 / 24).to_i
-      return true if days_old > 0
-      false
+      if workspace.include?('mgmt_')
+        puts '  mgmt => nodelete'
+        return false
+      end
+      cleanup_age?(workspace)
+    end
+
+    def cleanup_age?(workspace)
+      mtime = File.mtime(workspace)
+      days_old = ((Time.now - mtime) / 60 / 60 / 24).to_i
+      puts "  days old #{days_old}"
+      days_old > 0
     end
   end
 end
