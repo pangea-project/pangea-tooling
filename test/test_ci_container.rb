@@ -3,6 +3,8 @@ require 'vcr'
 require_relative '../lib/ci/container.rb'
 require_relative '../ci-tooling/test/lib/testcase'
 
+require 'mocha/test_unit'
+
 # The majority of functionality is covered through containment.
 # Only test what remains here.
 class ContainerTest < TestCase
@@ -89,5 +91,15 @@ class ContainerTest < TestCase
     assert_raise do
       CI::Container::DirectBindingArray.to_bindings([path.to_s])
     end
+  end
+
+  def test_privileged_implies_usernsmodehost
+    fake_container = mock('fake_container')
+    Docker::Container.expects(:create)
+                     .with do |*x|
+                       x = x.shift
+                       x[:Privileged] == true && x[:UsernsMode] == 'host'
+                     end.returns(fake_container)
+    CI::Container.create(Privileged: true)
   end
 end

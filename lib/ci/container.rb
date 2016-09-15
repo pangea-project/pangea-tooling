@@ -35,8 +35,7 @@ module CI
       # assert_version
       options = merge_env(default_create_options, options_)
       options = options.merge(options_)
-      options['name'] = name if name
-      options[:Volumes] = DirectBindingArray.to_volumes(binds) if binds
+      options = override_options(options, name, binds)
       c = super(options, connection)
       c.send(:instance_variable_set, :@binds, binds)
       c
@@ -99,6 +98,13 @@ module CI
       end
 
       private
+
+      def override_options(options, name, binds)
+        options['name'] = name if name
+        options[:Volumes] = DirectBindingArray.to_volumes(binds) if binds
+        options[:UsernsMode] = 'host' if options.fetch(:Privileged, false)
+        options
+      end
 
       def environment
         env = []
