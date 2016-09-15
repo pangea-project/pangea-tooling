@@ -125,7 +125,7 @@
       url: http://sourceforge.mirrorservice.org/d/dr/drumstick/1.0.2/drumstick-1.0.2.tar.bz2
 
 '*{debian.org,anongit.neon}*/frameworks/prison':
-  'Neon/{release,stable}':
+  'Neon/{release}':
     upstream_scm:
       type: tarball
       url: https://launchpad.net/ubuntu/+archive/primary/+files/prison-kf5_1.2~git20150223.orig.tar.gz
