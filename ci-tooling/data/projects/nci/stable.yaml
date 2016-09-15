@@ -156,6 +156,11 @@ anongit.neon.kde.org:
     - kdevelop
     - kdevplatform
     - kdevelop-pg-qt
+    - krita
+    - kexi
+    - kproperty
+    - kreport
+    - kdb
   - neon:
     - seeds:
         branch: Neon/stable

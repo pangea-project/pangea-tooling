@@ -178,6 +178,11 @@ anongit.neon.kde.org:
     - kdevelop
     - kdevplatform
     - kdevelop-pg-qt
+    - krita
+    - kexi
+    - kproperty
+    - kreport
+    - kdb
   - kde-req:
     - qca-qt5
   - neon:
