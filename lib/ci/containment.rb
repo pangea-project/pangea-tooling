@@ -49,9 +49,7 @@ module CI
       @privileged = privileged
       @log = new_logger
       @trap_run = false
-      cleanup
-      # TODO: finalize object and clean up container
-      trap! unless no_exit_handlers
+      init(no_exit_handlers)
     end
 
     def cleanup
@@ -172,6 +170,20 @@ module CI
       @log.error 'Failed to create container!'
       @log.error e.to_s
       return 1
+    end
+
+    def init(no_exit_handlers)
+      cleanup
+      return unless handle_exit?(no_exit_handlers)
+      # TODO: finalize object and clean up container
+      trap!
+    end
+
+    def handle_exit?(no_exit_handlers)
+      return false if no_exit_handlers
+      root = Docker.info.fetch('DockerRootDir')
+      return false if File.basename(root) =~ /\d+\.\d+/ # uid.gid
+      true
     end
   end
 end

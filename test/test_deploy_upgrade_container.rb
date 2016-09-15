@@ -3,6 +3,8 @@ require 'vcr'
 require_relative '../lib/ci/containment.rb'
 require_relative '../ci-tooling/test/lib/testcase'
 
+require 'mocha/test_unit'
+
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
 class DeployUpgradeTest < TestCase
@@ -60,6 +62,9 @@ class DeployUpgradeTest < TestCase
     FileUtils.cp_r(Dir.glob("#{@tooling_path}/deploy_upgrade_container.sh"),
                    Dir.pwd)
     FileUtils.cp_r("#{@datadir}/deploy_in_container.sh", Dir.pwd)
+
+    # Fake info call for consistency
+    Docker.stubs(:info).returns('DockerRootDir' => '/var/lib/docker')
   end
 
   def teardown
