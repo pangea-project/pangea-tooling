@@ -10,7 +10,7 @@
 '*{debian.org,anongit.neon}*/plasma/*':
   '{kubuntu_stable,Neon/stable}':
     upstream_scm:
-      branch: Plasma/5.7
+      branch: Plasma/5.8
 
 '*{debian.org,anongit.neon}*/plasma/plasma-discover':
   '*':
