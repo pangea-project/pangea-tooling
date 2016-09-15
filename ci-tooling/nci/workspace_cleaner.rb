@@ -42,7 +42,7 @@ module WorkspaceCleaner
         Dir.glob("#{workspace_path}/*") do |workspace|
           next unless File.directory?(workspace)
           next unless cleanup?(workspace)
-          FileUtils.rm_rf(workspace, verbose: true)
+          FileUtils.rm_r(workspace, verbose: true)
         end
       end
     end
