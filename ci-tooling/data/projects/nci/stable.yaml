@@ -9,8 +9,7 @@ anongit.neon.kde.org:
     - kholidays
     - konsole
     - kteatime
-    - libkdcraw
-    - libkipi
+    - libkdcraw libkipi
     - print-manager
     - spectacle
     - filelight
@@ -177,6 +176,10 @@ anongit.neon.kde.org:
     - appstream:
         branch: Neon/release
     - base-files:
+        branch: Neon/stable
+    - libkolab:
+        branch: Neon/stable
+    - libkolabxml:
         branch: Neon/stable
     - live-build:
         branch: master

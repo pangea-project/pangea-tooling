@@ -177,19 +177,22 @@
       branch: 1.6
 
 '*{debian.org,anongit.neon}*/forks/libkolab':
-  '*':
+  'Neon/unstable':
     upstream_scm:
       url: https://git.kolab.org/diffusion/LK/libkolab.git
+      branch: libkolab-1.0 # tittiatcoke says this is the correct Qt5 branch!
   '{kubuntu_stable,Neon/stable}':
     upstream_scm:
+      url: https://git.kolab.org/diffusion/LK/libkolab.git
       branch: libkolab-1.0
 
 '*{debian.org,anongit.neon}*/forks/libkolabxml':
-  '*':
+  'Neon/unstable':
     upstream_scm:
       url: https://git.kolab.org/diffusion/LKX/libkolabxml.git
   '{kubuntu_stable,Neon/stable}':
     upstream_scm:
+      url: https://git.kolab.org/diffusion/LKX/libkolabxml.git
       branch: libkolabxml-1.1
 
 '*debian.org*/krap/libindi':
