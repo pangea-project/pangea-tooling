@@ -70,7 +70,8 @@ task :deploy_in_container => :align_ruby do
     %w(EXIT HUP INT QUIT TERM).each do |signal|
       Signal.trap(signal) do
         next unless Etc.passwd { |u| break true if u.name == 'jenkins' }
-        FileUtils.chown_R('jenkins', 'jenkins', tooling_path, verbose: true)
+        FileUtils.chown_R('jenkins', 'jenkins', tooling_path, verbose: true,
+                                                              force: true)
       end
     end
 
