@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e
+
+# mangle the pkg_depends file so we don't get fcitx as sho prefers ibus
+
+sed -i /im:ko::fcitx/d /usr/share/language-selector/data/pkg_depends
+sed -i /im:ko:kio:kde-config-fcitx/d /usr/share/language-selector/data/pkg_depends
