@@ -156,6 +156,7 @@ anongit.neon.kde.org:
     - kdevelop
     - kdevplatform
     - kdevelop-pg-qt
+  - calligra:
     - krita
     - kexi
     - kproperty
