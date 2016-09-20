@@ -17,6 +17,11 @@
     upstream_scm:
       url: git://anongit.kde.org/discover.git
 
+'*{debian.org,anongit.neon}*/plasma/plasma-mediacenter':
+  '*':
+    upstream_scm:
+      branch: Plasma/5.7
+
 # Apps
 
 '*{debian.org,anongit.neon}*/applications/*':
