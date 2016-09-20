@@ -192,6 +192,8 @@ anongit.neon.kde.org:
         branch: master
     - packagekit:
         branch: master
+    - aptdaemon:
+        branch: master
     - drumstick:
         branch: master
 

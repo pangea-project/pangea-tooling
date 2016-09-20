@@ -217,6 +217,8 @@ anongit.neon.kde.org:
         branch: master
     - pyqt5:
         branch: master
+    - aptdaemon:
+        branch: master
     - drumstick:
         branch: master
     - digikam:

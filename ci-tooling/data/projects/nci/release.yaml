@@ -193,6 +193,8 @@ anongit.neon.kde.org:
         branch: Neon/release
     - packagekit:
         branch: Neon/release
+    - aptdaemon:
+        branch: master
     - drumstick:
         branch: master
     - digikam:
