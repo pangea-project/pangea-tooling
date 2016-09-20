@@ -144,12 +144,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                    neonarchive: 'user',
                                    cronjob: 'H H * * 4' }
           enqueue(NeonIsoJob.new(user_release_isoargs))
-          ko_user_release_isoargs = { type: 'useredition',
+          ko_user_release_isoargs = { type: 'devedition-gitstable',
                                    distribution: distribution,
                                    architecture: architecture,
                                    metapackage: 'neon-desktop-ko',
                                    imagename: 'neon-ko',
-                                   neonarchive: 'user',
+                                   neonarchive: 'dev/stable',
                                    cronjob: 'H H * * 4' }
           enqueue(NeonIsoJob.new(ko_user_release_isoargs))
           wayland_isoargs = { type: 'devedition-gitunstable',
