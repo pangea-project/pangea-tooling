@@ -153,6 +153,7 @@ anongit.neon.kde.org:
     - kirigami
     - libkgapi
     - kphotoalbum
+    - digikam
   - kde-std:
     - kdevelop
     - kdevplatform
@@ -196,6 +197,8 @@ anongit.neon.kde.org:
         branch: master
     - drumstick:
         branch: master
+    - digikam:
+        branch: Neon/unstable
 
 launchpad.net:
   - livecd-rootfs-neon
