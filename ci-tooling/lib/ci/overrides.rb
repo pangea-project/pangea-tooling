@@ -27,7 +27,7 @@ module CI
   # General prupose overrides handling (mostly linked to Project overrides).
   class Overrides
     DEFAULT_FILES = [
-      File.expand_path("#{__dir__}/../../data/overrides/base.yaml")
+      File.expand_path("#{__dir__}/../../data/projects/overrides/base.yaml")
     ].freeze
 
     class << self
