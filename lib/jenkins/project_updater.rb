@@ -37,7 +37,7 @@ module Jenkins
     end
 
     def update
-      update_sumodules
+      update_submodules
       populate_queue
       run_queue
     end
