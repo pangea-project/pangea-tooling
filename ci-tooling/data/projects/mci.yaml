@@ -95,6 +95,9 @@ anongit.neon.kde.org:
         branch: Neon/mobile
     - kirigami:
         branch: Neon/unstable
+  - kde-std:
+    - sddm:
+        branch: Neon/mobile
   - applications:
     - kholidays:
         branch: Neon/unstable
