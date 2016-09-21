@@ -14,7 +14,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -26,7 +26,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Version":"1.7.1","ApiVersion":"1.19","GitCommit":"786b29d","GoVersion":"go1.4.2","Os":"linux","Arch":"amd64","KernelVersion":"3.19.0-30-generic"}
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
@@ -42,7 +42,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -54,7 +54,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
@@ -70,7 +70,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -82,7 +82,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
@@ -98,7 +98,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -110,7 +110,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
@@ -126,7 +126,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -138,7 +138,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
@@ -154,7 +154,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -166,7 +166,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
@@ -182,7 +182,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -194,7 +194,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
@@ -210,7 +210,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -222,7 +222,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: get
@@ -238,7 +238,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -250,14 +250,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Cmd":["garbage_fail"],"Volumes":{}}'
+      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Privileged":false,"Cmd":["garbage_fail"],"Volumes":{}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -266,7 +266,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Content-Type:
       - application/json
@@ -278,7 +278,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c","Warnings":null}
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: post
@@ -294,14 +294,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Date:
       - Mon, 12 Oct 2015 10:05:36 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: post
@@ -317,7 +317,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Content-Type:
       - application/vnd.docker.raw-stream
@@ -326,14 +326,14 @@ http_interactions:
       string: !binary |-
         AgAAAAAAADlleGVjOiAiZ2FyYmFnZV9mYWlsIjogZXhlY3V0YWJsZSBmaWxl
         IG5vdCBmb3VuZCBpbiAkUEFUSAo=
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -342,7 +342,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -354,14 +354,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -370,7 +370,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -382,14 +382,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:37 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -398,7 +398,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -410,14 +410,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:37 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -426,7 +426,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -438,14 +438,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:38 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -454,7 +454,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message: 
+      message:
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -466,6 +466,6 @@ http_interactions:
       encoding: UTF-8
       string: |
         Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
-    http_version: 
+    http_version:
   recorded_at: Mon, 12 Oct 2015 10:05:38 GMT
 recorded_with: VCR 2.9.3
