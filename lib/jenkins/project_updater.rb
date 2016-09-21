@@ -24,10 +24,20 @@ module Jenkins
   # Updates Jenkins Projects
   class ProjectUpdater
     def initialize
+      update_submodules
       @job_queue = Queue.new
     end
 
+    def update_submodules
+      return if @submodules_updated
+      unless system(*%w(git submodule update --remote --recursive))
+        raise 'failed to update git submodules of tooling!'
+      end
+      @submodules_updated = true
+    end
+
     def update
+      update_sumodules
       populate_queue
       run_queue
     end

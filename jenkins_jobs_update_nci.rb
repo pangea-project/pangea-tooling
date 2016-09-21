@@ -38,6 +38,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     @flavor = 'nci'
     @projects_dir = "#{__dir__}/ci-tooling/data/projects"
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
+    super
   end
 
   private
