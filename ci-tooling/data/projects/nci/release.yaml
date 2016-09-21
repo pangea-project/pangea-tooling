@@ -156,6 +156,7 @@ anongit.neon.kde.org:
     - kirigami
     - libkgapi
     - muon
+  - neon-packaging
     - kphotoalbum
     - digikam
   - kde-std:
