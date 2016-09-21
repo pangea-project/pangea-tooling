@@ -27,6 +27,15 @@ require_relative 'lib/testcase'
 require 'mocha/test_unit'
 
 class ProjectTest < TestCase
+  def setup
+    # Disable overrides to not hit production configuration files.
+    CI::Overrides.default_files = []
+  end
+
+  def teardown
+    CI::Overrides.default_files = nil
+  end
+
   def git_init_commit(repo, branches = %w(master kubuntu_unstable))
     repo = File.absolute_path(repo)
     Dir.mktmpdir do |dir|
