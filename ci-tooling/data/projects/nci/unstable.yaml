@@ -174,7 +174,7 @@ anongit.neon.kde.org:
     - kdiagram
     - libkgapi
     - muon
-  - neon-packaging
+  - neon-packaging:
     - kphotoalbum
     - digikam
   - kde-std:

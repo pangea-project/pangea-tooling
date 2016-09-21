@@ -152,7 +152,7 @@ anongit.neon.kde.org:
     - konversation
     - kirigami
     - libkgapi
-  - neon-packaging
+  - neon-packaging:
     - kphotoalbum
     - digikam
   - kde-std:
