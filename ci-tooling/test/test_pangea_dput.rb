@@ -29,9 +29,9 @@ class PangeaDPutTest < TestCase
       .to_return(body: '')
     stub_request(:get, 'http://localhost:111999/api/publish')
       .to_return(body: "[{\"Architectures\":[\"all\"],\"Distribution\":\"distro\",\"Label\":\"\",\"Origin\":\"\",\"Prefix\":\"kewl-repo-name\",\"SourceKind\":\"local\",\"Sources\":[{\"Component\":\"main\",\"Name\":\"kitten\"}],\"Storage\":\"\"}]\n")
-    stub_request(:post, 'http://localhost:111999/api/publish/kewl-repo-name')
+    stub_request(:post, 'http://localhost:111999/api/publish/:kewl-repo-name')
       .to_return(body: "{\"Architectures\":[\"source\"],\"Distribution\":\"distro\",\"Label\":\"\",\"Origin\":\"\",\"Prefix\":\"kewl-repo-name\",\"SourceKind\":\"local\",\"Sources\":[{\"Component\":\"main\",\"Name\":\"kitten\"}],\"Storage\":\"\"}\n")
-    stub_request(:put, 'http://localhost:111999/api/publish/kewl-repo-name/distro')
+    stub_request(:put, 'http://localhost:111999/api/publish/:kewl-repo-name/distro')
       .to_return(body: "{\"Architectures\":[\"source\"],\"Distribution\":\"distro\",\"Label\":\"\",\"Origin\":\"\",\"Prefix\":\"kewl-repo-name\",\"SourceKind\":\"local\",\"Sources\":[{\"Component\":\"main\",\"Name\":\"kitten\"}],\"Storage\":\"\"}\n")
 
     FileUtils.cp_r("#{data}/.", Dir.pwd)
