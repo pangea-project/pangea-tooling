@@ -68,6 +68,12 @@ module CI
         # Docker
         Image: @image.to_str # Can be a PangeaImage instance
       }
+
+      # Disable UsernsMode for privileged containers
+      # Ref: https://docs.docker.com/engine/reference/api/docker_remote_api_v1.25/#/create-a-container
+      @default_args[:UsernsMode] = 'host' if @privileged
+
+      @default_args
     end
 
     def contain(user_args)
