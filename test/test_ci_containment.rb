@@ -170,6 +170,22 @@ module CI
       end
     end
 
+    def test_check_priv
+      vcr_it(__method__) do
+        c = Containment.new(@job_name, image: @image, binds: [], privileged: true)
+        ret = c.run(Cmd: ['bash', '-c', 'if [ ! -e /dev/tty0 ]; then exit 1; fi'])
+        assert_equal(0, ret)
+      end
+    end
+
+    def test_check_unpriv
+      vcr_it(__method__) do
+        c = Containment.new(@job_name, image: @image, binds: [], privileged: false)
+        ret = c.run(Cmd: ['bash', '-c', 'if [ ! -e /dev/tty0 ]; then exit 1; fi'])
+        assert_equal(1, ret)
+      end
+    end
+
     def test_run_fail
       vcr_it(__method__) do
         c = Containment.new(@job_name, image: @image, binds: [])
