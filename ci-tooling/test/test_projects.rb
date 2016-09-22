@@ -214,6 +214,8 @@ class ProjectTest < TestCase
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
 
+    FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
+    CI::Overrides.instance_variable_set(:@default_files, ["#{Dir.pwd}/base.yml"])
     Dir.mktmpdir(self.class.to_s) do |tmpdir|
       Dir.chdir(tmpdir) do
         project = Project.new(name, component, gitrepo, type: 'unstable')
