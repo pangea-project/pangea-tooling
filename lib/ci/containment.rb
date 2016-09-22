@@ -66,9 +66,7 @@ module CI
         # Internal
         binds: @binds,
         # Docker
-        # Can be a PangeaImage instance
-        Image: @image.to_str,
-        Privileged: @privileged
+        Image: @image.to_str # Can be a PangeaImage instance
       }
     end
 
@@ -164,7 +162,7 @@ module CI
     end
 
     def rescued_start(c)
-      c.start
+      c.start(Privileged: @privileged)
       status_code = c.wait.fetch('StatusCode', 1)
       c.stop
       status_code

@@ -14,7 +14,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message:
+      message: 
     headers:
       Content-Type:
       - application/json
@@ -28,7 +28,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"ApiVersion":"1.18","Arch":"amd64","GitCommit":"4749651","GoVersion":"go1.4.2","KernelVersion":"3.19.0-16-generic","Os":"linux","Version":"1.6.0"}
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: get
@@ -44,7 +44,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -56,7 +56,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: get
@@ -72,7 +72,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -84,7 +84,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: get
@@ -100,7 +100,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -112,7 +112,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: vivid_unstable_test
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: get
@@ -128,7 +128,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -156,7 +156,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message:
+      message: 
     headers:
       Content-Type:
       - application/json
@@ -168,7 +168,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"180c1b12cb7c2d2e1a95c2ea0a299a0a76cc892b0670cc6091c83acfe3c9a171","Warnings":null}
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: post
@@ -184,14 +184,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message:
+      message: 
     headers:
       Date:
       - Mon, 11 May 2015 13:22:54 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: get
@@ -207,7 +207,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message:
+      message: 
     headers:
       Content-Type:
       - application/json
@@ -233,14 +233,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message:
+      message: 
     headers:
       Date:
       - Mon, 11 May 2015 13:22:54 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: delete
@@ -256,21 +256,21 @@ http_interactions:
   response:
     status:
       code: 204
-      message:
+      message: 
     headers:
       Date:
       - Mon, 11 May 2015 13:22:54 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Privileged":false,"Volumes":{}}'
+      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Volumes":{}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.21.4
@@ -279,7 +279,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message:
+      message: 
     headers:
       Content-Type:
       - application/json
@@ -291,7 +291,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"19b7e9493d132923cc11f3a3c7d7e5e262084654fc3efc26629c3a76e6217817","Warnings":null}
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: post
@@ -307,14 +307,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message:
+      message: 
     headers:
       Date:
       - Mon, 11 May 2015 13:22:54 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: get
@@ -330,7 +330,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -342,7 +342,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: 180c1b12cb7c2d2e1a95c2ea0a299a0a76cc892b0670cc6091c83acfe3c9a171
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: get
@@ -358,7 +358,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -370,7 +370,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: 180c1b12cb7c2d2e1a95c2ea0a299a0a76cc892b0670cc6091c83acfe3c9a171
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: get
@@ -386,7 +386,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -398,7 +398,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: 180c1b12cb7c2d2e1a95c2ea0a299a0a76cc892b0670cc6091c83acfe3c9a171
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: get
@@ -414,7 +414,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -426,7 +426,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: 180c1b12cb7c2d2e1a95c2ea0a299a0a76cc892b0670cc6091c83acfe3c9a171
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: get
@@ -442,7 +442,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message:
+      message: 
     headers:
       Content-Type:
       - application/json
@@ -468,14 +468,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message:
+      message: 
     headers:
       Date:
       - Mon, 11 May 2015 13:22:54 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 - request:
     method: delete
@@ -491,13 +491,13 @@ http_interactions:
   response:
     status:
       code: 204
-      message:
+      message: 
     headers:
       Date:
       - Mon, 11 May 2015 13:22:54 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version:
+    http_version: 
   recorded_at: Mon, 11 May 2015 13:22:54 GMT
 recorded_with: VCR 2.9.3

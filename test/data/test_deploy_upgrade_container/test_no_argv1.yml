@@ -14,7 +14,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message:
+      message: 
     headers:
       Content-Type:
       - application/json
@@ -26,7 +26,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Version":"1.7.1","ApiVersion":"1.19","GitCommit":"786b29d","GoVersion":"go1.4.2","Os":"linux","Arch":"amd64","KernelVersion":"3.19.0-30-generic"}
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
@@ -42,7 +42,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -54,7 +54,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: deployupgradetest
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
@@ -70,7 +70,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -82,7 +82,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: deployupgradetest
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
@@ -98,7 +98,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -110,7 +110,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: deployupgradetest
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
@@ -126,7 +126,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -138,7 +138,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: deployupgradetest
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
@@ -154,7 +154,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -166,7 +166,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: deployupgradetest
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
@@ -182,7 +182,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -194,7 +194,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: deployupgradetest
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
@@ -210,7 +210,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -222,7 +222,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: deployupgradetest
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
@@ -238,7 +238,7 @@ http_interactions:
   response:
     status:
       code: 404
-      message:
+      message: 
     headers:
       Content-Type:
       - text/plain; charset=utf-8
@@ -250,14 +250,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         no such id: deployupgradetest
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"deployupgradetest:latest","Privileged":false,"Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh","vivid"],"Volumes":{"<%=
+      string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"deployupgradetest:latest","Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh","vivid"],"Volumes":{"<%=
         Dir.pwd %>":{}}}'
     headers:
       User-Agent:
@@ -267,7 +267,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message:
+      message: 
     headers:
       Content-Type:
       - application/json
@@ -279,7 +279,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"Id":"cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2","Warnings":null}
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: post
@@ -295,21 +295,21 @@ http_interactions:
   response:
     status:
       code: 204
-      message:
+      message: 
     headers:
       Date:
       - Thu, 01 Oct 2015 10:43:11 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.16/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2/start
     body:
       encoding: UTF-8
-      string: '{"Binds":["<%= Dir.pwd %>:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
+      string: '{"Binds":["<%= Dir.pwd %>:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.22.4
@@ -318,14 +318,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message:
+      message: 
     headers:
       Date:
       - Thu, 01 Oct 2015 10:43:11 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: post
@@ -341,7 +341,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message:
+      message: 
     headers:
       Content-Type:
       - application/json
@@ -353,7 +353,7 @@ http_interactions:
       encoding: UTF-8
       string: |
         {"StatusCode":1}
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:12 GMT
 - request:
     method: post
@@ -369,14 +369,14 @@ http_interactions:
   response:
     status:
       code: 304
-      message:
+      message: 
     headers:
       Date:
       - Thu, 01 Oct 2015 10:43:12 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:12 GMT
 - request:
     method: post
@@ -392,14 +392,14 @@ http_interactions:
   response:
     status:
       code: 204
-      message:
+      message: 
     headers:
       Date:
       - Thu, 01 Oct 2015 10:43:12 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:12 GMT
 - request:
     method: delete
@@ -415,13 +415,13 @@ http_interactions:
   response:
     status:
       code: 204
-      message:
+      message: 
     headers:
       Date:
       - Thu, 01 Oct 2015 10:43:17 GMT
     body:
       encoding: UTF-8
       string: ''
-    http_version:
+    http_version: 
   recorded_at: Thu, 01 Oct 2015 10:43:17 GMT
 recorded_with: VCR 2.9.3
