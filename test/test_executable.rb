@@ -38,6 +38,8 @@ class ExecutableTest < Test::Unit::TestCase
         end
       end
     end
-    assert(not_executable.empty?, "Missing +x on #{not_executable.join("\n")}")
+    # Use a trailing space to make sure we can copy crap without a terminal
+    # fullstop inserted by test-unit.
+    assert(not_executable.empty?, "Missing +x on #{not_executable.join("\n")} ")
   end
 end
