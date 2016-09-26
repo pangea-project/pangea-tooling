@@ -46,6 +46,7 @@ group :development, :test do
   gem 'ruby-progressbar'
   gem 'simplecov'
   gem 'simplecov-rcov'
+  gem 'terminal-table'
   gem 'vcr', '>= 3.0.1'
   gem 'webmock'
 end

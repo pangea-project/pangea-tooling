@@ -21,12 +21,14 @@
 
 require 'aptly'
 require 'date'
+require 'terminal-table'
 
+require_relative '../lib/aptly-ext/filter'
 require_relative '../lib/optparse'
 
 parser = OptionParser.new do |opts|
   opts.banner =
-    "Usage: #{opts.program_name} REPO_TO_DIVERT_TO_SNAPSHOT"
+    "Usage: #{opts.program_name} REPO1 REPO2"
 end
 parser.parse!
 
@@ -42,7 +44,9 @@ ARGV.each do |arg|
 end
 packages_for_pubs = {}
 pubs.each do |pub|
-  packages_for_pubs[pub] = pub.Sources.collect(&:packages).flatten.uniq
+  packages_for_pubs[pub] = pub.Sources.collect do |x|
+    x.packages(q: '$Architecture (source)')
+  end.flatten.uniq
 end
 
 packages_for_pubs.each_slice(2) do |x|
@@ -51,8 +55,18 @@ packages_for_pubs.each_slice(2) do |x|
   raise 'Uneven amount of publishing endpoints' unless two
 
   puts "\nOnly in #{one[0].Prefix}"
-  puts((one[1] - two[1]).join($/))
+  only_in_one = one[1] - two[1]
+  only_in_one = Aptly::Ext::LatestVersionFilter.filter(only_in_one)
+  packages_in_two = Aptly::Ext::LatestVersionFilter.filter(two[1])
+  packages_in_two = packages_in_two.group_by(&:name)
 
-  puts "\nOnly in #{two[0].Prefix}"
-  puts((two[1] - one[1]).join($/))
+  rows = []
+  only_in_one.sort_by!(&:name)
+  only_in_one.each do |package|
+    new_version = package.version
+    old_version = packages_in_two.fetch(package.name, nil)
+    old_version = old_version ? old_version[0].version : ''
+    rows << [package.name, package.architecture, new_version, old_version]
+  end
+  puts Terminal::Table.new(rows: rows)
 end
