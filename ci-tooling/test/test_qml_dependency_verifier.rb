@@ -75,14 +75,16 @@ class QMLDependencyVerifierTest < TestCase
   end
 
   def test_add_ppa
-    [%w(apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true update),
-     %w(apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true install software-properties-common),
-     %w(add-apt-repository -y ppa:kubuntu-ci/unstable),
-     %w(apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true update)]. each do |c|
-       Object.any_instance.expects(:system)
-             .with(*c)
-             .returns(true)
-     end
+    [
+      ['apt-get', *Apt::Abstrapt.default_args, 'update'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
+      ['add-apt-repository', '-y', 'ppa:kubuntu-ci/unstable'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'update']
+    ]. each do |c|
+      Object.any_instance.expects(:system)
+            .with(*c)
+            .returns(true)
+    end
     QMLDependencyVerifier.new.add_ppa
   end
 

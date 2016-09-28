@@ -49,10 +49,10 @@ class MCISetupRepoTest < TestCase
 
   def test_setup_repo
     system_calls = [
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'software-properties-common'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub vivid main'],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'update'],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'pkg-kde-tools']
+      ['apt-get', *Apt::Abstrapt.default_args, 'update'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
     ]
 
     system_sequence = sequence('system-calls')

@@ -93,7 +93,7 @@ class RepoAbstractionAptlyTest < TestCase
     # kitteh we filter, base-files should be default filtered
     Apt::Abstrapt
       .expects(:system)
-      .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'purge', 'libkactivites')
+      .with('apt-get', *Apt::Abstrapt.default_args, 'purge', 'libkactivites')
       .returns(true)
 
     r = AptlyRepository.new(repo, 'prefix')
@@ -174,7 +174,7 @@ class RepoAbstractionRootOnAptlyTest < TestCase
 
     Apt::Abstrapt
       .expects(:system)
-      .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'ubuntu-minimal', 'libkactivites', 'trollomatico')
+      .with('apt-get', *Apt::Abstrapt.default_args, 'install', 'ubuntu-minimal', 'libkactivites', 'trollomatico')
     RootOnAptlyRepository.new([aptly_repo1, aptly_repo2]).install
   end
 end

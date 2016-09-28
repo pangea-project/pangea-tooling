@@ -48,18 +48,18 @@ class DCISetupRepoTest < TestCase
     release = `lsb_release -sc`.strip
     system_calls = [
       ['dpkg --add-architecture i386'],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'lsb-release'],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', 'software-properties-common'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'lsb-release'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '-y', "deb http://deb.debian.org/debian #{release}-backports main"],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'update'],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'install', "devscripts/#{release}-backports", "pbuilder/#{release}-backports"],
+      ['apt-get', *Apt::Abstrapt.default_args, 'update'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', "devscripts/#{release}-backports", "pbuilder/#{release}-backports"],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/frameworks stable main'],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/plasma stable main'],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/kde-applications stable main'],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/backports stable main'],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/qt5 stable main'],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'update'],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', 'dist-upgrade'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'update'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'dist-upgrade'],
     ]
 
 
