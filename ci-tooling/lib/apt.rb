@@ -158,6 +158,7 @@ module Apt
         @default_args << '-y'
         @default_args << '-o' << 'APT::Get::force-yes=true'
         @default_args << '-o' << 'Debug::pkgProblemResolver=true'
+        @default_args << '-q' # no progress!
         @default_args
       end
 

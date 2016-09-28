@@ -55,7 +55,7 @@ class AptTest < TestCase
   end
 
   def default_args(cmd = 'apt-get')
-    [cmd] + %w(-y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true)
+    [cmd] + %w(-y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true -q)
   end
 
   def assert_system_default(args, &block)
@@ -198,7 +198,7 @@ class AptTest < TestCase
       #   second = install
       #   third = add
       # a nil returns means this call must not occur (can only be 1st & 2nd)
-      apt = ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true']
+      apt = ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q']
 
       unless (ret = returns.shift).nil?
         Object
