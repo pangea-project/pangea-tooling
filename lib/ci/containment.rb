@@ -96,9 +96,10 @@ module CI
         # This code only gets run when the socket pushes something, we cannot
         # mock this right now unfortunately.
         # :nocov:
-        container.attach do |_stream, chunk|
-          puts chunk
-          STDOUT.flush
+        container.attach do |stream, chunk|
+          io = stream == 'stderr' ? STDERR : STDOUT
+          io.print(chunk)
+          io.flush
         end
         # :nocov:
       end
