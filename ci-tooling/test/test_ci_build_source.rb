@@ -243,30 +243,6 @@ class VCSBuilderTest < TestCase
            "New version not recorded? -> #{File.read('last_version')}")
   end
 
-  def test_ci_substvars
-    source = CI::VcsSourceBuilder.new(release: @release).run
-    assert_not_nil(source.dsc)
-    Dir.chdir('build') do
-      dsc = source.dsc
-      assert(system('dpkg-source', '-x', dsc))
-      dir = "#{source.name}-#{source.build_version.tar}/"
-      assert_path_exist(dir)
-      readme = "#{dir}/README"
-      # Readme should not have been mangled.
-      assert_equal("${ci:BuildVersion}\n", File.read(readme))
-      control = Debian::Control.new(dir)
-      control.parse!
-      bin = control.binaries[0]
-      replaces = bin['Replaces']
-      assert_equal(1, replaces.size)
-      replace = replaces[0]
-      assert_equal('kitten', replace.name)
-      assert_equal('<<', replace.operator)
-      # version should be the actual version not the substvar
-      assert_equal(source.version, replace.version)
-    end
-  end
-
   def test_quilt_full_source
     source = CI::VcsSourceBuilder.new(release: @release,
                                       restricted_packaging_copy: true).run

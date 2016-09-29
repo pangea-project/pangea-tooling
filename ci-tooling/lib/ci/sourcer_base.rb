@@ -65,15 +65,6 @@ module CI
       Dir.glob('debian/*') do |path|
         next unless File.file?(path)
         data = File.read(path)
-        begin
-          # used in discover
-          data.gsub!('${ci:BuildVersion}', version)
-          # used in plasma-framework: ${source:Version}~ciBuild
-          # These are expanded by default to something useful, so we don't
-          # sub them, only the watcher switches them for live versions.
-        rescue
-          raise "Failed to gsub #{path}"
-        end
         File.write(path, data)
       end
     end
