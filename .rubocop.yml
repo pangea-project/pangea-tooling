@@ -21,3 +21,8 @@ Metrics/MethodLength:
 
 Style/MethodMissing:
   Enabled: false
+
+# We have plenty of system(*%w(....)) which is good to have because
+# ['foo', 'mweo', 'asdf'] is cumbersome AF to write.
+Lint/UnneededSplatExpansion:
+  Enabled: false
