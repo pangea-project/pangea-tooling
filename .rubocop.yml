@@ -5,7 +5,7 @@ Style/Next:
   Enabled: false
 
 Style/SpecialGlobalVars:
-    Enabled: false
+  Enabled: false
 
 Style/HashSyntax:
   Exclude:
