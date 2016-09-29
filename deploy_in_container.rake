@@ -9,7 +9,7 @@ DEPS = %w(xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           python-launchpadlib ubuntu-dev-tools gnome-pkg-tools git dh-systemd
           zlib1g-dev python-paramiko sudo locales mercurial pxz aptitude
           autotools-dev cdbs dh-autoreconf germinate gobject-introspection
-          sphinx-common pep8 pyflakes ppp-dev dh-di libgirepository1.0-dev
+          sphinx-common po4a pep8 pyflakes ppp-dev dh-di libgirepository1.0-dev
           libglib2.0-dev bash-completion).freeze
 
 # FIXME: code copy from install_check
