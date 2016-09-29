@@ -98,13 +98,13 @@ module CI
     end
 
     # test code to mange the watch file to look at alternative server
-    # currently only works on stable/applications
+    # currently only works on stable/plasma
     def test_watch_mangle
       Dir.mkdir('debian')
       FileUtils.cp(data('watch'), 'debian/')
       f = WatchTarFetcher.new('debian/watch', true)
 
-      ref_line = 'http://download.kde.org.uk/stable/applications/([\d.]+)/kgamma5-([\d.]+).tar.xz'
+      ref_line = 'http://download.kde.org.uk/stable/plasma/([\d.]+)/kgamma5-([\d.]+).tar.xz'
 
       # Mangles are transient, so we need to assert at the time of uscan
       # invocation.
