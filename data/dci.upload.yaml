@@ -26,13 +26,16 @@
   debian-med: backports
   pkg-multimedia: backports
   debian-astro: backports
+  kernel: backports
   netrunner-debian-packaging-backports: backports
   ubuntu: backports
+  pkg-lxqt: backports
+  debhelper: backports
+  forks: backports
   netrunner-common: netrunner
   ds9-common: ds9-common
   ds9-artwork: ds9-artwork
   applications: kde-applications
   maui-common: maui
-  forks: backports
   ds9-debian-packaging: extras
-  kernel: backports
+  netrunner-desktop: netrunner-desktop
