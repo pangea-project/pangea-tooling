@@ -30,7 +30,7 @@ class BranchSequenceTest < TestCase
     tree = index.write_tree
 
     author = { name: 'Test', email: 'test@test.com', time: Time.now }
-    parents = (repo.empty? || repo.head_unborn?) ? [] : [repo.head.target]
+    parents = repo.empty? || repo.head_unborn? ? [] : [repo.head.target]
 
     Rugged::Commit.create(repo,
                           author: author,
