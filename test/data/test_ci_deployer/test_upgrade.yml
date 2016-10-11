@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/create?fromImage=ubuntu%3Awily
+    uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Awily
     body:
       encoding: US-ASCII
       string: ''
@@ -33,7 +33,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:32:00 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/ubuntu:wily/json
+    uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:wily/json
     body:
       encoding: US-ASCII
       string: ''
@@ -61,7 +61,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:32:00 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/3e0c71ada2db20f16c23d5b2cb0f9ebddb7dc6df902d9d8c3dbea15cb6a308e5/tag?repo=pangea-testing%2Fubuntu&tag=wily
+    uri: unix:///var/run/docker.sock/v1.24/images/3e0c71ada2db20f16c23d5b2cb0f9ebddb7dc6df902d9d8c3dbea15cb6a308e5/tag?repo=pangea-testing%2Fubuntu&tag=wily
     body:
       encoding: US-ASCII
       string: ''
@@ -88,7 +88,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:32:00 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/create?fromImage=ubuntu%3Atest_upgrade
+    uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Atest_upgrade
     body:
       encoding: US-ASCII
       string: ''
@@ -115,7 +115,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:32:15 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/ubuntu:test_upgrade/json
+    uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:test_upgrade/json
     body:
       encoding: US-ASCII
       string: ''
@@ -143,7 +143,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:32:15 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/ubuntu:test_upgrade/json
+    uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:test_upgrade/json
     body:
       encoding: US-ASCII
       string: ''
@@ -171,7 +171,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:32:15 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/ubuntu:test_upgrade/json
+    uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:test_upgrade/json
     body:
       encoding: US-ASCII
       string: ''
@@ -199,7 +199,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:32:15 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/ubuntu:test_upgrade/json
+    uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:test_upgrade/json
     body:
       encoding: US-ASCII
       string: ''
@@ -227,7 +227,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:32:15 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/create?fromImage=ubuntu%3Awily
+    uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Awily
     body:
       encoding: US-ASCII
       string: ''
@@ -258,7 +258,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:32:17 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/ubuntu:wily/json
+    uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:wily/json
     body:
       encoding: US-ASCII
       string: ''
@@ -286,7 +286,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:32:17 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/3e0c71ada2db20f16c23d5b2cb0f9ebddb7dc6df902d9d8c3dbea15cb6a308e5/tag?repo=pangea-testing%2Fubuntu&tag=test_upgrade
+    uri: unix:///var/run/docker.sock/v1.24/images/3e0c71ada2db20f16c23d5b2cb0f9ebddb7dc6df902d9d8c3dbea15cb6a308e5/tag?repo=pangea-testing%2Fubuntu&tag=test_upgrade
     body:
       encoding: US-ASCII
       string: ''
