@@ -14,7 +14,7 @@ class ContainerTest < TestCase
     # the vcr data.
     c = Docker::Container.get(@job_name)
     c.stop
-    c.kill!
+    c.kill! if c.json['State']['Running']
     c.remove
   rescue Docker::Error::NotFoundError, Excon::Errors::SocketError
   end
@@ -29,13 +29,12 @@ class ContainerTest < TestCase
       }
     end
 
-    # Chdir to root, as Containment will set the working dir to PWD and this
-    # is slightly unwanted for tmpdir tests.
-    Dir.chdir('/')
-
     @job_name = self.class.to_s
     @image = 'ubuntu:15.04'
-    VCR.turned_off { cleanup_container }
+    VCR.turned_off do
+      cleanup_container
+      Docker::Image.create(fromImage: @image)
+    end
   end
 
   def teardown
