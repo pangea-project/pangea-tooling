@@ -62,7 +62,7 @@ class NCISourcerTest < TestCase
     fake_tar.stubs(:origify).returns(fake_tar)
     fake_fetcher = mock('fake_fetcher')
     fake_fetcher.stubs(:fetch).with('source').returns(fake_tar)
-    CI::WatchTarFetcher.expects(:new).with('packaging/debian/watch', true).returns(fake_fetcher)
+    CI::WatchTarFetcher.expects(:new).with('packaging/debian/watch', false).returns(fake_fetcher)
 
     fake_builder = mock('fake_builder')
     fake_builder.stubs(:build)

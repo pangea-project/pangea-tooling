@@ -77,8 +77,8 @@ module CI
     end
 
     def mangle_url(data)
-      data.gsub(%r{download.kde.org/stable/plasma},
-                'download.kde.org.uk/stable/plasma')
+      data.gsub(%r{download.kde.org/stable/applications},
+                'download.kde.org.uk/stable/applications')
     end
 
     def uscan(chdir, destdir)
