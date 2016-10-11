@@ -17,10 +17,13 @@ module CI
 
     def stop(options = {})
       super(options)
-      kill!(options)
+      kill!(options) if running?
       rescued_remove
     end
 
+    def running?
+      json['State']['Running']
+    end
     # def kill!(options = {})
     #   super(options)
     #   rescued_remove

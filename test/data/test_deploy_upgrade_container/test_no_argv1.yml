@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/version
+    uri: unix:///var/run/docker.sock/v1.24/version
     body:
       encoding: US-ASCII
       string: ''
@@ -30,7 +30,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/deployupgradetest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -58,7 +58,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/deployupgradetest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -86,7 +86,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/deployupgradetest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -114,7 +114,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/deployupgradetest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -142,7 +142,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/deployupgradetest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -170,7 +170,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/deployupgradetest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -198,7 +198,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/deployupgradetest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -226,7 +226,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/deployupgradetest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -254,7 +254,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/create
+    uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
       string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"deployupgradetest:latest","Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh","vivid"],"Volumes":{"<%=
@@ -283,7 +283,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2/rename?name=deployupgradetest
+    uri: unix:///var/run/docker.sock/v1.24/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2/rename?name=deployupgradetest
     body:
       encoding: US-ASCII
       string: ''
@@ -306,7 +306,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2/start
     body:
       encoding: UTF-8
       string: '{"Binds":["<%= Dir.pwd %>:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
@@ -329,7 +329,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:11 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -357,7 +357,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:12 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -380,7 +380,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:12 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2/kill
+    uri: unix:///var/run/docker.sock/v1.24/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2/kill
     body:
       encoding: US-ASCII
       string: ''
@@ -403,7 +403,7 @@ http_interactions:
   recorded_at: Thu, 01 Oct 2015 10:43:12 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2
+    uri: unix:///var/run/docker.sock/v1.24/containers/cc014e5d359e032c3d391acc9e247284691d174854b5a621db52f40c91d984d2
     body:
       encoding: US-ASCII
       string: ''

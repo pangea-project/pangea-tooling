@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/ContainerTest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/ContainerTest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -30,7 +30,7 @@ http_interactions:
   recorded_at: Wed, 20 May 2015 15:29:13 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/ContainerTest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/ContainerTest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -58,7 +58,7 @@ http_interactions:
   recorded_at: Wed, 20 May 2015 15:29:13 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/ContainerTest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/ContainerTest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -86,7 +86,7 @@ http_interactions:
   recorded_at: Wed, 20 May 2015 15:29:13 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/ContainerTest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/ContainerTest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -114,7 +114,7 @@ http_interactions:
   recorded_at: Wed, 20 May 2015 15:29:13 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/create?name=ContainerTest
+    uri: unix:///var/run/docker.sock/v1.24/containers/create?name=ContainerTest
     body:
       encoding: UTF-8
       string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"ubuntu:15.04","Volumes":{"/":{}}}'
@@ -142,7 +142,7 @@ http_interactions:
   recorded_at: Wed, 20 May 2015 15:29:14 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/ContainerTest/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/ContainerTest/json
     body:
       encoding: US-ASCII
       string: ''

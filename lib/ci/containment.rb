@@ -55,7 +55,7 @@ module CI
     def cleanup
       c = EphemeralContainer.get(@name)
       @log.info 'Cleaning up previous container.'
-      c.kill!
+      c.kill! if c.running?
       c.remove
     rescue Docker::Error::NotFoundError
       @log.info 'Not cleaning up, no previous container found.'
@@ -66,7 +66,9 @@ module CI
         # Internal
         binds: @binds,
         # Docker
-        Image: @image.to_str # Can be a PangeaImage instance
+        # Can be a PangeaImage instance
+        Image: @image.to_str,
+        Privileged: @privileged
       }
 
       # Disable UsernsMode for privileged containers
@@ -169,7 +171,7 @@ module CI
     end
 
     def rescued_start(c)
-      c.start(Privileged: @privileged)
+      c.start
       status_code = c.wait.fetch('StatusCode', 1)
       c.stop
       status_code

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/json?all=true&filters=%7B%22status%22%3A%5B%22exited%22%5D%7D
+    uri: unix:///var/run/docker.sock/v1.24/containers/json?all=true&filters=%7B%22status%22%3A%5B%22exited%22%5D%7D
     body:
       encoding: US-ASCII
       string: ''
@@ -31,7 +31,7 @@ http_interactions:
   recorded_at: Thu, 17 Sep 2015 15:40:00 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/json?all=true
+    uri: unix:///var/run/docker.sock/v1.24/images/json?all=true
     body:
       encoding: US-ASCII
       string: ''
@@ -70,7 +70,7 @@ http_interactions:
   recorded_at: Thu, 17 Sep 2015 15:40:00 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a
+    uri: unix:///var/run/docker.sock/v1.24/images/acdec9ec413b9301e366308f572f6966e03306fd1c2dc3cce526928b2a5eac3a
     body:
       encoding: US-ASCII
       string: ''
@@ -98,7 +98,7 @@ http_interactions:
   recorded_at: Thu, 17 Sep 2015 15:40:00 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff
+    uri: unix:///var/run/docker.sock/v1.24/images/67d39f70e9bc7eafe3ed808afc81d593799437407ac1a9680082af586a8b86ff
     body:
       encoding: US-ASCII
       string: ''
@@ -126,7 +126,7 @@ http_interactions:
   recorded_at: Thu, 17 Sep 2015 15:40:00 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/3ba895afa4b1a4413ecc6dad609ec49bcb5bb4b283018a182cb15b0fccc426f4
+    uri: unix:///var/run/docker.sock/v1.24/images/3ba895afa4b1a4413ecc6dad609ec49bcb5bb4b283018a182cb15b0fccc426f4
     body:
       encoding: US-ASCII
       string: ''
@@ -154,7 +154,7 @@ http_interactions:
   recorded_at: Thu, 17 Sep 2015 15:40:00 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/7442c3ed5d1998363fbabc95e6461afd39c0e12fc0a1bd72590c20ec023bd50f
+    uri: unix:///var/run/docker.sock/v1.24/images/7442c3ed5d1998363fbabc95e6461afd39c0e12fc0a1bd72590c20ec023bd50f
     body:
       encoding: US-ASCII
       string: ''
@@ -182,7 +182,7 @@ http_interactions:
   recorded_at: Thu, 17 Sep 2015 15:40:00 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6
+    uri: unix:///var/run/docker.sock/v1.24/images/2bd276ed39d5fcfd3d00ce0a190beeea508332f5aec3c6a125cc619a3fdbade6
     body:
       encoding: US-ASCII
       string: ''
@@ -210,7 +210,7 @@ http_interactions:
   recorded_at: Thu, 17 Sep 2015 15:40:00 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/13c0c663a321cd83a97f4ce1ecbaf17c2ba166527c3b06daaefe30695c5fcb8c
+    uri: unix:///var/run/docker.sock/v1.24/images/13c0c663a321cd83a97f4ce1ecbaf17c2ba166527c3b06daaefe30695c5fcb8c
     body:
       encoding: US-ASCII
       string: ''
@@ -238,7 +238,7 @@ http_interactions:
   recorded_at: Thu, 17 Sep 2015 15:40:00 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/6e6a100fa147e6db53b684c8516e3e2588b160fd4898b6265545d5d4edb6796d
+    uri: unix:///var/run/docker.sock/v1.24/images/6e6a100fa147e6db53b684c8516e3e2588b160fd4898b6265545d5d4edb6796d
     body:
       encoding: US-ASCII
       string: ''
