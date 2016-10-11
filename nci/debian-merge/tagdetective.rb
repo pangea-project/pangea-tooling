@@ -46,13 +46,11 @@ class TagDetective
     @last_tag_base ||= begin
       ecm = frameworks.find { |x| x.include?('frameworks/extra-cmake-modules') }
       raise unless ecm
-      last_tag_base = nil
       Dir.mktmpdir do |tmpdir|
         git = Git.clone(ecm, tmpdir)
         last_tag = git.describe(ORIGIN, tags: true, abbrev: 0)
-        last_tag_base = last_tag.reverse.split('-', 2)[-1].reverse
+        last_tag.reverse.split('-', 2)[-1].reverse
       end
-      last_tag_base
     end
   end
 
