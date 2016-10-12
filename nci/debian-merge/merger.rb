@@ -40,8 +40,7 @@ module NCI
         @observations = Concurrent::Array.new
       end
 
-      def update(time, value, reason)
-        p [time, value.nil?, reason]
+      def update(_time, value, _reason)
         @observations << value
       end
 
