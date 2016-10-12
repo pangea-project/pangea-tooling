@@ -40,21 +40,22 @@ class Shebang
   def parse
     return unless proper_line?
 
-    parts = line.split(' ')
+    parts = @line.split(' ')
     return unless parts.size >= 1 # shouldn't even happen as parts is always 1
-    process(parts)
+    return unless valid_parts?(parts)
 
     @valid = true
   end
 
-  def process(parts)
+  def valid_parts?(parts)
     if parts[0].end_with?('/env')
-      return unless parts.size >= 2
+      return false unless parts.size >= 2
       @parser = parts[1]
     elsif !parts[0].include?('/') || parts[0].end_with?('/')
-      return # invalid
+      return false # invalid
     else
       @parser = parts[0].split('/').pop
     end
+    true
   end
 end
