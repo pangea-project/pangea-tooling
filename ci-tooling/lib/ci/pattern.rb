@@ -105,15 +105,6 @@ module CI
     end
   end
 
-  # @deprecated use FNMatchPattern
-  class Pattern < FNMatchPattern # Compat
-    extend Deprecate
-    def initialize(*args)
-      super
-    end
-    deprecate :initialize, :FNMatchPattern, 2016, 02
-  end
-
   # Simple .include? pattern. An instance of this pattern matches a reference
   # if it is included in the reference in any form or fashion at any given
   # location. It is therefore less accurate than the FNMatchPattern but more
