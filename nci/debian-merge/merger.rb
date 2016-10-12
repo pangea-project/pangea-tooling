@@ -53,9 +53,9 @@ module NCI
         @futures.each(&:execute)
         sleep 1 until @futures.all?(&:complete?)
         # raise unless @futures.any?(&:rejected?)
-        @futures.find_all(&:rejected?).each do |r|
-          raise r.reason
-        end
+        # @futures.find_all(&:rejected?).each do |r|
+        #   raise r.reason
+        # end
         @observations
       end
     end
@@ -71,6 +71,11 @@ module NCI
       def run
         Dir.mktmpdir do |tmpdir|
           futures = merge_repos(tmpdir)
+          @failed_merges.each do |url, error|
+            puts url
+            puts error
+          end
+          raise unless @failed_merges.empty?
           push_futures(futures)
         end
       end
