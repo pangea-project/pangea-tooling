@@ -67,5 +67,3 @@ repo.published_in.each do |pub|
   pub.drop
   snapshot.publish(prefix, attributes)
 end
-
-{:Architectures=>["all", "amd64", "i386", "source"], :Distribution=>"xenial", :Label=>"KDE neon - Dev Edition Unstable", :Origin=>"neon", :SkipContents=>false, :SourceKind=>"local", :Storage=>""}
