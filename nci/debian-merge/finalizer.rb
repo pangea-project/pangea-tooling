@@ -94,5 +94,5 @@ module NCI
 end
 
 # :nocov:
-Finalizer.new.run if __FILE__ == $PROGRAM_NAME
+NCI::DebianMerge::Finalizer.new.run if __FILE__ == $PROGRAM_NAME
 # :nocov:
