@@ -25,6 +25,8 @@ require 'tmpdir'
 
 require_relative '../../ci-tooling/lib/projects/factory/neon'
 
+# Finds latest tag of ECM and then makes sure all other frameworks
+# have the same base version in their tag (i.e. the tags are consistent)
 class TagDetective
   ORIGIN = 'origin/master'.freeze
   ExCLUSION = %w(frameworks/prison frameworks/kactivities frameworks/purpose
@@ -72,7 +74,5 @@ class TagDetective
 end
 
 # :nocov:
-if __FILE__ == $PROGRAM_NAME
-  TagDetective.new.investigate
-end
+TagDetective.new.investigate if __FILE__ == $PROGRAM_NAME
 # :nocov:
