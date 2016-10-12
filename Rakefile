@@ -98,7 +98,7 @@ CLEAN << 'cloc.xml'
 begin
   require 'rubocop/rake_task'
 
-  desc 'Run RuboCop on the lib directory'
+  desc 'Run RuboCop on the lib directory (xml)'
   RuboCop::RakeTask.new(:rubocop) do |task|
     task.requires << 'rubocop/formatter/checkstyle_formatter'
     BIN_DIRS.each { |bindir| task.patterns << "#{bindir}/*.rb" }
@@ -109,6 +109,18 @@ begin
     task.verbose = false
   end
   CLEAN << 'checkstyle.xml'
+
+  desc 'Run RuboCop on the lib directory (html)'
+  RuboCop::RakeTask.new('rubocop::html') do |task|
+    task.requires << 'rubocop/formatter/html_formatter'
+    BIN_DIRS.each { |bindir| task.patterns << "#{bindir}/*.rb" }
+    SOURCE_DIRS.each { |srcdir| task.patterns << "#{srcdir}/**/*.rb" }
+    task.formatters = ['RuboCop::Formatter::HTMLFormatter']
+    task.options << '--out' << 'rubocop.html'
+    task.fail_on_error = false
+    task.verbose = false
+  end
+  CLEAN << 'rubocop.html'
 rescue LoadError
   puts 'rubocop not installed, skipping'
 end
