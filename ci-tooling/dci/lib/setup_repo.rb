@@ -53,8 +53,7 @@ module DCI
     # Need a newer uscan
     packages = ["devscripts/#{release}-backports",
                 "pbuilder/#{release}-backports",
-                "dh-autoreconf/#{release}-backports"
-               ]
+                "dh-autoreconf/#{release}-backports"]
     Apt.install(packages)
   end
 
