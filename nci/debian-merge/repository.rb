@@ -65,7 +65,7 @@ module NCI
 
         # If the ancestor is the tag then the tag has been
         # merged already (i.e. the ancestor would be the tag itself)
-        raise 'ALREADY MERGED' if tag.target == ancestor
+        return if tag.target == ancestor
 
         merge_commit
       end
