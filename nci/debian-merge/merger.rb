@@ -21,6 +21,8 @@
 
 require 'concurrent'
 require 'json'
+require 'logger'
+require 'logger/colors'
 require 'tmpdir'
 
 require_relative 'data'
@@ -63,6 +65,7 @@ module NCI
     class Merger
       def initialize
         @data = Data.from_file
+        @log = Logger.new(STDERR)
       end
 
       def run
@@ -78,13 +81,17 @@ module NCI
         repo = Repository.clone_into(url, tmpdir)
         repo.tag_base = @data.tag_base
         repo.merge
-        Concurrent::Future.new { repo.push }
+        Concurrent::Future.new do
+          @log.info "Pushing #{url}"
+          repo.push
+        end
       end
 
       def merge_repos(tmpdir)
         merge_observer = FutureObserver.new
         @data.repos.each do |url|
           f = Concurrent::Future.new do
+            @log.info "Merging #{url}"
             merge_future(url, tmpdir)
           end
           merge_observer.observe(f)
