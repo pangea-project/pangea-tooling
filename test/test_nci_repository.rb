@@ -165,10 +165,11 @@ module NCI
         end
         repo.send(:mangle_push_path!) # private
         Dir.chdir('fishy') do
-          puts `git remote get-url origin`
-          puts `git remote get-url --push origin`
-          assert_equal('neon@git.neon.kde.org:frameworks/khtml',
-                       `git remote get-url --push origin`.strip)
+          ret = `git remote show origin`.strip
+          # find the line which defines the push url
+          ret = ret.split($/).find { |x| x.strip.downcase.start_with?('push') }
+          ret = ret.strip.split(' ')[-1] # url is last space separated part
+          assert_equal('neon@git.neon.kde.org:frameworks/khtml', ret)
         end
       end
 
