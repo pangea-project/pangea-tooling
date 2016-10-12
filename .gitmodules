@@ -2,3 +2,4 @@
 	path = ci-tooling/data/projects
 	url = https://github.com/blue-systems/pangea-conf-projects.git
 	branch = master
+	ignore = all
