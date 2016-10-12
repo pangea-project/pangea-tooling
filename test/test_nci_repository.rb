@@ -165,6 +165,8 @@ module NCI
         end
         repo.send(:mangle_push_path!) # private
         Dir.chdir('fishy') do
+          puts `git remote get-url origin`
+          puts `git remote get-url --push origin`
           assert_equal('neon@git.neon.kde.org:frameworks/khtml',
                        `git remote get-url --push origin`.strip)
         end
