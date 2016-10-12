@@ -69,7 +69,7 @@ class TagDetective
     data = {}
     data[:tag_base] = last_tag_base
     data[:repos] = frameworks.each do |url|
-      validate(url, tag_base)
+      validate(url)
     end
     data
   end
