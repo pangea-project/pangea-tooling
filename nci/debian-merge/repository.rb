@@ -113,6 +113,7 @@ module NCI
         puts "pull url #{remote.url}"
         return unless remote.url.include?('anongit.neon.kde')
         pull_path = GitCloneUrl.parse(remote.url).path[1..-1]
+        puts "mangle to neon@git.neon.kde.org:#{pull_path}"
         remote.push_url = "neon@git.neon.kde.org:#{pull_path}"
       end
 
