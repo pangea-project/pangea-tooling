@@ -44,6 +44,20 @@ module NCI
         @git = Git.clone(url, path)
         @rug = Rugged::Repository.init_at("#{dir}/#{File.basename(url)}")
         @url = url
+        config_repo
+      end
+
+      def config_repo
+        @git.config('merge.dpkg-mergechangelogs.name',
+                    'debian/changelog merge driver')
+        @git.config('merge.dpkg-mergechangelogs.driver',
+                    'dpkg-mergechangelogs -m %O %A %B %A')
+        repo_path = @git.repo.path
+        FileUtils.mkpath("#{repo_path}/info")
+        File.write("#{repo_path}/info/attributes",
+                   "debian/changelog merge=dpkg-mergechangelogs\n")
+        @git.config('user.name', 'Neon CI')
+        @git.config('user.email', 'neon@kde.org')
       end
 
       def merge
@@ -89,23 +103,8 @@ module NCI
       end
 
       def merge_commit
-        index = @rug.merge_commits(branch.target, tag.target)
-        raise 'conflicts' if index.conflicts?
-        @rug.checkout(branch)
-        commit(index)
-      end
-
-      def commit(index)
-        author = { name: 'Neon CI', email: 'neon@kde.org', time: Time.now }
-        Rugged::Commit.create(
-          @rug,
-          message: "Automatic merging of Debian's #{tag.name}",
-          committer: author,
-          author: author,
-          parents: [branch.target, tag.target],
-          tree: index.write_tree(@rug),
-          update_ref: branch.canonical_name
-        )
+        @git.checkout(branch.name)
+        @git.merge(tag.target_id, "Automatic merging of Debian's #{tag.name}")
       end
 
       def mangle_push_path!
