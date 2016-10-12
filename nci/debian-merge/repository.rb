@@ -110,6 +110,7 @@ module NCI
 
       def mangle_push_path!
         remote = @rug.remotes['origin']
+        puts "pull url #{remote.url}"
         return unless remote.url.include?('anongit.neon.kde')
         pull_path = GitCloneUrl.parse(remote.url).path[1..-1]
         remote.push_url = "neon@git.neon.kde.org:#{pull_path}"
