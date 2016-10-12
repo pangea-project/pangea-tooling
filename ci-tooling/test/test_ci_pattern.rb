@@ -78,12 +78,6 @@ class CIPatternTest < TestCase
     assert_false(pattern.match?("yolo"))
   end
 
-  def test_deprecation
-    # Pattern deprecated pointing to FNMatchPattern
-    CI::Pattern.new('a')
-    CI::FNMatchPattern.new('a')
-  end
-
   def test_fn_extglob
     pattern = CI::FNMatchPattern.new('*{packaging.neon,git.debian}*/plasma/plasma-discover')
     assert pattern.match?('git.debian.org:/git/pkg-kde/plasma/plasma-discover')
