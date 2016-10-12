@@ -65,6 +65,7 @@ module NCI
       def initialize
         @data = Data.from_file
         @log = Logger.new(STDERR)
+        @failed_merges = Concurrent::Hash.new
       end
 
       def run
@@ -76,9 +77,11 @@ module NCI
 
       # kind of private bits
 
-      def merge_future(url, tmpdir)
+      def merge(url, tmpdir)
+        @log.info "Cloning #{url}"
         repo = Repository.clone_into(url, tmpdir)
         repo.tag_base = @data.tag_base
+        @log.info "Merging #{url}"
         repo.merge
         Concurrent::Future.new do
           @log.info "Pushing #{url}"
@@ -86,14 +89,21 @@ module NCI
         end
       end
 
+      def merge_future(url, tmpdir)
+        Concurrent::Future.new do
+          begin
+            merge(url, tmpdir)
+          rescue => e
+            @failed_merges[url] = e
+            raise e
+          end
+        end
+      end
+
       def merge_repos(tmpdir)
         merge_observer = FutureObserver.new
         @data.repos.each do |url|
-          f = Concurrent::Future.new do
-            @log.info "Merging #{url}"
-            merge_future(url, tmpdir)
-          end
-          merge_observer.observe(f)
+          merge_observer.observe(merge_future(url, tmpdir))
         end
         merge_observer.wait_for_all
       end

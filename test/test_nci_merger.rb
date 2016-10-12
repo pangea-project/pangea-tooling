@@ -73,7 +73,7 @@ module NCI
         repo.expects(:merge)
 
         File.write('data.json', JSON.generate(json))
-        assert_is_a(Merger.new.merge_future(url, tag_base), Concurrent::Future)
+        assert_is_a(Merger.new.merge(url, tag_base), Concurrent::Future)
       end
     end
   end
