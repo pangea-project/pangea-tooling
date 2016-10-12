@@ -21,6 +21,8 @@
 
 require 'git'
 require 'json'
+require 'logger'
+require 'logger/colors'
 require 'tmpdir'
 
 require_relative '../../ci-tooling/lib/projects/factory/neon'
@@ -32,7 +34,12 @@ class TagDetective
   ExCLUSION = %w(frameworks/prison frameworks/kactivities frameworks/purpose
                  frameworks/syntax-highlighting).freeze
 
+  def initialize
+    @log = Logger.new(STDOUT)
+  end
+
   def list_frameworks
+    @log.info 'listing frameworks'
     ProjectsFactory::Neon.ls.select do |x|
       x.start_with?('frameworks/') && !ExCLUSION.include?(x)
     end
@@ -46,6 +53,7 @@ class TagDetective
 
   def last_tag_base
     @last_tag_base ||= begin
+      @log.info 'finding latest tag of ECM'
       ecm = frameworks.find { |x| x.include?('frameworks/extra-cmake-modules') }
       raise unless ecm
       Dir.mktmpdir do |tmpdir|
@@ -57,15 +65,22 @@ class TagDetective
   end
 
   def investigation_data
+    # TODO: this probably should be moved to Data class
     data = {}
     data[:tag_base] = last_tag_base
     data[:repos] = frameworks.each do |url|
-      valid = Git.ls_remote(url).fetch('tags').keys.any? do |x|
-        x.start_with?(last_tag_base)
-      end
-      raise "found no #{last_tag_base} tag in #{url}" unless valid
+      validate(url, tag_base)
     end
     data
+  end
+
+  def validate(url)
+    @log.info "checking if tag matches on #{url}"
+    valid = Git.ls_remote(url).fetch('tags').keys.any? do |x|
+      x.start_with?(last_tag_base)
+    end
+    raise "found no #{last_tag_base} tag in #{url}" unless valid
+    @log.info " looking good #{url}"
   end
 
   def run
