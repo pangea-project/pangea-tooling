@@ -43,7 +43,7 @@ module NCI
         # ruby MRI
         @git = Git.clone(url, path)
         @rug = Rugged::Repository.init_at("#{dir}/#{File.basename(url)}")
-        # @git = Git.open(@rug.workdir)
+        @url = url
       end
 
       def merge
