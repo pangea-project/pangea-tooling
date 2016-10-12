@@ -72,6 +72,7 @@ module NCI
         Dir.mktmpdir do |tmpdir|
           futures = merge_repos(tmpdir)
           @failed_merges.each do |url, error|
+            puts "\n\n\n"
             puts url
             puts error
           end
