@@ -68,11 +68,12 @@ class TagDetective
     data
   end
 
-  def investigate
+  def run
     File.write('data.json', JSON.generate(investigation_data))
   end
+  alias investigate run
 end
 
 # :nocov:
-TagDetective.new.investigate if __FILE__ == $PROGRAM_NAME
+TagDetective.new.run if __FILE__ == $PROGRAM_NAME
 # :nocov:
