@@ -33,7 +33,7 @@ module CI
       return nil if orig?
       name = File.basename(@path)
       dir = File.dirname(@path)
-      match = name.match(/(?<name>.+)-(?<version>[\d.]+)\.(?<ext>tar(.*))/)
+      match = name.match(/(?<name>.+)-(?<version>[\d.]+~)\.(?<ext>tar(.*))/)
       raise "Could not parse tarball #{name}" unless match
       old_path = @path
       @path = "#{dir}/#{match[:name]}_#{match[:version]}.orig.#{match[:ext]}"
