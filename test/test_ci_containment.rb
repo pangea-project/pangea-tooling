@@ -76,12 +76,13 @@ module CI
 
     def vcr_it(meth, **kwords)
       VCR.use_cassette(meth, kwords) do |cassette|
-        CI::EphemeralContainer.safety_sleep = 0 unless cassette.recording?
         if cassette.recording?
           VCR.turned_off do
             image = Docker::Image.create(fromImage: 'ubuntu:vivid')
             image.tag(repo: @image.repo, tag: @image.tag) unless Docker::Image.exist? @image.to_s
           end
+        else
+          CI::EphemeralContainer.safety_sleep = 0 
         end
         yield cassette
       end
