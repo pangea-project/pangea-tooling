@@ -38,4 +38,5 @@
   applications: kde-applications
   maui-common: maui
   ds9-debian-packaging: extras
+  ds9-extras-packaging: extras
   netrunner-desktop: netrunner-desktop
