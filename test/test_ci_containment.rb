@@ -39,17 +39,14 @@ module CI
         }
         config.filter_sensitive_data('<%= Dir.pwd %>', :erb_pwd) { Dir.pwd }
       end
+      # Chdir to root, as Containment will set the working dir to PWD and this
+      # is slightly unwanted for tmpdir tests.
       Dir.chdir('/')
 
       @job_name = 'vivid_unstable_test'
       @image = PangeaImage.new('ubuntu', 'vivid')
 
-      VCR.turned_off do
-        cleanup_container
-        image = Docker::Image.create(fromImage: 'ubuntu:vivid')
-        image.tag(repo: @image.repo, tag: @image.tag) unless Docker::Image.exist? @image.to_s
-      end
-
+      VCR.turned_off { cleanup_container }
       Containment::TRAP_SIGNALS.each { |s| Signal.trap(s, nil) }
 
       # Fake info call for consistency
@@ -80,6 +77,12 @@ module CI
     def vcr_it(meth, **kwords)
       VCR.use_cassette(meth, kwords) do |cassette|
         CI::EphemeralContainer.safety_sleep = 0 unless cassette.recording?
+        if cassette.recording?
+          VCR.turned_off do
+            image = Docker::Image.create(fromImage: 'ubuntu:vivid')
+            image.tag(repo: @image.repo, tag: @image.tag) unless Docker::Image.exist? @image.to_s
+          end
+        end
         yield cassette
       end
     end
@@ -254,13 +257,14 @@ module CI
     def test_ZZZ_binds # Last test always! Changes VCR configuration.
       # Container binds were overwritten by Containment at some point, make
       # sure the binds we put in a re the binds that are passed to docker.
+      WebMock.disable_net_connect!
       VCR.turned_off do
         Dir.chdir(@tmpdir) do
+          CI::EphemeralContainer.stubs(:create)
+                                .with({ :binds => [@tmpdir], :Image => @image.to_s, :Privileged => false, :Cmd => ['bash', '-c', 'exit', '0'] })
+                                .raises(CI::BindsPassed)
+          c = Containment.new(@job_name, image: @image, binds: [Dir.pwd])
           assert_raise CI::BindsPassed do
-            CI::EphemeralContainer.stubs(:create)
-                                  .with({ :binds => [@tmpdir], :Image => @image.to_s, :Privileged => false, :Cmd => ['bash', '-c', 'exit', '0'] })
-                                  .raises(CI::BindsPassed)
-            c = Containment.new(@job_name, image: @image, binds: [Dir.pwd])
             c.run(Cmd: %w(bash -c exit 0))
           end
         end

@@ -1,6 +1,6 @@
 require 'docker'
 
-Docker::API_VERSION = '1.24'.freeze
+Docker::API_VERSION = '1.24'.freeze if Docker::API_VERSION.to_f < 1.24
 
 require_relative 'directbindingarray'
 require_relative '../../ci-tooling/lib/retry'
@@ -35,11 +35,11 @@ module CI
                     **options_)
       # FIXME: commented to allow tests passing with old containment data
       # assert_version
-      @binds = binds
       options = merge_env(default_create_options, options_)
       options = options.merge(options_)
       options = override_options(options, name, binds)
       c = super(options, connection)
+      c.send(:instance_variable_set, :@binds, binds)
       c
     end
 
