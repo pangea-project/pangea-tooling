@@ -42,7 +42,7 @@ module NCI
         # Also cloning through a subprocess allows proper parallelism even with
         # ruby MRI
         @git = Git.clone(url, path)
-        @rug = Rugged::Repository.init_at("#{dir}/#{File.basename(url)}")
+        @rug = Rugged::Repository.init_at(path)
         @url = url
         config_repo
       end
