@@ -1,6 +1,8 @@
 require 'docker'
 
-Docker::API_VERSION = '1.24'.freeze if Docker::API_VERSION.to_f < 1.24
+if Gem::Version.new(Docker::API_VERSION) < Gem::Version.new(1.24)
+  Docker::API_VERSION = '1.24'.freeze
+end
 
 require_relative 'directbindingarray'
 require_relative '../../ci-tooling/lib/retry'
