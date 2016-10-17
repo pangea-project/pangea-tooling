@@ -40,7 +40,7 @@ class ContainerTest < TestCase
     VCR.turned_off { cleanup_container }
   end
 
-  #FIXME: Make vcr_it a common method for tests
+  # FIXME: Make vcr_it a common method for tests
   def vcr_it(meth, **kwords)
     VCR.use_cassette(meth, kwords) do |cassette|
       if cassette.recording?
