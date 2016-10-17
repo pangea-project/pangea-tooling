@@ -32,6 +32,7 @@
   pkg-lxqt: backports
   debhelper: backports
   forks: backports
+  pkg-xorg: backports
   netrunner-common: netrunner
   ds9-common: ds9-common
   ds9-artwork: ds9-artwork
