@@ -33,7 +33,6 @@ class ContainerTest < TestCase
     @image = 'ubuntu:15.04'
     VCR.turned_off do
       cleanup_container
-      Docker::Image.create(fromImage: @image)
     end
   end
 
@@ -41,8 +40,22 @@ class ContainerTest < TestCase
     VCR.turned_off { cleanup_container }
   end
 
+  #FIXME: Make vcr_it a common method for tests
+  def vcr_it(meth, **kwords)
+    VCR.use_cassette(meth, kwords) do |cassette|
+      if cassette.recording?
+        VCR.turned_off do
+          Docker::Image.create(fromImage: @image)
+        end
+      else
+        CI::EphemeralContainer.safety_sleep = 0
+      end
+      yield cassette
+    end
+  end
+
   def test_exist
-    VCR.use_cassette(__method__) do
+    vcr_it(__method__) do
       assert(!CI::Container.exist?(@job_name))
       CI::Container.create(Image: @image, name: @job_name)
       assert(CI::Container.exist?(@job_name))
