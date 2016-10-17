@@ -14,7 +14,7 @@ class ContainerTest < TestCase
     # the vcr data.
     c = Docker::Container.get(@job_name)
     c.stop
-    c.kill! if c.json['State']['Running']
+    c.kill! if c.json.fetch['State'].fetch['Running']
     c.remove
   rescue Docker::Error::NotFoundError, Excon::Errors::SocketError
   end
