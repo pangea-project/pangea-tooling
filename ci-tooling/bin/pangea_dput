@@ -30,8 +30,8 @@ require 'net/ssh/gateway'
 require_relative '../lib/ci/deb822_lister'
 
 options = OpenStruct.new
-options.host = 'archive-api.neon.kde.org'
-options.port = '443'
+options.host = 'archive.neon.kde.org'
+options.port = '80'
 options.repo = nil
 options.gateway = nil
 
