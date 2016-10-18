@@ -22,16 +22,11 @@
 require_relative 'lib/lint/qml'
 require_relative 'lib/setup_repo'
 
-require 'net/ssh/gateway'
-
 NCI.add_repo_key!
 
-gateway = Net::SSH::Gateway.new('archive.neon.kde.org', 'neonarchives')
-port = gateway.open('localhost', '9090')
-
 Aptly.configure do |config|
-  config.host = 'localhost'
-  config.port = port
+  config.host = 'archive-api.neon.kde.org'
+  config.port = 9090
   # This is read-only.
 end
 
