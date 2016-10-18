@@ -31,9 +31,9 @@ require_relative '../lib/ci/deb822_lister'
 
 options = OpenStruct.new
 options.host = 'localhost'
-options.port = '9090'
+options.port = '80'
 options.repo = nil
-options.gateway = URI('ssh://neonarchives@archive.neon.kde.org:9090')
+options.gateway = nil
 
 parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{opts.program_name} [options] --repo yolo CHANGESFILE"
