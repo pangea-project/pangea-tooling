@@ -52,6 +52,7 @@ class DCISetupRepoTest < TestCase
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '-y', "deb http://deb.debian.org/debian #{release}-backports main"],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'dist-upgrade', '-t stretch-backports'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', "devscripts/#{release}-backports", "pbuilder/#{release}-backports", "dh-autoreconf/#{release}-backports"],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/frameworks stable main'],
       ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/plasma stable main'],

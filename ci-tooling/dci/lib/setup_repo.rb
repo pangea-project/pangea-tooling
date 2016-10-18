@@ -50,6 +50,7 @@ module DCI
     raise 'adding backports failed' unless Apt::Repository.add(debline)
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
 
+    Apt.dist_upgrade("-t #{release}-backports")
     # Need a newer uscan
     packages = ["devscripts/#{release}-backports",
                 "pbuilder/#{release}-backports",
