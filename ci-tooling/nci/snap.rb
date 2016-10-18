@@ -22,7 +22,7 @@
 require_relative 'lib/setup_repo.rb'
 
 NCI.setup_repo!
-Apt.install('snapcraft', 'appstream', 'gir1.2-appstream',
+Apt.install('snapcraft', 'appstream', 'gir1.2-appstream-1.0',
             'libappstream-dev', 'libgirepository1.0-dev',
             'zsync') || raise
 system('gem install gir_ffi') || raise
