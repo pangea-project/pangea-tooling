@@ -30,10 +30,10 @@ require 'net/ssh/gateway'
 require_relative '../lib/ci/deb822_lister'
 
 options = OpenStruct.new
-options.host = 'archive.neon.kde.org'
-options.port = '80'
+options.host = 'localhost'
+options.port = '9090'
 options.repo = nil
-options.gateway = nil
+options.gateway = 'ssh://darwini:9090'
 
 parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{opts.program_name} [options] --repo yolo CHANGESFILE"
