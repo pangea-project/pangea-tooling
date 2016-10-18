@@ -33,7 +33,7 @@ options = OpenStruct.new
 options.host = 'localhost'
 options.port = '9090'
 options.repo = nil
-options.gateway = 'ssh://neonarchives@archive.neon.kde.org:9090'
+options.gateway = URI('ssh://neonarchives@archive.neon.kde.org:9090')
 
 parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{opts.program_name} [options] --repo yolo CHANGESFILE"
