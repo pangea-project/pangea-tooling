@@ -37,7 +37,10 @@ module CI
 
     class DependencyResolver
       RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends-experimental'.freeze
-      RESOLVER_ENV = { 'DEBIAN_FRONTEND' => 'noninteractive' }.freeze
+      resolver_env = {}
+      resolver_env['APTITUDEOPT'] = '--target=jessie-backports' if OS::VERSION_ID == '8'
+      resolver_env['DEBIAN_FRONTEND'] = 'noninteractive'
+      RESOLVER_ENV = resolver_env.freeze
 
       def self.resolve(dir, bin_only: false)
         unless File.executable?(RESOLVER_BIN)
