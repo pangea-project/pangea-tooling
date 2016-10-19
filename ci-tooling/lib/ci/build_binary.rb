@@ -36,7 +36,7 @@ module CI
                             test-build-bin-only).freeze
 
     class DependencyResolver
-      RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'.freeze
+      RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends-classic'.freeze
       RESOLVER_ENV = { 'DEBIAN_FRONTEND' => 'noninteractive' }.freeze
 
       def self.resolve(dir, bin_only: false)
