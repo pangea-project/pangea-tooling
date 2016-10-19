@@ -55,7 +55,8 @@ module DCI
     packages = ["devscripts/#{release}-backports",
                 "pbuilder/#{release}-backports",
                 "dh-autoreconf/#{release}-backports",
-                "libudev-dev/#{release}-backports"]
+                "libudev-dev/#{release}-backports",
+                "libxapian-dev/#{release}-backports"]
     Apt.install(packages)
   end
 
