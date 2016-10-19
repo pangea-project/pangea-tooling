@@ -33,7 +33,8 @@ end
 parser.parse!
 
 Aptly.configure do |config|
-  config.host = 'archive.neon.kde.org'
+  config.host = 'archive-api.neon.kde.org'
+  config.port = 9090
   # This is read-only.
 end
 
