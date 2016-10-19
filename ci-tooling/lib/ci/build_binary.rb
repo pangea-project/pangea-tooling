@@ -36,7 +36,7 @@ module CI
                             test-build-bin-only).freeze
 
     class DependencyResolver
-      RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends-experimental'.freeze
+      RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'.freeze
       resolver_env = {}
       resolver_env['APTITUDEOPT'] = '--target-release=jessie-backports' if OS::VERSION_ID == '8'
       resolver_env['DEBIAN_FRONTEND'] = 'noninteractive'
