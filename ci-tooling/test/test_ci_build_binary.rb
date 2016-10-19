@@ -65,7 +65,7 @@ module CI
       Object.any_instance
             .expects(:system)
             .with({'DEBIAN_FRONTEND' => 'noninteractive'},
-                  '/usr/lib/pbuilder/pbuilder-satisfydepends-classic',
+                  '/usr/lib/pbuilder/pbuilder-satisfydepends-experimental',
                   '--binary-arch',
                   '--control', "#{Dir.pwd}/debian/control")
             .returns(true)
