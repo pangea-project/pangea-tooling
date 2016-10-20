@@ -30,6 +30,7 @@ TYPE = ENV.fetch('TYPE')
 NCI.setup_repo!
 
 # Build
+Apt.update
 Apt.install(%w(dub libappstream-dev libgdk-pixbuf2.0-dev libarchive-dev
                librsvg2-dev liblmdb-dev libglib2.0-dev libcairo2-dev
                libcurl4-gnutls-dev)) || raise
