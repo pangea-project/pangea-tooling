@@ -21,6 +21,7 @@ module CI
 
     # @return [Array] Binds API array of the form ["Path:Path"]
     def self.to_bindings(array)
+      array ||= []
       array.collect do |bind|
         volume_specification_check(bind)
         next bind if mapped?(bind)
