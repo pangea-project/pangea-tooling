@@ -1,6 +1,7 @@
 require 'vcr'
 
 require_relative '../lib/ci/container.rb'
+require_relative '../lib/ci/container/ephemeral'
 require_relative '../ci-tooling/test/lib/testcase'
 
 require 'mocha/test_unit'
@@ -27,6 +28,7 @@ class ContainerTest < TestCase
       config.default_cassette_options = {
         match_requests_on:  [:method, :uri, :body]
       }
+      config.filter_sensitive_data('<%= Dir.pwd %>', :erb_pwd) { Dir.pwd }
     end
 
     @job_name = self.class.to_s
@@ -55,7 +57,7 @@ class ContainerTest < TestCase
   end
 
   def test_exist
-    vcr_it(__method__) do
+    vcr_it(__method__, erb: true) do
       assert(!CI::Container.exist?(@job_name))
       CI::Container.create(Image: @image, name: @job_name)
       assert(CI::Container.exist?(@job_name))
