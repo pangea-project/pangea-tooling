@@ -1,10 +1,10 @@
 require_relative '../container'
 
 module CI
+  class EphemeralContainerUnhandledState < StandardError; end
   # An ephemeral container. It gets automatically removed after it closes.
   # This is slightly more reliable than Docker's own implementation as
   # this goes to extra lengths to make sure the container disappears.
-  class EphemeralContainerUnhandledState < StandardError; end
   class EphemeralContainer < Container
     @safety_sleep = 5
 
@@ -23,8 +23,8 @@ module CI
     end
 
     def running?
-      state = json.fetch['State']
-      raise EphemeralContainerUnhandledState unless state.fetch('Running')
+      state = json.fetch('State')
+      raise EphemeralContainerUnhandledState unless %w(exited running).include? state.fetch('Status')
       state.fetch('Running')
     end
     # def kill!(options = {})
