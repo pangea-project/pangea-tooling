@@ -42,6 +42,7 @@ EXCLUDE_SNAPS = %w(
   kdenetwork-filesharing kdesdk-thumbnailers khelpcenter kio-extras kqtquickcharts
   kuser libkdcraw libkdegames libkeduvocdocument libkexiv2 libkface libkgeomap libkipi
   libksane poxml akonadi-contacts print-manager marble khangman bovo kdevplatform sddm
+  kdevelop-python kdevelop-php phonon-backend-vlc phonon-backend-gstreamer
 ).freeze
 
 snap = Snap.new(File.read('snap.name'), '16.04.1')
