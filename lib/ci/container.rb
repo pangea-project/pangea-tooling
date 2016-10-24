@@ -1,9 +1,4 @@
-require 'docker'
-
-if Gem::Version.new(Docker::API_VERSION) < Gem::Version.new(1.24)
-  Docker::API_VERSION = '1.24'.freeze
-end
-
+require_relative 'docker'
 require_relative 'directbindingarray'
 require_relative '../../ci-tooling/lib/retry'
 
@@ -77,8 +72,8 @@ module CI
           # Force standard ulimit in the container.
           # Otherwise pretty much all APT IO operations are insanely slow:
           # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
-          # This in particular affects apt-extracttemplates which will take up to
-          # 20 minutes where it should take maybe 1/10 of that.
+          # This in particular affects apt-extracttemplates which will take up
+          # to 20 minutes where it should take maybe 1/10 of that.
           Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }],
           Binds: DirectBindingArray.to_bindings(@binds),
           WorkingDir: Dir.pwd,
