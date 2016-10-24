@@ -18,7 +18,7 @@ module CI
       # the vcr data.
       c = Docker::Container.get(@job_name)
       c.stop
-      c.kill! if c.json.fetch['State'].fetch['Running']
+      c.kill! if c.json.fetch('State').fetch('Running')
       c.remove
     rescue Docker::Error::NotFoundError, Excon::Errors::SocketError
     end
@@ -258,8 +258,7 @@ module CI
     def test_ZZZ_binds # Last test always! Changes VCR configuration.
       # Container binds were overwritten by Containment at some point, make
       # sure the binds we put in a re the binds that are passed to docker.
-      WebMock.disable_net_connect!
-      VCR.turned_off do
+      vcr_it(__method__) do
         Dir.chdir(@tmpdir) do
           CI::EphemeralContainer.stubs(:create)
                                 .with({ :binds => [@tmpdir], :Image => @image.to_s, :Privileged => false, :Cmd => ['bash', '-c', 'exit', '0'] })
