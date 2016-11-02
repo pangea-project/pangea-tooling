@@ -71,7 +71,7 @@ module NCI
       def run
         repos = merge_repos(Dir.pwd)
         debug_failed_merges
-        abort unless @failed_merges.empty?
+        raise unless @failed_merges.empty?
         repos.each do |r|
           @log.info "Pushing #{r.url}"
           r.push
