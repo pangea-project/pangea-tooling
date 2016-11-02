@@ -89,7 +89,7 @@ Net::SSH.start('darwini.kde.org', 'neonarchives') do |ssh|
 end
 
 Net::SFTP.start("darwini.kde.org", "neonarchives") do |sftp|
-  sftp.upload! "#{repodir}/", "#{tmpdir}")
+  sftp.upload!("#{repodir}/", "#{tmpdir}")
 end
 
 Net::SSH.start('darwini.kde.org', 'neonarchives') do |ssh|
