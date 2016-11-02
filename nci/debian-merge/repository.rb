@@ -28,6 +28,7 @@ module NCI
     # A merging repo.
     class Repository
       attr_accessor :tag_base
+      attr_accessor :url
 
       class << self
         def clone_into(url, dir)
