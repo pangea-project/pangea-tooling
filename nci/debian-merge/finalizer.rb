@@ -42,6 +42,12 @@ module NCI
           @rug = rug
           resolve_branches!
           @rug.checkout(target)
+          assert_fastforward!
+        rescue RuntimeError => e
+          puts e
+        end
+
+        def assert_fastforward!
           return if pending.target == target.target
           return if @rug.merge_analysis(pending.target).include?(:fastforward)
           raise "cannot fast forward #{@rug.workdir}, must be out of date :O"
