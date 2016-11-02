@@ -76,6 +76,7 @@ module NCI
         def push
           return unless pending && target
           mangle_push_path!
+          puts "pushing #{@rug.remotes['origin'].url}"
           push_all
         end
 
@@ -125,6 +126,7 @@ module NCI
 
       def clone_repos(tmpdir)
         @data.repos.collect do |url|
+          puts "cloning #{url}"
           rug = Rugged::Repository.clone_at(url,
                                             "#{tmpdir}/#{File.basename(url)}")
           Repo.new(rug)
