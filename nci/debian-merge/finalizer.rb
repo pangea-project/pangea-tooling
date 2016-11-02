@@ -34,7 +34,7 @@ module NCI
     class Finalizer
       # Helper class to manage a repo
       class Repo
-        class NoFastForwardError < Error; end
+        class NoFastForwardError < StandardError; end
 
         attr_reader :rug
         attr_reader :pending
