@@ -80,10 +80,10 @@ end
 File.write("#{repo_dir}/Release", release.dump)
 
 repodir = File.absolute_path('run/export/repo')
-tmpdir = '/home/nci/asgen_push'
-targetdir = "/home/nci/aptly/public/#{APTLY_REPOSITORY}/dists/xenial"
+tmpdir = '/home/neonarchives/asgen_push'
+targetdir = "/home/neonarchives/aptly/public/#{APTLY_REPOSITORY}/dists/xenial"
 
-Net::SSH.start('localhost', 'nci') do |ssh|
+Net::SSH.start('darwini.kde.org', 'neonarchives') do |ssh|
   puts ssh.exec!("rm -rf #{tmpdir}")
   puts ssh.exec!("mkdir -p #{tmpdir}")
   puts ssh.exec!("cp -rv #{repodir}/. #{tmpdir}")
