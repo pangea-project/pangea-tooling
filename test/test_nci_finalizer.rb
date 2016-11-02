@@ -161,7 +161,7 @@ module NCI
         File.write('data.json', JSON.generate(json))
 
         # goint to fail sine pending is behind unstable
-        assert_raises RuntimeError do
+        assert_raises Finalizer::Repo::NoFastForwardError do
           Finalizer.new.run
         end
       end
