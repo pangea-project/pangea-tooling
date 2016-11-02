@@ -79,7 +79,8 @@ Dir.glob("#{dep11_dir}/*").each do |f|
 end
 File.write("#{repo_dir}/Release", release.dump)
 
-repodir = File.absolute_path('run/export/repo')
+#repodir = File.absolute_path('run/export/repo')
+repodir = 'repo'
 tmpdir = '/home/neonarchives/asgen_push'
 targetdir = "/home/neonarchives/aptly/public/#{APTLY_REPOSITORY}/dists/xenial"
 
