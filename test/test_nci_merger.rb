@@ -42,6 +42,7 @@ module NCI
         repo.expects(:tag_base=).with(tag_base)
         repo.expects(:merge)
         repo.expects(:push)
+        repo.expects(:url).returns('kittenurl')
 
         Merger.new.run
       end
