@@ -79,20 +79,25 @@ Dir.glob("#{dep11_dir}/*").each do |f|
 end
 File.write("#{repo_dir}/Release", release.dump)
 
-#repodir = File.absolute_path('run/export/repo')
-repodir = 'repo'
+repodir = File.absolute_path('run/export/repo')
 tmpdir = '/home/neonarchives/asgen_push'
 targetdir = "/home/neonarchives/aptly/public/#{APTLY_REPOSITORY}/dists/xenial"
 
 Net::SSH.start('darwini.kde.org', 'neonarchives') do |ssh|
   puts ssh.exec!("rm -rf #{tmpdir}")
   puts ssh.exec!("mkdir -p #{tmpdir}")
-  puts ssh.exec!("cp -rv #{repodir}/. #{tmpdir}")
+end
+
+Net::SFTP.start("darwini.kde.org", "neonarchives") do |sftp|
+  sftp.upload! "#{repodir}/", "#{tmpdir}")
+end
+
+Net::SSH.start('darwini.kde.org', 'neonarchives') do |ssh|
   puts ssh.exec!("gpg --digest-algo SHA256 --armor -s -o #{tmpdir}/InRelease --clearsign #{tmpdir}/Release")
   puts ssh.exec!("gpg --digest-algo SHA256 --armor --detach-sign -s -o #{tmpdir}/Release.gpg  #{tmpdir}/Release")
   puts ssh.exec!("cp -rv #{tmpdir}/. #{targetdir}/")
 end
-FileUtils.rm_rf("#{export_dir}/data")
+#FileUtils.rm_rf("#{export_dir}/data")
 FileUtils.rm_rf(repodir)
 
 # FIXME: should be separate by repo but we can't forward repo into container
