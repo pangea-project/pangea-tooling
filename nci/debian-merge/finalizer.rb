@@ -71,6 +71,7 @@ module NCI
         end
 
         def push
+          return unless pending && target
           mangle_push_path!
           remote = @rug.remotes['origin']
           remote.push(["#{pending.canonical_name}:refs/heads/Neon/unstable"],
