@@ -76,6 +76,10 @@ module NCI
         def push
           return unless pending && target
           mangle_push_path!
+          push_all
+        end
+
+        def push_all
           remote = @rug.remotes['origin']
           remote.push(["#{pending.canonical_name}:refs/heads/Neon/unstable"],
                       update_tips: ->(*args) { puts "tip:: #{args}" },
