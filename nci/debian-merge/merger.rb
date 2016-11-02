@@ -69,22 +69,24 @@ module NCI
       end
 
       def run
-        # Dir.mktmpdir do |tmpdir|
-          repos = merge_repos(Dir.pwd)
-          @failed_merges.each do |url, error|
-            @log.error url
-            @log.error error
-            @log.error error.backtrace
-          end
-          abort unless @failed_merges.empty?
-          repos.each do |r|
-            @log.info "Pushing #{r.url}"
-            r.push
-          end
-        # end
+        repos = merge_repos(Dir.pwd)
+        debug_failed_merges
+        abort unless @failed_merges.empty?
+        repos.each do |r|
+          @log.info "Pushing #{r.url}"
+          r.push
+        end
       end
 
       # kind of private bits
+
+      def debug_failed_merges
+        @failed_merges.each do |url, error|
+          @log.error url
+          @log.error error
+          @log.error error.backtrace
+        end
+      end
 
       def merge(url, tmpdir)
         @log.info "Cloning #{url}"
