@@ -34,6 +34,8 @@ module NCI
     class Finalizer
       # Helper class to manage a repo
       class Repo
+        class NoFastForwardError < Error; end
+
         attr_reader :rug
         attr_reader :pending
         attr_reader :target
@@ -50,7 +52,8 @@ module NCI
         def assert_fastforward!
           return if pending.target == target.target
           return if @rug.merge_analysis(pending.target).include?(:fastforward)
-          raise "cannot fast forward #{@rug.workdir}, must be out of date :O"
+          raise NoFastForwardError,
+                "cannot fast forward #{@rug.workdir}, must be out of date :O"
         end
 
         def resolve_branches!
