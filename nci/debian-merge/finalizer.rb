@@ -103,11 +103,10 @@ module NCI
       end
 
       def run
-        Dir.mktmpdir do |tmpdir|
-          # This clones first so we have everything local and asserted a
-          # couple of requirements to do with branches
-          clone_repos(tmpdir).each(&:push)
-        end
+        # This clones first so we have everything local and asserted a
+        # couple of requirements to do with branches
+        repos = clone_repos(Dir.pwd)
+        repos.each(&:push)
       end
 
       def clone_repos(tmpdir)
