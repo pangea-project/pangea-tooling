@@ -31,6 +31,9 @@ module NCI
 
       class << self
         def clone_into(url, dir)
+          unless Rugged.features.include?(:ssh)
+            raise 'this rugged doesnt support ssh. need that to push!'
+          end
           new(url, dir)
         end
       end
