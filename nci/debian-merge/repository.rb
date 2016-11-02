@@ -119,7 +119,8 @@ module NCI
       def credentials(url, username, types)
         raise unless types.include?(:ssh_key)
         config = Net::SSH::Config.for(GitCloneUrl.parse(url).host)
-        key = File.expand_path(config.fetch(:keys)[0])
+        default_key = "#{Dir.home}/.ssh/id_rsa"
+        key = File.expand_path(config.fetch(:keys, [default_key])[0])
         Rugged::Credentials::SshKey.new(
           username: username,
           publickey: key + '.pub',
