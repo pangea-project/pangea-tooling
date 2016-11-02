@@ -61,20 +61,6 @@ module NCI
           Merger.new.run
         end
       end
-
-      def test_merge_future
-        tag_base = 'tagi'
-        url = 'http://abc'
-        json = { repos: [url], tag_base: tag_base }
-
-        repo = mock('repo')
-        Repository.expects(:clone_into).with(url, tag_base).returns(repo)
-        repo.expects(:tag_base=).with(tag_base)
-        repo.expects(:merge)
-
-        File.write('data.json', JSON.generate(json))
-        assert_is_a(Merger.new.merge(url, tag_base), Concurrent::Future)
-      end
     end
   end
 end
