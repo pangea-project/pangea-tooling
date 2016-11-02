@@ -31,7 +31,7 @@ require_relative '../../ci-tooling/lib/projects/factory/neon'
 # have the same base version in their tag (i.e. the tags are consistent)
 class TagDetective
   ORIGIN = 'origin/master'.freeze
-  ExCLUSION = %w(frameworks/prison frameworks/kactivities frameworks/purpose
+  EXCLUSION = %w(frameworks/prison frameworks/kactivities frameworks/purpose
                  frameworks/syntax-highlighting).freeze
 
   def initialize
@@ -41,7 +41,7 @@ class TagDetective
   def list_frameworks
     @log.info 'listing frameworks'
     ProjectsFactory::Neon.ls.select do |x|
-      x.start_with?('frameworks/') && !ExCLUSION.include?(x)
+      x.start_with?('frameworks/') && !EXCLUSION.include?(x)
     end
   end
 
