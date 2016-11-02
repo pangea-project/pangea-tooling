@@ -69,16 +69,19 @@ module NCI
       end
 
       def run
-        Dir.mktmpdir do |tmpdir|
-          futures = merge_repos(tmpdir)
+        # Dir.mktmpdir do |tmpdir|
+          repos = merge_repos(Dir.pwd)
           @failed_merges.each do |url, error|
-            puts "\n\n\n"
-            puts url
-            puts error
+            @log.error url
+            @log.error error
+            @log.error error.backtrace
           end
-          raise unless @failed_merges.empty?
-          push_futures(futures)
-        end
+          abort unless @failed_merges.empty?
+          repos.each do |r|
+            @log.info "Pushing #{r.url}"
+            r.push
+          end
+        # end
       end
 
       # kind of private bits
@@ -89,40 +92,21 @@ module NCI
         repo.tag_base = @data.tag_base
         @log.info "Merging #{url}"
         repo.merge
-        Concurrent::Future.new do
-          @log.info "Pushing #{url}"
-          repo.push
-        end
-      end
-
-      def merge_future(url, tmpdir)
-        Concurrent::Future.new do
-          begin
-            merge(url, tmpdir)
-          rescue => e
-            @failed_merges[url] = e
-            raise e
-          end
-        end
+        repo
+      rescue => e
+        @failed_merges[url] = e
       end
 
       def merge_repos(tmpdir)
-        merge_observer = FutureObserver.new
-        @data.repos.each do |url|
-          merge_observer.observe(merge_future(url, tmpdir))
+        @data.repos.collect do |url|
+          merge(url, tmpdir)
         end
-        merge_observer.wait_for_all
-      end
-
-      def push_futures(futures)
-        push_observer = FutureObserver.new
-        futures.each { |f| push_observer.observe(f) }
-        push_observer.wait_for_all
       end
     end
   end
 end
 
 # :nocov:
+$stdout = STDERR
 NCI::DebianMerge::Merger.new.run if __FILE__ == $PROGRAM_NAME
 # :nocov:
