@@ -160,7 +160,7 @@ module NCI
         json = { repos: [url], tag_base: tag_base }
         File.write('data.json', JSON.generate(json))
 
-        # goint to fail sine pending is behind unstable
+        # going to fail sine pending is behind unstable
         assert_raises Finalizer::Repo::NoFastForwardError do
           Finalizer.new.run
         end
