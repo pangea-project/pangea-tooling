@@ -23,10 +23,12 @@ require 'git_clone_url'
 require 'net/ssh'
 require 'rugged'
 
+require_relative 'repositorybase'
+
 module NCI
   module DebianMerge
     # A merging repo.
-    class Repository
+    class Repository < RepositoryBase
       attr_accessor :tag_base
       attr_accessor :url
 
@@ -46,7 +48,7 @@ module NCI
         # Also cloning through a subprocess allows proper parallelism even with
         # ruby MRI
         @git = Git.clone(url, path)
-        @rug = Rugged::Repository.init_at(path)
+        super(Rugged::Repository.init_at(path))
         @url = url
         config_repo
       end
@@ -109,28 +111,6 @@ module NCI
       def merge_commit
         @git.checkout(branch.name)
         @git.merge(tag.target_id, "Automatic merging of Debian's #{tag.name}")
-      end
-
-      def mangle_push_path!
-        remote = @rug.remotes['origin']
-        puts "pull url #{remote.url}"
-        return unless remote.url.include?('anongit.neon.kde')
-        pull_path = GitCloneUrl.parse(remote.url).path[1..-1]
-        puts "mangle to neon@git.neon.kde.org:#{pull_path}"
-        remote.push_url = "neon@git.neon.kde.org:#{pull_path}"
-      end
-
-      def credentials(url, username, types)
-        raise unless types.include?(:ssh_key)
-        config = Net::SSH::Config.for(GitCloneUrl.parse(url).host)
-        default_key = "#{Dir.home}/.ssh/id_rsa"
-        key = File.expand_path(config.fetch(:keys, [default_key])[0])
-        Rugged::Credentials::SshKey.new(
-          username: username,
-          publickey: key + '.pub',
-          privatekey: key,
-          passphrase: ''
-        )
       end
 
       def tag
