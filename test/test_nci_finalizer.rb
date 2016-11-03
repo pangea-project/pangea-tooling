@@ -165,6 +165,46 @@ module NCI
           Finalizer.new.run
         end
       end
+
+      def test_not_pushable
+        remote_dir = File.join(Dir.pwd, 'remote/fishy')
+        FileUtils.mkpath(remote_dir)
+        Dir.chdir(remote_dir) do
+          `git init --bare .`
+        end
+        Dir.mktmpdir do |tmpdir|
+          Dir.chdir(tmpdir) do
+            `git clone #{remote_dir} clone`
+            Dir.chdir('clone') do
+              File.write('c1', '')
+              `git add c1`
+              `git commit --all -m 'commit'`
+              # NB: if we define no message the tag itself will not have a date
+              `git tag debian/1-0 -m 'fancy message'`
+
+              File.write('c2', '')
+              `git add c2`
+              `git commit --all -m 'commit'`
+              `git tag debian/2-0 -m 'fancy message'`
+
+              # Same commit
+              `git branch Neon/unstable`
+
+              `git push --all`
+              `git push --tags`
+            end
+          end
+        end
+
+        tag_base = 'debian/2'
+        url = remote_dir
+        json = { repos: [url], tag_base: tag_base }
+        File.write('data.json', JSON.generate(json))
+
+        # We have nothing to merge push here, should not fail in any way
+        # but be simply noop
+        Finalizer.new.run
+      end
     end
   end
 end
