@@ -29,6 +29,7 @@ module NCI
   module DebianMerge
     class NCIRepositoryTest < TestCase
       def setup
+        Rugged.stubs(:features).returns([:ssh])
       end
 
       def test_clonery
@@ -198,6 +199,13 @@ module NCI
         # key creation to check its values, this is basically to assert that the
         # return value of key.new is coming out of the method
         assert_equal('wrupp', r)
+      end
+
+      def test_rugged_ssh_fail
+        Rugged.expects(:features).returns([])
+        assert_raises RuntimeError do
+          Repository.clone_into('foo', Dir.pwd)
+        end
       end
 
     end
