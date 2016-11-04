@@ -19,7 +19,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'json'
 require 'git_clone_url'
 require 'net/ssh'
 require 'rugged'

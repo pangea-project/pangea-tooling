@@ -1,3 +1,5 @@
+require 'json'
+
 module NCI
   module DebianMerge
     class Data
