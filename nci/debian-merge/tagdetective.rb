@@ -29,66 +29,70 @@ require_relative '../../ci-tooling/lib/projects/factory/neon'
 
 # Finds latest tag of ECM and then makes sure all other frameworks
 # have the same base version in their tag (i.e. the tags are consistent)
-class TagDetective
-  ORIGIN = 'origin/master'.freeze
-  EXCLUSION = %w(frameworks/prison frameworks/kactivities frameworks/purpose
-                 frameworks/syntax-highlighting).freeze
+module NCI
+  module DebianMerge
+    class TagDetective
+      ORIGIN = 'origin/master'.freeze
+      EXCLUSION = %w(frameworks/prison frameworks/kactivities frameworks/purpose
+                     frameworks/syntax-highlighting).freeze
 
-  def initialize
-    @log = Logger.new(STDOUT)
-  end
-
-  def list_frameworks
-    @log.info 'listing frameworks'
-    ProjectsFactory::Neon.ls.select do |x|
-      x.start_with?('frameworks/') && !EXCLUSION.include?(x)
-    end
-  end
-
-  def frameworks
-    @frameworks ||= list_frameworks.collect do |x|
-      File.join(ProjectsFactory::Neon.url_base, x)
-    end
-  end
-
-  def last_tag_base
-    @last_tag_base ||= begin
-      @log.info 'finding latest tag of ECM'
-      ecm = frameworks.find { |x| x.include?('frameworks/extra-cmake-modules') }
-      raise unless ecm
-      Dir.mktmpdir do |tmpdir|
-        git = Git.clone(ecm, tmpdir)
-        last_tag = git.describe(ORIGIN, tags: true, abbrev: 0)
-        last_tag.reverse.split('-', 2)[-1].reverse
+      def initialize
+        @log = Logger.new(STDOUT)
       end
+
+      def list_frameworks
+        @log.info 'listing frameworks'
+        ProjectsFactory::Neon.ls.select do |x|
+          x.start_with?('frameworks/') && !EXCLUSION.include?(x)
+        end
+      end
+
+      def frameworks
+        @frameworks ||= list_frameworks.collect do |x|
+          File.join(ProjectsFactory::Neon.url_base, x)
+        end
+      end
+
+      def last_tag_base
+        @last_tag_base ||= begin
+          @log.info 'finding latest tag of ECM'
+          ecm = frameworks.find { |x| x.include?('frameworks/extra-cmake-modules') }
+          raise unless ecm
+          Dir.mktmpdir do |tmpdir|
+            git = Git.clone(ecm, tmpdir)
+            last_tag = git.describe(ORIGIN, tags: true, abbrev: 0)
+            last_tag.reverse.split('-', 2)[-1].reverse
+          end
+        end
+      end
+
+      def investigation_data
+        # TODO: this probably should be moved to Data class
+        data = {}
+        data[:tag_base] = last_tag_base
+        data[:repos] = frameworks.each do |url|
+          validate(url)
+        end
+        data
+      end
+
+      def validate(url)
+        @log.info "checking if tag matches on #{url}"
+        valid = Git.ls_remote(url).fetch('tags').keys.any? do |x|
+          x.start_with?(last_tag_base)
+        end
+        raise "found no #{last_tag_base} tag in #{url}" unless valid
+        @log.info " looking good #{url}"
+      end
+
+      def run
+        File.write('data.json', JSON.generate(investigation_data))
+      end
+      alias investigate run
     end
   end
-
-  def investigation_data
-    # TODO: this probably should be moved to Data class
-    data = {}
-    data[:tag_base] = last_tag_base
-    data[:repos] = frameworks.each do |url|
-      validate(url)
-    end
-    data
-  end
-
-  def validate(url)
-    @log.info "checking if tag matches on #{url}"
-    valid = Git.ls_remote(url).fetch('tags').keys.any? do |x|
-      x.start_with?(last_tag_base)
-    end
-    raise "found no #{last_tag_base} tag in #{url}" unless valid
-    @log.info " looking good #{url}"
-  end
-
-  def run
-    File.write('data.json', JSON.generate(investigation_data))
-  end
-  alias investigate run
 end
 
 # :nocov:
-TagDetective.new.run if __FILE__ == $PROGRAM_NAME
+NCI::DebianMerge::TagDetective.new.run if __FILE__ == $PROGRAM_NAME
 # :nocov:
