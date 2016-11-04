@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'git_clone_url'
+require 'logger'
 require 'net/ssh'
 require 'rugged'
 
@@ -39,13 +40,14 @@ module NCI
         attr_reader :pending
         attr_reader :target
 
-        def initialize(rug)
-          super
+        def initialize(rug, log:)
+          @log = log
+          super(rug)
           resolve_branches!
           @rug.checkout(target)
           assert_fastforward!
         rescue RuntimeError => e
-          puts e
+          @log.warn e
         end
 
         def assert_fastforward!
@@ -75,7 +77,7 @@ module NCI
         def push
           return unless pending && target
           mangle_push_path!
-          puts "pushing #{@rug.remotes['origin'].url}"
+          @log.info "pushing #{@rug.remotes['origin'].url}"
           push_all
         end
 
@@ -92,6 +94,7 @@ module NCI
 
       def initialize
         @data = Data.from_file
+        @log = Logger.new(STDOUT)
       end
 
       def run
@@ -103,10 +106,10 @@ module NCI
 
       def clone_repos(tmpdir)
         @data.repos.collect do |url|
-          puts "cloning #{url}"
+          @log.info "cloning #{url}"
           rug = Rugged::Repository.clone_at(url,
                                             "#{tmpdir}/#{File.basename(url)}")
-          Repo.new(rug)
+          Repo.new(rug, log: @log)
         end
       end
     end
