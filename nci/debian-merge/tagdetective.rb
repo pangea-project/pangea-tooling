@@ -89,7 +89,7 @@ module NCI
       end
 
       def include?(url)
-        @log.info "checking if tag matches on #{url}"
+        @log.info "Checking if tag matches on #{url}"
         valid, released = valid_and_released?(url)
         if valid
           @log.info " looking good #{url}"
@@ -100,6 +100,7 @@ module NCI
         # Skip repos that have no release branch AND aren't valid.
         # They are unreleased, so we don't expect them to have a tag and can
         # simply skip them but don't raise an error.
+        @log.warn "  skipping #{url} as it is not released and has no tag"
         false
       end
 
