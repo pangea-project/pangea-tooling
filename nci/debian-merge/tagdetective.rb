@@ -26,6 +26,7 @@ require 'logger/colors'
 require 'tmpdir'
 
 require_relative '../../ci-tooling/lib/projects/factory/neon'
+require_relative 'data'
 
 # Finds latest tag of ECM and then makes sure all other frameworks
 # have the same base version in their tag (i.e. the tags are consistent)
@@ -111,7 +112,14 @@ module NCI
         false
       end
 
+      def reuse_old_data?
+        return false unless Data.file_exist?
+        olddata = Data.from_file
+        olddata.tag_base == last_tag_base
+      end
+
       def run
+        return if reuse_old_data?
         File.write('data.json', JSON.generate(investigation_data))
       end
       alias investigate run

@@ -28,6 +28,10 @@ module NCI
         def from_file
           new(JSON.parse(File.read('data.json')))
         end
+
+        def file_exist?
+          File.exist?('data.json')
+        end
       end
 
       def initialize(data)
