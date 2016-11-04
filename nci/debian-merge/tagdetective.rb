@@ -31,11 +31,18 @@ require_relative '../../ci-tooling/lib/projects/factory/neon'
 # have the same base version in their tag (i.e. the tags are consistent)
 module NCI
   module DebianMerge
+    # Finds latest tag of ECM and then compile a list of all frameworks
+    # that have this base version tagged as well. It asserts that all frameworks
+    # should have the same version tagged. They may have a newer version tagged.
     class TagDetective
       ORIGIN = 'origin/master'.freeze
       ECM = 'frameworks/extra-cmake-modules'.freeze
-      EXCLUSION = %w(frameworks/prison frameworks/kactivities frameworks/purpose
-                     frameworks/syntax-highlighting).freeze
+
+      # exclusion should only include proper non-frameworks, if something
+      # is awray with an actual framework that is released it should either
+      # be fixed for the detective logic needs to be adapted to skip it.
+      EXCLUSION = %w(frameworks/prison
+                     frameworks/purpose).freeze
 
       def initialize
         @log = Logger.new(STDOUT)
