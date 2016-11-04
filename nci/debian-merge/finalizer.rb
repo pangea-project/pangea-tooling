@@ -23,7 +23,6 @@ require 'json'
 require 'git_clone_url'
 require 'net/ssh'
 require 'rugged'
-require 'tmpdir'
 
 require_relative 'data'
 require_relative 'repositorybase'

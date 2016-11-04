@@ -22,7 +22,6 @@
 require 'json'
 require 'logger'
 require 'logger/colors'
-require 'tmpdir'
 
 require_relative 'data'
 require_relative 'repository'
