@@ -19,7 +19,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'concurrent'
 require 'json'
 require 'logger'
 require 'logger/colors'
@@ -30,42 +29,12 @@ require_relative 'repository'
 
 module NCI
   module DebianMerge
-    # TODO: make generic or port from future to promises
-    # A future observer
-    class FutureObserver
-      attr_reader :observations
-
-      def initialize
-        @futures = []
-        @observations = Concurrent::Array.new
-      end
-
-      def update(_time, value, _reason)
-        @observations << value
-      end
-
-      def observe(future)
-        @futures << future
-        future.add_observer(self)
-      end
-
-      def wait_for_all
-        @futures.each(&:execute)
-        sleep 1 until @futures.all?(&:complete?)
-        # raise unless @futures.any?(&:rejected?)
-        # @futures.find_all(&:rejected?).each do |r|
-        #   raise r.reason
-        # end
-        @observations
-      end
-    end
-
     # Conducts a mere into Neon/pending-merge
     class Merger
       def initialize
         @data = Data.from_file
         @log = Logger.new(STDERR)
-        @failed_merges = Concurrent::Hash.new
+        @failed_merges = {}
       end
 
       def run
