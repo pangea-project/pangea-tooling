@@ -80,6 +80,48 @@ module NCI
         end
       end
 
+      def test_noop_already_merged
+        remote_dir = File.join(Dir.pwd, 'remote/fishy')
+        FileUtils.mkpath(remote_dir)
+        Dir.chdir(remote_dir) do
+          `git init --bare .`
+        end
+        Dir.mktmpdir do |tmpdir|
+          Dir.chdir(tmpdir) do
+            `git clone #{remote_dir} clone`
+            Dir.chdir('clone') do
+              File.write('c1', '')
+              `git add c1`
+              `git commit --all -m 'commit'`
+              # NB: if we define no message the tag itself will not have a date
+              `git tag debian/2-0 -m 'fancy message'`
+
+              # Same commit
+              `git branch Neon/unstable`
+
+              `git push --all`
+              `git push --tags`
+            end
+          end
+        end
+
+        repo = Repository.clone_into('file://' + remote_dir, Dir.pwd)
+        assert_path_exist('fishy') # the clone
+        repo.tag_base = 'debian/2'
+        repo.merge
+        repo.push
+
+        Dir.mktmpdir do |tmpdir|
+          Dir.chdir(tmpdir) do
+            `git clone #{remote_dir} clone`
+            Dir.chdir('clone') do
+              `git checkout Neon/pending-merge`
+              assert_false($?.success?)
+            end
+          end
+        end
+      end
+
       def test_orphan_branch
         remote_dir = File.join(Dir.pwd, 'remote/fishy')
         FileUtils.mkpath(remote_dir)

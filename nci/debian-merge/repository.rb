@@ -74,9 +74,11 @@ module NCI
         return if tag.target == ancestor
 
         merge_commit
+        @dirty = true
       end
 
       def push
+        return unless @dirty
         mangle_push_path!
         @rug.remotes['origin'].push(
           [branch.canonical_name.to_s],
