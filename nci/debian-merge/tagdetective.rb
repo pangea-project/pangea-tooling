@@ -71,19 +71,36 @@ module NCI
         # TODO: this probably should be moved to Data class
         data = {}
         data[:tag_base] = last_tag_base
-        data[:repos] = frameworks.each do |url|
-          validate(url)
+        data[:repos] = frameworks.dup.keep_if do |url|
+          include?(url)
         end
         data
       end
 
-      def validate(url)
-        @log.info "checking if tag matches on #{url}"
-        valid = Git.ls_remote(url).fetch('tags').keys.any? do |x|
+      def valid_and_released?(url)
+        remote = Git.ls_remote(url)
+        valid = remote.fetch('tags', {}).keys.any? do |x|
           x.start_with?(last_tag_base)
         end
-        raise "found no #{last_tag_base} tag in #{url}" unless valid
-        @log.info " looking good #{url}"
+        released = remote.fetch('branches', {}).keys.any? do |x|
+          x == 'Neon/release'
+        end
+        [valid, released]
+      end
+
+      def include?(url)
+        @log.info "checking if tag matches on #{url}"
+        valid, released = valid_and_released?(url)
+        if valid
+          @log.info " looking good #{url}"
+          return true
+        elsif !valid && released
+          raise "found no #{last_tag_base} tag in #{url}" unless valid
+        end
+        # Skip repos that have no release branch AND aren't valid.
+        # They are unreleased, so we don't expect them to have a tag and can
+        # simply skip them but don't raise an error.
+        false
       end
 
       def run
