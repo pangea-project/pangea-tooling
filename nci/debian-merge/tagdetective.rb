@@ -33,6 +33,7 @@ module NCI
   module DebianMerge
     class TagDetective
       ORIGIN = 'origin/master'.freeze
+      ECM = 'frameworks/extra-cmake-modules'.freeze
       EXCLUSION = %w(frameworks/prison frameworks/kactivities frameworks/purpose
                      frameworks/syntax-highlighting).freeze
 
@@ -56,7 +57,7 @@ module NCI
       def last_tag_base
         @last_tag_base ||= begin
           @log.info 'finding latest tag of ECM'
-          ecm = frameworks.find { |x| x.include?('frameworks/extra-cmake-modules') }
+          ecm = frameworks.find { |x| x.include?(ECM) }
           raise unless ecm
           Dir.mktmpdir do |tmpdir|
             git = Git.clone(ecm, tmpdir)
