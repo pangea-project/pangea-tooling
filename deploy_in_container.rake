@@ -77,8 +77,8 @@ task :deploy_in_container => :align_ruby do
 
     Dir.chdir('ci-tooling') do
       FileUtils.rm_rf(final_path, verbose: true)
-      FileUtils.mkpath(final_path)
-      FileUtils.cp_r(Dir.glob('*'), final_path)
+      FileUtils.mkpath(final_path, verbose: true)
+      FileUtils.cp_r(Dir.glob('*'), final_path, verbose: true)
     end
   end
 
