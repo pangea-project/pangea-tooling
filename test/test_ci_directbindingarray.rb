@@ -42,4 +42,10 @@ class DirectBindingArrayTest < TestCase
       CI::DirectBindingArray.to_bindings(["#{path}"])
     end
   end
+
+  def test_not_a_array
+    assert_raise CI::DirectBindingArray::InvalidBindingType do
+      CI::DirectBindingArray.to_bindings("kitten")
+    end
+  end
 end
