@@ -19,7 +19,8 @@ class SourcerJob < JenkinsJob
     @type = type
     @distribution = distribution
     @packaging_scm = project.packaging_scm.dup
-    @packaging_scm.url.gsub!('git.debian.org:/git/', 'git://anonscm.debian.org/')
+    @packaging_scm.url.gsub!('git.debian.org:/git/',
+                             'git://anonscm.debian.org/')
     # FIXME: why ever does the job have to do that?
     # Try the distribution specific branch name first.
     @packaging_branch = @packaging_scm.branch

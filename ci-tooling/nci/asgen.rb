@@ -70,5 +70,8 @@ system("#{build_dir}/appstream-generator", 'process', 'xenial',
        chdir: run_dir) || raise
 
 # TODO
-# [15:03] <ximion> sitter: the version number changing isn't an issue - it does nothing with one architecture, and it's an optimization if you have at least one other architecture.
-# [15:03] <ximion> sitter: you should run ascli cleanup every once in a while though, to collect garbage
+# [15:03] <ximion> sitter: the version number changing isn't an issue -
+# it does nothing with one architecture, and it's an optimization if you have
+# at least one other architecture.
+# [15:03] <ximion> sitter: you should run ascli cleanup every once in a while
+# though, to collect garbage
