@@ -10,6 +10,7 @@ module CI
   # the respective types Docker expects.
   class DirectBindingArray
     class ExcessColonError < Exception; end
+    class InvalidBindingType < Exception; end
 
     # @return [Hash] Volume API hash of the form { Path => {} }
     def self.to_volumes(array)
@@ -21,7 +22,7 @@ module CI
 
     # @return [Array] Binds API array of the form ["Path:Path"]
     def self.to_bindings(array)
-      array ||= []
+      raise InvalidBindingType unless array.is_a?(Array)
       array.collect do |bind|
         volume_specification_check(bind)
         next bind if mapped?(bind)
