@@ -19,18 +19,18 @@ http_interactions:
       Content-Type:
       - application/json
       Server:
-      - Docker/1.12.1 (linux)
+      - Docker/1.12.3 (linux)
       Date:
-      - Tue, 11 Oct 2016 14:16:08 GMT
+      - Mon, 07 Nov 2016 11:06:18 GMT
       Content-Length:
-      - '195'
+      - '197'
     body:
       encoding: ASCII-8BIT
-      string: '{"Version":"1.12.1","ApiVersion":"1.24","GitCommit":"23cf638","GoVersion":"go1.6.3","Os":"linux","Arch":"amd64","KernelVersion":"4.7.0-1-amd64","BuildTime":"2016-08-18T05:08:31.176149424+00:00"}
+      string: '{"Version":"1.12.3","ApiVersion":"1.24","GitCommit":"6b644ec","GoVersion":"go1.6.3","Os":"linux","Arch":"amd64","KernelVersion":"4.8.0-rc8-amd64","BuildTime":"2016-10-26T21:45:16.524810029+00:00"}
 
 '
     http_version: 
-  recorded_at: Tue, 11 Oct 2016 14:16:08 GMT
+  recorded_at: Mon, 07 Nov 2016 11:06:18 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -50,9 +50,9 @@ http_interactions:
       Content-Type:
       - application/json
       Server:
-      - Docker/1.12.1 (linux)
+      - Docker/1.12.3 (linux)
       Date:
-      - Tue, 11 Oct 2016 14:16:08 GMT
+      - Mon, 07 Nov 2016 11:06:18 GMT
       Content-Length:
       - '53'
     body:
@@ -61,7 +61,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 11 Oct 2016 14:16:08 GMT
+  recorded_at: Mon, 07 Nov 2016 11:06:18 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -81,9 +81,9 @@ http_interactions:
       Content-Type:
       - application/json
       Server:
-      - Docker/1.12.1 (linux)
+      - Docker/1.12.3 (linux)
       Date:
-      - Tue, 11 Oct 2016 14:16:08 GMT
+      - Mon, 07 Nov 2016 11:06:18 GMT
       Content-Length:
       - '53'
     body:
@@ -92,7 +92,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 11 Oct 2016 14:16:08 GMT
+  recorded_at: Mon, 07 Nov 2016 11:06:18 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -112,9 +112,9 @@ http_interactions:
       Content-Type:
       - application/json
       Server:
-      - Docker/1.12.1 (linux)
+      - Docker/1.12.3 (linux)
       Date:
-      - Tue, 11 Oct 2016 14:16:08 GMT
+      - Mon, 07 Nov 2016 11:06:18 GMT
       Content-Length:
       - '53'
     body:
@@ -123,7 +123,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 11 Oct 2016 14:16:08 GMT
+  recorded_at: Mon, 07 Nov 2016 11:06:18 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -143,9 +143,9 @@ http_interactions:
       Content-Type:
       - application/json
       Server:
-      - Docker/1.12.1 (linux)
+      - Docker/1.12.3 (linux)
       Date:
-      - Tue, 11 Oct 2016 14:16:08 GMT
+      - Mon, 07 Nov 2016 11:06:18 GMT
       Content-Length:
       - '53'
     body:
@@ -154,5 +154,5 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 11 Oct 2016 14:16:08 GMT
+  recorded_at: Mon, 07 Nov 2016 11:06:18 GMT
 recorded_with: VCR 3.0.3
