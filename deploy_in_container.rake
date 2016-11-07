@@ -115,7 +115,7 @@ task :deploy_in_container => :align_ruby do
       Dir.glob(ruby_exclude).each do |match|
         next if path[:includes].any? { |i| File.fnmatch(i, match) }
         next unless File.exist?(match)
-        FileUtils.rm_r(match)
+        FileUtils.rm_rf(match)
       end
     end
   end
