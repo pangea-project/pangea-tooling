@@ -7,6 +7,7 @@ module CI
   # this goes to extra lengths to make sure the container disappears.
   class EphemeralContainer < Container
     @safety_sleep = 5
+    RUNNING_STATES = %w(created exited running).freeze
 
     class << self
       # @!attribute rw safety_sleep
@@ -24,7 +25,8 @@ module CI
 
     def running?
       state = json.fetch('State')
-      raise EphemeralContainerUnhandledState unless %w(exited running).include? state.fetch('Status')
+      raise EphemeralContainerUnhandledState unless
+        RUNNING_STATES.include?(state.fetch('Status'))
       state.fetch('Running')
     end
     # def kill!(options = {})

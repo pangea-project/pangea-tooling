@@ -36,7 +36,6 @@ module CI
       options = options.merge(options_)
       options = override_options(options, name, binds)
       c = super(options, connection)
-      c.send(:instance_variable_set, :@binds, binds)
       c
     end
 
@@ -64,7 +63,6 @@ module CI
       # Default container create arguments.
       # - WorkingDir: Set to Dir.pwd
       # - Env: Sensible defaults for LANG, PATH, DEBIAN_FRONTEND
-      # - Binds: Set to binds used on {create}
       # - Ulimits: Set to sane defaults with lower nofile property
       # @return [Hash]
       def default_create_options
@@ -75,7 +73,6 @@ module CI
           # This in particular affects apt-extracttemplates which will take up
           # to 20 minutes where it should take maybe 1/10 of that.
           Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }],
-          Binds: DirectBindingArray.to_bindings(@binds),
           WorkingDir: Dir.pwd,
           Env: environment
         }
@@ -92,7 +89,10 @@ module CI
 
       def override_options(options, name, binds)
         options['name'] = name if name
-        options[:Volumes] = DirectBindingArray.to_volumes(binds) if binds
+        if binds
+          options[:Volumes] = DirectBindingArray.to_volumes(binds)
+          options[:Binds] = DirectBindingArray.to_bindings(binds)
+        end
         options[:UsernsMode] = 'host' if options.fetch(:Privileged, false)
         options
       end
