@@ -10,7 +10,12 @@ DEPS = %w(xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           zlib1g-dev python-paramiko sudo locales mercurial pxz aptitude
           autotools-dev cdbs dh-autoreconf germinate gobject-introspection
           sphinx-common po4a pep8 pyflakes ppp-dev dh-di libgirepository1.0-dev
-          libglib2.0-dev bash-completion).freeze
+          libglib2.0-dev bash-completion
+          appstream
+          debhelper
+          gir1.2-appstream-1.0
+          libappstream-dev
+          libgirepository1.0-dev).freeze
 
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
