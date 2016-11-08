@@ -125,6 +125,42 @@ module NCI
                      JSON.parse(File.read('data.json')))
       end
 
+      def test_released_invalid
+        remote_dir = File.join(Dir.pwd, 'frameworks/meow')
+        FileUtils.mkpath(remote_dir)
+        Dir.chdir(remote_dir) do
+          `git init --bare .`
+        end
+        Dir.mktmpdir do |tmpdir|
+          Dir.chdir(tmpdir) do
+            `git clone #{remote_dir} clone`
+            Dir.chdir('clone') do
+              File.write('c2', '')
+              `git add c2`
+              `git commit --all -m 'commit'`
+              `git tag debian/2-0`
+
+              `git co -b Neon/release`
+
+              `git push --all`
+              `git push --tags`
+            end
+          end
+        end
+
+        ProjectsFactory::Neon.stubs(:ls).returns(%w(frameworks/meow))
+        ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
+
+        TagDetective.any_instance.stubs(:last_tag_base).returns('debian/3')
+
+        # the repo has no debian/3 tag, but a Neon/release branch, so it is
+        # released but not tagged, which means the invistigation ought to
+        # abort with an error.
+        assert_raises RuntimeError do
+          TagDetective.new.investigate
+        end
+      end
+
       def test_pre_existing
         remote_dir = File.join(Dir.pwd, 'frameworks/meow')
         FileUtils.mkpath(remote_dir)
