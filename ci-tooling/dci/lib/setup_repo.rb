@@ -51,13 +51,6 @@ module DCI
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
 
     Apt.dist_upgrade("-t=#{release}-backports")
-    # Need a newer uscan
-    packages = ["devscripts/#{release}-backports",
-                "pbuilder/#{release}-backports",
-                "dh-autoreconf/#{release}-backports",
-                "libudev-dev/#{release}-backports",
-                "libxapian-dev/#{release}-backports"]
-    Apt.install(packages)
   end
 
   def setup_i386
