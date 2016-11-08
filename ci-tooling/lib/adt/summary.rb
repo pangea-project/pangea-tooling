@@ -51,7 +51,7 @@ module ADT
                   when 'PASS' then Summary::Result::PASS
                   when 'FAIL' then Summary::Result::FAIL
                   when 'SKIP' then Summary::Result::SKIP
-                  else raise "unknown result type #{result}"
+                  else raise "unknown result type '#{name} #{result} #{detail}'"
                   end
         @detail = detail
       end
