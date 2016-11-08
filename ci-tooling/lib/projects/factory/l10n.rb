@@ -27,7 +27,7 @@ class ProjectsFactory
   # Debian specific project factory.
   class KDEL10N < Base
     include ProjectsFactoryCommon
-    DEFAULT_URL_BASE = 'git://git.launchpad.net/~kubuntu-packagers/kubuntu-packaging/+git/kde-l10n-common'.freeze
+    DEFAULT_URL_BASE = 'https://github.com/shadeslayer/kde-l10n-common'.freeze
 
     # FIXME: same as in neon
     def self.url_base
