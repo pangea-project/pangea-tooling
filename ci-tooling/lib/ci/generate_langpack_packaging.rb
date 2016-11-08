@@ -30,9 +30,11 @@ module CI
         File.write(file, subbed)
       end
 
-      substvars = File.open('debian/substvars').read
-      substvars.gsub!(/aaaADDITIONALDEPSbbb/, '')
-      File.write('debian/substvars', substvars)
+      if File.exist?('debian/substvars')
+        substvars = File.open('debian/substvars').read
+        substvars.gsub!(/aaaADDITIONALDEPSbbb/, '')
+        File.write('debian/substvars', substvars)
+      end
     end
   end
 end
