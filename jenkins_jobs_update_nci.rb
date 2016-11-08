@@ -188,6 +188,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # non-conflicting.
     cleaner = enqueue(MGMTWorkspaceCleanerJob.new) # dependees: [progenitor]))
     docker = enqueue(MGMTDockerJob.new(dependees: [progenitor]))
+    enqueue(MGMTMergerDebianFrameworks.new)
     enqueue(MGMTToolingJob.new(downstreams: [docker],
                                dependees: [cleaner, aptly]))
   end
