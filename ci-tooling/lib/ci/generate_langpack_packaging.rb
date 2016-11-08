@@ -31,7 +31,7 @@ module CI
       end
 
       substvars = File.open('debian/substvars').read
-      substvars.gsub(/aaaADDITIONALDEPSbbb/, '')
+      substvars.gsub!(/aaaADDITIONALDEPSbbb/, '')
       File.write('debian/substvars', substvars)
     end
   end
