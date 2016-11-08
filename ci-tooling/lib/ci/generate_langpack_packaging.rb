@@ -28,6 +28,10 @@ module CI
         subbed = File.open(file).read.gsub(match_pattern, lang)
         File.write(file, subbed)
       end
+
+      substvars = File.open('debian/substvars').read
+      substvars.gsub(/aaaADDITIONALDEPSbbb/, '')
+      File.write('debian/substvars', substvars)
     end
   end
 end
