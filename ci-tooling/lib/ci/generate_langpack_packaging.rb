@@ -22,6 +22,7 @@ module CI
   # Class to generate packaging for kde-l10n packages
   class LangPack
     def self.generate_packaging!(lang)
+      lang.gsub(/@/, '-')
       match_pattern = /aaa(KDELANGNAME|UBUNTULANGCODE|KDELANGCODE|UBUNTULANGDEP)bbb/
       Dir.glob('debian/*').each do |file|
         next unless File.file? file
