@@ -48,6 +48,7 @@ class Snap
   attr_accessor :description
   attr_accessor :apps
 
+  # Binary name to package name
   PACKAGE_MAP = {
     'dragon' => 'dragonplayer',
     'spectacle' => 'kde-spectacle'
@@ -62,6 +63,7 @@ class Snap
     @summary = 'Undefined in automation'
   end
 
+  # @return <String> binary name translated to package name
   def package
     PACKAGE_MAP.fetch(name, name)
   end
