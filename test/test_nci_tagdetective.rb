@@ -140,7 +140,7 @@ module NCI
               `git commit --all -m 'commit'`
               `git tag debian/2-0`
 
-              `git co -b Neon/release`
+              `git checkout -b Neon/release`
 
               `git push --all`
               `git push --tags`
