@@ -126,7 +126,7 @@ module NCI
       end
 
       def test_released_invalid
-        remote_dir = File.join(Dir.pwd, 'frameworks/meow')
+        remote_dir = File.join(Dir.pwd, 'frameworks/released-invalid')
         FileUtils.mkpath(remote_dir)
         Dir.chdir(remote_dir) do
           `git init --bare .`
@@ -148,7 +148,7 @@ module NCI
           end
         end
 
-        ProjectsFactory::Neon.stubs(:ls).returns(%w(frameworks/meow))
+        ProjectsFactory::Neon.stubs(:ls).returns(%w(frameworks/released-invalid))
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
 
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/3')
