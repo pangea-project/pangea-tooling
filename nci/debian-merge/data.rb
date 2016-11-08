@@ -32,6 +32,10 @@ module NCI
         def file_exist?
           File.exist?('data.json')
         end
+
+        def write(data)
+          File.write('data.json', JSON.generate(data))
+        end
       end
 
       def initialize(data)

@@ -120,7 +120,7 @@ module NCI
 
       def run
         return if reuse_old_data?
-        File.write('data.json', JSON.generate(investigation_data))
+        Data.write(investigation_data)
       end
       alias investigate run
     end
