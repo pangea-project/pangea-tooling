@@ -44,7 +44,7 @@ module CI
 
       # Rename orig tar
       def rename_orig(lang)
-        orig_tars = Dir.glob("../kde-l10n-#{lang}*")
+        orig_tars = Dir.glob("../source/kde-l10n-#{lang}*")
         raise NotExactlyOneOrigFound unless orig_tars.count == 1
 
         orig_tar = orig_tars[0]
