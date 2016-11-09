@@ -40,5 +40,11 @@ module CI
         assert_equal('kde-l10n-ca-valencia', changelog.name)
       end
     end
+
+    def test_one_orig
+      assert_raise CI::NotExactlyOneOrigFound do
+        CI::LangPack.rename_orig('foo')
+      end
+    end
   end
 end
