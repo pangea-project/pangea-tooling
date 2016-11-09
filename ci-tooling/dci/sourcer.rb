@@ -33,7 +33,7 @@ DCI.setup_env!
 
 def fetch_tar(fetcher)
   @tarball = fetcher.fetch('source')
-  raise 'Failed to fetch tarball' unless tarball
+  raise 'Failed to fetch tarball' unless @tarball
   @tarball
 end
 
