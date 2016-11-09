@@ -32,15 +32,16 @@ DCI.setup_repo!
 DCI.setup_env!
 
 def fetch_tar(fetcher)
-  tarball = fetcher.fetch('source')
+  @tarball = fetcher.fetch('source')
   raise 'Failed to fetch tarball' unless tarball
+  @tarball
 end
 
 def orig_source(fetcher = nil)
   fetch_tar(fetcher) if fetcher
   sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'),
                                       strip_symbols: true)
-  sourcer.build(tarball.origify)
+  sourcer.build(@tarball.origify)
 end
 
 case ARGV.fetch(0, nil)
