@@ -24,6 +24,10 @@ module Lint
         # Equally we don't really care enough about malformed manpages.
         'manpage-has-errors-from-man',
         'manpage-has-bad-whatis-entry',
+        # We do also not care about correct dep5 format as we do nothing with
+        # it.
+        'dep5-copyright-license-name-not-unique',
+        'missing-license-paragraph-in-dep5-copyright',
         # TODO: check if we still need or want these
         # next if line.include?('not-binnmuable-any-depends-all')
         # Lintian is made for stupid people.
