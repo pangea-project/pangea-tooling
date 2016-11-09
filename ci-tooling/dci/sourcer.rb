@@ -31,9 +31,13 @@ require_relative 'lib/setup_env'
 DCI.setup_repo!
 DCI.setup_env!
 
-def orig_source(fetcher)
+def fetch_tar(fetcher)
   tarball = fetcher.fetch('source')
   raise 'Failed to fetch tarball' unless tarball
+end
+
+def orig_source(fetcher)
+  fetch_tar(fetcher) if fetcher
   sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'),
                                       strip_symbols: true)
   sourcer.build(tarball.origify)
@@ -59,11 +63,11 @@ when 'kde-l10n'
   raise 'No lang specified' unless lang
   puts 'KDE L10N generation mode'
   # Needs to be done first so LangPack can rename files
-  tar_fetcher = CI::URLTarFetcher.new(File.read('source/url').strip)
+  fetch_tar(CI::URLTarFetcher.new(File.read('source/url').strip))
   Dir.chdir('packaging') do
     CI::LangPack.generate_packaging!(lang)
   end
-  orig_source(tar_fetcher)
+  orig_source
 else
   puts 'Unspecified source type, defaulting to VCS build...'
   builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
