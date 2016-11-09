@@ -30,13 +30,15 @@ module CI
     end
 
     def test_generation
-      CI::LangPack.generate_packaging!('de')
-      control = Debian::Control.new
-      control.parse!
-      assert(control.binaries.map {|x| x['Package']}.include? 'kde-l10n-de')
+      Dir.chdir('kde-l10n-ca-valencia-15.12.3') do
+        CI::LangPack.generate_packaging!('ca@VALENCIA')
+        control = Debian::Control.new
+        control.parse!
+        assert(control.binaries.map {|x| x['Package']}.include? 'kde-l10n-ca-valencia')
 
-      changelog = Changelog.new
-      assert_equal('kde-l10n-de', changelog.name)
+        changelog = Changelog.new
+        assert_equal('kde-l10n-ca-valencia', changelog.name)
+      end
     end
   end
 end
