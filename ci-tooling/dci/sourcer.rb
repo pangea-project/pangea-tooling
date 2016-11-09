@@ -58,10 +58,12 @@ when 'kde-l10n'
   lang = ARGV.fetch(1, nil)
   raise 'No lang specified' unless lang
   puts 'KDE L10N generation mode'
+  # Needs to be done first so LangPack can rename files
+  tar_fetcher = CI::URLTarFetcher.new(File.read('source/url').strip)
   Dir.chdir('packaging') do
     CI::LangPack.generate_packaging!(lang)
   end
-  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
+  orig_source(tar_fetcher)
 else
   puts 'Unspecified source type, defaulting to VCS build...'
   builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
