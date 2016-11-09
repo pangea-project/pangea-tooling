@@ -36,7 +36,7 @@ def fetch_tar(fetcher)
   raise 'Failed to fetch tarball' unless tarball
 end
 
-def orig_source(fetcher)
+def orig_source(fetcher = nil)
   fetch_tar(fetcher) if fetcher
   sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'),
                                       strip_symbols: true)
