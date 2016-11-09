@@ -75,7 +75,7 @@ Dir.chdir('/usr/sbin') do
     file.puts 'if [ -f obj-*/CMakeCache.txt ]; then'
     file.puts '        rm -fv obj-*/CMakeCache.txt'
     file.puts '        rm -fv debian/dhmk_configure'
-    file.puts '        make -f debian/rules build'
+    file.puts '        make -f debian/rules build 2>&1'
     file.puts 'fi'
     file.puts '/usr/bin/dh_auto_test "$@"'
   end
