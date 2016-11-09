@@ -71,7 +71,7 @@ FileUtils.rm_r('adt-output') if File.exist?('adt-output')
 Dir.chdir('/usr/sbin') do
   next unless Process.uid.zero?
   File.open('dh_auto_test', 'w') do |file|
-    file.puts '#!/bin/sh'
+    file.puts '#!/bin/sh -e'
     file.puts 'if [ -f obj-*/CMakeCache.txt ]; then'
     file.puts '        rm -fv obj-*/CMakeCache.txt'
     file.puts '        rm -fv debian/dhmk_configure'
