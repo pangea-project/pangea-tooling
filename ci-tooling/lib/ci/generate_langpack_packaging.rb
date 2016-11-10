@@ -31,6 +31,7 @@ module CI
         Dir.glob('debian/*').each do |file|
           next unless File.file? file
           subbed = File.open(file).read.gsub(match_pattern, @lang)
+          subbed.gsub!(/@ORIGLANG@/, lang)
           File.write(file, subbed)
         end
 
@@ -39,17 +40,6 @@ module CI
           substvars.gsub!(/aaaADDITIONALDEPSbbb/, '')
           File.write('debian/substvars', substvars)
         end
-        self.rename_orig(lang)
-      end
-
-      # Rename orig tar
-      def rename_orig(lang)
-        orig_tars = Dir.glob("../source/kde-l10n-#{lang}*")
-        raise NotExactlyOneOrigFound unless orig_tars.count == 1
-
-        orig_tar = orig_tars[0]
-        renamed_orig_tar = orig_tar.gsub(/@|_/, '-').downcase
-        FileUtils.mv(orig_tar, renamed_orig_tar)
       end
     end
   end
