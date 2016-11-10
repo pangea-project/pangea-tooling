@@ -27,7 +27,7 @@
   pkg-multimedia: backports
   debian-astro: backports
   kernel: backports
-  netrunner-debian-packaging-backports: backports
+  ds9-debian-packaging-backports: backports
   ubuntu: backports
   pkg-lxqt: backports
   debhelper: backports
