@@ -35,10 +35,8 @@ module CI
       dir = File.dirname(@path)
       match = name.match(/(?<name>.+)-(?<version>(([\d.]+)(\+)?(~)?(.+)?))\.(?<ext>tar(.*))/)
       raise "Could not parse tarball #{name}" unless match
-      # Debian'ify source name
-      debian_name = match[:name].gsub(/@|_/, '-').downcase
       old_path = @path
-      @path = "#{dir}/#{debian_name}_#{match[:version]}.orig.#{match[:ext]}"
+      @path = "#{dir}/#{match[:name]}_#{match[:version]}.orig.#{match[:ext]}"
       FileUtils.cp(old_path, @path) if File.exist?(old_path)
       self
     end

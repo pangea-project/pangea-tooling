@@ -26,8 +26,6 @@ module CI
       assert_equal('d_1.0.orig.tar', File.basename(t.path))
       t = Tarball.new('a-1.0.tar').origify
       assert_equal('a_1.0.orig.tar', File.basename(t.path))
-      t = Tarball.new('a-b@C_D-1.0.tar').origify
-      assert_equal('a-b-c-d_1.0.orig.tar', File.basename(t.path))
 
       # fail
       assert_raise RuntimeError do
