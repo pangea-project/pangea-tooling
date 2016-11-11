@@ -118,7 +118,7 @@ end
 
 if __FILE__ == $PROGRAM_NAME || ENV.include?('PANGEA_TEST_EXECUTION')
   # SSH tunnel so we can talk to the repo
-  gateway = Net::SSH::Gateway.new('drax', 'root')
+  gateway = Net::SSH::Gateway.new('darwini', 'neonarchives')
   gateway_port = gateway.open('localhost', 9090)
 
   Aptly.configure do |config|
@@ -126,6 +126,6 @@ if __FILE__ == $PROGRAM_NAME || ENV.include?('PANGEA_TEST_EXECUTION')
     config.port = gateway_port
   end
 
-  RepoCleaner.clean(%w(unstable stable unstable_xenial stable_xenial))
-  RepoCleaner.clean(%w(release_xenial), keep_amount: 4)
+  #RepoCleaner.clean(%w(unstable stable unstable_xenial stable_xenial))
+  RepoCleaner.clean(%w(release_xenial), keep_amount: 1)
 end
