@@ -24,6 +24,7 @@ require 'logger'
 require 'logger/colors'
 require 'net/ssh/gateway'
 require 'ostruct'
+require 'optparse'
 
 options = OpenStruct.new
 parser = OptionParser.new do |opts|
@@ -39,7 +40,7 @@ log.level = Logger::DEBUG
 log.progname = $PROGRAM_NAME
 
 # SSH tunnel so we can talk to the repo
-gateway = Net::SSH::Gateway.new('drax', 'root')
+gateway = Net::SSH::Gateway.new('darwini', 'neonarchives')
 gateway.open('localhost', 9090, 9090)
 
 Aptly.configure do |config|
