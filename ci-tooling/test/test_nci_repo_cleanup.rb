@@ -48,7 +48,7 @@ class NCIRepoCleanupTest < TestCase
     fake_gateway = mock
     fake_gateway.responds_like_instance_of(Net::SSH::Gateway)
     fake_gateway.expects(:open)
-                .with('api-archive.neon.kde.org', 80)
+                .with('localhost', 9090)
                 .returns(9091)
     Net::SSH::Gateway.expects(:new).returns(fake_gateway)
 
