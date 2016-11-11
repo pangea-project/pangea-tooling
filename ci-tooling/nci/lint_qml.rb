@@ -26,7 +26,7 @@ NCI.add_repo_key!
 
 Aptly.configure do |config|
   config.host = 'archive-api.neon.kde.org'
-  config.port = 9090
+  config.port = 80
   # This is read-only.
 end
 
