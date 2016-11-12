@@ -29,7 +29,7 @@ class AppStreamer
   end
 
   def database
-    @db ||= AppStream::Database.new.tap(&:open)
+    @db ||= AppStream::AsDatabase.new.tap(&:open)
   end
 
   def component
