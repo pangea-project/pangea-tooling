@@ -34,7 +34,7 @@ class NCIAppStreamerTest < TestCase
     GirFFI.stubs(:setup).with(:AppStream)
     @fake_db = mock('database')
     @fake_db.stubs(:open)
-    AppStream::AsDatabase.stubs(:new).returns(@fake_db)
+    AppStream::Database.stubs(:new).returns(@fake_db)
   end
 
   def test_no_component
