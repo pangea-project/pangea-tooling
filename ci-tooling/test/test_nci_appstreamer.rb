@@ -57,7 +57,7 @@ class NCIAppStreamerTest < TestCase
     fake_comp.stubs(:summary).returns('summary')
     fake_comp.stubs(:description).returns('description')
     fake_comp.stubs(:icons).returns([fake_icon])
-    @fake_db.expects(:component_by_id).returns(fake_comp)
+    #@fake_db.expects(:component_by_id).returns(fake_comp)
 
     fake_snap = Snap.new('fake', nil)
     a = AppStreamer.new('abc')
