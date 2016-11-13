@@ -40,8 +40,7 @@ class NCIAppStreamerTest < TestCase
 
   def test_no_component
     #@fake_db.stubs(:component_by_id).returns(nil)
-    #@fake_db.stubs(:get_components_by_id).returns(nil)
-    @fake_db.stubs(hash).returns(nil)
+    @fake_db.stubs(:get_components_by_id).returns(nil)    
     fake_snap = Snap.new('fake', nil)
     a = AppStreamer.new('abc')
     a.expand(fake_snap)

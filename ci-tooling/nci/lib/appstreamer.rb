@@ -66,7 +66,7 @@ class AppStreamer
     #   snap.description = 'No appstream description, needs bug filed'
     # end
 
-    if !hash.nil?
+    if !component.nil?
       snap.summary = hash['Summary']
       snap.description = hash['Description']
     else
