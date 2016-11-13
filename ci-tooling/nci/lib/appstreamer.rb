@@ -48,7 +48,7 @@ class AppStreamer
     io.close
     r.each_line { |l| puts l; output << l.chomp }
     key_value = output.map {|item| item.split /:\s/ }
-    hash = Hash[key_value]
+    hash ||= Hash[key_value]
     p hash
     hash
   end
