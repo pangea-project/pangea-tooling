@@ -29,65 +29,28 @@ class AppStreamer
   end
 
   def database
-    # Database is now Pool
-    @db ||= AppStream::Pool.new.tap(&:load)
+    @db ||= AppStream::Database.new.tap(&:open)
   end
 
   def component
-    # this returns at a gptr_array and I don't know how to deal with that.
-    @component ||= database.get_components_by_id(@desktopfile)
-  end
-
-  # My temp solution is to use appstreamcli
-  def hash
-    output = []
-    r, io = IO.pipe
-    fork do
-      system("appstreamcli get #{@desktopfile}", out: io, err: :out)
-    end
-    io.close
-    r.each_line { |l| puts l; output << l.chomp }
-    key_value = output.map {|item| item.split /:\s/ }
-    hash ||= Hash[key_value]
-    p hash
-    hash
+    @component ||= database.component_by_id(@desktopfile)
   end
 
   def expand(snap)
-    # TO-DO AppStream API has changed and component now return a GPtrArray!!! I have banged my head against that and
-    # just don't have the knowledge. Someone take if I do not get it.
-    # Using a temp fix to green the jobs.
-    # if !component.nil?
-    #   snap.summary = component.summary
-    #   p snap.summary
-    #   snap.description = component.description
-    # else
-    #   snap.summary = 'No appstream summary, needs bug filed'
-    #   snap.description = 'No appstream description, needs bug filed'
-    # end
-
-    if !hash.nil?
-      snap.summary = hash['Summary']
-      snap.description = hash['Description']
+    if !component.nil?
+      snap.summary = component.summary
+      snap.description = component.description
     else
       snap.summary = 'No appstream summary, needs bug filed'
       snap.description = 'No appstream description, needs bug filed'
     end
+
     snap
   end
 
   def icon_url
-    # unless component.nil?
-    #   component.icons.each do |icon|
-    #     puts icon.kind
-    #     puts icon.url
-    #     next unless icon.kind == :cached
-    #     return icon.url
-    #   end
-    # end
-    unless hash.nil?
-      icons = hash['Icons']
-      icons.each do |icon|
+    unless component.nil?
+      component.icons.each do |icon|
         puts icon.kind
         puts icon.url
         next unless icon.kind == :cached
