@@ -34,7 +34,7 @@ class NCIAppStreamerTest < TestCase
     GirFFI.stubs(:setup).with(:AppStream)
     @fake_db = mock('database')
     #@fake_db.stubs(:open)
-    @fake_db.stubs(:load)
+    #@fake_db.stubs(:load)
     AppStream::Pool.stubs(:new).returns(@fake_db)
   end
 
