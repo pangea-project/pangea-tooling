@@ -20,28 +20,16 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'aptly'
+require 'net/ssh/gateway'
 require 'date'
 
-module Aptly
-  # Configuration.
-  class Configuration
-    def uri
-      # FIXME: maybe we should simply configure a URI instead of configuring
-      #   each part?
-      uri = URI.parse('')
-      uri.scheme = 'https'
-      uri.host = host
-      uri.port = port
-      uri.path = path
-      uri
-    end
-  end
-end
+# SSH tunnel so we can talk to the repo
+gateway = Net::SSH::Gateway.new('darwini', 'neonarchives')
+gateway_port = gateway.open('localhost', 9090)
 
 Aptly.configure do |c|
-  # Meant to be run on archive host.
-  c.host = 'archive-api.neon.kde.org'
-  c.port = 443
+  config.host = 'localhost'
+  config.port = gateway_port
 end
 
 stamp = Time.now.utc.strftime('%Y%m%d.%H%M')
