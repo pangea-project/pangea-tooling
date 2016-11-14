@@ -22,6 +22,22 @@
 require 'aptly'
 require 'date'
 
+module Aptly
+  # Configuration.
+  class Configuration
+    def uri
+      # FIXME: maybe we should simply configure a URI instead of configuring
+      #   each part?
+      uri = URI.parse('')
+      uri.scheme = 'https'
+      uri.host = host
+      uri.port = port
+      uri.path = path
+      uri
+    end
+  end
+end
+
 Aptly.configure do |c|
   # Meant to be run on archive host.
   c.host = 'archive-api.neon.kde.org'
