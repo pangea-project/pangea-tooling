@@ -27,7 +27,7 @@ require 'date'
 gateway = Net::SSH::Gateway.new('darwini.kde.org', 'neonarchives')
 gateway_port = gateway.open('localhost', 9090)
 
-Aptly.configure do |c|
+Aptly.configure do |config|
   config.host = 'localhost'
   config.port = gateway_port
 end
