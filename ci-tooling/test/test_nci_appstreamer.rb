@@ -25,20 +25,20 @@ require_relative '../nci/lib/snap'
 require 'mocha/test_unit'
 
 module AppStream
-  class Database
+  class Pool
   end
 end
 
 class NCIAppStreamerTest < TestCase
   def setup
-    GirFFI.stubs(:setup).with(:AppStream)
-    @fake_db = mock('database')
-    @fake_db.stubs(:open)
-    AppStream::Database.stubs(:new).returns(@fake_db)
+    GirFFI.stubs(:setup).with(:AppStream, '1.0')
+    @fake_db = mock('pools')
+    @fake_db.stubs(:load)
+    AppStream::Pool.stubs(:new).returns(@fake_db)
   end
 
   def test_no_component
-    @fake_db.stubs(:component_by_id).returns(nil)
+    @fake_db.stubs(:components_by_id).returns([])
 
     fake_snap = Snap.new('fake', nil)
     a = AppStreamer.new('abc')
@@ -57,10 +57,15 @@ class NCIAppStreamerTest < TestCase
     fake_comp.stubs(:summary).returns('summary')
     fake_comp.stubs(:description).returns('description')
     fake_comp.stubs(:icons).returns([fake_icon])
-    @fake_db.expects(:component_by_id).returns(fake_comp)
+
+    fake_array = mock('array')
+    fake_array.stubs(:length).returns(1)
+    fake_array.expects(:index).returns(fake_comp)
+
+    @fake_db.expects(:components_by_id).returns(fake_array)
 
     fake_snap = Snap.new('fake', nil)
-    a = AppStreamer.new('abc')
+    a = AppStreamer.new('xyz')
     a.expand(fake_snap)
     assert_equal(fake_snap.summary, 'summary')
     assert_equal(fake_snap.description, 'description')

@@ -20,24 +20,48 @@
 
 require 'fileutils'
 require 'gir_ffi'
+require 'rubygems/deprecate'
 
 # Appstream helper to extract data and expand another storage object
 class AppStreamer
+  extend Gem::Deprecate
+
   def initialize(desktopfile)
     @desktopfile = desktopfile
-    GirFFI.setup(:AppStream)
+    GirFFI.setup(:AppStream, '1.0')
+  end
+
+  def pool
+    @pool ||= AppStream::Pool.new.tap(&:load)
   end
 
   def database
-    @db ||= AppStream::Database.new.tap(&:open)
+    pool
+  end
+  deprecate :database, :pool, 2016, 12
+
+  def pick_single(components)
+    case components.length
+    when 0
+      puts "Failed to resolve component for #{@desktopfile}"
+      return nil
+    when 1
+      # good
+    else
+      raise "More than one component found #{components.map(&:id).join(', ')}"
+    end
+    components.index(0)
   end
 
   def component
-    @component ||= database.component_by_id(@desktopfile)
+    @component ||= begin
+      cs = pool.components_by_id(@desktopfile)
+      pick_single(cs)
+    end
   end
 
   def expand(snap)
-    if !component.nil?
+    if component
       snap.summary = component.summary
       snap.description = component.description
     else
@@ -49,13 +73,12 @@ class AppStreamer
   end
 
   def icon_url
-    unless component.nil?
-      component.icons.each do |icon|
-        puts icon.kind
-        puts icon.url
-        next unless icon.kind == :cached
-        return icon.url
-      end
+    return nil unless component
+    component.icons.each do |icon|
+      puts icon.kind
+      puts icon.url
+      next unless icon.kind == :cached
+      return icon.url
     end
     nil
   end
