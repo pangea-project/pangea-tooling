@@ -26,6 +26,22 @@ require 'terminal-table'
 require_relative '../lib/aptly-ext/filter'
 require_relative '../lib/optparse'
 
+module Aptly
+  # Configuration.
+  class Configuration
+    def uri
+      # FIXME: maybe we should simply configure a URI instead of configuring
+      #   each part?
+      uri = URI.parse('')
+      uri.scheme = 'https'
+      uri.host = host
+      uri.port = port
+      uri.path = path
+      uri
+    end
+  end
+end
+
 parser = OptionParser.new do |opts|
   opts.banner =
     "Usage: #{opts.program_name} REPO1 REPO2"
