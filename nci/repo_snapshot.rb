@@ -25,7 +25,7 @@ require 'date'
 Aptly.configure do |c|
   # Meant to be run on archive host.
   c.host = 'archive-api.neon.kde.org'
-  c.port = 9090
+  c.port = 443
 end
 
 stamp = Time.now.utc.strftime('%Y%m%d.%H%M')
