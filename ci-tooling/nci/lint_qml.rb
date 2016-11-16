@@ -22,28 +22,10 @@
 require_relative 'lib/lint/qml'
 require_relative 'lib/setup_repo'
 
-module Aptly
-  # Configuration.
-  class Configuration
-    def uri
-      # FIXME: maybe we should simply configure a URI instead of configuring
-      #   each part?
-      uri = URI.parse('')
-      uri.scheme = 'https'
-      uri.host = host
-      uri.port = port
-      uri.path = path
-      uri
-    end
-  end
-end
-
 NCI.add_repo_key!
 
 Aptly.configure do |config|
-  config.host = 'archive-api.neon.kde.org'
-  config.port = 443
-  # This is read-only.
+  config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')
 end
 
 Lint::QML.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).lint
