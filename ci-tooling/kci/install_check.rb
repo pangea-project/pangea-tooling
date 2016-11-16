@@ -66,7 +66,9 @@ daily failed to install and then failed to purge. Maybe check maintscripts?
     # to see what happens. If live is ok we are good, otherwise we would fail
     # anyway
 
-    candidate_ppa.add
+    Retry.retry_it(times: 5, sleep: 5) do
+      raise unless candidate_ppa.add
+    end
     unless candidate_ppa.install
       @log.error 'all is vain! live PPA is not installing!'
       exit 1
