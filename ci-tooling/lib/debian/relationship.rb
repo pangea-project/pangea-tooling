@@ -29,10 +29,12 @@ module Debian
     attr_accessor :operator
     # Related to version of the named package
     attr_accessor :version
+    # Next element in the linked list
+    attr_accessor :next
 
     # Not public because not needed for now.
     # [architecture restriction] https://www.debian.org/doc/debian-policy/ch-customized-programs.html#s-arch-spec
-    # attr_accessor :architectures
+    attr_accessor :architectures
     # <build profile restriction> https://wiki.debian.org/BuildProfileSpec
     # attr_accessor :profiles
 
@@ -73,12 +75,19 @@ module Debian
       string = string.strip
       return if string.empty?
 
-      match = string.match(REGEX)
-      return @name = string unless match
-      match.names.each do |name|
-        data = match[name]
-        data.strip! if data
-        instance_variable_set("@#{name}".to_sym, data)
+      first, everything_else = string.split('|', 2)
+
+      @next = Debian::Relationship.new(everything_else) if everything_else
+
+      match = first.match(REGEX)
+      if match
+        match.names.each do |name|
+          data = match[name]
+          data.strip! if data
+          instance_variable_set("@#{name}".to_sym, data)
+        end
+      else
+        @name = string
       end
     end
 
@@ -101,6 +110,7 @@ module Debian
       output += f(' (%s %s)', @operator, @version)
       output += f(' [%s]', @architectures)
       output += f(' <%s>', @profiles)
+      output += f(' | %s', @next) if @next
       output
     end
 
