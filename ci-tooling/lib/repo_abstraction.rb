@@ -47,7 +47,9 @@ class Repository
     @_name = name
     # @_repo = Apt::Repository.new(name)
     @install_exclusion = %w(base-files)
-    @purge_exclusion = %w(base-files)
+    # software-properties backs up Apt::Repository, must not be removed.
+    @purge_exclusion = %w(base-files python3-software-properties
+                          software-properties-common)
   end
 
   def add
