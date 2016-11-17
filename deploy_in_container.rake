@@ -38,7 +38,8 @@ task :deploy_in_container => :align_ruby do
   # so we need all dependencies met as early as possible in the process.
   # FIXME: copy from above
   tooling_path = '/tooling-pending'
-  final_path = File.join(home, 'ci-tooling')
+  final_path = File.join(home, 'tooling')
+  final_ci_tooling_compat_path = File.join(home, 'ci-tooling')
   Dir.chdir(tooling_path) do
     begin
       Gem::Specification.find_by_name('bundler')
@@ -75,11 +76,12 @@ task :deploy_in_container => :align_ruby do
       end
     end
 
-    Dir.chdir('ci-tooling') do
-      FileUtils.rm_rf(final_path, verbose: true)
-      FileUtils.mkpath(final_path, verbose: true)
-      FileUtils.cp_r(Dir.glob('*'), final_path, verbose: true)
-    end
+    FileUtils.rm_rf(final_path)
+    FileUtils.mkpath(final_path, verbose: true)
+    FileUtils.cp_r(Dir.glob('*'), final_path)
+    FileUtils.rm_f(final_ci_tooling_compat_path, verbose: true)
+    FileUtils.ln_s("#{final_path}/ci-tooling", final_ci_tooling_compat_path,
+                   verbose: true)
   end
 
   require_relative 'ci-tooling/lib/apt'
