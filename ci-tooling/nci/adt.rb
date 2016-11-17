@@ -68,10 +68,12 @@ Apt.install(%w(autopkgtest))
 
 FileUtils.rm_r('adt-output') if File.exist?('adt-output')
 
-Dir.chdir('/usr/sbin') do
+Dir.chdir('/') do
   next unless Process.uid.zero?
-  FileUtils.cp("#{__dir__}/adt-helpers/mktemp", 'mktemp', verbose: true)
-  FileUtils.chmod(0o0755, 'mktemp')
+  FileUtils.cp("#{__dir__}/adt-helpers/mktemp", '/usr/sbin/mktemp',
+               verbose: true)
+  FileUtils.chmod(0o0755, '/usr/sbin/mktemp')
+  system("patch -p0 < #{__dir__}/adt-helpers/adt-run.diff") || raise
 end
 
 args = []

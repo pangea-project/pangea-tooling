@@ -1,0 +1,13 @@
+Index: /usr/bin/adt-run
+===================================================================
+--- .orig/usr/bin/adt-run
++++ /usr/bin/adt-run
+@@ -333,7 +333,7 @@ def build_source(kind, arg, built_binari
+         # this is a special case: we don't want to build, or even copy down
+         # (and back up) the tree here for efficiency; so shortcut everything
+         # below and just set the tests_tree and get the package version
+-        tests_tree = adt_testbed.Path(testbed, arg, os.path.join(testbed.scratch, 'tree'), is_dir=True)
++        tests_tree = adt_testbed.Path(testbed, arg, os.path.join(testbed.scratch, 'build'), is_dir=True)
+
+         changelog = os.path.join(arg, 'debian', 'changelog')
+         if os.path.exists(changelog):

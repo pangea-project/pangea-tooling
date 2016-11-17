@@ -3,11 +3,8 @@
 require 'fileutils'
 
 if ARGV.include?('adt-run.XXXXXX')
-  FileUtils.rm_rf('/workspace/*')
+  FileUtils.rm_rf('/workspace')
   FileUtils.mkpath('/workspace')
-  unless File.symlink?('/workspace/build')
-    FileUtils.ln_s('tree', '/workspace/build')
-  end
   puts '/workspace'
   exit 0
 end
