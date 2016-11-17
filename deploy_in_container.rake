@@ -84,6 +84,8 @@ task :deploy_in_container => :align_ruby do
 
   require_relative 'ci-tooling/lib/apt'
 
+  File.write('force-unsafe-io', '/etc/dpkg/dpkg.cfg.d/00_unsafeio')
+
   File.open('/etc/dpkg/dpkg.cfg.d/00_paths', 'w') do |file|
     # Do not install locales other than en/en_US.
     # Do not install manpages, infopages, groffpages.
