@@ -70,16 +70,8 @@ FileUtils.rm_r('adt-output') if File.exist?('adt-output')
 
 Dir.chdir('/usr/sbin') do
   next unless Process.uid.zero?
-  File.open('dh_auto_test', 'w') do |file|
-    file.puts '#!/bin/sh -e'
-    file.puts 'if [ -f obj-*/CMakeCache.txt ]; then'
-    file.puts '        rm -fv obj-*/CMakeCache.txt'
-    file.puts '        rm -fv debian/dhmk_configure'
-    file.puts '        make -f debian/rules build 2>&1'
-    file.puts 'fi'
-    file.puts '/usr/bin/dh_auto_test "$@"'
-  end
-  FileUtils.chmod(0o0755, 'dh_auto_test')
+  FileUtils.cp("#{__dir__}/adt-helpers/mktemp", 'mktemp', verbose: true)
+  FileUtils.chmod(0o0755, 'mktemp')
 end
 
 args = []

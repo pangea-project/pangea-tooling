@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+if ARGV.include?('adt-run.XXXXXX')
+  FileUtils.mkpath('/workspace/build')
+  puts '/workspace/build'
+  exit 0
+end
+
+system('/bin/mktemp', *ARGV)
+exit $?.to_i
