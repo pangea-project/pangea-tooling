@@ -79,7 +79,11 @@ task :deploy_in_container => :align_ruby do
     FileUtils.rm_rf(final_path)
     FileUtils.mkpath(final_path, verbose: true)
     FileUtils.cp_r(Dir.glob('*'), final_path)
-    FileUtils.rm_f(final_ci_tooling_compat_path, verbose: true)
+    if File.symlink?(final_ci_tooling_compat_path)
+      FileUtils.rm(final_ci_tooling_compat_path, verbose: true)
+    elsif File.exist?(final_ci_tooling_compat_path)
+      FileUtils.rm_r(final_ci_tooling_compat_path, verbose: true)
+    end
     FileUtils.ln_s("#{final_path}/ci-tooling", final_ci_tooling_compat_path,
                    verbose: true)
   end
