@@ -39,11 +39,11 @@ module Debian
 
     def test_qualifies
       Object.any_instance.stubs(:system)
-            .with('dpkg-architecture -a i386 -i i386 -f')
+            .with('dpkg-architecture', '-a', 'i386', '-i', 'i386', '-f')
             .returns(true)
 
       Object.any_instance.stubs(:system)
-            .with('dpkg-architecture -a amd64 -i i386 -f')
+            .with('dpkg-architecture', '-a', 'amd64', '-i', 'i386', '-f')
             .returns(false)
 
       deb_arches = Debian::ArchitectureQualifier.new('i386 amd64')
@@ -52,7 +52,7 @@ module Debian
 
     def test_qualifies_with_modifier
       Object.any_instance.stubs(:system)
-            .with('dpkg-architecture -a i386 -i i386 -f')
+            .with('dpkg-architecture', '-a', 'i386', '-i', 'i386', '-f')
             .returns(true)
 
       deb_arches = Debian::ArchitectureQualifier.new('i386')
@@ -61,24 +61,24 @@ module Debian
 
     def test_architecture_with_modifier
       Object.any_instance.stubs(:system)
-            .with('dpkg-architecture -a i386 -i i386 -f')
+            .with('dpkg-architecture', '-a', 'i386', '-i', 'i386', '-f')
             .returns(true)
       Object.any_instance.stubs(:system)
-            .with('dpkg-architecture -a amd64 -i i386 -f')
+            .with('dpkg-architecture', '-a', 'amd64', '-i', 'i386', '-f')
             .returns(false)
 
       Object.any_instance.stubs(:system)
-            .with('dpkg-architecture -a i386 -i armhf -f')
+            .with('dpkg-architecture', '-a', 'i386', '-i', 'armhf', '-f')
             .returns(false)
       Object.any_instance.stubs(:system)
-            .with('dpkg-architecture -a amd64 -i armhf -f')
+            .with('dpkg-architecture', '-a', 'amd64', '-i', 'armhf', '-f')
             .returns(false)
 
       Object.any_instance.stubs(:system)
-            .with('dpkg-architecture -a i386 -i amd64 -f')
+            .with('dpkg-architecture', '-a', 'i386', '-i', 'amd64', '-f')
             .returns(false)
       Object.any_instance.stubs(:system)
-            .with('dpkg-architecture -a amd64 -i amd64 -f')
+            .with('dpkg-architecture', '-a', 'amd64', '-i', 'amd64', '-f')
             .returns(true)
 
       deb_arches = Debian::ArchitectureQualifier.new('!i386 amd64')
