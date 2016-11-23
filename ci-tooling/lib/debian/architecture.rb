@@ -38,5 +38,9 @@ module Debian
                        '-i', "#{other.arch}", '-f')
       other.negated? ^ negated? ? !success : success
     end
+
+    def to_s
+      negated? ? "!#{@arch}" : @arch
+    end
   end
 end

@@ -33,5 +33,9 @@ module Debian
     def qualifies?(other)
       @architectures.any? { |x| x.qualify?(other) }
     end
+
+    def to_s
+      @architectures.join(' ')
+    end
   end
 end

@@ -53,7 +53,7 @@ module Debian
       assert_equal('a', rel.name)
       assert_equal('<<', rel.operator)
       assert_equal('1.0', rel.version)
-      assert_equal('linux-any', rel.architectures)
+      assert_equal('linux-any', rel.architectures.to_s)
       assert_equal('a (<< 1.0) [linux-any] <multi>', rel.to_s)
     end
 
@@ -61,7 +61,7 @@ module Debian
       rel = Relationship.new('foo [!i386] | bar [!amd64]')
       assert_equal('foo', rel.name)
       assert_equal('bar', rel.next.name)
-      assert_equal('!i386', rel.architectures)
+      assert_equal('!i386', rel.architectures.to_s)
       assert_equal('foo [!i386] | bar [!amd64]', rel.to_s)
     end
 

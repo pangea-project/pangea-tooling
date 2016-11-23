@@ -18,6 +18,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require_relative 'architecturequalifier'
+
 module Debian
   # A package relationship.
   class Relationship
@@ -25,16 +27,18 @@ module Debian
     attr_reader :name
     # Architecture qualification of the package (foo:amd64)
     attr_accessor :architecture
-    # Version relationship operator (>=, << etc.)
+    # Version relationship operator (>=, << etc.)re
     attr_accessor :operator
     # Related to version of the named package
     attr_accessor :version
-    # Next element in the linked list
+    # Next OR'd dep if any
     attr_accessor :next
 
-    # Not public because not needed for now.
+    # architecture restriction for package
     # [architecture restriction] https://www.debian.org/doc/debian-policy/ch-customized-programs.html#s-arch-spec
     attr_accessor :architectures
+
+    # Not public because not needed for now.
     # <build profile restriction> https://wiki.debian.org/BuildProfileSpec
     # attr_accessor :profiles
 
@@ -81,11 +85,7 @@ module Debian
 
       match = first.match(REGEX)
       if match
-        match.names.each do |name|
-          data = match[name]
-          data.strip! if data
-          instance_variable_set("@#{name}".to_sym, data)
-        end
+        process_match(match)
       else
         @name = string
       end
@@ -125,6 +125,16 @@ module Debian
     def f(str, *params)
       return '' if params.any?(&:nil?)
       format(str, *params)
+    end
+
+    def process_match(match)
+      match.names.each do |name|
+        data = match[name]
+        data.strip! if data
+        next unless data
+        data = ArchitectureQualifier.new(data) if name == 'architectures'
+        instance_variable_set("@#{name}".to_sym, data)
+      end
     end
   end
 end
