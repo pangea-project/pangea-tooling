@@ -67,13 +67,14 @@
 <% type_suffix = (distribution == 'wily' ? '' : "_#{distribution}") %>
 ~/tooling/ci-tooling/bin/pangea_dput --port 9090 --gateway 'ssh://neonarchives@archive.neon.kde.org:9090' --repo <%= type %><%= type_suffix %> *.changes
 <% if type == 'unstable' %>
-  <% if (%w(frameworks qt) << '').include?(component) || basename.end_with?('pyqt5', 'sip4') %>
+  <% if (%w(frameworks qt) << '').include?(component) || basename.end_with?('pyqt5', 'sip4') || basename.start_with?('phonon') %>
     # This has no stable version, the unstable version is supplying stable.
     ~/tooling/ci-tooling/bin/pangea_dput --port 9090 --gateway 'ssh://neonarchives@archive.neon.kde.org:9090' --repo stable<%= type_suffix %>  *.changes
   <% end %>
   <% if (%w(qt) << '').include?(component) || basename.end_with?('pyqt5', 'sip4') %>
     # This has no release version, the unstable version is supplying release.
     ~/tooling/ci-tooling/bin/pangea_dput --port 9090 --gateway 'ssh://neonarchives@archive.neon.kde.org:9090' --repo release<%= type_suffix %>  *.changes
+    ~/tooling/ci-tooling/bin/pangea_dput --port 9090 --gateway 'ssh://neonarchives@archive.neon.kde.org:9090' --repo release-lts<%= type_suffix %>  *.changes
   <% end %>
 <% end %>
       </command>
