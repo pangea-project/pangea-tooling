@@ -38,7 +38,7 @@ puts 'mangling debian/watch'
 output = ''
 File.open('debian/watch').each do |line|
   output += line.gsub(%r{download.kde.org/stable/},
-                      'localhost:9191/stable/')
+                      '172.17.0.1:9191/stable/')
 end
 puts output
 File.open('debian/watch', 'w') { |file| file.write(output) }

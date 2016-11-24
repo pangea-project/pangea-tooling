@@ -78,7 +78,7 @@ module CI
 
     def mangle_url(data)
       data.gsub(%r{download.kde.org/stable/},
-                'localhost:9191/stable/')
+                '172.17.0.1:9191/stable/')
     end
 
     def uscan(chdir, destdir)
