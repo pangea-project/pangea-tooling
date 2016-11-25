@@ -58,36 +58,64 @@ parser.parse!
 
 raise parser.help if ARGV.empty? || options.repo.nil?
 
-if options.gateway
-  case options.gateway.scheme
-  when 'ssh'
-    gateway = Net::SSH::Gateway.new(options.gateway.host, options.gateway.user)
-    port = gateway.open('localhost', options.port)
-  else
-    raise 'Gateway scheme not supported'
+# Gateyway helper. Opens a ssh gateway if applicable and manages its livetime.
+class Gateway
+  class << self
+    def exec!(options)
+      gate = new(options)
+      gate.open!
+      yield gate.port
+    ensure
+      warn "ensure"
+      gate.close! if gate
+    end
+  end
+
+  attr_accessor :port
+
+  def initialize(options)
+    @gateway = nil
+    @port = options.port # overridden with real port in open!
+    return unless options.gateway
+    raise 'Gateway scheme not supported' if options.gateway.scheme != 'ssh'
+    @gateway = Net::SSH::Gateway.new(options.gateway.host,
+                                     options.gateway.user)
+  end
+
+  def open!
+    return self unless @gateway
+    @port = @gateway.open('localhost', @port)
+    self
+  end
+
+  def close!
+    # Cannot be opened again once closed. As the options are not preserved.
+    return self unless @gateway
+    @gateway.shutdown!
+    self
   end
 end
-
-port ||= options.port
 
 # Set the timeout to 5 minutes to allow upload of large packages such as firefox
 Faraday.default_connection_options =
   Faraday::ConnectionOptions.new(timeout: 5 * 60)
 
-Aptly.configure do |config|
-  config.host = options.host
-  config.port = port
+Gateway.exec!(options) do |port|
+  Aptly.configure do |config|
+    config.host = options.host
+    config.port = port
+  end
+
+  raise "Repository doesn't exist" unless Aptly::Repository.exist?(options.repo)
+  repo = Aptly::Repository.get(options.repo)
+
+  ARGV.each do |file|
+    next unless File.size?(file)
+    files = CI::Deb822Lister.files_to_upload_for(file)
+    raise 'Changes lists no files to upload!?' if files.empty?
+    puts "Uploading files... #{files}"
+    repo.upload(files)
+  end
+
+  repo.published_in.each(&:update!)
 end
-
-raise 'Repository does not exist' unless Aptly::Repository.exist?(options.repo)
-repo = Aptly::Repository.get(options.repo)
-
-ARGV.each do |file|
-  next unless File.size?(file)
-  files = CI::Deb822Lister.files_to_upload_for(file)
-  raise 'Changes lists no files to upload!?' if files.empty?
-  puts "Uploading files... #{files}"
-  repo.upload(files)
-end
-
-repo.published_in.each(&:update!)

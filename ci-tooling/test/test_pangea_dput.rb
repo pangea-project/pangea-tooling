@@ -1,9 +1,12 @@
+require 'net/ssh/gateway'
 require 'vcr'
 require 'webmock'
 require 'webmock/test_unit'
 
 require_relative 'lib/testcase'
 require_relative 'lib/serve'
+
+require 'mocha/test_unit'
 
 class PangeaDPutTest < TestCase
   def setup
@@ -18,7 +21,7 @@ class PangeaDPutTest < TestCase
     VCR.turn_on!
   end
 
-  def test_run
+  def stub_common_http
     stub_request(:get, 'http://localhost:111999/api/repos/kitten')
       .to_return(body: '{"Name":"kitten","Comment":"","DefaultDistribution":"","DefaultComponent":""}')
     stub_request(:post, %r{http://localhost:111999/api/files/Aptly__Repository-(.*)})
@@ -33,6 +36,10 @@ class PangeaDPutTest < TestCase
       .to_return(body: "{\"Architectures\":[\"source\"],\"Distribution\":\"distro\",\"Label\":\"\",\"Origin\":\"\",\"Prefix\":\"kewl-repo-name\",\"SourceKind\":\"local\",\"Sources\":[{\"Component\":\"main\",\"Name\":\"kitten\"}],\"Storage\":\"\"}\n")
     stub_request(:put, 'http://localhost:111999/api/publish/:kewl-repo-name/distro')
       .to_return(body: "{\"Architectures\":[\"source\"],\"Distribution\":\"distro\",\"Label\":\"\",\"Origin\":\"\",\"Prefix\":\"kewl-repo-name\",\"SourceKind\":\"local\",\"Sources\":[{\"Component\":\"main\",\"Name\":\"kitten\"}],\"Storage\":\"\"}\n")
+  end
+
+  def test_run
+    stub_common_http
 
     FileUtils.cp_r("#{data}/.", Dir.pwd)
 
@@ -47,5 +54,38 @@ class PangeaDPutTest < TestCase
     Test.http_serve(Dir.pwd, port: 111_999) do
       load(@dput)
     end
+  end
+
+  def test_ssh
+    # Tests a gateway life time
+    stub_common_http
+
+    seq = sequence('gateway-life')
+    stub_gate = stub('ssh-gateway')
+    Net::SSH::Gateway
+      .expects(:new)
+      .with('kitteh.local', 'meow')
+      .returns(stub_gate)
+      .in_sequence(seq)
+    stub_gate
+      .expects(:open)
+      .with('localhost', '9090')
+      .returns(111_999) # actual port to use
+      .in_sequence(seq)
+    stub_gate
+      .expects(:shutdown!)
+      .in_sequence(seq)
+
+    FileUtils.cp_r("#{data}/.", Dir.pwd)
+
+    ARGV << '--port' << '9090'
+    ARGV << '--gateway' << 'ssh://meow@kitteh.local:9090'
+    ARGV << '--repo' << 'kitten'
+    ARGV << 'yolo.changes'
+    # Binary only builds will not have a dsc in their list, stick with .changes.
+    # This in particular prevents our .changes -> .dsc fallthru from falling
+    # into a whole when processing .changes without an associated .dsc.
+    ARGV << 'binary-without-dsc.changes'
+    load(@dput)
   end
 end
