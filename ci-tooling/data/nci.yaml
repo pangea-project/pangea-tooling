@@ -7,6 +7,7 @@ types:
   - unstable
   - stable
   - release
+  - release-lts
 
 # This is a list of job_name parts that we want to not have any QA done on.
 # The implementation is a bit ugh so this should be used very very very very
