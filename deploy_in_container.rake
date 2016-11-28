@@ -197,7 +197,7 @@ task :align_ruby do
   puts "Ruby version #{RbConfig::CONFIG['MAJOR']}.#{RbConfig::CONFIG['MINOR']}"
   if RbConfig::CONFIG['MAJOR'].to_i <= 2 && RbConfig::CONFIG['MINOR'].to_i < 2
     puts 'Bootstraping ruby'
-    system('apt-get -y install ruby-build libffi-dev')
+    system('apt-get -y install ruby-build')
     File.write(RUBY_2_3_1, open(RUBY_2_3_1_URL).read)
     raise 'Failed to update ruby to 2.3.1' unless
       system("ruby-build #{RUBY_2_3_1} /usr/local")
