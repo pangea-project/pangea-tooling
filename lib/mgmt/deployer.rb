@@ -43,8 +43,12 @@ module MGMT
     def create_base
       upgrade = nil
       base_image = "#{@base.flavor}:#{@base.tag}"
-      if DPKG::HOST_ARCH == 'armhf'
-        base_image = "armhf/#{@base.flavor}:#{@base.tag}"
+
+      case DPKG::HOST_ARCH
+      when 'armhf'
+        base_image = "armhf/#{base_image}"
+      when 'aarch64'
+        base_image = "aarch64/#{base_image}"
       end
 
       trying_tag = @base.tag
