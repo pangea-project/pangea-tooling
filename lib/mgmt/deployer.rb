@@ -47,7 +47,7 @@ module MGMT
       case DPKG::HOST_ARCH
       when 'armhf'
         base_image = "armhf/#{base_image}"
-      when 'aarch64'
+      when 'arm64'
         base_image = "aarch64/#{base_image}"
       end
 
