@@ -174,8 +174,8 @@ class Project
       fields << 'build-depends-indep'
     end
     fields.each do |field|
-      control.source.fetch(field, []).each do |dep|
-        @dependencies << dep.name
+      control.source.fetch(field, []).each do |alt_deps|
+        @dependencies += alt_deps.collect(&:name)
       end
     end
   end
