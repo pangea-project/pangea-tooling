@@ -88,9 +88,10 @@ module Debian
       c.parse!
       build_deps = c.source.fetch('build-depends', nil)
       assert_not_equal(nil, build_deps)
+      assert_equal(1, build_deps.count)
+      assert_equal(2, build_deps.first.count)
       assert_equal(File.read("#{__method__}/debian/control").split($/),
                    c.dump.split($/))
-      assert_equal(2, build_deps.first.count)
     end
 
     description 'changing build-deps works and can be written and read'
