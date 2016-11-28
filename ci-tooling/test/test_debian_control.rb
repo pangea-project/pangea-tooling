@@ -83,21 +83,34 @@ module Debian
                    c.dump.split($/))
     end
 
+    def test_alt_build_deps
+      c = Control.new(__method__)
+      c.parse!
+      build_deps = c.source.fetch('build-depends', nil)
+      assert_not_equal(nil, build_deps)
+      assert_equal(File.read("#{__method__}/debian/control").split($/),
+                   c.dump.split($/))
+      assert_equal(2, build_deps.first.count)
+    end
+
     description 'changing build-deps works and can be written and read'
     def test_write
       c = Control.new(__method__)
       c.parse!
       build_deps = c.source.fetch('build-depends', nil)
-      gwenview = build_deps.find { |x| x.name == 'gwenview' }
+      gwenview_arr = build_deps.find { |x| x.find { |e| e if e.name == 'gwenview' } }
+      gwenview = gwenview_arr.find { |x| x.name == 'gwenview' }
       gwenview.operator = '='
       gwenview.version = '1.0'
+
       File.write("#{__method__}/debian/control", c.dump)
 
       # read again and make sure the expected values are present
       c = Control.new(__method__)
       c.parse!
       build_deps = c.source.fetch('build-depends', nil)
-      gwenview = build_deps.find { |x| x.name == 'gwenview' }
+      gwenview_arr = build_deps.find { |x| x.find { |e| e if e.name == 'gwenview' } }
+      gwenview = gwenview_arr.find { |x| x.name == 'gwenview' }
       assert_equal('=', gwenview.operator)
       assert_equal('1.0', gwenview.version)
     end

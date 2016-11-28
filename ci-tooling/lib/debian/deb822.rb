@@ -28,9 +28,13 @@ module Debian
     def parse_relationships(line)
       ret = []
       line.split(',').each do |string|
-        r = Relationship.new(string)
-        next unless r.name # Invalid name, ignore this bugger.
-        ret << r
+        rel_array = []
+        string.split('|').each do |entry|
+          r = Relationship.new(entry)
+          next unless r.name # Invalid name, ignore this bugger.
+          rel_array << r
+        end
+        ret << rel_array unless rel_array.empty?
       end
       ret
     end
@@ -165,9 +169,12 @@ module Debian
       #     - substvars at the end
       #   - output >80 => line break each entry
       data.sort
-      output = data.collect(&:to_s).join(', ')
+      joined_alternatives = data.collect do |entry|
+        entry.join(' | ')
+      end
+      output = joined_alternatives.join(', ')
       return output if output.size < (80 - indent)
-      data.collect(&:to_s).join(",\n#{Array.new(indent, ' ').join}")
+      joined_alternatives.join(",\n#{Array.new(indent, ' ').join}")
     end
   end
 end
