@@ -33,9 +33,7 @@ class ContainerTest < TestCase
 
     @job_name = self.class.to_s
     @image = 'ubuntu:15.04'
-    VCR.turned_off do
-      cleanup_container
-    end
+    VCR.turned_off { cleanup_container }
   end
 
   def teardown
