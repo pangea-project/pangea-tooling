@@ -67,7 +67,7 @@ class Gateway
       yield gate.port
     ensure
       warn 'ensure'
-      gate.close! if gate
+      p gate.close! if gate
     end
   end
 
@@ -91,7 +91,7 @@ class Gateway
   def close!
     # Cannot be opened again once closed. As the options are not preserved.
     return nil unless @gateway
-    @gateway.shutdown!
+    p @gateway.shutdown!
     self
   end
 end
