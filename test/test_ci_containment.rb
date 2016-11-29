@@ -282,7 +282,6 @@ module CI
       Docker.stubs(:info).returns('DockerRootDir' => '/var/lib/docker/10.20')
 
       # We are mocking this manually. No VCR!
-      Docker.stubs(:version).returns("Version"=>"1.11.1", "ApiVersion"=>"1.23", "GitCommit"=>"5604cbe", "GoVersion"=>"go1.5.4", "Os"=>"linux", "Arch"=>"amd64", "KernelVersion"=>"4.4.0-36-generic", "BuildTime"=>"2016-04-26T23:43:49.174056600+00:00")
       CI::Containment.any_instance.stubs(:cleanup).returns(true)
 
       Containment::TRAP_SIGNALS.each { |sig| assert_handler_not_set(sig) }
