@@ -6,8 +6,8 @@ require_relative '../../ci-tooling/lib/dpkg'
 require_relative '../ci/container'
 require_relative '../ci/pangeaimage'
 
-Docker.options[:read_timeout] = 2 * 60 * 60 # 1 hour
-Docker.options[:write_timeout] = 2 * 60 * 60 # 1 hour
+Excon.defaults[:read_timeout] = 2 * 60 * 60 # 1 hour
+Excon.defaults[:write_timeout] = 2 * 60 * 60 # 1 hour
 $stdout = $stderr
 
 module MGMT
