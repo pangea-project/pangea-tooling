@@ -83,14 +83,14 @@ class Gateway
   end
 
   def open!
-    return self unless @gateway
+    return nil unless @gateway
     @port = @gateway.open('localhost', @port)
     self
   end
 
   def close!
     # Cannot be opened again once closed. As the options are not preserved.
-    return self unless @gateway
+    return nil unless @gateway
     @gateway.shutdown!
     self
   end
