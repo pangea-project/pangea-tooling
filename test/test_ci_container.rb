@@ -1,6 +1,7 @@
 require 'vcr'
 
 require_relative '../lib/ci/container.rb'
+require_relative '../lib/ci/container/ephemeral'
 require_relative '../ci-tooling/test/lib/testcase'
 
 require 'mocha/test_unit'
@@ -14,7 +15,7 @@ class ContainerTest < TestCase
     # the vcr data.
     c = Docker::Container.get(@job_name)
     c.stop
-    c.kill!
+    c.kill! if c.json.fetch['State'].fetch['Running']
     c.remove
   rescue Docker::Error::NotFoundError, Excon::Errors::SocketError
   end
@@ -27,11 +28,8 @@ class ContainerTest < TestCase
       config.default_cassette_options = {
         match_requests_on:  [:method, :uri, :body]
       }
+      config.filter_sensitive_data('<%= Dir.pwd %>', :erb_pwd) { Dir.pwd }
     end
-
-    # Chdir to root, as Containment will set the working dir to PWD and this
-    # is slightly unwanted for tmpdir tests.
-    Dir.chdir('/')
 
     @job_name = self.class.to_s
     @image = 'ubuntu:15.04'
@@ -42,8 +40,21 @@ class ContainerTest < TestCase
     VCR.turned_off { cleanup_container }
   end
 
+  def vcr_it(meth, **kwords)
+    VCR.use_cassette(meth, kwords) do |cassette|
+      if cassette.recording?
+        VCR.turned_off do
+          Docker::Image.create(fromImage: @image)
+        end
+      else
+        CI::EphemeralContainer.safety_sleep = 0
+      end
+      yield cassette
+    end
+  end
+
   def test_exist
-    VCR.use_cassette(__method__) do
+    vcr_it(__method__, erb: true) do
       assert(!CI::Container.exist?(@job_name))
       CI::Container.create(Image: @image, name: @job_name)
       assert(CI::Container.exist?(@job_name))

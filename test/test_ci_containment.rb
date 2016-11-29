@@ -6,33 +6,8 @@ require_relative '../lib/ci/pangeaimage'
 
 require 'mocha/test_unit'
 
-module InterceptStartContainer
-  def start(*args)
-    if InterceptStartContainer.intercept_start_container
-      InterceptStartContainer.intercept_start_args = args
-      return
-    end
-    super(*args)
-  end
-
-  def self.intercept_start_args
-    @args
-  end
-
-  def self.intercept_start_args=(args)
-    @args = args
-  end
-
-  def self.intercept_start_container
-    @intercept_start_container.nil? ? false : @intercept_start_container
-  end
-
-  def self.intercept_start_container=(value)
-    @intercept_start_container = value
-  end
-end
-
 module CI
+  class BindsPassed < RuntimeError; end
   class ContainmentTest < TestCase
     self.file = __FILE__
     self.test_order = :alphabetic # There's a test_ZZZ to be run at end
@@ -43,7 +18,7 @@ module CI
       # the vcr data.
       c = Docker::Container.get(@job_name)
       c.stop
-      c.kill!
+      c.kill! if c.json.fetch('State').fetch('Running')
       c.remove
     rescue Docker::Error::NotFoundError, Excon::Errors::SocketError
     end
@@ -72,7 +47,6 @@ module CI
       @image = PangeaImage.new('ubuntu', 'vivid')
 
       VCR.turned_off { cleanup_container }
-
       Containment::TRAP_SIGNALS.each { |s| Signal.trap(s, nil) }
 
       # Fake info call for consistency
@@ -102,7 +76,16 @@ module CI
 
     def vcr_it(meth, **kwords)
       VCR.use_cassette(meth, kwords) do |cassette|
-        CI::EphemeralContainer.safety_sleep = 0 unless cassette.recording?
+        if cassette.recording?
+          VCR.eject_cassette
+          VCR.turned_off do
+            image = Docker::Image.create(fromImage: 'ubuntu:vivid')
+            image.tag(repo: @image.repo, tag: @image.tag) unless Docker::Image.exist?(@image.to_s)
+          end
+          VCR.insert_cassette(cassette.name)
+        else
+          CI::EphemeralContainer.safety_sleep = 0
+        end
         yield cassette
       end
     end
@@ -276,22 +259,18 @@ module CI
 
     def test_ZZZ_binds # Last test always! Changes VCR configuration.
       # Container binds were overwritten by Containment at some point, make
-      # sure the binds we put in are the binds that are passed to docker.
-      Dir.chdir(@tmpdir) do
-        Docker::Container.prepend(InterceptStartContainer)
-        InterceptStartContainer.intercept_start_container = true
-        vcr_it(__method__, erb: true, tag: :erb_pwd) do
+      # sure the binds we put in a re the binds that are passed to docker.
+      vcr_it(__method__) do
+        Dir.chdir(@tmpdir) do
+          CI::EphemeralContainer.stubs(:create)
+                                .with({ :binds => [@tmpdir], :Image => @image.to_s, :Privileged => false, :Cmd => ['bash', '-c', 'exit', '0'] })
+                                .raises(CI::BindsPassed)
           c = Containment.new(@job_name, image: @image, binds: [Dir.pwd])
-          c.run(Cmd: ['bash' '-c', 'exit 0'])
-          args = InterceptStartContainer.intercept_start_args
-          assert_equal(1, args.size)
-          args = args[0]
-          assert_equal(CI::Container::DirectBindingArray.to_bindings([Dir.pwd]),
-                       args[:Binds])
+          assert_raise CI::BindsPassed do
+            c.run(Cmd: %w(bash -c exit 0))
+          end
         end
       end
-    ensure
-      InterceptStartContainer.intercept_start_container = false
     end
 
     def test_userns_docker

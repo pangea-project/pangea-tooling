@@ -5,7 +5,10 @@ module CI
   # This is slightly more reliable than Docker's own implementation as
   # this goes to extra lengths to make sure the container disappears.
   class EphemeralContainer < Container
+    class EphemeralContainerUnhandledState < StandardError; end
+
     @safety_sleep = 5
+    RUNNING_STATES = %w(created exited running).freeze
 
     class << self
       # @!attribute rw safety_sleep
@@ -17,10 +20,17 @@ module CI
 
     def stop(options = {})
       super(options)
-      kill!(options)
+      kill!(options) if running?
       rescued_remove
     end
 
+    def running?
+      state = json.fetch('State')
+      unless RUNNING_STATES.include?(state.fetch('Status'))
+        raise EphemeralContainerUnhandledState
+      end
+      state.fetch('Running')
+    end
     # def kill!(options = {})
     #   super(options)
     #   rescued_remove

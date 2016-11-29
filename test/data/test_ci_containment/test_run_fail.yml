@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/version
+    uri: unix:///var/run/docker.sock/v1.24/version
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - text/plain
   response:
@@ -18,25 +18,28 @@ http_interactions:
     headers:
       Content-Type:
       - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:23 GMT
       Content-Length:
-      - '148'
+      - '197'
     body:
-      encoding: UTF-8
-      string: |
-        {"Version":"1.7.1","ApiVersion":"1.19","GitCommit":"786b29d","GoVersion":"go1.4.2","Os":"linux","Arch":"amd64","KernelVersion":"3.19.0-30-generic"}
+      encoding: ASCII-8BIT
+      string: '{"Version":"1.12.3","ApiVersion":"1.24","GitCommit":"6b644ec","GoVersion":"go1.6.3","Os":"linux","Arch":"amd64","KernelVersion":"4.8.0-rc8-amd64","BuildTime":"2016-10-26T21:45:16.524810029+00:00"}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:23 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - text/plain
   response:
@@ -45,26 +48,29 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:23 GMT
       Content-Length:
-      - '32'
+      - '53'
     body:
-      encoding: UTF-8
-      string: |
-        no such id: vivid_unstable_test
+      encoding: ASCII-8BIT
+      string: '{"message":"No such container: vivid_unstable_test"}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:23 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - text/plain
   response:
@@ -73,26 +79,29 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:23 GMT
       Content-Length:
-      - '32'
+      - '53'
     body:
-      encoding: UTF-8
-      string: |
-        no such id: vivid_unstable_test
+      encoding: ASCII-8BIT
+      string: '{"message":"No such container: vivid_unstable_test"}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:23 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - text/plain
   response:
@@ -101,26 +110,29 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:23 GMT
       Content-Length:
-      - '32'
+      - '53'
     body:
-      encoding: UTF-8
-      string: |
-        no such id: vivid_unstable_test
+      encoding: ASCII-8BIT
+      string: '{"message":"No such container: vivid_unstable_test"}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:23 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - text/plain
   response:
@@ -129,26 +141,29 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:23 GMT
       Content-Length:
-      - '32'
+      - '53'
     body:
-      encoding: UTF-8
-      string: |
-        no such id: vivid_unstable_test
+      encoding: ASCII-8BIT
+      string: '{"message":"No such container: vivid_unstable_test"}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:23 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - text/plain
   response:
@@ -157,26 +172,29 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:23 GMT
       Content-Length:
-      - '32'
+      - '53'
     body:
-      encoding: UTF-8
-      string: |
-        no such id: vivid_unstable_test
+      encoding: ASCII-8BIT
+      string: '{"message":"No such container: vivid_unstable_test"}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:23 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - text/plain
   response:
@@ -185,26 +203,29 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:23 GMT
       Content-Length:
-      - '32'
+      - '53'
     body:
-      encoding: UTF-8
-      string: |
-        no such id: vivid_unstable_test
+      encoding: ASCII-8BIT
+      string: '{"message":"No such container: vivid_unstable_test"}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:23 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - text/plain
   response:
@@ -213,26 +234,29 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:23 GMT
       Content-Length:
-      - '32'
+      - '53'
     body:
-      encoding: UTF-8
-      string: |
-        no such id: vivid_unstable_test
+      encoding: ASCII-8BIT
+      string: '{"message":"No such container: vivid_unstable_test"}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:23 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/vivid_unstable_test/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - text/plain
   response:
@@ -241,26 +265,29 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:23 GMT
       Content-Length:
-      - '32'
+      - '53'
     body:
-      encoding: UTF-8
-      string: |
-        no such id: vivid_unstable_test
+      encoding: ASCII-8BIT
+      string: '{"message":"No such container: vivid_unstable_test"}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:23 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/create
+    uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
-      string: '{"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Cmd":["garbage_fail"],"Volumes":{}}'
+      string: '{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Privileged":false,"Cmd":["garbage_fail"],"Volumes":{},"Binds":[]}'
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - application/json
   response:
@@ -270,25 +297,28 @@ http_interactions:
     headers:
       Content-Type:
       - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:24 GMT
       Content-Length:
       - '90'
     body:
-      encoding: UTF-8
-      string: |
-        {"Id":"b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c","Warnings":null}
+      encoding: ASCII-8BIT
+      string: '{"Id":"3c8e417794c887553e510825b26525651d70545d0442fd0a72e56a91daf7195c","Warnings":null}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:24 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/rename?name=vivid_unstable_test
+    uri: unix:///var/run/docker.sock/v1.24/containers/3c8e417794c887553e510825b26525651d70545d0442fd0a72e56a91daf7195c/rename?name=vivid_unstable_test
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - text/plain
   response:
@@ -296,47 +326,24 @@ http_interactions:
       code: 204
       message: 
     headers:
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:24 GMT
     body:
-      encoding: UTF-8
+      encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:24 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/attach?stderr=true&stdout=true&stream=true
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Swipely/Docker-API 1.22.4
-      Content-Type:
-      - text/plain
-  response:
-    status:
-      code: 200
-      message: 
-    headers:
-      Content-Type:
-      - application/vnd.docker.raw-stream
+    uri: unix:///var/run/docker.sock/v1.24/containers/3c8e417794c887553e510825b26525651d70545d0442fd0a72e56a91daf7195c/start
     body:
       encoding: UTF-8
-      string: !binary |-
-        AgAAAAAAADlleGVjOiAiZ2FyYmFnZV9mYWlsIjogZXhlY3V0YWJsZSBmaWxl
-        IG5vdCBmb3VuZCBpbiAkUEFUSAo=
-    http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
-- request:
-    method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
-    body:
-      encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+      string: "{}"
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - application/json
   response:
@@ -345,26 +352,31 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:36 GMT
+      - Mon, 07 Nov 2016 11:07:25 GMT
       Content-Length:
-      - '164'
+      - '204'
     body:
-      encoding: UTF-8
-      string: |
-        Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
+      encoding: ASCII-8BIT
+      string: '{"message":"invalid header field value \"oci runtime error: container_linux.go:247:
+        starting container process caused \\\"exec: \\\\\\\"garbage_fail\\\\\\\":
+        executable file not found in $PATH\\\"\\n\""}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:36 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:25 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/3c8e417794c887553e510825b26525651d70545d0442fd0a72e56a91daf7195c/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+      string: "{}"
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - application/json
   response:
@@ -373,26 +385,31 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:37 GMT
+      - Mon, 07 Nov 2016 11:07:25 GMT
       Content-Length:
-      - '164'
+      - '204'
     body:
-      encoding: UTF-8
-      string: |
-        Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
+      encoding: ASCII-8BIT
+      string: '{"message":"invalid header field value \"oci runtime error: container_linux.go:247:
+        starting container process caused \\\"exec: \\\\\\\"garbage_fail\\\\\\\":
+        executable file not found in $PATH\\\"\\n\""}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:37 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:25 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/3c8e417794c887553e510825b26525651d70545d0442fd0a72e56a91daf7195c/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+      string: "{}"
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - application/json
   response:
@@ -401,26 +418,31 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:37 GMT
+      - Mon, 07 Nov 2016 11:07:26 GMT
       Content-Length:
-      - '164'
+      - '204'
     body:
-      encoding: UTF-8
-      string: |
-        Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
+      encoding: ASCII-8BIT
+      string: '{"message":"invalid header field value \"oci runtime error: container_linux.go:247:
+        starting container process caused \\\"exec: \\\\\\\"garbage_fail\\\\\\\":
+        executable file not found in $PATH\\\"\\n\""}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:37 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:26 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/3c8e417794c887553e510825b26525651d70545d0442fd0a72e56a91daf7195c/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+      string: "{}"
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - application/json
   response:
@@ -429,26 +451,31 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:38 GMT
+      - Mon, 07 Nov 2016 11:07:27 GMT
       Content-Length:
-      - '164'
+      - '204'
     body:
-      encoding: UTF-8
-      string: |
-        Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
+      encoding: ASCII-8BIT
+      string: '{"message":"invalid header field value \"oci runtime error: container_linux.go:247:
+        starting container process caused \\\"exec: \\\\\\\"garbage_fail\\\\\\\":
+        executable file not found in $PATH\\\"\\n\""}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:38 GMT
+  recorded_at: Mon, 07 Nov 2016 11:07:27 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/3c8e417794c887553e510825b26525651d70545d0442fd0a72e56a91daf7195c/start
     body:
       encoding: UTF-8
-      string: '{"Binds":[],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false}'
+      string: "{}"
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.22.4
+      - Swipely/Docker-API 1.32.1
       Content-Type:
       - application/json
   response:
@@ -457,15 +484,20 @@ http_interactions:
       message: 
     headers:
       Content-Type:
-      - text/plain; charset=utf-8
+      - application/json
+      Server:
+      - Docker/1.12.3 (linux)
       Date:
-      - Mon, 12 Oct 2015 10:05:38 GMT
+      - Mon, 07 Nov 2016 11:07:28 GMT
       Content-Length:
-      - '164'
+      - '204'
     body:
-      encoding: UTF-8
-      string: |
-        Cannot start container b217e880019424e2372294f192883287685824c2e9be863b6f21664ac9b9a89c: [8] System error: exec: "garbage_fail": executable file not found in $PATH
+      encoding: ASCII-8BIT
+      string: '{"message":"invalid header field value \"oci runtime error: container_linux.go:247:
+        starting container process caused \\\"exec: \\\\\\\"garbage_fail\\\\\\\":
+        executable file not found in $PATH\\\"\\n\""}
+
+'
     http_version: 
-  recorded_at: Mon, 12 Oct 2015 10:05:38 GMT
-recorded_with: VCR 2.9.3
+  recorded_at: Mon, 07 Nov 2016 11:07:28 GMT
+recorded_with: VCR 3.0.3

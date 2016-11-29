@@ -1,5 +1,4 @@
-require 'docker'
-
+require_relative 'docker'
 require_relative 'directbindingarray'
 require_relative '../../ci-tooling/lib/retry'
 
@@ -37,7 +36,6 @@ module CI
       options = options.merge(options_)
       options = override_options(options, name, binds)
       c = super(options, connection)
-      c.send(:instance_variable_set, :@binds, binds)
       c
     end
 
@@ -53,7 +51,6 @@ module CI
     # Docker::Container#start
     # @return [Container]
     def start(options = {})
-      options = default_start_options.merge(options)
       # There seems to be a race condition somewhere in udev/docker
       # https://github.com/docker/docker/issues/4036
       # Keep retrying till it works
@@ -62,29 +59,20 @@ module CI
       end
     end
 
-    # Default container start/run arguments.
-    # - Binds: Set to binds used on {create}
-    # - Ulimits: Set to sane defaults with lower nofile property
-    # @return [Hash]
-    def default_start_options
-      @default_start_options ||= {
-        Binds: DirectBindingArray.to_bindings(@binds),
-        # Force standard ulimit in the container.
-        # Otherwise pretty much all APT IO operations are insanely slow:
-        # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
-        # This in particular affects apt-extracttemplates which will take up to
-        # 20 minutes where it should take maybe 1/10 of that.
-        Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }]
-      }
-    end
-
     class << self
       # Default container create arguments.
       # - WorkingDir: Set to Dir.pwd
       # - Env: Sensible defaults for LANG, PATH, DEBIAN_FRONTEND
+      # - Ulimits: Set to sane defaults with lower nofile property
       # @return [Hash]
       def default_create_options
         {
+          # Force standard ulimit in the container.
+          # Otherwise pretty much all APT IO operations are insanely slow:
+          # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
+          # This in particular affects apt-extracttemplates which will take up
+          # to 20 minutes where it should take maybe 1/10 of that.
+          Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }],
           WorkingDir: Dir.pwd,
           Env: environment
         }
@@ -101,7 +89,10 @@ module CI
 
       def override_options(options, name, binds)
         options['name'] = name if name
-        options[:Volumes] = DirectBindingArray.to_volumes(binds) if binds
+        if binds
+          options[:Volumes] = DirectBindingArray.to_volumes(binds)
+          options[:Binds] = DirectBindingArray.to_bindings(binds)
+        end
         options[:UsernsMode] = 'host' if options.fetch(:Privileged, false)
         options
       end

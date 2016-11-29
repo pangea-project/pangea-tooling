@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/ubuntu:wily/json
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:wily/json
     body:
       encoding: US-ASCII
       string: ''
@@ -30,7 +30,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/create
+    uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
       string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/ubuntu:wily","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%=
@@ -59,7 +59,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/09f2e8fa9a531239b9cc472d9d2e45be439733f231d21a0d5376bd660247f8e9/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/09f2e8fa9a531239b9cc472d9d2e45be439733f231d21a0d5376bd660247f8e9/start
     body:
       encoding: UTF-8
       string: '{"Binds":["<%= Dir.pwd %>/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
@@ -82,7 +82,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/09f2e8fa9a531239b9cc472d9d2e45be439733f231d21a0d5376bd660247f8e9/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/09f2e8fa9a531239b9cc472d9d2e45be439733f231d21a0d5376bd660247f8e9/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -110,7 +110,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/09f2e8fa9a531239b9cc472d9d2e45be439733f231d21a0d5376bd660247f8e9/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/09f2e8fa9a531239b9cc472d9d2e45be439733f231d21a0d5376bd660247f8e9/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -133,7 +133,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:36 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/09f2e8fa9a531239b9cc472d9d2e45be439733f231d21a0d5376bd660247f8e9/export
+    uri: unix:///var/run/docker.sock/v1.24/containers/09f2e8fa9a531239b9cc472d9d2e45be439733f231d21a0d5376bd660247f8e9/export
     body:
       encoding: US-ASCII
       string: ''
@@ -158,7 +158,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:38 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/create?fromSrc=-
+    uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
     body:
       encoding: US-ASCII
       string: ''
@@ -185,7 +185,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:38 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/containers/09f2e8fa9a531239b9cc472d9d2e45be439733f231d21a0d5376bd660247f8e9
+    uri: unix:///var/run/docker.sock/v1.24/containers/09f2e8fa9a531239b9cc472d9d2e45be439733f231d21a0d5376bd660247f8e9
     body:
       encoding: US-ASCII
       string: ''
@@ -208,7 +208,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:38 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/ubuntu:wily/json
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:wily/json
     body:
       encoding: US-ASCII
       string: ''
@@ -236,7 +236,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:38 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/3e0c71ada2db20f16c23d5b2cb0f9ebddb7dc6df902d9d8c3dbea15cb6a308e5
+    uri: unix:///var/run/docker.sock/v1.24/images/3e0c71ada2db20f16c23d5b2cb0f9ebddb7dc6df902d9d8c3dbea15cb6a308e5
     body:
       encoding: US-ASCII
       string: ''
@@ -264,7 +264,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:38 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/3c5f13b5ea246dc3a405bf905b17ccc4a12e59d296560f3b2b160ae4d27bb1e1/tag?force=true&repo=pangea-testing%2Fubuntu&tag=wily
+    uri: unix:///var/run/docker.sock/v1.24/images/3c5f13b5ea246dc3a405bf905b17ccc4a12e59d296560f3b2b160ae4d27bb1e1/tag?force=true&repo=pangea-testing%2Fubuntu&tag=wily
     body:
       encoding: US-ASCII
       string: ''
@@ -291,7 +291,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:38 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/ubuntu:vivid/json
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:vivid/json
     body:
       encoding: US-ASCII
       string: ''
@@ -319,7 +319,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:38 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/create
+    uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
       string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/ubuntu:vivid","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%=
@@ -348,7 +348,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:38 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/246ba75fc912fd757aae2fdf2c252ca845bdbcc96f00376f4f24652284eacdb8/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/246ba75fc912fd757aae2fdf2c252ca845bdbcc96f00376f4f24652284eacdb8/start
     body:
       encoding: UTF-8
       string: '{"Binds":["<%= Dir.pwd %>/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
@@ -371,7 +371,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:38 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/246ba75fc912fd757aae2fdf2c252ca845bdbcc96f00376f4f24652284eacdb8/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/246ba75fc912fd757aae2fdf2c252ca845bdbcc96f00376f4f24652284eacdb8/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -399,7 +399,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:39 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/246ba75fc912fd757aae2fdf2c252ca845bdbcc96f00376f4f24652284eacdb8/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/246ba75fc912fd757aae2fdf2c252ca845bdbcc96f00376f4f24652284eacdb8/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -422,7 +422,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:39 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/246ba75fc912fd757aae2fdf2c252ca845bdbcc96f00376f4f24652284eacdb8/export
+    uri: unix:///var/run/docker.sock/v1.24/containers/246ba75fc912fd757aae2fdf2c252ca845bdbcc96f00376f4f24652284eacdb8/export
     body:
       encoding: US-ASCII
       string: ''
@@ -447,7 +447,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:40 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/create?fromSrc=-
+    uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
     body:
       encoding: US-ASCII
       string: ''
@@ -474,7 +474,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:40 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/containers/246ba75fc912fd757aae2fdf2c252ca845bdbcc96f00376f4f24652284eacdb8
+    uri: unix:///var/run/docker.sock/v1.24/containers/246ba75fc912fd757aae2fdf2c252ca845bdbcc96f00376f4f24652284eacdb8
     body:
       encoding: US-ASCII
       string: ''
@@ -497,7 +497,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:40 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/ubuntu:vivid/json
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:vivid/json
     body:
       encoding: US-ASCII
       string: ''
@@ -525,7 +525,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:40 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/3f0d2d4f532cda8654dde4b1cac05e9c5e6ae2259ca53746954b5956c68397c3
+    uri: unix:///var/run/docker.sock/v1.24/images/3f0d2d4f532cda8654dde4b1cac05e9c5e6ae2259ca53746954b5956c68397c3
     body:
       encoding: US-ASCII
       string: ''
@@ -553,7 +553,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:40 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/a296957655c799c24bbcfc592c8c04e55fe88f1ce015ed29a2c533313ea8fc28/tag?force=true&repo=pangea-testing%2Fubuntu&tag=vivid
+    uri: unix:///var/run/docker.sock/v1.24/images/a296957655c799c24bbcfc592c8c04e55fe88f1ce015ed29a2c533313ea8fc28/tag?force=true&repo=pangea-testing%2Fubuntu&tag=vivid
     body:
       encoding: US-ASCII
       string: ''
@@ -580,7 +580,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:40 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:stable/json
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:stable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -608,7 +608,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:41 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/create
+    uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
       string: '{"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:stable","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%=
@@ -637,7 +637,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:41 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/5ca05574fb11fcf86a843cc173fa52532768d2083811687598b55bfb13defbcc/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/5ca05574fb11fcf86a843cc173fa52532768d2083811687598b55bfb13defbcc/start
     body:
       encoding: UTF-8
       string: '{"Binds":["<%= Dir.pwd %>/tooling-pending:/tooling-pending"],"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}]}'
@@ -660,7 +660,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:41 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/5ca05574fb11fcf86a843cc173fa52532768d2083811687598b55bfb13defbcc/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/5ca05574fb11fcf86a843cc173fa52532768d2083811687598b55bfb13defbcc/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -688,7 +688,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:41 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/containers/5ca05574fb11fcf86a843cc173fa52532768d2083811687598b55bfb13defbcc/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/5ca05574fb11fcf86a843cc173fa52532768d2083811687598b55bfb13defbcc/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -711,7 +711,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:41 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/containers/5ca05574fb11fcf86a843cc173fa52532768d2083811687598b55bfb13defbcc/export
+    uri: unix:///var/run/docker.sock/v1.24/containers/5ca05574fb11fcf86a843cc173fa52532768d2083811687598b55bfb13defbcc/export
     body:
       encoding: US-ASCII
       string: ''
@@ -736,7 +736,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:43 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/create?fromSrc=-
+    uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
     body:
       encoding: US-ASCII
       string: ''
@@ -763,7 +763,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:43 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/containers/5ca05574fb11fcf86a843cc173fa52532768d2083811687598b55bfb13defbcc
+    uri: unix:///var/run/docker.sock/v1.24/containers/5ca05574fb11fcf86a843cc173fa52532768d2083811687598b55bfb13defbcc
     body:
       encoding: US-ASCII
       string: ''
@@ -786,7 +786,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:43 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/images/pangea-testing/debian:stable/json
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:stable/json
     body:
       encoding: US-ASCII
       string: ''
@@ -814,7 +814,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:43 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.16/images/d6b20e4e9ed2fc047c0b6d6a24089082417e4973a69cc3dc92c2a68b2c81047a
+    uri: unix:///var/run/docker.sock/v1.24/images/d6b20e4e9ed2fc047c0b6d6a24089082417e4973a69cc3dc92c2a68b2c81047a
     body:
       encoding: US-ASCII
       string: ''
@@ -842,7 +842,7 @@ http_interactions:
   recorded_at: Wed, 09 Dec 2015 09:31:43 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.16/images/50df4dd5b760f151943223f170ca7e8f2dea8efc1d65b11801bc25b790c8d3c1/tag?force=true&repo=pangea-testing%2Fdebian&tag=stable
+    uri: unix:///var/run/docker.sock/v1.24/images/50df4dd5b760f151943223f170ca7e8f2dea8efc1d65b11801bc25b790c8d3c1/tag?force=true&repo=pangea-testing%2Fdebian&tag=stable
     body:
       encoding: US-ASCII
       string: ''
