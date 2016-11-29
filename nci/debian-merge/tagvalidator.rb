@@ -44,11 +44,13 @@ module NCI
       end
 
       def valid?(repo_url, expected_tag_base, latest_tag)
+        puts "#{repo_url}, #{expected_tag_base}, #{latest_tag}"
         return true if latest_tag.start_with?(expected_tag_base)
         warn 'Tag expectations not matching, checking overrides.'
         patterns = CI::FNMatchPattern.filter(repo_url, overrides)
         CI::FNMatchPattern.sort_hash(patterns).any? do |_pattern, rules|
           rules.any? do |base, whitelist|
+            p base, whitelist
             next false unless base == expected_tag_base
             whitelist.any? { |x| latest_tag.start_with?(x) }
           end
