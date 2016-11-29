@@ -82,7 +82,8 @@ module MGMT
       end
       c = CI::Container.create(Image: base.to_s,
                                WorkingDir: ENV.fetch('HOME'),
-                               Cmd: cmd)
+                               Cmd: cmd,
+                               Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"])
       unless @testing
         # :nocov:
         @log.info 'creating debug thread'
@@ -96,7 +97,7 @@ module MGMT
       end
 
       @log.info "starting container from #{base}"
-      c.start(Binds: ["#{Dir.home}/tooling-pending:/tooling-pending"])
+      c.start
       ret = c.wait
       status_code = ret.fetch('StatusCode', 1)
       raise "Bad return #{ret}" unless status_code.to_i.zero?
