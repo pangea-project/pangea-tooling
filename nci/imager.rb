@@ -36,7 +36,7 @@ METAPACKAGE = ENV.fetch('METAPACKAGE')
 IMAGENAME = ENV.fetch('IMAGENAME')
 NEONARCHIVE = ENV.fetch('NEONARCHIVE')
 
-Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
+Excon.defaults[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
 binds = [
   TOOLING_PATH,

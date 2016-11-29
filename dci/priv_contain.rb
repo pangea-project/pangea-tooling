@@ -2,7 +2,7 @@
 
 require_relative '../lib/ci/containment'
 
-Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
+Excon.defaults[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
 DIST = ENV.fetch('DIST')
 
