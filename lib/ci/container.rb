@@ -82,7 +82,7 @@ module CI
         # In order to effecitvely set ulimits we need docker 1.6.
         docker_version = Docker.version['Version']
         return if Gem::Version.new(docker_version) >= Gem::Version.new('1.12')
-        raise "Containment requires Docker 1.6; found #{docker_version}"
+        raise "Containment requires Docker 1.12; found #{docker_version}"
       end
 
       private
