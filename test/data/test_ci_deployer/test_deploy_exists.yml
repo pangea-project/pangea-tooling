@@ -33,7 +33,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
-      string: '{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/ubuntu:vivid","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%= Dir.pwd %>":{}},"Binds":["<%= Dir.pwd %>:<%= Dir.pwd %>"]}'
+      string: '{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/ubuntu:vivid","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Binds":["<%= Dir.pwd %>:<%= Dir.pwd %>"],"Volumes":{"<%= Dir.pwd %>":{}}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.24.0
@@ -61,7 +61,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.24/containers/09f2e8fa9a531239b9cc472d9d2e45be439733f231d21a0d5376bd660247f8e9/start
     body:
       encoding: UTF-8
-      string: '{"Binds":["<%= Dir.pwd %>/tooling-pending:/tooling-pending"]}'
+      string: '{}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.24.0
@@ -321,7 +321,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
-      string: '{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/ubuntu:wily","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%= Dir.pwd %>":{}},"Binds":["<%= Dir.pwd %>:<%= Dir.pwd %>"]}'
+      string: '{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/ubuntu:wily","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Binds":["<%= Dir.pwd %>:<%= Dir.pwd %>"],"Volumes":{"<%= Dir.pwd %>":{}}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.24.0
@@ -349,7 +349,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.24/containers/246ba75fc912fd757aae2fdf2c252ca845bdbcc96f00376f4f24652284eacdb8/start
     body:
       encoding: UTF-8
-      string: '{"Binds":["<%= Dir.pwd %>/tooling-pending:/tooling-pending"]}'
+      string: '{}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.24.0
@@ -609,7 +609,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
-      string: '{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:stable","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%= Dir.pwd %>":{}},"Binds":["<%= Dir.pwd %>:<%= Dir.pwd %>"]}'
+      string: '{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:stable","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Binds":["<%= Dir.pwd %>:<%= Dir.pwd %>"],"Volumes":{"<%= Dir.pwd %>":{}}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.24.0
@@ -637,7 +637,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.24/containers/5ca05574fb11fcf86a843cc173fa52532768d2083811687598b55bfb13defbcc/start
     body:
       encoding: UTF-8
-      string: '{"Binds":["<%= Dir.pwd %>/tooling-pending:/tooling-pending"]}'
+      string: '{}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.24.0
