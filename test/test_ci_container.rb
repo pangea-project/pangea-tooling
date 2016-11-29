@@ -43,9 +43,11 @@ class ContainerTest < TestCase
   def vcr_it(meth, **kwords)
     VCR.use_cassette(meth, kwords) do |cassette|
       if cassette.recording?
+        VCR.eject_cassette
         VCR.turned_off do
           Docker::Image.create(fromImage: @image)
         end
+        VCR.insert_cassette(cassette.name)
       else
         CI::EphemeralContainer.safety_sleep = 0
       end
@@ -102,15 +104,5 @@ class ContainerTest < TestCase
     assert_raise do
       CI::Container::DirectBindingArray.to_bindings([path.to_s])
     end
-  end
-
-  def test_privileged_implies_usernsmodehost
-    fake_container = mock('fake_container')
-    Docker::Container.expects(:create)
-                     .with do |*x|
-                       x = x.shift
-                       x[:Privileged] == true && x[:HostConfig][:UsernsMode] == 'host'
-                     end.returns(fake_container)
-    CI::Container.create(Privileged: true)
   end
 end
