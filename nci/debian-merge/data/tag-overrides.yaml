@@ -1,0 +1,11 @@
+# fnmatch_pattern:
+#   expected_base:
+#     - possible_other_tag_base
+#     - is_validated_with_start_with
+#     - so_5.28.1_will_match_5.28.100
+# The start_with matching is subject to change if it becomes a problem, if so
+# all existing overrides need to be converted to fnmatch patterns of the form
+# '$foo*' though.
+
+'*/kpackage':
+  debian/5.28.0: [debian/5.28.1]

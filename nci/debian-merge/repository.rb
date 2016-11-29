@@ -24,6 +24,7 @@ require 'net/ssh'
 require 'rugged'
 
 require_relative 'repositorybase'
+require_relative 'tagvalidator'
 
 module NCI
   module DebianMerge
@@ -126,11 +127,13 @@ module NCI
       end
 
       def assert_tag_valid
-        raise unless @tag_base || tag
-        unless tag.name.start_with?(@tag_base)
-          raise "unexpected last tag #{tag.name} on #{@git.dir.path}"
+        name = tag.name
+        unless TagValidator.new.valid?(@rug.remotes['origin'].url,
+                                       @tag_base,
+                                       name)
+          raise "unexpected last tag #{name} on #{@git.dir.path}"
         end
-        puts "#{@git.dir.path} : #{tag.name}"
+        puts "#{@git.dir.path} : #{name}"
       end
     end
   end

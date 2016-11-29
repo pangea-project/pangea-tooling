@@ -32,6 +32,10 @@ module NCI
         Rugged.stubs(:features).returns([:ssh])
       end
 
+      def teardown
+        TagValidator.reset!
+      end
+
       def test_clonery
         remote_dir = File.join(Dir.pwd, 'remote/fishy')
         FileUtils.mkpath(remote_dir)
@@ -191,6 +195,46 @@ module NCI
         assert_raises RuntimeError do
           repo.merge # unexpected tag error
         end
+      end
+
+      def test_last_tag_with_override
+        # frameworks only have major/minor changes but patch level is actually
+        # just that, so we can generally accept patch level
+        remote_dir = File.join(Dir.pwd, 'remote/kpackage')
+        FileUtils.mkpath(remote_dir)
+        Dir.chdir(remote_dir) do
+          `git init --bare .`
+        end
+        Dir.mktmpdir do |tmpdir|
+          Dir.chdir(tmpdir) do
+            `git clone #{remote_dir} clone`
+            Dir.chdir('clone') do
+              File.write('c1', '')
+              `git add c1`
+              `git commit --all -m 'commit'`
+              # NB: if we define no message the tag itself will not have a date
+              `git tag debian/1.17.0-0 -m 'fancy message'`
+
+              `git branch Neon/unstable`
+
+              File.write('c2', '')
+              `git add c2`
+              `git commit --all -m 'commit'`
+              `git tag debian/1.17.1-0 -m 'fancy message'`
+
+              `git push --all`
+              `git push --tags`
+            end
+          end
+        end
+
+        TagValidator.default_path = data('override.yaml')
+
+        repo = Repository.clone_into('file://' + remote_dir, Dir.pwd)
+        assert_path_exist('kpackage') # the clone
+        repo.tag_base = 'debian/1.17.0'
+        repo.merge
+        repo.push
       end
 
       def test_push_mangle
