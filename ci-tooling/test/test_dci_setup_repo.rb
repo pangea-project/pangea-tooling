@@ -62,6 +62,8 @@ class DCISetupRepoTest < TestCase
        'deb http://dci.ds9.pub:8080/plasma stable main'],
       ['add-apt-repository', '-y',
        'deb http://dci.ds9.pub:8080/kde-applications stable main'],
+       ['add-apt-repository', '-y',
+        'deb http://dci.ds9.pub:8080/extras stable main'],
       ['add-apt-repository', '-y',
        'deb http://dci.ds9.pub:8080/backports stable main'],
       ['add-apt-repository', '-y',

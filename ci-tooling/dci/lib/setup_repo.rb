@@ -58,7 +58,7 @@ module DCI
   end
 
   def add_repos
-    repos = %w(frameworks plasma kde-applications)
+    repos = %w(frameworks plasma kde-applications extras)
     repos += %w(backports qt5) if ENV.fetch('DIST') == 'stable'
     repos += %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
     repos.each do |repo|
