@@ -226,6 +226,9 @@ module CI
     def test_bad_version
       # For the purposes of this test the fixture needs to be manually edited
       # when re-created to make the version appear incompatible again.
+
+      # Unstub version call
+      Docker.unstub(:version)
       vcr_it(__method__) do
         assert_raise do
           Containment.new(@job_name, image: @image, binds: [])
