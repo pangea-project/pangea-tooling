@@ -109,7 +109,7 @@ class ContainerTest < TestCase
     Docker::Container.expects(:create)
                      .with do |*x|
                        x = x.shift
-                       x[:Privileged] == true && x[:UsernsMode] == 'host'
+                       x[:Privileged] == true && x[:HostConfig][:UsernsMode] == 'host'
                      end.returns(fake_container)
     CI::Container.create(Privileged: true)
   end

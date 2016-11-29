@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/version
+    uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
     body:
       encoding: US-ASCII
       string: ''
@@ -13,7 +13,7 @@ http_interactions:
       - text/plain
   response:
     status:
-      code: 200
+      code: 404
       message: 
     headers:
       Content-Type:
@@ -21,16 +21,16 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:38:58 GMT
+      - Tue, 29 Nov 2016 21:24:47 GMT
       Content-Length:
-      - '197'
+      - '53'
     body:
       encoding: ASCII-8BIT
-      string: '{"Version":"1.12.3","ApiVersion":"1.24","GitCommit":"6b644ec","GoVersion":"go1.6.3","Os":"linux","Arch":"amd64","KernelVersion":"4.8.0-rc8-amd64","BuildTime":"2016-10-26T21:45:16.524810029+00:00"}
+      string: '{"message":"No such container: vivid_unstable_test"}
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:38:58 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:47 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -52,7 +52,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:38:58 GMT
+      - Tue, 29 Nov 2016 21:24:47 GMT
       Content-Length:
       - '53'
     body:
@@ -61,7 +61,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:38:58 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:47 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -83,7 +83,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:38:58 GMT
+      - Tue, 29 Nov 2016 21:24:47 GMT
       Content-Length:
       - '53'
     body:
@@ -92,7 +92,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:38:58 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:47 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -114,7 +114,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:38:58 GMT
+      - Tue, 29 Nov 2016 21:24:47 GMT
       Content-Length:
       - '53'
     body:
@@ -123,38 +123,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:38:58 GMT
-- request:
-    method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Swipely/Docker-API 1.32.1
-      Content-Type:
-      - text/plain
-  response:
-    status:
-      code: 404
-      message: 
-    headers:
-      Content-Type:
-      - application/json
-      Server:
-      - Docker/1.12.3 (linux)
-      Date:
-      - Mon, 07 Nov 2016 11:38:58 GMT
-      Content-Length:
-      - '53'
-    body:
-      encoding: ASCII-8BIT
-      string: '{"message":"No such container: vivid_unstable_test"}
-
-'
-    http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:38:58 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:47 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
@@ -176,19 +145,19 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:38:59 GMT
+      - Tue, 29 Nov 2016 21:24:48 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e","Warnings":null}
+      string: '{"Id":"31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:38:59 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:48 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e/rename?name=vivid_unstable_test
+    uri: unix:///var/run/docker.sock/v1.24/containers/31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c/rename?name=vivid_unstable_test
     body:
       encoding: US-ASCII
       string: ''
@@ -205,12 +174,12 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:38:59 GMT
+      - Tue, 29 Nov 2016 21:24:48 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:38:59 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:48 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -232,17 +201,17 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:38:59 GMT
+      - Tue, 29 Nov 2016 21:24:48 GMT
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e","Created":"2016-11-07T11:38:59.00000299Z","Path":"/bin/bash","Args":[],"State":{"Status":"created","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"0001-01-01T00:00:00Z","FinishedAt":"0001-01-01T00:00:00Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"","HostnamePath":"","HostsPath":"","LogPath":"","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"devicemapper","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":null,"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":null,"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"219","DeviceName":"docker-259:2-2105330-9b576b9a07de44be61535473a6a43b99d311de899136032a5a4bc6f3156d181e","DeviceSize":"10737418240"}},"Mounts":[],"Config":{"Hostname":"fc6afcdd07a1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
+      string: '{"Id":"31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c","Created":"2016-11-29T21:24:47.747878539Z","Path":"/bin/bash","Args":[],"State":{"Status":"created","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"0001-01-01T00:00:00Z","FinishedAt":"0001-01-01T00:00:00Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"","HostnamePath":"","HostsPath":"","LogPath":"","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"devicemapper","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":null,"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":null,"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"385","DeviceName":"docker-259:2-2105330-62d93aa3e1dbd47f02b5782a55dd4e0172e8ef82205d022b79ededf764890595","DeviceSize":"10737418240"}},"Mounts":[],"Config":{"Hostname":"31c96b5d64b3","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:38:59 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:48 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c/json
     body:
       encoding: US-ASCII
       string: ''
@@ -261,17 +230,17 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:38:59 GMT
+      - Tue, 29 Nov 2016 21:24:48 GMT
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e","Created":"2016-11-07T11:38:59.00000299Z","Path":"/bin/bash","Args":[],"State":{"Status":"created","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"0001-01-01T00:00:00Z","FinishedAt":"0001-01-01T00:00:00Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"","HostnamePath":"","HostsPath":"","LogPath":"","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"devicemapper","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":null,"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":null,"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"219","DeviceName":"docker-259:2-2105330-9b576b9a07de44be61535473a6a43b99d311de899136032a5a4bc6f3156d181e","DeviceSize":"10737418240"}},"Mounts":[],"Config":{"Hostname":"fc6afcdd07a1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
+      string: '{"Id":"31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c","Created":"2016-11-29T21:24:47.747878539Z","Path":"/bin/bash","Args":[],"State":{"Status":"created","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"0001-01-01T00:00:00Z","FinishedAt":"0001-01-01T00:00:00Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"","HostnamePath":"","HostsPath":"","LogPath":"","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"devicemapper","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":null,"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":null,"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"385","DeviceName":"docker-259:2-2105330-62d93aa3e1dbd47f02b5782a55dd4e0172e8ef82205d022b79ededf764890595","DeviceSize":"10737418240"}},"Mounts":[],"Config":{"Hostname":"31c96b5d64b3","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:38:59 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:48 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e
+    uri: unix:///var/run/docker.sock/v1.24/containers/31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c
     body:
       encoding: US-ASCII
       string: ''
@@ -288,18 +257,18 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:39:00 GMT
+      - Tue, 29 Nov 2016 21:24:48 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:39:00 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:48 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
-      string: '{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Privileged":false,"Volumes":{},"Binds":[]}'
+      string: '{"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false,"Binds":[]},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Volumes":{}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.32.1
@@ -315,19 +284,19 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:39:01 GMT
+      - Tue, 29 Nov 2016 21:24:49 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"e4940519d555545f4ddaff39e3d4c5199480781f49ec65397f479e69b2160e4f","Warnings":null}
+      string: '{"Id":"41ba6e199f72eb6c38651238cdc79e77a1b01d7a8a959b4ba8b3f36bf972a55e","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:39:01 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:49 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/e4940519d555545f4ddaff39e3d4c5199480781f49ec65397f479e69b2160e4f/rename?name=vivid_unstable_test
+    uri: unix:///var/run/docker.sock/v1.24/containers/41ba6e199f72eb6c38651238cdc79e77a1b01d7a8a959b4ba8b3f36bf972a55e/rename?name=vivid_unstable_test
     body:
       encoding: US-ASCII
       string: ''
@@ -344,15 +313,15 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:39:01 GMT
+      - Tue, 29 Nov 2016 21:24:49 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:39:01 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:49 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c/json
     body:
       encoding: US-ASCII
       string: ''
@@ -371,19 +340,19 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:39:01 GMT
+      - Tue, 29 Nov 2016 21:24:49 GMT
       Content-Length:
       - '98'
     body:
       encoding: ASCII-8BIT
-      string: '{"message":"No such container: fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e"}
+      string: '{"message":"No such container: 31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c"}
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:39:01 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:49 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c/json
     body:
       encoding: US-ASCII
       string: ''
@@ -402,19 +371,19 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:39:01 GMT
+      - Tue, 29 Nov 2016 21:24:49 GMT
       Content-Length:
       - '98'
     body:
       encoding: ASCII-8BIT
-      string: '{"message":"No such container: fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e"}
+      string: '{"message":"No such container: 31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c"}
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:39:01 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:49 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c/json
     body:
       encoding: US-ASCII
       string: ''
@@ -433,19 +402,19 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:39:01 GMT
+      - Tue, 29 Nov 2016 21:24:49 GMT
       Content-Length:
       - '98'
     body:
       encoding: ASCII-8BIT
-      string: '{"message":"No such container: fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e"}
+      string: '{"message":"No such container: 31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c"}
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:39:01 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:49 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c/json
     body:
       encoding: US-ASCII
       string: ''
@@ -464,16 +433,16 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:39:01 GMT
+      - Tue, 29 Nov 2016 21:24:49 GMT
       Content-Length:
       - '98'
     body:
       encoding: ASCII-8BIT
-      string: '{"message":"No such container: fc6afcdd07a1630c0d7b3a04889acc12e679332cbe13392b5b6fe9ba8d949b1e"}
+      string: '{"message":"No such container: 31c96b5d64b3c15ac5fbc4f1e158c0602f12f836ce91f262d6791a18db50270c"}
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:39:01 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:49 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -495,17 +464,17 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:39:01 GMT
+      - Tue, 29 Nov 2016 21:24:49 GMT
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"e4940519d555545f4ddaff39e3d4c5199480781f49ec65397f479e69b2160e4f","Created":"2016-11-07T11:39:00.463546681Z","Path":"/bin/bash","Args":[],"State":{"Status":"created","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"0001-01-01T00:00:00Z","FinishedAt":"0001-01-01T00:00:00Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"","HostnamePath":"","HostsPath":"","LogPath":"","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"devicemapper","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":[],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"221","DeviceName":"docker-259:2-2105330-51070320afb14fd3d7e61c23e2fa1a3ab7b9e73b8e54195c8a1ff58bba342025","DeviceSize":"10737418240"}},"Mounts":[],"Config":{"Hostname":"e4940519d555","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["/bin/bash"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"/","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
+      string: '{"Id":"41ba6e199f72eb6c38651238cdc79e77a1b01d7a8a959b4ba8b3f36bf972a55e","Created":"2016-11-29T21:24:48.991520475Z","Path":"/bin/bash","Args":[],"State":{"Status":"created","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"0001-01-01T00:00:00Z","FinishedAt":"0001-01-01T00:00:00Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"","HostnamePath":"","HostsPath":"","LogPath":"","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"devicemapper","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":[],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"387","DeviceName":"docker-259:2-2105330-239622df59730873590ed0a3763e62729f65ba6af8dcb448d60974df91a7545a","DeviceSize":"10737418240"}},"Mounts":[],"Config":{"Hostname":"41ba6e199f72","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["/bin/bash"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"/","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:39:01 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:49 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/e4940519d555545f4ddaff39e3d4c5199480781f49ec65397f479e69b2160e4f/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/41ba6e199f72eb6c38651238cdc79e77a1b01d7a8a959b4ba8b3f36bf972a55e/json
     body:
       encoding: US-ASCII
       string: ''
@@ -524,17 +493,17 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:39:01 GMT
+      - Tue, 29 Nov 2016 21:24:49 GMT
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"e4940519d555545f4ddaff39e3d4c5199480781f49ec65397f479e69b2160e4f","Created":"2016-11-07T11:39:00.463546681Z","Path":"/bin/bash","Args":[],"State":{"Status":"created","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"0001-01-01T00:00:00Z","FinishedAt":"0001-01-01T00:00:00Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"","HostnamePath":"","HostsPath":"","LogPath":"","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"devicemapper","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":[],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"221","DeviceName":"docker-259:2-2105330-51070320afb14fd3d7e61c23e2fa1a3ab7b9e73b8e54195c8a1ff58bba342025","DeviceSize":"10737418240"}},"Mounts":[],"Config":{"Hostname":"e4940519d555","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["/bin/bash"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"/","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
+      string: '{"Id":"41ba6e199f72eb6c38651238cdc79e77a1b01d7a8a959b4ba8b3f36bf972a55e","Created":"2016-11-29T21:24:48.991520475Z","Path":"/bin/bash","Args":[],"State":{"Status":"created","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"0001-01-01T00:00:00Z","FinishedAt":"0001-01-01T00:00:00Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"","HostnamePath":"","HostsPath":"","LogPath":"","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"devicemapper","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":[],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"387","DeviceName":"docker-259:2-2105330-239622df59730873590ed0a3763e62729f65ba6af8dcb448d60974df91a7545a","DeviceSize":"10737418240"}},"Mounts":[],"Config":{"Hostname":"41ba6e199f72","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["/bin/bash"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"/","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
 
 '
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:39:01 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:49 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/e4940519d555545f4ddaff39e3d4c5199480781f49ec65397f479e69b2160e4f
+    uri: unix:///var/run/docker.sock/v1.24/containers/41ba6e199f72eb6c38651238cdc79e77a1b01d7a8a959b4ba8b3f36bf972a55e
     body:
       encoding: US-ASCII
       string: ''
@@ -551,10 +520,10 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Mon, 07 Nov 2016 11:39:01 GMT
+      - Tue, 29 Nov 2016 21:24:50 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Mon, 07 Nov 2016 11:39:01 GMT
+  recorded_at: Tue, 29 Nov 2016 21:24:50 GMT
 recorded_with: VCR 3.0.3

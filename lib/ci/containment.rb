@@ -68,13 +68,12 @@ module CI
         # Docker
         # Can be a PangeaImage instance
         Image: @image.to_str,
-        Privileged: @privileged
+        HostConfig: {
+          Privileged: @privileged
+        }
       }
 
-      # Disable UsernsMode for privileged containers
-      # Ref: https://docs.docker.com/engine/reference/commandline/dockerd/#/disable-user-namespace-for-a-container
-      @default_args[:UsernsMode] = 'host' if @privileged
-
+      @default_args[:HostConfig][:UsernsMode] = 'host' if @privileged
       @default_args
     end
 

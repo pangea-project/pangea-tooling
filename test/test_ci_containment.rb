@@ -267,7 +267,7 @@ module CI
       vcr_it(__method__) do
         Dir.chdir(@tmpdir) do
           CI::EphemeralContainer.stubs(:create)
-                                .with({ :binds => [@tmpdir], :Image => @image.to_s, :Privileged => false, :Cmd => ['bash', '-c', 'exit', '0'] })
+                                .with({ :binds => [@tmpdir], :Image => @image.to_s, :HostConfig => {:Privileged => false}, :Cmd => ['bash', '-c', 'exit', '0'] })
                                 .raises(CI::BindsPassed)
           c = Containment.new(@job_name, image: @image, binds: [Dir.pwd])
           assert_raise CI::BindsPassed do

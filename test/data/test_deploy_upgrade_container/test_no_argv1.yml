@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:05 GMT
+      - Tue, 29 Nov 2016 21:27:40 GMT
       Content-Length:
       - '51'
     body:
@@ -30,7 +30,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:05 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:40 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -52,7 +52,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:05 GMT
+      - Tue, 29 Nov 2016 21:27:40 GMT
       Content-Length:
       - '51'
     body:
@@ -61,7 +61,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:05 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:40 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -83,7 +83,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:05 GMT
+      - Tue, 29 Nov 2016 21:27:40 GMT
       Content-Length:
       - '51'
     body:
@@ -92,7 +92,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:05 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:40 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -114,7 +114,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:05 GMT
+      - Tue, 29 Nov 2016 21:27:40 GMT
       Content-Length:
       - '51'
     body:
@@ -123,7 +123,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:05 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:40 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -145,7 +145,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:05 GMT
+      - Tue, 29 Nov 2016 21:27:40 GMT
       Content-Length:
       - '51'
     body:
@@ -154,7 +154,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:05 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:40 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -176,7 +176,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:05 GMT
+      - Tue, 29 Nov 2016 21:27:40 GMT
       Content-Length:
       - '51'
     body:
@@ -185,7 +185,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:05 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:40 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -207,7 +207,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:05 GMT
+      - Tue, 29 Nov 2016 21:27:40 GMT
       Content-Length:
       - '51'
     body:
@@ -216,7 +216,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:05 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:40 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -238,7 +238,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:05 GMT
+      - Tue, 29 Nov 2016 21:27:40 GMT
       Content-Length:
       - '51'
     body:
@@ -247,15 +247,15 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:05 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:40 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
-      string: '{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"WorkingDir":"<%=
-        Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"deployupgradetest:latest","Privileged":false,"Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh","vivid"],"Volumes":{"<%=
-        Dir.pwd %>":{}},"Binds":["<%= Dir.pwd %>:/tooling-pending"]}'
+      string: '{"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false,"Binds":["<%=
+        Dir.pwd %>:/tooling-pending"]},"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"deployupgradetest:latest","Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh","vivid"],"Volumes":{"<%=
+        Dir.pwd %>":{}}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.32.1
@@ -271,19 +271,19 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:06 GMT
+      - Tue, 29 Nov 2016 21:27:41 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b","Warnings":null}
+      string: '{"Id":"a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:06 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:41 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b/rename?name=deployupgradetest
+    uri: unix:///var/run/docker.sock/v1.24/containers/a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308/rename?name=deployupgradetest
     body:
       encoding: US-ASCII
       string: ''
@@ -300,15 +300,15 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:06 GMT
+      - Tue, 29 Nov 2016 21:27:41 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:06 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:41 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -325,15 +325,15 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:06 GMT
+      - Tue, 29 Nov 2016 21:27:41 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:06 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:41 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -352,7 +352,7 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:07 GMT
+      - Tue, 29 Nov 2016 21:27:42 GMT
       Content-Length:
       - '17'
     body:
@@ -361,10 +361,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:07 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:42 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -381,15 +381,15 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:07 GMT
+      - Tue, 29 Nov 2016 21:27:42 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:07 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:42 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308/json
     body:
       encoding: US-ASCII
       string: ''
@@ -408,21 +408,21 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:07 GMT
+      - Tue, 29 Nov 2016 21:27:42 GMT
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b","Created":"2016-11-29T12:55:05.782973207Z","Path":"sh","Args":["/tooling-pending/deploy_upgrade_container.sh","vivid"],"State":{"Status":"exited","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":1,"Error":"","StartedAt":"2016-11-29T12:55:06.879092781Z","FinishedAt":"2016-11-29T12:55:06.933501284Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"/var/lib/docker/containers/3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b/resolv.conf","HostnamePath":"/var/lib/docker/containers/3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b/hostname","HostsPath":"/var/lib/docker/containers/3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b/hosts","LogPath":"/var/lib/docker/containers/3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b/3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b-json.log","Name":"/deployupgradetest","RestartCount":0,"Driver":"devicemapper","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":["<%=
-        Dir.pwd %>:/tooling-pending"],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"299","DeviceName":"docker-259:2-2105330-5bb346aecd72f97df098253c639528aec5f3c26c4c518a1f4aa84e945d978040","DeviceSize":"10737418240"}},"Mounts":[{"Source":"<%=
-        Dir.pwd %>","Destination":"/tooling-pending","Mode":"","RW":true,"Propagation":"rprivate"},{"Name":"a906761fd54ec81172f09c4a73cf232a23f517b9664a7629771f6c8ed0adf005","Source":"/var/lib/docker/volumes/a906761fd54ec81172f09c4a73cf232a23f517b9664a7629771f6c8ed0adf005/_data","Destination":"<%=
-        Dir.pwd %>","Driver":"local","Mode":"","RW":true,"Propagation":""}],"Config":{"Hostname":"3f4c6f0a9317","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh","vivid"],"Image":"deployupgradetest:latest","Volumes":{"<%=
-        Dir.pwd %>":{}},"WorkingDir":"<%= Dir.pwd %>","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"8984e6415cd346f0d011eea4d252741e37f24418956ea077ffbfdf5e95282e3f","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"/var/run/docker/netns/8984e6415cd3","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"f69fd3a196d74d08cecc88962f8e1b08f32ef01ddbfaf95afabef763deda6c5f","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
+      string: '{"Id":"a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308","Created":"2016-11-29T21:27:40.849623932Z","Path":"sh","Args":["/tooling-pending/deploy_upgrade_container.sh","vivid"],"State":{"Status":"exited","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":1,"Error":"","StartedAt":"2016-11-29T21:27:41.962087502Z","FinishedAt":"2016-11-29T21:27:42.046138014Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"/var/lib/docker/containers/a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308/resolv.conf","HostnamePath":"/var/lib/docker/containers/a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308/hostname","HostsPath":"/var/lib/docker/containers/a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308/hosts","LogPath":"/var/lib/docker/containers/a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308/a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308-json.log","Name":"/deployupgradetest","RestartCount":0,"Driver":"devicemapper","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":["<%=
+        Dir.pwd %>:/tooling-pending"],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"413","DeviceName":"docker-259:2-2105330-676b32d619a9d63225c53ffe6c9cc93e09a396c5a8a37186bc261363b4ab3c55","DeviceSize":"10737418240"}},"Mounts":[{"Source":"<%=
+        Dir.pwd %>","Destination":"/tooling-pending","Mode":"","RW":true,"Propagation":"rprivate"},{"Name":"d942bd87ffe57707f0c6ab79fc84ee038b062f41a771183d58651f15bddf3d44","Source":"/var/lib/docker/volumes/d942bd87ffe57707f0c6ab79fc84ee038b062f41a771183d58651f15bddf3d44/_data","Destination":"<%=
+        Dir.pwd %>","Driver":"local","Mode":"","RW":true,"Propagation":""}],"Config":{"Hostname":"a65c93cffa6d","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh","vivid"],"Image":"deployupgradetest:latest","Volumes":{"<%=
+        Dir.pwd %>":{}},"WorkingDir":"<%= Dir.pwd %>","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"deb3fdb14962268f75b1ee630038adabc72fcd338b7178e8d20ade54fe3b499f","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"/var/run/docker/netns/deb3fdb14962","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"653e19b4fdb56b5d56dd2001a0ba278a81ecf88a503eb89f60ac442f0eb6a208","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:07 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:42 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/3f4c6f0a9317591518cd7b4bb9aeed6e65b901aa0351fb6ff747617a2da3691b
+    uri: unix:///var/run/docker.sock/v1.24/containers/a65c93cffa6d8c2d1cef8533bb716722899fcbb64ac05e64d343dd94426e9308
     body:
       encoding: US-ASCII
       string: ''
@@ -439,10 +439,10 @@ http_interactions:
       Server:
       - Docker/1.12.3 (linux)
       Date:
-      - Tue, 29 Nov 2016 12:55:12 GMT
+      - Tue, 29 Nov 2016 21:27:48 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 12:55:12 GMT
+  recorded_at: Tue, 29 Nov 2016 21:27:48 GMT
 recorded_with: VCR 3.0.3
