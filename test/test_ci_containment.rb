@@ -51,6 +51,7 @@ module CI
 
       # Fake info call for consistency
       Docker.stubs(:info).returns('DockerRootDir' => '/var/lib/docker')
+      Docker.stubs(:version).returns('ApiVersion' => '1.24', 'Version' => '1.12.3')
     end
 
     def teardown
