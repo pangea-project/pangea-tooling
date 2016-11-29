@@ -110,6 +110,7 @@ class DeployTest < TestCase
 
     vcr_it(__method__, erb: true) do |cassette|
       if cassette.recording?
+        VCR.eject_cassette
         VCR.turned_off do
           @ubuntu_series.each do |k|
             remove_base('ubuntu', k)
@@ -119,6 +120,7 @@ class DeployTest < TestCase
             remove_base('debian', k)
           end
         end
+        VCR.insert_cassette(cassette.name)
       end
 
       assert_nothing_raised do
@@ -134,6 +136,7 @@ class DeployTest < TestCase
 
     vcr_it(__method__, erb: true) do |cassette|
       if cassette.recording?
+        VCR.eject_cassette
         VCR.turned_off do
           @ubuntu_series.each do |k|
             create_base('ubuntu', k)
@@ -143,6 +146,7 @@ class DeployTest < TestCase
             create_base('debian', k)
           end
         end
+        VCR.insert_cassette(cassette.name)
       end
 
       assert_nothing_raised do
@@ -161,10 +165,12 @@ class DeployTest < TestCase
 
     vcr_it(__method__, erb: true) do |cassette|
       if cassette.recording?
+        VCR.eject_cassette
         VCR.turned_off do
           remove_base(:ubuntu, 'wily')
           remove_base(:ubuntu, __method__)
         end
+        VCR.insert_cassette(cassette.name)
       end
 
       # Wily should exist so the fallback upgrade shouldn't be used.
