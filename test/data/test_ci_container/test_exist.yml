@@ -129,7 +129,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/v1.24/containers/create?name=ContainerTest
     body:
       encoding: UTF-8
-      string: '{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":[],"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"ubuntu:15.04","Volumes":{"<%= Dir.pwd %>":{}}}'
+      string: '{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"ubuntu:15.04","Volumes":{"<%= Dir.pwd %>":{}},"Binds":["<%= Dir.pwd %>:<%= Dir.pwd %>"]}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.32.1
