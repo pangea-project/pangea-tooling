@@ -65,6 +65,7 @@ class DeployUpgradeTest < TestCase
 
     # Fake info call for consistency
     Docker.stubs(:info).returns('DockerRootDir' => '/var/lib/docker')
+    Docker.stubs(:version).returns('ApiVersion' => '1.24', 'Version' => '1.12.3')
   end
 
   def teardown
@@ -80,11 +81,13 @@ class DeployUpgradeTest < TestCase
     }
     VCR.use_cassette(meth, defaults.merge(kwords)) do |cassette|
       if cassette.recording?
+        VCR.eject_cassette
         VCR.turned_off do
           cleanup_container
           cleanup_image
           create_container
         end
+        VCR.insert_cassette(cassette.name)
       else
         CI::EphemeralContainer.safety_sleep = 0
       end
