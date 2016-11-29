@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.16/version
+    uri: unix:///var/run/docker.sock/v1.24/version
     body:
       encoding: US-ASCII
       string: ''
