@@ -110,6 +110,11 @@ class Project
     @series_branches = []
     @autopkgtest = false
 
+    if component == 'kde-extras_kde-telepathy'
+      puts 'stepped into a shit pile --> https://phabricator.kde.org/T4160'
+      raise 'stepped into a shit pile --> https://phabricator.kde.org/T4160'
+    end
+
     # FIXME: this should run at the end. test currently assume it isn't though
     validate!
 
