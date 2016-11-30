@@ -5,7 +5,7 @@ require_relative '../ci-tooling/test/lib/testcase'
 
 require 'mocha/test_unit'
 
-Excon.defaults[:read_timeout] = 4 * 60 * 60 # 4 hours.
+Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
 class DeployUpgradeTest < TestCase
   self.file = __FILE__

@@ -31,7 +31,7 @@ TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
 CNAME = "jenkins-imager-#{DIST}-#{TYPE}-#{ARCH}".freeze
 
-Excon.defaults[:read_timeout] = 4 * 60 * 60 # 4 hours.
+Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
 binds = [
   "#{TOOLING_PATH}:#{TOOLING_PATH}",

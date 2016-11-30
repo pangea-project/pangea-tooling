@@ -6,7 +6,7 @@ require 'logger/colors'
 
 $stdout = $stderr
 
-Excon.defaults[:read_timeout] = 3 * 60 * 60 # 3 hours.
+Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
 @log = Logger.new(STDERR)
 

@@ -30,7 +30,7 @@ DIST = ENV.fetch('DIST')
 TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
 
-Excon.defaults[:read_timeout] = 4 * 60 * 60 # 4 hours.
+Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
 binds = [
   "#{TOOLING_PATH}:#{TOOLING_PATH}",

@@ -9,7 +9,7 @@ TOOLING_PATH = File.dirname(__dir__)
 JOB_NAME = ENV.fetch('JOB_NAME')
 DIST = ENV.fetch('DIST')
 
-Excon.defaults[:read_timeout] = 4 * 60 * 60 # 4 hours.
+Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
 binds = [
   TOOLING_PATH,

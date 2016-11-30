@@ -2,7 +2,7 @@
 
 require_relative '../lib/ci/containment'
 
-Excon.defaults[:read_timeout] = 36 * 60 * 60 # 36 hours. Because, QtWebEngine.
+Docker.options[:read_timeout] = 36 * 60 * 60 # 36 hours. Because, QtWebEngine.
 
 DIST = ENV.fetch('DIST')
 BUILD_TAG = ENV.fetch('BUILD_TAG')
