@@ -5,3 +5,7 @@
 '*_forks_{sip4,pyqt5}_*':
   sourcer:
     restricted_packaging_copy: true
+
+'*_forks_libinput_*':
+  sourcer:
+    restricted_packaging_copy: true
