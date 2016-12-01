@@ -32,12 +32,11 @@ PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
 c = nil
 if PWD_BIND != Dir.pwd # backwards compat. Behave as previosuly without pwd_bind
   c = CI::Containment.new(JOB_NAME,
-                          image: 'debian:stable',
-                          binds: ["#{Dir.pwd}:#{PWD_BIND}"],
-                          Cmd: ARGV, WorkingDir: PWD_BIND)
+                          image: CI::PangeaImage.new(:ubuntu, DIST),
+                          binds: ["#{Dir.pwd}:#{PWD_BIND}"])
 else
-  c = CI::Containment.new(JOB_NAME, image: 'debian:stable', Cmd: ARGV)
+  c = CI::Containment.new(JOB_NAME, image: CI::PangeaImage.new(:ubuntu, DIST))
 end
 
-status_code = c.run
+status_code = c.run(Cmd: ARGV, WorkingDir: PWD_BIND)
 exit status_code
