@@ -16,12 +16,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:26 GMT
+      - Thu, 01 Dec 2016 01:03:30 GMT
       Content-Length:
       - '53'
     body:
@@ -30,7 +34,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:30 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -47,12 +51,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:26 GMT
+      - Thu, 01 Dec 2016 01:03:30 GMT
       Content-Length:
       - '53'
     body:
@@ -61,7 +69,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:30 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -78,12 +86,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:26 GMT
+      - Thu, 01 Dec 2016 01:03:30 GMT
       Content-Length:
       - '53'
     body:
@@ -92,7 +104,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:30 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -109,12 +121,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:26 GMT
+      - Thu, 01 Dec 2016 01:03:30 GMT
       Content-Length:
       - '53'
     body:
@@ -123,7 +139,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:30 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -140,12 +156,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:26 GMT
+      - Thu, 01 Dec 2016 01:03:30 GMT
       Content-Length:
       - '53'
     body:
@@ -154,7 +174,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:30 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -171,12 +191,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:26 GMT
+      - Thu, 01 Dec 2016 01:03:30 GMT
       Content-Length:
       - '53'
     body:
@@ -185,7 +209,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:30 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -202,12 +226,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:26 GMT
+      - Thu, 01 Dec 2016 01:03:30 GMT
       Content-Length:
       - '53'
     body:
@@ -216,7 +244,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:30 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -233,12 +261,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:26 GMT
+      - Thu, 01 Dec 2016 01:03:30 GMT
       Content-Length:
       - '53'
     body:
@@ -247,13 +279,13 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:30 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
-      string: '{"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Privileged":false,"Binds":[]},"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea/ubuntu:vivid","Cmd":["garbage_fail"],"Volumes":{}}'
+      string: '{"Image":"pangea/ubuntu:vivid","HostConfig":{"Privileged":false,"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":[]},"Cmd":["garbage_fail"],"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Volumes":{}}'
     headers:
       User-Agent:
       - Swipely/Docker-API 1.32.1
@@ -264,24 +296,28 @@ http_interactions:
       code: 201
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:27 GMT
+      - Thu, 01 Dec 2016 01:03:30 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"42da653b3d97d27907a402ba5d0d5d3fe5ec4f7a9228602eea8905fea8229e06","Warnings":null}
+      string: '{"Id":"31edd1a2136f690c03d87e52e7d24543650d7f5f384d572b5c2424b853316e05","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:27 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:30 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/42da653b3d97d27907a402ba5d0d5d3fe5ec4f7a9228602eea8905fea8229e06/rename?name=vivid_unstable_test
+    uri: unix:///var/run/docker.sock/v1.24/containers/31edd1a2136f690c03d87e52e7d24543650d7f5f384d572b5c2424b853316e05/rename?name=vivid_unstable_test
     body:
       encoding: US-ASCII
       string: ''
@@ -295,18 +331,22 @@ http_interactions:
       code: 204
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:27 GMT
+      - Thu, 01 Dec 2016 01:03:30 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:27 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:30 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/42da653b3d97d27907a402ba5d0d5d3fe5ec4f7a9228602eea8905fea8229e06/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/31edd1a2136f690c03d87e52e7d24543650d7f5f384d572b5c2424b853316e05/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -320,26 +360,30 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:27 GMT
+      - Thu, 01 Dec 2016 01:03:31 GMT
       Content-Length:
-      - '204'
+      - '160'
     body:
       encoding: ASCII-8BIT
-      string: '{"message":"invalid header field value \"oci runtime error: container_linux.go:247:
-        starting container process caused \\\"exec: \\\\\\\"garbage_fail\\\\\\\":
-        executable file not found in $PATH\\\"\\n\""}
+      string: '{"message":"oci runtime error: container_linux.go:247: starting container
+        process caused \"exec: \\\"garbage_fail\\\": executable file not found in
+        $PATH\"\n"}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:27 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:31 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/42da653b3d97d27907a402ba5d0d5d3fe5ec4f7a9228602eea8905fea8229e06/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/31edd1a2136f690c03d87e52e7d24543650d7f5f384d572b5c2424b853316e05/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -353,26 +397,30 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:28 GMT
+      - Thu, 01 Dec 2016 01:03:32 GMT
       Content-Length:
-      - '204'
+      - '160'
     body:
       encoding: ASCII-8BIT
-      string: '{"message":"invalid header field value \"oci runtime error: container_linux.go:247:
-        starting container process caused \\\"exec: \\\\\\\"garbage_fail\\\\\\\":
-        executable file not found in $PATH\\\"\\n\""}
+      string: '{"message":"oci runtime error: container_linux.go:247: starting container
+        process caused \"exec: \\\"garbage_fail\\\": executable file not found in
+        $PATH\"\n"}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:28 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:32 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/42da653b3d97d27907a402ba5d0d5d3fe5ec4f7a9228602eea8905fea8229e06/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/31edd1a2136f690c03d87e52e7d24543650d7f5f384d572b5c2424b853316e05/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -386,26 +434,30 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:29 GMT
+      - Thu, 01 Dec 2016 01:03:32 GMT
       Content-Length:
-      - '204'
+      - '160'
     body:
       encoding: ASCII-8BIT
-      string: '{"message":"invalid header field value \"oci runtime error: container_linux.go:247:
-        starting container process caused \\\"exec: \\\\\\\"garbage_fail\\\\\\\":
-        executable file not found in $PATH\\\"\\n\""}
+      string: '{"message":"oci runtime error: container_linux.go:247: starting container
+        process caused \"exec: \\\"garbage_fail\\\": executable file not found in
+        $PATH\"\n"}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:29 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:32 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/42da653b3d97d27907a402ba5d0d5d3fe5ec4f7a9228602eea8905fea8229e06/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/31edd1a2136f690c03d87e52e7d24543650d7f5f384d572b5c2424b853316e05/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -419,26 +471,30 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:30 GMT
+      - Thu, 01 Dec 2016 01:03:33 GMT
       Content-Length:
-      - '204'
+      - '160'
     body:
       encoding: ASCII-8BIT
-      string: '{"message":"invalid header field value \"oci runtime error: container_linux.go:247:
-        starting container process caused \\\"exec: \\\\\\\"garbage_fail\\\\\\\":
-        executable file not found in $PATH\\\"\\n\""}
+      string: '{"message":"oci runtime error: container_linux.go:247: starting container
+        process caused \"exec: \\\"garbage_fail\\\": executable file not found in
+        $PATH\"\n"}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:30 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:33 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/42da653b3d97d27907a402ba5d0d5d3fe5ec4f7a9228602eea8905fea8229e06/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/31edd1a2136f690c03d87e52e7d24543650d7f5f384d572b5c2424b853316e05/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -452,21 +508,25 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:25:31 GMT
+      - Thu, 01 Dec 2016 01:03:34 GMT
       Content-Length:
-      - '204'
+      - '160'
     body:
       encoding: ASCII-8BIT
-      string: '{"message":"invalid header field value \"oci runtime error: container_linux.go:247:
-        starting container process caused \\\"exec: \\\\\\\"garbage_fail\\\\\\\":
-        executable file not found in $PATH\\\"\\n\""}
+      string: '{"message":"oci runtime error: container_linux.go:247: starting container
+        process caused \"exec: \\\"garbage_fail\\\": executable file not found in
+        $PATH\"\n"}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:25:31 GMT
+  recorded_at: Thu, 01 Dec 2016 01:03:34 GMT
 recorded_with: VCR 3.0.3

@@ -16,12 +16,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:24:24 GMT
+      - Thu, 01 Dec 2016 01:02:39 GMT
       Content-Length:
       - '53'
     body:
@@ -30,7 +34,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:24:24 GMT
+  recorded_at: Thu, 01 Dec 2016 01:02:39 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -47,12 +51,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:24:24 GMT
+      - Thu, 01 Dec 2016 01:02:39 GMT
       Content-Length:
       - '53'
     body:
@@ -61,7 +69,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:24:24 GMT
+  recorded_at: Thu, 01 Dec 2016 01:02:39 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -78,12 +86,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:24:24 GMT
+      - Thu, 01 Dec 2016 01:02:39 GMT
       Content-Length:
       - '53'
     body:
@@ -92,7 +104,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:24:24 GMT
+  recorded_at: Thu, 01 Dec 2016 01:02:39 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -109,12 +121,16 @@ http_interactions:
       code: 404
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:24:24 GMT
+      - Thu, 01 Dec 2016 01:02:39 GMT
       Content-Length:
       - '53'
     body:
@@ -123,5 +139,5 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:24:24 GMT
+  recorded_at: Thu, 01 Dec 2016 01:02:39 GMT
 recorded_with: VCR 3.0.3

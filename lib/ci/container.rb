@@ -34,7 +34,7 @@ module CI
       # FIXME: commented to allow tests passing with old containment data
       # assert_version
       options = merge_env(default_create_options, options_)
-      options = options.deep_merge(options_)
+      options = options_.deep_merge(options)
       options = override_options(options, name, binds)
       c = super(options, connection)
       c
