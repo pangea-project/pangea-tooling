@@ -18,6 +18,7 @@
   pkg-kde: backports
   wayland: backports
   lib: backports
+  packages: backports
   pkg-cmake: backports
   pkg-fonts: backports
   netrunner-artwork: netrunner
