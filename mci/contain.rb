@@ -33,10 +33,11 @@ c = nil
 if PWD_BIND != Dir.pwd # backwards compat. Behave as previosuly without pwd_bind
   c = CI::Containment.new("mci-#{JOB_NAME}",
                           image: CI::PangeaImage.new(:ubuntu, DIST),
-                          binds: ["#{Dir.pwd}:#{PWD_BIND}"])
+                          binds: ["#{Dir.pwd}:#{PWD_BIND}"],
+                          Cmd: ARGV, WorkingDir: PWD_BIND)
 else
-  c = CI::Containment.new("mci-#{JOB_NAME}", image: CI::PangeaImage.new(:ubuntu, DIST))
+  c = CI::Containment.new("mci-#{JOB_NAME}", image: CI::PangeaImage.new(:ubuntu, DIST), Cmd: ARGV)
 end
 
-status_code = c.run(Cmd: ARGV, WorkingDir: PWD_BIND)
+status_code = c.run
 exit status_code
