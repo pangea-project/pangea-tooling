@@ -213,7 +213,7 @@ class Project
   def override_apply(member)
     return unless @override_rule
     return unless (object = instance_variable_get("@#{member}"))
-    return unless @override_rule.include? member
+    return unless @override_rule.include?(member)
 
     rule = override_rule_for(member)
     unless rule
