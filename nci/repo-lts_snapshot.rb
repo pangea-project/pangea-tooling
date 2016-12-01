@@ -37,7 +37,7 @@ release = Aptly::Repository.get('release-lts_xenial')
 snapshot = release.snapshot(Name: "release-lts_xenial-#{stamp}")
 # Limit to user for now.
 pubs = Aptly::PublishedRepository.list.select do |x|
-  x.Prefix == 'user-lts' && x.Distribution == 'xenial'
+  x.Prefix == 'user/lts' && x.Distribution == 'xenial'
 end
 pub = pubs[0]
 pub.update!(Snapshots: [{ Name: snapshot.Name, Component: 'main' }])
