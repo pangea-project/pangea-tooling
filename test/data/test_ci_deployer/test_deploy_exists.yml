@@ -16,29 +16,31 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:06 GMT
-      Content-Length:
-      - '1954'
+      - Thu, 01 Dec 2016 01:15:32 GMT
     body:
       encoding: ASCII-8BIT
       string: '{"Id":"sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698","RepoTags":["pangea-testing/ubuntu:wily","ubuntu:wily"],"RepoDigests":["ubuntu@sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3"],"Parent":"","Comment":"","Created":"2016-07-22T15:19:13.510288415Z","Container":"9b5da12722b13c386447977fffcd067a0658f44e4b0838626b2e7b2da531801c","ContainerConfig":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/sh","-c","#(nop)
-        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137179273,"VirtualSize":137179273,"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"427","DeviceName":"docker-259:2-2105330-ec4cfb7fc9ba91fb9ddbbb71b5df9af0173c975fe7f5ab3b34c787d89d737963","DeviceSize":"10737418240"}},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
+        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Name":"overlay2","Data":{"LowerDir":"/var/lib/docker/overlay2/3d0dd17112d28513f2735ecf5dd1e57d8c685b5a3e8e5d8615cbf5f3ff740803/diff:/var/lib/docker/overlay2/2c217a514f9e540aca8fe79acce1cd3d14341c0600a65563ba30388d8bb1dc7c/diff:/var/lib/docker/overlay2/9b289b398e324a44ab659745f663103f5f25593257f4a8511477f761dfbe2a5d/diff","MergedDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/merged","UpperDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/diff","WorkDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/work"}},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:06 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:32 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
-      string: '{"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":["<%=
-        Dir.pwd %>/tooling-pending:/tooling-pending"]},"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/ubuntu:wily","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%=
+      string: '{"Image":"pangea-testing/ubuntu:wily","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":["<%=
+        Dir.pwd %>/tooling-pending:/tooling-pending"]},"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Volumes":{"<%=
         Dir.pwd %>/tooling-pending":{}}}'
     headers:
       User-Agent:
@@ -50,24 +52,28 @@ http_interactions:
       code: 201
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:07 GMT
+      - Thu, 01 Dec 2016 01:15:32 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"80d52473582e17791d00fd595dabc50b0eaa14a1be3bee5ca655fcfe4a506f5d","Warnings":null}
+      string: '{"Id":"d57235ef407a1d5494ab7a80cb38344f5d1424c0b44ee34b1962ad0efd28a36c","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:07 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:32 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/80d52473582e17791d00fd595dabc50b0eaa14a1be3bee5ca655fcfe4a506f5d/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/d57235ef407a1d5494ab7a80cb38344f5d1424c0b44ee34b1962ad0efd28a36c/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -81,18 +87,22 @@ http_interactions:
       code: 204
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:07 GMT
+      - Thu, 01 Dec 2016 01:15:33 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:07 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:33 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/80d52473582e17791d00fd595dabc50b0eaa14a1be3bee5ca655fcfe4a506f5d/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/d57235ef407a1d5494ab7a80cb38344f5d1424c0b44ee34b1962ad0efd28a36c/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -106,12 +116,16 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:08 GMT
+      - Thu, 01 Dec 2016 01:15:33 GMT
       Content-Length:
       - '17'
     body:
@@ -120,10 +134,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:08 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:33 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/80d52473582e17791d00fd595dabc50b0eaa14a1be3bee5ca655fcfe4a506f5d/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/d57235ef407a1d5494ab7a80cb38344f5d1424c0b44ee34b1962ad0efd28a36c/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -137,18 +151,22 @@ http_interactions:
       code: 304
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:08 GMT
+      - Thu, 01 Dec 2016 01:15:33 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:08 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:33 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/80d52473582e17791d00fd595dabc50b0eaa14a1be3bee5ca655fcfe4a506f5d/export
+    uri: unix:///var/run/docker.sock/v1.24/containers/d57235ef407a1d5494ab7a80cb38344f5d1424c0b44ee34b1962ad0efd28a36c/export
     body:
       encoding: US-ASCII
       string: ''
@@ -162,17 +180,21 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:08 GMT
+      - Thu, 01 Dec 2016 01:15:33 GMT
       Content-Type:
       - application/octet-stream
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:11 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:35 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
@@ -191,20 +213,24 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:12 GMT
+      - Thu, 01 Dec 2016 01:15:35 GMT
     body:
       encoding: ASCII-8BIT
-      string: "{\"status\":\"sha256:ae1b771bc51e3b489039a9396cd1082593948ada7c1ad9c163aa0b347715af15\"}\r\n"
+      string: "{\"status\":\"sha256:7296ad6071e519549871c002aa2262fd001e024eed9fdef231285e20d061f069\"}\r\n"
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:12 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:35 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/80d52473582e17791d00fd595dabc50b0eaa14a1be3bee5ca655fcfe4a506f5d
+    uri: unix:///var/run/docker.sock/v1.24/containers/d57235ef407a1d5494ab7a80cb38344f5d1424c0b44ee34b1962ad0efd28a36c
     body:
       encoding: US-ASCII
       string: ''
@@ -218,15 +244,19 @@ http_interactions:
       code: 204
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:12 GMT
+      - Thu, 01 Dec 2016 01:15:35 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:12 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:35 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:wily/json
@@ -243,22 +273,24 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:12 GMT
-      Content-Length:
-      - '1954'
+      - Thu, 01 Dec 2016 01:15:35 GMT
     body:
       encoding: ASCII-8BIT
       string: '{"Id":"sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698","RepoTags":["pangea-testing/ubuntu:wily","ubuntu:wily"],"RepoDigests":["ubuntu@sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3"],"Parent":"","Comment":"","Created":"2016-07-22T15:19:13.510288415Z","Container":"9b5da12722b13c386447977fffcd067a0658f44e4b0838626b2e7b2da531801c","ContainerConfig":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/sh","-c","#(nop)
-        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137179273,"VirtualSize":137179273,"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"427","DeviceName":"docker-259:2-2105330-ec4cfb7fc9ba91fb9ddbbb71b5df9af0173c975fe7f5ab3b34c787d89d737963","DeviceSize":"10737418240"}},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
+        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Name":"overlay2","Data":{"LowerDir":"/var/lib/docker/overlay2/3d0dd17112d28513f2735ecf5dd1e57d8c685b5a3e8e5d8615cbf5f3ff740803/diff:/var/lib/docker/overlay2/2c217a514f9e540aca8fe79acce1cd3d14341c0600a65563ba30388d8bb1dc7c/diff:/var/lib/docker/overlay2/9b289b398e324a44ab659745f663103f5f25593257f4a8511477f761dfbe2a5d/diff","MergedDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/merged","UpperDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/diff","WorkDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/work"}},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:12 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:35 GMT
 - request:
     method: delete
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698
@@ -275,25 +307,29 @@ http_interactions:
       code: 409
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:12 GMT
+      - Thu, 01 Dec 2016 01:15:35 GMT
       Content-Length:
-      - '121'
+      - '118'
     body:
       encoding: ASCII-8BIT
       string: '{"message":"conflict: unable to delete 9b9cb95443b5 (must be forced)
-        - image is referenced in one or more repositories"}
+        - image is referenced in multiple repositories"}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:12 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:35 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:ae1b771bc51e3b489039a9396cd1082593948ada7c1ad9c163aa0b347715af15/tag?force=true&repo=pangea-testing%2Fubuntu&tag=wily
+    uri: unix:///var/run/docker.sock/v1.24/images/sha256:7296ad6071e519549871c002aa2262fd001e024eed9fdef231285e20d061f069/tag?force=true&repo=pangea-testing%2Fubuntu&tag=wily
     body:
       encoding: US-ASCII
       string: ''
@@ -307,10 +343,14 @@ http_interactions:
       code: 201
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:12 GMT
+      - Thu, 01 Dec 2016 01:15:35 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -319,7 +359,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:12 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:35 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:vivid/json
@@ -336,29 +376,31 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:12 GMT
-      Content-Length:
-      - '1900'
+      - Thu, 01 Dec 2016 01:15:35 GMT
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","RepoTags":["deployupgradetest:latest","pangea-testing/ubuntu:vivid","ubuntu:15.04","ubuntu:vivid"],"RepoDigests":["ubuntu@sha256:16aaeb60ca8cee4ced9952fb89e020295a340e8507e25a9d7023265ece529018","ubuntu@sha256:2fb27e433b3ecccea2a14e794875b086711f5d49953ef173d8a03e8707f1510f"],"Parent":"","Comment":"","Created":"2016-01-26T17:48:34.465253028Z","Container":"cc20825e9e02f79fe62f1b08bc30aea4299dbcd77ad0da58b00dec38aba7334a","ContainerConfig":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop)
-        CMD [\"/bin/bash\"]"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"1.8.3","Author":"","Config":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":131274281,"VirtualSize":131274281,"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"417","DeviceName":"docker-259:2-2105330-10aa29c3a136c8919914556b5b8ac2217b3a9bc7b0098811ecbb185c781a2053","DeviceSize":"10737418240"}},"RootFS":{"Type":"layers","Layers":["sha256:3cbe18655eb617bf6a146dbd75a63f33c191bf8c7761bd6a8d68d53549af334b","sha256:84cc3d400b0d610447fbdea63436bad60fb8361493a32db380bd5c5a79f92ef4","sha256:ed58a6b8d8d6a4e2ecb4da7d1bf17ae8006dac65917c6a050109ef0a5d7199e6","sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"]}}
+      string: '{"Id":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","RepoTags":["pangea-testing/ubuntu:vivid","pangea/ubuntu:vivid","ubuntu:15.04","ubuntu:vivid"],"RepoDigests":["ubuntu@sha256:16aaeb60ca8cee4ced9952fb89e020295a340e8507e25a9d7023265ece529018","ubuntu@sha256:2fb27e433b3ecccea2a14e794875b086711f5d49953ef173d8a03e8707f1510f"],"Parent":"","Comment":"","Created":"2016-01-26T17:48:34.465253028Z","Container":"cc20825e9e02f79fe62f1b08bc30aea4299dbcd77ad0da58b00dec38aba7334a","ContainerConfig":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop)
+        CMD [\"/bin/bash\"]"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"1.8.3","Author":"","Config":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":131299498,"VirtualSize":131299498,"GraphDriver":{"Name":"overlay2","Data":{"LowerDir":"/var/lib/docker/overlay2/94b81139330beb58f8902ca755fd58574beaf121a89d6ec39b9481b66783adcb/diff:/var/lib/docker/overlay2/e30d55d77c0d01f26cae3513572aae2e5b031c618a5c28f97bf787d4a5022c18/diff:/var/lib/docker/overlay2/3d1d43e2a5a7a65ee74e181da5325c837c546e97d0689bff2a2da387d69ae1e6/diff","MergedDir":"/var/lib/docker/overlay2/32b6e1227bf19a6f96130d1c1f34815eb583bfc406826a33f168b1f97880f24e/merged","UpperDir":"/var/lib/docker/overlay2/32b6e1227bf19a6f96130d1c1f34815eb583bfc406826a33f168b1f97880f24e/diff","WorkDir":"/var/lib/docker/overlay2/32b6e1227bf19a6f96130d1c1f34815eb583bfc406826a33f168b1f97880f24e/work"}},"RootFS":{"Type":"layers","Layers":["sha256:3cbe18655eb617bf6a146dbd75a63f33c191bf8c7761bd6a8d68d53549af334b","sha256:84cc3d400b0d610447fbdea63436bad60fb8361493a32db380bd5c5a79f92ef4","sha256:ed58a6b8d8d6a4e2ecb4da7d1bf17ae8006dac65917c6a050109ef0a5d7199e6","sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"]}}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:12 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:35 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
-      string: '{"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":["<%=
-        Dir.pwd %>/tooling-pending:/tooling-pending"]},"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/ubuntu:vivid","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%=
+      string: '{"Image":"pangea-testing/ubuntu:vivid","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":["<%=
+        Dir.pwd %>/tooling-pending:/tooling-pending"]},"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Volumes":{"<%=
         Dir.pwd %>/tooling-pending":{}}}'
     headers:
       User-Agent:
@@ -370,24 +412,28 @@ http_interactions:
       code: 201
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:13 GMT
+      - Thu, 01 Dec 2016 01:15:35 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"15db8fd256b95c1fade750ec8a53023ed7106040e1c43f248df1dc1db6dfe303","Warnings":null}
+      string: '{"Id":"4455a5a2db3198094744ab6e42443c31553fcff3343ee523fec5ee76bccd4704","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:13 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:35 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/15db8fd256b95c1fade750ec8a53023ed7106040e1c43f248df1dc1db6dfe303/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/4455a5a2db3198094744ab6e42443c31553fcff3343ee523fec5ee76bccd4704/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -401,18 +447,22 @@ http_interactions:
       code: 204
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:13 GMT
+      - Thu, 01 Dec 2016 01:15:36 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:13 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/15db8fd256b95c1fade750ec8a53023ed7106040e1c43f248df1dc1db6dfe303/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/4455a5a2db3198094744ab6e42443c31553fcff3343ee523fec5ee76bccd4704/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -426,12 +476,16 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:14 GMT
+      - Thu, 01 Dec 2016 01:15:36 GMT
       Content-Length:
       - '17'
     body:
@@ -440,10 +494,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:14 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/15db8fd256b95c1fade750ec8a53023ed7106040e1c43f248df1dc1db6dfe303/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/4455a5a2db3198094744ab6e42443c31553fcff3343ee523fec5ee76bccd4704/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -457,18 +511,22 @@ http_interactions:
       code: 304
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:14 GMT
+      - Thu, 01 Dec 2016 01:15:36 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:14 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:36 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/15db8fd256b95c1fade750ec8a53023ed7106040e1c43f248df1dc1db6dfe303/export
+    uri: unix:///var/run/docker.sock/v1.24/containers/4455a5a2db3198094744ab6e42443c31553fcff3343ee523fec5ee76bccd4704/export
     body:
       encoding: US-ASCII
       string: ''
@@ -482,17 +540,21 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:14 GMT
+      - Thu, 01 Dec 2016 01:15:36 GMT
       Content-Type:
       - application/octet-stream
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:17 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:39 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
@@ -511,20 +573,24 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:18 GMT
+      - Thu, 01 Dec 2016 01:15:39 GMT
     body:
       encoding: ASCII-8BIT
-      string: "{\"status\":\"sha256:945d344acb2df12c54e5a12ae60ba3ea5c4ac6a20f3dab009fac29a3586ed1a4\"}\r\n"
+      string: "{\"status\":\"sha256:430b201c24aa5a22572b99fd5cbd66c49880ed729cb41f27410b5d289024b1eb\"}\r\n"
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:18 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:39 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/15db8fd256b95c1fade750ec8a53023ed7106040e1c43f248df1dc1db6dfe303
+    uri: unix:///var/run/docker.sock/v1.24/containers/4455a5a2db3198094744ab6e42443c31553fcff3343ee523fec5ee76bccd4704
     body:
       encoding: US-ASCII
       string: ''
@@ -538,15 +604,19 @@ http_interactions:
       code: 204
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:19 GMT
+      - Thu, 01 Dec 2016 01:15:39 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:19 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:39 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:vivid/json
@@ -563,22 +633,24 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:19 GMT
-      Content-Length:
-      - '1900'
+      - Thu, 01 Dec 2016 01:15:39 GMT
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","RepoTags":["deployupgradetest:latest","pangea-testing/ubuntu:vivid","ubuntu:15.04","ubuntu:vivid"],"RepoDigests":["ubuntu@sha256:16aaeb60ca8cee4ced9952fb89e020295a340e8507e25a9d7023265ece529018","ubuntu@sha256:2fb27e433b3ecccea2a14e794875b086711f5d49953ef173d8a03e8707f1510f"],"Parent":"","Comment":"","Created":"2016-01-26T17:48:34.465253028Z","Container":"cc20825e9e02f79fe62f1b08bc30aea4299dbcd77ad0da58b00dec38aba7334a","ContainerConfig":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop)
-        CMD [\"/bin/bash\"]"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"1.8.3","Author":"","Config":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":131274281,"VirtualSize":131274281,"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"417","DeviceName":"docker-259:2-2105330-10aa29c3a136c8919914556b5b8ac2217b3a9bc7b0098811ecbb185c781a2053","DeviceSize":"10737418240"}},"RootFS":{"Type":"layers","Layers":["sha256:3cbe18655eb617bf6a146dbd75a63f33c191bf8c7761bd6a8d68d53549af334b","sha256:84cc3d400b0d610447fbdea63436bad60fb8361493a32db380bd5c5a79f92ef4","sha256:ed58a6b8d8d6a4e2ecb4da7d1bf17ae8006dac65917c6a050109ef0a5d7199e6","sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"]}}
+      string: '{"Id":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","RepoTags":["pangea-testing/ubuntu:vivid","pangea/ubuntu:vivid","ubuntu:15.04","ubuntu:vivid"],"RepoDigests":["ubuntu@sha256:16aaeb60ca8cee4ced9952fb89e020295a340e8507e25a9d7023265ece529018","ubuntu@sha256:2fb27e433b3ecccea2a14e794875b086711f5d49953ef173d8a03e8707f1510f"],"Parent":"","Comment":"","Created":"2016-01-26T17:48:34.465253028Z","Container":"cc20825e9e02f79fe62f1b08bc30aea4299dbcd77ad0da58b00dec38aba7334a","ContainerConfig":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop)
+        CMD [\"/bin/bash\"]"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"1.8.3","Author":"","Config":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":131299498,"VirtualSize":131299498,"GraphDriver":{"Name":"overlay2","Data":{"LowerDir":"/var/lib/docker/overlay2/94b81139330beb58f8902ca755fd58574beaf121a89d6ec39b9481b66783adcb/diff:/var/lib/docker/overlay2/e30d55d77c0d01f26cae3513572aae2e5b031c618a5c28f97bf787d4a5022c18/diff:/var/lib/docker/overlay2/3d1d43e2a5a7a65ee74e181da5325c837c546e97d0689bff2a2da387d69ae1e6/diff","MergedDir":"/var/lib/docker/overlay2/32b6e1227bf19a6f96130d1c1f34815eb583bfc406826a33f168b1f97880f24e/merged","UpperDir":"/var/lib/docker/overlay2/32b6e1227bf19a6f96130d1c1f34815eb583bfc406826a33f168b1f97880f24e/diff","WorkDir":"/var/lib/docker/overlay2/32b6e1227bf19a6f96130d1c1f34815eb583bfc406826a33f168b1f97880f24e/work"}},"RootFS":{"Type":"layers","Layers":["sha256:3cbe18655eb617bf6a146dbd75a63f33c191bf8c7761bd6a8d68d53549af334b","sha256:84cc3d400b0d610447fbdea63436bad60fb8361493a32db380bd5c5a79f92ef4","sha256:ed58a6b8d8d6a4e2ecb4da7d1bf17ae8006dac65917c6a050109ef0a5d7199e6","sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"]}}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:19 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:39 GMT
 - request:
     method: delete
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43
@@ -595,25 +667,29 @@ http_interactions:
       code: 409
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:19 GMT
+      - Thu, 01 Dec 2016 01:15:39 GMT
       Content-Length:
-      - '121'
+      - '118'
     body:
       encoding: ASCII-8BIT
       string: '{"message":"conflict: unable to delete d1b55fd07600 (must be forced)
-        - image is referenced in one or more repositories"}
+        - image is referenced in multiple repositories"}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:19 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:39 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:945d344acb2df12c54e5a12ae60ba3ea5c4ac6a20f3dab009fac29a3586ed1a4/tag?force=true&repo=pangea-testing%2Fubuntu&tag=vivid
+    uri: unix:///var/run/docker.sock/v1.24/images/sha256:430b201c24aa5a22572b99fd5cbd66c49880ed729cb41f27410b5d289024b1eb/tag?force=true&repo=pangea-testing%2Fubuntu&tag=vivid
     body:
       encoding: US-ASCII
       string: ''
@@ -627,10 +703,14 @@ http_interactions:
       code: 201
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:19 GMT
+      - Thu, 01 Dec 2016 01:15:39 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -639,7 +719,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:19 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:39 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:stable/json
@@ -656,29 +736,33 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:19 GMT
+      - Thu, 01 Dec 2016 01:15:39 GMT
       Content-Length:
-      - '1701'
+      - '1878'
     body:
       encoding: ASCII-8BIT
       string: '{"Id":"sha256:a3375ad5d214431892c9e4389417f26680c823297ce1e0268792d79701112a32","RepoTags":["debian:stable","pangea-testing/debian:stable"],"RepoDigests":["debian@sha256:e220f6ef66b9b4a9d7a189b856105c753b50eddfaf05c329d0a96dd925dfaac5"],"Parent":"","Comment":"","Created":"2016-11-07T20:31:42.999977265Z","Container":"f3bc8e7245ca2f6a416745f60f79396d266c696d4f924e3cb6147bf3335ff00d","ContainerConfig":{"Hostname":"5c4f5deba9af","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/sh","-c","#(nop)
-        ","CMD [\"/bin/bash\"]"],"Image":"sha256:35f3021f7fe4614fce64fee531e82f569eef67eb4efd6be869bbf515c3d4f76f","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.12.3","Author":"","Config":{"Hostname":"5c4f5deba9af","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"Image":"sha256:35f3021f7fe4614fce64fee531e82f569eef67eb4efd6be869bbf515c3d4f76f","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":123028801,"VirtualSize":123028801,"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"428","DeviceName":"docker-259:2-2105330-7cfce968ff2ed479bdeee8133fabe11dfd657f0c02eba9bbae27daf1bb178de4","DeviceSize":"10737418240"}},"RootFS":{"Type":"layers","Layers":["sha256:539b8a727edf9d172bf7a1aaee2232ef2cf2edcc20a89bc78cf0ad1c7c498ef5"]}}
+        ","CMD [\"/bin/bash\"]"],"Image":"sha256:35f3021f7fe4614fce64fee531e82f569eef67eb4efd6be869bbf515c3d4f76f","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.12.3","Author":"","Config":{"Hostname":"5c4f5deba9af","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"Image":"sha256:35f3021f7fe4614fce64fee531e82f569eef67eb4efd6be869bbf515c3d4f76f","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":123053674,"VirtualSize":123053674,"GraphDriver":{"Name":"overlay2","Data":{"MergedDir":"/var/lib/docker/overlay2/3f25682c2ebb248acb20dd2c306431ab6489a6032b1d7015194737b57b728a24/merged","UpperDir":"/var/lib/docker/overlay2/3f25682c2ebb248acb20dd2c306431ab6489a6032b1d7015194737b57b728a24/diff","WorkDir":"/var/lib/docker/overlay2/3f25682c2ebb248acb20dd2c306431ab6489a6032b1d7015194737b57b728a24/work"}},"RootFS":{"Type":"layers","Layers":["sha256:539b8a727edf9d172bf7a1aaee2232ef2cf2edcc20a89bc78cf0ad1c7c498ef5"]}}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:19 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:39 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
-      string: '{"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":["<%=
-        Dir.pwd %>/tooling-pending:/tooling-pending"]},"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Image":"pangea-testing/debian:stable","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"Volumes":{"<%=
+      string: '{"Image":"pangea-testing/debian:stable","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":["<%=
+        Dir.pwd %>/tooling-pending:/tooling-pending"]},"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Volumes":{"<%=
         Dir.pwd %>/tooling-pending":{}}}'
     headers:
       User-Agent:
@@ -690,24 +774,28 @@ http_interactions:
       code: 201
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:19 GMT
+      - Thu, 01 Dec 2016 01:15:39 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"e19916d939ab172593d3820cf8b4cc5a8241d50debb8e46a384747468a9c7056","Warnings":null}
+      string: '{"Id":"5a2a14f80030447b596fd36371d3b85d2711514003665a220cd51e5c6b8d8967","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:19 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:39 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/e19916d939ab172593d3820cf8b4cc5a8241d50debb8e46a384747468a9c7056/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/5a2a14f80030447b596fd36371d3b85d2711514003665a220cd51e5c6b8d8967/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -721,18 +809,22 @@ http_interactions:
       code: 204
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:20 GMT
+      - Thu, 01 Dec 2016 01:15:39 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:20 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:39 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/e19916d939ab172593d3820cf8b4cc5a8241d50debb8e46a384747468a9c7056/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/5a2a14f80030447b596fd36371d3b85d2711514003665a220cd51e5c6b8d8967/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -746,12 +838,16 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:20 GMT
+      - Thu, 01 Dec 2016 01:15:40 GMT
       Content-Length:
       - '17'
     body:
@@ -760,10 +856,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:20 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:40 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/e19916d939ab172593d3820cf8b4cc5a8241d50debb8e46a384747468a9c7056/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/5a2a14f80030447b596fd36371d3b85d2711514003665a220cd51e5c6b8d8967/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -777,18 +873,22 @@ http_interactions:
       code: 304
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:20 GMT
+      - Thu, 01 Dec 2016 01:15:40 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:20 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:40 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/e19916d939ab172593d3820cf8b4cc5a8241d50debb8e46a384747468a9c7056/export
+    uri: unix:///var/run/docker.sock/v1.24/containers/5a2a14f80030447b596fd36371d3b85d2711514003665a220cd51e5c6b8d8967/export
     body:
       encoding: US-ASCII
       string: ''
@@ -802,17 +902,21 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:20 GMT
+      - Thu, 01 Dec 2016 01:15:40 GMT
       Content-Type:
       - application/octet-stream
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:25 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:44 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
@@ -831,20 +935,24 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:26 GMT
+      - Thu, 01 Dec 2016 01:15:44 GMT
     body:
       encoding: ASCII-8BIT
-      string: "{\"status\":\"sha256:bfe62c6c17149e50dc316a5b67f7554e28f5325fff8cb6bbf56da2b25b802266\"}\r\n"
+      string: "{\"status\":\"sha256:5184526d335310b70cc8224e2720779e26891d44d14692d44303ca8bdcc63828\"}\r\n"
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:44 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/e19916d939ab172593d3820cf8b4cc5a8241d50debb8e46a384747468a9c7056
+    uri: unix:///var/run/docker.sock/v1.24/containers/5a2a14f80030447b596fd36371d3b85d2711514003665a220cd51e5c6b8d8967
     body:
       encoding: US-ASCII
       string: ''
@@ -858,15 +966,19 @@ http_interactions:
       code: 204
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:26 GMT
+      - Thu, 01 Dec 2016 01:15:44 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:44 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:stable/json
@@ -883,22 +995,26 @@ http_interactions:
       code: 200
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:26 GMT
+      - Thu, 01 Dec 2016 01:15:44 GMT
       Content-Length:
-      - '1701'
+      - '1878'
     body:
       encoding: ASCII-8BIT
       string: '{"Id":"sha256:a3375ad5d214431892c9e4389417f26680c823297ce1e0268792d79701112a32","RepoTags":["debian:stable","pangea-testing/debian:stable"],"RepoDigests":["debian@sha256:e220f6ef66b9b4a9d7a189b856105c753b50eddfaf05c329d0a96dd925dfaac5"],"Parent":"","Comment":"","Created":"2016-11-07T20:31:42.999977265Z","Container":"f3bc8e7245ca2f6a416745f60f79396d266c696d4f924e3cb6147bf3335ff00d","ContainerConfig":{"Hostname":"5c4f5deba9af","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/sh","-c","#(nop)
-        ","CMD [\"/bin/bash\"]"],"Image":"sha256:35f3021f7fe4614fce64fee531e82f569eef67eb4efd6be869bbf515c3d4f76f","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.12.3","Author":"","Config":{"Hostname":"5c4f5deba9af","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"Image":"sha256:35f3021f7fe4614fce64fee531e82f569eef67eb4efd6be869bbf515c3d4f76f","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":123028801,"VirtualSize":123028801,"GraphDriver":{"Name":"devicemapper","Data":{"DeviceId":"428","DeviceName":"docker-259:2-2105330-7cfce968ff2ed479bdeee8133fabe11dfd657f0c02eba9bbae27daf1bb178de4","DeviceSize":"10737418240"}},"RootFS":{"Type":"layers","Layers":["sha256:539b8a727edf9d172bf7a1aaee2232ef2cf2edcc20a89bc78cf0ad1c7c498ef5"]}}
+        ","CMD [\"/bin/bash\"]"],"Image":"sha256:35f3021f7fe4614fce64fee531e82f569eef67eb4efd6be869bbf515c3d4f76f","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.12.3","Author":"","Config":{"Hostname":"5c4f5deba9af","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"Image":"sha256:35f3021f7fe4614fce64fee531e82f569eef67eb4efd6be869bbf515c3d4f76f","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":123053674,"VirtualSize":123053674,"GraphDriver":{"Name":"overlay2","Data":{"MergedDir":"/var/lib/docker/overlay2/3f25682c2ebb248acb20dd2c306431ab6489a6032b1d7015194737b57b728a24/merged","UpperDir":"/var/lib/docker/overlay2/3f25682c2ebb248acb20dd2c306431ab6489a6032b1d7015194737b57b728a24/diff","WorkDir":"/var/lib/docker/overlay2/3f25682c2ebb248acb20dd2c306431ab6489a6032b1d7015194737b57b728a24/work"}},"RootFS":{"Type":"layers","Layers":["sha256:539b8a727edf9d172bf7a1aaee2232ef2cf2edcc20a89bc78cf0ad1c7c498ef5"]}}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:44 GMT
 - request:
     method: delete
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:a3375ad5d214431892c9e4389417f26680c823297ce1e0268792d79701112a32
@@ -915,25 +1031,29 @@ http_interactions:
       code: 409
       message: 
     headers:
+      Api-Version:
+      - '1.25'
       Content-Type:
       - application/json
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:26 GMT
+      - Thu, 01 Dec 2016 01:15:44 GMT
       Content-Length:
-      - '121'
+      - '118'
     body:
       encoding: ASCII-8BIT
       string: '{"message":"conflict: unable to delete a3375ad5d214 (must be forced)
-        - image is referenced in one or more repositories"}
+        - image is referenced in multiple repositories"}
 
 '
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:44 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:bfe62c6c17149e50dc316a5b67f7554e28f5325fff8cb6bbf56da2b25b802266/tag?force=true&repo=pangea-testing%2Fdebian&tag=stable
+    uri: unix:///var/run/docker.sock/v1.24/images/sha256:5184526d335310b70cc8224e2720779e26891d44d14692d44303ca8bdcc63828/tag?force=true&repo=pangea-testing%2Fdebian&tag=stable
     body:
       encoding: US-ASCII
       string: ''
@@ -947,10 +1067,14 @@ http_interactions:
       code: 201
       message: 
     headers:
+      Api-Version:
+      - '1.25'
+      Docker-Experimental:
+      - 'false'
       Server:
-      - Docker/1.12.3 (linux)
+      - Docker/1.13.0-rc2 (linux)
       Date:
-      - Tue, 29 Nov 2016 21:51:26 GMT
+      - Thu, 01 Dec 2016 01:15:44 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -959,5 +1083,5 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 29 Nov 2016 21:51:26 GMT
+  recorded_at: Thu, 01 Dec 2016 01:15:44 GMT
 recorded_with: VCR 3.0.3
