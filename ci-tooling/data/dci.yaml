@@ -1,5 +1,6 @@
 series:
-  stable: "8"
+  stable: '8'
+  testing: '9'
 architectures:
   - amd64
   - armhf

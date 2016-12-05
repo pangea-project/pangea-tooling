@@ -27,16 +27,17 @@ class DCITest < TestCase
   end
 
   def test_series
-    assert_equal_collection(%w(stable), DCI.series.keys)
-    assert_equal_collection(%w(8), DCI.series.values)
+    assert_equal_collection(%w(stable testing), DCI.series.keys)
+    assert_equal_collection(%w(8 9), DCI.series.values)
     assert_equal('8', DCI.series['stable'])
+    assert_equal('9', DCI.series['testing'])
 
     # With sorting
     assert_equal('stable', DCI.series(sort: :ascending).keys.first)
-    assert_equal('stable', DCI.series(sort: :descending).keys.first)
+    assert_equal('testing', DCI.series(sort: :descending).keys.first)
   end
 
   def test_latest_series
-    assert_equal('stable', DCI.latest_series)
+    assert_equal('testing', DCI.latest_series)
   end
 end
