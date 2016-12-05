@@ -36,7 +36,12 @@ module CI
       # @version
       # @tar
 
-      @release_version = OS::VERSION_ID
+      @release_version = case release
+                         when 'testing'
+                           '9'
+                         else
+                           OS::VERSION_ID
+                         end
       @build_rev = ENV.fetch('BUILD_NUMBER')
 
       # FIXME: builder should generate a Source instance
