@@ -31,7 +31,7 @@ module DCI
 
   def setup_repo!
     setup_i386
-    setup_backports! unless ENV.fetch('DIST') == 'unstable'
+    setup_backports! if ENV.fetch('DIST') == 'stable'
 
     add_repos
     key = "#{__dir__}/../dci_apt.key"
