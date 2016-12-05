@@ -111,7 +111,8 @@ module CI
       changes.select! { |e| !e.include? 'source.changes' }
 
       unless changes.size == 1
-        raise "Not exactly one changes file WTF -> #{changes}"
+        warn "Not exactly one changes file WTF -> #{changes}"
+        return
       end
 
       system('dcmd', 'cp', '-v', *changes, 'result/')
