@@ -11,7 +11,7 @@ class DCITest < TestCase
   end
 
   def test_types
-    assert_equal_collection(%w(stable), DCI.types)
+    assert_equal_collection(%w(stable release), DCI.types)
   end
 
   def test_architectures

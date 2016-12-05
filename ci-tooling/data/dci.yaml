@@ -7,3 +7,4 @@ architectures:
 extra_architectures: []
 types:
   - stable
+  - release
