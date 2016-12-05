@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.0
       Content-Type:
       - text/plain
   response:
@@ -25,14 +25,14 @@ http_interactions:
       Server:
       - Docker/1.13.0-rc2 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:16:09 GMT
+      - Mon, 05 Dec 2016 12:07:41 GMT
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"Pulling from library/ubuntu\",\"id\":\"wily\"}\r\n{\"status\":\"Digest:
         sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3\"}\r\n{\"status\":\"Status:
         Image is up to date for ubuntu:wily\"}\r\n"
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:16:09 GMT
+  recorded_at: Mon, 05 Dec 2016 12:07:41 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:wily/json
@@ -41,7 +41,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.0
       Content-Type:
       - text/plain
   response:
@@ -58,15 +58,15 @@ http_interactions:
       Server:
       - Docker/1.13.0-rc2 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:16:09 GMT
+      - Mon, 05 Dec 2016 12:07:41 GMT
     body:
       encoding: ASCII-8BIT
       string: '{"Id":"sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698","RepoTags":["ubuntu:wily"],"RepoDigests":["ubuntu@sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3"],"Parent":"","Comment":"","Created":"2016-07-22T15:19:13.510288415Z","Container":"9b5da12722b13c386447977fffcd067a0658f44e4b0838626b2e7b2da531801c","ContainerConfig":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/sh","-c","#(nop)
-        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Name":"overlay2","Data":{"LowerDir":"/var/lib/docker/overlay2/3d0dd17112d28513f2735ecf5dd1e57d8c685b5a3e8e5d8615cbf5f3ff740803/diff:/var/lib/docker/overlay2/2c217a514f9e540aca8fe79acce1cd3d14341c0600a65563ba30388d8bb1dc7c/diff:/var/lib/docker/overlay2/9b289b398e324a44ab659745f663103f5f25593257f4a8511477f761dfbe2a5d/diff","MergedDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/merged","UpperDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/diff","WorkDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/work"}},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
+        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Name":"overlay2","Data":{"LowerDir":"/var/lib/docker/overlay2/fcb1e175cc4bcd5c461ebb7ab530f8a17a1727047241f8c01bf4b0e9053adb05/diff:/var/lib/docker/overlay2/9917038f8771bb5daf4fb65cdc379ab48eb83dbc2f8bf813bbac396e99021fb6/diff:/var/lib/docker/overlay2/f83a1fead07b46a910c1a9e9673dc1798dfcc093637532f95c17156ecc482eef/diff","MergedDir":"/var/lib/docker/overlay2/375e62b11da35991afb567e6b73408973a2adc3ac16f3920fd360283a7d95034/merged","UpperDir":"/var/lib/docker/overlay2/375e62b11da35991afb567e6b73408973a2adc3ac16f3920fd360283a7d95034/diff","WorkDir":"/var/lib/docker/overlay2/375e62b11da35991afb567e6b73408973a2adc3ac16f3920fd360283a7d95034/work"}},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:16:09 GMT
+  recorded_at: Mon, 05 Dec 2016 12:07:41 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698/tag?repo=pangea-testing%2Fubuntu&tag=wily
@@ -75,7 +75,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.0
       Content-Type:
       - text/plain
   response:
@@ -90,7 +90,7 @@ http_interactions:
       Server:
       - Docker/1.13.0-rc2 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:16:09 GMT
+      - Mon, 05 Dec 2016 12:07:41 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -99,7 +99,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:16:09 GMT
+  recorded_at: Mon, 05 Dec 2016 12:07:41 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Atest_upgrade
@@ -108,7 +108,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.0
       Content-Type:
       - text/plain
   response:
@@ -125,7 +125,7 @@ http_interactions:
       Server:
       - Docker/1.13.0-rc2 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:16:11 GMT
+      - Mon, 05 Dec 2016 12:07:43 GMT
       Content-Length:
       - '57'
     body:
@@ -134,7 +134,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:16:11 GMT
+  recorded_at: Mon, 05 Dec 2016 12:07:43 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Awily
@@ -143,7 +143,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.0
       Content-Type:
       - text/plain
   response:
@@ -160,14 +160,14 @@ http_interactions:
       Server:
       - Docker/1.13.0-rc2 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:16:13 GMT
+      - Mon, 05 Dec 2016 12:07:46 GMT
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"Pulling from library/ubuntu\",\"id\":\"wily\"}\r\n{\"status\":\"Digest:
         sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3\"}\r\n{\"status\":\"Status:
         Image is up to date for ubuntu:wily\"}\r\n"
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:16:13 GMT
+  recorded_at: Mon, 05 Dec 2016 12:07:46 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:wily/json
@@ -176,7 +176,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.0
       Content-Type:
       - text/plain
   response:
@@ -193,15 +193,15 @@ http_interactions:
       Server:
       - Docker/1.13.0-rc2 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:16:13 GMT
+      - Mon, 05 Dec 2016 12:07:46 GMT
     body:
       encoding: ASCII-8BIT
       string: '{"Id":"sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698","RepoTags":["pangea-testing/ubuntu:wily","ubuntu:wily"],"RepoDigests":["ubuntu@sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3"],"Parent":"","Comment":"","Created":"2016-07-22T15:19:13.510288415Z","Container":"9b5da12722b13c386447977fffcd067a0658f44e4b0838626b2e7b2da531801c","ContainerConfig":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/sh","-c","#(nop)
-        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Name":"overlay2","Data":{"LowerDir":"/var/lib/docker/overlay2/3d0dd17112d28513f2735ecf5dd1e57d8c685b5a3e8e5d8615cbf5f3ff740803/diff:/var/lib/docker/overlay2/2c217a514f9e540aca8fe79acce1cd3d14341c0600a65563ba30388d8bb1dc7c/diff:/var/lib/docker/overlay2/9b289b398e324a44ab659745f663103f5f25593257f4a8511477f761dfbe2a5d/diff","MergedDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/merged","UpperDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/diff","WorkDir":"/var/lib/docker/overlay2/23ccd4c38fbd935ef0e6085fe6d9d8d73cba22e17e46e13f37773d3f7bf3999c/work"}},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
+        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Name":"overlay2","Data":{"LowerDir":"/var/lib/docker/overlay2/fcb1e175cc4bcd5c461ebb7ab530f8a17a1727047241f8c01bf4b0e9053adb05/diff:/var/lib/docker/overlay2/9917038f8771bb5daf4fb65cdc379ab48eb83dbc2f8bf813bbac396e99021fb6/diff:/var/lib/docker/overlay2/f83a1fead07b46a910c1a9e9673dc1798dfcc093637532f95c17156ecc482eef/diff","MergedDir":"/var/lib/docker/overlay2/375e62b11da35991afb567e6b73408973a2adc3ac16f3920fd360283a7d95034/merged","UpperDir":"/var/lib/docker/overlay2/375e62b11da35991afb567e6b73408973a2adc3ac16f3920fd360283a7d95034/diff","WorkDir":"/var/lib/docker/overlay2/375e62b11da35991afb567e6b73408973a2adc3ac16f3920fd360283a7d95034/work"}},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:16:13 GMT
+  recorded_at: Mon, 05 Dec 2016 12:07:46 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698/tag?repo=pangea-testing%2Fubuntu&tag=test_upgrade
@@ -210,7 +210,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.0
       Content-Type:
       - text/plain
   response:
@@ -225,7 +225,7 @@ http_interactions:
       Server:
       - Docker/1.13.0-rc2 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:16:13 GMT
+      - Mon, 05 Dec 2016 12:07:46 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -234,5 +234,5 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:16:13 GMT
+  recorded_at: Mon, 05 Dec 2016 12:07:46 GMT
 recorded_with: VCR 3.0.3
