@@ -38,7 +38,9 @@ module CI
     class DependencyResolver
       RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'.freeze
       resolver_env = {}
-      resolver_env['APTITUDEOPT'] = '--target-release=jessie-backports' if OS::VERSION_ID == '8'
+      if OS.to_h.include?(:VERSION_ID) && OS::VERSION_ID == '8'
+        resolver_env['APTITUDEOPT'] = '--target-release=jessie-backports'
+      end
       resolver_env['DEBIAN_FRONTEND'] = 'noninteractive'
       RESOLVER_ENV = resolver_env.freeze
 
@@ -116,7 +118,7 @@ module CI
     end
 
     def build
-      dsc_count = Dir.glob('*.dsc').count
+      dsc_count = Dir.gldob('*.dsc').count
       raise "Not exactly one dsc! Found #{dsc_count}" unless dsc_count == 1
 
       @dsc = Dir.glob('*.dsc')[0]
