@@ -30,10 +30,11 @@ module DCI
   module_function
 
   def setup_repo!
+    @dist = ENV.fetch('DIST')
     setup_i386
-    setup_backports! if ENV.fetch('DIST') == 'stable'
+    setup_backports! if %w(stable).include?(@dist)
+    add_repos unless %w(testing).include?(@dist)
 
-    add_repos
     key = "#{__dir__}/../dci_apt.key"
     raise 'Failed to import key' unless Apt::Key.add(key)
 
@@ -59,10 +60,10 @@ module DCI
 
   def add_repos
     repos = %w(frameworks plasma kde-applications extras)
-    repos += %w(backports qt5) if ENV.fetch('DIST') == 'stable'
+    repos += %w(backports qt5) if @dist == 'stable'
     repos += %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
     repos.each do |repo|
-      debline = "deb http://dci.ds9.pub:8080/#{repo} #{ENV.fetch('DIST')} main"
+      debline = "deb http://dci.ds9.pub:8080/#{repo} #{@dist} main"
       raise 'adding repo failed' unless Apt::Repository.add(debline)
     end
   end
