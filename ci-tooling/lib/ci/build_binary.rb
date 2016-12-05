@@ -118,7 +118,7 @@ module CI
     end
 
     def build
-      dsc_count = Dir.gldob('*.dsc').count
+      dsc_count = Dir.glob('*.dsc').count
       raise "Not exactly one dsc! Found #{dsc_count}" unless dsc_count == 1
 
       @dsc = Dir.glob('*.dsc')[0]
