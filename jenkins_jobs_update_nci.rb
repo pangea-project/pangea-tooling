@@ -147,6 +147,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                  neonarchive: 'dev/stable',
                                  cronjob: 'H H * * *' }
           enqueue(NeonIsoJob.new(dev_stable_isoargs))
+          user_releaselts_isoargs = { type: 'userltsedition',
+                                      distribution: distribution,
+                                      architecture: architecture,
+                                      metapackage: 'neon-desktop',
+                                      imagename: 'neon',
+                                      neonarchive: 'user/lts',
+                                      cronjob: 'H H * * 4' }
+          enqueue(NeonIsoJob.new(user_releaselts_isoargs))
           user_release_isoargs = { type: 'useredition',
                                    distribution: distribution,
                                    architecture: architecture,
