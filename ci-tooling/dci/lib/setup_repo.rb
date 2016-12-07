@@ -37,9 +37,10 @@ module DCI
     case @dist
     when 'stable'
       setup_backports!
-      repos = %w(frameworks plasma kde-applications extras backports qt5)
+      repos += %w(frameworks plasma kde-applications extras backports qt5)
+      repos += %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
     when 'testing'
-      repos = %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
+      repos += %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
     end
 
     add_repos(repos)
