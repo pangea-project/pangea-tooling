@@ -31,9 +31,18 @@ module DCI
 
   def setup_repo!
     @dist = ENV.fetch('DIST')
+    repos = []
     setup_i386
-    setup_backports! if %w(stable).include?(@dist)
-    add_repos unless %w(testing).include?(@dist)
+
+    case @dist
+    when 'stable'
+      setup_backports!
+      repos = %w(frameworks plasma kde-applications extras backports qt5)
+    when 'testing'
+      repos = %(odroid) if DPKG::BUILD_ARCH == 'armhf'
+    end
+
+    add_repos(repos)
 
     key = "#{__dir__}/../dci_apt.key"
     raise 'Failed to import key' unless Apt::Key.add(key)
@@ -58,10 +67,7 @@ module DCI
     system('dpkg --add-architecture i386')
   end
 
-  def add_repos
-    repos = %w(frameworks plasma kde-applications extras)
-    repos += %w(backports qt5) if @dist == 'stable'
-    repos += %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
+  def add_repos(repos)
     repos.each do |repo|
       debline = "deb http://dci.ds9.pub:8080/#{repo} #{@dist} main"
       raise 'adding repo failed' unless Apt::Repository.add(debline)
