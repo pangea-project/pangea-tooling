@@ -58,7 +58,7 @@ export DIST=<%= nci.latest_series %>
       <branchesToPush>
         <hudson.plugins.git.GitPublisher_-BranchToPush>
           <targetRepoName>writable</targetRepoName>
-          <branchName>refs/heads/Neon/release</branchName>
+          <branchName><%= scm_writable.branch %></branchName>
         </hudson.plugins.git.GitPublisher_-BranchToPush>
       </branchesToPush>
     </hudson.plugins.git.GitPublisher>
