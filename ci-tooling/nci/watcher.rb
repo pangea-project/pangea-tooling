@@ -117,6 +117,9 @@ end
 
 system('wrap-and-sort') if something_changed
 
+puts 'git checkout debian/watch'
 system('git checkout debian/watch')
+puts 'git diff'
 system('git diff')
+puts "git commit -a -m 'New release'"
 system("git commit -a -m 'New release'")
