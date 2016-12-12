@@ -57,7 +57,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     all_meta_builds = []
     @ci_module.series.each_key do |distribution|
       @ci_module.types.each do |type|
-        file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}.yaml"
+        file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
+        next unless File.exist?(file)
         projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
         all_builds = projects.collect do |project|
           Builder.job(project, distribution: distribution, type: type,
