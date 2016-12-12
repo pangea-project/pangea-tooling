@@ -8,6 +8,7 @@
   netrunner-debian: netrunner
   plasmazilla: plasmazilla
   netrunner-odroid: odroid
+  ds9-debian-frameworks: odroid
   netrunner-debian-yacy: yacy
   netrunner-debian-owncloud: owncloud
   netrunner-debian-i2p: i2p
@@ -31,7 +32,7 @@
   ds9-debian-packaging-backports: backports
   ubuntu: backports
   pkg-lxqt: backports
-  debhelper: backports
+  debhelper: backports:P
   forks: backports
   pkg-xorg: backports
   netrunner-common: netrunner
