@@ -159,9 +159,12 @@ module CI
           true
         end
         .returns(true)
-      Object.any_instance.expects(:system)
+      Object.any_instance.stubs(:system)
             .with('dpkg', '--compare-versions', '1.3.2', 'gt', '1.2.3')
             .returns(true)
+      Object.any_instance.stubs(:system)
+            .with('dpkg', '--compare-versions', '1.2.3', 'gt', '1.3.2')
+            .returns(false)
 
       f = WatchTarFetcher.new('debian/watch')
       tar = f.fetch(Dir.pwd)
