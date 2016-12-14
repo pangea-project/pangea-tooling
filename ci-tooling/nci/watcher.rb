@@ -61,6 +61,9 @@ pp newer
 
 exit 0 if newer.empty?
 
+puts 'unmangle debian/watch `git checkout debian/watch`'
+system('git checkout debian/watch')
+
 merged = false
 if system('git merge origin/Neon/stable')
   merged = true
@@ -117,8 +120,6 @@ end
 
 system('wrap-and-sort') if something_changed
 
-puts 'git checkout debian/watch'
-system('git checkout debian/watch')
 puts 'git diff'
 system('git diff')
 puts "git commit -a -m 'New release'"
