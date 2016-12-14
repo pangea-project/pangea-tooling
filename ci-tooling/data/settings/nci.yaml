@@ -6,6 +6,6 @@
   sourcer:
     restricted_packaging_copy: true
 
-'*_forks_libinput_*':
+'*_forks_{libxkbcommon,libinput}_*':
   sourcer:
     restricted_packaging_copy: true
