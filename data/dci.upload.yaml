@@ -40,6 +40,7 @@
   ds9-artwork: ds9-artwork
   applications: kde-applications
   maui-common: maui
+  pkg-virtualbox: extras
   ds9-debian-packaging: extras
   ds9-extras-packaging: extras
   netrunner-desktop: netrunner-desktop
