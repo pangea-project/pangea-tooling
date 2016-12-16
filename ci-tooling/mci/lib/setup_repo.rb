@@ -32,6 +32,11 @@ module MCI
     debline = format('deb http://mobile.neon.pangea.pub %s main',
                      LSB::DISTRIB_CODENAME)
     raise 'adding repo failed' unless Apt::Repository.add(debline)
+
+    debline2 = format('deb http://mobile.neon.pangea.pub/testing %s main',
+                     LSB::DISTRIB_CODENAME)
+    raise 'adding repo failed' unless Apt::Repository.add(debline2)
+
     Apt::Key.add('http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key')
     raise 'Failed to import key' unless $?.to_i.zero?
 
