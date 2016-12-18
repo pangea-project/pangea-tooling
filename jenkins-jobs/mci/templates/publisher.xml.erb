@@ -58,7 +58,11 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
-~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo <%= distribution %> *.changes
+if [ -f ~/mobile-publish-testing ]; then
+    ~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo <%= distribution %>-testing *.changes
+else
+    ~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo <%= distribution %> *.changes
+fi
       </command>
     </hudson.tasks.Shell>
   </builders>
