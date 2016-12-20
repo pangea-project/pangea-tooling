@@ -43,4 +43,5 @@
   pkg-virtualbox: extras
   ds9-debian-packaging: extras
   ds9-extras-packaging: extras
+  neon-packaging: extras
   netrunner-desktop: netrunner-desktop
