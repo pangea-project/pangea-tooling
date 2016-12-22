@@ -45,7 +45,7 @@ EXCLUDE_SNAPS = %w(
   libkgeomap libkipi libksane poxml akonadi-contacts print-manager
   marble khangman bovo kdevplatform sddm kdevelop-python kdevelop-php
   phonon-backend-vlc phonon-backend-gstreamer ktp-common-internals
-  kaccounts-providers kdevelop-pg-qt kwalletmanager kdialog
+  kaccounts-providers kdevelop-pg-qt kwalletmanager kdialog svgpart
 ).freeze
 
 snap = Snap.new(File.read('snap.name'), '16.04.1')
