@@ -43,7 +43,7 @@ Description: #{package} package for integration with KDE
     def add_changelog_entry
       changelog = Changelog.new
       version =
-        "#{changelog.version(Changelog::EPOCH)}1000~#{changelog.version(Changelog::BASE | Changelog::BASESUFFIX | Changelog::REVISION)}"
+        "#{changelog.version(Changelog::EPOCH).to_i + 1}:#{changelog.version(Changelog::BASE | Changelog::BASESUFFIX | Changelog::REVISION)}"
       dch = [
         'dch',
         '--force-bad-version',
