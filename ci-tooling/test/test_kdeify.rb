@@ -23,6 +23,11 @@ class KDEIfyTest < TestCase
     control = Debian::Control.new('packaging/')
     control.parse!
     assert(control.binaries.map {|x| x['Package']}.include? 'firefox-plasma')
+
+    Dir.chdir('packaging') do
+      c = Changelog.new
+      assert_equal('1000~46.0+build5-0ubuntu0.14.04.2', c.version)
+    end
   end
 
   def test_thunderbird
@@ -39,5 +44,9 @@ class KDEIfyTest < TestCase
     control = Debian::Control.new('packaging/')
     control.parse!
     assert(control.binaries.map {|x| x['Package']}.include? 'thunderbird-plasma')
+    Dir.chdir('packaging') do
+      c = Changelog.new
+      assert_equal('1:1000~38.7.2+build1-0ubuntu0.14.04.1', c.version)
+    end
   end
 end

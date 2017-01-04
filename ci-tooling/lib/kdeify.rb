@@ -40,6 +40,19 @@ Description: #{package} package for integration with KDE
       system('debian/rules debian/control')
     end
 
+    def add_changelog_entry
+      changelog = Changelog.new
+      version =
+        "#{changelog.version(Changelog::EPOCH)}1000~#{changelog.version(Changelog::BASE | Changelog::BASESUFFIX | Changelog::REVISION)}"
+      dch = [
+        'dch',
+        '--force-bad-version',
+        '--newversion', version,
+        'Automatic CI Build'
+      ]
+      raise 'Failed to create changelog entry' unless system(*dch)
+    end
+
     def filterdiff
       PATCHES.each do |patch|
         filterdiff = `filterdiff --addprefix=a/mozilla/ --strip 1 #{patch}`
@@ -58,6 +71,7 @@ Description: #{package} package for integration with KDE
         apply_patches
         install_kde_js
         add_plasma_package('firefox')
+        add_changelog_entry
       end
     end
 
@@ -68,6 +82,7 @@ Description: #{package} package for integration with KDE
         apply_patches
         install_kde_js
         add_plasma_package('thunderbird')
+        add_changelog_entry
       end
     end
   end
