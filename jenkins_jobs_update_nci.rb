@@ -199,6 +199,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTMergerDebianFrameworks.new)
     enqueue(MGMTToolingJob.new(downstreams: [docker],
                                dependees: [cleaner, aptly]))
+    enqueue(MGMTRepoCleanupJob.new)
   end
 end
 
