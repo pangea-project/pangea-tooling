@@ -50,7 +50,10 @@ module CI
     def build(tarball)
       FileUtils.cp(tarball.path, @builddir)
       tarball.extract(@sourcepath)
-      FileUtils.cp_r(Dir.glob("#{@packagingdir}/*"), @sourcepath)
+
+      args = [] << 'debian' if @restricted_packaging_copy
+      copy_source_tree(@packagingdir, *args)
+
       Dir.chdir(@sourcepath) do
         log_change
         mangle!

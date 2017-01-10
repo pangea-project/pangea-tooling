@@ -135,24 +135,6 @@ module CI
 
     private
 
-    # Copies a source tree to the target source directory
-    # @param source_dir the directory to copy from (all content within will
-    #   be copied)
-    # @note this will create @build_dir/source if it doesn't exist
-    # @note this will strip the copied source of version control directories
-    def copy_source_tree(source_dir, dir = '.')
-      # /. is fileutils notation for recursive content
-      FileUtils.mkpath("#{@build_dir}/source")
-      if Dir.exist?(source_dir)
-        FileUtils.cp_r("#{source_dir}/#{dir}",
-                       "#{@build_dir}/source/",
-                       verbose: true)
-      end
-      %w(.bzr .git .hg .svn).each do |dir|
-        FileUtils.rm_rf(Dir.glob("#{@build_dir}/source/**/#{dir}"))
-      end
-    end
-
     def mangle_manpages(file)
       # Strip localized manpages
       # e.g.  usr /share /man /  *  /man 7 /kf5options.7
