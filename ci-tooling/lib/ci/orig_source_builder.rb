@@ -50,7 +50,7 @@ module CI
     def build(tarball)
       FileUtils.cp(tarball.path, @builddir)
       tarball.extract(@sourcepath)
-      FileUtils.cp_r(Dir.glob("#{@packagingdir}/*"), @sourcepath)
+      FileUtils.cp_r(Dir.glob("#{@packagingdir}/*"), @sourcepath, force: true)
       Dir.chdir(@sourcepath) do
         log_change
         mangle!
