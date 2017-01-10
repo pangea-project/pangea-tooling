@@ -31,11 +31,12 @@ require_relative 'lib/setup_env'
 DCI.setup_repo!
 DCI.setup_env!
 
-def orig_source(fetcher)
+def orig_source(fetcher, restricted_packaging_copy: false)
   tarball = fetcher.fetch('source')
   raise 'Failed to fetch tarball' unless tarball
   sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'),
-                                      strip_symbols: true)
+                                      strip_symbols: true,
+                                      restricted_packaging_copy: restricted_packaging_copy)
   sourcer.build(tarball.origify)
 end
 
@@ -49,11 +50,13 @@ when 'uscan'
 when 'firefox'
   puts 'Special case building for firefox'
   KDEIfy.firefox!
-  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
+  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip),
+              restricted_packaging_copy: true)
 when 'thunderbird'
   puts 'Special case building for thunderbird'
   KDEIfy.thunderbird!
-  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
+  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip),
+              restricted_packaging_copy: true)
 when 'kde-l10n'
   lang = ARGV.fetch(1, nil)
   raise 'No lang specified' unless lang
