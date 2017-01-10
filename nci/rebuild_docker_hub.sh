@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ex
+
 # Trigger Docker image rebuilds https://hub.docker.com/r/kdeneon/plasma/~/settings/automated-builds/
 # To be run by daily mgmt job
 
