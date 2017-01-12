@@ -30,7 +30,7 @@ module NCI
   module_function
 
   def add_repo_key!
-    Apt::Key.add('http://archive.neon.kde.org/public.key')
+    Apt::Key.add('https://archive.neon.kde.org/public.key')
     raise 'Failed to import key' unless $?.to_i.zero?
   end
 

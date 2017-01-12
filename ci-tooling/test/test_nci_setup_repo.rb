@@ -80,7 +80,7 @@ class NCISetupRepoTest < TestCase
 
     # stub_request(:get, 'http://mirrors.ubuntu.com/mirrors.txt')
     #   .to_return(status: 200, body: 'http://ubuntu.uni-klu.ac.at/ubuntu/')
-    stub_request(:get, 'http://archive.neon.kde.org/public.key')
+    stub_request(:get, 'https://archive.neon.kde.org/public.key')
       .to_return(status: 200, body: 'abc')
 
     # mock_tcp_uni_klu = mock('mock_tcp_uni_klu')
