@@ -46,6 +46,10 @@ EXCLUDE_SNAPS = %w(
   marble khangman bovo kdevplatform sddm kdevelop-python kdevelop-php
   phonon-backend-vlc phonon-backend-gstreamer ktp-common-internals
   kaccounts-providers kdevelop-pg-qt kwalletmanager kdialog svgpart
+  libkcddb libkcompactdisc mbox-importer akonadi-calendar-tools
+  akonadi-import-wizard audiocd-kio grantlee-editor kdegraphics-mobipocket
+  kmail-account-wizard konqueror libkcddb libkcompactdisc pim-data-exporter
+  pim-sieve-editor pim-storage-service-manager
 ).freeze
 
 snap = Snap.new(File.read('snap.name'), '16.04.1')
