@@ -52,6 +52,7 @@ end
 proposed = AptlyRepository.new(Aptly::Repository.get('release_xenial'),
                                'release')
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
+snapshots.keep_if { |x| x.Name.start_with?('release_xenial') }
 target = AptlyRepository.new(snapshots[-1], 'user')
 target.purge_exclusion << 'neon-settings'
 
