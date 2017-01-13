@@ -49,10 +49,11 @@ Aptly.configure do |config|
   # This is read-only.
 end
 
-proposed = AptlyRepository.new(Aptly::Repository.get('release_xenial'),
+variant = ENV['TYPE'] + '_' + ENV['DIST']
+proposed = AptlyRepository.new(Aptly::Repository.get(variant),
                                'release')
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
-snapshots.keep_if { |x| x.Name.start_with?('release_xenial') }
+snapshots.keep_if { |x| x.Name.start_with?(variant) }
 target = AptlyRepository.new(snapshots[-1], 'user')
 target.purge_exclusion << 'neon-settings'
 
