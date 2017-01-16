@@ -21,6 +21,9 @@ class KDEIfy
     def install_kde_js
       if Dir.exist?('debian/extra-stuff')
         FileUtils.cp('../suse/MozillaFirefox/kde.js', 'debian/extra-stuff/')
+        File.open('debian/extra-stuff/moz.build', 'a') do |f|
+          f.write("\nJS_PREFERENCE_FILES += ['kde.js']\n")
+        end
         return
       end
 
