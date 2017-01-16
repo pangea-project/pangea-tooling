@@ -28,18 +28,6 @@
           <hudson.plugins.git.extensions.impl.CleanCheckout/>
         </extensions>
       </hudson.plugins.git.GitSCM>
-      <% if upstream_scm && %w(firefox thunderbird).include?(upstream_scm.type) %>
-      <hudson.plugins.mercurial.MercurialSCM plugin="mercurial@1.57">
-        <source>https://www.rosenauer.org/hg/mozilla/</source>
-        <modules/>
-        <revisionType>BRANCH</revisionType>
-        <revision>firefox50</revision>
-        <subdir>suse</subdir>
-        <clean>false</clean>
-        <credentialsId/>
-        <disableChangeLog>false</disableChangeLog>
-      </hudson.plugins.mercurial.MercurialSCM>
-      <% end %>
       <%= render_upstream_scm %>
     </scms>
   </scm>

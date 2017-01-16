@@ -48,6 +48,9 @@ class SourcerJob < JenkinsJob
       ''
     when 'bzr'
       ''
+    when 'firefox'
+    when 'thunderbird'
+      render('upstream-scms/mozilla.xml.rb')
     else
       raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
     end
