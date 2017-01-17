@@ -197,6 +197,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     cleaner = enqueue(MGMTWorkspaceCleanerJob.new) # dependees: [progenitor]))
     docker = enqueue(MGMTDockerJob.new(dependees: [progenitor]))
     enqueue(MGMTMergerDebianFrameworks.new)
+    enqueue(MGMTGerminateJob.new)
     enqueue(MGMTToolingJob.new(downstreams: [docker],
                                dependees: [cleaner, aptly]))
     #enqueue(MGMTRepoCleanupJob.new)
