@@ -52,12 +52,13 @@ end
 variant = ENV['TYPE'] + '_' + ENV['DIST']
 lts = ''
 if ENV['TYPE'].include?('lts')
-  lts = '/lts'
+  lts = '-lts'
 end
-puts "PROPOSED release#{lts}"
-puts "TARGET user#{lts}"
 proposed = AptlyRepository.new(Aptly::Repository.get(variant),
                                "release#{lts}")
+if ENV['TYPE'].include?('lts')
+  lts = '/lts'
+end
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
 snapshots.keep_if { |x| x.Name.start_with?(variant) }
 target = AptlyRepository.new(snapshots[-1], "user#{lts}")
