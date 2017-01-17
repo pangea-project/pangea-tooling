@@ -50,11 +50,14 @@ Aptly.configure do |config|
 end
 
 variant = ENV['TYPE'] + '_' + ENV['DIST']
+if ENV['TYPE'].include?('lts')
+  lts = '/lts'
+end
 proposed = AptlyRepository.new(Aptly::Repository.get(variant),
-                               'release')
+                               "release#{lts}")
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
 snapshots.keep_if { |x| x.Name.start_with?(variant) }
-target = AptlyRepository.new(snapshots[-1], 'user')
+target = AptlyRepository.new(snapshots[-1], "user#{lts}")
 target.purge_exclusion << 'neon-settings'
 
 checker = InstallCheck.new
