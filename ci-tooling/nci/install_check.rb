@@ -50,9 +50,12 @@ Aptly.configure do |config|
 end
 
 variant = ENV['TYPE'] + '_' + ENV['DIST']
+lts = ''
 if ENV['TYPE'].include?('lts')
   lts = '/lts'
 end
+puts "PROPOSED release#{lts}"
+puts "TARGET user#{lts}"
 proposed = AptlyRepository.new(Aptly::Repository.get(variant),
                                "release#{lts}")
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
