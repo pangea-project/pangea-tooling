@@ -40,7 +40,7 @@ module DCI
       repos += %w(frameworks plasma kde-applications extras backports qt5)
       repos += %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
     when 'testing'
-      repos += %w(frameworks)
+      repos += %w(frameworks backports)
       repos += %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
     end
 
