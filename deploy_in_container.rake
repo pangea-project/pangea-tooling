@@ -32,6 +32,23 @@ def install_fake_pkg(name)
   end
 end
 
+def add_stretch_template
+  File.open('/usr/share/python-apt/templates/Debian.info', 'a') do |f|
+    f.write("\nSuite: stretch
+RepositoryType: deb
+BaseURI: http://http.us.debian.org/debian/
+MatchURI: ftp[0-9]*\.([a-z]*\.){0,1}debian\.org
+MirrorsFile: Debian.mirrors
+Description: Debian testing
+Component: main
+CompDescription: Officially supported
+Component: contrib
+CompDescription: DFSG-compatible Software with Non-Free Dependencies
+Component: non-free
+CompDescription: Non-DFSG-compatible Software\n")
+  end
+end
+
 desc 'deploy inside the container'
 task :deploy_in_container => :align_ruby do
   home = '/var/lib/jenkins'
@@ -88,6 +105,9 @@ task :deploy_in_container => :align_ruby do
     FileUtils.ln_s("#{final_path}/ci-tooling", final_ci_tooling_compat_path,
                    verbose: true)
   end
+
+  # Remove this once python-apt gets a Stretch template
+  add_stretch_template
 
   require_relative 'ci-tooling/lib/apt'
 
