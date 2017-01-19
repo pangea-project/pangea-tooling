@@ -31,8 +31,6 @@ module Debian
     attr_accessor :operator
     # Related to version of the named package
     attr_accessor :version
-    # Next OR'd dep if any
-    attr_accessor :next
 
     # architecture restriction for package
     # [architecture restriction] https://www.debian.org/doc/debian-policy/ch-customized-programs.html#s-arch-spec
@@ -79,11 +77,7 @@ module Debian
       string = string.strip
       return if string.empty?
 
-      first, everything_else = string.split('|', 2)
-
-      @next = Debian::Relationship.new(everything_else) if everything_else
-
-      match = first.match(REGEX)
+      match = string.match(REGEX)
       if match
         process_match(match)
       else
