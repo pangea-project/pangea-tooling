@@ -126,7 +126,12 @@ module Debian
         data = match[name]
         data.strip! if data
         next unless data
-        data = ArchitectureQualifier.new(data) if name == 'architectures'
+
+        case name
+        when 'architectures'
+          data = ArchitectureQualifier.new(data) 
+        end
+
         instance_variable_set("@#{name}".to_sym, data)
       end
     end
