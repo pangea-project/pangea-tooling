@@ -111,10 +111,12 @@ Gateway.exec!(options) do |port|
 
   ARGV.each do |file|
     next unless File.size?(file)
+    puts "translating uploads #{file}"
     files = CI::Deb822Lister.files_to_upload_for(file)
     raise 'Changes lists no files to upload!?' if files.empty?
     puts "Uploading files... #{files}"
     repo.upload(files)
+    puts "Done uploading."
   end
 
   repo.published_in.each(&:update!)
