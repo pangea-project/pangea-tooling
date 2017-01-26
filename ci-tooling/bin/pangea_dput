@@ -116,7 +116,7 @@ Gateway.exec!(options) do |port|
     raise 'Changes lists no files to upload!?' if files.empty?
     puts "Uploading files... #{files}"
     repo.upload(files)
-    puts "Done uploading."
+    puts 'Done uploading.'
   end
 
   repo.published_in.each(&:update!)
