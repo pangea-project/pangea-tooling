@@ -38,9 +38,9 @@ class KDEIfy
     def add_plasma_package(package)
       # Add dummy package
       control = File.read('debian/control.in')
-      control += "\nPackage: @browser@-plasma
+      control += "\nPackage: @MOZ_PKG_NAME@-plasma
 Architecture: any
-Depends: @browser@ (= ${binary:Version}), mozilla-kde-support
+Depends: @MOZ_PKG_NAME@ (= ${binary:Version}), mozilla-kde-support
 Description: #{package} package for integration with KDE
  Install this package if you'd like #{package} with Plasma integration
 "
