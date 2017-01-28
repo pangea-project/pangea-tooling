@@ -51,7 +51,7 @@ when 'firefox'
   puts 'Special case building for firefox'
   dsc = File.read('source/url').strip
   Dir.chdir('build') do
-    system('dget -u #{dsc}')
+    system("dget -u #{dsc}")
     dir = Dir.glob('firefox-*').first
     Dir.chdir(dir) do
       KDEIfy.firefox!
