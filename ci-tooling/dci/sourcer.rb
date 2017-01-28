@@ -56,7 +56,7 @@ when 'firefox'
     FileUtils.ln_s(dir, 'packaging')
     KDEIfy.firefox!
     Dir.chdir(dir) do
-      system('debuild -S -sa')
+      system('debuild -S -sa -d')
     end
     FileUtils.rm_rf(dir)
     FileUtils.rm('packaging')
