@@ -53,9 +53,11 @@ when 'firefox'
   Dir.chdir('build') do
     system("dget -u #{dsc}")
     dir = Dir.glob('firefox-*').first
+    File.write('/tmp/patch', open('https://github.com/plasmazilla/firefox/commit/fa09636aa280edbddceff96fa66f271c6e965978.patch').read)
     FileUtils.ln_s(dir, 'packaging')
     KDEIfy.firefox!
     Dir.chdir(dir) do
+      system('patch -p1 < /tmp/patch')
       system('debuild -S -sa -d')
     end
     FileUtils.rm_rf(dir)
