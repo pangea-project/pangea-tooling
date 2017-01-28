@@ -58,7 +58,13 @@ when 'firefox'
     KDEIfy.firefox!
     Dir.chdir(dir) do
       system('patch -p1 < /tmp/patch')
-      system('debuild -S -sa -d')
+      args = [
+        'dpkg-buildpackage',
+        '-us', '-uc', # Do not sign .dsc / .changes
+        '-S', # Only build source
+        '-d' # Do not enforce build-depends
+      ]
+      raise 'Could not run dpkg-buildpackage!' unless system(*args)
     end
     FileUtils.rm_rf(dir)
     FileUtils.rm('packaging')
