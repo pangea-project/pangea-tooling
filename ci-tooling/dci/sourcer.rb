@@ -49,9 +49,16 @@ when 'uscan'
   orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
 when 'firefox'
   puts 'Special case building for firefox'
-  KDEIfy.firefox!
-  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip),
-              restricted_packaging_copy: true)
+  dsc = File.read('source/url').strip
+  Dir.chdir('build') do
+    system('dget -u #{dsc}')
+    dir = Dir.glob('firefox-*').first
+    Dir.chdir(dir) do
+      KDEIfy.firefox!
+      system('debuild -S -sa')
+    end
+    FileUtils.rm_rf(dir)
+  end
 when 'thunderbird'
   puts 'Special case building for thunderbird'
   KDEIfy.thunderbird!
