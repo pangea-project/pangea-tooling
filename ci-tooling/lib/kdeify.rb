@@ -20,12 +20,15 @@ class KDEIfy
 
     def install_kde_js
       if Dir.exist?('debian/extra-stuff')
+        @substvar = '@browser@'
         FileUtils.cp('../suse/MozillaFirefox/kde.js', 'debian/extra-stuff/')
         File.open('debian/extra-stuff/moz.build', 'a') do |f|
           f.write("\nJS_PREFERENCE_FILES += ['kde.js']\n")
         end
         return
       end
+
+      @substvar = '@MOZ_PKG_NAME@'
 
       FileUtils.cp('../suse/MozillaFirefox/kde.js', 'debian/')
       rules = File.read('debian/rules')
@@ -38,9 +41,9 @@ class KDEIfy
     def add_plasma_package(package)
       # Add dummy package
       control = File.read('debian/control.in')
-      control += "\nPackage: @MOZ_PKG_NAME@-plasma
+      control += "\nPackage: #{@substvar}-plasma
 Architecture: any
-Depends: @MOZ_PKG_NAME@ (= ${binary:Version}), mozilla-kde-support
+Depends: #{@substvar} (= ${binary:Version}), mozilla-kde-support
 Description: #{package} package for integration with KDE
  Install this package if you'd like #{package} with Plasma integration
 "
