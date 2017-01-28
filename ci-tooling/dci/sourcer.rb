@@ -53,11 +53,13 @@ when 'firefox'
   Dir.chdir('build') do
     system("dget -u #{dsc}")
     dir = Dir.glob('firefox-*').first
+    FileUtils.ln_s(dir, 'packaging')
+    KDEIfy.firefox!
     Dir.chdir(dir) do
-      KDEIfy.firefox!
       system('debuild -S -sa')
     end
     FileUtils.rm_rf(dir)
+    FileUtils.rm('packaging')
   end
 when 'thunderbird'
   puts 'Special case building for thunderbird'
