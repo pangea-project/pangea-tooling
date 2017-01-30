@@ -11,7 +11,7 @@ DEPS = %w(xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           autotools-dev cdbs dh-autoreconf germinate gobject-introspection
           sphinx-common po4a pep8 pyflakes ppp-dev dh-di libgirepository1.0-dev
           libglib2.0-dev bash-completion python3-setuptools dkms 
-          mozilla-devscripts).freeze
+          mozilla-devscripts libffi-dev).freeze
 
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
