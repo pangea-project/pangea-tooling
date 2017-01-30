@@ -3,7 +3,7 @@ series:
 architectures:
   - amd64
   - armhf
-  - aarch64
+  - arm64
 extra_architectures: []
 types:
   - release
