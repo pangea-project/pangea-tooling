@@ -15,7 +15,7 @@ class DCITest < TestCase
   end
 
   def test_architectures
-    assert_equal_collection(%w(amd64 armhf), DCI.architectures)
+    assert_equal_collection(%w(aarch64 amd64 armhf), DCI.architectures)
   end
 
   def test_extra_architectures
@@ -23,7 +23,7 @@ class DCITest < TestCase
   end
 
   def test_all_architectures
-    assert_equal_collection(%w(amd64 armhf), DCI.all_architectures)
+    assert_equal_collection(%w(aarch64 amd64 armhf), DCI.all_architectures)
   end
 
   def test_series
