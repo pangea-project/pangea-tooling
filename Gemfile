@@ -1,5 +1,14 @@
 source 'https://rubygems.org'
 
+case RbConfig::CONFIG['host_cpu']
+when 'aarch64'
+  gem 'ffi',
+      git: 'https://github.com/ffi/ffi/',
+      branch: 'libffi'
+else
+  gem 'ffi'
+end
+
 gem 'aptly-api', '>= 0.5.0'
 gem 'concurrent-ruby'
 gem 'deep_merge', '~> 1.0'
