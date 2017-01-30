@@ -108,6 +108,7 @@ task :deploy_in_container => :align_ruby do
 
   require_relative 'ci-tooling/lib/apt'
   # Remove this once python-apt gets a Stretch template
+  Apt.install('python-apt-common')
   add_stretch_template
 
   File.write('force-unsafe-io', '/etc/dpkg/dpkg.cfg.d/00_unsafeio')
