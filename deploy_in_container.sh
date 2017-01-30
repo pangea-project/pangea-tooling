@@ -36,6 +36,6 @@ done
 
 cd $SCRIPTDIR
 # Bootstrap rake if rake is not installed
-ruby -e "Gem.install('rake') unless Gem::Specification.map(&:name).include? 'rake'"
+ruby -e "Gem.install('rake') unless Gem::Specification.map(&:name).include?('rake')"
 
 exec rake -f deploy_in_container.rake deploy_in_container
