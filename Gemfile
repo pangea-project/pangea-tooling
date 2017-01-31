@@ -1,9 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'ffi',
-    git: 'https://github.com/ffi/ffi/',
-    branch: 'libffi'
-
 gem 'aptly-api', '>= 0.5.0'
 gem 'concurrent-ruby'
 gem 'deep_merge', '~> 1.0'
