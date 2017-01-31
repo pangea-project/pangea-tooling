@@ -41,7 +41,7 @@ module DCI
       repos += %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
     when 'testing'
       repos += %w(frameworks backports)
-      repos += %w(odroid) if DPKG::BUILD_ARCH == 'armhf'
+      repos += %w(odroid) unless DPKG::BUILD_ARCH == 'amd64'
     end
 
     add_repos(repos)
