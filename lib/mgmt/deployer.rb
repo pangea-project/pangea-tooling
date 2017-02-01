@@ -42,13 +42,18 @@ module MGMT
 
     def create_base
       upgrade = nil
-      base_image = "#{@base.flavor}:#{@base.tag}"
+      case @base.flavor
+      when 'debian'
+        base_image = "debianci/#{DPKG::HOST_ARCH}:latest"
+      else
+        base_image = "#{@base.flavor}:#{@base.tag}"
 
-      case DPKG::HOST_ARCH
-      when 'armhf'
-        base_image = "armhf/#{base_image}"
-      when 'arm64'
-        base_image = "aarch64/#{base_image}"
+        case DPKG::HOST_ARCH
+        when 'armhf'
+          base_image = "armhf/#{base_image}"
+        when 'arm64'
+          base_image = "aarch64/#{base_image}"
+        end
       end
 
       trying_tag = @base.tag
