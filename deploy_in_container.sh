@@ -15,10 +15,6 @@ echo "LANG=$LANG" >> /etc/environment
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00aptitude
 echo 'APT::Color "1";' > /etc/apt/apt.conf.d/99color
 
-# Switch to cloudfront for debian
-sed -i 's,httpredir.debian.org,deb.debian.org,g' /etc/apt/sources.list
-sed -i 's,ftp.debian.org,deb.debian.org,g' /etc/apt/sources.list
-
 i="3"
 while [ $i -gt 0 ]; do
   apt-get update && break
