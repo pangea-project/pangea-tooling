@@ -49,7 +49,7 @@ EXCLUDE_SNAPS = %w(
   libkcddb libkcompactdisc mbox-importer akonadi-calendar-tools
   akonadi-import-wizard audiocd-kio grantlee-editor kdegraphics-mobipocket
   kmail-account-wizard konqueror libkcddb libkcompactdisc pim-data-exporter
-  pim-sieve-editor pim-storage-service-manager
+  pim-sieve-editor pim-storage-service-manager kdegraphics-mobipocket
 ).freeze
 
 snap = Snap.new(File.read('snap.name'), '16.04.1')
