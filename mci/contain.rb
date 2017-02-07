@@ -21,7 +21,7 @@
 
 require_relative '../lib/ci/containment'
 
-Docker.options[:read_timeout] = 6 * 60 * 60 # 6 hours.
+Docker.options[:read_timeout] = 8 * 60 * 60 # 8 hours now.. because qtbase!
 
 DIST = ENV.fetch('DIST')
 JOB_NAME = ENV.fetch('JOB_NAME')
