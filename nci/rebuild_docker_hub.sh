@@ -7,6 +7,6 @@ set -ex
 
 . ~/docker-token
 
-curl --data build=true -X POST https://registry.hub.docker.com/u/kdeneon/plasma/trigger/${PLASMA_TOKEN}
+curl -H "Content-Type: application/json" --data '{"build": true}' -X POST https://registry.hub.docker.com/u/kdeneon/plasma/trigger/${PLASMA_TOKEN}/
 
-curl --data build=true -X POST https://registry.hub.docker.com/u/kdeneon/all/trigger/${ALL_TOKEN}
+curl -H "Content-Type: application/json" --data '{"build": true}' -X POST https://registry.hub.docker.com/u/kdeneon/all/trigger/${ALL_TOKEN}/
