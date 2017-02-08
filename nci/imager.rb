@@ -97,7 +97,6 @@ Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
 end
 
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
-  sftp.mkdir!(REMOTE_PUB_DIR)
   types = %w(source.tar.xz)
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
