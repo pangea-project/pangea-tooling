@@ -67,9 +67,8 @@ module CI
     # @note this wipes @build_dir
     def copy_source
       copy_source_tree('source')
-      if Dir.exist?("#{@build_dir}/source/debian")
-        FileUtils.rm_rf(Dir.glob("#{@build_dir}/source/debian"))
-      end
+      return unless Dir.exist?("#{@build_dir}/source/debian")
+      FileUtils.rm_rf(Dir.glob("#{@build_dir}/source/debian"))
     end
 
     # Copies the packaging/ source tree into the target.
