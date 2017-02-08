@@ -68,7 +68,7 @@ end
 
 Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
   sftp.mkdir!(REMOTE_PUB_DIR)
-  types = %w(source.tar.xz amd64.iso amd64.iso.sig manifest zsync sha256sum)
+  types = %w(amd64.iso amd64.iso.sig manifest zsync sha256sum)
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
       name = File.basename(file)
@@ -93,6 +93,18 @@ Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
     STDERR.puts "rm #{path}"
     sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
     sftp.rmdir!(path)
+  end
+end
+
+Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
+  sftp.mkdir!(REMOTE_PUB_DIR)
+  types = %w(source.tar.xz)
+  types.each do |type|
+    Dir.glob("result/*#{type}").each do |file|
+      name = File.basename(file)
+      STDERR.puts "Uploading #{file}..."
+      sftp.upload!(file, "files.neon.kde.org.uk/#{name}")
+    end
   end
 end
 
