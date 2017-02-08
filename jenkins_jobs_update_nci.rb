@@ -128,7 +128,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                    metapackage: 'neon-desktop',
                                    imagename: 'neon',
                                    neonarchive: 'dev/unstable',
-                                   cronjob: 'H H * * *' }
+                                   cronjob: 'H H * * 0' }
           enqueue(NeonIsoJob.new(dev_unstable_isoargs))
           dev_unstable_dev_name = 'devedition-gitunstable-development'
           dev_unstable_dev_isoargs = { type: dev_unstable_dev_name,
@@ -137,7 +137,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                        metapackage: 'neon-desktop',
                                        imagename: 'neon-development',
                                        neonarchive: 'dev/unstable',
-                                       cronjob: 'H H * * *' }
+                                       cronjob: 'H H * * 1' }
           enqueue(NeonIsoJob.new(dev_unstable_dev_isoargs))
           dev_stable_isoargs = { type: 'devedition-gitstable',
                                  distribution: distribution,
@@ -145,7 +145,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                  metapackage: 'neon-desktop',
                                  imagename: 'neon',
                                  neonarchive: 'dev/stable',
-                                 cronjob: 'H H * * *' }
+                                 cronjob: 'H H * * 2' }
           enqueue(NeonIsoJob.new(dev_stable_isoargs))
           user_releaselts_isoargs = { type: 'userltsedition',
                                       distribution: distribution,
@@ -153,7 +153,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                       metapackage: 'neon-desktop',
                                       imagename: 'neon',
                                       neonarchive: 'user/lts',
-                                      cronjob: 'H H * * 4' }
+                                      cronjob: 'H H * * 3' }
           enqueue(NeonIsoJob.new(user_releaselts_isoargs))
           user_release_isoargs = { type: 'useredition',
                                    distribution: distribution,
@@ -169,7 +169,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                       metapackage: 'neon-desktop-ko',
                                       imagename: 'neon-ko',
                                       neonarchive: 'dev/stable',
-                                      cronjob: 'H H * * 4' }
+                                      cronjob: 'H H * * 5' }
           enqueue(NeonIsoJob.new(ko_user_release_isoargs))
           wayland_isoargs = { type: 'devedition-gitunstable',
                               distribution: distribution,
@@ -177,7 +177,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                               metapackage: 'plasma-wayland-desktop',
                               imagename: 'plasma-wayland',
                               neonarchive: 'dev/unstable',
-                              cronjob: 'H H * * *' }
+                              cronjob: 'H H * * 6' }
           enqueue(NeonIsoJob.new(wayland_isoargs))
         end
       end
