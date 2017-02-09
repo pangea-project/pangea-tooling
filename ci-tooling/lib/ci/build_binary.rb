@@ -26,6 +26,7 @@ require_relative '../debian/control'
 require_relative '../dpkg'
 require_relative '../os'
 require_relative '../retry'
+require_relative '../debian/dsc'
 
 module CI
   class PackageBuilder
@@ -86,12 +87,7 @@ module CI
       dpkg_buildopts += build_flags
 
       Dir.chdir(BUILD_DIR) do
-        system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
-        ec = $?.exitstatus
-        # Do not abort the build when dpkg-buildpackage fails to build a arch
-        # all package on !amd64 since our current architecture creates armhf
-        # jobs even for sources that only have arch all binaries
-        raise unless ec == 2 || ec.to_i.zero?
+        raise unless system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
       end
     end
 
@@ -119,10 +115,14 @@ module CI
     end
 
     def build
-      dsc_count = Dir.glob('*.dsc').count
-      raise "Not exactly one dsc! Found #{dsc_count}" unless dsc_count == 1
+      dsc_glob = Dir.glob('*.dsc')
+      raise "Not exactly one dsc! Found #{dsc_glob}" unless dsc_glob.count == 1
+      @dsc = dsc_glob[0]
 
-      @dsc = Dir.glob('*.dsc')[0]
+      if arch_all_source?
+        puts 'INFO: Arch all only package on wrong architecture, not building anything!'
+        return
+      end
 
       extract
       install_dependencies
@@ -155,7 +155,7 @@ module CI
     # @return [Array<String>] of build flags (-b -j etc.)
     def build_flags
       dpkg_buildopts = []
-      if DPKG::BUILD_ARCH == 'amd64'
+      if arch_all?
         # Automatically decide how many concurrent build jobs we can support.
         # NOTE: special cased for trusty master servers to pass
         dpkg_buildopts << '-j1' unless pretty_old_system?
@@ -173,6 +173,16 @@ module CI
       end
       dpkg_buildopts.collect! { |x| x == '-b' ? '-B' : x } if @bin_only
       dpkg_buildopts
+    end
+
+    def arch_all?
+       DPKG::HOST_ARCH == 'amd64'
+    end
+
+    def arch_all_source?
+      parsed_dsc = Debian::DSC.new(@dsc)
+      parsed_dsc.parse!
+      !arch_all? && parsed_dsc.fields['architecture'] == 'all'
     end
 
     def pretty_old_system?

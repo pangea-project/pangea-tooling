@@ -98,5 +98,15 @@ module CI
 
       assert_bin_only(builder)
     end
+
+    def test_arch_all_only_source
+      FileUtils.cp_r("#{data}/.", Dir.pwd)
+      builder = PackageBuilder.new
+      builder.expects(:arch_all?)
+             .returns(false)
+
+      builder.build
+      assert_equal(['test.dsc'], Dir.glob('test.*'))
+    end
   end
 end
