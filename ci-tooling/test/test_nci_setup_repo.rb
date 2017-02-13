@@ -83,6 +83,11 @@ class NCISetupRepoTest < TestCase
     stub_request(:get, 'https://archive.neon.kde.org/public.key')
       .to_return(status: 200, body: 'abc')
 
+    # Expect proxy to be set up
+    File.expects(:write)
+        .with('/etc/apt/apt.conf.d/proxy',
+              'Acquire::http::Proxy "http://46.101.188.72:3142";')
+
     # mock_tcp_uni_klu = mock('mock_tcp_uni_klu')
     # mock_tcp_uni_klu.responds_like_instance_of(Net::Ping::TCP)
     # mock_tcp_uni_klu.stubs(:ping).at_least_once

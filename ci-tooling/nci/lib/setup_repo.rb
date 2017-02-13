@@ -36,6 +36,7 @@ module NCI
 
   def setup_repo!
     # switch_mirrors!
+    setup_proxy!
     add_repo!
     if ENV.fetch('TYPE') == 'testing'
       ENV['TYPE'] = 'release'
@@ -48,6 +49,11 @@ module NCI
 
   class << self
     private
+
+    def setup_proxy!
+      File.write('/etc/apt/apt.conf.d/proxy',
+                 'Acquire::http::Proxy "http://46.101.188.72:3142";')
+    end
 
     def add_repo!
       debline = format('deb http://archive.neon.kde.org/%s %s main',
