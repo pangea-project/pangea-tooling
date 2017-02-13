@@ -16,5 +16,9 @@ Dir.mktmpdir do |tmpdir|
     builder = CI::PackageBuilder.new
     builder.build
   end
-  FileUtils.cp_r("#{tmpdir}/result", @workspace, verbose: true)
+
+  result_dir = "#{tmpdir}/result"
+  if Dir.exist?(result_dir)
+    FileUtils.cp_r(result_dir, @workspace, verbose: true)
+  end
 end
