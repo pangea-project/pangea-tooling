@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'net/http'
 require 'open-uri'
 
 require_relative '../../lib/apt'
@@ -27,6 +28,9 @@ require_relative 'mirrors'
 
 # Neon CI specific helpers.
 module NCI
+  PROXY_URI = URI::HTTP.build(host: '46.101.188.72', port: 3142)
+  PROXY_URI_PRIVATE = URI::HTTP.build(host: '10.135.3.146', port: 3142)
+
   module_function
 
   def add_repo_key!
@@ -50,9 +54,25 @@ module NCI
   class << self
     private
 
+    def connect_to_private_proxy
+      Net::HTTP.start(PROXY_URI_PRIVATE.host,
+                      PROXY_URI_PRIVATE.port,
+                      open_timeout: 2) {}
+    end
+
+    def private_networking?
+      connect_to_private_proxy
+      puts "Going to use private proxy"
+      true
+    rescue
+      puts "Going to use public proxy"
+      false
+    end
+
     def setup_proxy!
+      uri = private_networking? ? PROXY_URI_PRIVATE : PROXY_URI
       File.write('/etc/apt/apt.conf.d/proxy',
-                 'Acquire::http::Proxy "http://46.101.188.72:3142";')
+                 "Acquire::http::Proxy \"#{uri}\";")
     end
 
     def add_repo!

@@ -83,10 +83,11 @@ class NCISetupRepoTest < TestCase
     stub_request(:get, 'https://archive.neon.kde.org/public.key')
       .to_return(status: 200, body: 'abc')
 
-    # Expect proxy to be set up
+    # Expect proxy to be set up to private
+    NCI.expects(:connect_to_private_proxy).returns(true)
     File.expects(:write)
         .with('/etc/apt/apt.conf.d/proxy',
-              'Acquire::http::Proxy "http://46.101.188.72:3142";')
+              'Acquire::http::Proxy "http://10.135.3.146:3142";')
 
     # mock_tcp_uni_klu = mock('mock_tcp_uni_klu')
     # mock_tcp_uni_klu.responds_like_instance_of(Net::Ping::TCP)
@@ -105,6 +106,49 @@ class NCISetupRepoTest < TestCase
     #     .returns("deb http://archive.ubuntu.com/ubuntu/ willy yo\ndeb http://archive.neon.kde.org willy yo\n")
     # File.expects(:write)
     #     .with('/etc/apt/sources.list', "deb http://ubuntu.uni-klu.ac.at/ubuntu/ willy yo\ndeb http://archive.neon.kde.org willy yo\n")
+
+    NCI.setup_repo!
+
+    assert_equal("abc\n", key_catcher.string)
+  end
+
+  # This is a semi-temporary test until all servers have private networking
+  # enabled. At which point we'll simply assume the proxy can be connected
+  # to.
+  def test_setup_repo_no_private
+    system_calls = [
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
+      ['add-apt-repository', '-y',
+       'deb http://archive.neon.kde.org/unstable vivid main'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'update'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'python-setuptools']
+    ]
+
+    system_sequence = sequence('system-calls')
+    system_calls.each do |cmd|
+      Object.any_instance.expects(:system)
+            .with(*cmd)
+            .returns(true)
+            .in_sequence(system_sequence)
+    end
+
+    key_catcher = StringIO.new
+    IO.expects(:popen)
+      .with(['apt-key', 'add', '-'], 'w')
+      .yields(key_catcher)
+      .returns(true)
+
+    # stub_request(:get, 'http://mirrors.ubuntu.com/mirrors.txt')
+    #   .to_return(status: 200, body: 'http://ubuntu.uni-klu.ac.at/ubuntu/')
+    stub_request(:get, 'https://archive.neon.kde.org/public.key')
+      .to_return(status: 200, body: 'abc')
+
+    # Expect proxy to be set up to public
+    NCI.expects(:connect_to_private_proxy).raises(Net::OpenTimeout)
+    File.expects(:write)
+        .with('/etc/apt/apt.conf.d/proxy',
+              'Acquire::http::Proxy "http://46.101.188.72:3142";')
 
     NCI.setup_repo!
 
