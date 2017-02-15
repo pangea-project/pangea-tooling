@@ -182,7 +182,7 @@ module CI
     def arch_all_source?
       parsed_dsc = Debian::DSC.new(@dsc)
       parsed_dsc.parse!
-      !arch_all? && parsed_dsc.fields['architecture'] == 'all'
+      !arch_all? && !parsed_dsc.fields['architecture'].split.include?('any')
     end
 
     def pretty_old_system?

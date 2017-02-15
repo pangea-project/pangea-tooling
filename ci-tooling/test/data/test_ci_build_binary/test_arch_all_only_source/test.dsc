@@ -1,7 +1,7 @@
 Format: 3.0 (quilt)
 Source: hello
 Binary: hello
-Architecture: all
+Architecture: amd64 all
 Version: 2.10-1
 Maintainer: Santiago Vila <sanvila@debian.org>
 Homepage: http://www.gnu.org/software/hello/
