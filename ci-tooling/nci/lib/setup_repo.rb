@@ -51,6 +51,12 @@ module NCI
     raise 'failed to install deps' unless Apt.install(%w(python-setuptools))
   end
 
+  def setup_proxy!
+    uri = private_networking? ? PROXY_URI_PRIVATE : PROXY_URI
+    File.write('/etc/apt/apt.conf.d/proxy',
+               "Acquire::http::Proxy \"#{uri}\";")
+  end
+
   class << self
     private
 
@@ -67,12 +73,6 @@ module NCI
     rescue
       puts 'Going to use public proxy'
       false
-    end
-
-    def setup_proxy!
-      uri = private_networking? ? PROXY_URI_PRIVATE : PROXY_URI
-      File.write('/etc/apt/apt.conf.d/proxy',
-                 "Acquire::http::Proxy \"#{uri}\";")
     end
 
     def add_repo!

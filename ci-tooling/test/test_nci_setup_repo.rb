@@ -154,4 +154,13 @@ class NCISetupRepoTest < TestCase
 
     assert_equal("abc\n", key_catcher.string)
   end
+
+  def test_add_repo
+    # Expect proxy to be set up to private
+    File.expects(:write)
+        .with('/etc/apt/apt.conf.d/proxy',
+              'Acquire::http::Proxy "http://10.135.3.146:3142";')
+
+    NCI.setup_proxy!
+  end
 end
