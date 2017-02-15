@@ -44,6 +44,7 @@ module Aptly
   end
 end
 
+NCI.setup_proxy!
 NCI.add_repo_key!
 
 Aptly.configure do |config|

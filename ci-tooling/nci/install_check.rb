@@ -47,6 +47,7 @@ DIST = ENV.fetch('DIST')
 IS_LTS = TYPE.include?('lts')
 APTLY_REPO = "#{TYPE}_#{DIST}".freeze
 
+NCI.setup_proxy!
 NCI.add_repo_key!
 
 Aptly.configure do |config|
