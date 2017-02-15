@@ -62,10 +62,10 @@ module NCI
 
     def private_networking?
       connect_to_private_proxy
-      puts "Going to use private proxy"
+      puts 'Going to use private proxy'
       true
     rescue
-      puts "Going to use public proxy"
+      puts 'Going to use public proxy'
       false
     end
 
