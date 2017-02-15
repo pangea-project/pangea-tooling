@@ -41,6 +41,12 @@ module Aptly
   end
 end
 
+TYPE = ENV.fetch('TYPE')
+DIST = ENV.fetch('DIST')
+# We need different suffixing because of https://phabricator.kde.org/T5359
+IS_LTS = TYPE.include?('lts')
+APTLY_REPO = "#{TYPE}_#{DIST}".freeze
+
 NCI.add_repo_key!
 
 Aptly.configure do |config|
@@ -49,19 +55,12 @@ Aptly.configure do |config|
   # This is read-only.
 end
 
-variant = ENV['TYPE'] + '_' + ENV['DIST']
-lts = ''
-if ENV['TYPE'].include?('lts')
-  lts = '-lts'
-end
-proposed = AptlyRepository.new(Aptly::Repository.get(variant),
-                               "release#{lts}")
-if ENV['TYPE'].include?('lts')
-  lts = '/lts'
-end
+proposed = AptlyRepository.new(Aptly::Repository.get(APTLY_REPO),
+                               "release#{IS_LTS ? '-lts' : ''}")
+
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
-snapshots.keep_if { |x| x.Name.start_with?(variant) }
-target = AptlyRepository.new(snapshots[-1], "user#{lts}")
+snapshots.keep_if { |x| x.Name.start_with?(APTLY_REPO) }
+target = AptlyRepository.new(snapshots[-1], "user#{IS_LTS ? '/lts' : ''}")
 target.purge_exclusion << 'neon-settings'
 
 checker = InstallCheck.new
