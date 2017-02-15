@@ -28,28 +28,11 @@ require_relative '../kci/install_check'
 TYPE = ENV.fetch('TYPE')
 REPO_KEY = "#{TYPE}_#{ENV.fetch('DIST')}".freeze
 
-module Aptly
-  # Configuration.
-  class Configuration
-    def uri
-      # FIXME: maybe we should simply configure a URI instead of configuring
-      #   each part?
-      uri = URI.parse('')
-      uri.scheme = 'https'
-      uri.host = host
-      uri.port = port
-      uri.path = path
-      uri
-    end
-  end
-end
-
 NCI.setup_proxy!
 NCI.add_repo_key!
 
 Aptly.configure do |config|
-  config.host = 'archive-api.neon.kde.org'
-  config.port = 443
+  config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')
   # This is read-only.
 end
 

@@ -25,22 +25,6 @@ require 'date'
 require_relative 'lib/setup_repo'
 require_relative '../kci/install_check'
 
-module Aptly
-  # Configuration.
-  class Configuration
-    def uri
-      # FIXME: maybe we should simply configure a URI instead of configuring
-      #   each part?
-      uri = URI.parse('')
-      uri.scheme = 'https'
-      uri.host = host
-      uri.port = port
-      uri.path = path
-      uri
-    end
-  end
-end
-
 TYPE = ENV.fetch('TYPE')
 DIST = ENV.fetch('DIST')
 # We need different suffixing because of https://phabricator.kde.org/T5359
@@ -51,8 +35,7 @@ NCI.setup_proxy!
 NCI.add_repo_key!
 
 Aptly.configure do |config|
-  config.host = 'archive-api.neon.kde.org'
-  config.port = 443
+  config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')
   # This is read-only.
 end
 
