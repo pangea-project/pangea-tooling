@@ -173,14 +173,19 @@ class RootOnAptlyRepository < Repository
   end
 
   def mangle_packages(packages = {})
-    mangle_packages_with_futures(packages).each do |future|
+    # Limit the amount of crap we run. By default we'll easily beak the slaves
+    # bloody.
+    pool = Concurrent::ThreadPoolExecutor.new(min_threads: 2, max_threads: 8)
+    mangle_packages_with_futures(packages, executor: pool).each do |future|
       future.wait # Simply wait for each future in sequence. We need all.
       packages.delete(future.value![0]) unless future.value![1]
     end
     packages
+  ensure
+    pool.shutdown
   end
 
-  def mangle_packages_with_futures(packages, futures = [])
+  def mangle_packages_with_futures(packages, futures = [], executor:)
     @repos.each do |repo|
       repo.send(:packages).each do |k, _|
         # If the package is known. Add it to our package set, otherwise drop
@@ -188,7 +193,9 @@ class RootOnAptlyRepository < Repository
         # return success and install the relevant packages.
         next if packages.key?(k)
         packages[k] = nil
-        futures << Concurrent::Future.execute { [k, Apt::Cache.exist?(k)] }
+        futures << Concurrent::Future.execute(executor: executor) do
+          [k, Apt::Cache.exist?(k)]
+        end
       end
     end
     futures
