@@ -26,10 +26,9 @@ require_relative 'lib/setup_repo'
 require_relative '../kci/install_check'
 
 TYPE = ENV.fetch('TYPE')
-DIST = ENV.fetch('DIST')
+REPO_KEY = "#{TYPE}_#{ENV.fetch('DIST')}".freeze
 # We need different suffixing because of https://phabricator.kde.org/T5359
 IS_LTS = TYPE.include?('lts')
-APTLY_REPO = "#{TYPE}_#{DIST}".freeze
 
 NCI.setup_proxy!
 NCI.add_repo_key!
@@ -39,11 +38,11 @@ Aptly.configure do |config|
   # This is read-only.
 end
 
-proposed = AptlyRepository.new(Aptly::Repository.get(APTLY_REPO),
+proposed = AptlyRepository.new(Aptly::Repository.get(REPO_KEY),
                                "release#{IS_LTS ? '-lts' : ''}")
 
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
-snapshots.keep_if { |x| x.Name.start_with?(APTLY_REPO) }
+snapshots.keep_if { |x| x.Name.start_with?(REPO_KEY) }
 target = AptlyRepository.new(snapshots[-1], "user#{IS_LTS ? '/lts' : ''}")
 target.purge_exclusion << 'neon-settings'
 
