@@ -211,10 +211,14 @@ class RootOnAptlyRepository < Repository
     yield
   ensure
     # Kill, this is a single-run sorta thing inside the container.
-    Process.kill('KILL', session_pid)
-    Process.wait(session_pid)
-    Process.kill('KILL', system_pid)
-    Process.wait(system_pid)
+    if session_pid
+      Process.kill('KILL', session_pid)
+      Process.wait(session_pid)
+    end
+    if system_pid
+      Process.kill('KILL', system_pid)
+      Process.wait(system_pid)
+    end
   end
 
   def dbus_run(&block)
