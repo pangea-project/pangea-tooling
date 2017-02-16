@@ -24,6 +24,38 @@ require_relative '../lib/repo_abstraction'
 require 'mocha/test_unit'
 require 'webmock/test_unit'
 
+# Fake mod
+module PackageKitGlib
+  module FilterEnum
+    module_function
+
+    def [](x)
+      {
+        arch: 18,
+        not_source: 21,
+        basename: 14
+      }.fetch(x)
+    end
+  end
+  class Client
+  end
+  class Result
+    attr_reader :package_array
+    def initialize(package_array)
+      @package_array = package_array
+    end
+  end
+  class Package
+    attr_reader :name
+    def initialize(name)
+      @name = name
+    end
+    def self.from_array(array)
+      array.collect { |x| new(x) }
+    end
+  end
+end
+
 class RepoAbstractionAptlyTest < TestCase
   required_binaries('dpkg')
 
@@ -108,6 +140,9 @@ class RepoAbstractionRootOnAptlyTest < TestCase
   def setup
     WebMock.disable_net_connect!
 
+    # Do not let gir through!
+    GirFFI.expects(:setup).never
+
     # More slective so we can let DPKG through.
     Apt::Repository.expects(:system).never
     Apt::Repository.expects(:`).never
@@ -123,6 +158,13 @@ class RepoAbstractionRootOnAptlyTest < TestCase
   end
 
   def test_init
+    Apt::Abstrapt
+      .expects(:system)
+      .with('apt-get', *Apt::Abstrapt.default_args, 'install', 'packagekit', 'libgirepository1.0-dev', 'gir1.2-packagekitglib-1.0')
+      .returns(true)
+    GirFFI.expects(:setup).with(:PackageKitGlib, '1.0').returns(true)
+    PackageKitGlib::Client.any_instance.expects(:get_packages).with(31).returns(PackageKitGlib::Result.new([]))
+
     repo = RootOnAptlyRepository.new
     assert_empty(repo.send(:packages))
     # Should not hit mocha never-expectations.
@@ -155,19 +197,15 @@ class RepoAbstractionRootOnAptlyTest < TestCase
       .with(:q => '!$Architecture (source), $Source (trollomatico), $SourceVersion (3)')
       .returns(['Pamd64 trollomatico 3 edf', 'Pamd64 unicornsparkles 4 xyz'])
 
-    # This libkactivies actually would be called twice if optizmiation is
-    # not working as expected. apt-cache calls are fairly expensive, so they
-    # should be avoided when possible.
-    Apt::Cache.expects(:system)
-      .with('apt-cache', '-q', 'show', 'libkactivites', {[:out, :err]=>"/dev/null"})
+    Apt::Abstrapt
+      .expects(:system)
+      .with('apt-get', *Apt::Abstrapt.default_args, 'install', 'packagekit', 'libgirepository1.0-dev', 'gir1.2-packagekitglib-1.0')
       .returns(true)
-    Apt::Cache.expects(:system)
-      .with('apt-cache', '-q', 'show', 'trollomatico', {[:out, :err]=>"/dev/null"})
-      .returns(true)
-    # Exclude this.
-    Apt::Cache.expects(:system)
-      .with('apt-cache', '-q', 'show', 'unicornsparkles', {[:out, :err]=>"/dev/null"})
-      .returns(false)
+
+    GirFFI.expects(:setup).with(:PackageKitGlib, '1.0').returns(true)
+    packages = PackageKitGlib::Package.from_array(%w(libkactivites trollomatico))
+    result = PackageKitGlib::Result.new(packages)
+    PackageKitGlib::Client.any_instance.expects(:get_packages).with(31).returns(result)
 
     aptly_repo1 = AptlyRepository.new(mock_repo1, 'mock1')
     aptly_repo2 = AptlyRepository.new(mock_repo2, 'mock2')

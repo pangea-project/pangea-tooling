@@ -25,6 +25,7 @@ require_relative 'lsb'
 require_relative 'lp'
 
 require 'concurrent'
+require 'gir_ffi'
 require 'logger'
 
 # We can't really module this because it is used API. Ugh.
@@ -116,14 +117,23 @@ class AptlyRepository < Repository
 
   private
 
+  def query_packages_from_sources
+    # Run on a tiny thread pool so we don't murder the server with queries
+    # Use a very lofty queue to avoid running into scheduling problems when
+    # the connection is very slow.
+    pool = Concurrent::ThreadPoolExecutor.new(min_threads: 4, max_threads: 4,
+                                              max_queue: sources.size * 2)
+    promises = sources.collect do |source|
+      q = format('!$Architecture (source), $Source (%s), $SourceVersion (%s)',
+                 source.name, source.version)
+      Concurrent::Promise.execute(executor: pool) { @repo.packages(q: q) }
+    end
+    Concurrent::Promise.zip(*promises).value.flatten
+  end
+
   def packages
     @packages ||= begin
-      packages = sources.collect do |source|
-        q = format('!$Architecture (source), $Source (%s), $SourceVersion (%s)',
-                   source.name, source.version)
-        p q
-        @repo.packages(q: q)
-      end.flatten
+      packages = query_packages_from_sources
       p packages
       packages = Aptly::Ext::LatestVersionFilter.filter(packages)
       arch_filter = [DPKG::HOST_ARCH, 'all']
@@ -148,6 +158,9 @@ class RootOnAptlyRepository < Repository
   def initialize(repos = [])
     super('ubuntu-fake-yolo-kitten')
     @repos = repos
+
+    Apt.install('packagekit', 'libgirepository1.0-dev',
+                'gir1.2-packagekitglib-1.0') || raise
   end
 
   def add
@@ -164,6 +177,19 @@ class RootOnAptlyRepository < Repository
 
   private
 
+  def setup_gir
+    @gir ||= GirFFI.setup(:PackageKitGlib, '1.0')
+  end
+
+  # @returns <GLib::PtrArray> of {PackageKitGlib.Package} instances
+  def packagekit_packages
+    client = PackageKitGlib::Client.new
+    filter = PackageKitGlib::FilterEnum[:arch] |
+             PackageKitGlib::FilterEnum[:not_source] |
+             PackageKitGlib::FilterEnum[:basename]
+    client.get_packages(filter).package_array
+  end
+
   def packages
     # Ditch version for this. Latest is good enough, we expect no wanted repos
     # to be enabled at this point anyway.
@@ -173,19 +199,23 @@ class RootOnAptlyRepository < Repository
   end
 
   def mangle_packages(packages = {})
-    # Limit the amount of crap we run. By default we'll easily beak the slaves
-    # bloody.
-    pool = Concurrent::ThreadPoolExecutor.new(min_threads: 2, max_threads: 8)
+    # This pool actually runs risk of running out of queue space :|
+    # When this happens we'll simply fallback to the let the caller run the
+    # block. i.e. the main thread will run the future right now rather than
+    # defering it.
+    pool = Concurrent::ThreadPoolExecutor.new(min_threads: 2, max_threads: 8,
+                                              fallback_policy: :caller_runs)
+    setup_gir
     mangle_packages_with_futures(packages, executor: pool).each do |future|
       future.wait # Simply wait for each future in sequence. We need all.
       packages.delete(future.value![0]) unless future.value![1]
     end
     packages
-  ensure
-    pool.shutdown
   end
 
-  def mangle_packages_with_futures(packages, futures = [], executor:)
+  def mangle_packages_with_futures(packages, futures = [],
+                                   pk_packages = packagekit_packages,
+                                   executor:)
     @repos.each do |repo|
       repo.send(:packages).each do |k, _|
         # If the package is known. Add it to our package set, otherwise drop
@@ -194,7 +224,7 @@ class RootOnAptlyRepository < Repository
         next if packages.key?(k)
         packages[k] = nil
         futures << Concurrent::Future.execute(executor: executor) do
-          [k, Apt::Cache.exist?(k)]
+          [k, pk_packages.any? { |x| x.name == k }]
         end
       end
     end
