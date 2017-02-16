@@ -142,6 +142,8 @@ class RepoAbstractionRootOnAptlyTest < TestCase
 
     # Do not let gir through!
     GirFFI.expects(:setup).never
+    # And Doubly so for dbus!
+    RootOnAptlyRepository.any_instance.expects(:dbus_run).yields
 
     # More slective so we can let DPKG through.
     Apt::Repository.expects(:system).never
@@ -160,7 +162,7 @@ class RepoAbstractionRootOnAptlyTest < TestCase
   def test_init
     Apt::Abstrapt
       .expects(:system)
-      .with('apt-get', *Apt::Abstrapt.default_args, 'install', 'packagekit', 'libgirepository1.0-dev', 'gir1.2-packagekitglib-1.0')
+      .with('apt-get', *Apt::Abstrapt.default_args, 'install', 'packagekit', 'libgirepository1.0-dev', 'gir1.2-packagekitglib-1.0', 'dbus-x11')
       .returns(true)
     GirFFI.expects(:setup).with(:PackageKitGlib, '1.0').returns(true)
     PackageKitGlib::Client.any_instance.expects(:get_packages).with(31).returns(PackageKitGlib::Result.new([]))
@@ -199,7 +201,7 @@ class RepoAbstractionRootOnAptlyTest < TestCase
 
     Apt::Abstrapt
       .expects(:system)
-      .with('apt-get', *Apt::Abstrapt.default_args, 'install', 'packagekit', 'libgirepository1.0-dev', 'gir1.2-packagekitglib-1.0')
+      .with('apt-get', *Apt::Abstrapt.default_args, 'install', 'packagekit', 'libgirepository1.0-dev', 'gir1.2-packagekitglib-1.0', 'dbus-x11')
       .returns(true)
 
     GirFFI.expects(:setup).with(:PackageKitGlib, '1.0').returns(true)

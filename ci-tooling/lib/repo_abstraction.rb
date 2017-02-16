@@ -27,6 +27,7 @@ require_relative 'lp'
 require 'concurrent'
 require 'gir_ffi'
 require 'logger'
+require 'shellwords'
 
 # We can't really module this because it is used API. Ugh.
 
@@ -160,7 +161,7 @@ class RootOnAptlyRepository < Repository
     @repos = repos
 
     Apt.install('packagekit', 'libgirepository1.0-dev',
-                'gir1.2-packagekitglib-1.0') || raise
+                'gir1.2-packagekitglib-1.0', 'dbus-x11') || raise
   end
 
   def add
@@ -177,17 +178,53 @@ class RootOnAptlyRepository < Repository
 
   private
 
+  def dbus_daemon
+    Dir.mkdir('/var/run/dbus')
+    spawn('dbus-daemon', '--nofork', '--system', pgroup: Process.pid)
+  end
+
+  # Uses dbus-launch to start a session bus
+  # @return Hash suitable for ENV exporting. Includes vars from dbus-launch.
+  def dbus_session
+    lines = `dbus-launch --sh-syntax`
+    raise unless $?.success?
+    lines = lines.strip.split($/)
+    env = lines.collect do |line|
+      next unless line.include?('=')
+      data = line.split('=', 2)
+      data[1] = Shellwords.split(data[1]).join.chomp(';')
+      data
+    end
+    env.compact.to_h
+  end
+
+  def dbus_run(&_block)
+    system_pid = dbus_daemon
+    session_env = dbus_session
+    session_pid = session_env.fetch('DBUS_SESSION_BUS_PID')
+    ENV.update(session_env)
+    yield
+  ensure
+    # Kill, this is a single-run sorta thing inside the container.
+    Process.kill('KILL', session_pid)
+    Process.wait(session_pid)
+    Process.kill('KILL', system_pid)
+    Process.wait(system_pid)
+  end
+
   def setup_gir
     @gir ||= GirFFI.setup(:PackageKitGlib, '1.0')
   end
 
   # @returns <GLib::PtrArray> of {PackageKitGlib.Package} instances
   def packagekit_packages
-    client = PackageKitGlib::Client.new
-    filter = PackageKitGlib::FilterEnum[:arch] |
-             PackageKitGlib::FilterEnum[:not_source] |
-             PackageKitGlib::FilterEnum[:basename]
-    client.get_packages(filter).package_array
+    dbus_run do
+      client = PackageKitGlib::Client.new
+      filter = PackageKitGlib::FilterEnum[:arch] |
+               PackageKitGlib::FilterEnum[:not_source] |
+               PackageKitGlib::FilterEnum[:basename]
+      return client.get_packages(filter).package_array
+    end
   end
 
   def packages
