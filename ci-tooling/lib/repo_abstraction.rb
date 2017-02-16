@@ -201,7 +201,7 @@ class RootOnAptlyRepository < Repository
   def dbus_run(&_block)
     system_pid = dbus_daemon
     session_env = dbus_session
-    session_pid = session_env.fetch('DBUS_SESSION_BUS_PID')
+    session_pid = session_env.fetch('DBUS_SESSION_BUS_PID').to_i
     ENV.update(session_env)
     yield
   ensure
