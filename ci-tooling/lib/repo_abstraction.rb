@@ -127,6 +127,7 @@ class AptlyRepository < Repository
   end
 
   def query_packages_from_sources
+    puts 'Querying packages from aptly.'
     pool = new_query_pool
     promises = sources.collect do |source|
       q = format('!$Architecture (source), $Source (%s), $SourceVersion (%s)',
