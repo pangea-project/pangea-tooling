@@ -118,16 +118,22 @@ class AptlyRepository < Repository
 
   private
 
-  def query_packages_from_sources
+  def new_query_pool
     # Run on a tiny thread pool so we don't murder the server with queries
     # Use a very lofty queue to avoid running into scheduling problems when
     # the connection is very slow.
-    pool = Concurrent::ThreadPoolExecutor.new(min_threads: 4, max_threads: 4,
-                                              max_queue: sources.size * 2)
+    Concurrent::ThreadPoolExecutor.new(min_threads: 2, max_threads: 4,
+                                       max_queue: sources.size * 2)
+  end
+
+  def query_packages_from_sources
+    pool = new_query_pool
     promises = sources.collect do |source|
       q = format('!$Architecture (source), $Source (%s), $SourceVersion (%s)',
                  source.name, source.version)
-      Concurrent::Promise.execute(executor: pool) { @repo.packages(q: q) }
+      Concurrent::Promise.execute(executor: pool) do
+        Retry.retry_it(times: 4, sleep: 4) { @repo.packages(q: q) }
+      end
     end
     Concurrent::Promise.zip(*promises).value.flatten
   end
@@ -135,7 +141,6 @@ class AptlyRepository < Repository
   def packages
     @packages ||= begin
       packages = query_packages_from_sources
-      p packages
       packages = Aptly::Ext::LatestVersionFilter.filter(packages)
       arch_filter = [DPKG::HOST_ARCH, 'all']
       packages.reject! { |x| !arch_filter.include?(x.architecture) }
@@ -198,7 +203,7 @@ class RootOnAptlyRepository < Repository
     env.compact.to_h
   end
 
-  def dbus_run(&_block)
+  def dbus_run_custom(&_block)
     system_pid = dbus_daemon
     session_env = dbus_session
     session_pid = session_env.fetch('DBUS_SESSION_BUS_PID').to_i
@@ -212,6 +217,15 @@ class RootOnAptlyRepository < Repository
     Process.wait(system_pid)
   end
 
+  def dbus_run(&block)
+    if ENV.key?('DBUS_SESSION_BUS_ADDRESS')
+      yield
+    else
+      dbus_run_custom(&block)
+    end
+  end
+
+
   def setup_gir
     @gir ||= GirFFI.setup(:PackageKitGlib, '1.0')
   end
@@ -221,9 +235,8 @@ class RootOnAptlyRepository < Repository
     dbus_run do
       client = PackageKitGlib::Client.new
       filter = PackageKitGlib::FilterEnum[:arch] |
-               PackageKitGlib::FilterEnum[:not_source] |
-               PackageKitGlib::FilterEnum[:basename]
-      return client.get_packages(filter).package_array
+               PackageKitGlib::FilterEnum[:not_source]
+      return client.get_packages(filter).package_array.collect(&:name)
     end
   end
 
@@ -235,37 +248,17 @@ class RootOnAptlyRepository < Repository
     end
   end
 
-  def mangle_packages(packages = {})
-    # This pool actually runs risk of running out of queue space :|
-    # When this happens we'll simply fallback to the let the caller run the
-    # block. i.e. the main thread will run the future right now rather than
-    # defering it.
-    pool = Concurrent::ThreadPoolExecutor.new(min_threads: 2, max_threads: 8,
-                                              fallback_policy: :caller_runs)
+  def mangle_packages
     setup_gir
-    mangle_packages_with_futures(packages, executor: pool).each do |future|
-      future.wait # Simply wait for each future in sequence. We need all.
-      packages.delete(future.value![0]) unless future.value![1]
+    packages = []
+    pk_packages = packagekit_packages # grab a list of all known names
+    # self is actually a meta version assembling multiple repos' packages
+    @repos.each do |repo|
+      repo_packages = repo.send(:packages).keys.dup
+      repo_packages -= packages # substract already known packages.
+      repo_packages.each { |k| packages << k if pk_packages.include?(k) }
     end
     packages
-  end
-
-  def mangle_packages_with_futures(packages, futures = [],
-                                   pk_packages = packagekit_packages,
-                                   executor:)
-    @repos.each do |repo|
-      repo.send(:packages).each do |k, _|
-        # If the package is known. Add it to our package set, otherwise drop
-        # it entirely. This is necessary so we can expect apt to actually
-        # return success and install the relevant packages.
-        next if packages.key?(k)
-        packages[k] = nil
-        futures << Concurrent::Future.execute(executor: executor) do
-          [k, pk_packages.any? { |x| x.name == k }]
-        end
-      end
-    end
-    futures
   end
 end
 

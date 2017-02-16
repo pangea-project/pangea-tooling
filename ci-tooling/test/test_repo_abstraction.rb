@@ -32,8 +32,7 @@ module PackageKitGlib
     def [](x)
       {
         arch: 18,
-        not_source: 21,
-        basename: 14
+        not_source: 21
       }.fetch(x)
     end
   end
@@ -165,7 +164,7 @@ class RepoAbstractionRootOnAptlyTest < TestCase
       .with('apt-get', *Apt::Abstrapt.default_args, 'install', 'packagekit', 'libgirepository1.0-dev', 'gir1.2-packagekitglib-1.0', 'dbus-x11')
       .returns(true)
     GirFFI.expects(:setup).with(:PackageKitGlib, '1.0').returns(true)
-    PackageKitGlib::Client.any_instance.expects(:get_packages).with(31).returns(PackageKitGlib::Result.new([]))
+    PackageKitGlib::Client.any_instance.expects(:get_packages).with(23).returns(PackageKitGlib::Result.new([]))
 
     repo = RootOnAptlyRepository.new
     assert_empty(repo.send(:packages))
@@ -207,7 +206,7 @@ class RepoAbstractionRootOnAptlyTest < TestCase
     GirFFI.expects(:setup).with(:PackageKitGlib, '1.0').returns(true)
     packages = PackageKitGlib::Package.from_array(%w(libkactivites trollomatico))
     result = PackageKitGlib::Result.new(packages)
-    PackageKitGlib::Client.any_instance.expects(:get_packages).with(31).returns(result)
+    PackageKitGlib::Client.any_instance.expects(:get_packages).with(23).returns(result)
 
     aptly_repo1 = AptlyRepository.new(mock_repo1, 'mock1')
     aptly_repo2 = AptlyRepository.new(mock_repo2, 'mock2')
@@ -215,6 +214,7 @@ class RepoAbstractionRootOnAptlyTest < TestCase
     Apt::Abstrapt
       .expects(:system)
       .with('apt-get', *Apt::Abstrapt.default_args, 'install', 'ubuntu-minimal', 'libkactivites', 'trollomatico')
-    RootOnAptlyRepository.new([aptly_repo1, aptly_repo2]).install
+      .returns(true)
+    assert(RootOnAptlyRepository.new([aptly_repo1, aptly_repo2]).install)
   end
 end
