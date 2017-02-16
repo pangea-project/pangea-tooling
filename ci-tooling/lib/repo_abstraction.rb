@@ -204,6 +204,13 @@ class RootOnAptlyRepository < Repository
     env.compact.to_h
   end
 
+  def cleanup_pid(pid)
+    Process.kill('KILL', pid)
+    Process.wait(session_pid)
+  rescue Errno::ECHILD
+    puts "pid #{pid} already dead apparently. got ECHILD"
+  end
+
   def dbus_run_custom(&_block)
     system_pid = dbus_daemon
     session_env = dbus_session
@@ -212,14 +219,8 @@ class RootOnAptlyRepository < Repository
     yield
   ensure
     # Kill, this is a single-run sorta thing inside the container.
-    if session_pid
-      Process.kill('KILL', session_pid)
-      Process.wait(session_pid)
-    end
-    if system_pid
-      Process.kill('KILL', system_pid)
-      Process.wait(system_pid)
-    end
+    cleanup_pid(session_pid) if session_pid
+    cleanup_pid(system_pid) if system_pid
   end
 
   def dbus_run(&block)
