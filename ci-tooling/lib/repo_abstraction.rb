@@ -206,7 +206,7 @@ class RootOnAptlyRepository < Repository
 
   def cleanup_pid(pid)
     Process.kill('KILL', pid)
-    Process.wait(session_pid)
+    Process.wait(pid)
   rescue Errno::ECHILD
     puts "pid #{pid} already dead apparently. got ECHILD"
   end
