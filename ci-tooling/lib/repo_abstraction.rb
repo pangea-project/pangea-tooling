@@ -257,6 +257,7 @@ class RootOnAptlyRepository < Repository
     setup_gir
     packages = []
     pk_packages = packagekit_packages # grab a list of all known names
+    puts "Ubuntu packages: #{pk_packages}"
     # self is actually a meta version assembling multiple repos' packages
     @repos.each do |repo|
       repo_packages = repo.send(:packages).keys.dup
