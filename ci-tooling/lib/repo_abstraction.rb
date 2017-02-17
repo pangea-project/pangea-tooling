@@ -240,8 +240,7 @@ class RootOnAptlyRepository < Repository
   def packagekit_packages
     dbus_run do
       client = PackageKitGlib::Client.new
-      filter = PackageKitGlib::FilterEnum[:arch] |
-               PackageKitGlib::FilterEnum[:not_source]
+      filter = PackageKitGlib::FilterEnum[:arch]
       return client.get_packages(filter).package_array.collect(&:name)
     end
   end
