@@ -182,7 +182,8 @@ module CI
     def arch_all_source?
       parsed_dsc = Debian::DSC.new(@dsc)
       parsed_dsc.parse!
-      !arch_all? && !parsed_dsc.fields['architecture'].split.include?('any')
+      architectures = parsed_dsc.fields['architecture'].split
+      !arch_all? && (architectures.include?('any') || architectures.include?(DPKG::HOST_ARCH))
     end
 
     def pretty_old_system?

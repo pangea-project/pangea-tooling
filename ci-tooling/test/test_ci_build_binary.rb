@@ -108,5 +108,31 @@ module CI
       builder.build
       assert_equal(['test.dsc'], Dir.glob('test.*'))
     end
+
+    def test_arch_arm_source
+      FileUtils.cp_r("#{data}/.", Dir.pwd)
+      Object.any_instance.stubs(:system)
+            .with('dpkg-architecture', '-qDEB_HOST_ARCH')
+            .returns('armhf')
+
+      builder = PackageBuilder.new
+
+      builder.expects(:extract)
+             .returns(true)
+
+      builder.expects(:install_dependencies)
+             .returns(true)
+
+      builder.expects(:build_package)
+             .returns(true)
+
+      builder.expects(:copy_binaries)
+             .returns(true)
+
+      builder.expects(:print_contents)
+             .returns(true)
+
+      builder.build
+    end
   end
 end
