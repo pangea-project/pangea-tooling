@@ -105,7 +105,7 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
       STDERR.puts "src rm #{path}/#{ISONAME}*#{type}"
       sftp.dir.glob(path, "#{ISONAME}*#{type}") do |e|
 		  STDERR.puts "glob src rm #{path}/#{e.name}"
-		  sftp.remove!("#{path}/#{e.name}") }
+		  sftp.remove!("#{path}/#{e.name}")
 	  end
       # upload new one
       name = File.basename(file)
