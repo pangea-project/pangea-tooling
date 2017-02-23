@@ -97,17 +97,19 @@ Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
 end
 
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
+  path = 'files.neon.kde.org.uk'
   types = %w(source.tar.xz)
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
+      # Remove old ones
+      STDERR.puts "rm #{path}/#{ISONAME}*#{type}"
+      sftp.dir.glob(path, '#{ISONAME}*#{type}') { |e| sftp.remove!("#{path}/#{e.name}") }
+      # upload new one
       name = File.basename(file)
       STDERR.puts "Uploading #{file}..."
-      sftp.upload!(file, "files.neon.kde.org.uk/#{name}")
+      sftp.upload!(file, "#{path}/#{name}")
     end
   end
 end
-
-# images not on drax currently
-# system('prune-images')
 
 exit 0
