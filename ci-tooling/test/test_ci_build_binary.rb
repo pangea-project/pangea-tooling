@@ -102,34 +102,42 @@ module CI
     def test_arch_all_only_source
       FileUtils.cp_r("#{data}/.", Dir.pwd)
       builder = PackageBuilder.new
-      builder.expects(:arch_all?)
-             .returns(false)
+      Object.any_instance.stubs(:`)
+            .with('dpkg-architecture -qDEB_HOST_ARCH')
+            .returns('arm64')
+
+      builder.expects(:extract)
+             .never
 
       builder.build
-      assert_equal(['test.dsc'], Dir.glob('test.*'))
     end
 
     def test_arch_arm_source
       FileUtils.cp_r("#{data}/.", Dir.pwd)
-      Object.any_instance.stubs(:system)
-            .with('dpkg-architecture', '-qDEB_HOST_ARCH')
-            .returns('armhf')
+      Object.any_instance.stubs(:`)
+            .with('dpkg-architecture -qDEB_HOST_ARCH')
+            .returns('arm64')
 
       builder = PackageBuilder.new
 
       builder.expects(:extract)
+             .at_least_once
              .returns(true)
 
       builder.expects(:install_dependencies)
+             .at_least_once
              .returns(true)
 
       builder.expects(:build_package)
+             .at_least_once
              .returns(true)
 
       builder.expects(:copy_binaries)
+             .at_least_once
              .returns(true)
 
       builder.expects(:print_contents)
+             .at_least_once
              .returns(true)
 
       builder.build

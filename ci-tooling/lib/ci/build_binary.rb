@@ -176,14 +176,14 @@ module CI
     end
 
     def arch_all?
-       DPKG::HOST_ARCH == 'amd64'
+      DPKG::HOST_ARCH == 'amd64'
     end
 
     def arch_all_source?
       parsed_dsc = Debian::DSC.new(@dsc)
       parsed_dsc.parse!
       architectures = parsed_dsc.fields['architecture'].split
-      !arch_all? && (architectures.include?('any') || architectures.include?(DPKG::HOST_ARCH))
+      !arch_all? && (architectures & ['any', DPKG::HOST_ARCH]).empty?
     end
 
     def pretty_old_system?
