@@ -44,7 +44,7 @@ module MGMT
       upgrade = nil
       node_label = ENV.fetch('NODE_LABELS').split.first
       arch = DPKG.run('dpkg-architecture', ["-W#{node_label}", '-L'])
-      arch = DPKG::HOST_ARCH if arch.empty?
+      arch = arch.empty? ? DPKG::HOST_ARCH : arch.first
 
       case @base.flavor
       when 'debian'
