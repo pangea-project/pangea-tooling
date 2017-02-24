@@ -42,7 +42,10 @@ module MGMT
 
     def create_base
       upgrade = nil
-      arch = ENV['NODE_LABELS'].split.first || DPKG::HOST_ARCH
+      node_label = ENV.fetch('NODE_LABELS').split.first
+      arch = DPKG.run('dpkg-architecture', ["-W#{node_label}", '-L'])
+      arch = DPKG::HOST_ARCH if arch.empty?
+
       case @base.flavor
       when 'debian'
         base_image = "debianci/#{arch}:latest"

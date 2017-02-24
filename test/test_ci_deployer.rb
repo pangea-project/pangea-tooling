@@ -41,6 +41,8 @@ class DeployTest < TestCase
     @namespace = 'pangea-testing'
     CI::PangeaImage.namespace = @namespace
     @oldhome = ENV.fetch('HOME')
+    @oldlabels = ENV['NODE_LABELS']
+    ENV['NODE_LABELS'] = 'master'
 
     # Hardcode ubuntu as the actual live values change and that would mean
     # a) regenerating the test data for no good reason
@@ -55,6 +57,7 @@ class DeployTest < TestCase
     VCR.configuration.default_cassette_options.delete(:tag)
     CI::PangeaImage.namespace = @oldnamespace
     ENV['HOME'] = @oldhome
+    ENV['NODE_LABELS'] = @oldlabels
   end
 
   def vcr_it(meth, **kwords)
