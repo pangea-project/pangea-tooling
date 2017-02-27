@@ -139,6 +139,14 @@ module CI
              .returns(true)
 
       builder.build
+
+      Object.any_instance.stubs(:`)
+      .with('dpkg-architecture -qDEB_HOST_ARCH')
+      .returns('amd64')
+
+      builder.expects(:extract)
+             .never
+      builder.build
     end
   end
 end
