@@ -51,13 +51,8 @@ export TYPE=<%= type %>
 export PWD_BIND=/workspace
 
 printf &quot;<%= basename.split('_')[-1] %>&quot; &gt; snap.name
-
-~/tooling/kci/contain.rb /var/lib/jenkins/ci-tooling/nci/snap.rb
-
-#mkdir /var/www/metadata/snap || true
-#cp -v snapcraft/*.snap snapcraft/*.zsync /var/www/metadata/snap/
-scp snapcraft/*.snap distribute@distribute.kde.org:~/pub/snappy-testing/ || true
-scp snapcraft/*.zsync distribute@distribute.kde.org:~/pub/snappy-testing/ || true
+echo "snapjobs are disabled and going away at some point"
+exit 0
 </command>
         </hudson.tasks.Shell>
       </builders>
