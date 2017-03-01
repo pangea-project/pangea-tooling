@@ -51,7 +51,7 @@ class Repository
     @install_exclusion = %w(base-files)
     # software-properties backs up Apt::Repository, must not be removed.
     @purge_exclusion = %w(base-files python3-software-properties
-                          software-properties-common)
+                          software-properties-common apt libapt-pkg5.0)
   end
 
   def add
