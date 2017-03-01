@@ -66,7 +66,7 @@ unless system('gpg2', '--armor', '--detach-sign', '-o',
   raise 'Failed to sign'
 end
 
-Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
+Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
   sftp.mkdir!(REMOTE_PUB_DIR)
   types = %w(amd64.iso amd64.iso.sig manifest zsync sha256sum)
   types.each do |type|
@@ -78,7 +78,7 @@ Net::SFTP.start('depot.kde.org', 'neon') do |sftp|
   end
 
   # Need a second SSH session here, since the SFTP one is busy looping.
-  Net::SSH.start('depot.kde.org', 'neon') do |ssh|
+  Net::SSH.start('racnoss.kde.org', 'neon') do |ssh|
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
               " ln -s *amd64.iso #{ISONAME}-current.iso")
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
