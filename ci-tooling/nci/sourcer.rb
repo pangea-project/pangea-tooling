@@ -64,7 +64,7 @@ module Sourcer
 
     def run_uscan
       puts 'Downloading tarball via uscan'
-      orig_source(CI::WatchTarFetcher.new('packaging/debian/watch', false))
+      orig_source(CI::WatchTarFetcher.new('packaging/debian/watch', true))
     end
 
     def run_fallback

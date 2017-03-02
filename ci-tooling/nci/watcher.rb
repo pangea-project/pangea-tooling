@@ -34,6 +34,16 @@ NCI.setup_env!
 
 abort 'No debain/watch found!' unless File.exist?('debian/watch')
 
+puts 'mangling debian/watch'
+output = ''
+File.open('debian/watch').each do |line|
+  output += line.gsub(%r{download.kde.org/stable/},
+                      '172.17.0.1:9191/stable/')
+end
+puts output
+File.open('debian/watch', 'w') { |file| file.write(output) }
+puts 'mangled debian/watch'
+
 if File.readlines('debian/watch').grep(/unstable/).any?
   puts 'Quitting watcher as debian/watch contains unstable ' \
        'and we only build stable tars in Neon'
