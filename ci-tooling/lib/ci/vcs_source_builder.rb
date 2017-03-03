@@ -48,7 +48,7 @@ module CI
     private
 
     def inject_releaseme?
-      `git clone /home/me/src/git/releaseme`
+      `git clone git://anongit.kde.org/releaseme.git`
       return $?.success? unless $?.success?
       require "#{Dir.pwd}/releaseme/lib/l10n"
       require "#{Dir.pwd}/releaseme/lib/origin"
