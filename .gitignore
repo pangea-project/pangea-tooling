@@ -8,7 +8,9 @@ coverage/*
 test/reports/*
 /checkstyle.xml
 # bundler
-vendor/*
+/vendor/*
+# rbenv local version lock
+/.ruby-version
 
 # vagrant cache
 .vagrant/*
