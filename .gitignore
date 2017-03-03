@@ -23,3 +23,6 @@ doc/*
 
 Gemfile.lock
 ci-tooling/data/projects
+
+# Harald's wip dir is a mess
+/wip
