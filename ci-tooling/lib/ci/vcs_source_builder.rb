@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 #
 # Copyright (C) 2015 Rohan Garg <rohan@garg.io>
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -22,6 +22,7 @@
 require 'fileutils'
 require 'yaml'
 
+require_relative '../apt'
 require_relative '../debian/changelog'
 require_relative '../debian/source'
 require_relative '../os'
@@ -31,8 +32,109 @@ require_relative 'sourcer_base'
 require_relative 'version_enforcer'
 
 module CI
+  # Extend VCS builder with l10n functionality based on releaseme.
+  # NOTE: super experimental right now!
+  module SourceBuilderL10nExtension
+    def copy_source_tree(*args)
+      ret = super
+      unless ENV.fetch('JOB_NAME', '').include?('_unstable_') ||
+             ENV.fetch('JOB_NAME', '').include?('_stable_')
+        return ret
+      end
+      inject_l10n!("#{@build_dir}/source/") if args[0] == 'source'
+      ret
+    end
+
+    private
+
+    def inject_releaseme?
+      `git clone /home/me/src/git/releaseme`
+      return $?.success? unless $?.success?
+      require "#{Dir.pwd}/releaseme/lib/l10n"
+      require "#{Dir.pwd}/releaseme/lib/origin"
+      require "#{Dir.pwd}/releaseme/lib/project"
+      true
+    end
+
+    def enabled_project?(project)
+      project_element = project.instance_variable_get(:@project_element)
+      raise unless project_element
+      path = project_element.elements['path'].text
+      path.start_with?('kde/workspace/', 'frameworks/')
+    end
+
+    def with_releaseme(&_block)
+      Apt.install('subversion') || raise
+      Dir.mktmpdir do |tmpdir|
+        Dir.chdir(tmpdir) do
+          break unless inject_releaseme?
+          yield
+        end
+      end
+    end
+
+    def project_for_name(repo_name)
+      projects = Project.from_xpath(repo_name.gsub('.git', ''))
+      unless projects.size == 1
+        raise "failed to resolve project #{repo_name} :: #{projects}"
+      end
+      projects[0]
+    end
+
+    def l10n_origin
+      return Origin::TRUNK if ENV.fetch('JOB_NAME').include?('_unstable_')
+      return Origin::STABLE if ENV.fetch('JOB_NAME').include?('_stable_')
+      nil
+    end
+
+    # Add l10n to source dir
+    def add_l10n(source_path, repo_url)
+      with_releaseme do
+        project = project_for_name(File.basename(repo_url))
+        break unless enabled_project?(project)
+
+        l10n = L10n.new(l10n_origin, project.identifier, project.i18n_path)
+        l10n.get(source_path)
+
+        (class << self; self; end).class_eval do
+          define_method(:mangle_locale) { |*| } # disable mangling
+        end
+      end
+    end
+
+    def install_rugged_gem
+      system('gem', 'install', 'rugged') || raise
+    end
+
+    def inject_rugged!
+      Apt.install('cmake')
+      install_rugged_gem
+      require 'rugged'
+    end
+
+    def repo_url_from_path(path)
+      return nil unless Dir.exist?(path)
+      inject_rugged!
+      repo = Rugged::Repository.discover(path)
+      remote = repo.remotes['origin'] if repo
+      url = remote.url if remote && remote.url.include?('.kde.org')
+      url || nil
+    end
+
+    def inject_l10n!(source_path)
+      # This is ./source, while path is ./build/source
+      url = repo_url_from_path('source')
+      return unless url
+      # only work on kmenuedit for now
+      return unless url.include?('kmenuedit')
+      add_l10n(source_path, url) # TODO: this would benefit from classing
+    end
+  end
+
   # Class to build out source package from a VCS
   class VcsSourceBuilder < SourcerBase
+    prepend SourceBuilderL10nExtension
+
     def initialize(release:, strip_symbols: false,
                    restricted_packaging_copy: false)
       super

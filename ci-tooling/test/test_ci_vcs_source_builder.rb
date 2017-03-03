@@ -25,9 +25,12 @@ require 'zlib'
 require_relative 'lib/assert_system'
 require_relative 'lib/testcase'
 
-require_relative '../lib/ci/build_source'
+require_relative '../lib/ci/vcs_source_builder'
 require_relative '../lib/debian/control'
 require_relative '../lib/os'
+
+require 'mocha/test_unit'
+require 'webmock/test_unit'
 
 class VCSBuilderTest < TestCase
   required_binaries %w(dpkg-buildpackage dpkg dh)
@@ -56,6 +59,11 @@ class VCSBuilderTest < TestCase
 
     KCI.instance_variable_set(:@data, 'series' => { 'xenial' => '16.04',
                                                     'wily' => '15.10' })
+
+    Apt::Abstrapt.expects(:system).never
+    Apt::Abstrapt.expects(:`).never
+    # Disable automatic update
+    Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
   end
 
   def teardown
@@ -255,5 +263,41 @@ class VCSBuilderTest < TestCase
       assert_path_not_exist("#{dir}/full_source1")
       assert_path_not_exist("#{dir}/full_source2")
     end
+  end
+
+  def test_l10n
+    # The git dir is not called .git as to not confuse the actual tooling git.
+    FileUtils.mv('source/git', 'source/.git')
+
+    ENV['JOB_NAME'] = 'xenial_stable_plasma_kmenuedit'
+
+    Apt::Abstrapt
+      .expects(:system)
+      .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'install', 'cmake')
+      .returns(true)
+    Apt::Abstrapt
+      .expects(:system)
+      .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'install', 'subversion')
+      .returns(true)
+    # Intercept rugged install. In a test env we have it installed and
+    # attempting to install it again can easily break stuff!
+    CI::VcsSourceBuilder.any_instance.expects(:install_rugged_gem).returns(true)
+
+    stub_request(:get, 'https://projects.kde.org/kde_projects.xml')
+      .to_return(body: File.read(data('kde_projects.xml')))
+
+    source = CI::VcsSourceBuilder.new(release: @release).run
+
+    Dir.chdir('build') do
+      dsc = source.dsc
+      assert(system('dpkg-source', '-x', dsc))
+      dir = "#{source.name}-#{source.build_version.tar}/"
+      assert_path_exist(dir)
+      assert_path_exist("#{dir}/po")
+      assert_equal(File.read("#{dir}/debian/hello.install").strip,
+                   'usr/share/locale/')
+    end
+  ensure
+    ENV.delete('JOB_NAME')
   end
 end

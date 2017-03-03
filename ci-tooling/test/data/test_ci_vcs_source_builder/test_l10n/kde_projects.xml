@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kdeprojects version="1">
+  <component identifier="kde">
+    <name>KDE</name>
+    <description></description>
+    <icon/>
+    <path>kde</path>
+    <web/>
+    <module identifier="workspace">
+      <name>Workspace</name>
+      <description></description>
+      <icon/>
+      <path>kde/workspace</path>
+      <web/>
+      <project identifier="plasma-workspace-wallpapers">
+        <name>Plasma Workspace Wallpapers</name>
+        <description>Wallpapers for the Plasma Workspace</description>
+        <icon/>
+        <path>kde/workspace/plasma-workspace-wallpapers</path>
+        <web>https://cgit.kde.org/plasma-workspace-wallpapers.git</web>
+        <member username="jriddell">Jonathan Riddell</member>
+        <member username="sitter">Harald Sitter</member>
+        <repo>
+          <active>true</active>
+          <web type="gitweb">https://cgit.kde.org/plasma-workspace-wallpapers.git</web>
+          <url protocol="ssh" access="read+write">git@git.kde.org:plasma-workspace-wallpapers</url>
+          <url protocol="git" access="read-only">git://anongit.kde.org/plasma-workspace-wallpapers</url>
+          <url protocol="http" access="read-only">http://anongit.kde.org/plasma-workspace-wallpapers</url>
+          <url protocol="tarball" access="read-only">http://anongit.kde.org/plasma-workspace-wallpapers/plasma-workspace-wallpapers-latest.tar.gz</url>
+          <branch>Plasma/5.4</branch>
+          <branch>Plasma/5.5</branch>
+          <branch>Plasma/5.6</branch>
+          <branch>Plasma/5.7</branch>
+          <branch>Plasma/5.8</branch>
+          <branch>Plasma/5.9</branch>
+          <branch>master</branch>
+          <branch i18n="trunk">none</branch>
+          <branch i18n="stable">none</branch>
+          <branch i18n="trunk_kf5">master</branch>
+          <branch i18n="stable_kf5">Plasma/5.9</branch>
+        </repo>
+      </project>
+      <project identifier="plasma-workspace">
+        <name>plasma-workspace</name>
+        <description></description>
+        <icon/>
+        <path>kde/workspace/plasma-workspace</path>
+        <web>https://cgit.kde.org/plasma-workspace.git</web>
+        <member username="davidedmundson">David Edmundson</member>
+        <member username="ivan">Ivan Čukić</member>
+        <member username="mart">Marco Martin</member>
+        <member username="jriddell">Jonathan Riddell</member>
+        <member username="afiestas">Àlex Fiestas</member>
+        <repo>
+          <active>true</active>
+          <web type="gitweb">https://cgit.kde.org/plasma-workspace.git</web>
+          <url protocol="ssh" access="read+write">git@git.kde.org:plasma-workspace</url>
+          <url protocol="git" access="read-only">git://anongit.kde.org/plasma-workspace</url>
+          <url protocol="http" access="read-only">http://anongit.kde.org/plasma-workspace</url>
+          <url protocol="tarball" access="read-only">http://anongit.kde.org/plasma-workspace/plasma-workspace-latest.tar.gz</url>
+          <branch>Plasma/5.0</branch>
+          <branch>Plasma/5.1</branch>
+          <branch>Plasma/5.2</branch>
+          <branch>Plasma/5.3</branch>
+          <branch>Plasma/5.4</branch>
+          <branch>Plasma/5.5</branch>
+          <branch>Plasma/5.6</branch>
+          <branch>Plasma/5.7</branch>
+          <branch>Plasma/5.8</branch>
+          <branch>Plasma/5.9</branch>
+          <branch>accounts-service</branch>
+          <branch>broulik/batterymonitorsolidimport</branch>
+          <branch>broulik/digitalclocktimezone</branch>
+          <branch>broulik/inhibitionsInDataengine</branch>
+          <branch>bshah/remove-kscreenlocekr</branch>
+          <branch>clean_shellcorona</branch>
+          <branch>davidedmundson/appmenu</branch>
+          <branch>davidedmundson/defaultloggingrules</branch>
+          <branch>davidedmundson/faster_systray</branch>
+          <branch>davidedmundson/newdbusmenuqt</branch>
+          <branch>davidedmundson/newsplash</branch>
+          <branch>davidedmundson/panel_resize</branch>
+          <branch>davidedmundson/screenpool_changes</branch>
+          <branch>davidedmundson/systray_all_items</branch>
+          <branch>fredrik/bptc</branch>
+          <branch>interactiveconsole_in_shellpackage</branch>
+          <branch>kcoredir</branch>
+          <branch>ltinkl/solid-power</branch>
+          <branch>mart/KPackage</branch>
+          <branch>mart/LookAndFeelKCM</branch>
+          <branch>mart/alternativesConfig</branch>
+          <branch>mart/breeze-complementary</branch>
+          <branch>mart/lookAndFeelAccess</branch>
+          <branch>mart/ocsMigration</branch>
+          <branch>mart/plasma-windowed</branch>
+          <branch>mart/plasmashell-standalone</branch>
+          <branch>mart/plasmawindowed-fullshell</branch>
+          <branch>mart/screenEdgeFakeEvents</branch>
+          <branch>mart/screenlockerConfig</branch>
+          <branch>mart/separateLookAndFeelLayout</branch>
+          <branch>mart/singleQmlEngineExperiment</branch>
+          <branch>mart/waylanddialog</branch>
+          <branch>master</branch>
+          <branch>mgraesslin/new-klipper</branch>
+          <branch>mklapetek/clockTooltip</branch>
+          <branch>plasmashell+libkscreen</branch>
+          <branch>plfiorini/wayland</branch>
+          <branch>sebas/batterycleanup</branch>
+          <branch>sebas/clipboard</branch>
+          <branch>sebas/kscreenlog</branch>
+          <branch>startkde_refactoring</branch>
+          <branch i18n="trunk">none</branch>
+          <branch i18n="stable">none</branch>
+          <branch i18n="trunk_kf5">master</branch>
+          <branch i18n="stable_kf5">Plasma/5.9</branch>
+        </repo>
+      </project>
+      <project identifier="kmenuedit">
+        <name>kmenuedit</name>
+        <description></description>
+        <icon/>
+        <path>kde/workspace/kmenuedit</path>
+        <web>https://cgit.kde.org/kmenuedit.git</web>
+        <member username="jriddell">Jonathan Riddell</member>
+        <member username="afiestas">Àlex Fiestas</member>
+        <repo>
+          <active>true</active>
+          <web type="gitweb">https://cgit.kde.org/kmenuedit.git</web>
+          <url protocol="ssh" access="read+write">git@git.kde.org:kmenuedit</url>
+          <url protocol="git" access="read-only">git://anongit.kde.org/kmenuedit</url>
+          <url protocol="tarball" access="read-only">http://anongit.kde.org/kmenuedit/kmenuedit-latest.tar.gz</url>
+          <url protocol="http" access="read-only">http://anongit.kde.org/kmenuedit</url>
+          <branch>Plasma/5.9</branch>
+          <branch>master</branch>
+          <branch i18n="trunk">none</branch>
+          <branch i18n="stable">none</branch>
+          <branch i18n="trunk_kf5">master</branch>
+          <branch i18n="stable_kf5">Plasma/5.9</branch>
+        </repo>
+      </project>
+    </module>
+  </component>
+</kdeprojects>
