@@ -267,7 +267,7 @@ class VCSBuilderTest < TestCase
 
   def test_l10n
     # The git dir is not called .git as to not confuse the actual tooling git.
-    FileUtils.mv('source/git', 'source/.git')
+    FileUtils.mv('source/gitty', 'source/.git')
 
     ENV['JOB_NAME'] = 'xenial_stable_plasma_kmenuedit'
 
