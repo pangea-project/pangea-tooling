@@ -1,5 +1,5 @@
 series:
-  testing: '9'
+  '1703': '20170206'
 architectures:
   - amd64
   - armhf

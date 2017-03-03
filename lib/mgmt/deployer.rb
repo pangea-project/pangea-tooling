@@ -48,7 +48,7 @@ module MGMT
 
       case @base.flavor
       when 'debian'
-        base_image = "debianci/#{arch}:latest"
+        base_image = "debianci/#{arch}:#{@base.tag}"
       else
         base_image = "#{@base.flavor}:#{@base.tag}"
 
