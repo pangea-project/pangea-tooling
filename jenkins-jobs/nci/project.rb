@@ -75,11 +75,6 @@ class ProjectJob < JenkinsJob
                                      type: kwords[:type]))
     end
 
-    if %w(applications kde-std).include?(project.component) && kwords[:type] == 'release'
-      jobs.insert(-1, SnapJob.new(basename, distribution: kwords[:distribution],
-                                            type: kwords[:type]))
-    end
-
     jobs << new(basename,
                 project: project,
                 jobs: jobs.collect(&:job_name),
