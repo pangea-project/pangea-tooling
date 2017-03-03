@@ -264,40 +264,4 @@ class VCSBuilderTest < TestCase
       assert_path_not_exist("#{dir}/full_source2")
     end
   end
-
-  def test_l10n
-    # The git dir is not called .git as to not confuse the actual tooling git.
-    FileUtils.mv('source/gitty', 'source/.git')
-
-    ENV['JOB_NAME'] = 'xenial_stable_plasma_kmenuedit'
-
-    Apt::Abstrapt
-      .expects(:system)
-      .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'install', 'cmake')
-      .returns(true)
-    Apt::Abstrapt
-      .expects(:system)
-      .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'install', 'subversion')
-      .returns(true)
-    # Intercept rugged install. In a test env we have it installed and
-    # attempting to install it again can easily break stuff!
-    CI::VcsSourceBuilder.any_instance.expects(:install_rugged_gem).returns(true)
-
-    stub_request(:get, 'https://projects.kde.org/kde_projects.xml')
-      .to_return(body: File.read(data('kde_projects.xml')))
-
-    source = CI::VcsSourceBuilder.new(release: @release).run
-
-    Dir.chdir('build') do
-      dsc = source.dsc
-      assert(system('dpkg-source', '-x', dsc))
-      dir = "#{source.name}-#{source.build_version.tar}/"
-      assert_path_exist(dir)
-      assert_path_exist("#{dir}/po")
-      assert_equal(File.read("#{dir}/debian/hello.install").strip,
-                   'usr/share/locale/')
-    end
-  ensure
-    ENV.delete('JOB_NAME')
-  end
 end
