@@ -164,7 +164,10 @@ task :deploy_in_container => :align_ruby do
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
   # unavailable on Debian, call it manually.
-  sh "echo #{ENV.fetch('LANG')} UTF-8 >> /etc/locale.gen"
+  locale_tag = "#{ENV.fetch('LANG')} UTF-8"
+  File.open('/etc/locale.gen', 'a+') do |f|
+    f.puts(locale_tag) unless f.any? { |l| l.start_with?(locale_tag) }
+  end
   sh '/usr/sbin/locale-gen --keep-existing --no-purge --lang en'
   sh "update-locale LANG=#{ENV.fetch('LANG')}"
 

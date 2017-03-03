@@ -7,8 +7,9 @@ SCRIPTDIR=$(readlink -f $(dirname -- "$0"))
 export DEBIAN_FRONTEND=noninteractive
 export LANG=en_US.UTF-8
 
-echo "LANG=$LANG" >> /etc/profile
-echo "LANG=$LANG" >> /etc/environment
+env_tag="LANG=$LANG"
+(! grep -q $env_tag /etc/profile) && echo $env_tag >> /etc/profile
+(! grep -q $env_tag /etc/environment) && echo $env_tag >> /etc/environment
 
 # FIXME: reneable
 # echo 'Acquire::http { Proxy "http://10.0.3.1:3142"; };' > /etc/apt/apt.conf.d/00cache
