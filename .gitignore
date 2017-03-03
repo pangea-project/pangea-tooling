@@ -6,6 +6,7 @@ meta-dep/*
 # test stuff
 coverage/*
 test/reports/*
+/checkstyle.xml
 # bundler
 vendor/*
 
