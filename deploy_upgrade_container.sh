@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# Distribution Upgrader.
+# This deployer upgrades the base image distribution. It is used so we can
+# go from 16.04 to 16.10 even before docker has proper 16.10 images. This is
+# achieved by simply subbing the sources.list around and doing a dist-upgrade.
+
 set -ex
 
 if [ -z "$1" ]; then
