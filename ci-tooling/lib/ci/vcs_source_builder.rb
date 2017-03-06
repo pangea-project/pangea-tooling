@@ -114,8 +114,11 @@ module CI
       return nil unless Dir.exist?(path)
       require 'rugged'
       repo = Rugged::Repository.discover(path)
+      puts "Rugged repo #{repo.inspect}"
       remote = repo.remotes['origin'] if repo
+      puts "Rugged remote #{remote.inspect}"
       url = remote.url if remote && remote.url.include?('.kde.org')
+      puts "Rugged url #{url.inspect}"
       url || nil
     end
 
