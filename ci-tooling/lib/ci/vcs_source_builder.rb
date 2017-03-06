@@ -41,11 +41,10 @@ module CI
 
     def copy_source_tree(*args)
       ret = super
-      unless ENV.fetch('JOB_NAME', '').include?('_unstable_') ||
-             ENV.fetch('JOB_NAME', '').include?('_stable_')
+      unless %w(unstable stable).include?(ENV.fetch('TYPE'))
         env = ENV.inspect
         l10n_log.info "Not stable or unstable job. Not doing l10n.\n#{env}"
-        l10n_log.info "Job name #{ENV.fetch('JOB_NAME', '')}"
+        l10n_log.info "Job type #{ENV.fetch('TYPE', '')}"
         return ret
       end
       l10n_log.info 'Doing l10n injection.'
@@ -90,9 +89,10 @@ module CI
     end
 
     def l10n_origin
-      return Origin::TRUNK if ENV.fetch('JOB_NAME').include?('_unstable_')
-      return Origin::STABLE if ENV.fetch('JOB_NAME').include?('_stable_')
-      nil
+      {
+        'unstable' => Origin::TRUNK,
+        'stable' => Origin::STABLE
+      }.fetch(ENV.fetch('TYPE'))
     end
 
     # Add l10n to source dir
