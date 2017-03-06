@@ -21,8 +21,6 @@ sed -i "s/$1/$2/g" /etc/apt/sources.list.d/* || true
 
 apt-get update
 apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true dist-upgrade
-# For rugged gem.
-apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true install cmake
 
 cd $SCRIPTDIR
 echo "Executing deploy_in_container.sh"
