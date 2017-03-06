@@ -35,12 +35,18 @@ module CI
   # Extend VCS builder with l10n functionality based on releaseme.
   # NOTE: super experimental right now!
   module SourceBuilderL10nExtension
+    def l10n_log
+      @l10n_log ||= Logger.new(STDOUT).tap { |l| l.progname = 'l10n' }
+    end
+
     def copy_source_tree(*args)
       ret = super
       unless ENV.fetch('JOB_NAME', '').include?('_unstable_') ||
              ENV.fetch('JOB_NAME', '').include?('_stable_')
+        l10n_log.info 'Not stable or unstable job. Not doing l10n injection.'
         return ret
       end
+      l10n_log.info 'Doing l10n injection.'
       inject_l10n!("#{@build_dir}/source/") if args[0] == 'source'
       ret
     end
@@ -124,6 +130,7 @@ module CI
     def inject_l10n!(source_path)
       # This is ./source, while path is ./build/source
       url = repo_url_from_path('source')
+      l10n_log.info "l10n injection for url #{url}."
       return unless url
       # only work on kmenuedit for now
       return unless url.include?('kmenuedit')
