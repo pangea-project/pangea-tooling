@@ -43,7 +43,9 @@ module CI
       ret = super
       unless ENV.fetch('JOB_NAME', '').include?('_unstable_') ||
              ENV.fetch('JOB_NAME', '').include?('_stable_')
-        l10n_log.info 'Not stable or unstable job. Not doing l10n injection.'
+        env = ENV.inspect
+        l10n_log.info "Not stable or unstable job. Not doing l10n.\n#{env}"
+        l10n_log.info "Job name #{ENV.fetch('JOB_NAME', '')}"
         return ret
       end
       l10n_log.info 'Doing l10n injection.'
