@@ -41,7 +41,7 @@ module CI
 
     def copy_source_tree(*args)
       ret = super
-      unless %w(unstable stable).include?(ENV.fetch('TYPE'))
+      unless %w(unstable stable).include?(ENV.fetch('TYPE', ''))
         env = ENV.inspect
         l10n_log.info "Not stable or unstable job. Not doing l10n.\n#{env}"
         l10n_log.info "Job type #{ENV.fetch('TYPE', '')}"
