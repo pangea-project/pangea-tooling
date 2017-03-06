@@ -110,14 +110,9 @@ module CI
       end
     end
 
-    def inject_rugged!
-      Apt.install('cmake')
-      require 'rugged'
-    end
-
     def repo_url_from_path(path)
       return nil unless Dir.exist?(path)
-      inject_rugged!
+      require 'rugged'
       repo = Rugged::Repository.discover(path)
       remote = repo.remotes['origin'] if repo
       url = remote.url if remote && remote.url.include?('.kde.org')
