@@ -23,7 +23,7 @@ while [ $i -gt 0 ]; do
   sleep 60 # sleep a bit to give problem a chance to resolve
 done
 
-ESSENTIAL_PACKAGES="rake ruby ruby-dev build-essential zlib1g-dev git-core libffi-dev"
+ESSENTIAL_PACKAGES="rake ruby ruby-dev build-essential zlib1g-dev git-core libffi-dev cmake"
 i="5"
 while [ $i -gt 0 ]; do
   apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true \
