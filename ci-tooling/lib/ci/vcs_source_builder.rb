@@ -110,13 +110,8 @@ module CI
       end
     end
 
-    def install_rugged_gem
-      system('gem', 'install', 'rugged') || raise
-    end
-
     def inject_rugged!
       Apt.install('cmake')
-      install_rugged_gem
       require 'rugged'
     end
 
