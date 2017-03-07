@@ -57,9 +57,7 @@ module CI
     def inject_releaseme?
       `git clone git://anongit.kde.org/releaseme.git`
       return $?.success? unless $?.success?
-      require "#{Dir.pwd}/releaseme/lib/l10n"
-      require "#{Dir.pwd}/releaseme/lib/origin"
-      require "#{Dir.pwd}/releaseme/lib/project"
+      require "#{Dir.pwd}/releaseme/lib/releaseme"
       true
     end
 
@@ -81,7 +79,7 @@ module CI
     end
 
     def project_for_name(repo_name)
-      projects = Project.from_xpath(repo_name.gsub('.git', ''))
+      projects = ReleaseMe::Project.from_xpath(repo_name.gsub('.git', ''))
       unless projects.size == 1
         raise "failed to resolve project #{repo_name} :: #{projects}"
       end
@@ -90,8 +88,8 @@ module CI
 
     def l10n_origin
       {
-        'unstable' => Origin::TRUNK,
-        'stable' => Origin::STABLE
+        'unstable' => ReleaseMe::Origin::TRUNK,
+        'stable' => ReleaseMe::Origin::STABLE
       }.fetch(ENV.fetch('TYPE'))
     end
 
@@ -101,7 +99,8 @@ module CI
         project = project_for_name(File.basename(repo_url))
         break unless enabled_project?(project)
 
-        l10n = L10n.new(l10n_origin, project.identifier, project.i18n_path)
+        l10n = ReleaseMe::L10n.new(l10n_origin, project.identifier,
+                                   project.i18n_path)
         l10n.get(source_path)
 
         (class << self; self; end).class_eval do
