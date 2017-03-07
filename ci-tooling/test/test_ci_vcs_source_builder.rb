@@ -60,6 +60,8 @@ class VCSBuilderTest < TestCase
     KCI.instance_variable_set(:@data, 'series' => { 'xenial' => '16.04',
                                                     'wily' => '15.10' })
 
+    CI::SourceBuilderL10nExtension.disable_l10n_injection
+
     Apt::Abstrapt.expects(:system).never
     Apt::Abstrapt.expects(:`).never
     # Disable automatic update
@@ -67,6 +69,7 @@ class VCSBuilderTest < TestCase
   end
 
   def teardown
+    CI::SourceBuilderL10nExtension.disable_l10n_injection
     KCI.send(:reset!)
     OS.reset
     unalias_time
@@ -263,5 +266,35 @@ class VCSBuilderTest < TestCase
       assert_path_not_exist("#{dir}/full_source1")
       assert_path_not_exist("#{dir}/full_source2")
     end
+  end
+
+  def test_l10n
+    # The git dir is not called .git as to not confuse the actual tooling git.
+    FileUtils.mv('source/gitty', 'source/.git')
+
+    CI::SourceBuilderL10nExtension.enable_l10n_injection
+    ENV['TYPE'] = 'stable'
+
+    Apt::Abstrapt
+      .expects(:system)
+      .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'install', 'subversion')
+      .returns(true)
+
+    stub_request(:get, 'https://projects.kde.org/kde_projects.xml')
+      .to_return(body: File.read(data('kde_projects.xml')))
+
+    source = CI::VcsSourceBuilder.new(release: @release).run
+
+    Dir.chdir('build') do
+      dsc = source.dsc
+      assert(system('dpkg-source', '-x', dsc))
+      dir = "#{source.name}-#{source.build_version.tar}/"
+      assert_path_exist(dir)
+      assert_path_exist("#{dir}/po")
+      assert_equal(File.read("#{dir}/debian/hello.install").strip,
+                   'usr/share/locale/')
+    end
+  ensure
+    ENV.delete('TYPE')
   end
 end

@@ -35,19 +35,32 @@ module CI
   # Extend VCS builder with l10n functionality based on releaseme.
   # NOTE: super experimental right now!
   module SourceBuilderL10nExtension
+    class << self
+      def enable_l10n_injection
+        @l10n_injection_disabled = false
+      end
+
+      def disable_l10n_injection
+        @l10n_injection_disabled = true
+      end
+
+      def l10n_injection_disabled?
+        @l10n_injection_disabled ||= false
+      end
+    end
+
     def l10n_log
       @l10n_log ||= Logger.new(STDOUT).tap { |l| l.progname = 'l10n' }
     end
 
     def copy_source_tree(*args)
       ret = super
-      unless %w(unstable stable).include?(ENV.fetch('TYPE', ''))
-        env = ENV.inspect
-        l10n_log.info "Not stable or unstable job. Not doing l10n.\n#{env}"
-        l10n_log.info "Job type #{ENV.fetch('TYPE', '')}"
+      disabled = SourceBuilderL10nExtension.l10n_injection_disabled?
+      unless %w(unstable stable).include?(ENV.fetch('TYPE', '')) && !disabled
+        l10n_log.info 'Not doing l10n injection.'
+        l10n_log.info "Job type #{ENV.fetch('TYPE', '')} | #{disabled}"
         return ret
       end
-      l10n_log.info 'Doing l10n injection.'
       inject_l10n!("#{@build_dir}/source/") if args[0] == 'source'
       ret
     end
