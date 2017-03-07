@@ -114,6 +114,7 @@ module CI
 
         l10n = ReleaseMe::L10n.new(l10n_origin, project.identifier,
                                    project.i18n_path)
+        l10n.default_excluded_languages = []
         l10n.get(source_path)
 
         (class << self; self; end).class_eval do

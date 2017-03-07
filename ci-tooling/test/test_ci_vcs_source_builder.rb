@@ -291,6 +291,7 @@ class VCSBuilderTest < TestCase
       dir = "#{source.name}-#{source.build_version.tar}/"
       assert_path_exist(dir)
       assert_path_exist("#{dir}/po")
+      assert_path_exist("#{dir}/po/x-test")
       assert_equal(File.read("#{dir}/debian/hello.install").strip,
                    'usr/share/locale/')
     end
