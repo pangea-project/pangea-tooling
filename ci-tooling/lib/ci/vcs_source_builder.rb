@@ -131,7 +131,7 @@ module CI
     end
 
     def l10n_for_url?(url)
-      %w(kmenuedit systemsettings ki18n).any? { |x| url.include?(x) }
+      %w(kmenuedit systemsettings).any? { |x| url.include?(x) }
     end
 
     def inject_l10n!(source_path)
