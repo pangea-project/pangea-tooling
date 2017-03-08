@@ -108,18 +108,16 @@ module CI
 
     # Add l10n to source dir
     def add_l10n(source_path, repo_url)
-      with_releaseme do
-        project = project_for_name(File.basename(repo_url))
-        break unless enabled_project?(project)
+      project = project_for_name(File.basename(repo_url))
+      return unless enabled_project?(project)
 
-        l10n = ReleaseMe::L10n.new(l10n_origin, project.identifier,
-                                   project.i18n_path)
-        l10n.default_excluded_languages = []
-        l10n.get(source_path)
+      l10n = ReleaseMe::L10n.new(l10n_origin, project.identifier,
+                                 project.i18n_path)
+      l10n.default_excluded_languages = []
+      l10n.get(source_path)
 
-        (class << self; self; end).class_eval do
-          define_method(:mangle_locale) { |*| } # disable mangling
-        end
+      (class << self; self; end).class_eval do
+        define_method(:mangle_locale) { |*| } # disable mangling
       end
     end
 
@@ -139,7 +137,8 @@ module CI
       return unless url
       # only work on kmenuedit for now
       return unless url.include?('kmenuedit')
-      add_l10n(source_path, url) # TODO: this would benefit from classing
+      # TODO: this would benefit from classing
+      with_releaseme { add_l10n(source_path, url) }
     end
   end
 
