@@ -33,7 +33,9 @@ module Lint
         # Lintian is made for stupid people.
         # FIXME: needs test probably
         'debian-revision-should-not-be-zero',
-        'bad-distribution-in-changes-file'
+        'bad-distribution-in-changes-file',
+        # On dev editions we actually pack x-test for testing purposes.
+        'unknown-locale-code x-test'
       ].freeze
 
       def lint(data)
