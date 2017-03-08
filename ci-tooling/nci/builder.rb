@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -19,11 +19,23 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'mkmf' # for find_exectuable
+
 require_relative 'lib/setup_repo'
 require_relative '../lib/ci/build_binary'
 require_relative '../lib/nci'
+require_relative '../lib/retry'
 
 NCI.setup_repo!
+
+if File.exist?('/ccache')
+  Retry.retry_it(times: 4) { Apt.install('ccache') || raise }
+  ENV['PATH'] = "/usr/lib/ccache:#{ENV.fetch('PATH')}"
+  # Debhelper's cmake.pm doesn't resolve from PATH. Bloody crap.
+  ENV['CC'] = find_executable('cc')
+  ENV['CXX'] = find_executable('c++')
+  ENV['CCACHE_DIR'] = '/ccache'
+end
 
 builder = CI::PackageBuilder.new
 builder.build

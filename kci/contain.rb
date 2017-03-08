@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2014-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2014-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -23,17 +23,26 @@ require_relative '../lib/ci/containment'
 
 Docker.options[:read_timeout] = 7 * 60 * 60 # 7 hours.
 
+def default_ccache_dir
+  dir = '/var/cache/pangea-ccache-neon'
+  return dir if File.exist?(dir)
+  nil
+end
+
 DIST = ENV.fetch('DIST')
 JOB_NAME = ENV.fetch('JOB_NAME')
 PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
+CCACHE_DIR = default_ccache_dir
 
 # TODO: transition away from compat behavior and have contain properly
 #       apply pwd_bind all the time?
 c = nil
 if PWD_BIND != Dir.pwd # backwards compat. Behave as previosuly without pwd_bind
+  binds = ["#{Dir.pwd}:#{PWD_BIND}"]
+  binds << "#{CCACHE_DIR}:/ccache" if CCACHE_DIR
   c = CI::Containment.new(JOB_NAME,
                           image: CI::PangeaImage.new(:ubuntu, DIST),
-                          binds: ["#{Dir.pwd}:#{PWD_BIND}"])
+                          binds: binds)
 else
   c = CI::Containment.new(JOB_NAME, image: CI::PangeaImage.new(:ubuntu, DIST))
 end
