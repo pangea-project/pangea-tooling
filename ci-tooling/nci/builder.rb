@@ -30,6 +30,7 @@ NCI.setup_repo!
 
 if File.exist?('/ccache')
   Retry.retry_it(times: 4) { Apt.install('ccache') || raise }
+  system('ccache', '-z') # reset stats, ignore return value
   ENV['PATH'] = "/usr/lib/ccache:#{ENV.fetch('PATH')}"
   # Debhelper's cmake.pm doesn't resolve from PATH. Bloody crap.
   ENV['CC'] = find_executable('cc')
@@ -39,6 +40,10 @@ end
 
 builder = CI::PackageBuilder.new
 builder.build
+
+if File.exist?('/ccache')
+  system('ccache', '-s') # print stats, ignore return value
+end
 
 if File.exist?('build_url')
   url = File.read('build_url').strip
