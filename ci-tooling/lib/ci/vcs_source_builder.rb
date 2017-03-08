@@ -130,13 +130,17 @@ module CI
       url || nil
     end
 
+    def l10n_for_url?(url)
+      %w(kmenuedit systemsettings ki18n).any? { |x| url.include?(x) }
+    end
+
     def inject_l10n!(source_path)
       # This is ./source, while path is ./build/source
       url = repo_url_from_path('source')
       l10n_log.info "l10n injection for url #{url}."
       return unless url
       # only work on kmenuedit for now
-      return unless url.include?('kmenuedit')
+      return unless l10n_for_url?(url)
       # TODO: this would benefit from classing
       with_releaseme { add_l10n(source_path, url) }
     end
