@@ -75,10 +75,7 @@ module CI
     end
 
     def enabled_project?(project)
-      project_element = project.instance_variable_get(:@project_element)
-      raise unless project_element
-      path = project_element.elements['path'].text
-      path.start_with?('kde/workspace/', 'frameworks/')
+      %w(kde-workspace frameworks).include?(project.i18n_path)
     end
 
     def with_releaseme(&_block)
@@ -130,17 +127,11 @@ module CI
       url || nil
     end
 
-    def l10n_for_url?(url)
-      %w(kmenuedit systemsettings ki18n).any? { |x| url.include?(x) }
-    end
-
     def inject_l10n!(source_path)
       # This is ./source, while path is ./build/source
       url = repo_url_from_path('source')
       l10n_log.info "l10n injection for url #{url}."
       return unless url
-      # only work on kmenuedit for now
-      return unless l10n_for_url?(url)
       # TODO: this would benefit from classing
       with_releaseme { add_l10n(source_path, url) }
     end
