@@ -25,7 +25,7 @@ Docker.options[:read_timeout] = 7 * 60 * 60 # 7 hours.
 
 def default_ccache_dir
   dir = '/var/cache/pangea-ccache-neon'
-  return dir if File.exist?(dir)
+  return dir if File.exist?(dir) && ENV.fetch('TYPE', '') == 'unstable'
   nil
 end
 
