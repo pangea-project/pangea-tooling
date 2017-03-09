@@ -78,4 +78,37 @@ class JenkinsJobDirTest < TestCase
 
     assert_path_not_exist("#{buildsdir}/999/archive")
   end
+
+  def test_prune_builds
+    backupdir = "jobs/#{__method__}/builds-backup"
+    buildsdir = "jobs/#{__method__}/builds"
+    FileUtils.mkpath(buildsdir)
+    (1000..1020).each do |i|
+      dir = "#{buildsdir}/#{i}"
+      FileUtils.mkpath(dir)
+      # Decrease age and then multiply by days-in-week to get a build per week.
+      # With 20 that gives us 120 days, or 4 months.
+      age = (1020 - i) * 7
+      mtime = (DateTime.now - age).to_time
+      FileUtils.touch(dir, mtime: mtime)
+    end
+
+    Dir.glob('jobs/*').each do |jobdir|
+      FileUtils.mkpath(backupdir) unless Dir.exist?(backupdir)
+      # File older than 2 months
+      Jenkins::JobDir.each_ancient_build(jobdir, min_count: 4, max_age: 7 * 4 * 2) do |ancient_build|
+        FileUtils.mv(ancient_build, backupdir)
+      end
+    end
+
+    # 1011 would be 9 weeks, we assume a month has 4 weeks. We expect 2 months
+    # retained and the older ones as backup.
+    (1000..1011).each do |i|
+      assert_path_exist("#{backupdir}/#{i}")
+    end
+
+    (1012..1020).each do |i|
+      assert_path_exist("#{buildsdir}/#{i}")
+    end
+  end
 end

@@ -45,9 +45,14 @@ module Jenkins
       abs_link == abs_file
     end
 
-    def self.prune(dir, min_count: 6, max_age: 14, paths: %w(log archive))
-      buildsdir = "#{dir}/builds"
-      return unless File.exist?(buildsdir)
+    def self.existing_symlink?(file)
+      File.symlink?(file) && File.exist?(file)
+    end
+
+    # @return [Array<String>] of build dirs inside a jenkins builds/ tree
+    #   that are valid paths, not a stateful symlink (lastSuccessfulBuild etc.),
+    #   and not otherwise unsuitable for processing.
+    def self.build_dirs(buildsdir)
       content = Dir.glob("#{buildsdir}/*")
 
       locked = []
@@ -57,17 +62,32 @@ module Jenkins
         # Symlink is not a static one, keep these
         next false unless STATE_SYMLINKS.include?(File.basename(d))
         # Symlink, but points to invalid target
-        next true unless File.symlink?(d) && File.exist?(d)
+        next true unless existing_symlink?(d)
         locked << File.realpath(d)
       end
 
       # Filter now locked directories
       content.reject! { |d| locked.include?(File.realpath(d)) }
+      content.sort_by { |c| File.basename(c).to_i }
+    end
 
-      content.sort_by! { |c| File.basename(c).to_i }
-      content[0..-min_count].each do |d| # Always keep the last N builds.
+    # @param min_count [Integer] the minimum amount of builds to keep
+    # @param max_age [Integer,nil] the maximum age or nil if there is none
+    def self.each_ancient_build(dir, min_count:, max_age:, &_blk)
+      buildsdir = "#{dir}/builds"
+      return unless File.exist?(buildsdir)
+      dirs = build_dirs(buildsdir)
+
+      dirs[0..-min_count].each do |d| # Always keep the last N builds.
+        yield d if max_age.nil? || (File.exist?(d) && age(d) > max_age)
+      end
+    end
+
+    def self.prune(dir, min_count: 6, max_age: 14, paths: %w(log archive))
+      each_ancient_build(dir, min_count: min_count,
+                              max_age: nil) do |ancient_build|
         paths.each do |path|
-          path = "#{d}/#{path}"
+          path = "#{ancient_build}/#{path}"
           if File.exist?(path) && (age(path) > max_age)
             FileUtils.rm_r(File.realpath(path), verbose: true)
           end
