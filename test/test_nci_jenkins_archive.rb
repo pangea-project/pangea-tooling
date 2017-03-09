@@ -50,7 +50,9 @@ class NCIJenkinsArchiveTest < TestCase
     # enough for archival. NB: we have 21 dirs in total so that's why we have
     # 1005 not 1004 as oldest archived ;)
     (1000..1005).each do |i|
-      assert_path_exist("#{backupdir}/#{i}")
+      # NB: we expect to replicate the entire build tree, so this in fact needs
+      # to be the jobname/builds/123/ as seen in the live jobs dir.
+      assert_path_exist("#{backupdir}/nrop/builds/#{i}")
     end
 
     (1012..1020).each do |i|

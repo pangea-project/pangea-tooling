@@ -20,20 +20,33 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'fileutils'
+require 'pathname'
 
 require_relative '../lib/jenkins/jobdir.rb'
 
 # Archives all Jenkins job dirs it can find by moving it to the do-volume mount.
 module NCI
+  def self.relative_x_from_y(x, y)
+    Pathname.new(x).relative_path_from(Pathname.new(y)).to_s
+  end
+
+  def self.jenkins_archive_builds_jobdir(jobdir, jobsdir, backupdir)
+    Jenkins::JobDir.each_ancient_build(jobdir,
+                                       min_count: 16,
+                                       max_age: 7 * 4 * 2) do |ancient_build|
+      relative_path = relative_x_from_y(ancient_build, jobsdir)
+      target = "#{backupdir}/#{relative_path}"
+      FileUtils.mkpath(File.dirname(target))
+      FileUtils.mv(ancient_build, target, verbose: true)
+    end
+  end
+
   def self.jenkins_archive_builds(mnt_base = '')
     backupdir = "#{mnt_base}/mnt/volume-neon-jenkins/jobs.bak"
-    FileUtils.mkpath(backupdir) unless Dir.exist?(backupdir)
-    Dir.glob("#{Dir.home}/jobs/*").each do |jobdir|
-      Jenkins::JobDir.each_ancient_build(jobdir,
-                                         min_count: 16,
-                                         max_age: 7 * 4 * 2) do |ancient_build|
-        FileUtils.mv(ancient_build, backupdir, verbose: true)
-      end
+    FileUtils.mkpath(backupdir)
+    jobsdir = "#{Dir.home}/jobs"
+    Dir.glob("#{jobsdir}/*").each do |jobdir|
+      jenkins_archive_builds_jobdir(jobdir, jobsdir, backupdir)
     end
   end
 end
