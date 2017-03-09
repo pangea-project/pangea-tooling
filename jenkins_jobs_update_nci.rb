@@ -200,6 +200,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTGerminateJob.new)
     enqueue(MGMTJenkinsPruneArchives.new)
     enqueue(MGMTJenkinsPruneLogs.new)
+    enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTToolingJob.new(downstreams: [docker],
                                dependees: [cleaner, aptly]))
     #enqueue(MGMTRepoCleanupJob.new)
