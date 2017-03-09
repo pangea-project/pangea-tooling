@@ -30,6 +30,7 @@ module Jenkins
       lastSuccessfulBuild
       lastUnstableBuild
       lastUnsuccessfulBuild
+      legacyIds
     ).freeze
 
     def self.age(file)

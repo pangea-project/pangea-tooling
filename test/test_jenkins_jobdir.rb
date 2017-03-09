@@ -36,6 +36,8 @@ class JenkinsJobDirTest < TestCase
     File.symlink('1011', "#{buildsdir}/lastUnsuccessfulBuild")
     File.symlink('1014', "#{buildsdir}/lastStableBuild")
     File.symlink('1014', "#{buildsdir}/lastSuccessfulBuild")
+    # Really old plunder but protected name.
+    FileUtils.touch("#{buildsdir}/legacyIds", mtime: (DateTime.now - 300).to_time)
 
     very_old_mtime = (DateTime.now - 32).to_time
 
@@ -62,6 +64,8 @@ class JenkinsJobDirTest < TestCase
       assert_path_exist(dir) unless d == 'lastUnstableBuild'
       assert(File.symlink?(dir), "#{dir} was supposed to be a symlink but isn't")
     end
+    # Protected but not a symlink
+    assert_path_exist("#{buildsdir}/legacyIds")
 
     markers = %w(log archive/randomdir)
 
