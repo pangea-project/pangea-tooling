@@ -26,7 +26,6 @@ Docker.options[:read_timeout] = 7 * 60 * 60 # 7 hours.
 DIST = ENV.fetch('DIST')
 JOB_NAME = ENV.fetch('JOB_NAME')
 PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
-CCACHE_DIR = default_ccache_dir
 
 # TODO: autogenerate from average build time?
 # TODO: maybe we should have a per-source cache that gets shuffled between the
@@ -54,6 +53,8 @@ def default_ccache_dir
   return dir if File.exist?(dir) && ENV.fetch('TYPE', '') == 'unstable'
   nil
 end
+
+CCACHE_DIR = default_ccache_dir
 
 # TODO: transition away from compat behavior and have contain properly
 #       apply pwd_bind all the time?
