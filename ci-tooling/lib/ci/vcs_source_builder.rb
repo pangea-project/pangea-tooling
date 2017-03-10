@@ -108,6 +108,7 @@ module CI
       project = project_for_name(File.basename(repo_url))
       return unless enabled_project?(project)
 
+      ENV['RELEASEME_DEBUG'] = true
       l10n = ReleaseMe::L10n.new(l10n_origin, project.identifier,
                                  project.i18n_path)
       l10n.default_excluded_languages = []
