@@ -66,10 +66,29 @@ unless system('gpg2', '--armor', '--detach-sign', '-o',
   raise 'Failed to sign'
 end
 
+# Add readme about zsync being defective.
+# files.kde.org defaults to HTTPS (even redirects HTTP there), but zsync
+# has no support and fails with a really stupid error. As fixing this
+# server-side is something Ben doesn't want to do we'll simply tell the user
+# to use a sane implementation or manually get a HTTP mirror url.
+Dir.glob('result/*.zsync') do |file|
+File.write("#{file}.README", <<-EOF)
+zsync does not support HTTPs, since we prefer HTTPs rather than HTTP this is a
+problem.
+
+If you would like to use zsync to download an ISO you either need to use a
+libcurl based zsync implementation [1], or you need to need to manually find a
+HTTP mirror from the mirror list. To get to the mirror list simply append
+.mirrorlist to the zsync URL.
+e.g. https://files.kde.org/neon/images/neon-useredition/current/neon-useredition-current.iso.zsync.mirrorlist
+
+[1] https://github.com/probonopd/zsync-curl
+EOF
+
 # Publish ISO and associated content.
 Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
   sftp.mkdir!(REMOTE_PUB_DIR)
-  types = %w(amd64.iso amd64.iso.sig manifest zsync sha256sum)
+  types = %w(amd64.iso amd64.iso.sig manifest zsync zsync.README sha256sum)
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
       name = File.basename(file)
