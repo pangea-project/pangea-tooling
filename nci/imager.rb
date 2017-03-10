@@ -72,7 +72,7 @@ end
 # server-side is something Ben doesn't want to do we'll simply tell the user
 # to use a sane implementation or manually get a HTTP mirror url.
 Dir.glob('result/*.zsync') do |file|
-File.write("#{file}.README", <<-EOF)
+  File.write("#{file}.README", <<-EOF)
 zsync does not support HTTPs, since we prefer HTTPs rather than HTTP this is a
 problem.
 
@@ -84,6 +84,7 @@ e.g. https://files.kde.org/neon/images/neon-useredition/current/neon-useredition
 
 [1] https://github.com/probonopd/zsync-curl
 EOF
+end
 
 # Publish ISO and associated content.
 Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
