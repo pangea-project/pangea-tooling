@@ -23,16 +23,37 @@ require_relative '../lib/ci/containment'
 
 Docker.options[:read_timeout] = 7 * 60 * 60 # 7 hours.
 
-def default_ccache_dir
-  dir = '/var/cache/pangea-ccache-neon'
-  return dir if File.exist?(dir) && ENV.fetch('TYPE', '') == 'unstable'
-  nil
-end
-
 DIST = ENV.fetch('DIST')
 JOB_NAME = ENV.fetch('JOB_NAME')
 PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
 CCACHE_DIR = default_ccache_dir
+
+# TODO: autogenerate from average build time?
+# TODO: maybe we should have a per-source cache that gets shuffled between the
+#   master and slave. with private net enabled this may be entirely doable
+#   without much of a slow down (if any). also we can then make use of a volume
+#   giving us more leeway in storage.
+# Whitelist only certain jobs for ccache. With the amount of jobs we
+# have we'd need probably >=20G of cache to cover everything, instead only cache
+# the longer builds. This way we stand a better chance of having a cache at
+# hand as the smaller builds do not kick the larger ones out of the cache.
+CCACHE_WHITELIST = %w(
+  plasma-desktop
+  plasma-workspace
+  kio
+  kwin
+  khtml
+  marble
+  kdepim-addons
+  kdevplatform
+).freeze
+
+def default_ccache_dir
+  dir = '/var/cache/pangea-ccache-neon'
+  return nil unless CCACHE_WHITELIST.any? { |x| JOB_NAME.include?("_#{x}_") }
+  return dir if File.exist?(dir) && ENV.fetch('TYPE', '') == 'unstable'
+  nil
+end
 
 # TODO: transition away from compat behavior and have contain properly
 #       apply pwd_bind all the time?
