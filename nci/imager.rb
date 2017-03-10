@@ -66,6 +66,7 @@ unless system('gpg2', '--armor', '--detach-sign', '-o',
   raise 'Failed to sign'
 end
 
+# Publish ISO and associated content.
 Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
   sftp.mkdir!(REMOTE_PUB_DIR)
   types = %w(amd64.iso amd64.iso.sig manifest zsync sha256sum)
@@ -96,6 +97,7 @@ Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
   end
 end
 
+# Publish ISO sources.
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   path = 'files.neon.kde.org.uk'
   types = %w(source.tar.xz)
