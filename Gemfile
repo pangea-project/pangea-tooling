@@ -20,9 +20,6 @@ gem 'net-ssh-gateway'
 gem 'nokogiri'
 gem 'oauth', '~> 0.4'
 gem 'octokit'
-gem 'releaseme',
-    git: 'git://anongit.kde.org/releaseme.git',
-    branch: 'master'
 gem 'rugged'
 
 # Temporarily from git waiting for a release newer than 4.1.0. Once a newer
