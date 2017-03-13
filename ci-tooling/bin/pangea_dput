@@ -76,7 +76,7 @@ raise 'Cannot use both --host and --gateway' if options.host && options.gateway
 # Why this compat wasn't introduced when the gatway logic was introduced is
 # beyond me.
 if options.host && options.port
-  options.gateway = URI::HTTP.build(host: options.host, port: options.port)
+  options.gateway = URI::HTTP.build(host: options.host, port: options.port.to_i)
   warn 'Running in compat mode as both host and port were specified.'
 end
 
