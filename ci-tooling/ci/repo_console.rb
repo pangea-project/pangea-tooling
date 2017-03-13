@@ -19,17 +19,14 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'aptly'
-require 'net/ssh/gateway'
-require 'ostruct'
 require 'optparse'
 require 'uri'
 
-require_relative '../lib/aptly-ext/filter.rb'
-require_relative '../lib/aptly-ext/package.rb'
+require_relative '../lib/aptly-ext/filter'
+require_relative '../lib/aptly-ext/package'
+require_relative '../../lib/aptly-ext/remote'
 
 options = OpenStruct.new
-options.port = '8080'
 
 parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{opts.program_name} [-g GATEWAY]"
@@ -44,14 +41,7 @@ Repo = Aptly::Repository
 Snap = Aptly::Snapshot
 Key = Aptly::Ext::Package::Key
 
-# SSH tunnel so we can talk to the repo
-gateway = Net::SSH::Gateway.new(options.gateway.host, options.gateway.user)
-options.port = gateway.open('localhost', options.gateway.port)
-
-Aptly.configure do |config|
-  config.host = 'localhost'
-  config.port = options.port
+Aptly::Ext::Remote.connect(options.gateway) do
+  require 'irb'
+  IRB.start
 end
-
-require 'irb'
-IRB.start

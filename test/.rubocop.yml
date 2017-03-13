@@ -1,6 +1,9 @@
 inherit_from:
  - ../.rubocop.yml # pangea-tooling
 
+Style/ClassAndModuleChildren:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
