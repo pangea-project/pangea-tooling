@@ -62,8 +62,8 @@ module CI
       %w(kde-workspace frameworks).include?(project.i18n_path)
     end
 
-    def project_for_name(repo_name)
-      projects = ReleaseMe::Project.from_xpath(repo_name.gsub('.git', ''))
+    def project_for_url(url)
+      projects = ReleaseMe::Project.from_repo_url(url.gsub(/\.git$/, ''))
       unless projects.size == 1
         raise "failed to resolve project #{repo_name} :: #{projects}"
       end
@@ -79,7 +79,7 @@ module CI
 
     # Add l10n to source dir
     def add_l10n(source_path, repo_url)
-      project = project_for_name(File.basename(repo_url))
+      project = project_for_url(repo_url)
       return unless enabled_project?(project)
 
       l10n = ReleaseMe::L10n.new(l10n_origin, project.identifier,
