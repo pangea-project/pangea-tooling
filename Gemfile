@@ -15,8 +15,8 @@ gem 'jenkins_junit_builder'
 gem 'logger-colors'
 gem 'mercurial-ruby'
 gem 'net-ping', '< 2.0.0'
-gem 'net-ssh-gateway'
 gem 'net-sftp'
+gem 'net-ssh-gateway'
 gem 'nokogiri'
 gem 'oauth', '~> 0.4'
 gem 'octokit'
@@ -33,10 +33,10 @@ gem 'git_clone_url', '~> 2.0'
 gem 'uri-ssh_git', '~> 2.0'
 
 # Test logging as junit (also used at runtime for linting)
-gem 'test-unit', '~> 3.0'
 gem 'ci_reporter_test_unit',
-     git: 'https://github.com/apachelogger/ci_reporter_test_unit',
-     branch: 'test-unit-3'
+    git: 'https://github.com/apachelogger/ci_reporter_test_unit',
+    branch: 'test-unit-3'
+gem 'test-unit', '~> 3.0'
 
 group :development, :test do
   gem 'equivalent-xml'
