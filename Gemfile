@@ -27,6 +27,7 @@ gem 'rugged'
 
 # Temporarily from git waiting for a release newer than 4.1.0. Once a newer
 # version is available this can move up and drop the git paramaters.
+# Also undo workaround in deploy_in_container.rake!
 gem 'net-ssh', '<= 4.1.0',
     git: 'https://github.com/net-ssh/net-ssh',
     branch: 'master'
