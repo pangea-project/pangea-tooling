@@ -89,7 +89,7 @@ end
 Faraday.default_connection_options =
   Faraday::ConnectionOptions.new(timeout: 5 * 60)
 
-Aptly::Ext::Remote.connect do
+Aptly::Ext::Remote.connect(options.gateway) do
   raise "Repository doesn't exist" unless Aptly::Repository.exist?(options.repo)
   repo = Aptly::Repository.get(options.repo)
 
