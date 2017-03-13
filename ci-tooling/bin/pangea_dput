@@ -20,6 +20,10 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+# Set up bundler so we can use from-git gems here. This relies on BUNDLE_GEMFILE
+# being set, but should otherwise not fail.
+require 'bundler/setup'
+
 require 'aptly'
 require 'optparse'
 require 'ostruct'
