@@ -40,7 +40,7 @@ module Aptly
         module_function
 
         def connects?(uri)
-          uri.scheme == 'http'
+          uri.scheme == 'http' || uri.scheme == 'https'
         end
 
         def connect(uri, &_block)
