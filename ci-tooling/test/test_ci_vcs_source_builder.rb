@@ -60,8 +60,6 @@ class VCSBuilderTest < TestCase
     KCI.instance_variable_set(:@data, 'series' => { 'xenial' => '16.04',
                                                     'wily' => '15.10' })
 
-    CI::SourceBuilderL10nExtension.disable_l10n_injection
-
     Apt::Abstrapt.expects(:system).never
     Apt::Abstrapt.expects(:`).never
     # Disable automatic update
@@ -69,7 +67,6 @@ class VCSBuilderTest < TestCase
   end
 
   def teardown
-    CI::SourceBuilderL10nExtension.disable_l10n_injection
     KCI.send(:reset!)
     OS.reset
     unalias_time
@@ -272,7 +269,6 @@ class VCSBuilderTest < TestCase
     # The git dir is not called .git as to not confuse the actual tooling git.
     FileUtils.mv('source/gitty', 'source/.git')
 
-    CI::SourceBuilderL10nExtension.enable_l10n_injection
     ENV['TYPE'] = 'stable'
 
     stub_request(:get, 'https://projects.kde.org/kde_projects.xml')
