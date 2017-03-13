@@ -21,7 +21,7 @@ gem 'nokogiri'
 gem 'oauth', '~> 0.4'
 gem 'octokit'
 gem 'releaseme',
-    git: 'git://anongit.kde.org/releaseme.git',
+    git: 'https://anongit.kde.org/releaseme.git',
     branch: 'master'
 gem 'rugged'
 
