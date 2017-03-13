@@ -36,10 +36,6 @@ module CI
   # Extend VCS builder with l10n functionality based on releaseme.
   # NOTE: super experimental right now!
   module SourceBuilderL10nExtension
-    def l10n_log
-      @l10n_log ||= Logger.new(STDOUT).tap { |l| l.progname = 'l10n' }
-    end
-
     def copy_source_tree(*args)
       ret = super
       unless %w(unstable stable).include?(ENV.fetch('TYPE', ''))
@@ -53,7 +49,13 @@ module CI
 
     private
 
+    def l10n_log
+      @l10n_log ||= Logger.new(STDOUT).tap { |l| l.progname = 'l10n' }
+    end
+
     def enabled_project?(project)
+      # Presently not used for random stuff as well as applications which still
+      # use the kde-l10n-xx stuff.
       %w(kde-workspace frameworks).include?(project.i18n_path)
     end
 
