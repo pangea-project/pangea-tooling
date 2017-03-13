@@ -58,6 +58,7 @@ task :deploy_in_container => :align_ruby do
   tooling_path = '/tooling-pending'
   final_path = File.join(home, 'tooling')
   final_ci_tooling_compat_path = File.join(home, 'ci-tooling')
+
   Dir.chdir(tooling_path) do
     begin
       Gem::Specification.find_by_name('bundler')
@@ -81,6 +82,17 @@ task :deploy_in_container => :align_ruby do
     clean_args << '--verbose'
     clean_args << '--force' # Force system clean!
     bundle(*clean_args)
+
+    Dir.mktmpdir do |tmpdir|
+      # We cannot bundle releaseme through bundler as git bundles require
+      # bundler rigging at runtime to get loaded as they are in a special path
+      # not by default used by rubygems. This has the notable problem that our
+      # in-container setup is super fucked up and cannot actually set up a
+      # proper bundler rigging as it requires a Gemfile and whatnot.
+      system('git', 'clone', '--depth=1', 'https://anongit.kde.org/releaseme',
+             chdir: tmpdir) || raise
+      system('rake', 'install', chdir: "#{tmpdir}/releaseme") || raise
+    end
 
     # Trap common exit signals to make sure the ownership of the forwarded
     # volume is correct once we are done.
