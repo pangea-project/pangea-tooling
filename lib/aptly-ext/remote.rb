@@ -35,19 +35,34 @@ module Aptly
         end
       end
 
+      # Connects directly through HTTP
+      module HTTP
+        module_function
+
+        def connects?(uri)
+          uri.scheme == 'http'
+        end
+
+        def connect(uri, &_block)
+          Aptly.configure do |config|
+            config.uri = uri
+          end
+          yield
+        end
+      end
+
       # Gateway connects through a TCP socket/port to a remote aptly.
       module TCP
         module_function
 
         def connects?(uri)
-          uri.path.empty?
+          uri.scheme == 'ssh' && uri.path.empty?
         end
 
         def connect(uri, &_block)
           open_gateway(uri) do |port|
             Aptly.configure do |config|
-              config.host = 'localhost'
-              config.port = port
+              config.uri = URI::HTTP.build(host: 'localhost', port: port)
             end
             yield
           end
@@ -67,7 +82,7 @@ module Aptly
         module_function
 
         def connects?(uri)
-          !uri.path.empty?
+          uri.scheme == 'ssh' && !uri.path.empty?
         end
 
         def connect(uri, &_block)

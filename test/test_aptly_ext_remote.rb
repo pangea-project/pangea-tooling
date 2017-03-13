@@ -29,14 +29,23 @@ module Aptly::Ext
     def test_connects_with_path
       uri = URI::Generic.build(scheme: 'ssh', user: 'u', host: 'h', port: 1,
                                path: '/xxx')
+      assert_false(Remote::HTTP.connects?(uri))
       assert(Remote::Socket.connects?(uri))
       assert_false(Remote::TCP.connects?(uri))
     end
 
     def test_connects_without_path
       uri = URI::Generic.build(scheme: 'ssh', user: 'u', host: 'h', port: 1)
-      assert(Remote::TCP.connects?(uri))
+      assert_false(Remote::HTTP.connects?(uri))
       assert_false(Remote::Socket.connects?(uri))
+      assert(Remote::TCP.connects?(uri))
+    end
+
+    def test_connects_http
+      uri = URI::HTTP.build(host: 'h')
+      assert(Remote::HTTP.connects?(uri))
+      assert_false(Remote::Socket.connects?(uri))
+      assert_false(Remote::TCP.connects?(uri))
     end
 
     def test_connect_socket
@@ -56,7 +65,13 @@ module Aptly::Ext
       forward.expects(:cancel_local_socket).with('/abc123')
       session.stubs(:forward).returns(forward)
 
-      Remote.connect(uri) {}
+      Remote.connect(uri) do
+        Aptly.configure do |config|
+          assert_equal('unix', config.uri.scheme)
+          # Path includes tmpdir, so only check filename
+          assert_equal('aptly.sock', File.basename(config.uri.path))
+        end
+      end
     end
 
     def test_connect_tcp
@@ -75,7 +90,21 @@ module Aptly::Ext
       forward.expects(:cancel_local).with(65_535)
       session.stubs(:forward).returns(forward)
 
-      Remote.connect(uri) {}
+      Remote.connect(uri) do
+        Aptly.configure do |config|
+          assert_equal(URI.parse('http://localhost:65535'), config.uri)
+        end
+      end
+    end
+
+    def test_connect_http
+      uri = URI::HTTP.build(host: 'h')
+
+      Remote.connect(uri) do
+        Aptly.configure do |config|
+          assert_equal(uri, config.uri)
+        end
+      end
     end
   end
 end
