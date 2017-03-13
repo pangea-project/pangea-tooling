@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'fileutils'
+require 'releaseme'
 require 'yaml'
 
 require_relative '../apt'
@@ -55,26 +56,10 @@ module CI
       @l10n_log ||= Logger.new(STDOUT).tap { |l| l.progname = 'l10n' }
     end
 
-    def inject_releaseme?
-      `git clone git://anongit.kde.org/releaseme.git`
-      return $?.success? unless $?.success?
-      require "#{Dir.pwd}/releaseme/lib/releaseme"
-      true
-    end
-
     def enabled_project?(project)
       # Presently not used for random stuff as well as applications which still
       # use the kde-l10n-xx stuff.
       %w(kde-workspace frameworks).include?(project.i18n_path)
-    end
-
-    def with_releaseme(&_block)
-      Dir.mktmpdir do |tmpdir|
-        Dir.chdir(tmpdir) do
-          break unless inject_releaseme?
-          yield
-        end
-      end
     end
 
     def project_for_name(repo_name)
@@ -122,7 +107,7 @@ module CI
       l10n_log.info "l10n injection for url #{url}."
       return unless url
       # TODO: this would benefit from classing
-      with_releaseme { add_l10n(source_path, url) }
+      add_l10n(source_path, url)
     end
   end
 
