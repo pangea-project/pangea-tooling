@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
 # Copyright (C) 2015-2016 Rohan Garg <rohan@garg.io>
 #
 # This library is free software; you can redistribute it and/or
@@ -21,28 +21,27 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'aptly'
-require 'digest'
 require 'optparse'
 require 'ostruct'
 require 'uri'
-require 'net/ssh/gateway'
 
 require_relative '../lib/ci/deb822_lister'
+require_relative '../../lib/aptly-ext/remote'
 
 options = OpenStruct.new
-options.host = 'localhost'
-options.port = '80'
+options.host = nil
+options.port = nil
 options.repo = nil
 options.gateway = nil
 
 parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{opts.program_name} [options] --repo yolo CHANGESFILE"
 
-  opts.on('-h', '--host HOST', "host name (#{options.host})") do |v|
+  opts.on('-h', '--host HOST', '[deprecated] use a --gateway uri') do |v|
     options.host = v
   end
 
-  opts.on('-p', '--port PORT', "port number (#{options.port})") do |v|
+  opts.on('-p', '--port PORT', '[deprecated] use a --gateway uri') do |v|
     options.port = v
   end
 
@@ -58,54 +57,39 @@ parser.parse!
 
 raise parser.help if ARGV.empty? || options.repo.nil?
 
-# Gateyway helper. Opens a ssh gateway if applicable and manages its livetime.
-class Gateway
-  class << self
-    def exec!(options)
-      gate = new(options)
-      gate.open!
-      yield gate.port
-    ensure
-      warn 'ensure'
-      gate.close! if gate
-    end
-  end
+unless options.gateway
+  warn <<-EOF
+You really need to specify a gateway! That is the aptly host but is
+stupidly named.
+A gateway can be http://localhost:9090 for no gateway or ssh://user@host:port for
+SSH port gateway or ssh://user@host:port/tmp/foo for a socket gateway.
+  EOF
+end
 
-  attr_accessor :port
+raise 'Cannot use both --host and --gateway' if options.host && options.gateway
 
-  def initialize(options)
-    @gateway = nil
-    @port = options.port # overridden with real port in open!
-    return unless options.gateway
-    raise 'Gateway scheme not supported' if options.gateway.scheme != 'ssh'
-    @gateway = Net::SSH::Gateway.new(options.gateway.host,
-                                     options.gateway.user)
-  end
+# Compat handling:
+# We use Aptly::Ext::Remote to configure aptly, this does however require a URI
+# against which it can pick a connector. So we need a gateway even when we have
+# no gateway need, in that case it is simply the specifier of the aptly host
+# via http.
+# Why this compat wasn't introduced when the gatway logic was introduced is
+# beyond me.
+if options.host && options.port
+  options.gateway = URI::HTTP.build(host: options.host, port: options.port)
+  warn 'Running in compat mode as both host and port were specified.'
+end
 
-  def open!
-    return nil unless @gateway
-    @port = @gateway.open('localhost', @port)
-    self
-  end
-
-  def close!
-    # Cannot be opened again once closed. As the options are not preserved.
-    return nil unless @gateway
-    @gateway.shutdown!
-    self
-  end
+if !options.host && options.port && !options.gateway
+  options.gateway = URI::HTTP.build(host: 'localhost', port: options.port)
+  warn 'Running in compat mode using localhost:$port.'
 end
 
 # Set the timeout to 5 minutes to allow upload of large packages such as firefox
 Faraday.default_connection_options =
   Faraday::ConnectionOptions.new(timeout: 5 * 60)
 
-Gateway.exec!(options) do |port|
-  Aptly.configure do |config|
-    config.host = options.host
-    config.port = port
-  end
-
+Aptly::Ext::Remote.connect do
   raise "Repository doesn't exist" unless Aptly::Repository.exist?(options.repo)
   repo = Aptly::Repository.get(options.repo)
 
