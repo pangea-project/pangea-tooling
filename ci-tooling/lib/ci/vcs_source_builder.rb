@@ -36,6 +36,9 @@ module CI
   # Extend VCS builder with l10n functionality based on releaseme.
   # NOTE: super experimental right now!
   module SourceBuilderL10nExtension
+    # Hijack this when working on source to inject the l10n into the copied
+    # source BUT not the git repo source. This prevents us from polluting the
+    # possibly later reused git clone.
     def copy_source_tree(*args)
       ret = super
       unless %w(unstable stable).include?(ENV.fetch('TYPE', ''))
