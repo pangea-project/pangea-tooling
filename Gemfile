@@ -58,5 +58,4 @@ end
 
 group :s3 do
   gem 'aws-sdk-v1'
-  gem 'nokogiri'
 end
