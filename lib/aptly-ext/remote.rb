@@ -71,7 +71,7 @@ module Aptly
         # @yield [String] port on localhost
         def open_gateway(uri, &_block)
           gateway = Net::SSH::Gateway.new(uri.host, uri.user)
-          yield gateway.open('localhost', uri.port)
+          yield gateway.open('localhost', uri.port.to_s)
         ensure
           gateway.shutdown! if gateway
         end
