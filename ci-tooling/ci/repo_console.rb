@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'optparse'
+require 'ostruct'
 require 'uri'
 
 require_relative '../lib/aptly-ext/filter'
