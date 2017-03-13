@@ -28,8 +28,12 @@ module Jenkins
   class TimestampTest < TestCase
     def test_time
       utime = '1488887711165'
-      assert_equal('2017-03-07 11:55:11 UTC',
-                   Jenkins::Timestamp.time(utime).utc.to_s)
+      time = Jenkins::Timestamp.time(utime)
+      assert_equal([11, 55, 11, 7, 3, 2017, 2, 66, false, 'UTC'], time.utc.to_a)
+      # Make sure we have preserved full precision. Jenkins timestamps have
+      # microsecond precision, we rational them by /1000 for Time.at. The
+      # precision should still be passed into the Time object though.
+      assert_equal(165_000, time.usec)
     end
 
     def test_date

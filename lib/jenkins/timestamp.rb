@@ -26,7 +26,7 @@ module Jenkins
     module_function
 
     def time(str)
-      Time.at(str.to_i / 1000)
+      Time.at(str.to_i / 1000r)
     end
 
     def date(str)
