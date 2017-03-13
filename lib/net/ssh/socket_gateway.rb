@@ -1,8 +1,5 @@
 require 'thread'
 require 'net/ssh'
-require 'net/ssh/version'
-
-require_relative 'socket_forward'
 
 class Net::SSH::SocketGateway
   def initialize(host, user, options={})
@@ -55,20 +52,20 @@ class Net::SSH::SocketGateway
   end
 
   private
-    # Fires up the gateway session's event loop within a thread, so that it
-    # can run in the background. The loop will run for as long as the gateway
-    # remains active.
-    def initiate_event_loop!
-      @active = true
 
-      @thread = Thread.new do
-        while @active
-          @session_mutex.synchronize do
-            @session.process(@loop_wait)
-          end
-          Thread.pass
+  # Fires up the gateway session's event loop within a thread, so that it
+  # can run in the background. The loop will run for as long as the gateway
+  # remains active.
+  def initiate_event_loop!
+    @active = true
+
+    @thread = Thread.new do
+      while @active
+        @session_mutex.synchronize do
+          @session.process(@loop_wait)
         end
+        Thread.pass
       end
     end
-
+  end
 end
