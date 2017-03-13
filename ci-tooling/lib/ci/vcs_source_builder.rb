@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'fileutils'
+require 'releaseme'
 require 'yaml'
 
 require_relative '../apt'
@@ -67,25 +68,8 @@ module CI
 
     private
 
-    def inject_releaseme?
-      `git clone git://anongit.kde.org/releaseme.git`
-      return $?.success? unless $?.success?
-      require "#{Dir.pwd}/releaseme/lib/releaseme"
-      true
-    end
-
     def enabled_project?(project)
       %w(kde-workspace frameworks).include?(project.i18n_path)
-    end
-
-    def with_releaseme(&_block)
-      Apt.install('subversion') || raise
-      Dir.mktmpdir do |tmpdir|
-        Dir.chdir(tmpdir) do
-          break unless inject_releaseme?
-          yield
-        end
-      end
     end
 
     def project_for_name(repo_name)
@@ -133,7 +117,7 @@ module CI
       l10n_log.info "l10n injection for url #{url}."
       return unless url
       # TODO: this would benefit from classing
-      with_releaseme { add_l10n(source_path, url) }
+      add_l10n(source_path, url)
     end
   end
 
