@@ -15,13 +15,18 @@ gem 'jenkins_junit_builder'
 gem 'logger-colors'
 gem 'mercurial-ruby'
 gem 'net-ping', '< 2.0.0'
-gem 'net-ssh'
 gem 'net-ssh-gateway'
 gem 'net-sftp'
 gem 'nokogiri'
 gem 'oauth', '~> 0.4'
 gem 'octokit'
 gem 'rugged'
+
+# Temporarily from git waiting for a release newer than 4.1.0. Once a newer
+# version is available this can move up and drop the git paramaters.
+gem 'net-ssh', '<= 4.1.0',
+    git: 'https://github.com/net-ssh/net-ssh',
+    branch: 'master'
 
 # Git URI management
 gem 'git_clone_url', '~> 2.0'
