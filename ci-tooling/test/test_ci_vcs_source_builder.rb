@@ -275,11 +275,6 @@ class VCSBuilderTest < TestCase
     CI::SourceBuilderL10nExtension.enable_l10n_injection
     ENV['TYPE'] = 'stable'
 
-    Apt::Abstrapt
-      .expects(:system)
-      .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'install', 'subversion')
-      .returns(true)
-
     stub_request(:get, 'https://projects.kde.org/kde_projects.xml')
       .to_return(body: File.read(data('kde_projects.xml')))
 
