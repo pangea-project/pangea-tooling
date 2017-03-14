@@ -93,7 +93,8 @@ class Project
   #   NB: THIS is mutually exclusive with branch!
   def initialize(name, component, url_base = self.class.default_url,
                  type: nil,
-                 branch: "kubuntu_#{type}")
+                 branch: "kubuntu_#{type}",
+                 origin: CI::UpstreamSCM::Origin::UNSTABLE)
     variable_deprecation(:type, :branch) unless type.nil?
     @name = name
     @component = component
@@ -130,6 +131,8 @@ class Project
     @override_rule.each do |member, _|
       override_apply(member)
     end
+
+    upstream_scm.releaseme_adjust!(origin) if upstream_scm
   end
 
   private

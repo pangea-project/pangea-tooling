@@ -18,6 +18,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+# We trust our configs entirely.
+# rubocop:disable Security/YAMLLoad
+
 require 'yaml'
 
 require_relative '../projects'
@@ -46,7 +49,19 @@ class ProjectsFactory
     def from_file(file, **kwords)
       data = YAML.load(File.read(file))
       raise unless data.is_a?(Hash)
-      projects = data.collect do |type, list|
+      # Special config setting origin control where to draw default upstream_scm
+      # data from.
+      kwords[:origin] = data.delete('origin').to_sym if data.key?('origin')
+      projects = factorize_data(data, **kwords)
+      resolve_dependencies(projects)
+    end
+
+    # FIXME: I have the feeling some of this should be in project or a
+    # different class altogether
+    private
+
+    def factorize_data(data, **kwords)
+      data.collect do |type, list|
         raise unless type.is_a?(String)
         raise unless list.is_a?(Array)
         factory = factory_for(type)
@@ -54,13 +69,7 @@ class ProjectsFactory
         factory.default_params = factory.default_params.merge(kwords)
         factory.factorize(list)
       end.flatten.compact
-
-      resolve_dependencies(projects)
     end
-
-    # FIXME: I have the feeling some of this should be in project or a
-    # different class altogether
-    private
 
     def provided_by(projects)
       provided_by = {}

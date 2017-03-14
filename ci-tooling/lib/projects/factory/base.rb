@@ -22,7 +22,8 @@ class ProjectsFactory
   # Base class.
   class Base
     DEFAULT_PARAMS = {
-      branch: 'kubuntu_unstable' # FIXME: kubuntu
+      branch: 'kubuntu_unstable', # FIXME: kubuntu
+      origin: nil # Defer the origin to Project class itself
     }.freeze
 
     class << self
@@ -77,9 +78,12 @@ class ProjectsFactory
     end
 
     # FIXME: this is a workaround until Project gets entirely redone
-    def new_project(name:, component:, url_base:, branch:)
-      # puts "new_project(#{name}, #{component}, #{url_base})"
-      Project.new(name, component, url_base, branch: branch)
+    def new_project(name:, component:, url_base:, branch:, origin:)
+      params = { branch: branch }
+      # Let Project pick a default for origin, otherwise we need to retrofit
+      # all Project testing with a default which seems silly.
+      params[:origin] = origin if origin
+      Project.new(name, component, url_base, **params)
     end
   end
 end

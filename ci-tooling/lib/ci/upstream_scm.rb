@@ -18,12 +18,21 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'releaseme'
+
 require_relative 'scm'
 
 module CI
   # Construct an upstream scm instance and fold in overrides set via
   # meta/upstream_scm.json.
   class UpstreamSCM < SCM
+    module Origin
+      UNSTABLE = :unstable
+      STABLE = :stable # aka stable
+    end
+
+    DEFAULT_BRANCH = 'master'.freeze
+
     # Constructs an upstream SCM description from a packaging SCM description.
     #
     # Upstream SCM settings default to sane KDE settings and can be overridden
@@ -42,7 +51,34 @@ module CI
       @name = File.basename(packaging_repo)
       @directory = working_directory
 
-      super('git', "git://anongit.kde.org/#{@name.chomp('-qt4')}", 'master')
+      repo_url = "git://anongit.kde.org/#{@name.chomp('-qt4')}"
+      branch = DEFAULT_BRANCH
+
+      super('git', repo_url, branch)
+    end
+
+    def releaseme_adjust!(origin)
+      return nil unless adjust?
+      projects = ReleaseMe::Project.from_repo_url(url)
+      if projects.size == 1
+        @branch = { Origin::UNSTABLE => projects[0].i18n_trunk,
+                    Origin::STABLE => projects[0].i18n_stable }
+                  .fetch(origin.to_sym)
+        return self
+      end
+      # No or multiple results
+      puts "Could not uniquely resolve #{url}. OMG. #{projects}"
+      nil
+    end
+
+    private
+
+    def default_branch?
+      branch == DEFAULT_BRANCH
+    end
+
+    def adjust?
+      default_branch? && url.include?('.kde.org')
     end
   end
 end
