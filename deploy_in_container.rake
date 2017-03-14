@@ -231,6 +231,21 @@ EOF
   File.open("/etc/sudoers.d/#{uid}-#{uname}", 'w', 0440) do |f|
     f.puts('jenkins ALL=(ALL) NOPASSWD: ALL')
   end
+
+  # Ultimate clean up
+  #  Semi big logs
+  File.write('/var/log/lastlog', '')
+  File.write('/var/log/faillog', '')
+  File.write('/var/log/dpkg.log', '')
+  File.write('/var/log/apt/term.log', '')
+  #  Gem cache and doc. Neither shoud be needed at runtime.
+  FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/{cache,doc}/*'), verbose: true)
+  #  libgit2 cmake build tree
+  FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/gems/rugged-*/vendor/*/build'),
+                  verbose: true)
+  #  Other compiled extension artifacts not used at runtime
+  FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/gems/*/ext/*/*.{so,o}'),
+                  verbose: true)
 end
 
 RUBY_2_3_1 = '/tmp/2.3.1'.freeze
