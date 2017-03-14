@@ -77,12 +77,6 @@ class Project
 
   class << self
     attr_accessor :default_url
-
-    # TODO: drop cleanup_uri
-    extend Deprecate
-    extend Forwardable
-    def_delegator CI::SCM, :cleanup_uri, :cleanup_uri
-    deprecate :cleanup_uri, 'SCM::CI::cleanup_uri', 2016, 02
   end
 
   # Init

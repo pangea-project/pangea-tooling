@@ -224,12 +224,6 @@ class ProjectTest < TestCase
     end
   end
 
-  def test_cleanup_uri
-    assert_equal('/a/b', Project.cleanup_uri('/a//b/'))
-    assert_equal('http://a.com/b', Project.cleanup_uri('http://a.com//b//'))
-    assert_equal('//host/b', Project.cleanup_uri('//host/b/'))
-  end
-
   def test_launchpad
     reset_child_status!
 
