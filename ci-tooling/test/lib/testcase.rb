@@ -1,6 +1,6 @@
 require 'test/unit'
 require 'tmpdir'
-require 'webmock'
+require 'webmock/test_unit'
 
 require_relative 'assert_xml'
 
@@ -73,6 +73,10 @@ EOT
     reset_child_status!
     #FIXME: Drop when VCR gets fixed
     WebMock.enable!
+
+    stub_request(:get, 'https://projects.kde.org/kde_projects.xml')
+      .to_return(body:
+         File.read("#{script_base_path}/data/kde_projects_stripped.xml"))
   end
 
   def priority_teardown
