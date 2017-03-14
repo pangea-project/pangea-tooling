@@ -24,7 +24,7 @@ def install_fake_pkg(name)
         Version: 999:999
         Architecture: all
         Maintainer: Harald Sitter <sitter@kde.org>
-        Description: fake override package for kubuntu ci install checks
+        Description: fake override package for ci install checks
       EOF
       system("dpkg-deb -b #{name} #{name}.deb")
       DPKG.dpkg(['-i', "#{name}.deb"])
