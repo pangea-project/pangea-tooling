@@ -25,39 +25,39 @@ Dir["#{__dir__}/factory/*.rb"].each { |f| require f }
 
 # Constructs projects based on a yaml configuration file.
 class ProjectsFactory
-  def self.factories
-    constants.collect do |const|
-      klass = const_get(const)
-      next nil unless klass.is_a?(Class)
-      klass
-    end.compact
-  end
-
-  def self.factory_for(type)
-    selection = nil
-    factories.each do |factory|
-      next unless (selection = factory.from_type(type))
-      break
-    end
-    selection
-  end
-
-  def self.from_file(file, **kwords)
-    data = YAML.load(File.read(file))
-    raise unless data.is_a?(Hash)
-    projects = data.collect do |type, list|
-      raise unless type.is_a?(String)
-      raise unless list.is_a?(Array)
-      factory = factory_for(type)
-      raise unless factory
-      factory.default_params = factory.default_params.merge(kwords)
-      factory.factorize(list)
-    end.flatten.compact
-
-    resolve_dependencies(projects)
-  end
-
   class << self
+    def factories
+      constants.collect do |const|
+        klass = const_get(const)
+        next nil unless klass.is_a?(Class)
+        klass
+      end.compact
+    end
+
+    def factory_for(type)
+      selection = nil
+      factories.each do |factory|
+        next unless (selection = factory.from_type(type))
+        break
+      end
+      selection
+    end
+
+    def from_file(file, **kwords)
+      data = YAML.load(File.read(file))
+      raise unless data.is_a?(Hash)
+      projects = data.collect do |type, list|
+        raise unless type.is_a?(String)
+        raise unless list.is_a?(Array)
+        factory = factory_for(type)
+        raise unless factory
+        factory.default_params = factory.default_params.merge(kwords)
+        factory.factorize(list)
+      end.flatten.compact
+
+      resolve_dependencies(projects)
+    end
+
     # FIXME: I have the feeling some of this should be in project or a
     # different class altogether
     private
