@@ -8,10 +8,11 @@ require_relative 'lib/rake/bundle'
 DEPS = %w(xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           python-launchpadlib ubuntu-dev-tools gnome-pkg-tools git dh-systemd
           zlib1g-dev python-paramiko sudo locales mercurial pxz aptitude
-          autotools-dev cdbs dh-autoreconf germinate gobject-introspection
-          sphinx-common po4a pep8 pyflakes ppp-dev dh-di libgirepository1.0-dev
-          libglib2.0-dev bash-completion python3-setuptools dkms
-          mozilla-devscripts libffi-dev subversion).freeze
+          autotools-dev cdbs dh-autoreconf germinate gnupg2
+          gobject-introspection sphinx-common po4a pep8 pyflakes ppp-dev dh-di
+          libgirepository1.0-dev libglib2.0-dev bash-completion
+          python3-setuptools dkms mozilla-devscripts libffi-dev
+          subversion).freeze
 
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
