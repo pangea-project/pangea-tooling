@@ -176,6 +176,7 @@ EOF
   Apt.install('eatmydata') || raise
   %w(dpkg apt-get apt).each do |bin|
     file = "/usr/bin/#{bin}"
+    next if File.exist?("#{file}.distrib") # Already diverted
     File.open("#{file}.pangea", File::RDWR | File::CREAT, 0o755) do |f|
       f.write(<<-EOF)
 #!/bin/sh
@@ -190,6 +191,7 @@ EOF
   # in a build environment.
   %w(fc-cache).each do |bin|
     file = "/usr/bin/#{bin}"
+    next if File.exist?("#{file}.distrib") # Already diverted
     system('dpkg-divert', '--local', '--rename', '--add', file) || raise
     File.symlink('/bin/true', file)
   end
