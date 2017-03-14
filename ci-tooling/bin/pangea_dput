@@ -84,6 +84,11 @@ if options.host && options.port
   warn 'Running in compat mode as both host and port were specified.'
 end
 
+if !options.host && options.port && options.gateway && !options.gateway.port
+  options.gateway.port = options.port
+  warn 'Running in compat mode and injecting your --port into the gateway!'
+end
+
 if !options.host && options.port && !options.gateway
   options.gateway = URI::HTTP.build(host: 'localhost', port: options.port)
   warn 'Running in compat mode using localhost:$port.'

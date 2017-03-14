@@ -88,4 +88,40 @@ class PangeaDPutTest < TestCase
     ARGV << 'binary-without-dsc.changes'
     load(@dput)
   end
+
+  def test_ssh_port_compat
+    # Previously one coudl pass --port as a gateway port (i.e. port on the
+    # remote). This makes 0 sense with the gateway URIs but is deprecated for
+    # now. This test expects that a gatway without explicit port but additional
+    # --port argument will connect correctly
+    stub_common_http
+
+    seq = sequence('gateway-life')
+    stub_gate = stub('ssh-gateway')
+    Net::SSH::Gateway
+      .expects(:new)
+      .with('kitteh.local', 'meow')
+      .returns(stub_gate)
+      .in_sequence(seq)
+    stub_gate
+      .expects(:open)
+      .with('localhost', '9090')
+      .returns(111_999) # actual port to use
+      .in_sequence(seq)
+    stub_gate
+      .expects(:shutdown!)
+      .in_sequence(seq)
+
+    FileUtils.cp_r("#{data}/.", Dir.pwd)
+
+    ARGV << '--port' << '9090'
+    ARGV << '--gateway' << 'ssh://meow@kitteh.local'
+    ARGV << '--repo' << 'kitten'
+    ARGV << 'yolo.changes'
+    # Binary only builds will not have a dsc in their list, stick with .changes.
+    # This in particular prevents our .changes -> .dsc fallthru from falling
+    # into a whole when processing .changes without an associated .dsc.
+    ARGV << 'binary-without-dsc.changes'
+    load(@dput)
+  end
 end
