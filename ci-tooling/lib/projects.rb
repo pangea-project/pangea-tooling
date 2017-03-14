@@ -153,17 +153,16 @@ class Project
     control.parse!
     init_from_control(control)
 
-    if @component != 'launchpad'
-      # NOTE: assumption is that launchpad always is native even when
-      #  otherwise noted in packaging. This is somewhat meh and probably
-      #  should be looked into at some point.
-      #  Primary motivation are compound UDD branches as well as shit
-      #  packages that are dpkg-source v1...
-      unless Debian::Source.new(directory).format.type == :native
-        @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url,
-                                            @packaging_scm.branch)
-      end
-    end
+    # NOTE: assumption is that launchpad always is native even when
+    #  otherwise noted in packaging. This is somewhat meh and probably
+    #  should be looked into at some point.
+    #  Primary motivation are compound UDD branches as well as shit
+    #  packages that are dpkg-source v1...
+    return if @component == 'launchpad'
+    return if Debian::Source.new(directory).format.type == :native
+    # Set a default upstream_scm.
+    @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url,
+                                        @packaging_scm.branch)
   end
 
   def init_deps_from_control(control)
