@@ -59,6 +59,11 @@ task :deploy_in_container => :align_ruby do
   final_path = File.join(home, 'tooling')
   final_ci_tooling_compat_path = File.join(home, 'ci-tooling')
 
+  File.write("#{Dir.home}/.gemrc", <<-EOF)
+install: --no-document
+update: --no-document
+EOF
+
   Dir.chdir(tooling_path) do
     begin
       Gem::Specification.find_by_name('bundler')
