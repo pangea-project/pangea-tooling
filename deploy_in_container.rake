@@ -169,6 +169,35 @@ EOF
     end
   end
 
+  # Force eatmydata on the installation binaries to completely bypass fsyncs.
+  # This gives a 20% speed improvement on installing plasma-desktop+deps. That
+  # is ~1 minute!
+  Apt.install('eatmydata') || raise
+  %w(dpkg apt-get apt).each do |bin|
+    file = "/usr/bin/#{bin}"
+    File.open("#{file}.pangea", File::RDWR | File::CREAT, 0o755) do |f|
+      f.write(<<-EOF)
+#!/bin/sh
+/usr/bin/eatmydata #{bin}.distrib "$@"
+EOF
+    end
+    system('dpkg-divert', '--local', '--rename', '--add', file) || raise
+    File.symlink("#{file}.pangea", file)
+  end
+
+  # Turn fc-cache into a dud to prevent cache generation. Utterly pointless
+  # in a build environment.
+  %w(fc-cache).each do |bin|
+    file = "/usr/bin/#{bin}"
+    system('dpkg-divert', '--local', '--rename', '--add', file) || raise
+    File.symlink('/bin/true', file)
+  end
+
+  # Install a fake fonts-noto CJK to bypass it's incredibly long unpack. Given
+  # the size of the package it takes *seconds* to unpack but in CI environments
+  # it adds no value.
+  install_fake_pkg('fonts-noto-cjk')
+
   require_relative 'ci-tooling/lib/retry'
   Retry.retry_it(times: 5, sleep: 8) do
     # Use apt.
