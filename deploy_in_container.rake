@@ -193,6 +193,8 @@ EOF
     file = "/usr/bin/#{bin}"
     next if File.exist?("#{file}.distrib") # Already diverted
     system('dpkg-divert', '--local', '--rename', '--add', file) || raise
+    # Fuck you dpkg. Fuck you so much.
+    FileUtils.mv(file, "#{file}.distrib") if File.exist?(file)
     File.symlink('/bin/true', file)
   end
 
