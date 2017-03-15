@@ -53,4 +53,27 @@ class UpstreamSCMTest < TestCase
     assert_equal('git://kittens', scm.url)
     assert_equal('master', scm.branch)
   end
+
+  def test_unknown_url
+    # URL is on KDE but for some reason not in the projects. Should not implode.
+    scm = CI::UpstreamSCM.new('bububbreeze-qt4', 'kubuntu_unstable', '/')
+    assert_nil(scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE))
+  end
+
+  def test_preference_fallback
+    # A special fake thing 'no-stable' should come back with master as no
+    # stable branch is set.
+    scm = CI::UpstreamSCM.new('no-stable', 'kubuntu_unstable', '/')
+    scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
+    assert_equal('supertrunk', scm.branch)
+  end
+
+  def test_preference_default
+    # A special fake thing 'no-i18n' should come back with master as no
+    # stable branch is set and no trunk branch is set, i.e. releaseme has no
+    # data to give us.
+    scm = CI::UpstreamSCM.new('no-i18n', 'kubuntu_unstable', '/')
+    scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
+    assert_equal('master', scm.branch)
+  end
 end
