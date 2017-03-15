@@ -1763,6 +1763,48 @@ Report bugs in bugs.kde.org, under product frameworks-networkmanager-qt.</descri
       <icon/>
       <path>kde/applications</path>
       <web/>
+      <project identifier="no-stable">
+        <name>Dolphin</name>
+        <description>KDE File Manager</description>
+        <icon/>
+        <path>kde/applications/no-stable</path>
+        <web>https://cgit.kde.org/dolphin.git</web>
+        <member username="freininghaus">Frank Reininghaus</member>
+        <member username="emmanuelp">Emmanuel Pescosta</member>
+        <repo>
+          <active>true</active>
+          <web type="gitweb">https://cgit.kde.org/no-stable.git</web>
+          <url protocol="ssh" access="read+write">git@git.kde.org:no-stable</url>
+          <url protocol="tarball" access="read-only">http://anongit.kde.org/no-stable/no-stable-latest.tar.gz</url>
+          <url protocol="git" access="read-only">git://anongit.kde.org/no-stable</url>
+          <url protocol="http" access="read-only">http://anongit.kde.org/no-stable</url>
+          <branch i18n="trunk">none</branch>
+          <branch i18n="stable">none</branch>
+          <branch i18n="trunk_kf5">supertrunk</branch>
+          <branch i18n="stable_kf5">none</branch>
+        </repo>
+      </project>
+      <project identifier="no-i18n">
+        <name>Dolphin</name>
+        <description>KDE File Manager</description>
+        <icon/>
+        <path>kde/applications/no-stable</path>
+        <web>https://cgit.kde.org/dolphin.git</web>
+        <member username="freininghaus">Frank Reininghaus</member>
+        <member username="emmanuelp">Emmanuel Pescosta</member>
+        <repo>
+          <active>true</active>
+          <web type="gitweb">https://cgit.kde.org/no-i18n.git</web>
+          <url protocol="ssh" access="read+write">git@git.kde.org:no-i18n</url>
+          <url protocol="tarball" access="read-only">http://anongit.kde.org/no-i18n/no-i18n-latest.tar.gz</url>
+          <url protocol="git" access="read-only">git://anongit.kde.org/no-i18n</url>
+          <url protocol="http" access="read-only">http://anongit.kde.org/no-i18n</url>
+          <branch i18n="trunk">none</branch>
+          <branch i18n="stable">none</branch>
+          <branch i18n="trunk_kf5">none</branch>
+          <branch i18n="stable_kf5">none</branch>
+        </repo>
+      </project>
       <project identifier="dolphin">
         <name>Dolphin</name>
         <description>KDE File Manager</description>

@@ -31,6 +31,7 @@ module CI
       STABLE = :stable # aka stable
     end
 
+    ORIGIN_PERFERENCE = [Origin::UNSTABLE, Origin::STABLE].freeze
     DEFAULT_BRANCH = 'master'.freeze
 
     # Constructs an upstream SCM description from a packaging SCM description.
@@ -61,9 +62,7 @@ module CI
       return nil unless adjust?
       projects = ReleaseMe::Project.from_repo_url(url)
       if projects.size == 1
-        @branch = { Origin::UNSTABLE => projects[0].i18n_trunk,
-                    Origin::STABLE => projects[0].i18n_stable }
-                  .fetch(origin.to_sym)
+        @branch = branch_from_origin(projects[0], origin.to_sym)
         return self
       end
       # No or multiple results
@@ -72,6 +71,23 @@ module CI
     end
 
     private
+
+    # This implements a preference fallback system.
+    # We get a requested origin but in case this origin is not actually set
+    # we fall back to a lower level origin. e.g. stable is requested but not
+    # set, we'll fall back to trunk (i.e. ~master).
+    # This is to prevent us from ending up with no branch and in case the
+    # desired origin is not set, a lower preference fallback is more desirable
+    # than our hardcoded master.
+    def branch_from_origin(project, origin)
+      origin_map = { Origin::UNSTABLE => project.i18n_trunk,
+                     Origin::STABLE => project.i18n_stable }
+      ORIGIN_PERFERENCE[0..ORIGIN_PERFERENCE.index(origin)].reverse_each do |o|
+        branch = origin_map.fetch(o)
+        return branch if branch && !branch.empty?
+      end
+      DEFAULT_BRANCH # If all fails, default back to default.
+    end
 
     def default_branch?
       branch == DEFAULT_BRANCH
