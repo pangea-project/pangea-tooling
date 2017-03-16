@@ -26,6 +26,27 @@ module CI
   # Construct an upstream scm instance and fold in overrides set via
   # meta/upstream_scm.json.
   class UpstreamSCM < SCM
+    # Caches projects so we don't construct them multiple times.
+    module ProjectCache
+      class << self
+        def fetch(repo_url)
+          hash.fetch(repo_url, nil)
+        end
+
+        # @return project
+        def cache(repo_url, project)
+          hash[repo_url] = project
+          project
+        end
+
+        private
+
+        def hash
+          @hash ||= {}
+        end
+      end
+    end
+
     module Origin
       UNSTABLE = :unstable
       STABLE = :stable # aka stable
@@ -60,17 +81,25 @@ module CI
 
     def releaseme_adjust!(origin)
       return nil unless adjust?
-      projects = ReleaseMe::Project.from_repo_url(url)
-      if projects.size == 1
-        @branch = branch_from_origin(projects[0], origin.to_sym)
+      if project
+        @branch = branch_from_origin(project, origin.to_sym)
         return self
       end
       # No or multiple results
-      puts "Could not uniquely resolve #{url}. OMG. #{projects}"
       nil
     end
 
     private
+
+    def project
+      project = ProjectCache.fetch(url)
+      return project if project
+      projects = ReleaseMe::Project.from_repo_url(url)
+      if projects.size != 1
+        puts "Could not uniquely resolve #{url}. OMG. #{projects}"
+      end
+      ProjectCache.cache(url, projects[0]) # Caches nil if applicable.
+    end
 
     # This implements a preference fallback system.
     # We get a requested origin but in case this origin is not actually set
