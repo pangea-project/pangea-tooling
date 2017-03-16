@@ -102,7 +102,7 @@ class ProjectTest < TestCase
                                 type: stability)
           assert_equal(project.name, name)
           assert_equal(project.component, component)
-          scm = project.upstream_scm
+          p scm = project.upstream_scm
           assert_equal('git', scm.type)
           assert_equal('master', scm.branch)
           assert_equal("git://anongit.kde.org/#{name}", scm.url)
@@ -233,16 +233,18 @@ class ProjectTest < TestCase
     system_sequence = sequence('test_launchpad-system')
     Object.any_instance.expects(:system)
           .with do |x|
-            next unless x == 'bzr checkout lp:unity-action-api unity-action-api'
+            next unless x =~ /bzr checkout lp:unity-action-api ([^\s]+unity-action-api)/
             # .returns runs in a different binding so the chdir is wrong....
             # so we copy here.
-            FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
+            FileUtils.cp_r("#{data}/.", $~[1], verbose: true)
             true
           end
           .returns(true)
           .in_sequence(system_sequence)
     Object.any_instance.expects(:system)
-          .with('bzr up')
+          .with do |x, **kwords|
+            x == 'bzr up' && kwords.fetch(:chdir) =~ /[^\s]+unity-action-api/
+          end
           .returns(true)
           .in_sequence(system_sequence)
 

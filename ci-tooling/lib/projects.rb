@@ -136,19 +136,15 @@ class Project
     validate!
 
     cache_dir = init_packaging_scm(url_base, branch)
+    cache_dir = File.absolute_path("#{cache_dir}/#{name}")
 
     @override_rule = CI::Overrides.new.rules_for_scm(@packaging_scm)
     override_apply('packaging_scm')
 
-    Dir.chdir(cache_dir) do
-      get
-      Dir.chdir(name) do
-        update(branch)
-        # FIXME: shouldn't this raise something?
-        next unless File.exist?('debian/control')
-        init_from_source(Dir.pwd)
-      end
-    end
+    get(cache_dir)
+    update(branch, cache_dir)
+    # FIXME: shouldn't this raise something?
+    init_from_source(cache_dir) if File.exist?("#{cache_dir}/debian/control")
 
     @override_rule.each do |member, _|
       override_apply(member)
@@ -282,7 +278,7 @@ class Project
       raise GitNoBranchError, "origin/#{branch}"
     end
 
-    def update_git(branch, dir = Dir.pwd)
+    def update_git(branch, dir)
       repo = Git.open(dir)
       repo.clean(force: true, d: true)
       repo.reset(nil, hard: true)
@@ -294,9 +290,9 @@ class Project
       raise GitTransactionError, e
     end
 
-    def update_bzr(_branch, dir = Dir.pwd)
+    def update_bzr(_branch, dir)
       return unless VCSCache.update?(dir)
-      return if system('bzr up')
+      return if system('bzr up', chdir: dir)
       raise BzrTransactionError, 'Failed to update'
     end
   end
@@ -334,26 +330,26 @@ class Project
     end
   end
 
-  def get
+  def get(dir)
     Retry.retry_it(errors: [TransactionError], times: 2, sleep: 5) do
       if @component == 'launchpad'
-        self.class.get_bzr(@packaging_scm.url, @name)
+        self.class.get_bzr(@packaging_scm.url, dir)
       else
-        self.class.get_git(@packaging_scm.url, @name)
+        self.class.get_git(@packaging_scm.url, dir)
       end
     end
   end
 
-  def update(branch)
+  def update(branch, dir)
     Retry.retry_it(errors: [TransactionError], times: 2, sleep: 5) do
       if @component == 'launchpad'
-        self.class.update_bzr(branch)
+        self.class.update_bzr(branch, dir)
       else
-        self.class.update_git(branch)
+        self.class.update_git(branch, dir)
 
         # FIXME: We are not sure this is even useful anymore. It certainly was
         #   not actively used since utopic.
-        branches = `git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
+        branches = `cd #{dir} && git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
         branches.each do |b|
           @series_branches << b.gsub('refs/remotes/origin/', '')
         end
