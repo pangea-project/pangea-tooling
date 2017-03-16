@@ -92,6 +92,7 @@ module CI
     private
 
     def project
+      url = self.url.gsub(/.git$/, '') # sanitize
       project = ProjectCache.fetch(url)
       return project if project
       projects = ReleaseMe::Project.from_repo_url(url)

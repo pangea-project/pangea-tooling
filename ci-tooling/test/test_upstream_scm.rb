@@ -76,4 +76,13 @@ class UpstreamSCMTest < TestCase
     scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
     assert_equal('master', scm.branch)
   end
+
+  def test_releaseme_url_suffix
+    # In overrides people sometimes use silly urls with a .git suffix, this
+    # should still lead to correct adjustments regardless.
+    scm = CI::UpstreamSCM.new('breeze-qt4', 'kubuntu_unstable', '/')
+    scm.instance_variable_set(:@url, 'git://anongit.kde.org/breeze.git')
+    scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
+    assert_equal('Plasma/5.9', scm.branch)
+  end
 end
