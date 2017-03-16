@@ -44,6 +44,28 @@ class Project
   # and Runtime in factories only...
   class GitNoBranchError < RuntimeError; end
 
+  # Caches VCS update runs to not update the same VCS multitple times.
+  module VCSCache
+    class << self
+      # Caches that an update was performed
+      def updated(path)
+        cache << path
+      end
+
+      # @return [Bool] if this path requires updating
+      def update?(path)
+        return false if ENV.include?('NO_UPDATE')
+        !cache.include?(path)
+      end
+
+      private
+
+      def cache
+        @cache ||= []
+      end
+    end
+  end
+
   extend Deprecate
 
   # Name of the thing (e.g. the repo name)
@@ -266,14 +288,14 @@ class Project
       repo.reset(nil, hard: true)
       repo.gc
       repo.config('remote.origin.prune', true)
-      repo.fetch('origin') unless ENV.include?('NO_UPDATE')
+      repo.fetch('origin') if VCSCache.update?(dir)
       git_checkout(repo, branch)
     rescue Git::GitExecuteError => e
       raise GitTransactionError, e
     end
 
-    def update_bzr(_branch)
-      return if ENV.include?('NO_UPDATE')
+    def update_bzr(_branch, dir = Dir.pwd)
+      return unless VCSCache.update?(dir)
       return if system('bzr up')
       raise BzrTransactionError, 'Failed to update'
     end
