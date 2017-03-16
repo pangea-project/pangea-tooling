@@ -124,7 +124,7 @@ module CI
     end
 
     def adjust?
-      default_branch? && url.include?('.kde.org')
+      default_branch? && url.include?('.kde.org') && type == 'git'
     end
   end
 end
