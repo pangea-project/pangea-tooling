@@ -31,7 +31,7 @@ class ProjectsFactory
 
     def from_string(str)
       *project, name = str.split('/')
-      component = "launchpad"
+      component = 'launchpad'
       Project.new(name, component, "lp:#{project.join('/')}")
     end
   end
