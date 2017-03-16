@@ -1,8 +1,35 @@
+# frozen_string_literal: true
+#
+# Copyright (C) 2014-2017 Harald Sitter <sitter@kde.org>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) version 3, or any
+# later version accepted by the membership of KDE e.V. (or its
+# successor approved by the membership of KDE e.V.), which shall
+# act as a proxy defined in Section 6 of version 3 of the license.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
 require 'test/unit'
 require 'tmpdir'
 require 'webmock/test_unit'
 
 require_relative 'assert_xml'
+
+# Deal with a require-time expecation here. docker.rb does a version coercion
+# hack at require-time which will hit the socket. As we install webmock above
+# already it may be active by the time docker.rb is required, making it
+# necessary to stub the expecation.
+WebMock.stub_request(:get, 'http://unix/v1.16/version')
+       .to_return(body: '{"Version":"17.03.0-ce","ApiVersion":"1.26","MinAPIVersion":"1.12"}')
 
 # Test case base class handling fixtures and chdirring to not pollute the source
 # dir.
@@ -12,7 +39,7 @@ class TestCase < Test::Unit::TestCase
   ATFILEFAIL = 'Could not determine the basename of the file of the' \
                ' class inheriting TestCase. Either flatten your inheritance' \
                ' graph or set the name manually using `self.file = __FILE__`' \
-               ' in class scope.'
+               ' in class scope.'.freeze
 
   class << self
     attr_accessor :file
@@ -74,9 +101,10 @@ EOT
     #FIXME: Drop when VCR gets fixed
     WebMock.enable!
 
+    # Enable test case interception and make sure
     stub_request(:get, 'https://projects.kde.org/kde_projects.xml')
       .to_return(body:
-         File.read("#{script_base_path}/data/kde_projects_stripped.xml"))
+         File.read("#{__dir__}/../data/kde_projects_stripped.xml"))
   end
 
   def priority_teardown
