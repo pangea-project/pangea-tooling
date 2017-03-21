@@ -53,7 +53,7 @@ when 'firefox'
   Dir.chdir('build') do
     system("dget -u #{dsc}")
     dir = Dir.glob('firefox-*').first
-    FileUtils.ln_s(dir, 'packaging')
+    FileUtils.ln_s(dir, 'packaging', verbose: true)
     KDEIfy.firefox!
     Dir.chdir(dir) do
       args = [
