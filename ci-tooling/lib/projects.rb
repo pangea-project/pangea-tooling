@@ -25,6 +25,7 @@ require 'fileutils'
 require 'forwardable' # For cleanup_uri delegation
 require 'git'
 require 'json'
+require 'rugged'
 
 require_relative 'ci/overrides'
 require_relative 'ci/upstream_scm'
@@ -143,8 +144,11 @@ class Project
 
     get(cache_dir)
     update(branch, cache_dir)
-    # FIXME: shouldn't this raise something?
-    init_from_source(cache_dir) if File.exist?("#{cache_dir}/debian/control")
+    Dir.mktmpdir do |checkout_dir|
+      checkout(branch, cache_dir, checkout_dir)
+      # FIXME: shouldn't this raise something?
+      init_from_source(checkout_dir) if File.exist?("#{cache_dir}/debian/control")
+    end
 
     @override_rule.each do |member, _|
       override_apply(member)
@@ -267,30 +271,18 @@ class Project
       raise BzrTransactionError, "Could not checkout #{uri}"
     end
 
-    # Separation method. Within the context of a checkout an execution error
-    # is not a transaction error, but simply means the branch does not exist.
-    # This type of error is different from a TransactionError in that it is
-    # not retriable (or rather it makes no sense to retry as the branch is not
-    # going to magically appear).
-    def git_checkout(repo, branch)
-      repo.checkout("origin/#{branch}")
-    rescue Git::GitExecuteError
-      raise GitNoBranchError, "origin/#{branch}"
-    end
-
-    def update_git(branch, dir)
+    def update_git(dir)
       repo = Git.open(dir)
       repo.clean(force: true, d: true)
       repo.reset(nil, hard: true)
       repo.gc
       repo.config('remote.origin.prune', true)
       repo.fetch('origin') if VCSCache.update?(dir)
-      git_checkout(repo, branch)
     rescue Git::GitExecuteError => e
       raise GitTransactionError, e
     end
 
-    def update_bzr(_branch, dir)
+    def update_bzr(dir)
       return unless VCSCache.update?(dir)
       return if system('bzr up', chdir: dir)
       raise BzrTransactionError, 'Failed to update'
@@ -343,9 +335,9 @@ class Project
   def update(branch, dir)
     Retry.retry_it(errors: [TransactionError], times: 2, sleep: 5) do
       if @component == 'launchpad'
-        self.class.update_bzr(branch, dir)
+        self.class.update_bzr(dir)
       else
-        self.class.update_git(branch, dir)
+        self.class.update_git(dir)
 
         # FIXME: We are not sure this is even useful anymore. It certainly was
         #   not actively used since utopic.
@@ -354,6 +346,21 @@ class Project
           @series_branches << b.gsub('refs/remotes/origin/', '')
         end
       end
+    end
+  end
+
+  def checkout(branch, cache_dir, checkout_dir)
+    # This meth cannot have transaction errors as there is no network IO going
+    # on here.
+    if @component == 'launchpad'
+      FileUtils.rm_r(checkout_dir, verbose: true)
+      FileUtils.ln_s(cache_dir, checkout_dir, verbose: true)
+    else
+      repo = Rugged::Repository.new(cache_dir)
+      repo.workdir = checkout_dir
+      b = "origin/#{branch}"
+      raise GitNoBranchError unless repo.branches.each_name.to_a.include?(b)
+      repo.reset(b, :hard)
     end
   end
 end
