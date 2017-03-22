@@ -147,7 +147,9 @@ class Project
     Dir.mktmpdir do |checkout_dir|
       checkout(branch, cache_dir, checkout_dir)
       # FIXME: shouldn't this raise something?
-      init_from_source(checkout_dir) if File.exist?("#{cache_dir}/debian/control")
+      if File.exist?("#{checkout_dir}/debian/control")
+        init_from_source(checkout_dir)
+      end
     end
 
     @override_rule.each do |member, _|
