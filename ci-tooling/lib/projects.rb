@@ -262,7 +262,6 @@ class Project
       return if File.exist?(dest)
       Rugged::Repository.clone_at(uri, dest, bare: true)
     rescue Rugged::NetworkError => e
-      p e
       raise GitTransactionError, e
     end
 
