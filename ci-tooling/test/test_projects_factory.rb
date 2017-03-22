@@ -309,7 +309,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
                              component: 'qt',
                              url_base: neon_dir,
                              branch: 'kubuntu_unstable',
-                             origin: nil)]
+                             origin: nil).value!]
 
     refute_nil(projects)
     assert_equal(1, projects.size)
