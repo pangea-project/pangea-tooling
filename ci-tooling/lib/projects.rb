@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2014-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2014-2017 Harald Sitter <sitter@kde.org>
 # Copyright (C) 2014-2016 Rohan Garg <rohan@garg.io>
 # Copyright (C) 2015 Jonathan Riddell <jr@jriddell.org>
 # Copyright (C) 2015 Bhushan Shah <bshah@kde.org>
@@ -23,7 +23,6 @@
 
 require 'fileutils'
 require 'forwardable' # For cleanup_uri delegation
-require 'git'
 require 'json'
 require 'rugged'
 
@@ -261,8 +260,9 @@ class Project
     # @param dest <String> directory name of the dir to clone as
     def get_git(uri, dest)
       return if File.exist?(dest)
-      Rugged::Repository.clone_at(uri, dest)
+      Rugged::Repository.clone_at(uri, dest, bare: true)
     rescue Rugged::NetworkError => e
+      p e
       raise GitTransactionError, e
     end
 
@@ -274,13 +274,12 @@ class Project
     end
 
     def update_git(dir)
-      repo = Git.open(dir)
-      repo.clean(force: true, d: true)
-      repo.reset(nil, hard: true)
-      repo.gc
-      repo.config('remote.origin.prune', true)
-      repo.fetch('origin') if VCSCache.update?(dir)
-    rescue Git::GitExecuteError => e
+      return unless VCSCache.update?(dir)
+      # TODO: should change to .bare as its faster. also in checkout.
+      repo = Rugged::Repository.new(dir)
+      repo.config.store('remote.origin.prune', true)
+      repo.fetch('origin')
+    rescue Rugged::NetworkError => e
       raise GitTransactionError, e
     end
 
