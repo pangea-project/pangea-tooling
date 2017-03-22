@@ -24,6 +24,11 @@ end
 
 # Test blocking thread pool.
 class RetryTest < TestCase
+  def setup
+    # Need sleeping enabled to test sleeping, obviously.
+    Retry.enable_sleeping
+  end
+
   def test_times
     times = 5
     helper = RetryHelper.new(max_count: times)

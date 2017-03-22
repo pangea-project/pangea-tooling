@@ -2,6 +2,14 @@
 module Retry
   module_function
 
+  def disable_sleeping
+    @sleep_disabled = true
+  end
+
+  def enable_sleeping
+    @sleep_disabled = false
+  end
+
   # Retry given block.
   # @param tries [Integer] amount of tries
   # @param errors [Array<Object>] errors to rescue
@@ -14,7 +22,7 @@ module Retry
   rescue *errors => e
     raise e if (times -= 1) <= 0
     print "Error on retry_it(#{name}) :: #{e}\n" unless silent
-    Kernel.sleep(sleep) if sleep
+    Kernel.sleep(sleep) if sleep && !@sleep_disabled
     retry
   end
 end
