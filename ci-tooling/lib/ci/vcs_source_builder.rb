@@ -33,8 +33,7 @@ require_relative 'sourcer_base'
 require_relative 'version_enforcer'
 
 module CI
-  # Extend VCS builder with l10n functionality based on releaseme.
-  # NOTE: super experimental right now!
+  # Extend a builder with l10n functionality based on releaseme.
   module SourceBuilderL10nExtension
     # Hijack this when working on source to inject the l10n into the copied
     # source BUT not the git repo source. This prevents us from polluting the
@@ -84,7 +83,7 @@ module CI
 
       l10n = ReleaseMe::L10n.new(l10n_origin, project.identifier,
                                  project.i18n_path)
-      l10n.default_excluded_languages = []
+      l10n.default_excluded_languages = [] # Include even x-test.
       l10n.get(source_path)
 
       (class << self; self; end).class_eval do
