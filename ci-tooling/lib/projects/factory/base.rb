@@ -18,6 +18,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'concurrent'
+
 class ProjectsFactory
   # Base class.
   class Base
@@ -35,6 +37,19 @@ class ProjectsFactory
       def understand?(_type)
         false
       end
+
+      def promise_executor
+        @pool ||=
+          Concurrent::ThreadPoolExecutor.new(
+            min_threads: 2,
+            # Do not thread too aggressively. We only thread for git pulling.
+            # Outside that use case too much threading actually would slow us
+            # down due to GIL, locking and scheduling overhead.
+            max_threads: 4,
+            max_queue: 512,
+            fallback_policy: :caller_runs
+          )
+      end
     end
 
     attr_accessor :default_params
@@ -42,15 +57,23 @@ class ProjectsFactory
     # Factorize from data. Defaults to data being an array.
     def factorize(data)
       # fail unless data.is_a?(Array)
-      data.collect do |entry|
+      promises = data.collect do |entry|
         next from_string(entry) if entry.is_a?(String)
         next from_hash(entry) if entry.is_a?(Hash)
         # FIXME: use a proper error here.
         raise 'unkown type'
       end.flatten.compact
+      # Launchpad factory is shit and doesn't use new_project. So it doesn't
+      # come back with promises...
+      return promises if promises[0].is_a?(Project)
+      aggregate_promises(promises)
     end
 
     private
+
+    def aggregate_promises(promises)
+      Concurrent::Promise.zip(*promises).execute.value!.flatten.compact
+    end
 
     class << self
       private
@@ -83,7 +106,16 @@ class ProjectsFactory
       # Let Project pick a default for origin, otherwise we need to retrofit
       # all Project testing with a default which seems silly.
       params[:origin] = origin if origin
-      Project.new(name, component, url_base, **params)
+      Concurrent::Promise.execute(executor: self.class.promise_executor) do
+        begin
+          Project.new(name, component, url_base, **params)
+        rescue
+          # Unlike without promises the factories themself cannot catch
+          # exceptions. To prevent us from dying to exceptions we'll skip all
+          # of them for now.
+          nil
+        end
+      end
     end
   end
 end
