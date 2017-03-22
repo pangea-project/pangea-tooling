@@ -259,8 +259,8 @@ class Project
     # @param dest <String> directory name of the dir to clone as
     def get_git(uri, dest)
       return if File.exist?(dest)
-      Git.clone(uri, dest)
-    rescue Git::GitExecuteError => e
+      Rugged::Repository.clone_at(uri, dest)
+    rescue Rugged::NetworkError => e
       raise GitTransactionError, e
     end
 
