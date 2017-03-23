@@ -169,13 +169,25 @@ module Debian
       #   - sort all
       #     - substvars at the end
       #   - output >80 => line break each entry
-      data.sort
       joined_alternatives = data.collect do |entry|
-        entry.join(' | ')
+        entry.sort.join(' | ')
       end
+      joined_alternatives = sort_relationships(joined_alternatives)
       output = joined_alternatives.join(', ')
       return output if output.size < (80 - indent)
       joined_alternatives.join(",\n#{Array.new(indent, ' ').join}")
+    end
+
+    def sort_relationships(array)
+      array.sort do |x, y|
+        x_var = x[0] == '$'
+        y_var = y[0] == '$'
+        # If x is a variable it loses to everything, if y is a var it loses
+        # to everything. If both or none are vars regular alpha order applies.
+        next 1 if x_var && !y_var
+        next -1 if y_var && !x_var #
+        x <=> y
+      end
     end
 
     def output_foldable(data, indent)
