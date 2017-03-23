@@ -289,4 +289,22 @@ class VCSBuilderTest < TestCase
   ensure
     ENV.delete('TYPE')
   end
+
+  def test_vcs_injection
+    # Automatically inject/update the Vcs fields in the control file.
+
+    # The git dir is not called .git as to not confuse the actual tooling git.
+    FileUtils.mv('packaging/gitty', 'packaging/.git')
+
+    source = CI::VcsSourceBuilder.new(release: @release).run
+    Dir.chdir('build') do
+      dsc = source.dsc
+      assert(system('dpkg-source', '-x', dsc))
+      dir = "#{source.name}-#{source.build_version.tar}/"
+      assert_path_exist(dir)
+      data = File.read("#{dir}/debian/control").strip
+      assert_include(data, 'Vcs-Git: git://anongit.neon.kde.org/plasma/kmenuedit')
+      assert_include(data, 'Vcs-Browser: https://packaging.neon.kde.org/plasma/kmenuedit.git')
+    end
+  end
 end

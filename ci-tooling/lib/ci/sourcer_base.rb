@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 #
 # Copyright (C) 2015 Rohan Garg <rohan@garg.io>
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -20,12 +20,79 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'fileutils'
+require 'git_clone_url'
+require 'rugged'
 
+require_relative '../debian/control'
 require_relative '../kci'
 
 module CI
+  # Automatically inject/update Vcs- control fields to match where we actually
+  # build things from.
+  module ControlVCSInjector
+    def copy_source_tree(source_dir, *args)
+      ret = super
+      return ret if File.basename(source_dir) != 'packaging'
+      url = vcs_url_of(source_dir)
+      return ret unless url
+      open_control("#{@build_dir}/source/") do |control|
+        fill_vcs_fields(control, url)
+      end
+      ret
+    end
+
+    private
+
+    def open_control(dir, &_block)
+      control = Debian::Control.new(dir)
+      control.parse!
+      yield control
+      File.write("#{dir}/debian/control", control.dump)
+    end
+
+    def control_log
+      @control_log ||= Logger.new(STDOUT).tap { |l| l.progname = 'control' }
+    end
+
+    def vcs_url_of(path)
+      return nil unless Dir.exist?(path)
+      repo = Rugged::Repository.discover(path)
+      remote = repo.remotes['origin']
+      remote.url
+    rescue Rugged::RepositoryError
+      control_log.warn "Failed to resolve repo of #{path}"
+      nil
+    end
+
+    def fill_vcs_fields(control, url)
+      control_log.info "Automatically filling VCS fields pointing to #{url}"
+      control.source['Vcs-Git'] = url
+      uri = GitCloneUrl.parse(url)
+      uri.path = uri.path.gsub('.git', '') # sanitize
+      control.source['Vcs-Browser'] = vcs_browser(uri)
+      control.dump
+    end
+
+    def vcs_browser(uri)
+      case uri.host
+      when 'anongit.neon.kde.org', 'git.neon.kde.org'
+        "https://packaging.neon.kde.org#{uri.path}.git"
+      # :nocov: no point covering this besides the interpolation
+      when 'git.debian.org'
+        "https://anonscm.debian.org/cgit#{uri.path}.git"
+      when 'github.com'
+        "https://github.com#{uri.path}"
+      else
+        url
+      end
+      # :nocov:
+    end
+  end
+
   # Base class for sourcer implementations.
   class SourcerBase
+    prepend ControlVCSInjector
+
     private
 
     def initialize(release:, strip_symbols:, restricted_packaging_copy:)
