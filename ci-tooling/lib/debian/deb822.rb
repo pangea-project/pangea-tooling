@@ -64,7 +64,7 @@ module Debian
             if relationship_fields.include?(key.downcase)
               value = parse_relationships(value)
             else
-              value = [value.chomp(',').strip]
+              value = value.split(',').collect(&:strip)
             end
           elsif multiline_fields.include?(key.downcase)
             # For multiline we want to preserve right hand side whitespaces.

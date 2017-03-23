@@ -114,6 +114,17 @@ module Debian
       gwenview = gwenview_arr.find { |x| x.name == 'gwenview' }
       assert_equal('=', gwenview.operator)
       assert_equal('1.0', gwenview.version)
+
+    def test_single_foldable
+      # Uploaders is too long line and foldable. It should be split properly.
+
+      c = Control.new(__method__)
+      c.parse!
+      assert_equal(c.source['uploaders'],
+                   ['Sune Vuorela <debian@pusling.com>',
+                    'Modestas Vainius <modax@debian.org>',
+                    'Fathi Boudra <fabo@debian.org>',
+                    'Maximiliano Curia <maxy@debian.org>'])
     end
   end
 end
