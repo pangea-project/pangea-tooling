@@ -119,7 +119,6 @@ module CI
       super
       # FIXME: use packagingdir and sourcedir
       @flavor = OS::ID.to_sym # e.g. Ubuntu
-      @data = YAML.load_file("#{__dir__}/data/maintainer.yaml")
 
       @source = CI::Source.new
       changelog = nil
@@ -176,8 +175,6 @@ module CI
     def log_change
       # Create changelog entry
       Dir.chdir("#{@build_dir}/source/") do
-        ENV['DEBFULLNAME'] = @data[@flavor][:name]
-        ENV['DEBEMAIL'] = @data[@flavor][:email]
         create_changelog_entry(@source.version,
                                "Automatic #{@flavor.capitalize} CI Build")
       end

@@ -1,7 +1,0 @@
-:ubuntu:
-  :name:  'Kubuntu CI'
-  :email: 'kubuntu-ci@lists.launchpad.net'
-
-:debian:
-  :name:  'Debian CI'
-  :email: 'null@debian.org'

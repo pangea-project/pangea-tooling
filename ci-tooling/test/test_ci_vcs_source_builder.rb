@@ -182,29 +182,6 @@ class VCSBuilderTest < TestCase
     assert_not_include(files, 'test.symbols.armhf')
   end
 
-  def assert_changelogid(osid, author)
-    send("fake_os_#{osid}".to_sym)
-    source = CI::VcsSourceBuilder.new(release: @release).run
-    assert_not_nil(source.dsc)
-    Dir.chdir('build') do
-      dsc = source.dsc
-      changelog = "#{source.name}-#{source.version}/debian/changelog"
-      assert(system('dpkg-source', '-x', dsc))
-      line = File.read(changelog).split($/).fetch(4)
-      assert_include(line, author)
-    end
-  end
-
-  def test_changelog_ubuntu
-    assert_changelogid('ubuntu',
-                       ' -- Kubuntu CI <kubuntu-ci@lists.launchpad.net>')
-  end
-
-  def test_changelog_debian
-    assert_changelogid('debian',
-                       ' -- Debian CI <null@debian.org>')
-  end
-
   def test_locale_kdelibs4support
     source = CI::VcsSourceBuilder.new(release: @release).run
     assert_not_nil(source.dsc)
