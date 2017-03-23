@@ -94,3 +94,6 @@ rring-kde-full:
 ring-gnome:
   repo: https://github.com/appimage-packages/ring-gnome
   branch: [master]
+kgeography:
+  repo: https://github.com/appimage-packages/kgeography
+  branch: [master]
