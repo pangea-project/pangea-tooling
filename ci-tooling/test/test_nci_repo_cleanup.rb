@@ -23,6 +23,7 @@ require_relative '../nci/repo_cleanup'
 
 require 'mocha/test_unit'
 require 'webmock/test_unit'
+require 'net/ssh/gateway' # so we have access to the const
 
 class NCIRepoCleanupTest < TestCase
   def setup
