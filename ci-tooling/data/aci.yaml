@@ -1,0 +1,96 @@
+kate:
+  repo: https://github.com/appimage-packages/kate
+  branch: [master]
+blinken:
+  repo: https://github.com/appimage-packages/blinken
+  branch: [master]
+kmymoney:
+  repo: https://github.com/appimage-packages/kmymoney
+  branch: [master]
+skanlite:
+  repo: https://github.com/appimage-packages/skanlite-packaging
+  branch: [master]
+artikulate:
+  repo: https://github.com/appimage-packages/artikulate
+  branch: [master]
+kstars:
+  repo: https://github.com/appimage-packages/kstars
+  branch: [master]
+okular:
+  repo: https://github.com/appimage-packages/okular
+  branch: [master]
+ark:
+  repo: https://github.com/appimage-packages/ark
+  branch: [master]
+marble:
+  repo: https://github.com/appimage-packages/marble
+  branch: [master]
+plasmazilla:
+  repo: https://github.com/appimage-packages/plasmazilla
+  branch: [master]
+kmail:
+  repo: https://github.com/appimage-packages/kmail
+  branch: [master]
+kexi:
+  repo: https://github.com/appimage-packages/kexi
+  branch: [master]
+choqok:
+  repo: https://github.com/appimage-packages/choqok
+  branch: [master]
+akregator:
+  repo: https://github.com/appimage-packages/akregator
+  branch: [master]
+calligra:
+  repo: https://github.com/appimage-packages/calligra
+  branch: [master]
+kcalc:
+  repo: https://github.com/appimage-packages/kcalc
+  branch: [master]
+blogilo:
+  repo: https://github.com/appimage-packages/blogilo
+  branch: [master]
+bomber:
+  repo: https://github.com/appimage-packages/bomber
+  branch: [master]
+bovo:
+  repo: https://github.com/appimage-packages/bovo
+  branch: [master]
+cantor:
+  repo: https://github.com/appimage-packages/cantor
+  branch: [master]
+cervisia:
+  repo: https://github.com/appimage-packages/cervisia
+  branch: [master]
+kde-connect:
+  repo: https://github.com/appimage-packages/kde-connect
+  branch: [master]
+k3b:
+  repo: https://github.com/appimage-packages/k3b
+  branch: [master]
+dolphin:
+  repo: https://github.com/appimage-packages/dolphin
+  branch: [master]
+kaffeine:
+  repo: https://github.com/appimage-packages/kaffeine
+  branch: [master]
+dragon:
+  repo: https://github.com/appimage-packages/dragon
+  branch: [master]
+kamoso:
+  repo: https://github.com/appimage-packages/kamoso
+  branch: [master]
+simon:
+  repo: https://github.com/appimage-packages/simon
+  branch: [master]
+kdenlive:
+  repo: https://github.com/appimage-packages/kdenlive
+  branch: [master]
+ring-kde-minimal:
+  repo: https://github.com/appimage-packages/ring-kde-minimal
+  branch: [master]
+rring-kde-full:
+  repo: https://github.com/appimage-packages/ring-kde-full
+  branch: [master]
+ring-gnome:
+  repo: https://github.com/appimage-packages/ring-gnome
+  branch: [master]
