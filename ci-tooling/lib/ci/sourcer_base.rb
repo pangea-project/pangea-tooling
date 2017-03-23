@@ -35,20 +35,13 @@ module CI
       return ret if File.basename(source_dir) != 'packaging'
       url = vcs_url_of(source_dir)
       return ret unless url
-      open_control("#{@build_dir}/source/") do |control|
+      edit_control("#{@build_dir}/source/") do |control|
         fill_vcs_fields(control, url)
       end
       ret
     end
 
     private
-
-    def open_control(dir, &_block)
-      control = Debian::Control.new(dir)
-      control.parse!
-      yield control
-      File.write("#{dir}/debian/control", control.dump)
-    end
 
     def control_log
       @control_log ||= Logger.new(STDOUT).tap { |l| l.progname = 'control' }
@@ -128,6 +121,13 @@ module CI
       end
     end
 
+    def edit_control(dir, &_block)
+      control = Debian::Control.new(dir)
+      control.parse!
+      yield control
+      File.write("#{dir}/debian/control", control.dump)
+    end
+
     def substvars!(version)
       Dir.glob('debian/*') do |path|
         next unless File.file?(path)
@@ -150,8 +150,17 @@ module CI
       substvars!(version)
     end
 
+    def mangle_maintainer
+      name = ENV['DEBFULLNAME']
+      email = ENV['DEBEMAIL']
+      return unless name
+      edit_control(Dir.pwd) do |control|
+        control.source['Maintainer'] = "#{name} <#{email || 'null@null.org'}>"
+      end
+    end
+
     def dpkg_buildpackage
-      system('update-maintainer')
+      mangle_maintainer
       args = [
         'dpkg-buildpackage',
         '-us', '-uc', # Do not sign .dsc / .changes

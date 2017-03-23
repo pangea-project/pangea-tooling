@@ -284,4 +284,27 @@ class VCSBuilderTest < TestCase
       assert_include(data, 'Vcs-Browser: https://packaging.neon.kde.org/plasma/kmenuedit.git')
     end
   end
+
+  def test_maintainer_mangle
+    orig_name = ENV['DEBFULLNAME']
+    orig_email = ENV['DEBEMAIL']
+    ENV['DEBFULLNAME'] = 'xxNeon CIxx'
+    ENV['DEBEMAIL'] = 'xxnull@neon.orgxx'
+
+    source = CI::VcsSourceBuilder.new(release: @release).run
+
+    Dir.chdir('build') do
+      dsc = source.dsc
+      assert(system('dpkg-source', '-x', dsc))
+      dir = "#{source.name}-#{source.build_version.tar}/"
+      assert_path_exist(dir)
+      assert_include(File.read("#{dir}/debian/control").strip,
+                     'Maintainer: xxNeon CIxx <xxnull@neon.orgxx>')
+      assert_include(File.read("#{dir}/debian/changelog").strip,
+                     '-- xxNeon CIxx <xxnull@neon.orgxx>')
+    end
+  ensure
+    orig_name ? ENV['DEBFULLNAME'] = orig_name : ENV.delete('DEBFULLNAME')
+    orig_email ? ENV['DEBEMAIL'] = orig_email : ENV.delete('DEBEMAIL')
+  end
 end
