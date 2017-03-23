@@ -105,15 +105,31 @@ module Debian
       gwenview.version = '1.0'
 
       File.write("#{__method__}/debian/control", c.dump)
+      # Make sure this is actually equal to our golden ref before even trying
+      # to parse it again.
+      assert_equal(File.read("#{__method__}.ref").split($/), c.dump.split($/))
+    end
 
-      # read again and make sure the expected values are present
+    def test_write_consistency
+      # Make sure adding values to a paragraph preserves order as per golden
+      # reference file.
+
       c = Control.new(__method__)
       c.parse!
-      build_deps = c.source.fetch('build-depends', nil)
-      gwenview_arr = build_deps.find { |x| x.find { |e| e if e.name == 'gwenview' } }
-      gwenview = gwenview_arr.find { |x| x.name == 'gwenview' }
-      assert_equal('=', gwenview.operator)
-      assert_equal('1.0', gwenview.version)
+      assert_nil(c.source['Vcs-Git'])
+      c.source['Vcs-Git'] = 'abc'
+
+      assert_equal(File.read("#{__method__}.ref").split($/), c.dump.split($/))
+    end
+
+    def test_write_wrap_and_sort
+      # Has super long foldable and relationship fields, we expect them to
+      # be properly broken as wrap-and-sort would.
+
+      c = Control.new(__method__)
+      c.parse!
+      assert_equal(File.read("#{__method__}.ref").split($/), c.dump.split($/))
+    end
 
     def test_single_foldable
       # Uploaders is too long line and foldable. It should be split properly.
