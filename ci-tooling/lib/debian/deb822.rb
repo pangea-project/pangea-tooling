@@ -130,7 +130,7 @@ module Debian
     def dump_paragraph(data, fields = {})
       # mandatory_fields = fields[:mandatory] || []
       multiline_fields = fields[:multiline] || []
-      # foldable_fields = fields[:foldable] || []
+      foldable_fields = fields[:foldable] || []
       relationship_fields = fields[:relationship] || []
 
       output = ''
@@ -140,11 +140,12 @@ module Debian
         field = field.downcase # normalize for include check
         if multiline_fields.include?(field)
           output += output_multiline(value)
-        # elsif foldable_fields.include?(field)
-          # output += output_foldable(value, key.length)
         elsif relationship_fields.include?(field)
-          # relationships are always foldable
+          # relationships are always foldable but different than other
+          # data as they are nested and have alternatives x|y
           output += output_relationship(value, key.length)
+        elsif foldable_fields.include?(field)
+          output += output_foldable(value, key.length)
         else
           # FIXME: rstrip because multiline do not get their trailing newline
           #   stripped in parsing
@@ -175,6 +176,17 @@ module Debian
       output = joined_alternatives.join(', ')
       return output if output.size < (80 - indent)
       joined_alternatives.join(",\n#{Array.new(indent, ' ').join}")
+    end
+
+    def output_foldable(data, indent)
+      # This implements output as per wrap-and-sort. That is:
+      #   - sort all
+      #     - substvars at the end
+      #   - output >80 => line break each entry
+      data.sort
+      output = data.collect(&:to_s).join(', ')
+      return output if output.size < (80 - indent)
+      data.collect(&:to_s).join(",\n#{Array.new(indent, ' ').join}")
     end
   end
 end
