@@ -43,7 +43,7 @@ export TYPE=<%= type %>
 export PWD_BIND=/workspace
 printf ${JOB_NAME} &gt; job_name
 <%= fetch_tarball %>
-~/tooling/kci/contain.rb ~/ci-tooling/nci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
+~/tooling/nci/contain.rb ~/ci-tooling/nci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
 <% if !job_name.include?('_launchpad_') && type == 'release' || job_name.include?('oxygen-icons5') || job_name.include?('breeze') || job_name.include?('wallpapers') %>
   echo 'wiping git clones'
   rm -rf packaging source

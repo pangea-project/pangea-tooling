@@ -49,7 +49,7 @@ env
 git branch -a
 export DIST=xenial
 export PWD_BIND=/workspace
-~/tooling/kci/contain.rb ./update_in_container
+~/tooling/nci/contain.rb ./update_in_container
 git status
 git commit -a -m &apos;update&apos; || exit 0
 #git push origin HEAD:${GIT_BRANCH#origin/}
