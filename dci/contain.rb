@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative '../../lib/ci/containment'
+require_relative '../lib/ci/containment'
 
 Docker.options[:read_timeout] = 36 * 60 * 60 # 36 hours. Because, QtWebEngine.
 
