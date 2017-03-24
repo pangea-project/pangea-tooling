@@ -18,9 +18,9 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-
+require_relative '../lib/ci/container'
 require_relative '../lib/ci/containment'
-
+require deep_merge
 Docker.options[:read_timeout] = 2 * 60 * 60 # 2 hours
 
 unless Dir.exist?('app')
@@ -36,6 +36,8 @@ end
 JOB_NAME = ENV.fetch('JOB_NAME')
 IMAGE = ENV.fetch('DOCKER_IMAGE')
 
+devices = "Devices: [{ PathOnHost: '/dev/fuse', PathInContainer: '/dev/fuse', CgroupPermissions: 'mrw' }]"
+
 c = CI::Containment.new(
   JOB_NAME,
   image: IMAGE,
@@ -45,13 +47,8 @@ c = CI::Containment.new(
     Dir.pwd + '/src:/src',
     Dir.pwd + '/appimage:/appimage',
     '/home/jenkins/.gnupg:/home/jenkins/.gnupg'
-  ],
-  devices: [
-    'PathOnHost' => '/dev/fuse',
-    'PathInContainer' => '/dev/fuse',
-    'CgroupPermissions' => 'mrw'
   ]
 )
 
-status_code = c.run(Cmd: 'bash -c /in/setup.sh', WorkingDir: Dir.pwd)
+status_code = c.run(Cmd: 'bash -c /in/setup.sh', WorkingDir: Dir.pwd, HostConfig: deep_merge(devices) )
 exit status_code
