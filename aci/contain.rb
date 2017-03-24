@@ -38,7 +38,7 @@ IMAGE = ENV.fetch('DOCKER_IMAGE')
 
 c = CI::Containment.new(
   JOB_NAME,
-  image: DOCKER_IMAGE,
+  image: IMAGE,
   binds: [
     Dir.pwd + ':/in',
     Dir.pwd + '/app:/app',
