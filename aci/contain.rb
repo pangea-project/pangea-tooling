@@ -43,7 +43,7 @@ dest = {:HostConfig => {}}
 
 c = CI::Containment.new(
   JOB_NAME,
-  image: IMAGE,
+  image: 'sgclark/trusty-qt580',
   binds: [
     Dir.pwd + ':/in',
     Dir.pwd + '/app:/app',
@@ -53,5 +53,5 @@ c = CI::Containment.new(
   ]
 )
 
-status_code = c.run(Cmd: 'uname -a', WorkingDir: '/', HostConfig: dest.deep_merge(source) )
+status_code = c.run(Cmd: 'ls /', WorkingDir: '/', HostConfig: dest.deep_merge(source) )
 exit status_code
