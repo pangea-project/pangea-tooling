@@ -21,6 +21,7 @@
 require_relative '../lib/ci/container'
 require_relative '../lib/ci/containment'
 require 'deep_merge'
+
 Docker.options[:read_timeout] = 2 * 60 * 60 # 2 hours
 
 unless Dir.exist?('app')
@@ -36,7 +37,9 @@ end
 JOB_NAME = ENV.fetch('JOB_NAME')
 IMAGE = ENV.fetch('DOCKER_IMAGE')
 
-devices = "Devices: [{ PathOnHost: '/dev/fuse', PathInContainer: '/dev/fuse', CgroupPermissions: 'mrw' }]"
+source = {:HostConfig => {Devices: [{ PathOnHost: '/dev/fuse', PathInContainer: '/dev/fuse', CgroupPermissions: 'mrw' }]}}
+dest = {:HostConfig => {}}
+
 
 c = CI::Containment.new(
   JOB_NAME,
@@ -50,5 +53,5 @@ c = CI::Containment.new(
   ]
 )
 
-status_code = c.run(Cmd: 'bash -c /in/setup.sh', WorkingDir: Dir.pwd, HostConfig: deep_merge(devices) )
+status_code = c.run(Cmd: 'bash -c /in/setup.sh', WorkingDir: Dir.pwd, HostConfig: dest.deep_merge(source) )
 exit status_code
