@@ -20,7 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require_relative '../lib/ci/container'
 require_relative '../lib/ci/containment'
-require deep_merge
+require 'deep_merge'
 Docker.options[:read_timeout] = 2 * 60 * 60 # 2 hours
 
 unless Dir.exist?('app')
