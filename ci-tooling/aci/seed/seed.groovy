@@ -12,7 +12,7 @@ def apps = new Yaml().load(new FileReader(new File("${WORKSPACE}/tooling/ci-tool
 
 apps.each { name, config ->
   config.branch.each { branch ->
-    pipelineJob("${name}-${branch}-appimage") {
+    pipelineJob("${name}-${branch}-appimage".replaceAll('/','-')) {
      definition {
         cpsScm {
             scm {
