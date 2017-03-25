@@ -24,13 +24,13 @@ require 'deep_merge'
 
 Docker.options[:read_timeout] = 2 * 60 * 60 # 2 hours
 
-unless Dir.exist?('app')
-  Dir.mkdir('app')
+unless Dir.exist?('app.Dir')
+  Dir.mkdir('app.Dir')
 end
 unless Dir.exist?('src')
-  Dir.mkdir('src')
+  Dir.mkdir('source')
 end
-unless Dir.exist?('appimage')
+unless Dir.exist?('appimages')
   Dir.mkdir('appimage')
 end
 
@@ -46,9 +46,9 @@ c = CI::Containment.new(
   image: IMAGE,
   binds: [
     Dir.pwd + ':/in',
-    Dir.pwd + '/app:/app',
-    Dir.pwd + '/src:/src',
-    Dir.pwd + '/appimage:/appimage',
+    Dir.pwd + '/app.Dir:/app.Dir',
+    Dir.pwd + '/source:/source',
+    Dir.pwd + '/appimages:/appimages',
     '/home/jenkins/.gnupg:/home/jenkins/.gnupg'
   ],
   privileged: true,
