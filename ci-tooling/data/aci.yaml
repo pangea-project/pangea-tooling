@@ -86,7 +86,7 @@ kdenlive:
   repo: https://github.com/appimage-packages/kdenlive
   branch: [master]
 kdenlive-stable:
-  repo: https://github.com/appimage-packages/kdenlive-stable
+  repo: https://github.com/appimage-packages/kdenlive
   branch: [Applications/17.04]
 ring-kde-minimal:
   repo: https://github.com/appimage-packages/ring-kde-minimal
