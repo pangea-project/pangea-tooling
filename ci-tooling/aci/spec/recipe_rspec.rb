@@ -38,19 +38,15 @@ describe Recipe do
 
   describe 'clean_workspace' do
     it "Cleans the environment" do
-      unless Dir["/in/#{app.name}"].empty? && Dir["/app/*"].empty?
+      unless Dir["/in/#{app.name}"].empty? && Dir["/app.Dir/*"].empty?
         Dir.chdir('/')
         app.clean_workspace(name: app.name)
       end
-      expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
+      expect(Dir["/app.Dir/*"].empty?).to be(true), "Please clean up from last build"
     end
   end
 
-  describe 'install_packages' do
-    it 'Installs distribution packages' do
-      expect(app.install_packages(packages: metadata['packages'])).to be(0), " Expected 0 exit Status"
-    end
-  end
+
 
   describe 'build_non_kf5_dep_sources' do
     it 'Builds source dependencies that do not depend on kf5' do

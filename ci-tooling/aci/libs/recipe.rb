@@ -50,19 +50,12 @@ class Recipe
 
   def clean_workspace(args = {})
     self.name = args[:name]
-    return if Dir['/app/'].empty?
-    FileUtils.rm_rf("/app/.", secure: true)
-    return if Dir['/appimage/'].empty?
-    FileUtils.rm_rf("/appimage/.", secure: true)
+    return if Dir['/app.Dir/'].empty?
+    FileUtils.rm_rf("/app.Dir/.", secure: true)
+    return if Dir['/appimages/'].empty?
+    FileUtils.rm_rf("/appimages/.", secure: true)
     return if Dir["/in/#{name}"].empty?
     FileUtils.rm_rf("/in/#{name}/#{name}-builddir", secure: true)
-  end
-
-  def install_packages(args = {})
-    self.packages = args[:packages].to_s.gsub(/\,|\[|\]/, '')
-    system('apt-get update && apt-get -y upgrade')
-    system("DEBIAN_FRONTEND=noninteractive apt-get -y install git wget #{packages}")
-    $?.exitstatus
   end
 
   def render
