@@ -31,7 +31,7 @@ unless Dir.exist?('src')
   Dir.mkdir('source')
 end
 unless Dir.exist?('appimages')
-  Dir.mkdir('appimage')
+  Dir.mkdir('appimages')
 end
 
 JOB_NAME = ENV.fetch('JOB_NAME')
