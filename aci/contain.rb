@@ -53,5 +53,5 @@ c = CI::Containment.new(
   ]
 )
 
-status_code = c.run(Cmd: 'ls', WorkingDir: Dir.pwd, HostConfig: dest.deep_merge(source) )
+status_code = c.run(Cmd: %w[bash -c /in/setup.sh], WorkingDir: Dir.pwd, HostConfig: dest.deep_merge(source) )
 exit status_code
