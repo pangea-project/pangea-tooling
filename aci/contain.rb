@@ -43,13 +43,13 @@ dest = {:HostConfig => {}}
 
 c = CI::Containment.new(
   JOB_NAME,
-  image: 'sgclark/trusty-qt580',
+  image: IMAGE
   binds: [
     Dir.pwd + ':/in',
     Dir.pwd + '/app:/app',
     Dir.pwd + '/src:/src',
     Dir.pwd + '/appimage:/appimage',
-    '/home/jenkins/.gnupg:/home/jenkins/.gnupg'
+    '/root/.gnupg:/root/.gnupg'
   ],
   privileged: true
 )
