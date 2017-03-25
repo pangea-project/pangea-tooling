@@ -50,7 +50,8 @@ c = CI::Containment.new(
     Dir.pwd + '/src:/src',
     Dir.pwd + '/appimage:/appimage',
     '/home/jenkins/.gnupg:/home/jenkins/.gnupg'
-  ]
+  ],
+  privileged: true
 )
 
 status_code = c.run(Cmd: %w[bash -c /in/setup.sh], WorkingDir: Dir.pwd, HostConfig: dest.deep_merge(source) )
