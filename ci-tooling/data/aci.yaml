@@ -91,7 +91,7 @@ kdenlive-stable:
 ring-kde-minimal:
   repo: https://github.com/appimage-packages/ring-kde-minimal
   branch: [master]
-rring-kde-full:
+ring-kde-full:
   repo: https://github.com/appimage-packages/ring-kde-full
   branch: [master]
 ring-gnome:
