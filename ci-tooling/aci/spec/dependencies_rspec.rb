@@ -19,9 +19,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'sources'
-require_relative 'packages'
-require_relative 'metadata'
+require_relative '../libs/sources'
+require_relative '../libs/packages'
+require_relative '../libs/metadata'
 require 'yaml'
 
 deps = metadata['dependencies']
