@@ -49,7 +49,7 @@ c = CI::Containment.new(
     Dir.pwd + '/app:/app',
     Dir.pwd + '/src:/src',
     Dir.pwd + '/appimage:/appimage',
-    '/root/.gnupg:/root/.gnupg'
+    '/home/jenkins/.gnupg:/home/jenkins/.gnupg'
   ],
   privileged: true
 )
