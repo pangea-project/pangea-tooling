@@ -61,10 +61,10 @@ describe Recipe do
         options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
         autoreconf = dep.values[0]['build'].values_at('autoreconf').to_s.gsub(/\,|\[|\]|\"/, '')
         insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
-        path = "/app/src/#{name}"
+        path = "/source/#{name}"
         expect(sources.get_source(name, type, url, branch)).to be(0), " Expected 0 exit Status"
         unless name == 'cpan'
-          expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
+          expect(Dir.exist?("/source/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
         end
         unless buildsystem == 'make'
           expect(sources.run_build(name, buildsystem, options, path)).to be(0), " Expected 0 exit Status"
@@ -92,9 +92,9 @@ describe Recipe do
               branch = dep.values[0]['source'].values_at('branch').to_s.gsub(/\,|\[|\]|\"/, '')
               buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
               options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
-              path = "/app/src/#{name}"
+              path = "/source/#{name}"
               expect(sources.get_source(name, type, url, branch)).to be(0), " Expected 0 exit Status"
-              expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
+              expect(Dir.exist?("/source/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
               expect(sources.run_build(name, buildsystem, options, path)).to be(0), " Expected 0 exit Status"
             end
           end

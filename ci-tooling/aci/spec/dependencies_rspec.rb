@@ -67,7 +67,7 @@ describe 'build_kf5' do
         ).to be(0), exit_status
         expect(
           Dir.exist?(
-            "/app/src/#{framework}"
+            "/source/#{framework}"
           )
         ).to be(true), "/source/#{framework} missing"
         expect(

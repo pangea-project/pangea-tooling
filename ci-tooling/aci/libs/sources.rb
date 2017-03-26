@@ -24,66 +24,62 @@ class Sources
   attr_accessor :name
 
   def initialize()
-    Dir.chdir('/')
-    unless Dir.exist?("/app/src")
-      Dir.mkdir("/app/src")
-    end
-    Dir.chdir('/app/src/')
+    Dir.chdir('/source')
   end
 
   def get_source(name, type, url, branch='master')
     case "#{type}"
     when 'git'
-      Dir.chdir('/app/src/')
-      unless Dir.exist?("/app/src/#{name}")
+      Dir.chdir('/source/')
+      unless Dir.exist?("/source/#{name}")
         system( "git clone #{url}")
         unless branch == 'master'
-          Dir.chdir("/app/src/#{name}")
+          Dir.chdir("/source/#{name}")
           system("git checkout #{branch}")
         end
       end
     when 'xz'
-      Dir.chdir('/app/src/')
-      unless Dir.exist?("/app/src/#{name}")
+      Dir.chdir('/source/')
+      unless Dir.exist?("/source/#{name}")
         system("wget #{url}")
         system("tar -xvf #{name}*.tar.xz")
       end
     when 'gz'
-      Dir.chdir('/app/src/')
-      unless Dir.exist?("/app/src/#{name}")
+      Dir.chdir('/source/')
+      unless Dir.exist?("/source/#{name}")
         system("wget #{url}")
         system("tar -zxvf #{name}*.tar.gz")
       end
     when 'bz2'
-      Dir.chdir('/app/src/')
-      unless Dir.exist?("/app/src/#{name}")
+      Dir.chdir('/source/')
+      unless Dir.exist?("/source/#{name}")
         system("wget #{url}")
         system("tar -jxvf #{name}.tar.bz2")
       end
     when 'mercurial'
-      Dir.chdir('/app/src')
-      unless Dir.exist?("/app/src/#{name}")
+      Dir.chdir('/source')
+      unless Dir.exist?("/source/#{name}")
         system("hg clone #{url}")
       end
     when 'bzr'
-      Dir.chdir('/app/src')
-      unless Dir.exist?("/app/src/#{name}")
+      Dir.chdir('/source')
+      unless Dir.exist?("/source/#{name}")
         system("bzr branch #{url}")
       end
     when 'zip'
-      Dir.chdir('/app/src')
-      unless Dir.exist?("/app/src/#{name}")
+      Dir.chdir('/source')
+      unless Dir.exist?("/source/#{name}")
         system("wget #{url}")
         system("unzip #{name}.zip")
       end
     when 'svn'
-      Dir.chdir('/app/src')
-      unless Dir.exist?("/app/src/#{name}")
+      Dir.chdir('/source')
+      unless Dir.exist?("/source/#{name}")
         system("svn export #{url}")
       end
     when 'none'
-      Dir.chdir('/app/src')
-      unless Dir.exist?("/app/src/#{name}")
+      Dir.chdir('/source')
+      unless Dir.exist?("/source/#{name}")
         Dir.mkdir "#{name}"
         p "No sources configured"
       end
