@@ -43,6 +43,7 @@ module Frameworks
     frameworks = Metadata::FRAMEWORKS
     buildorder = Set.new
     frameworks.each do |f|
+      p f
       dep_list = KF5[f]
       kf5list = dep_list['kf5_deps']
       buildorder.merge(kf5list) if kf5list

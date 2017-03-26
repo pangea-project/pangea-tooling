@@ -414,8 +414,8 @@ kxmlgui:
   external:
   distro_packages:
   kf5_deps:
-   - attica
    - extra-cmake-modules
+   - attica
    - kcoreaddons
    - kconfig
    - kconfigwidgets
