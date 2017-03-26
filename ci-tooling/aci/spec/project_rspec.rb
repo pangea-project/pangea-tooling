@@ -34,7 +34,7 @@ describe 'build_project' do
     options = Metadata::METADATA['buildoptions']
     expect(Dir.exist?(path)).to be(true), "#{path} missing"
     expect(
-      sources.run_build(name, buildsystem, options, path)
+      sources.run_build(Metadata::PROJECT, buildsystem, options, path)
     ).to be(0), exit_status
     p system("qmlimportscanner -rootPath #{path}")
   end
