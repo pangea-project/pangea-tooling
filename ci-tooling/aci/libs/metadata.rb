@@ -24,6 +24,7 @@ require 'yaml'
 # Module for installing distribution packages
 module Metadata
   METADATA = YAML.load_file('/in/data/metadata.yaml')
+  PROJECT = METADATA['name']
   FRAMEWORKS = METADATA['frameworks']
   BUILDKF5 = METADATA['build_kf5']
   PROJECTPACKAGES = METADATA['packages']
