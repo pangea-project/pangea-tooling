@@ -29,13 +29,13 @@ exit_status = 'Expected 0 exit Status'
 describe 'build_project' do
   it 'Retrieves sources that need to be built from source' do
     sources = Sources.new
-    path = '/in/' + Metadata::NAME
+    path = '/in/' + Metadata::PROJECT
     buildsystem = Metadata::METADATA['buildsystem']
     options = Metadata::METADATA['buildoptions']
     expect(Dir.exist?(path)).to be(true), "#{path} missing"
     expect(
       sources.run_build(name, buildsystem, options, path)
     ).to be(0), exit_status
-    p system("qmlimportscanner -rootPath /in/#{name}")
+    p system("qmlimportscanner -rootPath #{path}")
   end
 end
