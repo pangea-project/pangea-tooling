@@ -496,3 +496,8 @@ polkit-qt-1:
    - ki18n
    - kitemviews
    - kconfig
+kdbusaddons:
+  external:
+  distro_packages:
+  kf5_deps:
+   - extra-cmake-modules
