@@ -69,13 +69,12 @@ volume_source = {
 }
 volume_dest = {Volumes: {}}
 
-c.override_options(options: host_dest.deep_merge(host_source))
-c.override_options(options: userns_dest.deep_merge!(userns_source))
-c.override_options(options: volume_dest.merge(volume_source))
-
 status_code = c.run(
   Cmd: %w[bash -c /in/setup.sh],
   WorkingDir: Dir.pwd,
   privileged: true,
+  HostConfig: host_dest.deep_merge(host_source),
+  Volumes: volume_dest.merge(volume_source),
+  UsernsMode: userns_dest.deep_merge!(userns_source)
 )
 exit status_code
