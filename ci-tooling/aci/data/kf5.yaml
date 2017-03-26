@@ -29,13 +29,18 @@ phonon:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+phonon-gstreamer:
+  external:
+  distro_packages:
+  kf5_deps:
+   - extra-cmake-modules
 karchive:
   external:
    - cmake
   distro_packages:
    - bzip2-dev
    - xz-dev
-   - media-player-info.noarch
+   - media-player-info
   kf5_deps:
    - extra-cmake-modules
 kconfig:
