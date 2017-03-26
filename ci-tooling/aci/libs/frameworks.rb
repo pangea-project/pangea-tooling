@@ -29,7 +29,7 @@ module Frameworks
 
   def self.generatekf5_packages
     frameworks = Metadata::FRAMEWORKS
-    kf5_packages = []
+    kf5_packages = Set.new
     frameworks.each do |f|
       dep_list = KF5[f]
       packages = dep_list['distro_packages']
@@ -40,7 +40,7 @@ module Frameworks
 
   def self.generatekf5_buildorder
     frameworks = Metadata::FRAMEWORKS
-    buildorder = []
+    buildorder = Set.new
     frameworks.each do |f|
       dep_list = KF5[f]
       kf5list = dep_list['kf5_deps']
