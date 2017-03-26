@@ -27,5 +27,4 @@ module Metadata
   FRAMEWORKS = METADATA['frameworks']
   BUILDKF5 = METADATA['build_kf5']
   PROJECTPACKAGES = METADATA['packages']
-  PROJECTPACKAGES = false if PROJECTPACKAGES == '[]'
 end

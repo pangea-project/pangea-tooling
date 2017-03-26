@@ -27,7 +27,7 @@ require 'set'
 # Module for installing distribution packages
 module Packages
   def self.install_packages(args = {})
-    kde = args[:kde].to_s.gsub(/\,|\[|\]/, '')
+    kde = args[:kde]
     projectpackages = args[:projectpackages]
     p projectpackages
     p kde
