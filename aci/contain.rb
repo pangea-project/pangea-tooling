@@ -58,6 +58,6 @@ status_code = c.run(
   Cmd: %w[bash -c /in/setup.sh],
   WorkingDir: Dir.pwd,
   HostConfig: host_dest.deep_merge(host_source),
-  Volumes:volume_dest.deep_merge(volume_source)
+  Volumes:volume_dest.merge(volume_source)
 )
 exit status_code
