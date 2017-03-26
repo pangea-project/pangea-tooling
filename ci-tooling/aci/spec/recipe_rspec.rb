@@ -76,48 +76,7 @@ describe Recipe do
     end
   end
 
-  describe 'build_kf5' do
-    it 'Builds KDE Frameworks from source' do
-      sources = Sources.new
-      system('pwd && ls')
-      kf5 = metadata['frameworks']
-      need = kf5['build_kf5']
-      frameworks = kf5['frameworks']
-      if need == true
-        frameworks.each do |framework|
-          path = "/app/src/#{framework}"
-          if framework == 'phonon' || framework == 'phonon-gstreamer'
-            options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DPHONON_LIBRARY_PATH=/opt/usr/plugins -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
-            expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
-            expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
-            expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
-          elsif framework == 'breeze-icons'
-            options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DBUILD_TESTING=OFF -DWITH_DECORATIONS=OFF'
-            expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
-            expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
-            expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
-          elsif framework == 'breeze'
-            options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DBUILD_TESTING=OFF -DBINARY_ICONS_RESOURCE=ON'
-            expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
-            expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
-            expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
-          elsif framework == 'akonadi'
-            options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DBUILD_TESTING=OFF -DMYSQLD_EXECUTABLE:STRING=/usr/sbin/mysqld-akonadi'
-            expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
-            expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
-            expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
-          else
-            options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DBUILD_TESTING=OFF'
-            expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
-            expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
-            expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
-          end
-        end
-      end
-    end
-  end
-
-    describe 'build_kf5_dep_sources' do
+  describe 'build_kf5_dep_sources' do
       it 'Builds source dependencies that depend on kf5' do
         sources = Sources.new
         kf5 = metadata['frameworks']

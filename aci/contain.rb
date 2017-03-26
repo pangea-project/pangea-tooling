@@ -47,7 +47,6 @@ c = CI::Containment.new(
   binds: [
     Dir.pwd + ':/in',
     Dir.pwd + '/app.Dir:/app.Dir',
-    Dir.pwd + '/source:/source',
     Dir.pwd + '/appimages:/appimages',
     '/home/jenkins/.gnupg:/home/jenkins/.gnupg'
   ],

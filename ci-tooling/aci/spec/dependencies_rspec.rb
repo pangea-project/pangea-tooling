@@ -26,16 +26,56 @@ require 'yaml'
 
 exit_status = 'Expected 0 exit Status'
 
+p Metadata::BUILDKF5
+p Metadata::METADATA
+p Metadata::FRAMEWORKS
+p Metadata::PROJECTPACKAGES
+
 describe 'install_packages' do
   it 'Installs distribution packages' do
-    p Metadata::BUILDKF5
-    p Metadata::METADATA
-    p Metadata::FRAMEWORKS
-    p Metadata::PROJECTPACKAGES
     expect(
       Packages.install_packages(
         kde: Metadata::BUILDKF5, projectpackages: Metadata::PROJECTPACKAGES
       )
     ).to be(0), exit_status
+  end
+end
+
+describe 'build_kf5' do
+  it 'Builds KDE Frameworks from source' do
+    sources = Sources.new
+    frameworks = Metadata::FRAMEWORKS
+    default_options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc'
+    if Metadata::BUILDKF5
+      frameworks.each do |framework|
+        path = "/source/#{framework}"
+        if framework == 'phonon' || framework == 'phonon-gstreamer'
+          options = default_options + '-DPHONON_LIBRARY_PATH=/opt/usr/plugins -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
+        elsif framework == 'breeze-icons'
+          options = default_options + '-DWITH_DECORATIONS=OFF'
+        elsif framework == 'breeze'
+          options = default_options + '-DBINARY_ICONS_RESOURCE=ON'
+        elsif framework == 'akonadi'
+          options =default_options + '-DMYSQLD_EXECUTABLE:STRING=/usr/sbin/mysqld-akonadi'
+        else
+          options = default_options
+        end
+        expect(
+          sources.get_source(
+            framework, 'git', "https://anongit.kde.org/#{framework}"
+          )
+        ).to be(0), exit_status
+        expect(
+          Dir.exist?(
+            "/app/src/#{framework}"
+          )
+        ).to be(true), "/source/#{framework} missing"
+        expect(
+          sources.run_build(
+            framework, 'cmake', options, path
+          )
+        ).to be(0), exit_status
+      end
+    end
   end
 end
