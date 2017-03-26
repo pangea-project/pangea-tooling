@@ -24,8 +24,6 @@ class Sources
   attr_accessor :name
 
   def initialize()
-    Dir.mkdir('/source')
-  end
 
   def get_source(name, type, url, branch='master')
     case "#{type}"
