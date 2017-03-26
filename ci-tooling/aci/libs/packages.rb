@@ -28,10 +28,10 @@ require 'set'
 module Packages
   def self.install_packages(args = {})
     kde = args[:kde].to_s.gsub(/\,|\[|\]/, '')
-    projectpackages = args[:projectpackages].to_s.gsub(/\,|\[|\]/, '')
+    projectpackages = args[:projectpackages]
     packages = Set.new
     packages.merge(projectpackages) if projectpackages
-    packages.nerge(Frameworks.generatekf5_packages) if kde
+    packages.merge(Frameworks.generatekf5_packages) if kde
     system('apt-get update && apt-get -y upgrade')
     system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
     $?.exitstatus
