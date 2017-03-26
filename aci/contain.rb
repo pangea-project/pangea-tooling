@@ -23,40 +23,34 @@ require_relative '../lib/ci/containment'
 require 'deep_merge'
 
 Docker.options[:read_timeout] = 2 * 60 * 60 # 2 hours
-
-JOB_NAME = ENV.fetch('JOB_NAME')
-IMAGE = ENV.fetch('DOCKER_IMAGE')
-
 Dir.mkdir('app.Dir') unless Dir.exist?('app.Dir')
 Dir.mkdir('source') unless Dir.exist?('source')
 Dir.mkdir('appimages') unless Dir.exist?('appimages')
 
+JOB_NAME = ENV.fetch('JOB_NAME')
+IMAGE = ENV.fetch('DOCKER_IMAGE')
+BINDS  [Dir.pwd + "/app.Dir:/app.Dir", Dir.pwd + "/appimages:/appimages",  '/home/jenkinst/.gnupg:/home/jenkins/.gnupg']
 
 source = {
   :HostConfig => {
     Devices: [{ PathOnHost: '/dev/fuse', PathInContainer: '/dev/fuse', CgroupPermissions: 'mrw' }],
-    Binds: [
-      Dir.pwd + ":/in",
-      Dir.pwd + "/app.Dir:/app.Dir",
-      Dir.pwd + "/appimages:/appimages",
-      '/home/jenkinst/.gnupg:/home/jenkins/.gnupg'
-    ],
-    UsernsMode: 'host'
+    Binds: BINDS
   }
-  }
+}
 dest = {:HostConfig => {}}
 
 
 c = CI::Containment.new(
   JOB_NAME,
   image: IMAGE,
+  binds: Dir.pwd + ":/in",
   privileged: true,
   no_exit_handlers: false
 )
 
 status_code = c.run(
   Cmd: %w[bash -c /in/setup.sh],
-  WorkingDir: '/in',
+  WorkingDir: Dir.pwd,
   HostConfig: dest.deep_merge(source),
   Volumes: { '/in' => {}, '/appimages' => {}, '/app.Dir' => {}, '/home/jenkins/.gnupg' => {}, '/lib/modules' => {},  '/tmp' => {}}
 )
