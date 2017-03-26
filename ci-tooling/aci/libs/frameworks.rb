@@ -21,6 +21,7 @@
 require_relative 'metadata'
 require 'fileutils'
 require 'yaml'
+require 'set'
 
 # Module for installing distribution packages
 module Frameworks
@@ -31,7 +32,8 @@ module Frameworks
     kf5_packages = []
     frameworks.each do |f|
       dep_list = KF5[f]
-      kf5_packages << dep_list['distro_packages'].unique
+      packages = dep_list['distro_packages']
+      kf5_packages.merge(packages) if packages
     end
     kf5_packages.to_s.gsub(/\,|\[|\]/, '')
   end
@@ -41,7 +43,8 @@ module Frameworks
     buildorder = []
     frameworks.each do |f|
       dep_list = KF5[f]
-      buildorder << dep_list['kf5_deps'].unique
+      kf5list = dep_list['kf5_deps']
+      buildorder.merge(kf5list) if kf5list
     end
     buildorder.to_s.gsub(/\,|\[|\]/, '')
   end
