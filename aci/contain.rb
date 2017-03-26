@@ -36,38 +36,32 @@ IMAGE = ENV.fetch('DOCKER_IMAGE')
 c = CI::Containment.new(
   JOB_NAME,
   image: IMAGE,
-  binds: [
-    Dir.pwd + ":/in",
-    Dir.pwd + "/app.Dir:/app.Dir",
-    Dir.pwd + "/appimages:/appimages",
-    '/home/jenkinst/.gnupg:/home/jenkins/.gnupg'],
-  privileged: true,
   no_exit_handlers: false
 )
 host_source = {
-  HostConfig: {
+    Binds: [
+      Dir.pwd + ":/in",
+      Dir.pwd + "/app.Dir:/app.Dir",
+      Dir.pwd + "/appimages:/appimages",
+      '/home/jenkinst/.gnupg:/home/jenkins/.gnupg'],
+    Privileged: true,
     Devices: [
       { PathOnHost: '/dev/fuse',
         PathInContainer: '/dev/fuse',
         CgroupPermissions: 'mrw' }
     ],
     UsernsMode: 'host'
-  }
 }
 host_dest = { HostConfig: {} }
 
 volume_source = {
-  Volumes: {
-  '/appimages' => {}, '/app.Dir' => {}, '/home/jenkins/.gnupg' => {}, '/lib/modules' => {},  '/tmp' => {}
-  }
+  '/in' => {}, '/appimages' => {}, '/app.Dir' => {}, '/home/jenkins/.gnupg' => {}, '/lib/modules' => {},  '/tmp' => {}
 }
 volume_dest = {Volumes: {}}
 
 status_code = c.run(
   Cmd: %w[bash -c /in/setup.sh],
-  WorkingDir: Dir.pwd,
-  privileged: true,
-  HostConfig: host_dest.deep_merge(host_source),
-  Volumes: volume_dest.merge(volume_source),
+  HostConfig: host_source,
+  Volumes: volume_source
 )
 exit status_code
