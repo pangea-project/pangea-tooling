@@ -26,4 +26,6 @@ module Metadata
   METADATA = YAML.load_file('/in/data/metadata.yaml')
   FRAMEWORKS = METADATA['frameworks']
   BUILDKF5 = METADATA['build_kf5']
+  PROJECTPACKAGES = METADATA['packages']
+  PROJECTPACKAGES = false if PROJECTPACKAGES.nil?
 end

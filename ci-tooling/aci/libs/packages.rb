@@ -22,13 +22,16 @@ require_relative 'metadata'
 require_relative 'frameworks'
 require 'fileutils'
 require 'yaml'
+require 'set'
 
 # Module for installing distribution packages
 module Packages
   def self.install_packages(args = {})
     kde = args[:kde].to_s.gsub(/\,|\[|\]/, '')
-    packages = Metadata::METADATA['packages']
-    packages << Frameworks.generatekf5_packages if kde
+    projectpackages = args[:projectpackages].to_s.gsub(/\,|\[|\]/, '')
+    packages = Set.new
+    packages.merge(projectpackages) if projectpackages
+    packages.nerge(Frameworks.generatekf5_packages) if kde
     system('apt-get update && apt-get -y upgrade')
     system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
     $?.exitstatus

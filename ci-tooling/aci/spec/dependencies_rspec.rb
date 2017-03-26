@@ -31,9 +31,10 @@ describe 'install_packages' do
     p Metadata::BUILDKF5
     p Metadata::METADATA
     p Metadata::FRAMEWORKS
+    p Metadata::PROJECTPACKAGES
     expect(
       Packages.install_packages(
-        kde: Metadata::BUILDKF5
+        kde: Metadata::BUILDKF5, projectpackages: Metadata::PROJECTPACKAGES
       )
     ).to be(0), exit_status
   end
