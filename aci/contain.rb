@@ -29,12 +29,11 @@ Dir.mkdir('appimages') unless Dir.exist?('appimages')
 
 JOB_NAME = ENV.fetch('JOB_NAME')
 IMAGE = ENV.fetch('DOCKER_IMAGE')
-BINDS  [Dir.pwd + "/app.Dir:/app.Dir", Dir.pwd + "/appimages:/appimages",  '/home/jenkinst/.gnupg:/home/jenkins/.gnupg']
 
 source = {
   :HostConfig => {
     Devices: [{ PathOnHost: '/dev/fuse', PathInContainer: '/dev/fuse', CgroupPermissions: 'mrw' }],
-    Binds: BINDS
+    Binds: [Dir.pwd + "/app.Dir:/app.Dir", Dir.pwd + "/appimages:/appimages",  '/home/jenkinst/.gnupg:/home/jenkins/.gnupg']
   }
 }
 dest = {:HostConfig => {}}
