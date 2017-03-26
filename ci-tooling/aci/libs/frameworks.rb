@@ -49,7 +49,7 @@ module Frameworks
       p kf5list
       buildorder.merge(kf5list) if kf5list
       buildorder.delete(f)
-      builderorder.add(f)
+      buildorder.add(f)
       p buildorder
     end
     buildorder
