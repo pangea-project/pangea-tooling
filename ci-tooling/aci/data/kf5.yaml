@@ -543,3 +543,11 @@ kdecoration:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+breeze:
+  external:
+  distro_packages:
+  kf5_deps:
+   - extra-cmake-modules
+   - kconfig
+   - ki18n
+   - kpackage

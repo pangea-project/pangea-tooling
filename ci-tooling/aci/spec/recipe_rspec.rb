@@ -92,6 +92,11 @@ describe Recipe do
             expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
             expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
           elsif framework == 'breeze-icons'
+            options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DBUILD_TESTING=OFF -DWITH_DECORATIONS=OFF'
+            expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
+            expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
+            expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
+          elsif framework == 'breeze'
             options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DBUILD_TESTING=OFF -DBINARY_ICONS_RESOURCE=ON'
             expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
             expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
