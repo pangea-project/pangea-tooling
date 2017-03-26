@@ -19,17 +19,16 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require 'yaml'
+require 'fileutils'
 
 class Sources
   attr_accessor :name
 
-  def initialize()
-    Dir.mkdir('/source') unless Dir.exist?('/source')
-  end
+  def initialize() end
 
   def get_source(name, type, url, branch='master')
     Dir.chdir('/source/')
-    Dir.rm_rf("/source/#{name}") if "/source/#{name}".exist?
+    Dir.rm_rf("/source/#{name}") if File.directory?("/source/#{name}")
     case type
     when 'git'
       system( "git clone #{url}")
