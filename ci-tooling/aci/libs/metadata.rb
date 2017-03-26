@@ -27,5 +27,5 @@ module Metadata
   FRAMEWORKS = METADATA['frameworks']
   BUILDKF5 = METADATA['build_kf5']
   PROJECTPACKAGES = METADATA['packages']
-  EXTERNALDEPENDENCIES = METADAATA['dependencies']
+  EXTERNALDEPENDENCIES = METADATA['dependencies']
 end
