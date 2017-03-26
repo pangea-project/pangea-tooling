@@ -36,7 +36,7 @@ module Frameworks
       p dep_list
       kf5_packages.merge(dep_list) if dep_list
     end
-    kf5_packages.to_s.gsub(/\,|\[|\]/, '')
+    kf5_packages
   end
 
   def self.generatekf5_buildorder
