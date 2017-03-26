@@ -36,7 +36,8 @@ IMAGE = ENV.fetch('DOCKER_IMAGE')
 c = CI::Containment.new(
   JOB_NAME,
   image: IMAGE,
-  no_exit_handlers: false
+  privileged: true,
+  binds: [ Dir.pwd + ':/in'],
 )
 host_source = {
     Binds: [
