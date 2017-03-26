@@ -37,7 +37,11 @@ c = CI::Containment.new(
   JOB_NAME,
   image: IMAGE,
   privileged: true,
-  binds: [ Dir.pwd + ':/in'],
+  binds: [   Dir.pwd + ":/in",
+    Dir.pwd + "/app.Dir:/app.Dir",
+    Dir.pwd + "/appimages:/appimages",
+    Dir.pwd + "/source:/source",
+    '/home/jenkinst/.gnupg:/home/jenkins/.gnupg'],
 )
 host_source = {
     Binds: [
