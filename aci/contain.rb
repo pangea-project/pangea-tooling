@@ -50,17 +50,11 @@ host_source = {
       { PathOnHost: '/dev/fuse',
         PathInContainer: '/dev/fuse',
         CgroupPermissions: 'mrw' }
-    ]
-  }
-}
-host_dest = { HostConfig: {} }
-
-userns_source = {
-  HostConfig: {
+    ],
     UsernsMode: 'host'
   }
 }
-userns_dest = {HostConfig: {}}
+host_dest = { HostConfig: {} }
 
 volume_source = {
   Volumes: {
@@ -75,6 +69,5 @@ status_code = c.run(
   privileged: true,
   HostConfig: host_dest.deep_merge(host_source),
   Volumes: volume_dest.merge(volume_source),
-  UsernsMode: userns_dest.deep_merge!(userns_source)
 )
 exit status_code
