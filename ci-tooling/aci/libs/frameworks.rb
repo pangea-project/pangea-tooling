@@ -46,7 +46,9 @@ module Frameworks
       p f
       dep_list = KF5[f]
       kf5list = dep_list['kf5_deps']
+      p kf5list
       buildorder.merge(kf5list) if kf5list
+      p buildorder
     end
     buildorder
   end
