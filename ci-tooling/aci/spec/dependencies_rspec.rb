@@ -28,6 +28,9 @@ exit_status = 'Expected 0 exit Status'
 
 describe 'install_packages' do
   it 'Installs distribution packages' do
+    p Metadata::BUILDKF5
+    p Metadata::METADATA
+    p Metadata::FRAMEWORKS
     expect(
       Packages.install_packages(
         kde: Metadata::BUILDKF5
