@@ -48,33 +48,7 @@ describe Recipe do
 
 
 
-  describe 'build_non_kf5_dep_sources' do
-    it 'Builds source dependencies that do not depend on kf5' do
-      sources = Sources.new
-      deps = metadata['dependencies']
-      deps.each do |dep|
-        name =  dep.values[0]['depname']
-        type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
-        url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
-        branch = dep.values[0]['source'].values_at('branch').to_s.gsub(/\,|\[|\]|\"/, '')
-        buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
-        options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
-        autoreconf = dep.values[0]['build'].values_at('autoreconf').to_s.gsub(/\,|\[|\]|\"/, '')
-        insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
-        path = "/source/#{name}"
-        expect(sources.get_source(name, type, url, branch)).to be(0), " Expected 0 exit Status"
-        unless name == 'cpan'
-          expect(Dir.exist?("/source/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
-        end
-        unless buildsystem == 'make'
-          expect(sources.run_build(name, buildsystem, options, path)).to be(0), " Expected 0 exit Status"
-        end
-        if buildsystem == 'make'
-          expect(sources.run_build(name, buildsystem, options, path, autoreconf, insource)).to be(0), " Expected 0 exit Status"
-        end
-      end
-    end
-  end
+
 
   describe 'build_kf5_dep_sources' do
       it 'Builds source dependencies that depend on kf5' do
