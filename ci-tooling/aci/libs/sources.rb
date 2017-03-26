@@ -28,7 +28,7 @@ class Sources
 
   def get_source(name, type, url, branch='master')
     Dir.chdir('/source/')
-    Dir.rm_rf("/source/#{name}") if File.directory?("/source/#{name}")
+    FileUtils.rm_rf("/source/#{name}") if File.directory?("/source/#{name}")
     case type
     when 'git'
       system( "git clone #{url}")
