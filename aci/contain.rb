@@ -30,19 +30,26 @@ Dir.mkdir('appimages') unless Dir.exist?('appimages')
 JOB_NAME = ENV.fetch('JOB_NAME')
 IMAGE = ENV.fetch('DOCKER_IMAGE')
 
-source = {
-  :HostConfig => {
+host_source = {
+  HostConfig: {
     Devices: [{ PathOnHost: '/dev/fuse', PathInContainer: '/dev/fuse', CgroupPermissions: 'mrw' }],
     Binds: [Dir.pwd + "/app.Dir:/app.Dir", Dir.pwd + "/appimages:/appimages",  '/home/jenkinst/.gnupg:/home/jenkins/.gnupg']
   }
 }
-dest = {:HostConfig => {}}
+host_dest = {HostConfig: {}}
 
+volume_source = {
+  Volumes: {
+  '/appimages' => {}, '/app.Dir' => {}, '/home/jenkins/.gnupg' => {}, '/lib/modules' => {},  '/tmp' => {}
+  }
+}
+
+volume_dest = {Volumes: {}}
 
 c = CI::Containment.new(
   JOB_NAME,
   image: IMAGE,
-  binds: Dir.pwd + ":/in",
+  binds: [Dir.pwd + ":/in"],
   privileged: true,
   no_exit_handlers: false
 )
@@ -50,7 +57,7 @@ c = CI::Containment.new(
 status_code = c.run(
   Cmd: %w[bash -c /in/setup.sh],
   WorkingDir: Dir.pwd,
-  HostConfig: dest.deep_merge(source),
-  Volumes: { '/in' => {}, '/appimages' => {}, '/app.Dir' => {}, '/home/jenkins/.gnupg' => {}, '/lib/modules' => {},  '/tmp' => {}}
+  HostConfig: host_dest.deep_merge(host_source),
+  Volumes:volume_dest.deep_merge(volume_source)
 )
 exit status_code
