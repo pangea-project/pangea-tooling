@@ -516,3 +516,25 @@ kwayland:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+plasma-framework:
+  external:
+  distro_packages:
+  kf5_deps:
+   - extra-cmake-modules
+   - kactivities
+   - karchive
+   - kconfig
+   - kconfigwidgets
+   - kcoreaddons
+   - kdbusaddons
+   - kdeclarative
+   - kglobalaccel
+   - kguiaddons
+   - ki18n
+   - kiconthemes
+   - kio
+   - kservice
+   - kwindowsystem
+   - kxmlgui
+   - knotifications
+   - kpackage
