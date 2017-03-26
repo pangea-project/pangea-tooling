@@ -113,6 +113,7 @@ kauth:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+   - polkit-qt-1
    - kcoreaddons
 kcompletion:
   external:
