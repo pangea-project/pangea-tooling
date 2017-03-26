@@ -538,3 +538,8 @@ plasma-framework:
    - kxmlgui
    - knotifications
    - kpackage
+kdecoration:
+  external:
+  distro_packages:
+  kf5_deps:
+   - extra-cmake-modules
