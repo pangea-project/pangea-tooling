@@ -31,6 +31,7 @@ module Frameworks
     frameworks = Metadata::FRAMEWORKS
     kf5_packages = Set.new
     frameworks.each do |f|
+      p f
       dep_list = KF5[f].select { |k| k['distro_packages'] }
       p dep_list
       kf5_packages.merge(dep_list) if dep_list

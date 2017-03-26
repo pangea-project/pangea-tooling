@@ -1,19 +1,19 @@
 extra-cmake-modules:
   external:
   distro_packages:
-  kf5_deps: 
-kcoreaddons: 
+  kf5_deps:
+kcoreaddons:
   external:
-  distro_packages: 
+  distro_packages:
    - gamin-dev
-  kf5_deps: 
+  kf5_deps:
    - extra-cmake-modules
 attica:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
-dbusaddons: 
+dbusaddons:
   external:
   distro_packages:
   kf5_deps:
@@ -27,7 +27,7 @@ kdnssd:
 phonon:
   external:
   distro_packages:
-  kf5_deps: 
+  kf5_deps:
    - extra-cmake-modules
 karchive:
   external:
@@ -72,12 +72,12 @@ kitemviews:
   external:
   distro_packages:
   kf5_deps:
-   - extra-cmake-modules 
+   - extra-cmake-modules
 kwidgetsaddons:
   external:
   distro_packages:
   kf5_deps:
-   - extra-cmake-modules 
+   - extra-cmake-modules
 oxygen-icons5:
   external:
   distro_packages:
@@ -107,7 +107,7 @@ kauth:
   external:
   distro_packages:
   kf5_deps:
-   - extra-cmake-modules 
+   - extra-cmake-modules
    - kcoreaddons
 kcompletion:
   external:
@@ -172,7 +172,7 @@ kplotting:
   kf5_deps:
    - extra-cmake-modules
 kdewebkit:
-  external:  
+  external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
@@ -304,7 +304,7 @@ kio:
    - kconfigwidgets
    - kcoreaddons
    - kdbusaddons
-   - kdoctools      
+   - kdoctools
    - ki18n
    - kiconthemes
    - kitemviews
@@ -317,7 +317,7 @@ knewstuff:
   external:
   distro_packages:
   kf5_deps:
-   - extra-cmake-modules      
+   - extra-cmake-modules
    - attica
    - karchive
    - kcompletion
@@ -326,7 +326,7 @@ knewstuff:
    - ki18n
    - kiconthemes
    - kio
-   - kitemviews      
+   - kitemviews
    - kservice
    - ktextwidgets
    - kwidgetsaddons
@@ -366,7 +366,7 @@ kservice:
    - kcrash
    - kdbusaddons
    - kdoctools
-   - ki18n     
+   - ki18n
 ktexteditor:
   external:
   distro_packages:
@@ -420,7 +420,7 @@ kxmlgui:
    - kiconthemes
    - ktextwidgets
    - kwidgetsaddons
-   - kwindowsystem      
+   - kwindowsystem
 kwindowsystem:
   external:
   distro_packages:
@@ -431,7 +431,7 @@ kdelibs4support:
   external:
   distro_packages:
   kf5_deps:
-   - extra-cmake-modules  
+   - extra-cmake-modules
    - kcompletion
    - kconfig
    - kconfigwidgets
@@ -440,7 +440,7 @@ kdelibs4support:
    - kded
    - kdesignerplugin
    - kdoctools
-   - kglobalaccel     
+   - kglobalaccel
    - kguiaddons
    - ki18n
    - kiconthemes
@@ -452,7 +452,7 @@ kdelibs4support:
    - kunitconversion
    - kwidgetsaddons
    - kwindowsystem
-   - kxmlgui      
+   - kxmlgui
 kjs:
   external:
   distro_packages:
@@ -466,7 +466,7 @@ khtml:
    - libperl-dev
    - libjpeg-dev
    - libgif-dev
-   - libpng12-dev      
+   - libpng12-dev
   kf5_deps:
    - extra-cmake-modules
    - karchive
@@ -483,4 +483,16 @@ khtml:
    - kwidgetsaddons
    - kwindowsystem
    - kxmlgui
-   - sonnet 
+   - sonnet
+polkit-qt-1:
+  external:
+  distro_packages:
+    - libpolkit-gobject-1-dev
+    - libpolkit-backend-1-dev
+    - libpolkit-agent-1-dev
+  kf5_deps:
+   - extra-cmake-modules
+   - kcoreaddons
+   - ki18n
+   - kitemviews
+   - kconfig
