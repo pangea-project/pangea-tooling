@@ -24,8 +24,6 @@ require_relative '../libs/packages'
 require_relative '../libs/metadata'
 require 'yaml'
 
-deps = metadata['dependencies']
-
 exit_status = 'Expected 0 exit Status'
 
 describe 'install_packages' do
