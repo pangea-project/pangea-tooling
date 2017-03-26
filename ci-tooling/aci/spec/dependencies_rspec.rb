@@ -30,7 +30,7 @@ describe 'install_packages' do
   it 'Installs distribution packages' do
     expect(
       Packages.install_packages(
-        kde: Metadata::METADATA['build_kf5']
+        kde: Metadata::BUILDKF5
       )
     ).to be(0), exit_status
   end

@@ -23,7 +23,7 @@ require 'yaml'
 
 # Module for installing distribution packages
 module Metadata
-    METADATA = YAML.load_file('/in/data/metadata.yaml')
-    FRAMEWORKS = METADATA['frameworks']
-
+  METADATA = YAML.load_file('/in/data/metadata.yaml')
+  FRAMEWORKS = METADATA['frameworks']
+  BUILDKF5 = METADATA['build_kf5']
 end
