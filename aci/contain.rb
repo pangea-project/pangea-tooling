@@ -45,7 +45,7 @@ c = CI::Containment.new(
 )
 
 status_code = c.run(
-  Cmd: [%w(bash -c /in/setup.sh)],
+  Cmd: %w[bash -c /in/setup.sh],
   WorkingDir: '/in',
   HostConfig: dest.deep_merge(source),
   Volumes: { '/in' => {}, '/appimages' => {}, '/app.Dir' => {}, '/home/jenkins/.gnupg' => {}, '/lib/modules' => {},  '/tmp' => {}}
