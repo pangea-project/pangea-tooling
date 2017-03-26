@@ -31,6 +31,19 @@ Dir.mkdir('appimages') unless Dir.exist?('appimages')
 JOB_NAME = ENV.fetch('JOB_NAME')
 IMAGE = ENV.fetch('DOCKER_IMAGE')
 
+
+
+c = CI::Containment.new(
+  JOB_NAME,
+  image: IMAGE,
+  binds: [
+    Dir.pwd + ":/in",
+    Dir.pwd + "/app.Dir:/app.Dir",
+    Dir.pwd + "/appimages:/appimages",
+    '/home/jenkinst/.gnupg:/home/jenkins/.gnupg'],
+  privileged: true,
+  no_exit_handlers: false
+)
 host_source = {
   HostConfig: {
     Devices: [
@@ -54,25 +67,15 @@ volume_source = {
   '/appimages' => {}, '/app.Dir' => {}, '/home/jenkins/.gnupg' => {}, '/lib/modules' => {},  '/tmp' => {}
   }
 }
-
 volume_dest = {Volumes: {}}
 
-c = CI::Containment.new(
-  JOB_NAME,
-  image: IMAGE,
-  binds: [
-    Dir.pwd + ":/in",
-    Dir.pwd + "/app.Dir:/app.Dir",
-    Dir.pwd + "/appimages:/appimages",
-    '/home/jenkinst/.gnupg:/home/jenkins/.gnupg'],
-  privileged: true,
-  no_exit_handlers: false,
-  options: [HostConfig: host_dest.deep_merge(host_source), HostConfig: userns_dest.deep_merge!(userns_source) ]
-)
+c.override_options(options: host_dest.deep_merge(host_source))
+c.override_options(options: userns_dest.deep_merge!(userns_source))
+c.override_options(options: volume_dest.merge(volume_source))
 
 status_code = c.run(
   Cmd: %w[bash -c /in/setup.sh],
   WorkingDir: Dir.pwd,
-  privileged: true
+  privileged: true,
 )
 exit status_code
