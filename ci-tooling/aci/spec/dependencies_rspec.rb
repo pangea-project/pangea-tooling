@@ -115,3 +115,24 @@ describe 'build_kf5' do
     end
   end
 end
+
+describe 'build_kf5_dep_sources' do
+  it 'Builds source dependencies that depend on kf5' do
+    sources = Sources.new
+    deps = Metadata::DEPSONKF5
+    if deps
+      deps.each do |dep|
+        name =  dep.values[0]['depname']
+        type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
+        url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
+        branch = dep.values[0]['source'].values_at('branch').to_s.gsub(/\,|\[|\]|\"/, '')
+        buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
+        options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
+        path = "/source/#{name}"
+        expect(sources.get_source(name, type, url, branch)).to be(0), " Expected 0 exit Status"
+        expect(Dir.exist?("/source/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
+        expect(sources.run_build(name, buildsystem, options, path)).to be(0), " Expected 0 exit Status"
+      end
+    end
+  end
+end
