@@ -28,61 +28,35 @@ class Sources
   end
 
   def get_source(name, type, url, branch='master')
-    case "#{type}"
+    Dir.chdir('/source/')
+    Dir.rm_rf("/source/#{name}") if "/source/#{name}".exist?
+    case type
     when 'git'
-      Dir.chdir('/source/')
-      unless Dir.exist?("/source/#{name}")
-        system( "git clone #{url}")
-        unless branch == 'master'
-          Dir.chdir("/source/#{name}")
-          system("git checkout #{branch}")
-        end
+      system( "git clone #{url}")
+      unless branch == 'master'
+        Dir.chdir("/source/#{name}")
+        system("git checkout #{branch}")
       end
     when 'xz'
-      Dir.chdir('/source/')
-      unless Dir.exist?("/source/#{name}")
-        system("wget #{url}")
-        system("tar -xvf #{name}*.tar.xz")
-      end
+      system("wget #{url}")
+      system("tar -xvf #{name}*.tar.xz")
     when 'gz'
-      Dir.chdir('/source/')
-      unless Dir.exist?("/source/#{name}")
-        system("wget #{url}")
-        system("tar -zxvf #{name}*.tar.gz")
-      end
+      system("wget #{url}")
+      system("tar -zxvf #{name}*.tar.gz")
     when 'bz2'
-      Dir.chdir('/source/')
-      unless Dir.exist?("/source/#{name}")
-        system("wget #{url}")
-        system("tar -jxvf #{name}.tar.bz2")
-      end
+      system("wget #{url}")
+      system("tar -jxvf #{name}.tar.bz2")
     when 'mercurial'
-      Dir.chdir('/source')
-      unless Dir.exist?("/source/#{name}")
-        system("hg clone #{url}")
-      end
+      system("hg clone #{url}")
     when 'bzr'
-      Dir.chdir('/source')
-      unless Dir.exist?("/source/#{name}")
-        system("bzr branch #{url}")
-      end
+      system("bzr branch #{url}")
     when 'zip'
-      Dir.chdir('/source')
-      unless Dir.exist?("/source/#{name}")
-        system("wget #{url}")
-        system("unzip #{name}.zip")
-      end
+      system("wget #{url}")
+      system("unzip #{name}.zip")
     when 'svn'
-      Dir.chdir('/source')
-      unless Dir.exist?("/source/#{name}")
-        system("svn export #{url}")
-      end
+      system("svn export #{url}")
     when 'none'
-      Dir.chdir('/source')
-      unless Dir.exist?("/source/#{name}")
-        Dir.mkdir "#{name}"
-        p "No sources configured"
-      end
+      Dir.mkdir "#{name}"
     else
       "You gave me #{type} -- I have no idea what to do with that."
     end

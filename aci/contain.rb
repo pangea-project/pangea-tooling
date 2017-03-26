@@ -60,7 +60,7 @@ host_source = {
 host_dest = { HostConfig: {} }
 
 volume_source = {
-  '/in' => {}, '/appimages' => {}, '/app.Dir' => {}, '/home/jenkins/.gnupg' => {}, '/lib/modules' => {},  '/tmp' => {}
+  '/in' => {}, '/source' => {}, '/appimages' => {}, '/app.Dir' => {}, '/home/jenkins/.gnupg' => {}, '/lib/modules' => {},  '/tmp' => {}
 }
 volume_dest = {Volumes: {}}
 
