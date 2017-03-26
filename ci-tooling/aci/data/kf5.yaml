@@ -506,3 +506,8 @@ kdbusaddons:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+gpgmepp:
+  external:
+  distro_packages:
+  kf5_deps:
+   - extra-cmake-modules
