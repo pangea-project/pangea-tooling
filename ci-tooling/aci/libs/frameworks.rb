@@ -49,8 +49,9 @@ module Frameworks
       p kf5list
       if kf5list
         kf5list.each do |d|
-        deps_ofdeps = KF5[d]
-        buildorder.merge(deps_ofdeps) if deps_ofdeps
+          deps_ofdeps = KF5[d]
+          kf5depslist = deps_ofdeps['kf5_deps']
+          buildorder.merge(kf5depslist) if kf5depslist
         end
       end
       buildorder.merge(kf5list) if kf5list
