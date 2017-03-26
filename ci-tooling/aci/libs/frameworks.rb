@@ -29,7 +29,6 @@ module Frameworks
 
   def self.generatekf5_packages
     frameworks = Metadata::FRAMEWORKS
-    p frameworks
     kf5_packages = Set.new
     frameworks.each do |f|
       dep_list = KF5[f]
