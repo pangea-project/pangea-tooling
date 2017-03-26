@@ -47,9 +47,11 @@ module Frameworks
       dep_list = KF5[f]
       kf5list = dep_list['kf5_deps']
       p kf5list
-      kf5list.each do |d|
+      if kf5list
+        kf5list.each do |d|
         deps_ofdeps = KF5[d]
         buildorder.merge(deps_ofdeps) if deps_ofdeps
+        end
       end
       buildorder.merge(kf5list) if kf5list
       buildorder.delete(f)
