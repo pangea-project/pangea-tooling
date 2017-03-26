@@ -33,7 +33,6 @@ IMAGE = ENV.fetch('DOCKER_IMAGE')
 host_source = {
   HostConfig: {
     Devices: [{ PathOnHost: '/dev/fuse', PathInContainer: '/dev/fuse', CgroupPermissions: 'mrw' }],
-    Binds: [Dir.pwd + "/app.Dir:/app.Dir", Dir.pwd + "/appimages:/appimages",  '/home/jenkinst/.gnupg:/home/jenkins/.gnupg']
   }
 }
 host_dest = {HostConfig: {}}
@@ -49,7 +48,11 @@ volume_dest = {Volumes: {}}
 c = CI::Containment.new(
   JOB_NAME,
   image: IMAGE,
-  binds: [Dir.pwd + ":/in"],
+  binds: [
+    Dir.pwd + ":/in",
+    Dir.pwd + "/app.Dir:/app.Dir",
+    Dir.pwd + "/appimages:/appimages",
+    '/home/jenkinst/.gnupg:/home/jenkins/.gnupg'],
   privileged: true,
   no_exit_handlers: false
 )
