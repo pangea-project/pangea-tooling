@@ -29,8 +29,10 @@ module Frameworks
 
   def self.generatekf5_packages
     frameworks = Metadata::FRAMEWORKS
+    p KF5
     kf5_packages = Set.new
     frameworks.each do |f|
+      p f
       dep_list = KF5[f]
       packages = dep_list['distro_packages']
       kf5_packages.merge(packages) if packages

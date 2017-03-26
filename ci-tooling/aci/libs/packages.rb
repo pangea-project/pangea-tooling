@@ -29,10 +29,8 @@ module Packages
   def self.install_packages(args = {})
     kde = args[:kde]
     projectpackages = args[:projectpackages]
-    p projectpackages
-    p kde
     packages = Set.new
-    packages.merge(projectpackages) if projectpackages != false
+    packages.merge(projectpackages) if projectpackages
     packages.merge(Frameworks.generatekf5_packages) if kde
     system('apt-get update && apt-get -y upgrade')
     system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
