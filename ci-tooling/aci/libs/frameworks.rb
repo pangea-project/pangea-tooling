@@ -31,10 +31,9 @@ module Frameworks
     frameworks = Metadata::FRAMEWORKS
     kf5_packages = Set.new
     frameworks.each do |f|
-      dep_list = KF5["''" + f + "''"]
+      dep_list = KF5[f].select { |k| k['distro_packages'] }
       p dep_list
-      packages = dep_list['distro_packages']
-      kf5_packages.merge(packages) if packages
+      kf5_packages.merge(dep_list) if dep_list
     end
     kf5_packages.to_s.gsub(/\,|\[|\]/, '')
   end
