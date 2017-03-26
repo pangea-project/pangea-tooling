@@ -23,7 +23,7 @@ require 'yaml'
 class Sources
   attr_accessor :name
 
-  def initialize()
+  def initialize() end
 
   def get_source(name, type, url, branch='master')
     case "#{type}"
