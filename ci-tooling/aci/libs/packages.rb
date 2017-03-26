@@ -26,11 +26,9 @@ require 'yaml'
 # Module for installing distribution packages
 module Packages
   def self.install_packages(args = {})
-    self.kde = args[:kde].to_s.gsub(/\,|\[|\]/, '')
+    kde = args[:kde].to_s.gsub(/\,|\[|\]/, '')
     packages = Metadata::METADATA['packages']
-    if self.kde do
-      packages << Frameworks.generatekf5_packages
-    end
+    packages << Frameworks.generatekf5_packages if kde
     system('apt-get update && apt-get -y upgrade')
     system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
     $?.exitstatus
