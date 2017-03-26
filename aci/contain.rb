@@ -67,14 +67,12 @@ c = CI::Containment.new(
     '/home/jenkinst/.gnupg:/home/jenkins/.gnupg'],
   privileged: true,
   no_exit_handlers: false,
-  HostConfig: host_dest.deep_merge(host_source)
+  options: [HostConfig: host_dest.deep_merge(host_source), HostConfig: userns_dest.deep_merge!(userns_source) ]
 )
 
 status_code = c.run(
   Cmd: %w[bash -c /in/setup.sh],
   WorkingDir: Dir.pwd,
-  privileged: true,
-  HostConfig: userns_dest.deep_merge!(userns_source) ,
-  Volumes:volume_dest.merge(volume_source)
+  privileged: true
 )
 exit status_code
