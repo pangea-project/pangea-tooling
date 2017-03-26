@@ -33,11 +33,21 @@ IMAGE = ENV.fetch('DOCKER_IMAGE')
 
 host_source = {
   HostConfig: {
-    Devices: [{ PathOnHost: '/dev/fuse', PathInContainer: '/dev/fuse', CgroupPermissions: 'mrw' }],
+    Devices: [
+      { PathOnHost: '/dev/fuse',
+        PathInContainer: '/dev/fuse',
+        CgroupPermissions: 'mrw' }
+    ]
+  }
+}
+host_dest = { HostConfig: {} }
+
+userns_source = {
+  HostConfig: {
     UsernsMode: 'host'
   }
 }
-host_dest = {HostConfig: {}}
+userns_dest = {HostConfig: {}}
 
 volume_source = {
   Volumes: {
@@ -62,7 +72,7 @@ c = CI::Containment.new(
 status_code = c.run(
   Cmd: %w[bash -c /in/setup.sh],
   WorkingDir: Dir.pwd,
-  HostConfig: host_dest.deep_merge(host_source),
+  HostConfig: host_dest.deep_merge(host_source), userns_dest.deep_merge!(userns_source) ,
   Volumes:volume_dest.merge(volume_source)
 )
 exit status_code
