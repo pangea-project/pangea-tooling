@@ -132,6 +132,7 @@ kdoctools:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+   - karchive
 kjobwidgets:
   external:
   distro_packages:
