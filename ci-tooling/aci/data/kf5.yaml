@@ -511,3 +511,8 @@ gpgmepp:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+kwayland:
+  external:
+  distro_packages:
+  kf5_deps:
+   - extra-cmake-modules
