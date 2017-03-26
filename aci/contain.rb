@@ -23,6 +23,7 @@ require_relative '../lib/ci/containment'
 require 'deep_merge'
 
 Docker.options[:read_timeout] = 2 * 60 * 60 # 2 hours
+Docker.options[:userns_remap] = '1000:1000'
 Dir.mkdir('app.Dir') unless Dir.exist?('app.Dir')
 Dir.mkdir('source') unless Dir.exist?('source')
 Dir.mkdir('appimages') unless Dir.exist?('appimages')
