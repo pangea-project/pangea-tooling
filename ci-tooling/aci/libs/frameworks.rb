@@ -47,6 +47,6 @@ module Frameworks
       kf5list = dep_list['kf5_deps']
       buildorder.merge(kf5list) if kf5list
     end
-    buildorder.to_s.gsub(/\,|\[|\]/, '')
+    buildorder
   end
 end

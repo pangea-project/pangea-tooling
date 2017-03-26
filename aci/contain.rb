@@ -27,19 +27,29 @@ Docker.options[:read_timeout] = 2 * 60 * 60 # 2 hours
 JOB_NAME = ENV.fetch('JOB_NAME')
 IMAGE = ENV.fetch('DOCKER_IMAGE')
 
-source = {:HostConfig => {Devices: [{ PathOnHost: '/dev/fuse', PathInContainer: '/dev/fuse', CgroupPermissions: 'mrw' }]}}
+Dir.mkdir('app.Dir') unless Dir.exist?('app.Dir')
+Dir.mkdir('source') unless Dir.exist?('source')
+Dir.mkdir('appimages') unless Dir.exist?('appimages')
+
+
+source = {
+  :HostConfig => {
+    Devices: [{ PathOnHost: '/dev/fuse', PathInContainer: '/dev/fuse', CgroupPermissions: 'mrw' }],
+    Binds: [
+      Dir.pwd + ":/in",
+      Dir.pwd + "/app.Dir:/app.Dir",
+      Dir.pwd + "/appimages:/appimages",
+      '/home/jenkinst/.gnupg:/home/jenkins/.gnupg'
+    ],
+    UsernsMode: 'host'
+  }
+  }
 dest = {:HostConfig => {}}
 
 
 c = CI::Containment.new(
   JOB_NAME,
   image: IMAGE,
-  binds: [
-    "#{Dir.pwd}:/in",
-    "#{Dir.pwd}/app.Dir:/app.Dir",
-    "#{Dir.pwd}/appimages:/appimages",
-    '/home/jenkins/.gnupg:/home/jenkins/.gnupg'
-  ],
   privileged: true,
   no_exit_handlers: false
 )
