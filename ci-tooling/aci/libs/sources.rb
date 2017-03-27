@@ -29,6 +29,7 @@ class Sources
   def get_source(name, type, url, branch='master')
     Dir.chdir('/source/')
     FileUtils.rm_rf("/source/#{name}") if File.directory?("/source/#{name}")
+    FileUtils.rm_rf("/#{name}") if File.directory?("/#{name}")
     case type
     when 'git'
       system( "git clone #{url}")
@@ -62,119 +63,36 @@ class Sources
     $?.exitstatus
   end
 
-  def run_build(name, buildsystem, options, path, autoreconf=false, insource=false)
-    ENV['PATH']='/opt/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-    ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib:/lib:/lib64'
-    ENV['CPLUS_INCLUDE_PATH']='/opt/usr:/opt/usr/include:/usr/include'
-    ENV['CFLAGS']="-g -O2 -fPIC"
-    ENV['CXXFLAGS']='-std=c++11'
-    ENV['PKG_CONFIG_PATH']='/opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig'
-    ENV['ACLOCAL_PATH']='/opt/usr/share/aclocal:/usr/share/aclocal'
-    ENV['XDG_DATA_DIRS']='/opt/usr/share:/opt/share:/usr/local/share/:/usr/share:/share'
-    ENV.fetch('PATH')
-    ENV.fetch('LD_LIBRARY_PATH')
-    ENV.fetch('CFLAGS')
-    ENV.fetch('CXXFLAGS')
-    ENV.fetch('PKG_CONFIG_PATH')
-    ENV.fetch('ACLOCAL_PATH')
-    ENV.fetch('CPLUS_INCLUDE_PATH')
-    ENV.fetch('XDG_DATA_DIRS')
-    system( "echo $PATH" )
-    system( "echo $LD_LIBRARY_PATH" )
-    system( "echo $CFLAGS" )
-    system( "echo $CXXFLAGS" )
-    system( "echo $PKG_CONFIG_PATH" )
-    system( "echo $ACLOCAL_PATH" )
-    system( "echo $CPLUS_INCLUDE_PATH" )
-    system( "echo $XDG_DATA_DIRS" )
-    case "#{buildsystem}"
-    when 'make'
-      Dir.chdir("#{path}") do
-        unless "#{autoreconf}" == true
-          unless "#{insource}" == true
-            cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install"
-          end
-          if "#{insource}" == true
-            cmd = "cd #{name} && ../configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install"
-          end
-          p "Running " + cmd
-          system(cmd)
-          system("rm -rfv  #{name}-builddir")
-        end
-        if "#{autoreconf}" == true
-          p "Running " + cmd
-          unless "#{insource}" == true
-            cmd = "autoreconf --force --install && mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr"
-          end
-          if "#{insource}" == true
-            cmd = "autoreconf --force --install && cd #{name} && ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr"
-          end
-          system(cmd)
-          system("rm -rfv  #{name}-builddir")
-        end
-      end
-      $?.exitstatus
-    when 'autogen'
-        Dir.chdir("#{path}") do
-          unless "#{autoreconf}" == true
-            unless "#{insource}" == true
-              cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../autogen && ../configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install"
-            end
-            if "#{insource}" == true
-              cmd = "cd #{name} && ./autogen && ./configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install"
-            end
-            p "Running " + cmd
-            system(cmd)
-            system("rm -rfv  #{name}-builddir")
-          end
-          if "#{autoreconf}" == true
-            p "Running " + cmd
-            unless "#{insource}" == true
-              cmd = "autoreconf --force --install && mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr"
-            end
-            if "#{insource}" == true
-              cmd = "autoreconf --force --install && cd #{name} && ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr"
-            end
-            system(cmd)
-            system("rm -rfv  #{name}-builddir")
-          end
-        end
-        $?.exitstatus
-    when 'cmake'
-      Dir.chdir(path) do
-        p "running cmake #{options}"
-        system("mkdir #{name}-builddir  && cd #{name}-builddir  && cmake #{options} ../ && make VERBOSE=1 -j 8 && make install")
-      end
-      $?.exitstatus
-    when 'custom'
-      unless "#{name}" == 'cpan'
-        Dir.chdir("#{path}") do
-          p "running #{options}"
-          system("#{options}")
-        end
-      end
-      if "#{name}" == 'cpan'
-        p "running #{options}"
-        system("#{options}")
-      end
-      $?.exitstatus
-    when 'qmake'
-      Dir.chdir("#{path}") do
-        p "running qmake #{options}"
-        system('echo $PATH')
-        system("#{options}")
-        system('make VERBOSE=1 -j 8 && make install')
-      end
-      $?.exitstatus
-    when 'bootstrap'
-      Dir.chdir(path) do
-        p "running ./bootstrap #{options}"
-        system("./bootstrap #{options}")
-        system('make VERBOSE=1 -j 8 && make install')
-      end
-      $?.exitstatus
+  def run_build(name, buildsystem, options, autoreconf=false, insource=false)
+    if name == Metadata::PROJECT
+      Dir.chdir(Metadata::PROJECTPATH)
     else
-    "You gave me #{buildsystem} -- I have no idea what to do with that."
+      Dir.chdir(Metadata::DEPATH + name)
     end
+    case buildsystem
+    when 'make'
+      cmd = "autoreconf --force --install &&  ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr" if autoreconf && insource
+      cmd = "autoreconf --force --install && mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr" if autoreconf && !insource
+      cmd = "../configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install" if insource && !autoreconf
+      cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install" if !insource && !autoreconf
+    when 'autogen'
+      cmd = "autoreconf --force --install && ./autogen && ./configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr" if autoreconf && insource
+      cmd = "autoreconf --force --install && cd #{name} && ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr" if autoreconf && !insource
+      cmd = "./autogen && ../configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install"   if insource && !autoreconf
+      cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../autogen && ./configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install" if !insource && !autoreconf
+    when 'cmake'
+      cmd = "mkdir #{name}-builddir  && cd #{name}-builddir  && cmake #{options} ../ && make VERBOSE=1 -j 8 && make install"
+    when 'custom'
+      cmd = options
+    when 'qmake'
+      cmd = "#{options}" + 'make VERBOSE=1 -j 8 && make install'
+    when 'bootstrap'
+      cmd = "./bootstrap #{options}" + 'make VERBOSE=1 -j 8 && make install'
+    else
+      p "You gave me #{buildsystem} -- I have no idea what to do with that."
+    end
+    p "Running " + ' ' + buildsystem + ' ' + cmd
+    system(cmd)
+    $?.exitstatus
   end
 end

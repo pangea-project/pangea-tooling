@@ -23,83 +23,24 @@ require_relative '../libs/sources'
 require 'yaml'
 require 'erb'
 
-metadata = YAML.load_file("/in/data/metadata.yml")
-deps = metadata['dependencies']
-puts metadata
-
 describe Recipe do
-  app = Recipe.new(name: metadata['name'], binary: metadata['binary'])
+  app = Recipe.new(name: Metadata::PROJECT, binary: Metadata::METADATA['binary'])
   describe "#initialize" do
     it "Sets the application name" do
-      expect(app.name).to eq metadata['name']
-      expect(app.binary).to eq metadata['binary']
+      expect(app.name).to eq Metadata::PROJECT
+      expect(app.binary).to eq Metadata::METADATA['binary']
     end
   end
-
-  describe 'clean_workspace' do
-    it "Cleans the environment" do
-      unless Dir["/in/#{app.name}"].empty? && Dir["/app.Dir/*"].empty?
-        Dir.chdir('/')
-        app.clean_workspace(name: app.name)
-      end
-      expect(Dir["/app.Dir/*"].empty?).to be(true), "Please clean up from last build"
-    end
-  end
-
-
-
-
-
-  describe 'build_kf5_dep_sources' do
-      it 'Builds source dependencies that depend on kf5' do
-        sources = Sources.new
-        kf5 = metadata['frameworks']
-        need = kf5['build_kf5']
-        frameworks = kf5['frameworks']
-        if need == true
-          deps = metadata['kf5_deps']
-          if deps
-            deps.each do |dep|
-              name =  dep.values[0]['depname']
-              type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
-              url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
-              branch = dep.values[0]['source'].values_at('branch').to_s.gsub(/\,|\[|\]|\"/, '')
-              buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
-              options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
-              path = "/source/#{name}"
-              expect(sources.get_source(name, type, url, branch)).to be(0), " Expected 0 exit Status"
-              expect(Dir.exist?("/source/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
-              expect(sources.run_build(name, buildsystem, options, path)).to be(0), " Expected 0 exit Status"
-            end
-          end
-        end
-      end
-    end
-
-
-    describe 'build_project' do
-        it 'Retrieves sources that need to be built from source' do
-          #Main project
-          sources = Sources.new
-          name = metadata['name']
-          path = "/in/#{name}"
-          buildsystem = metadata['buildsystem']
-          options = metadata['buildoptions']
-          expect(Dir.exist?("/in/#{name}")).to be(true), "#{name} directory does not exist, things will fail"
-          expect(sources.run_build(name, buildsystem, options, path)).to be(0), " Expected 0 exit Status"
-          p system("qmlimportscanner -rootPath /in/#{name}")
-        end
-    end
 
   describe 'generate_appimage' do
     it 'Generate the appimage' do
       arch = `arch`
       File.write('/in/Recipe', app.render)
       expect(app.generate_appimage()).to eq 0
-      expect(Dir["/appimage/*"].empty?).to be(false), "No Appimage"
+      expect(Dir["/appimages/*"].empty?).to be(false), "No Appimage"
       `rm -rfv /app/*`
       `rm -f functions.sh`
-      expect(Dir["/app/*"].empty?).to be(true), "Please clean up"
+      expect(Dir["/source/*"].empty?).to be(true), "Please clean up"
     end
   end
 end
