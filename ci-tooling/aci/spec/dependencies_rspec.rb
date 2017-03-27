@@ -46,33 +46,28 @@ describe 'build_non_kf5_dep_sources' do
     sources = Sources.new
     deps = Metadata::EXTERNALDEPENDENCIES
     if deps
-    deps.each do |dep|
-      name =  dep.values[0]['depname']
-      type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
-      url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
-      branch = dep.values[0]['source'].values_at('branch').to_s.gsub(/\,|\[|\]|\"/, '')
-      buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
-      options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
-      autoreconf = dep.values[0]['build'].values_at('autoreconf').to_s.gsub(/\,|\[|\]|\"/, '')
-      insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
-      path = "/source/#{name}"
-      expect(sources.get_source(name, type, url, branch)).to be(0), exit_status
-      unless name == 'cpan'
-        expect(
-          Dir.exist?("/source/#{name}")
-        ).to be(true), "#{name} missing"
-      end
-      unless buildsystem == 'make'
-        expect(
-          sources.run_build(name, buildsystem, options, path)
-        ).to be(0), exit_status
-      end
-      if buildsystem == 'make'
-        expect(
-          sources.run_build(
-            name, buildsystem, options, path, autoreconf, insource
-          )
-        ).to be(0), exit_status
+      deps.each do |dep|
+        name =  dep.values[0]['depname']
+        type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
+        url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
+        branch = dep.values[0]['source'].values_at('branch').to_s.gsub(/\,|\[|\]|\"/, '')
+        buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
+        options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
+        autoreconf = dep.values[0]['build'].values_at('autoreconf').to_s.gsub(/\,|\[|\]|\"/, '')
+        insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
+        expect(sources.get_source(name, type, url, branch)).to be(0), exit_status
+        unless buildsystem == 'make'
+          expect(
+            sources.run_build(name, buildsystem, options)
+          ).to be(0), exit_status
+        end
+        if buildsystem == 'make'
+          expect(
+            sources.run_build(
+              name, buildsystem, options, autoreconf, insource
+            )
+          ).to be(0), exit_status
+        end
       end
     end
   end
