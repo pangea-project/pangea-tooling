@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require_relative '../libs/recipe'
 require_relative '../libs/sources'
+require_relative '../libs/metadata'
 require 'yaml'
 require 'erb'
 
@@ -38,7 +39,6 @@ describe Recipe do
       File.write('/in/Recipe', app.render)
       expect(app.generate_appimage()).to eq 0
       expect(Dir["/appimages/*"].empty?).to be(false), "No Appimage"
-      `rm -rfv /app/*`
       `rm -f functions.sh`
       expect(Dir["/source/*"].empty?).to be(true), "Please clean up"
     end
