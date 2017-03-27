@@ -45,6 +45,7 @@ describe 'build_non_kf5_dep_sources' do
   it 'Builds source dependencies that do not depend on kf5' do
     sources = Sources.new
     deps = Metadata::EXTERNALDEPENDENCIES
+    if deps
     deps.each do |dep|
       name =  dep.values[0]['depname']
       type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
