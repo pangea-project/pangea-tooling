@@ -22,7 +22,7 @@ require_relative '../libs/env'
 
 describe 'set_env' do
   it 'Set environment variables' do
-    expect(Env.set_env).to be(0), "Environment not set"
+    Env.set_env
      path = `echo $PATH`
      p path
     # expect(

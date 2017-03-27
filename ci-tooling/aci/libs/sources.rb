@@ -29,7 +29,7 @@ class Sources
   def get_source(name, type, url, branch='master')
     Dir.chdir('/source/')
     FileUtils.rm_rf("/source/#{name}") if File.directory?("/source/#{name}")
-    FileUtils.rm_rf("/#{name}") if File.directory?("/#{name}")
+    FileUtils.rm_rf("/in/#{name}") if File.directory?("/in/#{name}")
     case type
     when 'git'
       system( "git clone #{url}")
