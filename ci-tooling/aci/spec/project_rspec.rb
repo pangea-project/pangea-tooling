@@ -28,6 +28,7 @@ exit_status = 'Expected 0 exit Status'
 
 describe 'build_project' do
   it 'Retrieves sources that need to be built from source' do
+    FileUtils.rm_rf('/in/' +Metadata::PROJECT + '/' + Metadata::PROJECT + '-builddir') if File.directory?('/in/' +Metadata::PROJECT + '/' + Metadata::PROJECT + '-builddir')
     sources = Sources.new
     buildsystem = Metadata::METADATA['buildsystem']
     options = Metadata::METADATA['buildoptions']
