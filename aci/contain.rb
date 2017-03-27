@@ -41,14 +41,15 @@ c = CI::Containment.new(
     Dir.pwd + "/app.Dir:/app.Dir",
     Dir.pwd + "/appimages:/appimages",
     Dir.pwd + "/source:/source",
-    '/home/jenkinst/.gnupg:/home/jenkins/.gnupg'],
+    '/home/jenkins/.gnupg:/home/jenkins/.gnupg'],
 )
 host_source = {
     Binds: [
       Dir.pwd + ":/in",
       Dir.pwd + "/app.Dir:/app.Dir",
       Dir.pwd + "/appimages:/appimages",
-      '/home/jenkinst/.gnupg:/home/jenkins/.gnupg'],
+      Dir.pwd + "/source:/source",
+      '/home/jenkins/.gnupg:/home/jenkins/.gnupg'],
     Privileged: true,
     Devices: [
       { PathOnHost: '/dev/fuse',
