@@ -26,6 +26,7 @@ module DCI
   def setup_env!
     ENV['DEBFULLNAME'] = 'Debian CI'
     ENV['DEBEMAIL'] = 'null@debian.org'
+    ENV['NOMANGLE_MAINTAINER'] = true
 
     ENV['GIT_AUTHOR_NAME'] = ENV.fetch('DEBFULLNAME')
     ENV['GIT_AUTHOR_EMAIL'] = ENV.fetch('DEBEMAIL')
