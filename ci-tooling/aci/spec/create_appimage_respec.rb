@@ -18,37 +18,14 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-require_relative 'metadata'
-require_relative 'frameworks'
-require 'fileutils'
-require 'yaml'
-require 'set'
-require 'net/http'
+require_relative '../libs/create'
 
+exit_status = 'Expected 0 exit Status'
 
-
-# Module for installing distribution packages and retrieval of pre packaged appimage tools
-module Packages
-  def self.install_packages(args = {})
-    kde = args[:kde]
-    projectpackages = args[:projectpackages]
-    packages = Set.new
-    packages.merge(projectpackages) if projectpackages
-    packages.merge(Frameworks.generatekf5_packages) if kde
-    system('apt-get update && apt-get -y upgrade')
-    system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
-    $?.exitstatus
-  end
-
-  def self.retrieve_tools(args= {})
-    url = args[:url]
-    file = args[:file]
-    Net::HTTP.start(url) { |http|
-      resp = http.get(file)
-      open(file, 'w') { |f|
-        f.write(resp.body)
-      }
-    }
-    $?.exitstatus
+describe 'bundle_appimage' do
+  it 'Creates the appimage' do
+    expect(
+      AppImage.create_appimage
+    ).to be(0), exit_status
   end
 end

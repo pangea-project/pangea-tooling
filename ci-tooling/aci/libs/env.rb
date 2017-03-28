@@ -20,9 +20,12 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 # Set project environment
+require_relative '../libs/metadata'
 module Env
 
   def self.set_env
+    arch = `arch`
+    date = `date +"%Y%m%d"`
     ENV['PATH']='/opt/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
     ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib:/lib:/lib64'
     ENV['CPLUS_INCLUDE_PATH']='/opt/usr:/opt/usr/include:/usr/include'
@@ -31,6 +34,9 @@ module Env
     ENV['PKG_CONFIG_PATH']='/opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig'
     ENV['ACLOCAL_PATH']='/opt/usr/share/aclocal:/usr/share/aclocal'
     ENV['XDG_DATA_DIRS']='/opt/usr/share:/opt/share:/usr/local/share/:/usr/share:/share'
+    ENV['ARCH']=arch
+    ENV['DATE']=date
+    ENV['APPIMAGEFILENAME']=Metadata::PROJECT + '-git$DATE-$ARCH.AppImage'
     ENV.fetch('PATH')
     ENV.fetch('LD_LIBRARY_PATH')
     ENV.fetch('CFLAGS')
@@ -38,6 +44,9 @@ module Env
     ENV.fetch('PKG_CONFIG_PATH')
     ENV.fetch('ACLOCAL_PATH')
     ENV.fetch('CPLUS_INCLUDE_PATH')
+    ENV.fetch('ARCH')
+    ENV.fetch('DATE')
+    ENV.fetch('APPIMAGEFILENAME')
     ENV.fetch('XDG_DATA_DIRS')
     system( 'echo $PATH' )
     system( 'echo $LD_LIBRARY_PATH' )
@@ -47,5 +56,8 @@ module Env
     system( 'echo $ACLOCAL_PATH' )
     system( 'echo $CPLUS_INCLUDE_PATH' )
     system( 'echo $XDG_DATA_DIRS' )
+    system( 'echo $ARCH' )
+    system( 'echo $DATE' )
+    system( 'echo $APPIMAGEFILENAME' )
   end
 end
