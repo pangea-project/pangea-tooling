@@ -23,7 +23,7 @@ require 'fileutils'
 
 module Appimage
 
-  def create_appimage()
+  def self.create_appimage
     # get tools
     Dir.chdir('~')
     Packages.retrieve_tools(
