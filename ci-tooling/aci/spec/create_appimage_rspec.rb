@@ -25,7 +25,7 @@ exit_status = 'Expected 0 exit Status'
 describe 'bundle_appimage' do
   it 'Creates the appimage' do
     expect(
-      AppImage.create_appimage
+      Appimage.create_appimage
     ).to be(0), exit_status
   end
 end
