@@ -160,7 +160,7 @@ module CI
     end
 
     def dpkg_buildpackage
-      mangle_maintainer
+      mangle_maintainer unless ENV['NOMANGLE_MAINTAINER']
       args = [
         'dpkg-buildpackage',
         '-us', '-uc', # Do not sign .dsc / .changes
