@@ -36,7 +36,7 @@ module Env
     ENV['XDG_DATA_DIRS']='/opt/usr/share:/opt/share:/usr/local/share/:/usr/share:/share'
     ENV['ARCH']=arch
     ENV['DATE']=date
-    ENV['APPIMAGEFILENAME']=Metadata::PROJECT + '-git$DATE-$ARCH.AppImage'
+    ENV['APPIMAGEFILENAME']=Metadata::PROJECT + '-git' + date + arch + '.AppImage'
     ENV['PROJECT']=Metadata::PROJECT
     ENV.fetch('PATH')
     ENV.fetch('LD_LIBRARY_PATH')
