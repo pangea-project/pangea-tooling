@@ -29,6 +29,7 @@ module Frameworks
 
   def self.generatekf5_packages
     frameworks = generatekf5_buildorder
+    kf5_packages = ''
     frameworks.each do |f|
       p f
       dep_list = KF5[f].select { |k| k['distro_packages'] }
