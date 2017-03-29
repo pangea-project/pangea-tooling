@@ -36,6 +36,7 @@ module Frameworks
       p dep_list
       kf5_packages.merge(dep_list) if dep_list
     end
+    p kf5_packages
     kf5_packages
   end
 

@@ -35,7 +35,9 @@ module Packages
     projectpackages = args[:projectpackages]
     packages = Set.new
     packages.merge(projectpackages) if projectpackages
+    p packages
     packages.merge(Frameworks.generatekf5_packages) if kde
+    p packages
     system('apt-get update && apt-get -y upgrade')
     system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
     $?.exitstatus
