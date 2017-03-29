@@ -27,8 +27,8 @@ module Appimage
     # get tools
     Dir.chdir()
     Packages.retrieve_tools(
-      url: 'https://github.com/probonopd/AppImageKit/releases/download/knowngood/',
-      file: 'appimagetool-x86_64.AppImage'
+      url: 'github.com',
+      file: '/probonopd/AppImageKit/releases/download/knowngood/appimagetool-x86_64.AppImage'
     )
     FileUtils.chmod(0755, 'appimagetool-x86_64.AppImage', verbose: true)
 
