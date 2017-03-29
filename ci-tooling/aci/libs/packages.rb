@@ -23,7 +23,8 @@ require_relative 'frameworks'
 require 'fileutils'
 require 'yaml'
 require 'set'
-require 'net/http'
+require 'open-uri'
+
 
 
 
@@ -43,12 +44,8 @@ module Packages
   def self.retrieve_tools(args= {})
     url = args[:url]
     file = args[:file]
-    Net::HTTP.start(url) { |http|
-      resp = http.get(file)
-      open(file, 'w') { |f|
-        f.write(resp.body)
-      }
-    }
+    download = open(url)
+    IO.copy_stream(download, file)
     $?.exitstatus
   end
 end
