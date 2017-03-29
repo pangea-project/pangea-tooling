@@ -34,7 +34,6 @@ module Packages
     kde = args[:kde]
     projectpackages = args[:projectpackages]
     packages = projectpackages.join(" ").gsub(/\,|\[|\]|\"/, '')
-    packages << if projectpackages
     p packages
     packages << Frameworks.generatekf5_packages if kde
     p packages
