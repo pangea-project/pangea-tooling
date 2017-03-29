@@ -24,9 +24,6 @@ require_relative '../libs/metadata'
 module Env
 
   def self.set_env
-    arch = `arch`
-    date = `date +"%Y%m%d"`
-    filename = Metadata::PROJECT + '-git' + date + arch + '.AppImage'.to_s.gsub(/\s+/, "")
     ENV['PATH']='/opt/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
     ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib:/lib:/lib64'
     ENV['CPLUS_INCLUDE_PATH']='/opt/usr:/opt/usr/include:/usr/include'
@@ -35,9 +32,6 @@ module Env
     ENV['PKG_CONFIG_PATH']='/opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig'
     ENV['ACLOCAL_PATH']='/opt/usr/share/aclocal:/usr/share/aclocal'
     ENV['XDG_DATA_DIRS']='/opt/usr/share:/opt/share:/usr/local/share/:/usr/share:/share'
-    ENV['ARCH']=arch
-    ENV['DATE']=date
-    ENV['APPIMAGEFILENAME']=filename
     ENV['PROJECT']=Metadata::PROJECT
     ENV.fetch('PATH')
     ENV.fetch('LD_LIBRARY_PATH')
@@ -59,9 +53,6 @@ module Env
     system( 'echo $ACLOCAL_PATH' )
     system( 'echo $CPLUS_INCLUDE_PATH' )
     system( 'echo $XDG_DATA_DIRS' )
-    system( 'echo $ARCH' )
-    system( 'echo $DATE' )
-    system( 'echo $APPIMAGEFILENAME' )
     system('echo $PROJECT')
   end
 end

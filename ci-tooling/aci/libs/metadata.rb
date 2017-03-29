@@ -23,6 +23,7 @@ require 'yaml'
 
 # Module for installing distribution packages
 module Metadata
+
   METADATA = YAML.load_file('/in/data/metadata.yaml')
   PROJECT = METADATA['name']
   FRAMEWORKS = METADATA['frameworks']
@@ -32,5 +33,9 @@ module Metadata
   DEPSONKF5 = METADATA['deps_on_kf5']
   DEPATH = '/source/'
   PROJECTPATH = '/in/' + PROJECT
-  APPIMAGEFILENAME = ENV.fetch('APPIMAGEFILENAME')
+
+  arch = `arch`
+  date = `date +"%Y%m%d"`
+  filename = PROJECT + '-git' + date + arch + '.AppImage'.to_s.gsub(/\s+/, "")
+  APPIMAGEFILENAME = filename
 end
