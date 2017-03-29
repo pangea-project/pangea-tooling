@@ -64,7 +64,14 @@ module Debian
             if relationship_fields.include?(key.downcase)
               value = parse_relationships(value)
             else
-              value = value.split(',').collect(&:strip)
+              # FIXME: this is utterly wrong.
+              # A foldable field simply can be folded. In addition to that
+              # Binary and Uploaders are comma separated. That does not mean
+              # every foldable field is comma seprated! e.g. Dgit is a hash
+              # followed by a whitespace! (why is beyond anyones fucking
+              # apprehension). If the debian policy was any more of a cluster
+              # fuck it'd be on pornhub.
+              value = value.split(',').collect(&:strip).select { |x| !x.empty? }
             end
           elsif multiline_fields.include?(key.downcase)
             # For multiline we want to preserve right hand side whitespaces.
@@ -92,7 +99,7 @@ module Debian
             if relationship_fields.include?(current_header.downcase)
               value = parse_relationships(value)
             else
-              value = [value.strip]
+              value = value.split(',').collect(&:strip).select { |x| !x.empty? }
             end
             data[current_header] += value
           elsif multiline_fields.include?(current_header.downcase)
