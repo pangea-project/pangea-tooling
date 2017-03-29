@@ -32,4 +32,5 @@ module Metadata
   DEPSONKF5 = METADATA['deps_on_kf5']
   DEPATH = '/source/'
   PROJECTPATH = '/in/' + PROJECT
+  APPIMAGEFILENAME = ENV.fetch('APPIMAGEFILENAME')
 end
