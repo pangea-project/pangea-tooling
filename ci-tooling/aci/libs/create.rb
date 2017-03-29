@@ -33,9 +33,6 @@ module Appimage
     FileUtils.chmod(0755, 'appimagetool-x86_64.AppImage', verbose: true)
 
     `gpg2 --import /home/jenkins/.gnupg/appimage.key`
-    system('./appimagetool-x86_64.AppImage -v -s -u "zsync|$APPIMAGEFILENAME" /app.Dir/ /appimages/$APPIMAGEFILENAME')
-    system('zsyncmake -u "https://s3-eu-central-1.amazonaws.com/ds9-apps/$PROJECT-master-appimage/$APPIMAGEFILENAME" -o /appimages/$APPIMAGEFILENAME.zsync /appimages/$APPIMAGEFILENAME')
-    system('./appimagetool-x86_64.AppImage -v -s -u "zsync|<%= name %>-latest-$ARCH.AppImage" /app.Dir/ /appimages/<%= name %>-latest-$ARCH.AppImage')
-    system('zsyncmake -u "https://s3-eu-central-1.amazonaws.com/ds9-apps/<%= name %>-master-appimage/<%= name %>-latest-$ARCH.AppImage" -o /appimages/<%= name %>_latestversion.zsync /appimages/$APPIMAGEFILENAME')
+    system('/bin/bash -x ../scripts/appimagetool.sh')
   end
 end

@@ -37,6 +37,7 @@ module Env
     ENV['ARCH']=arch
     ENV['DATE']=date
     ENV['APPIMAGEFILENAME']=Metadata::PROJECT + '-git$DATE-$ARCH.AppImage'
+    ENV['PROJECT']=Metadata::PROJECT
     ENV.fetch('PATH')
     ENV.fetch('LD_LIBRARY_PATH')
     ENV.fetch('CFLAGS')
@@ -48,6 +49,7 @@ module Env
     ENV.fetch('DATE')
     ENV.fetch('APPIMAGEFILENAME')
     ENV.fetch('XDG_DATA_DIRS')
+    ENV.fetch('PROJECT')
     system( 'echo $PATH' )
     system( 'echo $LD_LIBRARY_PATH' )
     system( 'echo $CFLAGS' )
@@ -59,5 +61,6 @@ module Env
     system( 'echo $ARCH' )
     system( 'echo $DATE' )
     system( 'echo $APPIMAGEFILENAME' )
+    system('echo $PROJECT')
   end
 end
