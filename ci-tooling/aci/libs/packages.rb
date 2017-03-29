@@ -32,10 +32,9 @@ require 'open-uri'
 module Packages
   def self.install_packages(args = {})
     kde = args[:kde]
-    projectpackages = args[:projectpackages]
+    projectpackages = args[:projectpackages].dup
     packages = ''
     if projectpackages
-      newpackages = projectpackages.dup
       packages = newpackages.join(" ").gsub(/\,|\[|\]|\"/, '')
       p packages
     end

@@ -33,10 +33,9 @@ p Metadata::FRAMEWORKS
 
 describe 'install_packages' do
   it 'Installs distribution packages' do
-    packages = Metadata::PROJECTPACKAGES
     expect(
       Packages.install_packages(
-        kde: Metadata::BUILDKF5, projectpackages: packages
+        kde: Metadata::BUILDKF5, projectpackages: Metadata::PROJECTPACKAGES
       )
     ).to be(0), exit_status
   end
