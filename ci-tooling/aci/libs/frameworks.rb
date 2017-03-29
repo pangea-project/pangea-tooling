@@ -36,7 +36,8 @@ module Frameworks
       package_list = dep_list['distro_packages']
       if package_list
         package_list.to_s
-        kf5_packages << package_list
+        p package_list
+        #kf5_packages << package_list
       #kf5_packages.merge(dep_list) if dep_list
       end
     end
