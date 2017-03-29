@@ -28,7 +28,7 @@ module Metadata
   PROJECT = METADATA['name']
   FRAMEWORKS = METADATA['frameworks']
   BUILDKF5 = METADATA['build_kf5']
-  PROJECTPACKAGES = METADATA['packages']
+  projectpackages = METADATA['packages']
   EXTERNALDEPENDENCIES = METADATA['dependencies']
   DEPSONKF5 = METADATA['deps_on_kf5']
   DEPATH = '/source/'
