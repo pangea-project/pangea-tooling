@@ -33,12 +33,14 @@ module Packages
   def self.install_packages(args = {})
     kde = args[:kde]
     projectpackages = args[:projectpackages]
-    packages = projectpackages.join(" ").gsub(/\,|\[|\]|\"/, '')
-    p packages
-    packages << Frameworks.generatekf5_packages if kde
-    p packages
-    system('apt-get update && apt-get -y upgrade')
-    system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
+    if projectpackages
+      packages = projectpackages.join(" ").gsub(/\,|\[|\]|\"/, '')
+      p packages
+      packages << Frameworks.generatekf5_packages if kde
+      p packages
+      system('apt-get update && apt-get -y upgrade')
+      system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
+    end
     $?.exitstatus
   end
 
