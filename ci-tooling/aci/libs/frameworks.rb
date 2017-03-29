@@ -33,8 +33,8 @@ module Frameworks
     frameworks.each do |f|
       p f
       dep_list = KF5[f].select { |k| k['distro_packages'] }
-      p dep_list
-      kf5_packages.merge(dep_list) if dep_list
+      package_list = dep_list.join(",")
+      kf5_packages.merge(package_list) if dep_list
     end
     p kf5_packages
     kf5_packages
