@@ -35,5 +35,5 @@ module Metadata
   PROJECTPATH = '/in/' + PROJECT
   ARCH = `arch`
   DATE = `date +"%Y%m%d"`
-  APPIMAGEFILENAME = PROJECT + '-git' + DATE + '-'  + ARCH + '.AppImage'.to_s.gsub(/\s+|"\n"/, '')
+  APPIMAGEFILENAME = PROJECT + '-git' + DATE + '-'  + ARCH + '.AppImage'.to_s.gsub(/\s+/, '').delete("\n")
 end
