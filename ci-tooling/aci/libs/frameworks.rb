@@ -28,7 +28,7 @@ module Frameworks
   KF5 = YAML.load_file('../data/kf5.yaml')
 
   def self.generatekf5_packages
-    frameworks = Metadata::FRAMEWORKS
+    frameworks = generatekf5_buildorder
     kf5_packages = Set.new
     frameworks.each do |f|
       p f
