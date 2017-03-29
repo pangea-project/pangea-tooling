@@ -33,9 +33,8 @@ module Metadata
   DEPSONKF5 = METADATA['deps_on_kf5']
   DEPATH = '/source/'
   PROJECTPATH = '/in/' + PROJECT
-
-  arch = `arch`
-  date = `date +"%Y%m%d"`
-  filename = PROJECT + '-git' + date + arch + '.AppImage'.to_s.gsub(/\s+/, "")
+  ARCH = `arch`
+  DATE = `date +"%Y%m%d"`
+  filename = PROJECT + '-git' + DATE + ARCH + '.AppImage'.to_s.gsub(/\s+/, "")
   APPIMAGEFILENAME = filename
 end
