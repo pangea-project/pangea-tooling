@@ -33,6 +33,6 @@ module Appimage
     FileUtils.chmod(0755, 'appimagetool-x86_64.AppImage', verbose: true)
 
     `gpg2 --import /home/jenkins/.gnupg/appimage.key`
-    system('/bin/bash -x ../scripts/appimagetool.sh')
+    system('/bin/bash -x $(pwd)/tooling/ci-tooling/aci/scripts/appimagetool.sh')
   end
 end
