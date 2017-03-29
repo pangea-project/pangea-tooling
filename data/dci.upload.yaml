@@ -1,8 +1,8 @@
 ---
   default: plasma
   maui-debian: maui
-  qt: qt5
-  frameworks: frameworks
+  ds9-debian-qt: qt5
+  ds9-debian-frameworks: frameworks
   calamares: calamares
   netrunner: netrunner
   netrunner-debian: netrunner
@@ -38,10 +38,13 @@
   netrunner-common: netrunner
   ds9-common: ds9-common
   ds9-artwork: ds9-artwork
-  applications: kde-applications
+  ds9-debian-kde-applications: kde-applications
   maui-common: maui
   pkg-virtualbox: extras
   ds9-debian-packaging: extras
   ds9-extras-packaging: extras
   neon-packaging: extras
   netrunner-desktop: netrunner-desktop
+  highvoltage: backports
+  netrunner-pine64: pine64
+  linuxmint: extras

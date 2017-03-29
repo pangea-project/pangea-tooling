@@ -142,5 +142,14 @@ module Debian
                     'Fathi Boudra <fabo@debian.org>',
                     'Maximiliano Curia <maxy@debian.org>'])
     end
+
+    def test_folded_uploaders_write
+      c = Control.new(__method__)
+      c.parse!
+      # Asser that our output is consistent with the input. If we assembled
+      # Uploaders incorrectly it wouldn't be.
+      assert_equal(File.read("#{__method__}/debian/control").split($/),
+                   c.dump.split($/))
+    end
   end
 end

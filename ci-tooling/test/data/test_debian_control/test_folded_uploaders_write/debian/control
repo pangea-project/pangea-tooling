@@ -1,0 +1,24 @@
+Source: kmail
+Section: kde
+Priority: optional
+Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Uploaders: Sune Vuorela <sune@debian.org>,
+           Fathi Boudra <fabo@debian.org>,
+           Modestas Vainius <modax@debian.org>,
+           Michael Meskes <meskes@debian.org>,
+           George Kiagiadakis <kiagiadakis.george@gmail.com>,
+           Eshat Cakar <info@eshat.de>,
+           Maximiliano Curia <maxy@debian.org>
+Build-Depends: cmake (>= 2.8.12~)
+Standards-Version: 3.9.8
+Homepage: http://pim.kde.org/
+Vcs-Browser: https://anonscm.debian.org/git/pkg-kde/applications/kmail.git
+Vcs-Git: https://anonscm.debian.org/git/pkg-kde/applications/kmail.git
+
+Package: kdepim-doc
+Section: oldlibs
+Architecture: all
+Priority: extra
+Depends: kmail, ${misc:Depends}
+Description: transitional package
+ This is a transitional package. It can safely be removed.
