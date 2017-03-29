@@ -46,6 +46,5 @@ module Packages
     file = args[:file]
     download = open(url)
     IO.copy_stream(download, file)
-    $?.exitstatus
   end
 end
