@@ -26,6 +26,7 @@ module Env
   def self.set_env
     arch = `arch`
     date = `date +"%Y%m%d"`
+    filename = Metadata::PROJECT + '-git' + date + arch + '.AppImage'.to_s.gsub(/\s+/, "")
     ENV['PATH']='/opt/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
     ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib:/lib:/lib64'
     ENV['CPLUS_INCLUDE_PATH']='/opt/usr:/opt/usr/include:/usr/include'
@@ -36,7 +37,7 @@ module Env
     ENV['XDG_DATA_DIRS']='/opt/usr/share:/opt/share:/usr/local/share/:/usr/share:/share'
     ENV['ARCH']=arch
     ENV['DATE']=date
-    ENV['APPIMAGEFILENAME']=Metadata::PROJECT + '-git' + date + arch + '.AppImage'
+    ENV['APPIMAGEFILENAME']=filename
     ENV['PROJECT']=Metadata::PROJECT
     ENV.fetch('PATH')
     ENV.fetch('LD_LIBRARY_PATH')
