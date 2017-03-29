@@ -25,7 +25,7 @@ module Appimage
 
   def self.create_appimage
     # get tools
-    Dir.chdir('~')
+    Dir.chdir()
     Packages.retrieve_tools(
       url: 'https://github.com/probonopd/AppImageKit/releases/download/knowngood/',
       file: 'appimagetool-x86_64.AppImage'
