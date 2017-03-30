@@ -25,24 +25,20 @@ require 'yaml'
 require 'set'
 require 'open-uri'
 
-
-
-
 # Module for installing distribution packages and retrieval of pre packaged appimage tools
 module Packages
   def self.install_packages(args = {})
     kde = args[:kde]
     projectpackages = args[:projectpackages]
-    packages = ''
     if projectpackages
       packages = Metadata.get.join(" ").gsub(/\,|\[|\]|\"/, '')
       p packages
+      #packages << Frameworks.generatekf5_packages if kde
+      p packages
+      system('apt-get update && apt-get -y upgrade')
+      system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
+      $?.exitstatus
     end
-    packages << Frameworks.generatekf5_packages if kde
-    p packages
-    system('apt-get update && apt-get -y upgrade')
-    system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
-    $?.exitstatus
   end
 
   def self.retrieve_tools(args= {})
