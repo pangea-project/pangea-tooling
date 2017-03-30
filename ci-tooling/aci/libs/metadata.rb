@@ -40,9 +40,10 @@ module Metadata
 
   def self.get
     if @@projectpackages
-      @@projectpackages = METADATA['packages'].dup
+      projectpackages = METADATA['packages'].dup
     else
-      @@projectpackages =  @@projectpackages =METADATA['packages']
+      projectpackages =  @@projectpackages =METADATA['packages']
     end
+    projectpackages
   end
 end
