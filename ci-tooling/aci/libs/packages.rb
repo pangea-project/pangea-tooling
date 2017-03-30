@@ -36,7 +36,7 @@ module Packages
     packages = ''
     defpackages = ''
     if projectpackages
-      defpackages << projectpackages.dup
+      defpackages << Metadata::PROJECTPACKAGES.dup
       p defpackages
       p defpackages.frozen?
       packages = defpackages.join(" ").gsub(/\,|\[|\]|\"/, '')
