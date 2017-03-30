@@ -25,11 +25,11 @@ require 'yaml'
 require 'erb'
 
 describe Recipe do
-  app = Recipe.new(name: Metadata::PROJECT, binary: Metadata::METADATA['binary'])
+  app = Recipe.new(name: Metadata::PROJECT, binary: Metadata::metadata['binary'])
   describe "#initialize" do
     it "Sets the application name" do
       expect(app.name).to eq Metadata::PROJECT
-      expect(app.binary).to eq Metadata::METADATA['binary']
+      expect(app.binary).to eq Metadata::metadata['binary']
     end
   end
 
