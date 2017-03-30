@@ -26,11 +26,6 @@ require 'yaml'
 
 exit_status = 'Expected 0 exit Status'
 
-p Metadata::BUILDKF5
-p Metadata::METADATA
-p Metadata::FRAMEWORKS
-
-
 describe 'install_packages' do
   it 'Installs distribution packages' do
     expect(
