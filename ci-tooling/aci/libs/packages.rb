@@ -34,7 +34,6 @@ module Packages
     kde = args[:kde]
     projectpackages = args[:projectpackages]
     packages = ''
-    defpackages = ''
     if projectpackages
       defpackages << Metadata::PROJECTPACKAGES.dup
       p defpackages

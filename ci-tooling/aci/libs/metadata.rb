@@ -28,7 +28,6 @@ module Metadata
   PROJECT = METADATA['name']
   FRAMEWORKS = METADATA['frameworks']
   BUILDKF5 = METADATA['build_kf5']
-  PROJECTPACKAGES = METADATA['packages']
   EXTERNALDEPENDENCIES = METADATA['dependencies']
   DEPSONKF5 = METADATA['deps_on_kf5']
   DEPATH = '/source/'
@@ -36,4 +35,10 @@ module Metadata
   ARCH = `arch`
   DATE = `date +"%Y%m%d"`
   APPIMAGEFILENAME = PROJECT + '-git' + DATE + '-'  + ARCH + '.AppImage'.to_s.gsub(/\s+/, '').delete("\n")
+
+  @@projectpackages =METADATA['packages']
+
+  def self.get
+    @@projectpackages
+  end
 end
