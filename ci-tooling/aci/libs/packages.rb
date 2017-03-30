@@ -35,7 +35,8 @@ module Packages
     projectpackages = args[:projectpackages]
     packages = ''
     if projectpackages
-      defpackages = projectpackages.dup
+      defpackages << projectpackages.dup
+      p defpackages
       p defpackages.frozen?
       packages = defpackages.join(" ").gsub(/\,|\[|\]|\"/, '')
       p packages
