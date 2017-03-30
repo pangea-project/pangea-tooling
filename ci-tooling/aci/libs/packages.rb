@@ -30,16 +30,15 @@ module Packages
   def self.install_packages(args = {})
     kde = args[:kde]
     projectpackages = args[:projectpackages]
-    if projectpackages
-      packages = Metadata.get.join(" ").gsub(/\,|\[|\]|\"/, '')
-      p packages
-      #packages << Frameworks.generatekf5_packages if kde
-      p packages
-      system('apt-get update && apt-get -y upgrade')
-      system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
-      $?.exitstatus
-    end
+    packagelist = Set.new
+    packagelist.merge(projectpackages) if projectpackages
+    packageslist.merge(Frameworks.generatekf5_packages) if kde
+    packages = packageslist.join(" ")
+    system('apt-get update && apt-get -y upgrade')
+    system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
+    $?.exitstatus
   end
+
 
   def self.retrieve_tools(args= {})
     url = args[:url]
