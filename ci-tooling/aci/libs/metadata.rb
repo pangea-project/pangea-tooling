@@ -36,9 +36,13 @@ module Metadata
   DATE = `date +"%Y%m%d"`
   APPIMAGEFILENAME = PROJECT + '-git' + DATE + '-'  + ARCH + '.AppImage'.to_s.gsub(/\s+/, '').delete("\n")
 
-  @@projectpackages =METADATA['packages'].dup
+  @@projectpackages =METADATA['packages']
 
   def self.get
-    @@projectpackages
+    if @@projectpackages
+      @@projectpackages = METADATA['packages'].dup
+    else
+      @@projectpackages =  @@projectpackages =METADATA['packages']
+    end
   end
 end
