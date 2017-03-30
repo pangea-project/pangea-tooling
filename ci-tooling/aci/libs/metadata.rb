@@ -24,26 +24,21 @@ require 'yaml'
 # Module for installing distribution packages
 module Metadata
 
-  METADATA = YAML.load_file('/in/data/metadata.yaml')
-  PROJECT = METADATA['name']
-  FRAMEWORKS = METADATA['frameworks']
-  BUILDKF5 = METADATA['build_kf5']
-  EXTERNALDEPENDENCIES = METADATA['dependencies']
-  DEPSONKF5 = METADATA['deps_on_kf5']
+  metadata = YAML.load_file('/in/data/metadata.yaml')
+  PROJECT = metadata['name']
+  FRAMEWORKS = metadata['frameworks']
+  BUILDKF5 = metadata['build_kf5']
+  EXTERNALDEPENDENCIES = metadata['dependencies']
+  DEPSONKF5 = metadata['deps_on_kf5']
   DEPATH = '/source/'
   PROJECTPATH = '/in/' + PROJECT
   ARCH = `arch`
   DATE = `date +"%Y%m%d"`
   APPIMAGEFILENAME = PROJECT + '-git' + DATE + '-'  + ARCH + '.AppImage'.to_s.gsub(/\s+/, '').delete("\n")
 
-  @@projectpackages =METADATA['packages']
+  @@projectpackages =metadata['packages']
 
   def self.get
-    if @@projectpackages
-      projectpackages = METADATA['packages'].dup
-    else
-      projectpackages =  @@projectpackages =METADATA['packages']
-    end
-    projectpackages
+    @@projectpackages
   end
 end
