@@ -35,7 +35,7 @@ module Packages
     packagelist = Set.new
     packagelist.merge(projectpackages) if projectpackages
     packagelist.merge(Frameworks.generatekf5_packages) if kde
-    packagelist.set.to_a.join if packagelist
+    packagelist.to_a.join if packagelist
     Apt.install(packages)
     $?.exitstatus
   end
