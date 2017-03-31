@@ -29,12 +29,15 @@ require 'open-uri'
 # Module for installing distribution packages and retrieval of pre packaged appimage tools
 module Packages
   def self.install_packages(args = {})
+    packages = ''
     kde = args[:kde]
     projectpackages = args[:projectpackages]
     packagelist = Set.new
     packagelist.merge(projectpackages) if projectpackages
     packagelist.merge(Frameworks.generatekf5_packages) if kde
-    packages = packagelist.join(" ")
+    packagelist.each do |p|
+      packages << p
+    end
     Apt.install(packages)
     $?.exitstatus
   end
