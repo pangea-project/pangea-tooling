@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require_relative 'metadata'
 require_relative 'frameworks'
+require_relative '../../lib/apt'
 require 'fileutils'
 require 'yaml'
 require 'set'
@@ -33,9 +34,8 @@ module Packages
     packagelist = Set.new
     packagelist.merge(projectpackages) if projectpackages
     packagelist.merge(Frameworks.generatekf5_packages) if kde
-    packages = packageslist.join(" ")
-    system('apt-get update && apt-get -y upgrade')
-    system("DEBIAN_FRONTEND=noninteractive apt-get -y install #{packages}")
+    packages = packagelist.join(" ")
+    Apt.install(packages)
     $?.exitstatus
   end
 
