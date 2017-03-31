@@ -35,7 +35,7 @@ module Frameworks
       dep_list = KF5[f].select { |k| k['distro_packages'] }
       package_list = dep_list['distro_packages']
       if package_list
-      kf5_packages.merge(packagelist) if packagelist
+      kf5_packages.merge(package_list) if package_list
       end
     end
     p kf5_packages
