@@ -24,7 +24,7 @@ require 'net/ssh/gateway'
 require 'date'
 
 # SSH tunnel so we can talk to the repo
-gateway = Net::SSH::Gateway.new('darwini.kde.org', 'neonarchives')
+gateway = Net::SSH::Gateway.new('archive-api.kde.org', 'neonarchives')
 gateway_port = gateway.open('localhost', 9090)
 
 Aptly.configure do |config|

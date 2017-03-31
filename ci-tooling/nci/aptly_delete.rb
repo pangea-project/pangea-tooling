@@ -40,7 +40,7 @@ log.level = Logger::DEBUG
 log.progname = $PROGRAM_NAME
 
 # SSH tunnel so we can talk to the repo
-gateway = Net::SSH::Gateway.new('darwini', 'neonarchives')
+gateway = Net::SSH::Gateway.new('archive-api.kde.org', 'neonarchives')
 gateway.open('localhost', 9090, 9090)
 
 Aptly.configure do |config|
