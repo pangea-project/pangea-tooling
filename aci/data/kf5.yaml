@@ -5,7 +5,7 @@ extra-cmake-modules:
 kcoreaddons:
   external:
   distro_packages:
-   - gamin-dev
+   - libgamin-dev
   kf5_deps:
    - extra-cmake-modules
 attica:
@@ -38,8 +38,8 @@ karchive:
   external:
    - cmake
   distro_packages:
-   - bzip2-dev
-   - xz-dev
+   - bzip2
+   - liblzma-dev
    - media-player-info
   kf5_deps:
    - extra-cmake-modules
