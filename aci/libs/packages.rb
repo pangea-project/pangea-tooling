@@ -20,7 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require_relative 'metadata'
 require_relative 'frameworks'
-require_relative '../lib/apt'
+require_relative '../ci-tooling/lib/apt'
 require 'fileutils'
 require 'yaml'
 require 'set'
@@ -34,7 +34,7 @@ module Packages
     packagelist = Set.new
     packagelist.merge(projectpackages) if projectpackages
     packagelist.merge(Frameworks.generatekf5_packages) if kde
-    #  packagelist = packagelist.to_a.join(' ') 
+    #  packagelist = packagelist.to_a.join(' ')
     Apt.install(packagelist) || raise if packagelist
     $?.exitstatus
   end
