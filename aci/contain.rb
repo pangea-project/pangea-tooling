@@ -70,7 +70,7 @@ volume_source = {
 }
 
 status_code = c.run(
-  Cmd: %w([bash -c /in/setup.sh]),
+  Cmd: ['bash -c /in/setup.sh'],
   HostConfig: host_source,
   Volumes: volume_source
 )
