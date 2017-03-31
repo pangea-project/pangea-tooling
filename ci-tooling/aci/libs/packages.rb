@@ -36,7 +36,8 @@ module Packages
     packagelist.merge(projectpackages) if projectpackages
     packagelist.merge(Frameworks.generatekf5_packages) if kde
     packages = packagelist.to_a.join("', '") if packagelist
-    Apt.install(packages)
+    packages = "'" + packages + "'"
+    Apt.install(packages) || raise
     $?.exitstatus
   end
 
