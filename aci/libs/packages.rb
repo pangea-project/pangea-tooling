@@ -38,7 +38,7 @@ module Packages
     packages = packagelist.to_a.join(' ')
     # packages = %w(#{packages})
     # Apt.install(packages) if packagelist
-    system('apt-get install -y ' + packages)
+    system('apt-get install -y ' + ' ' + packages)
     $?.exitstatus
   end
 
