@@ -106,5 +106,18 @@ module Aptly::Ext
         end
       end
     end
+
+    def test_neon
+      # This basically asserts that a connection is called with the expected URI
+      # It is a fairly repetative test but necessary to make sure .neon is
+      # compliantly calling connect as per test_connect_socket
+      uri = URI.parse('ssh://neonarchives@archive-api.neon.kde.org/srv/neon-services/aptly.sock')
+      Remote.expects(:connect).with { |u| u == uri }.yields
+      block_called = false
+      Remote.neon do
+        block_called = true
+      end
+      assert(block_called)
+    end
   end
 end

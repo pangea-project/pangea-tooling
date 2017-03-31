@@ -46,12 +46,7 @@ class NCIRepoCleanupTest < TestCase
   end
 
   def test_clean
-    fake_gateway = mock
-    fake_gateway.responds_like_instance_of(Net::SSH::Gateway)
-    fake_gateway.expects(:open)
-                .with('localhost', 9090)
-                .returns(9091)
-    Net::SSH::Gateway.expects(:new).returns(fake_gateway)
+    Aptly::Ext::Remote.expects(:neon).yields
 
     fake_unstable = mock('unstable')
     fake_unstable.stubs(:Name).returns('unstable')

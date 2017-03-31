@@ -86,30 +86,23 @@ end
 ## APTLY
 
 require 'aptly'
-require 'net/ssh/gateway'
+require_relative '../../lib/aptly-ext/remote'
 
-# SSH tunnel so we can talk to the repo
-gateway = Net::SSH::Gateway.new('drax', 'root')
-gateway.open('localhost', 9090, 9090)
+Aptly::Ext::Remote.neon do
+  log.info 'APTLY'
+  Aptly::Repository.list.each do |repo|
+    next unless options.types.include?(repo.Name)
 
-Aptly.configure do |config|
-  config.host = 'localhost'
-  config.port = 9090
-end
+    # Query all relevant packages.
+    # Any package with source as source.
+    query = "($Source (#{options.name}))"
+    # Or the source itself
+    query += " | (#{options.name} {source})"
+    packages = repo.packages(q: query).compact.uniq
+    next if packages.empty?
 
-log.info 'APTLY'
-Aptly::Repository.list.each do |repo|
-  next unless options.types.include?(repo.Name)
-
-  # Query all relevant packages.
-  # Any package with source as source.
-  query = "($Source (#{options.name}))"
-  # Or the source itself
-  query += " | (#{options.name} {source})"
-  packages = repo.packages(q: query).compact.uniq
-  next if packages.empty?
-
-  log.info "Deleting packages from repo #{repo.Name}: #{packages}"
-  repo.delete_packages(packages)
-  repo.published_in.each(&:update!)
+    log.info "Deleting packages from repo #{repo.Name}: #{packages}"
+    repo.delete_packages(packages)
+    repo.published_in.each(&:update!)
+  end
 end

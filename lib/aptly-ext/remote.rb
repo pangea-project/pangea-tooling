@@ -35,6 +35,12 @@ module Aptly
         end
       end
 
+      def self.neon(&block)
+        connect(URI.parse(<<-EOF.strip), &block)
+ssh://neonarchives@archive-api.neon.kde.org/srv/neon-services/aptly.sock
+EOF
+      end
+
       # Connects directly through HTTP
       module HTTP
         module_function

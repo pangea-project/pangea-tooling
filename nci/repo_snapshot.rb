@@ -20,47 +20,42 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'aptly'
-require 'net/ssh/gateway'
 require 'date'
 
+require_relative '../../lib/aptly-ext/remote'
+
 # SSH tunnel so we can talk to the repo
-gateway = Net::SSH::Gateway.new('archive-api.kde.org', 'neonarchives')
-gateway_port = gateway.open('localhost', 9090)
+Aptly::Ext::Remote.neon do
+  stamp = Time.now.utc.strftime('%Y%m%d.%H%M')
+  release = Aptly::Repository.get('release_xenial')
+  snapshot = release.snapshot(Name: "release_xenial-#{stamp}")
+  # Limit to user for now.
+  pubs = Aptly::PublishedRepository.list.select do |x|
+    x.Prefix == 'user' && x.Distribution == 'xenial'
+  end
+  pub = pubs[0]
+  pub.update!(Snapshots: [{ Name: snapshot.Name, Component: 'main' }])
 
-Aptly.configure do |config|
-  config.host = 'localhost'
-  config.port = gateway_port
-end
+  published_snapshots = Aptly::PublishedRepository.list.select do |x|
+    x.SourceKind == 'snapshot'
+  end
+  published_snapshots = published_snapshots.map(&:Sources).flatten.map(&:Name)
+  puts "Currently published snapshots: #{published_snapshots}"
 
-stamp = Time.now.utc.strftime('%Y%m%d.%H%M')
-release = Aptly::Repository.get('release_xenial')
-snapshot = release.snapshot(Name: "release_xenial-#{stamp}")
-# Limit to user for now.
-pubs = Aptly::PublishedRepository.list.select do |x|
-  x.Prefix == 'user' && x.Distribution == 'xenial'
-end
-pub = pubs[0]
-pub.update!(Snapshots: [{ Name: snapshot.Name, Component: 'main' }])
+  snapshots = Aptly::Snapshot.list.select do |x|
+    x.Name.start_with?(release.Name)
+  end
+  puts "Available snapshots: #{snapshots.map(&:Name)}"
 
-published_snapshots = Aptly::PublishedRepository.list.select do |x|
-  x.SourceKind == 'snapshot'
+  dangling_snapshots = snapshots.reject do |x|
+    published_snapshots.include?(x.Name)
+  end
+  dangling_snapshots.each do |x|
+    x.CreatedAt = DateTime.parse(x.CreatedAt)
+  end
+  dangling_snapshots.sort_by!(&:CreatedAt)
+  dangling_snapshots.pop # Pop newest dangle as a backup.
+  puts "Dangling snapshots: #{dangling_snapshots.map(&:Name)}"
+  dangling_snapshots.each(&:delete)
+  puts 'Dangling snapshots deleted'
 end
-published_snapshots = published_snapshots.map(&:Sources).flatten.map(&:Name)
-puts "Currently published snapshots: #{published_snapshots}"
-
-snapshots = Aptly::Snapshot.list.select do |x|
-  x.Name.start_with?(release.Name)
-end
-puts "Available snapshots: #{snapshots.map(&:Name)}"
-
-dangling_snapshots = snapshots.reject do |x|
-  published_snapshots.include?(x.Name)
-end
-dangling_snapshots.each do |x|
-  x.CreatedAt = DateTime.parse(x.CreatedAt)
-end
-dangling_snapshots.sort_by!(&:CreatedAt)
-dangling_snapshots.pop # Pop newest dangle as a backup.
-puts "Dangling snapshots: #{dangling_snapshots.map(&:Name)}"
-dangling_snapshots.each(&:delete)
-puts 'Dangling snapshots deleted'

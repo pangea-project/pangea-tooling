@@ -23,6 +23,7 @@ require 'aptly'
 require 'net/ssh/gateway'
 
 require_relative '../lib/aptly-ext/filter'
+require_relative '../../lib/aptly-ext/remote'
 
 # Cleans up an Aptly::Repository by removing all versions of source+bin that
 # are older than the newest version.
@@ -118,14 +119,8 @@ end
 
 if __FILE__ == $PROGRAM_NAME || ENV.include?('PANGEA_TEST_EXECUTION')
   # SSH tunnel so we can talk to the repo
-  gateway = Net::SSH::Gateway.new('archive-api.kde.org', 'neonarchives')
-  gateway_port = gateway.open('localhost', 9090)
-
-  Aptly.configure do |config|
-    config.host = 'localhost'
-    config.port = gateway_port
+  Aptly::Ext::Remote.neon do
+    RepoCleaner.clean(%w(unstable stable unstable_xenial stable_xenial))
+    RepoCleaner.clean(%w(release_xenial), keep_amount: 4)
   end
-
-  RepoCleaner.clean(%w(unstable stable unstable_xenial stable_xenial))
-  RepoCleaner.clean(%w(release_xenial), keep_amount: 4)
 end

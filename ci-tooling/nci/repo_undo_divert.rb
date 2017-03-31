@@ -24,6 +24,7 @@ require 'date'
 require 'net/ssh/gateway'
 
 require_relative '../lib/optparse'
+require_relative '../../lib/aptly-ext/remote'
 
 parser = OptionParser.new do |opts|
   opts.banner =
@@ -44,26 +45,20 @@ unless REPO_NAME
 end
 
 # SSH tunnel so we can talk to the repo
-gateway = Net::SSH::Gateway.new('drax', 'root')
-gateway_port = gateway.open('localhost', 9090)
-
-Aptly.configure do |config|
-  config.host = 'localhost'
-  config.port = gateway_port
-end
-
-repo = Aptly::Repository.get(REPO_NAME)
-snaps = Aptly::Snapshot.list.keep_if { |x| x.Name.start_with?(REPO_NAME) }
-raise "bad shots #{snaps}" unless snaps.size == 1
-snap = snaps[0]
-snap.published_in.each do |pub|
-  attributes = pub.to_h
-  attributes.delete(:Sources)
-  attributes.delete(:SourceKind)
-  attributes.delete(:Storage)
-  attributes.delete(:Prefix)
-  prefix = pub.send(:api_prefix)
-  raise 'could not call pub.api_prefix and get a result' unless prefix
-  pub.drop
-  repo.publish(prefix, attributes)
+Aptly::Ext::Remote.neon do
+  repo = Aptly::Repository.get(REPO_NAME)
+  snaps = Aptly::Snapshot.list.keep_if { |x| x.Name.start_with?(REPO_NAME) }
+  raise "bad shots #{snaps}" unless snaps.size == 1
+  snap = snaps[0]
+  snap.published_in.each do |pub|
+    attributes = pub.to_h
+    attributes.delete(:Sources)
+    attributes.delete(:SourceKind)
+    attributes.delete(:Storage)
+    attributes.delete(:Prefix)
+    prefix = pub.send(:api_prefix)
+    raise 'could not call pub.api_prefix and get a result' unless prefix
+    pub.drop
+    repo.publish(prefix, attributes)
+  end
 end
