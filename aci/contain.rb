@@ -49,6 +49,7 @@ host_source = {
     Dir.pwd + '/appimages:/appimages',
     Dir.pwd + '/source:/source'
   ],
+  Privileged: true,
   Devices: [
     {
       PathOnHost: '/dev/fuse',
@@ -64,7 +65,6 @@ volume_source = {
   '/source' => {},
   '/appimages' => {},
   '/app.Dir' => {},
-  '/home/jenkins/.gnupg' => {},
   '/lib/modules' => {},
   '/tmp' => {}
 }
