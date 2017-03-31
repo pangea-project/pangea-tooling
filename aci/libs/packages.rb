@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-#
+
 # Copyright (C) 2016 Scarlett Clark <sgclark@kde.org>
 #
 # This library is free software; you can redistribute it and/or
@@ -26,7 +26,8 @@ require 'yaml'
 require 'set'
 require 'open-uri'
 
-# Module for installing distribution packages and retrieval of pre packaged appimage tools
+# Module for installing distribution packages and
+# retrieval of pre packaged appimage tools
 module Packages
   def self.install_packages(args = {})
     kde = args[:kde]
@@ -34,13 +35,12 @@ module Packages
     packagelist = Set.new
     packagelist.merge(projectpackages) if projectpackages
     packagelist.merge(Frameworks.generatekf5_packages) if kde
-    #  packagelist = packagelist.to_a.join(' ')
-    Apt.install(%w(packagelist.to_join(" "))) || raise if packagelist
+    packages = %w(packagelist.to_join(" ")).freeze
+    Apt.install(packages) if packagelist
     $?.exitstatus
   end
 
-
-  def self.retrieve_tools(args= {})
+  def self.retrieve_tools(args = {})
     url = args[:url]
     file = args[:file]
     download = open(url)
