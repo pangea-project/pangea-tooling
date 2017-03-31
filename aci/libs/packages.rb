@@ -20,7 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require_relative 'metadata'
 require_relative 'frameworks'
-require_relative '../../lib/apt'
+require_relative '../lib/apt'
 require 'fileutils'
 require 'yaml'
 require 'set'
@@ -29,14 +29,13 @@ require 'open-uri'
 # Module for installing distribution packages and retrieval of pre packaged appimage tools
 module Packages
   def self.install_packages(args = {})
-    packages = ''
     kde = args[:kde]
     projectpackages = args[:projectpackages]
     packagelist = Set.new
     packagelist.merge(projectpackages) if projectpackages
     packagelist.merge(Frameworks.generatekf5_packages) if kde
-    packages = packagelist.to_a.join(" ") if packagelist
-    Apt.install("#{packages}") || raise
+    #  packagelist = packagelist.to_a.join(' ') 
+    Apt.install(packagelist) || raise if packagelist
     $?.exitstatus
   end
 
