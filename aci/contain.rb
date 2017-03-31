@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-#
+
 # Copyright (C) 2014-2016 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
@@ -31,42 +31,46 @@ Dir.mkdir('appimages') unless Dir.exist?('appimages')
 JOB_NAME = ENV.fetch('JOB_NAME')
 IMAGE = ENV.fetch('DOCKER_IMAGE')
 
-
-
 c = CI::Containment.new(
   JOB_NAME,
   image: IMAGE,
   privileged: true,
-  binds: [   Dir.pwd + ":/in",
-    Dir.pwd + "/app.Dir:/app.Dir",
-    Dir.pwd + "/appimages:/appimages",
-    Dir.pwd + "/source:/source",
-    '/home/jenkins/.gnupg:/home/jenkins/.gnupg'],
+  binds: [
+    Dir.pwd + ':/in',
+    Dir.pwd + '/app.Dir:/app.Dir',
+    Dir.pwd + '/appimages:/appimages',
+    Dir.pwd + '/source:/source'
+  ]
 )
 host_source = {
-    Binds: [
-      Dir.pwd + ":/in",
-      Dir.pwd + "/app.Dir:/app.Dir",
-      Dir.pwd + "/appimages:/appimages",
-      Dir.pwd + "/source:/source",
-      '/home/jenkins/.gnupg:/home/jenkins/.gnupg'],
-    Privileged: true,
-    Devices: [
-      { PathOnHost: '/dev/fuse',
-        PathInContainer: '/dev/fuse',
-        CgroupPermissions: 'mrw' }
-    ],
-    UsernsMode: 'host'
+  Binds: [
+    Dir.pwd + ':/in',
+    Dir.pwd + '/app.Dir:/app.Dir',
+    Dir.pwd + '/appimages:/appimages',
+    Dir.pwd + '/source:/source'
+  ],
+  Devices: [
+    {
+      PathOnHost: '/dev/fuse',
+      PathInContainer: '/dev/fuse',
+      CgroupPermissions: 'mrw'
+    }
+  ],
+  UsernsMode: 'host'
 }
-host_dest = { HostConfig: {} }
 
 volume_source = {
-  '/in' => {}, '/source' => {}, '/appimages' => {}, '/app.Dir' => {}, '/home/jenkins/.gnupg' => {}, '/lib/modules' => {},  '/tmp' => {}
+  '/in' => {},
+  '/source' => {},
+  '/appimages' => {},
+  '/app.Dir' => {},
+  '/home/jenkins/.gnupg' => {},
+  '/lib/modules' => {},
+  '/tmp' => {}
 }
-volume_dest = {Volumes: {}}
 
 status_code = c.run(
-  Cmd: %w[bash -c /in/setup.sh],
+  Cmd: %w([bash -c /in/setup.sh]),
   HostConfig: host_source,
   Volumes: volume_source
 )
