@@ -20,7 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require_relative 'metadata'
 require_relative 'frameworks'
-require_relative '../ci-tooling/lib/apt'
+require_relative '../../ci-tooling/lib/apt'
 require 'fileutils'
 require 'yaml'
 require 'set'
