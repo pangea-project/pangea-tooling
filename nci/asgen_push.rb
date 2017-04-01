@@ -83,16 +83,16 @@ repodir = File.absolute_path('run/export/repo')
 tmpdir = '/home/neonarchives/asgen_push'
 targetdir = "/home/neonarchives/aptly/public/#{APTLY_REPOSITORY}/dists/xenial"
 
-Net::SSH.start('archive-api.kde.org', 'neonarchives') do |ssh|
+Net::SSH.start('archive-api.neon.kde.org', 'neonarchives') do |ssh|
   puts ssh.exec!("rm -rf #{tmpdir}")
   puts ssh.exec!("mkdir -p #{tmpdir}")
 end
 
-Net::SFTP.start('archive-api.kde.org', "neonarchives") do |sftp|
+Net::SFTP.start('archive-api.neon.kde.org', "neonarchives") do |sftp|
   sftp.upload!("#{repodir}/", "#{tmpdir}")
 end
 
-Net::SSH.start('archive-api.kde.org', 'neonarchives') do |ssh|
+Net::SSH.start('archive-api.neon.kde.org', 'neonarchives') do |ssh|
   puts ssh.exec!("gpg --digest-algo SHA256 --armor -s -o #{tmpdir}/InRelease --clearsign #{tmpdir}/Release")
   puts ssh.exec!("gpg --digest-algo SHA256 --armor --detach-sign -s -o #{tmpdir}/Release.gpg  #{tmpdir}/Release")
   puts ssh.exec!("cp -rv #{tmpdir}/. #{targetdir}/")
