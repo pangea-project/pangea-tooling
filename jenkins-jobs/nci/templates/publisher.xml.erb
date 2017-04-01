@@ -65,7 +65,7 @@
     <hudson.tasks.Shell>
       <command>
         export BUNDLE_GEMFILE=$HOME/tooling/Gemfile # Make bundler able to setup.
-        GATEWAY="ssh://neonarchives@archive.neon.kde.org/srv/neon-services/aptly.sock"
+        GATEWAY="ssh://neonarchives@archive-api.neon.kde.org/srv/neon-services/aptly.sock"
 <% type_suffix = (distribution == 'wily' ? '' : "_#{distribution}") %>
     ~/tooling/ci-tooling/bin/pangea_dput --gateway $GATEWAY --repo <%= type %><%= type_suffix %> *.changes
 <% if type == 'unstable' %>
