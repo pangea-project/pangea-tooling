@@ -31,37 +31,30 @@ module Frameworks
     frameworks = generatekf5_buildorder
     kf5_packages = Set.new
     frameworks.each do |f|
-      p f
       dep_list = KF5[f].select { |k| k['distro_packages'] }
       package_list = dep_list['distro_packages']
       if package_list
-      kf5_packages.merge(package_list) if package_list
+        kf5_packages.merge(package_list) if package_list
       end
     end
-    p kf5_packages
     kf5_packages
   end
 
-  def self.generatekf5_buildorder
-    frameworks = Metadata::FRAMEWORKS
+  def self.generatekf5_buildorder(frameworks)
     buildorder = Set.new
-    frameworks.each do |f|
-      p f
-      dep_list = KF5[f]
-      kf5list = dep_list['kf5_deps']
-      p kf5list
-      if kf5list
-        kf5list.each do |d|
-          deps_ofdeps = KF5[d]
-          kf5depslist = deps_ofdeps['kf5_deps']
-          buildorder.merge(kf5depslist) if kf5depslist
-        end
-      end
-      buildorder.merge(kf5list) if kf5list
-      buildorder.delete(f)
-      buildorder.add(f)
-      p buildorder
-    end
+    list = get_kf5deps(frameworks)
+    deps_ofdeps = get_kf5deps(list)
+    buildorder.merge(list) if list
+    buildorder.merge(deps_ofdeps) if deps_ofdeps
     buildorder
+  end
+
+  def self.get_kf5deps(frameworks)
+    frameworks.each do |f|
+      list = KF5[f]['kf5_deps']
+      list.delete(f)
+      list.add(f)
+    end
+    list
   end
 end
