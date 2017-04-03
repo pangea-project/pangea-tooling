@@ -11,6 +11,15 @@ Style/HashSyntax:
   Exclude:
     - Rakefile
 
+# The magic comment is at the top. Below the top is the bloody licenses, having
+# a space in between looks like shit. The motivation of this style rule is so
+# you don't glue actual code comments to the magic comment, we don't do that
+# as we use a freeer license than most of Ruby code and need a licenses header
+# to properly license!
+# https://github.com/bbatsov/ruby-style-guide#magic-comments
+Style/EmptyLineAfterMagicComment:
+  Enabled: false
+
 Metrics/AbcSize:
   Exclude:
     - jenkins-jobs/*
