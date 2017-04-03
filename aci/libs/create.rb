@@ -30,13 +30,13 @@ module Appimage
     dated_zsync = 'zsyncmake -u ' + '"' + 'https://s3-eu-central-1.amazonaws.com/ds9-apps/' + \
     Metadata::PROJECT + '-master-appimage/' + Metadata::APPIMAGEFILENAME + \
     ' -o /appimages/' + Metadata::APPIMAGEFILENAME + '.zsync /appimages/' + Metadata::APPIMAGEFILENAME
-     latest_cmd =  './appimagetool-x86_64.AppImage -v -s -u ' + '"' + 'zsync|' + \
-     Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage ' + \
-     '" ' + '/app.Dir/ /appimages/' + Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage'
-     latest_zsync = 'zsyncmake -u ' + '"' + 'https://s3-eu-central-1.amazonaws.com/ds9-apps/' + \
-     Metadata::PROJECT + '-master-appimage/' + Metadata::PROJECT + '-latest-' + Metadata::ARCH + \
-     ' -o /appimages/' + Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.zsync /appimages/' + \
-     Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage'
+    latest_cmd =  './appimagetool-x86_64.AppImage -v -s -u ' + '"' + 'zsync|' + \
+    Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage ' + \
+    '" ' + '/app.Dir/ /appimages/' + Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage'
+    latest_zsync = 'zsyncmake -u ' + '"' + 'https://s3-eu-central-1.amazonaws.com/ds9-apps/' + \
+    Metadata::PROJECT + '-master-appimage/' + Metadata::PROJECT + '-latest-' + Metadata::ARCH + \
+    ' -o /appimages/' + Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.zsync /appimages/' + \
+    Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage'
 
     # get tools
     Dir.chdir()
@@ -48,12 +48,12 @@ module Appimage
 
     `gpg2 --import /home/jenkins/.gnupg/appimage.key`
     p dated_cmd
-    system(dated_cmd)
+    system(dated_cmd.delete("\n"))
     p dated_zsync
-    system(dated_zsync)
+    system(dated_zsync.delete("\n"))
     p latest_cmd
-    system(latest_cmd)
+    system(latest_cmd.delete("\n"))
     p latest_zsync
-    system(latest_zsync)
+    system(latest_zsync.delete("\n"))
   end
 end
