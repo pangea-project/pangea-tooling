@@ -39,4 +39,14 @@ class DebianChangesTest < TestCase
     assert_equal('gpgmepp_15.08.2+git20151212.1109+15.04-0.debian.tar.xz',
                  file.name)
   end
+
+  def test_binary_split
+    c = Debian::Changes.new(data)
+    c.parse!
+    binary = c.fields.fetch('Binary')
+    assert(binary)
+    assert_equal(3, binary.size) # Properly split?
+    assert_equal(%w(libkf5gpgmepp5 libkf5gpgmepp-pthread5 libkf5gpgmepp-dev).sort,
+                 binary.sort)
+  end
 end

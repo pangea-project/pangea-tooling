@@ -48,16 +48,7 @@ module Debian
         multiline: %w(description changes checksums-sha1 checksums-sha256 files)
       }
       @fields = parse_paragraph(lines, fields)
-
-      if @fields
-        if @fields['files']
-          # Mangle list fields into structs.
-          @fields['files'] = parse_types(@fields['files'], File)
-          %w(checksums-sha1 checksums-sha256).each do |key|
-            @fields[key] = parse_types(@fields[key], Checksum)
-          end
-        end
-      end
+      mangle_fields! if @fields
 
       # TODO: Strip custom fields and add a Control::flags_for(entry) method.
 
@@ -74,6 +65,39 @@ module Debian
     end
 
     private
+
+    def mangle_files
+      # Mangle list fields into structs.
+      # FIXME: this messes up field order, files and keys will be appended
+      # to the hash as injecting new things into the hash does not
+      # replace the old ones in-place, but rather drops the old ones and
+      # adds the new ones at the end.
+      @fields['files'] = parse_types(@fields['files'], File)
+      %w(checksums-sha1 checksums-sha256).each do |key|
+        @fields[key] = parse_types(@fields[key], Checksum)
+      end
+    end
+
+    def mangle_binary
+      # FIXME: foldable fields are arrays but their values are split by
+      # random crap such as commas or spaces. In changes Binary is a
+      # foldable field separated by spaces, so we need to make sure this
+      # is the case.
+      # This is conducted in-place so we don't mess up field order.
+      @fields['binary'].replace(@fields['binary'][0].split(' '))
+    end
+
+    # Calls all defined mangle_ methods. Mangle methods are meant to suffix
+    # the field they mangle. They only get run if that field is in the hash.
+    # So, mangle_binary checks the Binary field and is only run when it is
+    # defined in the hash.
+    def mangle_fields!
+      private_methods.each do |meth, str = meth.to_s|
+        next unless str.start_with?('mangle_')
+        next unless @fields.include?(str.split('_', 2)[1])
+        send(meth)
+      end
+    end
 
     def parse_types(lines, klass)
       lines.split($/).collect do |line|
