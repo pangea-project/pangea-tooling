@@ -18,6 +18,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'aptly'
+
 require_relative '../debian/changes'
 require_relative '../aptly-ext/package'
 require_relative '../repo_abstraction'
