@@ -41,6 +41,7 @@ module NCI
         Apt::Repository.any_instance.expects(:add).returns(true)
         Apt::Repository.any_instance.expects(:remove).returns(true)
         Aptly::Repository.expects(:get).returns(mock('aptly_repo'))
+        Apt::Abstrapt.stubs(:run_internal).returns(true)
         DPKG.expects(:list).with('libkf5coreaddons-dev').returns(%w(
           /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets.cmake
           /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsMacros.cmake
