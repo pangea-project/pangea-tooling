@@ -25,7 +25,7 @@ require 'set'
 
 # Module for installing distribution packages
 module Frameworks
-  KF5 = YAML.load_file('../data/kf5.yaml')
+  KF5 = YAML.load_file(File.join(__dir__, '../data/kf5.yaml'))
 
   def self.generatekf5_packages
     frameworks = generatekf5_buildorder
