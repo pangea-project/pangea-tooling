@@ -53,8 +53,10 @@ module NCI
         DPKG.stubs(:list).with { |x| x != 'libkf5coreaddons-dev' }.returns([])
 
         load "#{__dir__}/../nci/lint_cmake_packages.rb"
+        puts 'all good, fork ending!'
+        exit 0
       end
-      Process.waitpid(pid)
+      assert_equal(pid, Process.waitpid(pid))
       assert($?.success?)
     end
   end
