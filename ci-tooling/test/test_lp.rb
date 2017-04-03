@@ -108,6 +108,7 @@ class LaunchpadTest < TestCase
 
   def teardown
     Launchpad.instance_variable_set(:@conf_path, Dir.home)
+    WebMock.reset!
     WebMock.allow_net_connect!
   end
 
