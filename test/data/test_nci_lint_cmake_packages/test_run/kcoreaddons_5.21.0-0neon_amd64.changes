@@ -1,0 +1,40 @@
+Format: 1.8
+Date: Mon, 11 Apr 2016 09:21:39 +0000
+Source: kcoreaddons
+Binary: libkf5coreaddons-dev libkf5coreaddons-bin-dev libkf5coreaddons5 libkf5coreaddons-data
+Architecture: amd64 all
+Version: 5.21.0-0neon
+Distribution: xenial
+Urgency: medium
+Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Changed-By: Neon CI <neon@kde.org>
+Description:
+ libkf5coreaddons-bin-dev - KDE Frameworks 5 addons to QtCore - development files
+ libkf5coreaddons-data - KDE Frameworks 5 addons to QtCore - data files
+ libkf5coreaddons-dev - KDE Frameworks 5 addons to QtCore - development files
+ libkf5coreaddons5 - KDE Frameworks 5 addons to QtCore
+Changes:
+ kcoreaddons (5.21.0-0neon) xenial; urgency=medium
+ .
+   * New release
+Checksums-Sha1:
+ 9cbb9619bf6fac0ffe672ff27e280a333fb76ee6 398084 libkf5coreaddons-bin-dev-dbgsym_5.21.0-0neon_amd64.deb
+ 76c1cb803ea123629c1c8d8b8dfb001c376872aa 34960 libkf5coreaddons-bin-dev_5.21.0-0neon_amd64.deb
+ e14296c982f1421500da1ef249e97a5a3a3d81aa 41634 libkf5coreaddons-data_5.21.0-0neon_all.deb
+ 13ae80e8eb30a4583d9e94c4fa27e77b6462200a 63812 libkf5coreaddons-dev_5.21.0-0neon_amd64.deb
+ 4d9b4bd2aef2ae242968104a6aad0a260c4cb4bb 3117076 libkf5coreaddons5-dbgsym_5.21.0-0neon_amd64.deb
+ 740ae1f9dbf601f7eede8cf396e3201791977e00 194332 libkf5coreaddons5_5.21.0-0neon_amd64.deb
+Checksums-Sha256:
+ 1ee41fbeb6e1d37ad1d79baefebbfcd8ed0bb369e74c5e427ebbddd3ba6bf514 398084 libkf5coreaddons-bin-dev-dbgsym_5.21.0-0neon_amd64.deb
+ e62c0251c35b3242b96685375014c33a1b3a09db72da38d577ef184c0adfe2aa 34960 libkf5coreaddons-bin-dev_5.21.0-0neon_amd64.deb
+ 993734f193aff40ba71e9ece19aea40fbaa777e9a987a50d46ba96a9c1b78d07 41634 libkf5coreaddons-data_5.21.0-0neon_all.deb
+ e958567f13b4da8fbd5d721c4ecfab1a9bfe11db5dbffe26f658d11c362b3c5a 63812 libkf5coreaddons-dev_5.21.0-0neon_amd64.deb
+ 61d878d9af2f9a8487de27b118c6d608c8d12f031ac419adabdf19f8bccca3a5 3117076 libkf5coreaddons5-dbgsym_5.21.0-0neon_amd64.deb
+ 13290e5cf06895cc3ecf817deeb3224d1918237e691618cce1c35dc7989eca70 194332 libkf5coreaddons5_5.21.0-0neon_amd64.deb
+Files:
+ a0e345da723d844ce94045965436c51b 398084 debug extra libkf5coreaddons-bin-dev-dbgsym_5.21.0-0neon_amd64.deb
+ 006c2d6a17e6a58489eccec045cc724e 34960 libdevel optional libkf5coreaddons-bin-dev_5.21.0-0neon_amd64.deb
+ 66385a3335c9619b1a17e7ba7193b723 41634 libs optional libkf5coreaddons-data_5.21.0-0neon_all.deb
+ 6e644bfbef20343592ec2c7edb2df417 63812 libdevel optional libkf5coreaddons-dev_5.21.0-0neon_amd64.deb
+ 9a4ce23f0443ea3a39ab088a6319b06c 3117076 debug extra libkf5coreaddons5-dbgsym_5.21.0-0neon_amd64.deb
+ 4f6410e37a585579ed55fc16080247bd 194332 libs optional libkf5coreaddons5_5.21.0-0neon_amd64.deb
