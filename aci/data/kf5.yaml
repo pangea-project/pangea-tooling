@@ -272,6 +272,7 @@ kglobalaccel:
    - kcoreaddons
    - kcrash
    - kdbusaddons
+   - kservice
    - kwindowsystem
 kiconthemes:
   external:
