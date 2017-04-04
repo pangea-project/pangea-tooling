@@ -30,16 +30,11 @@ describe 'grab tools' do
   end
 end
 
-describe 'Import GPG key' do
-  it 'Imports gpg appimage key for Appimage signing' do
-    expect(
-      Appimage.import_gpg
-    ).to be(0), exit_status
-  end
-end
-
 describe 'bundle_appimage' do
   it 'Creates the appimage' do
+    # import gpg key
+    Appimage.import_gpg
+    # create the appimage
     expect(
       Appimage.create_appimage
     ).to be(0), exit_status
