@@ -39,7 +39,8 @@ c = CI::Containment.new(
     Dir.pwd + ':/in',
     Dir.pwd + '/app.Dir:/app.Dir',
     Dir.pwd + '/appimages:/appimages',
-    Dir.pwd + '/source:/source'
+    Dir.pwd + '/source:/source',
+    '/root/.gnupg:/root/.gnupg'
   ]
 )
 host_source = {
@@ -47,7 +48,8 @@ host_source = {
     Dir.pwd + ':/in',
     Dir.pwd + '/app.Dir:/app.Dir',
     Dir.pwd + '/appimages:/appimages',
-    Dir.pwd + '/source:/source'
+    Dir.pwd + '/source:/source',
+    '/root/.gnupg:/root/.gnupg'
   ],
   Privileged: true,
   Devices: [
@@ -66,7 +68,8 @@ volume_source = {
   '/appimages' => {},
   '/app.Dir' => {},
   '/lib/modules' => {},
-  '/tmp' => {}
+  '/tmp' => {},
+  '/root/.gnupg' => {}
 }
 
 status_code = c.run(
