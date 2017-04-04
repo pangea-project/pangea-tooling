@@ -71,7 +71,7 @@ module Appimage
   def self.create_appimage
     dated_cmd = create_cmd(Metadata::APPIMAGEFILENAME)
     dated_zsync = create_zsync(Metadata::APPIMAGEFILENAME, Metadata::PROJECT)
-    latest = Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage '
+    latest = Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage'
     latest_cmd = create_cmd(latest)
     latest_zsync = create_zsync(latest, Metadata::PROJECT)
     p dated_cmd
