@@ -52,8 +52,8 @@ module Frameworks
   def self.get_kf5deps(frameworks)
     frameworks.each do |f|
       list = KF5[f]['kf5_deps']
-      list.delete(f)
-      list.add(f)
+      list.delete(f) if list
+      list.add(f) if list
     end
     list
   end
