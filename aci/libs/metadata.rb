@@ -23,17 +23,22 @@ require 'yaml'
 
 # Module for installing distribution packages
 module Metadata
-
   METADATA = YAML.load_file('/in/data/metadata.yaml')
-  PROJECT = METADATA['name']
+  PROJECT = METADATA['name'].delete("\n")
   FRAMEWORKS = METADATA['frameworks']
   BUILDKF5 = METADATA['build_kf5']
   PROJECTPACKAGES = METADATA['packages']
   EXTERNALDEPENDENCIES = METADATA['dependencies']
   DEPSONKF5 = METADATA['deps_on_kf5']
-  DEPATH = '/source/'
+  DEPATH = '/source/'.freeze
   PROJECTPATH = '/in/' + PROJECT
-  ARCH = `arch`
-  DATE = `date +"%Y%m%d"`
-  APPIMAGEFILENAME = PROJECT + '-git' + DATE + '-'  + ARCH + '.AppImage'.to_s.gsub(/\s+"/, '').delete("\n")
+  ARCH = `arch`.gsub(/[\n ]/, '').freeze
+  DATE = `date +"%Y%m%d"`.gsub(/[\n ]/, '').freeze
+  filename << PROJECT
+  filename <<  '-git'
+  filename <<  DATE
+  filename <<  '-'
+  filename << ARCH
+  filename << '.AppImage'
+  APPIMAGEFILENAME = filename.freeze
 end
