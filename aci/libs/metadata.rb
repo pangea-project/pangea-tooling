@@ -32,14 +32,7 @@ module Metadata
   DEPSONKF5 = METADATA['deps_on_kf5']
   DEPATH = '/source/'.freeze
   PROJECTPATH = '/in/' + PROJECT
-  ARCH = `arch`.gsub(/[\n ]/, '').freeze
-  DATE = `date +"%Y%m%d"`.gsub(/[\n ]/, '').freeze
-  filename = ''
-  filename << PROJECT
-  filename <<  '-git'
-  filename <<  DATE
-  filename <<  '-'
-  filename << ARCH
-  filename << '.AppImage'
-  APPIMAGEFILENAME = filename.freeze
+  ARCH = `arch`.strip.freeze
+  DATE = Time.now.strftime("%d/%m/%Y").freeze
+  APPIMAGEFILENAME = PROJECT + '-git' + DATE + '-' + ARCH + '.AppImage'
 end

@@ -25,22 +25,22 @@ require 'fileutils'
 # Call Appimagetool to do all the appimage creation bit
 module Appimage
   def self.create_cmd(filename)
-    cmd << './appimagetool-x86_64.AppImage -v -s -u "zsync|'
-    cmd << filename
-    cmd << '"  /app.Dir/ /appimages/'
-    cmd << filename
+    cmd = './appimagetool-x86_64.AppImage -v -s -u "zsync|'
+    cmd += filename
+    cmd += '"  /app.Dir/ /appimages/'
+    cmd += filename
     cmd
   end
 
   def self.create_zsync(filename, project)
-    zsync << 'zsyncmake -u "https://s3-eu-central-1.amazonaws.com/ds9-apps/'
-    zsync << project
-    zsync << '-master-appimage/'
-    zsync << filename
-    zsync << ' -o /appimages/'
-    zsync << filename
-    zsync << '.zsync /appimages/'
-    zsync << filename
+    zsync = 'zsyncmake -u "https://s3-eu-central-1.amazonaws.com/ds9-apps/'
+    zsync += project
+    zsync += '-master-appimage/'
+    zsync += filename
+    zsync += ' -o /appimages/'
+    zsync += filename
+    zsync += '.zsync /appimages/'
+    zsync += filename
     zsync
   end
 
