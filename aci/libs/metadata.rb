@@ -25,7 +25,7 @@ require 'date'
 # Module for installing distribution packages
 module Metadata
   METADATA = YAML.load_file('/in/data/metadata.yaml')
-  PROJECT = METADATA['name'].delete("\n")
+  PROJECT = METADATA['name'].strip
   FRAMEWORKS = METADATA['frameworks']
   BUILDKF5 = METADATA['build_kf5']
   PROJECTPACKAGES = METADATA['packages']
