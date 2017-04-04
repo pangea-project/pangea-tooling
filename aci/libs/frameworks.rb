@@ -45,14 +45,15 @@ module Frameworks
     # get list of frameworks required in CMakeLists.txt
     list = get_kf5deps(frameworks)
     p list
-    # Merge list and their deps into buildorder set if it is not nil.
-    buildorder.merge(list) if list
     # Take that list and repeat for deps of those.
     deps_ofdeps = get_kf5deps(list)
     p deps_ofdeps
     # Merge deps of deps into buildorder set.
     buildorder.merge(deps_ofdeps) if deps_ofdeps
+    # Merge list and their deps into buildorder set if it is not nil.
+    buildorder.merge(list) if list
     # return buildorder.
+    p buildorder
     buildorder
   end
 
