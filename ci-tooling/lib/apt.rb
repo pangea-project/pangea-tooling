@@ -139,8 +139,9 @@ module Apt
         end
         args = [] + default_args + injection_args
         args << operation
-        # Flatten args. system doesn't support nested arrays anyway, so flattening
-        # is probably what the caller had in mind (e.g. install(['a', 'b']))
+        # Flatten args. system doesn't support nested arrays anyway, so
+        # flattening is probably what the caller had in mind
+        # (e.g. install(['a', 'b']))
         args + [*caller_args].flatten
       end
 
