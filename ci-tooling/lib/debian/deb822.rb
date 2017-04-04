@@ -39,6 +39,14 @@ module Debian
       ret
     end
 
+    # Disable metrics violations here. This method is super complicated, super
+    # deep and super hard to read. Splitting it does not improve any of this
+    # though. Eventually it may be nice to have a more OOP Parser where the
+    # parsable types are own Objects, again, I am not sure that will improve
+    # readability in any form or fashion.
+    # rubocop:disable Metrcis/MethodLength, Metrics/BlockNesting,
+    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity,
+    # rubocop:disable Metrics/PerceivedComplexity
     def parse_paragraph(lines, fields = {})
       mandatory_fields = fields[:mandatory] || []
       multiline_fields = fields[:multiline] || []
@@ -129,6 +137,7 @@ module Debian
 
       data
     end
+    # rubocop:enable
 
     def parse!
       raise 'Not implemented'
