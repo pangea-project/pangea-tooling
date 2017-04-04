@@ -104,7 +104,6 @@ module Debian
       output += f(' (%s %s)', @operator, @version)
       output += f(' [%s]', @architectures)
       output += f(' <%s>', @profiles)
-      output += f(' | %s', @next) if @next
       output
     end
 
