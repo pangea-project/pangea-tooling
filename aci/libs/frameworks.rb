@@ -62,7 +62,7 @@ module Frameworks
       current = KF5[f]
       deps = current['kf5_deps']
       p deps
-      list.merge(deps)
+      list.merge(deps) if deps
       list.delete(f) if deps
       list.add(f) if deps
     end
