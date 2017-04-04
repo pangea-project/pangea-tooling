@@ -38,7 +38,7 @@ module Appimage
     zsync += project
     zsync += '-master-appimage/'
     zsync += filename
-    zsync += ' -o /appimages/'
+    zsync += '" -o /appimages/'
     zsync += filename
     zsync += '.zsync /appimages/'
     zsync += filename
