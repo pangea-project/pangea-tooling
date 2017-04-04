@@ -42,10 +42,17 @@ module Frameworks
 
   def self.generatekf5_buildorder(frameworks)
     buildorder = Set.new
+    # get list of frameworks required in CMakeLists.txt
     list = get_kf5deps(frameworks)
-    deps_ofdeps = get_kf5deps(list)
+    p list
+    # Merge list and their deps into buildorder set if it is not nil.
     buildorder.merge(list) if list
+    # Take that list and repeat for deps of those.
+    deps_ofdeps = get_kf5deps(list)
+    p deps_ofdeps
+    # Merge deps of deps into buildorder set.
     buildorder.merge(deps_ofdeps) if deps_ofdeps
+    # return buildorder.
     buildorder
   end
 
