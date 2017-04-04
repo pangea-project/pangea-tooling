@@ -22,6 +22,22 @@ require_relative '../libs/create'
 
 exit_status = 'Expected 0 exit Status'
 
+describe 'grab tools' do
+  it 'Fetches the latest Appimage Tools' do
+    expect(
+      Appimage.retrieve_tools
+    ).to be(0), exit_status
+  end
+end
+
+describe 'Import GPG key' do
+  it 'Imports gpg appimage key for Appimage signing' do
+    expect(
+      Appimage.import_gpg
+    ).to be(0), exit_status
+  end
+end
+
 describe 'bundle_appimage' do
   it 'Creates the appimage' do
     expect(

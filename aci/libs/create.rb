@@ -22,31 +22,48 @@ require_relative 'packages'
 require_relative 'metadata'
 require 'fileutils'
 
+# Call Appimagetool to do all the appimage creation bit
 module Appimage
+  def self.create_cmd(filename)
+    cmd << './appimagetool-x86_64.AppImage -v -s -u "zsync|'
+    cmd << filename
+    cmd << '"  /app.Dir/ /appimages/'
+    cmd << filename
+    cmd
+  end
 
-  def self.create_appimage
-    dated_cmd =   './appimagetool-x86_64.AppImage -v -s -u ' + '"' + 'zsync|' + Metadata::APPIMAGEFILENAME + \
-    '" ' + '/app.Dir/ /appimages/' + Metadata::APPIMAGEFILENAME
-    dated_zsync = 'zsyncmake -u ' + '"' + 'https://s3-eu-central-1.amazonaws.com/ds9-apps/' + \
-    Metadata::PROJECT + '-master-appimage/' + Metadata::APPIMAGEFILENAME + \
-    ' -o /appimages/' + Metadata::APPIMAGEFILENAME + '.zsync /appimages/' + Metadata::APPIMAGEFILENAME
-    latest_cmd =  './appimagetool-x86_64.AppImage -v -s -u ' + '"' + 'zsync|' + \
-    Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage ' + \
-    '" ' + '/app.Dir/ /appimages/' + Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage'
-    latest_zsync = 'zsyncmake -u ' + '"' + 'https://s3-eu-central-1.amazonaws.com/ds9-apps/' + \
-    Metadata::PROJECT + '-master-appimage/' + Metadata::PROJECT + '-latest-' + Metadata::ARCH + \
-    ' -o /appimages/' + Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.zsync /appimages/' + \
-    Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage'
+  def self.create_zsync(filename, project)
+    zsync << 'zsyncmake -u "https://s3-eu-central-1.amazonaws.com/ds9-apps/'
+    zsync << project
+    zsync << '-master-appimage/'
+    zsync << filename
+    zsync << ' -o /appimages/'
+    zsync << filename
+    zsync << '.zsync /appimages/'
+    zsync << filename
+    zsync
+  end
 
+  def self.retrieve_tools
     # get tools
-    Dir.chdir()
+    Dir.chdir
     Packages.retrieve_tools(
       url: 'https://github.com/probonopd/AppImageKit/releases/download/knowngood/appimagetool-x86_64.AppImage',
       file: 'appimagetool-x86_64.AppImage'
     )
-    FileUtils.chmod(0755, 'appimagetool-x86_64.AppImage', verbose: true)
+    FileUtils.chmod(0o755, 'appimagetool-x86_64.AppImage', verbose: true)
+  end
 
+  def self.import_gpg
     `gpg2 --import /home/jenkins/.gnupg/appimage.key`
+  end
+
+  def self.create_appimage
+    dated_cmd = create_cmd(Metadata::APPIMAGEFILENAME)
+    dated_zsync = create_zsync(Metadata::APPIMAGEFILENAME, Metadata::PROJECT)
+    latest = Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage '
+    latest_cmd = create_cmd(latest)
+    latest_zsync = create_zsync(latest, Metadata::Project)
     p dated_cmd
     system(dated_cmd.delete("\n"))
     p dated_zsync
