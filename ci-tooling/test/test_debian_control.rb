@@ -52,7 +52,7 @@ module Debian
       assert_nil(c.source.fetch('magic', nil))
     end
 
-    def test_multiline_nwelines
+    def test_multiline_newlines
       c = Control.new
       c.parse!
       # We want accurate newlines preserved for multilines
