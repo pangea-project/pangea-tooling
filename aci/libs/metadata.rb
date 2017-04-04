@@ -34,6 +34,7 @@ module Metadata
   PROJECTPATH = '/in/' + PROJECT
   ARCH = `arch`.gsub(/[\n ]/, '').freeze
   DATE = `date +"%Y%m%d"`.gsub(/[\n ]/, '').freeze
+  filename = ''
   filename << PROJECT
   filename <<  '-git'
   filename <<  DATE
