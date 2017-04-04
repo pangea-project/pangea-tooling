@@ -34,6 +34,6 @@ module Metadata
   DEPATH = '/source/'.freeze
   PROJECTPATH = '/in/' + PROJECT
   ARCH = `arch`.strip.freeze
-  DATE = Time.now.strftime("%d/%m/%Y").gsub('\/', '').freeze
+  DATE = Time.now.strftime("%d/%m/%Y").delete('/').freeze
   APPIMAGEFILENAME = PROJECT + '-git' + DATE + '-' + ARCH + '.AppImage'.strip.freeze
 end
