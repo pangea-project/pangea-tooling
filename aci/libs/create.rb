@@ -73,7 +73,7 @@ module Appimage
     dated_zsync = create_zsync(Metadata::APPIMAGEFILENAME, Metadata::PROJECT)
     latest = Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage '
     latest_cmd = create_cmd(latest)
-    latest_zsync = create_zsync(latest, Metadata::Project)
+    latest_zsync = create_zsync(latest, Metadata::PROJECT)
     p dated_cmd
     system(dated_cmd.delete("\n"))
     p dated_zsync
