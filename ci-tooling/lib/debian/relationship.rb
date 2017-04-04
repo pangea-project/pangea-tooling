@@ -74,6 +74,7 @@ module Debian
      /x
 
     def initialize(string)
+      init_members_to_nil
       string = string.strip
       return if string.empty?
 
@@ -108,6 +109,19 @@ module Debian
     end
 
     private
+
+    def init_members_to_nil
+      # ruby -w takes offense with us not always initializing everything
+      # explicitly. Rightfully so. Make everything nil by default, so we know
+      # fields are nil later on regardless of whether we were able to process
+      # the input string.
+      @name = nil
+      @architecture = nil
+      @operator = nil
+      @version = nil
+      @architectures = nil
+      @profiles = nil
+    end
 
     def substvarcmp(other)
       ours = @name.gsub('${', '').tr('}', '')
