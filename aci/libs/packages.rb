@@ -24,7 +24,6 @@ require_relative '../../ci-tooling/lib/apt'
 require 'fileutils'
 require 'yaml'
 require 'set'
-require 'open-uri'
 
 # Module for installing distribution packages and
 # retrieval of pre packaged appimage tools

@@ -21,6 +21,7 @@
 require_relative 'packages'
 require_relative 'metadata'
 require 'fileutils'
+require 'open-uri'
 
 # Call Appimagetool to do all the appimage creation bit
 module Appimage
@@ -49,22 +50,22 @@ module Appimage
     file = args[:file]
     download = open(url)
     IO.copy_stream(download, file)
+    FileUtils.chmod(0o755, file, verbose: true)
     $?.exitstatus
   end
 
   def self.retrieve_tools
     # get tools
-    Dir.chdir(Dir.home)
+    Dir.chdir('/')
     get_tool(
       url: 'https://github.com/probonopd/AppImageKit/releases/download/knowngood/appimagetool-x86_64.AppImage',
       file: 'appimagetool-x86_64.AppImage'
     )
-    FileUtils.chmod(0o755, 'appimagetool-x86_64.AppImage', verbose: true)
   end
 
   def self.import_gpg
     # Import gpg key for appimagetool gpg signing.
-    `gpg2 --import /home/jenkins/.gnupg/appimage.key`
+    `gpg2 --import /root/.gnupg/appimage.key`
   end
 
   def self.create_appimage
