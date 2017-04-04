@@ -86,6 +86,7 @@ EOT
   end
 
   def priority_setup
+    ENV['PANGEA_UNDER_TEST'] = '1'
     raise ATFILEFAIL unless self.class.file
     ENV.delete('BUILD_NUMBER')
     script_base_path = File.expand_path(File.dirname(self.class.file))
