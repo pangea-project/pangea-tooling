@@ -71,12 +71,11 @@ module Appimage
   def self.create_appimage
     dated_cmd = create_cmd(Metadata::APPIMAGEFILENAME)
     dated_zsync = create_zsync(Metadata::APPIMAGEFILENAME, Metadata::PROJECT)
-    latest = Metadata::PROJECT + '-latest-' + Metadata::ARCH + '.AppImage'
-    latest_cmd = create_cmd(latest)
-    latest_zsync = create_zsync(latest, Metadata::PROJECT)
-    p dated_cmd
+    latest_cmd = create_cmd(Metadata::LATESTAPPIMAGEFILENAMEs)
+    latest_zsync = create_zsync(
+      Metadata::LATESTAPPIMAGEFILENAME, Metadata::PROJECT
+    )
     system(dated_cmd.delete("\n"))
-    p dated_zsync
     system(dated_zsync.delete("\n"))
     p latest_cmd
     system(latest_cmd.delete("\n"))

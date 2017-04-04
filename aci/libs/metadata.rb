@@ -36,4 +36,5 @@ module Metadata
   ARCH = `arch`.strip.freeze
   DATE = Time.now.strftime("%d/%m/%Y").delete('/').freeze
   APPIMAGEFILENAME = PROJECT + '-git' + DATE + '-' + ARCH + '.AppImage'.strip.freeze
+  LATESTAPPIMAGEFILENAME = PROJECT + '-latest-' + ARCH + '.AppImage'.strip.freeze
 end
