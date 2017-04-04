@@ -46,7 +46,7 @@ module Appimage
 
   def self.retrieve_tools
     # get tools
-    Dir.chdir
+    Dir.chdir(Dir.home)
     Packages.retrieve_tools(
       url: 'https://github.com/probonopd/AppImageKit/releases/download/knowngood/appimagetool-x86_64.AppImage',
       file: 'appimagetool-x86_64.AppImage'
