@@ -53,7 +53,7 @@ module Frameworks
     frameworks.each do |f|
       list = KF5[f]['kf5_deps']
       list.delete(f) if list
-      list.add(f) if list
+      list.push(f) if list
     end
     list
   end
