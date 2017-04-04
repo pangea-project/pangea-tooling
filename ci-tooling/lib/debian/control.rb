@@ -59,10 +59,10 @@ module Debian
       # Binary Paragraphs
       output += "\n"
       @binaries.each do |b|
-        output += dump_paragraph(b, binary_fields)
+        output += dump_paragraph(b, binary_fields) + "\n"
       end
 
-      output + "\n"
+      output
     end
 
     private

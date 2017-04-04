@@ -50,15 +50,13 @@ module Debian
       c.parse!
       assert_equal(1, c.source['build-depends'].size)
       assert_nil(c.source.fetch('magic', nil))
-      # We want accurate newlines preserved for description
-      assert_equal("meow\nkitten\n.\na\n", c.binaries[0].fetch('Description'))
     end
 
     def test_multiline_nwelines
       c = Control.new
       c.parse!
       # We want accurate newlines preserved for multilines
-      assert_equal("meow\nkitten\n.\na\n", c.binaries[0].fetch('Description'))
+      assert_equal("meow\nkitten\n.\na", c.binaries[0].fetch('Description'))
     end
 
     def test_no_final_newline
@@ -146,10 +144,32 @@ module Debian
     def test_folded_uploaders_write
       c = Control.new(__method__)
       c.parse!
-      # Asser that our output is consistent with the input. If we assembled
+      # Assert that our output is consistent with the input. If we assembled
       # Uploaders incorrectly it wouldn't be.
       assert_equal(File.read("#{__method__}/debian/control").split($/),
                    c.dump.split($/))
+    end
+
+    def test_description_not_at_end_dump
+      c = Control.new(__method__)
+      c.parse!
+      # Assert that output is consistent. The input has a non-standard order
+      # of fields. Notably Description of binaries is inside the paragraph
+      # rather than its end. This resulted in a format screwup due to how we
+      # processed multiline trailing whitespace characters (e.g. \n)
+      assert_equal(File.read("#{__method__}/debian/control"),
+                   c.dump)
+    end
+
+    def test_trailing_newline_dump
+      c = Control.new(__method__)
+      c.parse!
+      # The input does not end in a terminal newline (i.e. \n\nEOF). This
+      # shouldn't trip up the parser.
+      # Assert that stripping the terminal newline from the dump is consistent
+      # with the input data.
+      assert_equal(File.read("#{__method__}/debian/control"),
+                   c.dump[0..-2])
     end
   end
 end

@@ -60,6 +60,8 @@ module Debian
         next if line.start_with?('#') # Comment
 
         header_match = line.match(/^(\S+):(.*\n?)$/)
+        fold_match = line.match(/^\s+(.+\n)$/)
+
         unless header_match.nil?
           # 0 = full match
           # 1 = key match
@@ -91,7 +93,6 @@ module Debian
           next
         end
 
-        fold_match = line.match(/^\s+(.+\n)$/)
         unless fold_match.nil?
           # Folding value encountered -> append to header.
           # 0 full match
@@ -128,6 +129,21 @@ module Debian
       # If the entire stanza was commented out we can end up with no data, it
       # is very sad.
       return nil if data.empty?
+
+      # Special cleanup code for multiline fields.
+      data.each do |field, _value|
+        # For multiline field we've preserved its right hand side whitespaces
+        # (i.e. trailing ones). BUT! for all other fields we do not do this.
+        # This makes multiline fields inconsistent with the rest of the gang as
+        # they have a trailing newline whereas others have not. To clean this
+        # up we'll strip the fully assembled field value to drop the whitespaces
+        # trailing the last line. As a result the string will no longer end
+        # in a newline. This allows us to consinstently dump fields+\n when
+        # generating output from this again. It also means fields are consistent
+        # and one does not have to .strip everything for good measure.
+        next unless multiline_fields.include?(field.downcase)
+        data[field].rstrip!
+      end
 
       mandatory_fields.each do |field|
         # TODO: this should really make a list and complain all at once or
