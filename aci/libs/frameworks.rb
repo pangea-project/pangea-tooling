@@ -64,7 +64,7 @@ module Frameworks
       deps = list['kf5_deps']
       p deps
       list.delete(f) if deps
-      list.push(f) if deps
+      list.add(f) if deps
     end
     list
   end
