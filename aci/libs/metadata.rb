@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require 'fileutils'
 require 'yaml'
+require 'date'
 
 # Module for installing distribution packages
 module Metadata

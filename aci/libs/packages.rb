@@ -39,11 +39,4 @@ module Packages
     Apt.install(packages) if packages
     $?.exitstatus
   end
-
-  def self.retrieve_tools(args = {})
-    url = args[:url]
-    file = args[:file]
-    download = open(url)
-    IO.copy_stream(download, file)
-  end
 end

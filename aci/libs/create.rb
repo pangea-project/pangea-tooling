@@ -44,10 +44,18 @@ module Appimage
     zsync
   end
 
+  def self.get_tool(args = {})
+    url = args[:url]
+    file = args[:file]
+    download = open(url)
+    IO.copy_stream(download, file)
+    $?.exitstatus
+  end
+
   def self.retrieve_tools
     # get tools
     Dir.chdir(Dir.home)
-    Packages.retrieve_tools(
+    get_tool(
       url: 'https://github.com/probonopd/AppImageKit/releases/download/knowngood/appimagetool-x86_64.AppImage',
       file: 'appimagetool-x86_64.AppImage'
     )
@@ -55,6 +63,7 @@ module Appimage
   end
 
   def self.import_gpg
+    # Import gpg key for appimagetool gpg signing.
     `gpg2 --import /home/jenkins/.gnupg/appimage.key`
   end
 
