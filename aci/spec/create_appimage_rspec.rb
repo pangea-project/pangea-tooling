@@ -19,6 +19,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require_relative '../libs/create'
+require_relative '../libs/metadata'
 
 exit_status = 'Expected 0 exit Status'
 
@@ -34,10 +35,13 @@ describe 'bundle_appimage' do
   it 'Creates the appimage' do
     # import gpg key
     Appimage.import_gpg
-    Appimage.create_appimage
     # create the appimage
-    # expect(
-    #
-    # ).to be(0), exit_status
+    Appimage.create_appimage
+    expect(
+      FileTest.exists?("/appimages/#{APPIMAGEFILENAME}")
+    ).to be(true), exit_status
+    expect(
+      FileTest.exists?("/appimages/#{LATESTAPPIMAGEFILENAME}")
+    ).to be(true), exit_status
   end
 end
