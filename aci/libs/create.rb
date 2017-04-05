@@ -75,11 +75,9 @@ module Appimage
     latest_zsync = create_zsync(
       Metadata::LATESTAPPIMAGEFILENAME, Metadata::PROJECT
     )
-    system(dated_cmd.delete("\n"))
-    system(dated_zsync.delete("\n"))
-    p latest_cmd
-    system(latest_cmd.delete("\n"))
-    p latest_zsync
-    #system(latest_zsync.delete("\n"))
+    system(dated_cmd)
+    system(dated_zsync)
+    system(latest_cmd)
+    system(latest_zsync)
   end
 end
