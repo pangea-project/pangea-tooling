@@ -8,7 +8,7 @@ import java.net.URL;
 import java.security.Provider.Service
 import com.google.common.io.ByteStreams
 
-def apps = new Yaml().load(new FileReader(new File("${WORKSPACE}/tooling/data/aci.yaml")))
+def apps = new Yaml().load(new FileReader(new File("${WORKSPACE}/tooling/aci/data/aci.yaml")))
 
 apps.each { name, config ->
   config.branch.each { branch ->
