@@ -60,9 +60,9 @@ module Frameworks
   def self.get_kf5deps(frameworks)
     list = Set.new
     frameworks.each do |f|
+      p f
       current = KF5[f]
       deps = current['kf5_deps']
-      p deps
       list.merge(deps) if deps
       list.delete(f) if deps
       list.add(f) if deps
