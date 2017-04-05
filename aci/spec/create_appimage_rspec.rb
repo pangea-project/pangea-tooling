@@ -38,10 +38,10 @@ describe 'bundle_appimage' do
     # create the appimage
     Appimage.create_appimage
     expect(
-      FileTest.exists?("/appimages/#{APPIMAGEFILENAME}")
+      FileTest.exists?("/appimages/#{Metadata::APPIMAGEFILENAME}")
     ).to be(true), exit_status
     expect(
-      FileTest.exists?("/appimages/#{LATESTAPPIMAGEFILENAME}")
+      FileTest.exists?("/appimages/#{Metadata::LATESTAPPIMAGEFILENAME}")
     ).to be(true), exit_status
   end
 end
