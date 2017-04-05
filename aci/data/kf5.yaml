@@ -91,6 +91,10 @@ oxygen-icons5:
 sonnet:
   external:
   distro_packages:
+    - libaspell-dev
+    - libhunspell-dev
+    - hspell
+    - libvoikko-dev
   kf5_deps:
    - extra-cmake-modules
 solid:
