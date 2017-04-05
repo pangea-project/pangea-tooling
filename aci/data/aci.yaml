@@ -100,3 +100,6 @@ ring-gnome:
 kgeography:
   repo: https://github.com/appimage-packages/kgeography
   branch: [master]
+discover:
+  repo: https://github.com/appimage-packages/discover
+  branch: [master]
