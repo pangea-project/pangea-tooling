@@ -80,6 +80,6 @@ module Appimage
     p latest_cmd
     system(latest_cmd.delete("\n"))
     p latest_zsync
-    system(latest_zsync.delete("\n"))
+    #system(latest_zsync.delete("\n"))
   end
 end
