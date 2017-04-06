@@ -103,3 +103,6 @@ kgeography:
 discover:
   repo: https://github.com/appimage-packages/discover
   branch: [master]
+imagewriter:
+  repo: https://github.com/appimage-packages/imagewriter
+  branch: [make-it-cool]
