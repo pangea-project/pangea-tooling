@@ -20,25 +20,18 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require 'yaml'
 require 'fileutils'
-require 'rugged'
+require_relative 'scm'
 
 class Sources
   attr_accessor :name
 
   def initialize() end
 
-  def self.git_clone_source(args = {})
-    url = args[:url]
-    branch = args[:branch]
-    dir = args[:dir]
-    Repository.clone_at(url, dir, checkout_branch: branch)
-  end
-
   def get_source(name, type, url, branch='master', dir)
     FileUtils.rm_rf("/source/#{name}") if File.directory?("/source/#{name}")
     case type
     when 'git'
-      git_clone_source(url: url, branch: branch, dir: dir)
+      SCM.git_clone_source(url: url, branch: branch, dir: dir)
     when 'xz'
       system("wget #{url} && tar -xvf #{name}*.tar.xz")
     when 'gz'
