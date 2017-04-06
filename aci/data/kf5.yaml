@@ -529,6 +529,11 @@ kwayland:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+kirigami:
+  external:
+  distro_packages:
+  kf5_deps:
+   - extra-cmake-modules
 plasma-framework:
   external:
   distro_packages:
