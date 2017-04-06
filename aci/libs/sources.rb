@@ -20,39 +20,37 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require 'yaml'
 require 'fileutils'
+require 'rugged'
 
 class Sources
   attr_accessor :name
 
   def initialize() end
 
+  def self.git_clone_source(args = {})
+    url = args[:url]
+    branch = args[:branch]
+    dir = args[:dir]
+    Repository.clone_at(url, dir, checkout_branch: branch)
+  end
+
   def get_source(name, type, url, branch='master')
-    Dir.chdir('/source/')
-    p name
     FileUtils.rm_rf("/source/#{name}") if File.directory?("/source/#{name}")
     case type
     when 'git'
-      system( "git clone #{url}")
-      unless branch == 'master'
-        Dir.chdir("/source/#{name}")
-        system("git checkout #{branch}")
-      end
+      git_clone_source(url: url, branch: branch, dir: dir)
     when 'xz'
-      system("wget #{url}")
-      system("tar -xvf #{name}*.tar.xz")
+      system("wget #{url} && tar -xvf #{name}*.tar.xz")
     when 'gz'
-      system("wget #{url}")
-      system("tar -zxvf #{name}*.tar.gz")
+      system("wget #{url} && tar -zxvf #{name}*.tar.gz")
     when 'bz2'
-      system("wget #{url}")
-      system("tar -jxvf #{name}.tar.bz2")
+      system("wget #{url} && tar -jxvf #{name}.tar.bz2")
     when 'mercurial'
       system("hg clone #{url}")
     when 'bzr'
       system("bzr branch #{url}")
     when 'zip'
-      system("wget #{url}")
-      system("unzip #{name}.zip")
+      system("wget #{url} && unzip #{name}.zip")
     when 'svn'
       system("svn export #{url}")
     when 'none'

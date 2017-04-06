@@ -68,28 +68,18 @@ describe 'build_non_kf5_dep_sources' do
   end
 end
 
-describe 'build_kf5' do
-  it 'Builds KDE Frameworks from source' do
+describe 'get_kf5_source' do
+  it 'Gets the source to build' do
     sources = Sources.new
     frameworks = Frameworks.generatekf5_buildorder(Metadata::FRAMEWORKS)
-    default_options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc'
     if Metadata::BUILDKF5
       frameworks.each do |framework|
-        path = "/source/#{framework}"
-        if framework == 'phonon' || framework == 'phonon-gstreamer'
-          options = default_options + '-DPHONON_LIBRARY_PATH=/opt/usr/plugins -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
-        elsif framework == 'breeze-icons'
-          options = default_options + '-DWITH_DECORATIONS=OFF'
-        elsif framework == 'breeze'
-          options = default_options + '-DBINARY_ICONS_RESOURCE=ON'
-        elsif framework == 'akonadi'
-          options =default_options + '-DMYSQLD_EXECUTABLE:STRING=/usr/sbin/mysqld-akonadi'
-        else
-          options = default_options
-        end
         expect(
           sources.get_source(
-            framework, 'git', "https://anongit.kde.org/#{framework}"
+            framework,
+            'git',
+            "https://anongit.kde.org/#{framework}",
+            "/source/#{framework}"
           )
         ).to be(0), exit_status
         expect(
@@ -97,6 +87,29 @@ describe 'build_kf5' do
             "/source/#{framework}"
           )
         ).to be(true), "/source/#{framework} missing"
+      end
+    end
+  end
+end
+
+describe 'build_kf5' do
+  it 'Builds KDE Frameworks from source' do
+    frameworks = Frameworks.generatekf5_buildorder(Metadata::FRAMEWORKS)
+    options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc'
+    if Metadata::BUILDKF5
+      frameworks.each do |framework|
+        if framework == 'phonon' || framework == 'phonon-gstreamer'
+          options += '-DPHONON_LIBRARY_PATH=/opt/usr/plugins'
+          options += ' -DBUILD_TESTING=OFF'
+          options += ' -DPHONON_BUILD_PHONON4QT5=ON'
+          options += ' -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
+        elsif framework == 'breeze-icons'
+          options += '-DWITH_DECORATIONS=OFF'
+        elsif framework == 'breeze'
+          options += '-DBINARY_ICONS_RESOURCE=ON'
+        elsif framework == 'akonadi'
+          options += '-DMYSQLD_EXECUTABLE:STRING=/usr/sbin/mysqld-akonadi'
+        end
         expect(
           sources.run_build(
             framework, 'cmake', options
