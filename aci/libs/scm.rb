@@ -5,7 +5,7 @@ require 'rugged'
 # Module for source control
 module SCM
 
-  def git_clone_source(args = {})
+  def self.git_clone_source(args = {})
     url = args[:url]
     branch = args[:branch]
     dir = args[:dir]
