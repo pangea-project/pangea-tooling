@@ -34,7 +34,7 @@ class Sources
     Repository.clone_at(url, dir, checkout_branch: branch)
   end
 
-  def get_source(name, type, url, branch='master')
+  def get_source(name, type, url, branch='master', dir)
     FileUtils.rm_rf("/source/#{name}") if File.directory?("/source/#{name}")
     case type
     when 'git'
