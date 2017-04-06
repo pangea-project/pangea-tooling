@@ -1,3 +1,24 @@
+# frozen_string_literal: true
+#
+# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) version 3, or any
+# later version accepted by the membership of KDE e.V. (or its
+# successor approved by the membership of KDE e.V.), which shall
+# act as a proxy defined in Section 6 of version 3 of the license.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+require 'date'
 require 'etc'
 require 'fileutils'
 require 'tmpdir'
@@ -210,6 +231,19 @@ EOF
   Retry.retry_it(times: 5, sleep: 8) do
     # Use apt.
     raise 'Update failed' unless Apt.update
+    # Ubuntu pushed a makedev update. We can't dist-upgrade makedev as it
+    # requires privileged access which we do not have on slaves. Hold it for 14
+    # days, after that unhold so the dist-upgrades fails again.
+    # At this point someone needs to determine if we want to wait longer or
+    # devise a solution. To fix this the ubuntu base image we use needs to be
+    # updated, which might happen soon. If not another approach is needed,
+    # extending this workaround is only reasonable for up to 2017-05-01 after
+    # that this needs a proper fix *at the latest*.
+    if (DateTime.parse('2017-04-06 00:00:00') - DateTime.now).to_i <= 14
+      raise 'Holding failed' unless system('apt-mark', 'hold', 'makedev')
+    else
+      raise 'Unholding failed' unless system('apt-mark', 'unhold', 'makedev')
+    end
     raise 'Dist upgrade failed' unless Apt.dist_upgrade
     # FIXME: install reallly should allow array as input. that's not tested and
     # actually fails though
