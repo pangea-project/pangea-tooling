@@ -94,6 +94,7 @@ end
 
 describe 'build_kf5' do
   it 'Builds KDE Frameworks from source' do
+    sources = Sources.new
     frameworks = Frameworks.generatekf5_buildorder(Metadata::FRAMEWORKS)
     options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc'
     if Metadata::BUILDKF5
