@@ -28,6 +28,7 @@ class Sources
 
   def get_source(name, type, url, branch='master')
     Dir.chdir('/source/')
+    p name
     FileUtils.rm_rf("/source/#{name}") if File.directory?("/source/#{name}")
     case type
     when 'git'
@@ -55,7 +56,7 @@ class Sources
     when 'svn'
       system("svn export #{url}")
     when 'none'
-      Dir.mkdir('/source/' + name)
+      Dir.mkdir(File.join('/source', "#{name}"))
     else
       "You gave me #{type} -- I have no idea what to do with that."
     end
