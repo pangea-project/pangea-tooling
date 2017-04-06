@@ -4,12 +4,11 @@ require 'rugged'
 
 # Module for source control
 module SCM
-
   def self.git_clone_source(args = {})
+    repo = Rugged::Repository.new
     url = args[:url]
     branch = args[:branch]
     dir = args[:dir]
-    Repository.clone_at(url, dir, checkout_branch: branch)
+    repo.clone_at(url, dir, checkout_branch: branch)
   end
-
 end
