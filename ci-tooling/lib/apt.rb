@@ -158,7 +158,7 @@ module Apt
         # devise a proper solution for this we simply do not cache apt-get
         # update calls. In the grand scheme of things they are not responsible
         # for the biggest data usage anyway.
-        %w(-o Acquire::http::Proxy="")
+        %w[-o Acquire::http::Proxy=""]
       end
 
       def auto_update
@@ -213,7 +213,7 @@ module Apt
 
     def self.default_args
       # Can't use apt-get default arguments. They aren't compatible.
-      @default_args = %w(-q)
+      @default_args = %w[-q]
     end
   end
 end

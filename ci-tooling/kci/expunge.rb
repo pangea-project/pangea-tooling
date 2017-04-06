@@ -75,7 +75,7 @@ end
 
 # FIXME: code dupe in numerous tools that want to wipe
 log.info 'PPA'
-statuses = %w(Pending Published Superseded Obsolete)
+statuses = %w[Pending Published Superseded Obsolete]
 Launchpad.authenticate
 statuses.each do |status|
   options.types.each do |type|

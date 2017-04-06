@@ -32,7 +32,7 @@ if type != 'unstable'
   exit
 end
 
-copy_sources = %w(qca-qt5 qapt debconf-kde)
+copy_sources = %w[qca-qt5 qapt debconf-kde]
 if !copy_sources.include?(name) && component != 'frameworks'
   puts 'Not doing a package copy because the component is not "frameworks"' \
        " nor is the name whitelisted #{copy_sources}"

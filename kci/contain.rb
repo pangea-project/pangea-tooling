@@ -36,7 +36,7 @@ PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
 # have we'd need probably >=20G of cache to cover everything, instead only cache
 # the longer builds. This way we stand a better chance of having a cache at
 # hand as the smaller builds do not kick the larger ones out of the cache.
-CCACHE_WHITELIST = %w(
+CCACHE_WHITELIST = %w[
   plasma-desktop
   plasma-workspace
   kio
@@ -45,7 +45,7 @@ CCACHE_WHITELIST = %w(
   marble
   kdepim-addons
   kdevplatform
-).freeze
+].freeze
 
 def default_ccache_dir
   dir = '/var/cache/pangea-ccache-neon'

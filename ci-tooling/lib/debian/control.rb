@@ -69,26 +69,26 @@ module Debian
 
     def source_fields
       @source_fields ||= {}.tap do |fields|
-        fields[:mandatory] = %w(source maintainer)
-        fields[:relationship] = %w(
+        fields[:mandatory] = %w[source maintainer]
+        fields[:relationship] = %w[
           build-depends
           build-depends-indep
           build-conflicts
           build-conflicts-indep
-        )
+        ]
         fields[:foldable] = ['uploaders'] + fields[:relationship]
       end
     end
 
     def binary_fields
       @binary_fields ||= {}.tap do |fields|
-        fields[:mandatory] = %w(
+        fields[:mandatory] = %w[
           package
           architecture
           description
-        )
+        ]
         fields[:multiline] = ['description']
-        fields[:relationship] = %w(
+        fields[:relationship] = %w[
           depends
           recommends
           suggests
@@ -98,7 +98,7 @@ module Debian
           replaces
           conflicts
           provides
-        )
+        ]
         fields[:foldable] = fields[:relationship]
       end
     end

@@ -31,19 +31,19 @@ NCI.setup_repo!
 
 # Build
 Apt.update
-Apt.install(%w(dub libappstream-dev libgdk-pixbuf2.0-dev libarchive-dev
+Apt.install(%w[dub libappstream-dev libgdk-pixbuf2.0-dev libarchive-dev
                librsvg2-dev liblmdb-dev libglib2.0-dev libcairo2-dev
-               libcurl4-gnutls-dev libpango1.0-dev)) || raise
+               libcurl4-gnutls-dev libpango1.0-dev]) || raise
 
 system('make update-submodule') || raise
 system('dub build --parallel') || raise
 
 # Run
-Apt.install(%w(npm nodejs-legacy optipng liblmdb0)) || raise
+Apt.install(%w[npm nodejs-legacy optipng liblmdb0]) || raise
 
-system(*%w(npm install -g bower)) || raise
+system(*%w[npm install -g bower]) || raise
 # This needs pitchy patching in the config script to enable usage as root.
-system(*%w(make js)) || raise
+system(*%w[make js]) || raise
 
 config = ASGEN::Conf.new("neon/#{TYPE}")
 config.ArchiveRoot = File.absolute_path('aptly-repository')
@@ -52,8 +52,8 @@ config.HtmlBaseUrl = "http://metadata.neon.kde.org/appstream/#{TYPE}/html"
 config.Backend = 'debian'
 config.Features['validateMetainfo'] = true
 config.Suites << ASGEN::Suite.new('xenial').tap do |s|
-  s.sections = %w(main)
-  s.architectures = %w(amd64)
+  s.sections = %w[main]
+  s.architectures = %w[amd64]
   s.dataPriority = 1
   s.useIconTheme = 'breeze'
 end

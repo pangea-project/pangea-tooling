@@ -42,10 +42,10 @@ module Debian
 
       # Source Paragraph
       fields = {
-        mandatory: %w(format date source binary architecture version distribution maintainer description changes checksums-sha1 checksums-sha256 files),
-        relationship: %w(),
-        foldable: %w(binary) + %w(),
-        multiline: %w(description changes checksums-sha1 checksums-sha256 files)
+        mandatory: %w[format date source binary architecture version distribution maintainer description changes checksums-sha1 checksums-sha256 files],
+        relationship: %w[],
+        foldable: %w[binary] + %w[],
+        multiline: %w[description changes checksums-sha1 checksums-sha256 files]
       }
       @fields = parse_paragraph(lines, fields)
       mangle_fields! if @fields
@@ -73,7 +73,7 @@ module Debian
       # replace the old ones in-place, but rather drops the old ones and
       # adds the new ones at the end.
       @fields['files'] = parse_types(@fields['files'], File)
-      %w(checksums-sha1 checksums-sha256).each do |key|
+      %w[checksums-sha1 checksums-sha256].each do |key|
         @fields[key] = parse_types(@fields[key], Checksum)
       end
     end

@@ -31,7 +31,7 @@ project = Project.new(ENV.fetch('DIST'), ENV.fetch('TYPE'))
 
 # Helpers for verifying a PPA.
 module VerifablePPA
-  EXISTING_STATES = %w(Pending Published).freeze
+  EXISTING_STATES = %w[Pending Published].freeze
 
   # @param packages [Hash<String, String>] Hash of package-versions
   # @return [Array<String>] array of source names that are existing
@@ -73,7 +73,7 @@ class Archive
   def wipe
     # We need to iter clear as Deleted entries would still retain their entry
     # making the unfiltered list grow larger and larger every time.
-    %i(Pending Published Superseded Obsolete).each do |status|
+    %i[Pending Published Superseded Obsolete].each do |status|
       sources = @ppa.getPublishedSources(status: status,
                                          distro_series: @series,
                                          exact_match: true)
@@ -146,7 +146,7 @@ packages = JSON.parse(File.read('sources-list.json'))
 Launchpad.authenticate
 
 live = Archive.new(project.type, project.series)
-snapshots = %w(daily)
+snapshots = %w[daily]
 snapshots << 'weekly' if DateTime.now.friday?
 snapshots.each do |snapshot|
   LOG.info "Working on #{project.type}-#{snapshot}"

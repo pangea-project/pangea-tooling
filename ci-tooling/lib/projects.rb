@@ -192,7 +192,7 @@ class Project
   end
 
   def init_deps_from_control(control)
-    fields = %w(build-depends)
+    fields = %w[build-depends]
     # Do not cover indep for Qt because Qt packages have a dep loop in them.
     unless control.source.fetch('Source', '').include?('-opensource-src')
       fields << 'build-depends-indep'

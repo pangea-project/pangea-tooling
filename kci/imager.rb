@@ -48,7 +48,7 @@ exit status_code unless status_code.to_i.zero?
 DATE = File.read('result/date_stamp').strip
 PUB_PATH = "/var/www/kci/images/#{ARCH}/#{DATE}".freeze
 FileUtils.mkpath(PUB_PATH)
-%w(iso manifest zsync).each do |type|
+%w[iso manifest zsync].each do |type|
   unless system("cp -r --no-preserve=ownership result/*.#{type} #{PUB_PATH}/")
     abort "File type #{type} failed to copy to public directory."
   end

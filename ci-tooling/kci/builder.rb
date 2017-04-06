@@ -139,7 +139,7 @@ class KCIBuilder
       raise 'Failed to apt update' unless Apt.update
     end
     Retry.retry_it(times: 5, sleep: 8) do
-      raise 'Failed to install' unless Apt.install(%w(pkg-kde-tools))
+      raise 'Failed to install' unless Apt.install(%w[pkg-kde-tools])
     end
     source = CI::VcsSourceBuilder.new(release: project.series).run
 
@@ -213,7 +213,7 @@ class KCIBuilder
 
     # TODO: this script currently does not impact the build results nor does it
     # create parsable output
-    qmlsrcs = %w(
+    qmlsrcs = %w[
       bluez-qt
       breeeze
       kactivities
@@ -239,7 +239,7 @@ class KCIBuilder
       purpose
       milou
       muon
-    )
+    ]
     if !Dir.glob('source/**/*.qml').empty? && qmlsrcs.include?(project.name)
       require_relative 'lib/qml_dependency_verifier'
 
@@ -292,7 +292,7 @@ class KCIBuilder
 
   # Local
   def self.git_config(*args, global: false)
-    cmd = %w(git config)
+    cmd = %w[git config]
     cmd << '--global' if global
     system(*cmd, *args)
   end
@@ -393,7 +393,7 @@ if __FILE__ == $PROGRAM_NAME
     file.puts('Acquire::http { Proxy "http://10.0.3.1:3142"; };')
   end
 
-  build_depends = %w(
+  build_depends = %w[
     xz-utils
     dpkg-dev
     ruby
@@ -404,7 +404,7 @@ if __FILE__ == $PROGRAM_NAME
     python-launchpadlib
     ubuntu-dev-tools
     git
-  )
+  ]
   Apt.install(build_depends)
 
   KCIBuilder.run

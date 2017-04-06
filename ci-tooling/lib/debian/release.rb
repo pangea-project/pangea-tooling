@@ -38,10 +38,10 @@ module Debian
     def initialize(file)
       @file = file
       @fields = InsensitiveHash.new
-      @spec = { mandatory: %w(),
-                relationship: %w(),
-                multiline: %w(md5sum sha1 sha256 sha512) }
-      @spec[:foldable] = %w() + @spec[:relationship]
+      @spec = { mandatory: %w[],
+                relationship: %w[],
+                multiline: %w[md5sum sha1 sha256 sha512] }
+      @spec[:foldable] = %w[] + @spec[:relationship]
     end
 
     def parse!
@@ -65,7 +65,7 @@ module Debian
 
       # NB: need case sensitive here, or we overwrite the correct case with
       #     a bogus one.
-      %w(MD5Sum SHA1 SHA256 SHA512).each do |key|
+      %w[MD5Sum SHA1 SHA256 SHA512].each do |key|
         @fields[key] = parse_types(fields[key], Checksum)
       end
     end

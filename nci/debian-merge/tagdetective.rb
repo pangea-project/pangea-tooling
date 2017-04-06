@@ -42,8 +42,8 @@ module NCI
       # exclusion should only include proper non-frameworks, if something
       # is awray with an actual framework that is released it should either
       # be fixed for the detective logic needs to be adapted to skip it.
-      EXCLUSION = %w(frameworks/prison
-                     frameworks/purpose).freeze
+      EXCLUSION = %w[frameworks/prison
+                     frameworks/purpose].freeze
 
       def initialize
         @log = Logger.new(STDOUT)

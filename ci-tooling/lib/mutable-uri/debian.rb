@@ -4,7 +4,7 @@ module MutableURI
   # Mutable for git.debian.org
   class Debian < Generic
     def self.match(uri)
-      %w(anonscm.debian.org git.debian.org).include?(uri.host)
+      %w[anonscm.debian.org git.debian.org].include?(uri.host)
     end
 
     private

@@ -27,7 +27,7 @@ require_relative 'pangeaimage'
 module CI
   # Containment class sitting on top of an {EphemeralContainer}.
   class Containment
-    TRAP_SIGNALS = %w(EXIT HUP INT QUIT TERM).freeze
+    TRAP_SIGNALS = %w[EXIT HUP INT QUIT TERM].freeze
 
     class << self
       attr_accessor :no_attach
@@ -139,7 +139,7 @@ module CI
         chown_container =
           CI::Containment.new("#{@name}_chown", image: @image, binds: binds_,
                                                 no_exit_handlers: true)
-        chown_container.run(Cmd: %w(chown -R jenkins:jenkins) + binds_)
+        chown_container.run(Cmd: %w[chown -R jenkins:jenkins] + binds_)
       end
     end
 

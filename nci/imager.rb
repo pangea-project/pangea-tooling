@@ -89,7 +89,7 @@ end
 # Publish ISO and associated content.
 Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
   sftp.mkdir!(REMOTE_PUB_DIR)
-  types = %w(amd64.iso amd64.iso.sig manifest zsync zsync.README sha256sum)
+  types = %w[amd64.iso amd64.iso.sig manifest zsync zsync.README sha256sum]
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
       name = File.basename(file)
@@ -120,7 +120,7 @@ end
 # Publish ISO sources.
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   path = 'files.neon.kde.org.uk'
-  types = %w(source.tar.xz)
+  types = %w[source.tar.xz]
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
       # Remove old ones

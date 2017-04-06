@@ -40,7 +40,7 @@ module CI
     # possibly later reused git clone.
     def copy_source_tree(*args)
       ret = super
-      unless %w(unstable stable).include?(ENV.fetch('TYPE', ''))
+      unless %w[unstable stable].include?(ENV.fetch('TYPE', ''))
         l10n_log.info 'Not doing l10n injection.'
         l10n_log.info "Job type #{ENV.fetch('TYPE', '')}"
         return ret
@@ -58,7 +58,7 @@ module CI
     def enabled_project?(project)
       # Presently not used for random stuff as well as applications which still
       # use the kde-l10n-xx stuff.
-      %w(kde-workspace frameworks).include?(project.i18n_path)
+      %w[kde-workspace frameworks].include?(project.i18n_path)
     end
 
     def project_for_url(url)
@@ -238,9 +238,9 @@ module CI
       mangle_manpages(file)
       # FIXME: bloody workaround for kconfigwidgets, kdelibs4support
       # and ubuntu-ui-toolkit containing legit locale data
-      if %w(kconfigwidgets
+      if %w[kconfigwidgets
             kdelibs4support
-            ubuntu-ui-toolkit).include?(@source.name)
+            ubuntu-ui-toolkit].include?(@source.name)
         return
       end
       mangle_locale(file)

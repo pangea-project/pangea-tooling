@@ -31,8 +31,8 @@ module Lint
       @dir = 'build'.freeze
     end
 
-    %i(Control Series Symbols).each do |klass_name|
-      %w(warnings informations errors).each do |meth_type|
+    %i[Control Series Symbols].each do |klass_name|
+      %w[warnings informations errors].each do |meth_type|
         class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def test_#{klass_name.downcase}_#{meth_type}
             log_klass = #{klass_name}

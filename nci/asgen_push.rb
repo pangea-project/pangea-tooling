@@ -62,7 +62,7 @@ def insert(ary, sum)
 end
 
 Dir.glob("#{dep11_dir}/*").each do |f|
-  %w(MD5Sum SHA1 SHA256 SHA512).each do |s|
+  %w[MD5Sum SHA1 SHA256 SHA512].each do |s|
     tool = "#{s.downcase}sum"
     tool = tool.gsub('sumsum', 'sum') # make sure md5sumsum becomes md5sum
     insert(release.fields[s], checksum(tool, f))

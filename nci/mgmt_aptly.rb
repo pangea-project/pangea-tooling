@@ -58,7 +58,7 @@ repos.each do |repo_name, publish_name|
                Distribution: 'wily',
                Origin: 'Neon',
                Label: 'Neon',
-               Architectures: %w(source i386 amd64 all))
+               Architectures: %w[source i386 amd64 all])
 end
 
 repos = {
@@ -73,10 +73,10 @@ repos.each do |repo_name, publish_name|
                Distribution: 'xenial',
                Origin: 'Neon',
                Label: 'Neon',
-               Architectures: %w(source i386 amd64 all))
+               Architectures: %w[source i386 amd64 all])
 end
 
-repo_names = %w(qt frameworks tmp_release)
+repo_names = %w[qt frameworks tmp_release]
 repo_names.each do |repo_name|
   next unless Aptly::Repository.exist?(repo_name)
   repo = Aptly::Repository.get(repo_name)

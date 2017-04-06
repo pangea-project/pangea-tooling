@@ -18,7 +18,7 @@ module Docker
 
     def containers_exited(days_old:)
       # Filter all pseudo-exited and exited states.
-      filters = { status: %w(exited dead) }
+      filters = { status: %w[exited dead] }
       containers = Docker::Container.all(all: true,
                                          filters: JSON.generate(filters))
       containers.each do |container|
@@ -45,7 +45,7 @@ module Docker
 
     def containers_running(days_old:)
       # Filter all pseudo-running and running states.
-      filters = { status: %w(created restarting running paused) }
+      filters = { status: %w[created restarting running paused] }
       containers = Docker::Container.all(all: true,
                                          filters: JSON.generate(filters))
       containers.each do |container|
@@ -102,7 +102,7 @@ module Docker
     end
 
     def old_images
-      %w(pangea/ubuntu:wily ubuntu:wily armhf/ubuntu:wily).each do |name|
+      %w[pangea/ubuntu:wily ubuntu:wily armhf/ubuntu:wily].each do |name|
         begin
           remove_image(Docker::Image.get(name))
         rescue => e

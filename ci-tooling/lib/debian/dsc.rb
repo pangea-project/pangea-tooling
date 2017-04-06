@@ -40,12 +40,12 @@ module Debian
     def parse!
       lines = ::File.new(@file).readlines
 
-      fields = { mandatory: %w(format source version maintainer
-                               checksums-sha1 checksums-sha256 files),
-                 relationship: %w(build-depends build-depends-indep
-                                  build-conflicts build-conflicts-indep),
-                 multiline: %w(checksums-sha1 checksums-sha256 files) }
-      fields[:foldable] = %w(package-list binary) + fields[:relationship]
+      fields = { mandatory: %w[format source version maintainer
+                               checksums-sha1 checksums-sha256 files],
+                 relationship: %w[build-depends build-depends-indep
+                                  build-conflicts build-conflicts-indep],
+                 multiline: %w[checksums-sha1 checksums-sha256 files] }
+      fields[:foldable] = %w[package-list binary] + fields[:relationship]
       @fields = parse_paragraph(lines, fields)
       post_process
 
@@ -70,7 +70,7 @@ module Debian
       if @fields['files']
         # Mangle list fields into structs.
         @fields['files'] = parse_types(@fields['files'], File)
-        %w(checksums-sha1 checksums-sha256).each do |key|
+        %w[checksums-sha1 checksums-sha256].each do |key|
           @fields[key] = parse_types(fields[key], Checksum)
         end
       end

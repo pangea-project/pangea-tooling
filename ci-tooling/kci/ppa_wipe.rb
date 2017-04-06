@@ -38,7 +38,7 @@ class Archive
   def wipe
     # We need to iter clear as Deleted entries would still retain their entry
     # making the unfiltered list grow larger and larger every time.
-    %i(Pending Published Superseded Obsolete).each do |status|
+    %i[Pending Published Superseded Obsolete].each do |status|
       sources = @ppa.getPublishedSources(status: status, distro_series: @series)
       source_queue = Queue.new(sources)
       BlockingThreadPool.run(THREAD_COUNT) do
@@ -60,7 +60,7 @@ Launchpad.authenticate
 KCI.types.each do |type|
   LOG.info "Working on #{type}"
   Archive.new(type.to_s, options.series).wipe
-  %w(daily weekly).each do |snapshot|
+  %w[daily weekly].each do |snapshot|
     LOG.info "Working on #{type}-#{snapshot}"
     Archive.new("#{type}-#{snapshot}", options.series).wipe
   end

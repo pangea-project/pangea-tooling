@@ -183,7 +183,7 @@ module CI
                        "#{@build_dir}/source/",
                        verbose: true)
       end
-      %w(.bzr .git .hg .svn).each do |vcs_dir|
+      %w[.bzr .git .hg .svn].each do |vcs_dir|
         FileUtils.rm_rf(Dir.glob("#{@build_dir}/source/**/#{vcs_dir}"))
       end
     end

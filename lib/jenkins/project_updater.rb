@@ -30,7 +30,7 @@ module Jenkins
 
     def update_submodules
       return if @submodules_updated
-      unless system(*%w(git submodule update --remote --recursive))
+      unless system(*%w[git submodule update --remote --recursive])
         raise 'failed to update git submodules of tooling!'
       end
       @submodules_updated = true
@@ -64,11 +64,11 @@ module Jenkins
     # add functionality or have excessive depedencies as to not slow down
     # jenkins for no good reason.
     def standard_plugins
-      %w(
+      %w[
         greenballs
         status-view
         simple-theme-plugin
-      )
+      ]
     end
 
     # FIXME: this installs all plugins used by all CIs, not the ones at hand

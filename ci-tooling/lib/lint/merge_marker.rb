@@ -17,7 +17,7 @@ module Lint
         next if File.directory?(file)
         # Check filter. If this becomes too cumbersome, FileMagic offers a
         # reasonable solution to filetype checking based on mime.
-        next if %w(.png .svgz .pdf).include?(File.extname(file))
+        next if %w[.png .svgz .pdf].include?(File.extname(file))
         lint_file(result, file)
       end
       result

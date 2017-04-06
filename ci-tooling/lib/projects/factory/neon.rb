@@ -31,8 +31,8 @@ class ProjectsFactory
     end
 
     def self.understand?(type)
-      %w(packaging.neon.kde.org.uk packaging.neon.kde.org
-         git.neon.kde.org anongit.neon.kde.org).include?(type)
+      %w[packaging.neon.kde.org.uk packaging.neon.kde.org
+         git.neon.kde.org anongit.neon.kde.org].include?(type)
     end
 
     private

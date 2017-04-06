@@ -50,7 +50,7 @@ module Jenkins
 
       # builds now only contains builds of the same day as the current build.
 
-      ran_results = %w(SUCCESS)
+      ran_results = %w[SUCCESS]
       builds.each do |build|
         return true if ran_results.include?(build.result)
       end

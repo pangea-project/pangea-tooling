@@ -48,10 +48,10 @@ class Repository
     #        demands multiple repos
     @_name = name
     # @_repo = Apt::Repository.new(name)
-    @install_exclusion = %w(base-files)
+    @install_exclusion = %w[base-files]
     # software-properties backs up Apt::Repository, must not be removed.
-    @purge_exclusion = %w(base-files python3-software-properties
-                          software-properties-common apt libapt-pkg5.0)
+    @purge_exclusion = %w[base-files python3-software-properties
+                          software-properties-common apt libapt-pkg5.0]
   end
 
   def add
@@ -71,7 +71,7 @@ class Repository
     @log.info "Installing PPA #{@_name}."
     return false if packages.empty?
     pin!
-    args = %w(ubuntu-minimal)
+    args = %w[ubuntu-minimal]
     # Map into install expressions, value can be nil so compact and join
     # to either get "key=value" or "key" depending on whether or not value
     # was nil.

@@ -64,7 +64,7 @@ system('adduser',
        '--gecos', '',
        'adt')
 
-Apt.install(%w(autopkgtest))
+Apt.install(%w[autopkgtest])
 
 FileUtils.rm_r('adt-output') if File.exist?('adt-output')
 

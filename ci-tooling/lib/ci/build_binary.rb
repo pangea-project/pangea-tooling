@@ -33,8 +33,8 @@ module CI
     BUILD_DIR  = 'build'.freeze
     RESULT_DIR = 'result'.freeze
 
-    BIN_ONLY_WHITELIST = %w(qtbase qtxmlpatterns qtdeclarative qtwebkit
-                            test-build-bin-only).freeze
+    BIN_ONLY_WHITELIST = %w[qtbase qtxmlpatterns qtdeclarative qtwebkit
+                            test-build-bin-only].freeze
 
     class DependencyResolver
       RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'.freeze

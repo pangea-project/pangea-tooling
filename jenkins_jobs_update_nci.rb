@@ -97,8 +97,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
           next unless type == 'release'
-          next unless %w(neon-packaging calligra frameworks plasma applications
-                         kde-extras kde-std kde-req).include?(project.component)
+          next unless %w[neon-packaging calligra frameworks plasma applications
+                         kde-extras kde-std kde-req].include?(project.component)
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
           watchers[watcher.job_name] = watcher

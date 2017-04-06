@@ -17,11 +17,11 @@ end
 
 require_relative 'lib/rake/bundle'
 
-BIN_DIRS = %w(
+BIN_DIRS = %w[
   .
   ci-tooling
-).freeze
-SOURCE_DIRS = %w(
+].freeze
+SOURCE_DIRS = %w[
   ci-tooling/ci
   ci-tooling/dci
   ci-tooling/kci
@@ -38,7 +38,7 @@ SOURCE_DIRS = %w(
   mgmt
   mobster
   s3-images-generator
-).freeze
+].freeze
 
 desc 'run all unit tests'
 task :test do
@@ -127,7 +127,7 @@ end
 
 desc 'deploy host and containment tooling'
 task :deploy do
-  bundle(*%w(pack --all-platforms --no-install))
+  bundle(*%w[pack --all-platforms --no-install])
 
   # Pending for pickup by LXC.
   tooling_path = File.join(Dir.home, 'tooling-pending')

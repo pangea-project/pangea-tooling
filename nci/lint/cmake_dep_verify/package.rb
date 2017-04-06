@@ -29,7 +29,7 @@ module CMakeDepVerify
 
     class << self
       def install_deps
-        @run ||= (Apt.install(%w(cmake build-essential)) || raise)
+        @run ||= (Apt.install(%w[cmake build-essential]) || raise)
       end
     end
 

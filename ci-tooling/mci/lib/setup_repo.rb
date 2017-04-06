@@ -41,6 +41,6 @@ module MCI
     raise 'Failed to import key' unless $?.to_i.zero?
 
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
-    raise 'failed to install deps' unless Apt.install(%w(pkg-kde-tools))
+    raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools])
   end
 end

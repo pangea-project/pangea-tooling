@@ -28,7 +28,7 @@ require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/retry'
 require_relative 'ci-tooling/lib/thread_pool'
 
-@exclusion_states = %w(success unstable)
+@exclusion_states = %w[success unstable]
 strict_mode = false
 
 OptionParser.new do |opts|
@@ -99,7 +99,7 @@ BlockingThreadPool.run do
         downstreams << Jenkins.job.list_details(name.gsub(/_src/, '_pub'))
         downstreams.each do |downstream|
           downstream_status = Jenkins.job.status(downstream['name'])
-          next if %w(success unstable running).include?(downstream_status)
+          next if %w[success unstable running].include?(downstream_status)
           skip = false
         end
         @log.info "Skipping #{name}" if skip

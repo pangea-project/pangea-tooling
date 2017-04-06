@@ -4,7 +4,7 @@ module MutableURI
   # Mutable for git.kde.org
   class KDE < Generic
     def self.match(uri)
-      %w(git.kde.org anongit.kde.org).include?(uri.host)
+      %w[git.kde.org anongit.kde.org].include?(uri.host)
     end
 
     private

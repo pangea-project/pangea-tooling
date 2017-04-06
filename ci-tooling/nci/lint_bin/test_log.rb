@@ -60,8 +60,8 @@ module Lint
       end.lint(@log)
     end
 
-    %i(CMake Lintian ListMissing).each do |klass_name|
-      %w(warnings informations errors).each do |meth_type|
+    %i[CMake Lintian ListMissing].each do |klass_name|
+      %w[warnings informations errors].each do |meth_type|
         class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def test_#{klass_name.downcase}_#{meth_type}
             assert_meth = "assert_#{meth_type}".to_sym

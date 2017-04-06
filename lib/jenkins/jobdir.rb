@@ -24,14 +24,14 @@ module Jenkins
   # A Jenkins job directory handler. That is a directory in jobs/ and its
   # metadata.
   class JobDir
-    STATE_SYMLINKS = %w(
+    STATE_SYMLINKS = %w[
       lastFailedBuild
       lastStableBuild
       lastSuccessfulBuild
       lastUnstableBuild
       lastUnsuccessfulBuild
       legacyIds
-    ).freeze
+    ].freeze
 
     def self.age(file)
       ((Time.now - File.mtime(file)) / 60 / 60 / 24).to_i
@@ -84,7 +84,7 @@ module Jenkins
       end
     end
 
-    def self.prune(dir, min_count: 6, max_age: 14, paths: %w(log archive))
+    def self.prune(dir, min_count: 6, max_age: 14, paths: %w[log archive])
       each_ancient_build(dir, min_count: min_count,
                               max_age: nil) do |ancient_build|
         paths.each do |path|

@@ -12,7 +12,7 @@ class MergeJob < JenkinsJob
     super("merger_#{project.name}", 'merger.xml.erb')
     @name = project.name
     @component = project.component
-    @merge_branches = %w(master)
+    @merge_branches = %w[master]
     KCI.series.each_key do |series|
       @merge_branches << "kubuntu_#{series}_archive"
       @merge_branches << "kubuntu_#{series}_backports"

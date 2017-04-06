@@ -28,7 +28,7 @@ require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/thread_pool'
 require_relative 'ci-tooling/lib/retry'
 
-QUALIFIER_STATES = %w(success unstable).freeze
+QUALIFIER_STATES = %w[success unstable].freeze
 
 OptionParser.new do |opts|
   opts.banner = <<-EOS

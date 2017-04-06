@@ -8,14 +8,14 @@ require_relative 'lib/rake/bundle'
 # Core is not here because it is required as a build-dep or anything but
 # simply a runtime dep of the tooling.
 CORE_RUNTIME_DEPS = %w[apt-transport-https].freeze
-DEPS = %w(xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
+DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           python-launchpadlib ubuntu-dev-tools gnome-pkg-tools git dh-systemd
           zlib1g-dev python-paramiko sudo locales mercurial pxz aptitude
           autotools-dev cdbs dh-autoreconf germinate gnupg2
           gobject-introspection sphinx-common po4a pep8 pyflakes ppp-dev dh-di
           libgirepository1.0-dev libglib2.0-dev bash-completion
           python3-setuptools dkms mozilla-devscripts libffi-dev
-          subversion).freeze + CORE_RUNTIME_DEPS
+          subversion].freeze + CORE_RUNTIME_DEPS
 
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
@@ -98,8 +98,8 @@ EOF
       # not by default used by rubygems. This has the notable problem that our
       # in-container setup is super fucked up and cannot actually set up a
       # proper bundler rigging as it requires a Gemfile and whatnot.
-      %w(https://anongit.kde.org/releaseme
-         https://github.com/net-ssh/net-ssh).each do |repo|
+      %w[https://anongit.kde.org/releaseme
+         https://github.com/net-ssh/net-ssh].each do |repo|
         dir = "#{tmpdir}/#{File.basename(repo)}"
         system('git', 'clone', '--depth=1', repo, dir) || raise
         system('rake', 'install', chdir: dir) || raise
@@ -110,7 +110,7 @@ EOF
     # volume is correct once we are done.
     # Otherwise it can happen that bundler left root owned artifacts behind
     # and the folder becomes undeletable.
-    %w(EXIT HUP INT QUIT TERM).each do |signal|
+    %w[EXIT HUP INT QUIT TERM].each do |signal|
       Signal.trap(signal) do
         next unless Etc.passwd { |u| break true if u.name == 'jenkins' }
         FileUtils.chown_R('jenkins', 'jenkins', tooling_path, verbose: true,
@@ -142,25 +142,25 @@ EOF
     # Do not install manpages, infopages, groffpages.
     # Do not install docs.
     path = {
-      rxcludes: %w(
+      rxcludes: %w[
         /usr/share/locale/**/**
         /usr/share/man/**/**
         /usr/share/info/**/**
         /usr/share/groff/**/**
         /usr/share/doc/**/**
-      ),
-      excludes: %w(
+      ],
+      excludes: %w[
         /usr/share/locale/*
         /usr/share/man/*
         /usr/share/info/*
         /usr/share/groff/*
         /usr/share/doc/*
-      ),
-      includes: %w(
+      ],
+      includes: %w[
         /usr/share/locale/en
         /usr/share/locale/en_US
         /usr/share/locale/locale.alias
-      )
+      ]
     }
     path[:excludes].each { |e| file.write("path-exclude=#{e}") }
     path[:includes].each { |i| file.write("path-include=#{i}") }
@@ -177,7 +177,7 @@ EOF
   # This gives a 20% speed improvement on installing plasma-desktop+deps. That
   # is ~1 minute!
   Apt.install('eatmydata') || raise
-  %w(dpkg apt-get apt).each do |bin|
+  %w[dpkg apt-get apt].each do |bin|
     file = "/usr/bin/#{bin}"
     next if File.exist?("#{file}.distrib") # Already diverted
     File.open("#{file}.pangea", File::RDWR | File::CREAT, 0o755) do |f|
@@ -192,7 +192,7 @@ EOF
 
   # Turn fc-cache into a dud to prevent cache generation. Utterly pointless
   # in a build environment.
-  %w(fc-cache).each do |bin|
+  %w[fc-cache].each do |bin|
     file = "/usr/bin/#{bin}"
     next if File.exist?("#{file}.distrib") # Already diverted
     system('dpkg-divert', '--local', '--rename', '--add', file) || raise
@@ -213,7 +213,7 @@ EOF
     raise 'Dist upgrade failed' unless Apt.dist_upgrade
     # FIXME: install reallly should allow array as input. that's not tested and
     # actually fails though
-    raise 'Workaround failed' unless Apt.install(*%w(rsync))
+    raise 'Workaround failed' unless Apt.install(*%w[rsync])
     raise 'Apt install failed' unless Apt.install(*DEPS)
     raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
     raise 'Clean failed' unless Apt.clean

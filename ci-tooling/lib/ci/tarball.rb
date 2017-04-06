@@ -71,7 +71,7 @@ module CI
     # Helper to include hidden dirs but strip self and parent refernces.
     def list_content(path)
       content = Dir.glob("#{path}/*", File::FNM_DOTMATCH)
-      content.reject { |c| %w(. ..).include?(File.basename(c)) }
+      content.reject { |c| %w[. ..].include?(File.basename(c)) }
     end
   end
 end

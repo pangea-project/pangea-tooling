@@ -12,7 +12,7 @@ DCI.setup_repo!
 Retry.retry_it(times: 5) do
   raise 'Apt update failed' unless Apt.update
   raise 'Apt upgrade failed' unless Apt.dist_upgrade
-  raise 'Apt install failed' unless Apt.install(%w(live-build live-images parted))
+  raise 'Apt install failed' unless Apt.install(%w[live-build live-images parted])
 end
 
 @lb = LiveBuildRunner.new('live-config')

@@ -8,7 +8,7 @@ module CI
     class EphemeralContainerUnhandledState < StandardError; end
 
     @safety_sleep = 5
-    RUNNING_STATES = %w(created exited running).freeze
+    RUNNING_STATES = %w[created exited running].freeze
 
     class << self
       # @!attribute rw safety_sleep

@@ -3,7 +3,7 @@ require 'fileutils'
 require_relative 'debian/changelog'
 
 class KDEIfy
-  PATCHES = %w(../suse/firefox-kde.patch ../suse/mozilla-kde.patch).freeze
+  PATCHES = %w[../suse/firefox-kde.patch ../suse/mozilla-kde.patch].freeze
   class << self
     def init_env
       ENV['QUILT_PATCHES'] = 'debian/patches'
