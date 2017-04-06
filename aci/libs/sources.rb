@@ -55,7 +55,7 @@ class Sources
     when 'svn'
       system("svn export #{url}")
     when 'none'
-      Dir.mkdir "#{name}"
+      Dir.mkdir('/source/' + name)
     else
       "You gave me #{type} -- I have no idea what to do with that."
     end
