@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-
+#
 # Copyright (C) 2016 Scarlett Clark <sgclark@kde.org>
 #
 # This library is free software; you can redistribute it and/or
@@ -18,39 +18,36 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+require_relative '../libs/scm'
 require 'fileutils'
-require 'rugged'
+require 'test/unit'
 
-# Module for source control
-class SCM
-  attr_accessor :url
-  attr_accessor :branch
-  attr_accessor :dir
-  attr_accessor :type
-  def initialize(args = {})
-    @url = args[:url]
-    @branch = args[:branch]
-    @dir = args[:dir]
-    @type = args[:type]
+# Test various aspects of scm
+class TestBuild < Test::Unit::TestCase
+  def test_vars
+    name = 'extra-cmake-modules'
+    url = 'http://anongit.kde.org/extra-cmake-modules'
+    branch = 'master'
+    dir = File.join(Dir.pwd, name)
+    type = 'git'
+    repo = SCM.new(url: url, branch: branch, dir: dir, type: type)
+    assert_equal repo.url, url
+    assert_equal repo.branch, branch
+    assert_equal repo.dir, dir
+    assert_equal repo.type, type
   end
 
-  # Case block to select appriate scm type.
-  def select_type
-    case type
-    when 'git'
-      SCM.git_clone_source(url, dir, branch)
+  def test_clone
+    name = 'extra-cmake-modules'
+    url = 'http://anongit.kde.org/extra-cmake-modules'
+    branch = 'master'
+    dir =  File.join(Dir.pwd, name)
+    type = 'git'
+    repo = SCM.new(url: url, branch: branch, dir: dir, type: type)
+    assert_nothing_raised RuntimeError do
+      repo.select_type
     end
-  end
-
-  # Clone a git repo
-  def self.git_clone_source(url, dir, branch)
-    Rugged::Repository.clone_at(
-      url,
-      dir,
-      checkout_branch: branch,
-      transfer_progress: lambda { |total_objects, indexed_objects, received_objects, local_objects, total_deltas, indexed_deltas, received_bytes|
-        # ...
-      }
-    )
+    assert Dir.exist?(File.join(Dir.pwd, 'extra-cmake-modules'))
+    FileUtils.rm_rf(File.join(Dir.pwd, 'extra-cmake-modules'))
   end
 end

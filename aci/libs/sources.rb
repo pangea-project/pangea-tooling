@@ -31,7 +31,8 @@ class Sources
     FileUtils.rm_rf("/source/#{name}") if File.directory?("/source/#{name}")
     case type
     when 'git'
-      SCM.git_clone_source(url: url, branch: branch, dir: dir)
+      repo = SCM.new(url: url, branch: branch, dir: dir, type: type)
+      repo.select_type
     when 'xz'
       system("wget #{url} && tar -xvf #{name}*.tar.xz")
     when 'gz'
