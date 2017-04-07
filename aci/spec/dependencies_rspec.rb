@@ -121,6 +121,32 @@ describe 'build_kf5' do
   end
 end
 
+describe 'build_kde_dep' do
+  it 'Builds KDE project dependencies from source' do
+    sources = Sources.new
+    options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr'
+    options += '-DKDE_INSTALL_SYSCONFDIR=/opt/etc'
+    deps = Metadata::KDEDEPS
+    if deps
+      deps.each do |dep|
+        expect(
+          sources.get_source(
+            dep,
+            'git',
+            "https://anongit.kde.org/#{dep}",
+            "/source/#{dep}"
+          )
+        ).to be(0), exit_status
+        expect(
+          sources.run_build(
+            dep, 'cmake', options
+          )
+        ).to be(0), exit_status
+      end
+    end
+  end
+end
+
 describe 'build_kf5_dep_sources' do
   it 'Builds source dependencies that depend on kf5' do
     sources = Sources.new
