@@ -31,7 +31,7 @@ module Metadata
   PROJECTPACKAGES = METADATA['packages']
   EXTERNALDEPENDENCIES = METADATA['dependencies']
   DEPSONKF5 = METADATA['deps_on_kf5']
-  KDEDEP = METADATA['kde_deps']
+  KDEDEPS = METADATA['kde_deps']
   DEPATH = '/source/'.freeze
   PROJECTPATH = '/in/' + PROJECT
   ARCH = `arch`.strip.freeze
