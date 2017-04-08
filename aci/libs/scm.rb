@@ -51,7 +51,7 @@ class SCM
     when 'bzr'
       branch_bzr(url, dir)
     when 'zip'
-      unpack_zip(url, file, dir)
+      unpack_zip(name, url, file, dir)
     when 'svn'
       export_svn(url, dir)
     when 'none'
