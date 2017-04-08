@@ -42,7 +42,7 @@ class SCM
   def select_type
     case type
     when 'git'
-      git_clone_source(url, dir, branch)
+      git_clone_source(name, url, dir, branch)
     when 'tar'
       unpack_tar(name, url, file, dir)
     when 'mercurial'
@@ -61,10 +61,11 @@ class SCM
   end
 
   # Clone a git repo
-  def git_clone_source(url, dir, branch)
+  def git_clone_source(name, url, dir, branch)
+    path = File.join(dir, name)
     Rugged::Repository.clone_at(
       url,
-      dir,
+      path,
       checkout_branch: branch,
       transfer_progress: lambda { |total_objects, indexed_objects, received_objects, local_objects, total_deltas, indexed_deltas, received_bytes|
         # ...

@@ -46,7 +46,7 @@ class TestBuild < Test::Unit::TestCase
     branch = 'master'
     dir =  File.join(Dir.pwd, name)
     type = 'git'
-    repo = SCM.new(url: url, branch: branch, dir: dir, type: type)
+    repo = SCM.new(name: name, url: url, branch: branch, dir: dir, type: type)
     assert_equal repo.select_type, 0
     assert Dir.exist?(File.join(Dir.pwd, 'new-tooling'))
     FileUtils.rm_rf(File.join(Dir.pwd, name))

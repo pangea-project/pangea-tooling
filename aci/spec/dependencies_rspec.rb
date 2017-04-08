@@ -52,7 +52,7 @@ describe 'build_non_kf5_dep_sources' do
         options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
         autoreconf = dep.values[0]['build'].values_at('autoreconf').to_s.gsub(/\,|\[|\]|\"/, '')
         insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
-        dir = '/source/' + name
+        dir = '/source/'
         source = SCM.new(url: url, branch: branch, dir: dir, type: type, file: file, name: name)
         expect(source.select_type).to be(0), exit_status
         unless buildsystem == 'make'
