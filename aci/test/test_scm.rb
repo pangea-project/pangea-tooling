@@ -44,7 +44,7 @@ class TestBuild < Test::Unit::TestCase
     name = 'new-tooling'
     url = 'https://github.com/ScarlettGatelyClark/new-tooling'
     branch = 'master'
-    dir =  File.join(Dir.pwd, name)
+    dir =  Dir.pwd + '/'
     type = 'git'
     repo = SCM.new(name: name, url: url, branch: branch, dir: dir, type: type)
     assert_equal repo.select_type, 0
