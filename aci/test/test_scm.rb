@@ -69,6 +69,8 @@ class TestBuild < Test::Unit::TestCase
     type = 'tar'
     repo = SCM.new(url: url, name: name, dir: dir, type: type, file: file)
     assert_equal(repo.select_type, 0)
+    FileUtils.rm(File.join(Dir.pwd, file))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rm(File.join(Dir.pwd, file))
     FileUtils.rm_rf(File.join(Dir.pwd, name))
@@ -82,6 +84,8 @@ class TestBuild < Test::Unit::TestCase
     type = 'tar'
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
     assert_equal(repo.select_type, 0)
+    FileUtils.rm(File.join(Dir.pwd, file))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
     assert_equal(repo.unpack_tar(name, url, file, dir), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rm(File.join(Dir.pwd, file))
@@ -96,6 +100,8 @@ class TestBuild < Test::Unit::TestCase
     type = 'tar'
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
     assert_equal(repo.select_type, 0)
+    FileUtils.rm(File.join(Dir.pwd, file))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
     assert_equal(repo.unpack_tar(name, url, file, dir), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rm(File.join(Dir.pwd, file))
@@ -110,6 +116,8 @@ class TestBuild < Test::Unit::TestCase
     type = 'zip'
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
     assert_equal(repo.select_type, 0)
+    FileUtils.rm(File.join(Dir.pwd, file))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
     assert_equal(repo.unpack_zip(name, url, file, dir), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rm(File.join(Dir.pwd, file))
@@ -121,9 +129,10 @@ class TestBuild < Test::Unit::TestCase
     url = 'lp:libdbusmenu'
     dir = Dir.pwd
     type = 'bzr'
-    assert_equal(repo.select_type, 0)
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
     assert_equal(repo.select_type, 0)
+    FileUtils.rm(File.join(Dir.pwd, file))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
     assert_equal(repo.branch_bzr(url, dir), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rm_rf(File.join(Dir.pwd, name))
@@ -135,6 +144,8 @@ class TestBuild < Test::Unit::TestCase
     type = 'none'
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
     assert_equal(repo.select_type, 0)
+    FileUtils.rm(File.join(Dir.pwd, file))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
     assert_equal(repo.no_sources(dir, name), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rmdir(File.join(Dir.pwd, name))
