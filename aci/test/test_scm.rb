@@ -129,7 +129,7 @@ class TestBuild < Test::Unit::TestCase
     url = 'lp:libdbusmenu'
     dir = Dir.pwd
     type = 'bzr'
-    repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
+    repo = SCM.new(url: url, name: name, dir: dir, type: type)
     assert_equal(repo.select_type, 0)
     FileUtils.rm(File.join(Dir.pwd, file))
     FileUtils.rm_rf(File.join(Dir.pwd, name))
@@ -142,7 +142,7 @@ class TestBuild < Test::Unit::TestCase
     name = 'kitties'
     dir = Dir.pwd
     type = 'none'
-    repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
+    repo = SCM.new(name: name, dir: dir, type: type)
     assert_equal(repo.select_type, 0)
     FileUtils.rm(File.join(Dir.pwd, file))
     FileUtils.rm_rf(File.join(Dir.pwd, name))
