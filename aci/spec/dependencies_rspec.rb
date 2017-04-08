@@ -83,7 +83,7 @@ describe 'build_kf5' do
         source = SCM.new(
           url: url,
           branch: 'master',
-          dir: '/source',
+          dir: '/source/',
           type: 'git',
           name: framework
         )
@@ -122,7 +122,7 @@ describe 'build_kde_dep' do
         source = SCM.new(
           url: url,
           branch: 'master',
-          dir: '/source',
+          dir: '/source/',
           type: 'git',
           name: framework
         )
@@ -152,7 +152,7 @@ describe 'build_kf5_dep_sources' do
         source = SCM.new(
           url: url,
           branch: branch,
-          dir: '/source',
+          dir: '/source/',
           type: type,
           name: framework
         )
