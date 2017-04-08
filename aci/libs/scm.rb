@@ -40,8 +40,9 @@ class SCM
   end
 
   def clean_sources(dir, name)
-    Dir.chdir('/')
-    FileUtils.rm_rf(File.join(dir, name))
+    Dir.chdir('/') do
+      FileUtils.rm_rf(File.join(dir, name))
+    end
   end
 
   # Case block to select appriate scm type.
