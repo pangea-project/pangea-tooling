@@ -59,7 +59,7 @@ describe 'build_non_kf5_dep_sources' do
           expect(
             build.run_build(name, buildsystem, options)
           ).to be(0), exit_status
-          expect(source.clean_sources(dir, name)).to be(0), exit_status
+          source.clean_sources(dir, name)
         end
         if buildsystem == 'make'
           expect(
@@ -67,7 +67,7 @@ describe 'build_non_kf5_dep_sources' do
               name, buildsystem, options, autoreconf, insource
             )
           ).to be(0), exit_status
-          expect(source.clean_sources(dir, name)).to be(0), exit_status
+          source.clean_sources(dir, name)
         end
       end
     end
@@ -108,7 +108,7 @@ describe 'build_kf5' do
             framework, 'cmake', options
           )
         ).to be(0), exit_status
-        expect(source.clean_sources(dir, name)).to be(0), exit_status
+        source.clean_sources(dir, name)
       end
     end
   end
@@ -137,7 +137,7 @@ describe 'build_kde_dep' do
             dep, 'cmake', options
           )
         ).to be(0), exit_status
-        expect(source.clean_sources(dir, name)).to be(0), exit_status
+        source.clean_sources(dir, name)
       end
     end
   end
@@ -166,7 +166,7 @@ describe 'build_kf5_dep_sources' do
         expect(source.select_type).to be(0), exit_status
         expect(Dir.exist?("/source/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
         expect(build.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
-        expect(source.clean_sources(dir, name)).to be(0), exit_status
+        source.clean_sources(dir, name)
       end
     end
   end
