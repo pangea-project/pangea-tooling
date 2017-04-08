@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require 'fileutils'
 require 'rugged'
+require 'English'
 
 # Module for source control
 class SCM
@@ -62,7 +63,7 @@ class SCM
 
   # Clone a git repo
   def git_clone_source(name, url, dir, branch)
-    path = File.join(dir, name)
+    path = dir + name
     Rugged::Repository.clone_at(
       url,
       path,
