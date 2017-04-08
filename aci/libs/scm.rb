@@ -40,7 +40,7 @@ class SCM
   end
 
   def clean_sources(dir, name)
-    Dir.chdir('/') do
+    Dir.chdir(dir) do
       FileUtils.rm_rf(File.join(dir, name))
     end
   end
