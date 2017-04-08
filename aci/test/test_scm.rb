@@ -71,6 +71,7 @@ class TestBuild < Test::Unit::TestCase
     assert_equal(repo.select_type, 0)
     FileUtils.rm(File.join(Dir.pwd, file))
     FileUtils.rm_rf(File.join(Dir.pwd, name))
+    assert_equal(repo.unpack_tar(name, url, file, dir), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rm(File.join(Dir.pwd, file))
     FileUtils.rm_rf(File.join(Dir.pwd, name))
