@@ -59,6 +59,7 @@ describe 'build_non_kf5_dep_sources' do
           expect(
             build.run_build(name, buildsystem, options)
           ).to be(0), exit_status
+          expect(source.clean_sources(dir + name)).to be(0), exit_status
         end
         if buildsystem == 'make'
           expect(
@@ -66,6 +67,7 @@ describe 'build_non_kf5_dep_sources' do
               name, buildsystem, options, autoreconf, insource
             )
           ).to be(0), exit_status
+          expect(source.clean_sources(dir + name)).to be(0), exit_status
         end
       end
     end
@@ -79,11 +81,12 @@ describe 'build_kf5' do
     options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc'
     if Metadata::BUILDKF5
       frameworks.each do |framework|
+        dir = '/source/'
         url = "https://anongit.kde.org/#{framework}"
         source = SCM.new(
           url: url,
           branch: 'master',
-          dir: '/source/',
+          dir: dir,
           type: 'git',
           name: framework
         )
@@ -105,6 +108,7 @@ describe 'build_kf5' do
             framework, 'cmake', options
           )
         ).to be(0), exit_status
+        expect(source.clean_sources(dir + name)).to be(0), exit_status
       end
     end
   end
@@ -113,6 +117,7 @@ end
 describe 'build_kde_dep' do
   it 'Builds KDE project dependencies from source' do
     build = Sources.new
+    dir = '/source/'
     options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr'
     options += '-DKDE_INSTALL_SYSCONFDIR=/opt/etc'
     deps = Metadata::KDEDEPS
@@ -122,7 +127,7 @@ describe 'build_kde_dep' do
         source = SCM.new(
           url: url,
           branch: 'master',
-          dir: '/source/',
+          dir: dir,
           type: 'git',
           name: framework
         )
@@ -132,6 +137,7 @@ describe 'build_kde_dep' do
             dep, 'cmake', options
           )
         ).to be(0), exit_status
+        expect(source.clean_sources(dir + name)).to be(0), exit_status
       end
     end
   end
@@ -143,6 +149,7 @@ describe 'build_kf5_dep_sources' do
     deps = Metadata::DEPSONKF5
     if deps
       deps.each do |dep|
+        dir = '/source/'
         name =  dep.values[0]['depname']
         type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
         url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
@@ -152,13 +159,14 @@ describe 'build_kf5_dep_sources' do
         source = SCM.new(
           url: url,
           branch: branch,
-          dir: '/source/',
+          dir: dir,
           type: type,
           name: framework
         )
         expect(source.select_type).to be(0), exit_status
         expect(Dir.exist?("/source/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
         expect(build.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
+        expect(source.clean_sources(dir + name)).to be(0), exit_status
       end
     end
   end

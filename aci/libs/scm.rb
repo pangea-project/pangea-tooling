@@ -39,6 +39,10 @@ class SCM
     self.file = args[:file]
   end
 
+  def clean_sources(dir)
+    FileUtils.rm_rf(dir)
+  end
+
   # Case block to select appriate scm type.
   def select_type
     case type

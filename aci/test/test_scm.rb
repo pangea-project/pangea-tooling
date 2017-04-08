@@ -149,4 +149,15 @@ class TestBuild < Test::Unit::TestCase
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rmdir(File.join(Dir.pwd, name))
   end
+
+  def test_clean
+    name = 'kitties'
+    file = 'kitties.zip'
+    url =  'https://github.com/ScarlettGatelyClark/new-tooling/raw/master/kitties.zip'
+    dir =  Dir.pwd
+    type = 'zip'
+    repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
+    repo.clean_sources(dir + name)
+    assert !Dir.exist?(File.join(Dir.pwd, name))
+  end
 end
