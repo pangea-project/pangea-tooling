@@ -55,7 +55,7 @@ class SCM
     when 'svn'
       export_svn(url, dir)
     when 'none'
-      no_sources
+      no_sources(dir, name)
     else
       "You gave me #{type} -- I have no idea what to do with that."
     end
