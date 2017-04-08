@@ -157,7 +157,7 @@ class TestBuild < Test::Unit::TestCase
     dir =  Dir.pwd
     type = 'zip'
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
-    repo.clean_sources(dir + name)
+    repo.clean_sources(dir, name)
     assert !Dir.exist?(File.join(Dir.pwd, name))
   end
 end
