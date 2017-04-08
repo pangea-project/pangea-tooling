@@ -25,29 +25,107 @@ require 'test/unit'
 # Test various aspects of scm
 class TestBuild < Test::Unit::TestCase
   def test_vars
-    name = 'extra-cmake-modules'
-    url = 'http://anongit.kde.org/extra-cmake-modules'
+    name = 'kitties'
+    url = 'https://github.com/ScarlettGatelyClark/new-tooling'
     branch = 'master'
     dir = File.join(Dir.pwd, name)
     type = 'git'
-    repo = SCM.new(url: url, branch: branch, dir: dir, type: type)
+    file = 'kitties.tar.bz2'
+    repo = SCM.new(url: url, branch: branch, dir: dir, type: type, file: file, name: name)
     assert_equal repo.url, url
     assert_equal repo.branch, branch
     assert_equal repo.dir, dir
     assert_equal repo.type, type
+    assert_equal repo.name, name
+    assert_equal repo.file, file
   end
 
   def test_clone
-    name = 'extra-cmake-modules'
-    url = 'http://anongit.kde.org/extra-cmake-modules'
+    name = 'new-tooling'
+    url = 'https://github.com/ScarlettGatelyClark/new-tooling'
     branch = 'master'
     dir =  File.join(Dir.pwd, name)
     type = 'git'
     repo = SCM.new(url: url, branch: branch, dir: dir, type: type)
-    assert_nothing_raised RuntimeError do
-      repo.select_type
-    end
-    assert Dir.exist?(File.join(Dir.pwd, 'extra-cmake-modules'))
-    FileUtils.rm_rf(File.join(Dir.pwd, 'extra-cmake-modules'))
+    assert_equal repo.select_type, 0
+    assert Dir.exist?(File.join(Dir.pwd, 'new-tooling'))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
+  end
+
+  def test_wget
+    file = 'kitties.tar.bz2'
+    url = 'https://github.com/ScarlettGatelyClark/new-tooling/blob/master/kitties.tar.bz2'
+    dir =  Dir.pwd
+    repo = SCM.new(url: url, dir: dir, file: file)
+    assert_equal repo.wget_source(url), 0
+    FileUtils.rm(File.join(Dir.pwd, file))
+  end
+
+  def test_tar
+    name = 'kitties'
+    file = 'kitties.tar.xz'
+    url =  'https://github.com/ScarlettGatelyClark/new-tooling/raw/master/kitties.tar.xz'
+    dir =  Dir.pwd
+    type = 'tar'
+    repo = SCM.new(url: url, name: name, dir: dir, type: type, file: file)
+    assert_equal(repo.select_type, 0)
+    assert Dir.exist?(File.join(Dir.pwd, name))
+    FileUtils.rm(File.join(Dir.pwd, file))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
+  end
+
+  def test_bz2
+    name = 'kitties'
+    file = 'kitties.tar.bz2'
+    url =  'https://github.com/ScarlettGatelyClark/new-tooling/raw/master/kitties.tar.bz2'
+    dir =  Dir.pwd
+    repo = SCM.new(url: url, name: name, dir: dir, file: file)
+    assert_equal(repo.unpack_tar(name, url, file, dir), 0)
+    assert Dir.exist?(File.join(Dir.pwd, name))
+    FileUtils.rm(File.join(Dir.pwd, file))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
+  end
+
+  def test_gz
+    name = 'kitties'
+    file = 'kitties.tar.gz'
+    url =  'https://github.com/ScarlettGatelyClark/new-tooling/raw/master/kitties.tar.gz'
+    dir =  Dir.pwd
+    repo = SCM.new(url: url, name: name, dir: dir, file: file)
+    assert_equal(repo.unpack_tar(name, url, file, dir), 0)
+    assert Dir.exist?(File.join(Dir.pwd, name))
+    FileUtils.rm(File.join(Dir.pwd, file))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
+  end
+
+  def test_zip
+    name = 'kitties'
+    file = 'kitties.zip'
+    url =  'https://github.com/ScarlettGatelyClark/new-tooling/raw/master/kitties.zip'
+    dir =  Dir.pwd
+    repo = SCM.new(url: url, name: name, dir: dir, file: file)
+    assert_equal(repo.unpack_zip(name, url, file, dir), 0)
+    assert Dir.exist?(File.join(Dir.pwd, name))
+    FileUtils.rm(File.join(Dir.pwd, file))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
+  end
+
+  def test_bzr
+    name = 'libdbusmenu'
+    url = 'lp:libdbusmenu'
+    dir = Dir.pwd
+    repo = SCM.new(url: url, dir: dir)
+    assert_equal(repo.branch_bzr(url, dir), 0)
+    assert Dir.exist?(File.join(Dir.pwd, name))
+    FileUtils.rm_rf(File.join(Dir.pwd, name))
+  end
+
+  def test_none
+    name = 'kitties'
+    dir = Dir.pwd
+    repo = SCM.new(name: name, dir: dir)
+    assert_equal(repo.no_sources(dir, name), 0)
+    assert Dir.exist?(File.join(Dir.pwd, name))
+    FileUtils.rmdir(File.join(Dir.pwd, name))
   end
 end
