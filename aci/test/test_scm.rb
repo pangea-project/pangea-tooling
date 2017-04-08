@@ -79,7 +79,7 @@ class TestBuild < Test::Unit::TestCase
     file = 'kitties.tar.bz2'
     url =  'https://github.com/ScarlettGatelyClark/new-tooling/raw/master/kitties.tar.bz2'
     dir =  Dir.pwd
-    type = 'bz2'
+    type = 'tar'
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
     assert_equal(repo.select_type, 0)
     assert_equal(repo.unpack_tar(name, url, file, dir), 0)
@@ -93,7 +93,7 @@ class TestBuild < Test::Unit::TestCase
     file = 'kitties.tar.gz'
     url =  'https://github.com/ScarlettGatelyClark/new-tooling/raw/master/kitties.tar.gz'
     dir =  Dir.pwd
-    type = 'gz'
+    type = 'tar'
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
     assert_equal(repo.select_type, 0)
     assert_equal(repo.unpack_tar(name, url, file, dir), 0)
