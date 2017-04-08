@@ -80,8 +80,8 @@ class TestBuild < Test::Unit::TestCase
     url =  'https://github.com/ScarlettGatelyClark/new-tooling/raw/master/kitties.tar.bz2'
     dir =  Dir.pwd
     type = 'bz2'
-    assert_equal(repo.select_type, 0)
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
+    assert_equal(repo.select_type, 0)
     assert_equal(repo.unpack_tar(name, url, file, dir), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rm(File.join(Dir.pwd, file))
@@ -94,8 +94,8 @@ class TestBuild < Test::Unit::TestCase
     url =  'https://github.com/ScarlettGatelyClark/new-tooling/raw/master/kitties.tar.gz'
     dir =  Dir.pwd
     type = 'gz'
-    assert_equal(repo.select_type, 0)
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
+    assert_equal(repo.select_type, 0)
     assert_equal(repo.unpack_tar(name, url, file, dir), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rm(File.join(Dir.pwd, file))
@@ -108,8 +108,8 @@ class TestBuild < Test::Unit::TestCase
     url =  'https://github.com/ScarlettGatelyClark/new-tooling/raw/master/kitties.zip'
     dir =  Dir.pwd
     type = 'zip'
-    assert_equal(repo.select_type, 0)
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
+    assert_equal(repo.select_type, 0)
     assert_equal(repo.unpack_zip(name, url, file, dir), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rm(File.join(Dir.pwd, file))
@@ -123,6 +123,7 @@ class TestBuild < Test::Unit::TestCase
     type = 'bzr'
     assert_equal(repo.select_type, 0)
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
+    assert_equal(repo.select_type, 0)
     assert_equal(repo.branch_bzr(url, dir), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rm_rf(File.join(Dir.pwd, name))
@@ -132,8 +133,8 @@ class TestBuild < Test::Unit::TestCase
     name = 'kitties'
     dir = Dir.pwd
     type = 'none'
-    assert_equal(repo.select_type, 0)
     repo = SCM.new(url: url, name: name, dir: dir, file: file, type: type)
+    assert_equal(repo.select_type, 0)
     assert_equal(repo.no_sources(dir, name), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rmdir(File.join(Dir.pwd, name))
