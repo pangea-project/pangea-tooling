@@ -59,8 +59,7 @@ describe 'build_non_kf5_dep_sources' do
           expect(
             build.run_build(name, buildsystem, options)
           ).to be(0), exit_status
-          path = File.join(dir, name)
-          expect(source.clean_sources(path)).to be(0), exit_status
+          expect(source.clean_sources(dir, name)).to be(0), exit_status
         end
         if buildsystem == 'make'
           expect(
