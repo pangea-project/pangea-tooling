@@ -144,8 +144,7 @@ class TestBuild < Test::Unit::TestCase
     type = 'none'
     repo = SCM.new(name: name, dir: dir, type: type)
     assert_equal(repo.select_type, 0)
-    FileUtils.rm(File.join(Dir.pwd, file))
-    FileUtils.rm_rf(File.join(Dir.pwd, name))
+    FileUtils.rmdir(File.join(Dir.pwd, name))
     assert_equal(repo.no_sources(dir, name), 0)
     assert Dir.exist?(File.join(Dir.pwd, name))
     FileUtils.rmdir(File.join(Dir.pwd, name))
