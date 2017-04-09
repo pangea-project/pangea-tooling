@@ -108,7 +108,7 @@ describe 'build_kf5' do
             framework, 'cmake', options
           )
         ).to be(0), exit_status
-        source.clean_sources(dir, name)
+        source.clean_sources(dir, framework)
       end
     end
   end
