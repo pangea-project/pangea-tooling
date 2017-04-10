@@ -78,7 +78,7 @@ describe 'build_kf5' do
   it 'Builds KDE Frameworks from source' do
     build = Sources.new
     frameworks = Frameworks.generatekf5_buildorder(Metadata::FRAMEWORKS)
-    options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc'
+    options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DCMAKE_PREFIX_PATH=/opt/usr:/usr'
     if Metadata::BUILDKF5
       frameworks.each do |framework|
         dir = '/source/'
@@ -120,6 +120,7 @@ describe 'build_kde_dep' do
     dir = '/source/'
     options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr'
     options += '-DKDE_INSTALL_SYSCONFDIR=/opt/etc'
+    optiosn += '-DCMAKE_PREFIX_PATH=/opt/usr:/usr'
     deps = Metadata::KDEDEPS
     if deps
       deps.each do |dep|
