@@ -1,5 +1,6 @@
 series:
   '1703': '20170206'
+  'netrunner-backports': '9'
 architectures:
   - amd64
   - armhf
