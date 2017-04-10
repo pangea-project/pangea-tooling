@@ -53,6 +53,11 @@ breeze-icons:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+syntax-highlighting:
+  external:
+  distro_packages:
+  kf5_deps:
+   - extra-cmake-modules
 kcodecs:
   external:
   distro_packages:
