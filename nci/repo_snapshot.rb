@@ -22,7 +22,7 @@
 require 'aptly'
 require 'date'
 
-require_relative '../../lib/aptly-ext/remote'
+require_relative '../lib/aptly-ext/remote'
 
 # SSH tunnel so we can talk to the repo
 Aptly::Ext::Remote.neon do
