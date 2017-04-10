@@ -8,7 +8,6 @@
   netrunner-debian: netrunner
   plasmazilla: plasmazilla
   netrunner-odroid: odroid
-  ds9-debian-frameworks: odroid
   netrunner-debian-yacy: yacy
   netrunner-debian-owncloud: owncloud
   netrunner-debian-i2p: i2p
