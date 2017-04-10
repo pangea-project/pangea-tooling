@@ -41,11 +41,11 @@ module DCI
       repos += %w[frameworks plasma kde-applications extras backports qt5]
       repos += %w[odroid] if DPKG::BUILD_ARCH == 'armhf'
       components += %w[main]
-    when 'testing', '1703'
+    when 'testing', '1703', 'netrunner-backports'
       repos += %w[netrunner]
       components += %w[frameworks backports plasma qt5 kde-applications extras]
       components += %w[odroid] unless DPKG::BUILD_ARCH == 'amd64'
-      @dist = "netrunner-#{@dist}"
+      @dist = "netrunner-#{@dist}" unless @dist.start_with?('netrunner')
     end
 
     add_repos(repos, components)
