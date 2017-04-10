@@ -130,7 +130,7 @@ describe 'build_kde_dep' do
           branch: 'master',
           dir: dir,
           type: 'git',
-          name: framework
+          name: dep
         )
         expect(source.select_type).to be(0), exit_status
         expect(
