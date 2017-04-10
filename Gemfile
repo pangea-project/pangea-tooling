@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gem.cache.pangea.pub'
 
 gem 'aptly-api', '>= 0.5.0'
 gem 'concurrent-ruby'
