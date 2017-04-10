@@ -138,7 +138,7 @@ describe 'build_kde_dep' do
             dep, 'cmake', options
           )
         ).to be(0), exit_status
-        source.clean_sources(dir, name)
+        source.clean_sources(dir, dep)
       end
     end
   end
