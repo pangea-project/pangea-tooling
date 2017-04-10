@@ -120,7 +120,7 @@ describe 'build_kde_dep' do
     dir = '/source/'
     options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr'
     options += '-DKDE_INSTALL_SYSCONFDIR=/opt/etc'
-    optiosn += '-DCMAKE_PREFIX_PATH=/opt/usr:/usr'
+    options += '-DCMAKE_PREFIX_PATH=/opt/usr:/usr'
     deps = Metadata::KDEDEPS
     if deps
       deps.each do |dep|
