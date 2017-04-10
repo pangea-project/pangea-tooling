@@ -151,7 +151,7 @@ describe 'build_kf5_dep_sources' do
     if deps
       deps.each do |dep|
         dir = '/source/'
-        name =  dep.values[0]['depname']
+        name = dep.values[0]['depname']
         type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
         url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
         branch = dep.values[0]['source'].values_at('branch').to_s.gsub(/\,|\[|\]|\"/, '')
@@ -162,7 +162,7 @@ describe 'build_kf5_dep_sources' do
           branch: branch,
           dir: dir,
           type: type,
-          name: framework
+          name: dep
         )
         expect(source.select_type).to be(0), exit_status
         expect(Dir.exist?("/source/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
