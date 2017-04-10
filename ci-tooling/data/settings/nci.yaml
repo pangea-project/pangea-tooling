@@ -9,3 +9,7 @@
 '*_forks_{libxkbcommon,libinput}_*':
   sourcer:
     restricted_packaging_copy: true
+
+'*_forks_{flatbuffers}_*':
+  sourcer:
+    restricted_packaging_copy: true
