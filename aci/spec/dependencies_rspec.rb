@@ -78,7 +78,7 @@ describe 'build_kf5' do
   it 'Builds KDE Frameworks from source' do
     build = Sources.new
     frameworks = Frameworks.generatekf5_buildorder(Metadata::FRAMEWORKS)
-    options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DCMAKE_PREFIX_PATH=/opt/usr:/usr -DKDE_INSTALL_PYTHONBINDINGSDIR=/source'
+    options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DCMAKE_PREFIX_PATH=/opt/usr:/usr'
     if Metadata::BUILDKF5
       frameworks.each do |framework|
         dir = '/source/'
@@ -91,18 +91,18 @@ describe 'build_kf5' do
           name: framework
         )
         expect(source.select_type).to be(0), exit_status
-        if framework == 'phonon' || framework == 'phonon-gstreamer'
-          options += '-DPHONON_LIBRARY_PATH=/opt/usr/plugins'
+        if (framework == 'phonon') || (framework == 'phonon-gstreamer')
+          options += ' -DPHONON_LIBRARY_PATH=/opt/usr/plugins'
           options += ' -DBUILD_TESTING=OFF'
           options += ' -DPHONON_BUILD_PHONON4QT5=ON'
           options += ' -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
         elsif framework == 'breeze-icons'
-          options += ' -DWITH_DECORATIONS=OFF '
-          options +=  ' -DBINARY_ICONS_RESOURCE=ON '
+          options += ' -DWITH_DECORATIONS=OFF'
+          options += ' -DBINARY_ICONS_RESOURCE=ON'
         elsif framework == 'breeze'
-          options += ' -DBINARY_ICONS_RESOURCE=ON '
+          options += ' -DBINARY_ICONS_RESOURCE=ON'
         elsif framework == 'akonadi'
-          options += ' -DMYSQLD_EXECUTABLE:STRING=/usr/sbin/mysqld-akonadi '
+          options += ' -DMYSQLD_EXECUTABLE:STRING=/usr/sbin/mysqld-akonadi'
         end
         expect(
           build.run_build(

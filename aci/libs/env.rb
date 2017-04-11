@@ -32,7 +32,7 @@ module Env
     ENV['PKG_CONFIG_PATH'] = '/opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig'
     ENV['ACLOCAL_PATH'] = '/opt/usr/share/aclocal:/usr/share/aclocal'
     ENV['XDG_DATA_DIRS'] = '/opt/usr/share:/opt/share:/usr/local/share/:/usr/share:/share'
-    ENV['PROJECT']=Metadata::PROJECT
+    ENV['PROJECT'] = Metadata::PROJECT
     ENV.fetch('PATH')
     ENV.fetch('LD_LIBRARY_PATH')
     ENV.fetch('CFLAGS')
