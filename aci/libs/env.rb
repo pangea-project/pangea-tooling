@@ -21,17 +21,17 @@
 
 # Set project environment
 require_relative '../libs/metadata'
-module Env
 
+module Env
   def self.set_env
-    ENV['PATH']='/opt/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-    ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib:/lib:/lib64'
-    ENV['CPLUS_INCLUDE_PATH']='/opt/usr:/opt/usr/include:/usr/include:/opt/usr/include/python3.5'
-    ENV['CFLAGS']="-g -O2 -fPIC"
-    ENV['CXXFLAGS']='-std=c++11'
-    ENV['PKG_CONFIG_PATH']='/opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig'
-    ENV['ACLOCAL_PATH']='/opt/usr/share/aclocal:/usr/share/aclocal'
-    ENV['XDG_DATA_DIRS']='/opt/usr/share:/opt/share:/usr/local/share/:/usr/share:/share'
+    ENV['PATH'] = '/opt/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    ENV['LD_LIBRARY_PATH'] = '/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib:/lib:/lib64'
+    ENV['CPLUS_INCLUDE_PATH'] = '/opt/usr:/opt/usr/include:/usr/include:/opt/usr/include/python3.5'
+    ENV['CFLAGS'] = '-g -O2 -fPIC'
+    ENV['CXXFLAGS'] = '-std=c++11'
+    ENV['PKG_CONFIG_PATH'] = '/opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig'
+    ENV['ACLOCAL_PATH'] = '/opt/usr/share/aclocal:/usr/share/aclocal'
+    ENV['XDG_DATA_DIRS'] = '/opt/usr/share:/opt/share:/usr/local/share/:/usr/share:/share'
     ENV['PROJECT']=Metadata::PROJECT
     ENV.fetch('PATH')
     ENV.fetch('LD_LIBRARY_PATH')
@@ -42,14 +42,14 @@ module Env
     ENV.fetch('CPLUS_INCLUDE_PATH')
     ENV.fetch('XDG_DATA_DIRS')
     ENV.fetch('PROJECT')
-    system( 'echo $PATH' )
-    system( 'echo $LD_LIBRARY_PATH' )
-    system( 'echo $CFLAGS' )
-    system( 'echo $CXXFLAGS' )
-    system( 'echo $PKG_CONFIG_PATH' )
-    system( 'echo $ACLOCAL_PATH' )
-    system( 'echo $CPLUS_INCLUDE_PATH' )
-    system( 'echo $XDG_DATA_DIRS' )
+    system('echo $PATH')
+    system('echo $LD_LIBRARY_PATH')
+    system('echo $CFLAGS')
+    system('echo $CXXFLAGS')
+    system('echo $PKG_CONFIG_PATH')
+    system('echo $ACLOCAL_PATH')
+    system('echo $CPLUS_INCLUDE_PATH')
+    system('echo $XDG_DATA_DIRS')
     system('echo $PROJECT')
   end
 end
