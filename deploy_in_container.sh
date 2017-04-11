@@ -13,7 +13,7 @@ env_tag="LANG=$LANG"
 
 # Ubuntu's armhf and aarch64 containers are a bit fscked right now
 # manually fix their source entries
-(grep -q ports.ubuntu.com /etc/apt/sources.list) && cat > /etc/apt/sources.list << EOF
+(grep -q security.ubuntu.com /etc/apt/sources.list) && cat > /etc/apt/sources.list << EOF
 deb http://ports.ubuntu.com/ubuntu-ports/ xenial main universe multiverse
 deb http://ports.ubuntu.com/ubuntu-ports/ xenial-updates main universe multiverse
 deb http://ports.ubuntu.com/ubuntu-ports/ xenial-security main universe multiverse
