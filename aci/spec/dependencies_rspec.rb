@@ -118,9 +118,9 @@ describe 'build_kde_dep' do
   it 'Builds KDE project dependencies from source' do
     build = Sources.new
     dir = '/source/'
-    options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr'
-    options += '-DKDE_INSTALL_SYSCONFDIR=/opt/etc'
-    options += '-DCMAKE_PREFIX_PATH=/opt/usr:/usr'
+    options = ' -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr '
+    options += ' -DKDE_INSTALL_SYSCONFDIR=/opt/etc '
+    options += ' -DCMAKE_PREFIX_PATH=/opt/usr:/usr '
     deps = Metadata::KDEDEPS
     if deps
       deps.each do |dep|
