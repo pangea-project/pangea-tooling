@@ -97,11 +97,12 @@ describe 'build_kf5' do
           options += ' -DPHONON_BUILD_PHONON4QT5=ON'
           options += ' -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
         elsif framework == 'breeze-icons'
-          options += '-DWITH_DECORATIONS=OFF'
+          options += ' -DWITH_DECORATIONS=OFF '
+          options +=  ' -DBINARY_ICONS_RESOURCE=ON '
         elsif framework == 'breeze'
-          options += '-DBINARY_ICONS_RESOURCE=ON'
+          options += ' -DBINARY_ICONS_RESOURCE=ON '
         elsif framework == 'akonadi'
-          options += '-DMYSQLD_EXECUTABLE:STRING=/usr/sbin/mysqld-akonadi'
+          options += ' -DMYSQLD_EXECUTABLE:STRING=/usr/sbin/mysqld-akonadi '
         end
         expect(
           build.run_build(
