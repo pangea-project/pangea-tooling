@@ -11,6 +11,14 @@ env_tag="LANG=$LANG"
 (! grep -q $env_tag /etc/profile) && echo $env_tag >> /etc/profile
 (! grep -q $env_tag /etc/environment) && echo $env_tag >> /etc/environment
 
+# Ubuntu's armhf and aarch64 containers are a bit fscked right now
+# manually fix their source entries
+(grep -q ports.ubuntu.com /etc/apt/sources.list) && cat > /etc/apt/sources.list << EOF
+deb http://ports.ubuntu.com/ubuntu-ports/ xenial main universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports/ xenial-updates main universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports/ xenial-security main universe multiverse
+EOF
+
 # FIXME: reneable
 # echo 'Acquire::http { Proxy "http://10.0.3.1:3142"; };' > /etc/apt/apt.conf.d/00cache
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00aptitude
