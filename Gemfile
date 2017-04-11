@@ -6,9 +6,7 @@ gem 'deep_merge', '~> 1.0'
 gem 'docker-api', '~> 1.24' # Container.refresh! only introduced in 1.23
 gem 'gir_ffi'
 gem 'git'
-gem 'gitlab',
-    git: 'https://github.com/NARKOZ/gitlab',
-    branch: 'master'
+gem 'gitlab'
 gem 'insensitive_hash'
 gem 'jenkins_api_client'
 gem 'jenkins_junit_builder'
