@@ -1,0 +1,31 @@
+source 'https://git.gem.cache.pangea.pub'
+
+# IMPORTANT SHIT AHEAD
+# Do not use gems from git. Ever. It's incompatible with how we deploy the
+# tooling and containerization in general.
+# Instead what we do is run a secondary system that builds gems from git.
+# https://github.com/blue-systems/pangea-geminabox
+# To add a new job edit the Jenkinsfile in that repo instead.
+# You can also add them here as ultimately the geminabox tech will use this
+# file to emulate bundler's behavior.
+# DO NOT EVER list a git: gem in the regular Gemfile. NOT EVER!
+
+# Removing git builds:
+# To roll back form a git build to a regular gem from rubygems.org:
+#  - make sure the rubygems version is in fact > than what we have on
+#    https://gem.cache.pangea.pub If it is not we cannot migrate automatically!
+#    You can still go ahead but beware that the previously built gem will only
+#    rotate out of our systems once the rubygems version has a higher version.
+#  - drop the line below
+#  - drop the relevant bit from pangea-geminabox and make sure that builds!
+#  - gem fetch --clear-sources --source https://gem.cache.pangea.pub $NAME
+#  - if the previous command went correctly there should now be the version
+#    from rubygems in the cache at https://gem.cache.pangea.pub if not theres a
+#    blocking problem with the cache update that needs resolving.
+
+gem 'net-ssh', '<= 4.1.0',
+    git: 'https://github.com/net-ssh/net-ssh',
+    branch: 'master'
+gem 'releaseme',
+    git: 'https://anongit.kde.org/releaseme.git',
+    branch: 'master'
