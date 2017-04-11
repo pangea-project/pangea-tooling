@@ -6,9 +6,6 @@ gem 'deep_merge', '~> 1.0'
 gem 'docker-api', '~> 1.24' # Container.refresh! only introduced in 1.23
 gem 'gir_ffi'
 gem 'git'
-gem 'gitlab',
-    git: 'https://github.com/NARKOZ/gitlab',
-    branch: 'master'
 gem 'insensitive_hash'
 gem 'jenkins_api_client'
 gem 'jenkins_junit_builder'
@@ -19,7 +16,6 @@ gem 'net-sftp'
 gem 'net-ssh-gateway'
 gem 'nokogiri'
 gem 'oauth', '~> 0.4'
-gem 'octokit'
 gem 'releaseme',
     git: 'https://anongit.kde.org/releaseme.git',
     branch: 'master'
@@ -44,8 +40,10 @@ gem 'test-unit', '~> 3.0'
 
 group :development, :test do
   gem 'equivalent-xml'
+  gem 'gitlab'
   gem 'mocha'
   gem 'net-scp'
+  gem 'octokit'
   gem 'parallel_tests'
   gem 'rack'
   gem 'rake', '~> 12.0'
