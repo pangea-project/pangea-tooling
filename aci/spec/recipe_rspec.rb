@@ -38,9 +38,6 @@ describe Recipe do
       arch = `arch`
       File.write('/in/Recipe', app.render)
       expect(app.generate_appimage()).to eq 0
-      expect(Dir["/appimages/*"].empty?).to be(false), "No Appimage"
-      `rm -f functions.sh`
-      expect(Dir["/source/*"].empty?).to be(true), "Please clean up"
     end
   end
 end
