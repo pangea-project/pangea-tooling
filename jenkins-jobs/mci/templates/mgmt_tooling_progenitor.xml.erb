@@ -77,7 +77,7 @@ gem install --no-document bundler
 bundle pack --all --all-platforms --no-install
 # Strip directories out of the cache.
 # Git sources are left in there unpacked which prevents them from being installed into the system path.
-find ./vendor/cache/* -maxdepth 0 -type d | xargs rm -r
+find ./vendor/cache/* -maxdepth 0 -type d | xargs rm -rf
 
 rm tooling.tar.gz || true
 tar -cp * .noexec.yml .rubocop.yml | gzip --rsyncable -1 &gt; tooling.tar.gz
