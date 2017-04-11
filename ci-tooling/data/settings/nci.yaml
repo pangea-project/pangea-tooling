@@ -13,3 +13,7 @@
 '*_forks_{flatbuffers}_*':
   sourcer:
     restricted_packaging_copy: true
+
+'*_forks_{zanshin}_*':
+  sourcer:
+    restricted_packaging_copy: true
