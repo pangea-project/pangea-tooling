@@ -62,8 +62,7 @@ class Sources
     else
       Dir.chdir(Metadata::DEPATH + name)
     end
-    env = Env.new
-    env.set_env
+    Env.set_env
     case buildsystem
     when 'make'
       cmd = "autoreconf --force --install &&  ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr" if autoreconf && insource
