@@ -1,0 +1,23 @@
+FindExiv2.cmake: libexiv2-dev
+FindJPEG.cmake: libjpeg-dev
+FindKF5.cmake: extra-cmake-modules
+FindLCMS2.cmake: liblcms2-dev
+FindPackageMessage.cmake:
+FindPNG.cmake: libpng-dev
+FindX11.cmake: libx11-dev
+FindZLIB.cmake: libzlib-dev
+FindGettext.cmake: gettext
+FindPythonInterp.cmake:
+FindPythonLibs3.cmake: python3-dev
+FindSharedMimeInfo.cmake: shared-mime-info
+FindBoostPython.cmake:
+FindBoost.cmake: libboost-all-dev
+FindLibgcrypt.cmake: libgcrypt20-dev
+FindLibOTR.cmake: libotr5-dev
+FindDoxygen.cmake: doxygen
+FindLLVM.cmake: llvm-dev
+# This needs the dev and llvm-config in order to resolve where to look for the
+# dev files.
+FindClang.cmake:
+  - libclang-dev
+  - llvm

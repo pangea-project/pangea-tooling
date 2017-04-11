@@ -1,0 +1,20 @@
+AccountsQt5: libaccounts-qt5-dev
+TelepathyLoggerQt: libtelepathy-logger-qt5-dev
+PackageHandleStandardArgs: cmake
+
+# Qt is all over the place messed up in packages
+Qt5: qtbase5-dev
+Qt5Xml: qtbase5-dev
+Qt5Concurrent: qtbase5-dev
+Qt5Test: qtbase5-dev
+Qt5Widgets: qtbase5-dev
+Qt5DBus: qtbase5-dev
+Qt5Network: qtbase5-dev
+Qt5Gui: qtbase5-dev
+Qt5Core: qtbase5-dev
+
+# Internals of KDevelop, fails on failure to resolve
+KDevelop-PG-Qt:
+CTest:
+# Not packaged right now
+OktetaKastenControllers:
