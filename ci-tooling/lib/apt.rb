@@ -137,28 +137,12 @@ module Apt
           injection_args = [*(arg[:args])]
           true
         end
-        args = [] + default_args + op_override_args(operation) + injection_args
+        args = [] + default_args + injection_args
         args << operation
         # Flatten args. system doesn't support nested arrays anyway, so
         # flattening is probably what the caller had in mind
         # (e.g. install(['a', 'b']))
         args + [*caller_args].flatten
-      end
-
-      # Overrides per-poperation.
-      def op_override_args(operation)
-        return [] if operation != 'update' || ENV['PANGEA_UNDER_TEST']
-        # For updates we don't want to enage the caching proxy. apt-cacher-ng
-        # serves from-cache if the Content-Length from server is equal to the
-        # Content-Length on-disk. That is a shit measure to decide whether we
-        # have the server version though. In particular this ignores Date and
-        # Last-Modified headers. So, an index file can easily end up having the
-        # same size as the cached one whilest having different content/checksums
-        # resulting in a bad cache serve. To work around this until we can
-        # devise a proper solution for this we simply do not cache apt-get
-        # update calls. In the grand scheme of things they are not responsible
-        # for the biggest data usage anyway.
-        %w[-o Acquire::http::Proxy=""]
       end
 
       def auto_update
