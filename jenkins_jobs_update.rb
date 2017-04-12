@@ -108,7 +108,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     tooling_test =
       enqueue(MGMTToolingTestJob.new(downstreams: [tooling_deploy]))
-    enqueue(MGMTGitJewellerJob.new(downstreams: [tooling_test]))
+    enqueue(MGMTGitJewellerJob.new)
     enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_test]))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
     enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
