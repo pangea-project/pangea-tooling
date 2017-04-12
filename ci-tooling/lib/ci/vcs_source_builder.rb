@@ -55,12 +55,6 @@ module CI
       @l10n_log ||= Logger.new(STDOUT).tap { |l| l.progname = 'l10n' }
     end
 
-    def enabled_project?(project)
-      # Presently not used for random stuff as well as applications which still
-      # use the kde-l10n-xx stuff.
-      %w[kde-workspace frameworks].include?(project.i18n_path)
-    end
-
     def project_for_url(url)
       projects = ReleaseMe::Project.from_repo_url(url.gsub(/\.git$/, ''))
       unless projects.size == 1
@@ -79,7 +73,6 @@ module CI
     # Add l10n to source dir
     def add_l10n(source_path, repo_url)
       project = project_for_url(repo_url)
-      return unless enabled_project?(project)
 
       l10n = ReleaseMe::L10n.new(l10n_origin, project.identifier,
                                  project.i18n_path)
