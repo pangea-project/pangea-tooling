@@ -202,7 +202,7 @@ module Debian
       #     - substvars at the end
       #   - output >80 => line break each entry
       joined_alternatives = data.collect do |entry|
-        entry.sort.join(' | ')
+        entry.join(' | ')
       end
       joined_alternatives = sort_relationships(joined_alternatives)
       output = joined_alternatives.join(', ')
