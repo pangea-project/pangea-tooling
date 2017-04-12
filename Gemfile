@@ -10,7 +10,8 @@ source 'https://gem.cache.pangea.pub' do
   # Temporarily from git waiting for a release newer than 4.1.0. Once a newer
   # version is available this can move away from git again.
   # Also undo workaround in deploy_in_container.rake!
-  gem 'net-ssh', '<= 4.1.0'
+  # We want a version from our git builds, so restrict us to 4.1.0.x
+  gem 'net-ssh', '~> 4.1.0.0'
 end
 
 gem 'aptly-api', '>= 0.5.0'

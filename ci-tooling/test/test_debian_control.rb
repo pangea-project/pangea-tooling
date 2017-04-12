@@ -92,6 +92,15 @@ module Debian
                    c.dump.split($/))
     end
 
+    def test_ordered_alt_build_deps
+      c = Control.new(__method__)
+      c.parse!
+      build_deps = c.source.fetch('build-depends', nil)
+      assert_not_equal(nil, build_deps)
+      assert_equal(File.read("#{__method__}/debian/control").split($/),
+                   c.dump.split($/))
+    end
+
     description 'changing build-deps works and can be written and read'
     def test_write
       c = Control.new(__method__)
@@ -170,6 +179,17 @@ module Debian
       # with the input data.
       assert_equal(File.read("#{__method__}/debian/control"),
                    c.dump[0..-2])
+    end
+
+    def test_preserve_description_left_space
+      c = Control.new(__method__)
+      c.parse!
+      # Make sure we preserve leading whitespaces in descriptions.
+      # Do however rstrip so terminal newlines doesn't mess with the assertion,
+      # for the purposes of this assertion we do not care about newline
+      # consistency.
+      assert_equal(File.read("#{__method__}.description.ref").rstrip,
+                   c.binaries[0]['Description'].rstrip)
     end
   end
 end
