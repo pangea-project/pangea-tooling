@@ -60,7 +60,10 @@ module Debian
         next if line.start_with?('#') # Comment
 
         header_match = line.match(/^(\S+):(.*\n?)$/)
-        fold_match = line.match(/^\s+(.+\n)$/)
+        # Only match a single space for foldables, in the case of multiline
+        # we want to preserve all leading whitespaces except for the
+        # format-enforced whitespace.
+        fold_match = line.match(/^\s(.+\n)$/)
 
         unless header_match.nil?
           # 0 = full match
@@ -95,15 +98,16 @@ module Debian
 
         unless fold_match.nil?
           # Folding value encountered -> append to header.
-          # 0 full match
-          # 1 value match
-          value = fold_match[1].lstrip
+          # [0] = full match
+          # [1] = value match
+          value = fold_match[1]
 
           # Fold matches can either be proper RFC 5322 folds or
           # multiline continuations, latter wants to preserve
           # newlines and so forth.
           # The type is entirely dependent on what the header field is.
           if foldable_fields.include?(current_header.downcase)
+            value = value.lstrip
             # We do not care about whitespaces for folds, so strip everything.
             if relationship_fields.include?(current_header.downcase)
               value = parse_relationships(value)
@@ -112,7 +116,10 @@ module Debian
             end
             data[current_header] += value
           elsif multiline_fields.include?(current_header.downcase)
-            # For multiline we want to preserve right hand side whitespaces.
+            # For multiline fields we only want to strip the leading space, all
+            # other lefthand side spaces are to be preserved!
+            # This strip is implictly done by our regex. No extra work!
+            # We'll also  want to preserve right hand side whitespaces.
             data[current_header] << value
           else
             raise "A field is folding that is not allowed to #{current_header}"
