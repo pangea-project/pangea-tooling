@@ -116,7 +116,9 @@ module CI
       if @strip_symbols || @release != KCI.latest_series
         symbols = Dir.glob('debian/symbols') +
                   Dir.glob('debian/*.symbols') +
-                  Dir.glob('debian/*.symbols.*')
+                  Dir.glob('debian/*.symbols.*') +
+                  Dir.glob('debian/*.acc') +
+                  Dir.glob('debian/*.acc.in')
         symbols.each { |s| FileUtils.rm(s) }
       end
     end

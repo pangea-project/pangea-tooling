@@ -155,6 +155,7 @@ class VCSBuilderTest < TestCase
     assert_equal(1, tar.size)
     files = tar_file_list(tar[0])
     assert_include(files, 'symbols')
+    assert_include(files, 'test.acc.in')
     assert_include(files, 'test.symbols')
     assert_include(files, 'test.symbols.armhf')
   end
@@ -167,6 +168,7 @@ class VCSBuilderTest < TestCase
     assert_equal(1, tar.size)
     files = tar_file_list(tar[0])
     assert_not_include(files, 'symbols')
+    assert_not_include(files, 'test.acc.in')
     assert_not_include(files, 'test.symbols')
     assert_not_include(files, 'test.symbols.armhf')
   end
@@ -178,6 +180,7 @@ class VCSBuilderTest < TestCase
     assert_equal(1, tar.size)
     files = tar_file_list(tar[0])
     assert_not_include(files, 'symbols')
+    assert_not_include(files, 'test.acc.in')
     assert_not_include(files, 'test.symbols')
     assert_not_include(files, 'test.symbols.armhf')
   end
