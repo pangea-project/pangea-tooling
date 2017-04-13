@@ -84,10 +84,9 @@ class NCISetupRepoTest < TestCase
       .to_return(status: 200, body: 'abc')
 
     # Expect proxy to be set up to private
-    NCI.expects(:connect_to_private_proxy).returns(true)
     File.expects(:write)
         .with('/etc/apt/apt.conf.d/proxy',
-              'Acquire::http::Proxy "http://10.135.3.146:3142";')
+              'Acquire::http::Proxy "https://apt.cache.pangea.pub";')
 
     # mock_tcp_uni_klu = mock('mock_tcp_uni_klu')
     # mock_tcp_uni_klu.responds_like_instance_of(Net::Ping::TCP)
@@ -144,11 +143,10 @@ class NCISetupRepoTest < TestCase
     stub_request(:get, 'https://archive.neon.kde.org/public.key')
       .to_return(status: 200, body: 'abc')
 
-    # Expect proxy to be set up to public
-    NCI.expects(:connect_to_private_proxy).raises(Net::OpenTimeout)
+    # Expect proxy to be set up
     File.expects(:write)
         .with('/etc/apt/apt.conf.d/proxy',
-              'Acquire::http::Proxy "http://46.101.188.72:3142";')
+              'Acquire::http::Proxy "https://apt.cache.pangea.pub";')
 
     NCI.setup_repo!
 
@@ -156,10 +154,10 @@ class NCISetupRepoTest < TestCase
   end
 
   def test_add_repo
-    # Expect proxy to be set up to private
+    # Expect proxy to be set up
     File.expects(:write)
         .with('/etc/apt/apt.conf.d/proxy',
-              'Acquire::http::Proxy "http://10.135.3.146:3142";')
+              'Acquire::http::Proxy "https://apt.cache.pangea.pub";')
 
     NCI.setup_proxy!
   end
