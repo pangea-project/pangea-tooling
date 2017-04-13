@@ -78,6 +78,7 @@ module CI
                                  project.i18n_path)
       l10n.default_excluded_languages = [] # Include even x-test.
       l10n.get(source_path)
+      l10n.vcs.clean!("#{source_path}/po")
 
       (class << self; self; end).class_eval do
         define_method(:mangle_locale) { |*| } # disable mangling
