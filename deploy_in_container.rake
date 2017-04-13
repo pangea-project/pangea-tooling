@@ -113,20 +113,6 @@ EOF
     clean_args << '--force' # Force system clean!
     bundle(*clean_args)
 
-    Dir.mktmpdir do |tmpdir|
-      # We cannot bundle git gems through bundler as git bundles require
-      # bundler rigging at runtime to get loaded as they are in a special path
-      # not by default used by rubygems. This has the notable problem that our
-      # in-container setup is super fucked up and cannot actually set up a
-      # proper bundler rigging as it requires a Gemfile and whatnot.
-      %w[https://anongit.kde.org/releaseme
-         https://github.com/net-ssh/net-ssh].each do |repo|
-        dir = "#{tmpdir}/#{File.basename(repo)}"
-        system('git', 'clone', '--depth=1', repo, dir) || raise
-        system('rake', 'install', chdir: dir) || raise
-      end
-    end
-
     # Trap common exit signals to make sure the ownership of the forwarded
     # volume is correct once we are done.
     # Otherwise it can happen that bundler left root owned artifacts behind
