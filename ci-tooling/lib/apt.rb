@@ -91,14 +91,32 @@ module Apt
 
     # Add a GPG key to APT.
     # @param str [String] can be a file path, or an http/https/ftp URI or
-    #   anything {OpenURI} can automatically open.
+    #   a fingerprint/keyid
     def self.add(str)
-      data = open(str).read
+      # If the thing passes for an URI with host and path we use it as url
+      # otherwise as fingerprint. file:// uris would not qualify, we do not
+      # presently have a use case for them though.
+      uri = URI.parse(str)
+      if (uri.host && !uri.host.empty?) && (uri.path && !uri.path.empty?)
+        add_url(str)
+      else
+        add_fingerprint(str)
+      end
+    end
+
+    def self.add_url(url)
+      data = open(url).read
       IO.popen(['apt-key', 'add', '-'], 'w') do |io|
         io.puts(data)
         io.close_write
       end
       $?.success?
+    end
+
+    def self.add_fingerprint(id_or_fingerprint)
+      system('apt-key', 'adv',
+             '--keyserver', 'keyserver.ubuntu.com',
+             '--recv', id_or_fingerprint)
     end
   end
 

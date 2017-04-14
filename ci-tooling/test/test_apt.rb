@@ -127,34 +127,16 @@ class AptTest < TestCase
   end
 
   def test_apt_key_add_invalid_file
-    assert_raise Errno::ENOENT do
-      assert_false Apt::Key.add('abc')
+    stub_request(:get, 'http://abc/xx.pub').to_return(status: 504)
+    assert_raise OpenURI::HTTPError do
+      assert_false(Apt::Key.add('http://abc/xx.pub'))
     end
   end
 
-  def test_apt_key_add_rel_file
-    File.write('abc', 'keyly')
-    # Expect IO.popen() {}
-    popen_catcher = StringIO.new
-    IO.expects(:popen)
-      .with(['apt-key', 'add', '-'], 'w')
-      .yields(popen_catcher)
-
-    assert Apt::Key.add('abc')
-    assert_equal("keyly\n", popen_catcher.string)
-  end
-
-  def test_apt_key_add_absolute_file
-    File.write('abc', 'keyly')
-    path = File.absolute_path('abc')
-    # Expect IO.popen() {}
-    popen_catcher = StringIO.new
-    IO.expects(:popen)
-      .with(['apt-key', 'add', '-'], 'w')
-      .yields(popen_catcher)
-
-    assert Apt::Key.add(path)
-    assert_equal("keyly\n", popen_catcher.string)
+  def test_apt_key_add_keyid
+    assert_system('apt-key', 'adv', '--keyserver', 'keyserver.ubuntu.com', '--recv', '0x123456abc') do
+      Apt::Key.add('0x123456abc')
+    end
   end
 
   def test_apt_key_add_url
