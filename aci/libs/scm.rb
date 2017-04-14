@@ -104,6 +104,7 @@ class SCM
       system('tar jxvf ' + file + ' -C  ' + name + ' --strip-components 1')
       $CHILD_STATUS.exitstatus
     end
+    $CHILD_STATUS.exitstatus
   end
 
   def unpack_zip(name, url, file, dir)
