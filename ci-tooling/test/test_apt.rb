@@ -19,19 +19,48 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative '../lib/apt'
-require_relative 'lib/assert_system'
 require_relative 'lib/testcase'
 
 require 'mocha/test_unit'
 
 # Test Apt
 class AptTest < TestCase
-  prepend AssertSystem
-
   def setup
     Apt::Repository.send(:reset)
     # Disable automatic update
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
+  end
+
+  def default_args(cmd = 'apt-get')
+    [cmd] + %w(-y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true -q)
+  end
+
+  def assert_system(*args, &_block)
+    Object.any_instance.expects(:system).never
+    if args[0].is_a?(Array)
+      # Flatten first level. Since we catch *args we get an array with an array
+      # which contains the arrays of arguments, by removing the first array we
+      # get an array of argument-arrays.
+      # COMPAT: we only do this conditionally since the original assert_system
+      # was super flexible WRT input types.
+      args = args.flatten(1) if args[0][0].is_a?(Array)
+      args.each do |arg_array|
+        Object.any_instance.expects(:system).with(*arg_array).returns(true)
+      end
+    else
+      Object.any_instance.expects(:system).with(*args).returns(true)
+    end
+    yield
+  ensure
+    Object.any_instance.unstub(:system)
+  end
+
+  def assert_system_default(args, &block)
+    assert_system(*(default_args + args), &block)
+  end
+
+  def assert_system_default_get(args, &block)
+    assert_system(*(default_args('apt-get') + args), &block)
   end
 
   def test_repo
@@ -52,18 +81,6 @@ class AptTest < TestCase
     assert_system(cmd) { repo.remove }
     # Static
     assert_system(cmd) { Apt::Repository.remove(name) }
-  end
-
-  def default_args(cmd = 'apt-get')
-    [cmd] + %w(-y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true -q)
-  end
-
-  def assert_system_default(args, &block)
-    assert_system(default_args + args, &block)
-  end
-
-  def assert_system_default_get(args, &block)
-    assert_system(default_args('apt-get') + args, &block)
   end
 
   def test_apt_install
