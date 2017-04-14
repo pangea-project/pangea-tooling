@@ -54,6 +54,10 @@ class NCISetupRepoTest < TestCase
     ENV.delete('TYPE')
   end
 
+  def proxy_enabled
+    "Acquire::http::Proxy \"#{NCI::PROXY_URI}\";"
+  end
+
   def test_setup_repo
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
@@ -84,9 +88,7 @@ class NCISetupRepoTest < TestCase
       .to_return(status: 200, body: 'abc')
 
     # Expect proxy to be set up to private
-    File.expects(:write)
-        .with('/etc/apt/apt.conf.d/proxy',
-              'Acquire::http::Proxy "https://apt.cache.pangea.pub";')
+    File.expects(:write).with('/etc/apt/apt.conf.d/proxy', proxy_enabled)
 
     # mock_tcp_uni_klu = mock('mock_tcp_uni_klu')
     # mock_tcp_uni_klu.responds_like_instance_of(Net::Ping::TCP)
@@ -144,9 +146,7 @@ class NCISetupRepoTest < TestCase
       .to_return(status: 200, body: 'abc')
 
     # Expect proxy to be set up
-    File.expects(:write)
-        .with('/etc/apt/apt.conf.d/proxy',
-              'Acquire::http::Proxy "https://apt.cache.pangea.pub";')
+    File.expects(:write).with('/etc/apt/apt.conf.d/proxy', proxy_enabled)
 
     NCI.setup_repo!
 
@@ -155,9 +155,7 @@ class NCISetupRepoTest < TestCase
 
   def test_add_repo
     # Expect proxy to be set up
-    File.expects(:write)
-        .with('/etc/apt/apt.conf.d/proxy',
-              'Acquire::http::Proxy "https://apt.cache.pangea.pub";')
+    File.expects(:write).with('/etc/apt/apt.conf.d/proxy', proxy_enabled)
 
     NCI.setup_proxy!
   end
