@@ -91,13 +91,16 @@ module Apt
 
     # Add a GPG key to APT.
     # @param str [String] can be a file path, or an http/https/ftp URI or
-    #   a fingerprint/keyid
+    #   a fingerprint/keyid or a fucking file, if you pass a fucking file you
+    #   are an idiot.
     def self.add(str)
       # If the thing passes for an URI with host and path we use it as url
       # otherwise as fingerprint. file:// uris would not qualify, we do not
       # presently have a use case for them though.
       uri = URI.parse(str)
       if (uri.host && !uri.host.empty?) && (uri.path && !uri.path.empty?)
+        add_url(str)
+      elsif uri.path && !uri.path.empty? && File.exist?(uri.path)
         add_url(str)
       else
         add_fingerprint(str)

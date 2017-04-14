@@ -139,6 +139,31 @@ class AptTest < TestCase
     end
   end
 
+  def test_apt_key_add_rel_file
+    File.write('abc', 'keyly')
+    # Expect IO.popen() {}
+    popen_catcher = StringIO.new
+    IO.expects(:popen)
+      .with(['apt-key', 'add', '-'], 'w')
+      .yields(popen_catcher)
+
+    assert Apt::Key.add('abc')
+    assert_equal("keyly\n", popen_catcher.string)
+  end
+
+  def test_apt_key_add_absolute_file
+    File.write('abc', 'keyly')
+    path = File.absolute_path('abc')
+    # Expect IO.popen() {}
+    popen_catcher = StringIO.new
+    IO.expects(:popen)
+      .with(['apt-key', 'add', '-'], 'w')
+      .yields(popen_catcher)
+
+    assert Apt::Key.add(path)
+    assert_equal("keyly\n", popen_catcher.string)
+  end
+
   def test_apt_key_add_url
     url = 'http://kittens.com/key'
     # Expect open()
