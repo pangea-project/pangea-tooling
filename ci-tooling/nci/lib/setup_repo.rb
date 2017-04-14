@@ -28,7 +28,7 @@ require_relative 'mirrors'
 
 # Neon CI specific helpers.
 module NCI
-  PROXY_URI = URI::HTTPS.build(host: 'apt.cache.pangea.pub')
+  PROXY_URI = URI::HTTP.build(host: 'apt.cache.pangea.pub', port: 3142)
 
   module_function
 
