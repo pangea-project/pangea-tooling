@@ -28,8 +28,7 @@ require_relative 'mirrors'
 
 # Neon CI specific helpers.
 module NCI
-  PROXY_URI = URI::HTTP.build(host: '46.101.188.72', port: 3142)
-  PROXY_URI_PRIVATE = URI::HTTP.build(host: '10.135.3.146', port: 3142)
+  PROXY_URI = URI::HTTPS.build(host: 'apt.cache.pangea.pub')
 
   module_function
 
@@ -52,28 +51,12 @@ module NCI
   end
 
   def setup_proxy!
-    uri = private_networking? ? PROXY_URI_PRIVATE : PROXY_URI
     File.write('/etc/apt/apt.conf.d/proxy',
-               "Acquire::http::Proxy \"#{uri}\";")
+               "Acquire::http::Proxy \"#{PROXY_URI}\";")
   end
 
   class << self
     private
-
-    def connect_to_private_proxy
-      Net::HTTP.start(PROXY_URI_PRIVATE.host,
-                      PROXY_URI_PRIVATE.port,
-                      open_timeout: 2) {}
-    end
-
-    def private_networking?
-      connect_to_private_proxy
-      puts 'Going to use private proxy'
-      true
-    rescue
-      puts 'Going to use public proxy'
-      false
-    end
 
     def add_repo!
       debline = format('deb http://archive.neon.kde.org/%s %s main',
