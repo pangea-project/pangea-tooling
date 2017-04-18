@@ -28,7 +28,7 @@ class KDEIfy
         return
       end
 
-      @substvar = '@MOZ_PKG_NAME@'
+      @substvar = '@MOZ_PKG_NAME@' if File.exist?('debian/control.in')
 
       FileUtils.cp('../suse/MozillaFirefox/kde.js', 'debian/')
       rules = File.read('debian/rules')
@@ -87,6 +87,7 @@ Description: #{package} package for integration with KDE
 
     def firefox!
       init_env
+      @substvar = 'firefox'
       Dir.chdir('packaging') do
         apply_patches
         install_kde_js
@@ -97,6 +98,7 @@ Description: #{package} package for integration with KDE
 
     def thunderbird!
       init_env
+      @substvar = 'thunderbird'
       Dir.chdir('packaging') do
         filterdiff
         apply_patches
