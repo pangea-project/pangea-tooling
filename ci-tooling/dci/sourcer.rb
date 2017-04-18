@@ -49,7 +49,7 @@ when 'tarball'
 when 'uscan'
   puts 'Downloading tarball via uscan'
   orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
-when 'firefox', 'thunderbird'
+when 'firefox', 'thunderbird', 'icedove'
   puts 'Special case building for firefox'
   dsc = File.read('source/url').strip
   Dir.chdir('build') do
