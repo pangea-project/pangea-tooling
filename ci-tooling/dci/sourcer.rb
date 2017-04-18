@@ -40,21 +40,24 @@ def orig_source(fetcher, restricted_packaging_copy: false)
   sourcer.build(tarball.origify)
 end
 
-case ARGV.fetch(0, nil)
+@type = ARGV.fetch(0, nil)
+
+case @type
 when 'tarball'
   puts 'Downloading tarball from URL'
   orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
 when 'uscan'
   puts 'Downloading tarball via uscan'
   orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
-when 'firefox'
+when 'firefox', 'thunderbird'
   puts 'Special case building for firefox'
   dsc = File.read('source/url').strip
   Dir.chdir('build') do
     system("dget -u #{dsc}")
-    dir = Dir.glob('firefox-*/').first
+    dir = Dir.glob("#{@type}-*/").first
     FileUtils.ln_s(dir, 'packaging', verbose: true)
-    KDEIfy.firefox!
+    KDEIfy.firefox! if @type == 'firefox'
+    KDEIfy.thunderbird! if @type == 'thunderbird'
     Dir.chdir(dir) do
       args = [
         'dpkg-buildpackage',
@@ -67,11 +70,6 @@ when 'firefox'
     FileUtils.rm_rf(dir)
     FileUtils.rm('packaging')
   end
-when 'thunderbird'
-  puts 'Special case building for thunderbird'
-  KDEIfy.thunderbird!
-  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip),
-              restricted_packaging_copy: true)
 when 'kde-l10n'
   lang = ARGV.fetch(1, nil)
   raise 'No lang specified' unless lang
