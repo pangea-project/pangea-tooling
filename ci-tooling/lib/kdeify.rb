@@ -40,15 +40,24 @@ class KDEIfy
 
     def add_plasma_package(package)
       # Add dummy package
-      control = File.read('debian/control.in')
+      if File.exist?('debian/control.in')
+        control = File.read('debian/control.in')
+      else
+        control = File.read('debian/control')
+      end
+
       control += "\nPackage: #{@substvar}-plasma
 Architecture: any
 Depends: #{@substvar} (= ${binary:Version}), mozilla-kde-support
 Description: #{package} package for integration with KDE
  Install this package if you'd like #{package} with Plasma integration
 "
-      File.write('debian/control.in', control)
-      system('debian/rules debian/control')
+      if File.exist?('debian/contro.in')
+        File.write('debian/control.in', control)
+        system('debian/rules debian/control')
+      else
+        File.write('debian/control', control)
+      end
     end
 
     def add_changelog_entry
