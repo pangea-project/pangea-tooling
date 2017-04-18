@@ -50,14 +50,13 @@ when 'uscan'
   puts 'Downloading tarball via uscan'
   orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
 when 'firefox', 'thunderbird', 'icedove'
-  puts 'Special case building for firefox'
   dsc = File.read('source/url').strip
   Dir.chdir('build') do
     system("dget -u #{dsc}")
     dir = Dir.glob("#{@type}-*/").first
     FileUtils.ln_s(dir, 'packaging', verbose: true)
     KDEIfy.firefox! if @type == 'firefox'
-    KDEIfy.thunderbird! if @type == 'thunderbird'
+    KDEIfy.thunderbird! if @type == 'thunderbird' || @type == 'icedove'
     Dir.chdir(dir) do
       args = [
         'dpkg-buildpackage',
