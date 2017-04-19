@@ -71,7 +71,7 @@ Description: #{package} package for integration with KDE
         '--newversion', version,
         'Automatic CI Build'
       ]
-      dchs << ['dch', '--release']
+      dchs << ['dch', '--release', '']
 
       dchs.each do |dch|
         raise 'Failed to create changelog entry' unless system(*dch)
