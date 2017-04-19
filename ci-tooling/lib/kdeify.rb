@@ -64,13 +64,18 @@ Description: #{package} package for integration with KDE
       changelog = Changelog.new
       version =
         "#{changelog.version(Changelog::EPOCH).to_i + 1}:#{changelog.version(Changelog::BASE | Changelog::BASESUFFIX | Changelog::REVISION)}"
-      dch = [
+      dchs = []
+      dchs << [
         'dch',
         '--force-bad-version',
         '--newversion', version,
         'Automatic CI Build'
       ]
-      raise 'Failed to create changelog entry' unless system(*dch)
+      dchs << ['dch', '--relelase']
+
+      dchs.each do |dch|
+        raise 'Failed to create changelog entry' unless system(*dch)
+      end
     end
 
     def filterdiff
