@@ -22,7 +22,7 @@ require 'fileutils'
 require 'rugged'
 require 'English'
 
-# Module for source control
+# Class for source control
 class SCM
   attr_accessor :url
   attr_accessor :branch
@@ -69,7 +69,7 @@ class SCM
 
   # Clone a git repo
   def git_clone_source(name, url, dir, branch)
-    path = dir + name
+    path = File.join(dir, name)
     Rugged::Repository.clone_at(
       url,
       path,

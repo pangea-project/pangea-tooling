@@ -39,7 +39,6 @@ end
 
 describe 'build_non_kf5_dep_sources' do
   it 'Builds source dependencies that do not depend on kf5' do
-    build = Sources.new
     deps = Metadata::EXTERNALDEPENDENCIES
     if deps
       deps.each do |dep|
@@ -55,20 +54,16 @@ describe 'build_non_kf5_dep_sources' do
         dir = '/source/'
         source = SCM.new(url: url, branch: branch, dir: dir, type: type, file: file, name: name)
         expect(source.select_type).to be(0), exit_status
-        unless buildsystem == 'make'
-          expect(
-            build.run_build(name, buildsystem, options)
-          ).to be(0), exit_status
-          source.clean_sources(dir, name)
-        end
-        if buildsystem == 'make'
-          expect(
-            build.run_build(
-              name, buildsystem, options, autoreconf, insource
-            )
-          ).to be(0), exit_status
-          source.clean_sources(dir, name)
-        end
+        build = Build.new(
+          name: name,
+          buildsystem: buildsystem,
+          options: options,
+          insource: insource,
+          dir: dir,
+          autoreconf: autoreconf
+        )
+        build.select_buildsystem
+        FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
     end
   end
@@ -76,9 +71,8 @@ end
 
 describe 'build_kf5' do
   it 'Builds KDE Frameworks from source' do
-    build = Sources.new
     frameworks = Frameworks.generatekf5_buildorder(Metadata::FRAMEWORKS)
-    options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DENABLE_PRECOMPILED_HEADERS=OFF -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DCMAKE_PREFIX_PATH=/opt/usr:/usr'
+    KF5 = YAML.load_file(File.join(__dir__, '../data/kf5.yaml'))
     if Metadata::BUILDKF5
       frameworks.each do |framework|
         dir = '/source/'
@@ -91,25 +85,22 @@ describe 'build_kf5' do
           name: framework
         )
         expect(source.select_type).to be(0), exit_status
-        if (framework == 'phonon') || (framework == 'phonon-gstreamer')
-          options += ' -DPHONON_LIBRARY_PATH=/opt/usr/plugins'
-          options += ' -DBUILD_TESTING=OFF'
-          options += ' -DPHONON_BUILD_PHONON4QT5=ON'
-          options += ' -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
-        elsif framework == 'breeze-icons'
-          options += ' -DWITH_DECORATIONS=OFF'
-          options += ' -DBINARY_ICONS_RESOURCE=ON'
-        elsif framework == 'breeze'
-          options += ' -DBINARY_ICONS_RESOURCE=ON'
-        elsif framework == 'akonadi'
-          options += ' -DMYSQLD_EXECUTABLE:STRING=/usr/sbin/mysqld-akonadi'
-        end
-        expect(
-          build.run_build(
-            framework, 'cmake', options
-          )
-        ).to be(0), exit_status
-        source.clean_sources(dir, framework)
+        name = framework
+        buildsystem = 'cmake'
+        options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr \
+        -DKDE_INSTALL_SYSCONFDIR=/opt/etc \
+        -DCMAKE_PREFIX_PATH=/opt/usr:/usr'
+        options += KF5[framework][options]
+        insource = false
+        build = Build.new(
+          name: name,
+          buildsystem: buildsystem,
+          options: options,
+          insource: insource,
+          dir: dir
+        )
+        build.select_buildsystem
+        FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
     end
   end
@@ -117,11 +108,7 @@ end
 
 describe 'build_kde_dep' do
   it 'Builds KDE project dependencies from source' do
-    build = Sources.new
     dir = '/source/'
-    options = ' -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr '
-    options += ' -DKDE_INSTALL_SYSCONFDIR=/opt/etc '
-    options += ' -DCMAKE_PREFIX_PATH=/opt/usr:/usr '
     deps = Metadata::KDEDEPS
     if deps
       deps.each do |dep|
@@ -134,12 +121,21 @@ describe 'build_kde_dep' do
           name: dep
         )
         expect(source.select_type).to be(0), exit_status
-        expect(
-          build.run_build(
-            dep, 'cmake', options
-          )
-        ).to be(0), exit_status
-        source.clean_sources(dir, dep)
+        name = framework
+        buildsystem = 'cmake'
+        options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr \
+        -DKDE_INSTALL_SYSCONFDIR=/opt/etc \
+        -DCMAKE_PREFIX_PATH=/opt/usr:/usr'
+        insource = false
+        build = Build.new(
+          name: name,
+          buildsystem: buildsystem,
+          options: options,
+          insource: insource,
+          dir: dir
+        )
+        build.select_buildsystem
+        FileUtils.rm_rf(File.join(Dir.pwd, name))
       end
     end
   end
@@ -147,7 +143,6 @@ end
 
 describe 'build_kf5_dep_sources' do
   it 'Builds source dependencies that depend on kf5' do
-    build = Sources.new
     deps = Metadata::DEPSONKF5
     if deps
       deps.each do |dep|
@@ -167,8 +162,18 @@ describe 'build_kf5_dep_sources' do
         )
         expect(source.select_type).to be(0), exit_status
         expect(Dir.exist?("/source/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
-        expect(build.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
-        source.clean_sources(dir, name)
+        name = framework
+        buildsystem = 'cmake'
+        insource = false
+        build = Build.new(
+          name: name,
+          buildsystem: buildsystem,
+          options: options,
+          insource: insource,
+          dir: dir
+        )
+        build.select_buildsystem
+        FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
     end
   end

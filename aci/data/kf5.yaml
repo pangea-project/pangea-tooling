@@ -2,38 +2,49 @@ extra-cmake-modules:
   external:
   distro_packages:
   kf5_deps:
+  options:
 kcoreaddons:
   external:
   distro_packages:
    - libgamin-dev
   kf5_deps:
    - extra-cmake-modules
+  options:
 attica:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 dbusaddons:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kdnssd:
   external:
   distro_packages:
    - libavahi-common-dev
   kf5_deps:
    - extra-cmake-modules
+options:
 phonon:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:  ' -DPHONON_LIBRARY_PATH=/opt/usr/plugins \
+  -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON \
+  -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
 phonon-gstreamer:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:  ' -DPHONON_LIBRARY_PATH=/opt/usr/plugins \
+  -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON \
+  -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
 karchive:
   external:
    - cmake
@@ -43,56 +54,67 @@ karchive:
    - media-player-info
   kf5_deps:
    - extra-cmake-modules
+  options:
 kconfig:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 breeze-icons:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:  ' -DWITH_DECORATIONS=OFF  -DBINARY_ICONS_RESOURCE=ON'
 syntax-highlighting:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kcodecs:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kguiaddons:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 ki18n:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kitemmodels:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kitemviews:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kwidgetsaddons:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 oxygen-icons5:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 sonnet:
   external:
   distro_packages:
@@ -102,21 +124,25 @@ sonnet:
     - libvoikko-dev
   kf5_deps:
    - extra-cmake-modules
+  options:
 solid:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 threadweaver:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kactivities:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kauth:
   external:
   distro_packages:
@@ -124,6 +150,7 @@ kauth:
    - extra-cmake-modules
    - polkit-qt-1
    - kcoreaddons
+  options:
 kcompletion:
   external:
   distro_packages:
@@ -131,12 +158,14 @@ kcompletion:
    - extra-cmake-modules
    - kconfig
    - kwidgetsaddons
+  options:
 kcrash:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
    - kwindowsystem
+  options:
 kdoctools:
   external:
   distro_packages:
@@ -144,17 +173,20 @@ kdoctools:
    - extra-cmake-modules
    - karchive
    - ki18n
+  options:
 kjobwidgets:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 knotifications:
   external:
   distro_packages:
   kf5_deps:
    - phonon
    - extra-cmake-modules
+  options:
 kpty:
   external:
   distro_packages:
@@ -163,6 +195,7 @@ kpty:
    - extra-cmake-modules
    - kcoreaddons
    - ki18n
+  options:
 kunitconversion:
   external:
   distro_packages:
@@ -170,6 +203,7 @@ kunitconversion:
   kf5_deps:
    - extra-cmake-modules
    - ki18n
+  options:
 kded:
   external:
   distro_packages:
@@ -183,11 +217,13 @@ kded:
    - kinit
    - kservice
    - ki18n
+  options:
 kplotting:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kdewebkit:
   external:
   distro_packages:
@@ -200,6 +236,7 @@ kdewebkit:
    - kparts
    - kservice
    - kwallet
+  options:
 kpackage:
   external:
   distro_packages:
@@ -210,11 +247,13 @@ kpackage:
    - kconfig
    - kcoreaddons
    - ki18n
+  options:
 kcmutils:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kbookmarks:
   external:
   distro_packages:
@@ -227,6 +266,7 @@ kbookmarks:
    - kiconthemes
    - kwidgetsaddons
    - kxmlgui
+  options:
 kconfigwidgets:
   external:
   distro_packages:
@@ -240,6 +280,7 @@ kconfigwidgets:
    - kguiaddons
    - ki18n
    - kwidgetsaddons
+  options:
 kdeclarative:
   external:
   distro_packages:
@@ -251,6 +292,7 @@ kdeclarative:
    - kiconthemes
    - kio
    - kpackage
+  options:
 kdesignerplugin:
   external:
   distro_packages:
@@ -269,6 +311,7 @@ kdesignerplugin:
    - kwidgetsaddons
    - kxmlgui
    - sonnet
+  options:
 kglobalaccel:
   external:
   distro_packages:
@@ -283,6 +326,7 @@ kglobalaccel:
    - kdbusaddons
    - kservice
    - kwindowsystem
+  options:
 kiconthemes:
   external:
   distro_packages:
@@ -292,6 +336,7 @@ kiconthemes:
    - kconfigwidgets
    - kwidgetsaddons
    - kitemviews
+  options:
 kinit:
   external:
   distro_packages:
@@ -306,6 +351,7 @@ kinit:
    - kcrash
    - kconfig
    - kdoctools
+  options:
 kio:
   external:
   distro_packages:
@@ -331,6 +377,7 @@ kio:
    - solid
    - kwidgetsaddons
    - kwindowsystem
+  options:
 knewstuff:
   external:
   distro_packages:
@@ -349,6 +396,7 @@ knewstuff:
    - ktextwidgets
    - kwidgetsaddons
    - kxmlgui
+  options:
 knotifyconfig:
   external:
   distro_packages:
@@ -359,6 +407,7 @@ knotifyconfig:
    - ki18n
    - kio
    - phonon
+  options:
 kparts:
   external:
   distro_packages:
@@ -374,6 +423,7 @@ kparts:
    - ktextwidgets
    - kwidgetsaddons
    - kxmlgui
+  options:
 kservice:
   external:
   distro_packages:
@@ -385,6 +435,7 @@ kservice:
    - kdbusaddons
    - kdoctools
    - ki18n
+  options:
 ktexteditor:
   external:
   distro_packages:
@@ -399,6 +450,7 @@ ktexteditor:
    - kio
    - kparts
    - sonnet
+  options:
 ktextwidgets:
   external:
   distro_packages:
@@ -413,6 +465,7 @@ ktextwidgets:
    - kwidgetsaddons
    - kwindowsystem
    - sonnet
+  options:
 kwallet:
   external:
   distro_packages:
@@ -423,6 +476,7 @@ kwallet:
    - kwindowsystem
    - ki18n
    - kdoctools
+  options:
 kxmlgui:
   external:
   distro_packages:
@@ -439,12 +493,14 @@ kxmlgui:
    - ktextwidgets
    - kwidgetsaddons
    - kwindowsystem
+  options:
 kwindowsystem:
   external:
   distro_packages:
    - libxcb-keysyms1-dev
   kf5_deps:
    - extra-cmake-modules
+  options:
 kdelibs4support:
   external:
   distro_packages:
@@ -471,6 +527,7 @@ kdelibs4support:
    - kwidgetsaddons
    - kwindowsystem
    - kxmlgui
+  options:
 kjs:
   external:
   distro_packages:
@@ -478,6 +535,7 @@ kjs:
    - libpcre3-dev
   kf5_deps:
    - extra-cmake-modules
+  options:
 khtml:
   external:
   distro_packages:
@@ -502,6 +560,7 @@ khtml:
    - kwindowsystem
    - kxmlgui
    - sonnet
+  options:
 polkit-qt-1:
   external:
   distro_packages:
@@ -514,31 +573,37 @@ polkit-qt-1:
    - ki18n
    - kitemviews
    - kconfig
+  options:
 kdbusaddons:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 gpgmepp:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kemoticons:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kwayland:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 kirigami:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 plasma-framework:
   external:
   distro_packages:
@@ -561,11 +626,13 @@ plasma-framework:
    - kxmlgui
    - knotifications
    - kpackage
+  options:
 kdecoration:
   external:
   distro_packages:
   kf5_deps:
    - extra-cmake-modules
+  options:
 breeze:
   external:
   distro_packages:
@@ -574,3 +641,4 @@ breeze:
    - kconfig
    - ki18n
    - kpackage
+  options: '-DBINARY_ICONS_RESOURCE=ON'
