@@ -94,10 +94,10 @@ if !options.host && options.port && !options.gateway
   warn 'Running in compat mode using localhost:$port.'
 end
 
-# Set the timeout to 5 minutes to allow upload of large packages such as firefox
+# Set the timeout to 15 minutes to allow upload of large packages such as
+# firefox and publishing of excessively large repositories.
 Faraday.default_connection_options =
-  Faraday::ConnectionOptions.new(timeout: 5 * 60)
-
+  Faraday::ConnectionOptions.new(timeout: 15 * 60)
 
 Aptly::Ext::Remote.connect(options.gateway) do
   raise "Repository doesn't exist" unless Aptly::Repository.exist?(options.repo)
