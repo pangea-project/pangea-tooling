@@ -115,6 +115,7 @@ def diagnostic(options)
   @logger.error '================== diagnostic end =================='
 end
 
+diagnostic(options)
 begin
   Aptly::Ext::Remote.connect(options.gateway) do
     raise "Repository doesn't exist" unless Aptly::Repository.exist?(options.repo)
