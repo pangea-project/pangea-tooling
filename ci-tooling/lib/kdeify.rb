@@ -52,7 +52,7 @@ Depends: #{@substvar} (= ${binary:Version}), mozilla-kde-support
 Description: #{package} package for integration with KDE
  Install this package if you'd like #{package} with Plasma integration
 "
-      if File.exist?('debian/contro.in')
+      if File.exist?('debian/control.in')
         File.write('debian/control.in', control)
         system('debian/rules debian/control')
       else
