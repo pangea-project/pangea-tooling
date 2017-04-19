@@ -98,41 +98,20 @@ end
 Faraday.default_connection_options =
   Faraday::ConnectionOptions.new(timeout: 5 * 60)
 
-require 'logger'
-require 'logger/colors'
-@logger = Logger.new(STDERR)
-@logger.level = Logger::DEBUG
 
-def diagnostic(options)
-  return unless options.gateway.host.include?('kde.org')
-  # Temporary diagnostic code, racnoss.kde.org is having load issues at
-  # times, gather data to find out why.
-  @logger.error '================== diagnostic start =================='
-  Net::SSH.start(options.gateway.host, options.gateway.user) do |ssh|
-    @logger.info $/ + ssh.exec!('iostat -x')
-    @logger.warn $/ + ssh.exec!('top -b -n 1')
+Aptly::Ext::Remote.connect(options.gateway) do
+  raise "Repository doesn't exist" unless Aptly::Repository.exist?(options.repo)
+  repo = Aptly::Repository.get(options.repo)
+
+  ARGV.each do |file|
+    next unless File.size?(file)
+    puts "translating uploads #{file}"
+    files = CI::Deb822Lister.files_to_upload_for(file)
+    raise 'Changes lists no files to upload!?' if files.empty?
+    puts "Uploading files... #{files}"
+    repo.upload(files)
+    puts 'Done uploading.'
   end
-  @logger.error '================== diagnostic end =================='
-end
 
-diagnostic(options)
-begin
-  Aptly::Ext::Remote.connect(options.gateway) do
-    raise "Repository doesn't exist" unless Aptly::Repository.exist?(options.repo)
-    repo = Aptly::Repository.get(options.repo)
-
-    ARGV.each do |file|
-      next unless File.size?(file)
-      puts "translating uploads #{file}"
-      files = CI::Deb822Lister.files_to_upload_for(file)
-      raise 'Changes lists no files to upload!?' if files.empty?
-      puts "Uploading files... #{files}"
-      repo.upload(files)
-      puts 'Done uploading.'
-    end
-
-    repo.published_in.each(&:update!)
-  end
-ensure
-  diagnostic(options)
+  repo.published_in.each(&:update!)
 end
