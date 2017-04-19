@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require_relative '../libs/build'
 require_relative '../libs/scm'
+require_relative '../../ci-tooling/lib/apt'
 require 'fileutils'
 require 'test/unit'
 require 'English'
@@ -57,6 +58,7 @@ class TestBuild < Test::Unit::TestCase
   end
 
   def test_cmake
+    Apt.install(['cmake'])
     system('git clone http://anongit.kde.org/extra-cmake-modules')
     name = 'extra-cmake-modules'
     buildsystem = 'cmake'
@@ -101,6 +103,7 @@ class TestBuild < Test::Unit::TestCase
   end
 
   def test_make
+    Apt.install(['yasm'])
     system('wget ftp://ftp.videolan.org/pub/x264/snapshots/last_x264.tar.bz2; then \
 	  mkdir x264 &&	tar xjvf last_x264.tar.bz2 -C x264 --strip-components 1')
     name = 'x264'
@@ -140,6 +143,7 @@ class TestBuild < Test::Unit::TestCase
   end
 
   def test_autogen
+    Apt.install(['autoconf','automake','gettext'])
     system('wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2; \
     then mkdir libgpg-error &&	\
     tar xjvf libgpg-error-1.26.tar.bz2 -C libgpg-error --strip-components 1')
@@ -177,6 +181,7 @@ class TestBuild < Test::Unit::TestCase
   end
 
   def test_qmake
+    Apt.install(['qmake'])
     system('sudo apt-get -y build-dep qwt-qt5-dev')
     system('svn export svn://svn.code.sf.net/p/qwt/code/branches/qwt-6.1')
     name = 'qwt-6.1'
