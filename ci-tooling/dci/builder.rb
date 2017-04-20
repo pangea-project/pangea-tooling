@@ -5,10 +5,10 @@ require 'fileutils'
 require_relative '../lib/ci/build_binary'
 require_relative 'lib/setup_repo'
 
+DCI.setup_env!
 DCI.setup_repo!
-@workspace = Dir.pwd
 
-ENV['SHELL'] = '/usr/bin/env bash'
+@workspace = Dir.pwd
 
 Dir.mktmpdir do |tmpdir|
   FileUtils.cp_r("#{@workspace}/.", tmpdir, verbose: true)
