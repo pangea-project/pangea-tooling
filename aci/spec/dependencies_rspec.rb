@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative '../libs/scm'
+require_relative '../libs/build'
 require_relative '../libs/sources'
 require_relative '../libs/packages'
 require_relative '../libs/metadata'
