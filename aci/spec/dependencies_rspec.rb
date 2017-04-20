@@ -123,7 +123,7 @@ describe 'build_kde_dep' do
           name: dep
         )
         expect(source.select_type).to be(0), exit_status
-        name = framework
+        name = dep
         buildsystem = 'cmake'
         options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr \
         -DKDE_INSTALL_SYSCONFDIR=/opt/etc \
