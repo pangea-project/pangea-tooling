@@ -88,10 +88,11 @@ describe 'build_kf5' do
         expect(source.select_type).to be(0), exit_status
         name = framework
         buildsystem = 'cmake'
+        extra_options = KF5[framework]['options']
         options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr \
         -DKDE_INSTALL_SYSCONFDIR=/opt/etc \
         -DCMAKE_PREFIX_PATH=/opt/usr:/usr'
-        options += KF5[framework]['options']
+        options += extra_options if extra_options
         insource = false
         build = Build.new(
           name: name,
