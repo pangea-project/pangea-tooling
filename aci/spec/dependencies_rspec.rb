@@ -91,7 +91,7 @@ describe 'build_kf5' do
         options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr \
         -DKDE_INSTALL_SYSCONFDIR=/opt/etc \
         -DCMAKE_PREFIX_PATH=/opt/usr:/usr'
-        options += KF5[framework][options]
+        options += KF5[framework]['options']
         insource = false
         build = Build.new(
           name: name,
