@@ -21,8 +21,6 @@
 
 # Debian CI specific helpers.
 
-require 'mkmf'
-
 module DCI
   module_function
 
@@ -30,7 +28,7 @@ module DCI
     ENV['DEBFULLNAME'] = 'Debian CI'
     ENV['DEBEMAIL'] = 'null@debian.org'
     ENV['NOMANGLE_MAINTAINER'] = 'true'
-    ENV['SHELL'] = find_executable('bash')
+    ENV['SHELL'] = '/bin/bash'
 
     ENV['GIT_AUTHOR_NAME'] = ENV.fetch('DEBFULLNAME')
     ENV['GIT_AUTHOR_EMAIL'] = ENV.fetch('DEBEMAIL')
