@@ -67,6 +67,7 @@ describe 'build_non_kf5_dep_sources' do
           dir: dir,
           autoreconf: autoreconf
         )
+        assert_equal insource, build.insource
         cmd = build.select_buildsystem
         p 'Running ' + cmd
         build.run_build(cmd)
