@@ -119,7 +119,8 @@ make install"
     cmd =
       if insource == false
         "./autogen.sh && \
-builddir && cd builddir && \
+mkdir builddir && \
+cd builddir && \
 ../configure #{options} && \
 make VERBOSE=1 -j 8 && \
 make installl"
