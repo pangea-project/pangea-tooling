@@ -69,6 +69,7 @@ class Build
   end
 
   def build_cmake_cmd
+    p insource
     unless insource
       cmd = "mkdir #{name}-builddir && \
 cd #{name}-builddir && \
@@ -81,6 +82,7 @@ make install"
 make VERBOSE=1 -j 8 && \
 make install"
     end
+    p cmd
     cmd
   end
 
