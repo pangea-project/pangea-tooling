@@ -241,9 +241,9 @@ make install", build.build_autogen_cmd
     assert_equal "./bootstrap #{options} && \
     mkdir builddir && \
     cd builddir && \
-   ../configure #{options} && \
-   make VERBOSE=1 -j 8 && \
-     make install", build.build_bootstrap_cmd
+    ../configure #{options} && \
+    make VERBOSE=1 -j 8 && \
+    make install", build.build_bootstrap_cmd
     assert build.build_bootstrap_cmd
   end
 end

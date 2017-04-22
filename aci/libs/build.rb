@@ -123,7 +123,7 @@ mkdir builddir && \
 cd builddir && \
 ../configure #{options} && \
 make VERBOSE=1 -j 8 && \
-make installl"
+make install"
       else
         "./autogen.sh &&
 ./configure #{options} && \
