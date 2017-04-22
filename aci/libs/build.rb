@@ -84,6 +84,7 @@ make install"
   end
 
   def run_build(cmd)
+    p "Running #{cmd}"
     Dir.chdir(File.join(dir, name))
     system(cmd)
     $CHILD_STATUS.exitstatus
