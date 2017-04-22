@@ -146,9 +146,9 @@ make install", build.build_make_cmd
       insource: false,
       dir: dir
     )
-    assert_equal "mkdir builddir && \
+    assert_equal "./autogen.sh && \
+mkdir builddir && \
 cd builddir && \
-../autogen.sh && \
 ../configure #{options} && \
 make VERBOSE=1 -j 8 && \
 make install", build.build_autogen_cmd
