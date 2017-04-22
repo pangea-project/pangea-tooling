@@ -71,17 +71,16 @@ class Build
   def build_cmake_cmd
     cmd =
       if insource == true
-      "cmake #{options} && \
+        "cmake #{options} && \
 make VERBOSE=1 -j 8 && \
 make install"
       else
-      "mkdir builddir && \
+        "mkdir builddir && \
 cd builddir && \
 cmake #{options} ../ && \
 make VERBOSE=1 -j 8 && \
 make install"
       end
-    p cmd
     cmd
   end
 
@@ -93,19 +92,24 @@ make install"
   end
 
   def build_make_cmd
-    unless insource
-      cmd = "mkdir #{name}-builddir && \
+    cmd =
+      if insource
+        "mkdir #{name}-builddir && \
 cd #{name}-builddir && \
 ../configure #{options} && \
 make VERBOSE=1 -j 8 && \
 make install"
-    end
-    if insource
-      cmd = "./configure #{options} && \
+      else
+        "./configure #{options} && \
 make VERBOSE=1 -j 8 && \
 make install"
-    end
-    cmd = 'autoreconf --force --install && ' + cmd if autoreconf
+      end
+    cmd =
+      if autoreconf
+        'autoreconf --force --install && ' + cmd
+      else
+        cmd
+      end
     cmd
   end
 
