@@ -138,14 +138,14 @@ make install"
     cmd
   end
 
-  def build_custom
+  def build_custom_cmd
     Dir.chdir(File.join(dir, name))
     system(options)
     Dir.chdir(dir)
     $CHILD_STATUS.exitstatus
   end
 
-  def build_qmake
+  def build_qmake_cmd
     cmd =
       if insource == false
         "mkdir builddir && cd builddir && \
@@ -158,7 +158,7 @@ make install"
     cmd
   end
 
-  def build_bootstrap
+  def build_bootstrap_cmd
     cmd =
       if insource == false
         "./bootstrap #{options} && mkdir builddir \

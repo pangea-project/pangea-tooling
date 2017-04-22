@@ -44,7 +44,7 @@ class TestBuild < Test::Unit::TestCase
       insource: insource,
       dir: Dir.pwd,
       file: 'qwt.pro',
-      extra_command:  'qmake -set prefix "~/test_install"',
+      pre_command:  'qmake -set prefix "~/test_install"',
       prefix: '~/test_install'
     )
     assert_equal build.buildsystem, buildsystem
@@ -54,7 +54,7 @@ class TestBuild < Test::Unit::TestCase
     assert_equal build.name, name
     assert_equal build.dir, Dir.pwd
     assert_equal build.file, 'qwt.pro'
-    assert_equal build.extra_command, 'qmake -set prefix "~/test_install"'
+    assert_equal build.pre_command, 'qmake -set prefix "~/test_install"'
     assert_equal build.prefix, '~/test_install'
   end
 
