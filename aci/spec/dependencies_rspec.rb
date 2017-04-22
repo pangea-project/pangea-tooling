@@ -54,7 +54,8 @@ describe 'build_non_kf5_dep_sources' do
         autoreconf = false if autoreconf.nil?
         insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
         insource = false if insource.nil?
-        p insource
+        p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
+          options + ' autoreconf ' + autoreconf + ' insource ' + insource
         dir = '/source/'
         source = SCM.new(url: url, branch: branch, dir: dir, type: type, file: file, name: name)
         source.select_type
@@ -66,7 +67,9 @@ describe 'build_non_kf5_dep_sources' do
           dir: dir,
           autoreconf: autoreconf
         )
-        build.run_build(build.select_buildsystem)
+        cmd = build.select_buildsystem
+        p 'Running ' + cmd
+        build.run_build(cmd)
         FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
     end

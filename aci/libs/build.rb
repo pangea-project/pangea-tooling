@@ -69,14 +69,15 @@ class Build
   end
 
   def build_cmake_cmd
-    if insource
-      cmd = "cmake #{options} && \
-make VERBOSE=1 -j 8 && \
-make install"
-    else
+    unless insource
       cmd = "mkdir #{name}-builddir && \
 cd #{name}-builddir && \
 cmake #{options} ../ && \
+make VERBOSE=1 -j 8 && \
+make install"
+    end
+    if insource
+      cmd = "cmake #{options} && \
 make VERBOSE=1 -j 8 && \
 make install"
     end
@@ -84,7 +85,6 @@ make install"
   end
 
   def run_build(cmd)
-    p "Running #{cmd}"
     Dir.chdir(File.join(dir, name))
     system(cmd)
     $CHILD_STATUS.exitstatus
