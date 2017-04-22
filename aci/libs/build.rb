@@ -162,14 +162,17 @@ make install"
   def build_bootstrap_cmd
     cmd =
       if insource == false
-        "./bootstrap #{options} && mkdir builddir \
-        && cd builddir && \
-       ../configure #{options} && make VERBOSE=1 -j 8 && \
-         make install"
+        "./bootstrap #{options} && \
+         mkdir builddir && \
+        cd builddir && \
+       ../configure #{options} && \
+       make VERBOSE=1 -j 8 && \
+       make install"
       else
-        "./bootstrap #{options} && ./configure #{options} \
-        && make VERBOSE=1 -j 8 \
-        && make install"
+        "./bootstrap #{options} && \
+        ./configure #{options} && \
+        make VERBOSE=1 -j 8 && \
+        make install"
       end
     cmd
   end
