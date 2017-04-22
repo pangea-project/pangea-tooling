@@ -24,6 +24,7 @@ require_relative '../../ci-tooling/lib/apt'
 require 'fileutils'
 require 'test/unit'
 require 'English'
+require 'mocha/test_unit'
 
 # Test various aspects of scm
 class TestBuild < Test::Unit::TestCase
@@ -57,50 +58,81 @@ class TestBuild < Test::Unit::TestCase
     assert_equal build.prefix, '~/test_install'
   end
 
-  # def test_cmake
-  #   Apt.install(['cmake'])
-  #   system('git clone http://anongit.kde.org/extra-cmake-modules')
-  #   name = 'extra-cmake-modules'
-  #   buildsystem = 'cmake'
-  #   options = '-DCMAKE_INSTALL_PREFIX:PATH=~/test_install/usr \
-  #   -DKDE_INSTALL_SYSCONFDIR=~/test_install/etc \
-  #   -DCMAKE_PREFIX_PATH=~/test_install/usr:/usr'
-  #   insource = false
-  #   build = Build.new(
-  #     name: name,
-  #     buildsystem: buildsystem,
-  #     options: options,
-  #     insource: insource,
-  #     dir: Dir.pwd
-  #   )
-  #   assert_equal build.select_buildsystem, 0
-  #   FileUtils.rm_rf(File.join(Dir.pwd,  name))
-  #   FileUtils.rm_rf(File.join(Dir.home, 'test_install'))
-  # end
-  #
-  # def test_insource
-  #   system('git clone http://anongit.kde.org/extra-cmake-modules')
-  #   name = 'extra-cmake-modules'
-  #   buildsystem = 'cmake'
-  #   options = '-DCMAKE_INSTALL_PREFIX:PATH=~/test_install/usr \
-  #   -DKDE_INSTALL_SYSCONFDIR=~/test_install/etc \
-  #   -DCMAKE_PREFIX_PATH=~/test_install/usr:/usr'
-  #   insource = true
-  #   dir = Dir.pwd
-  #   build = Build.new(
-  #     name: name,
-  #     buildsystem: buildsystem,
-  #     options: options,
-  #     insource: insource,
-  #     dir: dir
-  #   )
-  #   assert_equal build.select_buildsystem, 0
-  #   assert_equal File.directory?(
-  #     File.join(dir, name, name + '-builddir')
-  #   ), false
-  #   FileUtils.rm_rf(File.join(Dir.pwd,  name))
-  #   FileUtils.rm_rf(File.join(Dir.home, 'test_install'))
-  # end
+  def test_cmake
+    name = 'extra-cmake-modules'
+    buildsystem = 'cmake'
+    options = '-DCMAKE_INSTALL_PREFIX:PATH=~/test_install/usr \
+      -DKDE_INSTALL_SYSCONFDIR=~/test_install/etc \
+      -DCMAKE_PREFIX_PATH=~/test_install/usr:/usr'
+    insource = true
+    dir = Dir.pwd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: insource,
+      dir: dir
+    )
+    assert build.build_cmake_cmd
+    assert_equal "cmake #{options} && \
+make VERBOSE=1 -j 8 && \
+make install", build.build_cmake_cmd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: false,
+      dir: dir
+    )
+    assert_equal "mkdir #{name}-builddir && \
+cd #{name}-builddir && \
+cmake #{options} ../ && \
+make VERBOSE=1 -j 8 && \
+make install", build.build_cmake_cmd
+    assert build.build_cmake_cmd
+  end
+
+  def test_make
+    name = 'extra-cmake-modules'
+    buildsystem = 'make'
+    options = '--prefix=/opt/usr'
+    dir = Dir.pwd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: false,
+      dir: dir
+    )
+    assert_equal "mkdir #{name}-builddir && \
+cd #{name}-builddir && \
+../configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install", build.build_make_cmd
+    assert build.build_make_cmd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: true,
+      dir: dir
+    )
+    assert_equal "./configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install", build.build_make_cmd
+    assert build.build_make_cmd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: true,
+      dir: dir,
+      autoreconf: true
+    )
+    assert_equal "autoreconf --force --install && ./configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install", build.build_make_cmd
+  end
   #
   # def test_make
   #   Apt.install(['yasm'])

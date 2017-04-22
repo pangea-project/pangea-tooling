@@ -34,6 +34,7 @@ class Build
   attr_accessor :file
   attr_accessor :extra_command
   attr_accessor :prefix
+  attr_accessor :cmd
   def initialize(args = {})
     self.buildsystem = args[:buildsystem]
     self.options = args[:options]
@@ -44,57 +45,66 @@ class Build
     self.file = args[:file]
     self.extra_command = args[:extra_command]
     self.prefix = args[:prefix]
+    cmd = ''
   end
 
   # Case block to select appriate scm type.
   def select_buildsystem
     case buildsystem
     when 'cmake'
-      build_cmake
+      build_cmake_cmd
     when 'make'
-      build_make
+      build_make_cmd
     when 'autogen'
-      build_autogen
+      build_autogen_cmd
     when 'custom'
-      build_custom
+      build_custom_cmd
     when 'qmake'
-      build_qmake
+      build_qmake_cmd
     when 'bootstrap'
-      build_bootstrap
+      build_bootstrap_cmd
     else
       "You gave me #{buildsystem} -- I have no idea what to do with that."
     end
   end
 
-  def build_cmake
-    Dir.chdir(File.join(dir, name))
-    unless insource
-      cmd = "mkdir #{name}-builddir  && cd #{name}-builddir  && cmake #{options} \
-       ../ && make VERBOSE=1 -j 8 && make install"
-    end
+  def build_cmake_cmd
     if insource
-      cmd = "cmake #{options} && make VERBOSE=1 -j 8 && make install"
+      cmd = "cmake #{options} && \
+make VERBOSE=1 -j 8 && \
+make install"
+    else
+      cmd = "mkdir #{name}-builddir && \
+cd #{name}-builddir && \
+cmake #{options} ../ && \
+make VERBOSE=1 -j 8 && \
+make install"
     end
-    system(cmd)
-    Dir.chdir(dir)
-    $CHILD_STATUS.exitstatus
+    cmd
   end
 
-  def build_make
+  def run_build(cmd)
     Dir.chdir(File.join(dir, name))
+    system(cmd)
+    $CHILD_STATUS.exitstatus
+    Dir.chdir(dir)
+  end
+
+  def build_make_cmd
     unless insource
-      cmd = "mkdir #{name}-builddir && cd #{name}-builddir && \
-      ../configure #{options} && make VERBOSE=1 -j 8 && \
-       make install"
+      cmd = "mkdir #{name}-builddir && \
+cd #{name}-builddir && \
+../configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install"
     end
     if insource
-      cmd = "./configure #{options} && make VERBOSE=1 -j 8 \
-      && make install"
+      cmd = "./configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install"
     end
     cmd = 'autoreconf --force --install && ' + cmd if autoreconf
-    system(cmd)
-    Dir.chdir(dir)
-    $CHILD_STATUS.exitstatus
+    cmd
   end
 
   def build_autogen

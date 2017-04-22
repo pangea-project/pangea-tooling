@@ -63,7 +63,7 @@ describe 'build_non_kf5_dep_sources' do
           dir: dir,
           autoreconf: autoreconf
         )
-        build.select_buildsystem
+        build.run(build.select_type)
         FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
     end
@@ -101,7 +101,7 @@ describe 'build_kf5' do
           insource: insource,
           dir: dir
         )
-        build.select_buildsystem
+        build.run(build.select_type)
         FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
     end
@@ -136,7 +136,7 @@ describe 'build_kde_dep' do
           insource: insource,
           dir: dir
         )
-        build.select_buildsystem
+        build.run(build.select_type)
         FileUtils.rm_rf(File.join(Dir.pwd, name))
       end
     end
@@ -174,7 +174,7 @@ describe 'build_kf5_dep_sources' do
           insource: insource,
           dir: dir
         )
-        build.select_buildsystem
+        build.run(build.select_type)
         FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
     end
