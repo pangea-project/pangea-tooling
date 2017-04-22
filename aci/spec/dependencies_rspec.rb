@@ -41,7 +41,6 @@ end
 describe 'build_non_kf5_dep_sources' do
   it 'Builds source dependencies that do not depend on kf5' do
     deps = Metadata::EXTERNALDEPENDENCIES
-    p deps
     if deps
       deps.each do |dep|
         name =  dep.values[0]['depname']
@@ -52,7 +51,7 @@ describe 'build_non_kf5_dep_sources' do
         buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
         options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
         autoreconf = dep.values[0]['build'].values_at('autoreconf').to_s.gsub(/\,|\[|\]|\"/, '')
-        p dep['build']['insource']
+        p dep['build']
         autoreconf = false if autoreconf.nil?
         insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
         insource = false if insource.nil?
