@@ -52,7 +52,7 @@ describe 'build_non_kf5_dep_sources' do
         buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
         options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
         autoreconf = dep.values[0]['build'].values_at('autoreconf').to_s.gsub(/\,|\[|\]|\"/, '')
-        p dep['build']['autoreconf']
+        p dep['build']['insource']
         autoreconf = false if autoreconf.nil?
         insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
         insource = false if insource.nil?
