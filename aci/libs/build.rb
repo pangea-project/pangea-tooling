@@ -93,7 +93,7 @@ make install"
 
   def build_make_cmd
     cmd =
-      if insource
+      if insource == false
         "mkdir #{name}-builddir && \
 cd #{name}-builddir && \
 ../configure #{options} && \
@@ -105,7 +105,7 @@ make VERBOSE=1 -j 8 && \
 make install"
       end
     cmd =
-      if autoreconf
+      if autoreconf == true
         'autoreconf --force --install && ' + cmd
       else
         cmd
