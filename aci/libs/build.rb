@@ -32,7 +32,7 @@ class Build
   attr_accessor :autoreconf
   attr_accessor :dir
   attr_accessor :file
-  attr_accessor :extra_command
+  attr_accessor :pre_command
   attr_accessor :prefix
   attr_accessor :cmd
   def initialize(args = {})
@@ -43,9 +43,8 @@ class Build
     self.name = args[:name]
     self.dir = args[:dir]
     self.file = args[:file]
-    self.extra_command = args[:extra_command]
+    self.pre_command = args[:pre_command]
     self.prefix = args[:prefix]
-    cmd = ''
   end
 
   # Case block to select appriate scm type.
@@ -84,8 +83,11 @@ make install"
     cmd
   end
 
-  def run_build(cmd)
+  def run_build(cmd, pre_command = nil)
     Dir.chdir(File.join(dir, name))
+    unless extra_command.nil?
+      system(pre_command) if pre_command
+    end
     system(cmd)
     $CHILD_STATUS.exitstatus
     Dir.chdir(dir)
@@ -94,8 +96,8 @@ make install"
   def build_make_cmd
     cmd =
       if insource == false
-        "mkdir #{name}-builddir && \
-cd #{name}-builddir && \
+        "mkdir builddir && \
+cd builddir && \
 ../configure #{options} && \
 make VERBOSE=1 -j 8 && \
 make install"
@@ -113,21 +115,27 @@ make install"
     cmd
   end
 
-  def build_autogen
-    Dir.chdir(File.join(dir, name))
-    unless insource
-      cmd = "./autogen.sh && mkdir #{name}-builddir && cd #{name}-builddir && \
-     ../configure #{options} && make VERBOSE=1 -j 8 && \
-       make install"
-    end
-    if insource
-      cmd = "./autogen.sh && ./configure #{options} && make VERBOSE=1 -j 8 \
-      && make install"
-    end
-    cmd = 'autoreconf --force --install && ' + cmd if autoreconf
-    system(cmd)
-    Dir.chdir(dir)
-    $CHILD_STATUS.exitstatus
+  def build_autogen_cmd
+    cmd =
+      if insource == false
+        "./autogen.sh && \
+  builddir && cd builddir && \
+  ../configure #{options} && \
+  make VERBOSE=1 -j 8 && \
+  make installl"
+      else
+        "./autogen.sh &&
+./configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install"
+      end
+    cmd =
+      if autoreconf == true
+        'autoreconf --force --install && ' + cmd
+      else
+        cmd
+      end
+    cmd
   end
 
   def build_custom
@@ -138,39 +146,30 @@ make install"
   end
 
   def build_qmake
-    Dir.chdir(File.join(dir, name))
-    unless insource
-      cmd = "mkdir #{name}-builddir && cd #{name}-builddir && \
-      qmake #{options} ../#{file} && make VERBOSE=1 -j 8 && \
-      INSTALL_ROOT=#{prefix} make install"
-    end
-    if insource
-      cmd = "qmake #{options} #{file}&& make VERBOSE=1 -j 8 \
-      && INSTALL_ROOT=#{prefix} make install"
-    end
-    unless extra_command.nil?
-      system(extra_command) if extra_command
-    end
-    system(cmd)
-    Dir.chdir(dir)
-    $CHILD_STATUS.exitstatus
+    cmd =
+      if insource == false
+        "mkdir builddir && cd builddir && \
+        qmake #{options} ../#{file} && make VERBOSE=1 -j 8 && \
+        INSTALL_ROOT=#{prefix} make install"
+      else
+        "qmake #{options} #{file}&& make VERBOSE=1 -j 8 \
+        && INSTALL_ROOT=#{prefix} make install"
+      end
+    cmd
   end
 
   def build_bootstrap
-    Dir.chdir(File.join(dir, name))
-    unless insource
-      cmd = "./bootstrap #{options} && mkdir #{name}-builddir \
-      && cd #{name}-builddir && \
-     ../configure #{options} && make VERBOSE=1 -j 8 && \
-       make install"
-    end
-    if insource
-      cmd = "./bootstrap #{options} && ./configure #{options} \
-      && make VERBOSE=1 -j 8 \
-      && make install"
-    end
-    system(cmd)
-    Dir.chdir(dir)
-    $CHILD_STATUS.exitstatus
+    cmd =
+      if insource == false
+        "./bootstrap #{options} && mkdir builddir \
+        && cd builddir && \
+       ../configure #{options} && make VERBOSE=1 -j 8 && \
+         make install"
+      else
+        "./bootstrap #{options} && ./configure #{options} \
+        && make VERBOSE=1 -j 8 \
+        && make install"
+      end
+    cmd
   end
 end

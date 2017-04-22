@@ -84,8 +84,8 @@ make install", build.build_cmake_cmd
       insource: false,
       dir: dir
     )
-    assert_equal "mkdir #{name}-builddir && \
-cd #{name}-builddir && \
+    assert_equal "mkdir builddir && \
+cd builddir && \
 cmake #{options} ../ && \
 make VERBOSE=1 -j 8 && \
 make install", build.build_cmake_cmd
@@ -104,8 +104,8 @@ make install", build.build_cmake_cmd
       insource: false,
       dir: dir
     )
-    assert_equal "mkdir #{name}-builddir && \
-cd #{name}-builddir && \
+    assert_equal "mkdir builddir && \
+cd builddir && \
 ../configure #{options} && \
 make VERBOSE=1 -j 8 && \
 make install", build.build_make_cmd
@@ -133,104 +133,117 @@ make install", build.build_make_cmd
 make VERBOSE=1 -j 8 && \
 make install", build.build_make_cmd
   end
-  #
-  # def test_make
-  #   Apt.install(['yasm'])
-  #   system('wget ftp://ftp.videolan.org/pub/x264/snapshots/last_x264.tar.bz2; then \
-	#   mkdir x264 &&	tar xjvf last_x264.tar.bz2 -C x264 --strip-components 1')
-  #   name = 'x264'
-  #   buildsystem = 'make'
-  #   options = '--enable-static --enable-shared --prefix=~/test_install/usr'
-  #   dir = Dir.pwd
-  #   build = Build.new(
-  #     name: name,
-  #     buildsystem: buildsystem,
-  #     options: options,
-  #     dir: dir
-  #   )
-  #   assert_equal build.select_buildsystem, 0
-  #   FileUtils.rm('last_x264.tar.bz2')
-  #   FileUtils.rm_rf(File.join(Dir.pwd,  name))
-  #   FileUtils.rm_rf(File.join(Dir.home, 'test_install'))
-  # end
-  #
-  # def test_autoreconf
-  #   system('wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2; then \
-  #   mkdir libgpg-error &&	tar xjvf libgpg-error-1.26.tar.bz2 -C libgpg-error --strip-components 1')
-  #   name = 'libgpg-error'
-  #   buildsystem = 'make'
-  #   options = '--enable-static --enable-shared --prefix=' + Dir.home + '/test_install/usr'
-  #   dir = Dir.pwd
-  #   build = Build.new(
-  #     name: name,
-  #     buildsystem: buildsystem,
-  #     options: options,
-  #     autoreconf: true,
-  #     dir: dir
-  #   )
-  #   assert_equal build.select_buildsystem, 0
-  #   FileUtils.rm('libgpg-error-1.26.tar.bz2')
-  #   FileUtils.rm_rf(File.join(Dir.pwd,  name))
-  #   FileUtils.rm_rf(File.join(Dir.home, 'test_install'))
-  # end
-  #
-  # def test_autogen
-  #   Apt.install(['autoconf','automake','gettext'])
-  #   system('wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2; \
-  #   then mkdir libgpg-error &&	\
-  #   tar xjvf libgpg-error-1.26.tar.bz2 -C libgpg-error --strip-components 1')
-  #   name = 'libgpg-error'
-  #   buildsystem = 'autogen'
-  #   options = '--enable-static --enable-shared --prefix=' + Dir.home + '/test_install/usr'
-  #   dir = Dir.pwd
-  #   build = Build.new(
-  #     name: name,
-  #     buildsystem: buildsystem,
-  #     options: options,
-  #     dir: dir
-  #   )
-  #   assert_equal build.select_buildsystem, 0
-  #   FileUtils.rm('libgpg-error-1.26.tar.bz2')
-  #   FileUtils.rm_rf(File.join(Dir.pwd,  name))
-  #   FileUtils.rm_rf(File.join(Dir.home, 'test_install'))
-  # end
-  #
-  # def test_custom
-  #   name = 'cpan'
-  #   Dir.mkdir(name)
-  #   buildsystem = 'custom'
-  #   options = 'export PERL_MM_USE_DEFAULT=1 && cpan URI::Escape'
-  #   dir = Dir.pwd
-  #   build = Build.new(
-  #     name: name,
-  #     buildsystem: buildsystem,
-  #     options: options,
-  #     dir: dir
-  #   )
-  #   assert_equal build.select_buildsystem, 0
-  #   FileUtils.rm_rf(File.join(Dir.pwd,  name))
-  #   FileUtils.rm_rf(File.join(Dir.home, 'test_install'))
-  # end
-  #
-  # def test_qmake
-  #   Apt.install(['qmake'])
-  #   system('sudo apt-get -y build-dep qwt-qt5-dev')
-  #   system('svn export svn://svn.code.sf.net/p/qwt/code/branches/qwt-6.1')
-  #   name = 'qwt-6.1'
-  #   buildsystem = 'qmake'
-  #   options = '"PREFIX = ~/usr"'
-  #   dir = Dir.pwd
-  #   build = Build.new(
-  #     name: name,
-  #     buildsystem: buildsystem,
-  #     options: options,
-  #     dir: dir,
-  #     file: 'qwt.pro',
-  #     extra_command:  'qmake -set prefix "~/test_install"',
-  #     prefix: '~/test_install'
-  #   )
-  #   assert_equal build.select_buildsystem, 0
-  #   FileUtils.rm_rf(File.join(Dir.pwd,  name))
-  #   FileUtils.rm_rf(File.join(Dir.home, 'test_install'))
-  # end
+
+  def test_autogen
+    name = 'extra-cmake-modules'
+    buildsystem = 'autogen'
+    options = '--prefix=/opt/usr'
+    dir = Dir.pwd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: false,
+      dir: dir
+    )
+    assert_equal "mkdir builddir && \
+cd builddir && \
+../autogen.sh && \
+../configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install", build.build_autogen_cmd
+    assert build.build_autogen_cmd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: true,
+      dir: dir
+    )
+    assert_equal "./autogen.sh && \
+./configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install", build.build_autogen_cmd
+    assert build.build_autogen_cmd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: true,
+      dir: dir,
+      autoreconf: true
+    )
+    assert_equal "autoreconf --force --install && \
+./autogen.sh && \
+./configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install", build.build_autogen_cmd
+  end
+
+  def test_qmake
+    name = 'extra-cmake-modules'
+    buildsystem = 'qmake'
+    options = '"PREFIX = ~/usr"'
+    insource = true
+    dir = Dir.pwd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: insource,
+      dir: dir,
+      file: 'qwt.pro',
+      pre_command: 'qmake -set prefix "~/test_install"'
+    )
+    assert build.build_qmake_cmd
+    assert_equal "qmake #{options} #{file}&& \
+    make VERBOSE=1 -j 8 && \
+    INSTALL_ROOT=#{prefix} make install", build.build_cmake_cmd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: false,
+      dir: dir
+    )
+    assert_equal "mkdir builddir && cd builddir && \
+    qmake #{options} ../#{file} && \
+    make VERBOSE=1 -j 8 && \
+    INSTALL_ROOT=#{prefix} make install", build.build_qmake_cmd
+    assert build.build_qmake_cmd
+  end
+
+  def test_bootstrap
+    name = 'extra-cmake-modules'
+    buildsystem = 'bootstrap'
+    options = '--prefix=/opt/usr'
+    insource = true
+    dir = Dir.pwd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: insource,
+      dir: dir
+    )
+    assert build.build_bootstrap_cmd
+    assert_equal "./bootstrap #{options} && \
+    ./configure #{options} && \
+    make VERBOSE=1 -j 8 && \
+    make install", build.build_bootstrap_cmd
+    build = Build.new(
+      name: name,
+      buildsystem: buildsystem,
+      options: options,
+      insource: false,
+      dir: dir
+    )
+    assert_equal "./bootstrap #{options} && \
+    mkdir builddir && \
+    cd builddir && \
+   ../configure #{options} && \
+   make VERBOSE=1 -j 8 && \
+     make install", build.build_bootstrap_cmd
+    assert build.build_bootstrap_cmd
+  end
 end
