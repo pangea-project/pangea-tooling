@@ -85,7 +85,7 @@ make install"
 
   def run_build(cmd, pre_command = nil)
     Dir.chdir(File.join(dir, name))
-    unless extra_command.nil?
+    unless pre_command.nil?
       system(pre_command) if pre_command
     end
     system(cmd)
