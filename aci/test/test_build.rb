@@ -204,7 +204,9 @@ make install", build.build_autogen_cmd
       buildsystem: buildsystem,
       options: options,
       insource: false,
-      dir: dir
+      dir: dir,
+      file: 'qwt.pro',
+      pre_command: 'qmake -set prefix "~/test_install"'
     )
     assert_equal "mkdir builddir && cd builddir && \
     qmake #{options} ../#{file} && \

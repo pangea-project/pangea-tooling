@@ -149,12 +149,14 @@ make install"
   def build_qmake_cmd
     cmd =
       if insource == false
-        "mkdir builddir && cd builddir && \
-        qmake #{options} ../#{file} && make VERBOSE=1 -j 8 && \
-        INSTALL_ROOT=#{prefix} make install"
+        "mkdir builddir && \
+cd builddir && \
+qmake #{options} ../#{file} && make VERBOSE=1 -j 8 && \
+INSTALL_ROOT=#{prefix} make install"
       else
-        "qmake #{options} #{file}&& make VERBOSE=1 -j 8 \
-        && INSTALL_ROOT=#{prefix} make install"
+        "qmake #{options} #{file}&& \
+make VERBOSE=1 -j 8 && \
+INSTALL_ROOT=#{prefix} make install"
       end
     cmd
   end
@@ -163,16 +165,16 @@ make install"
     cmd =
       if insource == false
         "./bootstrap #{options} && \
-        mkdir builddir && \
-        cd builddir && \
-        ../configure #{options} && \
-        make VERBOSE=1 -j 8 && \
-        make install"
+mkdir builddir && \
+cd builddir && \
+../configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install"
       else
         "./bootstrap #{options} && \
-        ./configure #{options} && \
-        make VERBOSE=1 -j 8 && \
-        make install"
+./configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install"
       end
     cmd
   end
