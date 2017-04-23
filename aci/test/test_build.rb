@@ -200,7 +200,7 @@ make install", build.build_autogen_cmd
     assert build.build_qmake_cmd
     assert_equal "qmake #{options} #{file} && \
 make VERBOSE=1 -j 8 && \
-INSTALL_ROOT=#{prefix} make install", build.build_cmake_cmd
+INSTALL_ROOT=#{prefix} make install", build.build_qmake_cmd
     build = Build.new(
       name: name,
       buildsystem: buildsystem,
