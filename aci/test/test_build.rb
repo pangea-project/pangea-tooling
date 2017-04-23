@@ -196,7 +196,7 @@ make install", build.build_autogen_cmd
       pre_command: 'qmake -set prefix "~/test_install"'
     )
     assert build.build_qmake_cmd
-    assert_equal "qmake #{options} #{file}&& \
+    assert_equal "qmake #{options} #{file} && \
 make VERBOSE=1 -j 8 && \
 INSTALL_ROOT=#{prefix} make install", build.build_cmake_cmd
     build = Build.new(
