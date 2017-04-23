@@ -186,13 +186,14 @@ make install", build.build_autogen_cmd
     options = '"PREFIX = ~/usr"'
     insource = true
     dir = Dir.pwd
+    file =  'qwt.pro'
     build = Build.new(
       name: name,
       buildsystem: buildsystem,
       options: options,
       insource: insource,
       dir: dir,
-      file: 'qwt.pro',
+      file:file,
       pre_command: 'qmake -set prefix "~/test_install"'
     )
     assert build.build_qmake_cmd
@@ -205,7 +206,7 @@ INSTALL_ROOT=#{prefix} make install", build.build_cmake_cmd
       options: options,
       insource: false,
       dir: dir,
-      file: 'qwt.pro',
+      file: file,
       pre_command: 'qmake -set prefix "~/test_install"'
     )
     assert_equal "mkdir builddir && \
