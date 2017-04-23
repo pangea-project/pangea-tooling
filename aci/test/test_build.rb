@@ -187,6 +187,7 @@ make install", build.build_autogen_cmd
     insource = true
     dir = Dir.pwd
     file =  'qwt.pro'
+    prefix =  '~/test_install'
     build = Build.new(
       name: name,
       buildsystem: buildsystem,
@@ -195,7 +196,7 @@ make install", build.build_autogen_cmd
       dir: dir,
       file: file,
       pre_command: 'qmake -set prefix "~/test_install"',
-      prefix: '~/test_install'
+      prefix: prefix
     )
     assert build.build_qmake_cmd
     assert_equal "qmake #{options} #{file} && \
@@ -209,7 +210,7 @@ INSTALL_ROOT=#{prefix} make install", build.build_qmake_cmd
       dir: dir,
       file: file,
       pre_command: 'qmake -set prefix "~/test_install"',
-      prefix: '~/test_install'
+      prefix: prefix
     )
     assert_equal "mkdir builddir && \
 cd builddir && \
