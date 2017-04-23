@@ -125,7 +125,7 @@ cd builddir && \
 make VERBOSE=1 -j 8 && \
 make install"
       else
-        "./autogen.sh &&
+        "./autogen.sh && \
 ./configure #{options} && \
 make VERBOSE=1 -j 8 && \
 make install"
@@ -163,11 +163,11 @@ make install"
     cmd =
       if insource == false
         "./bootstrap #{options} && \
-         mkdir builddir && \
+        mkdir builddir && \
         cd builddir && \
-       ../configure #{options} && \
-       make VERBOSE=1 -j 8 && \
-       make install"
+        ../configure #{options} && \
+        make VERBOSE=1 -j 8 && \
+        make install"
       else
         "./bootstrap #{options} && \
         ./configure #{options} && \
