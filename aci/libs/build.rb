@@ -154,7 +154,7 @@ cd builddir && \
 qmake #{options} ../#{file} && make VERBOSE=1 -j 8 && \
 INSTALL_ROOT=#{prefix} make install"
       else
-        "qmake #{options} #{file}&& \
+        "qmake #{options} #{file} && \
 make VERBOSE=1 -j 8 && \
 INSTALL_ROOT=#{prefix} make install"
       end

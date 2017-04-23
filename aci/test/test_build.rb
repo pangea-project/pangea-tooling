@@ -197,8 +197,8 @@ make install", build.build_autogen_cmd
     )
     assert build.build_qmake_cmd
     assert_equal "qmake #{options} #{file}&& \
-    make VERBOSE=1 -j 8 && \
-    INSTALL_ROOT=#{prefix} make install", build.build_cmake_cmd
+make VERBOSE=1 -j 8 && \
+INSTALL_ROOT=#{prefix} make install", build.build_cmake_cmd
     build = Build.new(
       name: name,
       buildsystem: buildsystem,
@@ -208,10 +208,11 @@ make install", build.build_autogen_cmd
       file: 'qwt.pro',
       pre_command: 'qmake -set prefix "~/test_install"'
     )
-    assert_equal "mkdir builddir && cd builddir && \
-    qmake #{options} ../#{file} && \
-    make VERBOSE=1 -j 8 && \
-    INSTALL_ROOT=#{prefix} make install", build.build_qmake_cmd
+    assert_equal "mkdir builddir && \
+cd builddir && \
+qmake #{options} ../#{file} && \
+make VERBOSE=1 -j 8 && \
+INSTALL_ROOT=#{prefix} make install", build.build_qmake_cmd
     assert build.build_qmake_cmd
   end
 
@@ -230,9 +231,9 @@ make install", build.build_autogen_cmd
     )
     assert build.build_bootstrap_cmd
     assert_equal "./bootstrap #{options} && \
-    ./configure #{options} && \
-    make VERBOSE=1 -j 8 && \
-    make install", build.build_bootstrap_cmd
+./configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install", build.build_bootstrap_cmd
     build = Build.new(
       name: name,
       buildsystem: buildsystem,
@@ -241,11 +242,11 @@ make install", build.build_autogen_cmd
       dir: dir
     )
     assert_equal "./bootstrap #{options} && \
-    mkdir builddir && \
-    cd builddir && \
-    ../configure #{options} && \
-    make VERBOSE=1 -j 8 && \
-    make install", build.build_bootstrap_cmd
+mkdir builddir && \
+cd builddir && \
+../configure #{options} && \
+make VERBOSE=1 -j 8 && \
+make install", build.build_bootstrap_cmd
     assert build.build_bootstrap_cmd
   end
 end
