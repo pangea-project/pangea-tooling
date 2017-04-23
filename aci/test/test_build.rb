@@ -228,7 +228,8 @@ INSTALL_ROOT=#{prefix} make install", build.build_qmake_cmd
       buildsystem: buildsystem,
       options: options,
       insource: insource,
-      dir: dir
+      dir: dir,
+      prefix: '~/test_install'
     )
     assert build.build_bootstrap_cmd
     assert_equal "./bootstrap #{options} && \
@@ -240,7 +241,8 @@ make install", build.build_bootstrap_cmd
       buildsystem: buildsystem,
       options: options,
       insource: false,
-      dir: dir
+      dir: dir,
+      prefix: '~/test_install'
     )
     assert_equal "./bootstrap #{options} && \
 mkdir builddir && \
