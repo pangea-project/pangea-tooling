@@ -193,8 +193,9 @@ make install", build.build_autogen_cmd
       options: options,
       insource: insource,
       dir: dir,
-      file:file,
-      pre_command: 'qmake -set prefix "~/test_install"'
+      file: file,
+      pre_command: 'qmake -set prefix "~/test_install"',
+      prefix: '~/test_install'
     )
     assert build.build_qmake_cmd
     assert_equal "qmake #{options} #{file} && \
@@ -207,7 +208,8 @@ INSTALL_ROOT=#{prefix} make install", build.build_cmake_cmd
       insource: false,
       dir: dir,
       file: file,
-      pre_command: 'qmake -set prefix "~/test_install"'
+      pre_command: 'qmake -set prefix "~/test_install"',
+      prefix: '~/test_install'
     )
     assert_equal "mkdir builddir && \
 cd builddir && \
@@ -228,8 +230,7 @@ INSTALL_ROOT=#{prefix} make install", build.build_qmake_cmd
       buildsystem: buildsystem,
       options: options,
       insource: insource,
-      dir: dir,
-      prefix: '~/test_install'
+      dir: dir
     )
     assert build.build_bootstrap_cmd
     assert_equal "./bootstrap #{options} && \
@@ -241,8 +242,7 @@ make install", build.build_bootstrap_cmd
       buildsystem: buildsystem,
       options: options,
       insource: false,
-      dir: dir,
-      prefix: '~/test_install'
+      dir: dir
     )
     assert_equal "./bootstrap #{options} && \
 mkdir builddir && \
