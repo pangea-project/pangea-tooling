@@ -70,9 +70,13 @@ class ProjectJob < JenkinsJob
                                  distribution: kwords[:distribution],
                                  type: kwords[:type]))
       # After _pub
-      jobs.insert(-1, LintQMLJob.new(basename,
-                                     distribution: kwords[:distribution],
-                                     type: kwords[:type]))
+      lintqml = LintQMLJob.new(basename,
+                               distribution: kwords[:distribution],
+                               type: kwords[:type])
+      lintcmake = LintCMakeJob.new(basename,
+                                   distribution: kwords[:distribution],
+                                   type: kwords[:type])
+      jobs.insert(-1, [lintqml, lintcmake])
     end
 
     # We use nested jobs for phases with multiple jobs, we need to aggregate
