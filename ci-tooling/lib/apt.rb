@@ -125,6 +125,8 @@ module Apt
       def url?(str)
         uri = URI.parse(str)
         remote?(uri) || local?(uri)
+      rescue
+        false
       end
 
       def remote?(uri)

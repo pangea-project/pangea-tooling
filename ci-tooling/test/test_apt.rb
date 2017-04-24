@@ -304,11 +304,27 @@ class AptTest < TestCase
 
     # We expect no update call!
 
-    Apt::Cache.expects(:system)
+    Apt::Cache
+      .expects(:system)
       .with('apt-cache', '-q', 'show', 'abc', {[:out, :err] => '/dev/null'})
       .returns(true)
 
     ret = Apt::Cache.disable_auto_update { Apt::Cache.exist?('abc'); '123' }
     assert_equal('123', ret)
+  end
+
+  def test_key_fingerprint
+    # Make sure we get no URI exceptions etc. when adding a fingerprint with
+    # spaces, and that it actually calls the correct command.
+
+    Apt::Key.expects(:system).never
+    Apt::Key.expects(:`).never
+
+    Apt::Key
+      .expects(:system)
+      .with('apt-key', 'adv', '--keyserver', 'keyserver.ubuntu.com', '--recv',
+            '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
+
+    Apt::Key.add('444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
   end
 end
