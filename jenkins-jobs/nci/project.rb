@@ -75,9 +75,19 @@ class ProjectJob < JenkinsJob
                                      type: kwords[:type]))
     end
 
+    # We use nested jobs for phases with multiple jobs, we need to aggregate
+    # them appropriately.
+    job_names = jobs.collect do |job|
+      next job.collect(&:job_name) if job.is_a?(Array)
+      job.job_name
+    end
+
+    # The actual jobs array cannot be nested, so flatten it out.
+    jobs.flatten!
+
     jobs << new(basename,
                 project: project,
-                jobs: jobs.collect(&:job_name),
+                jobs: job_names,
                 dependees: dependees)
     jobs
   end
@@ -103,16 +113,17 @@ class ProjectJob < JenkinsJob
 
   def initialize(basename, project:, jobs:, dependees: [])
     super(basename, 'project.xml.erb')
-    @jobs = jobs.freeze
+    @nested_jobs = jobs.freeze
+    @jobs = jobs.flatten.freeze
     @dependees = dependees.freeze
     @project = project.freeze
   end
 
   def render_phases
     ret = ''
-    @jobs.each_with_index do |job, i|
+    @nested_jobs.each_with_index do |job, i|
       ret += MultiJobPhase.new(phase_name: "Phase#{i}",
-                               phased_jobs: [job]).render_template
+                               phased_jobs: [job].flatten).render_template
     end
     ret
   end

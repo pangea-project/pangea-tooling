@@ -1,7 +1,7 @@
 <com.tikal.jenkins.plugins.multijob.MultiJobBuilder>
   <phaseName><%= phase_name %></phaseName>
-  <% phased_jobs.each do |job| %>
     <phaseJobs>
+      <% phased_jobs.each do |job| %>
       <com.tikal.jenkins.plugins.multijob.PhaseJobsConfig>
         <jobName><%= job %></jobName>
         <currParams>true</currParams>
@@ -17,7 +17,7 @@
         <killPhaseOnJobResultCondition><%= job.respond_to?(:murderous) ? 'FAILURE' : 'NEVER' %></killPhaseOnJobResultCondition>
         <buildOnlyIfSCMChanges>false</buildOnlyIfSCMChanges>
       </com.tikal.jenkins.plugins.multijob.PhaseJobsConfig>
+      <% end %>
     </phaseJobs>
-  <% end %>
   <continuationCondition>UNSTABLE</continuationCondition>
 </com.tikal.jenkins.plugins.multijob.MultiJobBuilder>
