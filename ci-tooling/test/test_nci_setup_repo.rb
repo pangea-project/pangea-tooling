@@ -60,6 +60,7 @@ class NCISetupRepoTest < TestCase
       .expects(:system)
       .with('apt-key', 'adv', '--keyserver', 'keyserver.ubuntu.com', '--recv',
             '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
+      .returns(true)
   end
 
   def proxy_enabled
