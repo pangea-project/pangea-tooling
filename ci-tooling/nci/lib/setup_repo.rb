@@ -49,7 +49,6 @@ module NCI
     end
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools])
-    raise 'failed to install deps' unless Apt.install(%w[python-setuptools])
   end
 
   def setup_proxy!

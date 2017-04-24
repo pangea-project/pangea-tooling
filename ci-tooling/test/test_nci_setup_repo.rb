@@ -73,8 +73,7 @@ class NCISetupRepoTest < TestCase
       ['add-apt-repository', '-y',
        'deb http://archive.neon.kde.org/unstable vivid main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'python-setuptools']
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
     ]
 
     system_sequence = sequence('system-calls')
@@ -123,8 +122,7 @@ class NCISetupRepoTest < TestCase
       ['add-apt-repository', '-y',
        'deb http://archive.neon.kde.org/unstable vivid main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'python-setuptools']
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
     ]
 
     system_sequence = sequence('system-calls')
