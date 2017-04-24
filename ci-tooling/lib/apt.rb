@@ -85,41 +85,61 @@ module Apt
 
   # Apt key management using apt-key binary
   class Key
-    def self.method_missing(name, *caller_args)
-      system('apt-key', name.to_s.tr('_', '-'), *caller_args)
-    end
-
-    # Add a GPG key to APT.
-    # @param str [String] can be a file path, or an http/https/ftp URI or
-    #   a fingerprint/keyid or a fucking file, if you pass a fucking file you
-    #   are an idiot.
-    def self.add(str)
-      # If the thing passes for an URI with host and path we use it as url
-      # otherwise as fingerprint. file:// uris would not qualify, we do not
-      # presently have a use case for them though.
-      uri = URI.parse(str)
-      if (uri.host && !uri.host.empty?) && (uri.path && !uri.path.empty?)
-        add_url(str)
-      elsif uri.path && !uri.path.empty? && File.exist?(uri.path)
-        add_url(str)
-      else
-        add_fingerprint(str)
+    class << self
+      def method_missing(name, *caller_args)
+        system('apt-key', name.to_s.tr('_', '-'), *caller_args)
       end
-    end
 
-    def self.add_url(url)
-      data = open(url).read
-      IO.popen(['apt-key', 'add', '-'], 'w') do |io|
-        io.puts(data)
-        io.close_write
+      # Add a GPG key to APT.
+      # @param str [String] can be a file path, or an http/https/ftp URI or
+      #   a fingerprint/keyid or a fucking file, if you pass a fucking file you
+      #   are an idiot.
+      def add(str)
+        # If the thing passes for an URI with host and path we use it as url
+        # otherwise as fingerprint. file:// uris would not qualify, we do not
+        # presently have a use case for them though.
+        if url?(str)
+          add_url(str)
+        else
+          add_fingerprint(str)
+        end
       end
-      $?.success?
-    end
 
-    def self.add_fingerprint(id_or_fingerprint)
-      system('apt-key', 'adv',
-             '--keyserver', 'keyserver.ubuntu.com',
-             '--recv', id_or_fingerprint)
+      def add_url(url)
+        data = open(url).read
+        IO.popen(['apt-key', 'add', '-'], 'w') do |io|
+          io.puts(data)
+          io.close_write
+        end
+        $?.success?
+      end
+
+      def add_fingerprint(id_or_fingerprint)
+        system('apt-key', 'adv',
+               '--keyserver', 'keyserver.ubuntu.com',
+               '--recv', id_or_fingerprint)
+      end
+
+      private
+
+      def url?(str)
+        uri = URI.parse(str)
+        remote?(uri) || local?(uri)
+      end
+
+      def remote?(uri)
+        # If a URI has a host and a path we'll assume it to be a path
+        (uri.host && !uri.host.empty?) && (uri.path && !uri.path.empty?)
+      end
+
+      def local?(uri)
+        # Has no host but a path and that path is a local file?
+        # Must be a local uri.
+        # NB: fingerpints or keyids are incredibly unlikely to match this, but
+        #   they could if one has particularly random file names in PWD.
+        (!uri.host || uri.host.empty?) &&
+          (uri.path && !uri.path.empty? && File.exist?(uri.path))
+      end
     end
   end
 
