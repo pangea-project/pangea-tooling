@@ -19,8 +19,6 @@ deb http://ports.ubuntu.com/ubuntu-ports/ xenial-updates main universe multivers
 deb http://ports.ubuntu.com/ubuntu-ports/ xenial-security main universe multiverse
 EOF
 
-# FIXME: reneable
-# echo 'Acquire::http { Proxy "http://10.0.3.1:3142"; };' > /etc/apt/apt.conf.d/00cache
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00aptitude
 echo 'APT::Color "1";' > /etc/apt/apt.conf.d/99color
 
