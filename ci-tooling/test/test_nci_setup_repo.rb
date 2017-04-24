@@ -54,6 +54,14 @@ class NCISetupRepoTest < TestCase
     ENV.delete('TYPE')
   end
 
+  def expect_key_add
+    Object
+      .any_instance
+      .expects(:system)
+      .with('apt-key', 'adv', '--keyserver', 'keyserver.ubuntu.com', '--recv',
+            '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
+  end
+
   def proxy_enabled
     "Acquire::http::Proxy \"#{NCI::PROXY_URI}\";"
   end
@@ -76,16 +84,10 @@ class NCISetupRepoTest < TestCase
             .in_sequence(system_sequence)
     end
 
-    key_catcher = StringIO.new
-    IO.expects(:popen)
-      .with(['apt-key', 'add', '-'], 'w')
-      .yields(key_catcher)
-      .returns(true)
+    expect_key_add
 
     # stub_request(:get, 'http://mirrors.ubuntu.com/mirrors.txt')
     #   .to_return(status: 200, body: 'http://ubuntu.uni-klu.ac.at/ubuntu/')
-    stub_request(:get, 'https://archive.neon.kde.org/public.key')
-      .to_return(status: 200, body: 'abc')
 
     # Expect proxy to be set up to private
     File.expects(:write).with('/etc/apt/apt.conf.d/proxy', proxy_enabled)
@@ -109,8 +111,6 @@ class NCISetupRepoTest < TestCase
     #     .with('/etc/apt/sources.list', "deb http://ubuntu.uni-klu.ac.at/ubuntu/ willy yo\ndeb http://archive.neon.kde.org willy yo\n")
 
     NCI.setup_repo!
-
-    assert_equal("abc\n", key_catcher.string)
   end
 
   # This is a semi-temporary test until all servers have private networking
@@ -134,23 +134,15 @@ class NCISetupRepoTest < TestCase
             .in_sequence(system_sequence)
     end
 
-    key_catcher = StringIO.new
-    IO.expects(:popen)
-      .with(['apt-key', 'add', '-'], 'w')
-      .yields(key_catcher)
-      .returns(true)
+    expect_key_add
 
     # stub_request(:get, 'http://mirrors.ubuntu.com/mirrors.txt')
     #   .to_return(status: 200, body: 'http://ubuntu.uni-klu.ac.at/ubuntu/')
-    stub_request(:get, 'https://archive.neon.kde.org/public.key')
-      .to_return(status: 200, body: 'abc')
 
     # Expect proxy to be set up
     File.expects(:write).with('/etc/apt/apt.conf.d/proxy', proxy_enabled)
 
     NCI.setup_repo!
-
-    assert_equal("abc\n", key_catcher.string)
   end
 
   def test_add_repo
