@@ -81,8 +81,9 @@ task :deploy_in_container => :align_ruby do
   # so we need all dependencies met as early as possible in the process.
   # FIXME: copy from above
   tooling_path = '/tooling-pending'
-  final_path = File.join(home, 'tooling')
-  final_ci_tooling_compat_path = File.join(home, 'ci-tooling')
+  final_path = '/tooling'
+  final_ci_tooling_compat_path = File.join(home, 'tooling')
+  final_ci_tooling_compat_compat_path = File.join(home, 'ci-tooling')
 
   File.write("#{Dir.home}/.gemrc", <<-EOF)
 install: --no-document
@@ -127,14 +128,16 @@ EOF
 
     FileUtils.rm_rf(final_path)
     FileUtils.mkpath(final_path, verbose: true)
-    FileUtils.cp_r(Dir.glob('*'), final_path)
-    if File.symlink?(final_ci_tooling_compat_path)
-      FileUtils.rm(final_ci_tooling_compat_path, verbose: true)
-    elsif File.exist?(final_ci_tooling_compat_path)
-      FileUtils.rm_r(final_ci_tooling_compat_path, verbose: true)
+    FileUtils.cp_r('./.', final_path, verbose: true)
+    [final_ci_tooling_compat_path,
+     final_ci_tooling_compat_compat_path].each do |compat|
+      if File.symlink?(compat)
+        FileUtils.rm(compat, verbose: true)
+      elsif File.exist?(compat)
+        FileUtils.rm_r(compat, verbose: true)
+      end
+      FileUtils.ln_s("#{final_path}/ci-tooling", compat, verbose: true)
     end
-    FileUtils.ln_s("#{final_path}/ci-tooling", final_ci_tooling_compat_path,
-                   verbose: true)
   end
 
   require_relative 'ci-tooling/lib/apt'
