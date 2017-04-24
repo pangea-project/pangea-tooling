@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,9 @@ require_relative 'mirrors'
 
 # Neon CI specific helpers.
 module NCI
-  PROXY_URI = URI::HTTP.build(host: 'apt.cache.pangea.pub', port: 3142)
+  # NOTE: we talk to squid directly to reduce forwarding overhead, if we routed
+  #   through apache we'd be spending between 10 and 25% of CPU on the forward.
+  PROXY_URI = URI::HTTP.build(host: 'apt.cache.pangea.pub', port: 8000)
 
   module_function
 
