@@ -110,7 +110,7 @@ describe 'build_kf5' do
           dir: dir
         )
         p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
-          options + ' autoreconf ' + autoreconf + ' insource ' + insource
+          options + ' insource ' + insource
         cmd = build.select_buildsystem
         p 'Running ' + cmd.to_s
         build.run_build(cmd)
@@ -149,7 +149,7 @@ describe 'build_kde_dep' do
           dir: dir
         )
         p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
-          options + ' autoreconf ' + autoreconf + ' insource ' + insource
+          options + ' insource ' + insource
         cmd = build.select_buildsystem
         p 'Running ' + cmd.to_s
         build.run_build(cmd)
@@ -190,7 +190,7 @@ describe 'build_kf5_dep_sources' do
           dir: dir
         )
         p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
-          options + ' autoreconf ' + autoreconf + ' insource ' + insource
+          options +  ' insource ' + insource
         cmd = build.select_buildsystem
         p 'Running ' + cmd.to_s
         build.run_build(cmd)
