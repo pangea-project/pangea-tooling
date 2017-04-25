@@ -173,7 +173,6 @@ describe 'build_kf5_dep_sources' do
         expect(source.select_type).to be(0), exit_status
         expect(Dir.exist?("/source/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
         name = framework
-        buildsystem = 'cmake'
         insource = false
         build = Build.new(
           name: name,
