@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'addressable/uri'
 require 'jenkins_api_client'
 
 # Monkey patch for Client to fold in our config data.
@@ -38,7 +39,10 @@ module AutoConfigJenkinsClient
   end
 
   def default_config_data
+    # If we ported the entire autoconf shebang to URIs we'd not have to have
+    # so many key words :(
     {
+      ssl: false,
       server_ip: 'kci.pangea.pub',
       server_port: '80',
       log_level: Logger::FATAL
@@ -53,6 +57,11 @@ module JenkinsApi
     prepend AutoConfigJenkinsClient
 
     attr_reader :server_ip
+
+    def uri
+      Addressable::URI.new(scheme: @ssl ? 'https' : 'http', host: @server_ip,
+                           port: @server_port, path: @jenkins_path)
+    end
 
     # Monkey patch to not be broken.
     class View
