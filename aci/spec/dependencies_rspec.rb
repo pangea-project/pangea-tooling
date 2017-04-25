@@ -109,7 +109,11 @@ describe 'build_kf5' do
           insource: insource,
           dir: dir
         )
-        build.run_build(build.select_buildsystem)
+        p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
+          options + ' autoreconf ' + autoreconf + ' insource ' + insource
+        cmd = build.select_buildsystem
+        p 'Running ' + cmd.to_s
+        build.run_build(cmd)
         FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
     end
@@ -144,7 +148,11 @@ describe 'build_kde_dep' do
           insource: insource,
           dir: dir
         )
-        build.run_build(build.select_buildsystem)
+        p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
+          options + ' autoreconf ' + autoreconf + ' insource ' + insource
+        cmd = build.select_buildsystem
+        p 'Running ' + cmd.to_s
+        build.run_build(cmd)
         FileUtils.rm_rf(File.join(Dir.pwd, name))
       end
     end
@@ -181,7 +189,11 @@ describe 'build_kf5_dep_sources' do
           insource: insource,
           dir: dir
         )
-        build.run_build(build.select_buildsystem)
+        p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
+          options + ' autoreconf ' + autoreconf + ' insource ' + insource
+        cmd = build.select_buildsystem
+        p 'Running ' + cmd.to_s
+        build.run_build(cmd)
         FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
     end
