@@ -55,7 +55,7 @@ describe 'build_non_kf5_dep_sources' do
         insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
         insource = false if insource.nil?
         p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
-          options + ' autoreconf ' + autoreconf + ' insource ' + insource
+          options + ' autoreconf ' + autoreconf.to_s + ' insource ' + insource.to_s
         dir = '/source/'
         source = SCM.new(url: url, branch: branch, dir: dir, type: type, file: file, name: name)
         source.select_type
@@ -110,7 +110,7 @@ describe 'build_kf5' do
           dir: dir
         )
         p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
-          options + ' insource ' + insource
+          options + ' insource ' + insource.to_s
         cmd = build.select_buildsystem
         p 'Running ' + cmd.to_s
         build.run_build(cmd)
@@ -149,7 +149,7 @@ describe 'build_kde_dep' do
           dir: dir
         )
         p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
-          options + ' insource ' + insource
+          options + ' insource ' + insource.to_s
         cmd = build.select_buildsystem
         p 'Running ' + cmd.to_s
         build.run_build(cmd)
@@ -190,7 +190,7 @@ describe 'build_kf5_dep_sources' do
           dir: dir
         )
         p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
-          options +  ' insource ' + insource
+          options +  ' insource ' + insource.to_s
         cmd = build.select_buildsystem
         p 'Running ' + cmd.to_s
         build.run_build(cmd)
