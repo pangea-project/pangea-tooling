@@ -140,10 +140,7 @@ make install"
   end
 
   def build_custom_cmd
-    Dir.chdir(File.join(dir, name))
-    system(options)
-    Dir.chdir(dir)
-    $CHILD_STATUS.exitstatus
+    options
   end
 
   def build_qmake_cmd
