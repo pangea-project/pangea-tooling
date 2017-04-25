@@ -43,6 +43,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
   private
 
+  def jobs_without_template
+    JenkinsApi::Client.new.view.list_jobs('testy') +
+      JenkinsApi::Client.new.view.list_jobs('snap (build)') +
+      %w[a_extra-cmake-modules] # This is a multibranch pipe, a view itself.
+  end
+
   # Append nci templates to list.
   def all_template_files
     files = super

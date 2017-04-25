@@ -26,6 +26,7 @@ module Jenkins
     def initialize
       update_submodules
       @job_queue = Queue.new
+      @job_names = []
     end
 
     def update_submodules
@@ -40,6 +41,7 @@ module Jenkins
       update_submodules
       populate_queue
       run_queue
+      check_jobs_exist
     end
 
     def install_plugins
@@ -54,6 +56,36 @@ module Jenkins
     end
 
     private
+
+    # Override to supply a blacklist of jobs to not be considered in the
+    # templatification warnings.
+    def jobs_without_template
+      []
+    end
+
+    def check_jobs_exist
+      # To blacklist jobs from being complained about, override
+      # #jobs_without_template in the sepcific updater class.
+
+      remote = JenkinsApi::Client.new.job.list_all - jobs_without_template
+      local = @job_names
+
+      job_warn('--- Some jobs are not being templated! ---', (remote - local))
+      job_warn('--- Some jobs were not created @remote! ---', (local - remote))
+    end
+
+    def job_warn(warning_str, names)
+      return if names.empty?
+      warn warning_str
+      names.each do |name|
+        uri = JenkinsApi::Client.new.uri
+        uri.path += "/job/#{name}"
+        warn name
+        warn "    #{uri.normalize}"
+      end
+      warn warning_str
+      warn '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    end
 
     def all_template_files
       Dir.glob('jenkins-jobs/templates/**/**.xml.erb')
@@ -89,6 +121,7 @@ module Jenkins
 
     def enqueue(obj)
       @job_queue << obj
+      @job_names << obj.job_name
       obj
     end
 
