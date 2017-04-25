@@ -70,7 +70,7 @@ describe 'build_non_kf5_dep_sources' do
         expect(build.insource).to be(insource)
         expect(build.autoreconf).to be(autoreconf)
         cmd = build.select_buildsystem
-        p 'Running ' + cmd
+        p 'Running ' + cmd.to_s
         build.run_build(cmd)
         FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
