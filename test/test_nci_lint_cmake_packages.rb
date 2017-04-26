@@ -69,7 +69,6 @@ module NCI
       assert_equal(['kcoreaddons_5.21.0-0neon_amd64.changes', 'libkf5coreaddons-dev.xml', 'libkf5coreaddons-bin-dev.xml', 'libkf5coreaddons5.xml'].sort,
                    Dir.glob('*').sort)
       assert($?.success?)
-      FileUtils.cp(Dir.glob('*.xml'), '/home/me/src/git/test_junit/cmake/')
     end
   end
 end
