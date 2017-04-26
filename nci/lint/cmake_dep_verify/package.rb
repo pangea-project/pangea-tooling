@@ -18,12 +18,16 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'tty-command'
+
 require_relative '../../../ci-tooling/lib/apt'
 require_relative '../../../ci-tooling/lib/dpkg'
 
 module CMakeDepVerify
   # Wrapper around a package we want to test.
   class Package
+    Result = Struct.new(:success?, :out, :err)
+
     attr_reader :name
     attr_reader :version
 
@@ -43,28 +47,30 @@ module CMakeDepVerify
     end
 
     def test
-      failed = [] # FIXME: this should be a hash name=>stdout/stderr
+      failures = {}
       cmake_packages.each do |cmake_package|
-        Dir.mktmpdir do |tmpdir|
-          File.write("#{tmpdir}/CMakeLists.txt", <<-EOF)
-cmake_minimum_required(VERSION 3.0)
-find_package(#{cmake_package} REQUIRED)
-EOF
-          next if run_cmake_in(tmpdir)
-          failed << cmake_package
-        end
+        result = run(cmake_package)
+        next if result.success?
+        failures[cmake_package] = Result.new(result.success?, result.out,
+                                             result.err)
       end
-      failed
+      failures
     end
 
     private
 
-    def run_cmake_in(dir)
-      system('cmake', '.', chdir: dir)
+    def run(cmake_package)
+      Dir.mktmpdir do |tmpdir|
+        File.write("#{tmpdir}/CMakeLists.txt", <<-EOF)
+cmake_minimum_required(VERSION 3.0)
+find_package(#{cmake_package} REQUIRED)
+EOF
+        cmd = TTY::Command.new
+        cmd.run('cmake', '.', chdir: tmpdir)
+      end
     end
 
     def files
-      # FIXME: need to fail otherwise, the results will be skewed?
       Apt.install("#{name}=#{version}")
       Apt::Get.autoremove(args: '--purge')
 

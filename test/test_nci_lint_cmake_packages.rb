@@ -50,6 +50,13 @@ module NCI
           /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfig.cmake)
         )
         CMakeDepVerify::Package.any_instance.expects(:run_cmake_in).returns(true)
+
+        result = mock('result')
+        result.responds_like_instance_of(TTY::Command::Result)
+        result.stubs(:success?).returns(true)
+        result.stubs(:out).returns('')
+        result.stubs(:err).returns('')
+        TTY::Command.any_instance.expects(:run).returns(result)
         DPKG.stubs(:list).with { |x| x != 'libkf5coreaddons-dev' }.returns([])
 
         load "#{__dir__}/../nci/lint_cmake_packages.rb"

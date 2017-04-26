@@ -33,6 +33,7 @@ gem 'nokogiri'
 gem 'oauth', '~> 0.4'
 gem 'octokit'
 gem 'rugged'
+gem 'tty-command'
 
 # Git URI management
 gem 'git_clone_url', '~> 2.0'

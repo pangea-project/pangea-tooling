@@ -62,7 +62,7 @@ module Lint
         @log.info "Checking #{package}: #{version}"
         failed = pkg.test
         next if failed.empty?
-        @log.error "Failed to find_package() on #{failed.join(', ')}"
+        @log.error "Failed to find_package() on #{failed.keys.join(', ')}"
         @fail = true
       end
     end
