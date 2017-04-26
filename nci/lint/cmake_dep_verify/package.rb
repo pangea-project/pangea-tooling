@@ -35,6 +35,8 @@ module CMakeDepVerify
       def install_deps
         @run ||= (Apt.install(%w[cmake build-essential]) || raise)
       end
+
+      attr_accessor :dry_run
     end
 
     def initialize(name, version)
@@ -50,7 +52,6 @@ module CMakeDepVerify
       failures = {}
       cmake_packages.each do |cmake_package|
         result = run(cmake_package)
-        next if result.success?
         failures[cmake_package] = Result.new(result.success?, result.out,
                                              result.err)
       end
@@ -65,7 +66,7 @@ module CMakeDepVerify
 cmake_minimum_required(VERSION 3.0)
 find_package(#{cmake_package} REQUIRED)
 EOF
-        cmd = TTY::Command.new
+        cmd = TTY::Command.new(dry_run: self.class.dry_run || false)
         cmd.run('cmake', '.', chdir: tmpdir)
       end
     end

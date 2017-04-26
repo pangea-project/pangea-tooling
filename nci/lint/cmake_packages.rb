@@ -23,6 +23,7 @@ require 'logger/colors'
 
 require_relative '../../ci-tooling/lib/qml_dep_verify/aptly'
 require_relative 'cmake_dep_verify/package'
+require_relative 'cmake_dep_verify/junit'
 
 module Lint
   class CMakePackages
@@ -33,19 +34,26 @@ module Lint
       @log.level = Logger::INFO
       @log.progname = self.class.to_s
       @repo = repo
-      @fail = false
+      @package_results = {}
     end
 
     def run
       repo.add || raise
       # Call actual code for missing detection.
       run_internal
-      raise 'Failed Test!' if @fail
+      write
     ensure
       repo.remove
     end
 
     private
+
+    def write
+      @package_results.each do |package, cmake_package_results|
+        suite = CMakeDepVerify::JUnit::Suite.new(package, cmake_package_results)
+        File.write("#{package}.xml", suite.to_xml)
+      end
+    end
 
     def binaries
       changes = Debian::Changes.new(Dir.glob('*.changes')[0])
@@ -60,10 +68,7 @@ module Lint
         next if package.end_with?('-dbg', '-dbgsym', '-data', '-bin', '-common')
         pkg = CMakeDepVerify::Package.new(package, version)
         @log.info "Checking #{package}: #{version}"
-        failed = pkg.test
-        next if failed.empty?
-        @log.error "Failed to find_package() on #{failed.keys.join(', ')}"
-        @fail = true
+        @package_results[package] = pkg.test
       end
     end
   end

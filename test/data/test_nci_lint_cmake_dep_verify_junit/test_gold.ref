@@ -1,0 +1,17 @@
+<testsuites>
+  <testsuite name="CMakePackages" package="kitteh">
+    <testcase name="find_package" time="0" classname="kitteh.KittehConfig">
+      <failure/>
+      <system-out>purr
+purr</system-out>
+      <system-err>meow
+meow</system-err>
+    </testcase>
+    <testcase name="find_package" time="0" classname="kitteh.HettikConfig">
+      <system-out>meow
+meow</system-out>
+      <system-err>purr
+purr</system-err>
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -28,6 +28,8 @@ module NCI
       FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
     end
 
+    # This brings down coverage which is meh, it does neatly isolate things
+    # though.
     def test_run
       pid = fork do
         # Needed so we can properly mock before loading the binary.
@@ -64,7 +66,10 @@ module NCI
         exit 0
       end
       assert_equal(pid, Process.waitpid(pid))
+      assert_equal(['kcoreaddons_5.21.0-0neon_amd64.changes', 'libkf5coreaddons-dev.xml', 'libkf5coreaddons-bin-dev.xml', 'libkf5coreaddons5.xml'].sort,
+                   Dir.glob('*').sort)
       assert($?.success?)
+      FileUtils.cp(Dir.glob('*.xml'), '/home/me/src/git/test_junit/cmake/')
     end
   end
 end

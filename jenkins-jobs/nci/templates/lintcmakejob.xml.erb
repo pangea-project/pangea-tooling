@@ -56,6 +56,12 @@ export PWD_BIND=/workspace
       <defaultExcludes>true</defaultExcludes>
       <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.20">
+      <testResults>*.xml</testResults>
+      <keepLongStdio>false</keepLongStdio>
+      <healthScaleFactor>10.0</healthScaleFactor>
+      <allowEmptyResults>true</allowEmptyResults>
+    </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.29">
       <deleteDirs>false</deleteDirs>
       <skipWhenFailed>false</skipWhenFailed>
