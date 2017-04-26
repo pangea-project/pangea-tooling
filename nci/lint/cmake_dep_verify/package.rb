@@ -67,7 +67,7 @@ cmake_minimum_required(VERSION 3.0)
 find_package(#{cmake_package} REQUIRED)
 EOF
         cmd = TTY::Command.new(dry_run: self.class.dry_run || false)
-        cmd.run('cmake', '.', chdir: tmpdir)
+        cmd.run!('cmake', '.', chdir: tmpdir)
       end
     end
 

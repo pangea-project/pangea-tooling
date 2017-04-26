@@ -58,7 +58,7 @@ module NCI
         result.stubs(:success?).returns(true)
         result.stubs(:out).returns('')
         result.stubs(:err).returns('')
-        TTY::Command.any_instance.expects(:run).returns(result)
+        TTY::Command.any_instance.expects(:run!).returns(result)
         DPKG.stubs(:list).with { |x| x != 'libkf5coreaddons-dev' }.returns([])
 
         load "#{__dir__}/../nci/lint_cmake_packages.rb"

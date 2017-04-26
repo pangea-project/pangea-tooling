@@ -83,7 +83,7 @@ module CMakeDepVerify
       result.stubs(:success?).returns(false)
       result.stubs(:out).returns('output')
       result.stubs(:err).returns('error')
-      TTY::Command.any_instance.stubs(:run).returns(result)
+      TTY::Command.any_instance.stubs(:run!).returns(result)
 
       pkg = Package.new('libkf5coreaddons-dev', '1')
       res = pkg.test
