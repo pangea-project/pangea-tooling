@@ -49,8 +49,10 @@ module Lint
     private
 
     def write
+      puts 'Writing...'
       @package_results.each do |package, cmake_package_results|
         suite = CMakeDepVerify::JUnit::Suite.new(package, cmake_package_results)
+        puts "Writing #{package}.xml"
         File.write("#{package}.xml", suite.to_xml)
       end
     end
