@@ -40,8 +40,8 @@ module Jenkins
     def update
       update_submodules
       populate_queue
-      # run_queue
-      # check_jobs_exist
+      run_queue
+      check_jobs_exist
     end
 
     def install_plugins

@@ -14,7 +14,6 @@ class JenkinsJob < Template
   # Creates or updates the Jenkins job.
   # @return the job_name
   def update
-    return
     # FIXME: this should use retry_it
     return unless job_name.include?(ENV.fetch('UPDATE_INCLUDE', ''))
     xml = render_template
