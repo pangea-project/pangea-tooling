@@ -2,7 +2,7 @@ require 'test/unit'
 require_relative '../lib/shebang'
 
 class ExecutableTest < Test::Unit::TestCase
-  BINARY_DIRS = %w(
+  BINARY_DIRS = %w[
     .
     bin
     ci-tooling
@@ -13,15 +13,12 @@ class ExecutableTest < Test::Unit::TestCase
     ci-tooling/mci
     ci-tooling/nci
     dci
-    kci
-    kci/mgmt
     mci
-    mobster
     nci
     mgmt
-  )
+  ].freeze
 
-  SUFFIXES = %w(.py .rb .sh)
+  SUFFIXES = %w[.py .rb .sh].freeze
 
   def test_all_binaries_exectuable
     basedir = File.dirname(File.expand_path(File.dirname(__FILE__)))

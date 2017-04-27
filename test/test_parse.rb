@@ -6,16 +6,14 @@ class ParseTest < Test::Unit::TestCase
     basedir = File.dirname(__dir__)
     Dir.chdir(basedir)
 
-    source_dirs = %w(
+    source_dirs = %w[
       bin
       dci
-      kci
       git-monitor
       jenkins-jobs
       lib
       nci
       mci
-      mobster
       test
       ci-tooling/dci
       ci-tooling/kci
@@ -23,7 +21,7 @@ class ParseTest < Test::Unit::TestCase
       ci-tooling/mci
       ci-tooling/nci
       ci-tooling/test
-    )
+    ]
     source_dirs.each do |source_dir|
       Dir.glob("#{source_dir}/**/*.rb").each do |file|
         parse_ruby(file)

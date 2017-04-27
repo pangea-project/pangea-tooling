@@ -41,7 +41,7 @@ class JenkinsJobDirTest < TestCase
 
     very_old_mtime = (DateTime.now - 32).to_time
 
-    # On mobile.kci we had prunes on logs only. So we need to make sure
+    # On mobile ci we had prunes on logs only. So we need to make sure
     # archives are pruned even if they have no log
     FileUtils.mkpath("#{buildsdir}/999/archive")
     FileUtils.touch("#{buildsdir}/999/archive", mtime: very_old_mtime)
