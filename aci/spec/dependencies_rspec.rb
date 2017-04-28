@@ -99,7 +99,8 @@ describe 'build_kf5' do
         extra_options = KF5[framework]['options']
         options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr \
         -DKDE_INSTALL_SYSCONFDIR=/opt/etc \
-        -DCMAKE_PREFIX_PATH=/opt/usr:/usr'
+        -DCMAKE_PREFIX_PATH=/opt/usr:/usr \
+        -DBUILD_TESTING=OFF'
         options += extra_options if extra_options
         insource = false
         build = Build.new(
@@ -139,7 +140,8 @@ describe 'build_kde_dep' do
         buildsystem = 'cmake'
         options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr \
         -DKDE_INSTALL_SYSCONFDIR=/opt/etc \
-        -DCMAKE_PREFIX_PATH=/opt/usr:/usr'
+        -DCMAKE_PREFIX_PATH=/opt/usr:/usr \
+        -DBUILD_TESTING=OFF'
         insource = false
         build = Build.new(
           name: name,
