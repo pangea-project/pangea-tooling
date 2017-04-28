@@ -34,6 +34,9 @@ kmail:
 kexi:
   repo: https://github.com/appimage-packages/kexi
   branch: [master]
+kexi-stable:
+  repo: https://github.com/appimage-packages/kexi-stable
+  branch: [master]
 choqok:
   repo: https://github.com/appimage-packages/choqok
   branch: [master]
