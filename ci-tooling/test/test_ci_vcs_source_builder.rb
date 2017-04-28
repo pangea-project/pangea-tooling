@@ -310,4 +310,12 @@ class VCSBuilderTest < TestCase
     orig_name ? ENV['DEBFULLNAME'] = orig_name : ENV.delete('DEBFULLNAME')
     orig_email ? ENV['DEBEMAIL'] = orig_email : ENV.delete('DEBEMAIL')
   end
+
+  def test_l10n_neon_url
+    # Make sure neon git urls do not trigger l10n injection code.
+    r = CI::VcsSourceBuilder
+        .new(release: @release)
+        .send(:repo_url_from_path, 'git://anongit.neon.kde.org/')
+    assert_equal(nil, r)
+  end
 end
