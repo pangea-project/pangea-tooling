@@ -56,8 +56,8 @@ describe 'build_non_kf5_dep_sources' do
         autoreconf = false if autoreconf.nil?
         insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
         insource = false if insource.nil?
-        p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
-          options + ' autoreconf ' + autoreconf.to_s + ' insource ' + insource.to_s
+        p "Name #{name} Buildsytem #{buildsystem} options \
+        #{options} autoreconf #{autoreconf} insource #{insource}".to_s
         dir = '/source/'
         source = SCM.new(url: url, branch: branch, dir: dir, type: type, file: file, name: name)
         source.select_type
@@ -72,7 +72,7 @@ describe 'build_non_kf5_dep_sources' do
         expect(build.insource).to be(insource)
         expect(build.autoreconf).to be(autoreconf)
         cmd = build.select_buildsystem
-        p 'Running ' + cmd.to_s
+        p "Running #{cmd}".to_s
         build.run_build(cmd)
         FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
@@ -112,10 +112,10 @@ describe 'build_kf5' do
           insource: insource,
           dir: dir
         )
-        p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
-          options + ' insource ' + insource.to_s
+        p "Name #{name} Buildsytem #{buildsystem} options \
+        #{options} insource #{insource}".to_s
         cmd = build.select_buildsystem
-        p 'Running ' + cmd.to_s
+        p "Running #{cmd}".to_s
         build.run_build(cmd)
         FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
@@ -152,10 +152,10 @@ describe 'build_kde_dep' do
           insource: insource,
           dir: dir
         )
-        p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
-          options + ' insource ' + insource.to_s
+        p "Name #{name} Buildsytem #{buildsystem} options \
+        #{options} insource #{insource}".to_s
         cmd = build.select_buildsystem
-        p 'Running ' + cmd.to_s
+        p "Running #{cmd}".to_s
         build.run_build(cmd)
         FileUtils.rm_rf(File.join(Dir.pwd, name))
       end
@@ -193,10 +193,10 @@ describe 'build_kf5_dep_sources' do
           insource: insource,
           dir: dir
         )
-        p ' Name ' + name + ' Buildsytem ' + buildsystem + ' options ' + \
-          options +  ' insource ' + insource.to_s
+        p "Name #{name} Buildsytem #{buildsystem} options \
+        #{options} insource #{insource}".to_s
         cmd = build.select_buildsystem
-        p 'Running ' + cmd.to_s
+        p "Running #{cmd}".to_s
         build.run_build(cmd)
         FileUtils.rm_rf(File.join(Dir.pwd,  name))
       end
