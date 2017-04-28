@@ -15,6 +15,7 @@ class ExecutableTest < Test::Unit::TestCase
     dci
     mci
     nci
+    aci
     mgmt
   ].freeze
 
