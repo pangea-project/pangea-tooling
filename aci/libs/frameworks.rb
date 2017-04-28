@@ -18,7 +18,6 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-require_relative 'metadata'
 require 'fileutils'
 require 'yaml'
 require 'set'
@@ -27,8 +26,8 @@ require 'set'
 module Frameworks
   KF5 = YAML.load_file(File.join(__dir__, '../data/kf5.yaml'))
 
-  def self.generatekf5_packages
-    frameworks = generatekf5_buildorder(Metadata::FRAMEWORKS)
+  def self.generatekf5_packages(kf5)
+    frameworks = generatekf5_buildorder(kf5)
     kf5_packages = Set.new
     frameworks.each do |f|
       dep_list = KF5[f].select { |k| k['distro_packages'] }

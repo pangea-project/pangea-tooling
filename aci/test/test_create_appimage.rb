@@ -18,57 +18,35 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-require_relative 'packages'
+require_relative '../libs/create'
 require 'fileutils'
-require 'open-uri'
+require 'test/unit'
+require 'English'
+require 'mocha/test_unit'
 
-# Call Appimagetool to do all the appimage creation bit
-module Appimage
-  def self.create_cmd(filename)
-    cmd = './appimagetool-x86_64.AppImage -v -s -u "zsync|'
-    cmd += filename
-    cmd += '"  /app.Dir/ /appimages/'
-    cmd += filename
-    cmd
-  end
+# Test various aspects of scm
+class TestCreateAppimage < Test::Unit::TestCase
 
-  def self.create_zsync(filename, project)
+  @@project = 'extra-cmake-modules'
+  @@filename = 'extra-cmake-modules-git04282017-x86_64.AppImage'
+
+  def test_create_zsync
     zsync = 'zsyncmake -u "https://s3-eu-central-1.amazonaws.com/ds9-apps/'
-    zsync += project
+    zsync += @@project
     zsync += '-master-appimage/'
-    zsync += filename
+    zsync += @@filename
     zsync += '" -o /appimages/'
-    zsync += filename
+    zsync += @@filename
     zsync += '.zsync /appimages/'
-    zsync += filename
-    zsync
+    zsync += @@filename
+    assert_equal zsync, Appimage.create_zsync(@@filename, @@project)
   end
 
-  def self.get_tool(args = {})
-    url = args[:url]
-    file = args[:file]
-    download = open(url)
-    IO.copy_stream(download, file)
-    FileUtils.chmod(0o755, file, verbose: true)
-    $?.exitstatus
+  def test_create_cmd
+    cmd = './appimagetool-x86_64.AppImage -v -s -u "zsync|'
+    cmd += @@filename
+    cmd += '"  /app.Dir/ /appimages/'
+    cmd += @@filename
+    assert_equal cmd, Appimage.create_cmd(@@filename)
   end
-
-  def self.retrieve_tools
-    # get tools
-    Dir.chdir('/')
-    get_tool(
-      url: 'https://github.com/probonopd/AppImageKit/releases/download/knowngood/appimagetool-x86_64.AppImage',
-      file: 'appimagetool-x86_64.AppImage'
-    )
-  end
-
-  def self.import_gpg
-    # Import gpg key for appimagetool gpg signing.
-    `gpg2 --import /root/.gnupg/appimage.key`
-  end
-
-  def self.run_cmd(cmd)
-    system(cmd)
-  end
-
 end

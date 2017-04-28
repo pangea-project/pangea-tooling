@@ -18,7 +18,6 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-require_relative 'metadata'
 require_relative 'frameworks'
 require_relative '../../ci-tooling/lib/apt'
 require 'fileutils'
@@ -31,9 +30,10 @@ module Packages
   def self.install_packages(args = {})
     kde = args[:kde]
     projectpackages = args[:projectpackages]
+    kf5 = args[:kf5]
     packagelist = Set.new
     packagelist.merge(projectpackages) if projectpackages
-    packagelist.merge(Frameworks.generatekf5_packages) if kde
+    packagelist.merge(Frameworks.generatekf5_packages(kf5)) if kde
     packages = packagelist.to_a
     Apt.install(packages) if packages
     $?.exitstatus
