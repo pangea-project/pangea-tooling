@@ -36,10 +36,10 @@ describe 'bundle_appimage' do
     # import gpg key
     Appimage.import_gpg
     # create the appimage
-    dated_cmd = create_cmd(Metadata::APPIMAGEFILENAME)
-    dated_zsync = create_zsync(Metadata::APPIMAGEFILENAME, Metadata::PROJECT)
-    latest_cmd = create_cmd(Metadata::LATESTAPPIMAGEFILENAME)
-    latest_zsync = create_zsync(
+    dated_cmd = Appimage.create_cmd(Metadata::APPIMAGEFILENAME)
+    dated_zsync = Appimage.create_zsync(Metadata::APPIMAGEFILENAME, Metadata::PROJECT)
+    latest_cmd = Appimage.create_cmd(Metadata::LATESTAPPIMAGEFILENAME)
+    latest_zsync = Appimage.create_zsync(
       Metadata::LATESTAPPIMAGEFILENAME, Metadata::PROJECT
     )
     Appimage.run_cmd(dated_cmd)
