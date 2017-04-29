@@ -38,7 +38,7 @@ describe 'build_project' do
     buildsystem = Metadata::METADATA['buildsystem']
     options = Metadata::METADATA['buildoptions']
     p "Name #{project} Buildsytem #{buildsystem} options \
-    #{options} insource #{insource}".to_s
+    #{options}".to_s
     expect(Dir.exist?( "/in/#{project}")).to be(true), "source missing"
     expect(
       sources.run_build("#{project}", buildsystem, options)
