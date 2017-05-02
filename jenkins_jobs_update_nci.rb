@@ -197,8 +197,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                             blockables: [merger])
     )
     enqueue(MGMTPauseIntegrationJob.new(downstreams: [progenitor]))
-    aptly = enqueue(MGMTAptlyJob.new(dependees: [progenitor]))
-    cleaner = enqueue(MGMTWorkspaceCleanerJob.new)
+    enqueue(MGMTAptlyJob.new(dependees: [progenitor]))
+    enqueue(MGMTWorkspaceCleanerJob.new)
     docker = enqueue(MGMTDockerJob.new(dependees: []))
     enqueue(MGMTMergerDebianFrameworks.new)
     enqueue(MGMTGerminateJob.new)
@@ -209,7 +209,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTToolingJob.new(downstreams: [docker],
-                               dependees: [cleaner, aptly]))
+                               dependees: []))
     #enqueue(MGMTRepoCleanupJob.new)
     enqueue(MGMTDockerHubRebuild.new(dependees: []))
   end
