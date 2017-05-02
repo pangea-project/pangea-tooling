@@ -5,7 +5,6 @@ require 'ostruct'
 require 'ruby-progressbar'
 require 'vcr'
 
-require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/dci'
 require_relative '../ci-tooling/lib/dpkg'
 require_relative '../ci-tooling/test/lib/testcase'

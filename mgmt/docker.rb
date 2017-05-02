@@ -1,17 +1,16 @@
 #!/usr/bin/env ruby
 
 require_relative '../ci-tooling/lib/dci'
-require_relative '../ci-tooling/lib/kci'
 require_relative '../ci-tooling/lib/mobilekci'
 require_relative '../ci-tooling/lib/nci'
 require_relative '../lib/mgmt/deployer'
 
-# KCI and mobile *can* have series overlap, they both use ubuntu as a base
+# NCI and mobile *can* have series overlap, they both use ubuntu as a base
 # though, so union the series keys and create images for the superset.
 
 pid_map = {}
 
-ubuntu_series = (KCI.series.keys | MCI.series.keys | NCI.series.keys)
+ubuntu_series = (MCI.series.keys | NCI.series.keys)
 ubuntu_series.each_index do |index|
   series = ubuntu_series[index]
   origins = ubuntu_series[index + 1..-1]

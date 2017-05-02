@@ -57,9 +57,6 @@ class VCSBuilderTest < TestCase
     alias_time
     FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
 
-    KCI.instance_variable_set(:@data, 'series' => { 'xenial' => '16.04',
-                                                    'wily' => '15.10' })
-
     Apt::Abstrapt.expects(:system).never
     Apt::Abstrapt.expects(:`).never
     # Disable automatic update
@@ -67,7 +64,6 @@ class VCSBuilderTest < TestCase
   end
 
   def teardown
-    KCI.send(:reset!)
     OS.reset
     unalias_time
   end
@@ -148,33 +144,8 @@ class VCSBuilderTest < TestCase
     end
   end
 
-  def test_symbols_keep
-    CI::VcsSourceBuilder.new(release: KCI.latest_series).run
-    Dir.chdir('build')
-    tar = Dir.glob('*.tar.gz')
-    assert_equal(1, tar.size)
-    files = tar_file_list(tar[0])
-    assert_include(files, 'symbols')
-    assert_include(files, 'test.acc.in')
-    assert_include(files, 'test.symbols')
-    assert_include(files, 'test.symbols.armhf')
-  end
-
-  def test_symbols_strip
-    oldest_series = KCI.series(sort: :descending).keys.last
-    CI::VcsSourceBuilder.new(release: oldest_series).run
-    Dir.chdir('build')
-    tar = Dir.glob('*.tar.gz')
-    assert_equal(1, tar.size)
-    files = tar_file_list(tar[0])
-    assert_not_include(files, 'symbols')
-    assert_not_include(files, 'test.acc.in')
-    assert_not_include(files, 'test.symbols')
-    assert_not_include(files, 'test.symbols.armhf')
-  end
-
   def test_symbols_strip_latest
-    builder = CI::VcsSourceBuilder.new(release: KCI.latest_series, strip_symbols: true).run
+    builder = CI::VcsSourceBuilder.new(release: @release, strip_symbols: true).run
     Dir.chdir('build')
     tar = Dir.glob('*.tar.gz')
     assert_equal(1, tar.size)

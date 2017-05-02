@@ -23,7 +23,7 @@ require 'aptly'
 require 'date'
 
 require_relative 'lib/setup_repo'
-require_relative '../kci/install_check'
+require_relative '../lib/install_check'
 
 TYPE = ENV.fetch('TYPE')
 REPO_KEY = "#{TYPE}_#{ENV.fetch('DIST')}".freeze

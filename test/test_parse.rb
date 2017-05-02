@@ -15,7 +15,6 @@ class ParseTest < Test::Unit::TestCase
       mci
       test
       ci-tooling/dci
-      ci-tooling/kci
       ci-tooling/lib
       ci-tooling/mci
       ci-tooling/nci

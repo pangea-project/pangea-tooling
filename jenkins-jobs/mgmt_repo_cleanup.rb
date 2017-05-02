@@ -1,5 +1,4 @@
 require_relative 'job'
-require_relative '../ci-tooling/lib/kci'
 
 # Cleans up dockers.
 class MGMTRepoCleanupJob < JenkinsJob

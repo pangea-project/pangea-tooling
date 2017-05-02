@@ -3,26 +3,6 @@ require_relative 'lib/testcase'
 
 # Test lint result
 class LintResultTest < TestCase
-  # Things other than logger are tested implicitly through higher level test.
-  def test_logger_init
-    r = Lint::ResultLogger.new(nil)
-    assert(r.results.empty?)
-  end
-
-  def test_logger
-    r = Lint::Result.new
-    r.valid = true
-    r.errors << 'error'
-    r.warnings << 'warning'
-    r.informations << 'info'
-
-    l = Lint::ResultLogger.new(r)
-    assert(l.results.is_a?(Array))
-    assert_equal(1, l.results.size)
-    assert_equal(r, l.results.first)
-    l.log
-  end
-
   def test_merge
     r1 = Lint::Result.new
     r1.valid = true

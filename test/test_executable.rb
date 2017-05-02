@@ -9,7 +9,6 @@ class ExecutableTest < Test::Unit::TestCase
     ci-tooling/bin
     ci-tooling/ci
     ci-tooling/dci
-    ci-tooling/kci
     ci-tooling/mci
     ci-tooling/nci
     dci

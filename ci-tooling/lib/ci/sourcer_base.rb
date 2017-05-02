@@ -24,7 +24,6 @@ require 'git_clone_url'
 require 'rugged'
 
 require_relative '../debian/control'
-require_relative '../kci'
 
 module CI
   # Automatically inject/update Vcs- control fields to match where we actually
@@ -113,14 +112,13 @@ module CI
 
     def mangle_symbols
       # Rip out symbol files unless we are on latest
-      if @strip_symbols || @release != KCI.latest_series
-        symbols = Dir.glob('debian/symbols') +
-                  Dir.glob('debian/*.symbols') +
-                  Dir.glob('debian/*.symbols.*') +
-                  Dir.glob('debian/*.acc') +
-                  Dir.glob('debian/*.acc.in')
-        symbols.each { |s| FileUtils.rm(s) }
-      end
+      return unless @strip_symbols
+      symbols = Dir.glob('debian/symbols') +
+                Dir.glob('debian/*.symbols') +
+                Dir.glob('debian/*.symbols.*') +
+                Dir.glob('debian/*.acc') +
+                Dir.glob('debian/*.acc.in')
+      symbols.each { |s| FileUtils.rm(s) }
     end
 
     def edit_control(dir, &_block)
