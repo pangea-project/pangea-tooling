@@ -1,4 +1,4 @@
-require_relative 'job'
+require_relative '../job'
 
 # Progenitor is the super super super job triggering everything.
 class DailyPromoteJob < JenkinsJob
