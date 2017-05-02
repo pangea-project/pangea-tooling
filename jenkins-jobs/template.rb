@@ -31,11 +31,17 @@ class Template
 
   def initialize(template_name)
     @config_directory = "#{@@flavor_dir}/config/"
-    @template_directory = "#{@@flavor_dir}/templates/"
-    @template_path = "#{@template_directory}#{template_name}"
-    unless File.exist?(@template_path)
-      raise "Template #{template_name} not found at #{@template_path}"
+    @flavor_template_directory = "#{@@flavor_dir}/templates/"
+    @core_template_directory = "#{__dir__}/templates/"
+    # Find template in preferrably the flavor dir, fall back to core directory.
+    # This allows sharing the template.
+    template_dirs = [@flavor_template_directory, @core_template_directory]
+    return if template_dirs.any? do |dir|
+      @template_directory = dir
+      @template_path = "#{@template_directory}#{template_name}"
+      File.exist?(@template_path)
     end
+    raise "Template #{template_name} not found at #{@template_path}"
   end
 
   def self.flavor_dir=(dir)
