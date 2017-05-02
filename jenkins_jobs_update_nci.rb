@@ -209,7 +209,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTToolingJob.new(downstreams: [docker],
-                               dependees: [cleaner, aptly, progenitor]))
+                               dependees: [cleaner, aptly]))
     #enqueue(MGMTRepoCleanupJob.new)
     enqueue(MGMTDockerHubRebuild.new(dependees: []))
   end
