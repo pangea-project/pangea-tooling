@@ -1,9 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'pry'
-
-require_relative 'lib/service'
-
-g = Service.start
-puts "Service accessible via variable 'g'"
-binding.pry

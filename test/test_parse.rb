@@ -9,7 +9,6 @@ class ParseTest < Test::Unit::TestCase
     source_dirs = %w[
       bin
       dci
-      git-monitor
       jenkins-jobs
       lib
       nci

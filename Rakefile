@@ -29,7 +29,6 @@ SOURCE_DIRS = %w[
   ci-tooling/mci
   ci-tooling/nci
   dci
-  git-monitor
   jenkins-jobs
   lib
   mci
