@@ -70,7 +70,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         # Remove everything but source as they are the anchor points for
         # other jobs that might want to reference them.
         puts all_builds
-        all_builds.reject! { |project| !project.job_name.end_with?('_src') }
+        all_builds.select! { |project| project.job_name.end_with?('_src') }
 
         # This could actually returned into a collect if placed below
         meta_build = MetaBuildJob.new(type: type,
