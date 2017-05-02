@@ -63,46 +63,12 @@ class QMLDependencyVerifierTest < TestCase
     JSON.parse(File.read(ref_path))
   end
 
-  def test_source
-    source = QMLDependencyVerifier.new.source
-    assert_equal(ref['name'], source.name)
-    assert_equal(ref['version'], source.version)
-    assert_equal(ref['type'], source.type)
-  end
-
-  def test_binaries
-    assert_equal(ref, QMLDependencyVerifier.new.binaries)
-  end
-
-  def test_add_ppa
-    [
-      ['apt-get', *Apt::Abstrapt.default_args, 'update'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '-y', 'ppa:kubuntu-ci/unstable'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'update']
-    ]. each do |c|
-      Object.any_instance.expects(:system)
-            .with(*c)
-            .returns(true)
-    end
-    QMLDependencyVerifier.new.add_ppa
-  end
-
   def test_missing_modules
     # Make sure our ignore is in place in the data dir.
     # NB: this testcase is chdir in the @datadir not the @tmpdir!
     assert(File.exist?('packaging/debian/plasma-widgets-addons.qml-ignore'))
     # Prepare sequences, divert search path and run verification.
     const_reset(QML, :SEARCH_PATHS, [File.join(data, 'qml')])
-
-    fake_apt_repo = mock('apt_repo')
-    fake_apt_repo.stubs(:add).returns(true)
-    fake_apt_repo.stubs(:remove).returns(true)
-    Apt::Repository.expects(:new)
-                   .with('ppa:kubuntu-ci/unstable')
-                   .returns(fake_apt_repo)
-                   .at_least_once
-    Apt.stubs(:update).returns(true)
 
     system_sequence = sequence('system')
     backtick_sequence = sequence('backtick')
@@ -121,7 +87,13 @@ class QMLDependencyVerifierTest < TestCase
     Object.any_instance.stubs(:`)
           .with('dpkg -L plasma-widgets-addons')
           .returns(data('main.qml'))
-    missing = QMLDependencyVerifier.new.missing_modules
+
+    repo = mock('repo')
+    repo.stubs(:add).returns(true)
+    repo.stubs(:remove).returns(true)
+    repo.stubs(:binaries).returns({"kwin-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "plasma-dataengines-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "plasma-runners-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "plasma-wallpapers-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "plasma-widget-kimpanel"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "plasma-widgets-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "kdeplasma-addons-data"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0"})
+
+    missing = QMLDependencyVerifier.new(repo).missing_modules
     assert_equal(1, missing.size, 'More things missing than expected' \
                                   " #{missing}")
 

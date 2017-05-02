@@ -1,10 +1,7 @@
 require_relative 'lib/testcase'
-# Require kci through the kci/lib symlink to make sure path resolution works
-# even with the changed relativity towards data/.
-# i.e. ../data/kci.yaml is ../../data/kci.yaml within that symlink context
-require_relative '../kci/lib/dci'
 
-# Test kci
+require_relative '../lib/dci'
+
 class DCITest < TestCase
   def assert_equal_collection(expected, actual)
     assert_equal(expected.sort, actual.sort)

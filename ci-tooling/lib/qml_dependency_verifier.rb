@@ -23,7 +23,6 @@ require 'logger/colors'
 
 require_relative 'qml_dep_verify/aptly'
 require_relative 'qml_dep_verify/package'
-require_relative 'qml_dep_verify/ppa'
 
 # A QML dependency verifier. It verifies by installing each built package
 # and verifying the deps of the installed qml files are met.
@@ -31,7 +30,7 @@ require_relative 'qml_dep_verify/ppa'
 class QMLDependencyVerifier
   attr_reader :repo
 
-  def initialize(repo = QMLDepVerify::PPA.new)
+  def initialize(repo)
     @log = Logger.new(STDOUT)
     @log.level = Logger::INFO
     @log.progname = self.class.to_s
@@ -44,21 +43,6 @@ class QMLDependencyVerifier
     missing_modules_internal
   ensure
     repo.remove
-  end
-
-  # @deprecated compat with old behavior, use a repo
-  def source
-    repo.source
-  end
-
-  # @deprecated compat with old behavior, use a repo
-  def add_ppa
-    repo.add_ppa
-  end
-
-  # @deprecated compat with old behavior, use a repo
-  def binaries
-    repo.binaries
   end
 
   private

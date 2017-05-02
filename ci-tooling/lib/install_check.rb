@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2014-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2014-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -25,13 +25,12 @@ require 'logger/colors'
 require 'open3'
 require 'tmpdir'
 
-require_relative 'lib/apt'
-require_relative 'lib/aptly-ext/filter'
-require_relative 'lib/dpkg'
-require_relative 'lib/lp'
-require_relative 'lib/repo_abstraction'
-require_relative 'lib/retry'
-require_relative 'lib/thread_pool'
+require_relative 'apt'
+require_relative 'aptly-ext/filter'
+require_relative 'dpkg'
+require_relative 'repo_abstraction'
+require_relative 'retry'
+require_relative 'thread_pool'
 
 # Base class for install checks, isolating common logic.
 class InstallCheckBase
@@ -192,17 +191,4 @@ class RootInstallCheck < InstallCheck
 
     @log.info 'All good!'
   end
-end
-
-if __FILE__ == $PROGRAM_NAME
-  LOG = Logger.new(STDERR)
-  LOG.level = Logger::INFO
-
-  Project = Struct.new(:series, :stability)
-  project = Project.new(ENV.fetch('DIST'), ENV.fetch('TYPE'))
-
-  candiate_ppa = CiPPA.new("#{project.stability}-daily", project.series)
-  target_ppa = CiPPA.new(project.stability.to_s, project.series)
-  InstallCheck.new.run(candiate_ppa, target_ppa)
-  exit 0
 end

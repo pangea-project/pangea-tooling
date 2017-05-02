@@ -22,7 +22,6 @@ require_relative 'apt'
 require_relative 'aptly-ext/filter'
 require_relative 'dpkg'
 require_relative 'lsb'
-require_relative 'lp'
 
 require 'concurrent'
 require 'gir_ffi'
@@ -265,105 +264,5 @@ class RootOnAptlyRepository < Repository
       repo_packages.each { |k| packages << k if pk_packages.include?(k) }
     end
     packages
-  end
-end
-
-# Helper to add/remove/list PPAs
-class CiPPA < Repository
-  attr_reader :type
-  attr_reader :series
-
-  def initialize(type, series)
-    @type = type
-    @series = series
-    super("ppa:kubuntu-ci/#{@type}")
-  end
-
-  def sources
-    return @sources if @sources
-
-    @log.info "Getting sources list for PPA #{@type}."
-
-    @sources = {}
-    ppa_sources.each do |s|
-      @sources[s.source_package_name] = s.source_package_version
-    end
-    @sources
-  end
-
-  private
-
-  def packages
-    return @packages if @packages
-
-    @log.info "Building package list for PPA #{@type}."
-
-    series = Launchpad::Rubber.from_path("ubuntu/#{@series}")
-    host_arch = Launchpad::Rubber.from_url("#{series.self_link}/" \
-                                           "#{DPKG::HOST_ARCH}")
-
-    packages = {}
-
-    source_queue = Queue.new
-    ppa_sources.each { |s| source_queue << s }
-    binary_queue = Queue.new
-    BlockingThreadPool.run(8) do
-      until source_queue.empty?
-        source = source_queue.pop(true)
-        Retry.retry_it do
-          binary_queue << source.getPublishedBinaries
-        end
-      end
-    end
-
-    until binary_queue.empty?
-      binaries = binary_queue.pop(true)
-      binaries.each do |binary|
-        if @log.debug?
-          @log.debug format('%s | %s | %s',
-                            binary.binary_package_name,
-                            binary.architecture_specific,
-                            binary.distro_arch_series_link)
-        end
-        # Do not include debug packages, they can't conflict anyway, and if
-        # they did we still wouldn't care.
-        next if binary.binary_package_name.end_with?('-dbg')
-        # Do not include known to conflict packages
-        next if binary.binary_package_name == 'libqca2-dev'
-        # Do not include udebs, this unfortunately cannot be determined
-        # easily via the API.
-        next if binary.binary_package_name.start_with?('oem-config')
-        # Backport, don't care about it being promoted.
-        next if binary.binary_package_name.include?('ubiquity')
-        next if binary.binary_package_name == 'kubuntu-ci-live'
-        next if binary.binary_package_name == 'kubuntu-plasma5-desktop'
-        if binary.architecture_specific
-          unless binary.distro_arch_series_link == host_arch.self_link
-            @log.debug '  skipping unsuitable arch of bin'
-            next
-          end
-        end
-        packages[binary.binary_package_name] = binary.binary_package_version
-      end
-    end
-
-    @log.debug "Built package list: #{packages.keys.join(', ')}"
-    @packages = packages
-  end
-
-  def ppa_sources
-    return @ppa_sources if @ppa_sources
-    series = Launchpad::Rubber.from_path("ubuntu/#{@series}")
-    ppa = Launchpad::Rubber.from_path("~kubuntu-ci/+archive/ubuntu/#{@type}")
-    @ppa_sources = ppa.getPublishedSources(status: 'Published',
-                                           distro_series: series)
-  end
-
-  def pin!
-    File.open('/etc/apt/preferences.d/superpin', 'w') do |file|
-      file << "Package: *\n"
-      file << "Pin: release o=LP-PPA-kubuntu-ci-#{@type}\n"
-      file << "Pin-Priority: 999\n"
-    end
   end
 end
