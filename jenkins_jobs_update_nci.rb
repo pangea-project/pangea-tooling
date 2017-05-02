@@ -198,10 +198,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     )
     enqueue(MGMTPauseIntegrationJob.new(downstreams: [progenitor]))
     aptly = enqueue(MGMTAptlyJob.new(dependees: [progenitor]))
-    # cleaner currently disregards deps entirely as technically it should be
-    # non-conflicting.
-    cleaner = enqueue(MGMTWorkspaceCleanerJob.new) # dependees: [progenitor]))
-    docker = enqueue(MGMTDockerJob.new(dependees: [progenitor]))
+    cleaner = enqueue(MGMTWorkspaceCleanerJob.new)
+    docker = enqueue(MGMTDockerJob.new(dependees: []))
     enqueue(MGMTMergerDebianFrameworks.new)
     enqueue(MGMTGerminateJob.new)
     enqueue(MGMTAppstreamGenerator.new(repo: 'user'))
@@ -211,7 +209,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTToolingJob.new(downstreams: [docker],
-                               dependees: [cleaner, aptly]))
+                               dependees: [cleaner, aptly, progenitor]))
     #enqueue(MGMTRepoCleanupJob.new)
     enqueue(MGMTDockerHubRebuild.new(dependees: []))
   end
