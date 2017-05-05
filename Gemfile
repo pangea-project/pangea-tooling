@@ -38,8 +38,8 @@ gem 'git_clone_url', '~> 2.0'
 gem 'uri-ssh_git', '~> 2.0'
 
 # Test logging as junit (also used at runtime for linting)
-gem 'test-unit', '~> 3.0'
 gem 'ci_reporter_test_unit'
+gem 'test-unit', '~> 3.0'
 
 group :development, :test do
   gem 'equivalent-xml'
