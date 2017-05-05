@@ -20,7 +20,7 @@ node(&apos;master&apos;) {
         sh &apos;rsync -avzH --delete neonarchives@archive-api.neon.kde.org:aptly/public/$APTLY_REPOSITORY/* aptly-repository/&apos;
 
         stage &apos;Process&apos;
-        sh &apos;~/tooling/nci/contain.rb /var/lib/jenkins/ci-tooling/nci/asgen.rb&apos;
+        sh &apos;~/tooling/nci/contain.rb /tooling/ci-tooling/nci/asgen.rb&apos;
 
         stage &apos;Publish&apos;
         sh &apos;~/tooling/nci/asgen_push.rb&apos;

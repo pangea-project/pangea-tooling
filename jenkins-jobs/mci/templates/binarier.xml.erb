@@ -30,7 +30,7 @@
       <command>
 export DIST=<%= distribution %>
 export TYPE=<%= type %>
-~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd`
+~/tooling/mci/contain.rb /tooling/ci-tooling/mci/binarier.rb $JOB_NAME `pwd`
       </command>
     </hudson.tasks.Shell>
   </builders>
