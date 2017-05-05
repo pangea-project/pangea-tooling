@@ -24,7 +24,6 @@ require 'open-uri'
 require_relative '../../lib/apt'
 require_relative '../../lib/lsb'
 require_relative '../../lib/retry'
-require_relative 'mirrors'
 
 # Neon CI specific helpers.
 module NCI
@@ -40,7 +39,6 @@ module NCI
   end
 
   def setup_repo!
-    # switch_mirrors!
     setup_proxy!
     add_repo!
     if ENV.fetch('TYPE') == 'testing'
@@ -67,13 +65,6 @@ module NCI
         raise 'adding repo failed' unless Apt::Repository.add(debline)
       end
       add_repo_key!
-    end
-
-    def switch_mirrors!
-      file = '/etc/apt/sources.list'
-      sources = File.read(file)
-      sources = sources.gsub('http://archive.ubuntu.com/ubuntu/', Mirrors.best)
-      File.write(file, sources)
     end
   end
 end
