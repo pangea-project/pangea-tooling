@@ -18,6 +18,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_forks_{xorg-server}_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_kde-extras_{zanshin}_*':
   sourcer:
     restricted_packaging_copy: true
