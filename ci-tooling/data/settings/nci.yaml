@@ -25,3 +25,7 @@
 '*_kde-extras_{zanshin}_*':
   sourcer:
     restricted_packaging_copy: true
+
+'*_forks_{taglib}_*':
+  sourcer:
+    restricted_packaging_copy: true
