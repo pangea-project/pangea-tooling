@@ -109,3 +109,6 @@ discover:
 imagewriter:
   repo: https://github.com/appimage-packages/imagewriter
   branch: [make-it-cool]
+katomic:
+    repo: https://github.com/appimage-packages/katomic
+    branch: [master]
