@@ -33,3 +33,11 @@
 '*_forks_{ostree}_*':
   sourcer:
     restricted_packaging_copy: true
+
+'*_forks_{x11proto-core}_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_forks_{libxfont}_*':
+  sourcer:
+    restricted_packaging_copy: true
