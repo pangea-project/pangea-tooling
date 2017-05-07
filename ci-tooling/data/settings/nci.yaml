@@ -29,3 +29,7 @@
 '*_forks_{taglib}_*':
   sourcer:
     restricted_packaging_copy: true
+
+'*_forks_{ostree}_*':
+  sourcer:
+    restricted_packaging_copy: true
