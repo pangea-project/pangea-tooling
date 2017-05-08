@@ -122,9 +122,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         meta_builder = MetaBuildJob.new(meta_args)
         all_meta_builds << enqueue(meta_builder)
 
-        enqueue(DailyPromoteJob.new(type: type,
-                                    distribution: distribution,
-                                    dependees: [meta_builder]))
+#        enqueue(DailyPromoteJob.new(type: type,
+#                                    distribution: distribution,
+#                                    dependees: [meta_builder]))
 
         # ISOs
         NCI.architectures.each do |architecture|
