@@ -82,9 +82,9 @@ end
 
 describe 'build_kf5' do
   it 'Builds KDE Frameworks from source' do
-    frameworks = Frameworks.generatekf5_buildorder(Metadata::FRAMEWORKS)
-    KF5 = YAML.load_file(File.join(__dir__, '../data/kf5.yaml'))
     if Metadata::BUILDKF5
+      frameworks = Frameworks.generatekf5_buildorder(Metadata::FRAMEWORKS)
+      KF5 = YAML.load_file(File.join(__dir__, '../data/kf5.yaml'))
       frameworks.each do |framework|
         dir = '/source/'
         url = "https://anongit.kde.org/#{framework}"
