@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -30,6 +30,8 @@ module Jenkins
     def initialize(name, client = JenkinsApi::Client.new)
       @client = client
       @name = name
+      return unless @name.is_a?(Hash)
+      @name = @name.fetch('name') { raise 'name is a Hash but has no name key' }
     end
 
     def delete!
@@ -53,7 +55,29 @@ module Jenkins
     end
 
     def method_missing(name, *args)
-      @client.job.send(name, *([@name] + args))
+      args = [@name] + args
+
+      # A set method.
+      if name.to_s.end_with?('=')
+        return @client.job.send("set_#{name}".to_sym, *args)
+      end
+
+      # Likely a get_method, could still be an actual api method though.
+      method_missing_internal(name, *args)
+    end
+
+    private
+
+    # Rescue helper instead of a beginrescue block.
+    def method_missing_internal(name, *args)
+      @client.job.send(name, *args)
+    rescue NoMethodError => e
+      # Try a get prefix.
+      begin
+        @client.job.send("get_#{name}".to_sym, *args)
+      rescue NoMethodError
+        raise e # Still no luck, raise original error.
+      end
     end
   end
 end
