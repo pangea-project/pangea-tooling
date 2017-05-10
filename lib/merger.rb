@@ -84,8 +84,8 @@ class Merger
 
     @log = Logger.new_for_merger
 
-    if File.exist?('/var/lib/jenkins/tooling3/git')
-      Git.configure { |c| c.binary_path = '/var/lib/jenkins/tooling3/git' }
+    if File.exist?('/var/lib/jenkins/git-semaphore/git')
+      Git.configure { |c| c.binary_path = '/var/lib/jenkins/git-semaphore/git' }
     end
 
     @repo = open_repo(repo_path)

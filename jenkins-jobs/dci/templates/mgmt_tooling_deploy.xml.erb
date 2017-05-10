@@ -51,11 +51,6 @@ bundle install --jobs=`nproc` --no-cache --local --frozen --system
 
 rake clean
 rake deploy
-
-# KCI uses versioned dirs, parts of the new tooling don&apos;t.
-# This needs a capistrano-like solution for versioning.
-rm -rf ~/tooling
-ln -s tooling3 ~/tooling
 </command>
     </hudson.tasks.Shell>
   </builders>

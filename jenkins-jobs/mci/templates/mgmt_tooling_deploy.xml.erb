@@ -82,11 +82,6 @@ rake clean
 rake deploy
 
 find ~/tooling-pending/vendor/cache/* -maxdepth 0 -type d | xargs -r rm -rv
-
-# KCI uses versioned dirs, parts of the new tooling don&apos;t.
-# This needs a capistrano-like solution for versioning.
-rm -rf ~/tooling
-ln -s tooling3 ~/tooling
 </command>
     </hudson.tasks.Shell>
   </builders>

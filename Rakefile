@@ -125,17 +125,25 @@ desc 'deploy host and containment tooling'
 task :deploy do
   bundle(*%w[pack --all-platforms --no-install])
 
-  # Pending for pickup by LXC.
-  tooling_path = File.join(Dir.home, 'tooling-pending')
-  FileUtils.rm_rf(tooling_path)
-  FileUtils.mkpath(tooling_path)
-  FileUtils.cp_r(Dir.glob('*'), tooling_path)
-  FileUtils.cp_r('.noexec.yml', tooling_path)
+  # Pending for pickup by container.
+  tooling_path_pending = File.join(Dir.home, 'tooling-pending')
+  FileUtils.rm_rf(tooling_path_pending)
+  FileUtils.mkpath(tooling_path_pending)
+  FileUtils.cp_r('.', tooling_path_pending, verbose: true)
 
   # Live for host.
-  tooling_path = File.join(Dir.home, 'tooling3')
-  FileUtils.rm_rf(tooling_path)
-  FileUtils.mkpath(tooling_path)
-  FileUtils.cp_r(Dir.glob('*'), tooling_path)
-  FileUtils.cp_r('.noexec.yml', tooling_path)
+  tooling_path = File.join(Dir.home, 'tooling')
+  tooling_path_staging = File.join(Dir.home, 'tooling-staging')
+  tooling_path_compat = File.join(Dir.home, 'tooling3')
+
+  FileUtils.rm_rf(tooling_path_staging, verbose: true)
+  FileUtils.mkpath(tooling_path_staging)
+  FileUtils.cp_r('.', tooling_path_staging)
+
+  FileUtils.rm_rf(tooling_path, verbose: true)
+  FileUtils.mv(tooling_path_staging, tooling_path, verbose: true)
+  unless File.symlink?(tooling_path_compat)
+    FileUtils.rm_rf(tooling_path_compat, verbose: true)
+    FileUtils.ln_s(tooling_path, tooling_path_compat, verbose: true)
+  end
 end
