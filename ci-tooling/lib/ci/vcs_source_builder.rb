@@ -58,7 +58,7 @@ module CI
     def project_for_url(url)
       projects = ReleaseMe::Project.from_repo_url(url.gsub(/\.git$/, ''))
       unless projects.size == 1
-        raise "failed to resolve project #{repo_name} :: #{projects}"
+        raise "failed to resolve project #{url} :: #{projects}"
       end
       projects[0]
     end
