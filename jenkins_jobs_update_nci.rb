@@ -206,6 +206,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts'))
     enqueue(MGMTJenkinsPruneArchives.new)
     enqueue(MGMTJenkinsPruneLogs.new)
+    enqueue(MGMTNeonAppstreamHealth.new)
     enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTToolingJob.new(downstreams: [docker],
