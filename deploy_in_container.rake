@@ -136,6 +136,9 @@ EOF
       elsif File.exist?(compat)
         FileUtils.rm_r(compat, verbose: true)
       end
+      # Make sure the parent exists, in case of /var/lib/jenkins on slaves
+      # that is not the case for new builds.
+      FileUtils.mkpath(File.dirname(compat))
       FileUtils.ln_s("#{final_path}/ci-tooling", compat, verbose: true)
     end
   end
