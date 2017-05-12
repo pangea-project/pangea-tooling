@@ -65,10 +65,11 @@ module NCI
         puts 'all good, fork ending!'
         exit 0
       end
-      assert_equal(pid, Process.waitpid(pid))
+      waitedpid, status = Process.waitpid2(pid)
+      assert_equal(pid, waitedpid)
       assert_equal(['kcoreaddons_5.21.0-0neon_amd64.changes', 'libkf5coreaddons-dev.xml', 'libkf5coreaddons-bin-dev.xml', 'libkf5coreaddons5.xml'].sort,
                    Dir.glob('*').sort)
-      assert($?.success?)
+      assert(status.success?)
     end
   end
 end

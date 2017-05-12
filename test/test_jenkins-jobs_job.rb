@@ -111,8 +111,9 @@ class JenkinsJobTest < TestCase
         require job
         exit 0
       end
-      assert_equal(pid, Process.waitpid(pid))
-      assert($?.success?, "Failed to require #{job}!")
+      waitedpid, status = Process.waitpid2(pid)
+      assert_equal(pid, waitedpid)
+      assert(status.success?, "Failed to require #{job}!")
     end
   end
 end
