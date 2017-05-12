@@ -101,4 +101,18 @@ class JenkinsJobTest < TestCase
     end
     assert_equal('<hi/>', stdout)
   end
+
+  def test_mass_include
+    # Makes sure the requires of all jobs are actually resolving properly.
+    # Would be better as multiple meths, but I can't be bothered to build that.
+    # Marginal failure cause anyway.
+    Dir.glob("#{__dir__}/../jenkins-jobs/**/*.rb").each do |job|
+      pid = fork do
+        require job
+        exit 0
+      end
+      assert_equal(pid, Process.waitpid(pid))
+      assert($?.success?, "Failed to require #{job}!")
+    end
+  end
 end
