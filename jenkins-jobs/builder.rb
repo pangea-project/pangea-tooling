@@ -3,7 +3,11 @@ require_relative 'binarier'
 require_relative 'publisher'
 
 # Magic builder to create an array of build steps
-class Builder
+# Fun story: ci_reporter uses builder, builder is Builder, can't have a class
+# called Builder or tests will fail. I do rather love my live. Also generic
+# names are really cool for shared artifacts such as gems. I always try to be
+# as generic as possible with shared names.
+class BuilderJobBuilder
   def self.job(project, type:, distribution:, architectures:, upload_map: nil)
     basename = basename(distribution, type, project.component, project.name)
 

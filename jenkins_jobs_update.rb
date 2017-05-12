@@ -61,9 +61,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         next unless File.exist?(file)
         projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
         all_builds = projects.collect do |project|
-          Builder.job(project, distribution: distribution, type: type,
-                               architectures: @ci_module.architectures,
-                               upload_map: @upload_map)
+          BuilderJobBuilder.job(project, distribution: distribution, type: type,
+                                         architectures: @ci_module.architectures,
+                                         upload_map: @upload_map)
         end
         all_builds.flatten!
         all_builds.each { |job| enqueue(job) }

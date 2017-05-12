@@ -80,7 +80,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         next unless branch && branch.start_with?(*branches)
         NCI.series.each_key do |d|
           NCI.types.each do |t|
-            dependees << Builder.basename(d, t, project.component, project.name)
+            dependees << BuilderJobBuilder.basename(d, t, project.component,
+                                                    project.name)
           end
         end
         all_mergers << enqueue(NCIMergerJob.new(project,

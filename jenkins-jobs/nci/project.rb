@@ -27,10 +27,10 @@ class ProjectJob < JenkinsJob
   def self.job(*args, **kwords)
     project = args[0]
     dependees = project.dependees.collect do |d|
-      Builder.basename(kwords[:distribution],
-                       kwords[:type],
-                       d.component,
-                       d.name)
+      BuilderJobBuilder.basename(kwords[:distribution],
+                                 kwords[:type],
+                                 d.component,
+                                 d.name)
     end
     # FIXME: frameworks is special, very special ...
     # Base builds have no stable thingy but their unstable version is equal
@@ -40,23 +40,23 @@ class ProjectJob < JenkinsJob
        %(pyqt5).include?(project.name)
       dependees += project.dependees.collect do |d|
         # Stable is a dependee
-        Builder.basename(kwords[:distribution],
-                         'stable',
-                         d.component,
-                         d.name)
+        BuilderJobBuilder.basename(kwords[:distribution],
+                                   'stable',
+                                   d.component,
+                                   d.name)
         # Release is as well, but only iff component is not one we release.
         next if project.component == 'frameworks'
-        Builder.basename(kwords[:distribution],
-                         'release',
-                         d.component,
-                         d.name)
+        BuilderJobBuilder.basename(kwords[:distribution],
+                                   'release',
+                                   d.component,
+                                   d.name)
       end
     end
     dependees.compact!
     dependees.uniq!
     dependees.sort!
 
-    jobs = Builder.job(*args, kwords)
+    jobs = BuilderJobBuilder.job(*args, kwords)
     jobs.each do |j|
       # Disable downstream triggers to prevent jobs linking to one another
       # outside the phases.
