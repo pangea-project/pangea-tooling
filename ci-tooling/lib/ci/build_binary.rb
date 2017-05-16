@@ -159,6 +159,7 @@ module CI
         # Automatically decide how many concurrent build jobs we can support.
         # NOTE: special cased for trusty master servers to pass
         dpkg_buildopts << '-j1' unless pretty_old_system?
+	dpkg_buildopts << '-jauto' if scaling_node?
         # On arch:all only build the binaries, the source is already built.
         dpkg_buildopts << '-b'
       else
@@ -192,6 +193,10 @@ module CI
       OS::VERSION_ID == '14.04'
     rescue
       false
+    end
+
+    def scaling_node?
+      File.exist?('/tooling/is_scaling_node')
     end
   end
 end
