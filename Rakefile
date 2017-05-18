@@ -33,7 +33,6 @@ SOURCE_DIRS = %w[
   mci
   nci
   mgmt
-  s3-images-generator
 ].freeze
 
 desc 'run all unit tests'
