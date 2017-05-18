@@ -79,7 +79,7 @@ end
 unless system("ssh root@#{droplet.public_ip} bash /root/deploy.sh")
   raise
 end
-system("ssh -i root@#{droplet.public_ip} shutdown now")
+system("ssh root@#{droplet.public_ip} shutdown now")
 # Net::SSH.start(*args) do |ssh|
 #   ssh.exec!('/root/deploy.sh') do |channel, stream, data|
 #     io = stream == :stdout ? STDOUT : STDERR
