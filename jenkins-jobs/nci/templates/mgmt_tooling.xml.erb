@@ -53,7 +53,7 @@
       <command>
 rm -rf .bundle || true
 gem install --no-rdoc bundler
-bundle install --jobs=`nproc`
+[ -f Gemfile.lock ] || bundle install --jobs=`nproc`
 bundle update --jobs=`nproc`
 </command>
     </hudson.tasks.Shell>
