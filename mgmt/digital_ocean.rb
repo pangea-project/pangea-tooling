@@ -61,7 +61,7 @@ until droplet.status == 'active'
   sleep(16)
 end
 
-args = [droplet.public_ip, 'root', keys: ["#{Dir.home}/.ssh/keys/do-ssh-key-blue-private.pem"]]
+args = [droplet.public_ip, 'root']
 
 Retry.retry_it(sleep: 8, times: 16) do
   Net::SSH.start(*args) {}
@@ -76,10 +76,10 @@ Net::SFTP.start(*args) do |sftp|
 end
 
 # Net::SSH would needs lots of code to catch the exit status.
-unless system("ssh -i #{Dir.home}/.ssh/keys/do-ssh-key-blue-private.pem root@#{droplet.public_ip} bash /root/deploy.sh")
+unless system("ssh root@#{droplet.public_ip} bash /root/deploy.sh")
   raise
 end
-system("ssh -i #{Dir.home}/.ssh/keys/do-ssh-key-blue-private.pem root@#{droplet.public_ip} shutdown now")
+system("ssh -i root@#{droplet.public_ip} shutdown now")
 # Net::SSH.start(*args) do |ssh|
 #   ssh.exec!('/root/deploy.sh') do |channel, stream, data|
 #     io = stream == :stdout ? STDOUT : STDERR
@@ -87,9 +87,6 @@ system("ssh -i #{Dir.home}/.ssh/keys/do-ssh-key-blue-private.pem root@#{droplet.
 #     io.flush
 #   end
 # end
-
-# ssh -i ~/.ssh/keys/do-ssh-key-blue-private.pem root@#{droplet.public_ip}
-# things are happening!#!#!#!!@ DATA
 
 action = client.droplet_actions.shutdown(droplet_id: droplet.id)
 until action.status == 'completed'
