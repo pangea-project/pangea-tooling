@@ -43,6 +43,7 @@ gem 'ci_reporter_test_unit'
 gem 'test-unit', '~> 3.0'
 
 group :development, :test do
+  gem 'droplet_kit'
   gem 'equivalent-xml'
   gem 'mocha'
   gem 'parallel_tests'
