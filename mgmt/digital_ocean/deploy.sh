@@ -20,6 +20,9 @@
 
 set -ex
 
+# Make sure we do not have random services claiming dpkg locks.
+apt purge -y unattended-upgrades
+
 # DOs by default come with out of date cache.
 apt update
 
@@ -38,6 +41,9 @@ git pull --rebase
 berks install
 berks vendor
 chef-client --local-mode --enable-reporting
+
+# Make sure we do not have random services claiming dpkg locks.
+apt purge -y unattended-upgrades
 
 ################################################### !!!!!!!!!!!
 chmod 755 /root/deploy_tooling.sh
