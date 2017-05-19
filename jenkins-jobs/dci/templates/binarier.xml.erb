@@ -38,7 +38,7 @@ export TYPE=<%= type %>
     <hudson.tasks.ArtifactArchiver>
       <artifacts>result/**</artifacts>
       <allowEmptyArchive>true</allowEmptyArchive>
-      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <onlyIfSuccessful>true</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
       <defaultExcludes>true</defaultExcludes>
     </hudson.tasks.ArtifactArchiver>
