@@ -133,22 +133,26 @@ module MGMT
       rd, wr = IO.pipe
       @i = nil
 
-      Thread.abort_on_exception = true
-      read_thread = Thread.new do
-        @i = Docker::Image.import_stream do
-          rd.read(1000).to_s
+      if ENV.include?('PANGEA_DOCKER_NO_FLATTEN')
+        @i = c.commit
+      else
+        Thread.abort_on_exception = true
+        read_thread = Thread.new do
+          @i = Docker::Image.import_stream do
+            rd.read(1000).to_s
+          end
+          @log.warn 'Import complete'
+          rd.close
         end
-        @log.warn 'Import complete'
-        rd.close
-      end
-      write_thread = Thread.new do
-        c.export do |chunk|
-          wr.write(chunk)
+        write_thread = Thread.new do
+          c.export do |chunk|
+            wr.write(chunk)
+          end
+          @log.warn 'Export complete'
+          wr.close
         end
-        @log.warn 'Export complete'
-        wr.close
+        ThreadsWait.all_waits(read_thread, write_thread)
       end
-      ThreadsWait.all_waits(read_thread, write_thread)
 
       c.remove
       begin
