@@ -51,13 +51,16 @@ class NCISetupRepoTest < TestCase
     ENV.delete('TYPE')
   end
 
+  def add_key_args
+    ['apt-key', 'adv', '--keyserver', 'keyserver.ubuntu.com', '--recv',
+     '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D']
+  end
+
   def expect_key_add
     Object
       .any_instance
       .expects(:system)
-      .with('apt-key', 'adv', '--keyserver', 'keyserver.ubuntu.com', '--recv',
-            '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
-      .returns(true)
+      .with(*add_key_args)
   end
 
   def proxy_enabled
@@ -81,7 +84,7 @@ class NCISetupRepoTest < TestCase
             .in_sequence(system_sequence)
     end
 
-    expect_key_add
+    expect_key_add.returns(true)
 
     # Expect proxy to be set up to private
     File.expects(:write).with('/etc/apt/apt.conf.d/proxy', proxy_enabled)
@@ -109,7 +112,7 @@ class NCISetupRepoTest < TestCase
             .in_sequence(system_sequence)
     end
 
-    expect_key_add
+    expect_key_add.returns(true)
 
     # Expect proxy to be set up
     File.expects(:write).with('/etc/apt/apt.conf.d/proxy', proxy_enabled)
@@ -122,5 +125,35 @@ class NCISetupRepoTest < TestCase
     File.expects(:write).with('/etc/apt/apt.conf.d/proxy', proxy_enabled)
 
     NCI.setup_proxy!
+  end
+
+  def test_key_retry_fail
+    # Retries at least twice in error. Should raise something.
+    expect_key_add
+      .at_least(2)
+      .returns(false)
+
+    assert_raises do
+      NCI.add_repo_key!
+    end
+  end
+
+  def test_key_retry_success
+    # Make sure adding a key is retired. While adding from key servers is much
+    # more reliable than https it still can fail occasionally.
+
+    add_seq = sequence('key_add_fails')
+
+    # Retries 2 times in error, then once in success
+    expect_key_add
+      .times(2)
+      .in_sequence(add_seq)
+      .returns(false)
+    expect_key_add
+      .once
+      .in_sequence(add_seq)
+      .returns(true)
+
+    NCI.add_repo_key!
   end
 end

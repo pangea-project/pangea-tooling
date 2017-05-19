@@ -34,8 +34,12 @@ module NCI
   module_function
 
   def add_repo_key!
-    return if Apt::Key.add('444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
-    raise 'Failed to import key'
+    Retry.retry_it(times: 3, sleep: 8) do
+      if Apt::Key.add('444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
+        return
+      end
+      raise 'Failed to import key'
+    end
   end
 
   def setup_repo!
