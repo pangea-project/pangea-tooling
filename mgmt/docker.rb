@@ -11,6 +11,7 @@ require_relative '../lib/mgmt/deployer'
 pid_map = {}
 
 ubuntu_series = (MCI.series.keys | NCI.series.keys)
+ubuntu_series = [] if ENV.include?('PANGEA_DEBIAN_ONLY')
 ubuntu_series.each_index do |index|
   series = ubuntu_series[index]
   origins = ubuntu_series[index + 1..-1]
@@ -23,6 +24,7 @@ ubuntu_series.each_index do |index|
 end
 
 debian_series = DCI.series.keys
+debian_series = [] if ENV.include?('PANGEA_UBUNTU_ONLY')
 debian_series.each do |k|
   pid = fork do
     d = MGMT::Deployer.new('debian', k)
