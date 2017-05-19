@@ -14,6 +14,7 @@ module CI
       OS.reset
       OS.instance_variable_set(:@hash, VERSION_ID: '15.04')
       ENV['BUILD_NUMBER'] = '3'
+      ENV['DIST'] = 'vivid'
       @tarname = 'dragon_15.08.1.orig.tar.xz'
       @tarfile = "#{Dir.pwd}/#{@tarname}"
       FileUtils.cp_r(Dir.glob("#{data}/."), Dir.pwd)
@@ -46,12 +47,13 @@ module CI
       builder.build(tarball)
 
       # On 14.04 the default was .gz, newer versions may yield .xz
-      debian_tar = Dir.glob('build/dragon_15.08.1-0+15.04+build3.debian.tar.*')
+      debian_tar = Dir.glob('build/dragon_15.08.1-0+15.04+vivid+build3.debian.tar.*')
       assert_false(debian_tar.empty?, "no tar #{Dir.glob('build/*')}")
-      assert_path_exist('build/dragon_15.08.1-0+15.04+build3_source.changes')
-      assert_path_exist('build/dragon_15.08.1-0+15.04+build3.dsc')
+      assert_path_exist('build/dragon_15.08.1-0+15.04+vivid+build3_source.changes')
+      assert_path_exist('build/dragon_15.08.1-0+15.04+vivid+build3.dsc')
+      puts File.read('build/dragon_15.08.1-0+15.04+vivid+build3.dsc')
       assert_path_exist('build/dragon_15.08.1.orig.tar.xz')
-      changes = File.read('build/dragon_15.08.1-0+15.04+build3_source.changes')
+      changes = File.read('build/dragon_15.08.1-0+15.04+vivid+build3_source.changes')
       assert_include(changes.split($/), 'Distribution: vivid')
     end
 
@@ -72,12 +74,12 @@ module CI
       builder = OrigSourceBuilder.new(release: 'unstable')
       builder.build(tarball)
 
-      debian_tar = Dir.glob('build/dragon_15.08.1-0+15.04+build3.debian.tar.*')
+      debian_tar = Dir.glob('build/dragon_15.08.1-0+15.04+vivid+build3.debian.tar.*')
       assert_false(debian_tar.empty?, "no tar #{Dir.glob('build/*')}")
-      assert_path_exist('build/dragon_15.08.1-0+15.04+build3_source.changes')
-      assert_path_exist('build/dragon_15.08.1-0+15.04+build3.dsc')
+      assert_path_exist('build/dragon_15.08.1-0+15.04+vivid+build3_source.changes')
+      assert_path_exist('build/dragon_15.08.1-0+15.04+vivid+build3.dsc')
       assert_path_exist('build/dragon_15.08.1.orig.tar.xz')
-      changes = File.read('build/dragon_15.08.1-0+15.04+build3_source.changes')
+      changes = File.read('build/dragon_15.08.1-0+15.04+vivid+build3_source.changes')
       assert_include(changes.split($/), 'Distribution: unstable')
     end
 

@@ -22,6 +22,7 @@
 require 'fileutils'
 require 'git_clone_url'
 require 'rugged'
+require 'logger'
 
 require_relative '../debian/control'
 
