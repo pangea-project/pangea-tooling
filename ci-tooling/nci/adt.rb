@@ -85,6 +85,9 @@ args << '--built-tree' << "#{Dir.pwd}/build"
 args << '--output-dir' << 'adt-output'
 args << '--user=adt'
 args << "--timeout-test=#{60 * 60}"
+# Try to force Qt to time out on test functions after 5 minutes.
+# This should be the default but doesn't seem to actually work for some reason.
+args << "--env=QTEST_FUNCTION_TIMEOUT=#{5 * 60 * 1000}"
 args << '---' << 'null'
 puts "adt-run #{args.join(' ')}"
 system('adt-run', *args)
