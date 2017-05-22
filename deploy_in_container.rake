@@ -231,7 +231,7 @@ EOF
     # updated, which might happen soon. If not another approach is needed,
     # extending this workaround is only reasonable for up to 2017-05-01 after
     # that this needs a proper fix *at the latest*.
-    if (DateTime.parse('2017-04-06 00:00:00') - DateTime.now).to_i <= 14
+    if (DateTime.now - DateTime.parse('2017-04-06 00:00:00')).to_i <= 14
       raise 'Holding failed' unless system('apt-mark', 'hold', 'makedev')
     else
       raise 'Unholding failed' unless system('apt-mark', 'unhold', 'makedev')
