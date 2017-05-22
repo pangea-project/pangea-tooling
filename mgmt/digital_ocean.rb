@@ -77,6 +77,8 @@ end
 
 # Net::SSH would needs lots of code to catch the exit status.
 unless system("ssh root@#{droplet.public_ip} bash /root/deploy.sh")
+  puts 'deleting droplet'
+  client.droplets.delete(id: droplet.id)
   raise
 end
 system("ssh root@#{droplet.public_ip} shutdown now")
