@@ -135,7 +135,7 @@ class AptlyRepository < Repository
         Retry.retry_it(times: 4, sleep: 4) { @repo.packages(q: q) }
       end
     end
-    Concurrent::Promise.zip(*promises).value.flatten
+    Concurrent::Promise.zip(*promises).value!.flatten
   end
 
   def packages
