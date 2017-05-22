@@ -144,7 +144,7 @@ class AptlyRepository < Repository
       packages = query_packages_from_sources
       packages = Aptly::Ext::LatestVersionFilter.filter(packages)
       arch_filter = [DPKG::HOST_ARCH, 'all']
-      packages.reject! { |x| !arch_filter.include?(x.architecture) }
+      packages.select! { |x| arch_filter.include?(x.architecture) }
       packages.reject! { |x| x.name.end_with?('-dbg', '-dbgsym') }
       packages.reject! { |x| x.name.start_with?('oem-config') }
       packages.map { |x| [x.name, x.version] }.to_h
@@ -230,7 +230,6 @@ class RootOnAptlyRepository < Repository
       dbus_run_custom(&block)
     end
   end
-
 
   def setup_gir
     @gir ||= GirFFI.setup(:PackageKitGlib, '1.0')
