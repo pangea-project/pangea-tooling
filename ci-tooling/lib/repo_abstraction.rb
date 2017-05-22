@@ -22,6 +22,7 @@ require_relative 'apt'
 require_relative 'aptly-ext/filter'
 require_relative 'dpkg'
 require_relative 'lsb'
+require_relative 'retry'
 
 require 'concurrent'
 require 'gir_ffi'
