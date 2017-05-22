@@ -89,11 +89,18 @@ system("ssh root@#{droplet.public_ip} shutdown now")
 # end
 
 action = client.droplet_actions.shutdown(droplet_id: droplet.id)
-until action.status == 'completed'
+5.times do
+  break if action.status == 'completed'
   puts 'shutdown not complete'
   action = client.actions.find(id: action.id)
   sleep(16)
-  # TODO: should force poweroff after 1m
+end
+
+action = client.droplet_actions.power_off(droplet_id: droplet.id)
+until action.status == 'completed'
+  puts 'poweroff not complete'
+  action = client.actions.find(id: action.id)
+  sleep(16)
 end
 
 old_image = image.dup
