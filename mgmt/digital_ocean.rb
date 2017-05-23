@@ -105,7 +105,7 @@ system("ssh root@#{droplet.public_ip} shutdown now")
 # end
 
 action = client.droplet_actions.shutdown(droplet_id: droplet.id)
-5.times do
+10.times do
   break if action.status == 'completed'
   puts 'shutdown not complete'
   action = client.actions.find(id: action.id)
