@@ -49,6 +49,7 @@ def droplet
   )
   new_droplet = @client.droplets.create(new_droplet)
   p @id = new_droplet.id
+  sleep 2
   new_droplet
 end
 
@@ -60,6 +61,7 @@ end
 
 client.droplet_actions.power_on(droplet_id: droplet.id)
 10.times do
+  p droplet
   # Wait 16*10 seconds for power_on to success, otherwise unwind :(
   break if droplet.status == 'active'
   puts 'waiting for droplet to start'
@@ -69,6 +71,9 @@ if droplet.status != 'active'
   client.droplets.delete(id: droplet.id)
   abort "failed to start #{droplet}"
 end
+
+# We can get here with a droplet that isn't actually working as the
+# "creation failed" whatever that means..
 
 args = [droplet.public_ip, 'root']
 
