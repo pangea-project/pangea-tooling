@@ -37,10 +37,7 @@ end
 def droplet
   return @client.droplets.find(id: @id) if @id
   ret = @client.droplets.all.find { |x| x.name == 'jenkins-slave-deploy' }
-  if ret
-    @id = ret.id
-    return ret
-  end
+  raise "Found a droplet we didn't know about, wtf #{ret}" if ret
   puts 'creating'
   new_droplet = DropletKit::Droplet.new(
     name: 'jenkins-slave-deploy',
@@ -54,6 +51,9 @@ def droplet
   p @id = new_droplet.id
   new_droplet
 end
+
+previous = @client.droplets.all.find { |x| x.name == 'jenkins-slave-deploy' }
+client.droplets.delete(id: previous.id)
 
 droplet
 until droplet.status == 'active'
