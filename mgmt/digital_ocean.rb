@@ -64,12 +64,13 @@ client.droplet_actions.power_on(droplet_id: droplet.id)
   p droplet
   # Wait 16*10 seconds for power_on to success, otherwise unwind :(
   break if droplet.status == 'active'
-  puts 'waiting for droplet to start'
+  warn 'waiting for droplet to start'
   sleep(16)
 end
 if droplet.status != 'active'
   client.droplets.delete(id: droplet.id)
-  abort "failed to start #{droplet}"
+  raise "failed to start #{droplet}"
+  raise
 end
 
 # We can get here with a droplet that isn't actually working as the
@@ -78,6 +79,7 @@ end
 args = [droplet.public_ip, 'root']
 
 Retry.retry_it(sleep: 8, times: 16) do
+  warn "waiting for SSH to start #{args}"
   Net::SSH.start(*args) {}
 end
 
