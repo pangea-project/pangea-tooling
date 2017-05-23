@@ -53,7 +53,10 @@ def droplet
 end
 
 previous = @client.droplets.all.find { |x| x.name == 'jenkins-slave-deploy' }
-client.droplets.delete(id: previous.id)
+if previous
+  puts "previous droplet found; deleting: #{previous}"
+  client.droplets.delete(id: previous.id)
+end
 
 client.droplet_actions.power_on(droplet_id: droplet.id)
 10.times do
