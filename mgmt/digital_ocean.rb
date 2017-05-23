@@ -59,9 +59,7 @@ def droplet
   new_droplet
 end
 
-client.droplet_actions.power_on(droplet_id: droplet.id)
 10.times do
-  p droplet
   # Wait 16*10 seconds for power_on to success, otherwise unwind :(
   break if droplet.status == 'active'
   warn 'waiting for droplet to start'
