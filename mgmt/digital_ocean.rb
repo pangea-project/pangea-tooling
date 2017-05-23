@@ -56,9 +56,15 @@ previous = @client.droplets.all.find { |x| x.name == 'jenkins-slave-deploy' }
 client.droplets.delete(id: previous.id)
 
 client.droplet_actions.power_on(droplet_id: droplet.id)
-until droplet.status == 'active'
+10.times do
+  # Wait 16*10 seconds for power_on to success, otherwise unwind :(
+  break if droplet.status == 'active'
   puts 'waiting for droplet to start'
   sleep(16)
+end
+if droplet.status != 'active'
+  client.droplets.delete(id: droplet.id)
+  abort "failed to start #{droplet}"
 end
 
 args = [droplet.public_ip, 'root']
