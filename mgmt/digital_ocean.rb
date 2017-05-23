@@ -55,7 +55,7 @@ end
 previous = @client.droplets.all.find { |x| x.name == 'jenkins-slave-deploy' }
 client.droplets.delete(id: previous.id)
 
-droplet
+client.droplet_actions.power_on(droplet_id: droplet.id)
 until droplet.status == 'active'
   puts 'waiting for droplet to start'
   sleep(16)
