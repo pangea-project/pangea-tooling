@@ -28,6 +28,13 @@ require_relative '../ci-tooling/lib/retry'
 
 client = @client = DropletKit::Client.new(YAML.load_file("#{Dir.home}/.config/pangea-digital-ocean.yaml"))
 
+previous = @client.droplets.all.find { |x| x.name == 'jenkins-slave-deploy' }
+if previous
+  warn "previous droplet found; deleting: #{previous}"
+  p client.droplets.delete(id: previous.id)
+  sleep(16) # TODO: we may have to wait for an action here. not sure if one is returned.
+end
+
 @id = nil
 
 def image
@@ -49,14 +56,7 @@ def droplet
   )
   new_droplet = @client.droplets.create(new_droplet)
   p @id = new_droplet.id
-  sleep 2
   new_droplet
-end
-
-previous = @client.droplets.all.find { |x| x.name == 'jenkins-slave-deploy' }
-if previous
-  puts "previous droplet found; deleting: #{previous}"
-  client.droplets.delete(id: previous.id)
 end
 
 client.droplet_actions.power_on(droplet_id: droplet.id)
