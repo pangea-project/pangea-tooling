@@ -20,6 +20,9 @@
 
 set -ex
 
+export PANGEA_UBUNTU_ONLY=1
+export PANGEA_DOCKER_NO_FLATTEN=1
+
 # Make sure we do not have random services claiming dpkg locks.
 apt purge -y unattended-upgrades
 
