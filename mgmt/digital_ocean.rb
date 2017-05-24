@@ -127,7 +127,7 @@ class Action
   def initialize(action_or_id, client)
     @client = client
     @id = action_or_id
-    @id = action_or_id.id if action_or_id.is_a?(DropletKit::DropletAction)
+    @id = action_or_id.id if action_or_id.is_a?(DropletKit::Action)
   end
 
   def until_status(state)
