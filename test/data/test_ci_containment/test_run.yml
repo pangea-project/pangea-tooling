@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -17,15 +17,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:54 GMT
       Content-Length:
       - '53'
     body:
@@ -34,7 +36,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:54 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -43,7 +45,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -52,15 +54,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:54 GMT
       Content-Length:
       - '53'
     body:
@@ -69,7 +73,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:54 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -78,7 +82,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -87,15 +91,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:54 GMT
       Content-Length:
       - '53'
     body:
@@ -104,7 +110,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:54 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -113,7 +119,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -122,15 +128,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:54 GMT
       Content-Length:
       - '53'
     body:
@@ -139,7 +147,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:54 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -148,7 +156,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -157,15 +165,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:54 GMT
       Content-Length:
       - '53'
     body:
@@ -174,7 +184,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:54 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -183,7 +193,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -192,15 +202,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:54 GMT
       Content-Length:
       - '53'
     body:
@@ -209,7 +221,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:54 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -218,7 +230,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -227,15 +239,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:54 GMT
       Content-Length:
       - '53'
     body:
@@ -244,7 +258,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:54 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -253,7 +267,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -262,15 +276,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:54 GMT
       Content-Length:
       - '53'
     body:
@@ -279,7 +295,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:54 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
@@ -289,7 +305,7 @@ http_interactions:
         vivid_unstable_test"],"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Volumes":{}}'
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - application/json
   response:
@@ -298,33 +314,35 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:54 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f","Warnings":null}
+      string: '{"Id":"92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:54 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f/rename?name=vivid_unstable_test
+    uri: unix:///var/run/docker.sock/v1.24/containers/92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70/rename?name=vivid_unstable_test
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -333,27 +351,29 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:54 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:54 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70/start
     body:
       encoding: UTF-8
       string: "{}"
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - application/json
   response:
@@ -362,27 +382,29 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:54 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:54 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70/wait
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -391,15 +413,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:55 GMT
       Content-Length:
       - '17'
     body:
@@ -408,16 +432,16 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:55 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70/stop
     body:
       encoding: UTF-8
       string: "{}"
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - application/json
   response:
@@ -426,27 +450,29 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:55 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:55 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70/json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -455,33 +481,35 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:10 GMT
+      - Wed, 24 May 2017 15:06:55 GMT
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f","Created":"2016-12-01T01:03:10.174142944Z","Path":"bash","Args":["-c","echo
-        vivid_unstable_test"],"State":{"Status":"exited","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"2016-12-01T01:03:10.625840266Z","FinishedAt":"2016-12-01T01:03:10.715383407Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"/var/lib/docker/containers/5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f/resolv.conf","HostnamePath":"/var/lib/docker/containers/5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f/hostname","HostsPath":"/var/lib/docker/containers/5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f/hosts","LogPath":"/var/lib/docker/containers/5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f/5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f-json.log","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"overlay2","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":[],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"NanoCpus":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpuRealtimePeriod":0,"CpuRealtimeRuntime":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"overlay2","Data":{"LowerDir":"/var/lib/docker/overlay2/598e1d5db55de5cd6e7d641d7ac5320f74db7eac06a5de32c0994f5ccbbec1b1-init/diff:/var/lib/docker/overlay2/32b6e1227bf19a6f96130d1c1f34815eb583bfc406826a33f168b1f97880f24e/diff:/var/lib/docker/overlay2/94b81139330beb58f8902ca755fd58574beaf121a89d6ec39b9481b66783adcb/diff:/var/lib/docker/overlay2/e30d55d77c0d01f26cae3513572aae2e5b031c618a5c28f97bf787d4a5022c18/diff:/var/lib/docker/overlay2/3d1d43e2a5a7a65ee74e181da5325c837c546e97d0689bff2a2da387d69ae1e6/diff","MergedDir":"/var/lib/docker/overlay2/598e1d5db55de5cd6e7d641d7ac5320f74db7eac06a5de32c0994f5ccbbec1b1/merged","UpperDir":"/var/lib/docker/overlay2/598e1d5db55de5cd6e7d641d7ac5320f74db7eac06a5de32c0994f5ccbbec1b1/diff","WorkDir":"/var/lib/docker/overlay2/598e1d5db55de5cd6e7d641d7ac5320f74db7eac06a5de32c0994f5ccbbec1b1/work"}},"Mounts":[],"Config":{"Hostname":"5d36030c4144","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["bash","-c","echo
-        vivid_unstable_test"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"/","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"6166a3c33ff325722c1ba36bdc259a95aad977a27ef11bb6b6ac02a783cdb909","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"/var/run/docker/netns/6166a3c33ff3","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"3aef0e3cab61a0c437a1918f443eb4276f6f4dabc254c6f400b9e67d3757b8f5","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
+      string: '{"Id":"92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70","Created":"2017-05-24T15:06:54.178181262Z","Path":"bash","Args":["-c","echo
+        vivid_unstable_test"],"State":{"Status":"exited","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"2017-05-24T15:06:54.723366231Z","FinishedAt":"2017-05-24T15:06:54.849247803Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"/var/lib/docker/containers/92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70/resolv.conf","HostnamePath":"/var/lib/docker/containers/92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70/hostname","HostsPath":"/var/lib/docker/containers/92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70/hosts","LogPath":"/var/lib/docker/containers/92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70/92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70-json.log","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"overlay2","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":[],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"NanoCpus":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpuRealtimePeriod":0,"CpuRealtimeRuntime":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DeviceCgroupRules":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/42402313ec8ea435df4d3ae69cece0803e75ea464b745c54d2817a127561cf24-init/diff:/var/lib/docker/overlay2/57d687f2a0547ea6334546db75476f998fef16197fd651f77981e91da69a717e/diff:/var/lib/docker/overlay2/d477e9941fc26b539a5e74707de0046899d5547dfb06181e73fba94454a5dff9/diff:/var/lib/docker/overlay2/d8293da27fd8f9d6618770c9297241ba69b68e40f62ae99e75c4270eaf6bcba0/diff:/var/lib/docker/overlay2/784d890ca9702ff3b098ad1a1c92d9b01db6ec310afe364d90e364afd2d16ade/diff","MergedDir":"/var/lib/docker/overlay2/42402313ec8ea435df4d3ae69cece0803e75ea464b745c54d2817a127561cf24/merged","UpperDir":"/var/lib/docker/overlay2/42402313ec8ea435df4d3ae69cece0803e75ea464b745c54d2817a127561cf24/diff","WorkDir":"/var/lib/docker/overlay2/42402313ec8ea435df4d3ae69cece0803e75ea464b745c54d2817a127561cf24/work"},"Name":"overlay2"},"Mounts":[],"Config":{"Hostname":"92ace444c7fe","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["bash","-c","echo
+        vivid_unstable_test"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"/","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"78ccfec472ce175fc2d8b74715ef1cc89e8bfdff007f403ec585efc219f5146f","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":{},"SandboxKey":"/var/run/docker/netns/78ccfec472ce","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"aac1a917864b2631feceae6ca721bbbbcfaa7355608a9ca77c0a6ebf25017f89","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:10 GMT
+  recorded_at: Wed, 24 May 2017 15:06:55 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/5d36030c4144fb71a7f089b323615a7daf13aa104ab20113270fadfcb625707f
+    uri: unix:///var/run/docker.sock/v1.24/containers/92ace444c7fea749891edb2ec98c4e28874a5f937d64f51ab613e07844f2db70
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -490,18 +518,20 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:16 GMT
+      - Wed, 24 May 2017 15:07:00 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:16 GMT
+  recorded_at: Wed, 24 May 2017 15:07:00 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -510,7 +540,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -519,15 +549,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:16 GMT
+      - Wed, 24 May 2017 15:07:00 GMT
       Content-Length:
       - '53'
     body:
@@ -536,7 +568,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:16 GMT
+  recorded_at: Wed, 24 May 2017 15:07:00 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -545,7 +577,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -554,15 +586,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:16 GMT
+      - Wed, 24 May 2017 15:07:00 GMT
       Content-Length:
       - '53'
     body:
@@ -571,7 +605,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:16 GMT
+  recorded_at: Wed, 24 May 2017 15:07:00 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -580,7 +614,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -589,15 +623,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:16 GMT
+      - Wed, 24 May 2017 15:07:00 GMT
       Content-Length:
       - '53'
     body:
@@ -606,7 +642,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:16 GMT
+  recorded_at: Wed, 24 May 2017 15:07:00 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/vivid_unstable_test/json
@@ -615,7 +651,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -624,15 +660,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:16 GMT
+      - Wed, 24 May 2017 15:07:00 GMT
       Content-Length:
       - '53'
     body:
@@ -641,7 +679,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:16 GMT
+  recorded_at: Wed, 24 May 2017 15:07:00 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
@@ -651,7 +689,7 @@ http_interactions:
         1"],"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Volumes":{}}'
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - application/json
   response:
@@ -660,33 +698,35 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:16 GMT
+      - Wed, 24 May 2017 15:07:00 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924","Warnings":null}
+      string: '{"Id":"0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:16 GMT
+  recorded_at: Wed, 24 May 2017 15:07:00 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924/rename?name=vivid_unstable_test
+    uri: unix:///var/run/docker.sock/v1.24/containers/0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e/rename?name=vivid_unstable_test
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -695,27 +735,29 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:16 GMT
+      - Wed, 24 May 2017 15:07:00 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:16 GMT
+  recorded_at: Wed, 24 May 2017 15:07:00 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e/start
     body:
       encoding: UTF-8
       string: "{}"
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - application/json
   response:
@@ -724,27 +766,29 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:16 GMT
+      - Wed, 24 May 2017 15:07:00 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:16 GMT
+  recorded_at: Wed, 24 May 2017 15:07:00 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e/wait
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -753,15 +797,17 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:16 GMT
+      - Wed, 24 May 2017 15:07:01 GMT
       Content-Length:
       - '17'
     body:
@@ -770,16 +816,16 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:16 GMT
+  recorded_at: Wed, 24 May 2017 15:07:01 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e/stop
     body:
       encoding: UTF-8
       string: "{}"
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - application/json
   response:
@@ -788,27 +834,29 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:16 GMT
+      - Wed, 24 May 2017 15:07:01 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:16 GMT
+  recorded_at: Wed, 24 May 2017 15:07:01 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e/json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -817,33 +865,35 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Content-Type:
       - application/json
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:16 GMT
+      - Wed, 24 May 2017 15:07:01 GMT
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924","Created":"2016-12-01T01:03:16.02091124Z","Path":"bash","Args":["-c","exit
-        1"],"State":{"Status":"exited","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":1,"Error":"","StartedAt":"2016-12-01T01:03:16.365285409Z","FinishedAt":"2016-12-01T01:03:16.465760223Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"/var/lib/docker/containers/3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924/resolv.conf","HostnamePath":"/var/lib/docker/containers/3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924/hostname","HostsPath":"/var/lib/docker/containers/3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924/hosts","LogPath":"/var/lib/docker/containers/3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924/3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924-json.log","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"overlay2","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":[],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"NanoCpus":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpuRealtimePeriod":0,"CpuRealtimeRuntime":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Name":"overlay2","Data":{"LowerDir":"/var/lib/docker/overlay2/fb33ea25dc7cfb035f7f99736f9f9a71199d9027d6986e7d21594799903d5f6d-init/diff:/var/lib/docker/overlay2/32b6e1227bf19a6f96130d1c1f34815eb583bfc406826a33f168b1f97880f24e/diff:/var/lib/docker/overlay2/94b81139330beb58f8902ca755fd58574beaf121a89d6ec39b9481b66783adcb/diff:/var/lib/docker/overlay2/e30d55d77c0d01f26cae3513572aae2e5b031c618a5c28f97bf787d4a5022c18/diff:/var/lib/docker/overlay2/3d1d43e2a5a7a65ee74e181da5325c837c546e97d0689bff2a2da387d69ae1e6/diff","MergedDir":"/var/lib/docker/overlay2/fb33ea25dc7cfb035f7f99736f9f9a71199d9027d6986e7d21594799903d5f6d/merged","UpperDir":"/var/lib/docker/overlay2/fb33ea25dc7cfb035f7f99736f9f9a71199d9027d6986e7d21594799903d5f6d/diff","WorkDir":"/var/lib/docker/overlay2/fb33ea25dc7cfb035f7f99736f9f9a71199d9027d6986e7d21594799903d5f6d/work"}},"Mounts":[],"Config":{"Hostname":"3e429b9a7517","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["bash","-c","exit
-        1"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"/","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"318a45986d83d4fc2600b74cfee33002e777a65859898acff24b7a67436df9cb","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":null,"SandboxKey":"/var/run/docker/netns/318a45986d83","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"3aef0e3cab61a0c437a1918f443eb4276f6f4dabc254c6f400b9e67d3757b8f5","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
+      string: '{"Id":"0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e","Created":"2017-05-24T15:07:00.258235833Z","Path":"bash","Args":["-c","exit
+        1"],"State":{"Status":"exited","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":1,"Error":"","StartedAt":"2017-05-24T15:07:00.842156159Z","FinishedAt":"2017-05-24T15:07:00.95358081Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"/var/lib/docker/containers/0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e/resolv.conf","HostnamePath":"/var/lib/docker/containers/0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e/hostname","HostsPath":"/var/lib/docker/containers/0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e/hosts","LogPath":"/var/lib/docker/containers/0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e/0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e-json.log","Name":"/vivid_unstable_test","RestartCount":0,"Driver":"overlay2","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":[],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"NanoCpus":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpuRealtimePeriod":0,"CpuRealtimeRuntime":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DeviceCgroupRules":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/6db3fc66f5220a03ffa6fea65085a6dc5dcbfede45f8b598d18686bd1cf0bd91-init/diff:/var/lib/docker/overlay2/57d687f2a0547ea6334546db75476f998fef16197fd651f77981e91da69a717e/diff:/var/lib/docker/overlay2/d477e9941fc26b539a5e74707de0046899d5547dfb06181e73fba94454a5dff9/diff:/var/lib/docker/overlay2/d8293da27fd8f9d6618770c9297241ba69b68e40f62ae99e75c4270eaf6bcba0/diff:/var/lib/docker/overlay2/784d890ca9702ff3b098ad1a1c92d9b01db6ec310afe364d90e364afd2d16ade/diff","MergedDir":"/var/lib/docker/overlay2/6db3fc66f5220a03ffa6fea65085a6dc5dcbfede45f8b598d18686bd1cf0bd91/merged","UpperDir":"/var/lib/docker/overlay2/6db3fc66f5220a03ffa6fea65085a6dc5dcbfede45f8b598d18686bd1cf0bd91/diff","WorkDir":"/var/lib/docker/overlay2/6db3fc66f5220a03ffa6fea65085a6dc5dcbfede45f8b598d18686bd1cf0bd91/work"},"Name":"overlay2"},"Mounts":[],"Config":{"Hostname":"0176c392be35","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["bash","-c","exit
+        1"],"Image":"pangea/ubuntu:vivid","Volumes":null,"WorkingDir":"/","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"cbccf462bf5d2a33be675be069029ee5f2cf04d259a4507a5643cd74bc7e920b","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":{},"SandboxKey":"/var/run/docker/netns/cbccf462bf5d","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"aac1a917864b2631feceae6ca721bbbbcfaa7355608a9ca77c0a6ebf25017f89","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
 
 '
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:16 GMT
+  recorded_at: Wed, 24 May 2017 15:07:01 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/3e429b9a75170a4999a50ba7b0c6eb0c0317aacb72355604535a3b6bf05f3924
+    uri: unix:///var/run/docker.sock/v1.24/containers/0176c392be355313bc8858a24870d758d858995ae304524c7fce94217ebee77e
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.32.1
+      - Swipely/Docker-API 1.33.4
       Content-Type:
       - text/plain
   response:
@@ -852,16 +902,18 @@ http_interactions:
       message: 
     headers:
       Api-Version:
-      - '1.25'
+      - '1.29'
       Docker-Experimental:
       - 'false'
+      Ostype:
+      - linux
       Server:
-      - Docker/1.13.0-rc2 (linux)
+      - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 01 Dec 2016 01:03:21 GMT
+      - Wed, 24 May 2017 15:07:06 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 01 Dec 2016 01:03:21 GMT
+  recorded_at: Wed, 24 May 2017 15:07:06 GMT
 recorded_with: VCR 3.0.3

@@ -23,6 +23,7 @@ module MGMT
     # @param origin_tags [Array] name of alternate versions to upgrade from
     def initialize(flavor, tag, origin_tags = [])
       @base = CI::PangeaImage.new(flavor, tag)
+      ENV['DIST'] = @base.tag
       @origin_tags = origin_tags
       @testing = true if CI::PangeaImage.namespace.include? 'testing'
       init_logging
