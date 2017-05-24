@@ -240,11 +240,13 @@ droplet.snapshot!(name: 'jenkins-slave').complete! do
   logger.info 'Waiting for snapshot'
 end
 
-logger.warn 'deleting old image'
-unless Client.new.snapshots.delete(id: old_image.id)
-  logger.error 'failed to delete old snapshot'
-  # FIXME: beginning needs to handle multiple images and throw away all but the
-  #   newest
+if old_image
+  logger.warn 'deleting old image'
+  unless Client.new.snapshots.delete(id: old_image.id)
+    logger.error 'failed to delete old snapshot'
+    # FIXME: beginning needs to handle multiple images and throw away all but the
+    #   newest
+  end
 end
 
 logger.warn 'deleting droplet'
