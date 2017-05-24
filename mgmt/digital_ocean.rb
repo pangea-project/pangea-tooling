@@ -179,7 +179,9 @@ end
 logger.info 'Creating new droplet.'
 droplet = Droplet.create
 
-active = Action.wait(retries: 10) do
+# Wait a decent amount for the droplet to start. If this takes very long it's
+# no problem.
+active = Action.wait(retries: 20) do
   logger.info 'Waiting for droplet to start'
   droplet.status == 'active'
 end
@@ -232,14 +234,14 @@ droplet.power_off!.complete! do
   logger.info 'Waiting for power off'
 end
 
-old_image = client.snapshots.all.find { |x| x.name == 'jenkins-slave' }
+old_image = Client.new.snapshots.all.find { |x| x.name == 'jenkins-slave' }
 
 droplet.snapshot!(name: 'jenkins-slave').complete! do
   logger.info 'Waiting for snapshot'
 end
 
 logger.warn 'deleting old image'
-unless client.snapshots.delete(id: old_image.id)
+unless Client.new.snapshots.delete(id: old_image.id)
   logger.error 'failed to delete old snapshot'
   # FIXME: beginning needs to handle multiple images and throw away all but the
   #   newest
