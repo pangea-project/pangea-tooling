@@ -303,7 +303,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"Image":"deployupgradetest:latest","HostConfig":{"Privileged":false,"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":["<%=
         Dir.pwd %>:/tooling-pending"]},"Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh"],"WorkingDir":"<%=
-        Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Volumes":{"<%=
+        Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  ","DIST=test_upgrade"],"Volumes":{"<%=
         Dir.pwd %>":{}}}'
     headers:
       User-Agent:
