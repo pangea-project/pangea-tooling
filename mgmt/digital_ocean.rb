@@ -133,7 +133,7 @@ class Action
   def until_status(state)
     count = 0
     until resource.status == state
-      yield
+      yield count
       count += 1
       sleep 16
     end
@@ -167,6 +167,7 @@ end
 logger = @logger = Logger.new(STDERR)
 
 previous = Droplet.from_name('jenkins-slave-deploy')
+
 if previous
   logger.warn "previous droplet found; deleting: #{previous}"
   raise "Failed to delete #{previous}" unless previous.delete
