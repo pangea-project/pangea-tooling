@@ -26,9 +26,16 @@ export PANGEA_DOCKER_NO_FLATTEN=1
 # Disable bloody apt automation crap locking the database.
 systemctl disable --now apt-daily.service
 
+# SSH comes up while cloud-init is still in progress. Wait for it to actually
+# finish.
+until grep '"stage"' /run/cloud-init/status.json | grep -q 'null'; do
+  echo "waiting for cloud-init to finish"
+  sleep 4
+done
+
 # Make sure we do not have random services claiming dpkg locks.
 ps aux
-apt purge -y unattended-upgrades
+apt purge -y unattended-upgrades update-notifier-common
 
 # DOs by default come with out of date cache.
 ps aux
