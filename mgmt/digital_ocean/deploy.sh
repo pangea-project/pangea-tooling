@@ -27,9 +27,11 @@ export PANGEA_DOCKER_NO_FLATTEN=1
 systemctl disable --now apt-daily.service
 
 # Make sure we do not have random services claiming dpkg locks.
+ps aux
 apt purge -y unattended-upgrades
 
 # DOs by default come with out of date cache.
+ps aux
 apt update
 
 # Deploy chef 13 and chef-dk 1.3 (we have no ruby right now.)
