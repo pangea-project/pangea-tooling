@@ -126,16 +126,18 @@ module MGMT
       # abc and create a new image edf, edf will be an AUFS ontop of abc. While
       # this is probably useful if one doesn't commit containers repeatedly
       # for us this is pretty crap as we have massive turn around on images.
-      @log.warn 'Flattening latest image by exporting and importing it.' \
-                ' This can take a while.'
-      require 'thwait'
-
-      rd, wr = IO.pipe
       @i = nil
 
       if ENV.include?('PANGEA_DOCKER_NO_FLATTEN')
+        @log.warn 'Opted out of image flattening...'
         @i = c.commit
       else
+        @log.warn 'Flattening latest image by exporting and importing it.' \
+                  ' This can take a while.'
+        require 'thwait'
+
+        rd, wr = IO.pipe
+
         Thread.abort_on_exception = true
         read_thread = Thread.new do
           @i = Docker::Image.import_stream do
