@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'date'
 require 'etc'
 require 'fileutils'
 require 'tmpdir'
@@ -205,19 +204,8 @@ EOF
   Retry.retry_it(times: 5, sleep: 8) do
     # Use apt.
     raise 'Update failed' unless Apt.update
-    # Ubuntu pushed a makedev update. We can't dist-upgrade makedev as it
-    # requires privileged access which we do not have on slaves. Hold it for 14
-    # days, after that unhold so the dist-upgrades fails again.
-    # At this point someone needs to determine if we want to wait longer or
-    # devise a solution. To fix this the ubuntu base image we use needs to be
-    # updated, which might happen soon. If not another approach is needed,
-    # extending this workaround is only reasonable for up to 2017-05-01 after
-    # that this needs a proper fix *at the latest*.
-    if (DateTime.now - DateTime.parse('2017-04-06 00:00:00')).to_i <= 14
-      raise 'Holding failed' unless system('apt-mark', 'hold', 'makedev')
-    else
-      raise 'Unholding failed' unless system('apt-mark', 'unhold', 'makedev')
-    end
+    # Undo a temporary workaround.
+    system('apt-mark', 'unhold', 'makedev')
     raise 'Dist upgrade failed' unless Apt.dist_upgrade
     # FIXME: install reallly should allow array as input. that's not tested and
     # actually fails though
