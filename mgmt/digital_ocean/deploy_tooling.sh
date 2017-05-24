@@ -20,6 +20,9 @@
 
 set -ex
 
+export PANGEA_UBUNTU_ONLY=1
+export PANGEA_DOCKER_NO_FLATTEN=1
+
 env
 
 git clone --depth 1 https://github.com/blue-systems/pangea-tooling.git /tmp/tooling

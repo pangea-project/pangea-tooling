@@ -20,9 +20,6 @@
 
 set -ex
 
-export PANGEA_UBUNTU_ONLY=1
-export PANGEA_DOCKER_NO_FLATTEN=1
-
 # Disable bloody apt automation crap locking the database.
 systemctl disable --now apt-daily.service
 
