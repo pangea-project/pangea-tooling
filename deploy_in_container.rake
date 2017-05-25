@@ -65,7 +65,7 @@ def custom_version_id
   os_release = File.readlines(file)
   system('dpkg-divert', '--local', '--rename', '--add', file) || raise
   os_release << "VERSION_ID=\"#{DCI.series[dist]}\"\n"
-  File.write(file, os_release)
+  File.write(file, os_release.join())
 end
 
 desc 'deploy inside the container'
