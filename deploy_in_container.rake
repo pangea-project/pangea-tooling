@@ -56,6 +56,18 @@ def install_fake_pkg(name)
   end
 end
 
+def custom_version_id
+  require_relative 'ci-tooling/lib/dci'
+  dist = ENV.fetch('DIST')
+  return unless DCI.series.keys.include?(dist)
+
+  file = '/etc/os-release'.freeze
+  os_release = File.readlines(file)
+  system('dpkg-divert', '--local', '--rename', '--add', file) || raise
+  os_release << "VERSION_ID=\"#{DCI.series[dist]}\"\n"
+  File.write(file, os_release)
+end
+
 desc 'deploy inside the container'
 task :deploy_in_container => :align_ruby do
   home = '/var/lib/jenkins'
@@ -264,6 +276,9 @@ EOF
   File.open("/etc/sudoers.d/#{uid}-#{uname}", 'w', 0o440) do |f|
     f.puts('jenkins ALL=(ALL) NOPASSWD: ALL')
   end
+
+  # Add a custom version_id in os-release for DCI
+  custom_version_id
 
   # Ultimate clean up
   #  Semi big logs
