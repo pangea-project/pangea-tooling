@@ -63,6 +63,11 @@ def custom_version_id
 
   file = '/etc/os-release'.freeze
   os_release = File.readlines(file)
+  # Strip out any lines starting with VERSION_ID
+  # so that we don't end up with an endless number of VERSION_ID entries
+  os_release = os_release.select do |l|
+    !l.start_with?('VERSION_ID')
+  end
   system('dpkg-divert', '--local', '--rename', '--add', file) || raise
   os_release << "VERSION_ID=\"#{DCI.series[dist]}\"\n"
   File.write(file, os_release.join())
