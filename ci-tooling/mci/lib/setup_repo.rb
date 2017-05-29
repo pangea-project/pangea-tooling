@@ -39,6 +39,10 @@ module MCI
       debline2 = format('deb http://mobile.neon.pangea.pub/testing %s main',
                        LSB::DISTRIB_CODENAME)
       raise 'adding repo failed' unless Apt::Repository.add(debline2)
+    else
+      haliumrepo = format('deb http://repo.halium.org %s main',
+                       LSB::DISTRIB_CODENAME)
+      raise 'adding repo failed' unless Apt::Repository.add(haliumrepo)
     end
 
     Apt::Key.add('http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key')
