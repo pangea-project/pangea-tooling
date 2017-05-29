@@ -29,13 +29,17 @@ module MCI
   module_function
 
   def setup_repo!
-    debline = format('deb http://mobile.neon.pangea.pub %s main',
-                     LSB::DISTRIB_CODENAME)
-    raise 'adding repo failed' unless Apt::Repository.add(debline)
+    @type = ENV.fetch('type')
 
-    debline2 = format('deb http://mobile.neon.pangea.pub/testing %s main',
-                     LSB::DISTRIB_CODENAME)
-    raise 'adding repo failed' unless Apt::Repository.add(debline2)
+    unless @type == "halium"
+      debline = format('deb http://mobile.neon.pangea.pub %s main',
+                       LSB::DISTRIB_CODENAME)
+      raise 'adding repo failed' unless Apt::Repository.add(debline)
+
+      debline2 = format('deb http://mobile.neon.pangea.pub/testing %s main',
+                       LSB::DISTRIB_CODENAME)
+      raise 'adding repo failed' unless Apt::Repository.add(debline2)
+    end
 
     Apt::Key.add('http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key')
     raise 'Failed to import key' unless $?.to_i.zero?
