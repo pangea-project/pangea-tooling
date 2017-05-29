@@ -35,18 +35,10 @@ module DCI
     components = []
     setup_i386
 
-    case @dist
-    when 'stable'
-      setup_backports!
-      repos += %w[frameworks plasma kde-applications extras backports qt5]
-      repos += %w[odroid] if DPKG::BUILD_ARCH == 'armhf'
-      components += %w[main]
-    when 'testing', '1703', 'netrunner-backports'
-      repos += %w[netrunner]
-      components += %w[frameworks backports plasma qt5 kde-applications extras]
-      components += %w[odroid] unless DPKG::BUILD_ARCH == 'amd64'
-      @dist = "netrunner-#{@dist}" unless @dist.start_with?('netrunner')
-    end
+    repos += %w[netrunner]
+    components += %w[frameworks backports plasma qt5 kde-applications extras]
+    components += %w[odroid] unless DPKG::BUILD_ARCH == 'amd64'
+    @dist = "netrunner-#{@dist}" unless @dist.start_with?('netrunner')
 
     add_repos(repos, components)
 
@@ -74,9 +66,9 @@ module DCI
   end
 
   def add_repos(repos, components)
-    joined_components = components.join(' ')
+    components = components.join(' ')
     repos.each do |repo|
-      debline = "deb http://dci.ds9.pub:8080/#{repo} #{@dist} #{joined_components}"
+      debline = "deb http://dci.ds9.pub:8080/#{repo} #{@dist} #{components}"
       raise 'adding repo failed' unless Apt::Repository.add(debline)
     end
   end
