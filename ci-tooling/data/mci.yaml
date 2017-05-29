@@ -5,3 +5,4 @@ architectures:
   - armhf
 types:
   - unstable
+  - halium
