@@ -29,7 +29,7 @@ module MCI
   module_function
 
   def setup_repo!
-    @type = ENV.fetch('type')
+    @type = ENV.fetch('TYPE')
 
     unless @type == "halium"
       debline = format('deb http://mobile.neon.pangea.pub %s main',
