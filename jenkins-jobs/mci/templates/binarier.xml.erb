@@ -38,8 +38,8 @@ export TYPE=<%= type %>
     <hudson.tasks.ArtifactArchiver>
       <artifacts>*.deb,*.changes,*.udeb</artifacts>
       <excludes>*_source.changes</excludes>
-      <allowEmptyArchive>false</allowEmptyArchive>
-      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <allowEmptyArchive>true</allowEmptyArchive>
+      <onlyIfSuccessful>true</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
       <defaultExcludes>true</defaultExcludes>
     </hudson.tasks.ArtifactArchiver>
