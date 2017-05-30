@@ -65,10 +65,6 @@ class ProjectJob < JenkinsJob
     basename = jobs[0].job_name.rpartition('_')[0]
 
     unless NCI.experimental_skip_qa.any? { |x| jobs[0].job_name.include?(x) }
-      # Before _pub (-1)
-      jobs.insert(-2, ADTJob.new(basename,
-                                 distribution: kwords[:distribution],
-                                 type: kwords[:type]))
       # After _pub
       lintqml = LintQMLJob.new(basename,
                                distribution: kwords[:distribution],

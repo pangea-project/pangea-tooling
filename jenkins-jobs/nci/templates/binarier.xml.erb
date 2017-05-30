@@ -51,21 +51,28 @@
       <command>
 export DIST=<%= distribution %>
 export TYPE=<%= type %>
+
 export PWD_BIND=/workspace
 echo $BUILD_URL > build_url # for lint_bin
 ~/tooling/nci/contain.rb /tooling/ci-tooling/nci/builder.rb $JOB_NAME `pwd`
+
+# ADT will mangle after copying to /workspace so bind the workspace
+# into /input where our ADT will pick it up.
+export PWD_BIND=/input
+echo $JOB_NAME > job_name
+~/tooling/nci/contain.rb /tooling/ci-tooling/nci/adt.rb
       </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.9">
-      <testResults>reports/*.xml</testResults>
-      <keepLongStdio>false</keepLongStdio>
+      <testResults>reports/*.xml,adt-junit.xml</testResults>
+      <keepLongStdio>true</keepLongStdio>
       <healthScaleFactor>1.0</healthScaleFactor>
       <allowEmptyResults>true</allowEmptyResults>
     </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>*.deb,*.changes,*.udeb</artifacts>
+      <artifacts>*.deb, *.changes, *.udeb, adt-output.tar.xz</artifacts>
       <excludes>*_source.changes</excludes>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
@@ -84,13 +91,8 @@ echo $BUILD_URL > build_url # for lint_bin
     <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
       <deleteDirs>false</deleteDirs>
       <skipWhenFailed>false</skipWhenFailed>
-      <% if NCI.experimental_skip_qa.any? { |x| job_name.include?(x) } %>
-        <cleanWhenSuccess>true</cleanWhenSuccess>
-        <cleanWhenUnstable>true</cleanWhenUnstable>
-      <% else %>
-        <cleanWhenSuccess>false</cleanWhenSuccess>
-        <cleanWhenUnstable>false</cleanWhenUnstable>
-      <% end %>
+      <cleanWhenSuccess>true</cleanWhenSuccess>
+      <cleanWhenUnstable>true</cleanWhenUnstable>
       <cleanWhenFailure>true</cleanWhenFailure>
       <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
       <cleanWhenAborted>true</cleanWhenAborted>
