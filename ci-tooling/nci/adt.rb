@@ -23,7 +23,14 @@ require 'fileutils'
 
 require_relative '../lib/adt/summary'
 require_relative '../lib/adt/junit/summary'
+require_relative '../lib/nci'
 require_relative 'lib/setup_repo'
+
+JOB_NAME = File.read('job_name').strip
+if NCI.experimental_skip_qa.any? { |x| JOB_NAME.include?(x) }
+  warn "Job #{JOB_NAME} marked to skip QA. Not running autopkgtest (adt)."
+  exit 0
+end
 
 NCI.setup_repo!
 
