@@ -78,6 +78,7 @@ end
 
 # :nocov:
 if __FILE__ == $PROGRAM_NAME
+  ENV['RELEASEME_PROJECTS_API'] = '1'
   NCI.setup_repo!
   NCI.setup_env!
   Sourcer.run
