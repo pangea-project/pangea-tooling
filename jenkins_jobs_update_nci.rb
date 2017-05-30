@@ -212,7 +212,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTToolingJob.new(downstreams: [docker],
                                dependees: []))
-    enqueue(MGMTRepoCleanupJob.new)
+    enqueue(MGMTRepoCleanupJob.new(arch: 'amd64'))
     enqueue(MGMTDockerHubRebuild.new(dependees: []))
   end
 end
