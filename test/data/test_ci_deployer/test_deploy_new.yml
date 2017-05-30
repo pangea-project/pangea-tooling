@@ -27,7 +27,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:42 GMT
+      - Tue, 30 May 2017 13:14:31 GMT
       Content-Length:
       - '99'
     body:
@@ -37,7 +37,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:42 GMT
+  recorded_at: Tue, 30 May 2017 13:14:31 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:wily/json
@@ -65,7 +65,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:42 GMT
+      - Tue, 30 May 2017 13:14:31 GMT
       Content-Length:
       - '99'
     body:
@@ -75,7 +75,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:42 GMT
+  recorded_at: Tue, 30 May 2017 13:14:31 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:wily/json
@@ -103,7 +103,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:42 GMT
+      - Tue, 30 May 2017 13:14:31 GMT
       Content-Length:
       - '99'
     body:
@@ -113,7 +113,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:42 GMT
+  recorded_at: Tue, 30 May 2017 13:14:31 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:wily/json
@@ -141,7 +141,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:42 GMT
+      - Tue, 30 May 2017 13:14:31 GMT
       Content-Length:
       - '99'
     body:
@@ -151,7 +151,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:42 GMT
+  recorded_at: Tue, 30 May 2017 13:14:31 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Awily
@@ -179,14 +179,14 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:43 GMT
+      - Tue, 30 May 2017 13:14:33 GMT
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"Pulling from library/ubuntu\",\"id\":\"wily\"}\r\n{\"status\":\"Digest:
         sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3\"}\r\n{\"status\":\"Status:
         Image is up to date for ubuntu:wily\"}\r\n"
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:43 GMT
+  recorded_at: Tue, 30 May 2017 13:14:33 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:wily/json
@@ -214,15 +214,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:43 GMT
+      - Tue, 30 May 2017 13:14:33 GMT
     body:
       encoding: ASCII-8BIT
       string: '{"Id":"sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698","RepoTags":["ubuntu:wily"],"RepoDigests":["ubuntu@sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3"],"Parent":"","Comment":"","Created":"2016-07-22T15:19:13.510288415Z","Container":"9b5da12722b13c386447977fffcd067a0658f44e4b0838626b2e7b2da531801c","ContainerConfig":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/sh","-c","#(nop)
-        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/f64b1bcb62e720c914b32d6ed646a5586bbc835a88053f17672b92e23b24ba56/diff:/var/lib/docker/overlay2/e7ae3c5d6728adabf7b907be8ce8be80dde44f71d49c62c757a5cd5e50594076/diff:/var/lib/docker/overlay2/2133468ac8138f2402ea38eb3c45679b4bea3f6dd972904569eaa94a4e5a3e6b/diff","MergedDir":"/var/lib/docker/overlay2/841f069918421bef5cd9cb18604dc881217380c908a7613f5f1a5b05a6e256b3/merged","UpperDir":"/var/lib/docker/overlay2/841f069918421bef5cd9cb18604dc881217380c908a7613f5f1a5b05a6e256b3/diff","WorkDir":"/var/lib/docker/overlay2/841f069918421bef5cd9cb18604dc881217380c908a7613f5f1a5b05a6e256b3/work"},"Name":"overlay2"},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
+        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/6f80de033eb2755dea7b0e060609770dd8e531fa0a636d1c1e504a92d98d57e6/diff:/var/lib/docker/overlay2/430d4ea6ff9558624ebaee131c80138ac7712612093720a4a4c25cba0cef852b/diff:/var/lib/docker/overlay2/b0fd07555e861a749b74e8375a18f1968d0272317df08e4d3e21046cd3dd46bf/diff","MergedDir":"/var/lib/docker/overlay2/5454176fdcfb9862b5b34a147a142638a03e6ac41f4d50d273b76a0f9c586d6d/merged","UpperDir":"/var/lib/docker/overlay2/5454176fdcfb9862b5b34a147a142638a03e6ac41f4d50d273b76a0f9c586d6d/diff","WorkDir":"/var/lib/docker/overlay2/5454176fdcfb9862b5b34a147a142638a03e6ac41f4d50d273b76a0f9c586d6d/work"},"Name":"overlay2"},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:43 GMT
+  recorded_at: Tue, 30 May 2017 13:14:33 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698/tag?repo=pangea-testing%2Fubuntu&tag=wily
@@ -248,7 +248,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:43 GMT
+      - Tue, 30 May 2017 13:14:33 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -257,7 +257,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:43 GMT
+  recorded_at: Tue, 30 May 2017 13:14:33 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
@@ -287,19 +287,19 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:44 GMT
+      - Tue, 30 May 2017 13:14:33 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"5d6e29887f3b6c774cac353b8dee1105574319ed97d8852caab8bcc75738186d","Warnings":null}
+      string: '{"Id":"a12ce20b36797a4bccb0c1d7c0db0e5da5aa400765e1d564933fce44c7261e52","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:44 GMT
+  recorded_at: Tue, 30 May 2017 13:14:33 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/5d6e29887f3b6c774cac353b8dee1105574319ed97d8852caab8bcc75738186d/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/a12ce20b36797a4bccb0c1d7c0db0e5da5aa400765e1d564933fce44c7261e52/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -322,15 +322,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:44 GMT
+      - Tue, 30 May 2017 13:14:33 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:44 GMT
+  recorded_at: Tue, 30 May 2017 13:14:33 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/5d6e29887f3b6c774cac353b8dee1105574319ed97d8852caab8bcc75738186d/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/a12ce20b36797a4bccb0c1d7c0db0e5da5aa400765e1d564933fce44c7261e52/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -355,7 +355,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:45 GMT
+      - Tue, 30 May 2017 13:14:34 GMT
       Content-Length:
       - '17'
     body:
@@ -364,10 +364,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:45 GMT
+  recorded_at: Tue, 30 May 2017 13:14:34 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/5d6e29887f3b6c774cac353b8dee1105574319ed97d8852caab8bcc75738186d/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/a12ce20b36797a4bccb0c1d7c0db0e5da5aa400765e1d564933fce44c7261e52/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -390,15 +390,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:45 GMT
+      - Tue, 30 May 2017 13:14:34 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:45 GMT
+  recorded_at: Tue, 30 May 2017 13:14:34 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/5d6e29887f3b6c774cac353b8dee1105574319ed97d8852caab8bcc75738186d/export
+    uri: unix:///var/run/docker.sock/v1.24/containers/a12ce20b36797a4bccb0c1d7c0db0e5da5aa400765e1d564933fce44c7261e52/export
     body:
       encoding: US-ASCII
       string: ''
@@ -421,14 +421,14 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:45 GMT
+      - Tue, 30 May 2017 13:14:34 GMT
       Content-Type:
       - application/octet-stream
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:48 GMT
+  recorded_at: Tue, 30 May 2017 13:14:37 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
@@ -458,15 +458,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:48 GMT
+      - Tue, 30 May 2017 13:14:37 GMT
     body:
       encoding: ASCII-8BIT
-      string: "{\"status\":\"sha256:3d014ad117d8d57d96c0c67926496388f4856c8236ca5ec46aa2013de2bc675e\"}\r\n"
+      string: "{\"status\":\"sha256:1be54d59ea397fe03668424e67297eac4007b8b460dd3a15dbe9720f86460860\"}\r\n"
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:48 GMT
+  recorded_at: Tue, 30 May 2017 13:14:37 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/5d6e29887f3b6c774cac353b8dee1105574319ed97d8852caab8bcc75738186d
+    uri: unix:///var/run/docker.sock/v1.24/containers/a12ce20b36797a4bccb0c1d7c0db0e5da5aa400765e1d564933fce44c7261e52
     body:
       encoding: US-ASCII
       string: ''
@@ -489,12 +489,12 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:48 GMT
+      - Tue, 30 May 2017 13:14:37 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:48 GMT
+  recorded_at: Tue, 30 May 2017 13:14:37 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:wily/json
@@ -522,15 +522,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:48 GMT
+      - Tue, 30 May 2017 13:14:37 GMT
     body:
       encoding: ASCII-8BIT
       string: '{"Id":"sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698","RepoTags":["ubuntu:wily","pangea-testing/ubuntu:wily"],"RepoDigests":["ubuntu@sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3"],"Parent":"","Comment":"","Created":"2016-07-22T15:19:13.510288415Z","Container":"9b5da12722b13c386447977fffcd067a0658f44e4b0838626b2e7b2da531801c","ContainerConfig":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/sh","-c","#(nop)
-        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/f64b1bcb62e720c914b32d6ed646a5586bbc835a88053f17672b92e23b24ba56/diff:/var/lib/docker/overlay2/e7ae3c5d6728adabf7b907be8ce8be80dde44f71d49c62c757a5cd5e50594076/diff:/var/lib/docker/overlay2/2133468ac8138f2402ea38eb3c45679b4bea3f6dd972904569eaa94a4e5a3e6b/diff","MergedDir":"/var/lib/docker/overlay2/841f069918421bef5cd9cb18604dc881217380c908a7613f5f1a5b05a6e256b3/merged","UpperDir":"/var/lib/docker/overlay2/841f069918421bef5cd9cb18604dc881217380c908a7613f5f1a5b05a6e256b3/diff","WorkDir":"/var/lib/docker/overlay2/841f069918421bef5cd9cb18604dc881217380c908a7613f5f1a5b05a6e256b3/work"},"Name":"overlay2"},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
+        CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/6f80de033eb2755dea7b0e060609770dd8e531fa0a636d1c1e504a92d98d57e6/diff:/var/lib/docker/overlay2/430d4ea6ff9558624ebaee131c80138ac7712612093720a4a4c25cba0cef852b/diff:/var/lib/docker/overlay2/b0fd07555e861a749b74e8375a18f1968d0272317df08e4d3e21046cd3dd46bf/diff","MergedDir":"/var/lib/docker/overlay2/5454176fdcfb9862b5b34a147a142638a03e6ac41f4d50d273b76a0f9c586d6d/merged","UpperDir":"/var/lib/docker/overlay2/5454176fdcfb9862b5b34a147a142638a03e6ac41f4d50d273b76a0f9c586d6d/diff","WorkDir":"/var/lib/docker/overlay2/5454176fdcfb9862b5b34a147a142638a03e6ac41f4d50d273b76a0f9c586d6d/work"},"Name":"overlay2"},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]}}
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:48 GMT
+  recorded_at: Tue, 30 May 2017 13:14:37 GMT
 - request:
     method: delete
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698
@@ -558,7 +558,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:48 GMT
+      - Tue, 30 May 2017 13:14:37 GMT
       Content-Length:
       - '118'
     body:
@@ -568,10 +568,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:48 GMT
+  recorded_at: Tue, 30 May 2017 13:14:37 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:3d014ad117d8d57d96c0c67926496388f4856c8236ca5ec46aa2013de2bc675e/tag?force=true&repo=pangea-testing%2Fubuntu&tag=wily
+    uri: unix:///var/run/docker.sock/v1.24/images/sha256:1be54d59ea397fe03668424e67297eac4007b8b460dd3a15dbe9720f86460860/tag?force=true&repo=pangea-testing%2Fubuntu&tag=wily
     body:
       encoding: US-ASCII
       string: ''
@@ -594,7 +594,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:48 GMT
+      - Tue, 30 May 2017 13:14:37 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -603,7 +603,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:48 GMT
+  recorded_at: Tue, 30 May 2017 13:14:37 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:vivid/json
@@ -631,7 +631,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:48 GMT
+      - Tue, 30 May 2017 13:14:37 GMT
       Content-Length:
       - '101'
     body:
@@ -641,7 +641,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:48 GMT
+  recorded_at: Tue, 30 May 2017 13:14:37 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:vivid/json
@@ -669,7 +669,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:48 GMT
+      - Tue, 30 May 2017 13:14:37 GMT
       Content-Length:
       - '101'
     body:
@@ -679,7 +679,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:48 GMT
+  recorded_at: Tue, 30 May 2017 13:14:37 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:vivid/json
@@ -707,7 +707,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:48 GMT
+      - Tue, 30 May 2017 13:14:37 GMT
       Content-Length:
       - '101'
     body:
@@ -717,7 +717,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:48 GMT
+  recorded_at: Tue, 30 May 2017 13:14:37 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:vivid/json
@@ -745,7 +745,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:48 GMT
+      - Tue, 30 May 2017 13:14:37 GMT
       Content-Length:
       - '101'
     body:
@@ -755,7 +755,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:48 GMT
+  recorded_at: Tue, 30 May 2017 13:14:37 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Avivid
@@ -783,7 +783,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:50 GMT
+      - Tue, 30 May 2017 13:14:39 GMT
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"Pulling from library/ubuntu\",\"id\":\"vivid\"}\r\n{\"status\":\"Already
@@ -794,7 +794,7 @@ http_interactions:
         sha256:16aaeb60ca8cee4ced9952fb89e020295a340e8507e25a9d7023265ece529018\"}\r\n{\"status\":\"Status:
         Image is up to date for ubuntu:vivid\"}\r\n"
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:50 GMT
+  recorded_at: Tue, 30 May 2017 13:14:39 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:vivid/json
@@ -822,15 +822,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:50 GMT
+      - Tue, 30 May 2017 13:14:39 GMT
     body:
       encoding: ASCII-8BIT
       string: '{"Id":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","RepoTags":["ubuntu:vivid"],"RepoDigests":["ubuntu@sha256:16aaeb60ca8cee4ced9952fb89e020295a340e8507e25a9d7023265ece529018"],"Parent":"","Comment":"","Created":"2016-01-26T17:48:34.465253028Z","Container":"cc20825e9e02f79fe62f1b08bc30aea4299dbcd77ad0da58b00dec38aba7334a","ContainerConfig":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop)
-        CMD [\"/bin/bash\"]"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"1.8.3","Author":"","Config":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":131299498,"VirtualSize":131299498,"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/755d605ec059a6e1852fdbdb4347d77ffae6faee13f1497362a81e6acfedd7be/diff:/var/lib/docker/overlay2/5fdc54f32a1425a8a3bdd2b5219432ebd73c0e37b862a89e6a5dba2ff0903773/diff:/var/lib/docker/overlay2/64bfe6f3057d58c5773fab87a63f213e153bf9d153897ac2191823f9366b4900/diff","MergedDir":"/var/lib/docker/overlay2/7bcaeee113469ff5fe1b287b710e614f174e50bdc3979ec4a3e54f2f8462b3ab/merged","UpperDir":"/var/lib/docker/overlay2/7bcaeee113469ff5fe1b287b710e614f174e50bdc3979ec4a3e54f2f8462b3ab/diff","WorkDir":"/var/lib/docker/overlay2/7bcaeee113469ff5fe1b287b710e614f174e50bdc3979ec4a3e54f2f8462b3ab/work"},"Name":"overlay2"},"RootFS":{"Type":"layers","Layers":["sha256:3cbe18655eb617bf6a146dbd75a63f33c191bf8c7761bd6a8d68d53549af334b","sha256:84cc3d400b0d610447fbdea63436bad60fb8361493a32db380bd5c5a79f92ef4","sha256:ed58a6b8d8d6a4e2ecb4da7d1bf17ae8006dac65917c6a050109ef0a5d7199e6","sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"]}}
+        CMD [\"/bin/bash\"]"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"1.8.3","Author":"","Config":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":131299498,"VirtualSize":131299498,"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/07d9ce0f8640030a66524e8e07c4703259546b598e9474cbf1ebfa5095ec9455/diff:/var/lib/docker/overlay2/d53ad9087014b1916f834713722d3d3b9ee94533eaaf61b1ddea95d9b58b1798/diff:/var/lib/docker/overlay2/04c5f834059fd3eeb0a4aa41494f596340baeb21934faef299952feb1a4ac2f3/diff","MergedDir":"/var/lib/docker/overlay2/c21563b474c92cb200d6a2e3ae97bfa82061b8e2a905d9616e1859ab45cb4fa2/merged","UpperDir":"/var/lib/docker/overlay2/c21563b474c92cb200d6a2e3ae97bfa82061b8e2a905d9616e1859ab45cb4fa2/diff","WorkDir":"/var/lib/docker/overlay2/c21563b474c92cb200d6a2e3ae97bfa82061b8e2a905d9616e1859ab45cb4fa2/work"},"Name":"overlay2"},"RootFS":{"Type":"layers","Layers":["sha256:3cbe18655eb617bf6a146dbd75a63f33c191bf8c7761bd6a8d68d53549af334b","sha256:84cc3d400b0d610447fbdea63436bad60fb8361493a32db380bd5c5a79f92ef4","sha256:ed58a6b8d8d6a4e2ecb4da7d1bf17ae8006dac65917c6a050109ef0a5d7199e6","sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"]}}
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:50 GMT
+  recorded_at: Tue, 30 May 2017 13:14:39 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43/tag?repo=pangea-testing%2Fubuntu&tag=vivid
@@ -856,7 +856,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:50 GMT
+      - Tue, 30 May 2017 13:14:39 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -865,7 +865,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:50 GMT
+  recorded_at: Tue, 30 May 2017 13:14:39 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
@@ -895,19 +895,19 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:51 GMT
+      - Tue, 30 May 2017 13:14:39 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"223637a90e59210631cb91e3ddfb9d5e8dbb7dc685705b550cb13ad58c1d4a21","Warnings":null}
+      string: '{"Id":"4a81b59cc08bf548b5ab6913fe72090b69330d08a56c6844bb94766ec428bb42","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:51 GMT
+  recorded_at: Tue, 30 May 2017 13:14:39 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/223637a90e59210631cb91e3ddfb9d5e8dbb7dc685705b550cb13ad58c1d4a21/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/4a81b59cc08bf548b5ab6913fe72090b69330d08a56c6844bb94766ec428bb42/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -930,15 +930,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:51 GMT
+      - Tue, 30 May 2017 13:14:39 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:51 GMT
+  recorded_at: Tue, 30 May 2017 13:14:39 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/223637a90e59210631cb91e3ddfb9d5e8dbb7dc685705b550cb13ad58c1d4a21/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/4a81b59cc08bf548b5ab6913fe72090b69330d08a56c6844bb94766ec428bb42/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -963,7 +963,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:52 GMT
+      - Tue, 30 May 2017 13:14:40 GMT
       Content-Length:
       - '17'
     body:
@@ -972,10 +972,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:52 GMT
+  recorded_at: Tue, 30 May 2017 13:14:40 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/223637a90e59210631cb91e3ddfb9d5e8dbb7dc685705b550cb13ad58c1d4a21/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/4a81b59cc08bf548b5ab6913fe72090b69330d08a56c6844bb94766ec428bb42/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -998,15 +998,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:52 GMT
+      - Tue, 30 May 2017 13:14:40 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:52 GMT
+  recorded_at: Tue, 30 May 2017 13:14:40 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/223637a90e59210631cb91e3ddfb9d5e8dbb7dc685705b550cb13ad58c1d4a21/export
+    uri: unix:///var/run/docker.sock/v1.24/containers/4a81b59cc08bf548b5ab6913fe72090b69330d08a56c6844bb94766ec428bb42/export
     body:
       encoding: US-ASCII
       string: ''
@@ -1029,14 +1029,14 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:52 GMT
+      - Tue, 30 May 2017 13:14:40 GMT
       Content-Type:
       - application/octet-stream
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:55 GMT
+  recorded_at: Tue, 30 May 2017 13:14:43 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
@@ -1066,15 +1066,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:55 GMT
+      - Tue, 30 May 2017 13:14:43 GMT
     body:
       encoding: ASCII-8BIT
-      string: "{\"status\":\"sha256:0f00c6bd86e4e6b486399d341a4243130b76753b27430d5d90f568be95fe6f16\"}\r\n"
+      string: "{\"status\":\"sha256:2ed05297ab66678c11926ceb3dad5db4242b752ab447b96e9db31f0d7f962ed0\"}\r\n"
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:55 GMT
+  recorded_at: Tue, 30 May 2017 13:14:43 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/223637a90e59210631cb91e3ddfb9d5e8dbb7dc685705b550cb13ad58c1d4a21
+    uri: unix:///var/run/docker.sock/v1.24/containers/4a81b59cc08bf548b5ab6913fe72090b69330d08a56c6844bb94766ec428bb42
     body:
       encoding: US-ASCII
       string: ''
@@ -1097,12 +1097,12 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:55 GMT
+      - Tue, 30 May 2017 13:14:43 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:55 GMT
+  recorded_at: Tue, 30 May 2017 13:14:43 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:vivid/json
@@ -1130,15 +1130,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:55 GMT
+      - Tue, 30 May 2017 13:14:43 GMT
     body:
       encoding: ASCII-8BIT
       string: '{"Id":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","RepoTags":["ubuntu:vivid","pangea-testing/ubuntu:vivid"],"RepoDigests":["ubuntu@sha256:16aaeb60ca8cee4ced9952fb89e020295a340e8507e25a9d7023265ece529018"],"Parent":"","Comment":"","Created":"2016-01-26T17:48:34.465253028Z","Container":"cc20825e9e02f79fe62f1b08bc30aea4299dbcd77ad0da58b00dec38aba7334a","ContainerConfig":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/sh","-c","#(nop)
-        CMD [\"/bin/bash\"]"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"1.8.3","Author":"","Config":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":131299498,"VirtualSize":131299498,"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/755d605ec059a6e1852fdbdb4347d77ffae6faee13f1497362a81e6acfedd7be/diff:/var/lib/docker/overlay2/5fdc54f32a1425a8a3bdd2b5219432ebd73c0e37b862a89e6a5dba2ff0903773/diff:/var/lib/docker/overlay2/64bfe6f3057d58c5773fab87a63f213e153bf9d153897ac2191823f9366b4900/diff","MergedDir":"/var/lib/docker/overlay2/7bcaeee113469ff5fe1b287b710e614f174e50bdc3979ec4a3e54f2f8462b3ab/merged","UpperDir":"/var/lib/docker/overlay2/7bcaeee113469ff5fe1b287b710e614f174e50bdc3979ec4a3e54f2f8462b3ab/diff","WorkDir":"/var/lib/docker/overlay2/7bcaeee113469ff5fe1b287b710e614f174e50bdc3979ec4a3e54f2f8462b3ab/work"},"Name":"overlay2"},"RootFS":{"Type":"layers","Layers":["sha256:3cbe18655eb617bf6a146dbd75a63f33c191bf8c7761bd6a8d68d53549af334b","sha256:84cc3d400b0d610447fbdea63436bad60fb8361493a32db380bd5c5a79f92ef4","sha256:ed58a6b8d8d6a4e2ecb4da7d1bf17ae8006dac65917c6a050109ef0a5d7199e6","sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"]}}
+        CMD [\"/bin/bash\"]"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"1.8.3","Author":"","Config":{"Hostname":"d2d404286fc4","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":["/bin/bash"],"Image":"4913eece27c087d06635d32b98c50464b2f1d17bba86be7d4616738f1cfef0af","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":131299498,"VirtualSize":131299498,"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/07d9ce0f8640030a66524e8e07c4703259546b598e9474cbf1ebfa5095ec9455/diff:/var/lib/docker/overlay2/d53ad9087014b1916f834713722d3d3b9ee94533eaaf61b1ddea95d9b58b1798/diff:/var/lib/docker/overlay2/04c5f834059fd3eeb0a4aa41494f596340baeb21934faef299952feb1a4ac2f3/diff","MergedDir":"/var/lib/docker/overlay2/c21563b474c92cb200d6a2e3ae97bfa82061b8e2a905d9616e1859ab45cb4fa2/merged","UpperDir":"/var/lib/docker/overlay2/c21563b474c92cb200d6a2e3ae97bfa82061b8e2a905d9616e1859ab45cb4fa2/diff","WorkDir":"/var/lib/docker/overlay2/c21563b474c92cb200d6a2e3ae97bfa82061b8e2a905d9616e1859ab45cb4fa2/work"},"Name":"overlay2"},"RootFS":{"Type":"layers","Layers":["sha256:3cbe18655eb617bf6a146dbd75a63f33c191bf8c7761bd6a8d68d53549af334b","sha256:84cc3d400b0d610447fbdea63436bad60fb8361493a32db380bd5c5a79f92ef4","sha256:ed58a6b8d8d6a4e2ecb4da7d1bf17ae8006dac65917c6a050109ef0a5d7199e6","sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"]}}
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:55 GMT
+  recorded_at: Tue, 30 May 2017 13:14:43 GMT
 - request:
     method: delete
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43
@@ -1166,7 +1166,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:55 GMT
+      - Tue, 30 May 2017 13:14:43 GMT
       Content-Length:
       - '118'
     body:
@@ -1176,10 +1176,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:55 GMT
+  recorded_at: Tue, 30 May 2017 13:14:43 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:0f00c6bd86e4e6b486399d341a4243130b76753b27430d5d90f568be95fe6f16/tag?force=true&repo=pangea-testing%2Fubuntu&tag=vivid
+    uri: unix:///var/run/docker.sock/v1.24/images/sha256:2ed05297ab66678c11926ceb3dad5db4242b752ab447b96e9db31f0d7f962ed0/tag?force=true&repo=pangea-testing%2Fubuntu&tag=vivid
     body:
       encoding: US-ASCII
       string: ''
@@ -1202,7 +1202,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:55 GMT
+      - Tue, 30 May 2017 13:14:43 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -1211,7 +1211,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:55 GMT
+  recorded_at: Tue, 30 May 2017 13:14:43 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1703/json
@@ -1239,7 +1239,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:55 GMT
+      - Tue, 30 May 2017 13:14:43 GMT
       Content-Length:
       - '99'
     body:
@@ -1249,7 +1249,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:55 GMT
+  recorded_at: Tue, 30 May 2017 13:14:43 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1703/json
@@ -1277,7 +1277,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:55 GMT
+      - Tue, 30 May 2017 13:14:43 GMT
       Content-Length:
       - '99'
     body:
@@ -1287,7 +1287,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:55 GMT
+  recorded_at: Tue, 30 May 2017 13:14:43 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1703/json
@@ -1315,7 +1315,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:55 GMT
+      - Tue, 30 May 2017 13:14:43 GMT
       Content-Length:
       - '99'
     body:
@@ -1325,7 +1325,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:55 GMT
+  recorded_at: Tue, 30 May 2017 13:14:43 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1703/json
@@ -1353,7 +1353,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:55 GMT
+      - Tue, 30 May 2017 13:14:43 GMT
       Content-Length:
       - '99'
     body:
@@ -1363,7 +1363,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:55 GMT
+  recorded_at: Tue, 30 May 2017 13:14:43 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=debianci%2Famd64%3A1703
@@ -1391,14 +1391,14 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:57 GMT
+      - Tue, 30 May 2017 13:14:45 GMT
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"Pulling from debianci/amd64\",\"id\":\"1703\"}\r\n{\"status\":\"Digest:
         sha256:10cf9c59b770b32c7b1b78aec8f94794e5e7375933c761e647b38bb993a9ac64\"}\r\n{\"status\":\"Status:
         Image is up to date for debianci/amd64:1703\"}\r\n"
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:57 GMT
+  recorded_at: Tue, 30 May 2017 13:14:45 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/debianci/amd64:1703/json
@@ -1426,7 +1426,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:57 GMT
+      - Tue, 30 May 2017 13:14:45 GMT
       Content-Length:
       - '1469'
     body:
@@ -1436,7 +1436,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:57 GMT
+  recorded_at: Tue, 30 May 2017 13:14:45 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:86a598a9aa75275f307faac899c376d41afd8db501e51805c1c217f5d736339d/tag?repo=pangea-testing%2Fdebian&tag=1703
@@ -1462,7 +1462,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:57 GMT
+      - Tue, 30 May 2017 13:14:45 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -1471,7 +1471,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:57 GMT
+  recorded_at: Tue, 30 May 2017 13:14:45 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
@@ -1501,19 +1501,19 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:57 GMT
+      - Tue, 30 May 2017 13:14:45 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"9cd8ac2a0fc2b67111da92c35fd942654fb23a83379af16f986676e2608b795a","Warnings":null}
+      string: '{"Id":"f7b035809e52d76df235721b0639803c4d1cb446a71fe206f24e999c05a5f410","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:57 GMT
+  recorded_at: Tue, 30 May 2017 13:14:45 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/9cd8ac2a0fc2b67111da92c35fd942654fb23a83379af16f986676e2608b795a/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/f7b035809e52d76df235721b0639803c4d1cb446a71fe206f24e999c05a5f410/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -1536,15 +1536,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:58 GMT
+      - Tue, 30 May 2017 13:14:45 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:58 GMT
+  recorded_at: Tue, 30 May 2017 13:14:45 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/9cd8ac2a0fc2b67111da92c35fd942654fb23a83379af16f986676e2608b795a/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/f7b035809e52d76df235721b0639803c4d1cb446a71fe206f24e999c05a5f410/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -1569,7 +1569,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:58 GMT
+      - Tue, 30 May 2017 13:14:46 GMT
       Content-Length:
       - '17'
     body:
@@ -1578,10 +1578,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:58 GMT
+  recorded_at: Tue, 30 May 2017 13:14:46 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/9cd8ac2a0fc2b67111da92c35fd942654fb23a83379af16f986676e2608b795a/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/f7b035809e52d76df235721b0639803c4d1cb446a71fe206f24e999c05a5f410/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -1604,15 +1604,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:58 GMT
+      - Tue, 30 May 2017 13:14:46 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:14:58 GMT
+  recorded_at: Tue, 30 May 2017 13:14:46 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/9cd8ac2a0fc2b67111da92c35fd942654fb23a83379af16f986676e2608b795a/export
+    uri: unix:///var/run/docker.sock/v1.24/containers/f7b035809e52d76df235721b0639803c4d1cb446a71fe206f24e999c05a5f410/export
     body:
       encoding: US-ASCII
       string: ''
@@ -1635,14 +1635,14 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:14:58 GMT
+      - Tue, 30 May 2017 13:14:46 GMT
       Content-Type:
       - application/octet-stream
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:02 GMT
+  recorded_at: Tue, 30 May 2017 13:14:52 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
@@ -1672,15 +1672,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:02 GMT
+      - Tue, 30 May 2017 13:14:52 GMT
     body:
       encoding: ASCII-8BIT
-      string: "{\"status\":\"sha256:51c177b1aee3e5a411e20989e3ae2c30c91f83c0aff387654c349a8d87f87966\"}\r\n"
+      string: "{\"status\":\"sha256:5da08b23a467d1dbe766a1eadd667928e90ebcb1abf2d79c7fcbd8cbe5ad8270\"}\r\n"
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:02 GMT
+  recorded_at: Tue, 30 May 2017 13:14:52 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/9cd8ac2a0fc2b67111da92c35fd942654fb23a83379af16f986676e2608b795a
+    uri: unix:///var/run/docker.sock/v1.24/containers/f7b035809e52d76df235721b0639803c4d1cb446a71fe206f24e999c05a5f410
     body:
       encoding: US-ASCII
       string: ''
@@ -1703,12 +1703,12 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:02 GMT
+      - Tue, 30 May 2017 13:14:52 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:02 GMT
+  recorded_at: Tue, 30 May 2017 13:14:52 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1703/json
@@ -1736,7 +1736,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:02 GMT
+      - Tue, 30 May 2017 13:14:52 GMT
       Content-Length:
       - '1498'
     body:
@@ -1746,7 +1746,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:02 GMT
+  recorded_at: Tue, 30 May 2017 13:14:52 GMT
 - request:
     method: delete
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:86a598a9aa75275f307faac899c376d41afd8db501e51805c1c217f5d736339d
@@ -1774,7 +1774,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:02 GMT
+      - Tue, 30 May 2017 13:14:52 GMT
       Content-Length:
       - '118'
     body:
@@ -1784,10 +1784,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:02 GMT
+  recorded_at: Tue, 30 May 2017 13:14:52 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:51c177b1aee3e5a411e20989e3ae2c30c91f83c0aff387654c349a8d87f87966/tag?force=true&repo=pangea-testing%2Fdebian&tag=1703
+    uri: unix:///var/run/docker.sock/v1.24/images/sha256:5da08b23a467d1dbe766a1eadd667928e90ebcb1abf2d79c7fcbd8cbe5ad8270/tag?force=true&repo=pangea-testing%2Fdebian&tag=1703
     body:
       encoding: US-ASCII
       string: ''
@@ -1810,7 +1810,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:02 GMT
+      - Tue, 30 May 2017 13:14:52 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -1819,7 +1819,615 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:02 GMT
+  recorded_at: Tue, 30 May 2017 13:14:52 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1706/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:52 GMT
+      Content-Length:
+      - '99'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"no such image: pangea-testing/debian:1706: No such image:
+        pangea-testing/debian:1706"}
+
+'
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:14:52 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1706/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:52 GMT
+      Content-Length:
+      - '99'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"no such image: pangea-testing/debian:1706: No such image:
+        pangea-testing/debian:1706"}
+
+'
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:14:52 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1706/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:52 GMT
+      Content-Length:
+      - '99'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"no such image: pangea-testing/debian:1706: No such image:
+        pangea-testing/debian:1706"}
+
+'
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:14:52 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1706/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:52 GMT
+      Content-Length:
+      - '99'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"no such image: pangea-testing/debian:1706: No such image:
+        pangea-testing/debian:1706"}
+
+'
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:14:52 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=debianci%2Famd64%3A1706
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:54 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: "{\"status\":\"Pulling from debianci/amd64\",\"id\":\"1706\"}\r\n{\"status\":\"Digest:
+        sha256:4d96a67be5cbb9ebc4518b8fd19057840ffda6d57cc29c2e119c83da8bd7a28b\"}\r\n{\"status\":\"Status:
+        Image is up to date for debianci/amd64:1706\"}\r\n"
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:14:54 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.24/images/debianci/amd64:1706/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:54 GMT
+      Content-Length:
+      - '1475'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"Id":"sha256:a20423fcd4a32c6b435922818df3e114c8ff9947162c1d43329a6284ec17af01","RepoTags":["debianci/amd64:1706"],"RepoDigests":["debianci/amd64@sha256:4d96a67be5cbb9ebc4518b8fd19057840ffda6d57cc29c2e119c83da8bd7a28b"],"Parent":"","Comment":"Imported
+        from -","Created":"2017-05-30T12:32:18.467349173Z","Container":"","ContainerConfig":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"17.05.0-ce-rc3","Author":"","Config":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":256379353,"VirtualSize":256379353,"GraphDriver":{"Data":{"MergedDir":"/var/lib/docker/overlay2/345df02520243a21d686f54d7d76e1c6099af00877e25ef55451d37dddfa7251/merged","UpperDir":"/var/lib/docker/overlay2/345df02520243a21d686f54d7d76e1c6099af00877e25ef55451d37dddfa7251/diff","WorkDir":"/var/lib/docker/overlay2/345df02520243a21d686f54d7d76e1c6099af00877e25ef55451d37dddfa7251/work"},"Name":"overlay2"},"RootFS":{"Type":"layers","Layers":["sha256:cf4dee4bcf5c27baf0d5bf3c29de987d002ce7ad2eccadb65d98596b370bafaf"]}}
+
+'
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:14:54 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.24/images/sha256:a20423fcd4a32c6b435922818df3e114c8ff9947162c1d43329a6284ec17af01/tag?repo=pangea-testing%2Fdebian&tag=1706
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 201
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:54 GMT
+      Content-Length:
+      - '0'
+      Content-Type:
+      - text/plain; charset=utf-8
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:14:54 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.24/containers/create
+    body:
+      encoding: UTF-8
+      string: '{"Image":"pangea-testing/debian:1706","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":["<%=
+        Dir.pwd %>/tooling-pending:/tooling-pending"]},"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  ","DIST=1706"],"Volumes":{"<%=
+        Dir.pwd %>/tooling-pending":{}}}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:54 GMT
+      Content-Length:
+      - '90'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"Id":"063765c5a19d281870a73297774f052927cdfccf95243c28e4b41f2b4825d203","Warnings":null}
+
+'
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:14:54 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.24/containers/063765c5a19d281870a73297774f052927cdfccf95243c28e4b41f2b4825d203/start
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:55 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:14:55 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.24/containers/063765c5a19d281870a73297774f052927cdfccf95243c28e4b41f2b4825d203/wait
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:55 GMT
+      Content-Length:
+      - '17'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"StatusCode":0}
+
+'
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:14:55 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.24/containers/063765c5a19d281870a73297774f052927cdfccf95243c28e4b41f2b4825d203/stop
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 304
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:55 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:14:55 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.24/containers/063765c5a19d281870a73297774f052927cdfccf95243c28e4b41f2b4825d203/export
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:14:55 GMT
+      Content-Type:
+      - application/octet-stream
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:15:03 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - application/tar
+      Transfer-Encoding:
+      - chunked
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:15:03 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: "{\"status\":\"sha256:9a5ac6ebfae01a29744ee47a328ddd3705bb5a065892e9dfcb6f18949ddb12d3\"}\r\n"
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:15:03 GMT
+- request:
+    method: delete
+    uri: unix:///var/run/docker.sock/v1.24/containers/063765c5a19d281870a73297774f052927cdfccf95243c28e4b41f2b4825d203
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:15:03 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:15:03 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1706/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:15:03 GMT
+      Content-Length:
+      - '1504'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"Id":"sha256:a20423fcd4a32c6b435922818df3e114c8ff9947162c1d43329a6284ec17af01","RepoTags":["debianci/amd64:1706","pangea-testing/debian:1706"],"RepoDigests":["debianci/amd64@sha256:4d96a67be5cbb9ebc4518b8fd19057840ffda6d57cc29c2e119c83da8bd7a28b"],"Parent":"","Comment":"Imported
+        from -","Created":"2017-05-30T12:32:18.467349173Z","Container":"","ContainerConfig":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"17.05.0-ce-rc3","Author":"","Config":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":256379353,"VirtualSize":256379353,"GraphDriver":{"Data":{"MergedDir":"/var/lib/docker/overlay2/345df02520243a21d686f54d7d76e1c6099af00877e25ef55451d37dddfa7251/merged","UpperDir":"/var/lib/docker/overlay2/345df02520243a21d686f54d7d76e1c6099af00877e25ef55451d37dddfa7251/diff","WorkDir":"/var/lib/docker/overlay2/345df02520243a21d686f54d7d76e1c6099af00877e25ef55451d37dddfa7251/work"},"Name":"overlay2"},"RootFS":{"Type":"layers","Layers":["sha256:cf4dee4bcf5c27baf0d5bf3c29de987d002ce7ad2eccadb65d98596b370bafaf"]}}
+
+'
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:15:03 GMT
+- request:
+    method: delete
+    uri: unix:///var/run/docker.sock/v1.24/images/sha256:a20423fcd4a32c6b435922818df3e114c8ff9947162c1d43329a6284ec17af01
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 409
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:15:03 GMT
+      Content-Length:
+      - '118'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"conflict: unable to delete a20423fcd4a3 (must be forced)
+        - image is referenced in multiple repositories"}
+
+'
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:15:03 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.24/images/sha256:9a5ac6ebfae01a29744ee47a328ddd3705bb5a065892e9dfcb6f18949ddb12d3/tag?force=true&repo=pangea-testing%2Fdebian&tag=1706
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.33.4
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 201
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce-rc3 (linux)
+      Date:
+      - Tue, 30 May 2017 13:15:03 GMT
+      Content-Length:
+      - '0'
+      Content-Type:
+      - text/plain; charset=utf-8
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: 
+  recorded_at: Tue, 30 May 2017 13:15:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:backports/json
@@ -1847,7 +2455,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:02 GMT
+      - Tue, 30 May 2017 13:15:03 GMT
       Content-Length:
       - '109'
     body:
@@ -1857,7 +2465,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:02 GMT
+  recorded_at: Tue, 30 May 2017 13:15:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:backports/json
@@ -1885,7 +2493,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:02 GMT
+      - Tue, 30 May 2017 13:15:03 GMT
       Content-Length:
       - '109'
     body:
@@ -1895,7 +2503,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:02 GMT
+  recorded_at: Tue, 30 May 2017 13:15:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:backports/json
@@ -1923,7 +2531,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:02 GMT
+      - Tue, 30 May 2017 13:15:03 GMT
       Content-Length:
       - '109'
     body:
@@ -1933,7 +2541,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:02 GMT
+  recorded_at: Tue, 30 May 2017 13:15:03 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:backports/json
@@ -1961,7 +2569,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:02 GMT
+      - Tue, 30 May 2017 13:15:03 GMT
       Content-Length:
       - '109'
     body:
@@ -1971,7 +2579,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:02 GMT
+  recorded_at: Tue, 30 May 2017 13:15:03 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=debianci%2Famd64%3Abackports
@@ -1999,14 +2607,14 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:04 GMT
+      - Tue, 30 May 2017 13:15:06 GMT
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"Pulling from debianci/amd64\",\"id\":\"backports\"}\r\n{\"status\":\"Digest:
         sha256:47068bbaff8c590a41a1278250e036d7eb0db0eee5c4a2b92a68d11d07f8d2c2\"}\r\n{\"status\":\"Status:
         Image is up to date for debianci/amd64:backports\"}\r\n"
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:04 GMT
+  recorded_at: Tue, 30 May 2017 13:15:06 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/debianci/amd64:backports/json
@@ -2034,7 +2642,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:04 GMT
+      - Tue, 30 May 2017 13:15:06 GMT
       Content-Length:
       - '2030'
     body:
@@ -2044,7 +2652,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:04 GMT
+  recorded_at: Tue, 30 May 2017 13:15:06 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:b411b911c488c9a582c1f574ab30608f76f74da4fd5f2688db504bc926fd45d4/tag?repo=pangea-testing%2Fdebian&tag=backports
@@ -2070,7 +2678,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:04 GMT
+      - Tue, 30 May 2017 13:15:06 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -2079,7 +2687,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:04 GMT
+  recorded_at: Tue, 30 May 2017 13:15:06 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
@@ -2110,19 +2718,19 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:04 GMT
+      - Tue, 30 May 2017 13:15:06 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"ccde6b4c0565be29a60aee4becf80c7cd2a196cd05eb7464346ee08979529340","Warnings":null}
+      string: '{"Id":"48b21bbc7598591694087fd894b067400651afe2600a32721479ce9b732aea0d","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:04 GMT
+  recorded_at: Tue, 30 May 2017 13:15:06 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/ccde6b4c0565be29a60aee4becf80c7cd2a196cd05eb7464346ee08979529340/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/48b21bbc7598591694087fd894b067400651afe2600a32721479ce9b732aea0d/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -2145,15 +2753,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:04 GMT
+      - Tue, 30 May 2017 13:15:07 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:04 GMT
+  recorded_at: Tue, 30 May 2017 13:15:07 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/ccde6b4c0565be29a60aee4becf80c7cd2a196cd05eb7464346ee08979529340/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/48b21bbc7598591694087fd894b067400651afe2600a32721479ce9b732aea0d/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -2178,7 +2786,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:05 GMT
+      - Tue, 30 May 2017 13:15:07 GMT
       Content-Length:
       - '17'
     body:
@@ -2187,10 +2795,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:05 GMT
+  recorded_at: Tue, 30 May 2017 13:15:07 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/ccde6b4c0565be29a60aee4becf80c7cd2a196cd05eb7464346ee08979529340/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/48b21bbc7598591694087fd894b067400651afe2600a32721479ce9b732aea0d/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -2213,15 +2821,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:05 GMT
+      - Tue, 30 May 2017 13:15:07 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:05 GMT
+  recorded_at: Tue, 30 May 2017 13:15:07 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/ccde6b4c0565be29a60aee4becf80c7cd2a196cd05eb7464346ee08979529340/export
+    uri: unix:///var/run/docker.sock/v1.24/containers/48b21bbc7598591694087fd894b067400651afe2600a32721479ce9b732aea0d/export
     body:
       encoding: US-ASCII
       string: ''
@@ -2244,14 +2852,14 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:05 GMT
+      - Tue, 30 May 2017 13:15:07 GMT
       Content-Type:
       - application/octet-stream
     body:
       encoding: US-ASCII
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:07 GMT
+  recorded_at: Tue, 30 May 2017 13:15:10 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
@@ -2281,15 +2889,15 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:07 GMT
+      - Tue, 30 May 2017 13:15:11 GMT
     body:
       encoding: ASCII-8BIT
-      string: "{\"status\":\"sha256:a59d4ae8c3e58b514c951c080dacc56235b312e93f3b96758abcd836c1c9f560\"}\r\n"
+      string: "{\"status\":\"sha256:3d9271055a5b0431b135439c778c02f5e11df8e06263ad4b37b8d31b6016ea1b\"}\r\n"
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:07 GMT
+  recorded_at: Tue, 30 May 2017 13:15:11 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/ccde6b4c0565be29a60aee4becf80c7cd2a196cd05eb7464346ee08979529340
+    uri: unix:///var/run/docker.sock/v1.24/containers/48b21bbc7598591694087fd894b067400651afe2600a32721479ce9b732aea0d
     body:
       encoding: US-ASCII
       string: ''
@@ -2312,12 +2920,12 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:07 GMT
+      - Tue, 30 May 2017 13:15:11 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:07 GMT
+  recorded_at: Tue, 30 May 2017 13:15:11 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:backports/json
@@ -2345,7 +2953,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:07 GMT
+      - Tue, 30 May 2017 13:15:11 GMT
     body:
       encoding: ASCII-8BIT
       string: '{"Id":"sha256:b411b911c488c9a582c1f574ab30608f76f74da4fd5f2688db504bc926fd45d4","RepoTags":["debianci/amd64:backports","debianci/amd64:netrunner-backports","debian:testing","debianci:netrunner-backports","pangea-testing/debian:backports"],"RepoDigests":["debianci/amd64@sha256:47068bbaff8c590a41a1278250e036d7eb0db0eee5c4a2b92a68d11d07f8d2c2","debian@sha256:736a158b9ee7ed55c4588230aca83fe2a1fb98a871c6f9e2de0c5cfa687afa33"],"Parent":"","Comment":"","Created":"2017-03-21T18:34:40.463957661Z","Container":"a8abe9cd3c666f3b3d240c2170c1f5246b3f5cedd5a2424c0e28a8d8acceaf4b","ContainerConfig":{"Hostname":"fbbfb7a512b2","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/sh","-c","#(nop)
@@ -2353,7 +2961,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:07 GMT
+  recorded_at: Tue, 30 May 2017 13:15:11 GMT
 - request:
     method: delete
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:b411b911c488c9a582c1f574ab30608f76f74da4fd5f2688db504bc926fd45d4
@@ -2381,7 +2989,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:07 GMT
+      - Tue, 30 May 2017 13:15:11 GMT
       Content-Length:
       - '118'
     body:
@@ -2391,10 +2999,10 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:07 GMT
+  recorded_at: Tue, 30 May 2017 13:15:11 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:a59d4ae8c3e58b514c951c080dacc56235b312e93f3b96758abcd836c1c9f560/tag?force=true&repo=pangea-testing%2Fdebian&tag=backports
+    uri: unix:///var/run/docker.sock/v1.24/images/sha256:3d9271055a5b0431b135439c778c02f5e11df8e06263ad4b37b8d31b6016ea1b/tag?force=true&repo=pangea-testing%2Fdebian&tag=backports
     body:
       encoding: US-ASCII
       string: ''
@@ -2417,7 +3025,7 @@ http_interactions:
       Server:
       - Docker/17.05.0-ce-rc3 (linux)
       Date:
-      - Thu, 25 May 2017 14:15:07 GMT
+      - Tue, 30 May 2017 13:15:11 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -2426,5 +3034,5 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Thu, 25 May 2017 14:15:07 GMT
+  recorded_at: Tue, 30 May 2017 13:15:11 GMT
 recorded_with: VCR 3.0.3

@@ -1,7 +1,8 @@
 series:
   '1703': '20170206'
+  '1706': '20170530'
   # Bump this when choosing a new snapshot for the next netrunner release
-  'backports': '20170207'
+  'backports': '20170531'
 architectures:
   - amd64
   - armhf
