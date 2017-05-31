@@ -24,6 +24,9 @@ require 'date'
 
 require_relative '../lib/aptly-ext/remote'
 
+Faraday.default_connection_options =
+  Faraday::ConnectionOptions.new(timeout: 15 * 60)
+
 # SSH tunnel so we can talk to the repo
 Aptly::Ext::Remote.neon do
   stamp = Time.now.utc.strftime('%Y%m%d.%H%M')
