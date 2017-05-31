@@ -30,6 +30,10 @@ class ProjectTest < TestCase
   def setup
     # Disable overrides to not hit production configuration files.
     CI::Overrides.default_files = []
+    # Disable upstream scm adjustment through releaseme we work with largely
+    # fake data in this test which would raise in the adjustment as expections
+    # would not be met.
+    CI::UpstreamSCM.any_instance.stubs(:releaseme_adjust!).returns(true)
   end
 
   def teardown

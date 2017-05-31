@@ -97,7 +97,7 @@ module CI
       return project if project
       projects = ReleaseMe::Project.from_repo_url(url)
       if projects.size != 1
-        puts "Could not uniquely resolve #{url}. OMG. #{projects}"
+        raise "Could not uniquely resolve #{url}. OMG. #{projects}"
       end
       ProjectCache.cache(url, projects[0]) # Caches nil if applicable.
     end

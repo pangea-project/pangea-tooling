@@ -55,9 +55,11 @@ class UpstreamSCMTest < TestCase
   end
 
   def test_unknown_url
-    # URL is on KDE but for some reason not in the projects. Should not implode.
+    # URL is on KDE but for some reason not in the projects. Should raise.
     scm = CI::UpstreamSCM.new('bububbreeze-qt4', 'kubuntu_unstable', '/')
-    assert_nil(scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE))
+    assert_raises do
+      scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
+    end
   end
 
   def test_preference_fallback
