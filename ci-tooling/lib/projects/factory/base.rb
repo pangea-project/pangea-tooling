@@ -114,11 +114,8 @@ class ProjectsFactory
       Concurrent::Promise.execute(executor: self.class.promise_executor) do
         begin
           Project.new(name, component, url_base, **params)
-        rescue
-          # Unlike without promises the factories themself cannot catch
-          # exceptions. To prevent us from dying to exceptions we'll skip all
-          # of them for now.
-          nil
+        rescue Project::ShitPileErrror => e
+          warn "shitpile -- #{e}"
         end
       end
     end

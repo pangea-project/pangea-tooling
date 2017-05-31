@@ -56,17 +56,18 @@ class ProjectsFactory
       )
     end
 
-    def from_string(str, params = {})
+
+    def from_string(str, args = {}, ignore_missing_branches: false)
       kwords = params(str)
-      kwords.merge!(symbolize(params))
-      puts "new_project(#{kwords})"
-      new_project(**kwords)
-    rescue Project::GitTransactionError, RuntimeError => e
-      # FIXME: eating exception
-      # Runtime raised by bad control files
-      # Transaction raised by bad transactions
-      p e
-      nil
+      kwords.merge!(symbolize(args))
+      # puts "new_project(#{kwords})"
+      new_project(**kwords).rescue do |e|
+        begin
+          raise e
+        rescue Project::GitNoBranchError => e
+          raise e unless ignore_missing_branches
+        end
+      end
     end
 
     def split_hash(hash)
@@ -99,6 +100,7 @@ class ProjectsFactory
       matches = {}
       each_pattern_value(subset) do |pattern, value|
         next unless pattern.match?(path)
+        value[:ignore_missing_branches] = pattern.to_s.include?('*')
         match = [path, value] # This will be an argument list for from_string.
         matches[pattern] = match
       end

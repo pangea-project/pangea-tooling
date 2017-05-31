@@ -43,6 +43,7 @@ class Project
   # Derives from RuntimeError because someone decided to resuce Transaction
   # and Runtime in factories only...
   class GitNoBranchError < RuntimeError; end
+  class ShitPileErrror < RuntimeError; end
 
   # Caches VCS update runs to not update the same VCS multitple times.
   module VCSCache
@@ -129,7 +130,8 @@ class Project
 
     if component == 'kde-extras_kde-telepathy'
       puts 'stepped into a shit pile --> https://phabricator.kde.org/T4160'
-      raise 'stepped into a shit pile --> https://phabricator.kde.org/T4160'
+      raise ShitPileErrror,
+            'stepped into a shit pile --> https://phabricator.kde.org/T4160'
     end
 
     # FIXME: this should run at the end. test currently assume it isn't though
