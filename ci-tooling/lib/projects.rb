@@ -23,6 +23,7 @@
 
 require 'fileutils'
 require 'forwardable' # For cleanup_uri delegation
+require 'git_clone_url'
 require 'json'
 require 'rugged'
 
@@ -137,8 +138,8 @@ class Project
     # FIXME: this should run at the end. test currently assume it isn't though
     validate!
 
-    cache_dir = init_packaging_scm(url_base, branch)
-    cache_dir = File.absolute_path("#{cache_dir}/#{name}")
+    init_packaging_scm(url_base, branch)
+    cache_dir = cache_path_from(packaging_scm)
 
     @override_rule = CI::Overrides.new.rules_for_scm(@packaging_scm)
     override_apply('packaging_scm')
@@ -297,9 +298,24 @@ class Project
     @packaging_scm = CI::SCM.new('git',
                                  "#{url_base}/#{@component}/#{@name}",
                                  branch)
-    component_dir = "git/#{@component}"
-    FileUtils.mkdir_p(component_dir) unless Dir.exist?(component_dir)
-    component_dir
+  end
+
+  def schemeless_path(url)
+    return url if url[0] == '/' # Seems to be an absolute path already!
+    uri = GitCloneUrl.parse(url)
+    uri.scheme = nil
+    path = uri.to_s
+    path = path[1..-1] while path[0] == '/'
+    path
+  end
+
+  def cache_path_from(scm)
+    path = schemeless_path(scm.url)
+    raise "couldnt build cache path from #{uri}" if path.empty?
+    path = File.absolute_path("cache/projects/#{path}")
+    dir = File.dirname(path)
+    FileUtils.mkdir_p(dir, verbose: true) unless Dir.exist?(dir)
+    path
   end
 
   def init_packaging_scm_bzr(url_base)
@@ -309,9 +325,6 @@ class Project
                           "#{url_base}/#{@name}"
                         end
     @packaging_scm = CI::SCM.new('bzr', packaging_scm_url)
-    component_dir = 'launchpad'
-    FileUtils.mkdir_p(component_dir) unless Dir.exist?(component_dir)
-    component_dir
   end
 
   # @return component_dir to use for cloning etc.
@@ -351,18 +364,26 @@ class Project
     end
   end
 
+  def checkout_lp(cache_dir, checkout_dir)
+    FileUtils.rm_r(checkout_dir, verbose: true)
+    FileUtils.ln_s(cache_dir, checkout_dir, verbose: true)
+  end
+
+  def checkout_git(branch, cache_dir, checkout_dir)
+    repo = Rugged::Repository.new(cache_dir)
+    repo.workdir = checkout_dir
+    b = "origin/#{branch}"
+    branches = repo.branches.each_name.to_a
+    unless branches.include?(b)
+      raise GitNoBranchError, "No branch #{b} for #{name} found #{branches}"
+    end
+    repo.reset(b, :hard)
+  end
+
   def checkout(branch, cache_dir, checkout_dir)
     # This meth cannot have transaction errors as there is no network IO going
     # on here.
-    if @component == 'launchpad'
-      FileUtils.rm_r(checkout_dir, verbose: true)
-      FileUtils.ln_s(cache_dir, checkout_dir, verbose: true)
-    else
-      repo = Rugged::Repository.new(cache_dir)
-      repo.workdir = checkout_dir
-      b = "origin/#{branch}"
-      raise GitNoBranchError unless repo.branches.each_name.to_a.include?(b)
-      repo.reset(b, :hard)
-    end
+    return checkout_lp(cache_dir, checkout_dir) if @component == 'launchpad'
+    checkout_git(branch, cache_dir, checkout_dir)
   end
 end
