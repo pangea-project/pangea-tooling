@@ -72,7 +72,12 @@ class ProjectsFactory
     private
 
     def aggregate_promises(promises)
-      Concurrent::Promise.zip(*promises).execute.value!.flatten.compact
+      # Wait on promises individually before zipping them. Zipping will gobble
+      # up results making it super hard to find exceptions. 9/10 times ruby
+      # just SIGSEVs because we murdered all threads with exceptions.
+      ret = promises.collect(&:value!).flatten.compact
+      raise if ret.empty?
+      ret
     end
 
     class << self
