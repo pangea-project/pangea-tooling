@@ -28,6 +28,9 @@ require 'yaml'
 
 require_relative '../ci-tooling/lib/retry'
 
+DROPLET_NAME = 'jenkins-slave-deploy'.freeze
+IMAGE_NAME = 'jenkins-slave-deploy'.freeze
+
 class Client < DropletKit::Client
   def initialize
     super(YAML.load_file("#{Dir.home}/.config/pangea-digital-ocean.yaml"))
@@ -50,8 +53,8 @@ class Droplet
     end
 
     def create(client = Client.new)
-      name = 'jenkins-slave-deploy'
-      image = client.snapshots.all.find { |x| x.name == 'jenkins-slave' }
+      name = DROPLET_NAME
+      image = client.snapshots.all.find { |x| x.name == IMAGE_NAME }
 
       raise "Found a droplet with name #{name} WTF" if exist?(name, client)
       new_droplet = DropletKit::Droplet.new(
@@ -166,13 +169,13 @@ end
 
 logger = @logger = Logger.new(STDERR)
 
-previous = Droplet.from_name('jenkins-slave-deploy')
+previous = Droplet.from_name(DROPLET_NAME)
 
 if previous
   logger.warn "previous droplet found; deleting: #{previous}"
   raise "Failed to delete #{previous}" unless previous.delete
   raise 'Deletion failed apparently' unless Action.wait(retries: 10) do
-    Droplet.from_name('jenkins-slave-deploy').nil?
+    Droplet.from_name(DROPLET_NAME).nil?
   end
 end
 
@@ -234,9 +237,9 @@ droplet.power_off!.complete! do
   logger.info 'Waiting for power off'
 end
 
-old_image = Client.new.snapshots.all.find { |x| x.name == 'jenkins-slave' }
+old_image = Client.new.snapshots.all.find { |x| x.name == IMAGE_NAME }
 
-droplet.snapshot!(name: 'jenkins-slave').complete! do
+droplet.snapshot!(name: IMAGE_NAME).complete! do
   logger.info 'Waiting for snapshot'
 end
 
@@ -252,5 +255,5 @@ end
 logger.warn 'deleting droplet'
 logger.error 'failed to delete' unless droplet.delete
 raise 'Deletion failed apparently' unless Action.wait(retries: 10) do
-  Droplet.from_name('jenkins-slave-deploy').nil?
+  Droplet.from_name(DROPLET_NAME).nil?
 end
