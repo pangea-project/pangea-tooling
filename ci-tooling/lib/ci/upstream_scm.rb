@@ -21,6 +21,7 @@
 require 'releaseme'
 
 require_relative 'scm'
+require_relative '../retry'
 
 module CI
   # Construct an upstream scm instance and fold in overrides set via
@@ -95,7 +96,10 @@ module CI
       url = self.url.gsub(/.git$/, '') # sanitize
       project = ProjectCache.fetch(url)
       return project if project
-      projects = ReleaseMe::Project.from_repo_url(url)
+      projects =
+        Retry.retry_it(times: 5) do
+          ReleaseMe::Project.from_repo_url(url)
+        end
       if projects.size != 1
         raise "Could not resolve #{url} to KDE project. OMG. #{projects}"
       end
