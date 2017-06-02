@@ -69,12 +69,4 @@ class Template
            end
     ERB.new(data).result(binding)
   end
-
-  private
-
-  def xml_debug(data)
-    require 'rexml/document'
-    doc = REXML::Document.new(data)
-    REXML::Formatters::Pretty.new.write(doc, $stdout)
-  end
 end

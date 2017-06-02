@@ -66,6 +66,18 @@ module Jenkins
       method_missing_internal(name, *args)
     end
 
+    def exists?
+      # jenkins api client is so daft it lists all jobs and then filters
+      # that list. To check existance it's literally enough to hit the job
+      # endpoint and see if it comes back 404.
+      # With the 11k jobs we have in neon list_all vs. list_details is a
+      # 1s difference!
+      list_details
+      true
+    rescue JenkinsApi::Exceptions::NotFound
+      false
+    end
+
     private
 
     # Rescue helper instead of a beginrescue block.

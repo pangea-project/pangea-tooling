@@ -5,7 +5,12 @@ require 'mocha/test_unit'
 
 class JenkinsJobTest < TestCase
   def setup
+    JenkinsJob.reset
     JenkinsJob.flavor_dir = Dir.pwd
+  end
+
+  def teardown
+    JenkinsJob.reset
   end
 
   def test_class_var
@@ -57,31 +62,37 @@ class JenkinsJobTest < TestCase
 
   def test_update
     mock_job = mock('jenkins-api-job')
-    mock_job.expects(:create_or_update).with('kitten', 'kitten').returns('')
+    mock_job.expects(:list_all).returns(%w[kitten])
     Jenkins.expects(:job).at_least_once.returns(mock_job)
 
+    job = mock('Jenkins::Job')
+    job.expects(:get_config).returns('')
+    job.expects(:update).returns('')
+    Jenkins::Job.expects(:new).with('kitten').returns(job)
+
     Dir.mkdir('templates')
-    File.write('templates/kitten.xml.erb', '<%= job_name %>')
+    File.write('templates/kitten.xml.erb', '<<%= job_name %>/>')
     job = JenkinsJob.new('kitten', 'kitten.xml.erb')
-    ret = job.update
-    assert_equal('kitten', ret)
+    job.update
   end
 
   def test_update_raise
     mock_job = mock('jenkins-api-job')
-    mock_job.expects(:create_or_update)
-            .twice
-            .with('kitten', 'kitten')
-            .raises(RuntimeError)
-            .then
-            .returns('')
+    mock_job.expects(:list_all).returns(%w[kitten])
     Jenkins.expects(:job).at_least_once.returns(mock_job)
 
+    job = mock('Jenkins::Job')
+    job.expects(:get_config).returns('')
+    job.expects(:update).raises(RuntimeError)
+    job2 = mock('Jenkins::Job')
+    job2.expects(:get_config).returns('')
+    job2.expects(:update).returns('')
+    Jenkins::Job.expects(:new).with('kitten').twice.returns(job).then.returns(job2)
+
     Dir.mkdir('templates')
-    File.write('templates/kitten.xml.erb', '<%= job_name %>')
+    File.write('templates/kitten.xml.erb', '<<%= job_name %>/>')
     job = JenkinsJob.new('kitten', 'kitten.xml.erb')
-    ret = job.update
-    assert_equal('kitten', ret)
+    job.update
   end
 
   def trap_stdout
