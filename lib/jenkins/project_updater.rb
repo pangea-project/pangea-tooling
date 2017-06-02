@@ -30,11 +30,13 @@ module Jenkins
     end
 
     def update_submodules
-      return if @submodules_updated
-      unless system(*%w[git submodule update --remote --recursive])
-        raise 'failed to update git submodules of tooling!'
+      Dir.chdir(File.realpath("#{__dir__}/../../")) do
+        return if @submodules_updated
+        unless system(*%w[git submodule update --remote --recursive])
+          raise 'failed to update git submodules of tooling!'
+        end
+        @submodules_updated = true
       end
-      @submodules_updated = true
     end
 
     def update
