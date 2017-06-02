@@ -18,6 +18,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'logger'
+require 'logger/colors'
 require 'rexml/document'
 
 require_relative '../ci-tooling/lib/retry'
@@ -47,22 +49,24 @@ class JenkinsJob < Template
 
   # Creates or updates the Jenkins job.
   # @return the job_name
-  def update
+  def update(log: Logger.new(STDOUT))
     # FIXME: this should use retry_it
     return unless job_name.include?(ENV.fetch('UPDATE_INCLUDE', ''))
     xml = render_template
     Retry.retry_it(times: 4, sleep: 1) do
       xml_debug(xml) if @debug
       jenkins_job = Jenkins::Job.new(job_name)
-      warn job_name
+      log.info job_name
       if remote_jobs.include?(job_name) # Already exists.
         original_xml = jenkins_job.get_config
         if xml_equal(original_xml, xml)
-          warn "     ♻ #{job_name} already uptodate"
+          log.info "♻ #{job_name} already up to date"
           return
         end
+        log.info "#{job_name} updating..."
         jenkins_job.update(xml)
       else
+        log.info "#{job_name} creating..."
         jenkins_job.create(xml)
       end
     end

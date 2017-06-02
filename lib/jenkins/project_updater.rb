@@ -18,6 +18,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'logger'
+require 'logger/colors'
+
 require_relative '../../ci-tooling/lib/thread_pool'
 
 module Jenkins
@@ -128,10 +131,11 @@ module Jenkins
     end
 
     def run_queue
+      logger = Logger.new(STDOUT)
       BlockingThreadPool.run do
         until @job_queue.empty?
           job = @job_queue.pop(true)
-          job.update
+          job.update(log: logger)
         end
       end
     end
