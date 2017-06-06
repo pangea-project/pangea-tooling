@@ -45,7 +45,7 @@ class ProjectsFactory
             # Do not thread too aggressively. We only thread for git pulling.
             # Outside that use case too much threading actually would slow us
             # down due to GIL, locking and scheduling overhead.
-            max_threads: ENV.fetch('PANGEA_FACTORY_THREADS', 4).to_i,
+            max_threads: 4,
             max_queue: 512,
             fallback_policy: :caller_runs
           )
