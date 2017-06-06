@@ -212,6 +212,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTJobUpdater.new)
     enqueue(MGMTDigitalOcean.new)
+    enqueue(MGMTSnapshot.new(origin: 'release', target: 'user'))
+    enqueue(MGMTSnapshot.new(origin: 'release-lts', target: 'user-lts'))
     enqueue(MGMTToolingJob.new(downstreams: [docker],
                                dependees: []))
     enqueue(MGMTRepoCleanupJob.new(arch: 'amd64'))
