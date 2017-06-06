@@ -43,6 +43,14 @@ Chances are the job was manually created and never moved to automatic provisioni
 Not having jobs automatically provisioned excludes them from automated adjustments,
 plugin installation, discoverability etc.
 The job must be moved to pangea-tooling's job templating system.
+
+If this job is a merger or build job it could be that either it is intended to be
+removed in which case the related jobs should get deleted from jenkins. It is
+also possible that the templatification regressed because the relevant project
+entry disappeared from the config(s) or the project wildcard detection is not
+working becuase the relevant branch in the Git repository is missing.
+
+https://github.com/blue-systems/pangea-conf-projects
             EOF
             NOT_REMOTE => <<-EOF
 The job should have been generated in Jenkins as we had it in our creation queue,
