@@ -103,6 +103,7 @@ class ProjectsFactory
       matches = {}
       each_pattern_value(subset) do |pattern, value|
         next unless pattern.match?(path)
+        value[:ignore_missing_branches] = pattern.to_s.include?('*')
         match = [path, value] # This will be an argument list for from_string.
         matches[pattern] = match
       end
