@@ -27,7 +27,6 @@ module ProjectsFactoryCommon
     matches = {}
     each_pattern_value(subset) do |pattern, value|
       next unless pattern.match?(name)
-      value[:ignore_missing_branches] = pattern.to_s.include?('*')
       match = ["#{base}/#{name}", value]
       matches[pattern] = match
     end
@@ -48,17 +47,13 @@ module ProjectsFactoryCommon
     [base, subset]
   end
 
-  def from_string(str, params = {}, ignore_missing_branches: false)
+  def from_string(str, params = {})
     kwords = params(str)
     kwords.merge!(symbolize(params))
     puts "new_project(#{kwords})"
-    new_project(**kwords).rescue do |e|
-      begin
-        raise e
-      rescue Project::GitNoBranchError => e
-        raise e unless ignore_missing_branches
-        nil
-      end
-    end
+    new_project(**kwords)
+  rescue Project::GitTransactionError, RuntimeError => e
+    p e
+    nil
   end
 end

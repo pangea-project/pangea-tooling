@@ -56,6 +56,20 @@ class ProjectsFactory
       )
     end
 
+
+    def from_string(str, args = {}, ignore_missing_branches: false)
+      kwords = params(str)
+      kwords.merge!(symbolize(args))
+      # puts "new_project(#{kwords})"
+      new_project(**kwords).rescue do |e|
+        begin
+          raise e
+        rescue Project::GitNoBranchError => e
+          raise e unless ignore_missing_branches
+        end
+      end
+    end
+
     def split_hash(hash)
       clean_hash(*hash.first)
     end
