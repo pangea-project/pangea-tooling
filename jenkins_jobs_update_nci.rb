@@ -210,6 +210,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTNeonAppstreamHealth.new)
     enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTGitSemaphoreJob.new)
+    enqueue(MGMTJobUpdater.new)
     enqueue(MGMTToolingJob.new(downstreams: [docker],
                                dependees: []))
     enqueue(MGMTRepoCleanupJob.new(arch: 'amd64'))
