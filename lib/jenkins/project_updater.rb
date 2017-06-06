@@ -57,7 +57,7 @@ Check the detailed output to find output relating to the failed creation of the 
             self.name = name
             self.time = 0
             self.result = JenkinsJunitBuilder::Case::RESULT_FAILURE
-            self.system_out.message = TYPED_OUTPUT.fetch(type)
+            system_out.message = TYPED_OUTPUT.fetch(type)
           end
         end
 
@@ -79,6 +79,10 @@ Check the detailed output to find output relating to the failed creation of the 
         end
 
         def write_into(dir)
+          unless ENV.include?('JENKINS_URL')
+            puts 'not writing junit output as this is not a jenkins build'
+            return
+          end
           FileUtils.mkpath(dir) unless Dir.exist?(dir)
           File.write("#{dir}/#{@suite.package}.xml", @suite.build_report)
         end
