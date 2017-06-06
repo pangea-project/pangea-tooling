@@ -2,6 +2,7 @@
 cache/*
 git/*
 launchpad/*
+reports/*
 # align-dependencies
 meta-dep/*
 # test stuff
