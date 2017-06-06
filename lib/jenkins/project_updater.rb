@@ -30,6 +30,7 @@ module Jenkins
       update_submodules
       @job_queue = Queue.new
       @job_names = []
+      @log = Logger.new(STDOUT)
     end
 
     def update_submodules
@@ -81,15 +82,14 @@ module Jenkins
 
     def job_warn(warning_str, names)
       return if names.empty?
-      warn warning_str
+      log.warn warning_str
       names.each do |name|
         uri = JenkinsApi::Client.new.uri
         uri.path += "/job/#{name}"
-        warn name
-        warn "    #{uri.normalize}"
+        log.warn name
+        log.warn "    #{uri.normalize}"
       end
-      warn warning_str
-      warn '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+      log.warn '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     end
 
     def all_template_files
@@ -131,11 +131,10 @@ module Jenkins
     end
 
     def run_queue
-      logger = Logger.new(STDOUT)
       BlockingThreadPool.run do
         until @job_queue.empty?
           job = @job_queue.pop(true)
-          job.update(log: logger)
+          job.update(log: log)
         end
       end
     end
