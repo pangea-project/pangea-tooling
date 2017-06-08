@@ -12,6 +12,10 @@ class KDEIfyTest < TestCase
     OS.instance_variable_set(:@hash, VERSION_ID: '15.04')
   end
 
+  def teardown
+    OS.reset
+  end
+
   def test_firefox
     KDEIfy.firefox!
     assert(File.exist? 'packaging/debian/patches/firefox-kde.patch')
