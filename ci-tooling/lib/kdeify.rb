@@ -1,6 +1,7 @@
-require 'mercurial-ruby'
 require 'fileutils'
+
 require_relative 'debian/changelog'
+require_relative 'os'
 
 class KDEIfy
   PATCHES = %w[../suse/firefox-kde.patch ../suse/mozilla-kde.patch].freeze
@@ -63,7 +64,9 @@ Description: #{package} package for integration with KDE
     def add_changelog_entry
       changelog = Changelog.new
       version =
-        "#{changelog.version(Changelog::EPOCH).to_i + 1}:#{changelog.version(Changelog::BASE | Changelog::BASESUFFIX | Changelog::REVISION)}"
+        "#{changelog.version(Changelog::EPOCH).to_i + 1}:" +
+        "#{changelog.version(Changelog::BASE | Changelog::BASESUFFIX | Changelog::REVISION)}" +
+        "+#{OS::VERSION_ID}+#{ENV.fetch('DIST')}"
       dchs = []
       dchs << [
         'dch',

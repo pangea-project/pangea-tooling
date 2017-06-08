@@ -7,6 +7,7 @@ class KDEIfyTest < TestCase
 
   def setup
     FileUtils.cp_r("#{data}/.", Dir.pwd)
+    ENV['DIST'] = '1706'
   end
 
   def test_firefox
@@ -26,7 +27,7 @@ class KDEIfyTest < TestCase
 
     Dir.chdir('packaging') do
       c = Changelog.new
-      assert_equal('1:46.0+build5-0ubuntu0.14.04.2', c.version)
+      assert_equal('1:46.0+build5-0ubuntu0.14.04.2+9+1706', c.version)
     end
   end
 
@@ -46,7 +47,7 @@ class KDEIfyTest < TestCase
     #assert(control.binaries.map {|x| x['Package']}.include? 'thunderbird-plasma')
     Dir.chdir('packaging') do
       c = Changelog.new
-      assert_equal('2:38.7.2+build1-0ubuntu0.14.04.1', c.version)
+      assert_equal('2:38.7.2+build1-0ubuntu0.14.04.1+9+1706', c.version)
     end
   end
 end
