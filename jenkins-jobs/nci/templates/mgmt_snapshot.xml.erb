@@ -69,7 +69,7 @@ bundle exec ~/tooling/nci/repo_snapshot_<%= target %>.rb
       <configs>
         <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
           <configs class="empty-list"/>
-          <projects>mgmt_appstream-generator</projects>
+          <projects>mgmt_appstream-generator<%= appstream %></projects>
           <condition>ALWAYS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
           <triggerFromChildProjects>false</triggerFromChildProjects>

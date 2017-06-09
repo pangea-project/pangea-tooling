@@ -24,10 +24,12 @@ require_relative '../job'
 class MGMTSnapshot < JenkinsJob
   attr_reader :target
   attr_reader :origin
+  attr_reader :appstream
 
   def initialize(origin:, target:)
     super("mgmt_snapshot_#{target}", 'mgmt_snapshot.xml.erb')
     @origin = origin
     @target = target
+    @appstream = appstream
   end
 end
