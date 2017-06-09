@@ -14,6 +14,7 @@ class KDEIfyTest < TestCase
 
   def teardown
     OS.reset
+    ENV.delete('DIST')
   end
 
   def test_firefox
