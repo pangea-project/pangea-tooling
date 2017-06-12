@@ -222,8 +222,8 @@ class VCSBuilderTest < TestCase
 
     ENV['TYPE'] = 'stable'
 
-    stub_request(:get, 'https://projects.kde.org/kde_projects.xml')
-      .to_return(body: File.read(data('kde_projects.xml')))
+    stub_request(:get, 'https://projects.kde.org/api/v1/repo/kmenuedit')
+      .to_return(body: '{"i18n":{"stable":"none","stableKF5":"Plasma/5.10","trunk":"none","trunkKF5":"master","component":"kde-workspace"},"path":"kde/workspace/kmenuedit","repo":"kmenuedit"}')
 
     source = CI::VcsSourceBuilder.new(release: @release).run
 

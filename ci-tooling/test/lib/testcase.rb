@@ -102,11 +102,6 @@ EOT
     reset_child_status!
     #FIXME: Drop when VCR gets fixed
     WebMock.enable!
-
-    # Enable test case interception and make sure
-    stub_request(:get, 'https://projects.kde.org/kde_projects.xml')
-      .to_return(body:
-         File.read("#{__dir__}/../data/kde_projects_stripped.xml"))
   end
 
   def priority_teardown
