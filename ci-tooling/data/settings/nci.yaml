@@ -41,3 +41,7 @@
 '*_forks_{libxfont}_*':
   sourcer:
     restricted_packaging_copy: true
+
+'*_forks_{encfs}_*':
+  sourcer:
+    restricted_packaging_copy: true
