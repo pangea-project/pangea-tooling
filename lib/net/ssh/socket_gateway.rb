@@ -16,15 +16,15 @@ class Net::SSH::SocketGateway
   def shutdown!
     return unless active?
 
+    @active = false
+    @thread.join
+
     @session_mutex.synchronize do
       @session.forward.active_local_sockets.each do |local_socket_path|
         @session.forward.cancel_local_socket(local_socket_path)
       end
     end
 
-    @active = false
-
-    @thread.join
     @session.close
   end
 
