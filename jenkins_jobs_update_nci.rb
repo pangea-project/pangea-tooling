@@ -178,14 +178,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                       neonarchive: 'dev/stable',
                                       cronjob: 'H H * * 5' }
           enqueue(NeonIsoJob.new(ko_user_release_isoargs))
-          wayland_isoargs = { type: 'devedition-gitunstable',
-                              distribution: distribution,
-                              architecture: architecture,
-                              metapackage: 'plasma-wayland-desktop',
-                              imagename: 'plasma-wayland',
-                              neonarchive: 'dev/unstable',
-                              cronjob: 'H H * * 6' }
-          enqueue(NeonIsoJob.new(wayland_isoargs))
         end
       end
     end
