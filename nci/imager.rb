@@ -55,5 +55,6 @@ status_code = c.run(Cmd: cmd)
 File.write('params.txt', <<-EOF)
 ISO=#{File.realpath(Dir.glob('*.iso').fetch(0))}
 EOF
+puts File.read('params.txt')
 
 exit status_code unless status_code.to_i.zero?
