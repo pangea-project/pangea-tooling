@@ -53,7 +53,7 @@ status_code = c.run(Cmd: cmd)
 # Write a params file we can use to pass our relevant information to a child
 # build for additional processing.
 File.write('params.txt', <<-EOF)
-ISO=#{File.realpath(File.glob('*.iso').fetch(0))}
+ISO=#{File.realpath(Dir.glob('*.iso').fetch(0))}
 EOF
 
 exit status_code unless status_code.to_i.zero?
