@@ -21,8 +21,6 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'fileutils'
-require 'net/sftp'
-require 'net/ssh'
 
 require_relative '../lib/ci/containment'
 
@@ -51,90 +49,11 @@ c = CI::Containment.new(JOB_NAME,
 cmd = ["#{TOOLING_PATH}/nci/imager/build.sh",
        Dir.pwd, DIST, ARCH, TYPE, METAPACKAGE, IMAGENAME, NEONARCHIVE]
 status_code = c.run(Cmd: cmd)
-exit status_code unless status_code.to_i.zero?
 
-# copy to depot using same directory without -proposed for now, later we want
-# this to only be published if passing some QA test
-DATE = File.read('result/date_stamp').strip
-ISONAME = "#{IMAGENAME}-#{TYPE}".freeze
-REMOTE_DIR = "neon/images/#{ISONAME}/".freeze
-REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}".freeze
-
-unless system('gpg2', '--armor', '--detach-sign', '-o',
-              "result/#{ISONAME}-#{DATE}-amd64.iso.sig",
-              "result/#{ISONAME}-#{DATE}-amd64.iso")
-  raise 'Failed to sign'
-end
-
-# Add readme about zsync being defective.
-# files.kde.org defaults to HTTPS (even redirects HTTP there), but zsync
-# has no support and fails with a really stupid error. As fixing this
-# server-side is something Ben doesn't want to do we'll simply tell the user
-# to use a sane implementation or manually get a HTTP mirror url.
-Dir.glob('result/*.zsync') do |file|
-  File.write("#{file}.README", <<-EOF)
-zsync does not support HTTPs, since we prefer HTTPs rather than HTTP this is a
-problem.
-
-If you would like to use zsync to download an ISO you either need to use a
-libcurl based zsync implementation [1], or you need to need to manually find a
-HTTP mirror from the mirror list. To get to the mirror list simply append
-.mirrorlist to the zsync URL.
-e.g. https://files.kde.org/neon/images/neon-useredition/current/neon-useredition-current.iso.zsync.mirrorlist
-
-[1] https://github.com/probonopd/zsync-curl
+# Write a params file we can use to pass our relevant information to a child
+# build for additional processing.
+File.write('params.txt', <<-EOF)
+ISO=#{File.realpath(File.glob('*.iso').fetch(0))}
 EOF
-end
 
-# Publish ISO and associated content.
-Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
-  sftp.mkdir!(REMOTE_PUB_DIR)
-  types = %w[amd64.iso amd64.iso.sig manifest zsync zsync.README sha256sum]
-  types.each do |type|
-    Dir.glob("result/*#{type}").each do |file|
-      name = File.basename(file)
-      STDERR.puts "Uploading #{file}..."
-      sftp.upload!(file, "#{REMOTE_PUB_DIR}/#{name}")
-    end
-  end
-
-  # Need a second SSH session here, since the SFTP one is busy looping.
-  Net::SSH.start('racnoss.kde.org', 'neon') do |ssh|
-    ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *amd64.iso #{ISONAME}-current.iso")
-    ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *amd64.iso.sig #{ISONAME}-current.iso.sig")
-    ssh.exec!("cd #{REMOTE_DIR}; rm -f current; ln -s #{DATE} current")
-  end
-
-  sftp.dir.glob(REMOTE_DIR, '*') do |entry|
-    next unless entry.directory? # current is a symlink
-    path = "#{REMOTE_DIR}/#{entry.name}"
-    next if path.include?(REMOTE_PUB_DIR)
-    STDERR.puts "rm #{path}"
-    sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
-    sftp.rmdir!(path)
-  end
-end
-
-# Publish ISO sources.
-Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
-  path = 'files.neon.kde.org.uk'
-  types = %w[source.tar.xz]
-  types.each do |type|
-    Dir.glob("result/*#{type}").each do |file|
-      # Remove old ones
-      STDERR.puts "src rm #{path}/#{ISONAME}*#{type}"
-      sftp.dir.glob(path, "#{ISONAME}*#{type}") do |e|
-        STDERR.puts "glob src rm #{path}/#{e.name}"
-        sftp.remove!("#{path}/#{e.name}")
-      end
-      # upload new one
-      name = File.basename(file)
-      STDERR.puts "Uploading #{file}..."
-      sftp.upload!(file, "#{path}/#{name}")
-    end
-  end
-end
-
-exit 0
+exit status_code unless status_code.to_i.zero?
