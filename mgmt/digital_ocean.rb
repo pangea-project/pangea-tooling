@@ -29,7 +29,7 @@ require 'yaml'
 require_relative '../ci-tooling/lib/retry'
 
 DROPLET_NAME = 'jenkins-slave-deploy'.freeze
-IMAGE_NAME = 'jenkins-slave-deploy'.freeze
+IMAGE_NAME = 'jenkins-slave'.freeze
 
 class Client < DropletKit::Client
   def initialize
