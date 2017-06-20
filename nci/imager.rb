@@ -53,7 +53,8 @@ status_code = c.run(Cmd: cmd)
 # Write a params file we can use to pass our relevant information to a child
 # build for additional processing.
 File.write('params.txt', <<-EOF)
-ISO=#{File.realpath(Dir.glob('*.iso').fetch(0))}
+ISO=#{File.realpath(Dir.glob('result/*.iso').fetch(0))}
+NODE_NAME=#{ENV.fetch('NODE_NAME')}
 EOF
 puts File.read('params.txt')
 
