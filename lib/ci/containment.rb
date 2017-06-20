@@ -101,6 +101,10 @@ module CI
           io = stream == 'stderr' ? STDERR : STDOUT
           io.print(chunk)
         end
+        warn 'CONTAINTER ATTACH THREAD ENDED'
+        warn 'CONTAINTER ATTACH THREAD ENDED'
+        warn 'CONTAINTER ATTACH THREAD ENDED'
+        warn 'CONTAINTER ATTACH THREAD ENDED'
         # :nocov:
       end
     end
