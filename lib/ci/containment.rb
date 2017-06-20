@@ -100,7 +100,6 @@ module CI
         container.attach do |stream, chunk|
           io = stream == 'stderr' ? STDERR : STDOUT
           io.print(chunk)
-          io.flush
         end
         # :nocov:
       end
