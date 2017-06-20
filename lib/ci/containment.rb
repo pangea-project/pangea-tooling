@@ -101,6 +101,9 @@ module CI
           io = stream == 'stderr' ? STDERR : STDOUT
           io.print(chunk)
         end
+        # Make sure everything is flushed before we proceed. So that container
+        # output is fully consistent at this point.
+        STDOUT.flush
         warn 'CONTAINTER ATTACH THREAD ENDED'
         warn 'CONTAINTER ATTACH THREAD ENDED'
         warn 'CONTAINTER ATTACH THREAD ENDED'
@@ -115,7 +118,10 @@ module CI
       stdout_thread = attach_thread(c) unless self.class.no_attach
       return rescued_start(c)
     ensure
-      stdout_thread.kill if defined?(stdout_thread) && !stdout_thread.nil?
+      if defined?(stdout_thread) && !stdout_thread.nil?
+        stdout_thread.join(16) || stdout_thread.kill
+        warn 'CONTAINTER ATTACH THREAD JOINED'
+      end
     end
 
     private
