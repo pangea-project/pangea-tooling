@@ -59,4 +59,4 @@ EOF
 puts File.read('params.txt')
 
 warn "status code was #{status_code.to_i}"
-exit status_code unless status_code.to_i.zero?
+exit status_code
