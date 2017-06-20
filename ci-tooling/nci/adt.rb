@@ -81,6 +81,17 @@ Dir.chdir('/') do
                verbose: true)
   FileUtils.chmod(0o0755, '/usr/sbin/mktemp')
   system("patch -p0 < #{__dir__}/adt-helpers/adt-run.diff") || raise
+
+  # Override ctest to inject an argument forcing the timeout per test at 5m.
+  file = '/usr/bin/ctest'
+  next if File.exist?("#{file}.distrib") # Already diverted
+  system('dpkg-divert', '--local', '--rename', '--add', file) || raise
+  File.open(file.to_s, File::RDWR | File::CREAT, 0o755) do |f|
+    f.write(<<-EOF)
+#!/bin/sh
+#{file}.distrib --timeout #{5 * 60} "$@"
+EOF
+  end
 end
 
 args = []
