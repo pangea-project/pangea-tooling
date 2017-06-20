@@ -33,6 +33,7 @@ module NCI
         'jenkins-do-20core.' => 20,
         # Compat
         'do-builder' => 2,
+        'persistent.do-builder' => 2,
         'do-' => 2,
         '46.' => 2
       }.freeze
