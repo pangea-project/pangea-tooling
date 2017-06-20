@@ -22,7 +22,9 @@ module NCI
   module JenkinsBin
     # CPU Core helper. Implementing simple logic to upgrade/downgrade core count
     class Cores
-      CORES = [2, 4, 8].freeze # Only allow 3 types for now.
+      # This controls the output cores! Raising the cap here directly results in
+      # larger machines getting assigned if necessary.
+      CORES = [2, 4, 8].freeze
 
       def self.downgrade(cores)
         # Get either 0 or whatever is one below the input.

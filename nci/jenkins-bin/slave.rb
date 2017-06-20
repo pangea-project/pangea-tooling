@@ -22,10 +22,13 @@ module NCI
   module JenkinsBin
     # Simple slave helper. Helps translating slave namaes to CPU core counts.
     class Slave
+      # This is the input cores! Depending on the node name we'll determine how
+      # many cores the build used.
       PREFIX_TO_CORES = {
         'jenkins-do-2core.' => 2,
         'jenkins-do-4core.' => 4,
         'jenkins-do-8core.' => 8,
+        'jenkins-do-12core.' => 12,
         'jenkins-do-16core.' => 16,
         'jenkins-do-20core.' => 20,
         # Compat
