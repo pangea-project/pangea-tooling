@@ -102,7 +102,15 @@ mv source.debian.tar.xz ${IMAGENAME}-${TYPE}-${DATETIME}-source.tar.xz
 ln -s ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso ${IMAGENAME}-${TYPE}-current.iso
 zsyncmake ${IMAGENAME}-${TYPE}-current.iso
 sha256sum ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso > ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.sha256sum
+cat > .message << END
+KDE neon
 
+${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso Live and Installable ISO
+${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso.sig PGP Digital Signature
+${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.manifest ISO contents
+${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.sha256sum Checksum
+"current" files are the same files for those wanting a URL which does not change daily.
+END
 echo $DATETIME > date_stamp
 
 pwd
