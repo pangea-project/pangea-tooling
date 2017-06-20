@@ -8,7 +8,7 @@
     </org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
-  <assignedNode>amd64</assignedNode>
+  <assignedNode>(amd64 &amp;&amp; persistent) || (amd64 &amp;&amp; cloud) || (amd64)</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
