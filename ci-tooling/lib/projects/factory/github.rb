@@ -63,7 +63,11 @@ class ProjectsFactory
         return @list_cache[base] if @list_cache.key?(base)
 
         Octokit.auto_paginate = true
-        repos = Octokit.org_repos(base)
+	begin
+          repos = Octokit.org_repos(base)
+	rescue Net::OpenTimeout
+	  retry
+	end
         @list_cache[base] = repos.collect(&:name).freeze
       end
     end
