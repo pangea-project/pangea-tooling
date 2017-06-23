@@ -26,6 +26,7 @@ class WatcherJob < JenkinsJob
   attr_reader :scm_readable
   attr_reader :scm_writable
   attr_reader :nci
+  attr_reader :periodic_build
 
   def initialize(project)
     super("watcher_release_#{project.component}_#{project.name}",
@@ -42,5 +43,11 @@ class WatcherJob < JenkinsJob
       @scm_writable.branch.replace('Neon/release-lts')
     end
     @nci = NCI
+    periodic_watch_components = ['kde-extras', 'kde-req', 'kde-std', 'neon-packaging']
+    if preiodic_watch_components.include?(project.component)
+      @periodic_build = 'H H * * *'
+    else
+      @periodic_build = ''
+    end
   end
 end
