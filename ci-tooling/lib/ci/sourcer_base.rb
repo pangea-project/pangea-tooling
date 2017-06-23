@@ -62,7 +62,7 @@ module CI
       control.source['Vcs-Git'] = url
       uri = GitCloneUrl.parse(url)
       uri.path = uri.path.gsub('.git', '') # sanitize
-      control.source['Vcs-Browser'] = vcs_browser(uri)
+      control.source['Vcs-Browser'] = vcs_browser(uri) || url
       control.dump
     end
 
@@ -71,12 +71,12 @@ module CI
       when 'anongit.neon.kde.org', 'git.neon.kde.org'
         "https://packaging.neon.kde.org#{uri.path}.git"
       # :nocov: no point covering this besides the interpolation
-      when 'git.debian.org'
+      when 'git.debian.org', 'anonscm.debian.org'
         "https://anonscm.debian.org/cgit#{uri.path}.git"
       when 'github.com'
         "https://github.com#{uri.path}"
       else
-        uri
+	nil
       end
       # :nocov:
     end
