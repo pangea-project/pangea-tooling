@@ -73,7 +73,7 @@ Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
       sftp.upload!(file, "#{REMOTE_PUB_DIR}/#{name}")
     end
   end
-  sftp.upload!('.message', "#{REMOTE_PUB_DIR}/.message")
+  sftp.upload!('result/.message', "#{REMOTE_PUB_DIR}/.message")
 
   # Need a second SSH session here, since the SFTP one is busy looping.
   Net::SSH.start('racnoss.kde.org', 'neon') do |ssh|
