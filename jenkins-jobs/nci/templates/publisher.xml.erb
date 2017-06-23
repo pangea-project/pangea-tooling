@@ -76,7 +76,6 @@
   <% if (%w(qt) << '').include?(component) || basename.end_with?('pyqt5', 'sip4') %>
     # This has no release version, the unstable version is supplying release.
     ~/tooling/ci-tooling/bin/pangea_dput --gateway $GATEWAY --repo release<%= type_suffix %>  *.changes
-    ~/tooling/ci-tooling/bin/pangea_dput --gateway $GATEWAY --repo release-lts<%= type_suffix %>  *.changes
   <% end %>
 <% end %>
       </command>
