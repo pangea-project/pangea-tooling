@@ -44,7 +44,7 @@ class WatcherJob < JenkinsJob
     end
     @nci = NCI
     periodic_watch_components = ['kde-extras', 'kde-req', 'kde-std', 'neon-packaging']
-    if preiodic_watch_components.include?(project.component)
+    if periodic_watch_components.include?(project.component)
       @periodic_build = 'H H * * *'
     else
       @periodic_build = ''
