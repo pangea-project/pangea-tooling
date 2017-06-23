@@ -76,7 +76,7 @@ module CI
       when 'github.com'
         "https://github.com#{uri.path}"
       else
-        url
+        uri
       end
       # :nocov:
     end
