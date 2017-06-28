@@ -104,10 +104,6 @@ module CI
         # Make sure everything is flushed before we proceed. So that container
         # output is fully consistent at this point.
         STDOUT.flush
-        warn 'CONTAINTER ATTACH THREAD ENDED'
-        warn 'CONTAINTER ATTACH THREAD ENDED'
-        warn 'CONTAINTER ATTACH THREAD ENDED'
-        warn 'CONTAINTER ATTACH THREAD ENDED'
         # :nocov:
       end
     end
@@ -120,7 +116,6 @@ module CI
     ensure
       if defined?(stdout_thread) && !stdout_thread.nil?
         stdout_thread.join(16) || stdout_thread.kill
-        warn 'CONTAINTER ATTACH THREAD JOINED'
       end
     end
 
