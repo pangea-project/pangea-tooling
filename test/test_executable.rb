@@ -16,6 +16,7 @@ class ExecutableTest < Test::Unit::TestCase
     mci
     nci
     mgmt
+    overlay-bin
   ].freeze
 
   SUFFIXES = %w[.py .rb .sh].freeze

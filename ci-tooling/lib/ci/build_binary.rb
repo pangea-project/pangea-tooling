@@ -60,6 +60,17 @@ module CI
       end
     end
 
+    def initialize
+      # Cripple stupid bin calls issued by the dpkg build tooling. In our
+      # overlay we have scripts that alter the behavior of certain commands that
+      # are being called in an undesirable manner (e.g. causing too much output)
+      overlay_path = File.expand_path("#{__dir__}/../../../overlay-bin")
+      unless File.exist?(overlay_path)
+        raise "could not find overlay bins in #{overlay_path}"
+      end
+      ENV['PATH'] = "#{overlay_path}:#{ENV['PATH']}"
+    end
+
     def extract
       FileUtils.rm_rf(BUILD_DIR, verbose: true)
       unless system('dpkg-source', '-x', @dsc, BUILD_DIR)

@@ -19,6 +19,7 @@ class ParseTest < Test::Unit::TestCase
       ci-tooling/mci
       ci-tooling/nci
       ci-tooling/test
+      overlay-bin
     ]
     source_dirs.each do |source_dir|
       Dir.glob("#{source_dir}/**/*.rb").each do |file|

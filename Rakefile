@@ -20,6 +20,7 @@ require_relative 'lib/rake/bundle'
 BIN_DIRS = %w[
   .
   ci-tooling
+  overlay-bin
 ].freeze
 SOURCE_DIRS = %w[
   ci-tooling/ci
@@ -33,6 +34,8 @@ SOURCE_DIRS = %w[
   mci
   nci
   mgmt
+  overlay-bin
+  overlay-bin/lib
 ].freeze
 
 desc 'run all unit tests'
