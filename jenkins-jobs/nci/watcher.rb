@@ -43,7 +43,7 @@ class WatcherJob < JenkinsJob
       @scm_writable.branch.replace('Neon/release-lts')
     end
     @nci = NCI
-    periodic_watch_components = ['kde-extras', 'kde-req', 'kde-std', 'neon-packaging', 'forks']
+    periodic_watch_components = ['kde-extras', 'kde-req', 'kde-std', 'neon-packaging', 'forks', 'calligra']
     if periodic_watch_components.include?(project.component)
       @periodic_build = 'H H * * *'
     else
