@@ -100,6 +100,7 @@ module CI
         container.attach do |stream, chunk|
           io = stream == 'stderr' ? STDERR : STDOUT
           io.print(chunk)
+          io.flush if chunk.end_with?("\n")
         end
         # Make sure everything is flushed before we proceed. So that container
         # output is fully consistent at this point.
