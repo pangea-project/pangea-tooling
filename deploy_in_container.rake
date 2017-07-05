@@ -25,6 +25,7 @@ require 'open-uri'
 
 require_relative 'lib/rake/bundle'
 
+DIST = ENV.fetch('DIST')
 # Core is not here because it is required as a build-dep or anything but
 # simply a runtime dep of the tooling.
 CORE_RUNTIME_DEPS = %w[apt-transport-https].freeze
@@ -58,8 +59,7 @@ end
 
 def custom_version_id
   require_relative 'ci-tooling/lib/dci'
-  dist = ENV.fetch('DIST')
-  return unless DCI.series.keys.include?(dist)
+  return unless DCI.series.keys.include?(DIST)
 
   file = '/etc/os-release'.freeze
   os_release = File.readlines(file)
@@ -69,12 +69,22 @@ def custom_version_id
     l.start_with?('VERSION_ID')
   end
   system('dpkg-divert', '--local', '--rename', '--add', file) || raise
-  os_release << "VERSION_ID=\"#{DCI.series[dist]}\"\n"
+  os_release << "VERSION_ID=\"#{DCI.series[DIST]}\"\n"
   File.write(file, os_release.join())
 end
 
+# openqa
+task :deploy_openqa do
+  next unless DIST == 'xenial'
+  Dir.mktmpdir do |tmpdir|
+    system 'git clone --depth 1 ' \
+       "https://github.com/apachelogger/kde-os-autoinst #{tmpdir}/"
+    Dir.chdir('/opt') { sh "#{tmpdir}/bin/install.rb" }
+  end
+end
+
 desc 'deploy inside the container'
-task :deploy_in_container => :align_ruby do
+task :deploy_in_container => %i[align_ruby deploy_openqa] do
   home = '/var/lib/jenkins'
   # Deploy ci-tooling and bundle. We later use internal libraries to provision
   # so we need all dependencies met as early as possible in the process.
