@@ -49,3 +49,8 @@
 '*_forks_{harfbuzz}_*':
   sourcer:
     restricted_packaging_copy: true
+
+
+'*_forks_{appstream}_*':
+  sourcer:
+    restricted_packaging_copy: true
