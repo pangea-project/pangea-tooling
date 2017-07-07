@@ -56,7 +56,15 @@ class NCIWatcherTest < TestCase
       TTY::Command
         .any_instance
         .expects(:run)
-        .with('uscan --report --dehs')
+        .with do |args|
+          # hijack and do some assertion here. This block is only evaluated upon
+          # a call to run, so we can assert the state of the working dir when
+          # uscan gets called here.
+          assert_path_exist 'debian/watch'
+          assert_includes File.read('debian/watch'), '172.17.0.1:9191'
+          assert_not_includes File.read('debian/watch'), 'download.kde.org'
+          args == 'uscan --report --dehs'
+        end
         .returns(TTY::Command::Result.new(0, File.read(data('dehs.xml')), ''))
 
       NCI::Watcher.new.run
@@ -76,6 +84,11 @@ class NCIWatcherTest < TestCase
       assert_equal 2, deltas.size
       changed_files = deltas.collect { |d| d.new_file[:path] }
       assert_equal ['debian/changelog', 'debian/control'], changed_files
+
+      # watch file was unmanagled again
+      assert_path_exist 'debian/watch'
+      assert_includes File.read('debian/watch'), 'download.kde.org'
+      assert_not_includes File.read('debian/watch'), '172.17.0.1:9191'
     end
   end
 
