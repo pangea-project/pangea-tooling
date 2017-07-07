@@ -1,0 +1,13 @@
+<dehs>
+uscan: Newest version of ark on remote site is 17.04.2, local version is 16.04.0
+uscan:    => Newer package available from
+      http://download.kde.org/stable/applications/17.04.2/src/ark-17.04.2.tar.xz
+<package>ark</package>
+<debian-uversion>16.04.0</debian-uversion>
+<debian-mangled-uversion>16.04.0</debian-mangled-uversion>
+<upstream-version>17.04.2</upstream-version>
+<upstream-url>http://download.kde.org/stable/applications/17.04.2/src/ark-17.04.2.tar.xz</upstream-url>
+<status>newer package available</status>
+<messages>Not downloading upstream package: ark-17.04.2.tar.xz
+</messages>
+</dehs>
