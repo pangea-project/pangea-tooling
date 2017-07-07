@@ -33,7 +33,7 @@ module CI
                     **options_)
       # FIXME: commented to allow tests passing with old containment data
       # assert_version
-      options = merge_env(default_create_options, options_)
+      options = merge_env_options(default_create_options, options_)
       options = options_.deep_merge(options)
       options = override_options(options, name, binds)
       c = super(options, connection)
@@ -112,7 +112,7 @@ module CI
         env
       end
 
-      def merge_env(our_options, their_options)
+      def merge_env_options(our_options, their_options)
         ours = our_options[:Env]
         theirs = their_options[:Env]
         return our_options if theirs.nil?
