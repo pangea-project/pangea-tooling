@@ -25,3 +25,4 @@ require_relative 'lib/watcher'
 require_relative 'lib/setup_env'
 
 NCI.setup_env!
+NCI::Watcher.new.run
