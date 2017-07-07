@@ -21,6 +21,9 @@
 
 require_relative '../lib/ci/containment'
 
+# Whitelist a bunch of Jenkins variables for consumption inside the container.
+ENV['DOCKER_ENV_WHITELIST'] = 'BUILD_CAUSE:ROOT_BUILD_CAUSE:RUN_DISPLAY_URL'
+
 Docker.options[:read_timeout] = 7 * 60 * 60 # 7 hours.
 
 DIST = ENV.fetch('DIST')

@@ -105,4 +105,25 @@ class ContainerTest < TestCase
       CI::Container::DirectBindingArray.to_bindings([path.to_s])
     end
   end
+
+  def test_env_whitelist
+    # No problems with empty
+    ENV['DOCKER_ENV_WHITELIST'] = nil
+    CI::Container.default_create_options
+    ENV['DOCKER_ENV_WHITELIST'] = ''
+    CI::Container.default_create_options
+
+    # Whitelist
+    ENV['XX_YY_ZZ'] = 'meow'
+    ENV['ZZ_YY_XX'] = 'bark'
+    # Single
+    ENV['DOCKER_ENV_WHITELIST'] = 'XX_YY_ZZ'
+    assert_include CI::Container.default_create_options[:Env], 'XX_YY_ZZ=meow'
+    # Multiple
+    ENV['DOCKER_ENV_WHITELIST'] = 'XX_YY_ZZ:ZZ_YY_XX'
+    assert_include CI::Container.default_create_options[:Env], 'XX_YY_ZZ=meow'
+    assert_include CI::Container.default_create_options[:Env], 'ZZ_YY_XX=bark'
+  ensure
+    ENV.delete('DOCKER_ENV_WHITELIST')
+  end
 end

@@ -99,17 +99,38 @@ module CI
         options
       end
 
+      # Returns nil if the env var v is not defined. Otherwise it returns its
+      # stringy form.
+      def stringy_env_var!(v)
+        return nil unless ENV.include?(v)
+        format('%s=%s', v, ENV[v])
+      end
+
       def environment
         env = []
         env <<
           'PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
         env << 'LANG=en_US.UTF-8'
         env << 'DEBIAN_FRONTEND=noninteractive  '
-        %w[DIST TYPE BUILD_NUMBER].each do |v|
-          next unless ENV.include?(v)
-          env << format('%s=%s', v, ENV[v])
-        end
-        env
+        env += %w[DIST TYPE BUILD_NUMBER].collect { |v| stringy_env_var!(v) }
+        env += environment_from_whitelist
+        env.compact # compact to ditch stringy_env_var! nils.
+      end
+
+      # Build initial env from potentially whitelisted env vars in our current
+      # env. These will be passed verbatim into docker. This is the base
+      # environment. On top of this we'll pack a bunch of extra variables we'll
+      # want to pass in all the time. The user fo the class then also can add
+      # and override more vars on top of that.
+      # Note: this is a bit of a workaround. Our tests are fairly meh and always
+      # include the start environment in the expecation, so changes to the
+      # defaults are super cumbersome to implement. This acts as much as way
+      # to bypass that as it acts as a legit extension to functionality as it
+      # allows any old job to extend the forwarded env without having to extend
+      # the default forwards.
+      def environment_from_whitelist
+        list = ENV.fetch('DOCKER_ENV_WHITELIST', '')
+        list.split(':').collect { |v| stringy_env_var!(v) }.compact
       end
 
       def merge_env_options(our_options, their_options)
