@@ -67,7 +67,7 @@ system('git checkout debian/watch')
 merged = false
 if system('git merge origin/Neon/stable')
   merged = true
-  newer.reject! { |x| !x.upstream_url.include?('stable') }
+  newer.select! { |x| x.upstream_url.include?('stable') }
 elsif system('git merge origin/Neon/unstable')
   merged = true
   # Do not filter paths when unstable was merged. We use unstable as common
