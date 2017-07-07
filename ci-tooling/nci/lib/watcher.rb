@@ -51,7 +51,7 @@ module NCI
       end
 
       cmd = TTY::Command.new
-      result = cmd.run('uscan --report --dehs')
+      result = cmd.run!('uscan --report --dehs') # run! to ignore errors
       data = result.out
       puts "uscan exited (#{result}) :: #{data}"
 

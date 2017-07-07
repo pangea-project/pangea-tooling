@@ -55,7 +55,7 @@ class NCIWatcherTest < TestCase
 
       TTY::Command
         .any_instance
-        .expects(:run)
+        .expects(:run!)
         .with do |args|
           # hijack and do some assertion here. This block is only evaluated upon
           # a call to run, so we can assert the state of the working dir when
@@ -104,7 +104,7 @@ class NCIWatcherTest < TestCase
 
       TTY::Command
         .any_instance
-        .expects(:run)
+        .expects(:run!)
         .with('uscan --report --dehs')
         .returns(TTY::Command::Result.new(0, File.read(data('dehs.xml')), ''))
 
