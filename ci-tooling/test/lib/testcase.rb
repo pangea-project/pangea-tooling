@@ -21,6 +21,7 @@
 require 'test/unit'
 require 'tmpdir'
 require 'webmock/test_unit'
+require 'net/smtp'
 
 require_relative 'assert_xml'
 
@@ -30,7 +31,6 @@ require_relative 'assert_xml'
 # necessary to stub the expecation.
 WebMock.stub_request(:get, 'http://unix/v1.16/version')
        .to_return(body: '{"Version":"17.03.0-ce","ApiVersion":"1.26","MinAPIVersion":"1.12"}')
-
 # Test case base class handling fixtures and chdirring to not pollute the source
 # dir.
 class TestCase < Test::Unit::TestCase
@@ -102,6 +102,10 @@ EOT
     reset_child_status!
     #FIXME: Drop when VCR gets fixed
     WebMock.enable!
+
+    # Make sure smtp can't be used without mocking it.
+    Net::SMTP.stubs(:new).raises(StandardError, 'do not actively use smtp in tests')
+    Net::SMTP.stubs(:start).raises(StandardError, 'do not actively use smtp in tests')
   end
 
   def priority_teardown

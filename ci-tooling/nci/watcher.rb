@@ -21,6 +21,7 @@
 # Watches for releases via uscan.
 
 require 'pp'
+require 'net/smtp'
 
 require_relative '../lib/debian/changelog'
 require_relative '../lib/debian/uscan'
@@ -81,6 +82,7 @@ newer = newer.group_by(&:upstream_version)
 newer = Hash[newer.map { |k, v| [Debian::Version.new(k), v] }]
 newer = newer.sort.to_h
 newest = newer.keys[-1]
+newest_dehs_package = newer.values[-1][0] # group_by results in an array
 
 puts "newest #{newest.inspect}"
 raise 'No newest version found' unless newest
@@ -124,3 +126,21 @@ puts 'git diff'
 system('git diff')
 puts "git commit -a -m 'New release'"
 system("git commit -a -m 'New release'")
+
+if %w[BUILD_CAUSE ROOT_BUILD_CAUSE].any? { |v| ENV[v] == 'MANUALTRIGGER' }
+  exit 0
+end
+
+puts 'sending notification mail'
+
+Net::SMTP.start('pandak.kubuntu.co.uk') do |smtp|
+  smtp.send_message(<<-EOF, 'jr@jriddell.org', 'nci-notify@jriddell.org')
+From: Neon CI <no-reply@kde.org>
+To: Neon Watchers <no-reply@kde.org>
+Subject: [nci-notify] #{newest_dehs_package.name} new version #{newest}
+
+#{ENV['RUN_DISPLAY_URL']}
+
+#{newest_dehs_package.inspect}
+  EOF
+end
