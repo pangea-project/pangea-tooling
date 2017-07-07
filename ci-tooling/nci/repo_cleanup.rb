@@ -125,5 +125,6 @@ if __FILE__ == $PROGRAM_NAME || ENV.include?('PANGEA_TEST_EXECUTION')
     RepoCleaner.clean(%w[unstable stable unstable_xenial stable_xenial])
     RepoCleaner.clean(%w[release_xenial], keep_amount: 4)
     RepoCleaner.clean(%w[release-lts_xenial], keep_amount: 4)
+    system('systemctl --user start aptly_db_cleanup')
   end
 end
