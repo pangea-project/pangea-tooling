@@ -31,6 +31,8 @@ NCI.setup_repo!
 
 backports = "deb http://archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse\n"
 File.open('/etc/apt/sources.list', 'w') { |file| file.write(backports) }
+updates = "deb http://archive.ubuntu.com/ubuntu/ xenial-updates main restricted\n"
+File.open('/etc/apt/sources.list', 'w') { |file| file.write(updates) }
 
 # Build
 Apt.update
