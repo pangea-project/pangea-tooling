@@ -48,7 +48,6 @@ system(*%w[npm install -g bower]) || raise
 build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
 
-Dir.mkdir(build_dir)
 Dir.chdir(build_dir) do
   system(*%w[meson -Ddownload_js=true ..])
   system(*%w[ninja])
