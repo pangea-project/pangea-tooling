@@ -13,8 +13,7 @@ env.APTLY_REPOSITORY = &apos;<%= repo %>&apos;
 node(&apos;master&apos;) {
     wrap([$class: &apos;TimestamperBuildWrapper&apos;]) {
         stage &apos;Checkout&apos;
-        git url: &apos;https://github.com/jriddell/appstream-generator.git&apos;
-        sh &quot;make update-submodule&quot;
+        git url: &apos;https://github.com/ximion/appstream-generator.git&apos;
 
         stage &apos;Repository Setup&apos;
         sh &apos;rsync -avzH --delete neonarchives@archive-api.neon.kde.org:aptly/public/$APTLY_REPOSITORY/* aptly-repository/&apos;
