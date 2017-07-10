@@ -29,21 +29,28 @@ TYPE = ENV.fetch('TYPE')
 
 NCI.setup_repo!
 
+backports = "deb http://archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse\n"
+File.open('/etc/apt/sources.list', 'w') { |file| file.write(backports) }
+
 # Build
 Apt.update
-Apt.install(%w[dub libappstream-dev libgdk-pixbuf2.0-dev libarchive-dev
-               librsvg2-dev liblmdb-dev libglib2.0-dev libcairo2-dev
-               libcurl4-gnutls-dev libpango1.0-dev]) || raise
-
-system('make update-submodule') || raise
-system('dub build --parallel') || raise
+Apt.install(%w[meson ldc gir-to-d libappstream-dev libgdk-pixbuf2.0-dev libarchive-dev
+               librsvg2-dev liblmdb-dev libglib2.0-dev libcairo2-dev libcurl4-gnutls-dev
+               libfreetype6-dev libfontconfig1-dev libpango1.0-dev libmustache-d-dev]) || raise
 
 # Run
 Apt.install(%w[npm nodejs-legacy optipng liblmdb0]) || raise
 
 system(*%w[npm install -g bower]) || raise
-# This needs pitchy patching in the config script to enable usage as root.
-system(*%w[make js]) || raise
+
+build_dir = File.absolute_path('build')
+run_dir = File.absolute_path('run')
+
+Dir.mkdir(build_dir)
+Dir.chdir(build_dir) do
+  system(*%w[meson -Ddownload_js=true ..])
+  system(*%w[ninja])
+end
 
 config = ASGEN::Conf.new("neon/#{TYPE}")
 config.ArchiveRoot = File.absolute_path('aptly-repository')
@@ -62,8 +69,6 @@ end
 # Install theme to hopefully override icons with breeze version.
 # TODO: This currently isn't using the actual neon version.
 Apt.install('breeze-icon-theme', 'hicolor-icon-theme')
-build_dir = File.absolute_path('build')
-run_dir = File.absolute_path('run')
 FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
 config.write("#{run_dir}/asgen-config.json")
 system("#{build_dir}/appstream-generator", 'process', 'xenial',
