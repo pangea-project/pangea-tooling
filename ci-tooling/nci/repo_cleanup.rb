@@ -21,6 +21,7 @@
 
 require 'aptly'
 require 'net/ssh/gateway'
+require 'net/ssh'
 
 require_relative '../lib/aptly-ext/filter'
 require_relative '../../lib/aptly-ext/remote'
