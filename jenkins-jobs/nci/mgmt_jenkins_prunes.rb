@@ -21,32 +21,37 @@
 require_relative '../job'
 
 # Base class for all prunes
-class MGMTJenkinsBasePrune < JenkinsJob
+class MGMTJenkinsBasePruneJob < JenkinsJob
   attr_accessor :max_age
   attr_accessor :min_count
   attr_accessor :paths
 
-  def initialize(variant)
-    super("mgmt_jenkins_prune_#{variant}", 'mgmt_jenkins_prune.xml.erb')
+  def initialize(name:, paths:, max_age:, min_count:)
+    super("mgmt_jenkins_prune_#{name}", 'mgmt_jenkins_prune.xml.erb')
+    self.max_age = max_age
+    self.min_count = min_count
+    self.paths = paths
   end
 end
 
 # Prunes archives (i.e. artifacts)
-class MGMTJenkinsPruneArchives < MGMTJenkinsBasePrune
+class MGMTJenkinsPruneArchivesJob < MGMTJenkinsBasePruneJob
   def initialize
-    super('archives')
-    self.max_age = -1
-    self.min_count = 1
-    self.paths = ['archive']
+    super(name: 'archives', paths: %w[archive], max_age: -1, min_count: 1)
   end
 end
 
 # Prunes logs (i.e. build/console logs)
-class MGMTJenkinsPruneLogs < MGMTJenkinsBasePrune
+class MGMTJenkinsPruneLogsJob < MGMTJenkinsBasePruneJob
   def initialize
-    super('logs')
-    self.max_age = 16
-    self.min_count = 4
-    self.paths = ['log']
+    super(name: 'logs', paths: %w[log], max_age: 16, min_count: 4)
+  end
+end
+
+# Prunes parameter-files
+class MGMTJenkinsPruneParameterListJob < MGMTJenkinsBasePruneJob
+  def initialize
+    super(name: 'parameter-files', paths: %w[parameter-files],
+          max_age: -1, min_count: 1)
   end
 end
