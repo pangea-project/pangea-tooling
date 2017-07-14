@@ -51,7 +51,7 @@ end
 # Prunes parameter-files
 class MGMTJenkinsPruneParameterListJob < MGMTJenkinsBasePruneJob
   def initialize
-    super(name: 'parameter-files', paths: %w[parameter-files],
+    super(name: 'parameter-files', paths: %w[parameter-files fileParameters],
           max_age: -1, min_count: 1)
   end
 end
