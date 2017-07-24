@@ -129,6 +129,7 @@ module NCI
       puts "git commit -a -m 'New release'"
       system("git commit -a -m 'New release'")
 
+      puts ENV.to_h
       if %w[BUILD_CAUSE ROOT_BUILD_CAUSE].any? { |v| ENV[v] == 'MANUALTRIGGER' }
         puts 'build was manually triggered. not sending info email'
         return
