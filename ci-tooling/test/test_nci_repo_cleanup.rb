@@ -137,10 +137,10 @@ class NCIRepoCleanupTest < TestCase
     ENV['PANGEA_TEST_EXECUTION'] = '1'
     load("#{__dir__}/../nci/repo_cleanup.rb")
 
-    session = mock('session')
-    session.stubs(:process)
-    session.expects(:close)
-    Net::SSH.expects(:start).returns(session)
+    # session = mock('session')
+    # session.stubs(:process)
+    # session.expects(:close)
+    # Net::SSH.expects(:start).returns(session)
   end
 
   def test_key_from_string
