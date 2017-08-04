@@ -195,9 +195,13 @@ module CI
       parsed_dsc = Debian::DSC.new(@dsc)
       parsed_dsc.parse!
       architectures = parsed_dsc.fields['architecture'].split
-      arch_filter = ['any', DPKG::HOST_ARCH]
-      arch_filter << 'all' if arch_all?
-      (architectures & arch_filter).empty?
+      return true if arch_all? && architectures.include?('all')
+
+      architectures.each do |arch|
+        _, ec = DPKG.run_with_ec('dpkg-architecture', ['-i', arch])
+        return false if ec
+      end
+      true
     end
 
     def pretty_old_system?

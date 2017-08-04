@@ -21,13 +21,18 @@
 # Wrapper around dpkg commandline tool.
 module DPKG
   def self.run(cmd, args)
+    retval, ec = run_with_ec(cmd, args)
+    retval
+  end
+
+  def self.run_with_ec(cmd, args)
     args = [*args]
     puts "backticking: #{cmd} #{args.join(' ')}"
     output = `#{cmd} #{args.join(' ')}`
     puts $?
     return [] unless $?.to_i.zero?
     # FIXME: write test
-    output.strip.split($/).compact
+    return output.strip.split($/).compact, $?.success?
   end
 
   def self.dpkg(args)
