@@ -157,6 +157,14 @@ module CI
              .returns(true)
 
       builder.build
+    end
+
+    def test_arm_on_amd64
+      FileUtils.cp_r("#{data}/.", Dir.pwd)
+      DPKG.stubs(:run)
+          .with('dpkg-architecture', ['-qDEB_HOST_ARCH'])
+          .returns(['amd64'])
+
       DPKG.stubs(:run_with_ec)
       .with('dpkg-architecture', %w[-i armhf])
       .returns([[], false])
@@ -165,10 +173,35 @@ module CI
       .with('dpkg-architecture', %w[-i arm64])
       .returns([[], false])
 
+      builder = PackageBuilder.new
+
       builder.expects(:extract)
              .never
 
       builder.build
     end
+
+    def test_arch_all_on_arm
+      FileUtils.cp_r("#{data}/.", Dir.pwd)
+      DPKG.stubs(:run)
+          .with('dpkg-architecture', ['-qDEB_HOST_ARCH'])
+          .returns(['arm64'])
+
+      DPKG.stubs(:run_with_ec)
+      .with('dpkg-architecture', %w[-i all])
+      .returns([[], false])
+
+      DPKG.stubs(:run_with_ec)
+      .with('dpkg-architecture', %w[-i amd64])
+      .returns([[], false])
+
+      builder = PackageBuilder.new
+
+      builder.expects(:extract)
+             .never
+
+      builder.build
+    end
+
   end
 end

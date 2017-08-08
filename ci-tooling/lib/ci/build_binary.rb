@@ -130,8 +130,8 @@ module CI
       raise "Not exactly one dsc! Found #{dsc_glob}" unless dsc_glob.count == 1
       @dsc = dsc_glob[0]
 
-      if !arch_all? && arch_all_source?
-        puts 'INFO: Arch all only package on wrong architecture, not building anything!'
+      unless (arch_all_source? && arch_all?) || matches_host_arch?
+        puts 'INFO: Package architecture does not match host architecture'
         return
       end
 
@@ -195,12 +195,18 @@ module CI
       parsed_dsc = Debian::DSC.new(@dsc)
       parsed_dsc.parse!
       architectures = parsed_dsc.fields['architecture'].split
+      return true if architectures.include?('all')
+    end
 
+    def matches_host_arch?
+      parsed_dsc = Debian::DSC.new(@dsc)
+      parsed_dsc.parse!
+      architectures = parsed_dsc.fields['architecture'].split
       architectures.each do |arch|
         _, ec = DPKG.run_with_ec('dpkg-architecture', ['-i', arch])
-        return false if ec
+        return true if ec
       end
-      true
+      false
     end
 
     def pretty_old_system?
