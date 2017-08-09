@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><flow-definition>
+    <actions/>
+    <description/>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <EnvInjectJobProperty plugin="envinject@1.93.1">
+            <info>
+                <propertiesContent>APPNAME=<%= appname %></propertiesContent>
+                <loadFilesFromMaster>false</loadFilesFromMaster>
+            </info>
+            <on>true</on>
+            <keepJenkinsSystemVariables>false</keepJenkinsSystemVariables>
+            <keepBuildVariables>false</keepBuildVariables>
+            <overrideBuildParameters>false</overrideBuildParameters>
+            <contributors/>
+        </EnvInjectJobProperty>
+    </properties>
+    <triggers/>
+    <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition">
+        <scriptPath>Jenkinsfile</scriptPath>
+        <scm class="hudson.plugins.git.GitSCM">
+            <userRemoteConfigs>
+                <hudson.plugins.git.UserRemoteConfig>
+                    <url>https://github.com/apachelogger/kf5-snap-app</url>
+                </hudson.plugins.git.UserRemoteConfig>
+            </userRemoteConfigs>
+            <branches>
+                <hudson.plugins.git.BranchSpec>
+                    <name>**</name>
+                </hudson.plugins.git.BranchSpec>
+            </branches>
+            <configVersion>2</configVersion>
+            <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+            <gitTool>Default</gitTool>
+        </scm>
+    </definition>
+</flow-definition>

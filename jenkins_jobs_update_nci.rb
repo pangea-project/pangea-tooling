@@ -31,6 +31,31 @@ Dir.glob(File.expand_path('jenkins-jobs/nci/*.rb', __dir__)).each do |file|
   require file
 end
 
+# FIXME: this really shouldn't be in here. need some snap job builder or something
+EXCLUDE_SNAPS = %w[
+  eventviews gpgmepp grantleetheme incidenceeditor
+  kaccounts-integration kcalcore kcalutils kcron kde-dev-scripts
+  kdepim-addons kdepim-apps-libs kdgantt2 kholidays
+  kidentitymanagement kimap kldap kmailtransport kmbox kmime
+  kontactinterface kpimtextedit ktnef libgravatar libkdepim libkleo
+  libkmahjongg libkomparediff2 libksieve mailcommon mailimporter
+  messagelib pimcommon signon-kwallet-extension syndication akonadi
+  akonadi-calendar akonadi-search calendarsupport kalarmcal kblog
+  kcontacts kleopatra kdepim kdepim-runtime kdepimlibs baloo-widgets
+  ffmpegthumbs dolphin-plugins akonadi-mime akonadi-notes analitza
+  kamera kdeedu-data kdegraphics-thumbnailers kdenetwork-filesharing
+  kdesdk-thumbnailers khelpcenter kio-extras kqtquickcharts kuser
+  libkdcraw libkdegames libkeduvocdocument libkexiv2 libkface
+  libkgeomap libkipi libksane poxml akonadi-contacts print-manager
+  marble khangman bovo kdevplatform sddm kdevelop-python kdevelop-php
+  phonon-backend-vlc phonon-backend-gstreamer ktp-common-internals
+  kaccounts-providers kdevelop-pg-qt kwalletmanager kdialog svgpart
+  libkcddb libkcompactdisc mbox-importer akonadi-calendar-tools
+  akonadi-import-wizard audiocd-kio grantlee-editor kdegraphics-mobipocket
+  kmail-account-wizard konqueror libkcddb libkcompactdisc pim-data-exporter
+  pim-sieve-editor pim-storage-service-manager kdegraphics-mobipocket
+].freeze
+
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
@@ -95,6 +120,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
         type_projects[type].each do |project|
+          # Fairly akward special casing this. Snaps only build releases right
+          # now.
+          if type == 'release' && project.component == 'applications' &&
+             !EXCLUDE_SNAPS.include?(project.name)
+            enqueue(AppSnapJob.new(project.name))
+          end
+
           jobs = ProjectJob.job(project,
                                 distribution: distribution,
                                 type: type,
