@@ -165,6 +165,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         # ISOs
         NCI.architectures.each do |architecture|
+          next unless architecture == 'amd64'
           dev_unstable_isoargs = { type: 'devedition-gitunstable',
                                    distribution: distribution,
                                    architecture: architecture,
