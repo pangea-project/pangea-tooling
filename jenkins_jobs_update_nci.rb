@@ -54,6 +54,7 @@ EXCLUDE_SNAPS = %w[
   akonadi-import-wizard audiocd-kio grantlee-editor kdegraphics-mobipocket
   kmail-account-wizard konqueror libkcddb libkcompactdisc pim-data-exporter
   pim-sieve-editor pim-storage-service-manager kdegraphics-mobipocket
+  akonadiconsole akregator kdav kmail knotes libkgapi kgpg
 ].freeze
 
 # Updates Jenkins Projects
