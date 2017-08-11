@@ -2,8 +2,8 @@ series:
   xenial: "16.04"
 architectures:
   - amd64
-  - armhf
 extra_architectures:
+  - armhf
 types:
   - unstable
   - stable
