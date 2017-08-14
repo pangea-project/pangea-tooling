@@ -75,7 +75,8 @@ class ProjectJob < JenkinsJob
                                  distribution: distribution,
                                  dependees: publisher_dependees,
                                  component: project.component,
-                                 upload_map: nil)
+                                 upload_map: nil,
+                                 architectures: architectures)
     binariers = architectures.collect do |architecture|
       binarier = BinarierJob.new(basename,
                                  type: type,
