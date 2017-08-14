@@ -59,18 +59,9 @@
       <flatten>true</flatten>
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
+<% architectures.each do |arch| %>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
-      <project><%= basename %>_bin_amd64</project>
-      <filter></filter>
-      <target></target>
-      <excludes></excludes>
-      <selector class="com.tikal.jenkins.plugins.multijob.MultiJobBuildSelector" plugin="jenkins-multijob-plugin@1.20"/>
-      <flatten>true</flatten>
-      <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
-    </hudson.plugins.copyartifact.CopyArtifact>
-<% if type == 'unstable' %>
-    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
-      <project><%= basename %>_bin_armhf</project>
+      <project><%= basename %>_bin_<%= arch %></project>
       <filter></filter>
       <target></target>
       <excludes></excludes>
