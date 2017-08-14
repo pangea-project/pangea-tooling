@@ -130,10 +130,18 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             enqueue(AppSnapJob.new(project.name))
           end
 
-          jobs = ProjectJob.job(project,
-                                distribution: distribution,
-                                type: type,
-                                architectures: NCI.architectures)
+          jobs = {}
+          if type == 'unstable'
+            jobs = ProjectJob.job(project,
+                                  distribution: distribution,
+                                  type: type,
+                                  architectures: NCI.all_architectures)
+          else
+            jobs = ProjectJob.job(project,
+                                  distribution: distribution,
+                                  type: type,
+                                  architectures: NCI.architectures)
+          end
           jobs.each { |j| enqueue(j) }
           all_builds += jobs
 
@@ -165,7 +173,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         # ISOs
         NCI.architectures.each do |architecture|
-          next unless architecture == 'amd64'
           dev_unstable_isoargs = { type: 'devedition-gitunstable',
                                    distribution: distribution,
                                    architecture: architecture,
