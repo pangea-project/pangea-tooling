@@ -130,18 +130,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             enqueue(AppSnapJob.new(project.name))
           end
 
-          jobs = {}
-          if type == 'unstable'
-            jobs = ProjectJob.job(project,
-                                  distribution: distribution,
-                                  type: type,
-                                  architectures: NCI.all_architectures)
-          else
-            jobs = ProjectJob.job(project,
-                                  distribution: distribution,
-                                  type: type,
-                                  architectures: NCI.architectures)
-          end
+					project_architectures = if type == 'unstable'
+																		NCI.all_architectures
+																	else
+																		NCI.architectures
+																	end
+					jobs = ProjectJob.job(project,
+																distribution: distribution,
+																type: type,
+																architectures: project_architectures)
+
           jobs.each { |j| enqueue(j) }
           all_builds += jobs
 
