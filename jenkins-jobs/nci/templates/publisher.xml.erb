@@ -68,6 +68,7 @@
       <flatten>true</flatten>
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
+<% if type == 'unstable' %>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
       <project><%= basename %>_bin_armhf</project>
       <filter></filter>
@@ -77,6 +78,7 @@
       <flatten>true</flatten>
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
+<% end %>
     <hudson.tasks.Shell>
       <command>
         export BUNDLE_GEMFILE=$HOME/tooling/Gemfile # Make bundler able to setup.
