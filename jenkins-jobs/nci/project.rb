@@ -40,7 +40,7 @@ class ProjectJob < JenkinsJob
     # to their not unstable version.
     # NB: '' is for pkg-kde-tools which lives in /
     if (%w[forks frameworks qt] << '').include?(project.component) ||
-       %(pyqt5).include?(project.name)
+       %w[pyqt5].include?(project.name)
       dependees += project.dependees.collect do |d|
         # Stable is a dependee
         basename(distribution,
