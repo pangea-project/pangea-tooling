@@ -43,16 +43,10 @@ class ProjectJob < JenkinsJob
        %w[pyqt5].include?(project.name)
       dependees += project.dependees.collect do |d|
         # Stable is a dependee
-        basename(distribution,
-                 'stable',
-                 d.component,
-                 d.name)
+        basename(distribution, 'stable', d.component, d.name)
         # Release is as well, but only iff component is not one we release.
         next if project.component == 'frameworks'
-        basename(distribution,
-                 'release',
-                 d.component,
-                 d.name)
+        basename(distribution, 'release', d.component, d.name)
       end
     end
     dependees.compact!
@@ -92,12 +86,9 @@ class ProjectJob < JenkinsJob
 
     unless NCI.experimental_skip_qa.any? { |x| jobs[0].job_name.include?(x) }
       # After _pub
-      lintqml = LintQMLJob.new(basename,
-                               distribution: distribution,
-                               type: type)
-      lintcmake = LintCMakeJob.new(basename,
-                                   distribution: distribution,
-                                   type: type)
+      lintqml = LintQMLJob.new(basename, distribution: distribution, type: type)
+      lintcmake = LintCMakeJob.new(basename, distribution: distribution,
+                                             type: type)
       jobs.insert(-1, [lintqml, lintcmake])
     end
 
@@ -111,10 +102,8 @@ class ProjectJob < JenkinsJob
     # The actual jobs array cannot be nested, so flatten it out.
     jobs.flatten!
 
-    jobs << new(basename,
-                project: project,
-                jobs: job_names,
-                dependees: dependees)
+    jobs << new(basename, project: project, jobs: job_names,
+                          dependees: dependees)
     jobs
   end
 
