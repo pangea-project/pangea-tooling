@@ -127,14 +127,6 @@ module CI
       File.write("#{dir}/debian/control", control.dump)
     end
 
-    def substvars!(version)
-      Dir.glob('debian/*') do |path|
-        next unless File.file?(path)
-        data = File.read(path)
-        File.write(path, data)
-      end
-    end
-
     def create_changelog_entry(version, message = 'Automatic CI Build')
       dch = [
         'dch',
@@ -146,7 +138,6 @@ module CI
       # dch cannot actually fail because we parse the changelog beforehand
       # so it is of acceptable format here already.
       raise 'Failed to create changelog entry' unless system(*dch)
-      substvars!(version)
     end
 
     def mangle_maintainer
