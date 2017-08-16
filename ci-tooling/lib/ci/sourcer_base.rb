@@ -75,8 +75,6 @@ module CI
         "https://anonscm.debian.org/cgit#{uri.path}.git"
       when 'github.com'
         "https://github.com#{uri.path}"
-      else
-        nil
       end
       # :nocov:
     end
