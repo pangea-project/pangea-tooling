@@ -129,16 +129,15 @@ class ProjectUpdater < Jenkins::ProjectUpdater
              !EXCLUDE_SNAPS.include?(project.name)
             enqueue(AppSnapJob.new(project.name))
           end
-
-					project_architectures = if type == 'unstable'
-																		NCI.all_architectures
-																	else
-																		NCI.architectures
-																	end
-					jobs = ProjectJob.job(project,
-																distribution: distribution,
-																type: type,
-																architectures: project_architectures)
+          project_architectures = if type == 'unstable'
+                                    NCI.all_architectures
+                                  else
+                                    NCI.architectures
+                                  end
+          jobs = ProjectJob.job(project,
+                                distribution: distribution,
+                                type: type,
+                                architectures: project_architectures)
 
           jobs.each { |j| enqueue(j) }
           all_builds += jobs
