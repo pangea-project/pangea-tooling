@@ -10,9 +10,10 @@ class PublisherJob < JenkinsJob
   attr_reader :basename
   attr_reader :repo
   attr_reader :component
+  attr_reader :architectures
 
   def initialize(basename, type:, distribution:, dependees:,
-                 component:, upload_map:)
+                 component:, upload_map:, architectures:)
     super("#{basename}_pub", 'publisher.xml.erb')
     @type = type
     @distribution = distribution
@@ -21,6 +22,7 @@ class PublisherJob < JenkinsJob
     @downstream_triggers = []
     @basename = basename
     @component = component
+    @architectures = architectures
 
     if upload_map
       @repo = upload_map[component]
