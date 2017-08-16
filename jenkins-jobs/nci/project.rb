@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -80,19 +80,9 @@ class ProjectJob < JenkinsJob
       jobs += [lintqml, lintcmake]
     end
 
-    # We use nested jobs for phases with multiple jobs, we need to aggregate
-    # them appropriately.
-    job_names = jobs.collect do |job|
-      next job.collect(&:job_name) if job.is_a?(Array)
-      job.job_name
-    end
-
+    jobs << new(basename, project: project, jobs: jobs, dependees: dependees)
     # The actual jobs array cannot be nested, so flatten it out.
-    jobs.flatten!
-
-    jobs << new(basename, project: project, jobs: job_names,
-                          dependees: dependees)
-    jobs
+    jobs.flatten
   end
 
   # @! attribute [r] jobs
@@ -116,8 +106,16 @@ class ProjectJob < JenkinsJob
 
   def initialize(basename, project:, jobs:, dependees: [])
     super(basename, 'project.xml.erb')
-    @nested_jobs = jobs.freeze
-    @jobs = jobs.flatten.freeze
+
+    # We use nested jobs for phases with multiple jobs, we need to aggregate
+    # them appropriately.
+    job_names = jobs.collect do |job|
+      next job.collect(&:job_name) if job.is_a?(Array)
+      job.job_name
+    end
+
+    @nested_jobs = job_names.freeze
+    @jobs = job_names.flatten.freeze
     @dependees = dependees.freeze
     @project = project.freeze
   end
