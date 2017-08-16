@@ -143,7 +143,10 @@ module CI
     def mangle_maintainer
       name = ENV['DEBFULLNAME']
       email = ENV['DEBEMAIL']
-      return unless name
+      unless name
+        warn 'Not mangling maintainer as no debfullname is set'
+        return
+      end
       edit_control(Dir.pwd) do |control|
         control.source['Maintainer'] = "#{name} <#{email || 'null@null.org'}>"
       end
