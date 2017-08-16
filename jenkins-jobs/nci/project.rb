@@ -30,10 +30,7 @@ class ProjectJob < JenkinsJob
     basename = basename(distribution, type, project.component, project.name)
 
     dependees = project.dependees.collect do |d|
-      basename(distribution,
-               type,
-               d.component,
-               d.name)
+      basename(distribution, type, d.component, d.name)
     end
     # FIXME: frameworks is special, very special ...
     # Base builds have no stable thingy but their unstable version is equal
@@ -49,9 +46,7 @@ class ProjectJob < JenkinsJob
         basename(distribution, 'release', d.component, d.name)
       end
     end
-    dependees.compact!
-    dependees.uniq!
-    dependees.sort!
+    dependees = dependees.compact.uniq.sort
 
     publisher_dependees = project.dependees.collect do |d|
       "#{basename(distribution, type, d.component, d.name)}_src"
@@ -72,14 +67,17 @@ class ProjectJob < JenkinsJob
                                 architecture: architecture)
     end
     jobs = [sourcer, binariers, publisher]
-    basename = jobs[0].job_name.rpartition('_')[0]
+    basename1 = jobs[0].job_name.rpartition('_')[0]
+    unless basename != basename1
+      raise "unexpected basename diff #{basename} v #{basename1}"
+    end
 
     unless NCI.experimental_skip_qa.any? { |x| jobs[0].job_name.include?(x) }
       # After _pub
       lintqml = LintQMLJob.new(basename, distribution: distribution, type: type)
       lintcmake = LintCMakeJob.new(basename, distribution: distribution,
                                              type: type)
-      jobs.insert(-1, [lintqml, lintcmake])
+      jobs += [lintqml, lintcmake]
     end
 
     # We use nested jobs for phases with multiple jobs, we need to aggregate
