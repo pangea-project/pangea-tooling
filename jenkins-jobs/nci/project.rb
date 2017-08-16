@@ -82,7 +82,7 @@ class ProjectJob < JenkinsJob
       binarier.trigger(publisher)
       binarier
     end
-    jobs = [sourcer + binariers + publisher]
+    jobs = [sourcer, binariers, publisher]
     jobs.each do |j|
       # Disable downstream triggers to prevent jobs linking to one another
       # outside the phases.
