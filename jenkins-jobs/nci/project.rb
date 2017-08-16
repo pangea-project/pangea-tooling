@@ -68,20 +68,10 @@ class ProjectJob < JenkinsJob
                                  upload_map: nil,
                                  architectures: architectures)
     binariers = architectures.collect do |architecture|
-      binarier = BinarierJob.new(basename,
-                                 type: type,
-                                 distribution: distribution,
-                                 architecture: architecture)
-      sourcer.trigger(binarier)
-      binarier.trigger(publisher)
-      binarier
+      BinarierJob.new(basename, type: type, distribution: distribution,
+                                architecture: architecture)
     end
     jobs = [sourcer, binariers, publisher]
-    jobs.each do |j|
-      # Disable downstream triggers to prevent jobs linking to one another
-      # outside the phases.
-      j.send(:instance_variable_set, :@downstream_triggers, [])
-    end
     basename = jobs[0].job_name.rpartition('_')[0]
 
     unless NCI.experimental_skip_qa.any? { |x| jobs[0].job_name.include?(x) }
