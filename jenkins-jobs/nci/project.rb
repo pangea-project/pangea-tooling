@@ -31,9 +31,9 @@ class ProjectJob < JenkinsJob
 
     dependees = project.dependees.collect do |d|
       basename(distribution,
-                        type,
-                        d.component,
-                        d.name)
+               type,
+               d.component,
+               d.name)
     end
     # FIXME: frameworks is special, very special ...
     # Base builds have no stable thingy but their unstable version is equal
@@ -44,15 +44,15 @@ class ProjectJob < JenkinsJob
       dependees += project.dependees.collect do |d|
         # Stable is a dependee
         basename(distribution,
-                          'stable',
-                          d.component,
-                          d.name)
+                 'stable',
+                 d.component,
+                 d.name)
         # Release is as well, but only iff component is not one we release.
         next if project.component == 'frameworks'
         basename(distribution,
-                          'release',
-                          d.component,
-                          d.name)
+                 'release',
+                 d.component,
+                 d.name)
       end
     end
     dependees.compact!
