@@ -23,7 +23,8 @@ class BuilderJobBuilder
                                  distribution: distribution,
                                  dependees: dependees,
                                  component: project.component,
-                                 upload_map: upload_map)
+                                 upload_map: upload_map,
+                                 architectures: architectures)
     binariers = architectures.collect do |architecture|
       binarier = BinarierJob.new(basename,
                                  type: type,
