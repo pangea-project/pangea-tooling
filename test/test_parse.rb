@@ -38,7 +38,7 @@ class ParseTest < Test::Unit::TestCase
     ci-tooling/nci
     ci-tooling/test
     overlay-bin
-  ]
+  ].freeze
 
   attr_reader :cmd
 
