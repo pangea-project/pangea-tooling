@@ -26,18 +26,14 @@ require_relative 'multijob_phase'
 
 # Magic builder to create an array of build steps
 class ProjectJob < JenkinsJob
-  def self.job(*args, **kwords)
-    project = args[0]
-    architectures = kwords[:architectures]
-    distribution = kwords[:distribution]
-    type = kwords[:type]
+  def self.job(project, distribution:, architectures:, type:)
     basename = basename(distribution, type, project.component, project.name)
 
     dependees = project.dependees.collect do |d|
-      basename(kwords[:distribution],
-                                 kwords[:type],
-                                 d.component,
-                                 d.name)
+      basename(distribution,
+                        type,
+                        d.component,
+                        d.name)
     end
     # FIXME: frameworks is special, very special ...
     # Base builds have no stable thingy but their unstable version is equal
@@ -47,16 +43,16 @@ class ProjectJob < JenkinsJob
        %(pyqt5).include?(project.name)
       dependees += project.dependees.collect do |d|
         # Stable is a dependee
-        basename(kwords[:distribution],
-                                   'stable',
-                                   d.component,
-                                   d.name)
+        basename(distribution,
+                          'stable',
+                          d.component,
+                          d.name)
         # Release is as well, but only iff component is not one we release.
         next if project.component == 'frameworks'
-        basename(kwords[:distribution],
-                                   'release',
-                                   d.component,
-                                   d.name)
+        basename(distribution,
+                          'release',
+                          d.component,
+                          d.name)
       end
     end
     dependees.compact!
@@ -97,11 +93,11 @@ class ProjectJob < JenkinsJob
     unless NCI.experimental_skip_qa.any? { |x| jobs[0].job_name.include?(x) }
       # After _pub
       lintqml = LintQMLJob.new(basename,
-                               distribution: kwords[:distribution],
-                               type: kwords[:type])
+                               distribution: distribution,
+                               type: type)
       lintcmake = LintCMakeJob.new(basename,
-                                   distribution: kwords[:distribution],
-                                   type: kwords[:type])
+                                   distribution: distribution,
+                                   type: type)
       jobs.insert(-1, [lintqml, lintcmake])
     end
 
