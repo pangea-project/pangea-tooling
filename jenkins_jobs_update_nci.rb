@@ -56,7 +56,7 @@ EXCLUDE_SNAPS = %w[
   pim-sieve-editor pim-storage-service-manager kdegraphics-mobipocket
   akonadiconsole akregator kdav kmail knotes blogilo libkgapi kgpg
   kapptemplate kcachegrind kde-dev-utils kdesdk-kioslaves kontact korganizer
-  kfind kfloppy kaddressbook
+  kfind kfloppy kaddressbook konsole krfb ksystemlog
 ].freeze
 
 # Updates Jenkins Projects
