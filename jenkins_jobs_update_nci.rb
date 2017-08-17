@@ -54,7 +54,7 @@ EXCLUDE_SNAPS = %w[
   akonadi-import-wizard audiocd-kio grantlee-editor kdegraphics-mobipocket
   kmail-account-wizard konqueror libkcddb libkcompactdisc pim-data-exporter
   pim-sieve-editor pim-storage-service-manager kdegraphics-mobipocket
-  akonadiconsole akregatorb kdav kmail knotes blogilo libkgapi kgpg
+  akonadiconsole akregator kdav kmail knotes blogilo libkgapi kgpg
   kapptemplate kcachegrind kde-dev-utils kdesdk-kioslaves kontact korganizer
   kfind kfloppy kaddressbook
 ].freeze
