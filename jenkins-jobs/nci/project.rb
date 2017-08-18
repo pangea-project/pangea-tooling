@@ -68,7 +68,7 @@ class ProjectJob < JenkinsJob
     end
     jobs = [sourcer, binariers, publisher]
     basename1 = jobs[0].job_name.rpartition('_')[0]
-    unless basename != basename1
+    unless basename == basename1
       raise "unexpected basename diff #{basename} v #{basename1}"
     end
 
