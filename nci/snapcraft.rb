@@ -25,6 +25,7 @@ require_relative '../ci-tooling/lib/apt'
 require_relative '../ci-tooling/nci/lib/setup_repo'
 
 if $PROGRAM_NAME == __FILE__
+  STDOUT.sync = true
   NCI.setup_repo!
   # KDoctools is rubbish and lets meinproc resolve asset paths through
   #  QStandardPaths *AT BUILD TIME*.
