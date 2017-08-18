@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -6,17 +6,17 @@ UBIQUITY=`apt-cache policy ubiquity | grep http | head -n 1 | awk '{print $2}' |
 LIVE_BUILD=`apt-cache policy live-build | grep http | head -n 1 | awk '{print $2}' | sed 's,[a-z]*$,,'`
 BASE_FILES=`apt-cache policy base-files | grep http | head -n 1 | awk '{print $2}' | sed 's,[a-z]*$,,'`
 
-if [ $UBIQUITY != "http://archive.neon.kde.org/" ]; then
+if ! grep -q http://archive.neon.kde.org/ <<<$UBIQUITY; then
   echo "Ubiquity does not come from neon"; \
   exit 1; \
 fi
 
-if [ $LIVE_BUILD != "http://archive.neon.kde.org/" ]; then
+if ! grep -q http://archive.neon.kde.org/ <<<$LIVE_BUILD; then
   echo "live-build does not come from neon"; \
   exit 1; \
 fi
 
-if [ $BASE_FILES != "http://archive.neon.kde.org/" ]; then
+if ! grep -q http://archive.neon.kde.org/ <<<$BASE_FILES; then
   echo "base-files does not come from neon"; \
   exit 1; \
 fi
