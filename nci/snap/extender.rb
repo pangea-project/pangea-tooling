@@ -23,18 +23,41 @@ require_relative 'snapcraft_config'
 
 module NCI
   module Snap
-    class Extender
-      def self.extend(file)
+    module Extender
+      module_function
+
+      def snapname
+        @snapname ||= ENV.fetch('APPNAME')
+      end
+
+      def extend(file)
         data = YAML.load_file(file)
         require 'pp'
         pp data
         data['parts'].each do |k, v|
           data['parts'][k] = SnapcraftConfig::Part.new(v)
         end
+
+        # FIXME: this should be based on our overrides crap
+        repo_url = "https://anongit.kde.org/#{snapname}"
+        repo_branch = 'master'
+        Dir.mktmpdir do |tmpdir|
+          require 'rugged'
+          repo = Rugged::Repository.init_at(tmpdir)
+          remote = repo.remotes.create_anonymous(repo_url)
+          ref = remote.ls.find do |name:, **|
+            name == "refs/heads/#{repo_branch}"
+          end
+          data['parts'][snapname].source = "https://anongit.kde.org/#{snapname}"
+          data['parts'][snapname].source_type = 'git'
+          data['parts'][snapname].source_commit = ref.fetch(:oid)
+          data['version'] = "#{repo_branch}@#{ref.fetch(:oid)}"
+        end
+
         File.write('snapcraft.yaml', YAML.dump(data))
       end
 
-      def self.run
+      def run
         extend(ARGV.fetch(0, "#{Dir.pwd}/snapcraft.yaml"))
       end
     end

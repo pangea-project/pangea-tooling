@@ -87,6 +87,13 @@ module NCI
         attr_accessor :exclude_debs
 
         attr_accessor :source
+        attr_accessor :source_type
+        attr_accessor :source_depth
+        attr_accessor :source_branch
+        attr_accessor :source_commit
+        attr_accessor :source_tag
+        attr_accessor :source_subdir
+
         attr_accessor :configflags
 
         def initialize(hash = {})
