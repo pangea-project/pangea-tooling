@@ -60,10 +60,10 @@ pattern = Regexp.new(ARGV[0])
 
 def mangle_xml(xml)
   doc = Nokogiri::XML(xml)
-  doc.at('*/triggers').children.remove
-  doc.at('*/builders').children.remove
-  doc.at('*/publishers').children.remove
-  doc.at('*/buildWrappers').children.remove
+  doc.at('*/triggers')&.children&.remove
+  doc.at('*/builders')&.children&.remove
+  doc.at('*/publishers')&.children&.remove
+  doc.at('*/buildWrappers')&.children&.remove
   doc.to_xml
 end
 
