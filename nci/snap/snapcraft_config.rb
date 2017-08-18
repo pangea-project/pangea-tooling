@@ -119,6 +119,7 @@ module NCI
         def from_h(h)
           h.each do |k, v|
             k = 'snap' if k == 'prime'
+            k.tr!('-', '_')
             send("#{k}=", v)
           end
         end
