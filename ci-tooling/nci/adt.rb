@@ -32,6 +32,11 @@ if NCI.experimental_skip_qa.any? { |x| JOB_NAME.include?(x) }
   exit 0
 end
 
+if JOB_NAME.include?('_armhf')
+  warn "Not running adt on the armhf architecture"
+  exit 0
+end
+
 NCI.setup_repo!
 
 TESTS_DIR = 'build/debian/tests'.freeze
