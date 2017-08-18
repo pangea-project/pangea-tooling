@@ -51,5 +51,8 @@ if File.exist?('build_url')
     puts "Not linting, #{url} is in exclusion list."
     exit
   end
+  # skip the linting if build dir doesn't exist
+  # happens in case of Architecture: all packages on armhf for example
+  exit unless Dir.exist?('build/')
   require_relative 'lint_bin'
 end
