@@ -29,6 +29,7 @@ require_relative '../retry'
 require_relative '../debian/dsc'
 
 module CI
+  # Builds a source package.
   class PackageBuilder
     BUILD_DIR  = 'build'.freeze
     RESULT_DIR = 'result'.freeze
@@ -36,6 +37,7 @@ module CI
     BIN_ONLY_WHITELIST = %w[qtbase qtxmlpatterns qtdeclarative qtwebkit
                             test-build-bin-only].freeze
 
+    # Resolves build dependencies and installs them.
     class DependencyResolver
       RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'.freeze
       resolver_env = {}
@@ -73,9 +75,8 @@ module CI
 
     def extract
       FileUtils.rm_rf(BUILD_DIR, verbose: true)
-      unless system('dpkg-source', '-x', @dsc, BUILD_DIR)
-        raise 'Something went terribly wrong with extracting the source'
-      end
+      return if system('dpkg-source', '-x', @dsc, BUILD_DIR)
+      raise 'Something went terribly wrong with extracting the source'
     end
 
     def build_env
@@ -115,7 +116,7 @@ module CI
       Dir.mkdir(RESULT_DIR) unless Dir.exist?(RESULT_DIR)
       changes = Dir.glob("#{BUILD_DIR}/../*.changes")
 
-      changes.select! { |e| !e.include? 'source.changes' }
+      changes.reject! { |e| e.include?('source.changes') }
 
       unless changes.size == 1
         warn "Not exactly one changes file WTF -> #{changes}"
@@ -170,7 +171,7 @@ module CI
         # Automatically decide how many concurrent build jobs we can support.
         # NOTE: special cased for trusty master servers to pass
         dpkg_buildopts << '-j1' unless pretty_old_system?
-	dpkg_buildopts << '-jauto' if scaling_node?
+        dpkg_buildopts << '-jauto' if scaling_node?
         # On arch:all only build the binaries, the source is already built.
         dpkg_buildopts << '-b'
       else
