@@ -19,6 +19,8 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'yaml'
+require 'tmpdir'
+
 require_relative 'snapcraft_config'
 
 module NCI
