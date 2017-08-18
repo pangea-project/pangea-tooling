@@ -50,7 +50,7 @@ module NCI
           ref = remote.ls.find do |name:, **|
             name == "refs/heads/#{repo_branch}"
           end
-          data['parts'][snapname].source = "https://anongit.kde.org/#{snapname}"
+          data['parts'][snapname].source = repo_url
           data['parts'][snapname].source_type = 'git'
           data['parts'][snapname].source_commit = ref.fetch(:oid)
           data['version'] = "#{repo_branch}@#{ref.fetch(:oid)}"
