@@ -28,21 +28,6 @@ module NCI
     class Publisher
       SNAPNAME = ENV.fetch('APPNAME')
 
-      # Represents a store revision, parsed out of snapcraft revisions lines.
-      class Revision
-        attr_reader :number
-        attr_reader :channels
-
-        def initialize(line)
-          @number, _date, _arch, _version, @channels = line.split(/\s+/, 5)
-          @number = @number.to_i # convert from str to int
-        end
-
-        def to_s
-          number.to_s
-        end
-      end
-
       def install!
         Apt.update || raise
         Apt.install('snapcraft') || raise
@@ -56,29 +41,13 @@ module NCI
         File.write("#{cfgdir}/snapcraft.cfg", File.read('snapcraft.cfg'))
       end
 
-      def self.lookup_rev
-        out, _err = cmd.run("snapcraft revisions #{SNAPNAME}")
-        rev_lines = out.strip.split($/)[1..-1]
-        revs = rev_lines.collect { |l| Revision.new(l) }
-        p rev = revs[0]
-        rev
-      end
-
       def self.run
         install!
         copy_config!
 
         cmd = TTY::Command.new
-        cmd.run("snapcraft push #{SNAPNAME}*.snap")
-
-        rev = lookup_rev
-        if rev.channels != '-' # not published
-          warn "#{SNAPNAME} is already published in #{rev.channels}"
-          return
-        end
-
         # FIXME: the channels need dynamicism of some form.
-        cmd.run("snapcraft release #{SNAPNAME} #{rev} edge")
+        cmd.run("snapcraft push #{SNAPNAME}*.snap --release edge")
       end
     end
   end
