@@ -24,6 +24,5 @@ require_relative 'snap/extender'
 
 if $PROGRAM_NAME == __FILE__
   NCI.setup_repo!
-  NCI.setup_env!
   NCI::Snap::Extender.run
 end

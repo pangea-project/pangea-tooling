@@ -23,6 +23,5 @@ require_relative 'snap/publish.rb'
 
 if $PROGRAM_NAME == __FILE__
   NCI.setup_repo!
-  NCI.setup_env!
   NCI::Snap::Publisher.run
 end

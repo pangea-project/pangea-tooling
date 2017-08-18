@@ -26,7 +26,6 @@ require_relative '../ci-tooling/nci/lib/setup_repo'
 
 if $PROGRAM_NAME == __FILE__
   NCI.setup_repo!
-  NCI.setup_env!
   # KDoctools is rubbish and lets meinproc resolve asset paths through
   #  QStandardPaths *AT BUILD TIME*.
   ENV['XDG_DATA_DIRS'] = "#{Dir.pwd}/stage/usr/local/share:#{Dir.pwd}/stage/usr/share:/usr/local/share:/usr/share"
