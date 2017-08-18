@@ -1,0 +1,45 @@
+---
+name: kolourpaint
+version: 17.04.3
+summary: An easy-to-use paint program
+description: xxxx
+confinement: strict
+grade: stable
+apps:
+  kolourpaint:
+    command: kf5-launch kolourpaint
+    plugs:
+    - kde-frameworks-5-plug
+    - yyyy
+plugs:
+  kde-frameworks-5-plug:
+    content: kde-frameworks-5-all
+    interface: content
+    default-provider: kde-frameworks-5
+    target: kf5
+parts:
+  kolourpaint:
+    after:
+    - kde-frameworks-5-dev
+    - kde-frameworks-5-env
+    plugin: cmake
+    filesets:
+      exclusion:
+      - "-usr/lib/*/cmake/*"
+      - "-usr/include/*"
+      - "-usr/share/ECM/*"
+      - "-usr/share/doc/*"
+      - "-usr/share/man/*"
+      - "-usr/share/icons/breeze-dark*"
+      - "-usr/bin/X11"
+      - "-usr/lib/gcc/x86_64-linux-gnu/6.0.0"
+    prime:
+    - "$exclusion"
+    source: https://download.kde.org/stable/applications/17.04.3/src/kolourpaint-17.04.3.tar.xz
+    configflags:
+    - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+    - "-DCMAKE_INSTALL_PREFIX=/usr"
+    - "-DCMAKE_BUILD_TYPE=Release"
+    - "-DENABLE_TESTING=OFF"
+    - "-DBUILD_TESTING=OFF"
+    - "-DKDE_SKIP_TEST_SETTINGS=ON"
