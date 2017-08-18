@@ -35,7 +35,7 @@ module NCI
       end
 
       def self.run
-        extend(ARGV.fetch(0))
+        extend(ARGV.fetch(0, "#{Dir.pwd}/snapcraft.yaml"))
       end
     end
   end
