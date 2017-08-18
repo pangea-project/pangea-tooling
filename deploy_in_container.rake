@@ -36,7 +36,7 @@ DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           gobject-introspection sphinx-common po4a pep8 pyflakes ppp-dev dh-di
           libgirepository1.0-dev libglib2.0-dev bash-completion
           python3-setuptools dkms mozilla-devscripts libffi-dev
-          subversion].freeze + CORE_RUNTIME_DEPS
+          subversion libssl-dev].freeze + CORE_RUNTIME_DEPS
 
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
@@ -98,6 +98,10 @@ task :deploy_in_container => %i[align_ruby deploy_openqa] do
 install: --no-document
 update: --no-document
 EOF
+
+  # Remove existing rugged to force a reinstall to make sure it is built with
+  # libssl.
+  system('gem uninstall rugged') # Ignore return value.
 
   Dir.chdir(tooling_path) do
     begin
