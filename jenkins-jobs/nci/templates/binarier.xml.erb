@@ -74,7 +74,7 @@ echo $JOB_NAME > job_name
     <hudson.tasks.ArtifactArchiver>
       <artifacts>*.deb, *.changes, *.udeb, adt-output.tar.xz</artifacts>
       <excludes>*_source.changes</excludes>
-      <allowEmptyArchive>false</allowEmptyArchive>
+      <allowEmptyArchive>true</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
       <defaultExcludes>true</defaultExcludes>
