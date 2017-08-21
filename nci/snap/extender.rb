@@ -26,6 +26,7 @@ require_relative 'snapcraft_config'
 
 module NCI
   module Snap
+    # Extends a snapcraft file with code necessary to use the content snap.
     module Extender
       module_function
 
