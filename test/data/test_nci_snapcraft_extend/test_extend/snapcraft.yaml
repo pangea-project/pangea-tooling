@@ -25,6 +25,8 @@ parts:
         after: [kde-frameworks-5-dev, kde-frameworks-5-env]
         source: https://download.kde.org/stable/applications/17.04.3/src/kolourpaint-17.04.3.tar.xz
         plugin: cmake
+        stage-packages: [foo]
+        build-packages: [foo-dev]
         configflags:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
         - "-DCMAKE_INSTALL_PREFIX=/usr"

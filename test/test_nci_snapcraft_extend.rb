@@ -34,6 +34,11 @@ module NCI::Snap
     end
 
     def test_extend
+      stub_request(:get, Extender::STAGED_CONTENT_PATH).
+        to_return(status: 200, body: JSON.generate(['bar']))
+      stub_request(:get, Extender::STAGED_DEV_PATH).
+        to_return(status: 200, body: JSON.generate(['bar-dev']))
+
       repo = mock('repo')
       remotes = mock('remotes')
       remote = mock('remote_kolourpaint')
@@ -47,10 +52,13 @@ module NCI::Snap
 
       assert_path_not_exist('snapcraft.yaml')
       Extender.extend(data('snapcraft.yaml'))
+      puts File.read('snapcraft.yaml')
       assert_path_exist('snapcraft.yaml')
       data = YAML.load_file('snapcraft.yaml')
       ref = YAML.load_file(data('output.yaml'))
       assert_equal(ref, data)
+
+      assert_path_exist('snap/plugins/x-stage-debs.py')
     end
   end
 end
