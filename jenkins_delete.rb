@@ -58,12 +58,16 @@ raise 'Need ruby pattern as argv0' if ARGV.empty?
 pattern = Regexp.new(ARGV[0])
 @log.info pattern
 
+def ditch_child(element)
+  element.children.remove if element && element.children
+end
+
 def mangle_xml(xml)
   doc = Nokogiri::XML(xml)
-  doc.at('*/triggers')&.children&.remove
-  doc.at('*/builders')&.children&.remove
-  doc.at('*/publishers')&.children&.remove
-  doc.at('*/buildWrappers')&.children&.remove
+  ditch_child(doc.at('*/triggers'))
+  ditch_child(doc.at('*/builders'))
+  ditch_child(doc.at('*/publishers'))
+  ditch_child(doc.at('*/buildWrappers'))
   doc.to_xml
 end
 
