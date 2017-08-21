@@ -53,7 +53,9 @@ module NCI
           data['parts'][snapname].source = repo_url
           data['parts'][snapname].source_type = 'git'
           data['parts'][snapname].source_commit = ref.fetch(:oid)
-          data['version'] = "#{repo_branch}@#{ref.fetch(:oid)}"
+          # FIXME: I want an @ here
+          # https://bugs.launchpad.net/snapcraft/+bug/1712061
+          data['version'] = "#{repo_branch.tr('/', '.')}+#{ref.fetch(:oid)}"
         end
 
         p Dir.pwd

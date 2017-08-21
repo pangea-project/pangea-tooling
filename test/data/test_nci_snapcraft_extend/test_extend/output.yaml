@@ -1,6 +1,6 @@
 ---
 name: kolourpaint
-version: master@87da2fcf1d0925f489985323303531507b5ed537
+version: master+87da2fcf1d0925f489985323303531507b5ed537
 summary: An easy-to-use paint program
 description: xxxx
 confinement: strict
