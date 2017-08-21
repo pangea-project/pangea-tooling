@@ -33,7 +33,7 @@ module NCI
         @snapname ||= ENV.fetch('APPNAME')
       end
 
-      def extend(file
+      def extend(file)
         data = YAML.load_file(file)
         require 'pp'
         pp data
