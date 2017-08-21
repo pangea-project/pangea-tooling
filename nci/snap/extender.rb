@@ -18,8 +18,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'yaml'
+require 'rugged'
 require 'tmpdir'
+require 'yaml'
 
 require_relative 'snapcraft_config'
 
@@ -44,7 +45,6 @@ module NCI
         repo_url = "https://anongit.kde.org/#{snapname}"
         repo_branch = 'master'
         Dir.mktmpdir do |tmpdir|
-          require 'rugged'
           repo = Rugged::Repository.init_at(tmpdir)
           remote = repo.remotes.create_anonymous(repo_url)
           ref = remote.ls.find do |name:, **|

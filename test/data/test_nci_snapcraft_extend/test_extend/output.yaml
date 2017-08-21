@@ -1,6 +1,6 @@
 ---
 name: kolourpaint
-version: 17.04.3
+version: master@87da2fcf1d0925f489985323303531507b5ed537
 summary: An easy-to-use paint program
 description: xxxx
 confinement: strict
@@ -35,7 +35,9 @@ parts:
       - "-usr/lib/gcc/x86_64-linux-gnu/6.0.0"
     prime:
     - "$exclusion"
-    source: https://download.kde.org/stable/applications/17.04.3/src/kolourpaint-17.04.3.tar.xz
+    source: https://anongit.kde.org/kolourpaint
+    source-commit: 87da2fcf1d0925f489985323303531507b5ed537
+    source-type: git
     configflags:
     - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
     - "-DCMAKE_INSTALL_PREFIX=/usr"

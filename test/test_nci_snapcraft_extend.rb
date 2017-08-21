@@ -25,7 +25,26 @@ require 'mocha/test_unit'
 
 module NCI::Snap
   class Extendertest < TestCase
+    def setup
+      ENV['APPNAME'] = 'kolourpaint'
+    end
+
+    def teardown
+      ENV.delete('APPNAME')
+    end
+
     def test_extend
+      repo = mock('repo')
+      remotes = mock('remotes')
+      remote = mock('remote_kolourpaint')
+      remote.stubs('ls').returns([
+        {"local?".to_s=>false, :oid=>"87da2fcf1d0925f489985323303531507b5ed537", :loid=>nil, :name=>"HEAD"},
+        {"local?".to_s=>false, :oid=>"87da2fcf1d0925f489985323303531507b5ed537", :loid=>nil, :name=>"refs/heads/master"}
+      ])
+      remotes.stubs('create_anonymous').with('https://anongit.kde.org/kolourpaint').returns(remote)
+      repo.stubs(:remotes).returns(remotes)
+      Rugged::Repository.expects(:init_at).returns(repo)
+
       assert_path_not_exist('snapcraft.yaml')
       Extender.extend(data('snapcraft.yaml'))
       assert_path_exist('snapcraft.yaml')
