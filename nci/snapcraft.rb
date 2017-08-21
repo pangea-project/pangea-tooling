@@ -29,7 +29,9 @@ if $PROGRAM_NAME == __FILE__
   NCI.setup_repo!
   # KDoctools is rubbish and lets meinproc resolve asset paths through
   #  QStandardPaths *AT BUILD TIME*.
-  ENV['XDG_DATA_DIRS'] = "#{Dir.pwd}/stage/usr/local/share:#{Dir.pwd}/stage/usr/share:/usr/local/share:/usr/share"
+  ENV['XDG_DATA_DIRS'] = "#{Dir.pwd}/stage/usr/local/share:" \
+                         "#{Dir.pwd}/stage/usr/share:" \
+                         '/usr/local/share:/usr/share'
   # Use our own remote parts file.
   ENV['SNAPCRAFT_PARTS_URI'] = 'http://metadata.neon.kde.org/snap/parts.yaml'
   Apt.install('snapcraft')
