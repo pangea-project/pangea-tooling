@@ -54,6 +54,7 @@ module NCI
   end
 
   def setup_proxy!
+    puts "Set proxy to #{PROXY_URI}"
     File.write('/etc/apt/apt.conf.d/proxy',
                "Acquire::http::Proxy \"#{PROXY_URI}\";")
   end
