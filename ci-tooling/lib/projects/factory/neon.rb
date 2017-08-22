@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -17,6 +17,8 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+require 'tty/command'
 
 require_relative 'base'
 
@@ -123,9 +125,9 @@ class ProjectsFactory
     class << self
       def ls
         return @listing if defined?(@listing) # Cache in class scope.
-        listing = `ssh neon@git.neon.kde.org`.chop.split($/)
-        # FIXME: proper error
-        raise unless $?.to_i.zero?
+        out, _err = TTY::Command.new(printer: :null)
+                                .run('ssh neon@git.neon.kde.org')
+        listing = out.chop.split
         listing.shift # welcome message leading, drop it.
         @listing = listing.collect do |entry|
           entry.split(' ')[-1]

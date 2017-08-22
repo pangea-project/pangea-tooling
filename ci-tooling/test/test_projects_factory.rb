@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -123,9 +123,9 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
 
   def cache_neon_backtick(return_value)
     reset_child_status!
-    ProjectsFactory::Neon.expects(:`)
-                         .with('ssh neon@git.neon.kde.org')
-                         .returns(return_value)
+    TTY::Command.any_instance.expects(:run)
+                .with('ssh neon@git.neon.kde.org')
+                .returns(return_value)
     ProjectsFactory::Neon.ls
   end
 
