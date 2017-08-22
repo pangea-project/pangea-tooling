@@ -28,7 +28,7 @@ module NCI
     class Publisher
       SNAPNAME = ENV.fetch('APPNAME')
 
-      def install!
+      def self.install!
         Apt.update || raise
         Apt.install('snapcraft') || raise
       end
