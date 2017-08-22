@@ -60,7 +60,7 @@ parts:
       - "-usr/bin/X11"
       - "-usr/lib/gcc/x86_64-linux-gnu/6.0.0"
     prime:
-    - "-*"
+    - "$exclusion"
     debs:
     - foo-dev
     exclude-debs:
