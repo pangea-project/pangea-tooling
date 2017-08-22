@@ -71,7 +71,7 @@ module NCI
         buildtime.plugin = 'stage-debs'
         buildtime.debs = debs
         buildtime.exclude_debs = (dev_stage + content_stage).uniq.compact
-        buildtime.snap = ['-*']
+        # Part has a standard exclusion rule for priming which should be fine.
         buildname = "buildtime-of-#{name}"
         data['parts'][buildname] = buildtime
         part.after << buildname
