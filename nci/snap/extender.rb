@@ -92,7 +92,8 @@ module NCI
           data['parts'][snapname].source_commit = ref.fetch(:oid)
           # FIXME: I want an @ here
           # https://bugs.launchpad.net/snapcraft/+bug/1712061
-          data['version'] = "#{repo_branch.tr('/', '.')}+#{ref.fetch(:oid)}"
+          oid = ref.fetch(:oid)[0..6]
+          data['version'] = "#{repo_branch.tr('/', '.')}+#{oid}"
         end
       end
 
