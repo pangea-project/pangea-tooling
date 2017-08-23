@@ -108,6 +108,8 @@ module NCI
           @stage_packages ||= []
           @filesets ||= {}
           @filesets['exclusion'] ||= []
+          # TODO: aspell is presently being ripped out because it has absolute
+          #   symlinks to out-of-tree which the store rejects. Needs sorting.
           @filesets['exclusion'] += %w[
             -usr/lib/*/cmake/*
             -usr/include/*
@@ -117,6 +119,7 @@ module NCI
             -usr/share/icons/breeze-dark*
             -usr/bin/X11
             -usr/lib/gcc/x86_64-linux-gnu/6.0.0
+            -usr/share/aspell/*
           ]
           @stage ||= []
           @snap ||= []
