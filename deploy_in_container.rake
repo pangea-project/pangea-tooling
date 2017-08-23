@@ -36,7 +36,7 @@ DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           gobject-introspection sphinx-common po4a pep8 pyflakes ppp-dev dh-di
           libgirepository1.0-dev libglib2.0-dev bash-completion
           python3-setuptools dkms mozilla-devscripts libffi-dev
-          subversion libssl-dev].freeze + CORE_RUNTIME_DEPS
+          subversion libssl-dev javahelper].freeze + CORE_RUNTIME_DEPS
 
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
