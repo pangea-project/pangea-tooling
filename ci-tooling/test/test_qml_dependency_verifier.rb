@@ -38,6 +38,10 @@ class QMLDependencyVerifierTest < TestCase
     Object.any_instance.stubs(:`)
           .with('dpkg-architecture -qDEB_HOST_ARCH')
           .returns('amd64')
+
+    # We'll temporary mark packages as !auto, mock this entire thing as we'll
+    # not need this for testing.
+    Apt::Mark.stubs(:tmpmark).yields
   end
 
   def teardown

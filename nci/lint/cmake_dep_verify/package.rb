@@ -73,9 +73,13 @@ EOF
 
     def files
       Apt.install("#{name}=#{version}")
-      Apt::Get.autoremove(args: '--purge')
-
-      DPKG.list(name).select { |f| f.end_with?('Config.cmake') }
+      # Mark the package as manual so it doens't get purged by autoremove.
+      Apt::Mark.tmpmark(name, Apt::Mark::MANUAL) do
+        Apt::Get.autoremove(args: '--purge')
+        # Mocha eats our return value through the yield in tests.
+        # return explicitly to avoid this.
+        return DPKG.list(name).select { |f| f.end_with?('Config.cmake') }
+      end
     end
 
     def cmake_packages

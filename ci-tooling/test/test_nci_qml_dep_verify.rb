@@ -33,6 +33,10 @@ class NCIQMLDepVerifyTest < TestCase
     # Apt::Repository.send(:reset)
     # # Disable automatic update
     # Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
+
+    # We'll temporary mark packages as !auto, mock this entire thing as we'll
+    # not need this for testing.
+    Apt::Mark.stubs(:tmpmark).yields
   end
 
   def test_dis

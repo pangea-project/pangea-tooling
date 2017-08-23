@@ -37,6 +37,10 @@ module CMakeDepVerify
       Object.any_instance.expects(:system).never
 
       Package.dry_run = true
+
+      # We'll temporary mark packages as !auto, mock this entire thing as we'll
+      # not need this for testing.
+      Apt::Mark.stubs(:tmpmark).yields
     end
 
     def test_test_success

@@ -26,6 +26,9 @@ module NCI
   class CMakePackagesTest < TestCase
     def setup
       FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
+      # We'll temporary mark packages as !auto, mock this entire thing as we'll
+      # not need this for testing.
+      Apt::Mark.stubs(:tmpmark).yields
     end
 
     # This brings down coverage which is meh, it does neatly isolate things

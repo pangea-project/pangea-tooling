@@ -55,9 +55,13 @@ module QMLDepVerify
     def files
       # FIXME: need to fail otherwise, the results will be skewed
       Apt.install("#{package}=#{version}")
-      Apt::Get.autoremove(args: '--purge')
-
-      DPKG.list(package).select { |f| File.extname(f) == '.qml' }
+      # Mark the package as manual so it doens't get purged by autoremove.
+      Apt::Mark.tmpmark(package, Apt::Mark::MANUAL) do
+        Apt::Get.autoremove(args: '--purge')
+        # Mocha eats our return value through the yield in tests.
+        # return explicitly to avoid this.
+        return DPKG.list(package).select { |f| File.extname(f) == '.qml' }
+      end
     end
 
     def modules
