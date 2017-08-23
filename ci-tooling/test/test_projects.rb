@@ -275,4 +275,23 @@ class ProjectTest < TestCase
       Project.new('name', 'a/b', 'git:///')
     end
   end
+
+  def test_native_blacklist
+    name = 'kinfocenter'
+    component = 'applications'
+
+    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    assert_not_nil(gitrepo)
+    assert_not_equal(gitrepo, '')
+
+    Dir.mktmpdir(self.class.to_s) do |tmpdir|
+      Dir.chdir(tmpdir) do
+        # Should raise on account of applications being a protected component
+        # name which must not contain native stuff.
+        assert_raises do
+          Project.new(name, component, gitrepo, type: 'unstable')
+        end
+      end
+    end
+  end
 end

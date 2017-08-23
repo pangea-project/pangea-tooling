@@ -182,16 +182,30 @@ class Project
     control.parse!
     init_from_control(control)
 
+    return if native?(directory)
+    # Set a default upstream_scm.
+    @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url,
+                                        @packaging_scm.branch)
+  end
+
+  def native?(directory)
     # NOTE: assumption is that launchpad always is native even when
     #  otherwise noted in packaging. This is somewhat meh and probably
     #  should be looked into at some point.
     #  Primary motivation are compound UDD branches as well as shit
     #  packages that are dpkg-source v1...
-    return if @component == 'launchpad'
-    return if Debian::Source.new(directory).format.type == :native
-    # Set a default upstream_scm.
-    @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url,
-                                        @packaging_scm.branch)
+    return true if component == 'launchpad'
+    return false if Debian::Source.new(directory).format.type != :native
+    blacklist = %w[applications frameworks plasma kde-extras]
+    if blacklist.include?(component)
+      # NOTE: this is a bit broad in scope, may be more prudent to have the
+      #   factory handle this after collecting all promises.
+      raise <<-EOF
+#{name} is in #{component} and marked native. Projects in that component
+absolutely must not be native though!
+      EOF
+    end
+    true
   end
 
   def init_deps_from_control(control)
