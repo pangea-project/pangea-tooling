@@ -119,7 +119,7 @@ module NCI
             -usr/share/icons/breeze-dark*
             -usr/bin/X11
             -usr/lib/gcc/x86_64-linux-gnu/6.0.0
-            -usr/share/aspell/*
+            -usr/lib/aspell/*
           ]
           @stage ||= []
           @snap ||= []
