@@ -327,4 +327,74 @@ class AptTest < TestCase
 
     Apt::Key.add('444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
   end
+
+  def test_mark_state
+    TTY::Command
+      .any_instance
+      .stubs(:run)
+      .with { |*args| args.join.include?('foobar-doesnt-exist') }
+      .returns(['', ''])
+    TTY::Command
+      .any_instance
+      .stubs(:run)
+      .with { |*args| args.join.include?('zsh-common') }
+      .returns(["zsh-common\n", ''])
+
+    assert_raise { Apt::Mark.state('foobar-doesnt-exist') }
+    assert_equal(Apt::Mark::AUTO, Apt::Mark.state('zsh-common'))
+  end
+
+  def test_mark_mark
+    TTY::Command
+      .any_instance
+      .stubs(:run).once
+      .with do |*args|
+        args = args.join
+        args.include?('hold') && args.include?('zsh-common')
+      end
+      .returns(nil)
+
+    Apt::Mark.mark('zsh-common', Apt::Mark::HOLD)
+  end
+
+  def test_mark_tmpmark
+    pkg = 'zsh-common'
+    seq = sequence('cmd_sequence')
+
+    # This is stubbing on a TTY level as we'll want to assert that the block
+    # behaves according to expectation, not that the invidiual methods on
+    # a higher level are called.
+    # NB: this is fairly fragile and might need to be replaced with a more
+    #   general purpose mock of apt-mark interception.
+
+    # Initial state query
+    TTY::Command
+      .any_instance.expects(:run).with(Apt::Mark::BINARY, 'showauto', pkg)
+      .returns([pkg, ''])
+      .in_sequence(seq)
+    # State switch
+    TTY::Command
+      .any_instance.expects(:run).with(Apt::Mark::BINARY, 'manual', pkg)
+      .returns(nil)
+      .in_sequence(seq)
+    # Test assertion no on auto, yes on manual. This part of the sequence is
+    # caused by our assert()
+    TTY::Command
+      .any_instance.expects(:run).with(Apt::Mark::BINARY, 'showauto', pkg)
+      .returns(['', ''])
+      .in_sequence(seq)
+    TTY::Command
+      .any_instance.expects(:run).with(Apt::Mark::BINARY, 'showmanual', pkg)
+      .returns([pkg, ''])
+      .in_sequence(seq)
+    # Block undoes the state to the original state (auto)
+    TTY::Command
+      .any_instance.expects(:run).with(Apt::Mark::BINARY, 'auto', pkg)
+      .returns(nil)
+      .in_sequence(seq)
+
+    Apt::Mark.tmpmark(pkg, Apt::Mark::MANUAL) do
+      assert_equal(Apt::Mark::MANUAL, Apt::Mark.state(pkg))
+    end
+  end
 end

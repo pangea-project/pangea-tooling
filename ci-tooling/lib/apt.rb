@@ -20,6 +20,7 @@
 
 require 'logger'
 require 'open-uri'
+require 'tty/command'
 
 # Cow powers!
 #
@@ -241,6 +242,47 @@ module Apt
     def self.default_args
       # Can't use apt-get default arguments. They aren't compatible.
       @default_args = %w[-q]
+    end
+  end
+
+  # apt-mark wrapper
+  module Mark
+    module_function
+
+    BINARY = 'apt-mark'.freeze
+
+    AUTO = :auto
+    MANUAL = :manual
+    HOLD = :hold
+
+    class UnknownStateError < StandardError; end
+
+    # NOTE: should more methods be needed it may be worthwhile to put Cmd.new
+    #   into its own wrapper method which can be stubbed in tests. That way
+    #   the code would be detached from the internal fact that TTY::cmd is used.
+
+    def state(pkg)
+      cmd = TTY::Command.new(printer: :pretty)
+      out, = cmd.run(BINARY, 'showauto', pkg)
+      return AUTO if out.strip == pkg
+      out, = cmd.run(BINARY, 'showmanual', pkg)
+      return MANUAL if out.strip == pkg
+      out, = cmd.run(BINARY, 'showhold', pkg)
+      return HOLD if out.strip == pkg
+      warn "#{pkg} has an unknown mark state :O"
+      raise UnknownStateError, "#{pkg} has an unknown mark state :O"
+    end
+
+    def mark(pkg, state)
+      TTY::Command.new.run(BINARY, state.to_s, pkg)
+    end
+
+    def tmpmark(pkg, state)
+      old_state = state(pkg)
+      mark(pkg, state)
+      yield
+    ensure
+      mark(pkg, old_state) if old_state
     end
   end
 end
