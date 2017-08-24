@@ -130,7 +130,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             enqueue(AppSnapJob.new(project.name))
           end
           project_architectures = if type == 'unstable' &&
-                                     project.component == 'qt'
+                                     %w[qt frameworks].include?(project.component)
                                     NCI.all_architectures
                                   else
                                     NCI.architectures
