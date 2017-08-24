@@ -63,20 +63,6 @@ module NCI
         part.after << runname
       end
 
-      def add_buildtime(name, part)
-        debs = part.build_packages.dup
-        part.build_packages.clear
-
-        buildtime = SnapcraftConfig::Part.new
-        buildtime.plugin = 'stage-debs'
-        buildtime.debs = debs
-        buildtime.exclude_debs = (dev_stage + content_stage).uniq.compact
-        # Part has a standard exclusion rule for priming which should be fine.
-        buildname = "buildtime-of-#{name}"
-        data['parts'][buildname] = buildtime
-        part.after << buildname
-      end
-
       def convert_to_git!
         # FIXME: this should be based on our overrides crap
         repo_url = "https://anongit.kde.org/#{snapname}"
@@ -110,12 +96,6 @@ module NCI
         end
       end
 
-      def buildtimes
-        data['parts'].reject do |_name, part|
-          part.build_packages.empty? || part.plugin == 'stage-debs'
-        end.to_h
-      end
-
       def runtimes
         data['parts'].reject do |_name, part|
           part.stage_packages.empty? || part.plugin == 'stage-debs'
@@ -123,7 +103,6 @@ module NCI
       end
 
       def convert_to_deb_staging!
-        buildtimes.each { |name, part| add_buildtime(name, part) }
         runtimes.each { |name, part| add_runtime(name, part) }
       end
 

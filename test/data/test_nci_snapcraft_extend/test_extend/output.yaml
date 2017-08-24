@@ -22,7 +22,6 @@ parts:
     after:
     - kde-frameworks-5-dev
     - kde-frameworks-5-env
-    - buildtime-of-kolourpaint
     - runtime-of-kolourpaint
     plugin: cmake
     filesets:
@@ -48,26 +47,7 @@ parts:
     - "-DENABLE_TESTING=OFF"
     - "-DBUILD_TESTING=OFF"
     - "-DKDE_SKIP_TEST_SETTINGS=ON"
-  buildtime-of-kolourpaint:
-    plugin: stage-debs
-    filesets:
-      exclusion:
-      - "-usr/lib/*/cmake/*"
-      - "-usr/include/*"
-      - "-usr/share/ECM/*"
-      - "-usr/share/doc/*"
-      - "-usr/share/man/*"
-      - "-usr/share/icons/breeze-dark*"
-      - "-usr/bin/X11"
-      - "-usr/lib/gcc/x86_64-linux-gnu/6.0.0"
-      - "-usr/lib/aspell/*"
-    prime:
-    - "$exclusion"
-    debs:
-    - foo-dev
-    exclude-debs:
-    - bar-dev
-    - bar
+    build-packages: [foo-dev]
   runtime-of-kolourpaint:
     plugin: stage-debs
     filesets:
