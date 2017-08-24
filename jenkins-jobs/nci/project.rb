@@ -22,6 +22,8 @@ require_relative '../../ci-tooling/lib/nci'
 require_relative '../sourcer'
 require_relative '../binarier'
 require_relative '../publisher'
+require_relative 'lintcmakejob'
+require_relative 'lintqmljob'
 require_relative 'multijob_phase'
 
 # Magic builder to create an array of build steps
@@ -77,7 +79,7 @@ class ProjectJob < JenkinsJob
       lintqml = LintQMLJob.new(basename, distribution: distribution, type: type)
       lintcmake = LintCMakeJob.new(basename, distribution: distribution,
                                              type: type)
-      jobs += [lintqml, lintcmake]
+      jobs << [lintqml, lintcmake]
     end
 
     jobs << new(basename, project: project, jobs: jobs, dependees: dependees)
