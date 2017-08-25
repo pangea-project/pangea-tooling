@@ -17,6 +17,7 @@ env_tag="LANG=$LANG"
 deb http://ports.ubuntu.com/ubuntu-ports/ xenial main universe multiverse
 deb http://ports.ubuntu.com/ubuntu-ports/ xenial-updates main universe multiverse
 deb http://ports.ubuntu.com/ubuntu-ports/ xenial-security main universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports/ xenial-backports main universe multiverse
 EOF
 
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00aptitude
