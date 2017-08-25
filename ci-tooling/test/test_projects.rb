@@ -123,6 +123,7 @@ class ProjectTest < TestCase
           assert_equal('git', project.packaging_scm.type)
           assert_equal("#{gitrepo}/#{component}/#{name}", project.packaging_scm.url)
           assert_equal("kubuntu_#{stability}", project.packaging_scm.branch)
+          assert_equal(nil, project.snapcraft)
         end
       ensure
         FileUtils.rm_rf(tmpdir) unless tmpdir.nil?
@@ -294,6 +295,26 @@ class ProjectTest < TestCase
         assert_raises do
           Project.new(name, component, gitrepo, type: 'unstable')
         end
+      end
+    end
+  end
+
+  def test_snapcraft_detection
+    name = 'kinfocenter'
+    component = 'applications'
+
+    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable)) do
+      File.write('snapcraft.yaml', '')
+    end
+    assert_not_nil(gitrepo)
+    assert_not_equal(gitrepo, '')
+
+    Dir.mktmpdir(self.class.to_s) do |tmpdir|
+      Dir.chdir(tmpdir) do
+        # Should raise on account of applications being a protected component
+        # name which must not contain native stuff.
+        project = Project.new(name, component, gitrepo, type: 'unstable')
+        assert_equal 'snapcraft.yaml', project.snapcraft
       end
     end
   end

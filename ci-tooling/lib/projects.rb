@@ -96,6 +96,9 @@ class Project
   # Packaging SCM instance
   attr_reader :packaging_scm
 
+  # Path to snapcraft.yaml if any.
+  attr_reader :snapcraft
+
   DEFAULT_URL = 'git.debian.org:/git/pkg-kde'.freeze
   @default_url = DEFAULT_URL
 
@@ -148,10 +151,7 @@ class Project
     update(branch, cache_dir)
     Dir.mktmpdir do |checkout_dir|
       checkout(branch, cache_dir, checkout_dir)
-      # FIXME: shouldn't this raise something?
-      if File.exist?("#{checkout_dir}/debian/control")
-        init_from_source(checkout_dir)
-      end
+      init_from_source(checkout_dir)
     end
 
     @override_rule.each do |member, _|
@@ -176,25 +176,36 @@ class Project
     end
   end
 
-  def init_from_source(directory)
-    control = Debian::Control.new(directory)
+  def init_from_debian_source(dir)
+    return unless File.exist?("#{dir}/debian/control")
+    control = Debian::Control.new(dir)
     # TODO: raise? return?
     control.parse!
     init_from_control(control)
-
-    return if native?(directory)
-    # Set a default upstream_scm.
-    @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url,
-                                        @packaging_scm.branch)
+    # Unset previously default SCM
+    @upstream_scm = nil if native?(dir)
   end
 
-  def native?(directory)
+  def init_from_source(dir)
+    @upstream_scm = CI::UpstreamSCM.new(@packaging_scm.url,
+                                        @packaging_scm.branch)
+    @snapcraft = find_snapcraft(dir)
+    init_from_debian_source(dir)
     # NOTE: assumption is that launchpad always is native even when
     #  otherwise noted in packaging. This is somewhat meh and probably
     #  should be looked into at some point.
     #  Primary motivation are compound UDD branches as well as shit
     #  packages that are dpkg-source v1...
-    return true if component == 'launchpad'
+    @upstream_scm = nil if component == 'launchpad'
+  end
+
+  def find_snapcraft(dir)
+    file = Dir.glob("#{dir}/**/snapcraft.yaml")[0]
+    return file unless file
+    Pathname.new(file).relative_path_from(Pathname.new(dir)).to_s
+  end
+
+  def native?(directory)
     return false if Debian::Source.new(directory).format.type != :native
     blacklist = %w[applications frameworks plasma kde-extras]
     if blacklist.include?(component)
