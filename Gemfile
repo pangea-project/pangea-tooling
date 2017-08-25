@@ -21,6 +21,7 @@ gem 'docker-api', '~> 1.24' # Container.refresh! only introduced in 1.23
 gem 'gir_ffi'
 gem 'git'
 gem 'gitlab'
+gem 'htmlentities'
 gem 'insensitive_hash'
 gem 'jenkins_api_client'
 gem 'jenkins_junit_builder'

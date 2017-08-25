@@ -1,0 +1,63 @@
+env.APPNAME = "<%= appname %>"
+env.DIST = "<%= distribution %>"
+env.TYPE = "<%= type %>"
+env.DOCKER_ENV_WHITELIST = 'APPNAME'
+env.PWD_BIND = '/workspace'
+
+cleanNode('amd64 && !cloud') { // && cloud') {
+  stage('clone') {
+    git branch: "<%= packaging_scm.branch %>", url: "<%= packaging_scm.url %>"
+    sh 'mkdir tooling'
+    dir('tooling') {
+      git url: 'git://github.com/blue-systems/pangea-tooling'
+    }
+    sh 'ls -lah tooling/nci/'
+    // sh 'tree || ls -lahR'
+  }
+  stage('extend') {
+    sh 'ls -lah tooling/nci/snapcraft_extend.rb'
+    sh '~/tooling/nci/contain.rb /workspace/tooling/nci/snapcraft_extend.rb'
+    archiveArtifacts 'snapcraft.yaml'
+  }
+  stage('snapcraft') {
+    sh '~/tooling/nci/contain.rb /workspace/tooling/nci/snapcraft.rb'
+    archiveArtifacts '*_amd64.snap'
+    stash name: 'snaps', includes: '*_amd64.snap'
+    sh 'ls -lah'
+  }
+}
+
+cleanNode('master') {
+  stage('clone') {
+    sh 'mkdir tooling'
+    dir('tooling') {
+      git url: 'https://github.com/blue-systems/pangea-tooling'
+    }
+  }
+  stage('publish') {
+    unstash 'snaps'
+    sh 'env'
+    sh 'tree || ls -lahR'
+    // Temporary workspace during pipeline execution can't be accessed via UI, so
+    // this should be save.
+    // Even so we should move to a contain.rb which forward mounts the snapcraft
+    // dir as volume into the container.
+    sh 'cp ~/.config/snapcraft/snapcraft.cfg snapcraft.cfg'
+    sh '~/tooling/nci/contain.rb /workspace/tooling/nci/snapcraft_publish.rb'
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}
