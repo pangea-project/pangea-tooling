@@ -270,7 +270,15 @@ module Apt
       out, = cmd.run(BINARY, 'showhold', pkg)
       return HOLD if out.strip == pkg
       warn "#{pkg} has an unknown mark state :O"
-      raise UnknownStateError, "#{pkg} has an unknown mark state :O"
+      nil
+      # FIXME: we currently do not raise here because the cmake and qml dep
+      #   verifier are broken and do not always use the right version to install
+      #   a dep. This happens when foo=1.0 is the source but a binary gets
+      #   mangled to be bar=4:1.0 (i.e. with epoch). This is not reflected in
+      #   the changes file so the dep verifiers do not know about this and
+      #   attempt to install the wrong version. When then trying to get the
+      #   mark state things implode. This needs smarter version logic for
+      #   the dep verfiiers before we can make unknown marks fatal again.
     end
 
     def mark(pkg, state)
