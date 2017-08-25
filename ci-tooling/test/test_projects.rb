@@ -47,8 +47,11 @@ class ProjectTest < TestCase
       Dir.chdir(dir) do
         `git config user.name "Project Test"`
         `git config user.email "project@test.com"`
-        Dir.mkdir('debian') unless Dir.exist?('debian')
-        FileUtils.cp_r("#{data}/debian/.", 'debian/')
+        begin
+          FileUtils.cp_r("#{data}/debian/.", 'debian/')
+        rescue
+        end
+        yield if block_given?
         `git add *`
         `git commit -m 'commitmsg'`
         branches.each { |branch| `git branch #{branch}` }
@@ -63,7 +66,7 @@ class ProjectTest < TestCase
     File.absolute_path(path)
   end
 
-  def create_fake_git(name:, component:, branches:)
+  def create_fake_git(name:, component:, branches:, &block)
     path = "#{component}/#{name}"
 
     # Create a new tmpdir within our existing tmpdir.
@@ -73,7 +76,7 @@ class ProjectTest < TestCase
     FileUtils.mkpath(remotetmpdir)
     Dir.chdir(remotetmpdir) do
       git_init_repo(path)
-      git_init_commit(path, branches)
+      git_init_commit(path, branches, &block)
     end
     remotetmpdir
   end
