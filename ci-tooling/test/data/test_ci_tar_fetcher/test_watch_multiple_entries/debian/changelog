@@ -1,0 +1,10 @@
+opencv (3.2.0+dfsg-1~exp2) experimental; urgency=medium
+
+  * Team upload.
+  * Explicitly disable carotene support to fix FTBFS on arm*.
+  * Drop conditional enabling of OpenGL, it can't be enabled with GTK+3
+    anyway.  Closes: #869975
+  * Changelog for 3.2.0+dfsg-1~exp2
+
+ -- Mattia Rizzolo <mattia@debian.org>  Mon, 31 Jul 2017 10:50:25 +0200
+

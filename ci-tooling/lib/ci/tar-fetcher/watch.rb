@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -22,6 +22,7 @@ require 'open-uri'
 require 'tmpdir'
 
 require_relative '../tarball'
+require_relative '../../debian/changelog'
 require_relative '../../debian/version'
 
 module CI
@@ -81,12 +82,23 @@ module CI
                 '172.17.0.1:9191/stable/')
     end
 
+    def current_version
+      # uscan has a --download-current-version option this does however fail
+      # to work for watch files with multiple entries as the version is cleared
+      # inbetween loop runs so the second,thrid... runs will have no version set
+      # and fail to resolve. To bypass this we'll pass the version explicilty
+      # via --download-debversion which persists across loops.
+      file = "#{@dir}/debian/changelog"
+      raise "changelog not found at #{file}" unless File.exist?(file)
+      Changelog.new(file).version(Changelog::ALL)
+    end
+
     def uscan(chdir, destdir)
       destdir = File.absolute_path(destdir)
       FileUtils.mkpath(destdir) unless Dir.exist?(destdir)
       system('uscan',
              '--verbose',
-             '--download-current-version',
+             '--download-debversion', current_version,
              "--destdir=#{destdir}",
              '--rename',
              chdir: chdir)
