@@ -48,7 +48,7 @@ class ProjectTest < TestCase
         `git config user.name "Project Test"`
         `git config user.email "project@test.com"`
         Dir.mkdir('debian') unless Dir.exist?('debian')
-        FileUtils.cp_r(Dir.glob("#{data}/debian/*"), 'debian')
+        FileUtils.cp_r("#{data}/debian/.", 'debian/')
         `git add *`
         `git commit -m 'commitmsg'`
         branches.each { |branch| `git branch #{branch}` }
