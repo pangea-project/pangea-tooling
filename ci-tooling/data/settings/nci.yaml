@@ -1,3 +1,11 @@
+# Enable restriction for all of Applications, no one uses gbp there but
+# we have snapcraft.yamls in the tree.
+'*_applications_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+# Others
+
 '*_forks_{libkolab,libkolabxml}_*':
   sourcer:
     restricted_packaging_copy: true
