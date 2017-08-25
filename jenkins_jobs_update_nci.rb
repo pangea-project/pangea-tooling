@@ -149,7 +149,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           next unless type == 'release'
           next unless %w[neon-packaging calligra frameworks plasma applications
                          kde-extras kde-std kde-req].include?(project.component)
-          next unless 'digikam' == project.name
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
           watchers[watcher.job_name] = watcher
