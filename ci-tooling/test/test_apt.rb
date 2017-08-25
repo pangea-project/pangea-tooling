@@ -340,7 +340,8 @@ class AptTest < TestCase
       .with { |*args| args.join.include?('zsh-common') }
       .returns(["zsh-common\n", ''])
 
-    assert_raise { Apt::Mark.state('foobar-doesnt-exist') }
+    # Disabled see code for why.
+    # assert_raise { Apt::Mark.state('foobar-doesnt-exist') }
     assert_equal(Apt::Mark::AUTO, Apt::Mark.state('zsh-common'))
   end
 
