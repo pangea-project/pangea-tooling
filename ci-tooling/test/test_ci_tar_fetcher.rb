@@ -97,8 +97,7 @@ module CI
     # test code to mange the watch file to look at alternative server
     # currently only works on stable/
     def test_watch_mangle
-      Dir.mkdir('debian')
-      FileUtils.cp(data('watch'), 'debian/')
+      FileUtils.cp_r(data, 'debian/')
       f = WatchTarFetcher.new('debian/watch', true)
 
       ref_line = 'http://172.17.0.1:9191/stable/applications/([\d.]+)/kgamma5-([\d.]+).tar.xz'
@@ -137,8 +136,7 @@ module CI
     end
 
     def test_watch_multiple_tars
-      Dir.mkdir('debian')
-      File.write('debian/watch', '')
+      FileUtils.cp_r(data, 'debian/')
       # We fully fake this at runtime to not have to provide dummy files...
 
       files = %w(
