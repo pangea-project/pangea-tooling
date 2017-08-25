@@ -40,6 +40,8 @@ class DebianChangelogTest < TestCase
     assert_equal('~git123', c.version(Changelog::BASESUFFIX))
     assert_equal('-0ubuntu1', c.version(Changelog::REVISION))
     assert_equal('5.2.1~git123-0ubuntu1', c.version(Changelog::ALL))
+    # Test combination
+    assert_equal('5.2.1~git123', c.version(Changelog::BASE | Changelog::BASESUFFIX))
   end
 
   def test_without_suffix
