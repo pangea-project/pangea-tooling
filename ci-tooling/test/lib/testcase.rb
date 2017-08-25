@@ -19,9 +19,11 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'test/unit'
+
 require 'tmpdir'
 require 'webmock/test_unit'
 require 'net/smtp'
+require 'mocha/test_unit'
 
 require_relative 'assert_xml'
 
