@@ -102,7 +102,7 @@ EOT
 
     # Make sure we reset $?, so tests can freely mock system and ``
     reset_child_status!
-    #FIXME: Drop when VCR gets fixed
+    # FIXME: Drop when VCR gets fixed
     WebMock.enable!
 
     # Make sure smtp can't be used without mocking it.
