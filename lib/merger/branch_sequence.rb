@@ -32,6 +32,11 @@ class BranchSequence
     @source = resolve_name(name)
     # FIXME: what happens if the first source doesn't exist?
     @source = parent.source if parent && !@source
+    @pushed = false
+  end
+
+  def pushed?
+    @pushed
   end
 
   def resolve_name(name)
@@ -93,7 +98,7 @@ class BranchSequence
     branches = []
     branch = self
     while branch && branch.parent # Top most item has no parent and isn't dirty.
-      branches << branch
+      branches << branch unless branch.pushed?
       branch = branch.parent
     end
     branches.reverse!
@@ -106,6 +111,7 @@ class BranchSequence
     return puts "...nothing to push for #{@source.name}" unless dirty? && valid?
     puts "...pushing #{@source.name}[#{shortsha(@source.name)}]"
     @git.push('origin', @source.name)
+    @pushed = true
   end
 
   private
