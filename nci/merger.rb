@@ -25,6 +25,10 @@ require_relative '../lib/merger'
 # NCI merger.
 class NCIMerger < Merger
   def run
+    # The way this is pushed is that the first push called walks up the tree
+    # and invokes push on the squenced branches. Susequent pushes will do the
+    # same but essentially be no-op except for leafes which weren't part of the
+    # first pushed sequence.
     unstable = sequence('Neon/release-lts').merge_into('Neon/release')
                                            .merge_into('Neon/stable')
                                            .merge_into('Neon/unstable')
