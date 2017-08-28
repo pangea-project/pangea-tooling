@@ -184,6 +184,8 @@ class Project
     init_from_control(control)
     # Unset previously default SCM
     @upstream_scm = nil if native?(dir)
+  rescue => e
+    raise e.exception("#{e.message}\nWhile working on #{dir}/debian")
   end
 
   def init_from_source(dir)
