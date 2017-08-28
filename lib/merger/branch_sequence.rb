@@ -57,20 +57,28 @@ class BranchSequence
     true
   end
 
+  def shortsha(objectish)
+    @git.revparse(objectish)[0..7]
+  end
+
+  def msg_for_merge(target)
+    if noci_merge?(@source)
+      return "Merging #{@source.full} into #{target.name}.\n\nNOCI"
+    end
+    "Merging #{@source.full} into #{target.name}."
+  end
+
   def mergerino(target)
     return false unless @source
     return false unless target
 
     @git.checkout(target.name)
-    msg = "Merging #{@source.full} into #{target.name}."
-    # FIXME: is in merger
-    # FIXME: true case not test covered
-    if noci_merge?(@source)
-      msg = "Merging #{@source.full} into #{target.name}.\n\nNOCI"
-    end
 
-    puts msg
-    @git.merge(@source.full, msg)
+    puts format('Merging %s[%s] into %s[%s]',
+                @source.full, shortsha(@source.full),
+                target.name, shortsha(target.name))
+    puts @git.merge(@source.full, msg_for_merge(target))
+    puts "After merge: #{target.name}[#{shortsha(target.name)}]"
     true
   end
 
@@ -95,7 +103,7 @@ class BranchSequence
   # FIXME: should be private maybe?
   def push_branch
     return puts "Nothing to push for #{@name}" unless dirty? && valid?
-    puts "pushing #{@source.name}"
+    puts "pushing #{@source.name}[#{shortsha(@source.name)}]"
     @git.push('origin', @source.name)
   end
 
