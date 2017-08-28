@@ -42,6 +42,11 @@ module NCI
       end
     end
 
+    PATH_EXCLUSION = [
+      'kde-sc/', # Legacy KDE 4 material
+      'attic/' # Archive for old unused stuff.
+    ].freeze
+
     module JUnit
       # Wrapper converting to JUnit Suite.
       class Suite
@@ -91,11 +96,21 @@ a symlink (should only appear in the canonical location on our side).
       end
     end
 
+    # List of paths the repo appears in.
+    def self.reject_paths?(paths)
+      remainder = paths.reject do |path|
+        PATH_EXCLUSION.any? { |e| path.start_with?(e) }
+      end
+      remainder.size < 2
+    end
+
+    # base is the basename of the repo
+    # paths is an array of directories the repo appears in
     def self.reject?(base, paths)
       # Only one candidate. All fine
       return true if paths.size < 2
       # Ignore if one of two paths is kde-sc (we don't use it or care).
-      return true if paths.size == 2 && paths.any? { |x| x.include?('kde-sc/') }
+      return true if paths.size == 2 && reject_paths?(paths)
       # Exclude whitelisted materials
       return true if whitelist.fetch(base, []) == paths
       false
@@ -103,13 +118,13 @@ a symlink (should only appear in the canonical location on our side).
 
     def self.run
       repos = ProjectsFactory::Neon.ls
-      by_basename = repos.group_by { |x| File.basename(x) }
-      by_basename.reject! { |base, paths| reject?(base, paths) }.to_h
-      JUnit::Suite.new(by_basename).write_into('reports/')
+      repos_in_paths = repos.group_by { |x| File.basename(x) }
+      repos_in_paths.reject! { |base, paths| reject?(base, paths) }.to_h
+      JUnit::Suite.new(repos_in_paths).write_into('reports/')
       # Only make this fatal after a week transition. This line can be dropped
       # once we are past the date.
       return unless (DateTime.new(2017, 9, 4) - DateTime.now) <= 0.0
-      raise 'Duplicated repos found' unless by_basename.empty?
+      raise 'Duplicated repos found' unless repos_in_paths.empty?
     end
   end
 end
