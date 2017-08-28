@@ -102,8 +102,9 @@ class BranchSequence
 
   # FIXME: should be private maybe?
   def push_branch
-    return puts "Nothing to push for #{@name}" unless dirty? && valid?
-    puts "pushing #{@source.name}[#{shortsha(@source.name)}]"
+    puts "Checking if we can push something on #{@source.name}"
+    return puts "...nothing to push for #{@source.name}" unless dirty? && valid?
+    puts "...pushing #{@source.name}[#{shortsha(@source.name)}]"
     @git.push('origin', @source.name)
   end
 
