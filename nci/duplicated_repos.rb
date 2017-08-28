@@ -108,7 +108,7 @@ a symlink (should only appear in the canonical location on our side).
       JUnit::Suite.new(by_basename).write_into('reports/')
       # Only make this fatal after a week transition. This line can be dropped
       # once we are past the date.
-      return unless (DateTime.new(2017, 8, 28) - DateTime.now) <= 0.0
+      return unless (DateTime.new(2017, 9, 4) - DateTime.now) <= 0.0
       raise 'Duplicated repos found' unless by_basename.empty?
     end
   end

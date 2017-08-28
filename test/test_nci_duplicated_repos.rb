@@ -33,7 +33,7 @@ module NCI
       ProjectsFactory::Neon.expects(:ls).returns(%w[foo/bar std/bar])
       # Fatality only activates after a transition period. Can be dropped
       # once past the date.
-      if (DateTime.new(2017, 8, 28) - DateTime.now) <= 0.0
+      if (DateTime.new(2017, 9, 4) - DateTime.now) <= 0.0
         assert_raise do
           DuplicatedRepos.run
         end
