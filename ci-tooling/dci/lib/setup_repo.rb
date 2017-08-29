@@ -68,7 +68,7 @@ module DCI
   def add_repos(repos, components)
     components = components.join(' ')
     repos.each do |repo|
-      debline = "deb http://dci.ds9.pub:8080/#{repo} #{@dist} #{components}"
+      debline = "deb http://dci.ds9.pub/#{repo} #{@dist} #{components}"
       Retry.retry_it(times: 5, sleep: 2) do
         raise 'adding repo failed' unless Apt::Repository.add(debline)
       end

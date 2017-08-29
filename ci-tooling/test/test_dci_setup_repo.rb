@@ -49,7 +49,7 @@ class DCISetupRepoTest < TestCase
     system_calls = [
       ['dpkg --add-architecture i386'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '-y', 'deb http://dci.ds9.pub:8080/netrunner netrunner-1703 frameworks backports plasma qt5 kde-applications extras'],
+      ['add-apt-repository', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-1703 frameworks backports plasma qt5 kde-applications extras'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'update'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'dist-upgrade']
     ]
