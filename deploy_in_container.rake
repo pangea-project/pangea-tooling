@@ -99,10 +99,6 @@ install: --no-document
 update: --no-document
 EOF
 
-  # Remove existing rugged to force a reinstall to make sure it is built with
-  # libssl.
-  system('gem uninstall rugged') # Ignore return value.
-
   Dir.chdir(tooling_path) do
     begin
       Gem::Specification.find_by_name('bundler')
