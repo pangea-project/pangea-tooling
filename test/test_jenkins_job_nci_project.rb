@@ -45,6 +45,7 @@ class JenkinsJobNCIProjectTest < TestCase
     project.stubs(:upstream_scm).returns(nil)
     project.stubs(:packaging_scm).returns(packaging_scm)
     project.stubs(:series_branches).returns([])
+    project.stubs(:debian?).returns(true)
 
     jobs = ProjectJob.job(project, distribution: 'distrooo',
                                    architectures: %w[i386 armel],
