@@ -96,8 +96,12 @@ class Project
   # Packaging SCM instance
   attr_reader :packaging_scm
 
-  # Path to snapcraft.yaml if any.
+  # Path to snapcraft.yaml if any
   attr_reader :snapcraft
+
+  # Whether the project has debian packaging
+  attr_reader :debian
+  alias debian? debian
 
   DEFAULT_URL = 'git.debian.org:/git/pkg-kde'.freeze
   @default_url = DEFAULT_URL
@@ -131,6 +135,7 @@ class Project
     @dependees = []
     @series_branches = []
     @autopkgtest = false
+    @debian = false
 
     if component == 'kde-extras_kde-telepathy'
       puts 'stepped into a shit pile --> https://phabricator.kde.org/T4160'
@@ -184,6 +189,7 @@ class Project
     init_from_control(control)
     # Unset previously default SCM
     @upstream_scm = nil if native?(dir)
+    @debian = true
   rescue => e
     raise e.exception("#{e.message}\nWhile working on #{dir}/debian")
   end

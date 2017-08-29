@@ -124,6 +124,7 @@ class ProjectTest < TestCase
           assert_equal("#{gitrepo}/#{component}/#{name}", project.packaging_scm.url)
           assert_equal("kubuntu_#{stability}", project.packaging_scm.branch)
           assert_equal(nil, project.snapcraft)
+          assert(project.debian?)
         end
       ensure
         FileUtils.rm_rf(tmpdir) unless tmpdir.nil?
@@ -315,6 +316,7 @@ class ProjectTest < TestCase
         # name which must not contain native stuff.
         project = Project.new(name, component, gitrepo, type: 'unstable')
         assert_equal 'snapcraft.yaml', project.snapcraft
+        refute project.debian?
       end
     end
   end

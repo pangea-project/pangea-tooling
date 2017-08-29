@@ -29,6 +29,8 @@ require_relative 'multijob_phase'
 # Magic builder to create an array of build steps
 class ProjectJob < JenkinsJob
   def self.job(project, distribution:, architectures:, type:)
+    return [] unless project.debian?
+
     basename = basename(distribution, type, project.component, project.name)
 
     dependees = project.dependees.collect do |d|
