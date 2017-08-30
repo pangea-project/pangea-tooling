@@ -45,5 +45,5 @@ find ~/tooling-pending/vendor/cache/* -maxdepth 0 -type d | xargs -r rm -rv
 ## from mgmt_docker more or less
 # special hack, we force -jauto if this file is in the docker image
 touch ~/tooling-pending/is_scaling_node
-NODE_LABELS=amd64 mgmt/docker_cleanup.rb
 NODE_LABELS=amd64 mgmt/docker.rb
+NODE_LABELS=amd64 mgmt/docker_cleanup.rb
