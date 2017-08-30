@@ -183,4 +183,29 @@ class BranchSequenceTest < TestCase
       assert_path_exist('stable_c1')
     end
   end
+
+  def test_no_middle
+    # Three step sequence, where the middle branch doesn't exist. This should
+    # not raise anything!
+
+    rugged_in_repo do |repo|
+      repo.head = 'refs/heads/Neon/unstable'
+      FileUtils.touch('unstable_c1')
+      rugged_commit_all(repo)
+
+      rugged_push_all(repo)
+    end
+
+    in_repo do |g|
+      BranchSequence.new('Neon/stable', git: g)
+                    .merge_into('Neon/yolo')
+                    .merge_into('Neon/unstable')
+                    .push
+    end
+
+    in_repo do |g|
+      g.checkout('Neon/unstable')
+      assert_path_exist('unstable_c1')
+    end
+  end
 end

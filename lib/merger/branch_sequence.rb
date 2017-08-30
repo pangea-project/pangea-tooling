@@ -107,6 +107,7 @@ class BranchSequence
 
   # FIXME: should be private maybe?
   def push_branch
+    return puts "Not pushing, isn't a branch: #{@name}" unless valid?
     puts "Checking if we can push something on #{@source.name}"
     return puts "...nothing to push for #{@source.name}" unless dirty? && valid?
     puts "...pushing #{@source.name}[#{shortsha(@source.name)}]"
