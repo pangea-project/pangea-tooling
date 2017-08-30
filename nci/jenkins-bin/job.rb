@@ -39,8 +39,8 @@ module NCI
 
         @overrides = {
           # Needs enough RAM https://bugs.kde.org/show_bug.cgi?id=362946
-          CI::FNMatchPattern.new('*_plasma-desktop_bin_amd64') => 8,
-          CI::FNMatchPattern.new('*_{qt5webkit,qtwebengine}_bin_amd64') => 8
+          CI::FNMatchPattern.new('*_plasma-desktop_bin_amd64') => 16,
+          CI::FNMatchPattern.new('*_{qt5webkit,qtwebengine}_bin_amd64') => 16
         }
 
         @job = Jenkins::Job.new(name)
