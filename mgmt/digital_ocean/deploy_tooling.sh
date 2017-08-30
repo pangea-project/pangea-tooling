@@ -21,7 +21,11 @@
 set -ex
 
 export PANGEA_UBUNTU_ONLY=1
-export PANGEA_DOCKER_NO_FLATTEN=1
+# NOTE: the slave provisioning calls us with flattening disabled, by default
+#   we should not be though. This script is also used for droplet image
+#   maintenace, where we definitely want to flatten the image to compress the
+#   droplet image and thus reduce bootstrapping and storage cost.
+# export PANGEA_DOCKER_NO_FLATTEN=1
 
 env
 
