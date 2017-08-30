@@ -19,157 +19,20 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'droplet_kit'
 require 'logger'
 require 'logger/colors'
 require 'net/sftp'
 require 'irb'
 require 'yaml'
 
-require_relative '../ci-tooling/lib/retry'
+require_relative '../lib/digital_ocean/droplet'
 
 DROPLET_NAME = 'jenkins-slave-deploy'.freeze
 IMAGE_NAME = 'jenkins-slave'.freeze
 
-class Client < DropletKit::Client
-  def initialize
-    super(YAML.load_file("#{Dir.home}/.config/pangea-digital-ocean.yaml"))
-  end
-end
-
-class Droplet
-  attr_accessor :client
-  attr_accessor :id
-
-  class << self
-    def from_name(name, client = Client.new)
-      drop = client.droplets.all.find { |x| x.name == name }
-      return drop unless drop
-      new(drop, client)
-    end
-
-    def exist?(name, client = Client.new)
-      client.droplets.all.any? { |x| x.name == name }
-    end
-
-    def create(client = Client.new)
-      name = DROPLET_NAME
-      image = client.snapshots.all.find { |x| x.name == IMAGE_NAME }
-
-      raise "Found a droplet with name #{name} WTF" if exist?(name, client)
-      new_droplet = DropletKit::Droplet.new(
-        name: name,
-        region: 'fra1',
-        image: (image&.id || 'ubuntu-16-04-x64'),
-        size: '4gb',
-        ssh_keys: client.ssh_keys.all.collect(&:fingerprint),
-        private_networking: true
-      )
-      new(client.droplets.create(new_droplet), client)
-    end
-  end
-
-  def initialize(droplet_or_id, client)
-    @client = client
-    @id = droplet_or_id
-    @id = droplet_or_id.id if droplet_or_id.is_a?(DropletKit::Droplet)
-  end
-
-  def method_missing(meth, *args, **kwords)
-    return missing_action(meth, *args, **kwords) if meth.to_s[-1] == '!'
-    res = resource
-    if res.respond_to?(meth)
-      # The droplet_kit resource mapping crap is fairly shitty and doesn't
-      # manage to handle kwords properly, pack it into a ruby <=2.0 style array.
-      argument_pack = []
-      argument_pack += args unless args.empty?
-      argument_pack << kwords unless kwords.empty?
-      return res.send(meth, *argument_pack) if res.respond_to?(meth)
-    end
-    p meth, args, { id: id }.merge(kwords)
-    client.droplets.send(meth, *args, **{ id: id }.merge(kwords))
-  end
-
-  private
-
-  def missing_action(name, *args, **kwords)
-    name = name.to_s[0..-2].to_sym # strip trailing !
-    action = client.droplet_actions.send(name, *args,
-                                         **{ droplet_id: id }.merge(kwords))
-    Action.new(action, client)
-  end
-
-  def resource
-    client.droplets.find(id: id)
-  end
-
-  def to_str
-    id
-  end
-end
-
-class Action
-  attr_accessor :client
-  attr_accessor :id
-
-  class << self
-    def wait(sleep_for: 16, retries: 100_000, error: nil)
-      broken = false
-      retries.times do
-        if yield
-          broken = true
-          break
-        end
-        sleep(sleep_for)
-      end
-      raise error if error && !broken
-      broken
-    end
-  end
-
-  def initialize(action_or_id, client)
-    @client = client
-    @id = action_or_id
-    @id = action_or_id.id if action_or_id.is_a?(DropletKit::Action)
-  end
-
-  def until_status(state)
-    count = 0
-    until resource.status == state
-      yield count
-      count += 1
-      sleep 16
-    end
-  end
-
-  def complete!(&block)
-    until_status('completed', &block)
-  end
-
-  def method_missing(meth, *args, **kwords)
-    # return missing_action(action, *args) if meth.to_s[-1] == '!'
-    res = resource
-    if res.respond_to?(meth)
-      # The droplet_kit resource mapping crap is fairly shitty and doesn't
-      # manage to handle kwords properly, pack it into a ruby <=2.0 style array.
-      argument_pack = []
-      argument_pack += args unless args.empty?
-      argument_pack << kwords unless kwords.empty?
-      return res.send(meth, *argument_pack) if res.respond_to?(meth)
-    end
-    super
-  end
-
-  private
-
-  def resource
-    client.actions.find(id: id)
-  end
-end
-
 logger = @logger = Logger.new(STDERR)
 
-previous = Droplet.from_name(DROPLET_NAME)
+previous = DigitalOcean::Droplet.from_name(DROPLET_NAME)
 
 if previous
   logger.warn "previous droplet found; deleting: #{previous}"
@@ -180,11 +43,11 @@ if previous
 end
 
 logger.info 'Creating new droplet.'
-droplet = Droplet.create
+droplet = DigitalOcean::Droplet.create(DROPLET_NAME, IMAGE_NAME)
 
 # Wait a decent amount for the droplet to start. If this takes very long it's
 # no problem.
-active = Action.wait(retries: 20) do
+active = DigitalOcean::Action.wait(retries: 20) do
   logger.info 'Waiting for droplet to start'
   droplet.status == 'active'
 end
@@ -237,7 +100,9 @@ droplet.power_off!.complete! do
   logger.info 'Waiting for power off'
 end
 
-old_image = Client.new.snapshots.all.find { |x| x.name == IMAGE_NAME }
+old_image = DigitalOcean::Client.new.snapshots.all.find do |x|
+  x.name == IMAGE_NAME
+end
 
 droplet.snapshot!(name: IMAGE_NAME).complete! do
   logger.info 'Waiting for snapshot'
@@ -245,7 +110,7 @@ end
 
 if old_image
   logger.warn 'deleting old image'
-  unless Client.new.snapshots.delete(id: old_image.id)
+  unless DigitalOcean::Client.new.snapshots.delete(id: old_image.id)
     logger.error 'failed to delete old snapshot'
     # FIXME: beginning needs to handle multiple images and throw away all but the
     #   newest
@@ -254,6 +119,7 @@ end
 
 logger.warn 'deleting droplet'
 logger.error 'failed to delete' unless droplet.delete
-raise 'Deletion failed apparently' unless Action.wait(retries: 10) do
-  Droplet.from_name(DROPLET_NAME).nil?
+deleted = DigitalOcean::Action.wait(retries: 10) do
+  DigitalOcean::Droplet.from_name(DROPLET_NAME).nil?
 end
+raise 'Deletion failed apparently' unless deleted
