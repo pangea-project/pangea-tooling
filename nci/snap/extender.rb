@@ -65,7 +65,7 @@ module NCI
 
       def convert_to_git!
         # FIXME: this should be based on our overrides crap
-        repo_url = "git://anongit.kde.org/#{snapname}"
+        repo_url = "https://anongit.kde.org/#{snapname}"
         repo_branch = 'master'
         Dir.mktmpdir do |tmpdir|
           repo = Rugged::Repository.init_at(tmpdir)
