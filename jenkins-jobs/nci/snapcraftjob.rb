@@ -18,13 +18,11 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'htmlentities'
-
-require_relative '../job'
+require_relative 'pipelinejob'
 require_relative 'project'
 
 # Generator for native snapcraft projects.
-class SnapcraftJob < JenkinsJob
+class SnapcraftJob < PipelineJob
   attr_reader :appname
   attr_reader :distribution
   attr_reader :type
@@ -33,15 +31,10 @@ class SnapcraftJob < JenkinsJob
   def initialize(project, distribution:, type:)
     basename = ProjectJob.basename(distribution, type, project.component,
                                    project.name)
-    super("#{basename}_snap_amd64", 'snapcraftjob.xml.erb')
+    super("#{basename}_snap_amd64", template: 'snapcraftjob')
     @appname = project.name
     @distribution = distribution
     @type = type
     @packaging_scm = project.packaging_scm
-  end
-
-  def script
-    data = render("#{__dir__}/pipelines/snapcraftjob.groovy.erb")
-    HTMLEntities.new.encode(data)
   end
 end
