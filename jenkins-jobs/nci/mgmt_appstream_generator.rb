@@ -18,14 +18,15 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '../job'
+require_relative 'pipelinejob'
 
 # generates appsteram data for a given repo
-class MGMTAppstreamGenerator < JenkinsJob
+class MGMTAppstreamGenerator < PipelineJob
   attr_reader :repo
 
   def initialize(suffix = '', repo:)
-    super("mgmt_appstream-generator#{suffix}", 'mgmt_appstream-generator.xml.erb')
+    super("mgmt_appstream-generator#{suffix}",
+          template: 'mgmt_appstream_generator')
     @repo = repo
   end
 end
