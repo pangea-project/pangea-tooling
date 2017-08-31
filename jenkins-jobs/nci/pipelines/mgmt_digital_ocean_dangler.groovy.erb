@@ -1,0 +1,5 @@
+cleanNode('master') {
+  stage('cleanup') {
+    sh '~/tooling/mgmt/digital_ocean_dangler.rb'
+  }
+}

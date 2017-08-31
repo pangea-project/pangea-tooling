@@ -19,10 +19,18 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative '../job'
+require_relative 'pipelinejob'
 
 # Manages digital ocean base snapshot from which we build cloud instances
 class MGMTDigitalOcean < JenkinsJob
   def initialize
     super('mgmt_digital-ocean', 'mgmt_digital_ocean.xml.erb')
+  end
+end
+
+# Manages digital ocean safety net to delete dangling droplets.
+class MGMTDigitalOceanDangler < PipelineJob
+  def initialize
+    super('mgmt_digital-ocean_dangler', cron: 'H H/3 * * *')
   end
 end
