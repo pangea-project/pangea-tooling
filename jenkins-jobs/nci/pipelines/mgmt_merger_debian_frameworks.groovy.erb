@@ -1,0 +1,50 @@
+properties([pipelineTriggers([cron('H H(6-15) * * 1')])])
+
+notify {
+    cleanNode('master') {
+        // this stage could be on a roaming node iff it wasn't for the factory lsing
+        stage('tag detection') {
+            try {
+                step([$class: 'CopyArtifact', projectName: env.JOB_NAME, selector: [$class: 'LastCompletedBuildSelector']])
+            } catch(e) {}
+            sh 'ssh-keygen -F git.neon.kde.org || ssh-keyscan -H git.neon.kde.org >> ~/.ssh/known_hosts'
+            sh 'ruby ~/tooling/nci/debian-merge/tagdetective.rb'
+            archiveArtifacts 'data.json'
+        }
+        stage('merge') {
+            sh 'ssh-keygen -F git.neon.kde.org || ssh-keyscan -H git.neon.kde.org >> ~/.ssh/known_hosts'
+            sh 'ruby ~/tooling/nci/debian-merge/merger.rb'
+        }
+        stage('finalization') {
+            stash includes: 'data.json', name: 'data'
+            deleteDir()
+            unstash 'data'
+            sh 'ssh-keygen -F git.neon.kde.org || ssh-keyscan -H git.neon.kde.org >> ~/.ssh/known_hosts'
+            sh 'ruby ~/tooling/nci/debian-merge/finalizer.rb'
+        }
+    }
+}
+
+def notify(body) {
+    try {
+        body()
+    } catch (e) {
+        stage('notify') {
+            mail to: 'sitter@kde.org, jr@jriddell.org',
+                 subject: "Debian Frameworks not merging ${BUILD_NUMBER}",
+                 body: """${BUILD_URL}/console"""
+        }
+        throw e
+    }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      body()
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}
