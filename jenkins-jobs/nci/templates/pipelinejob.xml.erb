@@ -11,6 +11,11 @@
           <ignorePostCommitHooks>false</ignorePostCommitHooks>
         </hudson.triggers.SCMTrigger>
       </triggers>
+      <triggers>
+        <hudson.triggers.TimerTrigger>
+          <spec><%= cron %></spec>
+        </hudson.triggers.TimerTrigger>
+      </triggers>
     </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
   </properties>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.22">
