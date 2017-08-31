@@ -23,8 +23,8 @@ require_relative '../job'
 # Generic workflow/pipeline job. Constructs standard workflow rendering a
 # pipeline of the same name (with - => _).
 class PipelineJob < JenkinsJob
-  def initialize(name)
+  def initialize(name, template: name.tr('-', '_'))
     super(name, 'pipelinejob.xml.erb',
-          script: "#{__dir__}/pipelines/#{name.tr('-', '_')}.groovy.erb")
+          script: "#{__dir__}/pipelines/#{template}.groovy.erb")
   end
 end
