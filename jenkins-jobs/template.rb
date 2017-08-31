@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'erb'
+require 'htmlentities'
 require 'pathname'
 
 # Base class for job template.
@@ -29,7 +30,9 @@ class Template
   # [String] Template file for this job. Absolute.
   attr_reader :template_path
 
-  def initialize(template_name)
+  def initialize(template_name, script: nil)
+    @script_path = script
+
     @config_directory = "#{@@flavor_dir}/config/"
     @flavor_template_directory = "#{@@flavor_dir}/templates/"
     @core_template_directory = "#{__dir__}/templates/"
@@ -68,5 +71,10 @@ class Template
              File.read("#{@template_directory}/#{path}")
            end
     ERB.new(data).result(binding)
+  end
+
+  def render_script
+    raise "no script path given for #{self}" unless @script_path
+    HTMLEntities.new.encode(render(@script_path))
   end
 end

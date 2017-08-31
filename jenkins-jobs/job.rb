@@ -31,9 +31,9 @@ class JenkinsJob < Template
   # FIXME: redundant should be name
   attr_reader :job_name
 
-  def initialize(job_name, template_name)
+  def initialize(job_name, template_name, **kwords)
     @job_name = job_name
-    super(template_name)
+    super(template_name, **kwords)
   end
 
   # Legit class variable. This is for all JenkinsJobs.
