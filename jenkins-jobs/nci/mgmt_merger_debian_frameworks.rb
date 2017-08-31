@@ -23,6 +23,6 @@ require_relative 'pipelinejob'
 # frameworks from debian merger
 class MGMTMergerDebianFrameworks < PipelineJob
   def initialize
-    super('mgmt_merger_debian-frameworks')
+    super('mgmt_merger_debian-frameworks', cron: 'H H(6-15) * * 1')
   end
 end
