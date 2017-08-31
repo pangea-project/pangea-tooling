@@ -19,23 +19,29 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'date'
+
 require_relative '../ci-tooling/lib/jenkins'
 require_relative '../lib/digital_ocean/droplet'
 
 client = DigitalOcean::Client.new
 droplets = client.droplets.all
 nodes = JenkinsApi::Client.new.node.list
-dangling = droplets.reject do |drop|
-  nodes.include?(drop.name)
+dangling = droplets.select do |drop|
+  # Droplet needs to not be a known node after 15 minutes of existance.
+  # The 15 minutes delay is a bit of leeway so we don't accidently delete things
+  # that may have just this microsecond be created but not yet in Jenkins.
+  # FTR the datetime condition is that 15 minutes before now is greater
+  #   (i.e. more recent) than the creation time (i.e. creation time is more
+  #   than 15 minutes in the past).
+  !nodes.include?(drop.name) &&
+    (DateTime.now - Rational(0.25, 24)) > DateTime.iso8601(drop.created_at)
 end
 
-warn "Dangling: #{dangling}"
+warn "Dangling: #{dangling} #{dangling.size}"
 dangling.each do |drop|
   name = drop.name
+  warn "Deleting #{name}"
   droplet = DigitalOcean::Droplet.from_name(name)
   raise "Failed to delete #{name}" unless droplet.delete
-  deleted = DigitalOcean::Action.wait(retries: 10) do
-    DigitalOcean::Droplet.from_name(name).nil?
-  end
-  raise "Deletion of #{name} failed apparently" unless deleted
 end
