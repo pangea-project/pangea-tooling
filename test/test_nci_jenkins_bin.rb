@@ -38,6 +38,18 @@ module NCI::JenkinsBin
       end
     end
 
+    def test_core_coercion_downgrade
+      # When coercing a value higher than what we have we should get the
+      # highest value back.
+      assert_equal(Cores::CORES[-1], Cores.coerce(Cores::CORES[-1] * 2))
+    end
+
+    def test_core_coercion_upgrade
+      # When coercing a value lower than what we have we should get the
+      # lowest value back.
+      assert_equal(Cores::CORES[0], Cores.coerce(0))
+    end
+
     def test_slave
       assert_equal(8, Slave.cores('jenkins-do-8core.build.neon-0f321b00-a90f-4a3d-8d40-542681753686'))
       assert_equal(2, Slave.cores('jenkins-do-2core.build.neon-841d6c13-c583-4b13-b094-68576ef46062'))
@@ -84,6 +96,24 @@ module NCI::JenkinsBin
       builds = selector.select
       assert(builds)
       refute(builds.empty?)
+    end
+
+    def test_build_selector_not_configured_core
+      # This test asserts that using a high core count (higher than what
+      # Cores knows about) will result in the core count getting adjusted
+      # to a known value.
+      # Should 20 count be added to Cores a suitable replacement needs
+      # to be looked into.
+      8.times do |i|
+        jenkins_job.stubs(:build_details).with(i).returns(
+          'result' => 'SUCCESS',
+          'builtOn' => 'jenkins-do-20core.build.neon-123123'
+        )
+      end
+
+      selector = BuildSelector.new(job)
+      selector.select
+      assert_equal(Cores::CORES[-1], selector.detected_cores)
     end
 
     def test_build_selector_bad_slave_chain

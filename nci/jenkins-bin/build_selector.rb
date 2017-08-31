@@ -79,6 +79,13 @@ build:#{number} has unexpected slave #{built_on} type:#{built_on_cores} (expecte
         end
 
         @detected_cores = built_on_cores
+
+        # If we do not know the core count because we shrunk the options
+        # coerce to the closest match.
+        unless Cores.know?(detected_cores)
+          @detected_cores = Cores.coerce(detected_cores)
+        end
+
         @exception_count -= 1
         build
       rescue JenkinsApi::Exceptions::NotFound => e

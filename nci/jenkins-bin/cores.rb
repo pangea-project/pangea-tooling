@@ -37,6 +37,30 @@ module NCI
         new_cores_idx = [CORES.size - 1, CORES.index(cores) + 1].min
         CORES[new_cores_idx]
       end
+
+      def self.know?(cores)
+        CORES.include?(cores)
+      end
+
+      # Given any core count we'll coerce it into a known core count with
+      # the smallest possible diff. Assuming two options the worse will be
+      # picked to allow for upgrades which happen more reliably than downgrades
+      # through automatic scoring.
+      def self.coerce(cores)
+        pick = nil
+        diff = nil
+        CORES.each do |c|
+          new_diff = c - cores
+          # Skip if absolute diff is worse than the diff we have
+          next if diff && new_diff.abs > diff.abs
+          # If the diff is equal pick the lower value. It will get upgraded
+          # eventually if it is too low.
+          next if diff && diff.abs == new_diff.abs && c > pick
+          pick = c
+          diff = new_diff
+        end
+        pick
+      end
     end
   end
 end
