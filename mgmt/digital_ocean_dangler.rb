@@ -28,14 +28,17 @@ client = DigitalOcean::Client.new
 droplets = client.droplets.all
 nodes = JenkinsApi::Client.new.node.list
 dangling = droplets.select do |drop|
-  # Droplet needs to not be a known node after 15 minutes of existance.
-  # The 15 minutes delay is a bit of leeway so we don't accidently delete things
+  # Droplet needs to not be a known node after 1 hour of existance.
+  # The delay is a bit of leeway so we don't accidently delete things
   # that may have just this microsecond be created but not yet in Jenkins.
-  # FTR the datetime condition is that 15 minutes before now is greater
+  # Also since we don't special case the image maintainence job
+  # we'd otherwise kill the droplet out from under it (job takes
+  # ~30 minutes on a clean run).
+  # FTR the datetime condition is that 1 hour before now is greater
   #   (i.e. more recent) than the creation time (i.e. creation time is more
-  #   than 15 minutes in the past).
+  #   than 1 hour in the past).
   !nodes.include?(drop.name) &&
-    (DateTime.now - Rational(0.25, 24)) > DateTime.iso8601(drop.created_at)
+    (DateTime.now - Rational(1, 24)) > DateTime.iso8601(drop.created_at)
 end
 
 warn "Dangling: #{dangling} #{dangling.size}"
