@@ -45,10 +45,10 @@ module DigitalOcean
         image = client.snapshots.all.find { |x| x.name == image_name }
 
         raise "Found a droplet with name #{name} WTF" if exist?(name, client)
-        new(client.droplets.create(new_droplet(name, image)), client)
+        new(client.droplets.create(new_droplet(name, image, client)), client)
       end
 
-      def new_droplet(name, image)
+      def new_droplet(name, image, client)
         DropletKit::Droplet.new(
           name: name,
           region: 'fra1',
