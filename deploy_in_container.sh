@@ -41,5 +41,7 @@ done
 cd $SCRIPTDIR
 # Bootstrap rake if rake is not installed
 ruby -e "Gem.install('rake') unless Gem::Specification.map(&:name).include?('rake')"
+# And tty-command (used by apt, which we'll load in the rake tasks)
+ruby -e "Gem.install('tty-command') unless Gem::Specification.map(&:name).include?('tty-command')"
 
 exec rake -f deploy_in_container.rake deploy_in_container
