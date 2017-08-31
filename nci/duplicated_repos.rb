@@ -109,8 +109,8 @@ a symlink (should only appear in the canonical location on our side).
     def self.reject?(base, paths)
       # Only one candidate. All fine
       return true if paths.size < 2
-      # Ignore if one of two paths is kde-sc (we don't use it or care).
-      return true if paths.size == 2 && reject_paths?(paths)
+      # Ignore if we should reject the paths
+      return true if reject_paths?(paths)
       # Exclude whitelisted materials
       return true if whitelist.fetch(base, []) == paths
       false

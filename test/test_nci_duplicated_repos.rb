@@ -69,5 +69,13 @@ module NCI
       data = File.read('reports/DuplicatedRepos.xml')
       assert_not_includes(data, 'foo/bar')
     end
+
+    def test_multi_exclusion
+      ProjectsFactory::Neon.expects(:ls).returns(%w[foo/bar attic/bar kde-sc/bar])
+      DuplicatedRepos.run
+      assert_path_exist('reports/DuplicatedRepos.xml')
+      data = File.read('reports/DuplicatedRepos.xml')
+      assert_not_includes(data, 'foo/bar')
+    end
   end
 end
