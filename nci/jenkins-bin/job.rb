@@ -22,6 +22,7 @@ require_relative '../../ci-tooling/lib/ci/pattern'
 require_relative '../../ci-tooling/lib/retry'
 require_relative '../../lib/jenkins/job'
 require_relative 'build_selector'
+require_relative 'cores'
 
 module NCI
   module JenkinsBin
@@ -39,8 +40,10 @@ module NCI
 
         @overrides = {
           # Needs enough RAM https://bugs.kde.org/show_bug.cgi?id=362946
-          CI::FNMatchPattern.new('*_plasma-desktop_bin_amd64') => 16,
-          CI::FNMatchPattern.new('*_{qt5webkit,qtwebengine}_bin_amd64') => 16
+          CI::FNMatchPattern.new('*_plasma-desktop_bin_amd64') =>
+            Cores::CORES[-1],
+          CI::FNMatchPattern.new('*_{qt5webkit,qtwebengine}_bin_amd64') =>
+            Cores::CORES[-1]
         }
 
         @job = Jenkins::Job.new(name)
