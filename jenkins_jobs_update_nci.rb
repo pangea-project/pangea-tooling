@@ -259,7 +259,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTSnapshot.new(origin: 'release-lts', target: 'user-lts', appstream: '-lts'))
     enqueue(MGMTToolingJob.new(downstreams: [docker],
                                dependees: []))
-    enqueue(MGMTRepoCleanupJob.new(arch: 'amd64'))
+    enqueue(MGMTRepoCleanupJob.new)
     enqueue(MGMTDockerHubRebuild.new(dependees: []))
   end
 end

@@ -23,7 +23,6 @@
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
-        export ARCH=<%= arch %>
         $HOME/tooling/ci-tooling/nci/repo_cleanup.rb
       </command>
     </hudson.tasks.Shell>
