@@ -36,9 +36,13 @@ module MCI
                        LSB::DISTRIB_CODENAME)
       raise 'adding repo failed' unless Apt::Repository.add(debline)
 
-      debline2 = format('deb http://mobile.neon.pangea.pub/testing %s main',
+      testing = format('deb http://mobile.neon.pangea.pub/testing %s main',
                        LSB::DISTRIB_CODENAME)
-      raise 'adding repo failed' unless Apt::Repository.add(debline2)
+      raise 'adding repo failed' unless Apt::Repository.add(testing)
+
+      neon = format('deb http://archive.neon.kde.org/unstable %s main',
+                    LSB::DISTRIB_CODENAME)
+      raise 'adding repo failed' unless Apt::Repository.add(neon)
     end
 
     haliumrepo = format('deb http://repo.halium.org %s main',
@@ -46,6 +50,9 @@ module MCI
     raise 'adding repo failed' unless Apt::Repository.add(haliumrepo)
 
     Apt::Key.add('http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key')
+    raise 'Failed to import key' unless $?.to_i.zero?
+
+    Apt::Key.add('http://archive.neon.kde.org/public.key')
     raise 'Failed to import key' unless $?.to_i.zero?
 
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }

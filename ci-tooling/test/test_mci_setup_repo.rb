@@ -54,6 +54,7 @@ class MCISetupRepoTest < TestCase
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub vivid main'],
       ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub/testing vivid main'],
+      ['add-apt-repository', '-y', 'deb http://archive.neon.kde.org/unstable vivid main'],
       ['add-apt-repository', '-y', 'deb http://repo.halium.org vivid main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
@@ -77,11 +78,21 @@ class MCISetupRepoTest < TestCase
       .yields(key_catcher)
       .returns(true)
 
+    key_catcher_neon = StringIO.new
+    IO.expects(:popen)
+      .with(['apt-key', 'add', '-'], 'w')
+      .yields(key_catcher_neon)
+      .returns(true)
+
     stub_request(:get, 'http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key')
+      .to_return(status: 200, body: 'abc')
+
+    stub_request(:get, 'http://archive.neon.kde.org/public.key')
       .to_return(status: 200, body: 'abc')
 
     MCI.setup_repo!
 
     assert_equal("abc\n", key_catcher.string)
+    assert_equal("abc\n", key_catcher_neon.string)
   end
 end
