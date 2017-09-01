@@ -129,6 +129,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
              !EXCLUDE_SNAPS.include?(project.name)
             enqueue(AppSnapJob.new(project.name))
           end
+          if type == 'unstable' && (project.component == 'applications' &&
+             project.snapcraft && !EXCLUDE_SNAPS.include?(project.name))
+            enqueue(SnapcraftJob.new(project,
+                                     distribution: distribution, type: type))
+          end
           project_architectures = if type == 'unstable' &&
                                      %w[qt frameworks forks plasma
                                         applications neon-packaging
