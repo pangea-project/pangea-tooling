@@ -31,6 +31,11 @@ module NCI
         'jenkins-do-12core.' => 12,
         'jenkins-do-16core.' => 16,
         'jenkins-do-20core.' => 20,
+        # High CPU - these are used as drop in replacements with 'off' core
+        # count but semi reasonable disk space.
+        'jenkins-do-c.8core.' => 4,
+        'jenkins-do-c.16core.' => 8,
+        'jenkins-do-c.32core.build.neon' => 8,
         # Compat
         'do-builder' => 2,
         'persistent.do-builder' => 2,
