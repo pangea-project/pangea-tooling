@@ -130,8 +130,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             enqueue(AppSnapJob.new(project.name))
           end
           project_architectures = if type == 'unstable' &&
-                                     %w[qt frameworks forks plasma applications
-                                     kde-req].include?(project.component)
+                                     %w[qt frameworks forks plasma
+                                        applications neon-packaging
+                                        kde-req].include?(project.component)
                                     NCI.all_architectures
                                   else
                                     NCI.architectures
