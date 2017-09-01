@@ -132,7 +132,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           project_architectures = if type == 'unstable' &&
                                      %w[qt frameworks forks plasma
                                         applications neon-packaging
-                                        kde-req].include?(project.component)
+                                        kde-req krap].include?(project.component)
                                     NCI.all_architectures
                                   else
                                     NCI.architectures
