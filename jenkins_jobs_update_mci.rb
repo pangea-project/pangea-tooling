@@ -53,7 +53,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def populate_queue
     all_builds = []
     all_meta_builds = []
-    all_mergers = []
     type_projects = {}
 
     MCI.types.each do |type|
