@@ -4,21 +4,23 @@ env.APTLY_REPOSITORY = '<%= repo %>'
 
 node('master') {
     wrap([$class: 'TimestamperBuildWrapper']) {
-        stage 'Checkout'
-        git url: 'https://github.com/ximion/appstream-generator.git'
+        wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+            stage 'Checkout'
+            git url: 'https://github.com/ximion/appstream-generator.git'
 
-        stage 'Repository Setup'
-        sh 'rsync -avzH --delete neonarchives@archive-api.neon.kde.org:aptly/public/$APTLY_REPOSITORY/* aptly-repository/'
+            stage 'Repository Setup'
+            sh 'rsync -avzH --delete neonarchives@archive-api.neon.kde.org:aptly/public/$APTLY_REPOSITORY/* aptly-repository/'
 
-        stage 'Process'
-        sh '~/tooling/nci/contain.rb /tooling/ci-tooling/nci/asgen.rb'
+            stage 'Process'
+            sh '~/tooling/nci/contain.rb /tooling/ci-tooling/nci/asgen.rb'
 
-        stage 'Publish'
-        sh '~/tooling/nci/asgen_push.rb'
-        sh 'mkdir -p /var/www/metadata/appstream/$APTLY_REPOSITORY || true'
-        sh 'cp -rv run/export/. /var/www/metadata/appstream/$APTLY_REPOSITORY'
+            stage 'Publish'
+            sh '~/tooling/nci/asgen_push.rb'
+            sh 'mkdir -p /var/www/metadata/appstream/$APTLY_REPOSITORY || true'
+            sh 'cp -rv run/export/. /var/www/metadata/appstream/$APTLY_REPOSITORY'
 
-        stage 'Cleanup'
-        sh '#rm -rf aptly-repository'
+            stage 'Cleanup'
+            sh '#rm -rf aptly-repository'
+        }
     }
 }
