@@ -76,10 +76,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         # Meta builds
         all_builds.select! { |j| j.is_a?(ProjectJob) }
-        meta_args = {
-          downstream_jobs: all_builds
-        }
-        meta_builder = MetaMergeJob.new(meta_args)
+        meta_builder = MetaBuildJob.new(type: type,
+                                      distribution: distribution,
+                                      downstream_jobs: all_builds)
         all_meta_builds << enqueue(meta_builder)
       end
     end
