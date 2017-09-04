@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 #
 # Copyright (C) 2017 Bhushan Shah <bshah@kde.org>
-#
-# This code is based on jenkins-jobs/nci/project.rb
+# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public

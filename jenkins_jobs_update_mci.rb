@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 #
 # Copyright (C) 2017 Bhushan Shah <bshah@kde.org>
+# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
 #
 # This code is based on code in jenkins_jobs_update_nci.rb
 #
