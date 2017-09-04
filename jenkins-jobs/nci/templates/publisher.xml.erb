@@ -11,7 +11,8 @@
       <useBuildBlocker>true</useBuildBlocker>
       <blockLevel>GLOBAL</blockLevel>
       <scanQueueFor>DISABLED</scanQueueFor>
-      <blockingJobs>mgmt_repo_cleanup_amd64</blockingJobs>
+      <blockingJobs>^mgmt_repo-cleanup.*$
+^mgmt_aptly.+$</blockingJobs>
     </hudson.plugins.buildblocker.BuildBlockerProperty>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
