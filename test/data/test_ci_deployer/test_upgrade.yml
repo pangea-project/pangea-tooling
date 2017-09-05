@@ -27,14 +27,14 @@ http_interactions:
       Server:
       - Docker/17.06.1-ce (linux)
       Date:
-      - Mon, 04 Sep 2017 15:10:41 GMT
+      - Tue, 05 Sep 2017 13:28:30 GMT
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"Pulling from library/ubuntu\",\"id\":\"wily\"}\r\n{\"status\":\"Digest:
         sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3\"}\r\n{\"status\":\"Status:
         Image is up to date for ubuntu:wily\"}\r\n"
     http_version: 
-  recorded_at: Mon, 04 Sep 2017 15:10:41 GMT
+  recorded_at: Tue, 05 Sep 2017 13:28:30 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:wily/json
@@ -62,7 +62,7 @@ http_interactions:
       Server:
       - Docker/17.06.1-ce (linux)
       Date:
-      - Mon, 04 Sep 2017 15:10:41 GMT
+      - Tue, 05 Sep 2017 13:28:30 GMT
       Content-Length:
       - '1775'
     body:
@@ -72,7 +72,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 04 Sep 2017 15:10:41 GMT
+  recorded_at: Tue, 05 Sep 2017 13:28:30 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698/tag?repo=pangea-testing%2Fubuntu&tag=wily
@@ -98,7 +98,7 @@ http_interactions:
       Server:
       - Docker/17.06.1-ce (linux)
       Date:
-      - Mon, 04 Sep 2017 15:10:41 GMT
+      - Tue, 05 Sep 2017 13:28:30 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -107,7 +107,7 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Mon, 04 Sep 2017 15:10:41 GMT
+  recorded_at: Tue, 05 Sep 2017 13:28:30 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Atest_upgrade
@@ -135,7 +135,7 @@ http_interactions:
       Server:
       - Docker/17.06.1-ce (linux)
       Date:
-      - Mon, 04 Sep 2017 15:10:43 GMT
+      - Tue, 05 Sep 2017 13:28:32 GMT
       Content-Length:
       - '57'
     body:
@@ -144,7 +144,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 04 Sep 2017 15:10:43 GMT
+  recorded_at: Tue, 05 Sep 2017 13:28:32 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Awily
@@ -172,14 +172,14 @@ http_interactions:
       Server:
       - Docker/17.06.1-ce (linux)
       Date:
-      - Mon, 04 Sep 2017 15:10:45 GMT
+      - Tue, 05 Sep 2017 13:28:34 GMT
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"Pulling from library/ubuntu\",\"id\":\"wily\"}\r\n{\"status\":\"Digest:
         sha256:02521a2d079595241c6793b2044f02eecf294034f31d6e235ac4b2b54ffc41f3\"}\r\n{\"status\":\"Status:
         Image is up to date for ubuntu:wily\"}\r\n"
     http_version: 
-  recorded_at: Mon, 04 Sep 2017 15:10:45 GMT
+  recorded_at: Tue, 05 Sep 2017 13:28:34 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:wily/json
@@ -207,7 +207,7 @@ http_interactions:
       Server:
       - Docker/17.06.1-ce (linux)
       Date:
-      - Mon, 04 Sep 2017 15:10:45 GMT
+      - Tue, 05 Sep 2017 13:28:34 GMT
       Content-Length:
       - '1804'
     body:
@@ -217,7 +217,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Mon, 04 Sep 2017 15:10:45 GMT
+  recorded_at: Tue, 05 Sep 2017 13:28:34 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698/tag?repo=pangea-testing%2Fubuntu&tag=test_upgrade
@@ -243,7 +243,7 @@ http_interactions:
       Server:
       - Docker/17.06.1-ce (linux)
       Date:
-      - Mon, 04 Sep 2017 15:10:45 GMT
+      - Tue, 05 Sep 2017 13:28:34 GMT
       Content-Length:
       - '0'
       Content-Type:
@@ -252,5 +252,5 @@ http_interactions:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Mon, 04 Sep 2017 15:10:45 GMT
+  recorded_at: Tue, 05 Sep 2017 13:28:34 GMT
 recorded_with: VCR 3.0.3
