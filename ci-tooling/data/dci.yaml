@@ -1,5 +1,5 @@
 series:
-  '1703': '20170206'
+  # '1703': '20170206'
   '1706': '20170530'
   '1709': '20170904'
   # Bump this when choosing a new snapshot for the next netrunner release

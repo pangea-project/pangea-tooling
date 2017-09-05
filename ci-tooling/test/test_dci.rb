@@ -24,15 +24,14 @@ class DCITest < TestCase
   end
 
   def test_series
-    assert_equal_collection(%w(1703 1706 1709 backports), DCI.series.keys)
-    assert_equal_collection(%w(20170206 20170530 20170904 20170905), DCI.series.values)
-    assert_equal('20170206', DCI.series['1703'])
+    assert_equal_collection(%w(1706 1709 backports), DCI.series.keys)
+    assert_equal_collection(%w(20170530 20170904 20170905), DCI.series.values)
     assert_equal('20170530', DCI.series['1706'])
     assert_equal('20170904', DCI.series['1709'])
     assert_equal('20170905', DCI.series['backports'])
 
     # With sorting
-    assert_equal('1703', DCI.series(sort: :ascending).keys.first)
+    assert_equal('1706', DCI.series(sort: :ascending).keys.first)
   end
 
   def test_latest_series
