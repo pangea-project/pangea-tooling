@@ -30,7 +30,7 @@ module QML
       # allow for faster lookup
       @hash.each do |mod, package|
         next unless mod.identifier == qml_module.identifier
-        next unless mod.version.nil? || mod.version == qml_module.version
+        next unless version_match?(mod.version, qml_module.version)
         return package
       end
       nil
@@ -38,12 +38,17 @@ module QML
 
     private
 
+    def version_match?(constraint, version)
+      # If we have a fully equal match we are happy (this can be both empty.)
+      return true if constraint == version
+      # Otherwise we'll want a version to verify aginst.
+      return false unless version
+      Gem::Dependency.new('', constraint).match?('', version)
+    end
+
     def parse_module(mod)
       return QML::Module.new(mod) if mod.is_a?(String)
-      mod.each do |name, properties|
-        # coerce version into a string as yaml will spit it out as a floaty
-        version = properties.fetch('version', nil)
-        version = String(version) unless version.nil?
+      mod.each do |name, version|
         return QML::Module.new(name, version)
       end
     end

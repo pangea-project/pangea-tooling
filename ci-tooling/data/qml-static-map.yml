@@ -1,9 +1,18 @@
+# Statically maps packages to a QML import name.
+# When checking QML modules and an import is listed here the relevant deb
+# will be expected to be installed (instead of automatic detection).
+#
+# Format:
+#   package_name:
+#     - import_name
+#     - versioned_import_name: version
+#     - versioned_import_name: ~> gem_style_version_constraint
+
 plasma-framework:
   - org.kde.plasma.plasmoid
   - org.kde.plasma.configuration
 kwin:
-  - org.kde.kwin:
-      version: 2.0
+  - org.kde.kwin: '2.0'
 plasma-workspace:
   - org.kde.plasma.shell
 

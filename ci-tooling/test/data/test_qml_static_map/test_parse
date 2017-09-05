@@ -2,5 +2,4 @@ plasma-framework:
   - org.kde.plasma.plasmoid
   - org.kde.plasma.configuration
 kwin:
-  - org.kde.kwin:
-      version: 2.0
+  - org.kde.kwin: 2.0
