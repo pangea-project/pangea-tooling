@@ -24,8 +24,12 @@ require_relative '../lib/jenkins'
 
 class AutoConfigJenkinsClientTest < TestCase
   def setup
+    @home = ENV['HOME']
     ENV['HOME'] = Dir.pwd
-    p Dir.home
+  end
+
+  def teardown
+    ENV['HOME'] = @home
   end
 
   def standard_config
