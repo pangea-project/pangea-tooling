@@ -1,0 +1,117 @@
+env.DIST = 'xenial'
+env.TYPE = 'halium'
+env.PWD_BIND = '/workspace'
+env.JOB_NAME = '<%= project.name %>'
+
+cleanNode('master') {
+  sh 'env'
+  stage('source') {
+    parallel(
+      "git[source]": {
+        checkout([$class: 'GitSCM',
+                  branches: [[name: '<%= project.upstream_scm.branch %>']],
+                  doGenerateSubmoduleConfigurations: false,
+                  extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'source']],
+                  submoduleCfg: [],
+                  userRemoteConfigs: [[url: '<%= project.upstream_scm.url %>']]])
+      },
+      "git[packaging]": {
+        checkout([$class: 'GitSCM',
+                  branches: [[name: '<%= project.packaging_scm.branch %>']],
+                  doGenerateSubmoduleConfigurations: false,
+                  extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'packaging']],
+                  submoduleCfg: [],
+                  userRemoteConfigs: [[url: '<%= project.packaging_scm.url %>']]])
+      }
+    )
+    sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/sourcer.rb git'
+    sh 'ls -lah'
+    stash name: 'source', includes: 'build/*'
+  }
+}
+
+stage('binaries') {
+  parallel(
+    "binary:amd64": {
+      cleanNode('amd64') {
+        unstash 'source'
+        sh 'mv build/* .'
+        sh 'rm -rv build'
+        sh 'ls -lah'
+        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` generic'
+        junit allowEmptyResults: true, testResults: 'reports/*.xml'
+        stash name: 'debs_amd64', includes: 'result/**', allowEmpty: true
+      }
+    },
+    "binary:armhf": {
+      cleanNode('armhf') {
+        unstash 'source'
+        sh 'mv build/* .'
+        sh 'rm -rv build'
+        sh 'ls -lah'
+        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` generic'
+        junit allowEmptyResults: true, testResults: 'reports/*.xml'
+        stash name: 'debs_armhf', includes: 'result/**', allowEmpty: true
+      }
+    }
+  )
+}
+
+// why two stages.. why indeed
+// we currently have only 1 armhf server, if we run binary:armhf and
+// binary:armhf-caf in parallel, it would try to use same workspace
+// which can end in disaster.. so due to lack of solutions, it is built
+// seperately for now.
+// TODO: figure out resource locking is solution for that?
+stage('binaries-caf') {
+<% if project.name == 'android-headers' %>
+  // android-headers is arch: all package so meh
+  cleanNode('amd64') {
+    unstash 'source'
+    sh 'mv build/* .'
+    sh 'rm -rv build'
+    sh 'ls -lah'
+    sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` caf'
+    junit allowEmptyResults: true, testResults: 'reports/*.xml'
+    stash name: 'debs_caf', includes: 'result/**', allowEmpty: true
+  }
+<% else %>
+  cleanNode('armhf') {
+    unstash 'source'
+    sh 'mv build/* .'
+    sh 'rm -rv build'
+    sh 'ls -lah'
+    sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` caf'
+    junit allowEmptyResults: true, testResults: 'reports/*.xml'
+    stash name: 'debs_caf', includes: 'result/**', allowEmpty: true
+  }
+<% end %>
+}
+
+stage('publish') {
+  cleanNode('master') {
+    unstash 'source'
+    unstash 'debs_amd64'
+    unstash 'debs_armhf'
+    dir('caf') {
+      unstash 'debs_caf'
+    }
+    sh 'ls -lahR'
+    //TODO: publish them as well
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}

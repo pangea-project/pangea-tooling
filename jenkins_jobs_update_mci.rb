@@ -83,6 +83,22 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
     end
 
+    mci_projects_file = "#{@projects_dir}/mci/mobile.yaml"
+    mci_projects = ProjectsFactory.from_file(mci_projects_file,
+                                             branch: "halium-7.1")
+
+    # This are really special projects, they need to be built with
+    # different configuration options and should be published into
+    # different repos. Instead of using traditional ProjectJob, we
+    # use MCIProjectJob pipeline for it.
+    MCI.series.each_key do |distribution|
+      mci_projects.each do |project|
+        enqueue(MCIProjectJob.new(project,
+                                  distribution: distribution,
+                                  architectures: MCI.architectures))
+      end
+    end
+
     progenitor = enqueue(
       MgmtProgenitorJob.new(downstream_jobs: all_meta_builds)
     )
