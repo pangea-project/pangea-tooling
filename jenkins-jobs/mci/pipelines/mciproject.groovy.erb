@@ -1,5 +1,9 @@
 env.DIST = 'xenial'
+<% if project.name == 'kwin' %>
+env.TYPE = 'unstable'
+<% else %>
 env.TYPE = 'halium'
+<% end %>
 env.PWD_BIND = '/workspace'
 env.JOB_NAME = '<%= project.name %>'
 
