@@ -33,18 +33,18 @@ class UpstreamSCMTest < TestCase
   def test_defaults
     scm = CI::UpstreamSCM.new('breeze-qt4', 'kubuntu_unstable', '/')
     assert_equal('git', scm.type)
-    assert_equal('git://anongit.kde.org/breeze', scm.url)
+    assert_equal('https://anongit.kde.org/breeze', scm.url)
     assert_equal('master', scm.branch)
   end
 
   def test_releasme_adjust
     scm = CI::UpstreamSCM.new('breeze-qt4', 'kubuntu_unstable', '/')
     assert_equal('git', scm.type)
-    assert_equal('git://anongit.kde.org/breeze', scm.url)
+    assert_equal('https://anongit.kde.org/breeze', scm.url)
     assert_equal('master', scm.branch)
     scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
     assert_equal('git', scm.type)
-    assert_equal('git://anongit.kde.org/breeze', scm.url)
+    assert_equal('https://anongit.kde.org/breeze', scm.url)
     assert_equal('Plasma/5.9', scm.branch)
   end
 
@@ -52,7 +52,7 @@ class UpstreamSCMTest < TestCase
     # Not changing non kde.org stuff.
     scm = CI::UpstreamSCM.new('breeze-qt4', 'kubuntu_unstable', '/')
     assert_equal('git', scm.type)
-    assert_equal('git://anongit.kde.org/breeze', scm.url)
+    assert_equal('https://anongit.kde.org/breeze', scm.url)
     assert_equal('master', scm.branch)
     scm.instance_variable_set(:@url, 'git://kittens')
     assert_nil(scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE))
@@ -78,7 +78,7 @@ class UpstreamSCMTest < TestCase
     proj = mock('project')
     proj.stubs(:i18n_trunk).returns(nil)
     proj.stubs(:i18n_stable).returns('supertrunk')
-    ReleaseMe::Project.stubs(:from_repo_url).with('git://anongit.kde.org/no-stable').returns([proj])
+    ReleaseMe::Project.stubs(:from_repo_url).with('https://anongit.kde.org/no-stable').returns([proj])
 
     scm = CI::UpstreamSCM.new('no-stable', 'kubuntu_unstable', '/')
     scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
@@ -93,7 +93,7 @@ class UpstreamSCMTest < TestCase
     proj = mock('project')
     proj.stubs(:i18n_trunk).returns(nil)
     proj.stubs(:i18n_stable).returns(nil)
-    ReleaseMe::Project.stubs(:from_repo_url).with('git://anongit.kde.org/no-i18n').returns([proj])
+    ReleaseMe::Project.stubs(:from_repo_url).with('https://anongit.kde.org/no-i18n').returns([proj])
 
     scm = CI::UpstreamSCM.new('no-i18n', 'kubuntu_unstable', '/')
     scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
@@ -107,10 +107,10 @@ class UpstreamSCMTest < TestCase
     proj = mock('project')
     proj.stubs(:i18n_trunk).returns('master')
     proj.stubs(:i18n_stable).returns('Plasma/5.9')
-    ReleaseMe::Project.stubs(:from_repo_url).with('git://anongit.kde.org/breeze').returns([proj])
+    ReleaseMe::Project.stubs(:from_repo_url).with('https://anongit.kde.org/breeze').returns([proj])
 
     scm = CI::UpstreamSCM.new('breeze-qt4', 'kubuntu_unstable', '/')
-    scm.instance_variable_set(:@url, 'git://anongit.kde.org/breeze.git')
+    scm.instance_variable_set(:@url, 'https://anongit.kde.org/breeze.git')
     scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
     assert_equal('Plasma/5.9', scm.branch)
   end

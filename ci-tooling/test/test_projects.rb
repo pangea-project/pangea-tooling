@@ -112,7 +112,7 @@ class ProjectTest < TestCase
           p scm = project.upstream_scm
           assert_equal('git', scm.type)
           assert_equal('master', scm.branch)
-          assert_equal("git://anongit.kde.org/#{name}", scm.url)
+          assert_equal("https://anongit.kde.org/#{name}", scm.url)
           assert_equal(%w(kinfocenter kinfocenter-dbg),
                        project.provided_binaries)
           assert_equal(%w(gwenview), project.dependencies)

@@ -74,7 +74,7 @@ module CI
       @name = File.basename(packaging_repo)
       @directory = working_directory
 
-      repo_url = "git://anongit.kde.org/#{@name.chomp('-qt4')}"
+      repo_url = "https://anongit.kde.org/#{@name.chomp('-qt4')}"
       branch = DEFAULT_BRANCH
 
       super('git', repo_url, branch)
