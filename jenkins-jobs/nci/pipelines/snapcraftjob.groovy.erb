@@ -9,7 +9,7 @@ cleanNode('amd64 && !cloud') { // && cloud') {
     git branch: "<%= packaging_scm.branch %>", url: "<%= packaging_scm.url %>"
     sh 'mkdir tooling'
     dir('tooling') {
-      git url: 'git://github.com/blue-systems/pangea-tooling'
+      git url: 'https://github.com/blue-systems/pangea-tooling'
     }
     sh 'ls -lah tooling/nci/'
     // sh 'tree || ls -lahR'
