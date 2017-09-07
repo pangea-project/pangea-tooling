@@ -129,8 +129,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
              !EXCLUDE_SNAPS.include?(project.name)
             enqueue(AppSnapJob.new(project.name))
           end
-          if type == 'unstable' && (project.component == 'applications' &&
-             project.snapcraft && !EXCLUDE_SNAPS.include?(project.name))
+          if type == 'unstable' && project.snapcraft &&
+             !EXCLUDE_SNAPS.include?(project.name)
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
           end
