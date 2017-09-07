@@ -44,7 +44,8 @@ module NCI
 
     PATH_EXCLUSION = [
       'kde-sc/', # Legacy KDE 4 material
-      'attic/' # Archive for old unused stuff.
+      'attic/', # Archive for old unused stuff.
+      'deduplication-wastebin/' # Trash from dupe cleanup.
     ].freeze
 
     module JUnit
