@@ -27,6 +27,7 @@ class SnapcraftJob < PipelineJob
   attr_reader :distribution
   attr_reader :type
   attr_reader :packaging_scm
+  attr_reader :upstream_scm
 
   def initialize(project, distribution:, type:)
     basename = ProjectJob.basename(distribution, type, project.component,
@@ -36,5 +37,6 @@ class SnapcraftJob < PipelineJob
     @distribution = distribution
     @type = type
     @packaging_scm = project.packaging_scm
+    @upstream_scm = project.upstream_scm
   end
 end

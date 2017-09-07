@@ -6,13 +6,19 @@ env.PWD_BIND = '/workspace'
 
 cleanNode('amd64 && !cloud') { // && cloud') {
   stage('clone') {
+    <% if upstream_scm.type == 'git' %>
+    sh 'mkdir source'
+    dir('source') {
+      git branch: "<%= upstream_scm.branch %>", url: "<%= upstream_scm.url %>"
+    }
+    <% else; raise "Unknown upstream scm type on #{upstream_scm}"; end %>
+
     git branch: "<%= packaging_scm.branch %>", url: "<%= packaging_scm.url %>"
+
     sh 'mkdir tooling'
     dir('tooling') {
       git url: 'https://github.com/blue-systems/pangea-tooling'
     }
-    sh 'ls -lah tooling/nci/'
-    // sh 'tree || ls -lahR'
   }
   stage('extend') {
     sh 'ls -lah tooling/nci/snapcraft_extend.rb'
