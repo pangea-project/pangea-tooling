@@ -6,14 +6,14 @@ env.PWD_BIND = '/workspace'
 
 cleanNode('amd64') { // && cloud') {
   stage('clone') {
+    git branch: "<%= packaging_scm.branch %>", url: "<%= packaging_scm.url %>"
+
     <% if upstream_scm.type == 'git' %>
     sh 'mkdir source'
     dir('source') {
       git branch: "<%= upstream_scm.branch %>", url: "<%= upstream_scm.url %>"
     }
     <% else; raise "Unknown upstream scm type on #{upstream_scm}"; end %>
-
-    git branch: "<%= packaging_scm.branch %>", url: "<%= packaging_scm.url %>"
 
     sh 'mkdir tooling'
     dir('tooling') {
