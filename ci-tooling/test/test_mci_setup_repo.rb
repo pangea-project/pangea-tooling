@@ -41,21 +41,25 @@ class MCISetupRepoTest < TestCase
     # Disable all web (used for key).
     WebMock.disable_net_connect!
     ENV['TYPE'] = 'unstable'
+    ENV['VARIANT'] = 'caf'
   end
 
   def teardown
     WebMock.allow_net_connect!
     LSB.reset
     ENV['TYPE'] = nil
+    ENV['VARIANT'] = nil
   end
 
   def test_setup_repo
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub vivid main'],
+      ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub/caf vivid main'],
       ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub/testing vivid main'],
       ['add-apt-repository', '-y', 'deb http://archive.neon.kde.org/unstable vivid main'],
       ['add-apt-repository', '-y', 'deb http://repo.halium.org vivid main'],
+      ['add-apt-repository', '-y', 'deb http://repo.halium.org/caf vivid main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
     ]

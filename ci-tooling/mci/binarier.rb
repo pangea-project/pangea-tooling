@@ -23,6 +23,15 @@
 require_relative 'lib/setup_repo'
 require_relative '../lib/ci/build_binary'
 
+MCI.setup_env!
+
+if ARGV.fetch(2, nil) == 'caf'
+  ENV['VARIANT'] = 'caf'
+  ENV['DEB_BUILD_PROFILES'] = 'caf'
+else
+  ENV['VARIANT'] == 'generic'
+end
+
 MCI.setup_repo!
 
 builder = CI::PackageBuilder.new

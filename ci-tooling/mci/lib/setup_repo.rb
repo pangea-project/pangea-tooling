@@ -30,11 +30,21 @@ module MCI
 
   def setup_repo!
     @type = ENV.fetch('TYPE')
+    @variant = ENV.fetch('VARIANT')
 
     if @type != "halium"
       debline = format('deb http://mobile.neon.pangea.pub %s main',
                        LSB::DISTRIB_CODENAME)
       raise 'adding repo failed' unless Apt::Repository.add(debline)
+
+      mcivariant = if @variant == 'caf'
+                     format('deb http://mobile.neon.pangea.pub/caf %s main',
+                            LSB::DISTRIB_CODENAME)
+                   else
+                     format('deb http://mobile.neon.pangea.pub/generic %s main',
+                            LSB::DISTRIB_CODENAME)
+                   end
+      raise 'adding repo failed' unless Apt::Repository.add(mcivariant)
 
       testing = format('deb http://mobile.neon.pangea.pub/testing %s main',
                        LSB::DISTRIB_CODENAME)
@@ -48,6 +58,15 @@ module MCI
     haliumrepo = format('deb http://repo.halium.org %s main',
                      LSB::DISTRIB_CODENAME)
     raise 'adding repo failed' unless Apt::Repository.add(haliumrepo)
+
+    variantrepo = if @variant == 'caf'
+                    format('deb http://repo.halium.org/caf %s main',
+                           LSB::DISTRIB_CODENAME)
+                  else
+                    format('deb http://repo.halium.org/generic %s main',
+                           LSB::DISTRIB_CODENAME)
+                  end
+    raise 'adding repo failed' unless Apt::Repository.add(variantrepo)
 
     Apt::Key.add('http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key')
     raise 'Failed to import key' unless $?.to_i.zero?

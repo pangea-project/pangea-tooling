@@ -27,8 +27,10 @@ require_relative '../lib/ci/tar_fetcher'
 require_relative 'lib/setup_repo'
 require_relative 'lib/setup_env'
 
-MCI.setup_repo!
+ENV['VARIANT'] = 'generic'
+
 MCI.setup_env!
+MCI.setup_repo!
 
 def orig_source(fetcher)
   tarball = fetcher.fetch('source')
