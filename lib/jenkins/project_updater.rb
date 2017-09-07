@@ -120,7 +120,11 @@ Check the detailed output to find output relating to the failed creation of the 
       update_submodules
       populate_queue
       run_queue
-      check_jobs_exist
+      if ENV.include?('UPDATE_INCLUDE')
+        warn 'Skipping job creation validation as UPDATE_INCLUDE is set'
+      else
+        check_jobs_exist
+      end
     end
 
     def install_plugins
