@@ -21,6 +21,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative 'lib/setup_repo'
+require_relative 'lib/setup_env'
 require_relative '../lib/ci/build_binary'
 
 MCI.setup_env!
