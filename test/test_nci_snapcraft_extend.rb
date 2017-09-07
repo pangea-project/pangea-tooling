@@ -34,21 +34,13 @@ module NCI::Snap
     end
 
     def test_extend
+      FileUtils.cp_r(data('source'), '.')
+      FileUtils.mv('source/git', 'source/.git')
+
       stub_request(:get, Extender::STAGED_CONTENT_PATH).
         to_return(status: 200, body: JSON.generate(['bar']))
       stub_request(:get, Extender::STAGED_DEV_PATH).
         to_return(status: 200, body: JSON.generate(['bar-dev']))
-
-      repo = mock('repo')
-      remotes = mock('remotes')
-      remote = mock('remote_kolourpaint')
-      remote.stubs('ls').returns([
-        {"local?".to_s=>false, :oid=>"87da2fcf1d0925f489985323303531507b5ed537", :loid=>nil, :name=>"HEAD"},
-        {"local?".to_s=>false, :oid=>"87da2fcf1d0925f489985323303531507b5ed537", :loid=>nil, :name=>"refs/heads/master"}
-      ])
-      remotes.stubs('create_anonymous').with('https://anongit.kde.org/kolourpaint').returns(remote)
-      repo.stubs(:remotes).returns(remotes)
-      Rugged::Repository.expects(:init_at).returns(repo)
 
       assert_path_not_exist('snapcraft.yaml')
       Extender.extend(data('snapcraft.yaml'))

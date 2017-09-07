@@ -1,6 +1,6 @@
 ---
 name: kolourpaint
-version: master+87da2fc
+version: master+8f70cce
 summary: An easy-to-use paint program
 description: xxxx
 confinement: strict
@@ -38,7 +38,7 @@ parts:
     prime:
     - "$exclusion"
     source: https://anongit.kde.org/kolourpaint
-    source-commit: 87da2fcf1d0925f489985323303531507b5ed537
+    source-commit: 8f70cceda10f93f5981191fdb9f2ee2a9482a5c2
     source-type: git
     configflags:
     - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"

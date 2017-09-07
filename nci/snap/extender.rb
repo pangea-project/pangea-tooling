@@ -64,23 +64,16 @@ module NCI
       end
 
       def convert_to_git!
-        # FIXME: this should be based on our overrides crap
-        repo_url = "https://anongit.kde.org/#{snapname}"
-        repo_branch = 'master'
-        Dir.mktmpdir do |tmpdir|
-          repo = Rugged::Repository.init_at(tmpdir)
-          remote = repo.remotes.create_anonymous(repo_url)
-          ref = remote.ls.find do |name:, **|
-            name == "refs/heads/#{repo_branch}"
-          end
-          data['parts'][snapname].source = repo_url
-          data['parts'][snapname].source_type = 'git'
-          data['parts'][snapname].source_commit = ref.fetch(:oid)
-          # FIXME: I want an @ here
-          # https://bugs.launchpad.net/snapcraft/+bug/1712061
-          oid = ref.fetch(:oid)[0..6]
-          data['version'] = "#{repo_branch.tr('/', '.')}+#{oid}"
-        end
+        repo = Rugged::Repository.new("#{Dir.pwd}/source")
+        repo_branch = repo.branches[repo.head.name].name if repo.head.branch?
+        data['parts'][snapname].source = repo.remotes['origin'].url
+        data['parts'][snapname].source_type = 'git'
+        data['parts'][snapname].source_commit = repo.last_commit.oid
+        # FIXME: I want an @ here
+        # https://bugs.launchpad.net/snapcraft/+bug/1712061
+        oid = repo.last_commit.oid[0..6]
+        # Versions cannot have slashes, branches can though, so convert to .
+        data['version'] = [repo_branch, oid].join('+').tr('/', '.')
       end
 
       def data
