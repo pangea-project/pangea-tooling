@@ -4,7 +4,7 @@ env.TYPE = "<%= type %>"
 env.DOCKER_ENV_WHITELIST = 'APPNAME'
 env.PWD_BIND = '/workspace'
 
-cleanNode('amd64 && !cloud') { // && cloud') {
+cleanNode('amd64') { // && cloud') {
   stage('clone') {
     <% if upstream_scm.type == 'git' %>
     sh 'mkdir source'
