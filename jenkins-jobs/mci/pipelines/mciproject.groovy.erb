@@ -101,7 +101,6 @@ stage('publish') {
       unstash 'debs_caf'
     }
     sh 'ls -lahR'
-    //TODO: publish them as well
 <% if project.name == 'kwin' %>
     sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo xenial-generic build/*.changes'
     sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo xenial-caf build/*.changes'
