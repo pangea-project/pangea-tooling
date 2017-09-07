@@ -46,10 +46,6 @@ module MCI
                    end
       raise 'adding repo failed' unless Apt::Repository.add(mcivariant)
 
-      testing = format('deb http://mobile.neon.pangea.pub/testing %s main',
-                       LSB::DISTRIB_CODENAME)
-      raise 'adding repo failed' unless Apt::Repository.add(testing)
-
       neon = format('deb http://archive.neon.kde.org/unstable %s main',
                     LSB::DISTRIB_CODENAME)
       raise 'adding repo failed' unless Apt::Repository.add(neon)

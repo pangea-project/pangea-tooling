@@ -56,7 +56,6 @@ class MCISetupRepoTest < TestCase
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub vivid main'],
       ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub/caf vivid main'],
-      ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub/testing vivid main'],
       ['add-apt-repository', '-y', 'deb http://archive.neon.kde.org/unstable vivid main'],
       ['add-apt-repository', '-y', 'deb http://repo.halium.org vivid main'],
       ['add-apt-repository', '-y', 'deb http://repo.halium.org/caf vivid main'],
