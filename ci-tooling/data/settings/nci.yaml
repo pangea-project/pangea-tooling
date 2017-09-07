@@ -62,6 +62,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_forks_packagekit_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_kde-extras_{exiv2}_*':
   sourcer:
     restricted_packaging_copy: true
