@@ -26,6 +26,10 @@
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
+
+# Only build ubuntu images. Neon needs no debian images.
+export PANGEA_UBUNTU_ONLY=1
+
 ~/tooling/mgmt/docker_cleanup.rb
 ~/tooling/mgmt/docker.rb</command>
     </hudson.tasks.Shell>
