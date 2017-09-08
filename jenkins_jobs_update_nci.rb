@@ -85,7 +85,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   end
 
   def populate_queue
-    all_builds = []
     all_meta_builds = []
     all_mergers = []
 
@@ -122,6 +121,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     watchers = {}
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
+        all_builds = [] # Tracks all builds in this type.
+
         type_projects[type].each do |project|
           # Fairly akward special casing this. Snaps only build releases right
           # now.
