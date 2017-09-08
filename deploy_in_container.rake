@@ -26,6 +26,13 @@ require 'open-uri'
 require_relative 'lib/rake/bundle'
 
 DIST = ENV.fetch('DIST')
+# These will be installed in one-go before the actual deps are being installed.
+# This should only include stuff which is needed to make the actual DEP
+# installation work!
+EARLY_DEPS = [
+  'python-apt-common', # Remove this once python-apt gets a Stretch template
+  'eatmydata' # We disable fsync from apt and dpkg.
+]
 # Core is not here because it is required as a build-dep or anything but
 # simply a runtime dep of the tooling.
 CORE_RUNTIME_DEPS = %w[apt-transport-https].freeze
@@ -154,8 +161,6 @@ EOF
   end
 
   require_relative 'ci-tooling/lib/apt'
-  # Remove this once python-apt gets a Stretch template
-  Apt.install('python-apt-common')
 
   File.write('force-unsafe-io', '/etc/dpkg/dpkg.cfg.d/00_unsafeio')
 
@@ -195,10 +200,12 @@ EOF
     end
   end
 
+
+  Apt.install(*EARLY_DEPS) || raise
+
   # Force eatmydata on the installation binaries to completely bypass fsyncs.
   # This gives a 20% speed improvement on installing plasma-desktop+deps. That
   # is ~1 minute!
-  Apt.install('eatmydata') || raise
   %w[dpkg apt-get apt].each do |bin|
     file = "/usr/bin/#{bin}"
     next if File.exist?("#{file}.distrib") # Already diverted
