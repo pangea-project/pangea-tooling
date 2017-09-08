@@ -116,7 +116,7 @@ EOF
     end
 
     bundle_args = ['install']
-    bundle_args << '--jobs=1'
+    bundle_args << "--jobs=#{[Etc.nprocessors / 2, 1].max}"
     bundle_args << '--local'
     bundle_args << '--no-cache'
     bundle_args << '--frozen'
