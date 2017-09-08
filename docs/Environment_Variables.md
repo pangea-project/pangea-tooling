@@ -10,6 +10,7 @@
 |PANGEA_TEST_EXECUTION|Set by test suite to switch some code paths into simulation mode|
 |PANGEA_DOCKER_NO_FLATTEN|Prevents docker maintenance from flattening the created image. This is faster but consumes more disk AND there is a limit to how much history docker can keep on an image, if it is exceeded image creation fails.|
 |DOCKER_ENV_WHITELIST|Whitelists environment variables for automatic forwarding into Docker containers.|
+|PANGEA_PROVISION_AUTOINST|Enables os-autoinst provisioning in docker images.|
 
 # Job (aka Project) updates
 

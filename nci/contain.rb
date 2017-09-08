@@ -22,7 +22,8 @@
 require_relative '../lib/ci/containment'
 
 # Whitelist a bunch of Jenkins variables for consumption inside the container.
-whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME]
+whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
+               PANGEA_PROVISION_AUTOINST]
 whitelist += (ENV['DOCKER_ENV_WHITELIST'] || '').split(':')
 ENV['DOCKER_ENV_WHITELIST'] = whitelist.join(':')
 

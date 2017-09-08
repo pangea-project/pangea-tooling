@@ -76,7 +76,7 @@ end
 
 # openqa
 task :deploy_openqa do
-  next unless DIST == 'xenial'
+  next unless DIST == 'xenial' && ENV.include?('PANGEA_PROVISION_AUTOINST')
   Dir.mktmpdir do |tmpdir|
     system 'git clone --depth 1 ' \
        "https://github.com/apachelogger/kde-os-autoinst #{tmpdir}/"
