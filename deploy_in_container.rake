@@ -200,7 +200,6 @@ EOF
     end
   end
 
-
   Apt.install(*EARLY_DEPS) || raise
 
   # Force eatmydata on the installation binaries to completely bypass fsyncs.
@@ -237,8 +236,7 @@ EOF
 
   require_relative 'ci-tooling/lib/retry'
   Retry.retry_it(times: 5, sleep: 8) do
-    # Use apt.
-    raise 'Update failed' unless Apt.update
+    # NOTE: apt.rb automatically runs update the first time it is used.
     raise 'Dist upgrade failed' unless Apt.dist_upgrade
     raise 'Apt install failed' unless Apt.install(*DEPS)
     raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
