@@ -239,8 +239,6 @@ EOF
   Retry.retry_it(times: 5, sleep: 8) do
     # Use apt.
     raise 'Update failed' unless Apt.update
-    # Undo a temporary workaround.
-    system('apt-mark', 'unhold', 'makedev')
     raise 'Dist upgrade failed' unless Apt.dist_upgrade
     raise 'Apt install failed' unless Apt.install(*DEPS)
     raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
