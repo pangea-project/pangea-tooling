@@ -34,7 +34,7 @@ EARLY_DEPS = [
   'eatmydata' # We disable fsync from apt and dpkg.
 ]
 # Core is not here because it is required as a build-dep or anything but
-# simply a runtime dep of the tooling.
+# simply a runtime (or provision time) dep of the tooling.
 CORE_RUNTIME_DEPS = %w[apt-transport-https].freeze
 DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           python-launchpadlib ubuntu-dev-tools gnome-pkg-tools git dh-systemd
@@ -43,8 +43,8 @@ DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           gobject-introspection sphinx-common po4a pep8 pyflakes ppp-dev dh-di
           libgirepository1.0-dev libglib2.0-dev bash-completion
           python3-setuptools dkms mozilla-devscripts libffi-dev
-          subversion libssl-dev libcurl4-gnutls-dev libssh2-1-dev
-          libhttp-parser-dev javahelper].freeze + CORE_RUNTIME_DEPS
+          subversion libssl-dev libcurl4-gnutls-dev
+          libhttp-parser-dev javahelper rsync].freeze + CORE_RUNTIME_DEPS
 
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
@@ -242,9 +242,6 @@ EOF
     # Undo a temporary workaround.
     system('apt-mark', 'unhold', 'makedev')
     raise 'Dist upgrade failed' unless Apt.dist_upgrade
-    # FIXME: install reallly should allow array as input. that's not tested and
-    # actually fails though
-    raise 'Workaround failed' unless Apt.install(*%w[rsync])
     raise 'Apt install failed' unless Apt.install(*DEPS)
     raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
     raise 'Clean failed' unless Apt.clean
