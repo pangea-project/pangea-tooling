@@ -135,10 +135,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
           end
-          project_architectures = if type == 'unstable' &&
-                                     %w[qt frameworks forks plasma
-                                        applications neon-packaging
-                                        kde-req krap kde-extras calligra].include?(project.component)
+          project_architectures = if type == 'unstable' 
                                     NCI.all_architectures
                                   else
                                     NCI.architectures
