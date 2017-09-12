@@ -112,6 +112,9 @@ module CI
       end
     end
 
+    # dpkg-* cannot dumps artifact into a specific dir, so we need move
+    # them about.
+    # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=657401
     def copy_binaries
       Dir.mkdir(RESULT_DIR) unless Dir.exist?(RESULT_DIR)
       changes = Dir.glob("#{BUILD_DIR}/../*.changes")
