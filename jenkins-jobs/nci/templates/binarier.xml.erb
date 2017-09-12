@@ -72,7 +72,7 @@ echo $JOB_NAME > job_name
       <allowEmptyResults>true</allowEmptyResults>
     </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>*.deb, *.changes, *.udeb, adt-output.tar.xz</artifacts>
+      <artifacts>*.deb, *.changes, *.udeb, adt-output.tar.xz, result/*</artifacts>
       <excludes>*_source.changes</excludes>
       <allowEmptyArchive>true</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
