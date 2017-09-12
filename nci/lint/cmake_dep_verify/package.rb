@@ -72,7 +72,9 @@ EOF
     end
 
     def files
-      Apt.install("#{name}=#{version}")
+      unless Apt.install("#{name}=#{version}")
+        raise "Failed to install #{name} #{version}"
+      end
       # Mark the package as manual so it doens't get purged by autoremove.
       Apt::Mark.tmpmark(name, Apt::Mark::MANUAL) do
         Apt::Get.autoremove(args: '--purge')
