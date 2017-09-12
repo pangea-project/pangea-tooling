@@ -29,11 +29,13 @@ module Lint
   class CMakePackages
     attr_reader :repo
 
-    def initialize(repo)
+    def initialize(type, dist)
       @log = Logger.new(STDOUT)
       @log.level = Logger::INFO
       @log.progname = self.class.to_s
-      @repo = repo
+      @type = type
+      aptly_repo = Aptly::Repository.get("#{type}_#{dist}")
+      @repo = QMLDepVerify::AptlyRepository.new(aptly_repo, @type)
       @package_results = {}
     end
 
@@ -57,16 +59,8 @@ module Lint
       end
     end
 
-    def binaries
-      changes = Debian::Changes.new(Dir.glob('*.changes')[0])
-      changes.parse!
-      binaries = changes.fields.fetch('Binary')
-      version = changes.fields.fetch('Version')
-      binaries.collect { |x| [x, version] }
-    end
-
     def run_internal
-      binaries.each do |package, version|
+      repo.binaries.each do |package, version|
         next if package.end_with?('-dbg', '-dbgsym', '-data', '-bin', '-common')
         pkg = CMakeDepVerify::Package.new(package, version)
         @log.info "Checking #{package}: #{version}"

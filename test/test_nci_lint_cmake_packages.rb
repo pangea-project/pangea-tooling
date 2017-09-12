@@ -20,6 +20,8 @@
 
 require_relative '../ci-tooling/test/lib/testcase'
 
+require_relative '../ci-tooling/lib/apt'
+
 require 'mocha/test_unit'
 
 module NCI
@@ -45,16 +47,30 @@ module NCI
         Apt::Key.expects(:add).returns(true)
         Apt::Repository.any_instance.expects(:add).returns(true)
         Apt::Repository.any_instance.expects(:remove).returns(true)
-        Aptly::Repository.expects(:get).returns(mock('aptly_repo'))
         Apt::Abstrapt.stubs(:run_internal).returns(true)
-        DPKG.expects(:list).with('libkf5coreaddons-dev').returns(%w(
+        DPKG.expects(:list).with('libkf5coreaddons-dev').returns(%w[
           /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets.cmake
           /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsMacros.cmake
           /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets-debian.cmake
           /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfigVersion.cmake
           /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfig.cmake)
-        )
+        ])
         CMakeDepVerify::Package.any_instance.expects(:run_cmake_in).returns(true)
+
+        fake_repo = mock('repo')
+        fake_repo
+          .stubs(:packages)
+          .with(q: 'kcoreaddons (= 5.21.0-0neon) {source}')
+          .returns(['Psource kcoreaddons 5.21.0-0neon abc'])
+        fake_repo
+          .stubs(:packages)
+          .with(q: '!$Architecture (source), $Source (kcoreaddons), $SourceVersion (5.21.0-0neon)')
+          .returns(['Pamd64 libkf5coreaddons-bin-dev 5.21.0-0neon abc',
+                    'Pall libkf5coreaddons-data 5.21.0-0neon abc',
+                    'Pamd64 libkf5coreaddons-dev 5.21.0-0neon abc',
+                    'Pamd64 libkf5coreaddons5 5.21.0-0neon abc'])
+
+        Aptly::Repository.expects(:get).with('release_xenial').returns(fake_repo)
 
         result = mock('result')
         result.responds_like_instance_of(TTY::Command::Result)

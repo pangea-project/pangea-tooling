@@ -30,8 +30,4 @@ Aptly.configure do |config|
   config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')
 end
 
-type = ENV.fetch('TYPE')
-# NB: we do not actually access an aptly repo, so we pass nil. This is only
-#   used to add/remove the apt repo to sources.list.
-repo = QMLDepVerify::AptlyRepository.new(nil, type)
-Lint::CMakePackages.new(repo).run
+Lint::CMakePackages.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).run
