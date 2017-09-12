@@ -88,9 +88,9 @@ module CI
       builder.build
 
       refute_equal([], Dir.glob('build/*'))
-      refute_equal([], Dir.glob('*.deb'))
-      assert_path_exist('test-build-bin-only_2.10_amd64.changes')
-      changes = Debian::Changes.new('test-build-bin-only_2.10_amd64.changes')
+      refute_equal([], Dir.glob('result/*.deb'))
+      assert_path_exist('result/test-build-bin-only_2.10_amd64.changes')
+      changes = Debian::Changes.new('result/test-build-bin-only_2.10_amd64.changes')
       changes.parse!
       refute_equal([], changes.fields['files'].map(&:name))
 

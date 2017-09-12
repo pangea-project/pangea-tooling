@@ -118,7 +118,7 @@ module CI
     # dpkg-* cannot dumps artifact into a specific dir, so we need move
     # them about.
     # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=657401
-    def copy_binaries
+    def move_binaries
       Dir.mkdir(RESULT_DIR) unless Dir.exist?(RESULT_DIR)
       changes = Dir.glob("#{BUILD_DIR}/../*.changes")
 
@@ -129,7 +129,7 @@ module CI
         return
       end
 
-      system('dcmd', 'cp', '-v', *changes, 'result/')
+      system('dcmd', 'mv', '-v', *changes, 'result/')
     end
 
     def build
@@ -145,7 +145,7 @@ module CI
       extract
       install_dependencies
       build_package
-      copy_binaries
+      move_binaries
       print_contents
     end
 

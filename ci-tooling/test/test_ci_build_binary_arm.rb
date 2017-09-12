@@ -65,7 +65,7 @@ module CI
              .at_least_once
              .returns(true)
 
-      builder.expects(:copy_binaries)
+      builder.expects(:move_binaries)
              .at_least_once
              .returns(true)
 
