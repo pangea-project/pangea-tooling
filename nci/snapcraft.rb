@@ -33,7 +33,7 @@ if $PROGRAM_NAME == __FILE__
                          "#{Dir.pwd}/stage/usr/share:" \
                          '/usr/local/share:/usr/share'
   # Use our own remote parts file.
-  ENV['SNAPCRAFT_PARTS_URI'] = 'http://metadata.neon.kde.org/snap/parts.yaml'
+  ENV['SNAPCRAFT_PARTS_URI'] = 'https://metadata.neon.kde.org/snap/parts.yaml'
   # docbook-xml and docbook-xsl are loaded by kdoctools through hardcoded paths.
   Apt.install(%w[snapcraft docbook-xml docbook-xsl])
   TTY::Command.new(uuid: false).run('snapcraft --debug')
