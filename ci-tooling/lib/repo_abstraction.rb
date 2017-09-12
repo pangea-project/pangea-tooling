@@ -20,6 +20,8 @@
 
 require_relative 'apt'
 require_relative 'aptly-ext/filter'
+require_relative 'aptly-ext/package'
+require_relative 'debian/changes'
 require_relative 'dpkg'
 require_relative 'lsb'
 require_relative 'retry'
@@ -263,6 +265,32 @@ class RootOnAptlyRepository < Repository
       repo_packages -= packages # substract already known packages.
       repo_packages.each { |k| packages << k if pk_packages.include?(k) }
     end
+    packages
+  end
+end
+
+# Special repository type which filters the sources based off of the
+# changes file in PWD.
+class ChangesSourceFilterAptlyRepository < ::AptlyRepository
+  def sources
+    @sources ||= begin
+      changes = Debian::Changes.new(Dir.glob('*.changes')[0])
+      changes.parse!
+      # Aptly api is fairly daft and has no proper R/WLock right now, so
+      # reads time out every once in a while, guard against this.
+      # Exepctation is that the timeout is reasonably short so we don't wait
+      # too long multiple times in a row.
+      s = Retry.retry_it(times: 8, sleep: 4) do
+        @repo.packages(q: format('%s (= %s) {source}',
+                                 changes.fields['Source'],
+                                 changes.fields['Version']))
+      end
+      s.collect { |x| Aptly::Ext::Package::Key.from_string(x) }
+    end
+  end
+
+  # TODO: move to unified packages meth name
+  def binaries
     packages
   end
 end

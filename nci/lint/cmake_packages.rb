@@ -18,10 +18,11 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'aptly'
 require 'logger'
 require 'logger/colors'
 
-require_relative '../../ci-tooling/lib/qml_dep_verify/aptly'
+require_relative '../../ci-tooling/lib/repo_abstraction'
 require_relative 'cmake_dep_verify/package'
 require_relative 'cmake_dep_verify/junit'
 
@@ -35,7 +36,7 @@ module Lint
       @log.progname = self.class.to_s
       @type = type
       aptly_repo = Aptly::Repository.get("#{type}_#{dist}")
-      @repo = QMLDepVerify::AptlyRepository.new(aptly_repo, @type)
+      @repo = ChangesSourceFilterAptlyRepository.new(aptly_repo, @type)
       @package_results = {}
     end
 

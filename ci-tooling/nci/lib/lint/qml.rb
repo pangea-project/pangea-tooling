@@ -20,7 +20,9 @@
 
 require 'aptly'
 require 'jenkins_junit_builder'
+
 require_relative '../../../lib/qml_dependency_verifier'
+require_relative '../../../lib/repo_abstraction'
 
 module Lint
   # A QML linter
@@ -35,7 +37,7 @@ module Lint
     def lint
       return unless @has_qml
       aptly_repo = Aptly::Repository.get(@repo)
-      qml_repo = QMLDepVerify::AptlyRepository.new(aptly_repo, @type)
+      qml_repo = ChangesSourceFilterAptlyRepository.new(aptly_repo, @type)
       verifier = QMLDependencyVerifier.new(qml_repo)
       @missing_modules = verifier.missing_modules
       return if @missing_modules.empty?

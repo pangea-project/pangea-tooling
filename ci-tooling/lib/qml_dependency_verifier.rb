@@ -21,7 +21,6 @@
 require 'logger'
 require 'logger/colors'
 
-require_relative 'qml_dep_verify/aptly'
 require_relative 'qml_dep_verify/package'
 
 # A QML dependency verifier. It verifies by installing each built package

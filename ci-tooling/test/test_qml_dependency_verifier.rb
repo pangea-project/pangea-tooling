@@ -21,7 +21,6 @@ class QMLDependencyVerifierTest < TestCase
     VCR.insert_cassette(File.basename(__FILE__, '.rb'))
 
     Dir.chdir(@datadir)
-    LSB.instance_variable_set(:@hash, DISTRIB_CODENAME: 'vivid')
 
     Apt::Repository.send(:reset)
     # Disable automatic update
@@ -46,7 +45,6 @@ class QMLDependencyVerifierTest < TestCase
 
   def teardown
     VCR.eject_cassette(File.basename(__FILE__, '.rb'))
-    LSB.reset
   end
 
   def data(path = nil)
