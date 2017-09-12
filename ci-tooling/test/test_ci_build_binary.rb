@@ -94,6 +94,11 @@ module CI
       changes.parse!
       refute_equal([], changes.fields['files'].map(&:name))
 
+      assert_path_exist('result/test-build-bin-only_2.10_amd64.deb.info.txt')
+      # Should have plenty of characters (i.e. not be empty and probably contain
+      # relevant output)
+      assert(File.read('result/test-build-bin-only_2.10_amd64.deb.info.txt').size > 100)
+
       assert_bin_only(builder)
     end
 
