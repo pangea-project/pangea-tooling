@@ -53,7 +53,5 @@ if File.exist?('build_url')
   end
   # skip the linting if build dir doesn't exist
   # happens in case of Architecture: all packages on armhf for example
-  if Dir.exist?('build')
-    require_relative 'lint_bin'
-  end
+  require_relative 'lint_bin' if Dir.exist?('build')
 end
