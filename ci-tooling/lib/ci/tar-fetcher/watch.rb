@@ -28,7 +28,7 @@ require_relative '../../debian/version'
 module CI
   # Fetch tarballs via uscan using debian/watch.
   class WatchTarFetcher
-    def initialize(watchfile, mangle_download = false)
+    def initialize(watchfile, mangle_download: false)
       unless File.basename(watchfile) == 'watch'
         raise "path not a watch file #{watchfile}"
       end

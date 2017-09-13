@@ -64,7 +64,8 @@ module Sourcer
 
     def run_uscan
       puts 'Downloading tarball via uscan'
-      orig_source(CI::WatchTarFetcher.new('packaging/debian/watch', true))
+      orig_source(CI::WatchTarFetcher.new('packaging/debian/watch',
+                                          mangle_download: true))
     end
 
     def run_fallback
@@ -77,7 +78,7 @@ module Sourcer
 end
 
 # :nocov:
-if __FILE__ == $PROGRAM_NAME
+if $PROGRAM_NAME == __FILE__
   ENV['RELEASEME_PROJECTS_API'] = '1'
   NCI.setup_repo!
   NCI.setup_env!
