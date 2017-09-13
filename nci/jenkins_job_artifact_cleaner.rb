@@ -68,4 +68,4 @@ module NCI
   end
 end
 
-NCI::JenkinsJobArtifactCleaner.new.run(ARGV) if $PROGRAM_NAME == __FILE__
+NCI::JenkinsJobArtifactCleaner.run(ARGV) if $PROGRAM_NAME == __FILE__
