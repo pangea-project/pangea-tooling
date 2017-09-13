@@ -98,7 +98,7 @@ module CI
     # currently only works on stable/
     def test_watch_mangle
       FileUtils.cp_r(data, 'debian/')
-      f = WatchTarFetcher.new('debian/watch', true)
+      f = WatchTarFetcher.new('debian/watch', mangle_download: true)
 
       ref_line = 'http://172.17.0.1:9191/stable/applications/([\d.]+)/kgamma5-([\d.]+).tar.xz'
 
