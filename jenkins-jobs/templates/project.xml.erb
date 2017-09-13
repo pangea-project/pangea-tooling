@@ -72,11 +72,10 @@
     <%= render_phases %>
     <hudson.tasks.Shell>
       <command>
-        # We'll want to keep the adt output as well as random txts and jsons generated
-        <% jobs.each do |job| %>
-          dir="$JENKINS_HOME/jobs/<%= job %>/builds/lastSuccessfulBuild/archive/"
-          find $dir -mindepth 1 \( -name 'adt-output*' -prune -o -name '*.txt' -prune -o -name '*.json' -prune \) -o \( -type f -print \) | rm -rvf
-        <% end %>
+        # Cleanup the artifacts of the last successful builds of our subjobs
+        # This preserves disk space by throwing out unnecessary rubbish, such
+        # as debs and tarballs.
+        ~/tooling/nci/jenkins_job_artifact_cleaner.rb <%= jobs.join(' ') %>
       </command>
     </hudson.tasks.Shell>
   </builders>
