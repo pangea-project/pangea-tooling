@@ -78,8 +78,9 @@ module CI
     end
 
     def mangle_url(data)
+      # The download.kde.neon.kde.org domain is injected via hosts files!
       data.gsub(%r{download.kde.org/stable/},
-                '172.17.0.1:9191/stable/')
+                'download.kde.neon.kde.org:9191/stable/')
     end
 
     def current_version

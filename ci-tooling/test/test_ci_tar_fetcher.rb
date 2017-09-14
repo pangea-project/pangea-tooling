@@ -100,7 +100,7 @@ module CI
       FileUtils.cp_r(data, 'debian/')
       f = WatchTarFetcher.new('debian/watch', mangle_download: true)
 
-      ref_line = 'http://172.17.0.1:9191/stable/applications/([\d.]+)/kgamma5-([\d.]+).tar.xz'
+      ref_line = 'http://download.kde.neon.kde.org:9191/stable/applications/([\d.]+)/kgamma5-([\d.]+).tar.xz'
 
       # Mangles are transient, so we need to assert at the time of uscan
       # invocation.
