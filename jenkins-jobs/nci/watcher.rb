@@ -34,8 +34,6 @@ class WatcherJob < JenkinsJob
     @scm_readable = Marshal.load(Marshal.dump(project.packaging_scm))
     @scm_writable = Marshal.load(Marshal.dump(project.packaging_scm))
     # FIXME: brrr the need for deep copy alone should ring alarm bells
-    @scm_writable.url.gsub!('git://anongit.neon.kde.org/',
-                            'neon@git.neon.kde.org:')
     @scm_writable.url.gsub!('https://anongit.neon.kde.org/',
                             'neon@git.neon.kde.org:')
     # Don't touch release-lts for Plasma jobs
