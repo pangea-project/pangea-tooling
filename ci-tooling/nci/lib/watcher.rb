@@ -37,9 +37,11 @@ module NCI
       puts 'mangling debian/watch'
       output = ''
       File.open('debian/watch').each do |line|
-        # The download.kde.neon.kde.org domain is injected via hosts files!
+        # The download.kde.internal.neon.kde.org domain is not
+        # publicly available!
+        # Only available through blue system's internal DNS.
         output += line.gsub(%r{download.kde.org/stable/},
-                            'download.kde.neon.kde.org:9191/stable/')
+                            'download.kde.internal.neon.kde.org:9191/stable/')
       end
       puts output
       File.open('debian/watch', 'w') { |file| file.write(output) }

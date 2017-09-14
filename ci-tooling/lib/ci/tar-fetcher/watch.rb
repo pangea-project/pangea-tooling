@@ -78,9 +78,10 @@ module CI
     end
 
     def mangle_url(data)
-      # The download.kde.neon.kde.org domain is injected via hosts files!
+      # The download.kde.internal.neon.kde.org domain is not publicly available!
+      # Only available through blue system's internal DNS.
       data.gsub(%r{download.kde.org/stable/},
-                'download.kde.neon.kde.org:9191/stable/')
+                'download.kde.internal.neon.kde.org:9191/stable/')
     end
 
     def current_version
