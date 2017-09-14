@@ -31,6 +31,10 @@ class WatcherJob < JenkinsJob
   def initialize(project)
     super("watcher_release_#{project.component}_#{project.name}",
           'watcher.xml.erb')
+    # Properly nasty deep copy trick. We'll serialize the entire thing into
+    # a string, then convert that back to objects which results in fully isolate
+    # objects from their originals. Performance isn't really a concern here,
+    # so it's probably not too bad.
     @scm_readable = Marshal.load(Marshal.dump(project.packaging_scm))
     @scm_writable = Marshal.load(Marshal.dump(project.packaging_scm))
     # FIXME: brrr the need for deep copy alone should ring alarm bells
