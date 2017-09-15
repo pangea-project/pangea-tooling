@@ -38,9 +38,16 @@
       </hudson.plugins.git.extensions.impl.UserIdentity>
       <hudson.plugins.git.extensions.impl.PruneStaleBranch/>
       <hudson.plugins.git.extensions.impl.CleanBeforeCheckout/>
+      <hudson.plugins.git.extensions.impl.CloneOption>
+        <shallow>false</shallow>
+        <noTags>false</noTags>
+        <reference></reference>
+        <depth>0</depth>
+        <honorRefspec>true</honorRefspec>
+      </hudson.plugins.git.extensions.impl.CloneOption>
     </extensions>
   </scm>
-  <assignedNode>master</assignedNode>
+  <assignedNode>(amd64&amp;&amp;persistent)||(amd64&amp;&amp;cloud)||(amd64)</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
@@ -86,6 +93,19 @@ git config --local --add url."neon@git.neon.kde.org:".pushInsteadOf "https://ano
         </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
       </configs>
     </hudson.plugins.parameterizedtrigger.BuildTrigger>
+    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.34">
+      <patterns class="empty-list"/>
+      <deleteDirs>false</deleteDirs>
+      <skipWhenFailed>false</skipWhenFailed>
+      <cleanWhenSuccess>true</cleanWhenSuccess>
+      <cleanWhenUnstable>true</cleanWhenUnstable>
+      <cleanWhenFailure>true</cleanWhenFailure>
+      <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
+      <cleanWhenAborted>true</cleanWhenAborted>
+      <notFailBuild>false</notFailBuild>
+      <cleanupMatrixParent>false</cleanupMatrixParent>
+      <externalDelete></externalDelete>
+    </hudson.plugins.ws__cleanup.WsCleanup>
   </publishers>
   <buildWrappers>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.14">
@@ -99,5 +119,15 @@ git config --local --add url."neon@git.neon.kde.org:".pushInsteadOf "https://ano
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+    <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@1.13">
+      <bindings>
+        <org.jenkinsci.plugins.credentialsbinding.impl.SSHUserPrivateKeyBinding>
+          <credentialsId>ssh.jobs.git.neon</credentialsId>
+          <keyFileVariable>SSH_KEY_FILE</keyFileVariable>
+          <usernameVariable></usernameVariable>
+          <passphraseVariable></passphraseVariable>
+        </org.jenkinsci.plugins.credentialsbinding.impl.SSHUserPrivateKeyBinding>
+      </bindings>
+    </org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper>
   </buildWrappers>
 </project>
