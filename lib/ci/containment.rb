@@ -20,6 +20,7 @@
 
 require 'logger'
 require 'logger/colors'
+require 'timeout'
 
 require_relative 'container/ephemeral'
 require_relative 'pangeaimage'
@@ -171,7 +172,11 @@ module CI
         end
         handler = proc { raise SignalException, signal }
       end
-      handler.call
+      # Sometimes the chown handler gets stuck running chown_container.run
+      # so make sure to timeout whatever is going on and get everything murdered
+      Timeout.timeout(16) { handler.call }
+    rescue Timeout::Error => e
+      warn "Failed to run handler #{handler}, timed out. #{e}"
     end
 
     def rescued_start(c)
