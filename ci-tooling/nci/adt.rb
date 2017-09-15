@@ -33,7 +33,7 @@ if NCI.experimental_skip_qa.any? { |x| JOB_NAME.include?(x) }
 end
 
 if JOB_NAME.include?('_armhf')
-  warn "Not running adt on the armhf architecture"
+  warn 'Not running adt on the armhf architecture'
   exit 0
 end
 
@@ -100,10 +100,7 @@ EOF
 end
 
 args = []
-Dir.glob('*.deb').each do |x|
-  args << '--binary' << x
-end
-# args << '--unbuilt-tree' << 'krunner-5.18.0+git20160314.0121+15.10'
+Dir.glob('*.deb').each { |x| args << '--binary' << x }
 args << '--built-tree' << "#{Dir.pwd}/build"
 args << '--output-dir' << 'adt-output'
 args << '--user=adt'
