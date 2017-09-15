@@ -63,6 +63,7 @@ class TestCase < Test::Unit::TestCase
   end
 
   def self.inherited(subclass)
+    @file = nil
     super(subclass)
     subclass.autodetect_inherited_file unless @file
   end
