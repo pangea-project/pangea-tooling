@@ -13,6 +13,7 @@ class ExecutableTest < Test::Unit::TestCase
     ci-tooling/nci
     aci
     dci
+    lib/libexec
     mci
     nci
     mgmt

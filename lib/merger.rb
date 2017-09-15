@@ -84,9 +84,10 @@ class Merger
 
     @log = Logger.new_for_merger
 
-    if File.exist?('/var/lib/jenkins/git-semaphore/git')
-      Git.configure { |c| c.binary_path = '/var/lib/jenkins/git-semaphore/git' }
-    end
+    # SSH key loading is mutually exclusive with semaphore as the
+    # semaphore would run git out-of-process, thus bypassing the environment
+    # variable making the key not get used.
+    setup_semaphore! || setup_ssh_key!
 
     @repo = open_repo(repo_path)
     configure_repo!
@@ -98,6 +99,20 @@ class Merger
   end
 
   private
+
+  def setup_semaphore!
+    return false unless File.exist?('/var/lib/jenkins/git-semaphore/git')
+    @log.info 'Setting up git semaphore as git binary'
+    Git.configure { |c| c.binary_path = '/var/lib/jenkins/git-semaphore/git' }
+    true
+  end
+
+  def setup_ssh_key!
+    return false unless ENV.include?('SSH_KEY_FILE')
+    @log.info 'Setting up GIT_SSH to load the key file defined in SSH_KEY_FILE'
+    ENV['GIT_SSH'] = "#{File.expand_path(__dir__)}/libexec/ssh_key_file.sh"
+    true
+  end
 
   def open_repo(repo_path)
     repo = Git.open(self.class.workdir,
