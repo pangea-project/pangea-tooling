@@ -37,4 +37,4 @@ class NCIMerger < Merger
   end
 end
 
-NCIMerger.new.run if __FILE__ == $PROGRAM_NAME
+NCIMerger.new.run if $PROGRAM_NAME == __FILE__
