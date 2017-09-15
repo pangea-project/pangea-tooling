@@ -52,19 +52,21 @@ module Aptly::Ext
       uri = URI::Generic.build(scheme: 'ssh', user: 'u', host: 'h', port: 1,
                                path: '/xxx')
 
+      # These expecations are called twice, once with an init option and once
+      # without
       Remote::TCP.expects(:connect).never
 
       session = mock('session')
       session.stubs(:process)
-      session.expects(:close)
-      Net::SSH.expects(:start).returns(session)
+      session.expects(:close).twice
 
       forward = mock('forward')
-      forward.expects(:local_socket).returns('/abc123')
+      forward.expects(:local_socket).returns('/abc123').twice
       forward.stubs(:active_local_sockets).returns(['/abc123'])
-      forward.expects(:cancel_local_socket).with('/abc123')
+      forward.expects(:cancel_local_socket).with('/abc123').twice
       session.stubs(:forward).returns(forward)
 
+      Net::SSH.expects(:start).with('h', nil, {}).returns(session)
       Remote.connect(uri) do
         Aptly.configure do |config|
           assert_equal('unix', config.uri.scheme)
@@ -72,6 +74,16 @@ module Aptly::Ext
           assert_equal('aptly.sock', File.basename(config.uri.path))
         end
       end
+
+      ENV['SSH_KEY_FILE'] = '/foobar'
+      Net::SSH.expects(:start).with do |*_, **kwords|
+        kwords.include?(:keys) && kwords[:keys].include?('/foobar')
+      end.returns(session)
+      Remote.connect(uri) {}
+      # Mocha makes sure its expectations were invoked, nothing to assert about
+      # the key usage, the expectation takes care of it.
+    ensure
+      ENV.delete('SSH_KEY_FILE')
     end
 
     def test_connect_tcp

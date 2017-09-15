@@ -11,6 +11,7 @@
 |PANGEA_DOCKER_NO_FLATTEN|Prevents docker maintenance from flattening the created image. This is faster but consumes more disk AND there is a limit to how much history docker can keep on an image, if it is exceeded image creation fails.|
 |DOCKER_ENV_WHITELIST|Whitelists environment variables for automatic forwarding into Docker containers.|
 |PANGEA_PROVISION_AUTOINST|Enables os-autoinst provisioning in docker images.|
+|SSH_KEY_FILE|Standard variable to pass key file paths into tooling (not suported by everything). This is used to pass Jenkins secrets around, the variable is then used by the tooling to adjust SSH/GIT to pick the correct key file|
 
 # Job (aka Project) updates
 

@@ -24,6 +24,8 @@ require 'tmpdir'
 require_relative '../net/ssh/socket_gateway.rb'
 
 module Aptly
+  # Our extensions to the core aptly api. Stuff in Ext is either not suitable
+  # for the standard gem or experimental.
   module Ext
     # SSH gateway connectors
     module Remote
@@ -39,6 +41,14 @@ module Aptly
         connect(URI.parse(<<-EOF.strip), &block)
 ssh://neonarchives@archive-api.neon.kde.org/srv/neon-services/aptly.sock
 EOF
+      end
+
+      def self.ssh_options
+        opts = {}
+        if (key = ENV['SSH_KEY_FILE'])
+          opts[:keys] = [key, File.expand_path('~/.ssh/id_rsa')]
+        end
+        opts
       end
 
       # Connects directly through HTTP
@@ -68,7 +78,8 @@ EOF
         def connect(uri, &_block)
           open_gateway(uri) do |port|
             Aptly.configure do |config|
-              config.uri = URI::HTTP.build(host: 'localhost', port: port)
+              config.uri = URI::HTTP.build(host: 'localhost', port: port,
+                                           **Remote.ssh_options)
             end
             yield
           end
@@ -105,7 +116,8 @@ EOF
         def open_gateway(uri, &_block)
           Dir.mktmpdir('aptly-socket') do |tmpdir|
             begin
-              gateway = Net::SSH::SocketGateway.new(uri.host, uri.user)
+              gateway = Net::SSH::SocketGateway.new(uri.host, uri.user,
+                                                    **Remote.ssh_options)
               yield gateway.open("#{tmpdir}/aptly.sock", uri.path)
             ensure
               gateway.shutdown! if gateway
