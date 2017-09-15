@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'fileutils'
+require 'tty/command'
 
 require_relative '../lib/adt/summary'
 require_relative '../lib/adt/junit/summary'
@@ -104,13 +105,12 @@ Dir.glob('*.deb').each { |x| args << '--binary' << x }
 args << '--built-tree' << "#{Dir.pwd}/build"
 args << '--output-dir' << 'adt-output'
 args << '--user=adt'
-args << "--timeout-test=#{60 * 60}"
+args << "--timeout-test=#{30 * 60}"
 # Try to force Qt to time out on test functions after 5 minutes.
 # This should be the default but doesn't seem to actually work for some reason.
 args << "--env=QTEST_FUNCTION_TIMEOUT=#{5 * 60 * 1000}"
 args << '---' << 'null'
-puts "adt-run #{args.join(' ')}"
-system('adt-run', *args)
+TTY::Command.new(uuid: false).run('adt-run', *args, timeout: 30 * 60)
 
 summary = ADT::Summary.from_file('adt-output/summary')
 unit = ADT::JUnit::Summary.new(summary)
