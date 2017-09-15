@@ -109,6 +109,9 @@ args << "--timeout-test=#{30 * 60}"
 # Try to force Qt to time out on test functions after 5 minutes.
 # This should be the default but doesn't seem to actually work for some reason.
 args << "--env=QTEST_FUNCTION_TIMEOUT=#{5 * 60 * 1000}"
+# Disable KIO using kdeinit and starting http cleanup
+args << '--env=KDE_FORK_SLAVES=yes'
+args << '--env=KIO_DISABLE_CACHE_CLEANER=yes'
 args << '---' << 'null'
 TTY::Command.new(uuid: false).run('adt-run', *args, timeout: 30 * 60)
 
