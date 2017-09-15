@@ -28,14 +28,17 @@ module NCI
     def setup
       @jenkins_home = ENV['JENKINS_HOME']
       ENV['JENKINS_HOME'] = Dir.pwd
+      @jenkins_job_base = ENV['JOB_BASE_NAME']
+      ENV['JOB_BASE_NAME'] = 'foobasename'
+      @jenkins_build_number = ENV['BUILD_NUMBER']
+      ENV['BUILD_NUMBER'] = '42'
     end
 
     def teardown
-      if @jenkins_home.nil?
-        ENV.delete('JENKINS_HOME')
-      else
-        ENV['JENKINS_HOME'] = @jenkins_home
-      end
+      # If the var is nil []= delets it from the env.
+      ENV['JENKINS_HOME'] = @jenkins_home
+      ENV['JOB_BASE_NAME'] = @jenkins_job_base
+      ENV['BUILD_NUMBER'] = @jenkins_build_number
     end
 
     def test_clean
@@ -50,11 +53,19 @@ module NCI
       FileUtils.touch("#{aa_archive}/subdir2/aa.deb.info.txt")
       FileUtils.touch("#{aa_archive}/subdir2/aa.deb.json")
 
+      self_archive = 'jobs/foobasename/builds/42/archive'
+      FileUtils.mkpath(self_archive)
+      FileUtils.touch("#{self_archive}/aa.deb")
+      FileUtils.touch("#{self_archive}/aa.deb.json")
+
       JenkinsJobArtifactCleaner.run(%w[aa bb])
 
       assert_path_exist("#{aa_archive}/subdir1.deb/")
       assert_path_exist("#{aa_archive}/subdir2/aa.deb.info.txt")
       assert_path_exist("#{aa_archive}/subdir2/aa.deb.json")
+
+      assert_path_not_exist("#{self_archive}/aa.deb")
+      assert_path_exist("#{self_archive}/aa.deb.json")
     end
   end
 end

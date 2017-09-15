@@ -30,9 +30,11 @@ module NCI
     # Logic wrapper encapsulating the cleanup logic of a job.
     class Job
       attr_reader :name
+      attr_reader :build
 
-      def initialize(name)
+      def initialize(name, build: 'lastSuccessfulBuild')
         @name = name
+        @build = build
       end
 
       def jobs_dir
@@ -40,7 +42,7 @@ module NCI
       end
 
       def path
-        File.join(jobs_dir, name, 'builds/lastSuccessfulBuild/archive')
+        File.join(jobs_dir, name, "builds/#{build}/archive")
       end
 
       def clean!
@@ -68,6 +70,9 @@ module NCI
       jobs.each do |job|
         Job.new(job).clean!
       end
+      # Cleanup self as well.
+      Job.new(ENV.fetch('JOB_BASE_NAME'),
+              build: ENV.fetch('BUILD_NUMBER')).clean!
     end
   end
 end
