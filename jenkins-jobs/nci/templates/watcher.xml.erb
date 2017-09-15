@@ -13,6 +13,7 @@
       <hudson.plugins.git.UserRemoteConfig>
         <name>writable</name>
         <url><%= scm_writable.url %></url>
+        <credentialsId>ssh.jobs.git.neon</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -32,9 +33,16 @@
         <name>Neon CI</name>
         <email>neon@kde.org</email>
       </hudson.plugins.git.extensions.impl.UserIdentity>
+      <hudson.plugins.git.extensions.impl.CloneOption>
+         <shallow>true</shallow>
+         <noTags>true</noTags>
+         <reference></reference>
+         <depth>0</depth>
+         <honorRefspec>false</honorRefspec>
+       </hudson.plugins.git.extensions.impl.CloneOption>
     </extensions>
   </scm>
-  <assignedNode>master</assignedNode>
+  <assignedNode>amd64</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
@@ -67,6 +75,19 @@ export DIST=<%= nci.latest_series %>
         </hudson.plugins.git.GitPublisher_-BranchToPush>
       </branchesToPush>
     </hudson.plugins.git.GitPublisher>
+    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.34">
+      <patterns class="empty-list"/>
+      <deleteDirs>false</deleteDirs>
+      <skipWhenFailed>false</skipWhenFailed>
+      <cleanWhenSuccess>true</cleanWhenSuccess>
+      <cleanWhenUnstable>true</cleanWhenUnstable>
+      <cleanWhenFailure>true</cleanWhenFailure>
+      <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
+      <cleanWhenAborted>true</cleanWhenAborted>
+      <notFailBuild>false</notFailBuild>
+      <cleanupMatrixParent>false</cleanupMatrixParent>
+      <externalDelete></externalDelete>
+    </hudson.plugins.ws__cleanup.WsCleanup>
   </publishers>
   <buildWrappers>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.4"/>
