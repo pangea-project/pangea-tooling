@@ -33,8 +33,17 @@ require_relative 'assert_xml'
 # necessary to stub the expecation.
 WebMock.stub_request(:get, 'http://unix/v1.16/version')
        .to_return(body: '{"Version":"17.03.0-ce","ApiVersion":"1.26","MinAPIVersion":"1.12"}')
+
 # Test case base class handling fixtures and chdirring to not pollute the source
 # dir.
+# This thing does a whole bunch of stuff, you'd best read through priority_setup
+# and priority_teardown to get the basics. Its primary function is to
+# setup/teardown common stuff we need across multiple test cases or to ensure
+# pristine working conditions for each test.
+# The biggest feature by far is that a TestCase is always getting an isolated
+# PWD in a tmpdir. On top of that fixture loading helpers are provided in the
+# form of {#data} and {#fixture_file} which grab fixtures out of
+# test/data/file_name/test_method_name.
 class TestCase < Test::Unit::TestCase
   include EquivalentXmlAssertations
 
@@ -99,6 +108,12 @@ EOT
     Dir.chdir(@tmpdir)
     require_binaries(self.class.required_binaries)
 
+    # Keep copy of env to restore in teardown. Note that clone wouldn't actually
+    # copy the underlying data as that is not stored in the ENV. Instead we'll
+    # need to convert to a hash which basically creates a "snapshot" of the
+    # proc env at the time of the call.
+    @env = ENV.to_h
+
     Retry.disable_sleeping if defined?(Retry)
 
     # Make sure we reset $?, so tests can freely mock system and ``
@@ -114,6 +129,8 @@ EOT
   def priority_teardown
     Dir.chdir(@previous_pwd)
     FileUtils.rm_rf(@tmpdir)
+    # Restore ENV
+    ENV.replace(@env)
   end
 
   def _method_name
