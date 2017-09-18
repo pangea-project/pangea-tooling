@@ -9,7 +9,7 @@
     </org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
-  <assignedNode>master</assignedNode>
+  <assignedNode>(amd64&amp;&amp;persistent)||(amd64&amp;&amp;cloud)||(amd64)</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
@@ -34,6 +34,31 @@
           </selector>
           <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
         </hudson.plugins.copyartifact.CopyArtifact>
+        <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.38.1">
+          <project><%= basename %></project>
+          <filter>workspace.tar</filter>
+          <target></target>
+          <excludes></excludes>
+          <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
+            <fallbackToLastSuccessful>true</fallbackToLastSuccessful>
+            <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
+            <allowUpstreamDependencies>false</allowUpstreamDependencies>
+          </selector>
+          <doNotFingerprintArtifacts>true</doNotFingerprintArtifacts>
+        </hudson.plugins.copyartifact.CopyArtifact>
+        <hudson.tasks.Shell>
+          <command>tar -xf workspace.tar
+rm -f workspace.tar</command>
+        </hudson.tasks.Shell>
+        <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.38.1">
+          <project><%= job_name %></project>
+          <filter>last_version</filter>
+          <target></target>
+          <excludes></excludes>
+          <selector class="hudson.plugins.copyartifact.StatusBuildSelector"/>
+          <optional>true</optional>
+          <doNotFingerprintArtifacts>true</doNotFingerprintArtifacts>
+        </hudson.plugins.copyartifact.CopyArtifact>
       </conditionalbuilders>
     </org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder>
     <hudson.tasks.Shell>
@@ -44,20 +69,17 @@ export PWD_BIND=/workspace
 printf ${JOB_NAME} &gt; job_name
 <%= fetch_tarball %>
 ~/tooling/nci/contain.rb /tooling/ci-tooling/nci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
-<% if !job_name.include?('_launchpad_') && type == 'release' || job_name.include?('oxygen-icons5') || job_name.include?('breeze') || job_name.include?('wallpapers') %>
-  echo 'wiping git clones'
-  rm -rf packaging source
-<% end %>
 </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>build/*</artifacts>
+      <artifacts>build/*, last_version</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
       <defaultExcludes>true</defaultExcludes>
+      <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
     <hudson.tasks.BuildTrigger>
       <childProjects><%= downstream_triggers.join(',') %></childProjects>
@@ -69,13 +91,8 @@ printf ${JOB_NAME} &gt; job_name
       </threshold>
     </hudson.tasks.BuildTrigger>
     <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.26">
-      <patterns>
-        <hudson.plugins.ws__cleanup.Pattern>
-          <pattern>build/*</pattern>
-          <type>INCLUDE</type>
-        </hudson.plugins.ws__cleanup.Pattern>
-      </patterns>
-      <deleteDirs>true</deleteDirs>
+      <patterns class="empty-list"/>
+      <deleteDirs>false</deleteDirs>
       <skipWhenFailed>false</skipWhenFailed>
       <cleanWhenSuccess>true</cleanWhenSuccess>
       <cleanWhenUnstable>true</cleanWhenUnstable>
