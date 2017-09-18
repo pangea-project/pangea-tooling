@@ -20,6 +20,7 @@
 
 require_relative '../../ci-tooling/lib/retry'
 require_relative 'client'
+require_relative 'droplet'
 
 module DigitalOcean
   # Convenience wrapper around actions.
