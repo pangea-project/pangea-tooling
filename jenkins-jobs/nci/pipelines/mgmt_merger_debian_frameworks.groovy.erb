@@ -28,7 +28,7 @@ def notify(body) {
         body()
     } catch (e) {
         stage('notify') {
-            mail to: 'sitter@kde.org, jr@jriddell.org',
+            mail to: 'neon-notifications@kde.org',
                  subject: "Debian Frameworks not merging ${BUILD_NUMBER}",
                  body: """${BUILD_URL}/console"""
         }
