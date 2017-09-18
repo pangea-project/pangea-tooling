@@ -12,6 +12,7 @@
 |DOCKER_ENV_WHITELIST|Whitelists environment variables for automatic forwarding into Docker containers.|
 |PANGEA_PROVISION_AUTOINST|Enables os-autoinst provisioning in docker images.|
 |SSH_KEY_FILE|Standard variable to pass key file paths into tooling (not suported by everything). This is used to pass Jenkins secrets around, the variable is then used by the tooling to adjust SSH/GIT to pick the correct key file|
+|PANGEA_MAIL_CONFIG_PATH|Path to mail config yaml for pangea/mail.rb|
 
 # Job (aka Project) updates
 
