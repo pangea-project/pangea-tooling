@@ -19,12 +19,13 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'pp'
-require 'net/smtp'
 
 require_relative '../../lib/debian/changelog'
 require_relative '../../lib/debian/uscan'
 require_relative '../../lib/debian/version'
 require_relative '../../lib/nci'
+
+require_relative '../../../lib/pangea/mail'
 
 require 'tty-command'
 
@@ -139,16 +140,19 @@ module NCI
       end
 
       puts 'sending notification mail'
-      Net::SMTP.start('pandak.kubuntu.co.uk') do |smtp|
-        smtp.send_message(<<-EOF, 'jr@jriddell.org', 'nci-notify@jriddell.org')
+      Pangea::SMTP.start do |smtp|
+        mail = <<-MAIL
 From: Neon CI <no-reply@kde.org>
-To: Neon CI Watchers <no-reply@kde.org>
-Subject: [nci-notify] #{newest_dehs_package.name} new version #{newest}
+To: neon-notifications@kde.org
+Subject: #{newest_dehs_package.name} new version #{newest}
 
 #{ENV['RUN_DISPLAY_URL']}
 
 #{newest_dehs_package.inspect}
-        EOF
+        MAIL
+        smtp.send_message(mail,
+                          'no-reply@kde.org',
+                          'neon-notifications@kde.org')
       end
     end
   end

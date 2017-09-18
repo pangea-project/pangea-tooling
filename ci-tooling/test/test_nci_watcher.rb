@@ -47,8 +47,10 @@ class NCIWatcherTest < TestCase
 
   def test_run
     smtp = mock('smtp')
-    smtp.expects(:send_message).once
-    Net::SMTP.stubs(:start).yields(smtp)
+    smtp.expects(:send_message).with do |_body, from, to|
+      from == 'no-reply@kde.org' && to == 'neon-notifications@kde.org'
+    end
+    Pangea::SMTP.expects(:start).yields(smtp)
 
     with_remote_repo(data) do |remote|
       cmd.run("git clone #{remote} .")
@@ -93,9 +95,7 @@ class NCIWatcherTest < TestCase
   end
 
   def test_no_mail_on_manual_trigger
-    smtp = mock('smtp')
-    smtp.expects(:send_message).never
-    Net::SMTP.stubs(:start).yields(smtp)
+    Pangea::SMTP.expects(:start).never
 
     ENV['BUILD_CAUSE'] = 'MANUALTRIGGER'
 
