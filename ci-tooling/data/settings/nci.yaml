@@ -4,72 +4,9 @@
   sourcer:
     restricted_packaging_copy: true
 
-# Others
-
-'*_forks_{libkolab,libkolabxml}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{sip4,pyqt5}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{libxkbcommon,libinput}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{flatbuffers}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{wayland}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{xorg-server}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_kde-extras_{zanshin}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{taglib}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{ostree}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{x11proto-core}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{libxfont}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{encfs}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{harfbuzz}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{appstream}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_packagekit_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_forks_{opencv}_*':
-  sourcer:
-    restricted_packaging_copy: true
-
-'*_kde-extras_{exiv2}_*':
+# Enable restriction for all forks and kde-extras.
+#   I am done explaining to people that introducing a 99% delta with a fork
+#   origin is unnecessary unmaintainable bullshit.
+'*_{forks,kde-extras}_*_*':
   sourcer:
     restricted_packaging_copy: true
