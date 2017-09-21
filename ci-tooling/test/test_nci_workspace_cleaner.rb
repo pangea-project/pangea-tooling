@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -49,6 +49,22 @@ class NCIWorkspaceCleanerTest < TestCase
     mkdir('just_now', datetime_now)
     mkdir('future', datetime_now + 1)
     mkdir('future_ws-cleanup_123', datetime_now + 1)
+
+    # We'll mock containment as we don't actually care what goes on on the
+    # docker level, that is tested in the containment test already.
+    containment = mock('containment')
+    CI::Containment
+      .stubs(:new)
+      .with do |*_, **kwords|
+        next false unless kwords.include?(:image)
+        next false unless kwords[:no_exit_handlers]
+        true
+      end
+      .returns(containment)
+    containment
+      .stubs(:run)
+      .with(Cmd: ['/bin/chown', '-R', 'jenkins:jenkins', '/pwd'])
+    containment.stubs(:cleanup)
 
     WorkspaceCleaner.clean
 
