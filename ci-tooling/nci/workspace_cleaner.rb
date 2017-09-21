@@ -74,7 +74,7 @@ module WorkspaceCleaner
 end
 
 # :nocov:
-if __FILE__ == $PROGRAM_NAME
+if $PROGRAM_NAME == __FILE__
   $stdout = STDERR # Force synced output
   WorkspaceCleaner.clean
 end
