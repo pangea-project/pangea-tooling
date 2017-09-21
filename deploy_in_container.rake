@@ -32,7 +32,7 @@ DIST = ENV.fetch('DIST')
 EARLY_DEPS = [
   'python-apt-common', # Remove this once python-apt gets a Stretch template
   'eatmydata' # We disable fsync from apt and dpkg.
-]
+].freeze
 # Core is not here because it is required as a build-dep or anything but
 # simply a runtime (or provision time) dep of the tooling.
 CORE_RUNTIME_DEPS = %w[apt-transport-https software-properties-common].freeze
