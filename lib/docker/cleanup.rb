@@ -94,7 +94,7 @@ module Docker
       begin
         log.warn "Removing container #{container.id}"
         container.kill!
-        container.remove
+        container.remove(force: true)
       rescue Docker::Error::DockerError => e
         log.warn 'Removing failed, continuing.'
         log.warn e
