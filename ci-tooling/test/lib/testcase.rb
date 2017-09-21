@@ -114,6 +114,11 @@ EOT
     # proc env at the time of the call.
     @env = ENV.to_h
 
+    # Set sepcial env var to check if a code path runs under test. This should
+    # be used very very very carefully. The only reason for using this is when
+    # a code path needs disabling entirely when under testing.
+    ENV['PANGEA_UNDER_TEST'] = 'true'
+
     Retry.disable_sleeping if defined?(Retry)
 
     # Make sure we reset $?, so tests can freely mock system and ``

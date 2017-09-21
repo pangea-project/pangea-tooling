@@ -13,6 +13,7 @@
 |PANGEA_PROVISION_AUTOINST|Enables os-autoinst provisioning in docker images.|
 |SSH_KEY_FILE|Standard variable to pass key file paths into tooling (not suported by everything). This is used to pass Jenkins secrets around, the variable is then used by the tooling to adjust SSH/GIT to pick the correct key file|
 |PANGEA_MAIL_CONFIG_PATH|Path to mail config yaml for pangea/mail.rb|
+|PANGEA_UNDER_TEST|Set during test runs. Only should used if code paths need disabling during tests. Check with Harald before using it.|
 
 # Job (aka Project) updates
 

@@ -72,9 +72,19 @@ module Apt
       private
 
       def install_add_apt_repository
-        return if defined?(@add_apt_repository_installed)
+        return if add_apt_repository_installed?
         return unless Apt.install('software-properties-common')
         @add_apt_repository_installed = true
+      end
+
+      def add_apt_repository_installed?
+        return @add_apt_repository_installed if ENV['PANGEA_UNDER_TEST']
+        @add_apt_repository_installed ||= marker_exist?
+      end
+
+      # Own method so we can mocha this check! Do not merge into other method.
+      def marker_exist?
+        File.exist?('/var/lib/dpkg/info/software-properties-common.list')
       end
 
       def reset
