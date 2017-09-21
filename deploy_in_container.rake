@@ -312,21 +312,29 @@ EOF
                   verbose: true)
 end
 
-RUBY_2_3_1 = '/tmp/2.3.1'.freeze
-RUBY_2_3_1_URL = 'https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.3.1'.freeze
-
 desc 'Upgrade to newer ruby if required'
 task :align_ruby do
-  puts "Ruby version #{RbConfig::CONFIG['MAJOR']}.#{RbConfig::CONFIG['MINOR']}"
-  if RbConfig::CONFIG['MAJOR'].to_i <= 2 && RbConfig::CONFIG['MINOR'].to_i < 2
-    puts 'Bootstraping ruby'
-    system('apt-get -y install ruby-build')
-    File.write(RUBY_2_3_1, open(RUBY_2_3_1_URL).read)
-    raise 'Failed to update ruby to 2.3.1' unless
-      system("ruby-build #{RUBY_2_3_1} /usr/local")
-    puts 'Ruby bootstrapped, please run deployment again'
-    exit 0
+  unless Dir.exist?('/tmp/kitchen')
+    sh 'git clone --depth 1 https://github.com/blue-systems/pangea-kitchen.git /tmp/kitchen'
+  end
+  Dir.chdir('/tmp/kitchen') do
+    # ruby_build checks our version against the pangea version and if necessary
+    # installs a ruby in /usr/local which is more suitable than what we have.
+    system('./ruby_build.sh')
+  end
+  if ENV['ALIGN_RUBY_EXEC']
+    raise 'It seems rake was re-executed after a ruby version alignment,' \
+          ' but we still found and unsuitable ruby version being used!'
+  end
+  case $?.exitstatus
+  when 0
+    next
+  when 1
+    sh 'gem install rake'
+    ENV['ALIGN_RUBY_EXEC'] = 'true'
+    # Reload ourself via new rake
+    exec('rake', *ARGV)
   else
-    puts 'Using system ruby'
+    raise 'Error while aligning ruby version through pangea-kitchen'
   end
 end
