@@ -56,8 +56,8 @@ module CI
     def cleanup
       c = EphemeralContainer.get(@name)
       @log.info 'Cleaning up previous container.'
-      c.kill! if c.running?
-      c.remove
+      c.kill
+      c.remove(force: true)
     rescue Docker::Error::NotFoundError
       @log.info 'Not cleaning up, no previous container found.'
     end

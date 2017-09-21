@@ -20,6 +20,8 @@ module CI
 
     def stop(options = {})
       super(options)
+      # TODO: this should really be kill not kill!, but changing it would
+      #   require re-recording a lot of tests.
       kill!(options) if running?
       rescued_remove
     end
@@ -31,10 +33,6 @@ module CI
       end
       state.fetch('Running')
     end
-    # def kill!(options = {})
-    #   super(options)
-    #   rescued_remove
-    # end
 
     private
 
