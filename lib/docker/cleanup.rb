@@ -56,7 +56,7 @@ module Docker
     end
 
     def remove_container(container, force: false)
-      puts "-- REMOVE_CONTAINER --"
+      puts '-- REMOVE_CONTAINER --'
       p container
       # Get the live data. Docker in various versions spits out convenience
       # data in the listing .refresh! uses, .json is the raw dump.
@@ -66,7 +66,7 @@ module Docker
       # API 1.21 introduced a new property
       image_id = container_json.fetch('ImageID') { nil }
       # Before 1.21 Image was the hot stuff.
-      image_id = container_json.fetch('Image') { nil } unless image_id
+      image_id ||= container_json.fetch('Image') { nil }
       begin
         image = Docker::Image.get(image_id)
       rescue Docker::Error::NotFoundError
