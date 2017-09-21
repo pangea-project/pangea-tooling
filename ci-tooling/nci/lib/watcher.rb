@@ -32,6 +32,11 @@ require 'tty-command'
 module NCI
   # uses uscan to check for new upstream releases
   class Watcher
+    # Env variables which reflect jenkins trigger causes
+    CAUSE_ENVS = %w[BUILD_CAUSE ROOT_BUILD_CAUSE].freeze
+    # Key word for manually triggered builds
+    MANUAL_CAUSE = 'MANUALTRIGGER'.freeze
+
     def run
       raise 'No debain/watch found!' unless File.exist?('debian/watch')
 
@@ -134,7 +139,7 @@ module NCI
       system("git commit -a -m 'New release'")
 
       puts ENV.to_h
-      if %w[BUILD_CAUSE ROOT_BUILD_CAUSE].any? { |v| ENV[v] == 'MANUALTRIGGER' }
+      if CAUSE_ENVS.any? { |v| ENV[v] == MANUAL_CAUSE }
         puts 'build was manually triggered. not sending info email'
         return
       end

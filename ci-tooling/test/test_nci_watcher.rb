@@ -32,6 +32,8 @@ class NCIWatcherTest < TestCase
   def setup
     @cmd = TTY::Command.new(printer: :null)
     NCI.stubs(:setup_env!).returns(true)
+    # Rip out causes from the test env so we don't trigger on them.
+    NCI::Watcher::CAUSE_ENVS.each { |e| ENV.delete(e) }
   end
 
   def with_remote_repo(seed_dir)
