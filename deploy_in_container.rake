@@ -35,7 +35,7 @@ EARLY_DEPS = [
 ]
 # Core is not here because it is required as a build-dep or anything but
 # simply a runtime (or provision time) dep of the tooling.
-CORE_RUNTIME_DEPS = %w[apt-transport-https].freeze
+CORE_RUNTIME_DEPS = %w[apt-transport-https software-properties-common].freeze
 DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           python-launchpadlib ubuntu-dev-tools gnome-pkg-tools git dh-systemd
           zlib1g-dev python-paramiko sudo locales mercurial pxz aptitude
