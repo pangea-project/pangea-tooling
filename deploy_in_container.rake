@@ -18,6 +18,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+# All the methods we have are task helpers, so they are fairly spagetthi.
+# Blocks are tasks, so they are even worse offenders.
+# Overengineering this into objects is probably not a smart move so let's ignore
+# this (for now anyway).
+# rubocop:disable Metrics/BlockLength, Metrics/MethodLength
+
 require 'etc'
 require 'fileutils'
 require 'mkmf'
@@ -53,13 +59,13 @@ def install_fake_pkg(name)
   Dir.mktmpdir do |tmpdir|
     Dir.chdir(tmpdir) do
       FileUtils.mkpath("#{name}/DEBIAN")
-      File.write("#{name}/DEBIAN/control", <<-EOF.gsub(/^\s+/, ''))
+      File.write("#{name}/DEBIAN/control", <<-CONTROL.gsub(/^\s+/, ''))
         Package: #{name}
         Version: 999:999
         Architecture: all
         Maintainer: Harald Sitter <sitter@kde.org>
         Description: fake override package for ci install checks
-      EOF
+      CONTROL
       system("dpkg-deb -b #{name} #{name}.deb")
       DPKG.dpkg(['-i', "#{name}.deb"])
     end
@@ -74,12 +80,10 @@ def custom_version_id
   os_release = File.readlines(file)
   # Strip out any lines starting with VERSION_ID
   # so that we don't end up with an endless number of VERSION_ID entries
-  os_release.reject! do |l|
-    l.start_with?('VERSION_ID')
-  end
+  os_release.reject! { |l| l.start_with?('VERSION_ID') }
   system('dpkg-divert', '--local', '--rename', '--add', file) || raise
   os_release << "VERSION_ID=\"#{DCI.series[DIST]}\"\n"
-  File.write(file, os_release.join())
+  File.write(file, os_release.join)
 end
 
 def cleanup_rubies
@@ -239,10 +243,10 @@ EOF
     file = "/usr/bin/#{bin}"
     next if File.exist?("#{file}.distrib") # Already diverted
     File.open("#{file}.pangea", File::RDWR | File::CREAT, 0o755) do |f|
-      f.write(<<-EOF)
+      f.write(<<-SCRIPT)
 #!/bin/sh
 /usr/bin/eatmydata #{bin}.distrib "$@"
-EOF
+SCRIPT
     end
     system('dpkg-divert', '--local', '--rename', '--add', file) || raise
     File.symlink("#{file}.pangea", file)
@@ -338,7 +342,9 @@ end
 desc 'Upgrade to newer ruby if required'
 task :align_ruby do
   unless Dir.exist?('/tmp/kitchen')
-    sh 'git clone --depth 1 https://github.com/blue-systems/pangea-kitchen.git /tmp/kitchen'
+    sh format('git clone --depth 1 %s %s',
+              'https://github.com/blue-systems/pangea-kitchen.git',
+              '/tmp/kitchen')
   end
   Dir.chdir('/tmp/kitchen') do
     # ruby_build checks our version against the pangea version and if necessary
