@@ -20,8 +20,9 @@
 
 require 'etc'
 require 'fileutils'
-require 'tmpdir'
+require 'mkmf'
 require 'open-uri'
+require 'tmpdir'
 
 require_relative 'lib/rake/bundle'
 
@@ -79,6 +80,35 @@ def custom_version_id
   system('dpkg-divert', '--local', '--rename', '--add', file) || raise
   os_release << "VERSION_ID=\"#{DCI.series[DIST]}\"\n"
   File.write(file, os_release.join())
+end
+
+def cleanup_rubies
+  # We can have two rubies at a time, the system ruby and our ruby. We'll do
+  # general purpose cleanup on all possible paths but then rip apart the system
+  # ruby if we have our own ruby installed. This way we do not have unused gems
+  # in scenarios where we used the system ruby previously but now use a custom
+  # one.
+
+  #  Gem cache and doc. Neither shoud be needed at runtime.
+  FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/{cache,doc}/*'),
+                  verbose: true)
+  FileUtils.rm_rf(Dir.glob('/usr/local/lib/ruby/gems/*/{cache,doc}/*'),
+                  verbose: true)
+  #  libgit2 cmake build tree
+  FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/gems/rugged-*/vendor/*/build'),
+                  verbose: true)
+  FileUtils.rm_rf(Dir.glob('/usr/local/lib/ruby/gems/*/gems/rugged-*/vendor/*/build'),
+                  verbose: true)
+  #  Other compiled extension artifacts not used at runtime
+  FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/gems/*/ext/*/*.{so,o}'),
+                  verbose: true)
+  FileUtils.rm_rf(Dir.glob('usr/local/lib/ruby/gems/*/gems/*/ext/*/*.{so,o}'),
+                  verbose: true)
+
+  return unless find_executable('ruby').include?('local')
+  puts 'Mangling system ruby'
+  # All gems in all versions.
+  FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/*'), verbose: true)
 end
 
 # openqa
@@ -302,14 +332,7 @@ EOF
   File.write('/var/log/faillog', '')
   File.write('/var/log/dpkg.log', '')
   File.write('/var/log/apt/term.log', '')
-  #  Gem cache and doc. Neither shoud be needed at runtime.
-  FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/{cache,doc}/*'), verbose: true)
-  #  libgit2 cmake build tree
-  FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/gems/rugged-*/vendor/*/build'),
-                  verbose: true)
-  #  Other compiled extension artifacts not used at runtime
-  FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/gems/*/ext/*/*.{so,o}'),
-                  verbose: true)
+  cleanup_rubies
 end
 
 desc 'Upgrade to newer ruby if required'
