@@ -55,7 +55,7 @@ EXCLUDE_SNAPS = %w[
   kmail-account-wizard konqueror libkcddb libkcompactdisc pim-data-exporter
   pim-sieve-editor pim-storage-service-manager kdegraphics-mobipocket
   akonadiconsole akregator kdav kmail knotes blogilo libkgapi kgpg
-  kapptemplate kcachegrind kde-dev-utils kdesdk-kioslaves kontact korganizer
+  kapptemplate kcachegrind kde-dev-utils kdesdk-kioslaves korganizer
   kfind kfloppy kaddressbook konsole krfb ksystemlog
 ].freeze
 
@@ -135,7 +135,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
           end
-          project_architectures = if type == 'unstable' 
+          project_architectures = if type == 'unstable'
                                     NCI.all_architectures
                                   else
                                     NCI.architectures
