@@ -322,7 +322,7 @@ task :align_ruby do
     # installs a ruby in /usr/local which is more suitable than what we have.
     # If this comes back !0 and we are meant to be aligned already this means
     # the previous alignment failed, abort when this happens.
-    unless system('./ruby_build.sh') && ENV['ALIGN_RUBY_EXEC']
+    if !system('./ruby_build.sh') && ENV['ALIGN_RUBY_EXEC']
       raise 'It seems rake was re-executed after a ruby version alignment,' \
             ' but we still found and unsuitable ruby version being used!'
     end
