@@ -320,21 +320,22 @@ task :align_ruby do
   Dir.chdir('/tmp/kitchen') do
     # ruby_build checks our version against the pangea version and if necessary
     # installs a ruby in /usr/local which is more suitable than what we have.
-    system('./ruby_build.sh')
-  end
-  if ENV['ALIGN_RUBY_EXEC']
-    raise 'It seems rake was re-executed after a ruby version alignment,' \
-          ' but we still found and unsuitable ruby version being used!'
+    # If this comes back !0 and we are meant to be aligned already this means
+    # the previous alignment failed, abort when this happens.
+    unless system('./ruby_build.sh') && ENV['ALIGN_RUBY_EXEC']
+      raise 'It seems rake was re-executed after a ruby version alignment,' \
+            ' but we still found and unsuitable ruby version being used!'
+    end
   end
   case $?.exitstatus
-  when 0
+  when 0 # installed version is fine, we are happy.
     next
-  when 1
+  when 1 # a new version was installed, we'll re-exec ourself.
     sh 'gem install rake'
     ENV['ALIGN_RUBY_EXEC'] = 'true'
     # Reload ourself via new rake
     exec('rake', *ARGV)
-  else
+  else # installer crashed or other unexpected error.
     raise 'Error while aligning ruby version through pangea-kitchen'
   end
 end
