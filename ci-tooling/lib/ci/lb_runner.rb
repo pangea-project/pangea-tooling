@@ -2,7 +2,7 @@
 require 'fileutils'
 
 class LiveBuildRunner
-  class Error < Exception; end
+  class Error < RuntimeError; end
   class ConfigError < Error; end
   class BuildFailedError < Error; end
   class FlashFailedError < Error; end

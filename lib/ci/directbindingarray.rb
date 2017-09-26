@@ -10,8 +10,8 @@ module CI
   # DirectBindingArray helps with converting a linear array of paths into
   # the respective types Docker expects.
   class DirectBindingArray
-    class ExcessColonError < Exception; end
-    class InvalidBindingType < Exception; end
+    class ExcessColonError < RuntimeError; end
+    class InvalidBindingType < RuntimeError; end
 
     # @return [Hash] Volume API hash of the form { Path => {} }
     def self.to_volumes(array)
