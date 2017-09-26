@@ -341,11 +341,10 @@ end
 
 desc 'Upgrade to newer ruby if required'
 task :align_ruby do
-  unless Dir.exist?('/tmp/kitchen')
-    sh format('git clone --depth 1 %s %s',
-              'https://github.com/blue-systems/pangea-kitchen.git',
-              '/tmp/kitchen')
-  end
+  FileUtils.rm_rf('/tmp/kitchen') # Instead of messing with pulls, just clone.
+  sh format('git clone --depth 1 %s %s',
+            'https://github.com/blue-systems/pangea-kitchen.git',
+            '/tmp/kitchen')
   Dir.chdir('/tmp/kitchen') do
     # ruby_build checks our version against the pangea version and if necessary
     # installs a ruby in /usr/local which is more suitable than what we have.
@@ -358,6 +357,7 @@ task :align_ruby do
   end
   case $?.exitstatus
   when 0 # installed version is fine, we are happy.
+    FileUtils.rm_rf('/tmp/kitchen')
     next
   when 1 # a new version was installed, we'll re-exec ourself.
     sh 'gem install rake'
