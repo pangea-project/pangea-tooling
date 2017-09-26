@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../linter'
 require_relative 'build_log_segmenter'
 

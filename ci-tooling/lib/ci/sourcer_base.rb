@@ -97,7 +97,7 @@ module CI
       @packagingdir = @packaging_dir.freeze
 
       # vcs
-      @build_dir = "#{Dir.pwd}/build".freeze
+      @build_dir = "#{Dir.pwd}/build"
       # orig
       @builddir = @build_dir.freeze
       FileUtils.rm_r(@build_dir) if Dir.exist?(@build_dir)

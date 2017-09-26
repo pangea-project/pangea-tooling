@@ -19,11 +19,11 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-ENV['CI_REPORTS'] = "#{Dir.pwd}/reports".freeze
+ENV['CI_REPORTS'] = "#{Dir.pwd}/reports"
 # FIXME: should use env not the marker file
 # BUILD_URL = ENV.fetch('BUILD_URL')
 BUILD_URL = File.read('build_url').strip
-ENV['LOG_URL'] = "#{BUILD_URL}/consoleText".freeze
+ENV['LOG_URL'] = "#{BUILD_URL}/consoleText"
 
 Dir.glob(File.expand_path('lint_bin/test_*.rb', __dir__)).each do |file|
   require file

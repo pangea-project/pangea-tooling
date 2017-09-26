@@ -28,7 +28,7 @@ module Lint
   # Test static files.
   class TestPackaging < ResultTest
     def setup
-      @dir = 'build'.freeze
+      @dir = 'build'
     end
 
     %i[Control Series Symbols].each do |klass_name|

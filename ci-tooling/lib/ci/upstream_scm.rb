@@ -54,7 +54,7 @@ module CI
     end
 
     ORIGIN_PERFERENCE = [Origin::UNSTABLE, Origin::STABLE].freeze
-    DEFAULT_BRANCH = 'master'.freeze
+    DEFAULT_BRANCH = 'master'
 
     # Constructs an upstream SCM description from a packaging SCM description.
     #

@@ -35,7 +35,7 @@ module NCI
     # Env variables which reflect jenkins trigger causes
     CAUSE_ENVS = %w[BUILD_CAUSE ROOT_BUILD_CAUSE].freeze
     # Key word for manually triggered builds
-    MANUAL_CAUSE = 'MANUALTRIGGER'.freeze
+    MANUAL_CAUSE = 'MANUALTRIGGER'
 
     def run
       raise 'No debain/watch found!' unless File.exist?('debian/watch')

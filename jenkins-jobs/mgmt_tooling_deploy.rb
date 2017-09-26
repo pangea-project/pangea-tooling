@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'job'
 
 # Tooling management job.

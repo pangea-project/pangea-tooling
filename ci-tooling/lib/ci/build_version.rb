@@ -27,7 +27,7 @@ module CI
   # Wraps a debian changelog to construct a build specific version based on the
   # version used in the changelog.
   class BuildVersion
-    TIME_FORMAT = '%Y%m%d.%H%M'.freeze
+    TIME_FORMAT = '%Y%m%d.%H%M'
 
     # Version (including epoch)
     attr_reader :base

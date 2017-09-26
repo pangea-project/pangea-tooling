@@ -25,7 +25,7 @@ require_relative 'base'
 class ProjectsFactory
   # Neon specific project factory.
   class Neon < Base
-    DEFAULT_URL_BASE = 'https://anongit.neon.kde.org'.freeze
+    DEFAULT_URL_BASE = 'https://anongit.neon.kde.org'
 
     # FIXME: needs a writer!
     def self.url_base

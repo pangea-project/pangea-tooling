@@ -32,9 +32,9 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # copy to depot using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
 DATE = File.read('result/date_stamp').strip
-ISONAME = "#{IMAGENAME}-#{TYPE}".freeze
-REMOTE_DIR = "neon/images/#{ISONAME}/".freeze
-REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}".freeze
+ISONAME = "#{IMAGENAME}-#{TYPE}"
+REMOTE_DIR = "neon/images/#{ISONAME}/"
+REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 unless system('gpg2', '--armor', '--detach-sign', '-o',
               "result/#{ISONAME}-#{DATE}-amd64.iso.sig",

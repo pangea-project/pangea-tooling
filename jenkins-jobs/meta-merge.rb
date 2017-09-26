@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'job'
 
 # Meta merger depending on all merges and is able to trigger them.

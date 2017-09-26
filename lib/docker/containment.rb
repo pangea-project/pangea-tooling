@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../ci/containment'
 
 warn 'W: Requiring deprecated Containment class. Use CI::Containment instead.'

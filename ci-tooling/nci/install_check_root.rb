@@ -26,7 +26,7 @@ require_relative 'lib/setup_repo'
 require_relative '../lib/install_check'
 
 TYPE = ENV.fetch('TYPE')
-REPO_KEY = "#{TYPE}_#{ENV.fetch('DIST')}".freeze
+REPO_KEY = "#{TYPE}_#{ENV.fetch('DIST')}"
 
 NCI.setup_proxy!
 NCI.add_repo_key!

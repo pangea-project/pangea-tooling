@@ -28,7 +28,7 @@ class ProjectsFactory
   # Debian specific project factory.
   class Gitlab < Base
     include ProjectsFactoryCommon
-    DEFAULT_URL_BASE = 'https://gitlab.com'.freeze
+    DEFAULT_URL_BASE = 'https://gitlab.com'
 
     # FIXME: same as in neon
     def self.url_base

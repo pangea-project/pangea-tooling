@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Deprecate
   include Gem::Deprecate
 

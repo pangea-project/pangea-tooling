@@ -26,7 +26,7 @@ require_relative 'lib/setup_repo'
 require_relative '../lib/install_check'
 
 TYPE = ENV.fetch('TYPE')
-REPO_KEY = "#{TYPE}_#{ENV.fetch('DIST')}".freeze
+REPO_KEY = "#{TYPE}_#{ENV.fetch('DIST')}"
 # We need different suffixing because of https://phabricator.kde.org/T5359
 IS_LTS = TYPE.include?('lts')
 

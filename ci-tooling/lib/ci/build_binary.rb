@@ -32,15 +32,15 @@ require_relative '../debian/dsc'
 module CI
   # Builds a source package.
   class PackageBuilder
-    BUILD_DIR  = 'build'.freeze
-    RESULT_DIR = 'result'.freeze
+    BUILD_DIR  = 'build'
+    RESULT_DIR = 'result'
 
     BIN_ONLY_WHITELIST = %w[qtbase qtxmlpatterns qtdeclarative qtwebkit
                             test-build-bin-only].freeze
 
     # Resolves build dependencies and installs them.
     class DependencyResolver
-      RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'.freeze
+      RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'
       resolver_env = {}
       if OS.to_h.include?(:VERSION_ID) && OS::VERSION_ID == '8'
         resolver_env['APTITUDEOPT'] = '--target-release=jessie-backports'

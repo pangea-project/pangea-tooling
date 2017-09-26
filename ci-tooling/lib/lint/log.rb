@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'log/cmake'
 require_relative 'log/lintian'
 require_relative 'log/list_missing'

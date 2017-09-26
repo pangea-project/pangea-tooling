@@ -40,8 +40,8 @@ end
 
 NCI.setup_repo!
 
-TESTS_DIR = 'build/debian/tests'.freeze
-JUNIT_FILE = 'adt-junit.xml'.freeze
+TESTS_DIR = 'build/debian/tests'
+JUNIT_FILE = 'adt-junit.xml'
 
 unless Dir.exist?(TESTS_DIR)
   puts "Package doesn't appear to be autopkgtested. Skipping."

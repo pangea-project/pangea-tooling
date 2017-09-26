@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Helps with retrying an exception throwing code.
 module Retry
   module_function

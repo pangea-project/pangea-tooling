@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Split a segment out of a build log by defining a start maker and an end marker
 module BuildLogSegmenter
   class SegmentMissingError < StandardError; end

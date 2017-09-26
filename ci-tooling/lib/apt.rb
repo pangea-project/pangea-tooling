@@ -259,7 +259,7 @@ module Apt
   module Mark
     module_function
 
-    BINARY = 'apt-mark'.freeze
+    BINARY = 'apt-mark'
 
     AUTO = :auto
     MANUAL = :manual

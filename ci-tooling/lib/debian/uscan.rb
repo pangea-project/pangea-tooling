@@ -24,10 +24,10 @@ module Debian
   class UScan
     # State identifier strings.
     module States
-      NEWER_AVAILABLE = 'Newer version available'.freeze
-      UP_TO_DATE = 'up to date'.freeze
-      DEBIAN_NEWER = 'Debian version newer than remote site'.freeze
-      OLDER_ONLY = 'only older package available'.freeze
+      NEWER_AVAILABLE = 'Newer version available'
+      UP_TO_DATE = 'up to date'
+      DEBIAN_NEWER = 'Debian version newer than remote site'
+      OLDER_ONLY = 'only older package available'
 
       # Compatiblity map because uscan randomly changes the bloody strings.
       # @param [String] string actual uscan string we want to map

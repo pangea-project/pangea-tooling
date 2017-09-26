@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'job'
 
 # Meta ISO depending on all ISOs and is able to trigger them.

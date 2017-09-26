@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'docker'
 
 REQUIRED_DOCKER_API_VERSION = Gem::Version.new(1.24)

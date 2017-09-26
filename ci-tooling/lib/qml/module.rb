@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../dpkg'
 
 # Management construct for QML related bits.
@@ -6,7 +7,7 @@ module QML
 
   # Describes a QML module.
   class Module
-    IMPORT_SEPERATOR = '.'.freeze
+    IMPORT_SEPERATOR = '.'
 
     attr_reader :identifier
     attr_reader :version

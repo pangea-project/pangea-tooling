@@ -103,7 +103,7 @@ class Project
   attr_reader :debian
   alias debian? debian
 
-  DEFAULT_URL = 'git.debian.org:/git/pkg-kde'.freeze
+  DEFAULT_URL = 'git.debian.org:/git/pkg-kde'
   @default_url = DEFAULT_URL
 
   class << self

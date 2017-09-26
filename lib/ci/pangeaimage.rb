@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module CI
   # Convenience wrapper to construct and handle pangea image names.
   class PangeaImage

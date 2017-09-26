@@ -36,8 +36,8 @@ module NCI
     # that have this base version tagged as well. It asserts that all frameworks
     # should have the same version tagged. They may have a newer version tagged.
     class TagDetective
-      ORIGIN = 'origin/master'.freeze
-      ECM = 'frameworks/extra-cmake-modules'.freeze
+      ORIGIN = 'origin/master'
+      ECM = 'frameworks/extra-cmake-modules'
 
       # exclusion should only include proper non-frameworks, if something
       # is awray with an actual framework that is released it should either

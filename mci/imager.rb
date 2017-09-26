@@ -29,7 +29,7 @@ JOB_NAME = ENV.fetch('JOB_NAME')
 DIST = ENV.fetch('DIST')
 TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
-CNAME = "jenkins-imager-#{DIST}-#{TYPE}-#{ARCH}".freeze
+CNAME = "jenkins-imager-#{DIST}-#{TYPE}-#{ARCH}"
 
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 

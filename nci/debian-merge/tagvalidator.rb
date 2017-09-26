@@ -26,7 +26,7 @@ module NCI
   module DebianMerge
     # Helper to validate tag expectations and possibly override.
     class TagValidator
-      DEFAULT_PATH = "#{__dir__}/data/tag-overrides.yaml".freeze
+      DEFAULT_PATH = "#{__dir__}/data/tag-overrides.yaml"
 
       class << self
         def default_path

@@ -32,7 +32,7 @@ module CI
   class VersionEnforcer
     class UnauthorizedChangeError < StandardError; end
 
-    RECORDFILE = 'last_version'.freeze
+    RECORDFILE = 'last_version'
 
     attr_reader :old_version
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Debian
   # A debian patch series as seen in debian/patches/series
   class PatchSeries

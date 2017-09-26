@@ -27,8 +27,8 @@ require 'yaml'
 
 require_relative '../lib/digital_ocean/droplet'
 
-DROPLET_NAME = 'jenkins-slave-deploy'.freeze
-IMAGE_NAME = 'jenkins-slave'.freeze
+DROPLET_NAME = 'jenkins-slave-deploy'
+IMAGE_NAME = 'jenkins-slave'
 
 logger = @logger = Logger.new(STDERR)
 

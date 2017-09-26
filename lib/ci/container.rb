@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'deep_merge'
 require_relative 'docker'
 require_relative 'directbindingarray'

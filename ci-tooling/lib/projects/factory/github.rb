@@ -27,7 +27,7 @@ class ProjectsFactory
   # Debian specific project factory.
   class GitHub < Base
     include ProjectsFactoryCommon
-    DEFAULT_URL_BASE = 'https://github.com'.freeze
+    DEFAULT_URL_BASE = 'https://github.com'
 
     # FIXME: same as in neon
     def self.url_base

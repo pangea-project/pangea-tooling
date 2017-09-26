@@ -25,7 +25,7 @@ class ProjectsFactory
   # Debian specific project factory.
   class Debian < Base
     include ProjectsFactoryCommon
-    DEFAULT_URL_BASE = 'git://anonscm.debian.org'.freeze
+    DEFAULT_URL_BASE = 'git://anonscm.debian.org'
 
     # FIXME: same as in neon
     # FIXME: needs a writer!

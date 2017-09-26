@@ -27,7 +27,7 @@ class ProjectsFactory
   # Debian specific project factory.
   class KDEL10N < Base
     include ProjectsFactoryCommon
-    DEFAULT_URL_BASE = 'https://github.com/shadeslayer/kde-l10n-common'.freeze
+    DEFAULT_URL_BASE = 'https://github.com/shadeslayer/kde-l10n-common'
 
     # FIXME: same as in neon
     def self.url_base
@@ -60,9 +60,9 @@ class ProjectsFactory
 
       def check_ftp(base)
         stable_path =
-          "/home/ftpubuntu/stable/applications/#{base}/src/kde-l10n/".freeze
+          "/home/ftpubuntu/stable/applications/#{base}/src/kde-l10n/"
         unstable_path =
-          "/home/ftpubuntu/unstable/applications/#{base}/src/kde-l10n/".freeze
+          "/home/ftpubuntu/unstable/applications/#{base}/src/kde-l10n/"
         output = nil
         Net::SFTP.start('depot.kde.org', 'ftpubuntu') do |sftp|
           output = sftp.dir.glob(stable_path, '**/**.tar.*').map(&:name)
@@ -72,7 +72,7 @@ class ProjectsFactory
       end
 
       def cleanup_ls(data, str)
-        pattern = "(kde-l10n-.*)-#{str}".freeze
+        pattern = "(kde-l10n-.*)-#{str}"
         data.collect do |entry|
           entry.match(/#{pattern}/)[1] if entry =~ /#{pattern}/
         end

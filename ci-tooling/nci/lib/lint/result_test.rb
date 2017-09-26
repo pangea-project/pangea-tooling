@@ -27,7 +27,7 @@
 begin
   require 'ci/reporter/rake/test_unit_loader'
 rescue LoadError
-  REPORTER = 'ci_reporter_test_unit-5c6c30d120a3'.freeze
+  REPORTER = 'ci_reporter_test_unit-5c6c30d120a3'
   require format("#{Gem.default_dir}/bundler/gems/#{REPORTER}/lib/%s",
                  'ci/reporter/rake/test_unit_loader')
 end
