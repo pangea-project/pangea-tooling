@@ -118,7 +118,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   end
 end
 
-if __FILE__ == $PROGRAM_NAME
+if $PROGRAM_NAME == __FILE__
   options = {}
   options[:flavor] = :mci
   OptionParser.new do |opts|

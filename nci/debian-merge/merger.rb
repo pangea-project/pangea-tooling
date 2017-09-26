@@ -77,5 +77,5 @@ end
 
 # :nocov:
 $stdout = STDERR
-NCI::DebianMerge::Merger.new.run if __FILE__ == $PROGRAM_NAME
+NCI::DebianMerge::Merger.new.run if $PROGRAM_NAME == __FILE__
 # :nocov:

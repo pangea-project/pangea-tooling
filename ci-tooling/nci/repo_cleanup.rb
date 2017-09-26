@@ -118,7 +118,7 @@ class RepoCleaner
   end
 end
 
-if __FILE__ == $PROGRAM_NAME || ENV.include?('PANGEA_TEST_EXECUTION')
+if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
   # SSH tunnel so we can talk to the repo
   Faraday.default_connection_options =
     Faraday::ConnectionOptions.new(timeout: 15 * 60)

@@ -51,4 +51,4 @@ module NCI
   end
 end
 
-NCI.jenkins_archive_builds if __FILE__ == $PROGRAM_NAME
+NCI.jenkins_archive_builds if $PROGRAM_NAME == __FILE__

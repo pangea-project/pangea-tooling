@@ -128,5 +128,5 @@ module NCI
 end
 
 # :nocov:
-NCI::DebianMerge::TagDetective.new.run if __FILE__ == $PROGRAM_NAME
+NCI::DebianMerge::TagDetective.new.run if $PROGRAM_NAME == __FILE__
 # :nocov:
