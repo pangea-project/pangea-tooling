@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # frozen_string_literal: true
 #
 # Copyright (C) 2014-2017 Harald Sitter <sitter@kde.org>
@@ -51,9 +50,9 @@ class InstallCheckBase
         @log.info 'daily failed to install.'
         daily_purged = target_ppa.purge
         unless daily_purged
-          @log.info <<-EOS.tr($/, '')
+          @log.info <<-INFO.tr($/, '')
 daily failed to install and then failed to purge. Maybe check maintscripts?
-          EOS
+          INFO
         end
       end
     end
@@ -76,10 +75,10 @@ daily failed to install and then failed to purge. Maybe check maintscripts?
     # All is lovely. Let's make sure all live packages uninstall again
     # (maintscripts!) and then start the promotion.
     unless candidate_ppa.purge
-      @log.error <<-EOS.tr($/, '')
+      @log.error <<-ERROR.tr($/, '')
 live PPA installed just fine, but can not be uninstalled again. Maybe check
 maintscripts?
-      EOS
+      ERROR
       exit 1
     end
 
