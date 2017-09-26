@@ -22,6 +22,7 @@ module MGMT
     # @param tag [String] name of the version (vivid || unstable || wily...)
     # @param origin_tags [Array] name of alternate versions to upgrade from
     def initialize(flavor, tag, origin_tags = [])
+      warn "Deploying #{flavor} #{tag} from #{origin_tags}"
       @base = CI::PangeaImage.new(flavor, tag)
       ENV['DIST'] = @base.tag
       @origin_tags = origin_tags
