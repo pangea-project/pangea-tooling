@@ -32,7 +32,7 @@ module MCI
     @type = ENV.fetch('TYPE')
     @variant = ENV.fetch('VARIANT')
 
-    if @type != "halium"
+    if @type != 'halium'
       debline = format('deb http://mobile.neon.pangea.pub %s main',
                        LSB::DISTRIB_CODENAME)
       raise 'adding repo failed' unless Apt::Repository.add(debline)

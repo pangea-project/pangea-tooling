@@ -88,7 +88,7 @@ Net::SSH.start('archive-api.neon.kde.org', 'neonarchives') do |ssh|
   puts ssh.exec!("mkdir -p #{tmpdir}")
 end
 
-Net::SFTP.start('archive-api.neon.kde.org', "neonarchives") do |sftp|
+Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives') do |sftp|
   sftp.upload!("#{repodir}/", "#{tmpdir}")
 end
 

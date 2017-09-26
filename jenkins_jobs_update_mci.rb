@@ -85,7 +85,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     mci_projects_file = "#{@projects_dir}/mci/mobile.yaml"
     mci_projects = ProjectsFactory.from_file(mci_projects_file,
-                                             branch: "halium-7.1")
+                                             branch: 'halium-7.1')
 
     # This are really special projects, they need to be built with
     # different configuration options and should be published into

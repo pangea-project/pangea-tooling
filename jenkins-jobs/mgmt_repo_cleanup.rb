@@ -4,6 +4,6 @@ require_relative 'job'
 # Cleans up dockers.
 class MGMTRepoCleanupJob < JenkinsJob
   def initialize
-    super("mgmt_repo_cleanup", 'mgmt-repo-cleanup.xml.erb')
+    super('mgmt_repo_cleanup', 'mgmt-repo-cleanup.xml.erb')
   end
 end
