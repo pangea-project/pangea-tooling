@@ -95,13 +95,13 @@ class InstallCheck < InstallCheckBase
       Dir.chdir(tmpdir) do
         Dir.mkdir(name)
         Dir.mkdir("#{name}/DEBIAN")
-        File.write("#{name}/DEBIAN/control", <<-EOF.gsub(/^\s+/, ''))
+        File.write("#{name}/DEBIAN/control", <<~CONTROL)
         Package: #{name}
         Version: 999:999
         Architecture: all
         Maintainer: Harald Sitter <sitter@kde.org>
         Description: fake override package for kubuntu ci install checks
-        EOF
+        CONTROL
         system("dpkg-deb -b #{name} #{name}.deb")
         DPKG.dpkg(['-i', "#{name}.deb"])
       end
