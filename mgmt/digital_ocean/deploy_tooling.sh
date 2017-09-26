@@ -29,6 +29,7 @@ export PANGEA_UBUNTU_ONLY=1
 
 env
 
+rm -rf /tmp/tooling
 git clone --depth 1 https://github.com/blue-systems/pangea-tooling.git /tmp/tooling
 cd /tmp/tooling
 
