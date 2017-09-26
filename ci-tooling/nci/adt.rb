@@ -113,7 +113,12 @@ args << "--env=QTEST_FUNCTION_TIMEOUT=#{5 * 60 * 1000}"
 args << '--env=KDE_FORK_SLAVES=yes'
 args << '--env=KIO_DISABLE_CACHE_CLEANER=yes'
 args << '---' << 'null'
-TTY::Command.new(uuid: false).run('adt-run', *args, timeout: 30 * 60)
+begin
+  TTY::Command.new(uuid: false).run('adt-run', *args, timeout: 30 * 60)
+rescue TTY::Command::ExitError => error
+    puts error.message
+end
+
 
 summary = ADT::Summary.from_file('adt-output/summary')
 unit = ADT::JUnit::Summary.new(summary)
