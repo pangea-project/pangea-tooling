@@ -116,7 +116,7 @@ args << '---' << 'null'
 begin
   TTY::Command.new(uuid: false).run('adt-run', *args, timeout: 30 * 60)
 rescue TTY::Command::ExitError => error
-    puts error.message
+  puts error.message
 end
 
 
