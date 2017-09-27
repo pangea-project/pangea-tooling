@@ -21,17 +21,18 @@
 
 require_relative '../lib/ci/containment'
 
+Docker.options[:read_timeout] = 7 * 60 * 60 # 7 hours.
+
+DIST = ENV.fetch('DIST')
+JOB_NAME = ENV.fetch('JOB_NAME')
+PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
+
 # Whitelist a bunch of Jenkins variables for consumption inside the container.
 whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
                PANGEA_PROVISION_AUTOINST]
 whitelist += (ENV['DOCKER_ENV_WHITELIST'] || '').split(':')
 ENV['DOCKER_ENV_WHITELIST'] = whitelist.join(':')
 
-Docker.options[:read_timeout] = 7 * 60 * 60 # 7 hours.
-
-DIST = ENV.fetch('DIST')
-JOB_NAME = ENV.fetch('JOB_NAME')
-PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
 
 # TODO: autogenerate from average build time?
 # TODO: maybe we should have a per-source cache that gets shuffled between the
