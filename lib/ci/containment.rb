@@ -182,12 +182,18 @@ module CI
     def rescued_start(c)
       c.start
       status_code = c.wait.fetch('StatusCode', 1)
+      debug(c) unless status_code.zero?
       c.stop
       status_code
     rescue Docker::Error::NotFoundError => e
       @log.error 'Failed to create container!'
       @log.error e.to_s
       return 1
+    end
+
+    def debug(c)
+      json = c.json
+      warn json.fetch('State', json)
     end
 
     def init(no_exit_handlers)
