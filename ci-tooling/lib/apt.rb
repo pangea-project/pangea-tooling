@@ -142,7 +142,7 @@ module Apt
 
       def remote?(uri)
         # If a URI has a host and a path we'll assume it to be a path
-        (uri.host && !uri.host.empty?) && (uri.path && !uri.path.empty?)
+        !uri.host.to_s.empty? && !uri.path.to_s.empty?
       end
 
       def local?(uri)
@@ -150,8 +150,7 @@ module Apt
         # Must be a local uri.
         # NB: fingerpints or keyids are incredibly unlikely to match this, but
         #   they could if one has particularly random file names in PWD.
-        (!uri.host || uri.host.empty?) &&
-          (uri.path && !uri.path.empty? && File.exist?(uri.path))
+        uri.host.to_s.empty? && (!uri.path.to_s.empty? && File.exist?(uri.path))
       end
     end
   end

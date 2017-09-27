@@ -105,7 +105,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         # there was an upstream change resulting in pointless build
         # cycles.
         branches = NCI.types.collect { |x| "Neon/#{x}" } << 'master'
-        next unless branch && branch.start_with?(*branches)
+        next unless branch&.start_with?(*branches)
         NCI.series.each_key do |d|
           NCI.types.each do |t|
             dependees << BuilderJobBuilder.basename(d, t, project.component,

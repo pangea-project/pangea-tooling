@@ -118,7 +118,7 @@ module CI
                      Origin::STABLE => project.i18n_stable }
       ORIGIN_PERFERENCE[0..ORIGIN_PERFERENCE.index(origin)].reverse_each do |o|
         branch = origin_map.fetch(o)
-        return branch if branch && !branch.empty?
+        return branch unless branch.to_s.empty?
       end
       DEFAULT_BRANCH # If all fails, default back to default.
     end

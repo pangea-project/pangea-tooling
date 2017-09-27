@@ -97,7 +97,7 @@ class BranchSequence
   def push
     branches = []
     branch = self
-    while branch && branch.parent # Top most item has no parent and isn't dirty.
+    while branch&.parent # Top most item has no parent and isn't dirty.
       branches << branch unless branch.pushed?
       branch = branch.parent
     end

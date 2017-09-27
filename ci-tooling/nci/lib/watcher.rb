@@ -100,7 +100,7 @@ module NCI
 
       version = Debian::Version.new(Changelog.new(Dir.pwd).version)
       version.upstream = newest
-      version.revision = '0neon' if version.revision && !version.revision.empty?
+      version.revision = '0neon' if !version.revision.to_s.empty?
 
       # FIXME: stolen from sourcer
       dch = [

@@ -58,7 +58,7 @@ class SourcerJob < JenkinsJob
   end
 
   def fetch_tarball
-    return '' unless @upstream_scm && @upstream_scm.type == 'tarball'
+    return '' unless @upstream_scm&.type == 'tarball'
     "if [ ! -d source ]; then
     mkdir source
     fi
@@ -66,7 +66,7 @@ class SourcerJob < JenkinsJob
   end
 
   def fetch_bzr
-    return '' unless @packaging_scm && @packaging_scm.type == 'bzr'
+    return '' unless @packaging_scm&.type == 'bzr'
     "if [ ! -d branch ]; then
     bzr branch '#{@packaging_scm.url}' branch
     else

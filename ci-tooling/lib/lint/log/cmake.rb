@@ -86,7 +86,7 @@ module Lint
           elsif start_line && !line.empty?
             next if line.strip.empty?
             match = line.match(/^ *\* (.*)$/)
-            missing << match[1] if match && match.size > 1
+            missing << match[1] if match&.size > 1
           else
             # Line is empty and the start conditions didn't match.
             # Either the block is not valid or we have reached the end.
@@ -100,7 +100,7 @@ module Lint
       def parse_package(line, _data)
         package = 'Could not find a package configuration file provided by'
         match = line.match(/^\s+#{package}\s+"(.+)"/)
-        return [] unless match && match.size > 1
+        return [] unless match&.size > 1
         [match[1]]
       end
 

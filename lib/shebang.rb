@@ -33,7 +33,7 @@ class Shebang
   private
 
   def proper_line?
-    return false unless @line && @line.start_with?('#!')
+    return false unless @line&.start_with?('#!')
     true
   end
 

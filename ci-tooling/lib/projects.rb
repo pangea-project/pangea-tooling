@@ -163,7 +163,7 @@ class Project
       override_apply(member)
     end
 
-    upstream_scm.releaseme_adjust!(origin) if upstream_scm
+    upstream_scm&.releaseme_adjust!(origin)
   end
 
   private

@@ -92,7 +92,7 @@ EOF
           gateway = Net::SSH::Gateway.new(uri.host, uri.user)
           yield gateway.open('localhost', uri.port.to_s)
         ensure
-          gateway.shutdown! if gateway
+          gateway&.shutdown!
         end
       end
 
@@ -122,7 +122,7 @@ EOF
                                                     **Remote.ssh_options)
               yield gateway.open("#{tmpdir}/aptly.sock", uri.path)
             ensure
-              gateway.shutdown! if gateway
+              gateway&.shutdown!
             end
           end
         end

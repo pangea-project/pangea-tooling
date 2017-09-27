@@ -55,7 +55,7 @@ module NCI
           next if diff && new_diff.abs > diff.abs
           # If the diff is equal pick the lower value. It will get upgraded
           # eventually if it is too low.
-          next if diff && diff.abs == new_diff.abs && c > pick
+          next if diff&.abs == new_diff.abs && c > pick
           pick = c
           diff = new_diff
         end

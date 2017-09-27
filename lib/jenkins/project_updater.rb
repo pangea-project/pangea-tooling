@@ -196,7 +196,7 @@ Check the detailed output to find output relating to the failed creation of the 
       all_template_files.each do |path|
         File.readlines(path).each do |line|
           match = line.match(/.*plugin="(.+)".*/)
-          next unless match && match.size == 2
+          next unless match&.size == 2
           plugin = match[1].split('@').first
           next if installed_plugins.include?(plugin)
           plugins << plugin

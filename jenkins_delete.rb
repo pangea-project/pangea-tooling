@@ -59,7 +59,7 @@ pattern = Regexp.new(ARGV[0])
 @log.info pattern
 
 def ditch_child(element)
-  element.children.remove if element && element.children
+  element.children.remove if element&.children
 end
 
 def mangle_xml(xml)

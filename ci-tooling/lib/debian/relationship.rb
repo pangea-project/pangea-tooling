@@ -137,7 +137,7 @@ module Debian
     def process_match(match)
       match.names.each do |name|
         data = match[name]
-        data.strip! if data
+        data&.strip!
         next unless data
 
         case name

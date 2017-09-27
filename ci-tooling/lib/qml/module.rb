@@ -92,7 +92,7 @@ module QML
 
     def parse(line)
       minsize = 3 # import + name + version
-      return nil unless line && !line.empty?
+      return nil unless !line.to_s.empty?
       parts = line.split(/\s/)
       return nil unless parts.size >= minsize
       parts.delete_if { |str| str.nil? || str.empty? }
