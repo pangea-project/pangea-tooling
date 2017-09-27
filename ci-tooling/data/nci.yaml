@@ -20,3 +20,9 @@ experimental_skip_qa:
   - _forks_
   - _launchpad_
   - _qt_
+
+# Only run adt on jobs matching string.include? patterns. This only applies
+# after experimental_skip_qa.
+only_adt:
+  - _unstable_plasma_
+  - _stable_plasma_

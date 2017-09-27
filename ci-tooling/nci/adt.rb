@@ -32,6 +32,10 @@ if NCI.experimental_skip_qa.any? { |x| JOB_NAME.include?(x) }
   warn "Job #{JOB_NAME} marked to skip QA. Not running autopkgtest (adt)."
   exit 0
 end
+if NCI.only_adt.none? { |x| JOB_NAME.include?(x) }
+  warn "Job #{JOB_NAME} not enabled. Not running autopkgtest (adt)."
+  exit 0
+end
 
 if JOB_NAME.include?('_armhf')
   warn 'Not running adt on the armhf architecture'

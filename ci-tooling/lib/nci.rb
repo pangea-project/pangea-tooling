@@ -35,4 +35,10 @@ module NCI
   def experimental_skip_qa
     data['experimental_skip_qa']
   end
+
+  # Only run autopkgtest on jobs matching one of the patterns.
+  # @return [Array<String>] .include match exclusions
+  def only_adt
+    data['only_adt']
+  end
 end

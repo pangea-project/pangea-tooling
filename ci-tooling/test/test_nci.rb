@@ -28,4 +28,10 @@ class XCITest < TestCase
     assert_false(skip.empty?)
     assert(skip.is_a?(Array))
   end
+
+  def test_only_adt
+    only = NCI.only_adt
+    assert_false(only.empty?)
+    assert(only.is_a?(Array))
+  end
 end
