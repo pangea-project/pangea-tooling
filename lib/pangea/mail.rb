@@ -44,7 +44,7 @@ module Pangea
     def initialize(path = self.class.config_path)
       data = YAML.load_file(path)
       data.fetch('smtp').each do |key, value|
-        value = value.to_sym if value&.fetch(0) == ':'
+        value = value.to_sym if value&.[](0) == ':'
         value = nil if value == 'nil' # coerce nilly strings
         instance_variable_set("@#{key}".to_sym, value)
       end
