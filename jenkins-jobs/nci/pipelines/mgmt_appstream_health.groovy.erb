@@ -1,0 +1,41 @@
+notify {
+    cleanNode('master') {
+        stage('Test') {
+            try {
+                sh '~/tooling/nci/appstream_health_test.rb --ci-reporter'
+            } finally {
+                junit 'test/reports/*.xml'
+            }
+        }
+    }
+}
+
+def notify(body) {
+    try {
+        body()
+    } catch (e) {
+        stage('notify') {
+            mail to: 'neon-notifications@kde.org',
+                 subject: "AppStream repository data broken ${BUILD_NUMBER}!",
+                 body: """The AppStream data of repositories are broken. This needs fixing urgently.
+
+${BUILD_URL}/testReport/"""
+        }
+        throw e
+    }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}

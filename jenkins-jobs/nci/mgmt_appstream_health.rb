@@ -18,12 +18,11 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '../job'
+require_relative 'pipelinejob'
 
-# Builds gems from git.
-class MGMTNeonAppstreamHealth < JenkinsJob
+# tests dep11 (appstream) health on the repositories
+class MGMTAppstreamHealthJob < PipelineJob
   def initialize
-    name = 'mgmt_neon-appstream-health'
-    super(name, "#{name}.xml.erb")
+    super('mgmt_appstream-health', cron: 'H H/3 * * *')
   end
 end

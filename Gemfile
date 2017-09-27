@@ -41,7 +41,9 @@ gem 'uri-ssh_git', '~> 2.0'
 
 # Test logging as junit (also used at runtime for linting)
 gem 'ci_reporter_test_unit'
+gem 'ci_reporter_minitest'
 gem 'test-unit', '~> 3.0'
+gem 'minitest'
 
 group :development, :test do
   gem 'droplet_kit'
