@@ -19,6 +19,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'test/unit'
+require 'yaml'
 
 require 'tty/command'
 require_relative '../lib/shebang'
@@ -80,7 +81,15 @@ class ParseTest < Test::Unit::TestCase
   def test_ruby
     # Rubocop implies valid parsing and then we also want to enforce that
     # no tab indentation was used.
-    res = cmd.run!('rubocop', '--only', 'Layout/Tab', '--force-default-config',
+    # NB: rubocop has a default config one can force, but it gets the intended
+    #   version from .ruby-version (which is managed by rbenv for example), so
+    #   it isn't strictly speaking desirable to follow that as it would make the
+    #   test pass even though it should not. As such we make a temporary config
+    #   forcing the value we want.
+    config = YAML.dump('AllCops' => { 'TargetRubyVersion' => '2.3' })
+    File.write('config.yaml', config)
+    res = cmd.run!('rubocop', '--only', 'Layout/Tab',
+                   '--config', "#{Dir.pwd}/config.yaml",
                    *self.class.all_ruby)
     assert(res.success?, res.out)
   end
