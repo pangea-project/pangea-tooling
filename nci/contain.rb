@@ -61,6 +61,7 @@ def default_ccache_dir
 end
 
 CCACHE_DIR = default_ccache_dir
+CONTAINER_NAME = "neon_#{JOB_NAME}"
 
 # TODO: transition away from compat behavior and have contain properly
 #       apply pwd_bind all the time?
@@ -68,11 +69,12 @@ c = nil
 if PWD_BIND != Dir.pwd # backwards compat. Behave as previosuly without pwd_bind
   binds = ["#{Dir.pwd}:#{PWD_BIND}"]
   binds << "#{CCACHE_DIR}:/ccache" if CCACHE_DIR
-  c = CI::Containment.new(JOB_NAME,
+  c = CI::Containment.new(CONTAINER_NAME,
                           image: CI::PangeaImage.new(:ubuntu, DIST),
                           binds: binds)
 else
-  c = CI::Containment.new(JOB_NAME, image: CI::PangeaImage.new(:ubuntu, DIST))
+  c = CI::Containment.new(CONTAINER_NAME,
+                          image: CI::PangeaImage.new(:ubuntu, DIST))
 end
 
 status_code = c.run(Cmd: ARGV, WorkingDir: PWD_BIND)
