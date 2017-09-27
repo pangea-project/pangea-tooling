@@ -26,3 +26,4 @@ experimental_skip_qa:
 only_adt:
   - _unstable_plasma_
   - _stable_plasma_
+  - _unstable_kde-extras_kgraphviewer_
