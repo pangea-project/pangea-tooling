@@ -1,14 +1,18 @@
+env.DIST = 'xenial'
+
 cleanNode('master') {
-  sh 'env'
   stage('source') {
-    checkout([$class: 'GitSCM',
-              branches: [[name: '<%= branch %>']],
-              doGenerateSubmoduleConfigurations: false,
-              extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'source']],
-              submoduleCfg: [],
-              userRemoteConfigs: [[url: '<%= repo %>']]])
-    sh 'tar cvf rootfs-builder'
-    stash name: 'source', includes '**'
+    parallel(
+      "git[source]": {
+        checkout([$class: 'GitSCM',
+                  branches: [[name: '<%= branch %>']],
+                  doGenerateSubmoduleConfigurations: false,
+                  extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'source']],
+                  submoduleCfg: [],
+                  userRemoteConfigs: [[url: '<%= repo %>']]])
+      }
+    )
+    stash name: 'source', includes: '**'
   }
 }
 
@@ -22,16 +26,16 @@ cleanNode('armhf') {
 }
 
 def cleanNode(label = null, body) {
-    node(label) {
-        deleteDir()
-        try {
-            wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-                wrap([$class: 'TimestamperBuildWrapper']) {
-                    body()
-                }
-            }
-        } finally {
-            step([$class: 'WsCleanup', cleanWhenFailure: true])
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
         }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
     }
+  }
 }

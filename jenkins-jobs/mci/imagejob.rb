@@ -28,8 +28,8 @@ class MCIImageJob < PipelineJob
   def initialize(repo:, branch:, type:)
     super("#{type}_rootfs",
           template: 'imagerjob')
-    @repo = @repo.freeze
-    @branch = @branch.freeze
-    @type = @type.freeze
+    @repo = repo.freeze
+    @branch = branch.freeze
+    @type = type.freeze
   end
 end
