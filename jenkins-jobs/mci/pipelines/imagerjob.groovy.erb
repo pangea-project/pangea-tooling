@@ -1,16 +1,14 @@
 cleanNode('master') {
   sh 'env'
   stage('source') {
-    "git[source]": {
-      checkout([$class: 'GitSCM',
-                branches: [[name: '<%= branch %>']],
-                doGenerateSubmoduleConfigurations: false,
-                extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'source']],
-                submoduleCfg: [],
-                userRemoteConfigs: [[url: '<%= repo %>']]])
-      sh 'tar cvf rootfs-builder'
-      stash name: 'source', includes '**'
-    }
+    checkout([$class: 'GitSCM',
+              branches: [[name: '<%= branch %>']],
+              doGenerateSubmoduleConfigurations: false,
+              extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'source']],
+              submoduleCfg: [],
+              userRemoteConfigs: [[url: '<%= repo %>']]])
+    sh 'tar cvf rootfs-builder'
+    stash name: 'source', includes '**'
   }
 }
 
