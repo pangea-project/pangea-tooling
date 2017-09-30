@@ -1,0 +1,39 @@
+cleanNode('master') {
+  sh 'env'
+  stage('source') {
+    "git[source]": {
+      checkout([$class: 'GitSCM',
+                branches: [[name: '<%= branch %>']],
+                doGenerateSubmoduleConfigurations: false,
+                extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'source']],
+                submoduleCfg: [],
+                userRemoteConfigs: [[url: '<%= repo %>']]])
+      sh 'tar cvf rootfs-builder'
+      stash name: 'source', includes '**'
+    }
+  }
+}
+
+// build image
+cleanNode('armhf') {
+    stage('image') {
+        unstash 'source'
+        sh '~/tooling/mci/imager.rb'
+        archiveArtifacts 'result/*'
+    }
+}
+
+def cleanNode(label = null, body) {
+    node(label) {
+        deleteDir()
+        try {
+            wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+                wrap([$class: 'TimestamperBuildWrapper']) {
+                    body()
+                }
+            }
+        } finally {
+            step([$class: 'WsCleanup', cleanWhenFailure: true])
+        }
+    }
+}
