@@ -42,7 +42,7 @@ c = CI::Containment.new(JOB_NAME,
                         image: CI::PangeaImage.new(:ubuntu, DIST),
                         binds: binds,
                         privileged: true)
-cmd = ["#{TOOLING_PATH}/mci/imager/build.sh", Dir.pwd, DIST, ARCH, TYPE]
+cmd = ["#{TOOLING_PATH}/ci-tooling/ci/imager_mci.rb"]
 status_code = c.run(Cmd: cmd)
 exit status_code unless status_code.to_i.zero?
 

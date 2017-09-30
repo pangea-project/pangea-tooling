@@ -4,28 +4,19 @@
 require_relative '../lib/apt'
 require 'fileutils'
 
-raise 'No live-config found!' unless File.exist?('live-config')
-
 # Add the ppa from Ubuntu's train service
-@ppa = 'ppa:ci-train-ppa-service/stable-snapshot'
-Apt::Repository.add(@ppa)
 Apt.update
-Apt.install(%w[livecd-rootfs])
+Apt.install(%w[live-build])
 
 ec = 0
 
 begin
   FileUtils.mkdir_p 'result'
-  Dir.chdir('live-config') do
-    system('make clean')
-    system('./configure')
-    ec = system('make')
-    FileUtils.mv(Dir.glob('live*'), '../result', verbose: true)
-    FileUtils.mv(Dir.glob('logfile*'), '../result', verbose: true)
-  end
+  ec = system('./build.sh')
+  FileUtils.mv(Dir.glob('halium*'), '../result', verbose: true)
 ensure
-  Dir.chdir('live-config') do
-    system('make clean')
+  Dir.chdir('rootfs-builder') do
+    system('lb clean --purge')
   end
 end
 
