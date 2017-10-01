@@ -21,7 +21,15 @@ cleanNode('master') {
 cleanNode('armhf') {
     stage('image') {
         unstash 'source'
-        sh '~/tooling/mci/imager.rb'
+        sh '~/tooling/mci/imager.rb generic'
+        archiveArtifacts 'result/*'
+    }
+}
+
+cleanNode('armhf') {
+    stage('image-caf') {
+        unstash 'source'
+        sh '~/tooling/mci/imager.rb caf'
         archiveArtifacts 'result/*'
     }
 }
