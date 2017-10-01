@@ -14,7 +14,7 @@ begin
   FileUtils.mkdir_p 'result'
   Dir.chdir('rootfs-builder') do
     system('ls -lah')
-    ec = system("./build.sh #{ARGV}")
+    ec = system("./build.sh #{ARGV[0]}")
     FileUtils.mv(Dir.glob('halium*'), '../result', verbose: true)
   end
 ensure
