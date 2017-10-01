@@ -12,6 +12,7 @@ ec = 0
 
 begin
   FileUtils.mkdir_p 'result'
+  system('ls -lah')
   ec = system('./build.sh')
   FileUtils.mv(Dir.glob('halium*'), '../result', verbose: true)
 ensure
