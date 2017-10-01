@@ -8,7 +8,7 @@ cleanNode('master') {
         checkout([$class: 'GitSCM',
                   branches: [[name: '<%= branch %>']],
                   doGenerateSubmoduleConfigurations: false,
-                  extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'source']],
+                  extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'rootfs-builder']],
                   submoduleCfg: [],
                   userRemoteConfigs: [[url: '<%= repo %>']]])
       }

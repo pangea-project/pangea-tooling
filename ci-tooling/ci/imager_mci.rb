@@ -12,9 +12,11 @@ ec = 0
 
 begin
   FileUtils.mkdir_p 'result'
-  system('ls -lah')
-  ec = system('./build.sh')
-  FileUtils.mv(Dir.glob('halium*'), '../result', verbose: true)
+  Dir.chdir('rootfs-builder') do
+    system('ls -lah')
+    ec = system('./build.sh')
+    FileUtils.mv(Dir.glob('halium*'), '../result', verbose: true)
+  end
 ensure
   Dir.chdir('rootfs-builder') do
     system('lb clean --purge')
