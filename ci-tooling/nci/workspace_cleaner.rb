@@ -59,7 +59,12 @@ module WorkspaceCleaner
     def rm_r(dir)
       FileUtils.rm_r(dir, verbose: true)
     rescue SystemCallError => e
+      if File.exist?(dir)
+        warn "  Got error #{e} but still successfully removed directory."
+        return
+      end
       raise e unless e.class.name.start_with?('Errno::')
+      warn "  Got error #{e} trying to chown."
       chown_r(dir)
       FileUtils.rm_r(dir, verbose: true)
     end
