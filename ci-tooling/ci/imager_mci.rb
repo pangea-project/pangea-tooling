@@ -21,6 +21,7 @@ ensure
   Dir.chdir('rootfs-builder') do
     system('lb clean --purge')
   end
+  system('chown -Rv jenkins:jenkins .')
 end
 
 exit ec
