@@ -48,8 +48,10 @@ class DeployTest < TestCase
     # b) a new series might entail an upgrade which gets focused testing
     #    so having it appear in broad testing doesn't make much sense.
     # NB: order matters here, first is newest, last is oldest
-    @ubuntu_series = %w(wily vivid)
-    @debian_series = DCI.series.keys
+    @ubuntu_series = %w[wily vivid]
+    # Except for debian, where Rohan couldn't be bothered to read the
+    # comment above and it was recorded in reverse.
+    @debian_series = %w[1706 1710 backports]
   end
 
   def teardown
