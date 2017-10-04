@@ -42,7 +42,7 @@ stage('binaries') {
         sh 'mv build/* .'
         sh 'rm -rv build'
         sh 'ls -lah'
-        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` generic'
+        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME-amd64 `pwd` generic'
         junit allowEmptyResults: true, testResults: 'reports/*.xml'
         stash name: 'debs_amd64', includes: 'result/**', allowEmpty: true
       }
@@ -53,43 +53,38 @@ stage('binaries') {
         sh 'mv build/* .'
         sh 'rm -rv build'
         sh 'ls -lah'
-        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` generic'
+        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME-armhf `pwd` generic'
         junit allowEmptyResults: true, testResults: 'reports/*.xml'
         stash name: 'debs_armhf', includes: 'result/**', allowEmpty: true
       }
-    }
-  )
-}
-
-// why two stages.. why indeed
-// we currently have only 1 armhf server, if we run binary:armhf and
-// binary:armhf-caf in parallel, it would try to use same workspace
-// which can end in disaster.. so due to lack of solutions, it is built
-// seperately for now.
-// TODO: figure out resource locking is solution for that?
-stage('binaries-caf') {
+    },
 <% if project.name == 'android-headers' %>
   // android-headers is arch: all package so meh
-  cleanNode('amd64') {
-    unstash 'source'
-    sh 'mv build/* .'
-    sh 'rm -rv build'
-    sh 'ls -lah'
-    sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` caf'
-    junit allowEmptyResults: true, testResults: 'reports/*.xml'
-    stash name: 'debs_caf', includes: 'result/**', allowEmpty: true
-  }
+    "binary:caf": {
+      cleannode('amd64') {
+        unstash 'source'
+        sh 'mv build/* .'
+        sh 'rm -rv build'
+        sh 'ls -lah'
+        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME-caf `pwd` caf'
+        junit allowemptyresults: true, testresults: 'reports/*.xml'
+        stash name: 'debs_caf', includes: 'result/**', allowempty: true
+      }
+    }
 <% else %>
-  cleanNode('armhf') {
-    unstash 'source'
-    sh 'mv build/* .'
-    sh 'rm -rv build'
-    sh 'ls -lah'
-    sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` caf'
-    junit allowEmptyResults: true, testResults: 'reports/*.xml'
-    stash name: 'debs_caf', includes: 'result/**', allowEmpty: true
-  }
+    "binary:caf": {
+      cleannode('armhf') {
+        unstash 'source'
+        sh 'mv build/* .'
+        sh 'rm -rv build'
+        sh 'ls -lah'
+        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME-caf `pwd` caf'
+        junit allowemptyresults: true, testresults: 'reports/*.xml'
+        stash name: 'debs_caf', includes: 'result/**', allowempty: true
+      }
+    }
 <% end %>
+  )
 }
 
 stage('publish') {
@@ -106,6 +101,7 @@ stage('publish') {
     sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo xenial-caf build/*.changes'
     sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo xenial-generic result/*.changes'
     sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo xenial-caf caf/result/*.changes'
+    sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo xenial-caf result/*_amd64.changes'
 <% else %>
     sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium-generic build/*.changes'
     sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium-caf build/*.changes'
