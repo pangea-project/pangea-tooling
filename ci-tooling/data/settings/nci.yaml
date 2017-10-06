@@ -10,3 +10,7 @@
 '*_{forks,kde-extras}_*_*':
   sourcer:
     restricted_packaging_copy: true
+
+'*_{forks,kde-extras}_live-build_*':
+  sourcer:
+    restricted_packaging_copy: false
