@@ -14,11 +14,3 @@
 '*_{forks,kde-extras}_*_*':
   sourcer:
     restricted_packaging_copy: true
-
-'*_{forks,kde-extras}_live-build_*':
-  sourcer:
-    restricted_packaging_copy: false
-
-'*_{forks,kde-extras}_base-files_*':
-  sourcer:
-    restricted_packaging_copy: false
