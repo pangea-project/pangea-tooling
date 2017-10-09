@@ -56,7 +56,7 @@ module NCI
       if File.readlines('debian/watch').grep(/unstable/).any?
         puts 'Quitting watcher as debian/watch contains unstable ' \
              'and we only build stable tars in Neon'
-        return
+        return unless File.readlines('debian/watch').grep(/qqc2-desktop-style/).any?
       end
 
       cmd = TTY::Command.new
