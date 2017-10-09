@@ -7,6 +7,10 @@
 # Enable restriction for all forks and kde-extras.
 #   I am done explaining to people that introducing a 99% delta with a fork
 #   origin is unnecessary unmaintainable bullshit.
+'*_{forks,kde-extras}_base-files_*':
+  sourcer:
+    restricted_packaging_copy: false
+
 '*_{forks,kde-extras}_*_*':
   sourcer:
     restricted_packaging_copy: true
