@@ -78,7 +78,12 @@ module NCI
       merged = false
       if system('git merge origin/Neon/stable')
         merged = true
-        newer.select! { |x| x.upstream_url.include?('stable') }
+        # if it's a KDE project use only stable lines
+        newer_stable = newer.select do |x|
+          x.upstream_url.include?('stable') && \
+            x.upstream_url.include?('kde.org')
+        end
+        newer = newer_stable unless newer_stable.empty?
       elsif system('git merge origin/Neon/unstable')
         merged = true
         # Do not filter paths when unstable was merged. We use unstable as
