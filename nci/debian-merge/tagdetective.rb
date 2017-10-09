@@ -43,7 +43,9 @@ module NCI
       # is awray with an actual framework that is released it should either
       # be fixed for the detective logic needs to be adapted to skip it.
       EXCLUSION = %w[frameworks/prison
-                     frameworks/purpose].freeze
+                     frameworks/purpose
+                     frameworks/kirigami2
+                     frameworks/qqc2-desktop-style].freeze
 
       def initialize
         @log = Logger.new(STDOUT)
@@ -88,7 +90,8 @@ module NCI
       def valid_and_released?(url)
         remote = Git.ls_remote(url)
         valid = remote.fetch('tags', {}).keys.any? do |x|
-          x.start_with?(last_tag_base)
+          version = x.split('4%').join.split('5%').join
+          version.start_with?(last_tag_base)
         end
         released = remote.fetch('branches', {}).keys.any? do |x|
           x == 'Neon/release'
