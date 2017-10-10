@@ -4,6 +4,6 @@
 	dh $@
 
 override_dh_auto_install:
-	setcap foo bar
+	setcap foo bar || true
 
 .PHONY: clean
