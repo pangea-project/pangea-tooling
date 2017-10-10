@@ -108,7 +108,7 @@ module CI
       Dir.chdir(RESULT_DIR) do
         debs = Dir.glob('*.deb')
         debs.each do |deb|
-          cmd = TTY::Command.new(uuid: :false, printer: :null)
+          cmd = TTY::Command.new(uuid: false, printer: :null)
           out, = cmd.run('lesspipe', deb)
           File.write("#{deb}.info.txt", out)
         end
