@@ -79,7 +79,7 @@ module CI
     end
 
     def load_data
-      array = YAML.load_file('debian/meta/setcap.yaml')
+      array = YAML.load_file('debian/setcap.yaml')
       array.collect { |x| x.collect { |y| FNMatchPattern.new(y) } }
     rescue Errno::ENOENT
       []

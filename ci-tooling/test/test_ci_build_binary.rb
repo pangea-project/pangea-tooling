@@ -161,8 +161,8 @@ module CI
 
       setcap = [['foo', '/workspace/yolo/bar']]
 
-      FileUtils.mkpath('build/debian/meta/')
-      File.write('build/debian/meta/setcap.yaml', YAML.dump(setcap))
+      FileUtils.mkpath('build/debian/')
+      File.write('build/debian/setcap.yaml', YAML.dump(setcap))
 
       builder = PackageBuilder.new
       builder.build_package
@@ -174,8 +174,8 @@ module CI
 
       setcap = [['foo', '/workspace/yolo/bar'], ['bar', 'foo']]
 
-      FileUtils.mkpath('build/debian/meta/')
-      File.write('build/debian/meta/setcap.yaml', YAML.dump(setcap))
+      FileUtils.mkpath('build/debian/')
+      File.write('build/debian/setcap.yaml', YAML.dump(setcap))
 
       builder = PackageBuilder.new
       assert_raise do
@@ -189,8 +189,8 @@ module CI
 
       setcap = [['foo', '*/bar']]
 
-      FileUtils.mkpath('build/debian/meta/')
-      File.write('build/debian/meta/setcap.yaml', YAML.dump(setcap))
+      FileUtils.mkpath('build/debian/')
+      File.write('build/debian/setcap.yaml', YAML.dump(setcap))
 
       builder = PackageBuilder.new
       builder.build_package
