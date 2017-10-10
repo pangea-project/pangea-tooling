@@ -91,13 +91,8 @@ module CI
     def build_package
       # FIXME: buildpackage probably needs to be a method on the DPKG module
       #   for logging purposes and so on and so forth
-      dpkg_buildopts = [
-        # Signing happens outside the container. So disable all signing.
-        '-us',
-        '-uc'
-      ]
-
-      dpkg_buildopts += build_flags
+      # Signing happens outside the container. So disable all signing.
+      dpkg_buildopts = %w[-us -uc] + build_flags
 
       Dir.chdir(BUILD_DIR) do
         raise unless system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
