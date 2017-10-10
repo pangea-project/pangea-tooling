@@ -43,6 +43,7 @@ module CI
         Additionally, setcap uses xattrs which may not be available on the
         installation file system. Instead you should introduce a postinst
         call matching the setcap call with a fallback to setuid.
+        https://packaging.neon.kde.org/frameworks/kinit.git/commit/?h=Neon/unstable&id=c9f80d5f9a3596e9e7d5490bd9f90729618381ab
       ERRORMSG
     end
 
