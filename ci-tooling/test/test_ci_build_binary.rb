@@ -146,5 +146,41 @@ module CI
 
       builder.build
     end
+
+    def test_setcap_fail
+      FileUtils.cp_r("#{data}/.", Dir.pwd)
+
+      builder = PackageBuilder.new
+      assert_raise do
+        builder.build_package
+      end
+    end
+
+    def test_setcap_success
+      FileUtils.cp_r("#{data}/.", Dir.pwd)
+
+      setcap = [['foo', 'bar']]
+
+      FileUtils.mkpath('build/debian/meta/')
+      File.write('build/debian/meta/setcap.yaml', YAML.dump(setcap))
+
+      builder = PackageBuilder.new
+      builder.build_package
+    end
+
+    def test_setcap_fail_missing
+      # A setcap call was expected but not run.
+      FileUtils.cp_r("#{data}/.", Dir.pwd)
+
+      setcap = [['foo', 'bar'], ['bar', 'foo']]
+
+      FileUtils.mkpath('build/debian/meta/')
+      File.write('build/debian/meta/setcap.yaml', YAML.dump(setcap))
+
+      builder = PackageBuilder.new
+      assert_raise do
+        builder.build_package
+      end
+    end
   end
 end

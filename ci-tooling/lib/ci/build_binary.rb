@@ -22,6 +22,7 @@
 require 'fileutils'
 require 'tty/command'
 
+require_relative 'setcap_validator'
 require_relative 'source'
 require_relative '../debian/control'
 require_relative '../dpkg'
@@ -95,7 +96,9 @@ module CI
       dpkg_buildopts = %w[-us -uc] + build_flags
 
       Dir.chdir(BUILD_DIR) do
-        raise unless system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
+        SetCapValidator.run do
+          raise unless system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
+        end
       end
     end
 
