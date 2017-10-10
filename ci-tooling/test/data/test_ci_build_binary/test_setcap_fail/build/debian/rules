@@ -4,6 +4,6 @@
 	dh $@
 
 override_dh_auto_install:
-	setcap foo bar || true
+	setcap foo /workspace/yolo/bar || true
 
 .PHONY: clean

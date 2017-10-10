@@ -21,6 +21,8 @@
 require 'drb/drb'
 require 'yaml'
 
+require_relative 'pattern'
+
 module CI
   # DRB server side for setcap expecation checking.
   class SetCapServer
@@ -77,7 +79,8 @@ module CI
     end
 
     def load_data
-      YAML.load_file('debian/meta/setcap.yaml')
+      array = YAML.load_file('debian/meta/setcap.yaml')
+      array.collect { |x| x.collect { |y| FNMatchPattern.new(y) } }
     rescue Errno::ENOENT
       []
     end

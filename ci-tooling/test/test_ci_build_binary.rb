@@ -159,7 +159,7 @@ module CI
     def test_setcap_success
       FileUtils.cp_r("#{data}/.", Dir.pwd)
 
-      setcap = [['foo', 'bar']]
+      setcap = [['foo', '/workspace/yolo/bar']]
 
       FileUtils.mkpath('build/debian/meta/')
       File.write('build/debian/meta/setcap.yaml', YAML.dump(setcap))
@@ -172,7 +172,7 @@ module CI
       # A setcap call was expected but not run.
       FileUtils.cp_r("#{data}/.", Dir.pwd)
 
-      setcap = [['foo', 'bar'], ['bar', 'foo']]
+      setcap = [['foo', '/workspace/yolo/bar'], ['bar', 'foo']]
 
       FileUtils.mkpath('build/debian/meta/')
       File.write('build/debian/meta/setcap.yaml', YAML.dump(setcap))
@@ -181,6 +181,19 @@ module CI
       assert_raise do
         builder.build_package
       end
+    end
+
+    def test_setcap_pattern_success
+      # Make sure a wildcard pattern also matches expectations
+      FileUtils.cp_r("#{data}/.", Dir.pwd)
+
+      setcap = [['foo', '*/bar']]
+
+      FileUtils.mkpath('build/debian/meta/')
+      File.write('build/debian/meta/setcap.yaml', YAML.dump(setcap))
+
+      builder = PackageBuilder.new
+      builder.build_package
     end
   end
 end
