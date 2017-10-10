@@ -28,6 +28,7 @@ module CI
       @expected = load_data
       # Keep track of seen calls so we don't triper over multiple equal calls.
       @seen = []
+      @master_thread = Thread.current
     end
 
     def check_expected(argv)
@@ -56,6 +57,16 @@ module CI
     end
 
     private
+
+    def raise(*args)
+      # By default DRB would raise the exception in the client (i.e. setcap)
+      # BUT that may then get ignored on a cmake/whatever level so the build
+      # passes even though we wanted it to fail.
+      # To deal with this we'll explicitly raise into the master thread
+      # (the thread that created us) rather than the current thread (which is
+      # the drb service thread).
+      @master_thread.raise(*args)
+    end
 
     def expected?(argv)
       if @expected.delete(argv) || @seen.include?(argv)
