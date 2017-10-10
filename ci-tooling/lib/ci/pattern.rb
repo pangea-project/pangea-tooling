@@ -49,7 +49,7 @@ module CI
     # matches the pattern attribute. Otherwise defers to super.
     def ==(other)
       return true if other.respond_to?(:pattern) && other.pattern == @pattern
-      return true if other.is_a?(String) && other == @pattern
+      return true if other.is_a?(String) && match?(other)
       super(other)
     end
 
