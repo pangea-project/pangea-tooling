@@ -70,6 +70,6 @@
   sourcer:
     restricted_packaging_copy: true
 
-'*_kde-extras_{exiv2}_*':
+'*_kde-extras_*_*':
    sourcer:
      restricted_packaging_copy: true
