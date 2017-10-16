@@ -63,6 +63,9 @@ module Debian
     end
 
     def run(*args)
+      unless ENV['PANGEA_UNDER_TEST']
+        raise 'dpkg not installed' unless system('which dpkg')
+      end
       system('dpkg', *args)
     end
 
