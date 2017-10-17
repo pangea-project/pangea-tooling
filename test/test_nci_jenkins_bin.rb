@@ -133,8 +133,25 @@ module NCI::JenkinsBin
       refute(builds)
     end
 
-    def test_build_selector_404
+    def test_build_selector_repeated_404
+      # when no builds come back wit 300 we expect a standard scoring.
       8.times do |i|
+        jenkins_job.stubs(:build_details).with(i).raises(JenkinsApi::Exceptions::NotFound.allocate)
+      end
+
+      selector = BuildSelector.new(job)
+      refute selector.select
+    end
+
+    def test_build_selector_single_404
+      # One build was fine but then we had a bunch of broken builds, this
+      # should raise something.
+      jenkins_job.stubs(:build_details).with(7).returns(
+        'result' => 'SUCCESS',
+        'builtOn' => 'jenkins-do-8core.build.neon-123123'
+      )
+
+      6.times do |i|
         jenkins_job.stubs(:build_details).with(i).raises(JenkinsApi::Exceptions::NotFound.allocate)
       end
 

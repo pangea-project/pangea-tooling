@@ -50,7 +50,7 @@ module NCI
       # to begin in tearing it apart. I fear this is just what it is.
       # too long, abc too high, asignment too high etc. etc.
       # rubocop:disable all
-      def build_of(build_number)
+      def build_of(build_number, rescue_not_found: true)
         # Get the build
         build = Retry.retry_it(times: 3, sleep: 1) do
           job.build_details(build_number)
@@ -89,8 +89,25 @@ build:#{number} has unexpected slave #{built_on} type:#{built_on_cores} (expecte
         @exception_count -= 1
         build
       rescue JenkinsApi::Exceptions::NotFound => e
-        if (@exception_count += 1) >= 5
-          raise "repeated failure trying to resolve #{job.name}'s builds #{e}"
+        raise e unless rescue_not_found
+        begin
+          build_of(build_number - 1, rescue_not_found: false)
+        rescue JenkinsApi::Exceptions::NotFound
+          # If we did not find the build we'll check the previous one, if it
+          # also doesn't exist we'll consider the entire thing unknown as it
+          # has been failing for too long.
+          return nil
+        else
+          # Otherwise something unexpected is going on.
+          if (@exception_count += 1) >= 5
+            raise <<-EXCEPTIONMSG
+repeated failure trying to resolve #{job.name}'s builds. This indicates an
+unexpected failure in some deep level of either jenkins or the tooling.
+This must be investigated by checking the specific state #{job.name} is in
+and what triggers it raising an exception.
+#{e}
+            EXCEPTIONMSG
+          end
         end
       end
       # rubocop:enable all
