@@ -62,7 +62,7 @@ module NCI
         result = build.fetch('result')
         return nil unless result
         return nil unless QUALIFIER_STATES.include?(result.downcase)
-        print result.downcase
+
         # If we have a build, check its slave and possibly record it as detected
         # core count. We'll look for previous builds with the same count on
         # subsequent iteration.
