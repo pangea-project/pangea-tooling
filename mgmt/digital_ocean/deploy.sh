@@ -21,7 +21,9 @@
 set -ex
 
 # Disable bloody apt automation crap locking the database.
+systemctl disable --now apt-daily.timer
 systemctl disable --now apt-daily.service
+systemctl stop apt-daily.service || true
 
 # SSH comes up while cloud-init is still in progress. Wait for it to actually
 # finish.
