@@ -1,8 +1,8 @@
 ---
   default: plasma
   maui-debian: maui
-  ds9-debian-qt: qt5
-  ds9-debian-frameworks: frameworks
+  dci-debian-qt: qt5
+  dci-debian-frameworks: frameworks
   calamares: calamares
   netrunner: netrunner
   netrunner-debian: netrunner
@@ -28,7 +28,7 @@
   pkg-multimedia: backports
   debian-astro: backports
   kernel: backports
-  ds9-debian-packaging-backports: backports
+  dci-debian-packaging-backports: backports
   ubuntu: backports
   pkg-lxqt: backports
   debhelper: backports:P
@@ -37,15 +37,14 @@
   netrunner-common: netrunner
   ds9-common: ds9-common
   ds9-artwork: ds9-artwork
-  ds9-debian-kde-applications: kde-applications
+  dci-debian-kde-applications: kde-applications
   maui-common: maui
   pkg-virtualbox: extras
-  ds9-debian-packaging: extras
-  ds9-extras-packaging: extras
+  dci-extras-packaging: extras
   neon-packaging: extras
   netrunner-desktop: netrunner-desktop
   highvoltage: backports
   netrunner-pine64: pine64
   linuxmint: extras
-  nomad-desktop: nomad
+  netrunner-nomad-desktop: nomad
   nomad-artwork: nomad
