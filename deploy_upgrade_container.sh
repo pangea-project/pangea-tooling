@@ -25,6 +25,7 @@ sed -i "s/$1/$2/g" /etc/apt/sources.list
 sed -i "s/$1/$2/g" /etc/apt/sources.list.d/* || true
 
 apt-get update
+apt-mark hold makedev # do not update makedev it won't work on unpriv'd
 apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true \
   dist-upgrade
 
