@@ -76,7 +76,7 @@ def custom_version_id
   require_relative 'ci-tooling/lib/dci'
   return unless DCI.series.keys.include?(DIST)
 
-  file = '/etc/os-release'.freeze
+  file = '/etc/os-release'
   os_release = File.readlines(file)
   # Strip out any lines starting with VERSION_ID
   # so that we don't end up with an endless number of VERSION_ID entries
