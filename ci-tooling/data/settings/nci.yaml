@@ -77,3 +77,7 @@
 '*_kde-std_*_*':
    sourcer:
      restricted_packaging_copy: true
+
+'*_calligra_*_*':
+   sourcer:
+     restricted_packaging_copy: true
