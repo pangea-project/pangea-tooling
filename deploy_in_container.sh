@@ -30,6 +30,11 @@ while [ $i -gt 0 ]; do
   sleep 60 # sleep a bit to give problem a chance to resolve
 done
 
+if [ "$DIST" == "bionic" ]; then
+  # Workaround to make sure early bionic builds don't break.
+  apt-mark hold makedev # do not update makedev it won't work on unpriv'd
+fi
+
 ESSENTIAL_PACKAGES="rake ruby ruby-dev build-essential zlib1g-dev git-core libffi-dev cmake pkg-config wget"
 i="5"
 while [ $i -gt 0 ]; do
