@@ -229,7 +229,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
     end
 
-    watchers.each { |_, w| enqueue(w) }
+    # Watchers is a hash, only grab the actual jobs and enqueue them.
+    watchers.each_value { |w| enqueue(w) }
 
     merger = enqueue(MetaMergeJob.new(downstream_jobs: all_mergers))
     progenitor = enqueue(
