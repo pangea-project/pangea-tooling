@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -59,6 +59,29 @@ EXCLUDE_SNAPS = %w[
   kfind kfloppy kaddressbook konsole krfb ksystemlog
 ].freeze
 
+# Types to use for future series. Others get skipped.
+FUTURE_TYPES = %w[unstable].freeze
+# Skip certain job bits for future series.
+# The bottom part of this list is temporary until qt is staged.
+FUTURE_SKIP = %w[
+  _applications_
+  _plasma_
+  _kde-extras_
+  _kde-std_
+  _calligra_
+  _krap_
+  iso_neon_
+  iso_neon-
+  mgmt_daily_promotion_bionic_
+
+  _frameworks_
+  _forks_
+  _neon-packaging_
+  _launchpad_
+  _unstable_neon_
+  mgmt_build_bionic_unstable
+].freeze
+
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
@@ -84,6 +107,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     files + Dir.glob("#{JenkinsJob.flavor_dir}/templates/**.xml.erb")
   end
 
+  def enqueue(job)
+    return job if FUTURE_SKIP.any? { |x| job.job_name.include?(x) }
+    super
+  end
+
   def populate_queue
     all_meta_builds = []
     all_mergers = []
@@ -106,9 +134,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         # cycles.
         branches = NCI.types.collect { |x| "Neon/#{x}" } << 'master'
         next unless branch&.start_with?(*branches)
-        NCI.series.each_key do |d|
-          NCI.types.each do |t|
-            dependees << BuilderJobBuilder.basename(d, t, project.component,
+        NCI.series.each_key do |series|
+          NCI.types.each do |type_for_dependee|
+            # Skip if the type isn't enabled for future series.
+            next if series == NCI.future_series &&
+                    !FUTURE_TYPES.include?(type_for_dependee)
+            dependees << BuilderJobBuilder.basename(series,
+                                                    type_for_dependee,
+                                                    project.component,
                                                     project.name)
           end
         end
@@ -121,6 +154,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     watchers = {}
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
+        # Skip if the type isn't enabled for future series.
+        next if distribution == NCI.future_series &&
+                !FUTURE_TYPES.include?(type)
+
         all_builds = [] # Tracks all builds in this type.
 
         type_projects[type].each do |project|

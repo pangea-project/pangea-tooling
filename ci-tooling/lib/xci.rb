@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+
+# NB: this mustn't use any gems! it is used during provisioning.
 require 'yaml'
 require 'ostruct'
 

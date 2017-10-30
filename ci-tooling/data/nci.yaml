@@ -1,9 +1,14 @@
 series:
   xenial: "16.04"
+  bionic: "18.04"
+current_series: xenial # must be part of series list
+future_series: bionic # must be part of series list
+
 architectures:
   - amd64
 extra_architectures:
   - armhf
+
 types:
   - unstable
   - stable

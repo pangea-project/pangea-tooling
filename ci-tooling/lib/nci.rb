@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+# NB: this mustn't use any gems! it is used during provisioning.
 require_relative 'xci'
 
 # NCI specific data.
@@ -40,5 +41,17 @@ module NCI
   # @return [Array<String>] .include match exclusions
   def only_adt
     data['only_adt']
+  end
+
+  # The current main series. That is: the series in production.
+  def current_series
+    data.fetch('current_series')
+  end
+
+  # The future main series. That is: the series being groomed for next
+  # production.
+  # This may be nil when none is being prepared!
+  def future_series
+    data.fetch('future_series', nil)
   end
 end

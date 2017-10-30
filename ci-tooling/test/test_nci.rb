@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -33,5 +33,15 @@ class XCITest < TestCase
     only = NCI.only_adt
     assert_false(only.empty?)
     assert(only.is_a?(Array))
+  end
+
+  def test_future_series
+    # Can be nil, otherwise it must be part of the array.
+    return if NCI.future_series.nil?
+    assert_include NCI.series.keys, NCI.future_series
+  end
+
+  def test_current_series
+    assert_include NCI.series.keys, NCI.current_series
   end
 end
