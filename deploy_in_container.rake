@@ -31,6 +31,7 @@ require 'open-uri'
 require 'tmpdir'
 
 require_relative 'lib/rake/bundle'
+require_relative 'ci-tooling/lib/nci'
 
 DIST = ENV.fetch('DIST')
 # These will be installed in one-go before the actual deps are being installed.
@@ -117,7 +118,9 @@ end
 
 # openqa
 task :deploy_openqa do
-  next unless DIST == 'xenial' && ENV.include?('PANGEA_PROVISION_AUTOINST')
+  # Only openqa on neon dists and if explicitly enabled.
+  next unless NCI.series.keys.include?(DIST) &&
+              ENV.include?('PANGEA_PROVISION_AUTOINST')
   Dir.mktmpdir do |tmpdir|
     system 'git clone --depth 1 ' \
        "https://github.com/apachelogger/kde-os-autoinst #{tmpdir}/"
