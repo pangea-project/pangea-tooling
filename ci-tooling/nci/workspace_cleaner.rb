@@ -70,9 +70,7 @@ module WorkspaceCleaner
     end
 
     def chown_r(dir)
-      # TODO: drop: this is a transitional helper while the template has
-      #   DIST not set.
-      dist = ENV.fetch('DIST', 'xenial')
+      dist = ENV.fetch('DIST')
       c = CI::Containment.new(SecureRandom.hex,
                               image: CI::PangeaImage.new(:ubuntu, dist),
                               binds: ["#{dir}:/pwd"],
