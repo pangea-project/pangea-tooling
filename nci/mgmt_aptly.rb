@@ -73,7 +73,7 @@ repos.each do |repo_name, publish_name|
                Distribution: 'xenial',
                Origin: 'Neon',
                Label: 'Neon',
-               Architectures: %w[source i386 amd64 all])
+               Architectures: %w[source i386 amd64 armhf armel arm64 all])
 end
 
 repo_names = %w[qt frameworks tmp_release]
