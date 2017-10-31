@@ -42,7 +42,7 @@ module NCI
           # Needs enough RAM https://bugs.kde.org/show_bug.cgi?id=362946
           CI::FNMatchPattern.new('*_plasma-desktop_bin_amd64') =>
             Cores::CORES[-1],
-          CI::FNMatchPattern.new('*_{qt5webkit,qtwebengine}_bin_amd64') =>
+          CI::FNMatchPattern.new('*_qt_*_bin_amd64') =>
             Cores::CORES[-1]
         }
 
