@@ -1,0 +1,45 @@
+dh_auto_configure '--buildsystem=kf5' --parallel  
+-- The C compiler identification is GNU 4.9.2
+-- Found XCB_ICCCM: /usr/lib/x86_64-linux-gnu/libxcb-icccm.so (found version "0.4.1") 
+-- Found XCB_IMAGE: /usr/lib/x86_64-linux-gnu/libxcb-image.so (found version "0.4.0") 
+-- Found XCB_KEYSYMS: /usr/lib/x86_64-linux-gnu/libxcb-keysyms.so (found version "0.4.0") 
+-- Found XCB_RANDR: /usr/lib/x86_64-linux-gnu/libxcb-randr.so (found version "1.10") 
+-- Found XCB_SYNC: /usr/lib/x86_64-linux-gnu/libxcb-sync.so (found version "1.10") 
+-- Found XCB_XTEST: /usr/lib/x86_64-linux-gnu/libxcb-xtest.so (found version "1.10") 
+-- Found XCB: /usr/lib/x86_64-linux-gnu/libxcb.so;/usr/lib/x86_64-linux-gnu/libxcb-render.so;/usr/lib/x86_64-linux-gnu/libxcb-shape.so;/usr/lib/x86_64-linux-gnu/libxcb-xfixes.so;/usr/lib/x86_64-linux-gnu/libxcb-shm.so;/usr/lib/x86_64-linux-gnu/libxcb-composite.so;/usr/lib/x86_64-linux-gnu/libxcb-damage.so;/usr/lib/x86_64-linux-gnu/libxcb-glx.so;/usr/lib/x86_64-linux-gnu/libxcb-icccm.so;/usr/lib/x86_64-linux-gnu/libxcb-image.so;/usr/lib/x86_64-linux-gnu/libxcb-keysyms.so;/usr/lib/x86_64-linux-gnu/libxcb-randr.so;/usr/lib/x86_64-linux-gnu/libxcb-sync.so;/usr/lib/x86_64-linux-gnu/libxcb-xtest.so (found version "1.10") found components:  XCB XFIXES DAMAGE COMPOSITE SHAPE SYNC RENDER RANDR KEYSYMS IMAGE SHM XTEST GLX ICCCM missing components:  CURSOR
+-- 
+-- The following features have been enabled:
+
+ * XCB-ICCCM , Required for building test applications for KWin
+ * XCB-SYNC , XCB Sync version >= 1.10 required for synced window resizing
+
+-- The following OPTIONAL packages have been found:
+
+ * PkgConfig
+
+-- The following REQUIRED packages have been found:
+
+ * Qt5Concurrent
+ * KF5 (required version >= 5.8.0)
+ * KDecoration2
+ * epoxy , libepoxy , <http://github.com/anholt/libepoxy>
+   OpenGL dispatch library
+ * X11 , X11 libraries , <http://www.x.org>
+ * XCB , X protocol C-language Binding , <http://xcb.freedesktop.org>
+
+-- The following features have been disabled:
+
+ * XCB-CURSOR , Required for XCursor support
+ * QCH , API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)
+
+Building KWin with OpenGL support
+-- Looking for include file unistd.h
+-- Generating done
+-- Build files have been written to: /build/buildd/kwin-5.2.1+git20150226.0503+15.04/obj-x86_64-linux-gnu
+make[1]: Leaving directory '/build/buildd/kwin-5.2.1+git20150226.0503+15.04'
+touch debian/dhmk_configure
+# "configure" target is done
+/usr/bin/make -f debian/rules dhmk_run_build_commands DHMK_TARGET="build"
+make[1]: Entering directory '/build/buildd/kwin-5.2.1+git20150226.0503+15.04'
+dh_testdir  
+dh_auto_build '--buildsystem=kf5' --parallel  
