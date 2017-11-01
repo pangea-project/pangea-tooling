@@ -56,7 +56,6 @@ module Lint
     def result_cmake
       @result_cmake ||= Log::CMake.new.tap do |cmake|
         cmake.load_include_ignores('build/debian/meta/cmake-ignore')
-        cmake.ignores << CI::IncludePattern.new('Qt5TextToSpeech')
       end.lint(@log)
     end
 
