@@ -38,7 +38,7 @@ if previous
   logger.warn "previous droplet found; deleting: #{previous}"
   raise "Failed to delete #{previous}" unless previous.delete
   ret = DigitalOcean::Action.wait(retries: 10) do
-    Droplet.from_name(DROPLET_NAME).nil?
+    DigitalOcean::Droplet.from_name(DROPLET_NAME).nil?
   end
   raise 'Deletion failed apparently' unless ret
 end
