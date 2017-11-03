@@ -63,16 +63,21 @@ EXCLUDE_SNAPS = %w[
 FUTURE_TYPES = %w[unstable].freeze
 # Skip certain job bits for future series.
 # The bottom part of this list is temporary until qt is staged.
+# _pkg-kde-tools_ is definitely lower version than what is in bionic, unclear
+# if we still need it.
 FUTURE_SKIP = %w[
   _applications_
   _plasma_
   _kde-extras_
+  _kde-req_
   _kde-std_
   _calligra_
   _krap_
   iso_neon_
   iso_neon-
   mgmt_daily_promotion_bionic_
+
+  _pkg-kde-tools_
 
   _frameworks_
   _forks_
