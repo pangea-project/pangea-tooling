@@ -29,6 +29,7 @@ PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
 
 # Whitelist a bunch of Jenkins variables for consumption inside the container.
 whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
+               NODE_NAME NODE_LABELS
                PANGEA_PROVISION_AUTOINST]
 whitelist += (ENV['DOCKER_ENV_WHITELIST'] || '').split(':')
 ENV['DOCKER_ENV_WHITELIST'] = whitelist.join(':')
