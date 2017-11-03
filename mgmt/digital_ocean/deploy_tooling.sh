@@ -35,7 +35,7 @@ cd /tmp/tooling
 
 ## from  mgmt_tooling_deploy.xml
 rm -rv .bundle || true
-gem install --no-rdoc bundler --version 1.15.4
+gem install --no-rdoc bundler --version '~>1.15.0'
 bundle install --jobs=`nproc` --system --without development test
 
 rake clean
