@@ -33,7 +33,6 @@ whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
 whitelist += (ENV['DOCKER_ENV_WHITELIST'] || '').split(':')
 ENV['DOCKER_ENV_WHITELIST'] = whitelist.join(':')
 
-
 # TODO: autogenerate from average build time?
 # TODO: maybe we should have a per-source cache that gets shuffled between the
 #   master and slave. with private net enabled this may be entirely doable
