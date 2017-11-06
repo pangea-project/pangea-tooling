@@ -8,6 +8,7 @@ module Lint
     class Lintian < Linter
       include BuildLogSegmenter
 
+      TYPE = ENV.fetch('TYPE', '')
       EXCLUSION = [
         # Package names can easily go beyond what shit can suck on, so gag it.
         'source-package-component-has-long-file-name',
@@ -54,6 +55,19 @@ module Lint
 
       private
 
+      def exclusion
+        @exclusion ||= begin
+          ex = EXCLUSION.dup
+          unless %w[release release-lts].include?(TYPE)
+            # For non-release builds we do not care about tarball signatures,
+            # we generated the tarballs anyway (mostly anyway).
+            # FIXME: what about Qt though :(
+            ex << 'orig-tarball-missing-upstream-signature'
+          end
+          ex
+        end
+      end
+
       def static_exclude?(line)
         # Always exclude random warnings from lintian itself.
         return true if line.start_with?('warning: ')
@@ -63,7 +77,7 @@ module Lint
 
       def exclude?(line)
         return true if static_exclude?(line)
-        EXCLUSION.each do |e|
+        exclusion.each do |e|
           next unless line.include?(e)
           return true
         end
