@@ -79,7 +79,6 @@ FUTURE_SKIP = %w[
 
   _pkg-kde-tools_
 
-  _frameworks_
   _forks_
   _neon-packaging_
   _launchpad_
