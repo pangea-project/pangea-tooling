@@ -2,6 +2,7 @@
 
 require 'date'
 require 'docker'
+require 'json'
 require 'logger'
 require 'logger/colors'
 
