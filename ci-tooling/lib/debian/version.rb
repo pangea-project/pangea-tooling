@@ -21,6 +21,8 @@
 module Debian
   # A debian policy version handling class.
   class Version
+    include Comparable
+
     attr_accessor :epoch
     attr_accessor :upstream
     attr_accessor :revision

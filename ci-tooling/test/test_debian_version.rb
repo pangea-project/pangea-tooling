@@ -90,4 +90,9 @@ class DebianVersionTest < TestCase
     assert_equal('5:2.0-1', v.to_s)
     assert_equal('5:2.0-1', v.full)
   end
+
+  def test_comparable
+    # Implements Comparable module.
+    assert(Debian::Version.new('1.0') > Debian::Version.new('0.1'))
+  end
 end
