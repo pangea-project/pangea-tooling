@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# coding: utf-8
 # frozen_string_literal: true
 
 require 'logger'
@@ -30,7 +31,7 @@ end
 parser.parse!
 
 @log = Logger.new(STDOUT).tap do |l|
-  l.progname = 'retry'
+  l.progname = 'unqueue'
   l.level = Logger::INFO
 end
 
