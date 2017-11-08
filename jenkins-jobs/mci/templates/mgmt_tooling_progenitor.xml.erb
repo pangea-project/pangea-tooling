@@ -104,7 +104,7 @@ ls -ah
 
 rm Gemfile.lock || true
 
-gem install --no-document bundler
+gem install --no-document bundler --version '~>1.15.0'
 bundle pack --all --all-platforms --no-install
 # Strip directories out of the cache.
 # Git sources are left in there unpacked which prevents them from being installed into the system path.

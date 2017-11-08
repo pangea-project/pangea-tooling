@@ -147,9 +147,10 @@ EOF
   Dir.chdir(tooling_path) do
     begin
       Gem::Specification.find_by_name('bundler')
-      sh 'gem update bundler'
+      # don't update bundler while 1.16.0 has bugs
+      # sh 'gem update bundler'
     rescue Gem::LoadError
-      sh 'gem install bundler'
+      sh 'gem install bundler --version \'~>1.15.0\''
     end
 
     bundle_args = ['install']

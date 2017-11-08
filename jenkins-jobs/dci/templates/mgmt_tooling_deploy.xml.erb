@@ -46,7 +46,7 @@ pwd
 
 tar -xf *.tar.gz
 
-gem install --no-rdoc bundler
+gem install --no-rdoc bundler --version '~>1.15.0'
 bundle install --jobs=`nproc` --no-cache --local --frozen --system
 
 rake clean
