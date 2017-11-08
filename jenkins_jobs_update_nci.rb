@@ -112,7 +112,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   end
 
   def enqueue(job)
-    return job if FUTURE_SKIP.any? { |x| job.job_name.include?(x) }
+    return job if FUTURE_SKIP.any? do |x|
+      job.job_name.include?(x) && job.job_name.include?(NCI.future_series)
+    end
     super
   end
 
