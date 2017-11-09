@@ -39,6 +39,7 @@
     <com.cloudbees.jenkins.GitHubSetCommitStatusBuilder plugin="github@1.13.3"/>
     <hudson.tasks.Shell>
       <command>env
+gem uninstall bundler --version '~>1.16.0' || true
 gem install bundler --version '~>1.15.0'
 bundle install
 bundle update

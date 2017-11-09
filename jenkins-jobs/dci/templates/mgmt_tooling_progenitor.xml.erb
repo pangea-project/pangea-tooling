@@ -57,6 +57,7 @@ ls -ah
 
 rm Gemfile.lock || true
 
+gem uninstall bundler --version '~>1.16.0' || true
 gem install --no-document bundler --version '~>1.15.0'
 bundle pack --all --all-platforms --no-install
 # Strip directories out of the cache.
