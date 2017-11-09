@@ -56,6 +56,16 @@ class LintCMakeTest < TestCase
     assert_equal(['XCB-CURSOR , Required for XCursor support'], r.warnings)
   end
 
+  def test_ignore_warning_by_release_yaml_no_series
+    data
+    ENV['DIST'] = 'xenial'
+    r = Lint::Log::CMake.new.tap do |cmake|
+      cmake.load_include_ignores("#{@path}-cmake-ignore")
+    end.lint(data)
+    assert(r.valid)
+    assert_equal([], r.warnings)
+  end
+
   def test_ignore_warning_by_release_basic
     data
     ENV['DIST'] = 'xenial'

@@ -2,6 +2,7 @@
 require_relative '../ci/pattern'
 require_relative 'result'
 require 'yaml'
+require 'pp'
 
 module Lint
   # Base class for all linters.
@@ -20,14 +21,20 @@ module Lint
       begin
         cmake_yaml = YAML.load(File.read(file_path))
         #Our YAML has to be a list else we'll go back to basic style
-        if not cmake_yaml.kind_of?(Array)
+        if not cmake_yaml.instance_of?(Array)
           load_include_ignores_basic(file_path)
         else
           cmake_yaml.each do |ignore_entry|
-            @ignores << CI::IncludePattern.new(ignore_entry.keys[0]) if ignore_entry['series'] == ENV['DIST']
+            if ignore_entry.is_a?(String)
+              @ignores << CI::IncludePattern.new(ignore_entry)
+            else
+              @ignores << CI::IncludePattern.new(ignore_entry.keys[0]) if ignore_entry['series'] == ENV['DIST']
+            end
           end
         end
-      rescue
+      rescue Exception => e
+        puts e.message
+        puts e.backtrace.inspect
         load_include_ignores_basic(file_path)
       end
     end

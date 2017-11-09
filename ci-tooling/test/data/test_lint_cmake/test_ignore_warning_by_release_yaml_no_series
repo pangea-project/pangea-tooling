@@ -1,0 +1,2192 @@
+Started by upstream project "xenial_unstable_frameworks_kcodecs" build number 96
+originally caused by:
+ commit notification a21cb10c146878de7899afffa62b4ab7265eb24b
+[EnvInject] - Loading node environment variables.
+Building remotely on jenkins-do-2core.build.neon-06f576a9-9b30-485b-a6eb-8dd8e3740785 (cloud 2core-amd64 amd64) in workspace /var/lib/jenkins-slave/workspace/xenial_unstable_frameworks_kcodecs_bin_amd64
+[WS-CLEANUP] Deleting project workspace...
+Run condition [Always] enabling prebuild for step [BuilderChain]
+Run condition [Always] enabling perform for step [BuilderChain]
+Copied 1 artifact from "xenial_unstable_frameworks_kcodecs" build number 96
+Copied 5 artifacts from "xenial_unstable_frameworks_kcodecs_src" build number 96
+[xenial_unstable_frameworks_kcodecs_bin_amd64] $ /bin/sh -xe /tmp/jenkins62422583343592128.sh
++ export DIST=xenial
++ export TYPE=unstable
++ export PWD_BIND=/workspace
++ echo https://build.neon.kde.org/job/xenial_unstable_frameworks_kcodecs_bin_amd64/94/
++ pwd
++ /var/lib/jenkins-slave/tooling/nci/contain.rb /tooling/ci-tooling/nci/builder.rb xenial_unstable_frameworks_kcodecs_bin_amd64 /var/lib/jenkins-slave/workspace/xenial_unstable_frameworks_kcodecs_bin_amd64
+I, [2017-11-09T11:47:27.359004 #22132]  INFO -- CI::Containment: Not cleaning up, no previous container found.
+I, [2017-11-09T11:47:27.386913 #22132]  INFO -- CI::Containment: Not cleaning up, no previous container found.
+Set proxy to http://apt.cache.pangea.pub:8000
+Executing: /tmp/tmp.z9C9NoSucF/gpg.1.sh --keyserver
+keyserver.ubuntu.com
+--recv
+444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D
+gpg: requesting key 55751E5D from hkp server keyserver.ubuntu.com
+gpg: key 55751E5D: public key "Neon CI" imported
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+W, [2017-11-09T11:47:29.024242 #1]  WARN -- : APT run (apt-get, ["-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "update"])
+Hit:1 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu xenial-backports InRelease
+Get:3 https://archive.neon.kde.org/dev/unstable xenial InRelease [27.7 kB]
+Get:6 https://archive.neon.kde.org/dev/unstable xenial/main amd64 Packages [893 kB]
+Get:7 https://archive.neon.kde.org/dev/unstable xenial/main all Packages [122 kB]
+Fetched 1,042 kB in 1s (932 kB/s)
+Reading package lists...
+W, [2017-11-09T11:47:31.382759 #1]  WARN -- : APT run (apt-get, ["-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "update"])
+Hit:1 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu xenial-backports InRelease
+Get:4 https://archive.neon.kde.org/dev/unstable xenial InRelease [27.7 kB]
+Hit:4 https://archive.neon.kde.org/dev/unstable xenial InRelease
+Reading package lists...
+W, [2017-11-09T11:47:33.413235 #1]  WARN -- : APT run (apt-get, ["-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "install", "pkg-kde-tools"])
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Starting pkgProblemResolver with broken count: 0
+Starting 2 pkgProblemResolver with broken count: 0
+Done
+The following packages will be upgraded:
+  pkg-kde-tools
+1 upgraded, 0 newly installed, 0 to remove and 11 not upgraded.
+Need to get 112 kB of archives.
+After this operation, 0 B of additional disk space will be used.
+Get:1 https://archive.neon.kde.org/dev/unstable xenial/main amd64 pkg-kde-tools all 0.15.20~ubuntu4+p16.04+git20170917.1812 [112 kB]
+Fetched 112 kB in 0s (552 kB/s)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 58180 files and directories currently installed.)
+Preparing to unpack .../pkg-kde-tools_0.15.20~ubuntu4+p16.04+git20170917.1812_all.deb ...
+Unpacking pkg-kde-tools (0.15.20~ubuntu4+p16.04+git20170917.1812) over (0.15.20~ubuntu4) ...
+Processing triggers for man-db (2.7.5-1) ...
+Setting up pkg-kde-tools (0.15.20~ubuntu4+p16.04+git20170917.1812) ...
+W: --force-yes is deprecated, use one of the options starting with --allow instead.
+backticking: dpkg-architecture -qDEB_HOST_ARCH
+rm -rf build
+pid 1196 exit 0
+dpkg-source: warning: extracting unsigned source package (kcodecs_5.39.0+p16.04+git20171109.1147-0.dsc)
+dpkg-source: info: extracting kcodecs in build
+dpkg-source: info: unpacking kcodecs_5.39.0+p16.04+git20171109.1147.orig.tar.xz
+dpkg-source: info: unpacking kcodecs_5.39.0+p16.04+git20171109.1147-0.debian.tar.xz
+ -> Attempting to satisfy build-dependencies
+ -> Creating pbuilder-satisfydepends-dummy package
+Package: pbuilder-satisfydepends-dummy
+Version: 0.invalid.0
+Architecture: amd64
+Maintainer: Debian Pbuilder Team <pbuilder-maint@lists.alioth.debian.org>
+Description: Dummy package to satisfy dependencies with aptitude - created by pbuilder
+ This package was created automatically by pbuilder to satisfy the
+ build-dependencies of the package being currently built.
+Depends: cmake (>= 2.8.12), debhelper (>= 9), extra-cmake-modules (>= 5.28.0~), gperf, pkg-kde-tools (>= 0.15.15ubuntu1~), qtbase5-dev (>= 5.5.0~), qttools5-dev (>= 5.4), qttools5-dev-tools (>= 5.4)
+dpkg-deb: building package 'pbuilder-satisfydepends-dummy' in '/tmp/satisfydepends-aptitude/pbuilder-satisfydepends-dummy.deb'.
+Selecting previously unselected package pbuilder-satisfydepends-dummy.
+(Reading database ... 58180 files and directories currently installed.)
+Preparing to unpack .../pbuilder-satisfydepends-dummy.deb ...
+Unpacking pbuilder-satisfydepends-dummy (0.invalid.0) ...
+Setting up pbuilder-satisfydepends-dummy (0.invalid.0) ...
+dpkg: pbuilder-satisfydepends-dummy: dependency problems, but configuring anyway as you requested:
+ pbuilder-satisfydepends-dummy depends on extra-cmake-modules (>= 5.28.0~); however:
+  Package extra-cmake-modules is not installed.
+ pbuilder-satisfydepends-dummy depends on gperf; however:
+  Package gperf is not installed.
+ pbuilder-satisfydepends-dummy depends on qtbase5-dev (>= 5.5.0~); however:
+  Package qtbase5-dev is not installed.
+ pbuilder-satisfydepends-dummy depends on qttools5-dev (>= 5.4); however:
+  Package qttools5-dev is not installed.
+ pbuilder-satisfydepends-dummy depends on qttools5-dev-tools (>= 5.4); however:
+  Package qttools5-dev-tools is not installed.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Initializing package states...
+Writing extended state information...
+Building tag database...
+pbuilder-satisfydepends-dummy is already installed at the requested version (0.invalid.0)
+pbuilder-satisfydepends-dummy is already installed at the requested version (0.invalid.0)
+The following NEW packages will be installed:
+  extra-cmake-modules{a} gperf{a} libboost-filesystem1.58.0{a} 
+  libcapnp-0.5.3{a} libdouble-conversion1v5{a} libdrm-dev{a} 
+  libegl1-mesa{a} libevdev2{a} libgbm1{a} libgl1-mesa-dev{a} 
+  libglu1-mesa-dev{a} libgstreamer-plugins-base1.0-0{a} 
+  libgstreamer1.0-0{a} libgudev-1.0-0{a} libinput-bin{a} libinput10{a} 
+  libmirclient9{a} libmircommon7{a} libmircore1{a} libmirprotobuf3{a} 
+  libmtdev1{a} libprotobuf-lite9v5{a} libqt5concurrent5{a} libqt5core5a{a} 
+  libqt5dbus5{a} libqt5designer5{a} libqt5designercomponents5{a} 
+  libqt5gui5{a} libqt5help5{a} libqt5network5{a} libqt5opengl5{a} 
+  libqt5printsupport5{a} libqt5qml5{a} libqt5quick5{a} 
+  libqt5quickwidgets5{a} libqt5sql5{a} libqt5test5{a} libqt5webkit5{a} 
+  libqt5widgets5{a} libqt5xml5{a} libwacom-common{a} libwacom2{a} 
+  libwayland-client0{a} libwayland-server0{a} libx11-xcb-dev{a} 
+  libxcb-dri2-0-dev{a} libxcb-dri3-dev{a} libxcb-glx0-dev{a} 
+  libxcb-icccm4{a} libxcb-image0{a} libxcb-keysyms1{a} 
+  libxcb-present-dev{a} libxcb-randr0{a} libxcb-randr0-dev{a} 
+  libxcb-render-util0{a} libxcb-shape0{a} libxcb-shape0-dev{a} 
+  libxcb-sync-dev{a} libxcb-util1{a} libxcb-xfixes0{a} 
+  libxcb-xfixes0-dev{a} libxcb-xinerama0{a} libxcb-xkb1{a} 
+  libxkbcommon-x11-0{a} libxkbcommon0{a} libxshmfence-dev{a} 
+  libxxf86vm-dev{a} mesa-common-dev{a} qt5-qmake{a} qtbase5-dev{a} 
+  qtbase5-dev-tools{a} qtchooser{a} qttools5-dev{a} qttools5-dev-tools{a} 
+  x11proto-dri2-dev{a} x11proto-gl-dev{a} x11proto-xf86vidmode-dev{a} 
+  xkb-data{a} 
+The following packages are RECOMMENDED but will NOT be installed:
+  gstreamer1.0-plugins-base libqt5opengl5-dev libqt5sql5-ibase 
+  libqt5sql5-mysql libqt5sql5-odbc libqt5sql5-psql libqt5sql5-sqlite 
+  libqt5sql5-tds libqt5svg5 libwacom-bin qt5-default qt5-gtk-platformtheme 
+  qttranslations5-l10n 
+0 packages upgraded, 78 newly installed, 0 to remove and 11 not upgraded.
+Need to get 33.2 MB of archives. After unpacking 139 MB will be used.
+Writing extended state information...
+Get: 1 http://archive.ubuntu.com/ubuntu xenial/main amd64 libmtdev1 amd64 1.1.5-1ubuntu2 [13.8 kB]
+Get: 2 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libgstreamer1.0-0 amd64 1.8.3-1~ubuntu0.1 [769 kB]
+Get: 3 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libgstreamer-plugins-base1.0-0 amd64 1.8.3-1ubuntu0.2 [593 kB]
+Get: 4 http://archive.ubuntu.com/ubuntu xenial/main amd64 libdouble-conversion1v5 amd64 2.0.1-3ubuntu2 [33.3 kB]
+Get: 5 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libgbm1 amd64 17.0.7-0ubuntu0.16.04.2 [23.0 kB]
+Get: 6 http://archive.ubuntu.com/ubuntu xenial/universe amd64 libcapnp-0.5.3 amd64 0.5.3-2ubuntu1 [581 kB]
+Get: 7 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libboost-filesystem1.58.0 amd64 1.58.0+dfsg-5ubuntu3.1 [37.5 kB]
+Get: 8 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libmircore1 amd64 0.26.3+16.04.20170605-0ubuntu1.1 [24.4 kB]
+Get: 9 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libmircommon7 amd64 0.26.3+16.04.20170605-0ubuntu1.1 [89.7 kB]
+Get: 10 http://archive.ubuntu.com/ubuntu xenial/main amd64 libprotobuf-lite9v5 amd64 2.6.1-1.3 [58.4 kB]
+Get: 11 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libmirprotobuf3 amd64 0.26.3+16.04.20170605-0ubuntu1.1 [120 kB]
+Get: 12 http://archive.ubuntu.com/ubuntu xenial/main amd64 xkb-data all 2.16-1ubuntu1 [305 kB]
+Get: 13 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libmirclient9 amd64 0.26.3+16.04.20170605-0ubuntu1.1 [194 kB]
+Get: 14 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-xfixes0 amd64 1.11.1-1ubuntu1 [8,840 B]
+Get: 15 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libegl1-mesa amd64 17.0.7-0ubuntu0.16.04.2 [80.5 kB]
+Get: 16 http://archive.ubuntu.com/ubuntu xenial/main amd64 libevdev2 amd64 1.4.6+dfsg-1 [28.0 kB]
+Get: 17 http://archive.ubuntu.com/ubuntu xenial/main amd64 libgudev-1.0-0 amd64 1:230-2 [13.0 kB]
+Get: 18 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libwacom-common all 0.22-1~ubuntu16.04.1 [32.0 kB]
+Get: 19 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libwacom2 amd64 0.22-1~ubuntu16.04.1 [17.3 kB]
+Get: 20 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libinput-bin amd64 1.6.3-1ubuntu1~16.04.1 [9,040 B]
+Get: 21 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libinput10 amd64 1.6.3-1ubuntu1~16.04.1 [74.0 kB]
+Get: 22 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-icccm4 amd64 0.4.1-1ubuntu1 [10.4 kB]
+Get: 23 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-util1 amd64 0.4.0-0ubuntu3 [11.2 kB]
+Get: 24 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-image0 amd64 0.4.0-1build1 [12.3 kB]
+Get: 25 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-keysyms1 amd64 0.4.0-1 [8,406 B]
+Get: 26 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-randr0 amd64 1.11.1-1ubuntu1 [14.4 kB]
+Get: 27 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-render-util0 amd64 0.3.9-1 [9,638 B]
+Get: 28 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-shape0 amd64 1.11.1-1ubuntu1 [5,756 B]
+Get: 29 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-xinerama0 amd64 1.11.1-1ubuntu1 [5,204 B]
+Get: 30 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-xkb1 amd64 1.11.1-1ubuntu1 [29.2 kB]
+Get: 31 http://archive.ubuntu.com/ubuntu xenial/universe amd64 gperf amd64 3.0.4-2 [102 kB]
+Get: 32 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libdrm-dev amd64 2.4.76-1~ubuntu16.04.1 [223 kB]
+Get: 33 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 mesa-common-dev amd64 17.0.7-0ubuntu0.16.04.2 [497 kB]
+Get: 34 http://archive.ubuntu.com/ubuntu xenial/main amd64 libx11-xcb-dev amd64 2:1.6.3-1ubuntu2 [9,730 B]
+Get: 35 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-dri3-dev amd64 1.11.1-1ubuntu1 [5,752 B]
+Get: 36 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-randr0-dev amd64 1.11.1-1ubuntu1 [18.2 kB]
+Get: 37 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-shape0-dev amd64 1.11.1-1ubuntu1 [6,900 B]
+Get: 38 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-xfixes0-dev amd64 1.11.1-1ubuntu1 [11.2 kB]
+Get: 39 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-sync-dev amd64 1.11.1-1ubuntu1 [10.1 kB]
+Get: 40 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-present-dev amd64 1.11.1-1ubuntu1 [6,618 B]
+Get: 41 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxshmfence-dev amd64 1.2-1 [3,676 B]
+Get: 42 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-dri2-0-dev amd64 1.11.1-1ubuntu1 [8,384 B]
+Get: 43 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxcb-glx0-dev amd64 1.11.1-1ubuntu1 [26.9 kB]
+Get: 44 http://archive.ubuntu.com/ubuntu xenial/main amd64 x11proto-xf86vidmode-dev all 2.3.1-2 [6,116 B]
+Get: 45 http://archive.ubuntu.com/ubuntu xenial/main amd64 libxxf86vm-dev amd64 1:1.1.4-1 [13.3 kB]
+Get: 46 http://archive.ubuntu.com/ubuntu xenial/main amd64 x11proto-dri2-dev all 2.8-2 [12.6 kB]
+Get: 47 http://archive.ubuntu.com/ubuntu xenial/main amd64 x11proto-gl-dev all 1.4.17-1 [17.9 kB]
+Get: 48 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libgl1-mesa-dev amd64 17.0.7-0ubuntu0.16.04.2 [4,450 B]
+Get: 49 http://archive.ubuntu.com/ubuntu xenial/main amd64 libglu1-mesa-dev amd64 9.0.0-2.1 [202 kB]
+Get: 50 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5core5a amd64 5.9.1+dfsg-2+16.04+xenial+build25 [1,985 kB]
+Get: 51 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libwayland-client0 amd64 1.14.0-1+16.04+xenial+build5 [24.1 kB]
+Get: 52 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libwayland-server0 amd64 1.14.0-1+16.04+xenial+build5 [29.7 kB]
+Get: 53 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libxkbcommon0 amd64 0.7.0-1+16.04+xenial+build7 [97.4 kB]
+Get: 54 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5dbus5 amd64 5.9.1+dfsg-2+16.04+xenial+build25 [215 kB]
+Get: 55 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5network5 amd64 5.9.1+dfsg-2+16.04+xenial+build25 [639 kB]
+Get: 56 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libxkbcommon-x11-0 amd64 0.7.0-1+16.04+xenial+build7 [15.6 kB]
+Get: 57 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5gui5 amd64 5.9.1+dfsg-2+16.04+xenial+build25 [2,480 kB]
+Get: 58 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5widgets5 amd64 5.9.1+dfsg-2+16.04+xenial+build25 [2,174 kB]
+Get: 59 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5opengl5 amd64 5.9.1+dfsg-2+16.04+xenial+build25 [149 kB]
+Get: 60 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5printsupport5 amd64 5.9.1+dfsg-2+16.04+xenial+build25 [194 kB]
+Get: 61 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5qml5 amd64 5.9.1-4+16.04+xenial+build21 [1,204 kB]
+Get: 62 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5quick5 amd64 5.9.1-4+16.04+xenial+build21 [1,156 kB]
+Get: 63 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5sql5 amd64 5.9.1+dfsg-2+16.04+xenial+build25 [132 kB]
+Get: 64 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5webkit5 amd64 5.9.1+dfsg-1+16.04+xenial+build18 [9,090 kB]
+Get: 65 https://archive.neon.kde.org/dev/unstable xenial/main amd64 extra-cmake-modules amd64 5.39.0+p16.04+git20171109.1117-0 [192 kB]
+Get: 66 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5concurrent5 amd64 5.9.1+dfsg-2+16.04+xenial+build25 [51.2 kB]
+Get: 67 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5xml5 amd64 5.9.1+dfsg-2+16.04+xenial+build25 [115 kB]
+Get: 68 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5designer5 amd64 5.9.1-0neon+16.04+xenial+build19 [2,727 kB]
+Get: 69 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5designercomponents5 amd64 5.9.1-0neon+16.04+xenial+build19 [684 kB]
+Get: 70 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5help5 amd64 5.9.1-0neon+16.04+xenial+build19 [134 kB]
+Get: 71 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5quickwidgets5 amd64 5.9.1-4+16.04+xenial+build21 [43.7 kB]
+Get: 72 https://archive.neon.kde.org/dev/unstable xenial/main amd64 libqt5test5 amd64 5.9.1+dfsg-2+16.04+xenial+build25 [119 kB]
+Get: 73 https://archive.neon.kde.org/dev/unstable xenial/main amd64 qtchooser amd64 63-g13a3d08-1+16.04+xenial+build15 [23.4 kB]
+Get: 74 https://archive.neon.kde.org/dev/unstable xenial/main amd64 qt5-qmake amd64 5.9.1+dfsg-2+16.04+xenial+build25 [1,120 kB]
+Get: 75 https://archive.neon.kde.org/dev/unstable xenial/main amd64 qtbase5-dev-tools amd64 5.9.1+dfsg-2+16.04+xenial+build25 [759 kB]
+Get: 76 https://archive.neon.kde.org/dev/unstable xenial/main amd64 qtbase5-dev amd64 5.9.1+dfsg-2+16.04+xenial+build25 [1,003 kB]
+Get: 77 https://archive.neon.kde.org/dev/unstable xenial/main amd64 qttools5-dev-tools amd64 5.9.1-0neon+16.04+xenial+build19 [2,085 kB]
+Get: 78 https://archive.neon.kde.org/dev/unstable xenial/main amd64 qttools5-dev amd64 5.9.1-0neon+16.04+xenial+build19 [193 kB]
+Fetched 33.2 MB in 1s (24.9 MB/s)
+Extracting templates from packages: 38%Extracting templates from packages: 76%Extracting templates from packages: 100%
+Selecting previously unselected package libmtdev1:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 58180 files and directories currently installed.)
+Preparing to unpack .../libmtdev1_1.1.5-1ubuntu2_amd64.deb ...
+Unpacking libmtdev1:amd64 (1.1.5-1ubuntu2) ...
+Selecting previously unselected package libgstreamer1.0-0:amd64.
+Preparing to unpack .../libgstreamer1.0-0_1.8.3-1~ubuntu0.1_amd64.deb ...
+Unpacking libgstreamer1.0-0:amd64 (1.8.3-1~ubuntu0.1) ...
+Selecting previously unselected package libgstreamer-plugins-base1.0-0:amd64.
+Preparing to unpack .../libgstreamer-plugins-base1.0-0_1.8.3-1ubuntu0.2_amd64.deb ...
+Unpacking libgstreamer-plugins-base1.0-0:amd64 (1.8.3-1ubuntu0.2) ...
+Selecting previously unselected package libdouble-conversion1v5:amd64.
+Preparing to unpack .../libdouble-conversion1v5_2.0.1-3ubuntu2_amd64.deb ...
+Unpacking libdouble-conversion1v5:amd64 (2.0.1-3ubuntu2) ...
+Selecting previously unselected package libqt5core5a:amd64.
+Preparing to unpack .../libqt5core5a_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking libqt5core5a:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package libwayland-client0:amd64.
+Preparing to unpack .../libwayland-client0_1.14.0-1+16.04+xenial+build5_amd64.deb ...
+Unpacking libwayland-client0:amd64 (1.14.0-1+16.04+xenial+build5) ...
+Selecting previously unselected package libwayland-server0:amd64.
+Preparing to unpack .../libwayland-server0_1.14.0-1+16.04+xenial+build5_amd64.deb ...
+Unpacking libwayland-server0:amd64 (1.14.0-1+16.04+xenial+build5) ...
+Selecting previously unselected package libgbm1:amd64.
+Preparing to unpack .../libgbm1_17.0.7-0ubuntu0.16.04.2_amd64.deb ...
+Unpacking libgbm1:amd64 (17.0.7-0ubuntu0.16.04.2) ...
+Selecting previously unselected package libcapnp-0.5.3:amd64.
+Preparing to unpack .../libcapnp-0.5.3_0.5.3-2ubuntu1_amd64.deb ...
+Unpacking libcapnp-0.5.3:amd64 (0.5.3-2ubuntu1) ...
+Selecting previously unselected package libboost-filesystem1.58.0:amd64.
+Preparing to unpack .../libboost-filesystem1.58.0_1.58.0+dfsg-5ubuntu3.1_amd64.deb ...
+Unpacking libboost-filesystem1.58.0:amd64 (1.58.0+dfsg-5ubuntu3.1) ...
+Selecting previously unselected package libmircore1:amd64.
+Preparing to unpack .../libmircore1_0.26.3+16.04.20170605-0ubuntu1.1_amd64.deb ...
+Unpacking libmircore1:amd64 (0.26.3+16.04.20170605-0ubuntu1.1) ...
+Selecting previously unselected package libmircommon7:amd64.
+Preparing to unpack .../libmircommon7_0.26.3+16.04.20170605-0ubuntu1.1_amd64.deb ...
+Unpacking libmircommon7:amd64 (0.26.3+16.04.20170605-0ubuntu1.1) ...
+Selecting previously unselected package libprotobuf-lite9v5:amd64.
+Preparing to unpack .../libprotobuf-lite9v5_2.6.1-1.3_amd64.deb ...
+Unpacking libprotobuf-lite9v5:amd64 (2.6.1-1.3) ...
+Selecting previously unselected package libmirprotobuf3:amd64.
+Preparing to unpack .../libmirprotobuf3_0.26.3+16.04.20170605-0ubuntu1.1_amd64.deb ...
+Unpacking libmirprotobuf3:amd64 (0.26.3+16.04.20170605-0ubuntu1.1) ...
+Selecting previously unselected package xkb-data.
+Preparing to unpack .../xkb-data_2.16-1ubuntu1_all.deb ...
+Unpacking xkb-data (2.16-1ubuntu1) ...
+Selecting previously unselected package libxkbcommon0:amd64.
+Preparing to unpack .../libxkbcommon0_0.7.0-1+16.04+xenial+build7_amd64.deb ...
+Unpacking libxkbcommon0:amd64 (0.7.0-1+16.04+xenial+build7) ...
+Selecting previously unselected package libmirclient9:amd64.
+Preparing to unpack .../libmirclient9_0.26.3+16.04.20170605-0ubuntu1.1_amd64.deb ...
+Unpacking libmirclient9:amd64 (0.26.3+16.04.20170605-0ubuntu1.1) ...
+Selecting previously unselected package libxcb-xfixes0:amd64.
+Preparing to unpack .../libxcb-xfixes0_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-xfixes0:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libegl1-mesa:amd64.
+Preparing to unpack .../libegl1-mesa_17.0.7-0ubuntu0.16.04.2_amd64.deb ...
+Unpacking libegl1-mesa:amd64 (17.0.7-0ubuntu0.16.04.2) ...
+Selecting previously unselected package libevdev2:amd64.
+Preparing to unpack .../libevdev2_1.4.6+dfsg-1_amd64.deb ...
+Unpacking libevdev2:amd64 (1.4.6+dfsg-1) ...
+Selecting previously unselected package libgudev-1.0-0:amd64.
+Preparing to unpack .../libgudev-1.0-0_1%3a230-2_amd64.deb ...
+Unpacking libgudev-1.0-0:amd64 (1:230-2) ...
+Selecting previously unselected package libwacom-common.
+Preparing to unpack .../libwacom-common_0.22-1~ubuntu16.04.1_all.deb ...
+Unpacking libwacom-common (0.22-1~ubuntu16.04.1) ...
+Selecting previously unselected package libwacom2:amd64.
+Preparing to unpack .../libwacom2_0.22-1~ubuntu16.04.1_amd64.deb ...
+Unpacking libwacom2:amd64 (0.22-1~ubuntu16.04.1) ...
+Selecting previously unselected package libinput-bin.
+Preparing to unpack .../libinput-bin_1.6.3-1ubuntu1~16.04.1_amd64.deb ...
+Unpacking libinput-bin (1.6.3-1ubuntu1~16.04.1) ...
+Selecting previously unselected package libinput10:amd64.
+Preparing to unpack .../libinput10_1.6.3-1ubuntu1~16.04.1_amd64.deb ...
+Unpacking libinput10:amd64 (1.6.3-1ubuntu1~16.04.1) ...
+Selecting previously unselected package libqt5dbus5:amd64.
+Preparing to unpack .../libqt5dbus5_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking libqt5dbus5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package libqt5network5:amd64.
+Preparing to unpack .../libqt5network5_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking libqt5network5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package libxcb-icccm4:amd64.
+Preparing to unpack .../libxcb-icccm4_0.4.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-icccm4:amd64 (0.4.1-1ubuntu1) ...
+Selecting previously unselected package libxcb-util1:amd64.
+Preparing to unpack .../libxcb-util1_0.4.0-0ubuntu3_amd64.deb ...
+Unpacking libxcb-util1:amd64 (0.4.0-0ubuntu3) ...
+Selecting previously unselected package libxcb-image0:amd64.
+Preparing to unpack .../libxcb-image0_0.4.0-1build1_amd64.deb ...
+Unpacking libxcb-image0:amd64 (0.4.0-1build1) ...
+Selecting previously unselected package libxcb-keysyms1:amd64.
+Preparing to unpack .../libxcb-keysyms1_0.4.0-1_amd64.deb ...
+Unpacking libxcb-keysyms1:amd64 (0.4.0-1) ...
+Selecting previously unselected package libxcb-randr0:amd64.
+Preparing to unpack .../libxcb-randr0_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-randr0:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libxcb-render-util0:amd64.
+Preparing to unpack .../libxcb-render-util0_0.3.9-1_amd64.deb ...
+Unpacking libxcb-render-util0:amd64 (0.3.9-1) ...
+Selecting previously unselected package libxcb-shape0:amd64.
+Preparing to unpack .../libxcb-shape0_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-shape0:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libxcb-xinerama0:amd64.
+Preparing to unpack .../libxcb-xinerama0_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-xinerama0:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libxcb-xkb1:amd64.
+Preparing to unpack .../libxcb-xkb1_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-xkb1:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libxkbcommon-x11-0:amd64.
+Preparing to unpack .../libxkbcommon-x11-0_0.7.0-1+16.04+xenial+build7_amd64.deb ...
+Unpacking libxkbcommon-x11-0:amd64 (0.7.0-1+16.04+xenial+build7) ...
+Selecting previously unselected package libqt5gui5:amd64.
+Preparing to unpack .../libqt5gui5_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking libqt5gui5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package libqt5widgets5:amd64.
+Preparing to unpack .../libqt5widgets5_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking libqt5widgets5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package libqt5opengl5:amd64.
+Preparing to unpack .../libqt5opengl5_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking libqt5opengl5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package libqt5printsupport5:amd64.
+Preparing to unpack .../libqt5printsupport5_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking libqt5printsupport5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package libqt5qml5:amd64.
+Preparing to unpack .../libqt5qml5_5.9.1-4+16.04+xenial+build21_amd64.deb ...
+Unpacking libqt5qml5:amd64 (5.9.1-4+16.04+xenial+build21) ...
+Selecting previously unselected package libqt5quick5:amd64.
+Preparing to unpack .../libqt5quick5_5.9.1-4+16.04+xenial+build21_amd64.deb ...
+Unpacking libqt5quick5:amd64 (5.9.1-4+16.04+xenial+build21) ...
+Selecting previously unselected package libqt5sql5:amd64.
+Preparing to unpack .../libqt5sql5_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking libqt5sql5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package libqt5webkit5:amd64.
+Preparing to unpack .../libqt5webkit5_5.9.1+dfsg-1+16.04+xenial+build18_amd64.deb ...
+Unpacking libqt5webkit5:amd64 (5.9.1+dfsg-1+16.04+xenial+build18) ...
+Selecting previously unselected package extra-cmake-modules.
+Preparing to unpack .../extra-cmake-modules_5.39.0+p16.04+git20171109.1117-0_amd64.deb ...
+Unpacking extra-cmake-modules (5.39.0+p16.04+git20171109.1117-0) ...
+Selecting previously unselected package gperf.
+Preparing to unpack .../gperf_3.0.4-2_amd64.deb ...
+Unpacking gperf (3.0.4-2) ...
+Selecting previously unselected package libdrm-dev:amd64.
+Preparing to unpack .../libdrm-dev_2.4.76-1~ubuntu16.04.1_amd64.deb ...
+Unpacking libdrm-dev:amd64 (2.4.76-1~ubuntu16.04.1) ...
+Selecting previously unselected package mesa-common-dev:amd64.
+Preparing to unpack .../mesa-common-dev_17.0.7-0ubuntu0.16.04.2_amd64.deb ...
+Unpacking mesa-common-dev:amd64 (17.0.7-0ubuntu0.16.04.2) ...
+Selecting previously unselected package libx11-xcb-dev:amd64.
+Preparing to unpack .../libx11-xcb-dev_2%3a1.6.3-1ubuntu2_amd64.deb ...
+Unpacking libx11-xcb-dev:amd64 (2:1.6.3-1ubuntu2) ...
+Selecting previously unselected package libxcb-dri3-dev:amd64.
+Preparing to unpack .../libxcb-dri3-dev_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-dri3-dev:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libxcb-randr0-dev:amd64.
+Preparing to unpack .../libxcb-randr0-dev_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-randr0-dev:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libxcb-shape0-dev:amd64.
+Preparing to unpack .../libxcb-shape0-dev_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-shape0-dev:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libxcb-xfixes0-dev:amd64.
+Preparing to unpack .../libxcb-xfixes0-dev_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-xfixes0-dev:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libxcb-sync-dev:amd64.
+Preparing to unpack .../libxcb-sync-dev_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-sync-dev:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libxcb-present-dev:amd64.
+Preparing to unpack .../libxcb-present-dev_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-present-dev:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libxshmfence-dev:amd64.
+Preparing to unpack .../libxshmfence-dev_1.2-1_amd64.deb ...
+Unpacking libxshmfence-dev:amd64 (1.2-1) ...
+Selecting previously unselected package libxcb-dri2-0-dev:amd64.
+Preparing to unpack .../libxcb-dri2-0-dev_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-dri2-0-dev:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package libxcb-glx0-dev:amd64.
+Preparing to unpack .../libxcb-glx0-dev_1.11.1-1ubuntu1_amd64.deb ...
+Unpacking libxcb-glx0-dev:amd64 (1.11.1-1ubuntu1) ...
+Selecting previously unselected package x11proto-xf86vidmode-dev.
+Preparing to unpack .../x11proto-xf86vidmode-dev_2.3.1-2_all.deb ...
+Unpacking x11proto-xf86vidmode-dev (2.3.1-2) ...
+Selecting previously unselected package libxxf86vm-dev:amd64.
+Preparing to unpack .../libxxf86vm-dev_1%3a1.1.4-1_amd64.deb ...
+Unpacking libxxf86vm-dev:amd64 (1:1.1.4-1) ...
+Selecting previously unselected package x11proto-dri2-dev.
+Preparing to unpack .../x11proto-dri2-dev_2.8-2_all.deb ...
+Unpacking x11proto-dri2-dev (2.8-2) ...
+Selecting previously unselected package x11proto-gl-dev.
+Preparing to unpack .../x11proto-gl-dev_1.4.17-1_all.deb ...
+Unpacking x11proto-gl-dev (1.4.17-1) ...
+Selecting previously unselected package libgl1-mesa-dev:amd64.
+Preparing to unpack .../libgl1-mesa-dev_17.0.7-0ubuntu0.16.04.2_amd64.deb ...
+Unpacking libgl1-mesa-dev:amd64 (17.0.7-0ubuntu0.16.04.2) ...
+Selecting previously unselected package libglu1-mesa-dev:amd64.
+Preparing to unpack .../libglu1-mesa-dev_9.0.0-2.1_amd64.deb ...
+Unpacking libglu1-mesa-dev:amd64 (9.0.0-2.1) ...
+Selecting previously unselected package libqt5concurrent5:amd64.
+Preparing to unpack .../libqt5concurrent5_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking libqt5concurrent5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package libqt5xml5:amd64.
+Preparing to unpack .../libqt5xml5_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking libqt5xml5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package libqt5designer5:amd64.
+Preparing to unpack .../libqt5designer5_5.9.1-0neon+16.04+xenial+build19_amd64.deb ...
+Unpacking libqt5designer5:amd64 (5.9.1-0neon+16.04+xenial+build19) ...
+Selecting previously unselected package libqt5designercomponents5:amd64.
+Preparing to unpack .../libqt5designercomponents5_5.9.1-0neon+16.04+xenial+build19_amd64.deb ...
+Unpacking libqt5designercomponents5:amd64 (5.9.1-0neon+16.04+xenial+build19) ...
+Selecting previously unselected package libqt5help5:amd64.
+Preparing to unpack .../libqt5help5_5.9.1-0neon+16.04+xenial+build19_amd64.deb ...
+Unpacking libqt5help5:amd64 (5.9.1-0neon+16.04+xenial+build19) ...
+Selecting previously unselected package libqt5quickwidgets5:amd64.
+Preparing to unpack .../libqt5quickwidgets5_5.9.1-4+16.04+xenial+build21_amd64.deb ...
+Unpacking libqt5quickwidgets5:amd64 (5.9.1-4+16.04+xenial+build21) ...
+Selecting previously unselected package libqt5test5:amd64.
+Preparing to unpack .../libqt5test5_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking libqt5test5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package qtchooser.
+Preparing to unpack .../qtchooser_63-g13a3d08-1+16.04+xenial+build15_amd64.deb ...
+Unpacking qtchooser (63-g13a3d08-1+16.04+xenial+build15) ...
+Selecting previously unselected package qt5-qmake:amd64.
+Preparing to unpack .../qt5-qmake_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking qt5-qmake:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package qtbase5-dev-tools.
+Preparing to unpack .../qtbase5-dev-tools_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking qtbase5-dev-tools (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package qtbase5-dev:amd64.
+Preparing to unpack .../qtbase5-dev_5.9.1+dfsg-2+16.04+xenial+build25_amd64.deb ...
+Unpacking qtbase5-dev:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Selecting previously unselected package qttools5-dev-tools:amd64.
+Preparing to unpack .../qttools5-dev-tools_5.9.1-0neon+16.04+xenial+build19_amd64.deb ...
+Unpacking qttools5-dev-tools:amd64 (5.9.1-0neon+16.04+xenial+build19) ...
+Selecting previously unselected package qttools5-dev:amd64.
+Preparing to unpack .../qttools5-dev_5.9.1-0neon+16.04+xenial+build19_amd64.deb ...
+Unpacking qttools5-dev:amd64 (5.9.1-0neon+16.04+xenial+build19) ...
+Processing triggers for libc-bin (2.23-0ubuntu9) ...
+Processing triggers for man-db (2.7.5-1) ...
+Processing triggers for mime-support (3.59ubuntu1) ...
+Setting up libmtdev1:amd64 (1.1.5-1ubuntu2) ...
+Setting up libgstreamer1.0-0:amd64 (1.8.3-1~ubuntu0.1) ...
+Failed to set capabilities on file `/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper' (Invalid argument)
+The value of the capability argument is not permitted for a file. Or the file is not a regular (non-symlink) file
+Setcap failed on gst-ptp-helper, falling back to setuid
+Setting up libgstreamer-plugins-base1.0-0:amd64 (1.8.3-1ubuntu0.2) ...
+Setting up libdouble-conversion1v5:amd64 (2.0.1-3ubuntu2) ...
+Setting up libqt5core5a:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up libwayland-client0:amd64 (1.14.0-1+16.04+xenial+build5) ...
+Setting up libwayland-server0:amd64 (1.14.0-1+16.04+xenial+build5) ...
+Setting up libgbm1:amd64 (17.0.7-0ubuntu0.16.04.2) ...
+Setting up libcapnp-0.5.3:amd64 (0.5.3-2ubuntu1) ...
+Setting up libboost-filesystem1.58.0:amd64 (1.58.0+dfsg-5ubuntu3.1) ...
+Setting up libmircore1:amd64 (0.26.3+16.04.20170605-0ubuntu1.1) ...
+Setting up libmircommon7:amd64 (0.26.3+16.04.20170605-0ubuntu1.1) ...
+Setting up libprotobuf-lite9v5:amd64 (2.6.1-1.3) ...
+Setting up libmirprotobuf3:amd64 (0.26.3+16.04.20170605-0ubuntu1.1) ...
+Setting up xkb-data (2.16-1ubuntu1) ...
+Setting up libxkbcommon0:amd64 (0.7.0-1+16.04+xenial+build7) ...
+Setting up libmirclient9:amd64 (0.26.3+16.04.20170605-0ubuntu1.1) ...
+Setting up libxcb-xfixes0:amd64 (1.11.1-1ubuntu1) ...
+Setting up libegl1-mesa:amd64 (17.0.7-0ubuntu0.16.04.2) ...
+update-alternatives: using /usr/lib/x86_64-linux-gnu/mesa-egl/ld.so.conf to provide /etc/ld.so.conf.d/x86_64-linux-gnu_EGL.conf (x86_64-linux-gnu_egl_conf) in auto mode
+Setting up libevdev2:amd64 (1.4.6+dfsg-1) ...
+Setting up libgudev-1.0-0:amd64 (1:230-2) ...
+Setting up libwacom-common (0.22-1~ubuntu16.04.1) ...
+Setting up libwacom2:amd64 (0.22-1~ubuntu16.04.1) ...
+Setting up libinput-bin (1.6.3-1ubuntu1~16.04.1) ...
+Setting up libinput10:amd64 (1.6.3-1ubuntu1~16.04.1) ...
+Setting up libqt5dbus5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up libqt5network5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up libxcb-icccm4:amd64 (0.4.1-1ubuntu1) ...
+Setting up libxcb-util1:amd64 (0.4.0-0ubuntu3) ...
+Setting up libxcb-image0:amd64 (0.4.0-1build1) ...
+Setting up libxcb-keysyms1:amd64 (0.4.0-1) ...
+Setting up libxcb-randr0:amd64 (1.11.1-1ubuntu1) ...
+Setting up libxcb-render-util0:amd64 (0.3.9-1) ...
+Setting up libxcb-shape0:amd64 (1.11.1-1ubuntu1) ...
+Setting up libxcb-xinerama0:amd64 (1.11.1-1ubuntu1) ...
+Setting up libxcb-xkb1:amd64 (1.11.1-1ubuntu1) ...
+Setting up libxkbcommon-x11-0:amd64 (0.7.0-1+16.04+xenial+build7) ...
+Setting up libqt5gui5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up libqt5widgets5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up libqt5opengl5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up libqt5printsupport5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up libqt5qml5:amd64 (5.9.1-4+16.04+xenial+build21) ...
+Setting up libqt5quick5:amd64 (5.9.1-4+16.04+xenial+build21) ...
+Setting up libqt5sql5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up libqt5webkit5:amd64 (5.9.1+dfsg-1+16.04+xenial+build18) ...
+Setting up extra-cmake-modules (5.39.0+p16.04+git20171109.1117-0) ...
+Setting up gperf (3.0.4-2) ...
+Setting up libdrm-dev:amd64 (2.4.76-1~ubuntu16.04.1) ...
+Setting up mesa-common-dev:amd64 (17.0.7-0ubuntu0.16.04.2) ...
+Setting up libx11-xcb-dev:amd64 (2:1.6.3-1ubuntu2) ...
+Setting up libxcb-dri3-dev:amd64 (1.11.1-1ubuntu1) ...
+Setting up libxcb-randr0-dev:amd64 (1.11.1-1ubuntu1) ...
+Setting up libxcb-shape0-dev:amd64 (1.11.1-1ubuntu1) ...
+Setting up libxcb-xfixes0-dev:amd64 (1.11.1-1ubuntu1) ...
+Setting up libxcb-sync-dev:amd64 (1.11.1-1ubuntu1) ...
+Setting up libxcb-present-dev:amd64 (1.11.1-1ubuntu1) ...
+Setting up libxshmfence-dev:amd64 (1.2-1) ...
+Setting up libxcb-dri2-0-dev:amd64 (1.11.1-1ubuntu1) ...
+Setting up libxcb-glx0-dev:amd64 (1.11.1-1ubuntu1) ...
+Setting up x11proto-xf86vidmode-dev (2.3.1-2) ...
+Setting up libxxf86vm-dev:amd64 (1:1.1.4-1) ...
+Setting up x11proto-dri2-dev (2.8-2) ...
+Setting up x11proto-gl-dev (1.4.17-1) ...
+Setting up libgl1-mesa-dev:amd64 (17.0.7-0ubuntu0.16.04.2) ...
+Setting up libglu1-mesa-dev:amd64 (9.0.0-2.1) ...
+Setting up libqt5concurrent5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up libqt5xml5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up libqt5designer5:amd64 (5.9.1-0neon+16.04+xenial+build19) ...
+Setting up libqt5designercomponents5:amd64 (5.9.1-0neon+16.04+xenial+build19) ...
+Setting up libqt5help5:amd64 (5.9.1-0neon+16.04+xenial+build19) ...
+Setting up libqt5quickwidgets5:amd64 (5.9.1-4+16.04+xenial+build21) ...
+Setting up libqt5test5:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up qtchooser (63-g13a3d08-1+16.04+xenial+build15) ...
+Setting up qt5-qmake:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up qtbase5-dev-tools (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up qtbase5-dev:amd64 (5.9.1+dfsg-2+16.04+xenial+build25) ...
+Setting up qttools5-dev-tools:amd64 (5.9.1-0neon+16.04+xenial+build19) ...
+Setting up qttools5-dev:amd64 (5.9.1-0neon+16.04+xenial+build19) ...
+Processing triggers for libc-bin (2.23-0ubuntu9) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Reading extended state information...
+Initializing package states...
+Writing extended state information...
+Building tag database...
+ -> Finished parsing the build-deps
+backticking: dpkg-architecture -qDEB_HOST_ARCH
+cp /tooling/ci-tooling/lib/ci/setcap.rb /tmp/d20171109-1-gqyesd/setcap
+chmod 755 /tmp/d20171109-1-gqyesd/setcap
+pid 3260 exit 0
+dpkg-buildpackage: source package kcodecs
+dpkg-buildpackage: source version 5.39.0+p16.04+git20171109.1147-0
+dpkg-buildpackage: source distribution xenial
+dpkg-buildpackage: source changed by Neon CI <neon@kde.org>
+dpkg-buildpackage: host architecture amd64
+ dpkg-source --before-build build
+ debian/rules clean
+/usr/share/pkg-kde-tools/qt-kde-team/3/dhmk.pl --with=kf5,pkgkde-symbolshelper 
+dpkg-buildflags --export=make > debian/dhmk_env.mk
+/usr/bin/make -f debian/rules dhmk_run_clean_commands DHMK_TARGET="clean"
+make[1]: Entering directory '/workspace/build'
+dh_testdir  
+dh_auto_clean '--buildsystem=kf5' --parallel  
+dh_clean  
+rm -rf debian/man/out
+rmdir debian/man
+rmdir: failed to remove 'debian/man': No such file or directory
+/usr/share/pkg-kde-tools/qt-kde-team/3/debian-qt-kde.mk:76: recipe for target 'cleanup_manpages' failed
+rm -f debian/stamp-man-pages
+make[1]: [cleanup_manpages] Error 1 (ignored)
+rm -f debian/dhmk-install-list debian/dhmk-package-list
+make[1]: Leaving directory '/workspace/build'
+rm -f debian/dhmk_rules.mk debian/dhmk_env.mk debian/dhmk_configure debian/dhmk_build-indep debian/dhmk_build-arch debian/dhmk_build
+# "clean" target is done
+-- SUCCESS making standard target 'clean'.
+ debian/rules build
+/usr/share/pkg-kde-tools/qt-kde-team/3/dhmk.pl --with=kf5,pkgkde-symbolshelper 
+dpkg-buildflags --export=make > debian/dhmk_env.mk
+/usr/bin/make -f debian/rules dhmk_run_configure_commands DHMK_TARGET="configure"
+make[1]: Entering directory '/workspace/build'
+dh_testdir  
+dh_auto_configure '--buildsystem=kf5' --parallel  
+	cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_LOCALSTATEDIR=/var -DCMAKE_BUILD_TYPE=Debian -DCMAKE_USE_RELATIVE_PATHS=ON -DCMAKE_INSTALL_SYSCONFDIR=/etc -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+-- The C compiler identification is GNU 5.4.0
+-- The CXX compiler identification is GNU 5.4.0
+-- Check for working C compiler: /usr/bin/x86_64-linux-gnu-gcc
+-- Check for working C compiler: /usr/bin/x86_64-linux-gnu-gcc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/x86_64-linux-gnu-g++
+-- Check for working CXX compiler: /usr/bin/x86_64-linux-gnu-g++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- 
+
+-- Looking for __GLIBC__
+-- Looking for __GLIBC__ - found
+-- Performing Test _OFFT_IS_64BIT
+-- Performing Test _OFFT_IS_64BIT - Success
+-- Performing Test HAVE_DATE_TIME
+-- Performing Test HAVE_DATE_TIME - Success
+-- Could not set up the appstream test. appstreamcli is missing.
+-- Found Gperf: /usr/bin/gperf  
+-- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY
+-- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY - Success
+-- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY
+-- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY - Success
+-- Performing Test COMPILER_HAS_DEPRECATED_ATTR
+-- Performing Test COMPILER_HAS_DEPRECATED_ATTR - Success
+-- At least one python version must be available to use PythonModuleGeneration.
+-- 
+-- The following REQUIRED packages have been found:
+
+ * ECM (required version >= 5.40.0) , Extra CMake Modules. , <https://projects.kde.org/projects/kdesupport/extra-cmake-modules>
+ * Gperf , Perfect hash function generator , <http://www.gnu.org/software/gperf/>
+ * Qt5LinguistTools
+ * Qt5Core
+
+-- The following features have been disabled:
+
+ * QCH , API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)
+
+-- The following OPTIONAL packages have not been found:
+
+ * PythonModuleGeneration
+
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_USE_RELATIVE_PATHS
+
+
+-- Build files have been written to: /workspace/build/obj-x86_64-linux-gnu
+make[1]: Leaving directory '/workspace/build'
+touch debian/dhmk_configure
+# "configure" target is done
+/usr/bin/make -f debian/rules dhmk_run_build_commands DHMK_TARGET="build"
+make[1]: Entering directory '/workspace/build'
+dh_testdir  
+dh_auto_build '--buildsystem=kf5' --parallel  
+	make -j2
+make[2]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[3]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_99
+Scanning dependencies of target translations_101
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  1%] Generating th/kcodecs5_qt.qm
+[  1%] Generating be@latin/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  1%] Built target translations_99
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  1%] Built target translations_101
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_98
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_97
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  2%] Generating hi/kcodecs5_qt.qm
+[  2%] Generating id/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  2%] Built target translations_97
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  2%] Built target translations_98
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_95
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  3%] Generating bn_IN/kcodecs5_qt.qm
+Scanning dependencies of target translations_44
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  4%] Generating crh/kcodecs5_qt.qm
+[  4%] Built target translations_95
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_83
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  4%] Generating tt/kcodecs5_qt.qm
+[  4%] Built target translations_44
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  4%] Built target translations_83
+Scanning dependencies of target translations_85
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_39
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  4%] Generating uz@cyrillic/kcodecs5_qt.qm
+[  4%] Generating el/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  4%] Built target translations_85
+[  4%] Built target translations_39
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_34
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_49
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  4%] Generating af/kcodecs5_qt.qm
+[  5%] Generating sr@ijekavian/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  5%] Built target translations_34
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_40
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  5%] Built target translations_49
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  5%] Generating gl/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_33
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  5%] Built target translations_40
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  6%] Generating ug/kcodecs5_qt.qm
+Scanning dependencies of target translations_32
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  7%] Generating ku/kcodecs5_qt.qm
+[  7%] Built target translations_33
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  7%] Built target translations_32
+Scanning dependencies of target translations_61
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  8%] Generating ast/kcodecs5_qt.qm
+Scanning dependencies of target translations_73
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  8%] Generating ro/kcodecs5_qt.qm
+[  8%] Built target translations_61
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_16
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  8%] Built target translations_73
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  9%] Generating oc/kcodecs5_qt.qm
+Scanning dependencies of target translations_30
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 10%] Generating bg/kcodecs5_qt.qm
+[ 10%] Built target translations_16
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_26
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 10%] Built target translations_30
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 11%] Generating fy/kcodecs5_qt.qm
+Scanning dependencies of target translations_60
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 12%] Generating uz/kcodecs5_qt.qm
+[ 12%] Built target translations_26
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_51
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 12%] Built target translations_60
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 13%] Generating ta/kcodecs5_qt.qm
+Scanning dependencies of target translations_24
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 14%] Generating bn/kcodecs5_qt.qm
+[ 14%] Built target translations_51
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 14%] Built target translations_24
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_23
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_100
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 15%] Generating eu/kcodecs5_qt.qm
+[ 16%] Generating lb/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 16%] Built target translations_100
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 16%] Built target translations_23
+Scanning dependencies of target translations_37
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 17%] Generating ms/kcodecs5_qt.qm
+Scanning dependencies of target translations_76
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 17%] Generating hy/kcodecs5_qt.qm
+[ 17%] Built target translations_37
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 17%] Built target translations_76
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_22
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_21
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 17%] Generating ga/kcodecs5_qt.qm
+[ 18%] Generating pt_BR/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 18%] Built target translations_21
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 18%] Built target translations_22
+Scanning dependencies of target translations_89
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 19%] Generating ha/kcodecs5_qt.qm
+Scanning dependencies of target translations_8
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 20%] Generating as/kcodecs5_qt.qm
+[ 20%] Built target translations_89
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_20
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 20%] Built target translations_8
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 21%] Generating nds/kcodecs5_qt.qm
+Scanning dependencies of target translations_9
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 21%] Generating be/kcodecs5_qt.qm
+[ 21%] Built target translations_20
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_11
+[ 21%] Built target translations_9
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 22%] Generating kn/kcodecs5_qt.qm
+Scanning dependencies of target translations_72
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 23%] Generating zh_HK/kcodecs5_qt.qm
+[ 23%] Built target translations_11
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_52
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 23%] Built target translations_72
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 23%] Generating fr/kcodecs5_qt.qm
+Scanning dependencies of target translations_3
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 23%] Generating fi/kcodecs5_qt.qm
+[ 23%] Built target translations_52
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_1
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 24%] Generating cs/kcodecs5_qt.qm
+[ 24%] Built target translations_3
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_31
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 24%] Built target translations_1
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 24%] Generating hsb/kcodecs5_qt.qm
+Scanning dependencies of target translations_79
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 25%] Generating ps/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 25%] Built target translations_31
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 25%] Built target translations_79
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_36
+Scanning dependencies of target translations_18
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 25%] Generating ar/kcodecs5_qt.qm
+[ 25%] Generating zh_CN/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 25%] Built target translations_36
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 25%] Built target translations_18
+Scanning dependencies of target translations_47
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 26%] Generating gu/kcodecs5_qt.qm
+Scanning dependencies of target translations_7
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 26%] Built target translations_47
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 27%] Generating hu/kcodecs5_qt.qm
+Scanning dependencies of target translations_80
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 27%] Generating nb/kcodecs5_qt.qm
+[ 27%] Built target translations_7
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 27%] Built target translations_80
+Scanning dependencies of target translations_14
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_38
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 28%] Generating bs/kcodecs5_qt.qm
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 29%] Generating pl/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 29%] Built target translations_38
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 29%] Built target translations_14
+Scanning dependencies of target translations_25
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 29%] Generating pa/kcodecs5_qt.qm
+Scanning dependencies of target translations_77
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 29%] Built target translations_25
+[ 30%] Generating se/kcodecs5_qt.qm
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_84
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 30%] Built target translations_77
+[ 31%] Generating cy/kcodecs5_qt.qm
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_45
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 32%] Generating ka/kcodecs5_qt.qm
+[ 32%] Built target translations_84
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 32%] Built target translations_45
+Scanning dependencies of target translations_42
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_5
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 33%] Generating tr/kcodecs5_qt.qm
+[ 34%] Generating et/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 34%] Built target translations_42
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 34%] Built target translations_5
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_27
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_64
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 34%] Generating da/kcodecs5_qt.qm
+[ 34%] Generating vi/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 34%] Built target translations_27
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 34%] Built target translations_64
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_10
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_12
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 34%] Generating ru/kcodecs5_qt.qm
+[ 35%] Generating sk/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 35%] Built target translations_10
+[ 35%] Built target translations_12
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_71
+Scanning dependencies of target translations_62
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 35%] Generating sv/kcodecs5_qt.qm
+[ 35%] Generating kk/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 35%] Built target translations_71
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_4
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 35%] Built target translations_62
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 36%] Generating gd/kcodecs5_qt.qm
+Scanning dependencies of target translations_41
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 37%] Built target translations_4
+[ 37%] Generating is/kcodecs5_qt.qm
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_13
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 37%] Generating zh_TW/kcodecs5_qt.qm
+[ 37%] Built target translations_41
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_50
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 37%] Built target translations_13
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_96
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 37%] Generating de/kcodecs5_qt.qm
+[ 38%] Generating pt/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 38%] Built target translations_96
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 38%] Built target translations_50
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_35
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_15
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 39%] Generating ia/kcodecs5_qt.qm
+[ 39%] Generating sr/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 39%] Built target translations_35
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_93
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 39%] Built target translations_15
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 40%] Generating ja/kcodecs5_qt.qm
+Scanning dependencies of target translations_19
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 40%] Built target translations_93
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 41%] Generating nn/kcodecs5_qt.qm
+Scanning dependencies of target translations_43
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 41%] Generating ml/kcodecs5_qt.qm
+[ 41%] Built target translations_19
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 41%] Built target translations_43
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_17
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_46
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 42%] Generating sr@ijekavianlatin/kcodecs5_qt.qm
+[ 42%] Generating br/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 42%] Built target translations_17
+[ 42%] Built target translations_46
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_59
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_48
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 43%] Generating hne/kcodecs5_qt.qm
+[ 43%] Generating eo/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 43%] Built target translations_59
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 43%] Built target translations_48
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_53
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 44%] Generating ne/kcodecs5_qt.qm
+Scanning dependencies of target translations_54
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 45%] Generating xh/kcodecs5_qt.qm
+[ 45%] Built target translations_53
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 45%] Built target translations_54
+Scanning dependencies of target translations_86
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 46%] Generating ko/kcodecs5_qt.qm
+Scanning dependencies of target translations_6
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 46%] Generating mai/kcodecs5_qt.qm
+[ 46%] Built target translations_86
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_55
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 46%] Built target translations_6
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 46%] Generating x-test/kcodecs5_qt.qm
+Scanning dependencies of target translations_56
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 47%] Generating or/kcodecs5_qt.qm
+[ 47%] Built target translations_55
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_87
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 47%] Built target translations_56
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 48%] Generating wa/kcodecs5_qt.qm
+Scanning dependencies of target translations_57
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 48%] Generating lt/kcodecs5_qt.qm
+[ 48%] Built target translations_87
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 48%] Built target translations_57
+Scanning dependencies of target translations_58
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_81
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 49%] Generating si/kcodecs5_qt.qm
+[ 50%] Generating hr/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 50%] Built target translations_58
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 50%] Built target translations_81
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_63
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 51%] Generating km/kcodecs5_qt.qm
+Scanning dependencies of target translations_65
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 52%] Generating sr@latin/kcodecs5_qt.qm
+[ 52%] Built target translations_63
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_66
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 52%] Built target translations_65
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 53%] Generating lv/kcodecs5_qt.qm
+Scanning dependencies of target translations_2
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 53%] Generating ca@valencia/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 53%] Built target translations_66
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 53%] Built target translations_2
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_75
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_67
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 54%] Generating it/kcodecs5_qt.qm
+[ 54%] Generating es/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 54%] Built target translations_67
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 54%] Built target translations_75
+Scanning dependencies of target translations_68
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 55%] Generating te/kcodecs5_qt.qm
+Scanning dependencies of target translations_29
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 56%] Generating ca/kcodecs5_qt.qm
+[ 56%] Built target translations_68
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_69
+[ 56%] Built target translations_29
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 56%] Generating en_GB/kcodecs5_qt.qm
+Scanning dependencies of target translations_70
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 57%] Generating mk/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 57%] Built target translations_69
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_74
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 57%] Built target translations_70
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 58%] Generating uk/kcodecs5_qt.qm
+Scanning dependencies of target translations_78
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 58%] Generating he/kcodecs5_qt.qm
+[ 58%] Built target translations_74
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_28
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 58%] Built target translations_78
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 59%] Generating tg/kcodecs5_qt.qm
+Scanning dependencies of target translations_82
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 60%] Generating nl/kcodecs5_qt.qm
+[ 60%] Built target translations_28
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_88
+[ 60%] Built target translations_82
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 60%] Generating fa/kcodecs5_qt.qm
+Scanning dependencies of target translations_92
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 60%] Generating mr/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 60%] Built target translations_88
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 60%] Built target translations_92
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_90
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_91
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 61%] Generating csb/kcodecs5_qt.qm
+[ 62%] Generating sl/kcodecs5_qt.qm
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 62%] Built target translations_90
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 62%] Built target translations_91
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target translations_94
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target KF5Codecs_automoc
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 62%] Generating sq/kcodecs5_qt.qm
+[ 62%] Automatic moc for target KF5Codecs
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 62%] Built target translations_94
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 62%] Built target KF5Codecs_automoc
+Scanning dependencies of target rfc2047test_automoc
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target base64benchmark_automoc
+[ 63%] Automatic moc for target rfc2047test
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 64%] Automatic moc for target base64benchmark
+Generating moc_rfc2047test.cpp
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 64%] Built target rfc2047test_automoc
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target codectest_automoc
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 64%] Automatic moc for target codectest
+Generating base64benchmark.moc
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 64%] Built target base64benchmark_automoc
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target kcharsetstest_automoc
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 65%] Automatic moc for target kcharsetstest
+Generating moc_codectest.cpp
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 65%] Built target codectest_automoc
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target kemailaddresstest_automoc
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Generating moc_kcharsetstest.cpp
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 66%] Automatic moc for target kemailaddresstest
+[ 66%] Built target kcharsetstest_automoc
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target kencodingprobertest_automoc
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 66%] Automatic moc for target kencodingprobertest
+Generating moc_kemailaddresstest.cpp
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 66%] Built target kemailaddresstest_automoc
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 66%] Generating kentities.h
+Generating moc_kencodingprobertest.cpp
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 66%] Built target kencodingprobertest_automoc
+Scanning dependencies of target KF5Codecs
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 66%] Building CXX object src/CMakeFiles/KF5Codecs.dir/kcodecs.cpp.o
+[ 67%] Building CXX object src/CMakeFiles/KF5Codecs.dir/kcharsets.cpp.o
+/workspace/build/src/kcharsets.cpp: In member function ‘QTextCodec* KCharsets::codecForNameOrNull(const QByteArray&) const’:
+/workspace/build/src/kcharsets.cpp:770:48: note: #pragma message: KDE5 TODO: Any better ideas ?
+ #pragma message("KDE5 TODO: Any better ideas ?")
+                                                ^
+[ 68%] Building CXX object src/CMakeFiles/KF5Codecs.dir/kcodecsbase64.cpp.o
+[ 69%] Building CXX object src/CMakeFiles/KF5Codecs.dir/kcodecsidentity.cpp.o
+[ 69%] Building CXX object src/CMakeFiles/KF5Codecs.dir/kcodecsqp.cpp.o
+[ 70%] Building CXX object src/CMakeFiles/KF5Codecs.dir/kcodecsuuencode.cpp.o
+[ 70%] Building CXX object src/CMakeFiles/KF5Codecs.dir/kencodingprober.cpp.o
+[ 71%] Building CXX object src/CMakeFiles/KF5Codecs.dir/kemailaddress.cpp.o
+[ 72%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/CharDistribution.cpp.o
+[ 72%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/ChineseGroupProber.cpp.o
+[ 73%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/JapaneseGroupProber.cpp.o
+[ 73%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/JpCntx.cpp.o
+[ 74%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/LangBulgarianModel.cpp.o
+[ 75%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/LangCyrillicModel.cpp.o
+/workspace/build/src/probers/LangBulgarianModel.cpp:215:39: warning: ‘visibility’ attribute ignored [-Wattributes]
+ const SequenceModel KCODECS_NO_EXPORT Latin5BulgarianModel = {
+                                       ^
+/workspace/build/src/probers/LangBulgarianModel.cpp:223:39: warning: ‘visibility’ attribute ignored [-Wattributes]
+ const SequenceModel KCODECS_NO_EXPORT Win1251BulgarianModel = {
+                                       ^
+[ 75%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/LangGreekModel.cpp.o
+[ 76%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/LangHebrewModel.cpp.o
+[ 76%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/LangHungarianModel.cpp.o
+[ 77%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/LangThaiModel.cpp.o
+[ 78%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/UnicodeGroupProber.cpp.o
+[ 78%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsBig5Prober.cpp.o
+[ 79%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsCharSetProber.cpp.o
+[ 80%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsEUCJPProber.cpp.o
+[ 80%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsEUCKRProber.cpp.o
+[ 81%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsEscCharsetProber.cpp.o
+[ 81%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsEscSM.cpp.o
+[ 82%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsGB2312Prober.cpp.o
+[ 83%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsHebrewProber.cpp.o
+[ 83%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsLatin1Prober.cpp.o
+[ 84%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsMBCSGroupProber.cpp.o
+[ 84%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsMBCSSM.cpp.o
+[ 85%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsSBCSGroupProber.cpp.o
+[ 86%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsSBCharSetProber.cpp.o
+[ 86%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsSJISProber.cpp.o
+[ 87%] Building CXX object src/CMakeFiles/KF5Codecs.dir/probers/nsUniversalDetector.cpp.o
+[ 87%] Building CXX object src/CMakeFiles/KF5Codecs.dir/ECMQmLoader-kcodecs5_qt.cpp.o
+[ 88%] Building CXX object src/CMakeFiles/KF5Codecs.dir/KF5Codecs_automoc.cpp.o
+[ 89%] Linking CXX shared library ../bin/libKF5Codecs.so
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 89%] Built target KF5Codecs
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target base64benchmark
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target rfc2047test
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 90%] Building CXX object autotests/CMakeFiles/rfc2047test.dir/rfc2047test.cpp.o
+[ 91%] Building CXX object autotests/CMakeFiles/base64benchmark.dir/base64benchmark.cpp.o
+/workspace/build/autotests/base64benchmark.cpp: In member function ‘void Base64Benchmark::createTestSet()’:
+/workspace/build/autotests/base64benchmark.cpp:48:101: warning: ‘QByteArray KCodecs::base64Encode(const QByteArray&, bool)’ is deprecated [-Wdeprecated-declarations]
+         QTest::newRow("128") << fillByteArray(128) << KCodecs::base64Encode(fillByteArray(128), true);
+                                                                                                     ^
+In file included from /workspace/build/obj-x86_64-linux-gnu/src/KCodecs:1:0,
+                 from /workspace/build/autotests/base64benchmark.cpp:22:
+/workspace/build/src/kcodecs.h:216:38: note: declared here
+ KCODECS_DEPRECATED_EXPORT QByteArray base64Encode(const QByteArray &in, bool insertLFs);
+                                      ^
+/workspace/build/autotests/base64benchmark.cpp:49:108: warning: ‘QByteArray KCodecs::base64Encode(const QByteArray&, bool)’ is deprecated [-Wdeprecated-declarations]
+         QTest::newRow("1k") << fillByteArray(1 << 10) << KCodecs::base64Encode(fillByteArray(1 << 10), true);
+                                                                                                            ^
+In file included from /workspace/build/obj-x86_64-linux-gnu/src/KCodecs:1:0,
+                 from /workspace/build/autotests/base64benchmark.cpp:22:
+/workspace/build/src/kcodecs.h:216:38: note: declared here
+ KCODECS_DEPRECATED_EXPORT QByteArray base64Encode(const QByteArray &in, bool insertLFs);
+                                      ^
+/workspace/build/autotests/base64benchmark.cpp:50:108: warning: ‘QByteArray KCodecs::base64Encode(const QByteArray&, bool)’ is deprecated [-Wdeprecated-declarations]
+         QTest::newRow("1M") << fillByteArray(1 << 20) << KCodecs::base64Encode(fillByteArray(1 << 20), true);
+                                                                                                            ^
+In file included from /workspace/build/obj-x86_64-linux-gnu/src/KCodecs:1:0,
+                 from /workspace/build/autotests/base64benchmark.cpp:22:
+/workspace/build/src/kcodecs.h:216:38: note: declared here
+ KCODECS_DEPRECATED_EXPORT QByteArray base64Encode(const QByteArray &in, bool insertLFs);
+                                      ^
+[ 92%] Building CXX object autotests/CMakeFiles/rfc2047test.dir/rfc2047test_automoc.cpp.o
+[ 93%] Building CXX object autotests/CMakeFiles/base64benchmark.dir/base64benchmark_automoc.cpp.o
+[ 93%] Linking CXX executable ../bin/base64benchmark
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 93%] Built target base64benchmark
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target codectest
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 93%] Building CXX object autotests/CMakeFiles/codectest.dir/codectest.cpp.o
+[ 93%] Linking CXX executable ../bin/rfc2047test
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 93%] Built target rfc2047test
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target kcharsetstest
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 94%] Building CXX object autotests/CMakeFiles/kcharsetstest.dir/kcharsetstest.cpp.o
+[ 95%] Building CXX object autotests/CMakeFiles/codectest.dir/codectest_automoc.cpp.o
+[ 96%] Linking CXX executable ../bin/codectest
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 96%] Built target codectest
+[ 96%] Building CXX object autotests/CMakeFiles/kcharsetstest.dir/kcharsetstest_automoc.cpp.o
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target kemailaddresstest
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 96%] Building CXX object autotests/CMakeFiles/kemailaddresstest.dir/kemailaddresstest.cpp.o
+[ 97%] Linking CXX executable ../bin/kcharsetstest
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 97%] Built target kcharsetstest
+[ 98%] Building CXX object autotests/CMakeFiles/kemailaddresstest.dir/kemailaddresstest_automoc.cpp.o
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Scanning dependencies of target kencodingprobertest
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 99%] Building CXX object autotests/CMakeFiles/kencodingprobertest.dir/kencodingprobertest.cpp.o
+[ 99%] Linking CXX executable ../bin/kemailaddresstest
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 99%] Built target kemailaddresstest
+[ 99%] Building CXX object autotests/CMakeFiles/kencodingprobertest.dir/kencodingprobertest_automoc.cpp.o
+[100%] Linking CXX executable ../bin/kencodingprobertest
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[100%] Built target kencodingprobertest
+make[3]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[2]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+if ! test -d debian/man/out; then mkdir -p debian/man/out; fi
+for f in $(find debian/man -name '*.sgml'); do \
+	docbook-to-man $f > debian/man/out/`basename $f .sgml`.1; \
+done
+for f in $(find debian/man -name '*.man'); do \
+	soelim -I debian/man $f \
+	> debian/man/out/`basename $f .man`.`head -n1 $f | awk '{print $NF}'`; \
+done
+touch debian/stamp-man-pages
+dh_auto_test '--buildsystem=kf5' --parallel  
+make[1]: Leaving directory '/workspace/build'
+touch debian/dhmk_build
+# "build" target is done
+-- SUCCESS making standard target 'build'.
+ debian/rules binary
+/usr/bin/make -f debian/rules dhmk_run_install_commands DHMK_TARGET="install"
+make[1]: Entering directory '/workspace/build'
+dh_testroot  
+dh_prep  
+dh_installdirs  
+dh_auto_install '--buildsystem=kf5' --parallel  
+	make -j2 install DESTDIR=/workspace/build/debian/tmp AM_UPDATE_INFO_DIR=no
+make[2]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[3]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  1%] Built target translations_101
+[  1%] Built target translations_99
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  1%] Built target translations_97
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  2%] Built target translations_98
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  3%] Built target translations_95
+[  4%] Built target translations_44
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  4%] Built target translations_83
+[  4%] Built target translations_85
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  5%] Built target translations_49
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  5%] Built target translations_39
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  5%] Built target translations_34
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  5%] Built target translations_40
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  6%] Built target translations_33
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  7%] Built target translations_32
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  8%] Built target translations_61
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  8%] Built target translations_73
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[  9%] Built target translations_16
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 10%] Built target translations_30
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 11%] Built target translations_26
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 12%] Built target translations_60
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 14%] Built target translations_24
+[ 14%] Built target translations_51
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 15%] Built target translations_23
+[ 16%] Built target translations_100
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 17%] Built target translations_37
+[ 17%] Built target translations_76
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 17%] Built target translations_22
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 18%] Built target translations_21
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 19%] Built target translations_89
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 20%] Built target translations_8
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 21%] Built target translations_20
+[ 21%] Built target translations_9
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 22%] Built target translations_72
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 23%] Built target translations_11
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 23%] Built target translations_52
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 23%] Built target translations_3
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 24%] Built target translations_1
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 24%] Built target translations_31
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 25%] Built target translations_79
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 25%] Built target translations_18
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 25%] Built target translations_36
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 26%] Built target translations_47
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 27%] Built target translations_7
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 28%] Built target translations_14
+[ 28%] Built target translations_80
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 29%] Built target translations_38
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 29%] Built target translations_25
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 30%] Built target translations_77
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 31%] Built target translations_84
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 32%] Built target translations_45
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 33%] Built target translations_42
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 34%] Built target translations_5
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 34%] Built target translations_27
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 34%] Built target translations_64
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 34%] Built target translations_10
+[ 35%] Built target translations_12
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 35%] Built target translations_71
+[ 35%] Built target translations_62
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 36%] Built target translations_41
+[ 37%] Built target translations_4
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 37%] Built target translations_13
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 37%] Built target translations_50
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 38%] Built target translations_96
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 39%] Built target translations_35
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 39%] Built target translations_15
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 40%] Built target translations_93
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 41%] Built target translations_19
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 41%] Built target translations_43
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 42%] Built target translations_17
+[ 42%] Built target translations_46
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 42%] Built target translations_48
+[ 43%] Built target translations_59
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 44%] Built target translations_54
+[ 45%] Built target translations_53
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 45%] Built target translations_6
+[ 46%] Built target translations_86
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 47%] Built target translations_56
+[ 47%] Built target translations_55
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 48%] Built target translations_57
+[ 48%] Built target translations_87
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 49%] Built target translations_58
+[ 50%] Built target translations_81
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 52%] Built target translations_63
+[ 52%] Built target translations_65
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 53%] Built target translations_66
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 53%] Built target translations_2
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 54%] Built target translations_75
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 54%] Built target translations_67
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 55%] Built target translations_68
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 55%] Built target translations_69
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 56%] Built target translations_29
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 57%] Built target translations_70
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 58%] Built target translations_74
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 58%] Built target translations_78
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 59%] Built target translations_82
+[ 60%] Built target translations_28
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 60%] Built target translations_92
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 60%] Built target translations_88
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 61%] Built target translations_90
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 62%] Built target translations_91
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 62%] Built target translations_94
+[ 62%] Automatic moc for target KF5Codecs
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 63%] Automatic moc for target rfc2047test
+[ 63%] Built target KF5Codecs_automoc
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 64%] Automatic moc for target base64benchmark
+[ 64%] Built target rfc2047test_automoc
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 64%] Built target base64benchmark_automoc
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 64%] Automatic moc for target codectest
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 65%] Automatic moc for target kcharsetstest
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 65%] Built target codectest_automoc
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 65%] Built target kcharsetstest_automoc
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 66%] Automatic moc for target kemailaddresstest
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 66%] Automatic moc for target kencodingprobertest
+[ 66%] Built target kemailaddresstest_automoc
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 66%] Built target kencodingprobertest_automoc
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 89%] Built target KF5Codecs
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 91%] Built target rfc2047test
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 93%] Built target base64benchmark
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 95%] Built target codectest
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 97%] Built target kcharsetstest
+make[4]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[4]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 98%] Built target kemailaddresstest
+[100%] Built target kencodingprobertest
+make[3]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+Install the project...
+-- Install configuration: "Debian"
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/cs/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ca@valencia/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/fi/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/gd/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/et/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/mai/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/hu/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/as/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/be/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ru/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/kn/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/sk/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/zh_TW/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/bs/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/sr/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/oc/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/sr@ijekavianlatin/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/zh_CN/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/nn/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/nds/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/pt_BR/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ga/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/eu/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/bn/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/pa/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/fy/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/da/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/tg/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ca/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/bg/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/hsb/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ku/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ug/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/af/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ia/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ar/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ms/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/pl/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/el/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/gl/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/is/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/tr/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ml/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/crh/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ka/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/br/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/gu/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/eo/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/sr@ijekavian/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/de/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ta/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/fr/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ne/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/xh/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/x-test/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/or/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/lt/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/si/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/hne/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/uz/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ast/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/kk/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/km/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/vi/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/sr@latin/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/lv/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/es/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/te/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/en_GB/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/mk/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/sv/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/zh_HK/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ro/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/uk/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/it/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/hy/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/se/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/he/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ps/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/nb/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/hr/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/nl/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/tt/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/cy/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/uz@cyrillic/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ko/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/wa/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/fa/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ha/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/csb/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/sl/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/mr/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/ja/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/sq/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/bn_IN/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/pt/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/id/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/hi/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/th/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/lb/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/share/locale/be@latin/LC_MESSAGES/kcodecs5_qt.qm
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/cmake/KF5Codecs/KF5CodecsConfig.cmake
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/cmake/KF5Codecs/KF5CodecsConfigVersion.cmake
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/cmake/KF5Codecs/KF5CodecsTargets.cmake
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/cmake/KF5Codecs/KF5CodecsTargets-debian.cmake
+-- Installing: /workspace/build/debian/tmp/usr/include/KF5/kcodecs_version.h
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/libKF5Codecs.so.5.40.0
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/libKF5Codecs.so.5
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/libKF5Codecs.so
+-- Installing: /workspace/build/debian/tmp/usr/include/KF5/KCodecs/kcodecs_export.h
+-- Installing: /workspace/build/debian/tmp/usr/include/KF5/KCodecs/KCharsets
+-- Installing: /workspace/build/debian/tmp/usr/include/KF5/KCodecs/KCodecs
+-- Installing: /workspace/build/debian/tmp/usr/include/KF5/KCodecs/KEncodingProber
+-- Installing: /workspace/build/debian/tmp/usr/include/KF5/KCodecs/KEmailAddress
+-- Installing: /workspace/build/debian/tmp/usr/include/KF5/KCodecs/kcharsets.h
+-- Installing: /workspace/build/debian/tmp/usr/include/KF5/KCodecs/kcodecs.h
+-- Installing: /workspace/build/debian/tmp/usr/include/KF5/KCodecs/kencodingprober.h
+-- Installing: /workspace/build/debian/tmp/usr/include/KF5/KCodecs/kemailaddress.h
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_KCodecs.pri
+make[2]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+dh_install  
+set -e; \
+if [ -d "/workspace/build/debian/kcodecs-doc-html" ]; then \
+    for doc in `cd /workspace/build/debian/tmp/usr/share/doc/kde/HTML/en; find . -name index.docbook`; do \
+        pkg=${doc%/index.docbook}; pkg=${pkg#./}; \
+        echo Building $pkg HTML docs...; \
+        mkdir -p /workspace/build/debian/kcodecs-doc-html/usr/share/doc/kde/HTML/en/$pkg; \
+        cd /workspace/build/debian/kcodecs-doc-html/usr/share/doc/kde/HTML/en/$pkg; \
+        meinproc5 /workspace/build/debian/tmp/usr/share/doc/kde/HTML/en/$pkg/index.docbook; \
+    done; \
+    for pkg in  ; do \
+        rm -rf /workspace/build/debian/kcodecs-doc-html/usr/share/doc/kde/HTML/en/$pkg; \
+    done; \
+fi
+dh_movelibkdeinit  
+dh_installdocs  
+dh_installchangelogs  
+dh_installexamples  
+dh_installman  
+dh_installcatalogs  
+dh_installcron  
+dh_installdebconf  
+dh_installemacsen  
+dh_installifupdown  
+dh_installinfo  
+dh_installinit  
+dh_installmenu  
+dh_installmime  
+dh_installmodules  
+dh_installlogcheck  
+dh_installlogrotate  
+dh_installpam  
+dh_installppp  
+dh_installudev  
+dh_installwm  
+dh_installxfonts  
+dh_bugfiles  
+dh_lintian  
+dh_gconf  
+dh_icons  
+dh_perl  
+dh_usrlocal  
+dh_link  
+dh_compress '-X.dcl' '-X.docbook' '-X-license' '-X.tag' '-X.sty' '-X.el'  
+dh_fixperms  
+make[1]: Leaving directory '/workspace/build'
+# "install" target is done
+/usr/bin/make -f debian/rules dhmk_run_binary_commands DHMK_TARGET="binary"
+make[1]: Entering directory '/workspace/build'
+# Running override target (override_dh_strip)
+test -z "`ls debian/*.debhelper.log 2>/dev/null`" || sed -i '/^override_dh_strip[[:space:]]/d' debian/*.debhelper.log
+/usr/bin/make -f debian/rules override_dh_strip DH_INTERNAL_OVERRIDE="dh_strip"  
+make[2]: Entering directory '/workspace/build'
+make[2]: warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.
+dh_strip --dbgsym-migration='libkf5codecs5-dbg (<= 5.19.0-1~~)'
+make[2]: Leaving directory '/workspace/build'
+dh_makeshlibs '-Xusr/lib/libkdeinit5_*'  
+dh_shlibdeps  
+dh_installdeb  
+dh_sameversiondep
+dh_gencontrol  
+dpkg-gencontrol: warning: Depends field of package libkf5codecs-data: unknown substitution variable ${shlibs:Depends}
+dpkg-gencontrol: warning: Depends field of package libkf5codecs-dev: unknown substitution variable ${shlibs:Depends}
+dh_md5sums  
+dh_builddeb -u-Zxz  
+dpkg-deb: building package 'libkf5codecs-data' in '../libkf5codecs-data_5.39.0+p16.04+git20171109.1147-0_all.deb'.
+dpkg-deb: building package 'libkf5codecs5-dbgsym' in '../libkf5codecs5-dbgsym_5.39.0+p16.04+git20171109.1147-0_amd64.deb'.
+dpkg-deb: building package 'libkf5codecs-dev' in '../libkf5codecs-dev_5.39.0+p16.04+git20171109.1147-0_amd64.deb'.
+dpkg-deb: building package 'libkf5codecs5' in '../libkf5codecs5_5.39.0+p16.04+git20171109.1147-0_amd64.deb'.
+=== Start list-missing
+=== End list-missing
+dpkg-genchanges > ../.pkg-kde-lintian.changes
+dpkg-genchanges: warning: package libkf5codecs5-dbgsym listed in files list but not in control info
+dpkg-genchanges: including full source code in upload
+=== Start lintian
+warning: the authors of lintian do not recommend running it with root privileges!
+E: kcodecs source: debian-revision-should-not-be-zero 5.39.0+p16.04+git20171109.1147-0
+W: kcodecs source: newer-standards-version 3.9.8 (current is 3.9.7)
+E: libkf5codecs-data: debian-revision-should-not-be-zero 5.39.0+p16.04+git20171109.1147-0
+W: libkf5codecs-data: unknown-locale-code x-test
+E: libkf5codecs5-dbgsym: debian-revision-should-not-be-zero 5.39.0+p16.04+git20171109.1147-0
+E: libkf5codecs-dev: debian-revision-should-not-be-zero 5.39.0+p16.04+git20171109.1147-0
+E: libkf5codecs5: debian-revision-should-not-be-zero 5.39.0+p16.04+git20171109.1147-0
+/usr/share/pkg-kde-tools/qt-kde-team/3/lintian.mk:20: recipe for target 'lintian' failed
+make[1]: [lintian] Error 1 (ignored)
+=== End lintian
+rm -f ../.pkg-kde-lintian.changes
+make[1]: Leaving directory '/workspace/build'
+# "binary" target is done
+-- SUCCESS making standard target 'binary'.
+ dpkg-genchanges -b >../kcodecs_5.39.0+p16.04+git20171109.1147-0_amd64.changes
+dpkg-genchanges: warning: package libkf5codecs5-dbgsym listed in files list but not in control info
+dpkg-genchanges: binary-only upload (no source code included)
+ dpkg-source --after-build build
+dpkg-buildpackage: binary-only upload (no source included)
+'build/../libkf5codecs-data_5.39.0+p16.04+git20171109.1147-0_all.deb' -> 'result/libkf5codecs-data_5.39.0+p16.04+git20171109.1147-0_all.deb'
+'build/../libkf5codecs-dev_5.39.0+p16.04+git20171109.1147-0_amd64.deb' -> 'result/libkf5codecs-dev_5.39.0+p16.04+git20171109.1147-0_amd64.deb'
+'build/../libkf5codecs5-dbgsym_5.39.0+p16.04+git20171109.1147-0_amd64.deb' -> 'result/libkf5codecs5-dbgsym_5.39.0+p16.04+git20171109.1147-0_amd64.deb'
+'build/../libkf5codecs5_5.39.0+p16.04+git20171109.1147-0_amd64.deb' -> 'result/libkf5codecs5_5.39.0+p16.04+git20171109.1147-0_amd64.deb'
+'build/../kcodecs_5.39.0+p16.04+git20171109.1147-0_amd64.changes' -> 'result/kcodecs_5.39.0+p16.04+git20171109.1147-0_amd64.changes'
+Loaded suite /tooling/ci-tooling/nci/builder
+Started
+..N
+===============================================================================
+PythonModuleGeneration
+
+ [test_cmake_warnings(Lint::TestLog)]
+/tooling/ci-tooling/nci/lib/lint/result_test.rb:45:in `result_notify'
+===============================================================================
+................
+
+Finished in 0.055252897 seconds.
+------
+18 tests, 0 assertions, 0 failures, 0 errors, 0 pendings, 0 omissions, 1 notifications
+100% passed
+------
+325.77 tests/s, 0.00 assertions/s
++ export PWD_BIND=/input
++ echo xenial_unstable_frameworks_kcodecs_bin_amd64
++ /var/lib/jenkins-slave/tooling/nci/contain.rb /tooling/ci-tooling/nci/adt.rb
+I, [2017-11-09T11:49:05.842939 #29513]  INFO -- CI::Containment: Not cleaning up, no previous container found.
+I, [2017-11-09T11:49:05.863830 #29513]  INFO -- CI::Containment: Not cleaning up, no previous container found.
+Job xenial_unstable_frameworks_kcodecs_bin_amd64 not enabled. Not running autopkgtest (adt).
+Recording test results
+Build step 'Publish JUnit test result report' changed build result to UNSTABLE
+Archiving artifacts
+[WS-CLEANUP] Deleting project workspace...[WS-CLEANUP] done
+Finished: UNSTABLE
