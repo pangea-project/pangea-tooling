@@ -37,7 +37,7 @@ cd /tmp/tooling
 rm -rv .bundle || true
 gem uninstall bundler --version '~>1.16.0' || true
 gem install --no-rdoc bundler --version '~>1.15.0'
-bundle install --jobs=`nproc` --system --without development test
+bundle _1.15.4_ install --jobs=`nproc` --system --without development test
 
 rake clean
 rake deploy
