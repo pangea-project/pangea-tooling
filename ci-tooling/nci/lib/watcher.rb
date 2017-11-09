@@ -110,7 +110,7 @@ module NCI
       # FIXME: stolen from sourcer
       dch = [
         'dch',
-        '--distribution', NCI.latest_series,
+        '--distribution', NCI.current_series,
         '--newversion', version.to_s,
         'New release'
       ]
