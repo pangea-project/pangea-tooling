@@ -57,8 +57,8 @@ class NCIWatcherTest < TestCase
     with_remote_repo(data) do |remote|
       cmd.run("git clone #{remote} .")
 
-      TTY::Command
-        .any_instance
+      fake_cmd = mock('uscan_cmd')
+      fake_cmd
         .expects(:run!)
         .with do |args|
           # hijack and do some assertion here. This block is only evaluated upon
@@ -70,6 +70,7 @@ class NCIWatcherTest < TestCase
           args == 'uscan --report --dehs'
         end
         .returns(TTY::Command::Result.new(0, File.read(data('dehs.xml')), ''))
+      NCI::Watcher.any_instance.stubs(:uscan_cmd).returns(fake_cmd)
 
       NCI::Watcher.new.run
 
@@ -104,11 +105,12 @@ class NCIWatcherTest < TestCase
     with_remote_repo(data) do |remote|
       cmd.run("git clone #{remote} .")
 
-      TTY::Command
-        .any_instance
+      fake_cmd = mock('uscan_cmd')
+      fake_cmd
         .expects(:run!)
         .with('uscan --report --dehs')
         .returns(TTY::Command::Result.new(0, File.read(data('dehs.xml')), ''))
+      NCI::Watcher.any_instance.stubs(:uscan_cmd).returns(fake_cmd)
 
       NCI::Watcher.new.run
     end

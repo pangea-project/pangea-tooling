@@ -37,6 +37,10 @@ module NCI
     # Key word for manually triggered builds
     MANUAL_CAUSE = 'MANUALTRIGGER'
 
+    def uscan_cmd
+      @uscan_cmd ||= TTY::Command.new
+    end
+
     def run
       raise 'No debain/watch found!' unless File.exist?('debian/watch')
 
@@ -59,8 +63,7 @@ module NCI
         return unless File.readlines('debian/watch').grep(/qqc2-desktop-style/).any?
       end
 
-      cmd = TTY::Command.new
-      result = cmd.run!('uscan --report --dehs') # run! to ignore errors
+      result = uscan_cmd.run!('uscan --report --dehs') # run! to ignore errors
       data = result.out
       puts "uscan exited (#{result}) :: #{data}"
 
@@ -75,8 +78,10 @@ module NCI
       puts 'unmangle debian/watch `git checkout debian/watch`'
       system('git checkout debian/watch')
 
+      cmd = TTY::Command.new
+      cmd.run!('git status')
       merged = false
-      if system('git merge origin/Neon/stable')
+      if cmd.run!('git merge origin/Neon/stable').success?
         merged = true
         # if it's a KDE project use only stable lines
         newer_stable = newer.select do |x|
@@ -84,7 +89,7 @@ module NCI
             x.upstream_url.include?('kde.org')
         end
         newer = newer_stable unless newer_stable.empty?
-      elsif system('git merge origin/Neon/unstable')
+      elsif cmd.run!('git merge origin/Neon/unstable').success?
         merged = true
         # Do not filter paths when unstable was merged. We use unstable as
         # common branch, so e.g. frameworks have only Neon/unstable but their
