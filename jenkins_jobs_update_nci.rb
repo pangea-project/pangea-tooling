@@ -217,6 +217,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                     distribution: distribution,
                                     dependees: [meta_builder]))
 
+        enqueue(MGMTRepoTestVersionsJob.new(type: type,
+                                            distribution: distribution))
+
         # ISOs
         NCI.architectures.each do |architecture|
           dev_unstable_isoargs = { type: 'devedition-gitunstable',
