@@ -24,9 +24,12 @@ require_relative 'lint/versions'
 # Runs against Ubuntu, we do not add any extra repos. The intention is that
 # all packages in our repo are lower than the one in Ubuntu (i.e. apt-cache).
 
-Aptly::Ext::Remote.neon do
-  NCI::VersionsTest.lister = NCI::RepoPackageLister.new
-  ENV['CI_REPORTS'] = Dir.pwd
-  ARGV << '--ci-reporter'
-  require 'minitest/autorun'
+Aptly.configure do |config|
+  config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')
+  # This is read-only.
 end
+
+NCI::VersionsTest.lister = NCI::RepoPackageLister.new
+ENV['CI_REPORTS'] = Dir.pwd
+ARGV << '--ci-reporter'
+require 'minitest/autorun'
