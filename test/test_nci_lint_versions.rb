@@ -99,6 +99,7 @@ Priority: extra
       linter = VersionsTest.new
       assert_raises PackageVersionCheck::VersionLowerError do
         linter.send('test_foo_1.0')
+        linter.send('test_foo_0.9')
       end
     end
 
