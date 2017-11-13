@@ -19,7 +19,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative '../ci-tooling/test/lib/testcase'
-require_relative '../nci/lint_versions'
+require_relative '../nci/lint/versions'
 
 require 'mocha/test_unit'
 
