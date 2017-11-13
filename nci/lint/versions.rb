@@ -128,10 +128,18 @@ module NCI
       return unless theirs # failed to find the package, we win.
       return if ours > theirs
       raise VersionNotGreaterError, <<~ERRORMSG
-        Our version of #{pkg.name} #{ours} < #{theirs} which is
-        currently available in apt (likely from Ubuntu).
+        Our version of
+        #{pkg.name} #{ours} < #{theirs}
+        which is currently available in apt (likely from Ubuntu or us).
         This indicates that the package we have is out of date or
         regressed in version compared to a previous build!
+        - If this was a transitional fork it needs removal in jenkins and the
+          aptly.
+        - If it is a persitent fork make sure to re-merge with upstream/ubuntu.
+        - If someone manually messed up the version number discuss how to best
+          deal with this. Usually this will need an apt pin being added to
+          neon/settings.git to force it back onto a correct version, and manual
+          removal of the broken version from aptly.
       ERRORMSG
     end
   end
