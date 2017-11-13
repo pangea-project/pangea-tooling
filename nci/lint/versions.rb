@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'concurrent'
 require 'minitest/test'
 require 'tty/command'
 
@@ -28,6 +27,14 @@ require_relative '../../ci-tooling/lib/debian/version'
 require_relative '../../ci-tooling/lib/dpkg'
 require_relative '../../ci-tooling/lib/retry'
 require_relative '../../lib/aptly-ext/remote'
+
+# rubocop:disable Style/BeginBlock
+BEGIN {
+  # Use 4 threads in minitest parallelism, apt-cache is heavy, so we can't
+  # bind this to the actual CPU cores. 4 Is reasonably performant on SSDs.
+  ENV['N'] ||= '4'
+}
+# rubocop:enable
 
 module NCI
   # Lists all architecture relevant packages from an aptly repo.
@@ -84,9 +91,9 @@ module NCI
 
     attr_reader :pkg
 
-    def initialize(pkg, cmd:)
+    def initialize(pkg)
       @pkg = pkg
-      @cmd = cmd
+      @cmd = TTY::Command.new(printer: :null)
     end
 
     def our_version
@@ -160,24 +167,9 @@ module NCI
       def lister=(lister)
         raise 'lister mustnt be set twice' if @lister
         @lister = lister
-        promise!
         define_tests
       end
       attr_reader :lister
-
-      def promise!
-        Apt.update if Process.uid.zero? # update if root
-        @pool = Concurrent::FixedThreadPool.new(4)
-        @cmd = TTY::Command.new(printer: :null)
-        @promises = {}
-        lister.packages.each do |pkg|
-          # next unless pkg.name.include? "webview"
-          @promises[pkg] = Concurrent::Promise.execute(executor: @pool) do
-            PackageVersionCheck.new(pkg, cmd: @cmd).run
-          end
-        end
-      end
-      attr_reader :promises
 
       # This is a tad meh. We basically need to meta program our test
       # methods as we'll want individual meths for each check so we get
@@ -188,11 +180,11 @@ module NCI
       # The ultimate result is a bunch of test_pkg_version methods
       # which wait and potentially raise from their promises.
       def define_tests
+        Apt.update if Process.uid.zero? # update if root
         @lister.packages.each do |pkg|
-          promise = @promises[pkg]
           class_eval do
             define_method("test_#{pkg.name}_#{pkg.version}") do
-              promise.wait!
+              PackageVersionCheck.new(pkg).run
             end
           end
         end
