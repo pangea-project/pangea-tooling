@@ -36,7 +36,7 @@ module NCI
       "#{ENV.fetch('TYPE')}_#{ENV.fetch('DIST')}"
     end
 
-    def initialize(repo = Aptly::Repository.get(default_repo))
+    def initialize(repo = Aptly::Repository.get(self.class.default_repo))
       @repo = repo
     end
 
