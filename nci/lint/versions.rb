@@ -87,7 +87,7 @@ module NCI
   # whatever is presently available in the apt cache (i.e. ubuntu or
   # the target neon repos).
   class PackageVersionCheck
-    class VersionLowerError < StandardError; end
+    class VersionNotGreaterError < StandardError; end
 
     attr_reader :pkg
 
@@ -123,7 +123,7 @@ module NCI
       ours = our_version
       return unless theirs # failed to find the package, we win.
       return if ours > theirs
-      raise VersionLowerError, <<~ERRORMSG
+      raise VersionNotGreaterError, <<~ERRORMSG
         Our version of #{pkg.name} #{ours} < #{theirs} which is
         currently available in apt (likely from Ubuntu).
         This indicates that the package we have is out of date or

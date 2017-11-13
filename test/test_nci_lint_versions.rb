@@ -75,7 +75,7 @@ Priority: extra
 
       VersionsTest.lister = DirPackageLister.new(Dir.pwd)
       linter = VersionsTest.new
-      assert_raises PackageVersionCheck::VersionLowerError do
+      assert_raises PackageVersionCheck::VersionNotGreaterError do
         linter.send('test_foo_1.0')
       end
     end
@@ -97,8 +97,7 @@ Priority: extra
 
       VersionsTest.lister = RepoPackageLister.new(repo)
       linter = VersionsTest.new
-      assert_raises PackageVersionCheck::VersionLowerError do
-        linter.send('test_foo_1.0')
+      assert_raises PackageVersionCheck::VersionNotGreaterError do
         linter.send('test_foo_0.9')
       end
     end
