@@ -55,3 +55,8 @@ if File.exist?('build_url')
   # happens in case of Architecture: all packages on armhf for example
   require_relative 'lint_bin' if Dir.exist?('build')
 end
+
+# Check that our versions are good enough.
+unless system(File.expand_path('../../nci/lint_versions.rb'))
+  raise 'Bad version(s)'
+end
