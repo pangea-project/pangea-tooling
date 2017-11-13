@@ -102,10 +102,14 @@ module NCI
 
     def their_version
       res = @cmd.run!("apt show #{pkg.name}")
-      return nil if res.failure? # package doesn't exist most likely
+      # When exit code !0 it means the package is not found which makes
+      # our version by default greater.
+      return nil if res.failure?
+      # Same for pure virtual packages which come back 0 but with random output.
+      return nil if res.out.include?('as it is purely virtual')
       theirs = version_from_apt_show(res.out)
       return theirs if theirs
-      raise "We somehow failed to parse the version of #{pkg.name}"
+      raise "We somehow failed to parse the version of #{pkg.name}\n#{res.out}"
     end
 
     def version_from_apt_show(output)

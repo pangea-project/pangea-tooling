@@ -110,5 +110,24 @@ Priority: extra
 
       RepoPackageLister.new
     end
+
+    def test_pure_virtual
+      # When showing a pure virtual it comes back 0 but has no valid
+      # version.
+      FileUtils.cp_r("#{datadir}/.", '.')
+
+      TTY::Command
+        .any_instance
+        .stubs(:run!)
+        .with('apt show foo')
+        .returns(CommandResult.new(false, <<~STDOUT))
+N: Can't select versions from package 'foo' as it is purely virtual
+N: No packages found
+      STDOUT
+
+      VersionsTest.lister = DirPackageLister.new(Dir.pwd)
+      linter = VersionsTest.new
+      linter.send('test_foo_1.0')
+    end
   end
 end
