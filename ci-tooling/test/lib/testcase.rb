@@ -166,6 +166,9 @@ EOT
     raise "Could not find data file #{file}"
   end
 
+  # The data dir for the entire test file (not restricted by test method name)
+  attr_reader :datadir
+
   def fake_home(home = Dir.pwd, &block)
     home_ = ENV.fetch('HOME')
     ENV['HOME'] = home
