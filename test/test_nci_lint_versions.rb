@@ -101,5 +101,14 @@ Priority: extra
         linter.send('test_foo_1.0')
       end
     end
+
+    def test_default_repo
+      # Constructs an env derived default repo name.
+      ENV['TYPE'] = 'xx'
+      ENV['DIST'] = 'yy'
+      Aptly::Repository.expects(:get).with('xx_yy')
+
+      RepoPackageLister.new
+    end
   end
 end

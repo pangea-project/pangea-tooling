@@ -30,9 +30,13 @@ require_relative '../../ci-tooling/lib/retry'
 require_relative '../../lib/aptly-ext/remote'
 
 module NCI
-  # Lists all architecture relevant packages from an aptly repo
+  # Lists all architecture relevant packages from an aptly repo.
   class RepoPackageLister
-    def initialize(repo = Aptly::Repository.get('unstable_bionic'))
+    def self.default_repo
+      "#{ENV.fetch('TYPE')}_#{ENV.fetch('DIST')}"
+    end
+
+    def initialize(repo = Aptly::Repository.get(default_repo))
       @repo = repo
     end
 
