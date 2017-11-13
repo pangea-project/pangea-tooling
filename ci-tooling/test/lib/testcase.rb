@@ -135,7 +135,7 @@ EOT
     Dir.chdir(@previous_pwd)
     FileUtils.rm_rf(@tmpdir)
     # Restore ENV
-    ENV.replace(@env)
+    ENV.replace(@env) if @env
   end
 
   def _method_name
