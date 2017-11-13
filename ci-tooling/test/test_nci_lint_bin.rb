@@ -47,7 +47,7 @@ class NCILintBinTest < TestCase
     File.write('build_url', data)
 
     FileUtils.mkpath('build') # Dump a fake debian in.
-    FileUtils.cp_r("#{@datadir}/debian", "#{Dir.pwd}/build")
+    FileUtils.cp_r("#{datadir}/debian", "#{Dir.pwd}/build")
 
     output = run!
 

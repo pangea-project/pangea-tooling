@@ -5,7 +5,7 @@ require_relative 'lib/testcase'
 class LSBTest < TestCase
   def setup
     @orig_file = LSB.instance_variable_get(:@file)
-    LSB.instance_variable_set(:@file, File.join(@datadir, method_name))
+    LSB.instance_variable_set(:@file, File.join(datadir, method_name))
     LSB.reset
   end
 

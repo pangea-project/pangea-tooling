@@ -25,7 +25,7 @@ require_relative 'lib/testcase'
 module Debian
   class ControlTest < TestCase
     def setup
-      FileUtils.cp_r("#{@datadir}/.", Dir.pwd)
+      FileUtils.cp_r("#{datadir}/.", Dir.pwd)
     end
 
     def test_old_names

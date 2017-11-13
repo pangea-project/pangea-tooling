@@ -65,7 +65,7 @@ class DeployUpgradeTest < TestCase
     CI::Containment.no_attach = true
 
     VCR.configure do |config|
-      config.cassette_library_dir = @datadir
+      config.cassette_library_dir = datadir
       config.hook_into :excon
       config.default_cassette_options = {
         match_requests_on:  [:method, :uri, :body]
@@ -82,7 +82,7 @@ class DeployUpgradeTest < TestCase
     @binds = ["#{Dir.pwd}:/tooling-pending"]
     FileUtils.cp_r(Dir.glob("#{@tooling_path}/deploy_upgrade_container.sh"),
                    Dir.pwd)
-    FileUtils.cp_r("#{@datadir}/deploy_in_container.sh", Dir.pwd)
+    FileUtils.cp_r("#{datadir}/deploy_in_container.sh", Dir.pwd)
 
     # Fake info call for consistency
     Docker.stubs(:info).returns('DockerRootDir' => '/var/lib/docker')

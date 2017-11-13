@@ -54,7 +54,7 @@ class ProjectsFactoryTest < TestCase
   def git_init_commit(repo_path, branches = %w(master kubuntu_unstable))
     repo_path = File.absolute_path(repo_path)
     repo_name = File.basename(repo_path)
-    fixture_path = "#{@datadir}/packaging"
+    fixture_path = "#{datadir}/packaging"
     Dir.mktmpdir do |dir|
       repo = Rugged::Repository.clone_at(repo_path, dir)
       Dir.chdir(dir) do

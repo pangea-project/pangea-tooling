@@ -15,12 +15,12 @@ class QMLDependencyVerifierTest < TestCase
 
   def setup
     VCR.configure do |config|
-      config.cassette_library_dir = @datadir
+      config.cassette_library_dir = datadir
       config.hook_into :webmock
     end
     VCR.insert_cassette(File.basename(__FILE__, '.rb'))
 
-    Dir.chdir(@datadir)
+    Dir.chdir(datadir)
 
     Apt::Repository.send(:reset)
     # Disable automatic update
@@ -54,7 +54,7 @@ class QMLDependencyVerifierTest < TestCase
       caller = caller_locations(index, 1)[0].label
       index += 1
     end
-    File.join(*[@datadir, caller, path].compact)
+    File.join(*[datadir, caller, path].compact)
   end
 
   def ref_path
@@ -67,7 +67,7 @@ class QMLDependencyVerifierTest < TestCase
 
   def test_missing_modules
     # Make sure our ignore is in place in the data dir.
-    # NB: this testcase is chdir in the @datadir not the @tmpdir!
+    # NB: this testcase is chdir in the datadir not the @tmpdir!
     assert(File.exist?('packaging/debian/plasma-widgets-addons.qml-ignore'))
     # Prepare sequences, divert search path and run verification.
     const_reset(QML, :SEARCH_PATHS, [File.join(data, 'qml')])

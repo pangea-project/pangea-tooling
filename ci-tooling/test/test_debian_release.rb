@@ -25,7 +25,7 @@ require_relative 'lib/testcase'
 class DebianReleaseTest < TestCase
   def setup
     # Change into our fixture dir as this stuff is read-only anyway.
-    Dir.chdir(@datadir)
+    Dir.chdir(datadir)
   end
 
   def test_dump

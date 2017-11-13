@@ -18,7 +18,7 @@ module CI
       @tarname = 'dragon_15.08.1.orig.tar.xz'
       @tarfile = "#{Dir.pwd}/#{@tarname}"
       FileUtils.cp_r(Dir.glob("#{data}/."), Dir.pwd)
-      FileUtils.cp_r("#{@datadir}/http/dragon-15.08.1.tar.xz", @tarfile)
+      FileUtils.cp_r("#{datadir}/http/dragon-15.08.1.tar.xz", @tarfile)
     end
 
     def teardown

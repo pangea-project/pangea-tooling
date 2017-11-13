@@ -33,7 +33,7 @@ class OverlayBinsTest < TestCase
                                    ' not find it. maybe it moved?')
     # Chains the actual overlay (which we expect to be dropped) before our
     # double overlay which we expect to get run to create stamps we can assert.
-    @path = "#{OVERLAY_DIR}:#{@datadir}:#{ENV['PATH']}"
+    @path = "#{OVERLAY_DIR}:#{datadir}:#{ENV['PATH']}"
     @env = { 'PATH' => @path, 'WORKSPACE' => Dir.pwd }
   end
 

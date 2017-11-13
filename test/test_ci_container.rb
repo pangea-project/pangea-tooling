@@ -23,7 +23,7 @@ class ContainerTest < TestCase
 
   def setup
     VCR.configure do |config|
-      config.cassette_library_dir = @datadir
+      config.cassette_library_dir = datadir
       config.hook_into :excon
       config.default_cassette_options = {
         match_requests_on:  [:method, :uri, :body]

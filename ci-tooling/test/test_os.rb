@@ -5,10 +5,10 @@ class OSTest < Test::Unit::TestCase
   def setup
     script_base_path = File.expand_path(File.dirname(__FILE__))
     script_name = File.basename(__FILE__, '.rb')
-    @datadir = File.join(script_base_path, 'data', script_name)
+    datadir = File.join(script_base_path, 'data', script_name)
 
     @orig_file = OS.instance_variable_get(:@file)
-    OS.instance_variable_set(:@file, File.join(@datadir, method_name))
+    OS.instance_variable_set(:@file, File.join(datadir, method_name))
     OS.reset
   end
 
