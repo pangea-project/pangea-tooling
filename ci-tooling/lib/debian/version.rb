@@ -23,6 +23,18 @@ module Debian
   class Version
     include Comparable
 
+    class << self
+      def assert_dpkg_installed
+        @dpkg_installed ||= begin
+          return true if ENV['PANGEA_UNDER_TEST']
+          unless system('which', 'dpkg', %i[out err] => '/dev/null')
+            raise 'dpkg not installed'
+          end
+          true
+        end
+      end
+    end
+
     attr_accessor :epoch
     attr_accessor :upstream
     attr_accessor :revision
@@ -65,9 +77,7 @@ module Debian
     end
 
     def run(*args)
-      unless ENV['PANGEA_UNDER_TEST']
-        raise 'dpkg not installed' unless system('which dpkg')
-      end
+      self.class.assert_dpkg_installed
       system('dpkg', *args)
     end
 
