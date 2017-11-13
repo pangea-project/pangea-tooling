@@ -45,7 +45,7 @@ module NCI
   def setup_repo!
     setup_proxy!
     add_repo!
-    if ENV.fetch('TYPE') == 'testing'
+    if ENV.fetch('TYPE').include?('testing')
       ENV['TYPE'] = 'release'
       add_repo!
     end
