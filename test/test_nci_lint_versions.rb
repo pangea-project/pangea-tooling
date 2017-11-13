@@ -32,7 +32,7 @@ module NCI
     end
 
     def test_file_lister
-      FileUtils.cp_r("#{datadir}/.", '.', verbose: true)
+      FileUtils.cp_r("#{datadir}/.", '.')
 
       TTY::Command
         .any_instance
@@ -61,7 +61,7 @@ Priority: extra
     end
 
     def test_file_lister_bad_version
-      FileUtils.cp_r("#{datadir}/.", '.', verbose: true)
+      FileUtils.cp_r("#{datadir}/.", '.')
 
       TTY::Command
         .any_instance
