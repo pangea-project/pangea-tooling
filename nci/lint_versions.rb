@@ -23,5 +23,5 @@ require_relative 'lint/versions'
 
 NCI::VersionsTest.lister = NCI::DirPackageLister.new('result/')
 ENV['CI_REPORTS'] = "#{Dir.pwd}/reports"
-ENV['TESTOPTS'] = "#{ENV['TESTOPTS']} --ci-reporter"
+ARGV << '--ci-reporter'
 require 'minitest/autorun'
