@@ -24,6 +24,7 @@ module Debian
     include Comparable
 
     class << self
+      attr_writer :dpkg_installed
       def assert_dpkg_installed
         @dpkg_installed ||= begin
           return true if ENV['PANGEA_UNDER_TEST']

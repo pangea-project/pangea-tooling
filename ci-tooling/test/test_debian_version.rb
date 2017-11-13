@@ -3,7 +3,7 @@ require_relative 'lib/testcase'
 
 # Test debian version
 class DebianVersionTest < TestCase
-  required_binaries(%w(dpkg))
+  required_binaries(%w[dpkg])
 
   def test_native
     s = '5.0'
@@ -94,5 +94,32 @@ class DebianVersionTest < TestCase
   def test_comparable
     # Implements Comparable module.
     assert(Debian::Version.new('1.0') > Debian::Version.new('0.1'))
+  end
+
+  def test_dpkg_installed
+    # Make sure we can find dpkg when we need to.
+    # This test assumes dpkg is actually available in $PATH which we require
+    # for this entire testcase anyway per `required_binaries`.
+    ENV.delete('PANGEA_UNDER_TEST')
+
+    Debian::Version.dpkg_installed = nil
+    Debian::Version.new('1.0') > Debian::Version.new('0.1')
+  ensure
+    Debian::Version.dpkg_installed = nil
+  end
+
+  def test_dpkg_not_installed
+    # As above but expect failure as we have no dpkg available in $PATH
+    ENV.delete('PANGEA_UNDER_TEST')
+
+    FileUtils.ln_s('/usr/bin/which', '.', verbose: true)
+    ENV['PATH'] = Dir.pwd
+
+    Debian::Version.dpkg_installed = nil
+    assert_raises do
+      Debian::Version.new('1.0') > Debian::Version.new('0.1')
+    end
+  ensure
+    Debian::Version.dpkg_installed = nil
   end
 end
