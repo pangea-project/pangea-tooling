@@ -27,6 +27,7 @@ class MGMTRepoTestVersionsJob < PipelineJob
 
   def initialize(distribution:, type:)
     super("mgmt_repo_test_versions_#{type}_#{distribution}",
+          template: 'mgmt_repo_test_versions',
           cron: 'H H(21-23) * * *')
     # Runs once a day after 21 UTC
   end
