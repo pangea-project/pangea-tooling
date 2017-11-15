@@ -60,6 +60,7 @@ module CI
         [Debian::Version.new(version_from_file(x)), x]
       end.to_h
       tars = tars.sort.to_h.values
+      tars.reject! { |x| x if x.end_with?('.asc') }
       tars[0..-2].each { |path| FileUtils.rm(path) }
       tars.pop
     end
