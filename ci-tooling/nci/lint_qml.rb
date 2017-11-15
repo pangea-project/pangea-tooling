@@ -26,6 +26,10 @@ NCI.add_repo_key!
 
 Aptly.configure do |config|
   config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')
+  # Do not time out if aptly is very busy. This defaults to 1m which may
+  # well be too short when the aptly server is busy and/or many pubishes
+  # are going on.
+  config.timeout = 5 * 60
 end
 
 Lint::QML.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).lint

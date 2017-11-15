@@ -14,7 +14,7 @@ source 'https://gem.cache.pangea.pub' do
   gem 'net-ssh', '~> 4.1.0.0'
 end
 
-gem 'aptly-api', '>= 0.5.0'
+gem 'aptly-api', '~> 0.8'
 gem 'concurrent-ruby'
 gem 'deep_merge', '~> 1.0'
 gem 'docker-api', '~> 1.24' # Container.refresh! only introduced in 1.23
