@@ -20,7 +20,7 @@ module Lint
       return unless File.exist?(file_path)
       begin
         cmake_yaml = YAML.load(File.read(file_path))
-        #Our YAML has to be a list else we'll go back to basic style
+        # Our YAML has to be a list else we'll go back to basic style
         if not cmake_yaml.instance_of?(Array)
           load_include_ignores_basic(file_path)
         else
