@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
+require 'yaml'
+
 require_relative '../ci/pattern'
 require_relative 'result'
-require 'yaml'
-require 'pp'
 
 module Lint
   # Base class for all linters.
