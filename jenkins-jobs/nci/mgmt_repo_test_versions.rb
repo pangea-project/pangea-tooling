@@ -30,5 +30,7 @@ class MGMTRepoTestVersionsJob < PipelineJob
           template: 'mgmt_repo_test_versions',
           cron: 'H H(21-23) * * *')
     # Runs once a day after 21 UTC
+    @distribution = distribution
+    @type = type
   end
 end
