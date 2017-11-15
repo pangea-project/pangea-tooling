@@ -3,6 +3,7 @@
 require 'yaml'
 
 require_relative '../ci/pattern'
+require_relative '../nci'
 require_relative 'result'
 
 module Lint
@@ -26,9 +27,19 @@ module Lint
       else # compat old files
         load_include_ignores_basic(file_path)
       end
+      load_static_ignores
     end
 
     private
+
+    def load_static_ignores
+      return unless ENV.fetch('DIST') == 'bionic'
+      return unless ENV.fetch('DIST') == NCI.future_series
+      # As long as bionic is the future series ignore QCH problems. We cannot
+      # solve them without breaking away from xenial or breaking xenial
+      # support.
+      @ignores << CI::IncludePattern.new('QCH, API documentation in QCH')
+    end
 
     # It's YAML, load it as such.
     def load_include_ignores_yaml(data)
