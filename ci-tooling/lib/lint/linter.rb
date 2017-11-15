@@ -27,7 +27,7 @@ module Lint
           cmake_yaml.each do |ignore_entry|
             if ignore_entry.is_a?(String)
               @ignores << CI::IncludePattern.new(ignore_entry)
-            elsif ignore_entry['series'] == ENV['DIST']
+            elsif ignore_entry['series'] == ENV.fetch('DIST')
               @ignores << CI::IncludePattern.new(ignore_entry.keys[0])
             end
           end
