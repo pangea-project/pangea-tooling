@@ -98,7 +98,7 @@ module WorkspaceCleaner
       mtime = File.mtime(workspace)
       days_old = ((Time.now - mtime) / 60 / 60 / 24).to_i
       puts "  days old #{days_old}"
-      days_old > 0
+      days_old.positive?
     end
   end
 end
