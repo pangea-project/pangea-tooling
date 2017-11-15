@@ -23,15 +23,11 @@ require 'aptly'
 
 require_relative 'lint/cmake_packages'
 require_relative '../ci-tooling/nci/lib/setup_repo'
+require_relative '../lib/aptly-ext/remote'
 
 NCI.add_repo_key!
 
-Aptly.configure do |config|
-  config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')
-  # Do not time out if aptly is very busy. This defaults to 1m which may
-  # well be too short when the aptly server is busy and/or many pubishes
-  # are going on.
-  config.timeout = 5 * 60
+Aptly::Ext::Remote.neon_read_only do
+  Lint::CMakePackages.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).run
 end
 
-Lint::CMakePackages.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).run

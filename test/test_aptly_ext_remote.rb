@@ -131,5 +131,16 @@ module Aptly::Ext
       end
       assert(block_called)
     end
+
+    def test_neon_read_only
+      uri = URI.parse('https://archive-api.neon.kde.org')
+      Remote.expects(:connect).with { |u| u == uri }.yields
+
+      block_called = false
+      Remote.neon_read_only do
+        block_called = true
+      end
+      assert(block_called)
+    end
   end
 end

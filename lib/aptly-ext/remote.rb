@@ -32,6 +32,7 @@ module Aptly
     # SSH gateway connectors
     module Remote
       def self.connect(uri, &block)
+        configure_aptly!
         constants.each do |const|
           klass = const_get(const)
           next unless klass.connects?(uri)
@@ -40,9 +41,23 @@ module Aptly
       end
 
       def self.neon(&block)
-        connect(URI.parse(<<-EOF.strip), &block)
+        connect(URI.parse(<<-URI.strip), &block)
 ssh://neonarchives@archive-api.neon.kde.org/srv/neon-services/aptly.sock
-EOF
+URI
+      end
+
+      def self.neon_read_only(&block)
+        connect(URI::HTTPS.build(host: 'archive-api.neon.kde.org'), &block)
+      end
+
+      def self.configure_aptly!
+        # Standard config, applying to everything unless overridden.
+        Aptly.configure do |config|
+          # Do not time out if aptly is very busy. This defaults to 1m which
+          # may well be too short when the aptly server is busy and/or many
+          # pubishes are going on.
+          config.timeout = 5 * 60
+        end
       end
 
       def self.ssh_options
