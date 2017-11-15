@@ -56,8 +56,10 @@ module CI
     private
 
     def find_tar(destdir)
-      tars = Dir.glob("#{destdir}/*.orig.tar*").map do |x|
-        next if x.end_with?('.asc')
+      tars = Dir.glob("#{destdir}/*.orig.tar*").reject do |x|
+        %w[.asc .sig].any? { |ext| x.end_with?(ext) }
+      end
+      tars = tars.map do |x|
         [Debian::Version.new(version_from_file(x)), x]
       end.to_h
       tars = tars.sort.to_h.values
