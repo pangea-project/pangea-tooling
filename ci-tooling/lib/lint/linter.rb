@@ -18,23 +18,17 @@ module Lint
     # or if it's not a YAML list revert back to basic style
     def load_include_ignores(file_path)
       return unless File.exist?(file_path)
-      begin
-        cmake_yaml = YAML.load(File.read(file_path))
-        # Our YAML has to be a list else we'll go back to basic style
-        if cmake_yaml.instance_of?(Array) # new yaml format
-          cmake_yaml.each do |ignore_entry|
-            if ignore_entry.is_a?(String)
-              @ignores << CI::IncludePattern.new(ignore_entry)
-            elsif ignore_entry['series'] == ENV.fetch('DIST')
-              @ignores << CI::IncludePattern.new(ignore_entry.keys[0])
-            end
+      cmake_yaml = YAML.load(File.read(file_path))
+      # Our YAML has to be a list else we'll go back to basic style
+      if cmake_yaml.instance_of?(Array) # new yaml format
+        cmake_yaml.each do |ignore_entry|
+          if ignore_entry.is_a?(String)
+            @ignores << CI::IncludePattern.new(ignore_entry)
+          elsif ignore_entry['series'] == ENV.fetch('DIST')
+            @ignores << CI::IncludePattern.new(ignore_entry.keys[0])
           end
-        else # compat old files
-          load_include_ignores_basic(file_path)
         end
-      rescue Exception => e
-        puts e.message
-        puts e.backtrace.inspect
+      else # compat old files
         load_include_ignores_basic(file_path)
       end
     end
