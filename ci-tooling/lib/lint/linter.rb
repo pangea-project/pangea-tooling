@@ -18,7 +18,7 @@ module Lint
     # or if it's not a YAML list revert back to basic style
     def load_include_ignores(file_path)
       return unless File.exist?(file_path)
-      cmake_yaml = YAML.load(File.read(file_path))
+      cmake_yaml = YAML.load_file(file_path)
       # Our YAML has to be an Array else we'll go back to basic style
       if cmake_yaml.instance_of?(Array)
         load_include_ignores_yaml(cmake_yaml)
