@@ -58,14 +58,14 @@ class Repository
 
   def add
     repo = Apt::Repository.new(@_name)
-    return true if repo.add && Apt.update
+    return true if repo.add && update_with_retry
     remove
     false
   end
 
   def remove
     repo = Apt::Repository.new(@_name)
-    return true if repo.remove && Apt.update
+    return true if repo.remove && update_with_retry
     false
   end
 
@@ -91,6 +91,13 @@ class Repository
   end
 
   private
+
+  def update_with_retry
+    # Aptly doesn't do by-hash repos so updates can have hash mismatches.
+    # Also general network IO problems...
+    # Maybe Apt.update should just retry itself?
+    Retry.retry_it(times: 4, sleep: 4) { Apt.update || raise }
+  end
 
   def purge_excluded?(package)
     @purge_exclusion.any? { |x| x == package }
