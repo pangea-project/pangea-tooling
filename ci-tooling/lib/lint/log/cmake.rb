@@ -56,6 +56,18 @@ module Lint
 
       private
 
+      def load_static_ignores
+        super
+        return unless ENV.fetch('DIST') == 'bionic'
+        return unless ENV.fetch('DIST') == NCI.future_series
+        # As long as bionic is the future series ignore QCH problems. We cannot
+        # solve them without breaking away from xenial or breaking xenial
+        # support.
+        @ignores << CI::IncludePattern.new('QCH, API documentation in QCH')
+        # It ECM it's by a different name for some reason.
+        @ignores << CI::IncludePattern.new('BUILD_QTHELP_DOCS')
+      end
+
       def warnings(line, data)
         METHS.each do |id, meth|
           next unless line.include?(id)
