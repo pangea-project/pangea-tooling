@@ -67,7 +67,6 @@ FUTURE_TYPES = %w[unstable].freeze
 # if we still need it.
 FUTURE_SKIP = %w[
   _applications_
-  _plasma_
   _kde-extras_
   _kde-req_
   _kde-std_
