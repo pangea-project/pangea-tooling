@@ -27,7 +27,7 @@ require_relative 'lib/paths'
 # the job workspace for archival or whatever.
 # Tailing the cache floods stdout with largely irrelevant pointless info.
 
-if ARGV.include?('CMakeCache.txt')
+if %w[CMakeCache.txt CMakeFiles/CMakeOutput.log].any? { |f| ARGV.include?(f) }
   FileUtils.mkpath("#{WORKSPACE}/archive_pickup", verbose: true)
   FileUtils.cp('CMakeCache.txt', "#{WORKSPACE}/archive_pickup", verbose: true)
   exit 0
