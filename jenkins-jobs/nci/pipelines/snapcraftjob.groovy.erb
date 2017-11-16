@@ -54,16 +54,18 @@ cleanNode('master') {
 }
 
 def cleanNode(label = null, body) {
-  node(label) {
-    deleteDir()
-    try {
-      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-        wrap([$class: 'TimestamperBuildWrapper']) {
-          body()
+  timeout(time: 2, unit: 'HOURS') {
+    node(label) {
+      deleteDir()
+      try {
+        wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+          wrap([$class: 'TimestamperBuildWrapper']) {
+            body()
+          }
         }
+      } finally {
+        step([$class: 'WsCleanup', cleanWhenFailure: true])
       }
-    } finally {
-      step([$class: 'WsCleanup', cleanWhenFailure: true])
     }
   }
 }
