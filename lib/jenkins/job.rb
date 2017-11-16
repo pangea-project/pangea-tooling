@@ -26,6 +26,8 @@ module Jenkins
   # I don't even know what the default api client thing does...
   class Job
     attr_reader :name
+    alias to_s name
+    alias to_str to_s
 
     def initialize(name, client = JenkinsApi::Client.new)
       @client = client
@@ -65,6 +67,16 @@ module Jenkins
       # Likely a get_method, could still be an actual api method though.
       method_missing_internal(name, *args)
     end
+
+    def respond_to?(name, include_private = false)
+      if name.to_s.end_with?('=')
+        return @client.job.respond_to?("set_#{name}".to_sym, include_private)
+      end
+      @client.job.respond_to?(name, include_private) ||
+        @client.job.respond_to?("get_#{name}".to_sym, include_private) ||
+        super
+    end
+
 
     def exists?
       # jenkins api client is so daft it lists all jobs and then filters
