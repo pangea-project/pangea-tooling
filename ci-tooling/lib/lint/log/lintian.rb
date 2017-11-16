@@ -37,7 +37,11 @@ module Lint
         'debian-revision-should-not-be-zero',
         'bad-distribution-in-changes-file',
         # On dev editions we actually pack x-test for testing purposes.
-        'unknown-locale-code x-test'
+        'unknown-locale-code x-test',
+        # As of 18.04 this warning is no longer true as transitionals should be
+        # in optional now (extra was deprecated). Skip the old warning for 16.04
+        # the new warning has a different ID and gets raised on 18.04+.
+        'transitional-package-should-be-oldlibs-extra'
       ].freeze
 
       def lint(data)
