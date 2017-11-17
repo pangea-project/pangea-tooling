@@ -25,7 +25,18 @@ require 'mocha/test_unit'
 
 module NCI
   class VersionsTestTest < TestCase
-    CommandResult = Struct.new(:failure?, :out)
+    # Dud
+    CommandResult = Struct.new(:failure?, :out, :err) do
+      def initialize(*)
+        super
+        self.out ||= ''
+        self.err ||= ''
+      end
+
+      def to_ary
+        [out, err]
+      end
+    end
 
     def setup
       VersionsTest.reset!
@@ -120,10 +131,10 @@ Priority: extra
         .any_instance
         .stubs(:run!)
         .with('apt show foo')
-        .returns(CommandResult.new(false, <<~STDOUT))
+        .returns(CommandResult.new(false, '', <<~STDERR))
 N: Can't select versions from package 'foo' as it is purely virtual
 N: No packages found
-      STDOUT
+      STDERR
 
       VersionsTest.lister = DirPackageLister.new(Dir.pwd)
       linter = VersionsTest.new

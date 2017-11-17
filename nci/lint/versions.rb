@@ -106,10 +106,11 @@ module NCI
       # our version by default greater.
       return nil if res.failure?
       # Same for pure virtual packages which come back 0 but with random output.
-      return nil if res.out.include?('as it is purely virtual')
+      return nil if res.err.include?('as it is purely virtual')
       theirs = version_from_apt_show(res.out)
       return theirs if theirs
-      raise "We somehow failed to parse the version of #{pkg.name}\n#{res.out}"
+      raise "We somehow failed to parse the version of #{pkg.name}\n" \
+            "#{res.to_ary.join('------')}"
     end
 
     def version_from_apt_show(output)
