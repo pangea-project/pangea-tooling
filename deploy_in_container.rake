@@ -50,8 +50,8 @@ DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           autotools-dev cdbs dh-autoreconf germinate gnupg2
           gobject-introspection sphinx-common po4a pep8 pyflakes ppp-dev dh-di
           libgirepository1.0-dev libglib2.0-dev bash-completion
-          python3-setuptools python-setuptools dkms mozilla-devscripts libffi-dev
-          subversion libssl-dev libcurl4-gnutls-dev
+          python3-setuptools python-setuptools python-setuptools-scm dkms
+          mozilla-devscripts libffi-dev subversion libssl-dev libcurl4-gnutls-dev
           libhttp-parser-dev javahelper rsync].freeze + CORE_RUNTIME_DEPS
 
 # FIXME: code copy from install_check
