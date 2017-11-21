@@ -85,6 +85,7 @@ Apt.install(%w[autopkgtest])
 
 FileUtils.rm_r('adt-output') if File.exist?('adt-output')
 
+binary = '/usr/bin/autopkgtest'
 Dir.chdir('/') do
   next unless Process.uid.zero?
   FileUtils.cp("#{__dir__}/adt-helpers/mktemp", '/usr/sbin/mktemp',
@@ -97,6 +98,7 @@ Dir.chdir('/') do
            "#{__dir__}/adt-helpers/adt-run.diff") || raise
   else # xenial
     system("patch -p0 < #{__dir__}/adt-helpers/adt-run.diff") || raise
+    binary = 'adt-run'
   end
 
   # Override ctest to inject an argument forcing the timeout per test at 5m.
@@ -124,7 +126,7 @@ args << "--env=QTEST_FUNCTION_TIMEOUT=#{5 * 60 * 1000}"
 args << '--env=KDE_FORK_SLAVES=yes'
 args << '--env=KIO_DISABLE_CACHE_CLEANER=yes'
 args << '---' << 'null'
-TTY::Command.new(uuid: false).run!('adt-run', *args, timeout: 30 * 60)
+TTY::Command.new(uuid: false).run!(binary, *args, timeout: 30 * 60)
 
 summary = ADT::Summary.from_file('adt-output/summary')
 unit = ADT::JUnit::Summary.new(summary)
