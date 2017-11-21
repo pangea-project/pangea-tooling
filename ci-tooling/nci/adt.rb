@@ -114,8 +114,6 @@ EOF
 end
 
 args = []
-Dir.glob('*.deb').each { |x| args << '--binary' << x }
-args << '--built-tree' << "#{Dir.pwd}/build"
 args << '--output-dir' << 'adt-output'
 args << '--user=adt'
 args << "--timeout-test=#{30 * 60}"
@@ -125,7 +123,18 @@ args << "--env=QTEST_FUNCTION_TIMEOUT=#{5 * 60 * 1000}"
 # Disable KIO using kdeinit and starting http cleanup
 args << '--env=KDE_FORK_SLAVES=yes'
 args << '--env=KIO_DISABLE_CACHE_CLEANER=yes'
-args << '---' << 'null'
+if binary == 'adt-run' # xenial compat
+  Dir.glob('*.deb').each { |x| args << '--binary' << x }
+  args << '--built-tree' << "#{Dir.pwd}/build"
+  args << '---' << 'null'
+else # bionic
+  # newer versions use an even dafter cmdline format than you could possibly
+  # imagine where you just throw random shit at it and it will *try* to figure
+  # out what you mean. The code where it does that is glorious spaghetti.
+  args += Dir.glob('*.deb')
+  args << "#{Dir.pwd}/build"
+  args << '--' << 'null'
+end
 TTY::Command.new(uuid: false).run!(binary, *args, timeout: 30 * 60)
 
 summary = ADT::Summary.from_file('adt-output/summary')
