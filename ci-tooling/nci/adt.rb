@@ -90,7 +90,14 @@ Dir.chdir('/') do
   FileUtils.cp("#{__dir__}/adt-helpers/mktemp", '/usr/sbin/mktemp',
                verbose: true)
   FileUtils.chmod(0o0755, '/usr/sbin/mktemp')
-  system("patch -p0 < #{__dir__}/adt-helpers/adt-run.diff") || raise
+  if File.exist?('/usr/bin/autopkgtest') # bionic
+    # Applies with a bit of offset.
+    system('patch',
+           '/usr/bin/autopkgtest',
+           "#{__dir__}/adt-helpers/adt-run.diff") || raise
+  else # xenial
+    system("patch -p0 < #{__dir__}/adt-helpers/adt-run.diff") || raise
+  end
 
   # Override ctest to inject an argument forcing the timeout per test at 5m.
   file = '/usr/bin/ctest'
