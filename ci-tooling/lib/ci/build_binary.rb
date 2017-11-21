@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'fileutils'
+require 'jenkins_junit_builder'
 require 'tty/command'
 
 require_relative 'setcap_validator'
@@ -31,6 +32,47 @@ require_relative '../retry'
 require_relative '../debian/dsc'
 
 module CI
+  # Junit report about binary only resoluting being used.
+  # This is a bit of a hack as we want
+  class JUnitBinaryOnlyBuild
+    def initialize
+      @suite = JenkinsJunitBuilder::Suite.new
+      @suite.package = 'PackageBuilder'
+      @suite.name = 'DependencyResolver'
+
+      c = JenkinsJunitBuilder::Case.new
+      c.classname = 'DependencyResolver'
+      c.name = 'binary_only'
+      c.result = JenkinsJunitBuilder::Case::RESULT_FAILURE
+      c.system_out.message = msg
+
+      @suite.add_case(c)
+    end
+
+    def msg
+      <<-ERRORMSG
+This build failed to install the entire set of build dependencies a number of
+times and fell back to only install architecture dependent dependencies. This
+results in the build not having any architecture independent packages!
+This is indicative of this source (and probably all associated sources)
+requiring multiple rebuilds to get around a circular dependency between
+architecture dependent and architecture independent features.
+Notably Qt is affected by this. If you see this error make sure to *force* a
+rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
+*at least once*.
+      ERRORMSG
+    end
+
+    def to_xml
+      @suite.build_report
+    end
+
+    def write_file
+      FileUtils.mkpath('reports')
+      File.write('reports/build_binary_dependency_resolver.xml', to_xml)
+    end
+  end
+
   # Builds a source package.
   class PackageBuilder
     BUILD_DIR  = 'build'
@@ -153,8 +195,11 @@ module CI
       DependencyResolver.resolve(BUILD_DIR)
     rescue RuntimeError => e
       raise e unless bin_only_possible?
+      warn 'Failed to resolve all build-depends, trying binary only' \
+           ' (skipping Build-Depends-Indep)'
       DependencyResolver.resolve(BUILD_DIR, bin_only: true)
       @bin_only = true
+      JUnitBinaryOnlyBuild.new.write_file
     end
 
     # @return [Bool] whether to mangle the build for Qt

@@ -32,10 +32,12 @@ module CI
 
     def refute_bin_only(builder)
       refute(builder.instance_variable_get(:@bin_only))
+      assert_path_not_exist('reports/build_binary_dependency_resolver.xml')
     end
 
     def assert_bin_only(builder)
       assert(builder.instance_variable_get(:@bin_only))
+      assert_path_exist('reports/build_binary_dependency_resolver.xml')
     end
 
     def test_build_package
