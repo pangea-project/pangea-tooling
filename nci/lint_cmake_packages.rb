@@ -26,8 +26,9 @@ require_relative '../ci-tooling/nci/lib/setup_repo'
 require_relative '../lib/aptly-ext/remote'
 
 NCI.add_repo_key!
+NCI.setup_proxy!
+NCI.maybe_setup_apt_preference
 
 Aptly::Ext::Remote.neon_read_only do
   Lint::CMakePackages.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).run
 end
-
