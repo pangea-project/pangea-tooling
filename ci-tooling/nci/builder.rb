@@ -59,7 +59,7 @@ end
 
 # For the version check we'll need to unmanagle the preference pin as we rely
 # on apt show to give us 'available version' info.
-NCI.maybe_setup_apt_preference
+NCI.maybe_teardown_apt_preference
 # Check that our versions are good enough.
 unless system('/tooling/nci/lint_versions.rb', '-v')
   warn 'bad versions?'
