@@ -124,7 +124,9 @@ Priority: extra
 
     def test_pure_virtual
       # When showing a pure virtual it comes back 0 but has no valid
-      # version.
+      # data. THIS ONLY HAPPENS WHEN CALLED FROM OUTSIDE A TERMINAL!
+      # On a terminal it tells you that it is pure virtual. I hate apt with
+      # all my life.
       FileUtils.cp_r("#{datadir}/.", '.')
 
       TTY::Command
@@ -132,8 +134,10 @@ Priority: extra
         .stubs(:run!)
         .with('apt show foo')
         .returns(CommandResult.new(false, '', <<~STDERR))
-N: Can't select versions from package 'foo' as it is purely virtual
-N: No packages found
+
+        WARNING: apt.distrib does not have a stable CLI interface. Use with caution in scripts.
+
+
       STDERR
 
       VersionsTest.lister = DirPackageLister.new(Dir.pwd)

@@ -106,11 +106,24 @@ module NCI
       # our version by default greater.
       return nil if res.failure?
       # Same for pure virtual packages which come back 0 but with random output.
-      return nil if res.err.include?('as it is purely virtual')
+      return nil if result_is_probably_virtual?(res)
       theirs = version_from_apt_show(res.out)
       return theirs if theirs
       raise "We somehow failed to parse the version of #{pkg.name}\n" \
-            "#{res.to_ary.join('------')}"
+            "[\n#{res.to_ary.join('------')}\n]"
+    end
+
+    def result_is_probably_virtual?(res)
+      # When called from a terminal apt tells us this is a pure virtual, but
+      # when called through a script it just doesn't say anything except for
+      # the stupid warning about CLI interface being unstable.
+      # Infer from an empty output and only the warning on stderr that the
+      # package is virtual. This sucks balls.
+      out = res.out.strip
+      err = res.err.strip
+      out.empty? &&
+        err.split($/).size == 1 &&
+        err.include?('does not have a stable CLI interface')
     end
 
     def version_from_apt_show(output)
