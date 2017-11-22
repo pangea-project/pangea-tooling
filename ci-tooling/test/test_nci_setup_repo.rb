@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -155,5 +155,43 @@ class NCISetupRepoTest < TestCase
       .returns(true)
 
     NCI.add_repo_key!
+  end
+
+  def test_preference
+    Apt::Preference.config_dir = Dir.pwd
+
+    NCI.stubs(:future_series).returns('peppa')
+
+    ENV['DIST'] = 'woosh'
+    NCI.maybe_setup_apt_preference
+    assert_path_not_exist('pangea-neon')
+
+    # Only ever active on future series
+    ENV['DIST'] = 'peppa'
+    NCI.maybe_setup_apt_preference
+    assert_path_exist('pangea-neon')
+    assert_not_equal('', File.read('pangea-neon'))
+  ensure
+    Apt::Preference.config_dir = nil
+  end
+
+  def test_no_preference_teardowns
+    Apt::Preference.config_dir = Dir.pwd
+
+    NCI.stubs(:future_series).returns('peppa')
+
+    ENV['DIST'] = 'peppa'
+    NCI.maybe_setup_apt_preference # need an object, content is irrelevant
+    assert_path_exist('pangea-neon')
+    NCI.maybe_teardown_apt_preference
+    assert_path_not_exist('pangea-neon')
+
+    # When there is no preference object this should be noop
+    File.write('pangea-neon', '')
+    NCI.maybe_teardown_apt_preference
+    assert_path_exist('pangea-neon')
+    File.delete('pangea-neon')
+  ensure
+    Apt::Preference.config_dir = nil
   end
 end

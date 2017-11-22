@@ -24,6 +24,7 @@ require 'open-uri'
 require_relative '../../lib/apt'
 require_relative '../../lib/lsb'
 require_relative '../../lib/retry'
+require_relative '../../lib/nci'
 
 # Neon CI specific helpers.
 module NCI
@@ -52,12 +53,29 @@ module NCI
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     # Make sure we have the latest pkg-kde-tools, not whatever is in the image.
     raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools])
+    maybe_setup_apt_preference
   end
 
   def setup_proxy!
     puts "Set proxy to #{PROXY_URI}"
     File.write('/etc/apt/apt.conf.d/proxy',
                "Acquire::http::Proxy \"#{PROXY_URI}\";")
+  end
+
+  def maybe_setup_apt_preference
+    return unless ENV.fetch('DIST', NCI.current_series) == NCI.future_series
+    @preference = Apt::Preference.new('pangea-neon', content: <<-PREFERENCE)
+Package: *
+Pin: release o=neon
+Pin-Priority: 1001
+    PREFERENCE
+    @preference.write
+  end
+
+  def maybe_teardown_apt_preference
+    return unless @preference
+    @preference.delete
+    @preference = nil
   end
 
   class << self
