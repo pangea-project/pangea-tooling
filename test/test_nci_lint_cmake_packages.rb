@@ -44,6 +44,8 @@ module NCI
         ENV['TYPE'] = 'release'
         ENV['DIST'] = 'xenial'
         NCI.expects(:add_repo_key!).returns(true)
+        NCI.stubs(:setup_proxy!)
+        NCI.stubs(:maybe_setup_apt_preference)
         Apt::Key.expects(:add).returns(true)
         Apt::Repository.any_instance.expects(:add).returns(true)
         Apt::Repository.any_instance.expects(:remove).returns(true)
