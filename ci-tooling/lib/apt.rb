@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2014-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2014-2017 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -22,6 +22,9 @@ require 'logger'
 require 'open-uri'
 require 'tty/command'
 
+require_relative 'apt/key'
+require_relative 'apt/repository'
+
 # Cow powers!
 #
 # This module provides access to apt by catching method missing and passing the
@@ -34,127 +37,6 @@ require 'tty/command'
 # upon method handling. To bypass this the Abstrapt.run method needs to be used
 # directly.
 module Apt
-  # Represents a repository
-  class Repository
-    def initialize(name)
-      @name = name
-      self.class.send(:install_add_apt_repository)
-    end
-
-    # (see #add)
-    def self.add(name)
-      new(name).add
-    end
-
-    # Add Repository to sources.list
-    def add
-      args = []
-      args << '-y'
-      args << @name
-      system('add-apt-repository', *args)
-    end
-
-    # (see #remove)
-    def self.remove(name)
-      new(name).remove
-    end
-
-    # Remove Repository from sources.list
-    def remove
-      args = []
-      args << '-y'
-      args << '-r'
-      args << @name
-      system('add-apt-repository', *args)
-    end
-
-    class << self
-      private
-
-      def install_add_apt_repository
-        return if add_apt_repository_installed?
-        return unless Apt.install('software-properties-common')
-        @add_apt_repository_installed = true
-      end
-
-      def add_apt_repository_installed?
-        return @add_apt_repository_installed if ENV['PANGEA_UNDER_TEST']
-        @add_apt_repository_installed ||= marker_exist?
-      end
-
-      # Own method so we can mocha this check! Do not merge into other method.
-      def marker_exist?
-        File.exist?('/var/lib/dpkg/info/software-properties-common.list')
-      end
-
-      def reset
-        return unless defined?(@add_apt_repository_installed)
-        remove_instance_variable(:@add_apt_repository_installed)
-      end
-    end
-  end
-
-  # Apt key management using apt-key binary
-  class Key
-    class << self
-      def method_missing(name, *caller_args)
-        system('apt-key', name.to_s.tr('_', '-'), *caller_args)
-      end
-
-      # Add a GPG key to APT.
-      # @param str [String] can be a file path, or an http/https/ftp URI or
-      #   a fingerprint/keyid or a fucking file, if you pass a fucking file you
-      #   are an idiot.
-      def add(str)
-        # If the thing passes for an URI with host and path we use it as url
-        # otherwise as fingerprint. file:// uris would not qualify, we do not
-        # presently have a use case for them though.
-        if url?(str)
-          add_url(str)
-        else
-          add_fingerprint(str)
-        end
-      end
-
-      def add_url(url)
-        data = open(url).read
-        IO.popen(['apt-key', 'add', '-'], 'w') do |io|
-          io.puts(data)
-          io.close_write
-        end
-        $?.success?
-      end
-
-      def add_fingerprint(id_or_fingerprint)
-        system('apt-key', 'adv',
-               '--keyserver', 'keyserver.ubuntu.com',
-               '--recv', id_or_fingerprint)
-      end
-
-      private
-
-      def url?(str)
-        uri = URI.parse(str)
-        remote?(uri) || local?(uri)
-      rescue
-        false
-      end
-
-      def remote?(uri)
-        # If a URI has a host and a path we'll assume it to be a path
-        !uri.host.to_s.empty? && !uri.path.to_s.empty?
-      end
-
-      def local?(uri)
-        # Has no host but a path and that path is a local file?
-        # Must be a local uri.
-        # NB: fingerpints or keyids are incredibly unlikely to match this, but
-        #   they could if one has particularly random file names in PWD.
-        uri.host.to_s.empty? && (!uri.path.to_s.empty? && File.exist?(uri.path))
-      end
-    end
-  end
-
   def self.method_missing(name, *caller_args)
     Abstrapt.run('apt-get', name.to_s.tr('_', '-'), *caller_args)
   end
