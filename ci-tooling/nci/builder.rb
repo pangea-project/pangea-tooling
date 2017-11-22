@@ -27,6 +27,7 @@ require_relative '../lib/nci'
 require_relative '../lib/retry'
 
 NCI.setup_repo!
+NCI.maybe_setup_apt_preference
 
 if File.exist?('/ccache')
   Retry.retry_it(times: 4) { Apt.install('ccache') || raise }
@@ -56,6 +57,9 @@ if File.exist?('build_url')
   require_relative 'lint_bin' if Dir.exist?('build')
 end
 
+# For the version check we'll need to unmanagle the preference pin as we rely
+# on apt show to give us 'available version' info.
+NCI.maybe_setup_apt_preference
 # Check that our versions are good enough.
 unless system('/tooling/nci/lint_versions.rb', '-v')
   warn 'bad versions?'
