@@ -23,6 +23,7 @@ require 'open-uri'
 require 'tty/command'
 
 require_relative 'apt/key'
+require_relative 'apt/preference'
 require_relative 'apt/repository'
 
 # Cow powers!
