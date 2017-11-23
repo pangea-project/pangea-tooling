@@ -151,6 +151,7 @@ EOF
       # sh 'gem update bundler'
     rescue Gem::LoadError
       sh 'gem uninstall -x bundler --version \'~>1.16.0\' || true'
+      sh 'bundle --version'
       sh 'gem install bundler --version \'~>1.15.0\''
     end
 
