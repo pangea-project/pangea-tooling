@@ -150,7 +150,7 @@ EOF
       # don't update bundler while 1.16.0 has bugs
       # sh 'gem update bundler'
     rescue Gem::LoadError
-      sh 'gem uninstall bundler --version \'~>1.16.0\' || true'
+      sh 'gem uninstall -x bundler --version \'~>1.16.0\' || true'
       sh 'gem install bundler --version \'~>1.15.0\''
     end
 
