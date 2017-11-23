@@ -27,7 +27,6 @@ require_relative '../lib/nci'
 require_relative '../lib/retry'
 
 NCI.setup_repo!
-NCI.maybe_setup_apt_preference
 
 if File.exist?('/ccache')
   Retry.retry_it(times: 4) { Apt.install('ccache') || raise }

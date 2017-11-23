@@ -43,6 +43,7 @@ if JOB_NAME.include?('_armhf')
 end
 
 NCI.setup_repo!
+NCI.maybe_setup_apt_preference
 
 TESTS_DIR = 'build/debian/tests'
 JUNIT_FILE = 'adt-junit.xml'
