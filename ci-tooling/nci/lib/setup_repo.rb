@@ -64,6 +64,7 @@ module NCI
 
   def maybe_setup_apt_preference
     return unless ENV.fetch('DIST', NCI.current_series) == NCI.future_series
+    puts 'Setting up apt preference.'
     @preference = Apt::Preference.new('pangea-neon', content: <<-PREFERENCE)
 Package: *
 Pin: release o=neon
@@ -74,6 +75,7 @@ Pin-Priority: 1001
 
   def maybe_teardown_apt_preference
     return unless @preference
+    puts 'Discarding apt preference.'
     @preference.delete
     @preference = nil
   end
