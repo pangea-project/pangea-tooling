@@ -62,7 +62,6 @@ class JenkinsJob < Template
       xml_debug(xml) if @debug
       jenkins_job = Jenkins::Job.new(job_name)
       log.info job_name
-      log.info safety_update_jobs
 
       if remote_jobs.include?(job_name) # Already exists.
         original_xml = jenkins_job.get_config
