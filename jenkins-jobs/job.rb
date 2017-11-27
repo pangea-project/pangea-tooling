@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'concurrent'
 require 'logger'
 require 'logger/colors'
 require 'rexml/document'
@@ -42,6 +43,10 @@ class JenkinsJob < Template
     @@remote_jobs ||= Jenkins.job.list_all
   end
 
+  def safety_update_jobs
+    @@safety_update_jobs ||= Concurrent::Array.new
+  end
+
   def self.reset
     @@remote_jobs = nil
   end
@@ -57,6 +62,8 @@ class JenkinsJob < Template
       xml_debug(xml) if @debug
       jenkins_job = Jenkins::Job.new(job_name)
       log.info job_name
+      log.info safety_update_jobs
+
       if remote_jobs.include?(job_name) # Already exists.
         original_xml = jenkins_job.get_config
         if xml_equal(original_xml, xml)
@@ -65,9 +72,25 @@ class JenkinsJob < Template
         end
         log.info "#{job_name} updating..."
         jenkins_job.update(xml)
+      elsif safety_update_jobs.include?(job_name)
+        log.info "#{job_name} carefully updating..."
+        jenkins_job.update(xml)
       else
         log.info "#{job_name} creating..."
-        jenkins_job.create(xml)
+        begin
+          jenkins_job.create(xml)
+        rescue JenkinsApi::Exceptions::JobAlreadyExists
+          # Jenkins is a shitpile and doesn't always delete jobs from disk.
+          # Cause: unknown
+          # When this happens it will however throw itself in our face about
+          # the thing existing, it is however not in the job list, because, well
+          # it doesn't exist... except on disk. To get jenkins to fuck off
+          # we'll simply issue an update as though the thing existed, except it
+          # doesn't... except on disk.
+          # The longer we use Jenkins the more I come to hate it. With a passion
+          log.warn "#{job_name} already existed apparently, updating instead..."
+          safety_update_jobs << job_name
+        end
       end
     end
   end
