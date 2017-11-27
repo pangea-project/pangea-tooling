@@ -183,6 +183,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                   end
           if type == 'testing-qt'
             project_architectures << 'arm64'
+          end
           jobs = ProjectJob.job(project,
                                 distribution: distribution,
                                 type: type,
