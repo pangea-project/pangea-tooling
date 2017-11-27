@@ -220,59 +220,60 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         enqueue(MGMTRepoTestVersionsJob.new(type: type,
                                             distribution: distribution))
+      end
+      # end of type
 
-        # ISOs
-        NCI.architectures.each do |architecture|
-          dev_unstable_isoargs = { type: 'devedition-gitunstable',
-                                   distribution: distribution,
-                                   architecture: architecture,
-                                   metapackage: 'neon-desktop',
-                                   imagename: 'neon',
-                                   neonarchive: 'dev/unstable',
-                                   cronjob: 'H H * * 0' }
-          enqueue(NeonIsoJob.new(dev_unstable_isoargs))
-          dev_unstable_dev_name = 'devedition-gitunstable-development'
-          dev_unstable_dev_isoargs = { type: dev_unstable_dev_name,
-                                       distribution: distribution,
-                                       architecture: architecture,
-                                       metapackage: 'neon-desktop',
-                                       imagename: 'neon-development',
-                                       neonarchive: 'dev/unstable',
-                                       cronjob: 'H H * * 1' }
-          enqueue(NeonIsoJob.new(dev_unstable_dev_isoargs))
-          dev_stable_isoargs = { type: 'devedition-gitstable',
+      # ISOs
+      NCI.architectures.each do |architecture|
+        dev_unstable_isoargs = { type: 'devedition-gitunstable',
                                  distribution: distribution,
                                  architecture: architecture,
                                  metapackage: 'neon-desktop',
                                  imagename: 'neon',
-                                 neonarchive: 'dev/stable',
-                                 cronjob: 'H H * * 2' }
-          enqueue(NeonIsoJob.new(dev_stable_isoargs))
-          user_releaselts_isoargs = { type: 'userltsedition',
-                                      distribution: distribution,
-                                      architecture: architecture,
-                                      metapackage: 'neon-desktop',
-                                      imagename: 'neon',
-                                      neonarchive: 'user/lts',
-                                      cronjob: 'H H * * 3' }
-          enqueue(NeonIsoJob.new(user_releaselts_isoargs))
-          user_release_isoargs = { type: 'useredition',
-                                   distribution: distribution,
-                                   architecture: architecture,
-                                   metapackage: 'neon-desktop',
-                                   imagename: 'neon',
-                                   neonarchive: 'user',
-                                   cronjob: 'H H * * 4' }
-          enqueue(NeonIsoJob.new(user_release_isoargs))
-          ko_user_release_isoargs = { type: 'devedition-gitstable',
-                                      distribution: distribution,
-                                      architecture: architecture,
-                                      metapackage: 'neon-desktop-ko',
-                                      imagename: 'neon-ko',
-                                      neonarchive: 'dev/stable',
-                                      cronjob: 'H H * * 5' }
-          enqueue(NeonIsoJob.new(ko_user_release_isoargs))
-        end
+                                 neonarchive: 'dev/unstable',
+                                 cronjob: 'H H * * 0' }
+        enqueue(NeonIsoJob.new(dev_unstable_isoargs))
+        dev_unstable_dev_name = 'devedition-gitunstable-development'
+        dev_unstable_dev_isoargs = { type: dev_unstable_dev_name,
+                                     distribution: distribution,
+                                     architecture: architecture,
+                                     metapackage: 'neon-desktop',
+                                     imagename: 'neon-development',
+                                     neonarchive: 'dev/unstable',
+                                     cronjob: 'H H * * 1' }
+        enqueue(NeonIsoJob.new(dev_unstable_dev_isoargs))
+        dev_stable_isoargs = { type: 'devedition-gitstable',
+                               distribution: distribution,
+                               architecture: architecture,
+                               metapackage: 'neon-desktop',
+                               imagename: 'neon',
+                               neonarchive: 'dev/stable',
+                               cronjob: 'H H * * 2' }
+        enqueue(NeonIsoJob.new(dev_stable_isoargs))
+        user_releaselts_isoargs = { type: 'userltsedition',
+                                    distribution: distribution,
+                                    architecture: architecture,
+                                    metapackage: 'neon-desktop',
+                                    imagename: 'neon',
+                                    neonarchive: 'user/lts',
+                                    cronjob: 'H H * * 3' }
+        enqueue(NeonIsoJob.new(user_releaselts_isoargs))
+        user_release_isoargs = { type: 'useredition',
+                                 distribution: distribution,
+                                 architecture: architecture,
+                                 metapackage: 'neon-desktop',
+                                 imagename: 'neon',
+                                 neonarchive: 'user',
+                                 cronjob: 'H H * * 4' }
+        enqueue(NeonIsoJob.new(user_release_isoargs))
+        ko_user_release_isoargs = { type: 'devedition-gitstable',
+                                    distribution: distribution,
+                                    architecture: architecture,
+                                    metapackage: 'neon-desktop-ko',
+                                    imagename: 'neon-ko',
+                                    neonarchive: 'dev/stable',
+                                    cronjob: 'H H * * 5' }
+        enqueue(NeonIsoJob.new(ko_user_release_isoargs))
       end
     end
 
