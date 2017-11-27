@@ -20,11 +20,11 @@ def notify(body) {
     try {
         body()
     } catch (e) {
-        // stage('notify') {
-        //     mail to: 'neon-notifications@kde.org',
-        //          subject: "Some package versions in ${TYPE}/${DIST} are too low #${BUILD_NUMBER}",
-        //          body: """Some package versions in ${TYPE}/${DIST} are too low #${BUILD_NUMBER}. ${BUILD_URL}/testReport"""
-        // }
+        stage('notify') {
+            mail to: 'neon-notifications@kde.org',
+                 subject: "Some package versions in ${TYPE}/${DIST} are too low #${BUILD_NUMBER}",
+                 body: """Some package versions in ${TYPE}/${DIST} are too low #${BUILD_NUMBER}. ${BUILD_URL}/testReport"""
+        }
         throw e
     }
 }
