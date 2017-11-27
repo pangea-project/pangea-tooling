@@ -22,7 +22,7 @@ require_relative 'lib/testcase'
 require_relative '../lib/nci'
 
 # Test NCI extensions on top of xci
-class XCITest < TestCase
+class NCITest < TestCase
   def test_experimental_skip_qa
     skip = NCI.experimental_skip_qa
     assert_false(skip.empty?)
@@ -43,5 +43,11 @@ class XCITest < TestCase
 
   def test_current_series
     assert_include NCI.series.keys, NCI.current_series
+  end
+
+  def test_freeze
+    assert_raises RuntimeError do
+      NCI.architectures << 'amd64'
+    end
   end
 end

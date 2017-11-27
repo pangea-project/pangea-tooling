@@ -84,6 +84,7 @@ module XCI
     file = File.join(data_dir, data_file_name)
     raise "Data file not found (#{file})" unless File.exist?(file)
     @data = YAML.load(File.read(file))
+    @data.each_value(&:freeze) # May be worth looking into a deep freeze gem.
   end
 
   def reset!
