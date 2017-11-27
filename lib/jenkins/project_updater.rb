@@ -207,6 +207,9 @@ Check the detailed output to find output relating to the failed creation of the 
 
     def enqueue(obj)
       @job_queue << obj
+      if @job_names.include?(obj.job_name)
+        raise "#{obj.job_name} already queued. Jobs need only be queued once..."
+      end
       @job_names << obj.job_name
       obj
     end
