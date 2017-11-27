@@ -177,11 +177,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                      distribution: distribution, type: type))
           end
           project_architectures = if type == 'unstable'
-                                    NCI.all_architectures.clone
+                                    NCI.all_architectures
                                   else
-                                    NCI.architectures.clone
+                                    NCI.architectures
                                   end
-          project_architectures << 'arm64' if type == 'testing-qt'
+          if type == 'testing-qt'
+            project_architectures << 'arm64'
+          end
           jobs = ProjectJob.job(project,
                                 distribution: distribution,
                                 type: type,
