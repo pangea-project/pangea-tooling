@@ -8,7 +8,6 @@ architectures:
   - amd64
 extra_architectures:
   - armhf
-  - arm64
 
 types:
   - unstable
