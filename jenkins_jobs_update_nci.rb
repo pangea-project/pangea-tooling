@@ -99,7 +99,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
   def jobs_without_template
     JenkinsApi::Client.new.view.list_jobs('testy') +
-      JenkinsApi::Client.new.job.list('test_.*') +
+      JenkinsApi::Client.new.job.list('^test_.*') +
       %w[a_extra-cmake-modules] # This is a multibranch pipe, a view itself.
   end
 
