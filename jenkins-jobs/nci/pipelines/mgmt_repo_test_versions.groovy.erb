@@ -23,7 +23,7 @@ def notify(body) {
         // stage('notify') {
         //     mail to: 'neon-notifications@kde.org',
         //          subject: "Some package versions in ${TYPE}/${DIST} are too low #${BUILD_NUMBER}",
-        //          body: """${BUILD_URL}/testReport"""
+        //          body: """Some package versions in ${TYPE}/${DIST} are too low #${BUILD_NUMBER}. ${BUILD_URL}/testReport"""
         // }
         throw e
     }
