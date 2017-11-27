@@ -181,6 +181,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                   else
                                     NCI.architectures
                                   end
+          if type == 'testing-qt'
+            project_architectures << 'arm64'
           jobs = ProjectJob.job(project,
                                 distribution: distribution,
                                 type: type,
