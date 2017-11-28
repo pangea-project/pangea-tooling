@@ -41,13 +41,6 @@ class MGMTJenkinsPruneArchivesJob < MGMTJenkinsBasePruneJob
   end
 end
 
-# Prunes logs (i.e. build/console logs)
-class MGMTJenkinsPruneLogsJob < MGMTJenkinsBasePruneJob
-  def initialize
-    super(name: 'logs', paths: %w[log], max_age: 16, min_count: 4)
-  end
-end
-
 # Prunes parameter-files
 class MGMTJenkinsPruneParameterListJob < MGMTJenkinsBasePruneJob
   def initialize
