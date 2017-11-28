@@ -53,6 +53,9 @@ class NCIJenkinsArchiveTest < TestCase
       # NB: we expect to replicate the entire build tree, so this in fact needs
       # to be the jobname/builds/123/ as seen in the live jobs dir.
       assert_path_exist("#{backupdir}/nrop/builds/#{i}")
+      assert_path_exist("#{buildsdir}/#{i}")
+      assert(File.symlink?("#{buildsdir}/#{i}"),
+             "expected to symlink to backup: #{buildsdir}/#{i}")
     end
 
     (1012..1020).each do |i|

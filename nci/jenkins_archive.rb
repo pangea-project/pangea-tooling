@@ -38,6 +38,7 @@ module NCI
       target = "#{backupdir}/#{relative_path}"
       FileUtils.mkpath(File.dirname(target))
       FileUtils.mv(ancient_build, target, verbose: true)
+      FileUtils.ln_s(target, ancient_build, verbose: true)
     end
   end
 
