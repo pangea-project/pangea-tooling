@@ -131,16 +131,17 @@ class NCIRepoCleanupTest < TestCase
         .with('dpkg', '--compare-versions', *arg_array)
         .returns(return_value)
         .at_least_once
+
+      session = mock('session')
+      session.stubs(:process)
+      session.expects(:close)
+      Net::SSH.expects(:start).returns(session)
     end
 
     # RepoCleaner.clean(%w(unstable stable))
     ENV['PANGEA_TEST_EXECUTION'] = '1'
     load("#{__dir__}/../nci/repo_cleanup.rb")
 
-    # session = mock('session')
-    # session.stubs(:process)
-    # session.expects(:close)
-    # Net::SSH.expects(:start).returns(session)
   end
 
   def test_key_from_string
