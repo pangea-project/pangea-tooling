@@ -128,7 +128,9 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
     RepoCleaner.clean(%w[release-lts_xenial], keep_amount: 4)
   end
 
-#  Net::SSH.start('racnoss.kde.org', 'neonarchives') do |ssh|
-#    ssh.exec!('systemctl --user start aptly_db_cleanup')
-#  end
+  Net::SSH.start('racnoss.kde.org', 'neonarchives') do |ssh|
+    ssh.exec!(
+      'XDG_RUNTIME_DIR=/run/user/`id -u` systemctl --user start aptly_db_cleanup'
+    )
+  end
 end
