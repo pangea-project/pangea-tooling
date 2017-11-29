@@ -133,6 +133,8 @@ class NCIRepoCleanupTest < TestCase
         .at_least_once
 
       session = mock('session')
+      session.stubs(:process)
+      session.expects(:close)
       Net::SSH.expects(:start).with('racnoss.kde.org', 'neonarchives').returns(session)
     end
 
