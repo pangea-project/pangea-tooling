@@ -132,8 +132,6 @@ class NCIRepoCleanupTest < TestCase
         .returns(return_value)
         .at_least_once
 
-      session = mock('session')
-      Net::SSH.expects(:start).returns(session)
     end
 
     # RepoCleaner.clean(%w(unstable stable))
@@ -159,5 +157,10 @@ class NCIRepoCleanupTest < TestCase
     assert_raises ArgumentError do
       Aptly::Ext::Package::Key.from_string('Psource kactivities-kf5 1 abc asdf')
     end
+  end
+
+  def test_ssh_db_clean
+    session = mock('session')
+    Net::SSH.expects(:start).returns(session)
   end
 end

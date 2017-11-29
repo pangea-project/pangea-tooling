@@ -38,6 +38,7 @@ class RepoCleaner
   def clean
     clean_sources
     clean_binaries
+    clean_db
     @repo.published_in(&:update!)
   end
 
@@ -59,6 +60,15 @@ class RepoCleaner
     keep = Aptly::Ext::LatestVersionFilter.filter(binaries, @keep_amount)
     (binaries - keep).each { |x| delete_binary(x) }
     keep.each { |x| delete_binary(x) unless bin_has_source?(x) }
+  end
+
+  def clean_db
+    Net::SSH.start('racnoss.kde.org', 'neonarchives') do |ssh|
+      ssh.exec!(
+        'XDG_RUNTIME_DIR=/run/user/`id -u` \
+        systemctl --user start aptly_db_cleanup'
+      )
+    end
   end
 
   def source_name_and_version_for(package)
@@ -126,11 +136,5 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
     RepoCleaner.clean(%w[unstable stable unstable_xenial stable_xenial])
     RepoCleaner.clean(%w[release_xenial], keep_amount: 4)
     RepoCleaner.clean(%w[release-lts_xenial], keep_amount: 4)
-  end
-
-  Net::SSH.start('racnoss.kde.org', 'neonarchives') do |ssh|
-    ssh.exec!(
-      'XDG_RUNTIME_DIR=/run/user/`id -u` systemctl --user start aptly_db_cleanup'
-    )
   end
 end
