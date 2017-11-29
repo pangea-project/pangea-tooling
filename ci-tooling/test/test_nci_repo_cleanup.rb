@@ -133,7 +133,7 @@ class NCIRepoCleanupTest < TestCase
         .at_least_once
 
       session = mock('session')
-      Net::SSH.expects(:start).with('h', nil).returns(session)
+      Net::SSH.expects(:start).with('h', 'u').returns(session)
     end
 
     # RepoCleaner.clean(%w(unstable stable))
