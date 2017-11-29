@@ -133,7 +133,7 @@ class NCIRepoCleanupTest < TestCase
         .at_least_once
 
       session = mock('session')
-      Net::SSH.expects(:start).with('racnoss.kde.org', 'neonarchives').returns(session).at_least_once
+      Net::SSH.expects(:start).with('racnoss.kde.org', 'neonarchives').returns(session)
     end
 
     # RepoCleaner.clean(%w(unstable stable))
