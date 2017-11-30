@@ -92,23 +92,21 @@ module JenkinsApi
 
       # Send term call (must be after abort and waiting a bit)
       def term(job_name, build_number = nil)
-        build_number ||= get_current_build_number(job_name)
-        raise "No builds for #{job_name}" unless build_number
-        @logger.info "Terminating job '#{job_name}' Build ##{build_number}"
-        return unless building?(build_number)
-        @client.api_post_request(
-          "/job/#{path_encode job_name}/#{build_number}/term"
-        )
+        abstract_murdering(job_name, build_number: build_number, method: 'term')
       end
 
       # Send a kill call (must be after term and waiting a bit)
       def kill(job_name, build_number = nil)
+        abstract_murdering(job_name, build_number: build_number, method: 'kill')
+      end
+
+      def abstract_murdering(job_name, build_number: nil, method:)
         build_number ||= get_current_build_number(job_name)
         raise "No builds for #{job_name}" unless build_number
-        @logger.info "Killing job '#{job_name}' Build ##{build_number}"
-        return unless building?(build_number)
+        @logger.info "Calling '#{method}' on '#{job_name}' ##{build_number}"
+        return unless building?(job_name, build_number)
         @client.api_post_request(
-          "/job/#{path_encode job_name}/#{build_number}/kill"
+          "/job/#{path_encode(job_name)}/#{build_number}/#{method}"
         )
       end
     end
