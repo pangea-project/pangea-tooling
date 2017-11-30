@@ -138,8 +138,11 @@ class NCIRepoCleanupTest < TestCase
     ENV['PANGEA_TEST_EXECUTION'] = '1'
     load("#{__dir__}/../nci/repo_cleanup.rb")
 
+    uri = URI::Generic.build(user: 'u', host: 'h')
     session = mock('session')
-    Net::SSH.expects(:start).with('h', 'u').returns(session)
+    Net::SSH.expects(:start).with do |ssh|
+    end.returns(session)
+    Remote.connect(uri) {}
   end
 
   def test_key_from_string
