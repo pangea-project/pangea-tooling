@@ -45,6 +45,7 @@
   netrunner-desktop: netrunner-desktop
   highvoltage: backports
   netrunner-pine64: pine64
+  netrunner-pinebook: pine64
   linuxmint: extras
   netrunner-nomad-desktop: nomad
   nomad-artwork: nomad
