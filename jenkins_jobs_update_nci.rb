@@ -182,7 +182,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                     NCI.architectures
                                   end
           if type == 'unstable' && %w[qt].include?(project.component)
-            project_architectures += 'arm64'
+            project_architectures += ['arm64']
           end
           jobs = ProjectJob.job(project,
                                 distribution: distribution,
