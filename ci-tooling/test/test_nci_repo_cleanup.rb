@@ -139,8 +139,7 @@ class NCIRepoCleanupTest < TestCase
     load("#{__dir__}/../nci/repo_cleanup.rb")
 
     session = mock('session')
-    session.stubs(:process)
-    Net::SSH.expects(:start).with do |ssh|
+    Net::SSH.stub(:start).with do |ssh|
       ssh.should_receive(:exec!).ordered.with('XDG_RUNTIME_DIR=/run/user/`id -u` \
       systemctl --user start aptly_db_cleanup')
     end.returns(session)
