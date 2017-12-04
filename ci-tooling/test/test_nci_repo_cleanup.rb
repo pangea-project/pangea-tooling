@@ -139,6 +139,7 @@ class NCIRepoCleanupTest < TestCase
     load("#{__dir__}/../nci/repo_cleanup.rb")
 
     session = mock('session')
+    session.stubs(:process)
     Net::SSH.expects(:start).with do |ssh|
     end.returns(session)
   end
