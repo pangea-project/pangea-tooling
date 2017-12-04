@@ -142,6 +142,8 @@ class NCIRepoCleanupTest < TestCase
     session.stubs(:process)
     Net::SSH.expects(:start).with do |ssh|
     end.returns(session)
+    uri = URI.parse('ssh://neonarchives@racnoss.kde.org')
+    Remote.expects(:connect).with { |u| u == uri }.yields
   end
 
   def test_key_from_string
