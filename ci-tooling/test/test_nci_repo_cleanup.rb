@@ -141,10 +141,9 @@ class NCIRepoCleanupTest < TestCase
     session = mock('session')
     session.stubs(:process)
     Net::SSH.expects(:start).with do |ssh|
+      ssh.should_receive(:exec!).ordered.with('XDG_RUNTIME_DIR=/run/user/`id -u` \
+      systemctl --user start aptly_db_cleanup')
     end.returns(session)
-    uri = URI::Generic.build(scheme: 'ssh', user: 'u', host: 'h', port: 1,
-                             path: '/xxx')
-    Remote.expects(:connect).with { |u| u == uri }.yields
   end
 
   def test_key_from_string
