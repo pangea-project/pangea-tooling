@@ -181,7 +181,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                   else
                                     NCI.architectures
                                   end
-          if type == 'unstable' && %w[qt frameworks forks
+          if type == 'unstable' && %w[qt frameworks forks plasma
               ].include?(project.component)
             project_architectures += ['arm64']
           end
