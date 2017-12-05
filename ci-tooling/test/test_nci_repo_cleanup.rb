@@ -46,6 +46,21 @@ class NCIRepoCleanupTest < TestCase
   end
 
   def test_clean
+
+    session = mock('session')
+    session.responds_like_instance_of(Net::SSH::Connection::Session)
+    session.expects(:exec!)
+      .twice
+      .with('XDG_RUNTIME_DIR=/run/user/`id -u` \
+        systemctl --user start aptly_db_cleanup')
+      .yields
+
+    Net::SSH
+      .expects(:start)
+      .twice
+      .with('racnoss.kde.org', 'neonarchives')
+      .yields(session, session)
+
     Aptly::Ext::Remote.expects(:neon).yields
 
     fake_unstable = mock('unstable')
@@ -138,11 +153,6 @@ class NCIRepoCleanupTest < TestCase
     ENV['PANGEA_TEST_EXECUTION'] = '1'
     load("#{__dir__}/../nci/repo_cleanup.rb")
 
-    session = mock('session')
-    Net::SSH.stub(:start).with do |ssh|
-      ssh.should_receive(:exec!).ordered.with('XDG_RUNTIME_DIR=/run/user/`id -u` \
-      systemctl --user start aptly_db_cleanup')
-    end.returns(session)
   end
 
   def test_key_from_string
