@@ -95,6 +95,14 @@ Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
   end
 end
 
+Net::SSH.start('files.kde.mirror.pangea.pub', 'neon-image-sync') do |ssh|
+  status = {}
+  ssh.exec!('false', status: status) do |_channel, stream, data|
+    (stream == :stderr ? STDERR : STDOUT).puts(data)
+  end
+  raise 'Failed sync' unless status.fetch(:exit_code, 1).zero?
+end
+
 # Publish ISO sources.
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   path = 'files.neon.kde.org.uk'
