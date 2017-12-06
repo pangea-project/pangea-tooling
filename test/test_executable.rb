@@ -11,7 +11,6 @@ class ExecutableTest < Test::Unit::TestCase
     ci-tooling/dci
     ci-tooling/mci
     ci-tooling/nci
-    aci
     dci
     lib/libexec
     mci
