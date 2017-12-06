@@ -48,18 +48,31 @@ end
 # server-side is something Ben doesn't want to do we'll simply tell the user
 # to use a sane implementation or manually get a HTTP mirror url.
 Dir.glob('result/*.zsync') do |file|
-  File.write("#{file}.README", <<-EOF)
-zsync does not support HTTPs, since we prefer HTTPs rather than HTTP this is a
+  File.write("#{file}.README", <<-README_CONTENT)
+zsync does not support HTTPs, since we prefer HTTPs rather than HTTP, this is a
 problem.
 
-If you would like to use zsync to download an ISO you either need to use a
-libcurl based zsync implementation [1], or you need to need to manually find a
-HTTP mirror from the mirror list. To get to the mirror list simply append
-.mirrorlist to the zsync URL.
+We recommend that you download the file from a mirror over HTTP rather than
+HTTPs and additionally download the .gpg signature to verify that the file you
+downloaded is in fact the correct ISO signed by the key listed on
+https://neon.kde.org/download
+To find a suitable mirror have a look at the mirror list. You can access
+the mirror list by appending .mirrorlist to the zsync URL.
 e.g. https://files.kde.org/neon/images/neon-useredition/current/neon-useredition-current.iso.zsync.mirrorlist
 
+Note that downloading from http://files.kde.org will always switch to https,
+you need an actual mirror URL to use zsync over http.
+
+If you absolutely want to zsync over HTTPs you have to use a zsync fork which
+supports HTTPs (e.g. [1]). Do note that zsync-curl in particular will offer
+incredibly bad performance due to lack of threading and libcurl's IO-overhead.
+Unless you want to save data on a metered connection you will, most of the time,
+see much shorter downloads when downloading an entirely new ISO instead of using
+zsync-curl (even on fairly slow connections and even if the binary delta is
+small, in fact small deltas are worse for performance with zsync-curl).
+
 [1] https://github.com/probonopd/zsync-curl
-EOF
+README_CONTENT
 end
 
 # Publish ISO and associated content.
