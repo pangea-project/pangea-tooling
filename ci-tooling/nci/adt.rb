@@ -42,6 +42,11 @@ if JOB_NAME.include?('_armhf')
   exit 0
 end
 
+if JOB_NAME.include?('_arm64')
+  warn 'Not running adt on the armhf architecture'
+  exit 0
+end
+
 NCI.setup_repo!
 NCI.maybe_setup_apt_preference
 
