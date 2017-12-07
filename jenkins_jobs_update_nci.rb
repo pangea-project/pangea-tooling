@@ -181,10 +181,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                   else
                                     NCI.architectures
                                   end
-          if type == 'unstable' && %w[qt frameworks forks plasma neon kde-std
-              ].include?(project.component)
-            project_architectures += ['arm64']
-          end
           jobs = ProjectJob.job(project,
                                 distribution: distribution,
                                 type: type,
