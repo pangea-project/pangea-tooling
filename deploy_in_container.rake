@@ -155,6 +155,9 @@ EOF
       sh 'gem install bundler --version \'~>1.15.0\''
     end
 
+    # Add debug for checking what version is being used
+    bundle(*%w[--version])
+
     bundle_args = ['install']
     bundle_args << "--jobs=#{[Etc.nprocessors / 2, 1].max}"
     bundle_args << '--local'
