@@ -110,7 +110,7 @@ end
 
 Net::SSH.start('files.kde.mirror.pangea.pub', 'neon-image-sync') do |ssh|
   status = {}
-  ssh.exec!('false', status: status) do |_channel, stream, data|
+  ssh.exec!('./sync', status: status) do |_channel, stream, data|
     (stream == :stderr ? STDERR : STDOUT).puts(data)
   end
   raise 'Failed sync' unless status.fetch(:exit_code, 1).zero?
