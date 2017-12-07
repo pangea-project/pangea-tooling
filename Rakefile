@@ -143,7 +143,7 @@ end
 
 desc 'deploy host and containment tooling'
 task :deploy do
-  bundle(*%w[_1.15.4_ pack --all-platforms --no-install])
+  bundle(*%w[pack --all-platforms --no-install])
 
   # Pending for pickup by container.
   tooling_path_pending = File.join(Dir.home, 'tooling-pending')
