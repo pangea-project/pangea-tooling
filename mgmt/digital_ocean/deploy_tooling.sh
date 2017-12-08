@@ -35,9 +35,10 @@ cd /tmp/tooling
 
 ## from  mgmt_tooling_deploy.xml
 rm -rv .bundle || true
-gem uninstall bundler --force --version '~>1.16.0' || true
-gem install --no-rdoc bundler --version '~>1.15.0'
-bundle _1.15.4_ install --jobs=`nproc` --system --without development test
+gem install --no-rdoc bundler
+# FIXME: add --without development test back
+# https://github.com/blue-systems/pangea-tooling/issues/17
+bundle install --jobs=`nproc` --system
 
 rake clean
 rake deploy

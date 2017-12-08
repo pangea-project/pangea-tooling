@@ -147,12 +147,9 @@ EOF
   Dir.chdir(tooling_path) do
     begin
       Gem::Specification.find_by_name('bundler')
-      # don't update bundler while 1.16.0 has bugs
-      # sh 'gem update bundler'
+      sh 'gem update bundler'
     rescue Gem::LoadError
-      sh 'gem uninstall -x bundler --version \'~>1.16.0\' || true'
-      sh 'bundle --version'
-      sh 'gem install bundler --version \'~>1.15.0\''
+      sh 'gem install bundler'
     end
 
     # Add debug for checking what version is being used
@@ -164,7 +161,9 @@ EOF
     bundle_args << '--no-cache'
     bundle_args << '--frozen'
     bundle_args << '--system'
-    bundle_args << '--without' << 'development' << 'test'
+    # FIXME: this breaks deployment on nodes, for now disable this
+    # https://github.com/blue-systems/pangea-tooling/issues/17
+    #bundle_args << '--without' << 'development' << 'test'
     bundle(*bundle_args)
 
     # Clean up now unused gems. This prevents unused versions of a gem

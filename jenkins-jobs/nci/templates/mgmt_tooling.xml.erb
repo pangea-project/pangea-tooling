@@ -41,8 +41,7 @@
     <hudson.tasks.Shell>
       <command>
 rm -rf .bundle || true
-gem install --no-rdoc bundler --version '~>1.15.0'
-gem uninstall bundler --version '~>1.16.0' || true
+gem install --no-rdoc bundler
 [ -f Gemfile.lock ] || bundle install --jobs=`nproc`
 bundle update --jobs=`nproc`
 </command>
