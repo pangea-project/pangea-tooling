@@ -24,7 +24,7 @@ gem 'gitlab'
 gem 'htmlentities'
 gem 'insensitive_hash'
 gem 'jenkins_api_client'
-gem 'jenkins_junit_builder'
+gem 'jenkins_junit_builder', '~> 0.0.6' # Don't pickup v0.0.1
 gem 'logger-colors'
 gem 'mercurial-ruby'
 gem 'net-sftp'
