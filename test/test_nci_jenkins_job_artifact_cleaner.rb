@@ -52,20 +52,28 @@ module NCI
       FileUtils.touch("#{aa_archive}/subdir2/aa.udeb")
       FileUtils.touch("#{aa_archive}/subdir2/aa.deb.info.txt")
       FileUtils.touch("#{aa_archive}/subdir2/aa.deb.json")
+      FileUtils.touch("#{aa_archive}/workspace.tar")
+      FileUtils.touch("#{aa_archive}/abc.orig.tar.xz")
+      FileUtils.touch("#{aa_archive}/run_stamp")
 
       self_archive = 'jobs/foobasename/builds/42/archive'
       FileUtils.mkpath(self_archive)
       FileUtils.touch("#{self_archive}/aa.deb")
       FileUtils.touch("#{self_archive}/aa.deb.json")
+      FileUtils.touch("#{self_archive}/workspace.tar")
 
       JenkinsJobArtifactCleaner.run(%w[aa bb])
 
       assert_path_exist("#{aa_archive}/subdir1.deb/")
       assert_path_exist("#{aa_archive}/subdir2/aa.deb.info.txt")
       assert_path_exist("#{aa_archive}/subdir2/aa.deb.json")
+      assert_path_not_exist("#{aa_archive}/workspace.tar")
+      assert_path_not_exist("#{aa_archive}/run_stamp")
+      assert_path_not_exist("#{aa_archive}/abc.orig.tar.xz")
 
       assert_path_not_exist("#{self_archive}/aa.deb")
       assert_path_exist("#{self_archive}/aa.deb.json")
+      assert_path_not_exist("#{self_archive}/workspace.tar")
     end
   end
 end
