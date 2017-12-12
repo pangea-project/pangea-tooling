@@ -19,7 +19,11 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'lib/setup_repo'
+require_relative '../ci-tooling/lib/apt'
+require_relative '../ci-tooling/nci/lib/setup_repo'
+
+ENV['TYPE'] ||= ARGV.fetch(0) { raise 'Need type as argument or in env.' }
 
 NCI.setup_proxy!
 NCI.add_repo_key!
+NCI.setup_repo!
