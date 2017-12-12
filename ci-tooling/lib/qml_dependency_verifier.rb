@@ -20,6 +20,7 @@
 
 require 'logger'
 require 'logger/colors'
+require 'yaml'
 
 require_relative 'qml_dep_verify/package'
 
@@ -46,6 +47,23 @@ class QMLDependencyVerifier
 
   private
 
+  def log_missing(missings)
+    # String the imports to make them easier to read.
+    stringy_missings = missings.map do |pkg, mods|
+      [pkg, mods.map(&:to_s)]
+    end.to_h
+
+    @log.info "Done looking for missing modules.\n" +
+              if stringy_missings.empty?
+                ''
+              else
+                <<-LOG_OUTPUT
+The following modules are missing:
+#{YAML.dump(stringy_missings)}
+                LOG_OUTPUT
+              end
+  end
+
   def missing_modules_internal
     missing_modules = {}
     repo.binaries.each do |package, version|
@@ -55,7 +73,7 @@ class QMLDependencyVerifier
       next if pkg.missing.empty?
       missing_modules[package] = pkg.missing
     end
-    @log.info "Done looking for missing modules\n#{missing_modules}"
+    log_missing(missing_modules)
     missing_modules
   end
 end

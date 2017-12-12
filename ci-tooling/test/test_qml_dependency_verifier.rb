@@ -107,4 +107,9 @@ class QMLDependencyVerifierTest < TestCase
     missing = missing.first
     assert_equal('QtWebKit', missing.identifier)
   end
+
+  def test_log_no_missing
+    repo = mock('repo')
+    QMLDependencyVerifier.new(repo).send(:log_missing, {})
+  end
 end
