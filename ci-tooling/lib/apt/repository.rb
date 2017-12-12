@@ -18,12 +18,14 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '../apt'
+# Technically this requires apt.rb but that'd be circular, so we'll only
+# require it in when a repo is constructed. This makes it a lazy require.
 
 module Apt
   # Represents a repository
   class Repository
     def initialize(name)
+      require_relative '../apt.rb'
       @name = name
       self.class.send(:install_add_apt_repository)
     end
