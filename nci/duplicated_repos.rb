@@ -122,9 +122,7 @@ a symlink (should only appear in the canonical location on our side).
       repos_in_paths = repos.group_by { |x| File.basename(x) }
       repos_in_paths.reject! { |base, paths| reject?(base, paths) }.to_h
       JUnit::Suite.new(repos_in_paths).write_into('reports/')
-      # Only make this fatal after a week transition. This line can be dropped
-      # once we are past the date.
-      return unless (DateTime.new(2017, 9, 4) - DateTime.now) <= 0.0
+      puts repos_in_paths
       raise 'Duplicated repos found' unless repos_in_paths.empty?
     end
   end
