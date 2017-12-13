@@ -29,6 +29,7 @@ export LIVE_IMAGE_NAME="neon-pinebook-$VER"
 lb config \
  --architectures arm64 \
  --archive-areas 'main universe' \
+ --cache false \
  --distribution xenial \
  --binary-images hdd \
  --mode ubuntu \
