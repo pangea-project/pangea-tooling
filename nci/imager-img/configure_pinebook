@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# (C) 2012-2015 Fathi Boudra <fathi.boudra@linaro.org>
+# (C) 2015 Rohan Garg <rohan@garg.io>
+# (C) 2017 Jonathan Riddell <jr@jriddell.org>
+# May be copied under the terms of the GNU GPL version 3 only
+
+# Create configuration for live-build.
+
+# You need live-build package installed.
+
+set -e
+set -x
+
+echo "I: create configuration"
+
+SNAP_URL='http://ports.ubuntu.com/ubuntu-ports/'
+
+export LB_HDD_PARTITION_START="40960s"
+export LB_BOOTLOADERS="none"
+export LB_HDD_LABEL="PINEBOOKneon"
+export LB_MKFS_OPTIONS="-O ^64bit,^metadata_csum,uninit_bg"
+
+# Set Version
+VER=$(date +%Y%m%d.%H%M)
+# Set name for image file
+export LIVE_IMAGE_NAME="neon-pinebook-$VER"
+
+lb config \
+ --architectures arm64 \
+ --archive-areas 'main universe' \
+ --distribution xenial \
+ --binary-images hdd \
+ --mode ubuntu \
+ --apt-source-archives false \
+ --source false \
+ --apt-options "--yes -o Debug::pkgProblemResolver=true -o Debug::pkgDepCache::AutoInstall=true -o Debug::pkgDepCache::Marker=true -o Acquire::Check-Valid-Until=false" \
+ --linux-flavours none \
+ --linux-packages none \
+ --initramfs none \
+ --chroot-filesystem none \
+ --binary-filesystem ext4 \
+ --hdd-size 6000 \
+ --firmware-chroot false \
+ --security false \
+ -m $SNAP_URL \
+ --parent-mirror-binary $SNAP_URL \
+ --mirror-bootstrap $SNAP_URL \
+ --mirror-chroot $SNAP_URL \
+ --mirror-binary $SNAP_URL \
+ --mirror-debian-installer $SNAP_URL \
+ $@
+
+echo "I: copy customization"
+test -d customization && cp -rf customization/* config/
+
+echo "ubuntu-minimal" >> config/package-lists/neon.list.chroot
+echo "ubuntu-standard" >> config/package-lists/neon.list.chroot
+echo "sddm" >> config/package-lists/neon.list.chroot
+echo "u-boot-tools" >> config/package-lists/neon.list.chroot
+echo "pine64-linux-image" >> config/package-lists/neon.list.chroot
+echo "xorg" >> config/package-lists/neon.list.chroot
+echo "pine64-mali-x11" >> config/package-lists/neon.list.chroot
+echo "xserver-xorg-video-armsoc" >> config/package-lists/neon.list.chroot
+echo "casper" >> config/package-lists/neon.list.chroot
+echo "lupin-casper" >> config/package-lists/neon.list.chroot
+echo "neon-settings" >> config/package-lists/neon.list.chroot
+echo "neon-desktop" >> config/package-lists/neon.list.chroot
+echo "neon-live" >> config/package-lists/neon.list.chroot
+echo "mesa-utils-extra" >> config/package-lists/neon.list.chroot
+echo "neon-settings-pinebook" >> config/package-lists/neon.list.chroot
+
+echo "I: done"

@@ -1,0 +1,5 @@
+echo "I: installing live-config .deb"
+wget http://weegie.edinburghlinux.co.uk/~neon/debs/live-config-systemd_5.20170914_all.deb
+wget http://weegie.edinburghlinux.co.uk/~neon/debs/live-config_5.20170914_all.deb
+dpkg --install live-config-systemd_5.20170914_all.deb live-config_5.20170914_all.deb
+rm -f live-config-systemd_5.20170914_all.deb live-config_5.20170914_all.de

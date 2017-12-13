@@ -1,0 +1,5 @@
+echo "I: Adding fix to hide wlan1 from NM"
+cat << EOF > /etc/network/interfaces.d/disable-second-wifi
+# Disable Secondary Wireless Lan (8723bs Has Two Interfaces)
+iface wlan1 inet manual
+EOF

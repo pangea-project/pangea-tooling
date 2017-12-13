@@ -1,0 +1,64 @@
+#!/bin/sh
+
+## live-config(7) - System Configuration Components
+## Copyright (C) 2014 Rohan Garg <rohan@kde.org>
+##
+## This program comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+Cmdline ()
+{
+	# Reading kernel command line
+	for _PARAMETER in ${LIVE_CONFIG_CMDLINE}
+	do
+		case "${_PARAMETER}" in
+			live-config.username=*|username=*)
+				LIVE_USERNAME="${_PARAMETER#*username=}"
+				;;
+		esac
+	done
+}
+
+Init ()
+{
+	# Checking if package is installed or already configured
+	if [ ! -e /var/lib/dpkg/info/sddm.list ] || \
+	   [ -e /var/lib/live/config/sddm ]
+	then
+		exit 0
+	fi
+
+	echo -n " sddm"
+}
+
+Config ()
+{
+	if [ ! -e /usr/bin/sddm ]
+	then
+		exit 0
+	fi
+
+	if [ "${LIVE_CONFIG_NOAUTOLOGIN}" != "true" ] && [ "${LIVE_CONFIG_NOX11AUTOLOGIN}" != "true" ]
+	then
+		# autologin
+		cat >> /etc/sddm.conf << EOF
+[Autologin]
+User=$LIVE_USERNAME
+Session=plasma.desktop
+EOF
+	fi
+
+	# Avoid xinit
+	touch /var/lib/live/config/xinit
+
+	# Creating state file
+	touch /var/lib/live/config/sddm
+}
+
+Cmdline
+Init
+Config

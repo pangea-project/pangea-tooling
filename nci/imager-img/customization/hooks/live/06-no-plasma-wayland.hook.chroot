@@ -1,0 +1,3 @@
+# No Wayland please on Pinebook (package is brought in by neon-desktop on neon dev unstable)
+
+rm -f /usr/share/wayland-sessions/plasmawayland.desktop
