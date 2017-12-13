@@ -6,4 +6,5 @@ dpkg --install live-build_20170920_all.deb
 lb clean --all
 rm -rf config
 /tooling/nci/imager-img/configure_pinebook
+lb build
 /tooling/nci/imager-img/flash_pinebook
