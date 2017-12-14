@@ -1,7 +1,7 @@
 #!/bin/sh -xe
 
-wget http://weegie.edinburghlinux.co.uk/~neon/debs/live-build_20170920_all.deb
-dpkg --install live-build_20170920_all.deb
+wget http://weegie.edinburghlinux.co.uk/~neon/debs/live-build_20171207_all.deb
+dpkg --install live-build_20171207_all.deb
 apt-get -y install qemu-user-static # for arm emulation
 
 lb clean --all
