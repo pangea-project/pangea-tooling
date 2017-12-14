@@ -57,7 +57,7 @@ lb config \
  $@
 
 echo "I: copy customization"
-test -d customization && cp -rf customization/* config/
+test -d /tooling/nci/imager-img/customization && cp -rf /tooling/nci/imager-img/customization/* config/
 
 echo "ubuntu-minimal" >> config/package-lists/neon.list.chroot
 echo "ubuntu-standard" >> config/package-lists/neon.list.chroot
