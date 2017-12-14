@@ -29,6 +29,7 @@ export LIVE_IMAGE_NAME="neon-pinebook-$VER"
 lb config \
  --architectures arm64 \
  --archive-areas 'main universe' \
+ --bootstrap-qemu-arch arm64 --bootstrap-qemu-static /usr/bin/qemu-aarch64-static \
  --cache false \
  --cache-indices false \
  --cache-packages false \
