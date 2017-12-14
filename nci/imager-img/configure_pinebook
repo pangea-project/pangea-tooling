@@ -30,7 +30,9 @@ lb config \
  --architectures arm64 \
  --archive-areas 'main universe' \
  --cache false \
- --cache-stages '' \
+ --cache-indices false \
+ --cache-packages false \
+ --cache-stages 'none' \
  --distribution xenial \
  --binary-images hdd \
  --mode ubuntu \
