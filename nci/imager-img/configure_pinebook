@@ -21,11 +21,6 @@ export LB_BOOTLOADERS="none"
 export LB_HDD_LABEL="PINEBOOKneon"
 export LB_MKFS_OPTIONS="-O ^64bit,^metadata_csum,uninit_bg"
 
-_DATE=$(date +%Y%m%d)
-_TIME=$(date +%H%M)
-DATETIME="${_DATE}-${_TIME}"
-export LIVE_IMAGE_NAME="${IMAGENAME}-pinebook-${TYPE}-${DATETIME}-${ARCH}"
-
 lb config \
  --architectures arm64 \
  --archive-areas 'main universe' \
@@ -47,6 +42,7 @@ lb config \
  --binary-filesystem ext4 \
  --hdd-size 6000 \
  --firmware-chroot false \
+ --source true \
  --security false \
  -m $SNAP_URL \
  --parent-mirror-binary $SNAP_URL \

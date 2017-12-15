@@ -14,6 +14,11 @@ if [ -z $WD ] || [ -z $DIST ] || [ -z $ARCH ] || [ -z $TYPE ] || [ -z $METAPACKA
     exit 1
 fi
 
+_DATE=$(date +%Y%m%d)
+_TIME=$(date +%H%M)
+DATETIME="${_DATE}-${_TIME}"
+export LIVE_IMAGE_NAME="${IMAGENAME}-pinebook-${TYPE}-${DATETIME}-${ARCH}"
+
 wget http://weegie.edinburghlinux.co.uk/~neon/debs/live-build_20171207_all.deb
 dpkg --install live-build_20171207_all.deb
 apt-get -y install qemu-user-static cpio parted # for arm emulation
@@ -25,3 +30,7 @@ cp /usr/share/keyrings/ubuntu-archive-keyring.gpg chroot/usr/share/keyrings/ubun
 /tooling/nci/imager-img/configure_pinebook
 lb build --debug
 /tooling/nci/imager-img/flash_pinebook
+
+zsyncmake ${LIVE_IMAGE_NAME}.img
+sha256sum ${LIVE_IMAGE_NAME}.img > ${LIVE_IMAGE_NAME}.sha256sum
+
