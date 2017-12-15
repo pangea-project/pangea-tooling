@@ -1,5 +1,19 @@
 #!/bin/sh -xe
 
+export WD=$1
+export DIST=$2
+export ARCH=$3
+export TYPE=$4
+export METAPACKAGE=$5
+export IMAGENAME=$6
+export NEONARCHIVE=$7
+
+if [ -z $WD ] || [ -z $DIST ] || [ -z $ARCH ] || [ -z $TYPE ] || [ -z $METAPACKAGE ] || [ -z $IMAGENAME ] || [ -z $NEONARCHIVE ]; then
+    echo "!!! Not all arguments provided! ABORT !!!"
+    env
+    exit 1
+fi
+
 wget http://weegie.edinburghlinux.co.uk/~neon/debs/live-build_20171207_all.deb
 dpkg --install live-build_20171207_all.deb
 apt-get -y install qemu-user-static cpio parted # for arm emulation

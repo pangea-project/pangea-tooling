@@ -21,10 +21,10 @@ export LB_BOOTLOADERS="none"
 export LB_HDD_LABEL="PINEBOOKneon"
 export LB_MKFS_OPTIONS="-O ^64bit,^metadata_csum,uninit_bg"
 
-# Set Version
-VER=$(date +%Y%m%d.%H%M)
-# Set name for image file
-export LIVE_IMAGE_NAME="neon-pinebook-$VER"
+_DATE=$(date +%Y%m%d)
+_TIME=$(date +%H%M)
+DATETIME="${_DATE}-${_TIME}"
+export LIVE_IMAGE_NAME="${IMAGENAME}-pinebook-${TYPE}-${DATETIME}-${ARCH}"
 
 lb config \
  --architectures arm64 \
