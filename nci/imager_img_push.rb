@@ -32,7 +32,7 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # copy to depot using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
 DATE = File.read('date_stamp').strip
-IMGNAME="#{IMAGENAME}-pinebook-#{TYPE}-#{DATE}-#{ARCH}"
+IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"
 REMOTE_DIR = "public_html/neon/images/#{IMGNAME}/"
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
