@@ -42,7 +42,6 @@ lb config \
  --binary-filesystem ext4 \
  --hdd-size 6000 \
  --firmware-chroot false \
- --source true \
  --security false \
  -m $SNAP_URL \
  --parent-mirror-binary $SNAP_URL \
