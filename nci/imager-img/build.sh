@@ -22,7 +22,7 @@ export LIVE_IMAGE_NAME="${IMAGENAME}-${pinebook-remix}-${TYPE}-${DATETIME}-${ARC
 
 wget http://weegie.edinburghlinux.co.uk/~neon/debs/live-build_20171207_all.deb
 dpkg --install live-build_20171207_all.deb
-apt-get -y install qemu-user-static cpio parted udev # for arm emulation
+apt-get -y install qemu-user-static cpio parted udev zsync
 
 lb clean --all
 rm -rf config
