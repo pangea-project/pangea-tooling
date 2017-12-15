@@ -1,4 +1,4 @@
 echo "I: installing armdoc .deb"
-wget http://weegie.edinburghlinux.co.uk/~neon/debs/xserver-xorg-video-armsoc_0.6.0+p20170904+git20171215.1122-1neon_arm64.deb
-dpkg --install xserver-xorg-video-armsoc_0.6.0+p20170904+git20171215.1122-1neon_arm64.deb
-rm -f xserver-xorg-video-armsoc_0.6.0+p20170904+git20171215.1122-1neon_arm64.deb
+wget http://weegie.edinburghlinux.co.uk/~neon/debs/xserver-xorg-video-armsoc_0.6.0+p20170904+git20171215.1122-0neon_arm64.deb
+dpkg --install xserver-xorg-video-armsoc_0.6.0+p20170904+git20171215.1122-0neon_arm64.deb
+rm -f xserver-xorg-video-armsoc_0.6.0+p20170904+git20171215.1122-0neon_arm64.deb
