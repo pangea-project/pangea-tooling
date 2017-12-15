@@ -34,3 +34,4 @@ lb build --debug
 zsyncmake ${LIVE_IMAGE_NAME}.img
 sha256sum ${LIVE_IMAGE_NAME}.img > ${LIVE_IMAGE_NAME}.sha256sum
 
+echo $DATETIME > date_stamp
