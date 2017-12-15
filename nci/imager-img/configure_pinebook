@@ -59,20 +59,4 @@ lb config \
 echo "I: copy customization"
 test -d /tooling/nci/imager-img/customization && cp -rf /tooling/nci/imager-img/customization/* config/
 
-echo "ubuntu-minimal" >> config/package-lists/neon.list.chroot
-echo "ubuntu-standard" >> config/package-lists/neon.list.chroot
-echo "sddm" >> config/package-lists/neon.list.chroot
-echo "u-boot-tools" >> config/package-lists/neon.list.chroot
-echo "pine64-linux-image" >> config/package-lists/neon.list.chroot
-echo "xorg" >> config/package-lists/neon.list.chroot
-echo "pine64-mali-x11" >> config/package-lists/neon.list.chroot
-echo "xserver-xorg-video-armsoc" >> config/package-lists/neon.list.chroot
-echo "casper" >> config/package-lists/neon.list.chroot
-echo "lupin-casper" >> config/package-lists/neon.list.chroot
-echo "neon-settings" >> config/package-lists/neon.list.chroot
-echo "neon-desktop" >> config/package-lists/neon.list.chroot
-echo "neon-live" >> config/package-lists/neon.list.chroot
-echo "mesa-utils-extra" >> config/package-lists/neon.list.chroot
-echo "neon-settings-pinebook" >> config/package-lists/neon.list.chroot
-
 echo "I: done"

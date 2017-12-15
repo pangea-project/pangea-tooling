@@ -1,0 +1,11 @@
+ubuntu-minimal
+ubuntu-standard
+sddm
+u-boot-tools
+pine64-linux-image
+pine64-mali-x11
+xserver-xorg-video-armsoc
+neon-desktop
+neon-live
+mesa-utils-extra
+neon-settings-pinebook
