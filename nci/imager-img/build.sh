@@ -18,7 +18,7 @@ _DATE=$(date +%Y%m%d)
 _TIME=$(date +%H%M)
 DATETIME="${_DATE}-${_TIME}"
 REMIX_NAME="pinebook-remix"
-export LIVE_IMAGE_NAME="${IMAGENAME}-${REMIX_NAME}-${TYPE}-${DATETIME}-${ARCH}"
+export LIVE_IMAGE_NAME="${IMAGENAME}-${REMIX_NAME}-${TYPE}-${DATETIME}"
 
 wget http://weegie.edinburghlinux.co.uk/~neon/debs/live-build_20171207_all.deb
 dpkg --install live-build_20171207_all.deb
