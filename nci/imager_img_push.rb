@@ -33,7 +33,7 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # this to only be published if passing some QA test
 DATE = File.read('date_stamp').strip
 IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"
-REMOTE_DIR = "public_html/neon/images/#{IMGNAME}/"
+REMOTE_DIR = "public_html/neon/images/pinebook-remix/"
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 puts "GPG signing disk image file"
@@ -47,7 +47,7 @@ end
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   puts "mkdir #{REMOTE_PUB_DIR}"
   sftp.mkdir!(REMOTE_PUB_DIR)
-  types = %w[arm64.img amd64.img.sig contents zsync sha256sum]
+  types = %w[arm64.img.gz arm64.img.sig contents zsync sha256sum]
   types.each do |type|
     Dir.glob("*#{type}").each do |file|
       name = File.basename(file)
@@ -58,6 +58,7 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
 
   # Need a second SSH session here, since the SFTP one is busy looping.
   Net::SSH.start('weegie.edinburghlinux.co.uk', 'neon') do |ssh|
+    ssh.exec!("cd #{REMOTE_PUB_DIR}; gunzip *img.gz --stdout > #{IMGNAME}.img")
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
               " ln -s *img #{IMGNAME}-current.iso")
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
