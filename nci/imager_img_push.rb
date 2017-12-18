@@ -33,7 +33,7 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # this to only be published if passing some QA test
 DATE = File.read('date_stamp').strip
 IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"
-REMOTE_DIR = "public_html/neon/images/pinebook-remix/"
+REMOTE_DIR = "public_html/images/pinebook-remix/"
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 puts "GPG signing disk image file"
