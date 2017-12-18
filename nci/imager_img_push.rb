@@ -45,6 +45,7 @@ end
 
 # Publish ISO and associated content.
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
+  puts "mkdir #{REMOTE_PUB_DIR}"
   sftp.mkdir!(REMOTE_PUB_DIR)
   types = %w[arm64.img amd64.img.sig contents zsync sha256sum]
   types.each do |type|
