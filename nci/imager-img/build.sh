@@ -30,7 +30,7 @@ mkdir -p chroot/usr/share/keyrings/
 cp /usr/share/keyrings/ubuntu-archive-keyring.gpg chroot/usr/share/keyrings/ubuntu-archive-keyring.gpg
 /tooling/nci/imager-img/configure_pinebook
 lb build --debug
-/tooling/nci/imager-img/flash_pinebook
+/tooling/nci/imager-img/flash_pinebook ${LIVE_IMAGE_NAME}-${ARCH}.img
 
 zsyncmake ${LIVE_IMAGE_NAME}-${ARCH}.img
 sha256sum ${LIVE_IMAGE_NAME}-${ARCH}.img > ${LIVE_IMAGE_NAME}-${ARCH}.sha256sum

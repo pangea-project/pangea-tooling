@@ -8,7 +8,7 @@ set -e
 
 # FIXME: All of the following makes lots of assumptions, should be fixed later
 LODEVICE=$(losetup -f)
-losetup $LODEVICE *.img
+losetup $LODEVICE $1
 partprobe $LODEVICE
 mount "${LODEVICE}p1" /mnt
 dd conv=notrunc bs=1k seek=8 if="/mnt/boot/pine64/boot0-pine64-pinebook.bin" of="${LODEVICE}"
