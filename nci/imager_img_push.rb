@@ -36,6 +36,7 @@ IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"
 REMOTE_DIR = "public_html/neon/images/#{IMGNAME}/"
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
+puts "GPG signing disk image file"
 unless system('gpg2', '--armor', '--detach-sign', '-o',
               "#{IMGNAME}.img.sig",
               "#{IMGNAME}.img")
@@ -45,7 +46,7 @@ end
 # Publish ISO and associated content.
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   sftp.mkdir!(REMOTE_PUB_DIR)
-  types = %w[amd64.iso amd64.iso.sig contents zsync zsync.README sha256sum]
+  types = %w[arm64.img amd64.img.sig contents zsync sha256sum]
   types.each do |type|
     Dir.glob("*#{type}").each do |file|
       name = File.basename(file)
@@ -57,9 +58,9 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   # Need a second SSH session here, since the SFTP one is busy looping.
   Net::SSH.start('weegie.edinburghlinux.co.uk', 'neon') do |ssh|
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *img #{ISONAME}-current.iso")
+              " ln -s *img #{IMGNAME}-current.iso")
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *img.sig #{ISONAME}-current.img.sig")
+              " ln -s *img.sig #{IMGNAME}-current.img.sig")
     ssh.exec!("cd #{REMOTE_DIR}; rm -f current; ln -s #{DATE} current")
   end
 
@@ -74,6 +75,7 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
 end
 
 # Publish ISO sources.
+=begin
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   path = 'files.neon.kde.org.uk'
   types = %w[source.tar.xz]
@@ -92,3 +94,4 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
     end
   end
 end
+=end
