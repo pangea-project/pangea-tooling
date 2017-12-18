@@ -22,7 +22,7 @@ export LIVE_IMAGE_NAME="${IMAGENAME}-${REMIX_NAME}-${TYPE}-${DATETIME}"
 
 wget http://weegie.edinburghlinux.co.uk/~neon/debs/live-build_20171207_all.deb
 dpkg --install live-build_20171207_all.deb
-apt-get -y install qemu-user-static cpio parted udev zsync
+apt-get -y install qemu-user-static cpio parted udev zsync pigz
 
 lb clean --all
 rm -rf config
