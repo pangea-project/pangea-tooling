@@ -58,7 +58,7 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
 
   # Need a second SSH session here, since the SFTP one is busy looping.
   Net::SSH.start('weegie.edinburghlinux.co.uk', 'neon') do |ssh|
-    ssh.exec!("cd #{REMOTE_PUB_DIR}; gunzip *img.gz --stdout > #{IMGNAME}.img")
+    ssh.exec!("cd #{REMOTE_PUB_DIR}; gunzip --stdout *img.gz > #{IMGNAME}.img")
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
               " ln -s *img #{IMGNAME}-current.iso")
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
