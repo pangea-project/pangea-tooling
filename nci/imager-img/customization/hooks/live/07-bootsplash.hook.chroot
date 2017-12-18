@@ -1,0 +1,3 @@
+echo "I: copying bootsplash"
+wget http://weegie.edinburghlinux.co.uk/~neon/debs/bootsplash.bmp
+mv bootsplash.bmp /boot/bootsplash.bmp
