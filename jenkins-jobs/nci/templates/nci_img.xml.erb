@@ -42,12 +42,6 @@ export NEONARCHIVE=<%= neonarchive %>
   </builders>
   <publishers>
     <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.25">
-      <targets>
-	<hudson.plugins.im.GroupChatIMMessageTarget plugin="instant-messaging@1.35">
-	  <name>#netrunnerlinux</name>
-	  <notificationOnly>false</notificationOnly>
-	</hudson.plugins.im.GroupChatIMMessageTarget>
-      </targets>
       <targets class="empty-list"/>
       <strategy>ALL</strategy>
       <notifyOnBuildStart>true</notifyOnBuildStart>
