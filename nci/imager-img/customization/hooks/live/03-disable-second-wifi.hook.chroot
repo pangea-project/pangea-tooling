@@ -1,5 +1,6 @@
 echo "I: Adding fix to hide wlan1 from NM"
-cat << EOF > /etc/network/interfaces.d/disable-second-wifi
+cat << EOF > /etc/modprobe.d/wifi-rt8723-pine64.conf
 # Disable Secondary Wireless Lan (8723bs Has Two Interfaces)
-iface wlan1 inet manual
+options 8723bs if2name=p2p0 rtw_power_mgnt=0
+options 8723cs if2name=p2p0 rtw_power_mgnt=0
 EOF
