@@ -80,6 +80,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                       distribution: distribution,
                                       downstream_jobs: all_builds)
         all_meta_builds << enqueue(meta_builder)
+        enqueue(MGMTRepoTestVersionsJob.new(type: type,
+                                            distribution: distribution))
       end
     end
 

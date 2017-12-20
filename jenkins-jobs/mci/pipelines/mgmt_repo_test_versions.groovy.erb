@@ -1,0 +1,30 @@
+env.DIST = "<%= distribution %>"
+env.TYPE = "<%= type %>"
+env.PWD_BIND = '/workspace'
+
+// Run on persistent machines. This can take quite a while.
+cleanNode('master') {
+  stage('test') {
+    try {
+      git changelog: false, url: 'https://github.com/blue-systems/pangea-tooling.git'
+      sh '~/tooling/mci/contain.rb /workspace/mci/repo_test_versions.rb -v'
+    } finally {
+      junit '*.xml'
+    }
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}
