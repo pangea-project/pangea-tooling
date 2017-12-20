@@ -23,6 +23,8 @@ require_relative '../nci/lint/versions'
 require_relative '../lib/aptly-ext/remote'
 require_relative '../ci-tooling/mci/lib/setup_repo'
 
+ENV['VARIANT'] = 'generic'
+
 MCI.setup_repo!
 
 Aptly::Ext::Remote.mci do
