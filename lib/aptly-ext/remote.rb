@@ -46,6 +46,12 @@ ssh://neonarchives@archive-api.neon.kde.org/srv/neon-services/aptly.sock
 URI
       end
 
+      def self.mci(&block)
+        connect(URI.parse(<<-EOF.strip), &block)
+ssh://mci@neon.plasma-mobile.org:9090
+EOF
+      end
+
       def self.neon_read_only(&block)
         connect(URI::HTTPS.build(host: 'archive-api.neon.kde.org'), &block)
       end
