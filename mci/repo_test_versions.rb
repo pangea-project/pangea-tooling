@@ -21,11 +21,13 @@
 
 require_relative '../nci/lint/versions'
 require_relative '../lib/aptly-ext/remote'
-require_relative '../ci-tooling/mci/lib/setup_repo'
+require_relative '../ci-tooling/nci/lib/setup_repo'
 
 ENV['VARIANT'] = 'generic'
 
-MCI.setup_repo!
+# We setup NCI repo as well because MCI repo is essentially extension to
+# NCI
+NCI.setup_repo!
 
 Aptly::Ext::Remote.mci_read_only do
   NCI::VersionsTest.lister = NCI::RepoPackageLister.new
