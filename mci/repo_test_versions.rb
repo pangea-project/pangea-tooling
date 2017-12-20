@@ -30,7 +30,8 @@ ENV['VARIANT'] = 'generic'
 NCI.setup_repo!
 
 Aptly::Ext::Remote.mci_read_only do
-  NCI::VersionsTest.lister = NCI::RepoPackageLister.new("xenial")
+  repo = Aptly::Repository.get("xenial")
+  NCI::VersionsTest.lister = NCI::RepoPackageLister.new(repo)
   ENV['CI_REPORTS'] = Dir.pwd
   ARGV << '--ci-reporter'
   require 'minitest/autorun'
