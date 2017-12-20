@@ -56,6 +56,11 @@ EOF
         connect(URI::HTTPS.build(host: 'archive-api.neon.kde.org'), &block)
       end
 
+      def self.mci_read_only(&block)
+        connect(URI::HTTP.build(host: 'neon.plasma-mobile.org',
+                                port: 8080), &block)
+      end
+
       def self.configure_aptly!
         # Standard config, applying to everything unless overridden.
         Aptly.configure do |config|

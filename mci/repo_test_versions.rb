@@ -27,7 +27,7 @@ ENV['VARIANT'] = 'generic'
 
 MCI.setup_repo!
 
-Aptly::Ext::Remote.mci do
+Aptly::Ext::Remote.mci_read_only do
   NCI::VersionsTest.lister = NCI::RepoPackageLister.new
   ENV['CI_REPORTS'] = Dir.pwd
   ARGV << '--ci-reporter'
