@@ -26,6 +26,11 @@
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
+# Only build ubuntu images. MCI needs no debian images.
+if [ "$NODE_NAME" == "master" ]; then
+export PANGEA_UBUNTU_ONLY=1
+fi
+
 ~/tooling/mgmt/docker_cleanup.rb
 ~/tooling/mgmt/docker.rb</command>
     </hudson.tasks.Shell>
