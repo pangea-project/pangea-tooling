@@ -112,6 +112,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTGitJewellerJob.new)
+    enqueue(MGMTJobUpdater.new)
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     tooling_test =
       enqueue(MGMTToolingTestJob.new(downstreams: [tooling_deploy]))
