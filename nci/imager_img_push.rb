@@ -60,13 +60,14 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   Net::SSH.start('weegie.edinburghlinux.co.uk', 'neon') do |ssh|
     ssh.exec!("cd #{REMOTE_PUB_DIR}; gunzip --stdout *img.gz > #{IMGNAME}.img")
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *img #{IMGNAME}-current.iso")
+              " ln -s *img #{IMAGENAME}-pinebook-remix-#{TYPE}-current.iso")
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *img.sig #{IMGNAME}-current.img.sig")
+              " ln -s *img.sig #{IMAGENAME}-pinebook-remix-#{TYPE}-current.img.sig")
     ssh.exec!("cd #{REMOTE_DIR}; rm -f current; ln -s #{DATE} current")
   end
 
-  sftp.dir.glob(REMOTE_DIR, '*') do |entry|
+  img_directories = sftp.dir.glob(REMOTE_DIR, '*').sort[-4, 4] # keep the last three plus current symlink
+  img_directories do |entry|
     next unless entry.directory? # current is a symlink
     path = "#{REMOTE_DIR}/#{entry.name}"
     next if path.include?(REMOTE_PUB_DIR)
