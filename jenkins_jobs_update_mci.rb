@@ -34,6 +34,10 @@ Dir.glob(File.expand_path('jenkins-jobs/mci/*.rb', __dir__)).each do |file|
   require file
 end
 
+BLACKLIST_JOBS = %w[
+  mgmt_repo_test_versions_halium_xenial
+].freeze
+
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
@@ -49,6 +53,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def all_template_files
     files = super
     files + Dir.glob("#{JenkinsJob.flavor_dir}/templates/**.xml.erb")
+  end
+
+  def enqueue(job)
+    return job if BLACKLIST_JOBS.any? do |x|
+      job.job_name.include?(x)
+    end
+    super
   end
 
   def populate_queue
