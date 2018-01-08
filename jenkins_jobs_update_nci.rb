@@ -68,8 +68,6 @@ FUTURE_TYPES = %w[unstable].freeze
 FUTURE_SKIP = %w[
   _applications_
   _kde-extras_
-  _kde-req_
-  _kde-std_
   _calligra_
   _krap_
   iso_neon_
