@@ -193,4 +193,18 @@ class DeployTest < TestCase
       remove_base(:ubuntu, __method__)
     end
   end
+
+  def test_openqa
+    # When the hostname contains openqa we want to have autoinst provisioning
+    # enabled automatically.
+    Socket.expects(:gethostname).returns('foo')
+    MGMT::Deployer.new(:ubuntu, 'wily', %w[vivid])
+    refute ENV.include?('PANGEA_PROVISION_AUTOINST')
+
+    Socket.expects(:gethostname).returns('foo-openqa-bar')
+    MGMT::Deployer.new(:ubuntu, 'wily', %w[vivid])
+    assert ENV.include?('PANGEA_PROVISION_AUTOINST')
+  ensure
+    ENV.delete('PANGEA_PROVISION_AUTOINST')
+  end
 end

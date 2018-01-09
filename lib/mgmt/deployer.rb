@@ -3,6 +3,7 @@
 require 'docker'
 require 'logger'
 require 'logger/colors'
+require 'socket'
 
 require_relative '../../ci-tooling/lib/dpkg'
 require_relative '../ci/container'
@@ -27,9 +28,14 @@ module MGMT
       warn "Deploying #{flavor} #{tag} from #{origin_tags}"
       @base = CI::PangeaImage.new(flavor, tag)
       ENV['DIST'] = @base.tag
+      ENV['PANGEA_PROVISION_AUTOINST'] = '1' if openqa?
       @origin_tags = origin_tags
       @testing = true if CI::PangeaImage.namespace.include? 'testing'
       init_logging
+    end
+
+    def openqa?
+      Socket.gethostname.include?('openqa')
     end
 
     def init_logging
