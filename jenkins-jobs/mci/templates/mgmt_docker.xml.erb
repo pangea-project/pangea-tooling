@@ -27,7 +27,8 @@
     <hudson.tasks.Shell>
       <command>#!/bin/bash
 # Only build ubuntu images. MCI needs no debian images.
-if [ "$NODE_NAME" == "master" ]; then
+# Nodes tagged with a neon tag also only get ubuntu.
+if [[ "$NODE_NAME" == "master" || "$NODE_LABELS" =~ "neon" ]]; then
 export PANGEA_UBUNTU_ONLY=1
 fi
 
