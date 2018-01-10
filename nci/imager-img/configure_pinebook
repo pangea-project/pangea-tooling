@@ -24,6 +24,7 @@ export LB_MKFS_OPTIONS="-O ^64bit,^metadata_csum,uninit_bg"
 lb config \
  --architectures arm64 \
  --archive-areas 'main universe' \
+ --apt-options "--yes --allow-downgrades"
  --bootstrap-qemu-arch arm64 --bootstrap-qemu-static /usr/bin/qemu-aarch64-static \
  --cache false \
  --cache-indices false \
