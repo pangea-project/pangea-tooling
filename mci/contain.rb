@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2014-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2014-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -26,6 +26,14 @@ Docker.options[:read_timeout] = 8 * 60 * 60 # 8 hours now.. because qtbase!
 DIST = ENV.fetch('DIST')
 JOB_NAME = ENV.fetch('JOB_NAME')
 PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
+
+# Whitelist a bunch of Jenkins variables for consumption inside the container.
+whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
+               NODE_NAME NODE_LABELS
+               PANGEA_PROVISION_AUTOINST
+               DH_VERBOSE]
+whitelist += (ENV['DOCKER_ENV_WHITELIST'] || '').split(':')
+ENV['DOCKER_ENV_WHITELIST'] = whitelist.join(':')
 
 # TODO: transition away from compat behavior and have contain properly
 #       apply pwd_bind all the time?
