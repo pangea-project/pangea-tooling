@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -23,6 +23,23 @@ require_relative '../lib/rake/bundle'
 
 require 'mocha/test_unit'
 
+# Hack
+# https://github.com/bundler/bundler/issues/6252
+module BundlerOverlay
+  def frozen?
+    if caller_locations.any?{ |x| x.absolute_path.include?('lib/mocha') }
+      return false
+    end
+    super
+  end
+end
+
+module Bundler
+  class << self
+    prepend BundlerOverlay
+  end
+end
+
 class RakeBundleTest < TestCase
   def setup
     # Make sure $? is fine before we start!
@@ -38,7 +55,7 @@ class RakeBundleTest < TestCase
   def test_bundle
     Bundler.expects(:clean_system)
            .with('bundle', 'pack')
-    bundle(*%w(pack))
+    bundle(*%w[pack])
   end
 
   def test_bundle_nameerror
@@ -51,6 +68,6 @@ class RakeBundleTest < TestCase
           .expects(:system)
           .with('bundle', 'pack')
           .in_sequence(seq)
-    bundle(*%w(pack))
+    bundle(*%w[pack])
   end
 end
