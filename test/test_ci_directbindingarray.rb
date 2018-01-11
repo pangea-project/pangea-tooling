@@ -48,4 +48,8 @@ class DirectBindingArrayTest < TestCase
       CI::DirectBindingArray.to_bindings("kitten")
     end
   end
+
+  def test_read_only_array
+    CI::DirectBindingArray.to_bindings(["/foo:/foo:ro"])
+  end
 end

@@ -32,9 +32,11 @@ module CI
     end
 
     def self.volume_specification_check(str)
-      if str.count(':') > 1
-        raise ExcessColonError, 'Invalid docker volume notation'
-      end
+      # path or path:path. both fine.
+      return if str.count(':') <= 1
+      # path:path:ro is also fine (NB: above also implies path:ro)
+      return if str.count(':') == 2 && str.split(':')[-1] == 'ro'
+      raise ExcessColonError, 'Invalid docker volume notation'
     end
 
     # Helper for binding candidates with colons.
