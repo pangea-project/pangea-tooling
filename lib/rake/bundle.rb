@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'bundler'
+
 # Bundler can have itself injected in the env preventing bundlers forked from
 # ruby to work correctly. This helper helps with running bundlers in a way
 # that they do not have a "polluted" environment.
