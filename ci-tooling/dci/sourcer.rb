@@ -25,18 +25,30 @@ require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
 require_relative '../lib/kdeify'
 require_relative '../lib/ci/generate_langpack_packaging'
+require_relative 'lib/settings'
 require_relative 'lib/setup_repo'
 require_relative 'lib/setup_env'
 
 DCI.setup_repo!
 DCI.setup_env!
 
-def orig_source(fetcher, restricted_packaging_copy: false)
+module Sourcer
+  class << self
+    def sourcer_args
+      args = { strip_symbols: true }
+      settings = DCI::Settings.for_job
+      sourcer_settings = settings.fetch('sourcer', {})
+      restrict = sourcer_settings.fetch('restricted_packaging_copy',
+                                        nil)
+      return args unless restrict
+      args[:restricted_packaging_copy] = restrict
+      args
+    end
+
+def orig_source(fetcher)
   tarball = fetcher.fetch('source')
   raise 'Failed to fetch tarball' unless tarball
-  sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'),
-                                      strip_symbols: true,
-                                      restricted_packaging_copy: restricted_packaging_copy)
+  sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'),**sourcer_args)
   sourcer.build(tarball.origify)
 end
 
