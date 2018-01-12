@@ -1,4 +1,3 @@
 # for linux, mali/gl and bluetooth
 deb http://pinebook.kde.org.uk xenial main
-deb-src http://pinebook.kde.org.uk xenial main
 
