@@ -296,8 +296,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     docker = enqueue(MGMTDockerJob.new(dependees: []))
     enqueue(MGMTMergerDebianFrameworks.new)
     enqueue(MGMTGerminateJob.new)
-    enqueue(MGMTAppstreamGenerator.new(repo: 'user'))
-    enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts'))
+    enqueue(MGMTAppstreamGenerator.new(repo: 'user',
+                                       dist: NCI.current_series))
+    enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts',
+                                               dist: NCI.current_series))
     enqueue(MGMTAppstreamHealthJob.new)
     enqueue(MGMTJenkinsPruneArchivesJob.new)
     enqueue(MGMTJenkinsPruneParameterListJob.new)

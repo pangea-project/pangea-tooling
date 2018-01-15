@@ -23,10 +23,12 @@ require_relative 'pipelinejob'
 # generates appsteram data for a given repo
 class MGMTAppstreamGenerator < PipelineJob
   attr_reader :repo
+  attr_reader :dist
 
-  def initialize(suffix = '', repo:)
+  def initialize(suffix = '', repo:, dist:)
     super("mgmt_appstream-generator#{suffix}",
           template: 'mgmt_appstream_generator')
     @repo = repo
+    @dist = dist
   end
 end

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -24,15 +24,19 @@ require 'fileutils'
 require_relative 'lib/setup_repo'
 require_relative '../lib/apt'
 require_relative '../lib/asgen'
+require_relative '../lib/nci'
 
 TYPE = ENV.fetch('TYPE')
+DIST = ENV.fetch('DIST')
 
 NCI.setup_repo!
 
-backports = "deb http://archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse\n"
-File.open('/etc/apt/sources.list', 'a') { |file| file.write(backports) }
-updates = "deb http://archive.ubuntu.com/ubuntu/ xenial-updates main restricted\n"
-File.open('/etc/apt/sources.list', 'a') { |file| file.write(updates) }
+File.open('/etc/apt/sources.list', 'a') do |file|
+  file.write(<<-SOURCES)
+deb http://archive.ubuntu.com/ubuntu/ #{DIST}-backports main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ #{DIST}-updates main restricted
+  SOURCES
+end
 
 # Build
 Apt.update
@@ -53,13 +57,14 @@ Dir.chdir(build_dir) do
   system(*%w[ninja])
 end
 
+suite = DIST
 config = ASGEN::Conf.new("neon/#{TYPE}")
 config.ArchiveRoot = File.absolute_path('aptly-repository')
 config.MediaBaseUrl = "https://metadata.neon.kde.org/appstream/#{TYPE}/media"
 config.HtmlBaseUrl = "https://metadata.neon.kde.org/appstream/#{TYPE}/html"
 config.Backend = 'debian'
 config.Features['validateMetainfo'] = true
-config.Suites << ASGEN::Suite.new('xenial').tap do |s|
+config.Suites << ASGEN::Suite.new(series).tap do |s|
   s.sections = %w[main]
   s.architectures = %w[amd64]
   s.dataPriority = 1
@@ -72,7 +77,7 @@ end
 Apt.install('breeze-icon-theme', 'hicolor-icon-theme')
 FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
 config.write("#{run_dir}/asgen-config.json")
-system("#{build_dir}/appstream-generator", 'process', 'xenial',
+system("#{build_dir}/appstream-generator", 'process', suite,
        chdir: run_dir) || raise
 
 # TODO

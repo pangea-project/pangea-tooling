@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -25,8 +25,10 @@ require 'net/ssh'
 require 'tmpdir'
 
 require_relative '../ci-tooling/lib/debian/release'
+require_relative '../ci-tooling/lib/nci'
 
 APTLY_REPOSITORY = ENV.fetch('APTLY_REPOSITORY')
+DIST = ENV.fetch('DIST')
 
 archive_dir = File.absolute_path('aptly-repository')
 run_dir = File.absolute_path('run')
@@ -37,9 +39,9 @@ repo_dir = "#{export_dir}/repo"
 dep11_dir = "#{repo_dir}/main/dep11"
 FileUtils.rm_r(repo_dir) if Dir.exist?(repo_dir)
 FileUtils.mkpath(dep11_dir)
-FileUtils.cp_r("#{export_dir}/data/xenial/main/.", dep11_dir, verbose: true)
+FileUtils.cp_r("#{export_dir}/data/#{DIST}/main/.", dep11_dir, verbose: true)
 
-release = Debian::Release.new("#{archive_dir}/dists/xenial/Release")
+release = Debian::Release.new("#{archive_dir}/dists/#{DIST}/Release")
 release.parse!
 
 def checksum(tool, f)
@@ -81,7 +83,7 @@ File.write("#{repo_dir}/Release", release.dump)
 
 repodir = File.absolute_path('run/export/repo')
 tmpdir = '/home/neonarchives/asgen_push'
-targetdir = "/home/neonarchives/aptly/public/#{APTLY_REPOSITORY}/dists/xenial"
+targetdir = "/home/neonarchives/aptly/public/#{APTLY_REPOSITORY}/dists/#{DIST}"
 
 Net::SSH.start('archive-api.neon.kde.org', 'neonarchives') do |ssh|
   puts ssh.exec!("rm -rf #{tmpdir}")
