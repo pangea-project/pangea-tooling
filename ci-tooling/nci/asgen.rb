@@ -40,9 +40,10 @@ end
 
 # Build
 Apt.update
-Apt.install(%w[meson ldc gir-to-d libappstream-dev libgdk-pixbuf2.0-dev libarchive-dev
-               librsvg2-dev liblmdb-dev libglib2.0-dev libcairo2-dev libcurl4-gnutls-dev
-               libfreetype6-dev libfontconfig1-dev libpango1.0-dev libmustache-d-dev]) || raise
+Apt.install(%w[meson ldc gir-to-d libappstream-dev libgdk-pixbuf2.0-dev
+               libarchive-dev librsvg2-dev liblmdb-dev libglib2.0-dev
+               libcairo2-dev libcurl4-gnutls-dev libfreetype6-dev
+               libfontconfig1-dev libpango1.0-dev libmustache-d-dev]) || raise
 
 # Run
 Apt.install(%w[npm nodejs-legacy optipng liblmdb0]) || raise
