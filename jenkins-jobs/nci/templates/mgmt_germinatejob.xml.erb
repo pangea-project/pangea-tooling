@@ -47,7 +47,7 @@
       <command>set -ex
 env
 git branch -a
-export DIST=xenial
+export DIST=<%= dist %>
 export PWD_BIND=/workspace
 ~/tooling/nci/contain.rb ./update_in_container
 git status

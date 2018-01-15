@@ -22,7 +22,10 @@ require_relative '../job'
 
 # auto germinate release branch of seeds
 class MGMTGerminateJob < JenkinsJob
-  def initialize
+  attr_reader :dist
+
+  def initialize(dist:)
     super('mgmt_germinate', 'mgmt_germinatejob.xml.erb')
+    @dist = dist
   end
 end
