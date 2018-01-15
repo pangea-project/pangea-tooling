@@ -22,10 +22,12 @@ require_relative '../job'
 
 # regularly cleans up workspaces on slaves
 class MGMTWorkspaceCleanerJob < JenkinsJob
+  attr_reader :dist
   attr_reader :dependees
 
-  def initialize(dependees: [])
+  def initialize(dist:, dependees: [])
     super('mgmt_workspace_cleaner', 'mgmt_workspace_cleaner.xml.erb')
+    @dist = dist
     @dependees = dependees
   end
 end

@@ -25,7 +25,7 @@
   </axes>
   <builders>
     <hudson.tasks.Shell>
-      <command>DIST=xenial ~/tooling/ci-tooling/nci/workspace_cleaner.rb</command>
+      <command>DIST=<%= dist %> ~/tooling/ci-tooling/nci/workspace_cleaner.rb</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

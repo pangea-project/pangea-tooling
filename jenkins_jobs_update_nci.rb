@@ -292,7 +292,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     )
     enqueue(MGMTPauseIntegrationJob.new(downstreams: [progenitor]))
     enqueue(MGMTAptlyJob.new(dependees: [progenitor]))
-    enqueue(MGMTWorkspaceCleanerJob.new)
+    enqueue(MGMTWorkspaceCleanerJob.new(dist: NCI.current_series))
     docker = enqueue(MGMTDockerJob.new(dependees: []))
     enqueue(MGMTMergerDebianFrameworks.new)
     enqueue(MGMTGerminateJob.new)
