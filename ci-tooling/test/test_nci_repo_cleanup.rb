@@ -45,6 +45,12 @@ class NCIRepoCleanupTest < TestCase
     repo.expects(:Name)
   end
 
+  def test_repo_names
+    series = NCI.series
+    names = RepoNames.all('foo')
+    assert_equal(series.size, names.size)
+  end
+
   def test_clean
 
     session = mock('session')

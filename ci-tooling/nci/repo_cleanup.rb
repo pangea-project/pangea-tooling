@@ -24,6 +24,7 @@ require 'net/ssh/gateway'
 require 'net/ssh'
 
 require_relative '../lib/aptly-ext/filter'
+require_relative '../lib/nci' # nci config module
 require_relative '../../lib/aptly-ext/remote'
 
 # Cleans up an Aptly::Repository by removing all versions of source+bin that
@@ -128,13 +129,21 @@ class RepoCleaner
   end
 end
 
+# Helper to construct repo names
+class RepoNames
+  def self.all(prefix)
+    NCI.series.collect { |name, _version| "#{prefix}_#{name}" }
+  end
+end
+
 if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
   # SSH tunnel so we can talk to the repo
   Faraday.default_connection_options =
     Faraday::ConnectionOptions.new(timeout: 15 * 60)
   Aptly::Ext::Remote.neon do
-    RepoCleaner.clean(%w[unstable stable unstable_xenial stable_xenial])
-    RepoCleaner.clean(%w[release_xenial], keep_amount: 4)
-    RepoCleaner.clean(%w[release-lts_xenial], keep_amount: 4)
+    RepoCleaner.clean(%w[unstable stable] +
+                      RepoNames.all('unstable') + RepoNames.all('stable'))
+    RepoCleaner.clean(RepoNames.all('release'), keep_amount: 4)
+    RepoCleaner.clean(RepoNames.all('release-lts'), keep_amount: 4)
   end
 end
