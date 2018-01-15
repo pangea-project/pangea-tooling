@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -300,7 +300,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                        dist: NCI.current_series))
     enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts',
                                                dist: NCI.current_series))
-    enqueue(MGMTAppstreamHealthJob.new)
+    enqueue(MGMTAppstreamHealthJob.new(dist: NCI.current_series))
     enqueue(MGMTJenkinsPruneArchivesJob.new)
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsArchive.new)

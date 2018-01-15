@@ -24,7 +24,7 @@ require 'open-uri'
 
 # Tests dep11 data being there
 class DEP11Test < Minitest::Test
-  SERIES = 'xenial'
+  SERIES = ENV.fetch('DIST')
   POCKETS = %w[main].freeze
 
   IN_RELEASES = {

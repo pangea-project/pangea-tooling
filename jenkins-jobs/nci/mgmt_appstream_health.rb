@@ -22,7 +22,10 @@ require_relative 'pipelinejob'
 
 # tests dep11 (appstream) health on the repositories
 class MGMTAppstreamHealthJob < PipelineJob
-  def initialize
+  attr_reader :dist
+
+  def initialize(dist:)
     super('mgmt_appstream-health', cron: 'H H/3 * * *')
+    @dist = dist
   end
 end
