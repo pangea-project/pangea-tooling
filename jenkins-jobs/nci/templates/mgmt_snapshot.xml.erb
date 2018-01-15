@@ -32,7 +32,7 @@
       <configs>
         <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
           <configs class="empty-list"/>
-          <projects>mgmt_daily_promotion_xenial_<%= origin %></projects>
+          <projects>mgmt_daily_promotion_<%= dist %>_<%= origin %></projects>
           <condition>ALWAYS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
           <triggerFromChildProjects>false</triggerFromChildProjects>
@@ -61,7 +61,8 @@
       </configs>
     </hudson.plugins.parameterizedtrigger.TriggerBuilder>
     <hudson.tasks.Shell>
-      <command>cd /var/lib/jenkins/tooling
+      <command>export DIST=<%= dist %>
+cd /var/lib/jenkins/tooling
 bundle exec ~/tooling/nci/repo_snapshot_<%= target %>.rb
 </command>
     </hudson.tasks.Shell>
@@ -83,7 +84,7 @@ bundle exec ~/tooling/nci/repo_snapshot_<%= target %>.rb
       <configs>
         <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
           <configs class="empty-list"/>
-          <projects>mgmt_build_xenial_<%= origin %></projects>
+          <projects>mgmt_build_<%= dist %>_<%= origin %></projects>
           <condition>SUCCESS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
           <triggerFromChildProjects>false</triggerFromChildProjects>

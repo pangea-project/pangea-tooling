@@ -24,17 +24,19 @@ require 'date'
 
 require_relative '../lib/aptly-ext/remote'
 
+DIST = ENV.fetch('DIST')
+
 Faraday.default_connection_options =
   Faraday::ConnectionOptions.new(timeout: 15 * 60)
 
 # SSH tunnel so we can talk to the repo
 Aptly::Ext::Remote.neon do
   stamp = Time.now.utc.strftime('%Y%m%d.%H%M')
-  release = Aptly::Repository.get('release_xenial')
-  snapshot = release.snapshot(Name: "release_xenial-#{stamp}")
+  release = Aptly::Repository.get("release_#{DIST}")
+  snapshot = release.snapshot(Name: "release_#{DIST}-#{stamp}")
   # Limit to user for now.
   pubs = Aptly::PublishedRepository.list.select do |x|
-    x.Prefix == 'user' && x.Distribution == 'xenial'
+    x.Prefix == 'user' && x.Distribution == DIST
   end
   pub = pubs[0]
   pub.update!(Snapshots: [{ Name: snapshot.Name, Component: 'main' }])

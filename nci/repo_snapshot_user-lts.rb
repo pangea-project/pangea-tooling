@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -24,17 +24,19 @@ require 'date'
 
 require_relative '../lib/aptly-ext/remote'
 
+DIST = ENV.fetch('DIST')
+
 Faraday.default_connection_options =
   Faraday::ConnectionOptions.new(timeout: 15 * 60)
 
 # SSH tunnel so we can talk to the repo
 Aptly::Ext::Remote.neon do
   stamp = Time.now.utc.strftime('%Y%m%d.%H%M')
-  release = Aptly::Repository.get('release-lts_xenial')
-  snapshot = release.snapshot(Name: "release-lts_xenial-#{stamp}")
+  release = Aptly::Repository.get("release-lts_#{DIST}")
+  snapshot = release.snapshot(Name: "release-lts_#{DIST}-#{stamp}")
   # Limit to user for now.
   pubs = Aptly::PublishedRepository.list.select do |x|
-    x.Prefix == 'user/lts' && x.Distribution == 'xenial'
+    x.Prefix == 'user/lts' && x.Distribution == DIST
   end
   pub = pubs[0]
   pub.update!(Snapshots: [{ Name: snapshot.Name, Component: 'main' }])
