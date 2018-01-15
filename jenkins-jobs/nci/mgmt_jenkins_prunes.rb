@@ -34,13 +34,6 @@ class MGMTJenkinsBasePruneJob < JenkinsJob
   end
 end
 
-# Prunes archives (i.e. artifacts)
-class MGMTJenkinsPruneArchivesJob < MGMTJenkinsBasePruneJob
-  def initialize
-    super(name: 'archives', paths: %w[archive], max_age: -1, min_count: 1)
-  end
-end
-
 # Prunes parameter-files
 class MGMTJenkinsPruneParameterListJob < MGMTJenkinsBasePruneJob
   def initialize
