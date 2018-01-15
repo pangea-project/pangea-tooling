@@ -34,7 +34,7 @@ NCI.setup_repo!
 File.open('/etc/apt/sources.list', 'a') do |file|
   file.write(<<-SOURCES)
 deb http://archive.ubuntu.com/ubuntu/ #{DIST}-backports main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu/ #{DIST}-updates main restricted
+deb http://archive.ubuntu.com/ubuntu/ #{DIST}-updates main restricted universe multiverse
   SOURCES
 end
 
