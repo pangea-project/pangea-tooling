@@ -25,8 +25,9 @@ require_relative '../dci/sourcer'
 require 'mocha/test_unit'
 
 class DCISourcerTest < TestCase
+  
   def setup
-    ENV['DIST'] = 'sid'
+    ENV['DIST'] = 'testing'
     ENV['BUILD_NUMBER'] = '123'
   end
 
