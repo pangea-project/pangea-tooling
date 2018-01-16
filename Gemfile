@@ -8,7 +8,7 @@ source 'https://gem.cache.pangea.pub' do
   gem 'releaseme' # Not released as gem at all
 end
 
-gem 'aptly-api', '~> 0.8'
+gem 'aptly-api', '~> 0.8.2'
 gem 'concurrent-ruby'
 gem 'deep_merge', '~> 1.0'
 gem 'docker-api', '~> 1.24' # Container.refresh! only introduced in 1.23
