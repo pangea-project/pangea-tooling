@@ -6,12 +6,6 @@ source 'https://gem.cache.pangea.pub'
 # These are actual gems in our cache, they mustn't have a git: argument.
 source 'https://gem.cache.pangea.pub' do
   gem 'releaseme' # Not released as gem at all
-
-  # Temporarily from git waiting for a release newer than 4.1.0. Once a newer
-  # version is available this can move away from git again.
-  # Also undo workaround in deploy_in_container.rake!
-  # We want a version from our git builds, so restrict us to 4.1.0.x
-  gem 'net-ssh', '~> 4.1.0.0'
 end
 
 gem 'aptly-api', '~> 0.8'
@@ -28,6 +22,7 @@ gem 'jenkins_junit_builder', '~> 0.0.6' # Don't pickup v0.0.1
 gem 'logger-colors'
 gem 'mercurial-ruby'
 gem 'net-sftp'
+gem 'net-ssh', '~> 4.2.0'
 gem 'net-ssh-gateway'
 gem 'nokogiri'
 gem 'octokit'
