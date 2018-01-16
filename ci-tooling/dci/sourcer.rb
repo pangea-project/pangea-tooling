@@ -29,69 +29,110 @@ require_relative 'lib/settings'
 require_relative 'lib/setup_repo'
 require_relative 'lib/setup_env'
 
-DCI.setup_repo!
-DCI.setup_env!
-
 module Sourcer
   class << self
     def sourcer_args
-      args = { strip_symbols: true }
-      settings = DCI::Settings.for_job
-      sourcer_settings = settings.fetch('sourcer', {})
-      restrict = sourcer_settings.fetch('restricted_packaging_copy',
-                                        nil)
-      return args unless restrict
-      args[:restricted_packaging_copy] = restrict
-      args
+        args = { strip_symbols: true }
+        settings = DCI::Settings.for_job
+        sourcer_settings = settings.fetch('sourcer', {})
+        restrict = sourcer_settings.fetch('restricted_packaging_copy',
+                                            nil)
+        return args unless restrict
+        args[:restricted_packaging_copy] = restrict
+        args
     end
-
-def orig_source(fetcher)
-  tarball = fetcher.fetch('source')
-  raise 'Failed to fetch tarball' unless tarball
-  sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'),**sourcer_args)
-  sourcer.build(tarball.origify)
+    
+    def orig_source(fetcher)
+        tarball = fetcher.fetch('source')
+        raise 'Failed to fetch tarball' unless tarball
+        sourcer = CI::OrigSourceBuilder.new(**sourcer_args)
+        sourcer.build(tarball.origify)
+    end
+    
+    def run(type = ARGV.fetch(0, nil))
+      meths = {
+        'tarball' => method(:run_tarball),
+        'uscan' => method(:run_uscan),
+        'firefox' => method(:run_kdeify_ff),
+        'thunderbird' => method(:run_kdeify_tb),
+        'icedove' => method(:run_kdeify_ic),
+        'kdel10n' => method(:run_l10n)  
+      }
+      meth = meths.fetch(type, method(:run_fallback))
+      meth.call
+    end
+    
+    private
+    
+    def run_tarball
+        puts 'Downloading tarball from URL'
+        orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
+    end
+    
+    def run_uscan
+        puts 'Downloading tarball via uscan'
+        orig_source(CI::WatchTarFetcher.new('packaging/debian/watch',
+                                          mangle_download: true))
+    end
+    
+    def run_kdeify_ff
+        run_kdeify "firefox"
+    end
+    
+    def run_kdeify_ic
+        run_kdeify "icedove"
+    end
+    
+    def run_kdeify_tb
+        run_kdeify "thunderbird"
+    end
+    
+    def run_kdeify(type)
+        dsc = File.read('source/url').strip
+        Dir.chdir('build') do
+            system("dget -u #{dsc}")
+            dir = Dir.glob("#{@type}-*/").first
+            FileUtils.ln_s(dir, 'packaging', verbose: true)
+            KDEIfy.firefox! if @type == 'firefox'
+            KDEIfy.thunderbird! if @type == 'thunderbird' || @type == 'icedove'
+            Dir.chdir(dir) do
+                args = [
+                    'dpkg-buildpackage',
+                    '-us', '-uc', # Do not sign .dsc / .changes
+                    '-S', # Only build source
+                    '-d' # Do not enforce build-depends
+                    ]
+                raise 'Could not run dpkg-buildpackage!' unless system(*args)
+            end
+            FileUtils.rm_rf(dir)
+            FileUtils.rm('packaging')
+        end
+    end
+    
+    def run_l10n
+        lang = ARGV.fetch(1, nil)
+        raise 'No lang specified' unless lang
+        puts 'KDE L10N generation mode'
+        Dir.chdir('packaging') do
+            CI::LangPack.generate_packaging!(lang)
+        end
+        orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
+    end
+    
+    def run_fallback
+        puts 'Unspecified source type, defaulting to VCS build...'
+        builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
+                                            **sourcer_args)
+        builder.run
+    end
+  end
 end
 
-@type = ARGV.fetch(0, nil)
-
-case @type
-when 'tarball'
-  puts 'Downloading tarball from URL'
-  orig_source(CI::URLTarFetcher.new(File.read('source/url').strip))
-when 'uscan'
-  puts 'Downloading tarball via uscan'
-  orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
-when 'firefox', 'thunderbird', 'icedove'
-  dsc = File.read('source/url').strip
-  Dir.chdir('build') do
-    system("dget -u #{dsc}")
-    dir = Dir.glob("#{@type}-*/").first
-    FileUtils.ln_s(dir, 'packaging', verbose: true)
-    KDEIfy.firefox! if @type == 'firefox'
-    KDEIfy.thunderbird! if @type == 'thunderbird' || @type == 'icedove'
-    Dir.chdir(dir) do
-      args = [
-        'dpkg-buildpackage',
-        '-us', '-uc', # Do not sign .dsc / .changes
-        '-S', # Only build source
-        '-d' # Do not enforce build-depends
-      ]
-      raise 'Could not run dpkg-buildpackage!' unless system(*args)
-    end
-    FileUtils.rm_rf(dir)
-    FileUtils.rm('packaging')
-  end
-when 'kde-l10n'
-  lang = ARGV.fetch(1, nil)
-  raise 'No lang specified' unless lang
-  puts 'KDE L10N generation mode'
-  Dir.chdir('packaging') do
-    CI::LangPack.generate_packaging!(lang)
-  end
-  orig_source(CI::WatchTarFetcher.new('packaging/debian/watch'))
-else
-  puts 'Unspecified source type, defaulting to VCS build...'
-  builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
-                                     strip_symbols: true)
-  builder.run
+# :nocov:
+if $PROGRAM_NAME == __FILE__
+  ENV['RELEASEME_PROJECTS_API'] = '1'
+  DCI.setup_repo!
+  DCI.setup_env!
+  Sourcer.run
 end
+# :nocov:
