@@ -32,7 +32,7 @@ require_relative 'lib/setup_env'
 module Sourcer
   class << self
     def sourcer_args
-        args = { strip_symbols: true }
+        args = { release: ENV.fetch('DIST'), strip_symbols: true }
         settings = DCI::Settings.for_job
         sourcer_settings = settings.fetch('sourcer', {})
         restrict = sourcer_settings.fetch('restricted_packaging_copy',
