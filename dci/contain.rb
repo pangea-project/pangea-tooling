@@ -12,7 +12,7 @@ BUILD_TAG = ENV.fetch('BUILD_TAG')
 whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
                NODE_NAME NODE_LABELS
                PANGEA_PROVISION_AUTOINST
-               DH_VERBOSE DIST]
+               DH_VERBOSE]
 whitelist += (ENV['DOCKER_ENV_WHITELIST'] || '').split(':')
 ENV['DOCKER_ENV_WHITELIST'] = whitelist.join(':')
 
