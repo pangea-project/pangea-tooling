@@ -49,6 +49,7 @@
 export DIST=<%= distribution %>
 export TYPE=<%= type %>
 <%= fetch_tarball %>
+printf ${JOB_NAME} &gt; job_name
 ~/tooling/dci/contain.rb /tooling/ci-tooling/dci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
       </command>
     </hudson.tasks.Shell>
