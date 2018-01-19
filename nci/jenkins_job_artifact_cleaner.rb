@@ -32,26 +32,44 @@ module NCI
       attr_reader :name
       attr_reader :build
 
-      def initialize(name, build: 'lastSuccessfulBuild')
+      def initialize(name, build: 'lastSuccessfulBuild', verbose: true)
         @name = name
         @build = build.to_s # coerce, may be int
+        # intentionally only controls our verbosity, not FU! AllJobs has no
+        # use for us printing all builds we look at as it looks at all jobs
+        # and 100 build seach, so it's a massive wall of noop information.
+        @verbose = verbose
       end
 
-      def jobs_dir
+      def self.jobs_dir
         @jobs_dir ||= File.join(ENV.fetch('JENKINS_HOME'), 'jobs')
       end
 
-      def path
-        File.join(jobs_dir, name, "builds/#{build}/archive")
+      def real_build_id
+        File.basename(File.realpath(build_path)).to_i
       end
 
       def clean!
-        puts "Cleaning #{name} in #{path}"
+        puts "Cleaning #{name} in #{path}" if @verbose
         Dir.glob("#{path}/**/**") do |entry|
           next if File.directory?(entry)
           next unless BLACKLIST.any? { |x| x.match?(entry) }
           FileUtils.rm(entry, verbose: true)
         end
+      end
+
+      private
+
+      def path
+        File.join(build_path, 'archive')
+      end
+
+      def build_path
+        File.join(jobs_dir, name, 'builds', build)
+      end
+
+      def jobs_dir
+        self.class.jobs_dir
       end
     end
 

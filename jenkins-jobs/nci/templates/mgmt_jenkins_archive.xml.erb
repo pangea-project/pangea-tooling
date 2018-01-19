@@ -22,7 +22,10 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>~/tooling/nci/jenkins_archive.rb
+      <command>
+        # clean up litter before archiving
+        ~/tooling/nci/jenkins_job_artifact_cleaner_all.rb
+        ~/tooling/nci/jenkins_archive.rb
       </command>
     </hudson.tasks.Shell>
   </builders>
