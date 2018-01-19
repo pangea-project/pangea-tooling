@@ -32,8 +32,8 @@ module NCI
 
   def self.jenkins_archive_builds_jobdir(jobdir, jobsdir, backupdir)
     Jenkins::JobDir.each_ancient_build(jobdir,
-                                       min_count: 16,
-                                       max_age: 7 * 4 * 2) do |ancient_build|
+                                       min_count: 8,
+                                       max_age: nil) do |ancient_build|
       relative_path = relative_x_from_y(ancient_build, jobsdir)
       target = "#{backupdir}/#{relative_path}"
       FileUtils.mkpath(File.dirname(target))
