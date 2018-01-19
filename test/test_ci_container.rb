@@ -123,6 +123,9 @@ class ContainerTest < TestCase
     ENV['DOCKER_ENV_WHITELIST'] = 'XX_YY_ZZ:ZZ_YY_XX'
     assert_include CI::Container.default_create_options[:Env], 'XX_YY_ZZ=meow'
     assert_include CI::Container.default_create_options[:Env], 'ZZ_YY_XX=bark'
+    # Hardcoded core variables (should not require explicit whitelisting)
+    ENV['DIST'] = 'flippytwitty'
+    assert_include CI::Container.default_create_options[:Env], 'DIST=flippytwitty'
   ensure
     ENV.delete('DOCKER_ENV_WHITELIST')
   end
