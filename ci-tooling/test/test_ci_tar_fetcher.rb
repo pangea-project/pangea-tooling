@@ -104,9 +104,10 @@ module CI
 
       # Mangles are transient, so we need to assert at the time of uscan
       # invocation.
+      TTY::Command.any_instance.expects(:run).never
       Object.any_instance.expects(:system).never
       Object.any_instance.expects(:`).never
-      Object.any_instance.expects(:system).once.with do |*args|
+      TTY::Command.any_instance.expects(:run).once.with do |*args|
         next false unless args[0] == 'uscan'
         data = File.read('debian/watch')
         assert_include(data.chomp!, ref_line)
@@ -144,9 +145,9 @@ module CI
         yolo_1.2.3.orig.tar.gz
       )
 
-      Object
+      TTY::Command
         .any_instance
-        .expects(:system)
+        .expects(:run)
         .once
         .with do |*args|
           next false unless args[0] == 'uscan'

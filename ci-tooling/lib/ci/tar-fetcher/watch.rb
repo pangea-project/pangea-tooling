@@ -20,6 +20,7 @@
 
 require 'open-uri'
 require 'tmpdir'
+require 'tty-command'
 
 require_relative '../tarball'
 require_relative '../../debian/changelog'
@@ -46,7 +47,7 @@ module CI
       #   without downloading. then decide whether to wipe destdir and download
       #   or not.
       maybe_mangle do
-        raise 'uscan failed' unless uscan(@dir, destdir)
+        uscan(@dir, destdir)
         tar = find_tar(destdir)
         return tar unless tar # can be nil from pop
         Tarball.new("#{destdir}/#{File.basename(tar)}")
@@ -101,12 +102,14 @@ module CI
     def uscan(chdir, destdir)
       destdir = File.absolute_path(destdir)
       FileUtils.mkpath(destdir) unless Dir.exist?(destdir)
-      system('uscan',
-             '--verbose',
-             '--download-debversion', current_version,
-             "--destdir=#{destdir}",
-             '--rename',
-             chdir: chdir)
+      TTY::Command.new.run(
+        'uscan',
+        '--verbose',
+        '--download-debversion', current_version,
+        "--destdir=#{destdir}",
+        '--rename',
+        chdir: chdir
+      )
     end
   end
 end
