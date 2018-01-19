@@ -34,7 +34,7 @@ module NCI
 
       def initialize(name, build: 'lastSuccessfulBuild')
         @name = name
-        @build = build
+        @build = build.to_s # coerce, may be int
       end
 
       def jobs_dir
