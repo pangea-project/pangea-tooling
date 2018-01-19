@@ -56,6 +56,8 @@ module NCI
       FileUtils.touch("#{aa_archive}/workspace.tar")
       FileUtils.touch("#{aa_archive}/abc.orig.tar.xz")
       FileUtils.touch("#{aa_archive}/run_stamp")
+      FileUtils.mkpath("#{aa_archive}/fileParameters")
+      FileUtils.touch("#{aa_archive}/fileParameters/fishing.iso")
 
       self_archive = 'jobs/foobasename/builds/42/archive'
       FileUtils.mkpath(self_archive)
@@ -74,6 +76,7 @@ module NCI
       assert_path_not_exist("#{aa_archive}/workspace.tar")
       assert_path_not_exist("#{aa_archive}/abc.orig.tar.xz")
       assert_path_not_exist("#{aa_archive}/run_stamp")
+      assert_path_not_exist("#{aa_archive}/fileParameters/fishing.iso")
 
       assert_path_not_exist("#{self_archive}/aa.deb")
       assert_path_exist("#{self_archive}/aa.deb.json")
