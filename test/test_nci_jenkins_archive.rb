@@ -33,7 +33,9 @@ class NCIJenkinsArchiveTest < TestCase
   def test_jenkins_archive_builds
     backupdir = "#{Dir.pwd}/mnt/volume-neon-jenkins/jobs.bak"
     buildsdir = 'jobs/nrop/builds'
+    backupbuildsdir = "#{backupdir}/nrop/builds"
     FileUtils.mkpath(buildsdir)
+
     (1000..1020).each do |i|
       dir = "#{buildsdir}/#{i}"
       FileUtils.mkpath(dir)
@@ -43,6 +45,14 @@ class NCIJenkinsArchiveTest < TestCase
       mtime = (DateTime.now - age).to_time
       FileUtils.touch(dir, mtime: mtime)
     end
+
+    # 999 is already archived for good measure and to make sure already archived
+    # jobs aren't incorrectly archived again.
+    mtime = (DateTime.now - 50).to_time
+    FileUtils.mkpath("#{backupbuildsdir}/999")
+    FileUtils.ln_s("#{backupbuildsdir}/999", "#{buildsdir}/999")
+    FileUtils.touch("#{backupbuildsdir}/999", mtime: mtime)
+    FileUtils.touch("#{buildsdir}/999", mtime: mtime)
 
     NCI.jenkins_archive_builds(Dir.pwd)
 
@@ -61,5 +71,11 @@ class NCIJenkinsArchiveTest < TestCase
     (1012..1020).each do |i|
       assert_path_exist("#{buildsdir}/#{i}")
     end
+
+    # Make sure we did not attempt to archive something that is already
+    # archived!
+    # Namely if a build is already a symlink, we'd be symlinking it into itself.
+    # That should not happen. EVER.
+    assert_path_not_exist("#{backupbuildsdir}/999/999")
   end
 end

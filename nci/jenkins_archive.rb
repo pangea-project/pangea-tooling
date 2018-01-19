@@ -34,6 +34,7 @@ module NCI
     Jenkins::JobDir.each_ancient_build(jobdir,
                                        min_count: 8,
                                        max_age: nil) do |ancient_build|
+      next if File.symlink?(ancient_build) # skip already symlinked dirs
       relative_path = relative_x_from_y(ancient_build, jobsdir)
       target = "#{backupdir}/#{relative_path}"
       FileUtils.mkpath(File.dirname(target))
