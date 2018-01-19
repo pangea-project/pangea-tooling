@@ -81,6 +81,11 @@ module NCI
       ## symlink lastBuild->200
       FileUtils.ln_s('200', 'jobs/bar/builds/lastBuild')
 
+      # twonkle - do not explode on jobs that haven't built yet (invalid
+      # symlink raises Errno::ENOENT)
+      FileUtils.mkpath('jobs/twonkle/builds')
+      FileUtils.ln_s('-1', 'jobs/twonkle/builds/lastBuild')
+
       JenkinsJobArtifactCleaner::AllJobs.run
 
       assert_path_not_exist("#{foo_archive3}/aa.deb")

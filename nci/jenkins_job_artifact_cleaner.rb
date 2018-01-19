@@ -45,8 +45,16 @@ module NCI
         @jobs_dir ||= File.join(ENV.fetch('JENKINS_HOME'), 'jobs')
       end
 
-      def real_build_id
-        File.basename(File.realpath(build_path)).to_i
+      def last_build_id
+        id = -1
+        Dir.glob("#{builds_path}/last*").each do |link|
+          begin
+            new_id = File.basename(File.realpath(link)).to_i
+            id = new_id if new_id > id
+          rescue Errno::ENOENT # when the build/symlink is invalid
+          end
+        end
+        id
       end
 
       def clean!
@@ -61,11 +69,11 @@ module NCI
       private
 
       def path
-        File.join(build_path, 'archive')
+        File.join(builds_path, build, 'archive')
       end
 
-      def build_path
-        File.join(jobs_dir, name, 'builds', build)
+      def builds_path
+        File.join(jobs_dir, name, 'builds')
       end
 
       def jobs_dir
