@@ -10,8 +10,8 @@ class BinarierJob
   end
 
   def compress?
-    %w[qt5webkit qtwebengine mgmt_job-updater appstream-generator
-       kdevelop].any? do |x|
+    %w[qt5webkit qtwebengine
+       mgmt_job-updater appstream-generator mgmt_jenkins_archive].any? do |x|
       job_name.include?(x)
     end
   end
