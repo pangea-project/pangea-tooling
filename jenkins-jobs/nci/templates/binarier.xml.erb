@@ -7,6 +7,9 @@
     <org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty plugin="dependency-queue-plugin@1.1">
       <blockWhileUpstreamQueued>false</blockWhileUpstreamQueued>
     </org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty>
+    <% if compress? %>
+    <org.jenkinsci.plugins.compressbuildlog.BuildLogCompressor plugin="compress-buildlog@1.2"/>
+    <% end %>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <assignedNode><%= cores %>core-<%= architecture %></assignedNode>
