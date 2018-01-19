@@ -57,6 +57,7 @@ module NCI
 
     BLACKLIST = [
       CI::FNMatchPattern.new('*.deb'),
+      CI::FNMatchPattern.new('*.ddeb'),
       CI::FNMatchPattern.new('*.udeb'),
       CI::FNMatchPattern.new('*.orig.tar.*'),
       CI::FNMatchPattern.new('*.debian.tar.*'),
