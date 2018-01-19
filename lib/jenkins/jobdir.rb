@@ -73,7 +73,12 @@ module Jenkins
     end
 
     # @param min_count [Integer] the minimum amount of builds to keep
-    # @param max_age [Integer,nil] the maximum age or nil if there is none
+    # @param max_age [Integer,nil] the maximum age in days or nil if there is
+    #   none. builds older than this are listed *unless* they are in the
+    #   min_count. i.e. the min_count newest builds are never listed, even when
+    #   they exceed the max_age. out of the remaining jobs all older than
+    #   max_age are listed. if no max_age is set all builds that are not in
+    #   the min_count are listed.
     def self.each_ancient_build(dir, min_count:, max_age:, &_blk)
       buildsdir = "#{dir}/builds"
       return unless File.exist?(buildsdir)
