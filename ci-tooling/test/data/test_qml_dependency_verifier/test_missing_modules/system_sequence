@@ -16,7 +16,6 @@
 ["apt-get","-y", "-o", "APT::Get::force-yes=true","-o","Debug::pkgProblemResolver=true","-q","purge","plasma-widget-kimpanel"],
 ["apt-get","-y", "-o", "APT::Get::force-yes=true","-o","Debug::pkgProblemResolver=true","-q","install","plasma-widgets-addons=4:5.2.1+git20150316.1204+15.04-0ubuntu0"],
 ["apt-get","-y", "-o", "APT::Get::force-yes=true","-o","Debug::pkgProblemResolver=true","-q","--purge","autoremove"],
-["dpkg -s plasma-framework 2>&1 > /dev/null"],
 ["apt-get","-y", "-o", "APT::Get::force-yes=true","-o","Debug::pkgProblemResolver=true","-q","purge","plasma-widgets-addons"],
 ["apt-get","-y", "-o", "APT::Get::force-yes=true","-o","Debug::pkgProblemResolver=true","-q","install","kdeplasma-addons-data=4:5.2.1+git20150316.1204+15.04-0ubuntu0"],
 ["apt-get","-y", "-o", "APT::Get::force-yes=true","-o","Debug::pkgProblemResolver=true","-q","--purge","autoremove"],
