@@ -5,6 +5,9 @@ require_relative 'module'
 
 module QML
   # Statically maps specific QML modules to fixed packages.
+  # TODO: a single static map means we cannot have divergent realities between
+  #   unstable and release. it may be smart to split stuff somehow (or rather
+  #   allow for them to be split)
   class StaticMap
     @base_dir = File.expand_path("#{__dir__}/../../")
     @data_file = File.join(@base_dir, 'data', 'qml-static-map.yml')

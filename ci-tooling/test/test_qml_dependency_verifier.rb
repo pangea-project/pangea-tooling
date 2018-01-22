@@ -112,4 +112,37 @@ class QMLDependencyVerifierTest < TestCase
     repo = mock('repo')
     QMLDependencyVerifier.new(repo).send(:log_missing, {})
   end
+
+  def test_static_which_isnt_static
+    # When a package was c++ runtime-injected at some point we would have
+    # added it to the static map. If it later turns into a proper module
+    # we need to undo the static mapping. Otherwise the dependency expectation
+    # can be royally wrong as a regular package would be in qml-module-foo,
+    # a runtime-injected one in any random package.
+
+    const_reset(QML, :SEARCH_PATHS, [File.join(data, 'qml')])
+
+    system_sequence = sequence('system')
+    Object.any_instance.expects(:system)
+          .with("apt-get","-y", "-o", "APT::Get::force-yes=true","-o","Debug::pkgProblemResolver=true","-q","install","kwin-addons=4:5.2.1+git20150316.1204+15.04-0ubuntu0")
+          .returns(true)
+          .in_sequence(system_sequence)
+    Object.any_instance.expects(:system)
+          .with("apt-get","-y", "-o", "APT::Get::force-yes=true","-o","Debug::pkgProblemResolver=true","-q","--purge","autoremove")
+          .returns(true)
+          .in_sequence(system_sequence)
+
+    Object.any_instance.stubs(:`)
+          .with('dpkg -L kwin-addons')
+          .returns(data('main.qml'))
+
+    repo = mock('repo')
+    repo.stubs(:add).returns(true)
+    repo.stubs(:remove).returns(true)
+    repo.stubs(:binaries).returns({"kwin-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0"})
+
+    assert_raises QML::Module::ExistingStaticError do
+      QMLDependencyVerifier.new(repo).missing_modules
+    end
+  end
 end

@@ -7,6 +7,8 @@ module QML
 
   # Describes a QML module.
   class Module
+    class ExistingStaticError < StandardError; end
+
     IMPORT_SEPERATOR = '.'
 
     attr_reader :identifier
@@ -61,12 +63,22 @@ module QML
     end
 
     def installed?
-      static_package = QML::StaticMap.new.package(self)
-      return package_installed?(static_package) if static_package
+      return if valid_static?
       modules_installed?
     end
 
     private
+
+    def valid_static?
+      static_package = QML::StaticMap.new.package(self)
+      return false unless static_package
+      return package_installed?(static_package) unless modules_installed?
+      raise ExistingStaticError, <<-ERROR
+#{self} was found in QML load paths but also statically mapped! This means
+that dependency detection will not work correctly. You must remove the static
+module override for the package.
+      ERROR
+    end
 
     def modules_installed?
       found = false
