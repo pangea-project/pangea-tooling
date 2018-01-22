@@ -60,7 +60,7 @@ module Lint
     end
 
     def prepare
-      dsc = Dir.glob('*.dsc')[0] || raise
+      dsc = Dir.glob('*.dsc').fetch(0) { raise 'Could not find dsc file in pwd'}
       # Internally qml_dep_verify/package expects things to be in packaging/
       system('dpkg-source', '-x', dsc, 'packaging') || raise
       @has_qml = !Dir.glob('packaging/**/*.qml').empty?
