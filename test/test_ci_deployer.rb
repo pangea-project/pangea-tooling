@@ -51,7 +51,7 @@ class DeployTest < TestCase
     @ubuntu_series = %w[wily vivid]
     # Except for debian, where Rohan couldn't be bothered to read the
     # comment above and it was recorded in reverse.
-    @debian_series = %w[1706 1710 backports]
+    @debian_series = %w[1710 backports]
   end
 
   def teardown
