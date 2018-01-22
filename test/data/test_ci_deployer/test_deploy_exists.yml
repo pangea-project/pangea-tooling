@@ -14,7 +14,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -36,7 +36,7 @@ http_interactions:
         CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Data":null,"Name":"aufs"},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]},"Metadata":{"LastTagTime":"2017-12-11T21:36:30.249265696+01:00"}}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:30 GMT
 - request:
     method: post
@@ -54,7 +54,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -75,7 +75,7 @@ http_interactions:
       string: '{"Id":"642cf9105ab958adaba54625741367b668b3028013ab575042caae242a0f2147","Warnings":null}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:30 GMT
 - request:
     method: post
@@ -91,7 +91,7 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -106,7 +106,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:30 GMT
 - request:
     method: post
@@ -122,7 +122,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -143,7 +143,7 @@ http_interactions:
       string: '{"StatusCode":0}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:31 GMT
 - request:
     method: post
@@ -159,7 +159,7 @@ http_interactions:
   response:
     status:
       code: 304
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -174,7 +174,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:31 GMT
 - request:
     method: get
@@ -190,7 +190,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -207,7 +207,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: post
@@ -225,7 +225,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -242,7 +242,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"sha256:7c6e16044fece457134d75a7d72b4c7127c0380b955fff5fa8ad024051dd049b\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: delete
@@ -258,7 +258,7 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -273,7 +273,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: get
@@ -289,7 +289,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -311,7 +311,7 @@ http_interactions:
         CMD [\"/bin/bash\"]"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"DockerVersion":"1.10.3","Author":"","Config":{"Hostname":"ca9015dc6bb1","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["/bin/bash"],"ArgsEscaped":true,"Image":"sha256:8677cced8174b061771aa11eb3874d7eaaf26efceec04dac02c9d1a788fd3064","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}},"Architecture":"amd64","Os":"linux","Size":137205221,"VirtualSize":137205221,"GraphDriver":{"Data":null,"Name":"aufs"},"RootFS":{"Type":"layers","Layers":["sha256:f121afdbbd5dd49d4a88c402b1a1a4dca39c9ae75ed7f80a29ffd9739fc680a7","sha256:4b955941a4d0bfa4d3eed9ab5cf8e03479ece47a3f0c154439e93230b08a8048","sha256:af288f00b8a7386eadb431dddd75e0f75f129994e89cfa424a00cfc9c8a89c95","sha256:98d59071f692a7a8b02acfea340f4e63b8801d8914812df05334e4b264de2fdb"]},"Metadata":{"LastTagTime":"2017-12-11T21:36:30.249265696+01:00"}}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: delete
@@ -327,7 +327,7 @@ http_interactions:
   response:
     status:
       code: 409
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -349,7 +349,7 @@ http_interactions:
         - image is referenced in multiple repositories"}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: post
@@ -365,7 +365,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -384,7 +384,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: get
@@ -400,7 +400,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -422,7 +422,7 @@ http_interactions:
         from -","Created":"2017-09-13T11:44:54.391619142Z","Container":"","ContainerConfig":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"17.06.2-ce","Author":"","Config":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":131297345,"VirtualSize":131297345,"GraphDriver":{"Data":null,"Name":"aufs"},"RootFS":{"Type":"layers","Layers":["sha256:42ec8ab69c31bcd9b745e62d4f0dacca3f693b378db86c05666844751b26cd85"]},"Metadata":{"LastTagTime":"0001-01-01T00:00:00Z"}}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: post
@@ -440,7 +440,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -461,7 +461,7 @@ http_interactions:
       string: '{"Id":"e22c5d4147e181ea7277add9de0dc8bf6cfeeff67003aa45dd3587849766dc1e","Warnings":null}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:33 GMT
 - request:
     method: post
@@ -477,7 +477,7 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -492,7 +492,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:33 GMT
 - request:
     method: post
@@ -508,7 +508,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -529,7 +529,7 @@ http_interactions:
       string: '{"StatusCode":0}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:33 GMT
 - request:
     method: post
@@ -545,7 +545,7 @@ http_interactions:
   response:
     status:
       code: 304
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -560,7 +560,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:33 GMT
 - request:
     method: get
@@ -576,7 +576,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -593,7 +593,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: post
@@ -611,7 +611,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -628,7 +628,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"sha256:dc2841e3ceeb2b0b9b1c275239b2203d5db40915f8945cea32f9a943af6b1fdb\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: delete
@@ -644,7 +644,7 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -659,7 +659,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: get
@@ -675,7 +675,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -697,7 +697,7 @@ http_interactions:
         from -","Created":"2017-09-13T11:44:54.391619142Z","Container":"","ContainerConfig":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"17.06.2-ce","Author":"","Config":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":131297345,"VirtualSize":131297345,"GraphDriver":{"Data":null,"Name":"aufs"},"RootFS":{"Type":"layers","Layers":["sha256:42ec8ab69c31bcd9b745e62d4f0dacca3f693b378db86c05666844751b26cd85"]},"Metadata":{"LastTagTime":"0001-01-01T00:00:00Z"}}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: delete
@@ -713,7 +713,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -734,7 +734,7 @@ http_interactions:
       string: '[{"Untagged":"pangea-testing/ubuntu:vivid"},{"Deleted":"sha256:27c2ad30892eb225558ae174536b6ea4c909fa991644e9edda622d3535e8bc82"},{"Deleted":"sha256:42ec8ab69c31bcd9b745e62d4f0dacca3f693b378db86c05666844751b26cd85"}]
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: post
@@ -750,7 +750,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -769,11 +769,11 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1706/json
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1710/json
     body:
       encoding: US-ASCII
       string: ''
@@ -785,7 +785,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -803,19 +803,19 @@ http_interactions:
       - '1113'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"sha256:33e81c2f5f1720250bbaae36432e54403d2f8460d7b5c12817eb02103b98df54","RepoTags":["pangea-testing/debian:1706"],"RepoDigests":[],"Parent":"","Comment":"Imported
+      string: '{"Id":"sha256:33e81c2f5f1720250bbaae36432e54403d2f8460d7b5c12817eb02103b98df54","RepoTags":["pangea-testing/debian:1710"],"RepoDigests":[],"Parent":"","Comment":"Imported
         from -","Created":"2017-09-13T11:45:01.114377134Z","Container":"","ContainerConfig":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"17.06.2-ce","Author":"","Config":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":256379141,"VirtualSize":256379141,"GraphDriver":{"Data":null,"Name":"aufs"},"RootFS":{"Type":"layers","Layers":["sha256:056a4d7114bcefd4782abf8c88d08732a1f9253f29d59a1153473c538e35d56e"]},"Metadata":{"LastTagTime":"0001-01-01T00:00:00Z"}}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea-testing/debian:1706","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":["<%=
-        Dir.pwd %>/tooling-pending:/tooling-pending"]},"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  ","DIST=1706"],"Volumes":{"<%=
+      string: '{"Image":"pangea-testing/debian:1710","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"Binds":["<%=
+        Dir.pwd %>/tooling-pending:/tooling-pending"]},"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  ","DIST=1710"],"Volumes":{"<%=
         Dir.pwd %>/tooling-pending":{}}}'
     headers:
       User-Agent:
@@ -825,7 +825,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -846,7 +846,7 @@ http_interactions:
       string: '{"Id":"d78b99133711023267a62d3ce83f6020d3cbf46f14a454ba350274428cf7c721","Warnings":null}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: post
@@ -862,7 +862,7 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -877,7 +877,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: post
@@ -893,7 +893,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -914,7 +914,7 @@ http_interactions:
       string: '{"StatusCode":0}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:37 GMT
 - request:
     method: post
@@ -930,7 +930,7 @@ http_interactions:
   response:
     status:
       code: 304
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -945,7 +945,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:37 GMT
 - request:
     method: get
@@ -961,7 +961,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -978,7 +978,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:43 GMT
 - request:
     method: post
@@ -996,7 +996,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1013,7 +1013,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"sha256:4b653b301e50687577ebebfe99e70c74613da641b3df589ca6b7b5cf49a78d0f\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: delete
@@ -1029,7 +1029,7 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1044,11 +1044,11 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1706/json
+    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1710/json
     body:
       encoding: US-ASCII
       string: ''
@@ -1060,7 +1060,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1078,11 +1078,11 @@ http_interactions:
       - '1113'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"sha256:33e81c2f5f1720250bbaae36432e54403d2f8460d7b5c12817eb02103b98df54","RepoTags":["pangea-testing/debian:1706"],"RepoDigests":[],"Parent":"","Comment":"Imported
+      string: '{"Id":"sha256:33e81c2f5f1720250bbaae36432e54403d2f8460d7b5c12817eb02103b98df54","RepoTags":["pangea-testing/debian:1710"],"RepoDigests":[],"Parent":"","Comment":"Imported
         from -","Created":"2017-09-13T11:45:01.114377134Z","Container":"","ContainerConfig":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"17.06.2-ce","Author":"","Config":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":256379141,"VirtualSize":256379141,"GraphDriver":{"Data":null,"Name":"aufs"},"RootFS":{"Type":"layers","Layers":["sha256:056a4d7114bcefd4782abf8c88d08732a1f9253f29d59a1153473c538e35d56e"]},"Metadata":{"LastTagTime":"0001-01-01T00:00:00Z"}}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: delete
@@ -1098,7 +1098,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1116,14 +1116,14 @@ http_interactions:
       - '216'
     body:
       encoding: ASCII-8BIT
-      string: '[{"Untagged":"pangea-testing/debian:1706"},{"Deleted":"sha256:33e81c2f5f1720250bbaae36432e54403d2f8460d7b5c12817eb02103b98df54"},{"Deleted":"sha256:056a4d7114bcefd4782abf8c88d08732a1f9253f29d59a1153473c538e35d56e"}]
+      string: '[{"Untagged":"pangea-testing/debian:1710"},{"Deleted":"sha256:33e81c2f5f1720250bbaae36432e54403d2f8460d7b5c12817eb02103b98df54"},{"Deleted":"sha256:056a4d7114bcefd4782abf8c88d08732a1f9253f29d59a1153473c538e35d56e"}]
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:4b653b301e50687577ebebfe99e70c74613da641b3df589ca6b7b5cf49a78d0f/tag?force=true&repo=pangea-testing%2Fdebian&tag=1706
+    uri: unix:///var/run/docker.sock/v1.24/images/sha256:4b653b301e50687577ebebfe99e70c74613da641b3df589ca6b7b5cf49a78d0f/tag?force=true&repo=pangea-testing%2Fdebian&tag=1710
     body:
       encoding: US-ASCII
       string: ''
@@ -1135,7 +1135,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1154,7 +1154,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: get
@@ -1170,7 +1170,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1192,7 +1192,7 @@ http_interactions:
         from -","Created":"2017-09-13T11:45:09.523127574Z","Container":"","ContainerConfig":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"17.06.2-ce","Author":"","Config":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":272696367,"VirtualSize":272696367,"GraphDriver":{"Data":null,"Name":"aufs"},"RootFS":{"Type":"layers","Layers":["sha256:270b7fccd753b987967ff5c8600b130a042608cdf0337dc8d4b3476c59e6a81d"]},"Metadata":{"LastTagTime":"0001-01-01T00:00:00Z"}}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: post
@@ -1210,7 +1210,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1231,7 +1231,7 @@ http_interactions:
       string: '{"Id":"36604593db9cc5c1eadb0c62816795a91837f4d2693f2e3efc5e70cba118dc1f","Warnings":null}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: post
@@ -1247,7 +1247,7 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1262,7 +1262,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: post
@@ -1278,7 +1278,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1299,7 +1299,7 @@ http_interactions:
       string: '{"StatusCode":0}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: post
@@ -1315,7 +1315,7 @@ http_interactions:
   response:
     status:
       code: 304
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1330,7 +1330,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: get
@@ -1346,7 +1346,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1363,7 +1363,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: post
@@ -1381,7 +1381,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1398,7 +1398,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"sha256:eb876161face37bc5abb09a94fdbe11bf50b066c08088bd979befdf09d8f21a9\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: delete
@@ -1414,7 +1414,7 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1429,7 +1429,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: get
@@ -1445,7 +1445,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1467,7 +1467,7 @@ http_interactions:
         from -","Created":"2017-09-13T11:45:09.523127574Z","Container":"","ContainerConfig":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"17.06.2-ce","Author":"","Config":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":272696367,"VirtualSize":272696367,"GraphDriver":{"Data":null,"Name":"aufs"},"RootFS":{"Type":"layers","Layers":["sha256:270b7fccd753b987967ff5c8600b130a042608cdf0337dc8d4b3476c59e6a81d"]},"Metadata":{"LastTagTime":"0001-01-01T00:00:00Z"}}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: delete
@@ -1483,7 +1483,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1504,7 +1504,7 @@ http_interactions:
       string: '[{"Untagged":"pangea-testing/debian:1710"},{"Deleted":"sha256:08de29ef52a9e119295ac1aab04fbd72d3595aaf99c04a940c7229b1b482d85c"},{"Deleted":"sha256:270b7fccd753b987967ff5c8600b130a042608cdf0337dc8d4b3476c59e6a81d"}]
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: post
@@ -1520,7 +1520,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1539,7 +1539,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: get
@@ -1555,7 +1555,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1577,7 +1577,7 @@ http_interactions:
         from -","Created":"2017-09-13T11:45:15.310743844Z","Container":"","ContainerConfig":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"17.06.2-ce","Author":"","Config":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":99992387,"VirtualSize":99992387,"GraphDriver":{"Data":null,"Name":"aufs"},"RootFS":{"Type":"layers","Layers":["sha256:f1bb9919df51fce2e418800b80b1b6609de5752a0437431a8dbfc14c2760f21b"]},"Metadata":{"LastTagTime":"0001-01-01T00:00:00Z"}}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: post
@@ -1596,7 +1596,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1617,7 +1617,7 @@ http_interactions:
       string: '{"Id":"fdb8007c36444494bd24daf68779c837fc9555c550afceb7118e6c248e86cec0","Warnings":null}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: post
@@ -1633,7 +1633,7 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1648,7 +1648,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: post
@@ -1664,7 +1664,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1685,7 +1685,7 @@ http_interactions:
       string: '{"StatusCode":0}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:50 GMT
 - request:
     method: post
@@ -1701,7 +1701,7 @@ http_interactions:
   response:
     status:
       code: 304
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1716,7 +1716,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:50 GMT
 - request:
     method: get
@@ -1732,7 +1732,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1749,7 +1749,7 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:52 GMT
 - request:
     method: post
@@ -1767,7 +1767,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1784,7 +1784,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: "{\"status\":\"sha256:e8c72955a89c63e9ed436a3432c6b6e16f22d6a1dd8de373ccfd4d648d928607\"}\r\n"
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:52 GMT
 - request:
     method: delete
@@ -1800,7 +1800,7 @@ http_interactions:
   response:
     status:
       code: 204
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1815,7 +1815,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:52 GMT
 - request:
     method: get
@@ -1831,7 +1831,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1853,7 +1853,7 @@ http_interactions:
         from -","Created":"2017-09-13T11:45:15.310743844Z","Container":"","ContainerConfig":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"DockerVersion":"17.06.2-ce","Author":"","Config":{"Hostname":"","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":null,"Cmd":null,"Image":"","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":null},"Architecture":"amd64","Os":"linux","Size":99992387,"VirtualSize":99992387,"GraphDriver":{"Data":null,"Name":"aufs"},"RootFS":{"Type":"layers","Layers":["sha256:f1bb9919df51fce2e418800b80b1b6609de5752a0437431a8dbfc14c2760f21b"]},"Metadata":{"LastTagTime":"0001-01-01T00:00:00Z"}}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:52 GMT
 - request:
     method: delete
@@ -1869,7 +1869,7 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1890,7 +1890,7 @@ http_interactions:
       string: '[{"Untagged":"pangea-testing/debian:backports"},{"Deleted":"sha256:ec6fc5aa8e78d46366b0a3a4dd57f35ded0f1e82d8b29cbec0dc46f19d9f16b9"},{"Deleted":"sha256:f1bb9919df51fce2e418800b80b1b6609de5752a0437431a8dbfc14c2760f21b"}]
 
 '
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:52 GMT
 - request:
     method: post
@@ -1906,7 +1906,7 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message:
     headers:
       Api-Version:
       - '1.32'
@@ -1925,6 +1925,6 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Mon, 11 Dec 2017 20:36:52 GMT
 recorded_with: VCR 3.0.3
