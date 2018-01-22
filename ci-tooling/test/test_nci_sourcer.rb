@@ -29,9 +29,6 @@ class NCISourcerTest < TestCase
     ENV['BUILD_NUMBER'] = '123'
   end
 
-  def teardown
-  end
-
   def test_run_fallback
     fake_builder = mock('fake_builder')
     fake_builder.stubs(:run)
@@ -72,14 +69,14 @@ class NCISourcerTest < TestCase
   end
 
   def test_args
-    assert_equal({:strip_symbols=>true}, NCISourcer.sourcer_args)
+    assert_equal({ strip_symbols: true }, NCISourcer.sourcer_args)
   end
 
   def test_settings_args
     NCI::Settings.expects(:for_job).returns(
-      { 'sourcer' => { 'restricted_packaging_copy' => true } }
+      'sourcer' => { 'restricted_packaging_copy' => true }
     )
-    assert_equal({:strip_symbols=>true, :restricted_packaging_copy=>true},
+    assert_equal({ strip_symbols: true, restricted_packaging_copy: true },
                  NCISourcer.sourcer_args)
   end
 end
