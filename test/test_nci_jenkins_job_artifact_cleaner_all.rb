@@ -24,7 +24,7 @@ require_relative '../nci/jenkins_job_artifact_cleaner_all'
 require 'mocha/test_unit'
 
 module NCI
-  class JenkinsJobArtifactCleanerTest < TestCase
+  class JenkinsJobArtifactCleanerTestAll < TestCase
     def setup
       @jenkins_home = ENV['JENKINS_HOME']
       ENV['JENKINS_HOME'] = Dir.pwd
