@@ -42,7 +42,8 @@ module NCI
       end
 
       def self.jobs_dir
-        @jobs_dir ||= File.join(ENV.fetch('JENKINS_HOME'), 'jobs')
+        # Don't cache, we mutate this during testing.
+        File.join(ENV.fetch('JENKINS_HOME'), 'jobs')
       end
 
       def last_build_id
