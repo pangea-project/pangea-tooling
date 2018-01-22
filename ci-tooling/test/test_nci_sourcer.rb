@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -37,7 +37,7 @@ class NCISourcerTest < TestCase
     fake_builder.stubs(:run)
     CI::VcsSourceBuilder.expects(:new).returns(fake_builder)
     # Runs fallback
-    Sourcer.run
+    NCISourcer.run
   end
 
   def test_run_tarball
@@ -54,7 +54,7 @@ class NCISourcerTest < TestCase
     fake_builder.stubs(:build)
     CI::OrigSourceBuilder.expects(:new).with(strip_symbols: true).returns(fake_builder)
 
-    Sourcer.run('tarball')
+    NCISourcer.run('tarball')
   end
 
   def test_run_uscan
@@ -68,11 +68,11 @@ class NCISourcerTest < TestCase
     fake_builder.stubs(:build)
     CI::OrigSourceBuilder.expects(:new).with(strip_symbols: true).returns(fake_builder)
 
-    Sourcer.run('uscan')
+    NCISourcer.run('uscan')
   end
 
   def test_args
-    assert_equal({:strip_symbols=>true}, Sourcer.sourcer_args)
+    assert_equal({:strip_symbols=>true}, NCISourcer.sourcer_args)
   end
 
   def test_settings_args
@@ -80,6 +80,6 @@ class NCISourcerTest < TestCase
       { 'sourcer' => { 'restricted_packaging_copy' => true } }
     )
     assert_equal({:strip_symbols=>true, :restricted_packaging_copy=>true},
-                 Sourcer.sourcer_args)
+                 NCISourcer.sourcer_args)
   end
 end

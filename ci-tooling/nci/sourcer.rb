@@ -26,7 +26,7 @@ require_relative 'lib/settings'
 require_relative 'lib/setup_env'
 require_relative 'lib/setup_repo'
 
-module Sourcer
+module NCISourcer
   class << self
     def sourcer_args
       args = { strip_symbols: true }
@@ -82,6 +82,6 @@ if $PROGRAM_NAME == __FILE__
   ENV['RELEASEME_PROJECTS_API'] = '1'
   NCI.setup_repo!
   NCI.setup_env!
-  Sourcer.run
+  NCISourcer.run
 end
 # :nocov:
