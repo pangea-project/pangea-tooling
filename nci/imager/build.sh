@@ -40,7 +40,7 @@ sudo apt install -y --no-install-recommends \
 
 rm /usr/bin/xz
 cat << EOF > /usr/bin/xz
-/usr/bin/pxz -0 "$0"
+/usr/bin/pxz -0 "\$0"
 EOF
 chmod +x /usr/bin/xz
 
