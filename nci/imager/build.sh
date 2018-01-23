@@ -36,7 +36,10 @@ sudo apt update
 sudo apt dist-upgrade -y
 sudo apt install -y --no-install-recommends \
     git ubuntu-defaults-builder wget ca-certificates zsync distro-info \
-    syslinux-utils livecd-rootfs xorriso
+    syslinux-utils livecd-rootfs xorriso pxz
+
+rm /usr/bin/xz
+ln -s /usr/bin/pxz /usr/bin/xz
 
 cd $WD
 ls -lah
