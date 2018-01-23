@@ -81,7 +81,7 @@ export LB_COMPRESSION=xz
 export LB_ZSYNC=true # This is overridden by silly old defaults-image...
 ## Use our cache as proxy.
 # FIXME: get out of nci/lib/setup_repo.rb
-export LB_APT_HTTP_PROXY="http://apt.cache.pangea.pub:8080"
+export LB_APT_HTTP_PROXY="http://apt.cache.pangea.pub:8000"
 
 ## Reduce compression level from default (-6) to (-0). -0 is often smaller than
 ## gz but much faster than -6. It may well be that this is also increases
