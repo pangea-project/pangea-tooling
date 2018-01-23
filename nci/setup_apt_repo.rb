@@ -19,11 +19,24 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'optparse'
+
 require_relative '../ci-tooling/lib/apt'
 require_relative '../ci-tooling/nci/lib/setup_repo'
 
-ENV['TYPE'] ||= ARGV.fetch(0) { raise 'Need type as argument or in env.' }
+OptionParser.new do |opts|
+  opts.banner = <<-BANNER
+Usage: #{opts.program_name} [options]
+  BANNER
+
+  opts.on('--no-repo', 'Do not set up a repo (does not require TYPE)') do
+    @no_repo = true
+  end
+end.parse!
 
 NCI.setup_proxy!
 NCI.add_repo_key!
+exit if @no_repo
+
+ENV['TYPE'] ||= ARGV.fetch(0) { raise 'Need type as argument or in env.' }
 NCI.setup_repo!
