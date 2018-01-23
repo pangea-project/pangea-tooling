@@ -39,7 +39,7 @@ class DCISourcerTest < TestCase
     fake_builder.stubs(:run)
     CI::VcsSourceBuilder.expects(:new).returns(fake_builder)
     # Runs fallback
-    Sourcer.run
+    DCISourcer.run
   end
 
   def test_run_tarball
@@ -56,7 +56,7 @@ class DCISourcerTest < TestCase
     fake_builder.stubs(:build)
     CI::OrigSourceBuilder.expects(:new).with(release:ENV.fetch('DIST'), strip_symbols: true).returns(fake_builder)
 
-    Sourcer.run('tarball')
+    DCISourcer.run('tarball')
   end
 
   def test_run_uscan
@@ -70,11 +70,11 @@ class DCISourcerTest < TestCase
     fake_builder.stubs(:build)
     CI::OrigSourceBuilder.expects(:new).with(release:ENV.fetch('DIST'), strip_symbols: true).returns(fake_builder)
 
-    Sourcer.run('uscan')
+    DCISourcer.run('uscan')
   end
 
   def test_args
-    assert_equal({:release=>ENV.fetch('DIST'), :strip_symbols=>true}, Sourcer.sourcer_args)
+    assert_equal({:release=>ENV.fetch('DIST'), :strip_symbols=>true}, DCISourcer.sourcer_args)
   end
 
   def test_settings_args
@@ -82,6 +82,6 @@ class DCISourcerTest < TestCase
       { 'sourcer' => { 'restricted_packaging_copy' => true } }
     )
     assert_equal({:release=>ENV.fetch('DIST'), :strip_symbols=>true, :restricted_packaging_copy=>true},
-                 Sourcer.sourcer_args)
+                 DCISourcer.sourcer_args)
   end
 end

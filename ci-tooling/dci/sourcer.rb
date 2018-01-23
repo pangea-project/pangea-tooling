@@ -29,7 +29,7 @@ require_relative 'lib/settings'
 require_relative 'lib/setup_repo'
 require_relative 'lib/setup_env'
 
-module Sourcer
+module DCISourcer
   class << self
     def sourcer_args
         args = { release: ENV.fetch('DIST'), strip_symbols: true }
@@ -133,6 +133,6 @@ if $PROGRAM_NAME == __FILE__
   ENV['RELEASEME_PROJECTS_API'] = '1'
   DCI.setup_repo!
   DCI.setup_env!
-  Sourcer.run
+  DCISourcer.run
 end
 # :nocov:

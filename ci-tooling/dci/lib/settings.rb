@@ -70,12 +70,12 @@ module DCI
     end
 
     def job?
-      @job_exist ||= File.exist?('job_name')
+      @job_exist ||= ENV.has_key?('JOB_NAME')
     end
 
     def job
       job? # Make sure exist has been chached.
-      @job ||= File.read('job_name').strip
+      @job ||= ENV.fetch('JOB_NAME').strip
     end
 
     def settings
