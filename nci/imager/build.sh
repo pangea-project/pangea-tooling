@@ -33,7 +33,9 @@ sudo apt install -y software-properties-common
 sudo apt-add-repository http://archive.neon.kde.org/${NEONARCHIVE}
 sudo apt update
 sudo apt dist-upgrade -y
-sudo apt install -y --no-install-recommends git ubuntu-defaults-builder wget ca-certificates zsync distro-info syslinux-utils livecd-rootfs xorriso
+sudo apt install -y --no-install-recommends \
+    git ubuntu-defaults-builder wget ca-certificates zsync distro-info \
+    syslinux-utils livecd-rootfs xorriso
 
 cd $WD
 ls -lah
