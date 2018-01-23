@@ -67,13 +67,11 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   end
 
   # delete old directories
-  img_directories = sftp.dir.glob(REMOTE_DIR, '*')
-  img_directories = img_directories.sort { |x,y| x.name <=> y.name }
-  img_directories = img_directories[-4, 4] # keep the last three plus current symlink
-  img_directories.each do |entry|
-    next unless entry.directory? # keep 'current' the symlink
-    path = "#{REMOTE_DIR}/#{entry.name}"
-    next if path.include?(REMOTE_PUB_DIR)
+  img_directories = sftp.dir.glob(REMOTE_DIR, '*').collect(&:name)
+  img_directories.delete('current') # keep current symlink
+  img_directories = img_directories.sort.pop(4) # keep the latest four builds
+  img_directories.each do |name|
+    path = "#{REMOTE_DIR}/#{name}"
     STDERR.puts "rm #{path}"
     sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
     sftp.rmdir!(path)
