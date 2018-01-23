@@ -19,8 +19,3 @@ qml-module-qtquick-controls2:
   # This plugin only exists as a binary plugin and has no actual tree, it is
   # part of the regular QQC tree.
   - QtQuick.Controls.impl: '~> 2.0'
-
-# Not a real package. Represents an override that maps to nothing but is
-# injected at runtime in more than one package
-fake-global-ignore:
-  - org.kde.kcm
