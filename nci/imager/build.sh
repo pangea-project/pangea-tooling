@@ -1,4 +1,6 @@
-#!/bin/sh -xe
+#!/bin/sh
+
+set -ex
 
 cleanup() {
     if [ ! -d build ]; then
