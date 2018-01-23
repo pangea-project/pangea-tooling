@@ -120,6 +120,8 @@ class QMLDependencyVerifierTest < TestCase
     # can be royally wrong as a regular package would be in qml-module-foo,
     # a runtime-injected one in any random package.
 
+    QML::StaticMap.data_file = File.join(data, 'static.yaml')
+
     const_reset(QML, :SEARCH_PATHS, [File.join(data, 'qml')])
 
     system_sequence = sequence('system')
