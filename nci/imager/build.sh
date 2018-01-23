@@ -41,10 +41,12 @@ sudo apt install -y --no-install-recommends \
     syslinux-utils livecd-rootfs xorriso pxz
 
 rm /usr/bin/xz
-cat << EOF > /usr/bin/xz
+ln -s /usr/bin/pxz /usr/bin/xz
+cat << EOF > /usr/bin/xz.0
 /usr/bin/pxz -0 "\$0"
 EOF
-chmod +x /usr/bin/xz
+chmod +x /usr/bin/xz.0
+ls -lah /usr/bin/xz.0
 
 cd $WD
 ls -lah
