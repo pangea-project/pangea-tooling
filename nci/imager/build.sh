@@ -28,8 +28,9 @@ fi
 
 cat /proc/self/cgroup
 
-wget -qO - 'http://archive.neon.kde.org/public.key' | sudo apt-key add -
-sudo apt install -y software-properties-common
+# FIXME: let nci/lib/setup_repo.rb handle the repo setup as well this is just
+# duplicate code here...
+/tooling/nci/setup_apt_repo.rb --no-repo
 sudo apt-add-repository http://archive.neon.kde.org/${NEONARCHIVE}
 sudo apt update
 sudo apt dist-upgrade -y
