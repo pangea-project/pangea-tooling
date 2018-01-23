@@ -49,6 +49,7 @@ c = CI::Containment.new(JOB_NAME,
 cmd = ["#{TOOLING_PATH}/nci/imager/build.sh",
        Dir.pwd, DIST, ARCH, TYPE, METAPACKAGE, IMAGENAME, NEONARCHIVE]
 status_code = c.run(Cmd: cmd)
+warn "status code was #{status_code.to_i}"
 
 # Write a params file we can use to pass our relevant information to a child
 # build for additional processing.
@@ -58,5 +59,4 @@ NODE_NAME=#{ENV.fetch('NODE_NAME')}
 EOF
 puts File.read('params.txt')
 
-warn "status code was #{status_code.to_i}"
 exit status_code
