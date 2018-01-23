@@ -1,8 +1,6 @@
 #!/bin/sh
 
-set -e
+set -ex
 
-cd /
-wget http://embra.edinburghlinux.co.uk/~jr/snapd-kde-frameworks.tar.gz
-tar zxf snapd-kde-frameworks.tar.gz
-rm snapd-kde-frameworks.tar.gz
+snap download core
+snap download kde-frameworks-5
