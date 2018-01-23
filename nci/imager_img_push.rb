@@ -73,8 +73,9 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   img_directories.each do |name|
     path = "#{REMOTE_DIR}/#{name}"
     STDERR.puts "rm #{path}"
-    sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
-    sftp.rmdir!(path)
+    # Not deleting stuff as this is broken and kills current build itself
+    #sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
+    #sftp.rmdir!(path)
   end
 end
 
