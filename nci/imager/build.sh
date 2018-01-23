@@ -71,6 +71,12 @@ export LB_COMPRESSION=xz
 ## Create a zsync file allowing over-http delta-downloads.
 export LB_ZSYNC=true # This is overridden by silly old defaults-image...
 
+## Reduce compression level from default (-6) to (-0). -0 is often smaller than
+## gz but much faster than -6. It may well be that this is also increases
+## squashfs size, so we may not want this in production actually.
+## Ideally this should only apply for source tarball.
+export XZ_OPT=-0
+
 export CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}.sh"
 export CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
 export BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}"
