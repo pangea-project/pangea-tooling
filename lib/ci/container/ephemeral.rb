@@ -30,7 +30,7 @@ module CI
     def running?
       state = json.fetch('State')
       unless RUNNING_STATES.include?(state.fetch('Status'))
-        raise EphemeralContainerUnhandledState
+        raise EphemeralContainerUnhandledState, state.fetch('Status')
       end
       state.fetch('Running')
     end
