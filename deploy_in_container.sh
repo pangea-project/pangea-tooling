@@ -49,9 +49,4 @@ ruby -e "Gem.install('rake')"
 # And tty-command (used by apt, which we'll load in the rake tasks)
 ruby -e "Gem.install('tty-command') unless Gem::Specification.map(&:name).include?('tty-command')"
 
-if [ "$DIST" = "1803" ]; then
-# Ensure bundler is installed
-ruby -e "Gem.install('bundler')"
-fi
-
 exec rake -f deploy_in_container.rake deploy_in_container
