@@ -51,7 +51,7 @@ ruby -e "Gem.install('tty-command') unless Gem::Specification.map(&:name).includ
 
 if [ "$DIST" = "1803" ]; then
 # Ensure bundler is installed
-ruby -e "Gem.install('bundler') unless Gem::Specification.map(&:name).include?('bundler')"
+ruby -e "Gem.install('bundler')"
 fi
 
 exec rake -f deploy_in_container.rake deploy_in_container
