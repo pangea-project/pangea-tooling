@@ -32,6 +32,9 @@ cat /proc/self/cgroup
 
 # FIXME: let nci/lib/setup_repo.rb handle the repo setup as well this is just
 # duplicate code here...
+ls -lah /tooling/nci
+ls -lah /tooling/ci-tooling
+ls -lah /tooling/ci-tooling/lib
 /tooling/nci/setup_apt_repo.rb --no-repo
 sudo apt-add-repository http://archive.neon.kde.org/${NEONARCHIVE}
 sudo apt update
