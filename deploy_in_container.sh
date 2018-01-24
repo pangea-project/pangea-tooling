@@ -23,7 +23,7 @@ EOF
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00aptitude
 echo 'APT::Color "1";' > /etc/apt/apt.conf.d/99color
 
-i="3"
+i="5"
 while [ $i -gt 0 ]; do
   apt-get update && break
   i=$((i-1))
