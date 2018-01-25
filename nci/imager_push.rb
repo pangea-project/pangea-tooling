@@ -177,7 +177,7 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
       # upload new one
       name = File.basename(file)
 
-      sftp.cli_uploads = f.lstat.size > 4 * 1024 * 1024
+      sftp.cli_uploads = File.new(file).lstat.size > 4 * 1024 * 1024
       STDERR.puts "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
       sftp.upload!(file, "#{path}/#{name}")
     end

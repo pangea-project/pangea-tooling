@@ -49,10 +49,12 @@ module NCI
       end
 
       def upload!(src, target, requests: nil)
+        # We don't care about requests.
         FileUtils.cp(src, File.join(pwd, target), verbose: true)
       end
 
-       # should be separate dir adaptor maybe
+      ## Dir adpator
+      ## should be separate adaptor class maybe?
       def dir
         self
       end
@@ -100,6 +102,8 @@ module NCI
       racnoss.mkpath('neon/images/neon-devedition-gitstable')
       mirror = SFTPAdaptor.new('files.kde.mirror.pangea.pub')
       weegie = SFTPAdaptor.new('weegie.edinburghlinux.co.uk')
+      # We also do not properly mkpath against weegie.
+      weegie.mkpath('files.neon.kde.org.uk')
 
       Net::SFTP.expects(:start).never
       Net::SFTP.expects(:start).with('racnoss.kde.org', 'neon').yields(racnoss)
@@ -129,13 +133,16 @@ module NCI
         Dir.mkdir('result')
         File.write('result/date_stamp', '1234')
         File.write('result/.message', 'hey hey wow wow')
+        File.write("result/#{ENV['IMAGENAME']}-#{ENV['TYPE']}-1234-amd64.iso", 'blob')
+        File.write('result/source.tar.xz', 'blob')
 
         Object.any_instance.expects(:system).never
         Object.any_instance.expects(:system)
               .with do |*args|
                 next false unless args.include?('gpg2')
-                args.pop # iso arg
+                iso = args.pop # iso arg
                 sig = args.pop # sig arg
+                assert_path_exist(iso)
                 File.write(sig, '')
               end
               .returns(true)
@@ -150,6 +157,14 @@ module NCI
       waitedpid, status = Process.waitpid2(pid)
       assert_equal(pid, waitedpid)
       assert(status.success?)
+
+      assert_path_exist('racnoss.kde.org/neon/images/neon-devedition-gitstable/1234/.message')
+      assert_path_exist('racnoss.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-1234-amd64.iso')
+      assert_path_exist('racnoss.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-1234-amd64.iso.sig')
+      assert_path_exist('racnoss.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-current.iso.sig')
+      assert_path_exist('racnoss.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-current.iso')
+
+      assert_path_exist('weegie.edinburghlinux.co.uk/files.neon.kde.org.uk/source.tar.xz')
     end
   end
 end
