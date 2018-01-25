@@ -149,7 +149,7 @@ EOF
       Gem::Specification.find_by_name('bundler')
       sh 'gem update bundler'
     rescue Gem::LoadError
-      sh 'gem install bundler'
+      Gem.install('bundler')
     end
 
     # Add debug for checking what version is being used
