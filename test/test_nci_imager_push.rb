@@ -48,11 +48,12 @@ module NCI
         FileUtils.mkpath(File.join(pwd, path), verbose: true)
       end
 
-      def upload!(src, target)
+      def upload!(src, target, requests: nil)
         FileUtils.cp(src, File.join(pwd, target), verbose: true)
       end
 
-      def dir # should be dir adaptor maybe
+       # should be separate dir adaptor maybe
+      def dir
         self
       end
 
@@ -60,6 +61,18 @@ module NCI
         Dir.glob(File.join(pwd, path, pattern)).collect do |x|
           Entry.new(name: x)
         end
+      end
+
+      ## Our CLI overlay!
+      ## TODO: when making the pusher a proper module/class, prepend our
+      ##   adaptor with the actual module so we can test the CLI logic as well.
+
+      def cli_uploads
+        @cli_uploads ||= false
+      end
+
+      def cli_uploads=(x)
+        @cli_uploads = x
       end
     end
 

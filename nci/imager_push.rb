@@ -75,17 +75,61 @@ small, in fact small deltas are worse for performance with zsync-curl).
 README_CONTENT
 end
 
+# Monkey prepend a different upload method which uses sftp from openssh-client
+# instead of net-sftp. net-sftp suffers from severe performance problems
+# in part (probably) because of the lack of threading, more importantly because
+# it implements CTR in ruby which is hella inefficient (half the time of writing
+# is being spent in CTR alone)
+module SFTPSessionOverlay
+  def __cmd
+    require 'tty-command'
+    @__cmd ||= TTY::Command.new
+  end
+
+  def cli_uploads
+    @use_cli_sftp ||= false
+  end
+
+  def cli_uploads=(enable)
+    @use_cli_sftp = enable
+  end
+
+  def __cli_upload(from, to)
+    remote = format('%<user>s@%<host>s',
+                    user: session.options[:user],
+                    host: session.host)
+    __cmd.run('sftp', '-i', session.options[:keys].fetch(0), '-b', '-', remote,
+              stdin: <<~STDIN)
+                put #{from} #{to}
+                quit
+              STDIN
+  end
+
+  def upload!(from, to, **kwords)
+    return super unless @use_cli_sftp
+    raise 'CLI upload of dirs not implemented' if File.directory?(from)
+    # cli wants dirs for remote location
+    __cli_upload(from, File.dirname(to))
+  end
+end
+class Net::SFTP::Session
+  prepend SFTPSessionOverlay
+end
+
 # Publish ISO and associated content.
 Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
+  sftp.cli_uploads = true
   sftp.mkdir!(REMOTE_PUB_DIR)
   types = %w[amd64.iso amd64.iso.sig manifest zsync zsync.README sha256sum]
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
       name = File.basename(file)
-      STDERR.puts "Uploading #{file}..."
+      sftp.cli_uploads = File.new(file).lstat.size > 4 * 1024 * 1024
+      STDERR.puts "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
       sftp.upload!(file, "#{REMOTE_PUB_DIR}/#{name}")
     end
   end
+  sftp.cli_uploads = false
   sftp.upload!('result/.message', "#{REMOTE_PUB_DIR}/.message")
 
   # Need a second SSH session here, since the SFTP one is busy looping.
@@ -130,7 +174,9 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
       end
       # upload new one
       name = File.basename(file)
-      STDERR.puts "Uploading #{file}..."
+
+      sftp.cli_uploads = f.lstat.size > 4 * 1024 * 1024
+      STDERR.puts "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
       sftp.upload!(file, "#{path}/#{name}")
     end
   end
