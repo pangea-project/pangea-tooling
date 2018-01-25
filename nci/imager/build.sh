@@ -115,7 +115,7 @@ if [ ! -e livecd.neon.iso ]; then
 fi
 
 mv livecd.neon.* ../result/
-mv source.debian.tar.xz ../result/
+mv source.debian.tar.xz ../result/ || true
 cd ../result/
 
 for f in live*; do
@@ -123,7 +123,7 @@ for f in live*; do
     mv $f $new_name
 done
 
-mv source.debian.tar.xz ${IMAGENAME}-${TYPE}-${DATETIME}-source.tar.xz
+mv source.debian.tar.xz ${IMAGENAME}-${TYPE}-${DATETIME}-source.tar.xz || true
 ln -s ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso ${IMAGENAME}-${TYPE}-current.iso
 zsyncmake ${IMAGENAME}-${TYPE}-current.iso
 sha256sum ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso > ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.sha256sum
