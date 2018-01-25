@@ -143,6 +143,7 @@ end
 
 desc 'deploy host and containment tooling'
 task :deploy do
+  bundle(*%w[clean --force --verbose])
   bundle(*%w[pack --all-platforms --no-install])
 
   # Pending for pickup by container.
