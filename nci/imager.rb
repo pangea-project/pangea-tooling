@@ -37,7 +37,7 @@ NEONARCHIVE = ENV.fetch('NEONARCHIVE')
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
 binds = [
-  TOOLING_PATH,
+  format('%<path>s:/tooling-host:ro', path: TOOLING_PATH),
   Dir.pwd
 ]
 
@@ -46,7 +46,7 @@ c = CI::Containment.new(JOB_NAME,
                         binds: binds,
                         privileged: true,
                         no_exit_handlers: false)
-cmd = ["#{TOOLING_PATH}/nci/imager/build.sh",
+cmd = ['/tooling-host/nci/imager/build.sh',
        Dir.pwd, DIST, ARCH, TYPE, METAPACKAGE, IMAGENAME, NEONARCHIVE]
 status_code = c.run(Cmd: cmd)
 warn "status code was #{status_code.to_i}"
