@@ -165,7 +165,7 @@ end
 # Publish ISO sources.
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   path = 'files.neon.kde.org.uk'
-  types = %w[source.tar.xz]
+  types = %w[source.tar.xz source.tar]
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
       # Remove old ones
