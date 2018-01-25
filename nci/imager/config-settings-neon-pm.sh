@@ -1,1 +1,1 @@
-export LB_SOURCE="false"
+unset LB_APT_HTTP_PROXY
