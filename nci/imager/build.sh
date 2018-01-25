@@ -43,14 +43,6 @@ sudo apt install -y --no-install-recommends \
     git ubuntu-defaults-builder wget ca-certificates zsync distro-info \
     syslinux-utils livecd-rootfs xorriso pxz
 
-rm /usr/bin/xz
-ln -s /usr/bin/pxz /usr/bin/xz
-cat << EOF > /usr/bin/xz.0
-/usr/bin/pxz -0 "\$0"
-EOF
-chmod +x /usr/bin/xz.0
-ls -lah /usr/bin/xz.0
-
 cd $WD
 ls -lah
 cleanup
@@ -83,18 +75,12 @@ sudo apt install -y --no-install-recommends  syslinux-themes-ubuntu syslinux-the
 EDITION=$(echo $NEONARCHIVE | sed 's,/,,')
 export RELEASE_${DIST}=${EDITION}
 ## Bring down the overall size a bit by using a more sophisticated albeit expensive algorithm.
-export LB_COMPRESSION=xz
+export LB_COMPRESSION=none
 ## Create a zsync file allowing over-http delta-downloads.
 export LB_ZSYNC=true # This is overridden by silly old defaults-image...
 ## Use our cache as proxy.
 # FIXME: get out of nci/lib/setup_repo.rb
 export LB_APT_HTTP_PROXY="http://apt.cache.pangea.pub:8000"
-
-## Reduce compression level from default (-6) to (-0). -0 is often smaller than
-## gz but much faster than -6. It may well be that this is also increases
-## squashfs size, so we may not want this in production actually.
-## Ideally this should only apply for source tarball.
-export XZ_OPT=-0
 
 export CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}.sh"
 export CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
