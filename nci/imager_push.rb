@@ -98,7 +98,7 @@ module SFTPSessionOverlay
     remote = format('%<user>s@%<host>s',
                     user: session.options[:user],
                     host: session.host)
-    __cmd.run('sftp', '-i', session.options[:keys].fetch(0), '-b', '-', remote,
+    __cmd.run('sftp', '-b', '-', remote,
               stdin: <<~STDIN)
                 put #{from} #{to}
                 quit
