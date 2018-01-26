@@ -14,7 +14,7 @@ cleanNode('amd64-iso') {
 
 cleanNode('master') {
   stage('push') {
-    lock('iso-publishing') {
+    lock('ISO_PUBLISHING') {
       unstash 'data'
       sh '~/tooling/nci/imager_push.rb'
     }
