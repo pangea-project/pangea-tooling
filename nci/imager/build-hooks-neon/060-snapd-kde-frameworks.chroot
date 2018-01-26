@@ -1,6 +1,47 @@
 #!/bin/sh
 
+# Heavily borrowed from Ubuntu's livecd-rootfs/live-build/auto/build.
+# Basically snapd will pick up snaps defind in /var/lib/snapd/seed/seed.yaml
+# The yaml contains a list of objects defining the snap name, channel and file.
+# The snaps and their assertions live in subdirs.
+# To get the snaps to begin with we'll use snap download, which doesn't need
+# snapd running.
+
 set -ex
+
+SEED_DIR='/var/lib/snapd/seed'
+SNAPS_DIR="$SEED_DIR/snaps"
+ASSERT_DIR="$SEED_DIR/assertions"
+
+mkdir $SEED_DIR
+cd $SEED_DIR
 
 snap download core
 snap download kde-frameworks-5
+
+CORE_SNAP=$(ls -1 core_*.snap)
+
+cat <<EOF > $SEED_DIR/seed.yaml
+snaps:
+- name: core
+  channel: stable
+  file: ${CORE_SNAP}
+EOF
+
+for snap in "$@"; do
+  cat <<EOF >> $SEED_DIR/seed.yaml
+- name: $snap
+  channel: stable
+EOF
+  echo -n "   file: " >> $SEED_DIR/seed.yaml
+  ls -1 ${snap}_*.snap >> $SEED_DIR/seed.yaml
+done
+
+cat $SEED_DIR/seed.yaml
+
+mkdir -p $SNAPS_DIR $ASSERT_DIR
+mv -v $SEED_DIR/*.assert $ASSERT_DIR
+mv -v $SEED_DIR/*.snap $SNAPS_DIR
+
+# TODO: ubuntu also imports some additional assertions, it's not clear if we
+#   need this. needs testing.
