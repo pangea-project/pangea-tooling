@@ -63,8 +63,7 @@ module QML
     end
 
     def installed?
-      return if valid_static?
-      modules_installed?
+      valid_static? || modules_installed?
     end
 
     private

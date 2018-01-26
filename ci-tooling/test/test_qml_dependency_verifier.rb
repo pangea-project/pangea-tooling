@@ -89,6 +89,12 @@ class QMLDependencyVerifierTest < TestCase
     Object.any_instance.stubs(:`)
           .with('dpkg -L plasma-widgets-addons')
           .returns(data('main.qml'))
+    # org.plasma.configuration is static mapped to plasma-framework, so we
+    # need this call to happen to check if it installed.
+    # this must not ever be removed!
+    Object.any_instance.stubs(:system)
+          .with('dpkg -s plasma-framework 2>&1 > /dev/null')
+          .returns(true)
 
     repo = mock('repo')
     repo.stubs(:add).returns(true)
