@@ -33,8 +33,9 @@ until grep '"stage"' /run/cloud-init/status.json | grep -q 'null'; do
 done
 
 # Make sure we do not have random services claiming dpkg locks.
+# Nor random background stuff we don't use (snapd, lxd)
 ps aux
-apt purge -y unattended-upgrades update-notifier-common
+apt purge -y unattended-upgrades update-notifier-common snapd lxd
 
 # DOs by default come with out of date cache.
 ps aux
