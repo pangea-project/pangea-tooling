@@ -1,0 +1,37 @@
+env.DIST='<%= distribution %>'
+env.ARCH='<%= architecture %>'
+env.TYPE='<%= type %>'
+env.METAPACKAGE='<%= metapackage %>'
+env.IMAGENAME='<%= imagename %>'
+env.NEONARCHIVE='<%= neonarchive %>'
+
+cleanNode('amd64-iso') {
+  stage('imager') {
+    sh '~/tooling/nci/imager.rb'
+    stash excludes: 'build/**, *.squashfs', includes: '*, result/**', name: 'data'
+  }
+}
+
+cleanNode('master') {
+  stage('push') {
+    lock('iso-publishing') {
+      unstash 'data'
+      sh '~/tooling/nci/imager_push.rb'
+    }
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}
