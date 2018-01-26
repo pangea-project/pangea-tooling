@@ -28,13 +28,12 @@ snaps:
   file: ${CORE_SNAP}
 EOF
 
-for snap in "$@"; do
+for snap in *.snap; do
   cat <<EOF >> $SEED_DIR/seed.yaml
 - name: $snap
   channel: stable
+  file: $snap
 EOF
-  echo -n "   file: " >> $SEED_DIR/seed.yaml
-  ls -1 ${snap}_*.snap >> $SEED_DIR/seed.yaml
 done
 
 cat $SEED_DIR/seed.yaml
@@ -43,5 +42,19 @@ mkdir -p $SNAPS_DIR $ASSERT_DIR
 mv -v $SEED_DIR/*.assert $ASSERT_DIR
 mv -v $SEED_DIR/*.snap $SNAPS_DIR
 
-# TODO: ubuntu also imports some additional assertions, it's not clear if we
-#   need this. needs testing.
+# Dump generic assertions. This is a bit of a hack.
+# For snapd to import our dumped snaps it needs a bunch of assertions to be
+# present. The requirements aren't really documented from what I can tell, so
+# I am assuming this is a matter of trial and error to see which errors snapd
+# spits out of stateengine.
+model_assertion="$ASSERT_DIR/generic-classic.model"
+account_key_assertion="$ASSERT_DIR/generic.account-key"
+account_assertion="$ASSERT_DIR/generic.account"
+
+snap known --remote model series=16 model=generic-classic brand-id=generic > "$model_assertion"
+account_key=$(sed -n -e's/sign-key-sha3-384: //p' < "$model_assertion")
+
+snap known --remote account-key public-key-sha3-384="$account_key" > "$account_key_assertion"
+account=$(sed -n -e's/account-id: //p' < "$account_key_assertion")
+
+snap known --remote account account-id=generic > "$account_assertion"
