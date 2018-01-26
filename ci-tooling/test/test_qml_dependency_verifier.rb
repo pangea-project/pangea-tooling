@@ -45,6 +45,7 @@ class QMLDependencyVerifierTest < TestCase
 
   def teardown
     VCR.eject_cassette(File.basename(__FILE__, '.rb'))
+    QML::StaticMap.reset!
   end
 
   def data(path = nil)
@@ -67,6 +68,9 @@ class QMLDependencyVerifierTest < TestCase
 
   def test_missing_modules
     # Make sure our ignore is in place in the data dir.
+
+    QML::StaticMap.data_file = File.join(data, 'static.yaml')
+
     # NB: this testcase is chdir in the datadir not the @tmpdir!
     assert(File.exist?('packaging/debian/plasma-widgets-addons.qml-ignore'))
     # Prepare sequences, divert search path and run verification.

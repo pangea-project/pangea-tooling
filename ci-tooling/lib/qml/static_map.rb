@@ -9,13 +9,17 @@ module QML
   #   unstable and release. it may be smart to split stuff somehow (or rather
   #   allow for them to be split)
   class StaticMap
-    @base_dir = File.expand_path("#{__dir__}/../../")
-    @data_file = File.join(@base_dir, 'data', 'qml-static-map.yml')
-
     class << self
       # @return [String] path to the yaml data file with mapping information
       attr_accessor :data_file
+
+      def reset!
+        @base_dir = File.expand_path("#{__dir__}/../../")
+        @data_file = File.join(@base_dir, 'data', 'qml-static-map.yml')
+      end
     end
+
+    reset!
 
     def initialize(data_file = nil)
       data_file ||= self.class.data_file
