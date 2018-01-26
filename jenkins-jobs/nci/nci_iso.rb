@@ -13,7 +13,7 @@ class NeonIsoJob < JenkinsJob
 
   def initialize(type:, distribution:, architecture:, metapackage:, imagename:,
                  neonarchive:, cronjob:)
-    super("iso_#{imagename}_#{distribution}_#{type}_#{architecture}",
+    super("iso_#{imagename}_#{distribution}_#{type}_#{architecture}-freestyle",
           'nci_iso.xml.erb')
     @type = type
     @distribution = distribution
