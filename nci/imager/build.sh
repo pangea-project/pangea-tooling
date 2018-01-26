@@ -84,7 +84,7 @@ export LB_APT_HTTP_PROXY="http://apt.cache.pangea.pub:8000"
 ## Also set the proxy on apt options. This is used internally to expand on a lot
 ## of apt-get calls. For us primarily of interest because it is used for
 ## lb_source, which would otherwise bypass the proxy entirely.
-export APT_OPTIONS="-o Acquire::http::Proxy='$LB_APT_HTTP_PROXY'"
+export APT_OPTIONS="--yes -o Acquire::http::Proxy='$LB_APT_HTTP_PROXY'"
 
 export CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}.sh"
 export CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
