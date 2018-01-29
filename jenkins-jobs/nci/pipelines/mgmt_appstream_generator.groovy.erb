@@ -6,7 +6,15 @@ node('master') {
     wrap([$class: 'TimestamperBuildWrapper']) {
         wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
             stage 'Checkout'
-            git url: 'https://github.com/ximion/appstream-generator.git'
+            // Frozen at 0.6.8 as newer versions require newer appstream AND
+            // in turn newer glib/gobject-introspect. Since this is not worth
+            // dealing with we'll simply freeze for xenial.
+            if (env.DIST != 'xenial') {
+                error 'This build is frozen at v0.6.7, should be unfrozen for bionic'
+            }
+            checkout([$class: 'GitSCM',
+                      branches: [[name: 'refs/tags/v0.6.7']],
+                      userRemoteConfigs: [[url: 'https://github.com/ximion/appstream-generator.git']]])
 
             stage 'Repository Setup'
             sh 'rsync -avzH --delete neonarchives@archive-api.neon.kde.org:aptly/public/$APTLY_REPOSITORY/* aptly-repository/'
