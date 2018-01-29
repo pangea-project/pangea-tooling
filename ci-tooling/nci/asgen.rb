@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'fileutils'
+require 'tty-command'
 
 require_relative 'lib/setup_repo'
 require_relative '../lib/apt'
@@ -48,14 +49,16 @@ Apt.install(%w[meson ldc gir-to-d libappstream-dev libgdk-pixbuf2.0-dev
 # Run
 Apt.install(%w[npm nodejs-legacy optipng liblmdb0]) || raise
 
-system(*%w[npm install -g bower]) || raise
+cmd = TTY::Command.new
+
+cmd.run(*%w[npm install -g bower])
 
 build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
 
 Dir.chdir(build_dir) do
-  system(*%w[meson -Ddownload_js=true ..]) || raise
-  system(*%w[ninja]) || raise
+  cmd.run(*%w[meson -Ddownload_js=true ..])
+  cmd.run(*%w[ninja])
 end
 
 suite = DIST
@@ -78,8 +81,8 @@ end
 Apt.install('breeze-icon-theme', 'hicolor-icon-theme')
 FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
 config.write("#{run_dir}/asgen-config.json")
-system("#{build_dir}/appstream-generator", 'process', suite,
-       chdir: run_dir) || raise
+cmd.run("#{build_dir}/appstream-generator", 'process', suite,
+        chdir: run_dir)
 
 # TODO
 # [15:03] <ximion> sitter: the version number changing isn't an issue -
