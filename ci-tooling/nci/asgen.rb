@@ -54,8 +54,8 @@ build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
 
 Dir.chdir(build_dir) do
-  system(*%w[meson -Ddownload_js=true ..])
-  system(*%w[ninja])
+  system(*%w[meson -Ddownload_js=true ..]) || raise
+  system(*%w[ninja]) || raise
 end
 
 suite = DIST
