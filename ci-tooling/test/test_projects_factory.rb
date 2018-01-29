@@ -117,7 +117,7 @@ class ProjectsFactoryTest < TestCase
     <<-EOF
 hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git 2.1.4
 
-#{paths.map { |p| " R W    #{p}" }.join("\n")}
+#{paths.map { |p| " R W\t#{p}" }.join("\n")}
     EOF
   end
 
@@ -293,6 +293,18 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     assert_equal('attica', project.name)
     assert_equal('frameworks', project.component)
     assert_equal("#{neon_dir}/frameworks/attica", project.packaging_scm.url)
+  end
+
+  def test_neon_ls
+    # Make sure our parsing is on-point and doesn't include any unexpected
+    # rubbish.
+    neon_repos = %w[frameworks/attica]
+    # Cache a mocked listing for Neon
+    cache_neon_backtick(gitolite_ls(neon_repos))
+    # 'random/garbage' is also getting injected by gitolite_ls!
+
+    list = ProjectsFactory::Neon.ls
+    assert_equal(['frameworks/attica', 'random/garbage'], list.sort)
   end
 
   def test_neon_new_project_override

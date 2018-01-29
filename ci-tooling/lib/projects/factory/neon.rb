@@ -127,10 +127,10 @@ class ProjectsFactory
         return @listing if defined?(@listing) # Cache in class scope.
         out, _err = TTY::Command.new(printer: :null)
                                 .run('ssh neon@git.neon.kde.org')
-        listing = out.chop.split
+        listing = out.chop.split($/)
         listing.shift # welcome message leading, drop it.
         @listing = listing.collect do |entry|
-          entry.split(' ')[-1]
+          entry.split[-1]
         end.uniq.compact.freeze
       end
     end
