@@ -72,6 +72,7 @@ FUTURE_SKIP = %w[
   _krap_
   iso_neon_
   iso_neon-
+  img_neon_
   mgmt_daily_promotion_bionic_
 
   _pkg-kde-tools_
