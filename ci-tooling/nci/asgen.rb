@@ -66,6 +66,7 @@ cmd.run(*%w[npm install -g bower])
 build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
 
+Dir.mkdir(build_dir) unless File.exist?(build_dir)
 Dir.chdir(build_dir) do
   cmd.run(*%w[meson -Ddownload_js=true ..])
   cmd.run(*%w[ninja])
