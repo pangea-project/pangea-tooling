@@ -15,6 +15,8 @@ node('master') {
             checkout([$class: 'GitSCM',
                       branches: [[name: 'refs/tags/v0.6.7']],
                       userRemoteConfigs: [[url: 'https://github.com/ximion/appstream-generator.git']]])
+            // Also undo a commit which removed deprecations breaking compat with ldc in xenial backports
+            sh 'git revert --no-commit 14586457af92cd9b781277dfc6269d83a83322fb'
 
             stage 'Repository Setup'
             lts_exclude = ''
