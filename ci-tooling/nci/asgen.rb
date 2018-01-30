@@ -39,6 +39,15 @@ deb http://archive.ubuntu.com/ubuntu/ #{DIST}-updates main restricted universe m
   SOURCES
 end
 
+# Enable backports to install by default so we get d-deps from there, otherwise
+# our stack stuffers from outdating.
+pref = Apt::Preference.new('99-backports-enable', <<-PREF)
+Package: *
+Pin: release a=#{DIST}-backports
+Pin-Priority: 500
+PREF
+pref.write
+
 # Build
 Apt.update
 Apt.install(%w[meson ldc gir-to-d libappstream-dev libgdk-pixbuf2.0-dev
