@@ -41,7 +41,7 @@ end
 
 # Enable backports to install by default so we get d-deps from there, otherwise
 # our stack stuffers from outdating.
-pref = Apt::Preference.new('99-backports-enable', <<-PREF)
+pref = Apt::Preference.new('99-backports-enable', content: <<-PREF)
 Package: *
 Pin: release a=#{DIST}-backports
 Pin-Priority: 500
