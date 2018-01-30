@@ -17,7 +17,11 @@ node('master') {
                       userRemoteConfigs: [[url: 'https://github.com/ximion/appstream-generator.git']]])
 
             stage 'Repository Setup'
-            sh 'rsync -avzH --delete neonarchives@archive-api.neon.kde.org:aptly/public/$APTLY_REPOSITORY/* aptly-repository/'
+            lts_exclude = ''
+            <% unless repo.include?('lts') %>
+            lts_exclude = '--exclude lts/'
+            <% end %.
+            sh "rsync -avH --delete $lts_exclude --exclude=*_armhf.deb --exclude=*_arm64.deb --exclude=*.dsc --exclude=*.tar.* neonarchives@archive-api.neon.kde.org:aptly/public/$APTLY_REPOSITORY/* aptly-repository/"
 
             stage 'Process'
             sh '~/tooling/nci/contain.rb /tooling/ci-tooling/nci/asgen.rb'
