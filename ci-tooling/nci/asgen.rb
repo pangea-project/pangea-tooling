@@ -79,7 +79,7 @@ config.MediaBaseUrl = "https://metadata.neon.kde.org/appstream/#{TYPE}/media"
 config.HtmlBaseUrl = "https://metadata.neon.kde.org/appstream/#{TYPE}/html"
 config.Backend = 'debian'
 config.Features['validateMetainfo'] = true
-config.Suites << ASGEN::Suite.new(series).tap do |s|
+config.Suites << ASGEN::Suite.new(suite).tap do |s|
   s.sections = %w[main]
   s.architectures = %w[amd64]
   s.dataPriority = 1
