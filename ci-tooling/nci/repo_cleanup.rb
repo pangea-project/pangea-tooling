@@ -149,5 +149,8 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
     RepoCleaner.clean(RepoNames.all('release'), keep_amount: 4)
     RepoCleaner.clean(RepoNames.all('release-lts'), keep_amount: 4)
   end
+
+  puts 'Finally cleaning out database...'
   RepoCleaner.clean_db
+  puts 'All done!'
 end
