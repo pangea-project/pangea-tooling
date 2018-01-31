@@ -64,7 +64,7 @@ class RepoCleaner
   end
 
   def clean_db
-    Net::SSH.start('racnoss.kde.org', 'neonarchives') do |ssh|
+    Net::SSH.start('archive-api.neon.kde.org', 'neonarchives') do |ssh|
       ssh.exec!(
         'XDG_RUNTIME_DIR=/run/user/`id -u` \
         systemctl --user start aptly_db_cleanup'

@@ -64,7 +64,7 @@ class NCIRepoCleanupTest < TestCase
     Net::SSH
       .expects(:start)
       .twice
-      .with('racnoss.kde.org', 'neonarchives')
+      .with('archive-api.neon.kde.org', 'neonarchives')
       .yields(session, session)
 
     Aptly::Ext::Remote.expects(:neon).yields
