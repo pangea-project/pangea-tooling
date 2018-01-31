@@ -37,9 +37,13 @@ class RepoCleaner
 
   # Iterate over each source. Sort its versions and drop lowest ones.
   def clean
+    puts "Cleaning #{@repo} sources ---"
     clean_sources
+    puts "Cleaning #{@repo} binaries ---"
     clean_binaries
+    puts "Cleaning #{@repo} re-publishing ---"
     @repo.published_in(&:update!)
+    puts "--- done with #{@repo} ---"
   end
 
   def self.clean(repo_whitelist = [], keep_amount: 1)
