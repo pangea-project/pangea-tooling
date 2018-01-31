@@ -10,6 +10,12 @@
       <scanQueueFor>ALL</scanQueueFor>
       <blockingJobs>^.+$</blockingJobs>
     </hudson.plugins.buildblocker.BuildBlockerProperty>
+    <org.jenkins.plugins.lockableresources.RequiredResourcesProperty plugin="lockable-resources@2.1">
+      <resourceNames></resourceNames>
+      <resourceNamesVar></resourceNamesVar>
+      <resourceNumber></resourceNumber>
+      <labelName>APTLY</labelName>
+    </org.jenkins.plugins.lockableresources.RequiredResourcesProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <assignedNode>master</assignedNode>

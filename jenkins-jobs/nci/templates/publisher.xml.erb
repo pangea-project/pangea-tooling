@@ -14,15 +14,12 @@
       <blockingJobs>^mgmt_repo-cleanup.*$
 ^mgmt_aptly.+$</blockingJobs>
     </hudson.plugins.buildblocker.BuildBlockerProperty>
-    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
-      <maxConcurrentPerNode>0</maxConcurrentPerNode>
-      <maxConcurrentTotal>0</maxConcurrentTotal>
-      <categories>
-        <string>publishing</string>
-      </categories>
-      <throttleEnabled>true</throttleEnabled>
-      <throttleOption>category</throttleOption>
-    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+    <org.jenkins.plugins.lockableresources.RequiredResourcesProperty plugin="lockable-resources@2.1">
+      <resourceNames></resourceNames>
+      <resourceNamesVar></resourceNamesVar>
+      <resourceNumber>1</resourceNumber>
+      <labelName>APTLY</labelName>
+    </org.jenkins.plugins.lockableresources.RequiredResourcesProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <assignedNode>(amd64&amp;&amp;persistent)||(amd64&amp;&amp;cloud)||(amd64)</assignedNode>
