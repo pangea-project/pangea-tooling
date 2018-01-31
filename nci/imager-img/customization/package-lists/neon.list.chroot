@@ -9,8 +9,10 @@ neon-desktop
 neon-live
 mesa-utils-extra
 neon-settings-pinebook
+libcedrus1
 libreoffice
 libreoffice-gtk3
+libvdpau-sunxi1
 user-setup
 kamoso
 calamares-settings-pinebook
