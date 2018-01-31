@@ -29,6 +29,7 @@ gem 'octokit'
 gem 'rake', '~> 12.0'
 gem 'rugged'
 gem 'tty-command'
+gem 'xorcist'
 
 # Git URI management
 gem 'git_clone_url', '~> 2.0'
