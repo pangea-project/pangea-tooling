@@ -47,13 +47,20 @@ module Net::SSH::Transport::CTR::CTROverlay
         @cap ||= false
       end
 
+      def start?
+        @start ||= nil
+        return false unless @start.nil?
+        @start = false
+        true
+      end
+
       def update_cap
-        @cap = max < KEY_QUEUE_MAX
+        @cap = max >= KEY_QUEUE_MAX
       end
 
       def pop
         begin
-          return super(cap?) # wait if we have a max size queue
+          return super(!(cap? || start?)) # wait if we have a max size queue
         rescue ThreadError
           # When we have a buffer underrun we bump the queue size up to cap.
           warn "Buffer underrun, increasing queue length #{max * 2}"
