@@ -41,6 +41,21 @@ module Net::SSH::Transport::CTR::CTROverlay
       # underruns.
       KEY_QUEUE_MAX = (4 * 1024 * 1024) / 16
 
+      def pop
+        begin
+          return super(!(cap? || start?)) # wait if we have a max size queue
+        rescue ThreadError
+          # When we have a buffer underrun we bump the queue size up to cap.
+          warn "Buffer underrun, increasing queue length #{max * 2}"
+          self.max *= 2
+          update_cap
+          retry
+        end
+        nil
+      end
+
+      private
+
       def cap?
         # Default to false, the first pop we'll want to wait on ALL the time!
         # Once we had at least once underrun @cap will be the actual capyness.
@@ -56,19 +71,6 @@ module Net::SSH::Transport::CTR::CTROverlay
 
       def update_cap
         @cap = max >= KEY_QUEUE_MAX
-      end
-
-      def pop
-        begin
-          return super(!(cap? || start?)) # wait if we have a max size queue
-        rescue ThreadError
-          # When we have a buffer underrun we bump the queue size up to cap.
-          warn "Buffer underrun, increasing queue length #{max * 2}"
-          self.max *= 2
-          update_cap
-          retry
-        end
-        nil
       end
     end
 
