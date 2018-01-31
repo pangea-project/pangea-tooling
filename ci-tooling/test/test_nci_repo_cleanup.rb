@@ -52,18 +52,18 @@ class NCIRepoCleanupTest < TestCase
   end
 
   def test_clean
-
     session = mock('session')
     session.responds_like_instance_of(Net::SSH::Connection::Session)
     session.expects(:exec!)
-      .twice
-      .with('XDG_RUNTIME_DIR=/run/user/`id -u` \
-        systemctl --user start aptly_db_cleanup')
-      .yields
+           .once # must only be called once; after all is done!!!
+           .with(<<-DATA)
+XDG_RUNTIME_DIR=/run/user/`id -u` systemctl --user start aptly_db_cleanup
+DATA
+           .yields
 
     Net::SSH
       .expects(:start)
-      .twice
+      .once # must only be called once; after all is done!!!
       .with('archive-api.neon.kde.org', 'neonarchives')
       .yields(session, session)
 

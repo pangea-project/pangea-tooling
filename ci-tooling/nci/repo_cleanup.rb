@@ -39,7 +39,6 @@ class RepoCleaner
   def clean
     clean_sources
     clean_binaries
-    clean_db
     @repo.published_in(&:update!)
   end
 
@@ -47,6 +46,15 @@ class RepoCleaner
     Aptly::Repository.list.each do |repo|
       next unless repo_whitelist.include?(repo.Name)
       RepoCleaner.new(repo, keep_amount: keep_amount).clean
+    end
+  end
+
+  def self.clean_db
+    Net::SSH.start('archive-api.neon.kde.org', 'neonarchives') do |ssh|
+      # Set XDG_RUNTIME_DIR so we can find our dbus socket.
+      ssh.exec!(<<-COMMAND)
+XDG_RUNTIME_DIR=/run/user/`id -u` systemctl --user start aptly_db_cleanup
+      COMMAND
     end
   end
 
@@ -61,15 +69,6 @@ class RepoCleaner
     keep = Aptly::Ext::LatestVersionFilter.filter(binaries, @keep_amount)
     (binaries - keep).each { |x| delete_binary(x) }
     keep.each { |x| delete_binary(x) unless bin_has_source?(x) }
-  end
-
-  def clean_db
-    Net::SSH.start('archive-api.neon.kde.org', 'neonarchives') do |ssh|
-      ssh.exec!(
-        'XDG_RUNTIME_DIR=/run/user/`id -u` \
-        systemctl --user start aptly_db_cleanup'
-      )
-    end
   end
 
   def source_name_and_version_for(package)
@@ -146,4 +145,5 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
     RepoCleaner.clean(RepoNames.all('release'), keep_amount: 4)
     RepoCleaner.clean(RepoNames.all('release-lts'), keep_amount: 4)
   end
+  RepoCleaner.clean_db
 end
