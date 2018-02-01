@@ -31,7 +31,7 @@ require_relative '../../lib/aptly-ext/remote'
 # TODO: this is currently opt-in
 require_relative '../../lib/net/ssh/ctr_overlay' if ENV['CTR_OVERLAY']
 
-STDOUT.sync # Make sure output is synced and bypass caching.
+STDOUT.sync = true # Make sure output is synced and bypass caching.
 
 options = OpenStruct.new
 options.host = nil
