@@ -147,7 +147,10 @@ EOF
   Dir.chdir(tooling_path) do
     begin
       Gem::Specification.find_by_name('bundler')
-      sh 'gem update bundler'
+      # Force in case the found bundler was installed for a different version.
+      # Otherwise rubygems will raise an error when attempting to overwrite the
+      # bin.
+      sh 'gem update --force bundler'
     rescue Gem::LoadError
       Gem.install('bundler')
     end
