@@ -79,6 +79,13 @@ module Net::SSH::Transport::CTR::CTROverlay
     def extended(orig)
       super # let original extender run, then we'll override what it did.
 
+      warn 'Enabling CTR Overlay'
+      warn 'Enabling CTR Overlay'
+      warn 'Enabling CTR Overlay'
+      warn 'Enabling CTR Overlay'
+      warn 'Enabling CTR Overlay'
+      warn '...'
+
       orig.instance_eval {
         @key_queue = KeyQueue.new(2048)
 
