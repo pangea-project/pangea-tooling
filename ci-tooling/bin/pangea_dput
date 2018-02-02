@@ -36,7 +36,7 @@ STDOUT.sync = true # Make sure output is synced and bypass caching.
 options = OpenStruct.new
 options.host = nil
 options.port = nil
-options.repo = nil
+options.repos = []
 options.gateway = nil
 
 parser = OptionParser.new do |opts|
@@ -51,7 +51,7 @@ parser = OptionParser.new do |opts|
   end
 
   opts.on('-r', '--repo REPO', 'target repo name') do |v|
-    options.repo = v
+    options.repos << v
   end
 
   opts.on('-g', '--gateway URI', 'open gateway to remote') do |v|
@@ -60,7 +60,7 @@ parser = OptionParser.new do |opts|
 end
 parser.parse!
 
-raise parser.help if ARGV.empty? || options.repo.nil?
+raise parser.help if ARGV.empty? || options.repos.empty?
 
 unless options.gateway
   warn <<-EOF
@@ -101,8 +101,7 @@ Faraday.default_connection_options =
   Faraday::ConnectionOptions.new(timeout: 15 * 60)
 
 Aptly::Ext::Remote.connect(options.gateway) do
-  raise "Repository doesn't exist" unless Aptly::Repository.exist?(options.repo)
-  repo = Aptly::Repository.get(options.repo)
+  repos = options.repos.collect { |name| Aptly::Repository.get(name) }
 
   ARGV.each do |file|
     next unless File.size?(file)
@@ -110,9 +109,15 @@ Aptly::Ext::Remote.connect(options.gateway) do
     files = CI::Deb822Lister.files_to_upload_for(file)
     raise 'Changes lists no files to upload!?' if files.empty?
     puts "Uploading files... #{files}"
-    repo.upload(files)
+    Aptly::Files.tmp_upload(files) do |dir|
+      repos.each { |r| r.add_file(dir) }
+    end
     puts 'Done uploading.'
   end
 
-  repo.published_in.each(&:update!)
+  repos.each do |r|
+    puts "Republishing #{r}"
+    r.published_in.each(&:update!)
+    puts 'Done.'
+  end
 end
