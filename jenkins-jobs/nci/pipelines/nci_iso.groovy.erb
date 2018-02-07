@@ -8,15 +8,13 @@ env.NEONARCHIVE='<%= neonarchive %>'
 cleanNode('amd64-iso') {
   stage('imager') {
     sh '~/tooling/nci/imager.rb'
-    stash excludes: 'build/**, *.squashfs', includes: '*, result/**', name: 'data'
   }
-}
-
-cleanNode('master') {
   stage('push') {
     lock('ISO_PUBLISHING') {
-      unstash 'data'
-      sh '~/tooling/nci/imager_push.rb'
+      withCredentials([zip(credentialsId: 'gpg.iso.zip', variable: 'GNUPGHOME'),
+                       sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: '')]) {
+        sh '~/tooling/nci/imager_push.rb'
+      }
     }
   }
 }
