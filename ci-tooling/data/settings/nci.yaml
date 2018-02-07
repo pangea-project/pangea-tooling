@@ -70,6 +70,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_forks_{massif-visualizer}_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_kde-extras_*_*':
    sourcer:
      restricted_packaging_copy: true
