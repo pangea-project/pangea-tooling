@@ -71,11 +71,12 @@ module WorkspaceCleaner
 
     def chown_r(dir)
       dist = ENV.fetch('DIST')
+      user = CI::Containment.userns? ? 'root:root' : 'jenkins:jenkins'
       c = CI::Containment.new(SecureRandom.hex,
                               image: CI::PangeaImage.new(:ubuntu, dist),
                               binds: ["#{dir}:/pwd"],
                               no_exit_handlers: true)
-      c.run(Cmd: %w[/bin/chown -R jenkins:jenkins] + ['/pwd'])
+      c.run(Cmd: %w[/bin/chown -R] + [user, '/pwd'])
       c.cleanup
     end
 

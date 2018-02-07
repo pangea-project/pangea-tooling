@@ -29,6 +29,10 @@ class NCIWorkspaceCleanerTest < TestCase
   def setup
     WorkspaceCleaner.workspace_paths = [Dir.pwd]
     ENV['DIST'] = 'meow'
+
+    CI::Containment
+      .stubs(:userns?)
+      .returns(false)
   end
 
   def teardown
@@ -115,5 +119,86 @@ class NCIWorkspaceCleanerTest < TestCase
     WorkspaceCleaner.clean
 
     # dir still exists here since we stubbed the rm_r call...
+  end
+
+  def test_clean_errno_userns
+    # With userns we need to chown to root:root not jenkins:jenkins!
+
+    datetime_now = DateTime.now
+    mkdir('3_days_old', datetime_now - 3)
+
+    # We'll mock containment as we don't actually care what goes on on the
+    # docker level, that is tested in the containment test already.
+    containment = mock('containment')
+    CI::Containment
+      .stubs(:new)
+      .with do |*_, **kwords|
+        next false unless kwords.include?(:image)
+        next false unless kwords[:no_exit_handlers]
+        true
+      end
+      .returns(containment)
+    CI::Containment
+      .expects(:userns?)
+      .returns(true)
+    # expect a chown! we must have this given we raise enoempty on rm_r later...
+    containment
+      .expects(:run)
+      .with(Cmd: ['/bin/chown', '-R', 'root:root', '/pwd']) # NB: root:root!
+    containment.stubs(:cleanup)
+
+    FileUtils
+      .stubs(:rm_r)
+      .with { |x| x.end_with?('3_days_old') }
+      .raises(Errno::ENOTEMPTY.new)
+      .then
+      .returns(true)
+
+    FileUtils
+      .stubs(:rm_r)
+      .with { |x| !x.end_with?('3_days_old') }
+      .returns(true)
+
+    WorkspaceCleaner.clean
+
+    # dir still exists here since we stubbed the rm_r call...
+  end
+
+  def test_clean
+    datetime_now = DateTime.now
+    mkdir('mgmt_6_days_old', datetime_now - 6)
+    mkdir('3_days_old', datetime_now - 3)
+    mkdir('1_day_old', datetime_now - 1)
+    mkdir('6_hours_old', datetime_now - Rational(6, 24))
+    mkdir('just_now', datetime_now)
+    mkdir('future', datetime_now + 1)
+    mkdir('future_ws-cleanup_123', datetime_now + 1)
+
+    # We'll mock containment as we don't actually care what goes on on the
+    # docker level, that is tested in the containment test already.
+    containment = mock('containment')
+    CI::Containment
+      .stubs(:new)
+      .with do |*_, **kwords|
+        next false unless kwords.include?(:image)
+        next false unless kwords[:no_exit_handlers]
+        true
+      end
+      .returns(containment)
+    containment
+      .stubs(:run)
+      .with(Cmd: ['/bin/chown', '-R', 'jenkins:jenkins', '/pwd'])
+    containment.stubs(:cleanup)
+
+    WorkspaceCleaner.clean
+
+    assert_path_not_exist('3_days_old')
+    assert_path_not_exist('1_day_old')
+    assert_path_not_exist('future_ws-cleanup_123')
+
+    assert_path_exist('mgmt_6_days_old')
+    assert_path_exist('6_hours_old')
+    assert_path_exist('just_now')
+    assert_path_exist('future')
   end
 end
