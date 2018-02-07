@@ -32,6 +32,11 @@ module CI
 
     class << self
       attr_accessor :no_attach
+
+      def userns?
+        root = Docker.info.fetch('DockerRootDir')
+        File.basename(root) =~ /\d+\.\d+/ # uid.gid
+      end
     end
 
     attr_reader :name
@@ -205,8 +210,7 @@ module CI
 
     def handle_exit?(no_exit_handlers)
       return false if no_exit_handlers
-      root = Docker.info.fetch('DockerRootDir')
-      return false if File.basename(root) =~ /\d+\.\d+/ # uid.gid
+      return false if self.class.userns?
       true
     end
   end
