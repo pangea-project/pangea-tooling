@@ -98,7 +98,9 @@ module SFTPSessionOverlay
     remote = format('%<user>s@%<host>s',
                     user: session.options[:user],
                     host: session.host)
-    __cmd.run('sftp', '-b', '-', remote,
+    key_file = ENV.fetch('SSH_KEY_FILE', nil)
+    identity = key_file ? ['-i', key_file] : []
+    __cmd.run('sftp', *identity, '-b', '-', remote,
               stdin: <<~STDIN)
                 put #{from} #{to}
                 quit
@@ -116,8 +118,11 @@ class Net::SFTP::Session
   prepend SFTPSessionOverlay
 end
 
+key_file = ENV.fetch('SSH_KEY_FILE', nil)
+ssh_args = key_file ? [{ keys: [key_file] }] : []
+
 # Publish ISO and associated content.
-Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
+Net::SFTP.start('racnoss.kde.org', 'neon', *ssh_args) do |sftp|
   sftp.cli_uploads = true
   sftp.mkdir!(REMOTE_PUB_DIR)
   types = %w[amd64.iso amd64.iso.sig manifest zsync zsync.README sha256sum]
@@ -133,7 +138,7 @@ Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
   sftp.upload!('result/.message', "#{REMOTE_PUB_DIR}/.message")
 
   # Need a second SSH session here, since the SFTP one is busy looping.
-  Net::SSH.start('racnoss.kde.org', 'neon') do |ssh|
+  Net::SSH.start('racnoss.kde.org', 'neon', *ssh_args) do |ssh|
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
               " ln -s *amd64.iso #{ISONAME}-current.iso")
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
@@ -154,7 +159,8 @@ Net::SFTP.start('racnoss.kde.org', 'neon') do |sftp|
   end
 end
 
-Net::SSH.start('files.kde.mirror.pangea.pub', 'neon-image-sync') do |ssh|
+Net::SSH.start('files.kde.mirror.pangea.pub', 'neon-image-sync',
+               *ssh_args) do |ssh|
   status = {}
   ssh.exec!('./sync', status: status) do |_channel, stream, data|
     (stream == :stderr ? STDERR : STDOUT).puts(data)
@@ -163,7 +169,7 @@ Net::SSH.start('files.kde.mirror.pangea.pub', 'neon-image-sync') do |ssh|
 end
 
 # Publish ISO sources.
-Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
+Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
   path = 'files.neon.kde.org.uk'
   types = %w[source.tar.xz source.tar]
   types.each do |type|
