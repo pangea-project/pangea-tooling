@@ -163,42 +163,4 @@ class NCIWorkspaceCleanerTest < TestCase
 
     # dir still exists here since we stubbed the rm_r call...
   end
-
-  def test_clean
-    datetime_now = DateTime.now
-    mkdir('mgmt_6_days_old', datetime_now - 6)
-    mkdir('3_days_old', datetime_now - 3)
-    mkdir('1_day_old', datetime_now - 1)
-    mkdir('6_hours_old', datetime_now - Rational(6, 24))
-    mkdir('just_now', datetime_now)
-    mkdir('future', datetime_now + 1)
-    mkdir('future_ws-cleanup_123', datetime_now + 1)
-
-    # We'll mock containment as we don't actually care what goes on on the
-    # docker level, that is tested in the containment test already.
-    containment = mock('containment')
-    CI::Containment
-      .stubs(:new)
-      .with do |*_, **kwords|
-        next false unless kwords.include?(:image)
-        next false unless kwords[:no_exit_handlers]
-        true
-      end
-      .returns(containment)
-    containment
-      .stubs(:run)
-      .with(Cmd: ['/bin/chown', '-R', 'jenkins:jenkins', '/pwd'])
-    containment.stubs(:cleanup)
-
-    WorkspaceCleaner.clean
-
-    assert_path_not_exist('3_days_old')
-    assert_path_not_exist('1_day_old')
-    assert_path_not_exist('future_ws-cleanup_123')
-
-    assert_path_exist('mgmt_6_days_old')
-    assert_path_exist('6_hours_old')
-    assert_path_exist('just_now')
-    assert_path_exist('future')
-  end
 end
