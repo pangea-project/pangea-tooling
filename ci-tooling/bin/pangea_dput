@@ -110,7 +110,7 @@ Aptly::Ext::Remote.connect(options.gateway) do
     raise 'Changes lists no files to upload!?' if files.empty?
     puts "Uploading files... #{files}"
     Aptly::Files.tmp_upload(files) do |dir|
-      repos.each { |r| r.add_file(dir) }
+      repos.each { |r| r.add_file(dir, noRemove: 1) }
     end
     puts 'Done uploading.'
   end

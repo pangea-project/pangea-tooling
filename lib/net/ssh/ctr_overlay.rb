@@ -1,25 +1,27 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2018 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2018 Miklos Fazekas <mfazekas@szemafor.com>
+# Copyright (C) 2008 Jamis Buck
 #
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) version 3, or any
-# later version accepted by the membership of KDE e.V. (or its
-# successor approved by the membership of KDE e.V.), which shall
-# act as a proxy defined in Section 6 of version 3 of the license.
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
 #
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
 #
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
 require 'net/ssh'
-require 'xorcist'
 
 # Efficient CTR overlay for net-ssh
 # - Uses a cipher thread to fill a key queue to xor against
@@ -28,113 +30,127 @@ require 'xorcist'
 # This is fully compatible with the orignal CTR behavior and in fact passes
 # net-ssh's test suite, it simply changes the internal to more performant
 # options.
-module Net::SSH::Transport::CTR::CTROverlay
-  # We'll prepend class methods.
-  module ClassMethods
-    # Helper class to establish a key queue. It is differnet from a regular
-    # SizedQueue in that it automatically grows itself if it encounters an
-    # under run.
-    class KeyQueue < SizedQueue
-      # At a standard block size of 16 we'll hold up to 4 MiB for the key stream,
-      # that's about 2.6 million keys at the most.
-      # The actual key_queue size is grown dynamically as we encounter buffer
-      # underruns.
-      KEY_QUEUE_MAX = (4 * 1024 * 1024) / 16
 
-      def pop
-        begin
-          return super(!(cap? || start?)) # wait if we have a max size queue
-        rescue ThreadError
-          # When we have a buffer underrun we bump the queue size up to cap.
-          warn "Buffer underrun, increasing queue length #{max * 2}"
-          self.max *= 2
-          update_cap
-          retry
-        end
-        nil
-      end
-
-      private
-
-      def cap?
-        # Default to false, the first pop we'll want to wait on ALL the time!
-        # Once we had at least once underrun @cap will be the actual capyness.
-        @cap ||= false
-      end
-
-      def start?
-        @start ||= nil
-        return false unless @start.nil?
-        @start = false
-        true
-      end
-
-      def update_cap
-        @cap = max >= KEY_QUEUE_MAX
-      end
+# Monkey patch transport with cipher overlay from
+# https://github.com/net-ssh/net-ssh/pull/570
+module Net::SSH::Transport
+  class OpenSSLAESCTR < SimpleDelegator
+    def initialize(original)
+      super
+      @was_reset = false
     end
 
-    # Prepends on the net-ssh extender method. net-ssh creates an ossl cipher
-    # and then runs the CTR extend on that object.
-    def extended(orig)
-      super # let original extender run, then we'll override what it did.
-
-      warn 'Enabling CTR Overlay'
-      warn 'Enabling CTR Overlay'
-      warn 'Enabling CTR Overlay'
-      warn 'Enabling CTR Overlay'
-      warn 'Enabling CTR Overlay'
-      warn '...'
-
-      orig.instance_eval {
-        @key_queue = KeyQueue.new(2048)
-
-        def new_cipher_thraed
-          # https://www.internet2.edu/presentations/jt2008jan/20080122-rapier-bennett.htm
-          Thread.new do
-            loop do
-              @key_queue << _update(@counter)
-              increment_counter!
-            end
-          end
-        end
-        singleton_class.send(:private, :new_cipher_thraed)
-
-        def update(data)
-          @cipher_thread ||= new_cipher_thraed
-          @remaining += data
-
-          encrypted = ''
-          offset = 0
-          while (@remaining.bytesize - offset) >= block_size
-            encrypted += Xorcist.xor(@remaining.slice(offset, block_size),
-                                     @key_queue.pop)
-            offset += block_size
-          end
-          # only modify remaining after loop, we do not need it modified while
-          # looping
-          @remaining = @remaining.slice(offset..-1)
-
-          encrypted
-        end
-
-        def final
-          s = @remaining.empty? ? '' : Xorcist.xor(@remaining, @key_queue.pop)
-          @remaining = ''
-          s
-        end
-      }
+    def block_size
+      16
     end
-  end
 
-  def self.prepended(base)
-    class << base
-      prepend ClassMethods
+    def self.block_size
+      16
+    end
+
+    def reset
+      @was_reset = true
+    end
+
+    def iv=(iv_s)
+      super unless @was_reset
     end
   end
 end
 
-# Monkey patch with overlay.
-module Net::SSH::Transport::CTR
-  prepend CTROverlay
+module Net::SSH::Transport
+  VERSION__ = Net::SSH::Version::CURRENT.to_s
+  class CipherFactory
+    unless Gem::Dependency.new('', '~> 4.2.0').match?('', VERSION__)
+      raise <<-ERROR
+Net::SSH version too new, check if https://github.com/net-ssh/net-ssh/pull/569
+was applied in this version, if not make sure our overlay is up-to-date and
+bump the version dependency check above the origin of this exception.
+ERROR
+    end
+
+    remove_const(:SSH_TO_OSSL)
+
+    SSH_TO_OSSL = {
+      "3des-cbc"                    => "des-ede3-cbc",
+      "blowfish-cbc"                => "bf-cbc",
+      "aes256-cbc"                  => "aes-256-cbc",
+      "aes192-cbc"                  => "aes-192-cbc",
+      "aes128-cbc"                  => "aes-128-cbc",
+      "idea-cbc"                    => "idea-cbc",
+      "cast128-cbc"                 => "cast-cbc",
+      "rijndael-cbc@lysator.liu.se" => "aes-256-cbc",
+      "arcfour128"                  => "rc4",
+      "arcfour256"                  => "rc4",
+      "arcfour512"                  => "rc4",
+      "arcfour"                     => "rc4",
+
+      "3des-ctr"                    => "des-ede3",
+      "blowfish-ctr"                => "bf-ecb",
+
+      "aes256-ctr"                  => "aes-256-ctr",
+      "aes192-ctr"                  => "aes-192-ctr",
+      "aes128-ctr"                  => "aes-128-ctr",
+      "cast128-ctr"                 => "cast5-ecb",
+
+      "none"                        => "none",
+    }
+
+    def self.get(name, options={})
+      ossl_name = SSH_TO_OSSL[name] or raise NotImplementedError, "unimplemented cipher `#{name}'"
+      return IdentityCipher if ossl_name == "none"
+      cipher = OpenSSL::Cipher.new(ossl_name)
+
+      cipher.send(options[:encrypt] ? :encrypt : :decrypt)
+
+      cipher.padding = 0
+
+      if name =~ /-ctr(@openssh.org)?$/
+        if ossl_name !~ /-ctr/
+          cipher.extend(Net::SSH::Transport::CTR)
+        else
+          cipher = Net::SSH::Transport::OpenSSLAESCTR.new(cipher)
+        end
+      end
+      cipher.iv = Net::SSH::Transport::KeyExpander.expand_key(cipher.iv_len, options[:iv], options) if ossl_name != "rc4"
+
+      key_len = KEY_LEN_OVERRIDE[name] || cipher.key_len
+      cipher.key_len = key_len
+      cipher.key = Net::SSH::Transport::KeyExpander.expand_key(key_len, options[:key], options)
+      cipher.update(" " * 1536) if (ossl_name == "rc4" && name != "arcfour")
+
+      return cipher
+    end
+
+    # Returns a two-element array containing the [ key-length,
+    # block-size ] for the named cipher algorithm. If the cipher
+    # algorithm is unknown, or is "none", 0 is returned for both elements
+    # of the tuple.
+    # if :iv_len option is supplied the third return value will be ivlen
+    def self.get_lengths(name, options = {})
+      ossl_name = SSH_TO_OSSL[name]
+      if ossl_name.nil? || ossl_name == "none"
+        result = [0, 0]
+        result << 0 if options[:iv_len]
+      else
+        cipher = OpenSSL::Cipher.new(ossl_name)
+        key_len = KEY_LEN_OVERRIDE[name] || cipher.key_len
+        cipher.key_len = key_len
+
+        block_size =
+          case ossl_name
+          when "rc4"
+            8
+          when /\-ctr/
+            Net::SSH::Transport::OpenSSLAESCTR.block_size
+          else
+            cipher.block_size
+          end
+
+        result = [key_len, block_size]
+        result << cipher.iv_len if options[:iv_len]
+      end
+      result
+    end
+  end
 end

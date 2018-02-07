@@ -73,18 +73,27 @@
       <command>
         export BUNDLE_GEMFILE=$HOME/tooling/Gemfile # Make bundler able to setup.
         GATEWAY="ssh://neonarchives@archive-api.neon.kde.org/srv/neon-services/aptly.sock"
-<% type_suffix = (distribution == 'wily' ? '' : "_#{distribution}") %>
-    ~/tooling/ci-tooling/bin/pangea_dput --gateway $GATEWAY --repo <%= type %><%= type_suffix %> *.changes
-<% if type == 'unstable' %>
-  <% if (%w(frameworks qt) << '').include?(component) || basename.end_with?('pyqt5', 'sip4') || basename.include?('phonon') %>
-    # This has no stable version, the unstable version is supplying stable.
-    ~/tooling/ci-tooling/bin/pangea_dput --gateway $GATEWAY --repo stable<%= type_suffix %>  *.changes
-  <% end %>
-  <% if (%w(qt) << '').include?(component) || basename.end_with?('pyqt5', 'sip4') %>
-    # This has no release version, the unstable version is supplying release.
-    ~/tooling/ci-tooling/bin/pangea_dput --gateway $GATEWAY --repo release<%= type_suffix %>  *.changes
-  <% end %>
-<% end %>
+<%
+  repos = []
+  repos << "#{type}_#{distribution}"
+  if type == 'unstable'
+    if component == 'frameworks' || %w[pkg-kde-tools phonon].any? { |x| basename.include?(x) }
+      # This has no stable version, the unstable version is supplying stable.
+      # By pushing it forward we save on build time and noise jobs.
+      repos << "stable_#{distribution}"
+    end
+    if component == 'qt' || basename.end_with?('pyqt5', 'sip4')
+      # Qt things take forever to build, save on time and noise by forward
+      # publishing them everywhere.
+      #
+      # NOTE: Not in release-lts since I think that is frozen, I am only
+      #   guessing though. Jon has trouble writing comments.  - sitter
+      repos += ["stable_#{distribution}", "release_#{distribution}"]
+    end
+  end
+  repos = repos.uniq.compact.map { |x| "--repo #{x}" }.join(' ')
+%>
+    ~/tooling/ci-tooling/bin/pangea_dput --gateway $GATEWAY <%= repos %>  *.changes
       </command>
     </hudson.tasks.Shell>
   </builders>

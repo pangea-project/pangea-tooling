@@ -28,6 +28,7 @@ require 'mocha/test_unit'
 class NCIWorkspaceCleanerTest < TestCase
   def setup
     WorkspaceCleaner.workspace_paths = [Dir.pwd]
+    ENV['DIST'] = 'meow'
   end
 
   def teardown
@@ -76,5 +77,43 @@ class NCIWorkspaceCleanerTest < TestCase
     assert_path_exist('6_hours_old')
     assert_path_exist('just_now')
     assert_path_exist('future')
+  end
+
+  def test_clean_errno
+    datetime_now = DateTime.now
+    mkdir('3_days_old', datetime_now - 3)
+
+    # We'll mock containment as we don't actually care what goes on on the
+    # docker level, that is tested in the containment test already.
+    containment = mock('containment')
+    CI::Containment
+      .stubs(:new)
+      .with do |*_, **kwords|
+        next false unless kwords.include?(:image)
+        next false unless kwords[:no_exit_handlers]
+        true
+      end
+      .returns(containment)
+    # expect a chown! we must have this given we raise enoempty on rm_r later...
+    containment
+      .expects(:run)
+      .with(Cmd: ['/bin/chown', '-R', 'jenkins:jenkins', '/pwd'])
+    containment.stubs(:cleanup)
+
+    FileUtils
+      .stubs(:rm_r)
+      .with { |x| x.end_with?('3_days_old') }
+      .raises(Errno::ENOTEMPTY.new)
+      .then
+      .returns(true)
+
+    FileUtils
+      .stubs(:rm_r)
+      .with { |x| !x.end_with?('3_days_old') }
+      .returns(true)
+
+    WorkspaceCleaner.clean
+
+    # dir still exists here since we stubbed the rm_r call...
   end
 end

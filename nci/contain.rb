@@ -45,6 +45,7 @@ ENV['DOCKER_ENV_WHITELIST'] = whitelist.join(':')
 # the longer builds. This way we stand a better chance of having a cache at
 # hand as the smaller builds do not kick the larger ones out of the cache.
 CCACHE_WHITELIST = %w[
+  qt
   plasma-desktop
   plasma-workspace
   kio

@@ -233,6 +233,8 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
         # to the repo.
         dpkg_buildopts << '-B'
       end
+      # If we only installed @bin_only dependencies as indep didn't want to
+      # install we'll coerce -b into -B irregardless of platform.
       dpkg_buildopts.collect! { |x| x == '-b' ? '-B' : x } if @bin_only
       dpkg_buildopts
     end

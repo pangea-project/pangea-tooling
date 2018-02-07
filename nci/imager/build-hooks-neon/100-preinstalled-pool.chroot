@@ -1,0 +1,25 @@
+#!/bin/sh
+mkdir -p /var/lib/preinstalled-pool/pool/
+cd /var/lib/preinstalled-pool/pool/
+apt-get -y download \
+  b43-fwcutter \
+  dkms \
+  fakeroot \
+  libfakeroot \
+  libc6-i386 \
+  grub \
+  grub-efi \
+  grub-efi-amd64 \
+  grub-efi-amd64-bin \
+  grub-efi-amd64-signed \
+  lupin-support \
+  mokutil \
+  mouseemu \
+  patch \
+  setserial \
+  shim \
+  shim-signed \
+  user-setup \
+  bcmwl-kernel-source \
+  oem-config \
+  oem-config-kde
