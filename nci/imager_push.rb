@@ -23,6 +23,7 @@
 require 'fileutils'
 require 'net/sftp'
 require 'net/ssh'
+require 'tty-command'
 
 DIST = ENV.fetch('DIST')
 TYPE = ENV.fetch('TYPE')
@@ -36,9 +37,9 @@ ISONAME = "#{IMAGENAME}-#{TYPE}"
 REMOTE_DIR = "neon/images/#{ISONAME}/"
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
-unless system('gpg2', '--armor', '--detach-sign', '-o',
-              "result/#{ISONAME}-#{DATE}-amd64.iso.sig",
-              "result/#{ISONAME}-#{DATE}-amd64.iso")
+unless TTY::Command.new.run('gpg2', '--armor', '--detach-sign', '-o',
+                            "result/#{ISONAME}-#{DATE}-amd64.iso.sig",
+                            "result/#{ISONAME}-#{DATE}-amd64.iso")
   raise 'Failed to sign'
 end
 
@@ -82,7 +83,6 @@ end
 # is being spent in CTR alone)
 module SFTPSessionOverlay
   def __cmd
-    require 'tty-command'
     @__cmd ||= TTY::Command.new
   end
 
