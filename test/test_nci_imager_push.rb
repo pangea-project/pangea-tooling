@@ -137,9 +137,9 @@ module NCI
         File.write('result/source.tar.xz', 'blob')
 
         Object.any_instance.expects(:system).never
-        Object.any_instance.expects(:system)
+        TTY::Command.any_instance.expects(:run)
               .with do |*args|
-                next false unless args.include?('gpg2')
+                next false unless args.include?('gpg')
                 iso = args.pop # iso arg
                 sig = args.pop # sig arg
                 assert_path_exist(iso)
