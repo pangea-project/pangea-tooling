@@ -37,7 +37,12 @@ ISONAME = "#{IMAGENAME}-#{TYPE}"
 REMOTE_DIR = "neon/images/#{ISONAME}/"
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
-unless TTY::Command.new.run('gpg2', '--armor', '--detach-sign', '-o',
+# NB: we use gpg without agent here. Jenkins credential paths are fairly long
+# and trigger https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=847206
+# we can use gpg2 in bionic iff we call `gpgconf --create-socketdir` to create
+# a dedicated socket directory.
+unless TTY::Command.new.run('gpg', '--no-use-agent', '--armor', '--detach-sign',
+                            '-o',
                             "result/#{ISONAME}-#{DATE}-amd64.iso.sig",
                             "result/#{ISONAME}-#{DATE}-amd64.iso")
   raise 'Failed to sign'
