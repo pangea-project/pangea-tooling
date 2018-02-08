@@ -64,7 +64,7 @@ module WorkspaceCleaner
         return
       end
       raise e unless e.class.name.start_with?('Errno::')
-      warn "  Got error #{e} trying to chown."
+      warn "  Got error #{e}... trying to chown....."
       chown_r(dir)
       FileUtils.rm_r(dir, verbose: true)
     end
@@ -72,11 +72,13 @@ module WorkspaceCleaner
     def chown_r(dir)
       dist = ENV.fetch('DIST')
       user = CI::Containment.userns? ? 'root:root' : 'jenkins:jenkins'
+      cmd = %w[/bin/chown -R] + [user, '/pwd']
+      warn "  #{cmd.join(' ')}"
       c = CI::Containment.new(SecureRandom.hex,
                               image: CI::PangeaImage.new(:ubuntu, dist),
                               binds: ["#{dir}:/pwd"],
                               no_exit_handlers: true)
-      c.run(Cmd: %w[/bin/chown -R] + [user, '/pwd'])
+      c.run(Cmd: cmd)
       c.cleanup
     end
 
