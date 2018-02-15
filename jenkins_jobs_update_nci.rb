@@ -316,6 +316,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                dependees: []))
     enqueue(MGMTRepoCleanupJob.new)
     enqueue(MGMTDockerHubRebuild.new(dependees: []))
+    enqueue(MGMTDockerHubCheck.new(dependees: []))
   end
 end
 
