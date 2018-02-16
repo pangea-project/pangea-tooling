@@ -81,7 +81,6 @@ FUTURE_SKIP = %w[
   _neon-packaging_
   _launchpad_
   _unstable_neon_
-  mgmt_build_bionic_unstable
 ].freeze
 
 # Opposite of above, allows including part of the jobs within a skip rule
