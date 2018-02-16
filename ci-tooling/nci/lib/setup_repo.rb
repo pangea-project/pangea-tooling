@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -84,9 +84,9 @@ Pin-Priority: 1001
 
     def add_repo!
       add_repo_key!
-      debline = format('deb http://archive.neon.kde.org/%s %s main',
-                       ENV.fetch('TYPE'),
-                       LSB::DISTRIB_CODENAME)
+      debline = format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
+                       type: ENV.fetch('TYPE'),
+                       dist: LSB::DISTRIB_CODENAME)
       Retry.retry_it(times: 5, sleep: 4) do
         raise 'adding repo failed' unless Apt::Repository.add(debline)
       end
