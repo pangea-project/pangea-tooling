@@ -84,6 +84,11 @@ FUTURE_SKIP = %w[
   mgmt_build_bionic_unstable
 ].freeze
 
+# Opposite of above, allows including part of the jobs within a skip rule
+FUTURE_INCLUDE = %w[
+  _applications_dolphin
+].freeze
+
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
@@ -111,9 +116,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   end
 
   def enqueue(job)
-    return job if FUTURE_SKIP.any? do |x|
-      job.job_name.include?(x) && job.job_name.include?(NCI.future_series)
-    end
+    future = job.job_name.include?(NCI.future_series)
+    whitelisted = FUTURE_INCLUDE.any? { |x| job.job_name.include?(x) }
+    skip = FUTURE_SKIP.any? { |x| job.job_name.include?(x) }
+    # if a job is not whitelisted and a future-skip we'll not enqueue it
+    return if (!whitelisted && (future && skip))
+    # else run
     super
   end
 
