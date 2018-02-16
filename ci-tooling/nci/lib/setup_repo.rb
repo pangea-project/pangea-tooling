@@ -83,13 +83,13 @@ Pin-Priority: 1001
     private
 
     def add_repo!
+      add_repo_key!
       debline = format('deb http://archive.neon.kde.org/%s %s main',
                        ENV.fetch('TYPE'),
                        LSB::DISTRIB_CODENAME)
       Retry.retry_it(times: 5, sleep: 4) do
         raise 'adding repo failed' unless Apt::Repository.add(debline)
       end
-      add_repo_key!
     end
   end
 end
