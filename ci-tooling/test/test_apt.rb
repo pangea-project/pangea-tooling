@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2014-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2014-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -29,6 +29,7 @@ class AptTest < TestCase
     Apt::Repository.send(:reset)
     # Disable automatic update
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
+    Apt::Repository.any_instance.stubs(:`).returns('')
   end
 
   def default_args(cmd = 'apt-get')
@@ -68,7 +69,7 @@ class AptTest < TestCase
     name = 'ppa:yolo'
 
     # This will be cached and not repated for static use later.
-    assert_system_default(%w(install software-properties-common)) do
+    assert_system_default(%w[install software-properties-common]) do
       repo = Apt::Repository.new(name)
     end
 
@@ -397,5 +398,64 @@ class AptTest < TestCase
     Apt::Mark.tmpmark(pkg, Apt::Mark::MANUAL) do
       assert_equal(Apt::Mark::MANUAL, Apt::Mark.state(pkg))
     end
+  end
+
+  def test_repo_no_update
+    Apt::Repository.any_instance.unstub(:`)
+    Apt::Repository
+      .any_instance
+      .stubs(:`)
+      .with('add-apt-repository --help')
+      .returns(<<-HELP)
+Usage: add-apt-repository <sourceline>
+
+add-apt-repository is a script for adding apt sources.list entries.
+It can be used to add any repository and also provides a shorthand
+syntax for adding a Launchpad PPA (Personal Package Archive)
+repository.
+
+<sourceline> - The apt repository source line to add. This is one of:
+  a complete apt line in quotes,
+  a repo url and areas in quotes (areas defaults to 'main')
+  a PPA shortcut.
+  a distro component
+
+  Examples:
+    apt-add-repository 'deb http://myserver/path/to/repo stable myrepo'
+    apt-add-repository 'http://myserver/path/to/repo myrepo'
+    apt-add-repository 'https://packages.medibuntu.org free non-free'
+    apt-add-repository http://extras.ubuntu.com/ubuntu
+    apt-add-repository ppa:user/repository
+    apt-add-repository ppa:user/distro/repository
+    apt-add-repository multiverse
+
+If --remove is given the tool will remove the given sourceline from your
+sources.list
+
+
+Options:
+  -h, --help            show this help message and exit
+  -m, --massive-debug   Print a lot of debug information to the command line
+  -r, --remove          remove repository from sources.list.d directory
+  -k KEYSERVER, --keyserver=KEYSERVER
+                        URL of keyserver. Default:
+                        hkp://keyserver.ubuntu.com:80/
+  -s, --enable-source   Allow downloading of the source packages from the
+                        repository
+  -y, --yes             Assume yes to all queries
+  -n, --no-update       Do not update package cache after adding
+  -u, --update          Update package cache after adding (legacy option)
+HELP
+
+    repo = nil
+    name = 'ppa:yolo'
+
+    assert_system_default(%w[install software-properties-common]) do
+      repo = Apt::Repository.new(name)
+    end
+
+    # THIS CONTAINS NO UPDATE!
+    cmd = ['add-apt-repository', '--no-update', '-y', 'ppa:yolo']
+    assert_system(cmd) { repo.add }
   end
 end

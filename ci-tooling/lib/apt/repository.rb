@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2014-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2014-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -28,6 +28,14 @@ module Apt
       require_relative '../apt.rb'
       @name = name
       self.class.send(:install_add_apt_repository)
+      @default_args = []
+      if `add-apt-repository --help`.include?('--no-update')
+        # Since Ubuntu 18.04 the default behavior is to automatically run an
+        # update which will fail without retrying if there was a network error.
+        # We largely have retry systems in place and generally want more control
+        # over when updates happen, so alway disable the auto-update
+        @default_args << '--no-update'
+      end
     end
 
     # (see #add)
@@ -37,7 +45,7 @@ module Apt
 
     # Add Repository to sources.list
     def add
-      args = []
+      args = [] + @default_args
       args << '-y'
       args << @name
       system('add-apt-repository', *args)
@@ -50,7 +58,7 @@ module Apt
 
     # Remove Repository from sources.list
     def remove
-      args = []
+      args = [] + @default_args
       args << '-y'
       args << '-r'
       args << @name
