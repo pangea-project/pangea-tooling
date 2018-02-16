@@ -85,7 +85,15 @@ FUTURE_SKIP = %w[
 
 # Opposite of above, allows including part of the jobs within a skip rule
 FUTURE_INCLUDE = %w[
+  _applications_ark
   _applications_dolphin
+  _applications_gwenview
+  _applications_kdialog
+  _applications_konsole
+  _applications_kate
+  _applications_print-manager
+  _applications_okular
+  _applications_spectacle
 ].freeze
 
 # Updates Jenkins Projects
