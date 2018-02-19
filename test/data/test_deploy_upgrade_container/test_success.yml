@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -25,9 +25,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:23:52 GMT
+      - Mon, 19 Feb 2018 12:44:55 GMT
       Content-Length:
       - '51'
     body:
@@ -36,7 +36,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:23:52 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -45,7 +45,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -62,9 +62,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:23:52 GMT
+      - Mon, 19 Feb 2018 12:44:55 GMT
       Content-Length:
       - '51'
     body:
@@ -73,7 +73,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:23:52 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -82,7 +82,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -99,9 +99,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:23:52 GMT
+      - Mon, 19 Feb 2018 12:44:55 GMT
       Content-Length:
       - '51'
     body:
@@ -110,7 +110,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:23:52 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -119,7 +119,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -136,9 +136,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:23:52 GMT
+      - Mon, 19 Feb 2018 12:44:55 GMT
       Content-Length:
       - '51'
     body:
@@ -147,7 +147,81 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:23:52 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.24/networks/bridge
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.34.0
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce (linux)
+      Date:
+      - Mon, 19 Feb 2018 12:44:55 GMT
+      Content-Length:
+      - '677'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"Name":"bridge","Id":"f319621499cdc423b222f02bfa0167c667789a5e0986bf07f7649e0d7fe4c41e","Created":"2018-02-19T09:34:05.684970726+01:00","Scope":"local","Driver":"bridge","EnableIPv6":false,"IPAM":{"Driver":"default","Options":null,"Config":[{"Subnet":"172.17.0.0/16","Gateway":"172.17.0.1"}]},"Internal":false,"Attachable":false,"Ingress":false,"Containers":{},"Options":{"com.docker.network.bridge.default_bridge":"true","com.docker.network.bridge.enable_icc":"true","com.docker.network.bridge.enable_ip_masquerade":"true","com.docker.network.bridge.host_binding_ipv4":"0.0.0.0","com.docker.network.bridge.name":"docker0","com.docker.network.driver.mtu":"1500"},"Labels":{}}
+
+'
+    http_version: 
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.24/networks/f319621499cdc423b222f02bfa0167c667789a5e0986bf07f7649e0d7fe4c41e/disconnect
+    body:
+      encoding: UTF-8
+      string: '{"container":"deployupgradetest","force":true}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.34.0
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce (linux)
+      Date:
+      - Mon, 19 Feb 2018 12:44:55 GMT
+      Content-Length:
+      - '51'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"endpoint deployupgradetest not found"}
+
+'
+    http_version: 
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -156,7 +230,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -173,9 +247,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:23:52 GMT
+      - Mon, 19 Feb 2018 12:44:55 GMT
       Content-Length:
       - '51'
     body:
@@ -184,7 +258,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:23:52 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -193,7 +267,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -210,9 +284,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:23:52 GMT
+      - Mon, 19 Feb 2018 12:44:55 GMT
       Content-Length:
       - '51'
     body:
@@ -221,7 +295,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:23:52 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -230,7 +304,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -247,9 +321,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:23:52 GMT
+      - Mon, 19 Feb 2018 12:44:55 GMT
       Content-Length:
       - '51'
     body:
@@ -258,7 +332,7 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:23:52 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/v1.24/containers/deployupgradetest/json
@@ -267,7 +341,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -284,9 +358,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:23:52 GMT
+      - Mon, 19 Feb 2018 12:44:55 GMT
       Content-Length:
       - '51'
     body:
@@ -295,7 +369,81 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:23:52 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
+- request:
+    method: get
+    uri: unix:///var/run/docker.sock/v1.24/networks/bridge
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.34.0
+      Content-Type:
+      - text/plain
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce (linux)
+      Date:
+      - Mon, 19 Feb 2018 12:44:55 GMT
+      Content-Length:
+      - '677'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"Name":"bridge","Id":"f319621499cdc423b222f02bfa0167c667789a5e0986bf07f7649e0d7fe4c41e","Created":"2018-02-19T09:34:05.684970726+01:00","Scope":"local","Driver":"bridge","EnableIPv6":false,"IPAM":{"Driver":"default","Options":null,"Config":[{"Subnet":"172.17.0.0/16","Gateway":"172.17.0.1"}]},"Internal":false,"Attachable":false,"Ingress":false,"Containers":{},"Options":{"com.docker.network.bridge.default_bridge":"true","com.docker.network.bridge.enable_icc":"true","com.docker.network.bridge.enable_ip_masquerade":"true","com.docker.network.bridge.host_binding_ipv4":"0.0.0.0","com.docker.network.bridge.name":"docker0","com.docker.network.driver.mtu":"1500"},"Labels":{}}
+
+'
+    http_version: 
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
+- request:
+    method: post
+    uri: unix:///var/run/docker.sock/v1.24/networks/f319621499cdc423b222f02bfa0167c667789a5e0986bf07f7649e0d7fe4c41e/disconnect
+    body:
+      encoding: UTF-8
+      string: '{"container":"deployupgradetest","force":true}'
+    headers:
+      User-Agent:
+      - Swipely/Docker-API 1.34.0
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      Api-Version:
+      - '1.29'
+      Content-Type:
+      - application/json
+      Docker-Experimental:
+      - 'false'
+      Ostype:
+      - linux
+      Server:
+      - Docker/17.05.0-ce (linux)
+      Date:
+      - Mon, 19 Feb 2018 12:44:55 GMT
+      Content-Length:
+      - '51'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"endpoint deployupgradetest not found"}
+
+'
+    http_version: 
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
 - request:
     method: post
     uri: unix:///var/run/docker.sock/v1.24/containers/create
@@ -307,7 +455,7 @@ http_interactions:
         Dir.pwd %>":{}}}'
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - application/json
   response:
@@ -324,27 +472,27 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:23:52 GMT
+      - Mon, 19 Feb 2018 12:44:55 GMT
       Content-Length:
       - '90'
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a","Warnings":null}
+      string: '{"Id":"5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d","Warnings":null}
 
 '
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:23:52 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a/rename?name=deployupgradetest
+    uri: unix:///var/run/docker.sock/v1.24/containers/5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d/rename?name=deployupgradetest
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -359,23 +507,23 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:23:52 GMT
+      - Mon, 19 Feb 2018 12:44:55 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:23:52 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:55 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a/start
+    uri: unix:///var/run/docker.sock/v1.24/containers/5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d/start
     body:
       encoding: UTF-8
       string: "{}"
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - application/json
   response:
@@ -390,23 +538,23 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:23:52 GMT
+      - Mon, 19 Feb 2018 12:44:56 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:23:52 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:56 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a/wait
+    uri: unix:///var/run/docker.sock/v1.24/containers/5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d/wait
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -423,9 +571,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:25:22 GMT
+      - Mon, 19 Feb 2018 12:44:56 GMT
       Content-Length:
       - '17'
     body:
@@ -434,16 +582,16 @@ http_interactions:
 
 '
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:25:22 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:56 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a/stop
+    uri: unix:///var/run/docker.sock/v1.24/containers/5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d/stop
     body:
       encoding: UTF-8
       string: "{}"
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - application/json
   response:
@@ -458,23 +606,23 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:25:22 GMT
+      - Mon, 19 Feb 2018 12:44:56 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:25:22 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:56 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a/json
+    uri: unix:///var/run/docker.sock/v1.24/containers/5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d/json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -491,29 +639,29 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:25:22 GMT
+      - Mon, 19 Feb 2018 12:44:56 GMT
     body:
       encoding: ASCII-8BIT
-      string: '{"Id":"f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a","Created":"2017-05-30T13:23:52.540013819Z","Path":"sh","Args":["/tooling-pending/deploy_upgrade_container.sh","vivid","wily"],"State":{"Status":"exited","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"2017-05-30T13:23:52.968777155Z","FinishedAt":"2017-05-30T13:25:22.074788585Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"/var/lib/docker/containers/f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a/resolv.conf","HostnamePath":"/var/lib/docker/containers/f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a/hostname","HostsPath":"/var/lib/docker/containers/f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a/hosts","LogPath":"/var/lib/docker/containers/f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a/f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a-json.log","Name":"/deployupgradetest","RestartCount":0,"Driver":"overlay2","MountLabel":"","ProcessLabel":"","AppArmorProfile":"","ExecIDs":null,"HostConfig":{"Binds":["<%=
-        Dir.pwd %>:/tooling-pending"],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"NanoCpus":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpuRealtimePeriod":0,"CpuRealtimeRuntime":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DeviceCgroupRules":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Data":{"LowerDir":"/var/lib/docker/overlay2/e86b913421768a0797666d97e3fd4279a7dbb40066170ea1c6e0a4e53f4ac61d-init/diff:/var/lib/docker/overlay2/5d94e51753cc9e5d315e0fabd9692c39132ae4af8eca4bd578a1c12b7dff54c8/diff:/var/lib/docker/overlay2/c7ec67db8aa7155566c170d43ed6b877239c04ed25b039f8b9e87a35db23f2c7/diff:/var/lib/docker/overlay2/bb8461ca8a4e9d8a325701ee2887b7ff39c6cf946ffbe601103a152def5760d9/diff:/var/lib/docker/overlay2/db0f84b7eea8c4fbf71547415c7a47d3b5c983ce5f418ea5600edd9576460197/diff","MergedDir":"/var/lib/docker/overlay2/e86b913421768a0797666d97e3fd4279a7dbb40066170ea1c6e0a4e53f4ac61d/merged","UpperDir":"/var/lib/docker/overlay2/e86b913421768a0797666d97e3fd4279a7dbb40066170ea1c6e0a4e53f4ac61d/diff","WorkDir":"/var/lib/docker/overlay2/e86b913421768a0797666d97e3fd4279a7dbb40066170ea1c6e0a4e53f4ac61d/work"},"Name":"overlay2"},"Mounts":[{"Type":"bind","Source":"<%=
-        Dir.pwd %>","Destination":"/tooling-pending","Mode":"","RW":true,"Propagation":""},{"Type":"volume","Name":"4426bca0f1ce19f9985eeaf39d507a23c8cb5094e34d516eea2a021c50d4099c","Source":"/var/lib/docker/volumes/4426bca0f1ce19f9985eeaf39d507a23c8cb5094e34d516eea2a021c50d4099c/_data","Destination":"<%=
-        Dir.pwd %>","Driver":"local","Mode":"","RW":true,"Propagation":""}],"Config":{"Hostname":"f3641af2e499","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh","vivid","wily"],"Image":"deployupgradetest:latest","Volumes":{"<%=
-        Dir.pwd %>":{}},"WorkingDir":"<%= Dir.pwd %>","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"87581357301f266d80ee473a6dac442f40e578e19cf14d0b1e6bea08a31f5974","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":{},"SandboxKey":"/var/run/docker/netns/87581357301f","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"9537fc0820e4c572939933f902186f3a77ddc55de92259e11f91f2d3422c2b62","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
+      string: '{"Id":"5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d","Created":"2018-02-19T12:44:55.93187626Z","Path":"sh","Args":["/tooling-pending/deploy_upgrade_container.sh","vivid","wily"],"State":{"Status":"exited","Running":false,"Paused":false,"Restarting":false,"OOMKilled":false,"Dead":false,"Pid":0,"ExitCode":0,"Error":"","StartedAt":"2018-02-19T12:44:56.209514616Z","FinishedAt":"2018-02-19T12:44:56.281411741Z"},"Image":"sha256:d1b55fd07600b2e26d667434f414beee12b0771dfd4a2c7b5ed6f2fc9e683b43","ResolvConfPath":"/var/lib/docker/containers/5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d/resolv.conf","HostnamePath":"/var/lib/docker/containers/5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d/hostname","HostsPath":"/var/lib/docker/containers/5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d/hosts","LogPath":"/var/lib/docker/containers/5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d/5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d-json.log","Name":"/deployupgradetest","RestartCount":0,"Driver":"btrfs","MountLabel":"","ProcessLabel":"","AppArmorProfile":"docker-default","ExecIDs":null,"HostConfig":{"Binds":["<%=
+        Dir.pwd %>:/tooling-pending"],"ContainerIDFile":"","LogConfig":{"Type":"json-file","Config":{}},"NetworkMode":"default","PortBindings":null,"RestartPolicy":{"Name":"","MaximumRetryCount":0},"AutoRemove":false,"VolumeDriver":"","VolumesFrom":null,"CapAdd":null,"CapDrop":null,"Dns":null,"DnsOptions":null,"DnsSearch":null,"ExtraHosts":null,"GroupAdd":null,"IpcMode":"","Cgroup":"","Links":null,"OomScoreAdj":0,"PidMode":"","Privileged":false,"PublishAllPorts":false,"ReadonlyRootfs":false,"SecurityOpt":null,"UTSMode":"","UsernsMode":"","ShmSize":67108864,"Runtime":"runc","ConsoleSize":[0,0],"Isolation":"","CpuShares":0,"Memory":0,"NanoCpus":0,"CgroupParent":"","BlkioWeight":0,"BlkioWeightDevice":null,"BlkioDeviceReadBps":null,"BlkioDeviceWriteBps":null,"BlkioDeviceReadIOps":null,"BlkioDeviceWriteIOps":null,"CpuPeriod":0,"CpuQuota":0,"CpuRealtimePeriod":0,"CpuRealtimeRuntime":0,"CpusetCpus":"","CpusetMems":"","Devices":null,"DeviceCgroupRules":null,"DiskQuota":0,"KernelMemory":0,"MemoryReservation":0,"MemorySwap":0,"MemorySwappiness":-1,"OomKillDisable":false,"PidsLimit":0,"Ulimits":[{"Name":"nofile","Hard":1024,"Soft":1024}],"CpuCount":0,"CpuPercent":0,"IOMaximumIOps":0,"IOMaximumBandwidth":0},"GraphDriver":{"Data":null,"Name":"btrfs"},"Mounts":[{"Type":"bind","Source":"<%=
+        Dir.pwd %>","Destination":"/tooling-pending","Mode":"","RW":true,"Propagation":""},{"Type":"volume","Name":"3cdc2f2520e91a031b0641fd70ff020efae1cddbd11d966ea4cbc9b05258686f","Source":"/var/lib/docker/volumes/3cdc2f2520e91a031b0641fd70ff020efae1cddbd11d966ea4cbc9b05258686f/_data","Destination":"<%=
+        Dir.pwd %>","Driver":"local","Mode":"","RW":true,"Propagation":""}],"Config":{"Hostname":"5c4dd5a8e783","Domainname":"","User":"","AttachStdin":false,"AttachStdout":false,"AttachStderr":false,"Tty":false,"OpenStdin":false,"StdinOnce":false,"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Cmd":["sh","/tooling-pending/deploy_upgrade_container.sh","vivid","wily"],"Image":"deployupgradetest:latest","Volumes":{"<%=
+        Dir.pwd %>":{}},"WorkingDir":"<%= Dir.pwd %>","Entrypoint":null,"OnBuild":null,"Labels":{}},"NetworkSettings":{"Bridge":"","SandboxID":"c749c44e6c9397a61426d3fda83c0bb1bbc0c2238a7f4c08ffa038d59531c0f8","HairpinMode":false,"LinkLocalIPv6Address":"","LinkLocalIPv6PrefixLen":0,"Ports":{},"SandboxKey":"/var/run/docker/netns/c749c44e6c93","SecondaryIPAddresses":null,"SecondaryIPv6Addresses":null,"EndpointID":"","Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","MacAddress":"","Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"f319621499cdc423b222f02bfa0167c667789a5e0986bf07f7649e0d7fe4c41e","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":""}}}}
 
 '
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:25:22 GMT
+  recorded_at: Mon, 19 Feb 2018 12:44:56 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/f3641af2e499bd4066e1112be1a22178dd4b846a7597f7513884e2b5d5de835a
+    uri: unix:///var/run/docker.sock/v1.24/containers/5c4dd5a8e783300b4bdc5caa23ce6a751eef9cf6cf4e943e373a1ebe90254e3d
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.33.4
+      - Swipely/Docker-API 1.34.0
       Content-Type:
       - text/plain
   response:
@@ -528,12 +676,12 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce-rc3 (linux)
+      - Docker/17.05.0-ce (linux)
       Date:
-      - Tue, 30 May 2017 13:25:27 GMT
+      - Mon, 19 Feb 2018 12:44:56 GMT
     body:
       encoding: ASCII-8BIT
       string: ''
     http_version: 
-  recorded_at: Tue, 30 May 2017 13:25:27 GMT
-recorded_with: VCR 3.0.3
+  recorded_at: Mon, 19 Feb 2018 12:44:56 GMT
+recorded_with: VCR 4.0.0

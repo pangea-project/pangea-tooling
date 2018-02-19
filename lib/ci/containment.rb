@@ -22,6 +22,7 @@ require 'logger'
 require 'logger/colors'
 require 'timeout'
 
+require_relative '../docker/network_patch'
 require_relative 'container/ephemeral'
 require_relative 'pangeaimage'
 
@@ -59,12 +60,8 @@ module CI
     end
 
     def cleanup
-      c = EphemeralContainer.get(@name)
-      @log.info 'Cleaning up previous container.'
-      c.kill if c.running?
-      c.remove(force: true)
-    rescue Docker::Error::NotFoundError
-      @log.info 'Not cleaning up, no previous container found.'
+      cleanup_container
+      cleanup_network
     end
 
     def default_create_options
@@ -212,6 +209,22 @@ module CI
       return false if no_exit_handlers
       return false if self.class.userns?
       true
+    end
+
+    def cleanup_container
+      c = EphemeralContainer.get(@name)
+      @log.info 'Cleaning up previous container.'
+      c.kill if c.running?
+      c.remove(force: true)
+    rescue Docker::Error::NotFoundError
+      @log.info 'Not cleaning up, no previous container found.'
+    end
+
+    def cleanup_network
+      @log.info "Cleaning up lingering bridge connections of #{@name}"
+      Docker::Network.get('bridge').disconnect(@name, force: true)
+    rescue Docker::Error::NotFoundError
+      @log.info 'Not cleaning network bridge, not connected.'
     end
   end
 end
