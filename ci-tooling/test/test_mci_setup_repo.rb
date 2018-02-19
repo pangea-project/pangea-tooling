@@ -31,6 +31,8 @@ class MCISetupRepoTest < TestCase
 
     # Reset caching.
     Apt::Repository.send(:reset)
+    # Disable bionic compat check (always assume true)
+    Apt::Repository.send(:instance_variable_set, :@disable_auto_update, true)
     # Disable automatic update
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
     # Make sure $? is fine before we start!
@@ -45,6 +47,8 @@ class MCISetupRepoTest < TestCase
   end
 
   def teardown
+    Apt::Repository.send(:reset)
+
     WebMock.allow_net_connect!
     LSB.reset
     ENV['TYPE'] = nil
@@ -54,11 +58,11 @@ class MCISetupRepoTest < TestCase
   def test_setup_repo
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub vivid main'],
-      ['add-apt-repository', '-y', 'deb http://mobile.neon.pangea.pub/caf vivid main'],
-      ['add-apt-repository', '-y', 'deb http://archive.neon.kde.org/unstable vivid main'],
-      ['add-apt-repository', '-y', 'deb http://repo.halium.org vivid main'],
-      ['add-apt-repository', '-y', 'deb http://repo.halium.org/caf vivid main'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://mobile.neon.pangea.pub vivid main'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://mobile.neon.pangea.pub/caf vivid main'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://archive.neon.kde.org/unstable vivid main'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://repo.halium.org vivid main'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://repo.halium.org/caf vivid main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
     ]

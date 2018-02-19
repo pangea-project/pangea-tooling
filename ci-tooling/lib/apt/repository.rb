@@ -29,7 +29,7 @@ module Apt
       @name = name
       self.class.send(:install_add_apt_repository)
       @default_args = []
-      if `add-apt-repository --help`.include?('--no-update')
+      if self.class.send(:disable_auto_update?)
         # Since Ubuntu 18.04 the default behavior is to automatically run an
         # update which will fail without retrying if there was a network error.
         # We largely have retry systems in place and generally want more control
@@ -84,9 +84,17 @@ module Apt
         File.exist?('/var/lib/dpkg/info/software-properties-common.list')
       end
 
+      def disable_auto_update?
+        @disable_auto_update ||=
+          `add-apt-repository --help`.include?('--no-update')
+      end
+
       def reset
-        return unless defined?(@add_apt_repository_installed)
-        remove_instance_variable(:@add_apt_repository_installed)
+        if defined?(@add_apt_repository_installed)
+          remove_instance_variable(:@add_apt_repository_installed)
+        end
+        return unless defined?(@disable_auto_update)
+        remove_instance_variable(:@disable_auto_update)
       end
     end
   end

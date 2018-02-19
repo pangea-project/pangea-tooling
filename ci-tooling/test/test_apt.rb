@@ -29,7 +29,7 @@ class AptTest < TestCase
     Apt::Repository.send(:reset)
     # Disable automatic update
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
-    Apt::Repository.any_instance.stubs(:`).returns('')
+    Apt::Repository.stubs(:`).returns('')
   end
 
   def default_args(cmd = 'apt-get')
@@ -403,7 +403,6 @@ class AptTest < TestCase
   def test_repo_no_update
     Apt::Repository.any_instance.unstub(:`)
     Apt::Repository
-      .any_instance
       .stubs(:`)
       .with('add-apt-repository --help')
       .returns(<<-HELP)

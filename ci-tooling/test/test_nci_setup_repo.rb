@@ -30,6 +30,8 @@ class NCISetupRepoTest < TestCase
 
     # Reset caching.
     Apt::Repository.send(:reset)
+    # Disable bionic compat check (always assume true)
+    Apt::Repository.send(:instance_variable_set, :@disable_auto_update, true)
     # Disable automatic update
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
     # Make sure $? is fine before we start!
@@ -46,6 +48,8 @@ class NCISetupRepoTest < TestCase
   end
 
   def teardown
+    Apt::Repository.send(:reset)
+
     WebMock.allow_net_connect!
     LSB.reset
     ENV.delete('TYPE')
@@ -70,7 +74,7 @@ class NCISetupRepoTest < TestCase
   def test_setup_repo
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '-y',
+      ['add-apt-repository', '--no-update', '-y',
        'deb http://archive.neon.kde.org/unstable vivid main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
@@ -98,7 +102,7 @@ class NCISetupRepoTest < TestCase
   def test_setup_repo_no_private
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '-y',
+      ['add-apt-repository', '--no-update', '-y',
        'deb http://archive.neon.kde.org/unstable vivid main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']

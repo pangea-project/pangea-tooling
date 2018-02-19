@@ -30,6 +30,8 @@ class DCISetupRepoTest < TestCase
   def setup
     # Reset caching.
     Apt::Repository.send(:reset)
+    # Disable bionic compat check (always assume true)
+    Apt::Repository.send(:instance_variable_set, :@disable_auto_update, true)
     # Disable automatic update
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
     # Make sure $? is fine before we start!
@@ -40,6 +42,8 @@ class DCISetupRepoTest < TestCase
   end
 
   def teardown
+    Apt::Repository.send(:reset)
+
     WebMock.allow_net_connect!
     ENV['DIST'] = nil
   end
@@ -49,7 +53,7 @@ class DCISetupRepoTest < TestCase
     system_calls = [
       ['dpkg --add-architecture i386'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-1703 frameworks backports plasma qt5 kde-applications extras'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-1703 frameworks backports plasma qt5 kde-applications extras'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'update'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'dist-upgrade']
     ]
