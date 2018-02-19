@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'docker'
+
 # Docker module.
 module Docker
   # Monkey patch to support forced disconnect.
