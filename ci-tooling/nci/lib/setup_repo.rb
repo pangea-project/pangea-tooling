@@ -53,6 +53,7 @@ Package: *
 Pin: release l=Neon - Testing
 Pin-Priority: 1001
     PREFERENCE
+      @testing_preference.write
       ENV['TYPE'] = 'release'
       add_repo!
     end
