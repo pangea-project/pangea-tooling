@@ -47,6 +47,12 @@ module NCI
     setup_proxy!
     add_repo!
     if ENV.fetch('TYPE').include?('testing')
+      puts 'Setting up apt preference for testing repository.'
+      @testing_preference = Apt::Preference.new('pangea-neon-testing', content: <<-PREFERENCE)
+Package: *
+Pin: release l=Neon - Testing
+Pin-Priority: 1001
+    PREFERENCE
       ENV['TYPE'] = 'release'
       add_repo!
     end
@@ -77,6 +83,13 @@ Pin-Priority: 1001
     puts 'Discarding apt preference.'
     @preference.delete
     @preference = nil
+  end
+
+  def maybe_teardown_testing_apt_preference
+    return unless @testing_preference
+    puts 'Discarding testing apt preference.'
+    @testing_preference.delete
+    @testing_preference = nil
   end
 
   class << self
