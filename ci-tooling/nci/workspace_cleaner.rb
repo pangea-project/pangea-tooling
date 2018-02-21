@@ -66,7 +66,11 @@ module WorkspaceCleaner
       raise e unless e.class.name.start_with?('Errno::')
       warn "  Got error #{e}... trying to chown....."
       chown_r(dir)
-      FileUtils.rm_r(dir, verbose: true)
+      # Jenkins might still have a cleanup thread waiting for the dir, and if so
+      # it may be gone after we solved the ownership problem.
+      # So only rm_r if the dir still exists, else it was magically cleaned
+      # already.
+      FileUtils.rm_r(dir, verbose: true) if File.exist?(dir)
     end
 
     def chown_r(dir)
