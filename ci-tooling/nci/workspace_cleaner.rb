@@ -68,9 +68,9 @@ module WorkspaceCleaner
       chown_r(dir)
       # Jenkins might still have a cleanup thread waiting for the dir, and if so
       # it may be gone after we solved the ownership problem.
-      # So only rm_r if the dir still exists, else it was magically cleaned
-      # already.
-      FileUtils.rm_r(dir, verbose: true) if File.exist?(dir)
+      # If this is a cleanup dir, let it sit for now. If jenkins cleans it
+      # up then that's cool, otherwise we'll get it in the next run.
+      FileUtils.rm_r(dir, verbose: true) unless dir.include?('ws-cleanup')
     end
 
     def chown_r(dir)
