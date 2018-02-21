@@ -1,8 +1,4 @@
 series:
-  # '1703': '20170206'
-  #'1706': '20170530'
-  '1710': '20170904'
-  '1801': '20180115'
   '1803': '20180315'
   # Bump this when choosing a new snapshot for the next netrunner release
   'backports': '20180316'
