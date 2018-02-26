@@ -91,10 +91,10 @@ module DCISourcer
         dsc = File.read('source/url').strip
         Dir.chdir('build') do
             system("dget -u #{dsc}")
-            dir = Dir.glob("#{@type}-*/").first
+            dir = Dir.glob("#{type}-*/").first
             FileUtils.ln_s(dir, 'packaging', verbose: true)
-            KDEIfy.firefox! if @type == 'firefox'
-            KDEIfy.thunderbird! if @type == 'thunderbird' || @type == 'icedove'
+            KDEIfy.firefox! if type == 'firefox'
+            KDEIfy.thunderbird! if type == 'thunderbird' || type == 'icedove'
             Dir.chdir(dir) do
                 args = [
                     'dpkg-buildpackage',
