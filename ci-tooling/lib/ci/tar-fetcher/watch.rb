@@ -29,6 +29,43 @@ require_relative '../../debian/version'
 module CI
   # Fetch tarballs via uscan using debian/watch.
   class WatchTarFetcher
+    # Helper to find the newest tar in a directory.
+    class TarFinder
+      attr_reader :dir
+
+      def initialize(directory_with_tars)
+        @dir = directory_with_tars
+      end
+
+      def find
+        tars = all_tars_by_version.sort.to_h.values
+        # Automatically ditch all but the newest tarball. This prevents
+        # preserved workspaces from getting littered with old tars.
+        # Our version sorting logic prevents us from tripping over them though.
+        tars[0..-2].each { |path| FileUtils.rm(path, verbose: true) }
+        tars.pop
+      end
+
+      private
+
+      def all_tars
+        Dir.glob("#{dir}/*.orig.tar*").reject do |x|
+          %w[.asc .sig].any? { |ext| x.end_with?(ext) }
+        end
+      end
+
+      def all_tars_by_version
+        all_tars.map do |x|
+          [Debian::Version.new(version_from_file(x)), x]
+        end.to_h
+      end
+
+      def version_from_file(path)
+        filename = File.basename(path)
+        filename.slice(/_.*/)[1..-1].split('.orig.')[0]
+      end
+    end
+
     def initialize(watchfile, mangle_download: false)
       unless File.basename(watchfile) == 'watch'
         raise "path not a watch file #{watchfile}"
@@ -48,30 +85,13 @@ module CI
       #   or not.
       maybe_mangle do
         uscan(@dir, destdir)
-        tar = find_tar(destdir)
+        tar = TarFinder.new(destdir).find
         return tar unless tar # can be nil from pop
         Tarball.new("#{destdir}/#{File.basename(tar)}")
       end
     end
 
     private
-
-    def find_tar(destdir)
-      tars = Dir.glob("#{destdir}/*.orig.tar*").reject do |x|
-        %w[.asc .sig].any? { |ext| x.end_with?(ext) }
-      end
-      tars = tars.map do |x|
-        [Debian::Version.new(version_from_file(x)), x]
-      end.to_h
-      tars = tars.sort.to_h.values
-      tars[0..-2].each { |path| FileUtils.rm(path) }
-      tars.pop
-    end
-
-    def version_from_file(path)
-      filename = File.basename(path)
-      filename.slice(/_.*/)[1..-1].split('.orig.')[0]
-    end
 
     def maybe_mangle(&block)
       orig_data = File.read(@watchfile)
