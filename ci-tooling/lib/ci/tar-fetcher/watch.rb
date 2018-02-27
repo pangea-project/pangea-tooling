@@ -119,17 +119,30 @@ module CI
       Changelog.new(file).version(Changelog::ALL)
     end
 
+    def overlay_path
+      # Use parallel xz via our overlay. This allows much faster re-compression
+      # incase the package needs to perform a dfsg repack.
+      overlay_path = File.expand_path("#{__dir__}/../../../../overlay-bin")
+      return overlay_path if File.exist?(overlay_path)
+      raise "could not find overlay bins in #{overlay_path}"
+    end
+
+    # rubocop:disable Metrics/MethodLength
+    # This is so long because we want readable cmdline args.
+    # Should you add excessive amounts of logic here enable the metric again!
     def uscan(chdir, destdir)
       destdir = File.absolute_path(destdir)
       FileUtils.mkpath(destdir) unless Dir.exist?(destdir)
       TTY::Command.new.run(
         'uscan',
-        '--verbose',
+        '--verbose', '--rename',
         '--download-debversion', current_version,
         "--destdir=#{destdir}",
-        '--rename',
-        chdir: chdir
+        chdir: chdir,
+        env: { PATH: [overlay_path, ENV.fetch('PATH')].join(':'),
+               OVERLAY_PARALLEL_COMPRESSION: true }
       )
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

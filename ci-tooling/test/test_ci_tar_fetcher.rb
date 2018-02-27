@@ -96,7 +96,12 @@ module CI
 
     # test code to mange the watch file to look at alternative server
     # currently only works on stable/
-    def test_watch_mangle
+    #
+    # NB: this also does:
+    # Make sure the run invocation had the env set to include overlay-bin
+    # in its PATH var.
+    # (done in one-go as a test for this would be a verbatim copy more or less)
+    def test_watch_mangle_and_overlay_bin
       FileUtils.cp_r(data, 'debian/')
       f = WatchTarFetcher.new('debian/watch', mangle_download: true)
 
@@ -109,6 +114,14 @@ module CI
       Object.any_instance.expects(:`).never
       TTY::Command.any_instance.expects(:run).once.with do |*args|
         next false unless args[0] == 'uscan'
+        next false unless args.any? do |x|
+          # We expect our overlay bin to be in the PATH!
+          next false unless x.is_a?(Hash)
+          env = x.fetch(:env)
+          next false unless env[:PATH] && env[:OVERLAY_PARALLEL_COMPRESSION]
+          next false unless env[:PATH].split(':')[0].include?('overlay-bin')
+          true
+        end
         data = File.read('debian/watch')
         assert_include(data.chomp!, ref_line)
         true
