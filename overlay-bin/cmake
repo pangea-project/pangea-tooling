@@ -20,7 +20,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'lib/paths'
+require_relative 'lib/paths' # Drop the overlay from the PATH env.
 
 # Drops excessively verbose makefile setting from cmake invocations.
 # With the verbosity enabled the entire CC lines including all -Ds

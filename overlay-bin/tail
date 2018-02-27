@@ -21,7 +21,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'fileutils'
-require_relative 'lib/paths'
+require_relative 'lib/paths' # Drop the overlay from the PATH env.
 
 # Intercepts tail calls of CMakeCache.txt and instead copies the file into
 # the job workspace for archival or whatever.
