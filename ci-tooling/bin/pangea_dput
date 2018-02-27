@@ -29,7 +29,8 @@ require_relative '../lib/ci/deb822_lister'
 require_relative '../../lib/aptly-ext/remote'
 
 # TODO: this is currently opt-in
-if ENV['CTR_OVERLAY'] || ARGV.join.include?('unstable_bionic')
+if ENV['CTR_OVERLAY'] ||
+   %w[unstable_bionic unstable_xenial].any? { |x| ARGV.join.include?(x) }
   warn 'enabling CTR overlay'
   require_relative '../../lib/net/ssh/ctr_overlay'
 end
