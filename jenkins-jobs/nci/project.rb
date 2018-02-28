@@ -21,9 +21,9 @@
 require_relative '../../ci-tooling/lib/nci'
 require_relative '../sourcer'
 require_relative '../binarier'
-require_relative '../publisher'
 require_relative 'lintcmakejob'
 require_relative 'lintqmljob'
+require_relative 'publisher'
 require_relative '../multijob_phase'
 
 # Magic builder to create an array of build steps
@@ -59,13 +59,13 @@ class ProjectJob < JenkinsJob
                              type: type,
                              distribution: distribution,
                              project: project)
-    publisher = PublisherJob.new(basename,
-                                 type: type,
-                                 distribution: distribution,
-                                 dependees: publisher_dependees,
-                                 component: project.component,
-                                 upload_map: nil,
-                                 architectures: architectures)
+    publisher = NeonPublisherJob.new(basename,
+                                     type: type,
+                                     distribution: distribution,
+                                     dependees: publisher_dependees,
+                                     component: project.component,
+                                     upload_map: nil,
+                                     architectures: architectures)
     binariers = architectures.collect do |architecture|
       BinarierJob.new(basename, type: type, distribution: distribution,
                                 architecture: architecture)
