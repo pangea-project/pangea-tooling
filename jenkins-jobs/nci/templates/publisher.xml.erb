@@ -62,7 +62,7 @@
       <project><%= basename %>_bin_<%= arch %></project>
       <filter></filter>
       <target></target>
-      <excludes></excludes>
+      <excludes>**/*.txt</excludes>
       <optional>true</optional>
       <selector class="com.tikal.jenkins.plugins.multijob.MultiJobBuildSelector" plugin="jenkins-multijob-plugin@1.20"/>
       <flatten>true</flatten>
