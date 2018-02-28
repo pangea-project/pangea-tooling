@@ -69,13 +69,29 @@ module CI
       # @return [Hash]
       def default_create_options
         {
-          # Force standard ulimit in the container.
-          # Otherwise pretty much all APT IO operations are insanely slow:
-          # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
-          # This in particular affects apt-extracttemplates which will take up
-          # to 20 minutes where it should take maybe 1/10 of that.
           HostConfig: {
-            Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }]
+            # Force standard ulimit in the container.
+            # Otherwise pretty much all APT IO operations are insanely slow:
+            # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
+            # This in particular affects apt-extracttemplates which will take up
+            # to 20 minutes where it should take maybe 1/10 of that.
+            Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }],
+            # Disable seccomp. Qt 5.10 onwards preferes to use the statx syscall
+            # of Linux (4.11+). This syscall is however not whitelisted in the
+            # standard seccomp profile of docker. Furthermore, we cannot set
+            # our own profiles as the libseccomp docker was built with wasn't
+            # new enough for the mapping from statx=>syscall_id, so even if it
+            # was whitelisted it would not do anything for us. Lastly, we also
+            # cannot pass syscall_ids as the entire code dealing with the
+            # profile doesn't have a signgle atoi check to deal with actual
+            # numbers being used as names.
+            # This leaves us with the only viable solution being to disable
+            # seccomp entirely as we do want Qt built with seccomp support.
+            # Ideally this should be undone when docker properly whitelisted
+            # statx (and updated their libseccomp).
+            # https://bugs.archlinux.org/task/57254#comment166001
+            # https://github.com/docker/for-linux/issues/208
+            SecurityOpt: %w[seccomp=unconfined]
           },
           WorkingDir: Dir.pwd,
           Env: environment
