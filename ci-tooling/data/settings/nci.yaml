@@ -6,6 +6,10 @@
 
 # Others
 
+'*_forks_{falkon}_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_forks_{libkolab,libkolabxml}_*':
   sourcer:
     restricted_packaging_copy: true
