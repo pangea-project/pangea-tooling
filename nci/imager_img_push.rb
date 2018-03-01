@@ -43,8 +43,11 @@ REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
   #raise 'Failed to sign'
 #end
 
+key_file = ENV.fetch('SSH_KEY_FILE', nil)
+ssh_args = key_file ? [{ keys: [key_file] }] : []
+
 # Publish ISO and associated content.
-Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
+Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
   puts "mkdir #{REMOTE_PUB_DIR}"
   sftp.mkdir!(REMOTE_PUB_DIR)
   types = %w[arm64.img.gz arm64.img.gz.sig contents zsync sha256sum]
@@ -57,7 +60,7 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   end
 
   # Need a second SSH session here, since the SFTP one is busy looping.
-  Net::SSH.start('weegie.edinburghlinux.co.uk', 'neon') do |ssh|
+  Net::SSH.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |ssh|
     #ssh.exec!("cd #{REMOTE_PUB_DIR}; gunzip --stdout *img.gz > #{IMGNAME}.img")
     #ssh.exec!("cd #{REMOTE_PUB_DIR};" \
     #          " ln -s *img #{IMAGENAME}-pinebook-remix-#{TYPE}-current.iso")
