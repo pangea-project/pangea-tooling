@@ -4,10 +4,23 @@ require 'tmpdir'
 module CI
   # A tarball handling class.
   class Tarball
+    # FIXME: copied from debian::version's upstream regex
+    ORIG_EXP = /(.+)_(?<version>[A-Za-z0-9.+:~-]+?)\.orig\.tar(.*)/
+
     attr_reader :path
 
     def initialize(path)
       @path = File.absolute_path(path)
+    end
+
+    def basename
+      File.basename(@path)
+    end
+
+    def version
+      raise "Not an orig tarball #{path}" unless orig?
+      match = basename.match(ORIG_EXP)
+      match[:version]
     end
 
     def to_s
@@ -32,10 +45,9 @@ module CI
     # @return [Tarball, nil] self if the tarball is now orig, nil if it was orig
     def origify!
       return nil if orig?
-      name = File.basename(@path)
       dir = File.dirname(@path)
-      match = name.match(/(?<name>.+)-(?<version>(([\d.]+)(\+)?(~)?(.+)?))\.(?<ext>tar(.*))/)
-      raise "Could not parse tarball #{name}" unless match
+      match = basename.match(/(?<name>.+)-(?<version>(([\d.]+)(\+)?(~)?(.+)?))\.(?<ext>tar(.*))/)
+      raise "Could not parse tarball #{basename}" unless match
       old_path = @path
       @path = "#{dir}/#{match[:name]}_#{match[:version]}.orig.#{match[:ext]}"
       FileUtils.cp(old_path, @path) if File.exist?(old_path)
@@ -62,9 +74,7 @@ module CI
     end
 
     def self.orig?(path)
-      # FIXME: copied from debian::version's upstream regex
-      expression = /(.+)_([A-Za-z0-9.+:~-]+?)\.orig\.tar(.*)/
-      !File.basename(path).match(expression).nil?
+      !File.basename(path).match(ORIG_EXP).nil?
     end
 
     private

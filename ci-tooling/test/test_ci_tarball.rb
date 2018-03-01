@@ -64,5 +64,15 @@ module CI
       assert_equal('test_1.orig.tar.xz', File.basename(t.path))
       assert_path_exist('test_1.orig.tar.xz')
     end
+
+    def test_version
+      t = Tarball.new('qtbase-opensource-src_5.5.1+dfsg.orig.tar.xz')
+      assert_equal('5.5.1+dfsg', t.version)
+    end
+
+    def test_basename
+      t = Tarball.new('qtbase-opensource-src_5.5.1+dfsg.orig.tar.xz')
+      assert_equal('qtbase-opensource-src_5.5.1+dfsg.orig.tar.xz', t.basename)
+    end
   end
 end
