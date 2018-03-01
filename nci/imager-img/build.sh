@@ -34,6 +34,7 @@ lb build --debug
 
 pigz --stdout ${LIVE_IMAGE_NAME}-${ARCH}.img > ${LIVE_IMAGE_NAME}-${ARCH}.img.gz
 zsyncmake ${LIVE_IMAGE_NAME}-${ARCH}.img.gz
-sha256sum ${LIVE_IMAGE_NAME}-${ARCH}.img.gz > ${LIVE_IMAGE_NAME}-${ARCH}.sha256sum
+sha256sum ${LIVE_IMAGE_NAME}-${ARCH}.img > ${LIVE_IMAGE_NAME}-${ARCH}.sha256sum
+sha256sum ${LIVE_IMAGE_NAME}-${ARCH}.img.gz >> ${LIVE_IMAGE_NAME}-${ARCH}.sha256sum
 
 echo $DATETIME > date_stamp
