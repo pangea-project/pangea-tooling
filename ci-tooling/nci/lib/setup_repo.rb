@@ -46,17 +46,7 @@ module NCI
   def setup_repo!
     setup_proxy!
     add_repo!
-    if ENV.fetch('TYPE').include?('testing')
-      puts 'Setting up apt preference for testing repository.'
-      @testing_preference = Apt::Preference.new('pangea-neon-testing', content: <<-PREFERENCE)
-Package: *
-Pin: release l=Neon - Testing
-Pin-Priority: 1001
-    PREFERENCE
-      @testing_preference.write
-      ENV['TYPE'] = 'release'
-      add_repo!
-    end
+    setup_testing! if ENV.fetch('TYPE').include?('testing')
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     # Make sure we have the latest pkg-kde-tools, not whatever is in the image.
     raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools])
@@ -95,6 +85,19 @@ Pin-Priority: 1001
 
   class << self
     private
+
+    def setup_testing!
+      puts 'Setting up apt preference for testing repository.'
+      @testing_preference = Apt::Preference.new('pangea-neon-testing',
+                                                content: <<-PREFERENCE)
+Package: *
+Pin: release l=Neon - Testing
+Pin-Priority: 1001
+      PREFERENCE
+      @testing_preference.write
+      ENV['TYPE'] = 'release'
+      add_repo!
+    end
 
     def add_repo!
       add_repo_key!
