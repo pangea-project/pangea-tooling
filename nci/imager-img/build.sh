@@ -32,8 +32,8 @@ cp /usr/share/keyrings/ubuntu-archive-keyring.gpg chroot/usr/share/keyrings/ubun
 lb build --debug
 /tooling/nci/imager-img/flash_pinebook ${LIVE_IMAGE_NAME}-${ARCH}.img
 
-zsyncmake ${LIVE_IMAGE_NAME}-${ARCH}.img
-sha256sum ${LIVE_IMAGE_NAME}-${ARCH}.img > ${LIVE_IMAGE_NAME}-${ARCH}.sha256sum
 pigz --stdout ${LIVE_IMAGE_NAME}-${ARCH}.img > ${LIVE_IMAGE_NAME}-${ARCH}.img.gz
+zsyncmake ${LIVE_IMAGE_NAME}-${ARCH}.img.gz
+sha256sum ${LIVE_IMAGE_NAME}-${ARCH}.img.gz > ${LIVE_IMAGE_NAME}-${ARCH}.sha256sum
 
 echo $DATETIME > date_stamp
