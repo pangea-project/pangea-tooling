@@ -28,7 +28,7 @@ require_relative '../lib/ci/tar_fetcher'
 
 module CI
   class TarFetcherTest < TestCase
-    SERVER_PORT = '9475'.freeze
+    SERVER_PORT = '9475'
 
     def setup
       VCR.configure do |config|
