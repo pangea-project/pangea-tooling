@@ -36,12 +36,12 @@ IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"
 REMOTE_DIR = "public_html/images/pinebook-remix/"
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
-puts "GPG signing disk image file"
-unless system('gpg2', '--armor', '--detach-sign', '-o',
-              "#{IMGNAME}.img.sig",
-              "#{IMGNAME}.img")
-  raise 'Failed to sign'
-end
+#puts "GPG signing disk image file"
+#unless system('gpg2', '--armor', '--detach-sign', '-o',
+  #            "#{IMGNAME}.img.sig",
+  #            "#{IMGNAME}.img")
+  #raise 'Failed to sign'
+#end
 
 # Publish ISO and associated content.
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
