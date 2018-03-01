@@ -35,7 +35,7 @@ module CI
         config.cassette_library_dir = datadir
         config.hook_into :webmock
         config.default_cassette_options = {
-          match_requests_on: [:method, :uri, :body]
+          match_requests_on: %i[method uri body]
         }
       end
     end
@@ -70,7 +70,7 @@ module CI
 
     # TODO: maybe split
     def test_watch_fetch
-      require_binaries(%w(uscan))
+      require_binaries(%w[uscan])
 
       assert_raise RuntimeError do
         WatchTarFetcher.new('/a/b/c')
@@ -123,7 +123,7 @@ module CI
 
     description 'when destdir does not exist uscan shits its pants'
     def test_watch_create_destdir
-      require_binaries(%w(uscan))
+      require_binaries(%w[uscan])
 
       # Create an old file. The fetcher is meant to remove this.
       File.write('dragon_15.08.1.orig.tar.xz', '')
@@ -140,10 +140,10 @@ module CI
       FileUtils.cp_r(data, 'debian/')
       # We fully fake this at runtime to not have to provide dummy files...
 
-      files = %w(
+      files = %w[
         yolo_1.3.2.orig.tar.gz
         yolo_1.2.3.orig.tar.gz
-      )
+      ]
 
       TTY::Command
         .any_instance
