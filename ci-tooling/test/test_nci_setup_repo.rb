@@ -79,7 +79,16 @@ class NCISetupRepoTest < TestCase
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '--no-update', '-y',
-       'deb http://archive.neon.kde.org/unstable vivid main'],
+       'deb http://archive.neon.kde.org/unstable vivid main']
+    ]
+
+    NCI.series.each_key do |series|
+      system_calls <<
+        ['add-apt-repository', '--no-update', '-y',
+         "deb-src http://archive.neon.kde.org/unstable #{series} main"]
+    end
+
+    system_calls += [
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
     ]
@@ -96,8 +105,11 @@ class NCISetupRepoTest < TestCase
 
     # Expect proxy to be set up to private
     File.expects(:write).with('/etc/apt/apt.conf.d/proxy', proxy_enabled)
+    # With source also sets up a default release.
+    File.expects(:write).with('/etc/apt/apt.conf.d/99-default',
+                              "APT::Default-Release \"vivid\";\n")
 
-    NCI.setup_repo!
+    NCI.setup_repo!(with_source: true)
   end
 
   # This is a semi-temporary test until all servers have private networking

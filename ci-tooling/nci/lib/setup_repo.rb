@@ -48,9 +48,10 @@ module NCI
     end
   end
 
-  def setup_repo!
+  def setup_repo!(with_source: false)
     setup_proxy!
     add_repo!
+    add_source_repo! if with_source
     setup_testing! if ENV.fetch('TYPE').include?('testing')
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     # Make sure we have the latest pkg-kde-tools, not whatever is in the image.
@@ -104,11 +105,37 @@ Pin-Priority: 1001
       add_repo!
     end
 
+    # Sets the default release. We'll add the deb-src of all enabled series
+    # if enabled. To prevent us from using an incorret series simply force the
+    # series we are running under to be the default (outscores others).
+    # This effectively increases the apt score of the current series to 990!
+    def set_default_release!
+      File.write('/etc/apt/apt.conf.d/99-default', <<-CONFIG)
+APT::Default-Release "#{LSB::DISTRIB_CODENAME}";
+      CONFIG
+    end
+
+    # Sets up source repo(s). This method is special in that it sets up
+    # deb-src for all enabled series, not just the current one. This allows
+    # finding the "newest" tarball in any series. Which we need to detect
+    # and avoid uscan repack divergence between series.
+    def add_source_repo!
+      set_default_release!
+      add_repo_key!
+      NCI.series.each_key do |dist|
+        debline =
+          format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
+                 type: ENV.fetch('TYPE'), dist: dist)
+        Retry.retry_it(times: 5, sleep: 4) do
+          raise 'adding repo failed' unless Apt::Repository.add(debline)
+        end
+      end
+    end
+
     def add_repo!
       add_repo_key!
       debline = format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
-                       type: ENV.fetch('TYPE'),
-                       dist: LSB::DISTRIB_CODENAME)
+                       type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
       Retry.retry_it(times: 5, sleep: 4) do
         raise 'adding repo failed' unless Apt::Repository.add(debline)
       end
