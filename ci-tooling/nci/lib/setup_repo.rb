@@ -123,12 +123,15 @@ APT::Default-Release "#{LSB::DISTRIB_CODENAME}";
       set_default_release!
       add_repo_key!
       NCI.series.each_key do |dist|
+        # This doesn't use Apt::Repository because it uses apt-add-repository
+        # which smartly says
+        #   Error: 'deb-src http://archive.neon.kde.org/unstable xenial main'
+        #   invalid
+        # obviously.
         debline =
-          format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
+          format("deb-src http://archive.neon.kde.org/%<type>s %<dist>s main\n",
                  type: ENV.fetch('TYPE'), dist: dist)
-        Retry.retry_it(times: 5, sleep: 4) do
-          raise 'adding repo failed' unless Apt::Repository.add(debline)
-        end
+        File.write("/etc/apt/sources.list.d/neon_src_#{dist}.list", debline)
       end
     end
 

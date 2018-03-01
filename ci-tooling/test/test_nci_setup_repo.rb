@@ -83,9 +83,11 @@ class NCISetupRepoTest < TestCase
     ]
 
     NCI.series.each_key do |series|
-      system_calls <<
-        ['add-apt-repository', '--no-update', '-y',
-         "deb-src http://archive.neon.kde.org/unstable #{series} main"]
+      File
+        .expects(:write)
+        .with("/etc/apt/sources.list.d/neon_src_#{series}.list",
+              "deb-src http://archive.neon.kde.org/unstable #{series} main\n")
+        .returns(5000)
     end
 
     system_calls += [
