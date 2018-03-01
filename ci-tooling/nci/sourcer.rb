@@ -65,6 +65,7 @@ module NCISourcer
     def run_uscan
       puts 'Downloading tarball via uscan'
       orig_source(CI::WatchTarFetcher.new('packaging/debian/watch',
+                                          series: NCI.series.keys,
                                           mangle_download: true))
     end
 
@@ -80,7 +81,7 @@ end
 # :nocov:
 if $PROGRAM_NAME == __FILE__
   ENV['RELEASEME_PROJECTS_API'] = '1'
-  NCI.setup_repo!
+  NCI.setup_repo!(with_source: true)
   NCI.setup_env!
   NCISourcer.run
 end
