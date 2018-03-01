@@ -31,15 +31,20 @@ module NCI
   # NOTE: we talk to squid directly to reduce forwarding overhead, if we routed
   #   through apache we'd be spending between 10 and 25% of CPU on the forward.
   PROXY_URI = URI::HTTP.build(host: 'apt.cache.pangea.pub', port: 8000)
+  REPO_KEY_ID = '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D'
 
   module_function
 
+  def reset_setup_repo
+    @repo_added = nil
+  end
+
   def add_repo_key!
-    Retry.retry_it(times: 3, sleep: 8) do
-      if Apt::Key.add('444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
-        return
+    @repo_added ||= begin
+      Retry.retry_it(times: 3, sleep: 8) do
+        raise 'Failed to import key' unless Apt::Key.add(REPO_KEY_ID)
       end
-      raise 'Failed to import key'
+      true
     end
   end
 

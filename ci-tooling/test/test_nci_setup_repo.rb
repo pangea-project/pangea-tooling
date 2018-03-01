@@ -44,10 +44,14 @@ class NCISetupRepoTest < TestCase
     # Disable all web (used for key).
     WebMock.disable_net_connect!
 
+    NCI.reset_setup_repo
+
     ENV['TYPE'] = 'unstable'
   end
 
   def teardown
+    NCI.reset_setup_repo
+
     Apt::Repository.send(:reset)
 
     WebMock.allow_net_connect!
@@ -158,6 +162,8 @@ class NCISetupRepoTest < TestCase
       .in_sequence(add_seq)
       .returns(true)
 
+    NCI.add_repo_key!
+    # Add key after a successful one should be noop.
     NCI.add_repo_key!
   end
 
