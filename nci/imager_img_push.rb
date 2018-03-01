@@ -47,7 +47,7 @@ REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
   puts "mkdir #{REMOTE_PUB_DIR}"
   sftp.mkdir!(REMOTE_PUB_DIR)
-  types = %w[arm64.img.gz arm64.img.sig contents zsync sha256sum]
+  types = %w[arm64.img.gz arm64.img.gz.sig contents zsync sha256sum]
   types.each do |type|
     Dir.glob("*#{type}").each do |file|
       name = File.basename(file)
@@ -58,11 +58,11 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
 
   # Need a second SSH session here, since the SFTP one is busy looping.
   Net::SSH.start('weegie.edinburghlinux.co.uk', 'neon') do |ssh|
-    ssh.exec!("cd #{REMOTE_PUB_DIR}; gunzip --stdout *img.gz > #{IMGNAME}.img")
-    ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *img #{IMAGENAME}-pinebook-remix-#{TYPE}-current.iso")
-    ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *img.sig #{IMAGENAME}-pinebook-remix-#{TYPE}-current.img.sig")
+    #ssh.exec!("cd #{REMOTE_PUB_DIR}; gunzip --stdout *img.gz > #{IMGNAME}.img")
+    #ssh.exec!("cd #{REMOTE_PUB_DIR};" \
+    #          " ln -s *img #{IMAGENAME}-pinebook-remix-#{TYPE}-current.iso")
+    #ssh.exec!("cd #{REMOTE_PUB_DIR};" \
+    #          " ln -s *img.sig #{IMAGENAME}-pinebook-remix-#{TYPE}-current.img.sig")
     ssh.exec!("cd #{REMOTE_DIR}; rm -f current; ln -s #{DATE} current")
   end
 
