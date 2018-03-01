@@ -6,7 +6,7 @@
 
 # Others
 
-'*_forks_{falkon}_*':
+'*_neon-packaging_{falkon}_*':
   sourcer:
     restricted_packaging_copy: true
 
