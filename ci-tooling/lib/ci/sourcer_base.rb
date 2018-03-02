@@ -185,7 +185,7 @@ module CI
     end
 
     def resolve_deps
-      DependencyResolver.resolve(Dir.pwd, retries: 3)
+      DependencyResolver.resolve(Dir.pwd, retries: 3, bin_only: true)
     rescue DependencyResolver::ResolutionError
       raise BuildPackageError, <<-ERRORMSG
 Failed to build source. The source failed to build, then we tried to install
