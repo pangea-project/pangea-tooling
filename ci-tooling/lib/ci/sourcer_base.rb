@@ -24,6 +24,7 @@ require 'git_clone_url'
 require 'rugged'
 require 'logger'
 
+require_relative 'dependency_resolver'
 require_relative '../debian/control'
 
 module CI
@@ -156,6 +157,24 @@ module CI
 
     def dpkg_buildpackage
       mangle_maintainer unless ENV['NOMANGLE_MAINTAINER']
+      run_dpkg_buildpackage_with_deps
+    end
+
+    def run_dpkg_buildpackage_with_deps
+      # By default we'll not install build depends on the package and hope
+      # it generates a sources even without build deps present.
+      # If this fails we'll rescue the error *once* and resolve the deps.
+      with_deps ||= false
+      run_dpkg_buildpackage
+    rescue BuildPackageError => e
+      raise e if with_deps # Failed even with deps installed: give up
+      warn 'Failed to build source. Trying again with all build deps installed!'
+      with_deps = true
+      DependencyResolver.resolve(Dir.pwd)
+      retry
+    end
+
+    def run_dpkg_buildpackage
       args = [
         'dpkg-buildpackage',
         '-us', '-uc', # Do not sign .dsc / .changes

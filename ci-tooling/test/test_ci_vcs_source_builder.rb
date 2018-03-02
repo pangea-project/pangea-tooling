@@ -61,9 +61,13 @@ class VCSBuilderTest < TestCase
     Apt::Abstrapt.expects(:`).never
     # Disable automatic update
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
+
+    CI::DependencyResolver.simulate = true
   end
 
   def teardown
+    CI::DependencyResolver.simulate = false
+
     OS.reset
     unalias_time
   end

@@ -19,9 +19,13 @@ module CI
       @tarfile = "#{Dir.pwd}/#{@tarname}"
       FileUtils.cp_r(Dir.glob("#{data}/."), Dir.pwd)
       FileUtils.cp_r("#{datadir}/http/dragon-15.08.1.tar.xz", @tarfile)
+
+      CI::DependencyResolver.simulate = true
     end
 
     def teardown
+      CI::DependencyResolver.simulate = false
+
       LSB.reset
       OS.reset
     end
