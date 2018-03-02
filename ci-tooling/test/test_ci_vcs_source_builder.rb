@@ -139,7 +139,7 @@ class VCSBuilderTest < TestCase
 
   def test_build_fail
     s = CI::VcsSourceBuilder.new(release: @release)
-    assert_raise RuntimeError do
+    assert_raise CI::VcsSourceBuilder::BuildPackageError do
       s.run
     end
   end

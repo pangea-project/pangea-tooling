@@ -84,6 +84,8 @@ module CI
   class SourcerBase
     prepend ControlVCSInjector
 
+    class BuildPackageError < StandardError; end
+
     private
 
     def initialize(release:, strip_symbols:, restricted_packaging_copy:)
@@ -160,7 +162,7 @@ module CI
         '-S', # Only build source
         '-d' # Do not enforce build-depends
       ]
-      raise 'Could not run dpkg-buildpackage!' unless system(*args)
+      raise BuildPackageError, 'dpkg-buildpackage failed!' unless system(*args)
     end
 
     # Copies a source tree to the target source directory
