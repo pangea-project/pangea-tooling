@@ -34,7 +34,12 @@ module CI
     resolver_env['DEBIAN_FRONTEND'] = 'noninteractive'
     RESOLVER_ENV = resolver_env.freeze
 
+    class << self
+      attr_writer :simulate
+    end
+
     def self.resolve(dir, bin_only: false)
+      return true if @simulate
       raise "Can't find #{RESOLVER_BIN}!" unless File.executable?(RESOLVER_BIN)
 
       Retry.retry_it(times: 5) do
