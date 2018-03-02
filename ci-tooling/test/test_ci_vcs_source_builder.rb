@@ -293,4 +293,17 @@ class VCSBuilderTest < TestCase
         .send(:repo_url_from_path, 'git://anongit.neon.kde.org/')
     assert_equal(nil, r)
   end
+
+  def test_build_fail_resolution
+    # Special build fail which actually comes out of a resolution problem.
+    # This only tests if the ResolutionError gets transformed into a BuildPackageError
+    CI::DependencyResolver
+      .expects(:resolve)
+      .raises(CI::DependencyResolver::ResolutionError)
+
+    s = CI::VcsSourceBuilder.new(release: @release)
+    assert_raise CI::VcsSourceBuilder::BuildPackageError do
+      s.run
+    end
+  end
 end

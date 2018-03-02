@@ -160,9 +160,6 @@ module CI
       run_dpkg_buildpackage_with_deps
     end
 
-    # rubocop:disable Metrics/MethodLength
-    # Longer than usual due to verbosity. Be mindful not to overload this method
-    # with code!
     def run_dpkg_buildpackage_with_deps
       # By default we'll not install build depends on the package and hope
       # it generates a sources even without build deps present.
@@ -170,17 +167,12 @@ module CI
       with_deps ||= false
       run_dpkg_buildpackage
     rescue BuildPackageError => e
-      if with_deps # Failed even with deps installed: give up
-        warn 'Failed to build source. We tried to install build deps, ' \
-             ' but it still failed. The error may likely be further up.'
-        raise e
-      end
+      raise e if with_deps # Failed even with deps installed: give up
       warn 'Failed to build source. Trying again with all build deps installed!'
       with_deps = true
-      DependencyResolver.resolve(Dir.pwd, retries: 2)
+      resolve_deps
       retry
     end
-    # rubocop:enable Metrics/MethodLength
 
     def run_dpkg_buildpackage
       args = [
@@ -190,6 +182,16 @@ module CI
         '-d' # Do not enforce build-depends
       ]
       raise BuildPackageError, 'dpkg-buildpackage failed!' unless system(*args)
+    end
+
+    def resolve_deps
+      DependencyResolver.resolve(Dir.pwd, retries: 3)
+    rescue DependencyResolver::ResolutionError
+      raise BuildPackageError, <<-ERRORMSG
+Failed to build source. The source failed to build, then we tried to install
+build deps but it still failed. The error may likely be further up
+(before we tried to install dependencies...)
+      ERRORMSG
     end
 
     # Copies a source tree to the target source directory

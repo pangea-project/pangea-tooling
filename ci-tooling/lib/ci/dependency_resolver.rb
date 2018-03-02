@@ -25,6 +25,8 @@ require_relative '../retry'
 module CI
   # Resolves build dependencies and installs them.
   class DependencyResolver
+    class ResolutionError < RuntimeError; end
+
     RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'
 
     resolver_env = {}
@@ -47,7 +49,7 @@ module CI
         opts << '--binary-arch' if bin_only
         opts << '--control' << "#{dir}/debian/control"
         ret = system(RESOLVER_ENV, RESOLVER_BIN, *opts)
-        raise 'Failed to satisfy depends' unless ret
+        raise ResolutionError, 'Failed to satisfy depends' unless ret
       end
     end
   end
