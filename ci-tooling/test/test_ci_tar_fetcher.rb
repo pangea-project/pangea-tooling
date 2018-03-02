@@ -231,5 +231,19 @@ module CI
         assert_requested(:get, 'http://troll/dragon-15.08.1.tar.xz', times: 1)
       end
     end
+
+    def test_deb_scm_fetch
+      assert_raises do
+        # No content
+        DebSCMFetcher.new.fetch('source')
+      end
+
+      FileUtils.mkpath('debscm')
+      File.write('debscm/foo_1.orig.tar.xz', '')
+      File.write('debscm/foo_1-1.debian.tar.xz', '')
+      File.write('debscm/foo_1-1.dsc', '')
+
+      DebSCMFetcher.new.fetch('source')
+    end
   end
 end
