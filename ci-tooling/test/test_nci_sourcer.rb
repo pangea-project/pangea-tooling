@@ -83,4 +83,18 @@ class NCISourcerTest < TestCase
     assert_equal({ strip_symbols: true, restricted_packaging_copy: true },
                  NCISourcer.sourcer_args)
   end
+
+  def test_run_debscm
+    fake_tar = mock('fake_tar')
+    fake_tar.stubs(:origify).returns(fake_tar)
+    fake_fetcher = mock('fake_fetcher')
+    fake_fetcher.stubs(:fetch).with('source').returns(fake_tar)
+    CI::DebSCMFetcher.expects(:new).returns(fake_fetcher)
+
+    fake_builder = mock('fake_builder')
+    fake_builder.stubs(:build)
+    CI::OrigSourceBuilder.expects(:new).with(strip_symbols: true).returns(fake_builder)
+
+    NCISourcer.run('debscm')
+  end
 end

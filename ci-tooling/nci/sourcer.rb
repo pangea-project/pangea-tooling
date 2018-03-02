@@ -26,6 +26,7 @@ require_relative 'lib/settings'
 require_relative 'lib/setup_env'
 require_relative 'lib/setup_repo'
 
+# NCI specific source wrapper to handle parameterization properly.
 module NCISourcer
   class << self
     def sourcer_args
@@ -49,13 +50,19 @@ module NCISourcer
     def run(type = ARGV.fetch(0, nil))
       meths = {
         'tarball' => method(:run_tarball),
-        'uscan' => method(:run_uscan)
+        'uscan' => method(:run_uscan),
+        'debscm' => method(:run_debscm)
       }
       meth = meths.fetch(type, method(:run_fallback))
       meth.call
     end
 
     private
+
+    def run_debscm
+      puts 'Using tarball from debscm'
+      orig_source(CI::DebSCMFetcher.new)
+    end
 
     def run_tarball
       puts 'Downloading tarball from URL'
@@ -81,8 +88,8 @@ end
 # :nocov:
 if $PROGRAM_NAME == __FILE__
   ENV['RELEASEME_PROJECTS_API'] = '1'
-  NCI.setup_repo!(with_source: true)
-  NCI.setup_env!
+  # NCI.setup_repo!(with_source: true)
+  # NCI.setup_env!
   NCISourcer.run
 end
 # :nocov:
