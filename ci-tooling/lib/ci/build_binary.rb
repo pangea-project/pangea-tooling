@@ -73,7 +73,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
     end
   end
 
-  # Builds a source package.
+  # Builds a binary package.
   class PackageBuilder
     BUILD_DIR  = 'build'
     RESULT_DIR = 'result'
