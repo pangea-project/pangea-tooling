@@ -38,11 +38,11 @@ module CI
       attr_writer :simulate
     end
 
-    def self.resolve(dir, bin_only: false)
+    def self.resolve(dir, bin_only: false, retries: 5)
       return true if @simulate
       raise "Can't find #{RESOLVER_BIN}!" unless File.executable?(RESOLVER_BIN)
 
-      Retry.retry_it(times: 5) do
+      Retry.retry_it(times: retries) do
         opts = []
         opts << '--binary-arch' if bin_only
         opts << '--control' << "#{dir}/debian/control"
