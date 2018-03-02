@@ -23,6 +23,7 @@ require 'fileutils'
 require 'jenkins_junit_builder'
 require 'tty/command'
 
+require_relative 'dependency_resolver'
 require_relative 'setcap_validator'
 require_relative 'source'
 require_relative '../debian/control'
@@ -80,31 +81,6 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
 
     BIN_ONLY_WHITELIST = %w[qtbase qtxmlpatterns qtdeclarative qtwebkit
                             test-build-bin-only].freeze
-
-    # Resolves build dependencies and installs them.
-    class DependencyResolver
-      RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'
-      resolver_env = {}
-      if OS.to_h.include?(:VERSION_ID) && OS::VERSION_ID == '8'
-        resolver_env['APTITUDEOPT'] = '--target-release=jessie-backports'
-      end
-      resolver_env['DEBIAN_FRONTEND'] = 'noninteractive'
-      RESOLVER_ENV = resolver_env.freeze
-
-      def self.resolve(dir, bin_only: false)
-        unless File.executable?(RESOLVER_BIN)
-          raise "Can't find #{RESOLVER_BIN}!"
-        end
-
-        Retry.retry_it(times: 5) do
-          opts = []
-          opts << '--binary-arch' if bin_only
-          opts << '--control' << "#{dir}/debian/control"
-          ret = system(RESOLVER_ENV, RESOLVER_BIN, *opts)
-          raise 'Failed to satisfy depends' unless ret
-        end
-      end
-    end
 
     def initialize
       # Cripple stupid bin calls issued by the dpkg build tooling. In our

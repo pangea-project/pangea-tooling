@@ -60,7 +60,7 @@ module CI
       Object.any_instance.expects(:system).never
 
       File.expects(:executable?)
-          .with(PackageBuilder::DependencyResolver::RESOLVER_BIN)
+          .with(DependencyResolver::RESOLVER_BIN)
           .returns(true)
 
       Object.any_instance
@@ -71,7 +71,7 @@ module CI
                   '--control', "#{Dir.pwd}/debian/control")
             .returns(true)
 
-      PackageBuilder::DependencyResolver.resolve(Dir.pwd, bin_only: true)
+      DependencyResolver.resolve(Dir.pwd, bin_only: true)
     end
 
     def test_build_bin_only
@@ -79,12 +79,12 @@ module CI
 
       Dir.chdir('build') { system('dpkg-buildpackage -S -us -uc') }
 
-      PackageBuilder::DependencyResolver.expects(:resolve)
-                                        .with('build')
-                                        .raises(RuntimeError.new)
-      PackageBuilder::DependencyResolver.expects(:resolve)
-                                        .with('build', bin_only: true)
-                                        .returns(true)
+      DependencyResolver.expects(:resolve)
+                        .with('build')
+                        .raises(RuntimeError.new)
+      DependencyResolver.expects(:resolve)
+                        .with('build', bin_only: true)
+                        .returns(true)
 
       builder = PackageBuilder.new
       builder.build
