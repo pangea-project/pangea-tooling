@@ -5,7 +5,10 @@ gpg --no-default-keyring \
 echo "deb http://archive.neon.kde.org/${NEONARCHIVE} $SUITE main" >> config/archives/neon.list
 echo "deb-src http://archive.neon.kde.org/${NEONARCHIVE} $SUITE main" >> config/archives/neon.list
 
-wget -O $keyfile "http://neon.plasma-mobile.org:8080/Pangea%20CI.gpg.key"
-gpg --no-default-keyring --primary-keyring config/archives/ubuntu-defaults.key --import $keyfile
+gpg --no-default-keyring \
+  --primary-keyring config/archives/ubuntu-defaults.key \
+  --keyserver keyserver.ubuntu.com \
+  --recv-keys 'E47F 5011 FA60 FC1D EBB1  9989 3305 6FA1 4AD3 A421'
+
 echo "deb http://neon.plasma-mobile.org:8080/ $SUITE main" >> config/archives/pm.list
 echo "deb-src http://neon.plasma-mobile.org:8080/ $SUITE main" >> config/archives/pm.list
