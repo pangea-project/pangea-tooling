@@ -3,5 +3,4 @@
 cat << EOF > config/package-lists/ubuntu-defaults.list.chroot_install
 konsole
 plasma-phone
-kwayland-integration-
 EOF
