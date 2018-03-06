@@ -67,7 +67,14 @@ EOF
           # Do not time out if aptly is very busy. This defaults to 1m which
           # may well be too short when the aptly server is busy and/or many
           # pubishes are going on.
-          config.timeout = 5 * 60
+          # Since Aptly 1.2 this is even worse because now lots of
+          # operations use a write lock. Meaning parallel use just about 100 %
+          # of the time results in the read being just as slow as any write
+          # operation.
+          # This is not going to change in any form or fashion until/if
+          # https://github.com/smira/aptly/pull/459 lands.
+          config.timeout = 16 * 60
+          config.write_timeout = 15 * 60
         end
       end
 
