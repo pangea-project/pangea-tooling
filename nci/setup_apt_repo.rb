@@ -32,6 +32,10 @@ Usage: #{opts.program_name} [options]
   opts.on('--no-repo', 'Do not set up a repo (does not require TYPE)') do
     @no_repo = true
   end
+
+  opts.on('--src', 'Also setup src repo') do
+    @with_source = true
+  end
 end.parse!
 
 NCI.setup_proxy!
@@ -39,4 +43,4 @@ NCI.add_repo_key!
 exit if @no_repo
 
 ENV['TYPE'] ||= ARGV.fetch(0) { raise 'Need type as argument or in env.' }
-NCI.setup_repo!
+NCI.setup_repo!(with_source: @with_source)
