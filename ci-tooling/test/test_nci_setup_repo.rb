@@ -86,7 +86,7 @@ class NCISetupRepoTest < TestCase
       File
         .expects(:write)
         .with("/etc/apt/sources.list.d/neon_src_#{series}.list",
-              "deb-src http://archive.neon.kde.org/unstable #{series} main\n")
+              "deb-src http://archive.neon.kde.org/unstable #{series} main\ndeb http://archive.neon.kde.org/unstable #{series} main")
         .returns(5000)
     end
 

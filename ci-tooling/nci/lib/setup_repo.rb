@@ -128,17 +128,27 @@ APT::Default-Release "#{LSB::DISTRIB_CODENAME}";
         #   Error: 'deb-src http://archive.neon.kde.org/unstable xenial main'
         #   invalid
         # obviously.
-        debline =
-          format("deb-src http://archive.neon.kde.org/%<type>s %<dist>s main\n",
-                 type: ENV.fetch('TYPE'), dist: dist)
-        File.write("/etc/apt/sources.list.d/neon_src_#{dist}.list", debline)
+        lines = [debsrcline(dist: dist)]
+        # Also add deb entry -.-
+        # https://bugs.debian.org/892174
+        lines << debline(dist: dist) if dist != LSB::DISTRIB_CODENAME
+        File.write("/etc/apt/sources.list.d/neon_src_#{dist}.list",
+                   lines.join("\n"))
       end
+    end
+
+    def debline(type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
+      format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
+             type: type, dist: dist)
+    end
+
+    def debsrcline(type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
+      format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
+             type: type, dist: dist)
     end
 
     def add_repo!
       add_repo_key!
-      debline = format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
-                       type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
       Retry.retry_it(times: 5, sleep: 4) do
         raise 'adding repo failed' unless Apt::Repository.add(debline)
       end
