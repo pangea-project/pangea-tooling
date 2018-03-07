@@ -12,6 +12,9 @@ neon-settings-pinebook
 libcedrus1
 libreoffice
 libreoffice-gtk3
+libreoffice-gtk-
+libreoffice-gnome-
+libreoffice-kde-
 libvdpau-sunxi1
 user-setup
 kamoso
