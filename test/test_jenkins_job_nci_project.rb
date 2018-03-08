@@ -36,6 +36,10 @@ class JenkinsJobNCIProjectTest < TestCase
   end
 
   def test_nesting
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/frameworks').
+        with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+        to_return(status: 200, body: '["frameworks/attica","frameworks/baloo","frameworks/bluez-qt"]', headers: {'Content-Type'=> 'text/json'})
+
     packaging_scm = CI::SCM.new('git', 'git://yolo.com/example', 'master')
 
     project = mock('project')

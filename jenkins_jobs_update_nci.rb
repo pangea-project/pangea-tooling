@@ -22,6 +22,7 @@
 require_relative 'ci-tooling/lib/nci'
 require_relative 'ci-tooling/lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
+require 'httparty'
 
 Dir.glob(File.expand_path('jenkins-jobs/*.rb', __dir__)).each do |file|
   require file
@@ -59,17 +60,30 @@ EXCLUDE_SNAPS = %w[
   kfind kfloppy kaddressbook konsole krfb ksystemlog
 ].freeze
 
+url = 'https://projects.kde.org/api/v1/projects/kde'
+response = HTTParty.get(url)
+applications = []
+response.parsed_response.each do |project|
+  puts project
+  next if project.split('/').length <= 2
+  repo = project.split('/')[-1]
+  applications << repo unless project.start_with?('kde/workspace')
+end
+
 # Types to use for future series. Others get skipped.
 FUTURE_TYPES = %w[unstable].freeze
 # Skip certain job bits for future series.
 # The bottom part of this list is temporary until qt is staged.
 # _pkg-kde-tools_ is definitely lower version than what is in bionic, unclear
 # if we still need it.
-FUTURE_SKIP = %w[
-  _applications_
+
+applications_jobs = []
+applications.each do |app|
+  applications_jobs << '_kde_app'
+end
+
+FUTURE_SKIP = applications_jobs + %w[
   _kde-extras_
-  _calligra_
-  _krap_
   iso_neon_
   iso_neon-
   img_neon_
@@ -85,15 +99,15 @@ FUTURE_SKIP = %w[
 
 # Opposite of above, allows including part of the jobs within a skip rule
 FUTURE_INCLUDE = %w[
-  _applications_ark
-  _applications_dolphin
-  _applications_gwenview
-  _applications_kdialog
-  _applications_konsole
-  _applications_kate
-  _applications_print-manager
-  _applications_okular
-  _applications_spectacle
+  _kde_ark
+  _kde_dolphin
+  _kde_gwenview
+  _kde_kdialog
+  _kde_konsole
+  _kde_kate
+  _kde_print-manager
+  _kde_okular
+  _kde_spectacle
 ].freeze
 
 # Updates Jenkins Projects

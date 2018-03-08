@@ -18,6 +18,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'httparty'
+
 require_relative '../../ci-tooling/lib/nci'
 require_relative '../sourcer'
 require_relative '../binarier'
@@ -40,8 +42,15 @@ class ProjectJob < JenkinsJob
     # Base builds have no stable thingy but their unstable version is equal
     # to their not unstable version.
     # NB: '' is for pkg-kde-tools which lives in /
-    if (%w[forks frameworks qt] << '').include?(project.component) ||
-       %w[pyqt5].include?(project.name)
+    url = 'https://projects.kde.org/api/v1/projects/frameworks'
+    response = HTTParty.get(url)
+    frameworks = []
+    response.parsed_response.each do |project|
+      frameworks << project.split('/')[-1]
+    end
+
+    if (%w[forks qt] << '').include?(project.component) ||
+       %w[pyqt5].include?(project.name) || frameworks.include?(project.name)
       dependees += project.dependees.collect do |d|
         # Stable is a dependee
         basename(distribution, 'stable', d.component, d.name)
@@ -65,7 +74,8 @@ class ProjectJob < JenkinsJob
                                      dependees: publisher_dependees,
                                      component: project.component,
                                      upload_map: nil,
-                                     architectures: architectures)
+                                     architectures: architectures,
+                                     frameworks: frameworks)
     binariers = architectures.collect do |architecture|
       BinarierJob.new(basename, type: type, distribution: distribution,
                                 architecture: architecture)
