@@ -211,7 +211,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         type_projects[type].each do |project|
           # Fairly akward special casing this. Snaps only build releases right
           # now.
-          if type == 'release' && project.component == 'applications' &&
+          if type == 'release' && applications.include?(project.name) &&
              !EXCLUDE_SNAPS.include?(project.name)
             enqueue(AppSnapJob.new(project.name))
           end
