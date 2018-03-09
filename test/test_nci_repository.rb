@@ -248,7 +248,7 @@ module NCI
         assert_path_exist('fishy') # the clone
         repo.tag_base = 'debian/2'
         Dir.chdir('fishy') do
-          puts `git remote set-url origin git://anongit.neon.kde.org/frameworks/khtml`.strip
+          puts `git remote set-url origin git://anongit.neon.kde.org/kde/khtml`.strip
         end
         repo.send(:mangle_push_path!) # private
         Dir.chdir('fishy') do
@@ -256,7 +256,7 @@ module NCI
           # find the line which defines the push url
           ret = ret.split($/).find { |x| x.strip.downcase.start_with?('push') }
           ret = ret.strip.split(' ')[-1] # url is last space separated part
-          assert_equal('neon@git.neon.kde.org:frameworks/khtml', ret)
+          assert_equal('neon@git.neon.kde.org:kde/khtml', ret)
         end
       end
 
