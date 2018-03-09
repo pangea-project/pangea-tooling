@@ -53,8 +53,3 @@ class KDEProjectsComponent
     end
   end
 end
-
-require 'pp'
-pp KDEProjectsComponent.frameworks
-pp KDEProjectsComponent.plasma
-pp KDEProjectsComponent.applications

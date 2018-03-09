@@ -32,6 +32,7 @@ require_relative 'ci/upstream_scm'
 require_relative 'debian/control'
 require_relative 'debian/source'
 require_relative 'retry'
+require_relative '../../lib/kdeproject_component'
 
 require_relative 'deprecate'
 
@@ -74,6 +75,8 @@ class Project
   attr_reader :name
   # Super component (e.g. plasma)
   attr_reader :component
+  # KDE component (e.g. frameworks, plasma, applications, extragear)
+  attr_reader :kdecomponent
   # Scm instance describing the upstream SCM associated with this project.
   # FIXME: should this really be writable? need this for projects to force
   #        a different scm which is slightly meh
@@ -136,6 +139,15 @@ class Project
     @series_branches = []
     @autopkgtest = false
     @debian = false
+    if KDEProjectsComponent.frameworks.include?(project.name)
+      @kdecomponent = 'frameworks'
+    elsif KDEProjectsComponent.applications.include?(project.name)
+      @kdecomponent = 'applications'
+    elsif KDEProjectsComponent.plasma.include?(project.name)
+      @kdecomponent = 'plasma'
+    else
+      @kdecomponent = 'extragear'
+    end
 
     if component == 'kde-extras_kde-telepathy'
       puts 'stepped into a shit pile --> https://phabricator.kde.org/T4160'

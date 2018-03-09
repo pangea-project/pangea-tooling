@@ -22,6 +22,7 @@
 require_relative 'ci-tooling/lib/nci'
 require_relative 'ci-tooling/lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
+require_relative 'lib/kdeproject_component'
 require 'httparty'
 
 Dir.glob(File.expand_path('jenkins-jobs/*.rb', __dir__)).each do |file|
@@ -60,33 +61,6 @@ EXCLUDE_SNAPS = %w[
   kfind kfloppy kaddressbook konsole krfb ksystemlog
 ].freeze
 
-url = 'https://projects.kde.org/api/v1/projects/kde'
-response = HTTParty.get(url)
-applications = []
-response.parsed_response.each do |project|
-  next if project.split('/').length <= 2
-  repo = project.split('/')[-1]
-  applications << repo unless project.start_with?('kde/workspace')
-end
-APPLICATIONS_LIST = applications.freeze
-
-
-url = 'https://projects.kde.org/api/v1/projects/kde/workspace'
-response = HTTParty.get(url)
-plasma = []
-response.parsed_response.each do |project|
-  plasma << project.split('/')[-1]
-end
-PLASMA_LIST = plasma.freeze
-
-url = 'https://projects.kde.org/api/v1/projects/frameworks'
-response = HTTParty.get(url)
-frameworks = []
-response.parsed_response.each do |project|
-  frameworks << project.split('/')[-1]
-end
-FRAMEWORKS_LIST = frameworks
-
 # Types to use for future series. Others get skipped.
 FUTURE_TYPES = %w[unstable].freeze
 # Skip certain job bits for future series.
@@ -94,10 +68,7 @@ FUTURE_TYPES = %w[unstable].freeze
 # _pkg-kde-tools_ is definitely lower version than what is in bionic, unclear
 # if we still need it.
 
-applications_jobs = []
-applications.each do |app|
-  applications_jobs << "_kde_#{app}"
-end
+applications_jobs = KDEProjectsComponent.applications.collect { "_kde_#{app}" }
 
 FUTURE_SKIP = applications_jobs + %w[
   _kde-extras_
@@ -214,7 +185,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         type_projects[type].each do |project|
           # Fairly akward special casing this. Snaps only build releases right
           # now.
-          if type == 'release' && APPLICATIONS_LIST.include?(project.name) &&
+          if type == 'release' && KDEProjectsComponent.applications.include?(project.name) &&
              !EXCLUDE_SNAPS.include?(project.name)
             enqueue(AppSnapJob.new(project.name))
           end
@@ -239,8 +210,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
           next unless type == 'release'
-          next unless %w[neon-packaging kde-extras].include?(project.component) || FRAMEWORKS_LIST.include?(project.name) ||
-                  APPLICATIONS_LIST.include?(project.name) || PLASMA_LIST.include?(project.name)
+          next unless %w[neon-packaging kde-extras].include?(project.component) || %w[applications frameworks plasma]project.kdecomponent
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
           watchers[watcher.job_name] = watcher
