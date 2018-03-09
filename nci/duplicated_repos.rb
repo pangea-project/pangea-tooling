@@ -32,7 +32,8 @@ module NCI
     # This does strictly assert that the paths defined are the paths we have.
     # Any deviation will result in a test fail as the whitelist must be kept
     # current to prevent false-falsitives.
-    WHITELIST = {}.freeze
+    # whiltelist kde-l10n, as it moved to kde/ from kde-sc after salsa move
+    WHITELIST = {"kde-l10n"=>["kde/kde-l10n", "neon/kde-l10n"]}.freeze
 
     class << self
       attr_writer :whitelist
