@@ -70,6 +70,20 @@ response.parsed_response.each do |project|
   applications << repo unless project.start_with?('kde/workspace')
 end
 
+url = 'https://projects.kde.org/api/v1/projects/kde/workspace'
+response = HTTParty.get(url)
+plasma = []
+response.parsed_response.each do |project|
+  plasma << project.split('/')[-1]
+end
+
+url = 'https://projects.kde.org/api/v1/projects/frameworks'
+response = HTTParty.get(url)
+frameworks = []
+response.parsed_response.each do |project|
+  frameworks << project.split('/')[-1]
+end
+
 # Types to use for future series. Others get skipped.
 FUTURE_TYPES = %w[unstable].freeze
 # Skip certain job bits for future series.
@@ -222,8 +236,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
           next unless type == 'release'
-          next unless %w[neon-packaging calligra frameworks plasma applications
-                         kde-extras kde-std kde-req].include?(project.component)
+          next unless %w[neon-packaging kde-extras].include?(project.component) || frameworks.include?(project.name) ||
+                  applications.include?(project.name) || plasma.include?(project.name)
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
           watchers[watcher.job_name] = watcher
