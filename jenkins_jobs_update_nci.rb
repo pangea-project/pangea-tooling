@@ -64,11 +64,12 @@ url = 'https://projects.kde.org/api/v1/projects/kde'
 response = HTTParty.get(url)
 applications = []
 response.parsed_response.each do |project|
-  puts project
   next if project.split('/').length <= 2
   repo = project.split('/')[-1]
   applications << repo unless project.start_with?('kde/workspace')
 end
+APPLICATIONS_LIST = applications.freeze
+
 
 url = 'https://projects.kde.org/api/v1/projects/kde/workspace'
 response = HTTParty.get(url)
@@ -76,6 +77,7 @@ plasma = []
 response.parsed_response.each do |project|
   plasma << project.split('/')[-1]
 end
+PLASMA_LIST = plasma.freeze
 
 url = 'https://projects.kde.org/api/v1/projects/frameworks'
 response = HTTParty.get(url)
@@ -83,6 +85,7 @@ frameworks = []
 response.parsed_response.each do |project|
   frameworks << project.split('/')[-1]
 end
+FRAMEWORKS_LIST = frameworks
 
 # Types to use for future series. Others get skipped.
 FUTURE_TYPES = %w[unstable].freeze
@@ -211,7 +214,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         type_projects[type].each do |project|
           # Fairly akward special casing this. Snaps only build releases right
           # now.
-          if type == 'release' && applications.include?(project.name) &&
+          if type == 'release' && APPLICATIONS_LIST.include?(project.name) &&
              !EXCLUDE_SNAPS.include?(project.name)
             enqueue(AppSnapJob.new(project.name))
           end
@@ -236,8 +239,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
           next unless type == 'release'
-          next unless %w[neon-packaging kde-extras].include?(project.component) || frameworks.include?(project.name) ||
-                  applications.include?(project.name) || plasma.include?(project.name)
+          next unless %w[neon-packaging kde-extras].include?(project.component) || FRAMEWORKS_LIST.include?(project.name) ||
+                  APPLICATIONS_LIST.include?(project.name) || PLASMA_LIST.include?(project.name)
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
           watchers[watcher.job_name] = watcher
