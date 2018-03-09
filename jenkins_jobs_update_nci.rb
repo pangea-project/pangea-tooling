@@ -79,7 +79,7 @@ FUTURE_TYPES = %w[unstable].freeze
 
 applications_jobs = []
 applications.each do |app|
-  applications_jobs << '_kde_app'
+  applications_jobs << "_kde_#{app}"
 end
 
 FUTURE_SKIP = applications_jobs + %w[
