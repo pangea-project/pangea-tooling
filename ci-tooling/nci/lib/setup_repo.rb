@@ -138,11 +138,13 @@ APT::Default-Release "#{LSB::DISTRIB_CODENAME}";
     end
 
     def debline(type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
+      type = type.gsub('-', '/')
       format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
     end
 
     def debsrcline(type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
+      type = type.gsub('-', '/')
       format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
     end
