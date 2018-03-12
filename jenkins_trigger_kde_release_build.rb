@@ -44,7 +44,7 @@ end.parse!
 
 releases = %w[plasma applications frameworks]
 
-unless releases.include? release
+unless KDEProjectsComponent.respond_to? release
   puts '-r TYPE must be one of plasma, applications, frameworks'
   exit
 end
@@ -57,8 +57,9 @@ end
 packages = KDEProjectsComponent.public_send(release)
 
 job_name_queue = Queue.new
+job_names = Jenkins.job.list_all
 packages.each do |x|
-  job_name_queue << "watcher_release_kde_#{x}"
+  job_name_queue << "watcher_release_kde_#{x}" if job_names.include? "watcher_release_kde_#{x}"
 end
 
 @log.info 'Setting system into maintenance mode.'
@@ -73,10 +74,8 @@ BlockingThreadPool.run do
       @log.info "#{name} | status - #{status} | queued - #{queued}"
       next if Jenkins.client.queue.list.include?(name)
 
-      unless @exclusion_states.include?(Jenkins.job.status(name))
-        @log.warn "  #{name} --> build"
-        Jenkins.job.build(name)
-      end
+      @log.warn "  #{name} --> build"
+      Jenkins.job.build(name)
     end
   end
 end

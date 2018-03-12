@@ -40,6 +40,10 @@ class KDEProjectsComponent
       @plasma ||= to_names(projects('kde/workspace'))
     end
 
+    def respond_to?(release)
+      self.methods.include? release.to_sym
+    end
+
     private
 
     def to_names(projects)
