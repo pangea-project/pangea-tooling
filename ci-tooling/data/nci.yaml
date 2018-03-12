@@ -14,7 +14,7 @@ types:
   - unstable
   - stable
   - release
-  - release/lts
+  - release-lts
   - testing
 
 # This is a list of job_name parts that we want to not have any QA done on.
