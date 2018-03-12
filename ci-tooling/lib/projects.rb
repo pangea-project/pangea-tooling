@@ -146,7 +146,7 @@ class Project
     elsif KDEProjectsComponent.plasma.include?(name)
       @kdecomponent = 'plasma'
     else
-      @kdecomponent = 'extragear'
+      @kdecomponent = 'nil'
     end
 
     if component == 'kde-extras_kde-telepathy'
