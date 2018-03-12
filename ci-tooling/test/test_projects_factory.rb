@@ -41,6 +41,12 @@ class ProjectsFactoryTest < TestCase
     # fake data in this test which would raise in the adjustment as expections
     # would not be met.
     CI::UpstreamSCM.any_instance.stubs(:releaseme_adjust!).returns(true)
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/frameworks').
+        to_return(status: 200, body: '["frameworks/attica","frameworks/baloo","frameworks/bluez-qt"]', headers: {'Content-Type'=> 'text/json'})
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde/workspace').
+        to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: {'Content-Type'=> 'text/json'})
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde').
+        to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: {'Content-Type'=> 'text/json'})
   end
 
   def teardown

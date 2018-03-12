@@ -68,7 +68,7 @@ FUTURE_TYPES = %w[unstable].freeze
 # _pkg-kde-tools_ is definitely lower version than what is in bionic, unclear
 # if we still need it.
 
-applications_jobs = KDEProjectsComponent.applications.collect { "_kde_#{app}" }
+applications_jobs = KDEProjectsComponent.applications.collect { |app| "_kde_#{app}" }
 
 FUTURE_SKIP = applications_jobs + %w[
   _kde-extras_
