@@ -87,6 +87,9 @@ FUTURE_SKIP = applications_jobs + %w[
 
 # Opposite of above, allows including part of the jobs within a skip rule
 FUTURE_INCLUDE = %w[
+  _kde-extras_kdevelop
+  _kde-extras_phonon
+  _kde-extras_sddm
   _kde_ark
   _kde_dolphin
   _kde_gwenview
