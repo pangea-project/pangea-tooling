@@ -25,6 +25,7 @@ require_relative '../lib/projects'
 require_relative 'lib/testcase'
 
 require 'mocha/test_unit'
+require 'webmock/test_unit'
 
 class ProjectTest < TestCase
   def setup
@@ -34,6 +35,13 @@ class ProjectTest < TestCase
     # fake data in this test which would raise in the adjustment as expections
     # would not be met.
     CI::UpstreamSCM.any_instance.stubs(:releaseme_adjust!).returns(true)
+    WebMock.disable_net_connect!(allow_localhost: true)
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/frameworks').
+        to_return(status: 200, body: '["frameworks/attica","frameworks/baloo","frameworks/bluez-qt"]', headers: {'Content-Type'=> 'text/json'})
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde/workspace').
+        to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: {'Content-Type'=> 'text/json'})
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde').
+        to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: {'Content-Type'=> 'text/json'})
   end
 
   def teardown
