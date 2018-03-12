@@ -83,34 +83,6 @@ end
 @log.info 'Setting system into maintenance mode.'
 Jenkins.system.quiet_down
 
-BlockingThreadPool.run do
-  until job_name_queue.empty?
-    name = job_name_queue.pop(true)
-    Retry.retry_it(times: 5) do
-      status = Jenkins.job.status(name)
-      queued = Jenkins.client.queue.list.include?(name)
-      @log.info "#{name} | status - #{status} | queued - #{queued}"
-      next if Jenkins.client.queue.list.include?(name)
-
-      if strict_mode
-        skip = true
-        downstreams = Jenkins.job.get_downstream_projects(name)
-        downstreams << Jenkins.job.list_details(name.gsub(/_src/, '_pub'))
-        downstreams.each do |downstream|
-          downstream_status = Jenkins.job.status(downstream['name'])
-          next if %w[success unstable running].include?(downstream_status)
-          skip = false
-        end
-        @log.info "Skipping #{name}" if skip
-        next if skip
-      end
-
-      unless @exclusion_states.include?(Jenkins.job.status(name))
-        @log.warn "  #{name} --> build"
-        Jenkins.job.build(name)
-      end
-    end
-  end
-end
+Jenkins.retry(job_name_queue, @exclusion_states, strict_mode)
 
 @log.unknown "The CI is now in maintenance mode. Don't forget to unpause it!"

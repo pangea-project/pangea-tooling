@@ -27,6 +27,7 @@ require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/retry'
 require_relative 'ci-tooling/lib/thread_pool'
 require_relative 'lib/kdeproject_component'
+require_relative 'lib/jenkins/retry'
 
 release = nil
 
@@ -65,19 +66,6 @@ end
 @log.info 'Setting system into maintenance mode.'
 Jenkins.system.quiet_down
 
-BlockingThreadPool.run do
-  until job_name_queue.empty?
-    name = job_name_queue.pop(true)
-    Retry.retry_it(times: 5) do
-      status = Jenkins.job.status(name)
-      queued = Jenkins.client.queue.list.include?(name)
-      @log.info "#{name} | status - #{status} | queued - #{queued}"
-      next if Jenkins.client.queue.list.include?(name)
-
-      @log.warn "  #{name} --> build"
-      Jenkins.job.build(name)
-    end
-  end
-end
+Jenkins.retry(job_name_queue, exclusion_states, strict_mode)
 
 @log.unknown "The CI is now in maintenance mode. Don't forget to unpause it!"
