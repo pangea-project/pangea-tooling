@@ -54,11 +54,11 @@ end
   l.level = Logger::INFO
 end
 
-packages = KDEProjectsComponent.public_send(release)
+projects = KDEProjectsComponent.public_send(release)
 
 job_name_queue = Queue.new
 job_names = Jenkins.job.list_all
-packages.each do |x|
+projects.each do |x|
   job_name_queue << "watcher_release_kde_#{x}" if job_names.include? "watcher_release_kde_#{x}"
 end
 
