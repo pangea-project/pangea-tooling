@@ -131,14 +131,17 @@ module CI
 
       def initialize(directory_with_tars)
         @dir = directory_with_tars
+        warn "Hallo this is the tar finder. Running on #{@dir}"
       end
 
       def find_and_delete
         tars = all_tars_by_version.sort.to_h.values
+        warn "I've found the following tars: #{tars}"
         # Automatically ditch all but the newest tarball. This prevents
         # preserved workspaces from getting littered with old tars.
         # Our version sorting logic prevents us from tripping over them though.
         tars[0..-2].each { |path| FileUtils.rm(path, verbose: true) }
+        warn "The following tar is considered golden: #{tars[0]}"
         tars.pop
       end
 
@@ -175,6 +178,8 @@ module CI
         log = Changelog.new(pkgdir)
         @name = log.name
         @version = log.version(Changelog::BASE | Changelog::BASESUFFIX)
+        warn 'Hola! This is the friendly AptSourcer from around the corner!'
+        warn "I'll be sourcing #{@name} at #{@version} today."
       end
 
       def find_for(series:)
@@ -191,10 +196,16 @@ module CI
       private
 
       def find_tar
+        warn 'Telling TarFinder to go have a looksy.'
         tar = TarFinder.new(destdir).find_and_delete
-        return nil unless tar
+        unless tar
+          warn 'no tar'
+          return nil
+        end
+        warn "Hooray, there's a tarball!"
         tarball = CI::Tarball.new(tar)
         return tarball if tarball.version == version
+        warn "No goody version #{tarball.version}"
         nil
       end
     end
