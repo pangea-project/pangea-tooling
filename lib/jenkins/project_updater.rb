@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2014-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2014-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'etc'
 require 'fileutils'
 require 'jenkins_junit_builder'
 require 'logger'
@@ -214,8 +215,37 @@ Check the detailed output to find output relating to the failed creation of the 
       obj
     end
 
+    def proc_is_jenkins?(pid)
+      return false if pid =~ /\D/
+      cmdline = IO.read("/proc/#{pid}/cmdline").split("\000")
+      jenkins = cmdline.any? { |x| x.include?('java') }
+      jenkins &= cmdline.any? { |x| x.include?('jenkins.war') }
+      jenkins
+    rescue
+      false
+    end
+
+    def system_runs_jenkins?
+      Dir.foreach('/proc') do |file|
+        return true if proc_is_jenkins?(file)
+      end
+      false
+    end
+
+    def thread_count
+      # When running on the same machine as jenkins use only half the cores to
+      # avoid overloading the machine (it would have to at least issue all
+      # request and handle them, so ultimately just that would theoretically
+      # fill up all cores). While doing updates it also needs to go about its
+      # regular business, so being less aggressive is called for here. Also,
+      # for remote updates the network IO bottlenecks the strongest, when run
+      # on the jenkins host that is not the case so high concurrency doesn't
+      # necessarily increase performance as we'd bottleneck on jenkins itself.
+      system_runs_jenkins? ? Etc.nprocessors / 2 : Etc.nprocessors * 2
+    end
+
     def run_queue
-      BlockingThreadPool.run do
+      BlockingThreadPool.run([1, thread_count].max) do
         until @job_queue.empty?
           job = @job_queue.pop(true)
           job.update(log: log)
