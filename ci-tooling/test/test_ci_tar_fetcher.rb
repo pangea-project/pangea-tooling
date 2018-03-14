@@ -232,14 +232,11 @@ module CI
         .expects(:run!)
         .with('apt-get', 'source', '--download-only', '-t', 'vivid', 'dragon',
               chdir: 'source') do |*args|
-                system 'tree source'
                 Dir.chdir('source') do
                   File.write('dragon_15.08.1.orig.tar.xz', '')
                   File.write('dragon_15.08.1-4:15.08.1-0ubuntu1.dsc', '')
                   File.write('dragon_15.08.1-4:15.08.1-0ubuntu1.debian.tar.xz', '')
                 end
-
-                  system 'tree source'
 
                 args == ['apt-get', 'source', '--download-only', '-t', 'vivid',
                          'dragon', chdir: 'source']
