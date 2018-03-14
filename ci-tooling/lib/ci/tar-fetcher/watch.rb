@@ -90,19 +90,25 @@ module CI
                 'download.kde.internal.neon.kde.org:9191/stable/')
     end
 
+    def changelog
+      @changelog ||= begin
+        file = "#{@dir}/debian/changelog"
+        raise "changelog not found at #{file}" unless File.exist?(file)
+        Changelog.new(file)
+      end
+    end
+
     def current_version
       # uscan has a --download-current-version option this does however fail
       # to work for watch files with multiple entries as the version is cleared
       # inbetween loop runs so the second,thrid... runs will have no version set
       # and fail to resolve. To bypass this we'll pass the version explicilty
       # via --download-debversion which persists across loops.
-      file = "#{@dir}/debian/changelog"
-      raise "changelog not found at #{file}" unless File.exist?(file)
-      Changelog.new(file).version(Changelog::ALL)
+      changelog.version(Changelog::ALL)
     end
 
     def apt_source(destdir)
-      apt_sourcer = AptSourcer.new(pkgdir: @dir, destdir: destdir)
+      apt_sourcer = AptSourcer.new(changelog: changelog, destdir: destdir)
       @series.each do |series|
         tar = apt_sourcer.find_for(series: series)
         next unless tar
@@ -173,13 +179,12 @@ module CI
       attr_reader :version
 
       # Dir is actually the parent dir of the debian/ dir.
-      def initialize(pkgdir:, destdir:)
+      def initialize(changelog:, destdir:)
         @destdir = destdir
-        log = Changelog.new(pkgdir)
-        @name = log.name
-        @version = log.version(Changelog::BASE | Changelog::BASESUFFIX)
+        @name = changelog.name
         warn 'Hola! This is the friendly AptSourcer from around the corner!'
         warn "I'll be sourcing #{@name} at #{@version} today."
+        @version = changelog.version(Changelog::BASE | Changelog::BASESUFFIX)
       end
 
       def find_for(series:)
