@@ -23,6 +23,7 @@
 require 'fileutils'
 require 'net/sftp'
 require 'net/ssh'
+require 'tty-command'
 
 DIST = ENV.fetch('DIST')
 TYPE = ENV.fetch('TYPE')
