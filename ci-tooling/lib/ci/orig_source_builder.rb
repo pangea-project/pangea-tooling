@@ -43,7 +43,7 @@ module CI
     end
 
     def build(tarball)
-      FileUtils.cp(tarball.path, @builddir)
+      FileUtils.cp(tarball.path, @builddir, verbose: true)
       tarball.extract(@sourcepath)
 
       args = [] << 'debian' if @restricted_packaging_copy
