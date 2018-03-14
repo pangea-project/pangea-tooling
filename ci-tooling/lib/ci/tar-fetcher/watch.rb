@@ -112,7 +112,7 @@ module CI
       @series.each do |series|
         tar = apt_sourcer.find_for(series: series)
         next unless tar
-        warn "Found a suitable tarball: #{tar.basename}. Not uscanning..."
+        puts "Found a suitable tarball: #{tar.basename}. Not uscanning..."
         @have_source = true
         break
       end
@@ -137,17 +137,18 @@ module CI
 
       def initialize(directory_with_tars)
         @dir = directory_with_tars
-        warn "Hallo this is the tar finder. Running on #{@dir}"
+        puts "Hallo this is the tar finder. Running on #{@dir}"
       end
 
       def find_and_delete
+        puts all_tars_by_version
         tars = all_tars_by_version.sort.to_h.values
-        warn "I've found the following tars: #{tars}"
+        puts "I've found the following tars: #{tars}"
         # Automatically ditch all but the newest tarball. This prevents
         # preserved workspaces from getting littered with old tars.
         # Our version sorting logic prevents us from tripping over them though.
         tars[0..-2].each { |path| FileUtils.rm(path, verbose: true) }
-        warn "The following tar is considered golden: #{tars[0]}"
+        puts "The following tar is considered golden: #{tars[-1]}"
         tars.pop
       end
 
@@ -182,9 +183,9 @@ module CI
       def initialize(changelog:, destdir:)
         @destdir = destdir
         @name = changelog.name
-        warn 'Hola! This is the friendly AptSourcer from around the corner!'
-        warn "I'll be sourcing #{@name} at #{@version} today."
         @version = changelog.version(Changelog::BASE | Changelog::BASESUFFIX)
+        puts 'Hola! This is the friendly AptSourcer from around the corner!'
+        puts "I'll be sourcing #{@name} at #{@version} today."
       end
 
       def find_for(series:)
@@ -201,16 +202,16 @@ module CI
       private
 
       def find_tar
-        warn 'Telling TarFinder to go have a looksy.'
+        puts 'Telling TarFinder to go have a looksy.'
         tar = TarFinder.new(destdir).find_and_delete
         unless tar
-          warn 'no tar'
+          puts 'no tar'
           return nil
         end
-        warn "Hooray, there's a tarball!"
+        puts "Hooray, there's a tarball!"
         tarball = CI::Tarball.new(tar)
         return tarball if tarball.version == version
-        warn "No goody version #{tarball.version}"
+        puts "No goody version #{tarball.version}"
         nil
       end
     end
