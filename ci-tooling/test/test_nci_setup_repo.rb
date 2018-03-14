@@ -45,6 +45,8 @@ class NCISetupRepoTest < TestCase
     WebMock.disable_net_connect!
 
     NCI.reset_setup_repo
+    FileUtils.cp(File.join(datadir, 'sources.list'), '.')
+    NCI.default_sources_file = File.join(Dir.pwd, 'sources.list')
 
     ENV['TYPE'] = 'unstable'
   end
@@ -89,6 +91,10 @@ class NCISetupRepoTest < TestCase
               "deb-src http://archive.neon.kde.org/unstable #{series} main\ndeb http://archive.neon.kde.org/unstable #{series} main")
         .returns(5000)
     end
+    # Also disables deb-src in the main sources.list
+    File
+      .expects(:write)
+      .with("#{Dir.pwd}/sources.list", "deb xxx\n# deb-src yyy")
 
     system_calls += [
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],

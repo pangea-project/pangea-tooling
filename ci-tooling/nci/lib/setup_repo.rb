@@ -35,8 +35,17 @@ module NCI
 
   module_function
 
+  def default_sources_file=(file)
+    @default_sources_file = file
+  end
+
+  def default_sources_file
+    @default_sources_file ||= '/etc/apt/sources.list'
+  end
+
   def reset_setup_repo
     @repo_added = nil
+    @default_sources_file = nil
   end
 
   def add_repo_key!
@@ -135,6 +144,17 @@ APT::Default-Release "#{LSB::DISTRIB_CODENAME}";
         File.write("/etc/apt/sources.list.d/neon_src_#{dist}.list",
                    lines.join("\n"))
       end
+      disable_all_src
+    end
+
+    def disable_all_src
+      data = File.read(default_sources_file)
+      lines = data.split("\n")
+      lines.collect! do |line|
+        next line unless line.strip.start_with?('deb-src')
+        "# #{line}"
+      end
+      File.write(default_sources_file, lines.join("\n"))
     end
 
     def debline(type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
