@@ -37,7 +37,7 @@ REMOTE_DIR = "public_html/images/pinebook-remix/"
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 puts "GPG signing disk image file"
-unless system('gpg2', '--no-use-agent', '--armor', '--detach-sign', '-o',
+unless system('gpg', '--no-use-agent', '--armor', '--detach-sign', '-o',
               "#{IMGNAME}.img.gz.sig",
               "#{IMGNAME}.img")
   raise 'Failed to sign'
