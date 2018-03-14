@@ -214,6 +214,46 @@ module CI
       end
     end
 
+    def test_watch_tar_finder_with_lingering_tar_of_higher_version
+      require_binaries(%w[uscan])
+
+      # In a see of incorrect tarballs we always want to find the right one!
+      # Previously we used a fairly daft approach for this which often located
+      # the wrong file.
+
+      FileUtils.mkdir('source')
+      FileUtils.touch('source/dragon_16.08.1+dfsg.orig.tar.xz')
+      FileUtils.touch('source/dragon_17.orig.tar.xz')
+      FileUtils.touch('source/dragon_17.tar.xz')
+      FileUtils.touch('source/meow_17.tar.xz')
+
+      TTY::Command
+        .any_instance
+        .expects(:run!)
+        .with('apt-get', 'source', '--download-only', '-t', 'vivid', 'dragon',
+              chdir: 'source') do |*args|
+                system 'tree source'
+                Dir.chdir('source') do
+                  File.write('dragon_15.08.1.orig.tar.xz', '')
+                  File.write('dragon_15.08.1-4:15.08.1-0ubuntu1.dsc', '')
+                  File.write('dragon_15.08.1-4:15.08.1-0ubuntu1.debian.tar.xz', '')
+                end
+
+                  system 'tree source'
+
+                args == ['apt-get', 'source', '--download-only', '-t', 'vivid',
+                         'dragon', chdir: 'source']
+              end
+        .returns(nil)
+
+      Test.http_serve(data('http'), port: SERVER_PORT) do
+        f = WatchTarFetcher.new(data('debian/watch'), series: ['vivid'])
+        tarball = f.fetch('source')
+
+        assert_equal("#{Dir.pwd}/source/dragon_15.08.1.orig.tar.xz", tarball.path)
+      end
+    end
+
     def test_url_fetch_twice
       VCR.turned_off do
         stub_request(:get, 'http://troll/dragon-15.08.1.tar.xz')

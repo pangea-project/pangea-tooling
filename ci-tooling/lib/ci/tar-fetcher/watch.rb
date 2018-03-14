@@ -52,7 +52,8 @@ module CI
         make_dir(destdir)
         apt_source(destdir)
         uscan(@dir, destdir) unless @have_source
-        tar = TarFinder.new(destdir).find_and_delete
+        tar = TarFinder.new(destdir,
+                            version: current_upstream_version).find_and_delete
         return tar unless tar # can be nil from pop
         Tarball.new("#{destdir}/#{File.basename(tar)}")
       end
@@ -98,6 +99,10 @@ module CI
       end
     end
 
+    def current_upstream_version
+      changelog.version(Changelog::BASE | Changelog::BASESUFFIX)
+    end
+
     def current_version
       # uscan has a --download-current-version option this does however fail
       # to work for watch files with multiple entries as the version is cleared
@@ -135,24 +140,42 @@ module CI
     class TarFinder
       attr_reader :dir
 
-      def initialize(directory_with_tars)
+      def initialize(directory_with_tars, version:)
+        # NB: ideally this should also restrict on the name, for legacy compat
+        #   reasons this currently is not the case but should be changed
+        #   to accept a changelog here and then derive name and version from
+        #   that and then disqualify tarballs with a bad name (otherwise
+        #   might screw the finder up)
         @dir = directory_with_tars
+        @version = version
         puts "Hallo this is the tar finder. Running on #{@dir}"
       end
 
       def find_and_delete
-        puts all_tars_by_version
-        tars = all_tars_by_version.sort.to_h.values
-        puts "I've found the following tars: #{tars}"
+        puts "I've found the following tars: #{all_tars_by_version}"
+        return nil unless tar
+        puts "The following tar is considered golden: #{tar}"
         # Automatically ditch all but the newest tarball. This prevents
         # preserved workspaces from getting littered with old tars.
         # Our version sorting logic prevents us from tripping over them though.
-        tars[0..-2].each { |path| FileUtils.rm(path, verbose: true) }
-        puts "The following tar is considered golden: #{tars[-1]}"
-        tars.pop
+        unsuitable_tars.each { |path| FileUtils.rm(path, verbose: true) }
+        tar
       end
 
       private
+
+      def tar
+        tars = all_tars_by_version.find_all do |version, _tar|
+          version.upstream == @version
+        end.to_h.values
+        raise "Too many tars: #{tars}" if tars.size > 1
+        return nil if tars.empty?
+        tars[0]
+      end
+
+      def unsuitable_tars
+        all_tars.reject { |x| x == tar }
+      end
 
       def all_tars
         Dir.glob("#{dir}/*.orig.tar*").reject do |x|
@@ -203,16 +226,13 @@ module CI
 
       def find_tar
         puts 'Telling TarFinder to go have a looksy.'
-        tar = TarFinder.new(destdir).find_and_delete
+        tar = TarFinder.new(destdir, version: version).find_and_delete
         unless tar
           puts 'no tar'
           return nil
         end
-        puts "Hooray, there's a tarball!"
-        tarball = CI::Tarball.new(tar)
-        return tarball if tarball.version == version
-        puts "No goody version #{tarball.version}"
-        nil
+        puts "Hooray, there's a tarball #{tar}!"
+        CI::Tarball.new(tar)
       end
     end
     private_constant :AptSourcer
