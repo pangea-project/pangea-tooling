@@ -234,8 +234,8 @@ EOF
         /usr/share/locale/locale.alias
       ]
     }
-    path[:excludes].each { |e| file.write("path-exclude=#{e}") }
-    path[:includes].each { |i| file.write("path-include=#{i}") }
+    path[:excludes].each { |e| file.puts("path-exclude=#{e}") }
+    path[:includes].each { |i| file.puts("path-include=#{i}") }
     path[:rxcludes].each do |ruby_exclude|
       Dir.glob(ruby_exclude).each do |match|
         next if path[:includes].any? { |i| File.fnmatch(i, match) }
