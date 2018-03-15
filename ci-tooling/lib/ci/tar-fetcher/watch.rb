@@ -140,8 +140,7 @@ module CI
     end
 
     def guard_unwanted_repacks
-      wants_repack = File.read(@watchfile).include?('repack')
-      return unless wants_repack
+      return unless File.read(@watchfile).include?('repack')
       return unless %w[ubuntu neon].any? { |x| LSB::DISTRIB_ID == x }
       return if LSB::DISTRIB_CODENAME == NCI.current_series
       raise RepackOnNotCurrentSeries, <<~ERROR
