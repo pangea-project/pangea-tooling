@@ -240,7 +240,12 @@ EOF
       Dir.glob(ruby_exclude).each do |match|
         next if path[:includes].any? { |i| File.fnmatch(i, match) }
         next unless File.exist?(match)
-        FileUtils.rm_rf(match)
+        # Do not delete directories, it can screw up postinst assumptions.
+        # For example openjdk8 will attempt to symlink to share/man/man1/ which
+        # is not properly guarded, so it would fail postinst if the dir was
+        # removed.
+        next if File.directory?(match)
+        FileUtils.rm_f(match, verbose: true)
       end
     end
   end
