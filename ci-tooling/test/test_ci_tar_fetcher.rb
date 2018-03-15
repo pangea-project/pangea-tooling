@@ -38,6 +38,14 @@ module CI
           match_requests_on: %i[method uri body]
         }
       end
+
+      LSB.instance_variable_set(:@hash,
+                                DISTRIB_CODENAME: NCI.current_series,
+                                DISTRIB_ID: 'ubuntu')
+    end
+
+    def teardown
+      LSB.reset
     end
 
     def test_fetch
@@ -248,6 +256,20 @@ module CI
         tarball = f.fetch('source')
 
         assert_equal("#{Dir.pwd}/source/dragon_15.08.1.orig.tar.xz", tarball.path)
+      end
+    end
+
+    def test_watch_fetch_repack
+      require_binaries(%w[uscan])
+
+      LSB.instance_variable_set(:@hash,
+                                DISTRIB_CODENAME: NCI.current_series + '1',
+                                DISTRIB_ID: 'ubuntu')
+
+      # Not passing any series in and expecting a failure as we'd repack
+      # on a series that isn't NCI.current_series
+      assert_raises CI::WatchTarFetcher::RepackOnNotCurrentSeries do
+        WatchTarFetcher.new(data('debian/watch')).fetch('source')
       end
     end
 
