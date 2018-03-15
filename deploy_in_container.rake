@@ -213,17 +213,19 @@ EOF
     # Do not install locales other than en/en_US.
     # Do not install manpages, infopages, groffpages.
     # Do not install docs.
+    # NB: manpage first level items are kept via dpkg as it'd break openjdk8
+    #   when the man1/ subdir is missing.
     path = {
       rxcludes: %w[
         /usr/share/locale/**/**
-        /usr/share/man/**/**
+        /usr/share/man/*/**
         /usr/share/info/**/**
         /usr/share/groff/**/**
         /usr/share/doc/**/**
       ],
       excludes: %w[
         /usr/share/locale/*
-        /usr/share/man/*
+        /usr/share/man/*/*
         /usr/share/info/*
         /usr/share/groff/*
         /usr/share/doc/*
@@ -236,6 +238,15 @@ EOF
     }
     path[:excludes].each { |e| file.puts("path-exclude=#{e}") }
     path[:includes].each { |i| file.puts("path-include=#{i}") }
+    # TODO: remove temporary reinstall
+    #   we reinstall man-db to make sure the first level dirs are there, lest
+    #   openjdk8 fails to symlink there. this is only a temporary measure as
+    #   the cleanup logic below previously was too aggressive and deleted
+    #   dirs.
+    #   this can be dropped after end of march 2018.
+    #   we do not care about the return value as this is only a stopgap measure
+    #   to bring back essential dirs.
+    system('apt install --reinstall -y man-db')
     path[:rxcludes].each do |ruby_exclude|
       Dir.glob(ruby_exclude).each do |match|
         next if path[:includes].any? { |i| File.fnmatch(i, match) }
