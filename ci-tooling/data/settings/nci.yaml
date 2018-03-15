@@ -6,6 +6,10 @@
 
 # Others
 
+'*_neon-packaging_{babe}_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_neon-packaging_{falkon}_*':
   sourcer:
     restricted_packaging_copy: true
