@@ -81,12 +81,21 @@ module Lint
         return true if line =~ /N: \d+ tags overridden \(.*\)/
       end
 
-      def exclude?(line)
-        return true if static_exclude?(line)
-        exclusion.each do |e|
-          next unless line.include?(e)
-          return true
+      def exclusion_excluse?(line)
+        exclusion.any? do |e|
+          next line.include?(e) if e.is_a?(String)
+          next line =~ e if e.is_a?(Regexp)
+          false
         end
+      end
+
+      def exclude?(line)
+        # Always exclude certain things.
+        return true if static_exclude?(line)
+        # Main exclusion list, may be slightly different based on ENV[TYPE]
+        return true if exclusion_excluse?(line)
+        # Linter based ignore system per-source. Ought not be used anywhere
+        # as I don't think we load anything ever.
         @ignores.each do |i|
           next unless i.match?(line)
           return true
