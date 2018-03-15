@@ -43,7 +43,13 @@ module Lint
         # the new warning has a different ID and gets raised on 18.04+.
         'transitional-package-should-be-oldlibs-extra',
         # Same as transitional above.
-        'debug-package-should-be-priority-extra'
+        'debug-package-should-be-priority-extra',
+
+        # libkdeinit5 never needs ldconfig triggers actually
+        #   16.04
+        %r{E: (\w+): postinst-must-call-ldconfig (.+)/libkdeinit5_(.+).so},
+        #   18.04
+        %r{E: (\w+): package-must-activate-ldconfig-trigger (.+)/libkdeinit5_(.+).so}
       ].freeze
 
       def lint(data)
