@@ -64,6 +64,20 @@ export NEONARCHIVE=<%= neonarchive %>
       <cleanupParameter></cleanupParameter>
       <externalDelete></externalDelete>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
+    <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@1.15">
+      <bindings>
+        <org.jenkinsci.plugins.credentialsbinding.impl.SSHUserPrivateKeyBinding>
+          <credentialsId>ssh.jobs.archive.neon</credentialsId>
+          <keyFileVariable>SSH_KEY_FILE</keyFileVariable>
+          <usernameVariable/>
+          <passphraseVariable/>
+        </org.jenkinsci.plugins.credentialsbinding.impl.SSHUserPrivateKeyBinding>
+        <org.jenkinsci.plugins.credentialsbinding.impl.ZipFileBinding>
+          <credentialsId>gpg.iso.zip</credentialsId>
+          <variable>GNUPGHOME</variable>
+        </org.jenkinsci.plugins.credentialsbinding.impl.ZipFileBinding>
+      </bindings>
+    </org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.2">
       <colorMapName>xterm</colorMapName>
