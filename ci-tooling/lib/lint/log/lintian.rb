@@ -30,6 +30,7 @@ module Lint
         # it.
         'dep5-copyright-license-name-not-unique',
         'missing-license-paragraph-in-dep5-copyright',
+        'global-files-wildcard-not-first-paragraph-in-dep5-copyright',
         # TODO: check if we still need or want these
         # next if line.include?('not-binnmuable-any-depends-all')
         # Lintian is made for stupid people.
