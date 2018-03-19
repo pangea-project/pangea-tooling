@@ -65,7 +65,7 @@ class ProjectJob < JenkinsJob
                                      component: project.component,
                                      upload_map: nil,
                                      architectures: architectures,
-                                     frameworks: frameworks)
+                                     kdecomponent: project.kdecomponent)
     binariers = architectures.collect do |architecture|
       BinarierJob.new(basename, type: type, distribution: distribution,
                                 architecture: architecture)

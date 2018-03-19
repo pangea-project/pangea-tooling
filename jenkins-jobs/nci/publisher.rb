@@ -22,12 +22,11 @@ require_relative '../publisher'
 
 # Neon extension to publisher
 class NeonPublisherJob < PublisherJob
-  attr_reader :frameworks
+  attr_reader :kdecomponent
 
   def initialize(basename, type:, distribution:, dependees:,
-                 component:, upload_map:, architectures:, frameworks:)
+                 component:, upload_map:, architectures:, kdecomponent:)
     super(basename, type: type, distribution: distribution, dependees: dependees, component: component, upload_map: upload_map, architectures: architectures)
-    @frameworks = frameworks
   end
 
   # When chain-publishing lock all aptly resources. Chain publishing can
@@ -60,7 +59,7 @@ class NeonPublisherJob < PublisherJob
   private
 
   def push_to_stable?
-    frameworks.any? { |x| basename.include?(x) }
+    kdecomponent == 'frameworks' ||
       %w[pkg-kde-tools phonon].any? { |x| basename.include?(x) }
   end
 
