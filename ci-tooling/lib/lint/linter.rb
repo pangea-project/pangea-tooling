@@ -32,8 +32,7 @@ module Lint
 
     private
 
-    def load_static_ignores
-    end
+    def load_static_ignores; end
 
     # It's YAML, load it as such.
     def load_include_ignores_yaml(data)
