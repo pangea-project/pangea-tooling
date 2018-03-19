@@ -45,6 +45,9 @@ module Lint
         'transitional-package-should-be-oldlibs-extra',
         # Same as transitional above.
         'debug-package-should-be-priority-extra',
+        # We entirely do not care about random debian transitions but defer
+        # to KDE developer's judgment.
+        'script-uses-deprecated-nodejs-location',
 
         # libkdeinit5 never needs ldconfig triggers actually
         #   16.04
