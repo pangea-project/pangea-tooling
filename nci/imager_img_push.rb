@@ -114,13 +114,14 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
   # delete old directories
   img_directories = sftp.dir.glob(REMOTE_DIR, '*').collect(&:name)
   img_directories.delete('current') # keep current symlink
-  img_directories = img_directories.sort.pop(4) # keep the latest four builds
+  img_directories.sort
+  img_directories.pop(4) # keep the latest four builds
   img_directories.each do |name|
     path = "#{REMOTE_DIR}/#{name}"
     STDERR.puts "rm #{path}"
     # Not deleting stuff as this is broken and kills current build itself
-    #sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
-    #sftp.rmdir!(path)
+    sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
+    sftp.rmdir!(path)
   end
 end
 
