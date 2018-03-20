@@ -1,15 +1,17 @@
 . /etc/os-release
 
+GPG="gpg"
 ARGS=""
 if [ "$VERSION_CODENAME" = "bionic" ]; then
   ls -lah /root
   ls -lah /
-  apt install -y dirmngr
+  apt install -y dirmngr gnupg1
   ARGS="--batch --verbose"
+  GPG="gpg1"
 fi
 
-gpg --list-keys
-gpg \
+$GPG --list-keys
+$GPG \
   $ARGS \
   --no-default-keyring \
   --primary-keyring config/archives/ubuntu-defaults.key \
