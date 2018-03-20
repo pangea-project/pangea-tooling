@@ -50,6 +50,10 @@ ls -lah
 
 cd $WD/build
 
+sed -i \
+    's%SEEDMIRROR=http://embra.edinburghlinux.co.uk/~jr/neon-seeds/seeds/%SEEDMIRROR=https://metadata.neon.kde.org/germinate/seeds%g' \
+    /usr/share/livecd-rootfs/live-build/auto/config
+
 _DATE=$(date +%Y%m%d)
 _TIME=$(date +%H%M)
 DATETIME="${_DATE}-${_TIME}"
