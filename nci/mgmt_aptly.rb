@@ -47,7 +47,7 @@ NCI.series.each_key do |series|
     PublishingRepo.new("release_#{series}", 'release') =>
       repo(label_type: 'User Edition', series: series),
     PublishingRepo.new("release-lts_#{series}", 'release_lts') =>
-      repo(label_type: 'User Edition (LTS)', series: series)
+      repo(label_type: 'User Edition (LTS)', series: series),
     PublishingRepo.new("testing_#{series}", 'testing') =>
       repo(label_type: 'User Edition (LTS)', series: series)
   )
