@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -17,6 +17,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
 require_relative '../../ci-tooling/lib/nci'
 require_relative '../sourcer'
 require_relative '../binarier'
@@ -84,7 +85,8 @@ class ProjectJob < JenkinsJob
       jobs << [lintqml, lintcmake]
     end
 
-    jobs << new(basename, project: project, jobs: jobs, dependees: dependees)
+    jobs << new(basename, distribution: distribution, project: project,
+                          jobs: jobs, dependees: dependees)
     # The actual jobs array cannot be nested, so flatten it out.
     jobs.flatten
   end
@@ -108,7 +110,7 @@ class ProjectJob < JenkinsJob
 
   private
 
-  def initialize(basename, project:, jobs:, dependees: [])
+  def initialize(basename, distribution:, project:, jobs:, dependees: [])
     super(basename, 'project.xml.erb')
 
     # We use nested jobs for phases with multiple jobs, we need to aggregate
@@ -118,6 +120,7 @@ class ProjectJob < JenkinsJob
       job.job_name
     end
 
+    @distribution = distribution.freeze
     @nested_jobs = job_names.freeze
     @jobs = job_names.flatten.freeze
     @dependees = dependees.freeze
@@ -134,7 +137,8 @@ class ProjectJob < JenkinsJob
   end
 
   def render_packaging_scm
-    PackagingSCMTemplate.new(scm: @project.packaging_scm).render_template
+    scm = @project.packaging_scm_for(series: @distribution)
+    PackagingSCMTemplate.new(scm: scm).render_template
   end
 
   def render_upstream_scm

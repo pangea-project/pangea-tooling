@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2014-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2014-2018 Harald Sitter <sitter@kde.org>
 # Copyright (C) 2014-2016 Rohan Garg <rohan@garg.io>
 # Copyright (C) 2015 Jonathan Riddell <jr@jriddell.org>
 # Copyright (C) 2015 Bhushan Shah <bshah@kde.org>
@@ -176,6 +176,18 @@ class Project
     end
 
     upstream_scm&.releaseme_adjust!(origin)
+  end
+
+  def packaging_scm_for(series:)
+    # TODO: it'd be better if this was somehow tied into the SCM object itself.
+    #   Notably the SCM could ls-remote and build a list of all branches on
+    #   remote programatically. Then we carry that info in the SCM, not the
+    #   project.
+    #   Doesn't really impact the code here though. The SCM ought to still be
+    #   unaware of the code branching.
+    branch = series_branches.find { |b| b.split('_')[-1] == series }
+    return packaging_scm unless branch
+    CI::SCM.new(packaging_scm.type, packaging_scm.url, branch)
   end
 
   private
