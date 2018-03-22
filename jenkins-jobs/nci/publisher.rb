@@ -27,6 +27,7 @@ class NeonPublisherJob < PublisherJob
   def initialize(basename, type:, distribution:, dependees:,
                  component:, upload_map:, architectures:, kdecomponent:)
     super(basename, type: type, distribution: distribution, dependees: dependees, component: component, upload_map: upload_map, architectures: architectures)
+    @kdecomponent = kdecomponent
   end
 
   # When chain-publishing lock all aptly resources. Chain publishing can
