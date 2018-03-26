@@ -41,6 +41,7 @@ gem 'ci_reporter_minitest'
 gem 'test-unit', '~> 3.0'
 gem 'minitest'
 
+group :development, :test do
   gem 'droplet_kit'
   gem 'equivalent-xml'
   gem 'mocha'
@@ -54,3 +55,4 @@ gem 'minitest'
   gem 'terminal-table'
   gem 'vcr', '>= 3.0.1'
   gem 'webmock'
+end
