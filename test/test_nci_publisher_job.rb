@@ -10,6 +10,7 @@ require 'mocha/test_unit'
 class NeonPublisherJobTest < Test::Unit::TestCase
   def test_frameworks_push_to_stable
     JenkinsJob.flavor_dir = "../jenkins-jobs/nci/"
+    Template.flavor_dir = "../jenkins-jobs/nci/"
     job = NeonPublisherJob.new('xenial_unstable_kde_attica',
                                type: 'unstable',
                                distribution: 'xenial',
