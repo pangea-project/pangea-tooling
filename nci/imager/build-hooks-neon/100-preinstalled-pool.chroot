@@ -7,7 +7,6 @@ apt-get -y download \
   fakeroot \
   libfakeroot \
   libc6-i386 \
-  grub \
   grub-efi \
   grub-efi-amd64 \
   grub-efi-amd64-bin \
