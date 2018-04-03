@@ -43,7 +43,7 @@ lb config \
  --initramfs none \
  --chroot-filesystem none \
  --binary-filesystem ext4 \
- --hdd-size 7000 \
+ --hdd-size 8000 \
  --firmware-chroot false \
  --security false \
  -m $SNAP_URL \
