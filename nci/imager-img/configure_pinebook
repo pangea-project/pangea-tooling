@@ -57,6 +57,8 @@ lb config \
 echo "I: copy customization"
 test -d /tooling/nci/imager-img/customization && cp -rf /tooling/nci/imager-img/customization/* config/
 
+mkdir -p $HOME/.gnupg/
+
 gpg --no-default-keyring \
   --primary-keyring config/archives/ubuntu-defaults.key \
   --keyserver keyserver.ubuntu.com \
