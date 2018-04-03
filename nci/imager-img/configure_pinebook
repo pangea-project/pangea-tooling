@@ -21,6 +21,8 @@ export LB_BOOTLOADERS="none"
 export LB_HDD_LABEL="PINEBOOKneon"
 export LB_MKFS_OPTIONS="-O ^64bit,^metadata_csum,uninit_bg"
 
+env
+
 lb config \
  --architectures arm64 \
  --archive-areas 'main universe' \
@@ -30,7 +32,7 @@ lb config \
  --cache-indices false \
  --cache-packages false \
  --cache-stages 'none' \
- --distribution xenial \
+ --distribution $DIST \
  --binary-images hdd \
  --mode ubuntu \
  --apt-source-archives false \
