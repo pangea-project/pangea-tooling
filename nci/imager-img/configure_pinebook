@@ -87,5 +87,7 @@ echo "W: removing some packages which are not built for bionic yet"
 sed -i '/ksystraycmd5/d' config/package-lists/neon.list.chroot
 sed -i '/libcedrus1/d' config/package-lists/neon.list.chroot
 sed -i '/libvdpau-sunxi1/d' config/package-lists/neon.list.chroot
+sed -i '/mpv/d' config/package-lists/neon.list.chroot
+sed -i '/smplayer/d' config/package-lists/neon.list.chroot
 
 echo "I: done"
