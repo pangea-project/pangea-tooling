@@ -81,4 +81,6 @@ $GPG --no-default-keyring \
   --keyserver keyserver.ubuntu.com \
   --recv-keys 'E47F 5011 FA60 FC1D EBB1  9989 3305 6FA1 4AD3 A421'
 
+chmod 644 config/archives/ubuntu-defaults.key || true
+
 echo "I: done"
