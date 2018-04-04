@@ -25,7 +25,7 @@ export LB_MKFS_OPTIONS="-O ^64bit,^metadata_csum,uninit_bg"
 
 ### HACK: super ugly hack for getting usable bionic image
 if [ "$VERSION_CODENAME" = "bionic" ]; then
-    sed -i 's/64bit/64bit,\^metadata_csum,uninit_bg/' /lib/live/build/binary_hdd
+    sed -i 's/64bit/64bit,\^metadata_csum,uninit_bg/' /usr/lib/live/build/binary_hdd
 fi
 
 env
