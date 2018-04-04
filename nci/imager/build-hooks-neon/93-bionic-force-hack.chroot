@@ -9,12 +9,19 @@ set -e
 # one by one until we get it working.
 # This is an apt level bisect. Oh my.
 
+# ubuntu2 is definitely showing plymouth and passing the entire test
+# ubuntu6 is definitely not showing plymouth and thus failing the test
+
+# wget \
+#   https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu2/+build/14479224/+files/libplymouth4_0.9.3-1ubuntu2_amd64.deb \
+#   https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu2/+build/14479224/+files/plymouth-label_0.9.3-1ubuntu2_amd64.deb \
+#   https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu2/+build/14479224/+files/plymouth_0.9.3-1ubuntu2_amd64.deb
 
 wget \
-  https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu2/+build/14479224/+files/libplymouth4_0.9.3-1ubuntu2_amd64.deb \
-  https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu2/+build/14479224/+files/plymouth-label_0.9.3-1ubuntu2_amd64.deb \
-  https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu2/+build/14479224/+files/plymouth_0.9.3-1ubuntu2_amd64.deb
+  https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu5/+build/14518024/+files/libplymouth4_0.9.3-1ubuntu5_amd64.deb \
+  https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu5/+build/14518024/+files/plymouth-label_0.9.3-1ubuntu5_amd64.deb \
+  https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu5/+build/14518024/+files/plymouth_0.9.3-1ubuntu5_amd64.deb
 
-# apt install -y --allow-downgrades `pwd`/*.deb
+apt install -y --allow-downgrades `pwd`/*.deb
 
 rm -v *.deb
