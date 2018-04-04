@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+
+# For some reason between the March 29 and the April 2 build
+# plymouth-reboot.service somehow strangely broke. It now doesn't properly
+# reboot after calamares installed. For some reason this only happens after
+# cala did its thing. It's the strangest thing. Let's roll back base pieces
+# one by one until we get it working.
+# This is an apt level bisect. Oh my.
+
+
+wget \
+  https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu2/+build/14479224/+files/libplymouth4_0.9.3-1ubuntu2_amd64.deb \
+  https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu2/+build/14479224/+files/plymouth-label_0.9.3-1ubuntu2_amd64.deb \
+  https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu2/+build/14479224/+files/plymouth_0.9.3-1ubuntu2_amd64.deb
+
+apt install -y `pwd`/*.deb
+
+rm -v *.deb
