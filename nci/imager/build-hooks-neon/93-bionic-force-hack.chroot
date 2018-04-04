@@ -15,6 +15,6 @@ wget \
   https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu2/+build/14479224/+files/plymouth-label_0.9.3-1ubuntu2_amd64.deb \
   https://launchpad.net/ubuntu/+source/plymouth/0.9.3-1ubuntu2/+build/14479224/+files/plymouth_0.9.3-1ubuntu2_amd64.deb
 
-apt install -y --allow-downgrades `pwd`/*.deb
+# apt install -y --allow-downgrades `pwd`/*.deb
 
 rm -v *.deb
