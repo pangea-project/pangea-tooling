@@ -73,6 +73,15 @@ if [ "$VERSION_CODENAME" = "bionic" ]; then
     sed -i '/libvdpau-sunxi1/d' config/package-lists/neon.list.chroot
     sed -i '/mpv/d' config/package-lists/neon.list.chroot
     sed -i '/smplayer/d' config/package-lists/neon.list.chroot
+
+    # upadte hook to use prebuilt packages
+    cat <<EOF > config/hooks/live/live-config.hook.chroot
+apt install live-config live-config-systemd
+EOF
+
+    # remove the double sddm hook
+    rm config/includes.chroot/lib/live/config/0090-sddm
+
 fi
 
 echo "I: done"
