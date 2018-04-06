@@ -45,7 +45,7 @@ lb config \
  --debootstrap-options='--include="gnupg,ca-certificates"' \
  --apt-source-archives false \
  --source false \
- --apt-options "--yes -o Debug::pkgProblemResolver=true -o Debug::pkgDepCache::AutoInstall=true -o Debug::pkgDepCache::Marker=true -o Acquire::Check-Valid-Until=false" \
+ --apt-options "--yes -o Acquire::Check-Valid-Until=false" \
  --linux-flavours none \
  --linux-packages none \
  --initramfs none \
@@ -75,13 +75,12 @@ if [ "$VERSION_CODENAME" = "bionic" ]; then
     sed -i '/smplayer/d' config/package-lists/neon.list.chroot
 
     # upadte hook to use prebuilt packages
-    cat <<EOF > config/hooks/live/live-config.hook.chroot
-apt install live-config live-config-systemd
-EOF
+    rm config/hooks/live/live-config.hook.chroot
+    echo 'live-config' >> config/package-lists/neon.list.chroot
+    echo 'live-config-systemd' >> config/package-lists/neon.list.chroot
 
     # remove the double sddm hook
-    rm config/includes.chroot/lib/live/config/0090-sddm
-
+    mv config/includes.chroot/lib/live/config/0090-sddm config/includes.chroot/lib/live/config/0085-sddm
 fi
 
 echo "I: done"

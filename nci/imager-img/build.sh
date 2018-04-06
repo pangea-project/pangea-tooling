@@ -29,7 +29,7 @@ rm -rf config
 mkdir -p chroot/usr/share/keyrings/
 cp /usr/share/keyrings/ubuntu-archive-keyring.gpg chroot/usr/share/keyrings/ubuntu-archive-keyring.gpg
 /tooling/nci/imager-img/configure_pinebook
-lb build --debug
+lb build 
 /tooling/nci/imager-img/flash_pinebook ${LIVE_IMAGE_NAME}-${ARCH}.img
 
 pigz --stdout ${LIVE_IMAGE_NAME}-${ARCH}.img > ${LIVE_IMAGE_NAME}-${ARCH}.img.gz
