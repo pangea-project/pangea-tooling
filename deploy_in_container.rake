@@ -165,7 +165,7 @@ EOF
     bundle_args << '--frozen'
     bundle_args << '--system'
     # FIXME: this breaks deployment on nodes, for now disable this
-    # https://github.com/blue-systems/pangea-tooling/issues/17
+    # https://github.com/pangea-project/pangea-tooling/issues/17
     #bundle_args << '--without' << 'development' << 'test'
     bundle(*bundle_args)
 
@@ -366,7 +366,7 @@ desc 'Upgrade to newer ruby if required'
 task :align_ruby do
   FileUtils.rm_rf('/tmp/kitchen') # Instead of messing with pulls, just clone.
   sh format('git clone --depth 1 %s %s',
-            'https://github.com/blue-systems/pangea-kitchen.git',
+            'https://github.com/pangea-project/pangea-kitchen.git',
             '/tmp/kitchen')
   Dir.chdir('/tmp/kitchen') do
     # ruby_build checks our version against the pangea version and if necessary

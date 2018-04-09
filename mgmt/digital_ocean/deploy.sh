@@ -50,7 +50,7 @@ chmod +x install.sh
 
 # Use chef zero to cook localhost.
 export NO_CUPBOARD=1
-git clone --depth 1 https://github.com/blue-systems/pangea-kitchen.git /tmp/kitchen || true
+git clone --depth 1 https://github.com/pangea-project/pangea-kitchen.git /tmp/kitchen || true
 cd /tmp/kitchen
 git pull --rebase
 berks install

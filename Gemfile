@@ -1,7 +1,7 @@
 source 'https://gem.cache.pangea.pub'
 
 # These are built by our geminabox tech
-# https://github.com/blue-systems/pangea-geminabox
+# https://github.com/pangea-project/pangea-geminabox
 # and pushed into our gem cache for consumption. See Gemfile.git for info.
 # These are actual gems in our cache, they mustn't have a git: argument.
 source 'https://gem.cache.pangea.pub' do
