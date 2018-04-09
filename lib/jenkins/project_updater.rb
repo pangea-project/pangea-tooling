@@ -110,6 +110,9 @@ Check the detailed output to find output relating to the failed creation of the 
     def update_submodules
       Dir.chdir(File.realpath("#{__dir__}/../../")) do
         return if @submodules_updated
+        unless system(*%w[git submodule sync --recursive])
+          raise 'failed to sync git configuration for submodules'
+        end
         unless system(*%w[git submodule update --remote --recursive])
           raise 'failed to update git submodules of tooling!'
         end
