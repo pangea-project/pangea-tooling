@@ -89,7 +89,6 @@ FUTURE_SKIP = applications_jobs + %w[
 FUTURE_INCLUDE = %w[
   _forks_pyqt5
   _kde-extras_phonon
-  _kde-extras_sddm
   _kde_ark
   _kde_dolphin
   _kde_gwenview
