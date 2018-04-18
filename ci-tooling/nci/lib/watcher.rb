@@ -51,7 +51,7 @@ module NCI
         # publicly available!
         # Only available through blue system's internal DNS.
         output += line.gsub(%r{download.kde.org/stable/},
-                            'download.kde.internal.neon.kde.org:9191/stable/')
+                            'download.kde.internal.neon.kde.org:9191/stable/').gsub('https','http')
       end
       puts output
       File.open('debian/watch', 'w') { |file| file.write(output) }
