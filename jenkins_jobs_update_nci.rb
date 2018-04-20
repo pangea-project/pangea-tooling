@@ -99,6 +99,7 @@ FUTURE_INCLUDE = %w[
   _kde_print-manager
   _kde_okular
   _kde_spectacle
+  _kde-extras_calamares
 ].freeze
 
 # Updates Jenkins Projects
