@@ -54,6 +54,18 @@ DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           mozilla-devscripts libffi-dev subversion libssl-dev libcurl4-gnutls-dev
           libhttp-parser-dev javahelper rsync].freeze + CORE_RUNTIME_DEPS
 
+def home
+  '/var/lib/jenkins'
+end
+
+def tooling_path
+  '/tooling-pending'
+end
+
+def final_path
+  '/tooling'
+end
+
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
   require_relative 'ci-tooling/lib/dpkg'
@@ -183,12 +195,6 @@ end
 
 desc 'deploy inside the container'
 task :deploy_in_container => %i[align_ruby deploy_openqa] do
-  home = '/var/lib/jenkins'
-  # Deploy ci-tooling and bundle. We later use internal libraries to provision
-  # so we need all dependencies met as early as possible in the process.
-  # FIXME: copy from above
-  tooling_path = '/tooling-pending'
-  final_path = '/tooling'
   final_ci_tooling_compat_path = File.join(home, 'tooling')
   final_ci_tooling_compat_compat_path = File.join(home, 'ci-tooling')
 
