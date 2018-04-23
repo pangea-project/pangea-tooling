@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -116,6 +116,29 @@ def cleanup_rubies
   FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/*'), verbose: true)
 end
 
+def cleanup_bundle
+  Dir.chdir(tooling_path) do
+    # Clean up now unused gems. This prevents unused versions of a gem
+    # lingering in the image blowing up its size.
+    clean_args = ['clean']
+    clean_args << '--verbose'
+    clean_args << '--force' # Force system clean!
+    bundle(*clean_args)
+  end
+end
+
+def deployment_cleanup
+  # Ultimate clean up
+  #  Semi big logs
+  File.write('/var/log/lastlog', '')
+  File.write('/var/log/faillog', '')
+  File.write('/var/log/dpkg.log', '')
+  File.write('/var/log/apt/term.log', '')
+
+  cleanup_bundle
+  cleanup_rubies
+end
+
 # openqa
 task :deploy_openqa do
   # Only openqa on neon dists and if explicitly enabled.
@@ -125,6 +148,36 @@ task :deploy_openqa do
     system 'git clone --depth 1 ' \
        "https://github.com/apachelogger/kde-os-autoinst #{tmpdir}/"
     Dir.chdir('/opt') { sh "#{tmpdir}/bin/install.rb" }
+  end
+end
+
+desc 'Upgrade to newer ruby if required'
+task :align_ruby do
+  FileUtils.rm_rf('/tmp/kitchen') # Instead of messing with pulls, just clone.
+  sh format('git clone --depth 1 %s %s',
+            'https://github.com/pangea-project/pangea-kitchen.git',
+            '/tmp/kitchen')
+  Dir.chdir('/tmp/kitchen') do
+    # ruby_build checks our version against the pangea version and if necessary
+    # installs a ruby in /usr/local which is more suitable than what we have.
+    # If this comes back !0 and we are meant to be aligned already this means
+    # the previous alignment failed, abort when this happens.
+    if !system('./ruby_build.sh') && ENV['ALIGN_RUBY_EXEC']
+      raise 'It seems rake was re-executed after a ruby version alignment,' \
+            ' but we still found and unsuitable ruby version being used!'
+    end
+  end
+  case $?.exitstatus
+  when 0 # installed version is fine, we are happy.
+    FileUtils.rm_rf('/tmp/kitchen')
+    next
+  when 1 # a new version was installed, we'll re-exec ourself.
+    sh 'gem install rake'
+    ENV['ALIGN_RUBY_EXEC'] = 'true'
+    # Reload ourself via new rake
+    exec('rake', *ARGV)
+  else # installer crashed or other unexpected error.
+    raise 'Error while aligning ruby version through pangea-kitchen'
   end
 end
 
@@ -168,13 +221,6 @@ EOF
     # https://github.com/pangea-project/pangea-tooling/issues/17
     #bundle_args << '--without' << 'development' << 'test'
     bundle(*bundle_args)
-
-    # Clean up now unused gems. This prevents unused versions of a gem
-    # lingering in the image blowing up its size.
-    clean_args = ['clean']
-    clean_args << '--verbose'
-    clean_args << '--force' # Force system clean!
-    bundle(*clean_args)
 
     # Trap common exit signals to make sure the ownership of the forwarded
     # volume is correct once we are done.
@@ -350,44 +396,9 @@ SCRIPT
     f.puts('jenkins ALL=(ALL) NOPASSWD: ALL')
   end
 
-  # Add a custom version_id in os-release for DCI
-  custom_version_id
-
-  # Ultimate clean up
-  #  Semi big logs
-  File.write('/var/log/lastlog', '')
-  File.write('/var/log/faillog', '')
-  File.write('/var/log/dpkg.log', '')
-  File.write('/var/log/apt/term.log', '')
-  cleanup_rubies
+  custom_version_id # Add a custom version_id in os-release for DCI
+  deployment_cleanup
 end
 
-desc 'Upgrade to newer ruby if required'
-task :align_ruby do
-  FileUtils.rm_rf('/tmp/kitchen') # Instead of messing with pulls, just clone.
-  sh format('git clone --depth 1 %s %s',
-            'https://github.com/pangea-project/pangea-kitchen.git',
-            '/tmp/kitchen')
-  Dir.chdir('/tmp/kitchen') do
-    # ruby_build checks our version against the pangea version and if necessary
-    # installs a ruby in /usr/local which is more suitable than what we have.
-    # If this comes back !0 and we are meant to be aligned already this means
-    # the previous alignment failed, abort when this happens.
-    if !system('./ruby_build.sh') && ENV['ALIGN_RUBY_EXEC']
-      raise 'It seems rake was re-executed after a ruby version alignment,' \
-            ' but we still found and unsuitable ruby version being used!'
-    end
-  end
-  case $?.exitstatus
-  when 0 # installed version is fine, we are happy.
-    FileUtils.rm_rf('/tmp/kitchen')
-    next
-  when 1 # a new version was installed, we'll re-exec ourself.
-    sh 'gem install rake'
-    ENV['ALIGN_RUBY_EXEC'] = 'true'
-    # Reload ourself via new rake
-    exec('rake', *ARGV)
-  else # installer crashed or other unexpected error.
-    raise 'Error while aligning ruby version through pangea-kitchen'
-  end
-end
+# NB: Try to only add new stuff above the deployment task. It is so long and
+# unwieldy that it'd be hard to find the end of it if you add stuff below it.
