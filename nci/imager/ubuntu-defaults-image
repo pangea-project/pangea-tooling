@@ -279,6 +279,8 @@ if [ ! -e binary/casper/vmlinuz ]; then
     # This will go wrong if there's ever more than one vmlinuz-* after
     # excluding *.efi.signed.  We can deal with that if and when it arises.
     for x in binary/casper/vmlinuz-*; do
+			ls -lah || true
+			ls -lah binary/casper || true
 	case \$x in
 	    *.efi.signed)
 		;;
