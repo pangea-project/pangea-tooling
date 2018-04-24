@@ -15,12 +15,12 @@ done
 #   echo "error: Ubiquity does not come from neon"; \
 #   exit 1; \
 # fi
-#
-# if ! grep -q http://archive.neon.kde.org/ <<<$LIVE_BUILD; then
-#   echo "error: live-build does not come from neon"; \
-#   exit 1; \
-# fi
-#
+
+if ! grep -q http://archive.neon.kde.org/ <<<$LIVE_BUILD; then
+  echo "error: live-build does not come from neon"; \
+  exit 1; \
+fi
+
 # if ! grep -q http://archive.neon.kde.org/ <<<$BASE_FILES; then
 #   echo "error: base-files does not come from neon"; \
 #   exit 1; \
