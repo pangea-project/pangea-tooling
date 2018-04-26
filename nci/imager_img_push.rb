@@ -36,6 +36,9 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 DATE = File.read('date_stamp').strip
 IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"
 REMOTE_DIR = "public_html/images/pinebook-remix-nonfree/"
+if DIST == 'bionic'
+  REMOTE_DIR = "public_html/images/pinebook-remix-nonfree/bionic/"
+end
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 puts "GPG signing disk image file"
