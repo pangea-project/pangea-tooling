@@ -21,10 +21,10 @@ if ! grep -q http://archive.neon.kde.org/ <<<$LIVE_BUILD; then
   exit 1; \
 fi
 
-# if ! grep -q http://archive.neon.kde.org/ <<<$BASE_FILES; then
-#   echo "error: base-files does not come from neon"; \
-#   exit 1; \
-# fi
+if ! grep -q http://archive.neon.kde.org/ <<<$BASE_FILES; then
+  echo "error: base-files does not come from neon"; \
+  exit 1; \
+fi
 
 #if exists /usr/share/grub-installer/grub-installer but not neon grep then exit
 
