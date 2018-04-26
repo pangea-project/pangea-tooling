@@ -3,8 +3,6 @@
 GPG="gpg"
 ARGS=""
 if [ "$VERSION_CODENAME" = "bionic" ]; then
-  ls -lah /root
-  ls -lah /
   apt install -y dirmngr gnupg1
   ARGS="--batch --verbose"
   GPG="gpg1"
