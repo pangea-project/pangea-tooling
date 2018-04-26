@@ -244,7 +244,7 @@ module CI
         puts 'Telling TarFinder to go have a looksy.'
         tar = TarFinder.new(destdir, version: version).find_and_delete
         unless tar
-          puts 'no tar'
+           puts 'no tar'
           return nil
         end
         puts "Hooray, there's a tarball #{tar}!"
