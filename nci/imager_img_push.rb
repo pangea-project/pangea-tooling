@@ -35,11 +35,7 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # this to only be published if passing some QA test
 DATE = File.read('date_stamp').strip
 IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"
-REMOTE_DIR = "public_html/images/pinebook-remix/"
-# hack to publish the bionic images
-if DIST == 'bionic'
-  REMOTE_DIR = "public_html/images/.bionic/"
-end
+REMOTE_DIR = "public_html/images/pinebook-remix-nonfree/"
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 puts "GPG signing disk image file"
@@ -92,7 +88,7 @@ key_file = ENV.fetch('SSH_KEY_FILE', nil)
 ssh_args = key_file ? [{ keys: [key_file] }] : []
 
 # Publish ISO and associated content.
-Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
+Net::SFTP.start('racnoss.kde.org', 'neon', *ssh_args) do |sftp|
   puts "mkdir #{REMOTE_PUB_DIR}"
   sftp.cli_uploads = true
   sftp.mkdir!(REMOTE_PUB_DIR)
@@ -107,7 +103,7 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
   sftp.cli_uploads = false
 
   # Need a second SSH session here, since the SFTP one is busy looping.
-  Net::SSH.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |ssh|
+  Net::SSH.start('racnoss.kde.org', 'neon', *ssh_args) do |ssh|
     #ssh.exec!("cd #{REMOTE_PUB_DIR}; gunzip --stdout *img.gz > #{IMGNAME}.img")
     #ssh.exec!("cd #{REMOTE_PUB_DIR};" \
     #          " ln -s *img #{IMAGENAME}-pinebook-remix-#{TYPE}-current.iso")
