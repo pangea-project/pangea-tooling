@@ -6,5 +6,4 @@ sleep 1
 /usr/bin/sddm-real
 EOF
 
-chmor 755 /usr/bin/sddm
-
+chmod 755 /usr/bin/sddm
