@@ -2,7 +2,7 @@ mv /usr/bin/sddm /usr/bin/sddm-real
 
 cat << EOF > /usr/bin/sddm
 #!/bin/bash
-sleep 10
+sleep 1
 /usr/bin/sddm-real
 EOF
 
