@@ -1,9 +1,0 @@
-mv /usr/bin/sddm /usr/bin/sddm-real
-
-cat << EOF > /usr/bin/sddm
-#!/bin/bash
-sleep 1
-/usr/bin/sddm-real
-EOF
-
-chmod 755 /usr/bin/sddm
