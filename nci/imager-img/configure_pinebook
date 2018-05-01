@@ -44,7 +44,7 @@ lb config \
  --mode ubuntu \
  --debootstrap-options='--include="gnupg,ca-certificates"' \
  --apt-source-archives false \
- --source true \
+ --source false \
  --apt-options "--yes -o Acquire::Check-Valid-Until=false" \
  --linux-flavours none \
  --linux-packages none \
