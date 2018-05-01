@@ -126,3 +126,26 @@ Net::SFTP.start('racnoss.kde.org', 'neon', *ssh_args) do |sftp|
     sftp.rmdir!(path)
   end
 end 
+
+
+# Publish ISO sources.
+Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
+  path = 'files.neon.kde.org.uk'
+  types = %w[source.tar.xz source.tar]
+  types.each do |type|
+    Dir.glob("result/*#{type}").each do |file|
+      # Remove old ones
+      STDERR.puts "src rm #{path}/#{ISONAME}*#{type}"
+      sftp.dir.glob(path, "#{ISONAME}*#{type}") do |e|
+        STDERR.puts "glob src rm #{path}/#{e.name}"
+        sftp.remove!("#{path}/#{e.name}")
+      end
+      # upload new one
+      name = File.basename(file)
+
+      sftp.cli_uploads = File.new(file).lstat.size > 4 * 1024 * 1024
+      STDERR.puts "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
+      sftp.upload!(file, "#{path}/#{name}")
+    end
+  end
+end
