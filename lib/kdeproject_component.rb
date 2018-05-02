@@ -18,13 +18,15 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-# downloads and makes available as arrays lists of KDE projects which 
+# downloads and makes available as arrays lists of jobs which 
 # are part of Plasma, Applications and Frameworks
 
 require 'httparty'
 
 class KDEProjectsComponent
+  @projects_to_jobs = {'kirigami'=> 'kirigami2', 'discover'=> 'plasma-discover'}
   class << self
+      
     def frameworks
       @frameworks ||= to_names(projects('frameworks'))
     end
@@ -42,8 +44,13 @@ class KDEProjectsComponent
 
     private
 
-    def to_names(projects)
-      projects.collect { |project| project.split('/')[-1] }
+    def to_names(project_list)
+      project_list.collect! { |project| project.split('/')[-1] }
+      @projects_to_jobs.each do |project_name, job_name|
+        index = project_list.find_index(project_name)
+        project_list[index] = job_name unless index.nil?
+      end
+      project_list
     end
 
     def projects(filter)
