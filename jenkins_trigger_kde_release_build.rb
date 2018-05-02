@@ -26,6 +26,10 @@ require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/retry'
 require_relative 'ci-tooling/lib/thread_pool'
 
+require_relative 'ci-tooling/lib/jenkins'
+require_relative 'ci-tooling/lib/retry'
+require_relative 'ci-tooling/lib/thread_pool'
+
 require_relative 'lib/kdeproject_component'
 
 release = nil
