@@ -1,3 +1,0 @@
-# try setting default target to graphical target
-
-systemctl set-default graphical.target
