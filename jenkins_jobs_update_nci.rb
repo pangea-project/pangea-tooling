@@ -109,8 +109,8 @@ FUTURE_INCLUDE = %w[
   _kde_okular
   _kde_spectacle
   _neon_keyring
+  _neon_masks
   _neon_seeds
-  _neon_adwaita
   _neon_settings
   _neon_syslinux-themes-neon
   _neon_xserver-xorg-video-intel-native-modesetting
@@ -122,9 +122,7 @@ FUTURE_INCLUDE = %w[
 # this is to exclude things which would be matched by more generic includes.
 # e.g. _adwaita would include _adwaita and _adwaita-icon-theme but latter we
 # do not want
-FUTURE_EXCLUDE = %w[
-  _neon_adwaita-icon-theme
-].freeze
+FUTURE_EXCLUDE = %w[].freeze
 
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
