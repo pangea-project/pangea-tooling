@@ -68,6 +68,9 @@ FUTURE_TYPES = %w[unstable].freeze
 # _pkg-kde-tools_ is definitely lower version than what is in bionic, unclear
 # if we still need it.
 
+# Skip skips UNLESS in include
+# Exclude trumps everything (should)
+
 applications_jobs = KDEProjectsComponent.applications.collect { |app| "_kde_#{app}" }
 
 FUTURE_SKIP = applications_jobs + %w[
@@ -87,8 +90,12 @@ FUTURE_SKIP = applications_jobs + %w[
 
 # Opposite of above, allows including part of the jobs within a skip rule
 FUTURE_INCLUDE = %w[
-  _forks_pyqt5
+  _calamares
+  _forks_base-files
   _forks_libqalculate
+  _forks_live-build
+  _forks_pyqt5
+  _forks_xf86-video-armsoc
   _forks_ubiquity
   _kde-extras_phonon
   _kde_ark
@@ -100,7 +107,22 @@ FUTURE_INCLUDE = %w[
   _kde_print-manager
   _kde_okular
   _kde_spectacle
-  _kde-extras_calamares
+  _neon_keyring
+  _neon_seeds
+  _neon_adwaita
+  _neon_settings
+  _neon_syslinux-themes-neon
+  _neon_xserver-xorg-video-intel-native-modesetting
+  _launchpad_livecd-rootfs-neon
+  iso_neon_bionic_devedition-gitunstable_amd64
+].freeze
+
+# Master exclude! Whatever is listed here will not be updated even when included
+# this is to exclude things which would be matched by more generic includes.
+# e.g. _adwaita would include _adwaita and _adwaita-icon-theme but latter we
+# do not want
+FUTURE_EXCLUDE = %w[
+  _neon_adwaita-icon-theme
 ].freeze
 
 # Updates Jenkins Projects
@@ -133,8 +155,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     future = job.job_name.include?(NCI.future_series)
     whitelisted = FUTURE_INCLUDE.any? { |x| job.job_name.include?(x) }
     skip = FUTURE_SKIP.any? { |x| job.job_name.include?(x) }
+    return job if FUTURE_EXCLUDE.any? { |x| job.job_name.include?(x) }
     # if a job is not whitelisted and a future-skip we'll not enqueue it
-    return if (!whitelisted && (future && skip))
+    return job if (!whitelisted && (future && skip))
     # else run
     super
   end
