@@ -71,7 +71,9 @@ FUTURE_TYPES = %w[unstable].freeze
 # Skip skips UNLESS in include
 # Exclude trumps everything (should)
 
-applications_jobs = KDEProjectsComponent.applications.collect { |app| "_kde_#{app}" }
+applications_jobs = KDEProjectsComponent.applications.collect do |app|
+  "_kde_#{app}"
+end
 
 FUTURE_SKIP = applications_jobs + %w[
   _kde-extras_
@@ -79,7 +81,6 @@ FUTURE_SKIP = applications_jobs + %w[
   iso_neon-
   img_neon_
   mgmt_daily_promotion_bionic_
-
   _pkg-kde-tools_
   _backports-xenial_
   _forks_
