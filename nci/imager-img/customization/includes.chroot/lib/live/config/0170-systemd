@@ -84,11 +84,7 @@ EOF
 			esac
 		done
 
-		for NUMBER in $(seq 1 6)
-		do
-			systemctl --no-block daemon-reload
-			systemctl --no-block restart getty@tty${NUMBER}.service
-		done
+		systemctl --no-block daemon-reload
 	fi
 
 	# Creating state file
