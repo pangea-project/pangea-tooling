@@ -115,8 +115,9 @@ FUTURE_INCLUDE = %w[
   _neon_syslinux-themes-neon
   _neon_xserver-xorg-video-intel-native-modesetting
   _launchpad_livecd-rootfs-neon
-  iso_neon_bionic_devedition-gitunstable_amd64
 ].freeze
+# NB: iso_neon_bionic_devedition-gitunstable_amd64 is currently manually
+#   mangled to use iso-hackery branch.
 
 # Master exclude! Whatever is listed here will not be updated even when included
 # this is to exclude things which would be matched by more generic includes.
