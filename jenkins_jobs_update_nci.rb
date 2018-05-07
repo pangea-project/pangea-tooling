@@ -62,7 +62,7 @@ EXCLUDE_SNAPS = %w[
 ].freeze
 
 # Types to use for future series. Others get skipped.
-FUTURE_TYPES = %w[stable unstable].freeze
+FUTURE_TYPES = %w[release-lts release stable unstable].freeze
 # Skip certain job bits for future series.
 # The bottom part of this list is temporary until qt is staged.
 # _pkg-kde-tools_ is definitely lower version than what is in bionic, unclear
