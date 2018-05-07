@@ -88,6 +88,33 @@ FUTURE_SKIP = applications_jobs + %w[
   _launchpad_
   _unstable_neon_
 ].freeze
+# WARNING: for future reference: we need to be super duper careful with enabling
+#   forks!!!@#!!!!!!! Some of them are not forks at all but bloody backports.
+#   At a glance the following things are not forks and should not be in bionic:
+#   - appstream (actually fork, but not needed as icon download doesn't need a
+#     patch anymore)
+#   - aptdaemon
+#   - avogadro
+#   - cryfs
+#   - ddcutil (techinically fork, not desired anymore)
+#   - fcitx-qt5 (rebuild?)
+#   - flatpak-builder
+#   - flatpak
+#   - gpgme
+#   - harfbuzz
+#   - json-glib
+#   - ldc
+#   - just about all lib*
+#   - lmdb
+#   - meson
+#   - ninja-build
+#   - openbabel
+#   - rtl8723ds-bt-wtf-lol123
+#   - taglib
+#   - util-linux
+#   - wayland
+#   - x11proto-core
+#   - xorg-server
 
 # Opposite of above, allows including part of the jobs within a skip rule
 FUTURE_INCLUDE = %w[
