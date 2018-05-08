@@ -241,11 +241,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # Fairly akward special casing this. Snaps only build releases right
           # now.
           if type == 'release' && KDEProjectsComponent.applications.include?(project.name) &&
-             !EXCLUDE_SNAPS.include?(project.name)
+             !EXCLUDE_SNAPS.include?(project.name) && !(series == NCI.future_series)
             enqueue(AppSnapJob.new(project.name))
           end
           if type == 'unstable' && project.snapcraft &&
-             !EXCLUDE_SNAPS.include?(project.name)
+             !EXCLUDE_SNAPS.include?(project.name) && !(series == NCI.future_series)
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
           end
