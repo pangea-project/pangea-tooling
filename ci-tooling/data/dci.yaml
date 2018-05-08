@@ -1,7 +1,8 @@
 series:
   '1803': '20180315'
+  'next': '20181001'
   # Bump this when choosing a new snapshot for the next netrunner release
-  'backports': '20180316'
+  'backports': '20181002'
 architectures:
   - amd64
   - armhf
