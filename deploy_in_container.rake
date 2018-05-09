@@ -66,6 +66,18 @@ def final_path
   '/tooling'
 end
 
+# Trap common exit signals to make sure the ownership of the forwarded
+# volume is correct once we are done.
+# Otherwise it can happen that bundler left root owned artifacts behind
+# and the folder becomes undeletable.
+%w[EXIT HUP INT QUIT TERM].each do |signal|
+  Signal.trap(signal) do
+    next unless Etc.passwd { |u| break true if u.name == 'jenkins' }
+    FileUtils.chown_R('jenkins', 'jenkins', tooling_path, verbose: true,
+                                                          force: true)
+  end
+end
+
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
   require_relative 'ci-tooling/lib/dpkg'
@@ -227,18 +239,6 @@ EOF
     # https://github.com/pangea-project/pangea-tooling/issues/17
     #bundle_args << '--without' << 'development' << 'test'
     bundle(*bundle_args)
-
-    # Trap common exit signals to make sure the ownership of the forwarded
-    # volume is correct once we are done.
-    # Otherwise it can happen that bundler left root owned artifacts behind
-    # and the folder becomes undeletable.
-    %w[EXIT HUP INT QUIT TERM].each do |signal|
-      Signal.trap(signal) do
-        next unless Etc.passwd { |u| break true if u.name == 'jenkins' }
-        FileUtils.chown_R('jenkins', 'jenkins', tooling_path, verbose: true,
-                                                              force: true)
-      end
-    end
 
     FileUtils.rm_rf(final_path)
     FileUtils.mkpath(final_path, verbose: true)
