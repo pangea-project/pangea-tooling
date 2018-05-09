@@ -247,7 +247,11 @@ EOF
       Gem.install('bundler')
     end
 
+    require_relative 'ci-tooling/lib/apt'
     require_relative 'ci-tooling/lib/retry'
+
+    Apt.install(*EARLY_DEPS) || raise
+
     Retry.retry_it(times: 5, sleep: 8) do
       # NOTE: apt.rb automatically runs update the first time it is used.
       raise 'Dist upgrade failed' unless Apt.dist_upgrade
@@ -278,8 +282,6 @@ EOF
       FileUtils.ln_s("#{final_path}/ci-tooling", compat, verbose: true)
     end
   end
-
-  require_relative 'ci-tooling/lib/apt'
 
   File.write('force-unsafe-io', '/etc/dpkg/dpkg.cfg.d/00_unsafeio')
 
@@ -330,8 +332,6 @@ EOF
       end
     end
   end
-
-  Apt.install(*EARLY_DEPS) || raise
 
   # Force eatmydata on the installation binaries to completely bypass fsyncs.
   # This gives a 20% speed improvement on installing plasma-desktop+deps. That
