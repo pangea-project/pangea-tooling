@@ -178,8 +178,7 @@ rescue => e
   log_dir = "#{tooling_path}/#{ENV['DIST']}_#{ENV['TYPE']}"
   FileUtils.rm_rf(log_dir)
   Dir.glob('/var/lib/gems/*/extensions/*/*/*/mkmf.log').each do |log|
-    dirname = File.basename(File.dirname(log))
-    dest = "#{logdir}/#{dirname}"
+    dest = "#{logdir}/#{File.basename(File.dirname(log))}"
     FileUtils.mkdir_p(dest)
     FileUtils.cp(log, dest)
   end
