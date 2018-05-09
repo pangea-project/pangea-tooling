@@ -51,7 +51,7 @@ DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           gobject-introspection sphinx-common po4a pep8 pyflakes ppp-dev dh-di
           libgirepository1.0-dev libglib2.0-dev bash-completion
           python3-setuptools python3-setuptools-scm python-setuptools python-setuptools-scm dkms
-          mozilla-devscripts libffi-dev subversion libssl-dev libcurl4-openssl-dev
+          mozilla-devscripts libffi-dev subversion libcurl4-openssl-dev
           libhttp-parser-dev javahelper rsync].freeze + CORE_RUNTIME_DEPS
 
 def home
@@ -358,6 +358,7 @@ SCRIPT
   Retry.retry_it(times: 5, sleep: 8) do
     # NOTE: apt.rb automatically runs update the first time it is used.
     raise 'Dist upgrade failed' unless Apt.dist_upgrade
+    Apt.install('libssl-dev') unless Apt.install('libssl1.0-dev')
     raise 'Apt install failed' unless Apt.install(*DEPS)
     raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
     raise 'Clean failed' unless Apt.clean
