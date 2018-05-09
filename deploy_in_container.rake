@@ -163,6 +163,29 @@ def deployment_cleanup
   cleanup_rubies
 end
 
+def bundle_install
+  bundle_args = ['install']
+  bundle_args << "--jobs=#{[Etc.nprocessors / 2, 1].max}"
+  bundle_args << '--local'
+  bundle_args << '--no-cache'
+  bundle_args << '--frozen'
+  bundle_args << '--system'
+  # FIXME: this breaks deployment on nodes, for now disable this
+  # https://github.com/pangea-project/pangea-tooling/issues/17
+  #bundle_args << '--without' << 'development' << 'test'
+  bundle(*bundle_args)
+rescue => e
+  log_dir = "#{tooling_path}/#{ENV['DIST']}_#{ENV['TYPE']}"
+  FileUtils.rm_rf(log_dir)
+  Dir.glob('/var/lib/gems/*/extensions/*/*/*/mkmf.log').each do |log|
+    dirname = File.basename(File.dirname(log))
+    dest = "#{logdir}/#{dirname}"
+    FileUtils.mkdir_p(dest)
+    FileUtils.cp(log, dest)
+  end
+  raise e
+end
+
 # openqa
 task :deploy_openqa do
   # Only openqa on neon dists and if explicitly enabled.
@@ -228,17 +251,7 @@ EOF
 
     # Add debug for checking what version is being used
     bundle(*%w[--version])
-
-    bundle_args = ['install']
-    bundle_args << "--jobs=#{[Etc.nprocessors / 2, 1].max}"
-    bundle_args << '--local'
-    bundle_args << '--no-cache'
-    bundle_args << '--frozen'
-    bundle_args << '--system'
-    # FIXME: this breaks deployment on nodes, for now disable this
-    # https://github.com/pangea-project/pangea-tooling/issues/17
-    #bundle_args << '--without' << 'development' << 'test'
-    bundle(*bundle_args)
+    bundle_install
 
     FileUtils.rm_rf(final_path)
     FileUtils.mkpath(final_path, verbose: true)
