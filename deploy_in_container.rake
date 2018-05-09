@@ -247,6 +247,17 @@ EOF
       Gem.install('bundler')
     end
 
+    require_relative 'ci-tooling/lib/retry'
+    Retry.retry_it(times: 5, sleep: 8) do
+      # NOTE: apt.rb automatically runs update the first time it is used.
+      raise 'Dist upgrade failed' unless Apt.dist_upgrade
+      # Install libssl1.0 for systems that have it
+      Apt.install('libssl-dev') unless Apt.install('libssl1.0-dev')
+      raise 'Apt install failed' unless Apt.install(*DEPS)
+      raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
+      raise 'Clean failed' unless Apt.clean
+    end
+
     # Add debug for checking what version is being used
     bundle(*%w[--version])
     bundle_install
@@ -353,16 +364,6 @@ SCRIPT
   # the size of the package it takes *seconds* to unpack but in CI environments
   # it adds no value.
   install_fake_pkg('fonts-noto-cjk')
-
-  require_relative 'ci-tooling/lib/retry'
-  Retry.retry_it(times: 5, sleep: 8) do
-    # NOTE: apt.rb automatically runs update the first time it is used.
-    raise 'Dist upgrade failed' unless Apt.dist_upgrade
-    Apt.install('libssl-dev') unless Apt.install('libssl1.0-dev')
-    raise 'Apt install failed' unless Apt.install(*DEPS)
-    raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
-    raise 'Clean failed' unless Apt.clean
-  end
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
   # unavailable on Debian, call it manually.
