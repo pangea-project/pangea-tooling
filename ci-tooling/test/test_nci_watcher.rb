@@ -67,6 +67,7 @@ class NCIWatcherTest < TestCase
           assert_path_exist 'debian/watch'
           assert_includes File.read('debian/watch'), 'download.kde.internal.neon.kde.org'
           assert_includes File.read('debian/watch'), 'http'
+          assert_not_includes File.read('debian/watch'), 'https'
           assert_not_includes File.read('debian/watch'), 'download.kde.org'
           args == 'uscan --report --dehs'
         end
