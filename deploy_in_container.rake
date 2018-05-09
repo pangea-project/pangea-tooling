@@ -179,7 +179,7 @@ rescue => e
   Dir.glob('/var/lib/gems/*/extensions/*/*/*/mkmf.log').each do |log|
     dest = "#{logdir}/#{File.basename(File.dirname(log))}"
     FileUtils.mkdir_p(dest)
-    FileUtils.cp(log, dest)
+    FileUtils.cp(log, dest, verbose: true)
   end
   raise e
 end
