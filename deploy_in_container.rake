@@ -176,7 +176,6 @@ def bundle_install
   bundle(*bundle_args)
 rescue => e
   log_dir = "#{tooling_path}/#{ENV['DIST']}_#{ENV['TYPE']}"
-  FileUtils.rm_rf(log_dir)
   Dir.glob('/var/lib/gems/*/extensions/*/*/*/mkmf.log').each do |log|
     dest = "#{logdir}/#{File.basename(File.dirname(log))}"
     FileUtils.mkdir_p(dest)
