@@ -29,6 +29,9 @@ NCI.add_repo_key!
 NCI.setup_proxy!
 NCI.maybe_setup_apt_preference
 
+type = ENV.fetch('TYPE')
+type = type.tr('-', '/')
+
 Aptly::Ext::Remote.neon_read_only do
-  Lint::CMakePackages.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).run
+  Lint::CMakePackages.new(type, ENV.fetch('DIST')).run
 end

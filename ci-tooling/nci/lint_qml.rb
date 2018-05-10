@@ -27,6 +27,9 @@ NCI.add_repo_key!
 NCI.setup_proxy!
 NCI.maybe_setup_apt_preference
 
+type = ENV.fetch('TYPE')
+type = type.tr('-', '/')
+
 Aptly::Ext::Remote.neon_read_only do
-  Lint::QML.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).lint
+  Lint::QML.new(type, ENV.fetch('DIST')).lint
 end
