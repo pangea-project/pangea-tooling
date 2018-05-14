@@ -25,7 +25,7 @@ require 'tty-command'
 require_relative '../tarball'
 require_relative '../../debian/changelog'
 require_relative '../../debian/version'
-require_relative '../../lsb'
+require_relative '../../os'
 require_relative '../../nci'
 
 module CI
@@ -141,8 +141,8 @@ module CI
 
     def guard_unwanted_repacks
       return unless File.read(@watchfile).include?('repack')
-      return unless %w[ubuntu neon].any? { |x| LSB::DISTRIB_ID == x }
-      return if LSB::DISTRIB_CODENAME == NCI.current_series
+      return unless %w[ubuntu neon].any? { |x| OS::ID == x }
+      return if OS::UBUNTU_CODENAME == NCI.current_series
       raise RepackOnNotCurrentSeries, <<~ERROR
         The watch file wants to repack the source. We tried to download an
         already repacked source from our archives but didn't find one. For
