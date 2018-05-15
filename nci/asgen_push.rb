@@ -58,6 +58,7 @@ Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives') do |sftp|
 
   sftp.upload!("#{repodir}/", tmpdir)
 
+  puts sftp.session.exec!("mkdir -p #{targetdir}/")
   puts sftp.session.exec!("cp -rv #{tmpdir}/. #{targetdir}/")
 end
 FileUtils.rm_rf(repodir)
