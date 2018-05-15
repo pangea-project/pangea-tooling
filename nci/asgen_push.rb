@@ -30,10 +30,9 @@ require_relative '../ci-tooling/lib/nci'
 APTLY_REPOSITORY = ENV.fetch('APTLY_REPOSITORY')
 DIST = ENV.fetch('DIST')
 
-archive_dir = File.absolute_path('aptly-repository')
 run_dir = File.absolute_path('run')
 
-# Mangle the Release file.
+# Move data into basic dir structure of repo skel.
 export_dir = "#{run_dir}/export"
 repo_dir = "#{export_dir}/repo"
 dep11_dir = "#{repo_dir}/main/dep11"
@@ -41,65 +40,26 @@ FileUtils.rm_r(repo_dir) if Dir.exist?(repo_dir)
 FileUtils.mkpath(dep11_dir)
 FileUtils.cp_r("#{export_dir}/data/#{DIST}/main/.", dep11_dir, verbose: true)
 
-release = Debian::Release.new("#{archive_dir}/dists/#{DIST}/Release")
-release.parse!
-
-def checksum(tool, f)
-  puts "#{tool} #{f}"
-  sum = `#{tool} #{f}`.strip.split(' ')[0]
-  raise unless $?.to_i.zero?
-  size = File.size(f)
-  name = f.split('main/dep11/')[-1]
-  Debian::Release::Checksum.new(sum, size, "main/dep11/#{name}")
-end
-
-def insert(ary, sum)
-  matches = ary.select { |x| x.include?(sum.file_name) }
-  puts "insert:match #{matches}"
-  unless matches.empty? # ditch existing sum
-    raise unless matches.size == 1 # we only want one match
-    matches.each { |x| ary.delete(x) }
-  end
-  ary << sum
-end
-
-Dir.glob("#{dep11_dir}/*").each do |f|
-  %w[MD5Sum SHA1 SHA256 SHA512].each do |s|
-    tool = "#{s.downcase}sum"
-    tool = tool.gsub('sumsum', 'sum') # make sure md5sumsum becomes md5sum
-    insert(release.fields[s], checksum(tool, f))
-    next unless f.end_with?('.gz')
-    Dir.mktmpdir do |tmpdir|
-      Dir.chdir(tmpdir) do
-        FileUtils.cp(f, Dir.pwd)
-        basename = File.basename(f)
-        system("gunzip #{basename}") || raise
-        insert(release.fields[s], checksum(tool, basename.gsub('.gz', '')))
-      end
-    end
-  end
-end
-File.write("#{repo_dir}/Release", release.dump)
+# This depends on https://github.com/aptly-dev/aptly/pull/473
+# Aptly versions must take care to actually have the PR applied to them until
+# landed upstream!
+# NB: this is updating off-by-one. i.e. when we run the old data is published,
+#   we update the data but it will only be updated the next time the publish
+#   is updated (we may do this in the future as acquire-by-hash is desired for
+#   such quick update runs).
 
 repodir = File.absolute_path('run/export/repo')
-tmpdir = '/home/neonarchives/asgen_push'
-targetdir = "/home/neonarchives/aptly/public/#{APTLY_REPOSITORY}/dists/#{DIST}"
-
-Net::SSH.start('archive-api.neon.kde.org', 'neonarchives') do |ssh|
-  puts ssh.exec!("rm -rf #{tmpdir}")
-  puts ssh.exec!("mkdir -p #{tmpdir}")
-end
+tmpdir = "/home/neonarchives/asgen_push.#{APTLY_REPOSITORY.tr('/', '-')}"
+targetdir = "/home/neonarchives/aptly/skel/#{APTLY_REPOSITORY}/dists/#{DIST}"
 
 Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives') do |sftp|
-  sftp.upload!("#{repodir}/", "#{tmpdir}")
-end
+  puts sftp.session.exec!("rm -rf #{tmpdir}")
+  puts sftp.session.exec!("mkdir -p #{tmpdir}")
 
-Net::SSH.start('archive-api.neon.kde.org', 'neonarchives') do |ssh|
-  puts ssh.exec!("gpg --digest-algo SHA256 --armor -s -o #{tmpdir}/InRelease --clearsign #{tmpdir}/Release")
-  puts ssh.exec!("gpg --digest-algo SHA256 --armor --detach-sign -s -o #{tmpdir}/Release.gpg  #{tmpdir}/Release")
+  sftp.upload!("#{repodir}/", tmpdir)
+
   puts ssh.exec!("cp -rv #{tmpdir}/. #{targetdir}/")
 end
-#FileUtils.rm_rf("#{export_dir}/data")
 FileUtils.rm_rf(repodir)
 
 # FIXME: should be separate by repo but we can't forward repo into container
