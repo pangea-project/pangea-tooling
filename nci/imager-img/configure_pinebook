@@ -81,6 +81,8 @@ if [ "$VERSION_CODENAME" = "bionic" ]; then
 
     # remove the double sddm hook
     mv config/includes.chroot/lib/live/config/0090-sddm config/includes.chroot/lib/live/config/0085-sddm
+else
+    rm config/includes.chroot/etc/live/config.conf.d/neon-users.conf
 fi
 
 echo "I: done"
