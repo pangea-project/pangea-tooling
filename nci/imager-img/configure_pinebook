@@ -21,6 +21,15 @@ export LB_BOOTLOADERS="none"
 export LB_HDD_LABEL="PINEBOOKneon"
 export LB_MKFS_OPTIONS="-O ^64bit,^metadata_csum,uninit_bg"
 
+. /etc/os-release
+
+### HACK: super ugly hack for getting usable bionic image
+if [ "$VERSION_CODENAME" = "bionic" ]; then
+    sed -i 's/64bit/64bit,\^metadata_csum,uninit_bg/' /usr/lib/live/build/binary_hdd
+fi
+
+env
+
 lb config \
  --architectures arm64 \
  --archive-areas 'main universe' \
@@ -30,12 +39,13 @@ lb config \
  --cache-indices false \
  --cache-packages false \
  --cache-stages 'none' \
- --distribution xenial \
+ --distribution $DIST \
  --binary-images hdd \
  --mode ubuntu \
+ --debootstrap-options='--include="gnupg,ca-certificates"' \
  --apt-source-archives false \
  --source false \
- --apt-options "--yes -o Debug::pkgProblemResolver=true -o Debug::pkgDepCache::AutoInstall=true -o Debug::pkgDepCache::Marker=true -o Acquire::Check-Valid-Until=false" \
+ --apt-options "--yes -o Acquire::Check-Valid-Until=false" \
  --linux-flavours none \
  --linux-packages none \
  --initramfs none \
@@ -54,5 +64,25 @@ lb config \
 
 echo "I: copy customization"
 test -d /tooling/nci/imager-img/customization && cp -rf /tooling/nci/imager-img/customization/* config/
+
+
+if [ "$VERSION_CODENAME" = "bionic" ]; then
+    echo "W: removing some packages which are not built for bionic yet"
+    sed -i '/ksystraycmd5/d' config/package-lists/neon.list.chroot
+    sed -i '/libcedrus1/d' config/package-lists/neon.list.chroot
+    sed -i '/libvdpau-sunxi1/d' config/package-lists/neon.list.chroot
+    sed -i '/mpv/d' config/package-lists/neon.list.chroot
+    sed -i '/smplayer/d' config/package-lists/neon.list.chroot
+
+    # upadte hook to use prebuilt packages
+    rm config/hooks/live/live-config.hook.chroot
+    echo 'live-config' >> config/package-lists/neon.list.chroot
+    echo 'live-config-systemd' >> config/package-lists/neon.list.chroot
+
+    # remove the double sddm hook
+    mv config/includes.chroot/lib/live/config/0090-sddm config/includes.chroot/lib/live/config/0085-sddm
+else
+    rm config/includes.chroot/etc/live/config.conf.d/neon-users.conf
+fi
 
 echo "I: done"

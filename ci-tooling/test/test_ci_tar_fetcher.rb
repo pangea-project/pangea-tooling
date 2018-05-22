@@ -39,13 +39,13 @@ module CI
         }
       end
 
-      LSB.instance_variable_set(:@hash,
-                                DISTRIB_CODENAME: NCI.current_series,
-                                DISTRIB_ID: 'ubuntu')
+      OS.instance_variable_set(:@hash,
+                                UBUNTU_CODENAME: NCI.current_series,
+                                ID: 'ubuntu')
     end
 
     def teardown
-      LSB.reset
+      OS.reset
     end
 
     def test_fetch
@@ -262,9 +262,9 @@ module CI
     def test_watch_fetch_repack
       require_binaries(%w[uscan])
 
-      LSB.instance_variable_set(:@hash,
-                                DISTRIB_CODENAME: NCI.current_series + '1',
-                                DISTRIB_ID: 'ubuntu')
+      OS.instance_variable_set(:@hash,
+                                UBUNTU_CODENAME: NCI.current_series + '1',
+                                ID: 'ubuntu')
 
       # Not passing any series in and expecting a failure as we'd repack
       # on a series that isn't NCI.current_series

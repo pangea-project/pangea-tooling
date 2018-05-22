@@ -51,7 +51,7 @@ also possible that the templatification regressed because the relevant project
 entry disappeared from the config(s) or the project wildcard detection is not
 working becuase the relevant branch in the Git repository is missing.
 
-https://github.com/blue-systems/pangea-conf-projects
+https://github.com/pangea-project/pangea-conf-projects
             NOT_TEMPLATED_ERROR
             NOT_REMOTE => <<-NOT_REMOTE_ERROR
 The job should have been generated in Jenkins as we had it in our creation queue,
@@ -110,6 +110,9 @@ Check the detailed output to find output relating to the failed creation of the 
     def update_submodules
       Dir.chdir(File.realpath("#{__dir__}/../../")) do
         return if @submodules_updated
+        unless system(*%w[git submodule sync --recursive])
+          raise 'failed to sync git configuration for submodules'
+        end
         unless system(*%w[git submodule update --remote --recursive])
           raise 'failed to update git submodules of tooling!'
         end

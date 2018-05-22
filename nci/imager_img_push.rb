@@ -24,6 +24,7 @@ require 'fileutils'
 require 'net/sftp'
 require 'net/ssh'
 require 'tty-command'
+require_relative 'imager_img_push_support'
 
 DIST = ENV.fetch('DIST')
 TYPE = ENV.fetch('TYPE')
@@ -34,7 +35,10 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # this to only be published if passing some QA test
 DATE = File.read('date_stamp').strip
 IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"
-REMOTE_DIR = "public_html/images/pinebook-remix/"
+REMOTE_DIR = "neon/images/pinebook-remix-nonfree/"
+if DIST == 'bionic'
+  REMOTE_DIR = "neon/images/pinebook-remix-nonfree/bionic/"
+end
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 puts "GPG signing disk image file"
@@ -87,7 +91,7 @@ key_file = ENV.fetch('SSH_KEY_FILE', nil)
 ssh_args = key_file ? [{ keys: [key_file] }] : []
 
 # Publish ISO and associated content.
-Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
+Net::SFTP.start('racnoss.kde.org', 'neon', *ssh_args) do |sftp|
   puts "mkdir #{REMOTE_PUB_DIR}"
   sftp.cli_uploads = true
   sftp.mkdir!(REMOTE_PUB_DIR)
@@ -102,7 +106,7 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
   sftp.cli_uploads = false
 
   # Need a second SSH session here, since the SFTP one is busy looping.
-  Net::SSH.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |ssh|
+  Net::SSH.start('racnoss.kde.org', 'neon', *ssh_args) do |ssh|
     #ssh.exec!("cd #{REMOTE_PUB_DIR}; gunzip --stdout *img.gz > #{IMGNAME}.img")
     #ssh.exec!("cd #{REMOTE_PUB_DIR};" \
     #          " ln -s *img #{IMAGENAME}-pinebook-remix-#{TYPE}-current.iso")
@@ -113,35 +117,35 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
 
   # delete old directories
   img_directories = sftp.dir.glob(REMOTE_DIR, '*').collect(&:name)
-  img_directories.delete('current') # keep current symlink
-  img_directories = img_directories.sort.pop(4) # keep the latest four builds
+  img_directories = old_directories_to_remove(img_directories)
   img_directories.each do |name|
     path = "#{REMOTE_DIR}/#{name}"
     STDERR.puts "rm #{path}"
     # Not deleting stuff as this is broken and kills current build itself
-    #sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
-    #sftp.rmdir!(path)
+    sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
+    sftp.rmdir!(path)
   end
-end
+end 
+
 
 # Publish ISO sources.
-=begin
-Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon') do |sftp|
-  path = 'files.neon.kde.org.uk'
-  types = %w[source.tar.xz]
-  types.each do |type|
-    Dir.glob("result/*#{type}").each do |file|
-      # Remove old ones
-      STDERR.puts "src rm #{path}/#{ISONAME}*#{type}"
-      sftp.dir.glob(path, "#{ISONAME}*#{type}") do |e|
-        STDERR.puts "glob src rm #{path}/#{e.name}"
-        sftp.remove!("#{path}/#{e.name}")
-      end
-      # upload new one
-      name = File.basename(file)
-      STDERR.puts "Uploading #{file}..."
-      sftp.upload!(file, "#{path}/#{name}")
-    end
-  end
-end
-=end
+#Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
+#  path = 'files.neon.kde.org.uk'
+#  types = %w[source.tar.xz source.tar]
+#  types.each do |type|
+#    Dir.glob("result/*#{type}").each do |file|
+#      # Remove old ones
+#      STDERR.puts "src rm #{path}/#{ISONAME}*#{type}"
+#      sftp.dir.glob(path, "#{ISONAME}*#{type}") do |e|
+#        STDERR.puts "glob src rm #{path}/#{e.name}"
+#        sftp.remove!("#{path}/#{e.name}")
+#      end
+#      # upload new one
+#      name = File.basename(file)
+#
+#      sftp.cli_uploads = File.new(file).lstat.size > 4 * 1024 * 1024
+#      STDERR.puts "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
+#      sftp.upload!(file, "#{path}/#{name}")
+#    end
+#  end
+#end

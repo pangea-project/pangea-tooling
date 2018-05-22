@@ -30,14 +30,14 @@ export PANGEA_UBUNTU_ONLY=1
 env
 
 rm -rf /tmp/tooling
-git clone --depth 1 https://github.com/blue-systems/pangea-tooling.git /tmp/tooling
+git clone --depth 1 https://github.com/pangea-project/pangea-tooling.git /tmp/tooling
 cd /tmp/tooling
 
 ## from  mgmt_tooling_deploy.xml
 rm -rv .bundle || true
 gem install --no-rdoc bundler
 # FIXME: add --without development test back
-# https://github.com/blue-systems/pangea-tooling/issues/17
+# https://github.com/pangea-project/pangea-tooling/issues/17
 bundle install --jobs=`nproc` --system
 
 rake clean

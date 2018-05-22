@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -51,8 +51,32 @@ DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           gobject-introspection sphinx-common po4a pep8 pyflakes ppp-dev dh-di
           libgirepository1.0-dev libglib2.0-dev bash-completion
           python3-setuptools python3-setuptools-scm python-setuptools python-setuptools-scm dkms
-          mozilla-devscripts libffi-dev subversion libssl-dev libcurl4-gnutls-dev
+          mozilla-devscripts libffi-dev subversion libcurl4-gnutls-dev
           libhttp-parser-dev javahelper rsync].freeze + CORE_RUNTIME_DEPS
+
+def home
+  '/var/lib/jenkins'
+end
+
+def tooling_path
+  '/tooling-pending'
+end
+
+def final_path
+  '/tooling'
+end
+
+# Trap common exit signals to make sure the ownership of the forwarded
+# volume is correct once we are done.
+# Otherwise it can happen that bundler left root owned artifacts behind
+# and the folder becomes undeletable.
+%w[EXIT HUP INT QUIT TERM].each do |signal|
+  Signal.trap(signal) do
+    next unless Etc.passwd { |u| break true if u.name == 'jenkins' }
+    FileUtils.chown_R('jenkins', 'jenkins', tooling_path, verbose: true,
+                                                          force: true)
+  end
+end
 
 # FIXME: code copy from install_check
 def install_fake_pkg(name)
@@ -116,6 +140,50 @@ def cleanup_rubies
   FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/*'), verbose: true)
 end
 
+def cleanup_bundle
+  Dir.chdir(tooling_path) do
+    # Clean up now unused gems. This prevents unused versions of a gem
+    # lingering in the image blowing up its size.
+    clean_args = ['clean']
+    clean_args << '--verbose'
+    clean_args << '--force' # Force system clean!
+    bundle(*clean_args)
+  end
+end
+
+def deployment_cleanup
+  # Ultimate clean up
+  #  Semi big logs
+  File.write('/var/log/lastlog', '')
+  File.write('/var/log/faillog', '')
+  File.write('/var/log/dpkg.log', '')
+  File.write('/var/log/apt/term.log', '')
+
+  cleanup_bundle
+  cleanup_rubies
+end
+
+def bundle_install
+  bundle_args = ['install']
+  bundle_args << "--jobs=#{[Etc.nprocessors / 2, 1].max}"
+  bundle_args << '--local'
+  bundle_args << '--no-cache'
+  bundle_args << '--frozen'
+  bundle_args << '--system'
+  # FIXME: this breaks deployment on nodes, for now disable this
+  # https://github.com/pangea-project/pangea-tooling/issues/17
+  #bundle_args << '--without' << 'development' << 'test'
+  bundle(*bundle_args)
+rescue => e
+  log_dir = "#{tooling_path}/#{ENV['DIST']}_#{ENV['TYPE']}"
+  Dir.glob('/var/lib/gems/*/extensions/*/*/*/mkmf.log').each do |log|
+    dest = "#{log_dir}/#{File.basename(File.dirname(log))}"
+    FileUtils.mkdir_p(dest)
+    FileUtils.cp(log, dest, verbose: true)
+  end
+  raise e
+end
+
 # openqa
 task :deploy_openqa do
   # Only openqa on neon dists and if explicitly enabled.
@@ -128,14 +196,38 @@ task :deploy_openqa do
   end
 end
 
+desc 'Upgrade to newer ruby if required'
+task :align_ruby do
+  FileUtils.rm_rf('/tmp/kitchen') # Instead of messing with pulls, just clone.
+  sh format('git clone --depth 1 %s %s',
+            'https://github.com/pangea-project/pangea-kitchen.git',
+            '/tmp/kitchen')
+  Dir.chdir('/tmp/kitchen') do
+    # ruby_build checks our version against the pangea version and if necessary
+    # installs a ruby in /usr/local which is more suitable than what we have.
+    # If this comes back !0 and we are meant to be aligned already this means
+    # the previous alignment failed, abort when this happens.
+    if !system('./ruby_build.sh') && ENV['ALIGN_RUBY_EXEC']
+      raise 'It seems rake was re-executed after a ruby version alignment,' \
+            ' but we still found and unsuitable ruby version being used!'
+    end
+  end
+  case $?.exitstatus
+  when 0 # installed version is fine, we are happy.
+    FileUtils.rm_rf('/tmp/kitchen')
+    next
+  when 1 # a new version was installed, we'll re-exec ourself.
+    sh 'gem install rake'
+    ENV['ALIGN_RUBY_EXEC'] = 'true'
+    # Reload ourself via new rake
+    exec('rake', *ARGV)
+  else # installer crashed or other unexpected error.
+    raise 'Error while aligning ruby version through pangea-kitchen'
+  end
+end
+
 desc 'deploy inside the container'
 task :deploy_in_container => %i[align_ruby deploy_openqa] do
-  home = '/var/lib/jenkins'
-  # Deploy ci-tooling and bundle. We later use internal libraries to provision
-  # so we need all dependencies met as early as possible in the process.
-  # FIXME: copy from above
-  tooling_path = '/tooling-pending'
-  final_path = '/tooling'
   final_ci_tooling_compat_path = File.join(home, 'tooling')
   final_ci_tooling_compat_compat_path = File.join(home, 'ci-tooling')
 
@@ -155,38 +247,24 @@ EOF
       Gem.install('bundler')
     end
 
+    require_relative 'ci-tooling/lib/apt'
+    require_relative 'ci-tooling/lib/retry'
+
+    Apt.install(*EARLY_DEPS) || raise
+
+    Retry.retry_it(times: 5, sleep: 8) do
+      # NOTE: apt.rb automatically runs update the first time it is used.
+      raise 'Dist upgrade failed' unless Apt.dist_upgrade
+      # Install libssl1.0 for systems that have it
+      Apt.install('libssl-dev') unless Apt.install('libssl1.0-dev')
+      raise 'Apt install failed' unless Apt.install(*DEPS)
+      raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
+      raise 'Clean failed' unless Apt.clean
+    end
+
     # Add debug for checking what version is being used
     bundle(*%w[--version])
-
-    bundle_args = ['install']
-    bundle_args << "--jobs=#{[Etc.nprocessors / 2, 1].max}"
-    bundle_args << '--local'
-    bundle_args << '--no-cache'
-    bundle_args << '--frozen'
-    bundle_args << '--system'
-    # FIXME: this breaks deployment on nodes, for now disable this
-    # https://github.com/blue-systems/pangea-tooling/issues/17
-    #bundle_args << '--without' << 'development' << 'test'
-    bundle(*bundle_args)
-
-    # Clean up now unused gems. This prevents unused versions of a gem
-    # lingering in the image blowing up its size.
-    clean_args = ['clean']
-    clean_args << '--verbose'
-    clean_args << '--force' # Force system clean!
-    bundle(*clean_args)
-
-    # Trap common exit signals to make sure the ownership of the forwarded
-    # volume is correct once we are done.
-    # Otherwise it can happen that bundler left root owned artifacts behind
-    # and the folder becomes undeletable.
-    %w[EXIT HUP INT QUIT TERM].each do |signal|
-      Signal.trap(signal) do
-        next unless Etc.passwd { |u| break true if u.name == 'jenkins' }
-        FileUtils.chown_R('jenkins', 'jenkins', tooling_path, verbose: true,
-                                                              force: true)
-      end
-    end
+    bundle_install
 
     FileUtils.rm_rf(final_path)
     FileUtils.mkpath(final_path, verbose: true)
@@ -204,8 +282,6 @@ EOF
       FileUtils.ln_s("#{final_path}/ci-tooling", compat, verbose: true)
     end
   end
-
-  require_relative 'ci-tooling/lib/apt'
 
   File.write('force-unsafe-io', '/etc/dpkg/dpkg.cfg.d/00_unsafeio')
 
@@ -257,8 +333,6 @@ EOF
     end
   end
 
-  Apt.install(*EARLY_DEPS) || raise
-
   # Force eatmydata on the installation binaries to completely bypass fsyncs.
   # This gives a 20% speed improvement on installing plasma-desktop+deps. That
   # is ~1 minute!
@@ -290,15 +364,6 @@ SCRIPT
   # the size of the package it takes *seconds* to unpack but in CI environments
   # it adds no value.
   install_fake_pkg('fonts-noto-cjk')
-
-  require_relative 'ci-tooling/lib/retry'
-  Retry.retry_it(times: 5, sleep: 8) do
-    # NOTE: apt.rb automatically runs update the first time it is used.
-    raise 'Dist upgrade failed' unless Apt.dist_upgrade
-    raise 'Apt install failed' unless Apt.install(*DEPS)
-    raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
-    raise 'Clean failed' unless Apt.clean
-  end
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
   # unavailable on Debian, call it manually.
@@ -350,44 +415,9 @@ SCRIPT
     f.puts('jenkins ALL=(ALL) NOPASSWD: ALL')
   end
 
-  # Add a custom version_id in os-release for DCI
-  custom_version_id
-
-  # Ultimate clean up
-  #  Semi big logs
-  File.write('/var/log/lastlog', '')
-  File.write('/var/log/faillog', '')
-  File.write('/var/log/dpkg.log', '')
-  File.write('/var/log/apt/term.log', '')
-  cleanup_rubies
+  custom_version_id # Add a custom version_id in os-release for DCI
+  deployment_cleanup
 end
 
-desc 'Upgrade to newer ruby if required'
-task :align_ruby do
-  FileUtils.rm_rf('/tmp/kitchen') # Instead of messing with pulls, just clone.
-  sh format('git clone --depth 1 %s %s',
-            'https://github.com/blue-systems/pangea-kitchen.git',
-            '/tmp/kitchen')
-  Dir.chdir('/tmp/kitchen') do
-    # ruby_build checks our version against the pangea version and if necessary
-    # installs a ruby in /usr/local which is more suitable than what we have.
-    # If this comes back !0 and we are meant to be aligned already this means
-    # the previous alignment failed, abort when this happens.
-    if !system('./ruby_build.sh') && ENV['ALIGN_RUBY_EXEC']
-      raise 'It seems rake was re-executed after a ruby version alignment,' \
-            ' but we still found and unsuitable ruby version being used!'
-    end
-  end
-  case $?.exitstatus
-  when 0 # installed version is fine, we are happy.
-    FileUtils.rm_rf('/tmp/kitchen')
-    next
-  when 1 # a new version was installed, we'll re-exec ourself.
-    sh 'gem install rake'
-    ENV['ALIGN_RUBY_EXEC'] = 'true'
-    # Reload ourself via new rake
-    exec('rake', *ARGV)
-  else # installer crashed or other unexpected error.
-    raise 'Error while aligning ruby version through pangea-kitchen'
-  end
-end
+# NB: Try to only add new stuff above the deployment task. It is so long and
+# unwieldy that it'd be hard to find the end of it if you add stuff below it.

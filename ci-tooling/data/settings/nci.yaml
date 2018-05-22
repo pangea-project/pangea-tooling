@@ -10,7 +10,7 @@
   sourcer:
     restricted_packaging_copy: true
 
-'*_neon-packaging_{partitionmanage}_*':
+'*_neon-packaging_{partitionmanager}_*':
   sourcer:
     restricted_packaging_copy: true
 

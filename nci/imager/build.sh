@@ -106,6 +106,7 @@ ls -lah
 
 if [ ! -e livecd.neon.iso ]; then
     echo "ISO Build Failed."
+    ls -la
     cleanup
     exit 1
 fi

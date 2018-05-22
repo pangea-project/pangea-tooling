@@ -66,7 +66,7 @@ module MGMT
         when 'armhf'
           base_image = "armhf/#{base_image}"
         when 'arm64'
-          base_image = "aarch64/#{base_image}"
+          base_image = "arm64v8/#{base_image}"
         end
       end
 

@@ -25,9 +25,9 @@ require_relative 'debian/changes'
 require_relative 'dpkg'
 require_relative 'lsb'
 require_relative 'retry'
+require_relative '../../lib/gir_ffi'
 
 require 'concurrent'
-require 'gir_ffi'
 require 'logger'
 require 'shellwords'
 

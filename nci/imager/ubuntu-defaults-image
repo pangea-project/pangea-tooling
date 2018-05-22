@@ -205,6 +205,9 @@ done
 $SUDO lb clean
 rm -f .stage/config
 
+export BINARYFORMAT=iso-hybrid
+export IMAGEFORMAT=squashfs
+
 # Neon addition to easily override some variables
 if [ -e "$CONFIG_SETTINGS" ]; then
     . $CONFIG_SETTINGS
@@ -212,7 +215,7 @@ fi
 
 SUITE="$SUITE" PROJECT="$FLAVOR" ARCH="$ARCH" LB_ARCHITECTURES="$ARCH" \
     LB_MIRROR_BOOTSTRAP="$MIRROR" LB_MIRROR_CHROOT_SECURITY="$SECURITY_MIRROR" \
-    IMAGEFORMAT=squashfs BINARYFORMAT=iso-hybrid ISOHYBRID_OPTIONS="--uefi" lb config
+    IMAGEFORMAT="$IMAGEFORMAT" BINARYFORMAT="$BINARYFORMAT" ISOHYBRID_OPTIONS="--uefi" lb config
 
 if [ "$COMPONENTS" ]; then
     sed -i "s/^\\(LB_PARENT_ARCHIVE_AREAS=\\).*/\\1\"$COMPONENTS\"/" \

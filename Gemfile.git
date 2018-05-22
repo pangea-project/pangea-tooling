@@ -4,7 +4,7 @@ source 'https://git.gem.cache.pangea.pub'
 # Do not use gems from git. Ever. It's incompatible with how we deploy the
 # tooling and containerization in general.
 # Instead what we do is run a secondary system that builds gems from git.
-# https://github.com/blue-systems/pangea-geminabox
+# https://github.com/pangea-project/pangea-geminabox
 # To add a new job edit the Jenkinsfile in that repo instead.
 # You can also add them here as ultimately the geminabox tech will use this
 # file to emulate bundler's behavior.

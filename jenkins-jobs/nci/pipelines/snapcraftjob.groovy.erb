@@ -17,7 +17,7 @@ cleanNode('amd64') { // && cloud') {
 
     sh 'mkdir tooling'
     dir('tooling') {
-      git url: 'https://github.com/blue-systems/pangea-tooling'
+      git url: 'https://github.com/pangea-project/pangea-tooling'
     }
   }
   stage('extend') {
@@ -37,7 +37,7 @@ cleanNode('master') {
   stage('clone') {
     sh 'mkdir tooling'
     dir('tooling') {
-      git url: 'https://github.com/blue-systems/pangea-tooling'
+      git url: 'https://github.com/pangea-project/pangea-tooling'
     }
   }
   stage('publish') {

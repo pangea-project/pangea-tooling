@@ -328,7 +328,7 @@ absolutely must not be native though!
     # @see {get_git}
     def get_bzr(uri, dest)
       return if File.exist?(dest)
-      return if system("bzr checkout #{uri} #{dest}")
+      return if system("bzr checkout --lightweight #{uri} #{dest}")
       raise BzrTransactionError, "Could not checkout #{uri}"
     end
 
