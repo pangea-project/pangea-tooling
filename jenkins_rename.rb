@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# coding: utf-8
 # frozen_string_literal: true
 #
 # Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
@@ -31,10 +32,10 @@ require_relative 'lib/jenkins/job'
 
 parser = OptionParser.new do |opts|
   opts.banner = <<-EOS
-Usage: jenkins_able.rb [options] 'regex' 'PATTERN' 'SUBPATTERN'
+Usage: jenkins_rename.rb [options] 'regex' 'PATTERN_FROM' 'PATTERN_TO'
 
 regex must be a valid Ruby regular expression matching the jobs you wish to
-retry.
+rename.  The parts matching PATTERN_FROM will be renamed to PATTERN_TO.
 
 e.g.
   • Sub 'plasma' in all jobs for 'liquid':
