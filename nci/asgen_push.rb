@@ -48,7 +48,6 @@ FileUtils.cp_r("#{export_dir}/data/#{DIST}/main/.", dep11_dir, verbose: true)
 #   is updated (we may do this in the future as acquire-by-hash is desired for
 #   such quick update runs).
 
-repodir = File.absolute_path('run/export/repo')
 # We need the checksum of the uncompressed file in the Release file of the repo,
 # this is currently not correctly handled in the aptly skel system. As a quick
 # stop-gap we'll simply make sure an uncompressed file is around.
@@ -64,12 +63,12 @@ Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives') do |sftp|
   puts sftp.session.exec!("rm -rf #{tmpdir}")
   puts sftp.session.exec!("mkdir -p #{tmpdir}")
 
-  sftp.upload!("#{repodir}/", tmpdir)
+  sftp.upload!("#{repo_dir}/", tmpdir)
 
   puts sftp.session.exec!("mkdir -p #{targetdir}/")
   puts sftp.session.exec!("cp -rv #{tmpdir}/. #{targetdir}/")
 end
-FileUtils.rm_rf(repodir)
+FileUtils.rm_rf(repo_dir)
 
 # FIXME: should be separate by repo but we can't forward repo into container
 #        when generating the paths :/
