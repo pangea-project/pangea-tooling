@@ -49,6 +49,14 @@ FileUtils.cp_r("#{export_dir}/data/#{DIST}/main/.", dep11_dir, verbose: true)
 #   such quick update runs).
 
 repodir = File.absolute_path('run/export/repo')
+# We need the checksum of the uncompressed file in the Release file of the repo,
+# this is currently not correctly handled in the aptly skel system. As a quick
+# stop-gap we'll simply make sure an uncompressed file is around.
+# https://github.com/aptly-dev/aptly/pull/473#issuecomment-391281324
+Dir.glob("#{dep11_dir}/**/*.gz") do |compressed|
+  system('gunzip', '-k', compressed) || raise
+end
+
 tmpdir = "/home/neonarchives/asgen_push.#{APTLY_REPOSITORY.tr('/', '-')}"
 targetdir = "/home/neonarchives/aptly/skel/#{APTLY_REPOSITORY}/dists/#{DIST}"
 
