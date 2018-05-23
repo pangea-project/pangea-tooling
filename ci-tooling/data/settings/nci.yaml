@@ -46,7 +46,7 @@
   sourcer:
     restricted_packaging_copy: true
 
-'*_kde-extras_{zanshin}_*':
+'*_extras_{zanshin}_*':
   sourcer:
     restricted_packaging_copy: true
 
@@ -86,6 +86,6 @@
   sourcer:
     restricted_packaging_copy: true
 
-'*_kde-extras_*_*':
+'*_extras_*_*':
    sourcer:
      restricted_packaging_copy: true

@@ -76,7 +76,7 @@ applications_jobs = KDEProjectsComponent.applications.collect do |app|
 end
 
 FUTURE_SKIP = applications_jobs + %w[
-  _kde-extras_
+  _extras_
   iso_neon_
   iso_neon-
   img_neon_
@@ -125,7 +125,7 @@ FUTURE_INCLUDE = %w[
   _forks_pyqt5
   _forks_xf86-video-armsoc
   _forks_ubiquity
-  _kde-extras_phonon
+  _extras_phonon
   _kde_ark
   _kde_dolphin
   _kde_gwenview
@@ -265,7 +265,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
           next unless type == 'release'
-          next unless %w[neon-packaging kde-extras].include?(project.component) ||
+          next unless %w[neon-packaging extras].include?(project.component) ||
             %w[applications frameworks plasma].include?(project.kdecomponent)
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
