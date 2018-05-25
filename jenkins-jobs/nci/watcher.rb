@@ -20,6 +20,7 @@
 
 require_relative '../job'
 require_relative '../../ci-tooling/lib/nci'
+require_relative '../../lib/kdeproject_component'
 
 # Watches for releases.
 class WatcherJob < JenkinsJob
@@ -41,14 +42,13 @@ class WatcherJob < JenkinsJob
     @scm_writable.url.gsub!('https://anongit.neon.kde.org/',
                             'neon@git.neon.kde.org:')
     # Don't touch release-lts for Plasma jobs
-    if project.component == 'plasma'
+    if KDEProjectsComponent.plasma_jobs.include? project.name
       @scm_writable.branch.replace('Neon/release')
     else
       @scm_writable.branch.replace('Neon/release-lts')
     end
     @nci = NCI
-    periodic_watch_components = %w[kde-extras kde-req kde-std neon-packaging
-                                   forks calligra]
+    periodic_watch_components = %w[kde extras neon-packaging forks]
     @periodic_build = if periodic_watch_components.include?(project.component)
                         'H H * * *'
                       else

@@ -19,6 +19,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative '../publisher'
+require_relative '../../lib/kdeproject_component'
 
 # Neon extension to publisher
 class NeonPublisherJob < PublisherJob
@@ -60,7 +61,7 @@ class NeonPublisherJob < PublisherJob
   private
 
   def push_to_stable?
-    kdecomponent == 'frameworks' ||
+    KDEProjectsComponent.frameworks_jobs.any? { |x| basename.include?(x) } ||
       %w[pkg-kde-tools phonon].any? { |x| basename.include?(x) }
   end
 
