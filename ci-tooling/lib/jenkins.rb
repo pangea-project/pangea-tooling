@@ -136,6 +136,21 @@ module JenkinsApi
 
     # Extends Job with some useful methods not in upstream (probably could be).
     class Job
+      alias list_all_orig list_all
+      def list_all(root = '')
+        jobs = @client.api_get_request(root, 'tree=jobs[name]').fetch('jobs')
+
+        jobs = jobs.collect do |j|
+          next j unless j.fetch('_class').include?('Folder')
+          name = j.fetch('name')
+          leaves = list_all("#{root}/job/#{j.fetch('name')}")
+          leaves.collect { |x| "#{name}/#{x}" }
+        end
+        jobs = jobs.flatten
+
+        jobs.map { |job| job.respond_to?(:fetch) ? job.fetch('name') : job }.sort
+      end
+
       def building?(job_name, build_number = nil)
         build_number ||= get_current_build_number(job_name)
         raise "No builds for #{job_name}" unless build_number
