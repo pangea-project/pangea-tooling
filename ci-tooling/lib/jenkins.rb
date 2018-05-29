@@ -84,6 +84,7 @@ module JenkinsApi
     # Folders are a bit of a mess WRT posting configs...
     alias post_config_orig post_config
     def post_config(url_prefix, xml)
+      return if url_prefix.nil?
       if File.basename(url_prefix) == 'config.xml'
         return post_config_existing(url_prefix, xml)
       end
