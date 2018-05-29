@@ -75,8 +75,7 @@ applications_jobs = KDEProjectsComponent.applications.collect do |app|
   "_kde_#{app}"
 end
 
-FUTURE_SKIP = applications_jobs + %w[
-  _extras_
+FUTURE_SKIP = %w[
   iso_neon_
   iso_neon-
   img_neon_
