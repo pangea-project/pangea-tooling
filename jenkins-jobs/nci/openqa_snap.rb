@@ -28,6 +28,8 @@ class OpenQASnapJob < PipelineJob
     super("openqa_snap/#{snap}/#{channel}",
           job_template: 'openqa_snap',
           template: '') # there is no script template, it is in-repo
-    @env = ["OPENQA_SNAP_NAME=#{snap}", "OPENQA_SNAP_CHANNEL=#{channel}"]
+    @env = ['TYPE=useredition',
+            "OPENQA_SNAP_NAME=#{snap}",
+            "OPENQA_SNAP_CHANNEL=#{channel}"]
   end
 end
