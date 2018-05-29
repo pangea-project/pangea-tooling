@@ -69,6 +69,60 @@ module JenkinsApi
                            port: @server_port, path: @jenkins_path)
     end
 
+    alias get_config_orig get_config
+    def get_config(url_prefix)
+      # Unlike post_config this already comes in with a /job/ prefix, only one
+      # though. Drop that, then sanitize to support Folders which need to have
+      # /job/Folder/job/OtherFolder/job/ActualJob
+      url = url_prefix.dup.gsub('/job/', '/')
+      url = "/#{url}" unless url[0] == '/'
+      url = url.gsub('//', '/')
+      get_config_orig(url.gsub('/', '/job/'))
+    end
+
+    # Fish folders out of the post config and construct a suitable path.
+    # Folders are a bit of a mess WRT posting configs...
+    alias post_config_orig post_config
+    def post_config(url_prefix, xml)
+      uri = URI.parse(url_prefix)
+      query = CGI.parse(uri.query)
+
+      # Split the path into the job name and folder name(s)
+      name = query.fetch('name').fetch(0)
+      name = name.gsub('//', '') while name.include?('//')
+      name = "/#{name}" unless name[0] == '/'
+
+      dirname = File.dirname(name)
+      jobname = File.basename(name)
+      dirurl = dirname.gsub('/', '/job/')
+
+      if dirname != '.' && dirname != '/'
+        # Check if the dir part exists, if not auto-create folders.
+        # This will eventually recurse in on itself if the parent of our
+        # parent is also not existing.
+        begin
+          job.get_config(dirname)
+        rescue JenkinsApi::Exceptions::NotFound
+          warn "Missing folder #{dirname}. Auto-creating it..."
+          job.create(dirname, <<-XML)
+<?xml version='1.1' encoding='UTF-8'?>
+<com.cloudbees.hudson.plugins.folder.Folder plugin="cloudbees-folder@6.4">
+</com.cloudbees.hudson.plugins.folder.Folder>
+          XML
+        end
+
+        query['name'] = [jobname]
+        uri.path = "#{dirurl}#{uri.path}"
+        uri.query = URI.encode_www_form(query)
+      end
+
+      # At this point we'll have changed
+      #   /createItem?name=foo/bar/fries
+      # to
+      #   /job/foo/job/bar/createItem?name=fries
+      post_config_orig(uri.to_s, xml)
+    end
+
     # Monkey patch to not be broken.
     class View
       # Upstream version applies a filter via list(filter) which means view_name
