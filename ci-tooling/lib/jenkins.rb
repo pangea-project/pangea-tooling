@@ -163,7 +163,6 @@ module JenkinsApi
       end
 
       def building?(job_name, build_number = nil)
-        puts "XXX #{job_name}"
         build_number ||= get_current_build_number(job_name)
         raise "No builds for #{job_name}" unless build_number
         @client.api_get_request(
