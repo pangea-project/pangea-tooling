@@ -84,6 +84,10 @@ module JenkinsApi
     # Folders are a bit of a mess WRT posting configs...
     alias post_config_orig post_config
     def post_config(url_prefix, xml)
+      if File.basename(url_prefix) == 'config.xml'
+        return post_config_existing(url_prefix, xml)
+      end
+
       uri = URI.parse(url_prefix)
       query = CGI.parse(uri.query)
 
@@ -121,6 +125,13 @@ module JenkinsApi
       # to
       #   /job/foo/job/bar/createItem?name=fries
       post_config_orig(uri.to_s, xml)
+    end
+
+    def post_config_existing(url_prefix, xml)
+      basename = File.basename(url_prefix)
+      dirname = File.dirname(url_prefix)
+      dirname = dirname.gsub('/job/', '/').gsub('//', '/').gsub('/', '/job/')
+      post_config_orig(File.join(dirname, basename), xml)
     end
 
     # Monkey patch to not be broken.
