@@ -21,13 +21,34 @@
 
 require_relative 'jenkins_jobs_update_nci'
 
+SNAPS = %w[
+  blinken
+  bomber
+  bovo
+  granatier
+  katomic
+  kbruch
+  kblocks
+  kcalc
+  kgeography
+  kmplot
+  kollision
+  konversation
+  kruler
+  ksquares
+  kteatime
+  ktuberling
+  ktouch
+  okular
+  picmi
+].freeze
+
 # Updates Jenkins Projects
 class OpenQAProjectUpdater < ProjectUpdater
   private
 
   def populate_queue
-    snaps = %w[okular kblocks ktouch]
-    snaps.each do |snap|
+    SNAPS.each do |snap|
       enqueue(OpenQASnapJob.new(snap, channel: 'candidate'))
     end
   end
