@@ -21,6 +21,16 @@
     </EnvInjectJobProperty>
     <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
       <triggers>
+        <jenkins.triggers.ReverseBuildTrigger>
+          <spec></spec>
+          <upstreamProjects><%= snap %>-release_amd64.snap</upstreamProjects>
+          <threshold>
+            <name>SUCCESS</name>
+            <ordinal>0</ordinal>
+            <color>BLUE</color>
+            <completeBuild>true</completeBuild>
+          </threshold>
+        </jenkins.triggers.ReverseBuildTrigger>
         <hudson.triggers.TimerTrigger>
           <spec>H H H/3 * *</spec>
         </hudson.triggers.TimerTrigger>

@@ -22,12 +22,14 @@ require_relative 'pipelinejob'
 
 # openqa snap test
 class OpenQASnapJob < PipelineJob
+  attr_reader :snap
   attr_reader :env
 
   def initialize(snap, channel:)
     super("openqa_snap/#{snap}/#{channel}",
           job_template: 'openqa_snap',
           template: '') # there is no script template, it is in-repo
+    @snap = snap
     @env = ['TYPE=useredition',
             "OPENQA_SNAP_NAME=#{snap}",
             "OPENQA_SNAP_CHANNEL=#{channel}"]
