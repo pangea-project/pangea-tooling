@@ -49,7 +49,7 @@ EXCLUDE_SNAPS = %w[
   kdesdk-thumbnailers khelpcenter kio-extras kqtquickcharts kuser
   libkdcraw libkdegames libkeduvocdocument libkexiv2 libkface
   libkgeomap libkipi libksane poxml akonadi-contacts print-manager
-  marble khangman bovo kdevplatform sddm kdevelop-python kdevelop-php
+  marble khangman kdevplatform sddm kdevelop-python kdevelop-php
   phonon-backend-vlc phonon-backend-gstreamer ktp-common-internals
   kaccounts-providers kdevelop-pg-qt kwalletmanager kdialog svgpart
   libkcddb libkcompactdisc mbox-importer akonadi-calendar-tools
