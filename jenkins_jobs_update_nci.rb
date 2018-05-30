@@ -124,6 +124,10 @@ FUTURE_INCLUDE = %w[
   _forks_pyqt5
   _forks_xf86-video-armsoc
   _forks_ubiquity
+  _forks_almikia
+  _forks_libaqbanking
+  _forks_libgwenhywfar
+  _forks_massif-visualizer
   _extras_phonon
   _kde_ark
   _kde_dolphin
