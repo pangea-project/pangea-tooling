@@ -53,7 +53,7 @@ class NeonPublisherJob < PublisherJob
     #
     # NOTE: Not in release-lts since I think that is frozen, I am only
     #   guessing though. Jon has trouble writing comments.  - sitter
-    repos += ["stable_#{distribution}", "release_#{distribution}"] if qtish?
+    repos += ["stable_#{distribution}", "release_#{distribution}", "release-lts_#{distribution}"] if qtish?
 
     repos
   end
