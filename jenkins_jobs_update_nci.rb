@@ -239,7 +239,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         type_projects[type].each do |project|
           # Fairly akward special casing this. Snaps only build releases right
           # now.
-          if type == 'release' && KDEProjectsComponent.applications.include?(project.name) &&
+          is_app = KDEProjectsComponent.applications.include?(project.name)
+          if type == 'release' && (is_app || project.name == 'konversation') &&
              !EXCLUDE_SNAPS.include?(project.name) && !(distribution == NCI.future_series)
             enqueue(AppSnapJob.new(project.name))
           end
