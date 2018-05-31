@@ -144,6 +144,13 @@ FUTURE_INCLUDE = %w[
   _neon_settings
   _neon_syslinux-themes-neon
   _neon_xserver-xorg-video-intel-native-modesetting
+  _neon-packaging_atcore
+  _neon-packaging_babe
+  _neon-packaging_choqok
+  _neon-packaging_digikam
+  _neon-packaging_distro-release-notifier
+  _neon-packaging_falkon
+  _neon-packaging_kio-stash
 ].freeze
 # NB: iso_neon_bionic_devedition-gitunstable_amd64 is currently manually
 #   mangled to use iso-hackery branch.
