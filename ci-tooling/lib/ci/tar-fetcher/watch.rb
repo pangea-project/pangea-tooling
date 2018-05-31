@@ -54,7 +54,7 @@ module CI
       #   or not.
       maybe_mangle do
         make_dir(destdir)
-        apt_source(destdir)
+        #apt_source(destdir)
         uscan(@dir, destdir) unless @have_source
         tar = TarFinder.new(destdir,
                             version: current_upstream_version).find_and_delete
