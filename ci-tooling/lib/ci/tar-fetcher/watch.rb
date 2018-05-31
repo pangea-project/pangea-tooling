@@ -54,7 +54,7 @@ module CI
       #   or not.
       maybe_mangle do
         make_dir(destdir)
-        #apt_source(destdir)
+        apt_source(destdir)
         uscan(@dir, destdir) unless @have_source
         tar = TarFinder.new(destdir,
                             version: current_upstream_version).find_and_delete
@@ -244,7 +244,11 @@ module CI
         puts 'Telling TarFinder to go have a looksy.'
         tar = TarFinder.new(destdir, version: version).find_and_delete
         unless tar
-           puts 'no tar'
+          puts 'no tar'
+          return nil
+        end
+        if not tar.index(name)
+          puts 'tar name does not match what we want'
           return nil
         end
         puts "Hooray, there's a tarball #{tar}!"
