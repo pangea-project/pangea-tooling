@@ -248,7 +248,8 @@ module CI
           return nil
         end
         if not tar.index(name)
-          puts 'tar name does not match what we want'
+          puts 'tar name does not match what we want, removing'
+          FileUtils.rm(tar, verbose: true)
           return nil
         end
         puts "Hooray, there's a tarball #{tar}!"
