@@ -152,6 +152,7 @@ FUTURE_INCLUDE = %w[
   _neon-packaging_falkon
   _neon-packaging_kio-stash
   _neon-packaging_ksystraycmd
+  _neon-packaging_libkvkontakte
 ].freeze
 # NB: iso_neon_bionic_devedition-gitunstable_amd64 is currently manually
 #   mangled to use iso-hackery branch.
