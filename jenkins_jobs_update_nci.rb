@@ -128,6 +128,9 @@ FUTURE_INCLUDE = %w[
   _forks_libaqbanking
   _forks_libgwenhywfar
   _forks_massif-visualizer
+  _forks_kdesvn
+  _forks_krename
+  _forks_rsibreak
   _extras_phonon
   _kde_ark
   _kde_dolphin
@@ -151,6 +154,7 @@ FUTURE_INCLUDE = %w[
   _neon-packaging_distro-release-notifier
   _neon-packaging_falkon
   _neon-packaging_kio-stash
+  _neon-packaging_kmarkdownwebview
   _neon-packaging_ksystraycmd
   _neon-packaging_libkvkontakte
 ].freeze
