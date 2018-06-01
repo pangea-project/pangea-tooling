@@ -128,8 +128,8 @@ module CI
     end
 
     def adjust?
-      default_branch? && url.include?('.kde.org') && type == 'git'
-        && !url.include?('/scratch/') && !url.include?('/clones/')
+      default_branch? && url.include?('.kde.org') && type == 'git' && 
+        !url.include?('/scratch/') && !url.include?('/clones/')
     end
   end
 end
