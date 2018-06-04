@@ -326,4 +326,6 @@ if [ -d "$BUILD_HOOKS" ]; then
 fi
 #----
 
+cat config/common
+
 DISPLAY= $SUDO PROJECT="$FLAVOR" ARCH="$ARCH" lb build
