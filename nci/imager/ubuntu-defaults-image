@@ -276,10 +276,53 @@ EOF
 
 # rename kernel and initrd to what syslinux expects
 cat <<EOF > config/hooks/rename-kernel.binary
-#!/bin/sh -e
+#!/bin/sh -ex
+# Read bytes out of a file, checking that they are valid hex digits
+readhex()
+{
+	dd < "$1" bs=1 skip="$2" count="$3" 2> /dev/null | \
+		LANG=C grep -E "^[0-9A-Fa-f]{$3}\$"
+}
+
+# Check for a zero byte in a file
+checkzero()
+{
+	dd < "$1" bs=1 skip="$2" count=1 2> /dev/null | \
+		LANG=C grep -q -z '^$'
+}
+
 if [ ! -e binary/casper/initrd.lz ]; then
+
+    # There may be a prepended uncompressed archive.  cpio
+    # won't tell us the true size of this so we have to
+    # parse the headers and padding ourselves.  This is
+    # very roughly based on linux/lib/earlycpio.c
+    INITRD="binary/casper/initrd.img-*"
+    offset=0
+    while true; do
+        if checkzero "${INITRD}" $offset; then
+            offset=$((offset + 4))
+            continue
+        fi
+        magic="$(readhex "${INITRD}" $offset 6)" || break
+        test $magic = 070701 || test $magic = 070702 || break
+        namesize=0x$(readhex "${INITRD}" $((offset + 94)) 8)
+        filesize=0x$(readhex "${INITRD}" $((offset + 54)) 8)
+        offset=$(((offset + 110)))
+        offset=$(((offset + $namesize + 3) & ~3))
+        offset=$(((offset + $filesize + 3) & ~3))
+    done
+    
+    initramfs="${INITRD}"
+    if [ $offset -ne 0 ]; then
+        subarchive=$(mktemp ${TMPDIR:-/tmp}/initramfs_XXXXXX)
+        dd < "${INITRD}" bs="$offset" skip=1 2> /dev/null \
+            > $subarchive
+        initramfs=${subarchive}
+    fi
+
     echo "\$0: Renaming initramfs to initrd.lz..."
-    zcat binary/casper/initrd.img-* | lzma -c > binary/casper/initrd.lz
+    zcat ${initramfs} | lzma -c > binary/casper/initrd.lz
     rm binary/casper/initrd.img-*
 fi
 if [ ! -e binary/casper/vmlinuz ]; then
