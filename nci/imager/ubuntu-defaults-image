@@ -275,7 +275,7 @@ rm -vrf /tmp/*
 EOF
 
 # rename kernel and initrd to what syslinux expects
-cat <<EOF > config/hooks/rename-kernel.binary
+cat <<'EOF' > config/hooks/rename-kernel.binary
 #!/bin/sh -ex
 # Read bytes out of a file, checking that they are valid hex digits
 readhex()
@@ -283,8 +283,6 @@ readhex()
 	dd < "$1" bs=1 skip="$2" count="$3" 2> /dev/null | \
 		LANG=C grep -E "^[0-9A-Fa-f]{$3}\$"
 }
-
-# Check for a zero byte in a file
 checkzero()
 {
 	dd < "$1" bs=1 skip="$2" count=1 2> /dev/null | \
