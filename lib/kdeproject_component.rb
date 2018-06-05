@@ -26,6 +26,7 @@ require 'httparty'
 class KDEProjectsComponent
   class << self
     @@projects_to_jobs = {'kirigami'=>'kirigami2', 'discover'=>'plasma-discover'}
+    @@projects_without_jobs = ['plasma-tests']
 
     def frameworks
       @frameworks ||= to_names(projects('frameworks'))
@@ -51,7 +52,7 @@ class KDEProjectsComponent
     end
 
     def plasma_jobs
-      @plasma_jobs ||= to_jobs(plasma)
+      @plasma_jobs ||= to_jobs(plasma).reject {|x| @@projects_without_jobs.include?(x)}
     end
 
     private
