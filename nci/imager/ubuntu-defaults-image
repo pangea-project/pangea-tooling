@@ -295,7 +295,7 @@ if [ ! -e binary/casper/initrd.lz ]; then
     # won't tell us the true size of this so we have to
     # parse the headers and padding ourselves.  This is
     # very roughly based on linux/lib/earlycpio.c
-    INITRD="binary/casper/initrd.img-*"
+    INITRD="$(ls binary/casper/initrd.img-*)"
     offset=0
     while true; do
         if checkzero "${INITRD}" $offset; then
