@@ -324,17 +324,17 @@ if [ ! -e binary/casper/initrd.lz ]; then
     rm binary/casper/initrd.img-*
 fi
 if [ ! -e binary/casper/vmlinuz ]; then
-    echo "\$0: Renaming kernel to vmlinuz..."
+    echo "$0: Renaming kernel to vmlinuz..."
     # This will go wrong if there's ever more than one vmlinuz-* after
     # excluding *.efi.signed.  We can deal with that if and when it arises.
     for x in binary/casper/vmlinuz-*; do
-	case \$x in
+	case $x in
 	    *.efi.signed)
 		;;
 	    *)
-		mv \$x binary/casper/vmlinuz
-		if [ -e "\$x.efi.signed" ]; then
-		    mv \$x.efi.signed binary/casper/vmlinuz.efi
+		mv $x binary/casper/vmlinuz
+		if [ -e "$x.efi.signed" ]; then
+		    mv $x.efi.signed binary/casper/vmlinuz.efi
 		fi
 		;;
 	esac
