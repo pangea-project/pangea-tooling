@@ -26,9 +26,11 @@ require 'optparse'
 require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/retry'
 require_relative 'ci-tooling/lib/thread_pool'
+require_relative 'lib/kdeproject_component'
 
 @exclusion_states = %w[success unstable]
 strict_mode = false
+new_release = nil
 
 OptionParser.new do |opts|
   opts.banner = <<-EOS
@@ -50,6 +52,21 @@ Only jobs that are not queued, not building, and failed will be retired.
 
   EOS
 
+  opts.on('-p', '--plasma', 'There has been a new Plasma release, run all watcher jobs for Plasma.') do
+    @exclusion_states.clear
+    new_release = KDEProjectsComponent.plasma_jobs
+  end
+
+  opts.on('-a', '--applications', 'There has been a new Applications release, run all watcher jobs for Applications.') do
+    @exclusion_states.clear
+    new_release = KDEProjectsComponent.applications_jobs
+  end
+
+  opts.on('-f', '--frameworks', 'There has been a new Frameworks release, run all watcher jobs for Frameworks.') do
+    @exclusion_states.clear
+    new_release = KDEProjectsComponent.frameworks_jobs
+  end
+
   opts.on('-b', '--build', 'Rebuild even if job did not fail.') do
     @exclusion_states.clear
   end
@@ -69,15 +86,24 @@ end.parse!
   l.level = Logger::INFO
 end
 
-raise 'Need ruby pattern as argv0' if ARGV.empty?
-pattern = Regexp.new(ARGV[0])
-@log.info pattern
 
 job_name_queue = Queue.new
 job_names = Jenkins.job.list_all
-job_names.each do |name|
-  next unless pattern.match(name)
-  job_name_queue << name
+if new_release.nil?
+  raise 'Need ruby pattern as argv0' if ARGV.empty?
+  pattern = Regexp.new(ARGV[0])
+  @log.info pattern
+  job_names.each do |name|
+    next unless pattern.match(name)
+    job_name_queue << name
+  end
+else
+  pattern = Regexp.new('watcher_release_kde_('+new_release.join('|')+')$')
+  @log.info pattern
+  job_names.each do |name|
+    next unless pattern.match(name)
+    job_name_queue << name
+  end
 end
 
 @log.info 'Setting system into maintenance mode.'
