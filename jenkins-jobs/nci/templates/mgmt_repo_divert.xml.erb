@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty plugin="dependency-queue-plugin@1.2-SNAPSHOT">
+      <blockWhileUpstreamQueued>true</blockWhileUpstreamQueued>
+    </org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty>
+    <org.jenkins.plugins.lockableresources.RequiredResourcesProperty plugin="lockable-resources@2.1">
+      <resourceNames></resourceNames>
+      <resourceNamesVar></resourceNamesVar>
+      <resourceNumber>1</resourceNumber>
+      <labelName>APTLY</labelName>
+    </org.jenkins.plugins.lockableresources.RequiredResourcesProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>export DIST=<%= dist %>
+bundle exec ~/tooling/nci/repo_divert.rb <%= target %>
+</command>
+    </hudson.tasks.Shell>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.8"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.5.0">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+  </buildWrappers>
+</project>

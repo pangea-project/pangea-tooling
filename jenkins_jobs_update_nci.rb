@@ -401,6 +401,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                              target: 'user', appstream: ''))
     enqueue(MGMTSnapshot.new(dist: NCI.current_series, origin: 'release-lts',
                              target: 'user-lts', appstream: '-lts'))
+    enqueue(MGMTRepoDivert.new(target: 'unstable_bionic'))
+    enqueue(MGMTRepoDivert.new(target: 'unstable_xenial'))
+    enqueue(MGMTRepoDivert.new(target: 'stable_bionic'))
+    enqueue(MGMTRepoDivert.new(target: 'stable_xenial'))
     enqueue(MGMTToolingJob.new(downstreams: [docker],
                                dependees: []))
     enqueue(MGMTRepoCleanupJob.new)
