@@ -136,8 +136,8 @@ module NCI
           source_change = data.gsub!('${source:Version}~ciBuild', version.to_s)
           binary_change = data.gsub!('${binary:Version}~ciBuild', version.to_s)
           something_changed ||= !(source_change || binary_change).nil?
-        rescue
-          raise "Failed to gsub #{path}"
+        rescue StandardError => e
+          raise "Failed to gsub #{path} -- #{e}"
         end
         File.write(path, data)
       end
