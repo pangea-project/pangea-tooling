@@ -50,8 +50,9 @@ module NCI
         # The download.kde.internal.neon.kde.org domain is not
         # publicly available!
         # Only available through blue system's internal DNS.
-        output += line.gsub(%r{download.kde.org/stable/},
-                            'download.kde.internal.neon.kde.org:9191/stable/').gsub('https','http')
+        line = line.gsub(%r{download.kde.org/stable/},
+                         'download.kde.internal.neon.kde.org:9191/stable/')
+        output += line.gsub('https', 'http')
       end
       puts output
       File.open('debian/watch', 'w') { |file| file.write(output) }
