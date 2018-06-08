@@ -112,9 +112,15 @@ end
 class AptlyRepository < Repository
   def initialize(repo, prefix)
     @repo = repo
-    # FIXME: snapshot has no published_in
-    # raise unless @repo.published_in.any? { |x| x.Prefix == prefix }
-    super("http://archive.neon.kde.org/#{prefix}")
+    #TODO: REVERT: This should not be needed at all, but I can't get tests
+    # working where it automatically fetches prefix from the aptly.
+    # I'll revert this when I get tests working but for now to get lint_cmake/qml 
+    # working this is crude solution
+    if prefix == 'unstable' || prefix == 'stable'
+      super("http://archive.neon.kde.org/tmp/#{prefix}")
+    else
+      super("http://archive.neon.kde.org/#{prefix}")
+    end
   end
 
   # FIXME: Why is this public?!
