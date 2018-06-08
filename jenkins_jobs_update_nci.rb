@@ -125,8 +125,6 @@ FUTURE_INCLUDE = %w[
   _forks_xf86-video-armsoc
   _forks_ubiquity
   _forks_libalkimia
-  _forks_libaqbanking
-  _forks_libgwenhywfar
   _forks_massif-visualizer
   _forks_kdesvn
   _forks_krename
