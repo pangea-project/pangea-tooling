@@ -58,10 +58,10 @@ module NCI
       File.open('debian/watch', 'w') { |file| file.write(output) }
       puts 'mangled debian/watch'
 
-      if File.readlines('debian/watch').grep(/unstable/).any?
+      if File.read('debian/watch').include?('unstable')
         puts 'Quitting watcher as debian/watch contains unstable ' \
              'and we only build stable tars in Neon'
-        return unless File.readlines('debian/watch').grep(/qqc2-desktop-style/).any?
+        return
       end
 
       result = uscan_cmd.run!('uscan --report --dehs') # run! to ignore errors
