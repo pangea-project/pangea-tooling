@@ -127,7 +127,7 @@ class NCISetupRepoTest < TestCase
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '--no-update', '-y',
-       'deb http://archive.neon.kde.org/unstable vivid main'],
+       'deb http://archive.neon.kde.org/tmp/unstable vivid main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
     ]
