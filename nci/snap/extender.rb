@@ -19,6 +19,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'json'
+require 'open-uri'
 require 'rugged'
 require 'tmpdir'
 require 'yaml'
