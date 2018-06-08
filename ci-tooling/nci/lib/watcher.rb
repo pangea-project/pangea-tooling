@@ -90,13 +90,13 @@ module NCI
     # KEEP IN SYNC with ungsub_download_url!
     def self.gsub_download_url(url)
       url.gsub('download.kde.org/', 'download.kde.internal.neon.kde.org:9191/')
-         .gsub('https', 'http')
+         .sub('https://', 'http://')
     end
 
     # KEEP IN SYNC with gsub_download_url!
     def self.ungsub_download_url(url)
       url.gsub('download.kde.internal.neon.kde.org:9191/', 'download.kde.org/')
-         .gsub('http', 'https')
+         .sub('http://', 'https://')
     end
 
     def run
