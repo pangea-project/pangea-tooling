@@ -159,7 +159,7 @@ APT::Default-Release "#{LSB::DISTRIB_CODENAME}";
 
     def debline(type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
       type = type.tr('-', '/')
-      if type == 'dev/stable' || type == 'dev/unstable'
+      if type == 'stable' || type == 'unstable'
         format('deb http://archive.neon.kde.org/tmp%<type>s %<dist>s main',
              type: type, dist: dist)
       else
@@ -170,7 +170,7 @@ APT::Default-Release "#{LSB::DISTRIB_CODENAME}";
 
     def debsrcline(type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
       type = type.tr('-', '/')
-      if type == 'dev/stable' || type == 'dev/unstable'
+      if type == 'stable' || type == 'unstable'
         format('deb-src http://archive.neon.kde.org/tmp%<type>s %<dist>s main',
              type: type, dist: dist)
       else
