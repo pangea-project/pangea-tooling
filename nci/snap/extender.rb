@@ -106,10 +106,20 @@ module NCI
         FileUtils.cp_r("#{__dir__}/plugins", target, verbose: true)
       end
 
+      def convert_source!
+        if ENV.fetch('TYPE', 'unstable').include?('release')
+          data['parts'].each_value do |part|
+            raise 'Contains git source' if part.source.include?('git.kde')
+          end
+        else
+          convert_to_git!
+        end
+      end
+
       def extend(file)
         load(file)
 
-        convert_to_git!
+        convert_source!
         convert_to_deb_staging!
         add_plugins!
 

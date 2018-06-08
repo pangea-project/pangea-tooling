@@ -52,5 +52,29 @@ module NCI::Snap
 
       assert_path_exist('snap/plugins/x-stage-debs.py')
     end
+
+    def test_release_with_git
+      ENV['TYPE'] = 'release-lts'
+      assert_raises RuntimeError do
+        Extender.extend(data('snapcraft.yaml'))
+      end
+    end
+
+    # When building a release type we don't want the git mangling to happen.
+    def test_release_no_gitification
+      ENV['TYPE'] = 'release-lts'
+
+      stub_request(:get, Extender::STAGED_CONTENT_PATH).
+        to_return(status: 200, body: JSON.generate(['bar']))
+      stub_request(:get, Extender::STAGED_DEV_PATH).
+        to_return(status: 200, body: JSON.generate(['bar-dev']))
+
+      assert_path_not_exist('snapcraft.yaml')
+      Extender.extend(data('snapcraft.yaml'))
+      assert_path_exist('snapcraft.yaml')
+      data = YAML.load_file('snapcraft.yaml')
+      ref = YAML.load_file(data('output.yaml'))
+      assert_equal(ref, data)
+    end
   end
 end
