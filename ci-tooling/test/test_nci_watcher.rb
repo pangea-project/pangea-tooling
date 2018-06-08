@@ -129,4 +129,16 @@ class NCIWatcherTest < TestCase
       NCI::Watcher.new.run
     end
   end
+
+  def test_snapcraft_updater
+    FileUtils.cp_r("#{data}/.", '.')
+    dehs = mock('dehs')
+    dehs.stubs(:upstream_version).returns('18.14.1')
+    # NB: watcher doesn't unmangle itself, we expect the updater to do it
+    dehs.stubs(:upstream_url).returns('http://download.kde.internal.neon.kde.org:9191/okular-18.14.1.tar.xz')
+    NCI::Watcher::SnapcraftUpdater.new(dehs).run
+    actual = YAML.load_file('snapcraft.yaml')
+    expected = YAML.load_file('snapcraft.yaml.ref')
+    assert_equal(expected, actual)
+  end
 end

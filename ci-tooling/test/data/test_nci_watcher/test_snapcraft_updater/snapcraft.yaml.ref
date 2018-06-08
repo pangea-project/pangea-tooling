@@ -1,0 +1,33 @@
+---
+name: okular
+version: 18.14.1
+summary: Universal document viewer
+description: |-
+    Okular is a universal document viewer developed by KDE. Okular works on multiple platforms, including but not limited to 
+confinement: strict
+grade: stable
+apps:
+    okular:
+        command: kf5-launch okular
+        plugs:
+        - kde-frameworks-5-plug
+slots:
+    session-dbus-interface:
+        interface: dbus
+        name: org.kde.okular
+        bus: session
+plugs:
+    kde-frameworks-5-plug:
+        content: kde-frameworks-5-all
+        interface: content
+        default-provider: kde-frameworks-5
+        target: kf5
+parts:
+    okular:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        plugin: cmake
+        build-packages:
+        - kdoctools-dev
+        source: https://download.kde.org/okular-18.14.1.tar.xz
