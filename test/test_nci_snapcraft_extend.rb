@@ -40,7 +40,6 @@ module NCI::Snap
 
       assert_path_not_exist('snapcraft.yaml')
       Extender.extend(data('snapcraft.yaml'))
-      puts File.read('snapcraft.yaml')
       assert_path_exist('snapcraft.yaml')
       data = YAML.load_file('snapcraft.yaml')
       ref = YAML.load_file(data('output.yaml'))
