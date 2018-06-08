@@ -133,6 +133,8 @@ module NCI
         next unless File.file?(path)
         data = File.read(path)
         begin
+          # We track gsub results here because we'll later wrap-and-sort
+          # iff something changed.
           source_change = data.gsub!('${source:Version}~ciBuild', version.to_s)
           binary_change = data.gsub!('${binary:Version}~ciBuild', version.to_s)
           something_changed ||= !(source_change || binary_change).nil?
