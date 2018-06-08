@@ -29,10 +29,6 @@ module NCI::Snap
       ENV['APPNAME'] = 'kolourpaint'
     end
 
-    def teardown
-      ENV.delete('APPNAME')
-    end
-
     def test_extend
       FileUtils.cp_r(data('source'), '.')
       FileUtils.mv('source/git', 'source/.git')
