@@ -66,12 +66,7 @@ Aptly::Ext::Remote.neon do
   repo.published_in.each do |pub|
     prefix = pub.send(:api_prefix)
     raise 'could not call pub.api_prefix and get a result' unless prefix
-    next unless pub.Name.start_with?("tmp_#{prefix}")
-    attributes = pub.to_h
-    attributes.delete(:Sources)
-    attributes.delete(:SourceKind)
-    attributes.delete(:Storage)
-    attributes.delete(:Prefix)
+    next unless prefix.start_with?("tmp")
     pub.drop
   end
 end
