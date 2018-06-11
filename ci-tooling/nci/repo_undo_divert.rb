@@ -66,7 +66,7 @@ Aptly::Ext::Remote.neon do
   repo.published_in.each do |pub|
     prefix = pub.send(:api_prefix)
     raise 'could not call pub.api_prefix and get a result' unless prefix
-    next unless prefix.start_with?("tmp")
+    next unless prefix.start_with?("tmp/")
     pub.drop
   end
 end
