@@ -50,6 +50,7 @@ Aptly::Ext::Remote.neon do
   snaps = Aptly::Snapshot.list.keep_if { |x| x.Name.start_with?(REPO_NAME) }
   raise "bad shots #{snaps}" unless snaps.size == 1
   snap = snaps[0]
+  puts = "Restoring #{REPO_NAME} from snapshot #{snap.Name}\n\n"
   snap.published_in.each do |pub|
     attributes = pub.to_h
     attributes.delete(:Sources)
