@@ -32,6 +32,7 @@ class OpenQASnapJob < PipelineJob
     @snap = snap
     @env = ['TYPE=useredition',
             "OPENQA_SNAP_NAME=#{snap}",
-            "OPENQA_SNAP_CHANNEL=#{channel}"]
+            "OPENQA_SNAP_CHANNEL=#{channel}",
+            'OPENQA_SNAP_RUNTIME_CHANNEL=stable']
   end
 end
