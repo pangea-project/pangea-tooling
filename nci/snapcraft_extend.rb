@@ -23,6 +23,7 @@ require_relative '../ci-tooling/nci/lib/setup_repo'
 require_relative 'snap/extender'
 
 if $PROGRAM_NAME == __FILE__
+  ENV['TERM'] = 'dumb' # make snpacraft not give garbage progress spam
   NCI.setup_repo!
   NCI::Snap::Extender.run
 end
