@@ -27,6 +27,7 @@ SNAPS = %w[
   bovo
   granatier
   katomic
+  kblackbox
   kbruch
   kblocks
   kcalc
