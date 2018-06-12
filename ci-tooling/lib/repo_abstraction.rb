@@ -56,7 +56,7 @@ class Repository
     # still built and would consequently get installed in the install_check.
     # Prevent this by blacklisting it. In 18.04 we want it installed though as
     # it replaces an adwaita fork.
-    if OS.VERSION_ID == '16.04'
+    if OS::VERSION_ID == '16.04'
       warn 'excluding neon-adwaita for 16.04'
       @install_exclusion << 'neon-adwaita'
     end
