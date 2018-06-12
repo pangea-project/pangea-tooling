@@ -31,10 +31,16 @@ require_relative '../../lib/aptly-ext/remote'
 options = OpenStruct.new
 parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{opts.program_name} SOURCENAME"
+
+  opts.on('-r REPO', '--repo REPO',
+          'Repo to delete from [can be used >1 time]') do |v|
+    options.repos ||= []
+    options.repos << v.to_s
+  end
 end
 parser.parse!
 
-abort parser.help unless ARGV[0]
+abort parser.help unless ARGV[0] && options.repos
 options.name = ARGV[0]
 
 log = Logger.new(STDOUT)
@@ -45,7 +51,7 @@ log.progname = $PROGRAM_NAME
 Aptly::Ext::Remote.neon do
   log.info 'APTLY'
   Aptly::Repository.list.each do |repo|
-    # next unless options.types.include?(repo.Name)
+    next unless options.repos.include?(repo.Name)
 
     # Query all relevant packages.
     # Any package with source as source.
@@ -56,6 +62,7 @@ Aptly::Ext::Remote.neon do
     next if packages.empty?
 
     log.info "Deleting packages from repo #{repo.Name}: #{packages}"
+    repo.delete_packages(packages)
     repo.delete_packages(packages)
     repo.published_in.each(&:update!)
   end
