@@ -13,6 +13,7 @@ cleanNode('amd64') { // && cloud') {
     dir('source') {
       git branch: "<%= upstream_scm.branch %>", url: "<%= upstream_scm.url %>"
     }
+    <% elsif upstream_scm.type == 'uscan' %>
     <% else; raise "Unknown upstream scm type on #{upstream_scm}"; end %>
 
     sh 'mkdir tooling'
