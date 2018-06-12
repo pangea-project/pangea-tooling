@@ -108,6 +108,7 @@ module NCI
 
       def convert_source!
         if ENV.fetch('TYPE', 'unstable').include?('release')
+          raise "Devel grade can't be TYPE release" if data['grade'] == 'devel'
           data['parts'].each_value do |part|
             raise 'Contains git source' if part.source.include?('git.kde')
           end
