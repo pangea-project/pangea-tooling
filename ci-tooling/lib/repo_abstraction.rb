@@ -56,10 +56,15 @@ class Repository
     # still built and would consequently get installed in the install_check.
     # Prevent this by blacklisting it. In 18.04 we want it installed though as
     # it replaces an adwaita fork.
-    @install_exclusion << 'neon-adwaita' if OS.VERSION_ID == '16.04'
+    if OS.VERSION_ID == '16.04'
+      warn 'excluding neon-adwaita for 16.04'
+      @install_exclusion << 'neon-adwaita'
+    end
     # software-properties backs up Apt::Repository, must not be removed.
     @purge_exclusion = %w[base-files python3-software-properties
                           software-properties-common apt libapt-pkg5.0]
+
+    p self
   end
 
   def add
