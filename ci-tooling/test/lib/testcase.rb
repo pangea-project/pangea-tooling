@@ -45,13 +45,16 @@ WebMock.stub_request(:get, 'http://unix/v1.16/version')
 # PWD in a tmpdir. On top of that fixture loading helpers are provided in the
 # form of {#data} and {#fixture_file} which grab fixtures out of
 # test/data/file_name/test_method_name.
+# rubocop:disable Metrics/ClassLength
+# This class is very long because it is very flexible and very complicated.
 class TestCase < Test::Unit::TestCase
+  # rubocop:enable Metrics/ClassLength
   include EquivalentXmlAssertations
 
   ATFILEFAIL = 'Could not determine the basename of the file of the' \
                ' class inheriting TestCase. Either flatten your inheritance' \
                ' graph or set the name manually using `self.file = __FILE__`' \
-               ' in class scope.'.freeze
+               ' in class scope.'
 
   class << self
     attr_accessor :file
@@ -69,7 +72,7 @@ class TestCase < Test::Unit::TestCase
       @file = path if path.include?('/test/')
       break
     end
-    fail ATFILEFAIL unless @file
+    raise ATFILEFAIL unless @file
   end
 
   def self.inherited(subclass)
@@ -129,10 +132,10 @@ class TestCase < Test::Unit::TestCase
   def assert_is_a(obj, expected)
     actual = obj.class.ancestors | obj.class.included_modules
     diff = AssertionMessage.delayed_diff(expected, actual)
-    format = <<EOT
+    format = <<MSG
 <?> expected but its ancestors and includes are at the very least
 <?>.?
-EOT
+MSG
     message = build_message(message, format, expected, actual, diff)
     assert_block(message) { obj.is_a?(expected) }
   end
