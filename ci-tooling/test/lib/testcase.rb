@@ -24,6 +24,7 @@ require 'tmpdir'
 require 'webmock/test_unit'
 require 'net/smtp'
 require 'mocha/test_unit'
+require 'objspace'
 
 require_relative 'assert_xml'
 
@@ -75,6 +76,45 @@ class TestCase < Test::Unit::TestCase
     @file = nil
     super(subclass)
     subclass.autodetect_inherited_file unless @file
+
+    # This is in fact meant to be a class variable,
+    #   see all_testcases_are_pangea_testcases
+    # rubocop:disable Style/ClassVars
+    @@meta_test_enabled ||= begin
+      warn "Enabling meta test for #{subclass}"
+      subclass.class_eval do
+        alias_method :test_all_testcases_are_pangea_testcases, :all_testcases_are_pangea_testcases
+      end
+      true
+    end
+    # rubocop:enable Style/ClassVars
+  end
+
+  # This is a super special hack. We'll want to assert that all TestCases
+  # run are in fact derived from this class. But, since we use parallel to
+  # quickly run tests in multiple processes at the same time (bypassing the GIL)
+  # we cannot simply have a test that asserts it, as that test may be run in
+  # set A but not set B and set B may have offending test cases.
+  # To deal with this any set that includes any of our TestCase will have this
+  # method turned into a test (see #inherited). Meaning this method will run
+  # as a test for all sets where at least one class is this class (which is
+  # very likley) and it will only do so one because inherited tracks this.
+  # TLDR: any one TestCase dervied class loaded in any ruby instance will have
+  #   this as a test to assert all other test classes also derive from this
+  #   (as opposed to Test::Unit::TestCase directly)
+  def all_testcases_are_pangea_testcases
+    not_pangea = []
+    ObjectSpace.each_object do |obj|
+      next unless obj.is_a?(Class)
+      next if obj == Test::Unit::TestCase
+      next unless obj.ancestors.include?(Test::Unit::TestCase)
+      not_pangea << obj unless obj.ancestors.include?(TestCase)
+    end
+
+    warn 'done with objspace'
+
+    assert_empty(not_pangea, 'Found test cases which do not derive from the' \
+                             ' pangea specific TestCase class.')
   end
 
   # Automatically issues omit() if binaries required for a test are not present
