@@ -26,7 +26,7 @@ class NeonPublisherJob < PublisherJob
   attr_reader :kdecomponent
 
   def initialize(basename, type:, distribution:, dependees:,
-                 component:, upload_map:, architectures:, kdecomponent:)
+                 component:, upload_map:, architectures:, kdecomponent:, project:)
     super(basename, type: type, distribution: distribution, dependees: dependees, component: component, upload_map: upload_map, architectures: architectures)
     @kdecomponent = kdecomponent
   end
@@ -61,8 +61,8 @@ class NeonPublisherJob < PublisherJob
   private
 
   def push_to_stable?
-    KDEProjectsComponent.frameworks_jobs.any? { |x| basename.include?(x) } ||
-      %w[pkg-kde-tools phonon].any? { |x| basename.include?(x) }
+    KDEProjectsComponent.frameworks_jobs.any? { |x| project.name == x } ||
+      %w[pkg-kde-tools phonon].any? { |x| project.name == x }
   end
 
   def qtish?
