@@ -155,6 +155,8 @@ FUTURE_INCLUDE = %w[
   _neon-packaging_kmarkdownwebview
   _neon-packaging_ksystraycmd
   _neon-packaging_libkvkontakte
+  _neon-packaging_libcedrus
+  _neon-packaging_libvdpau-sunxi
   _launchpad_ubuntu-release-upgrader-neon
 ].freeze
 # NB: iso_neon_bionic_devedition-gitunstable_amd64 is currently manually
