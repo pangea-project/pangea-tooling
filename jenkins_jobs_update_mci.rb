@@ -65,18 +65,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def populate_queue
     all_builds = []
     all_meta_builds = []
-    type_projects = {}
-
-    MCI.types.each do |type|
-      projects_file = "#{@projects_dir}/mci/#{type}.yaml"
-      projects = ProjectsFactory.from_file(projects_file,
-                                           branch: "Neon/#{type}")
-      type_projects[type] = projects
-    end
 
     MCI.series.each_key do |distribution|
       MCI.types.each do |type|
-        type_projects[type].each do |project|
+        projects_file = "#{@projects_dir}/mci/#{distribution}/#{type}.yaml"
+        projects = ProjectsFactory.from_file(projects_file,
+                                             branch: "Neon/#{type}")
+        projects.each do |project|
           jobs = ProjectJob.job(project,
                                 distribution: distribution,
                                 type: type,
