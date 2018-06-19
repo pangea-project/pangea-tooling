@@ -79,18 +79,6 @@ class TestCase < Test::Unit::TestCase
     @file = nil
     super(subclass)
     subclass.autodetect_inherited_file unless @file
-
-    # This is in fact meant to be a class variable,
-    #   see all_testcases_are_pangea_testcases
-    # rubocop:disable Style/ClassVars
-    @@meta_test_enabled ||= begin
-      warn "Enabling meta test for #{subclass}"
-      subclass.class_eval do
-        alias_method :test_all_testcases_are_pangea_testcases, :all_testcases_are_pangea_testcases
-      end
-      true
-    end
-    # rubocop:enable Style/ClassVars
   end
 
   # This is a super special hack. We'll want to assert that all TestCases
