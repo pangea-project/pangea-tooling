@@ -28,7 +28,7 @@ class MGMTSnapshot < JenkinsJob
   attr_reader :dist
 
   def initialize(origin:, target:, appstream:, dist:)
-    super("mgmt_snapshot_#{target}", 'mgmt_snapshot.xml.erb')
+    super("mgmt_snapshot_#{dist}_#{target}", 'mgmt_snapshot.xml.erb')
     @origin = origin
     @target = target
     @appstream = appstream

@@ -397,7 +397,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                        dist: NCI.current_series))
     enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts',
                                                dist: NCI.current_series))
-    enqueue(MGMTAppstreamHealthJob.new(dist: NCI.current_series))
+    enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
+    enqueue(MGMTAppstreamGenerator.new(repo: 'user',
+                                       dist: NCI.future_series))
+    enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts',
+                                               dist: NCI.future_series))
+    enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTGitSemaphoreJob.new)
@@ -407,6 +412,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTSnapshot.new(dist: NCI.current_series, origin: 'release',
                              target: 'user', appstream: ''))
     enqueue(MGMTSnapshot.new(dist: NCI.current_series, origin: 'release-lts',
+                             target: 'user-lts', appstream: '-lts'))
+    enqueue(MGMTSnapshot.new(dist: NCI.future_series, origin: 'release',
+                             target: 'user', appstream: ''))
+    enqueue(MGMTSnapshot.new(dist: NCI.future_series, origin: 'release-lts',
                              target: 'user-lts', appstream: '-lts'))
 
     enqueue(MGMTRepoDivert.new(target: 'unstable_bionic'))

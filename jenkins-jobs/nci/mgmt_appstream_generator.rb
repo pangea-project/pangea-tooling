@@ -26,7 +26,7 @@ class MGMTAppstreamGenerator < PipelineJob
   attr_reader :dist
 
   def initialize(suffix = '', repo:, dist:)
-    super("mgmt_appstream-generator#{suffix}",
+    super("mgmt_appstream-generator_#{dist}_#{suffix}",
           template: 'mgmt_appstream_generator')
     @repo = repo
     @dist = dist
