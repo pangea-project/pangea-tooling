@@ -169,7 +169,10 @@ FUTURE_INCLUDE = %w[
 # this is to exclude things which would be matched by more generic includes.
 # e.g. _adwaita would include _adwaita and _adwaita-icon-theme but latter we
 # do not want
-FUTURE_EXCLUDE = %w[].freeze
+# - 3rdparty_indi is a backport
+FUTURE_EXCLUDE = %w[
+  _3rdparty_indi
+].freeze
 
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
