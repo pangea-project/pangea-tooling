@@ -86,6 +86,7 @@ FUTURE_SKIP = %w[
   _neon-packaging_
   _launchpad_
   _unstable_neon_
+  _extras_vc
 ].freeze
 # WARNING: for future reference: we need to be super duper careful with enabling
 #   forks!!!@#!!!!!!! Some of them are not forks at all but bloody backports.
