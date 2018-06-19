@@ -81,33 +81,6 @@ class TestCase < Test::Unit::TestCase
     subclass.autodetect_inherited_file unless @file
   end
 
-  # This is a super special hack. We'll want to assert that all TestCases
-  # run are in fact derived from this class. But, since we use parallel to
-  # quickly run tests in multiple processes at the same time (bypassing the GIL)
-  # we cannot simply have a test that asserts it, as that test may be run in
-  # set A but not set B and set B may have offending test cases.
-  # To deal with this any set that includes any of our TestCase will have this
-  # method turned into a test (see #inherited). Meaning this method will run
-  # as a test for all sets where at least one class is this class (which is
-  # very likley) and it will only do so one because inherited tracks this.
-  # TLDR: any one TestCase dervied class loaded in any ruby instance will have
-  #   this as a test to assert all other test classes also derive from this
-  #   (as opposed to Test::Unit::TestCase directly)
-  def all_testcases_are_pangea_testcases
-    not_pangea = []
-    ObjectSpace.each_object do |obj|
-      next unless obj.is_a?(Class)
-      next if obj == Test::Unit::TestCase
-      next unless obj.ancestors.include?(Test::Unit::TestCase)
-      not_pangea << obj unless obj.ancestors.include?(TestCase)
-    end
-
-    warn 'done with objspace'
-
-    assert_empty(not_pangea, 'Found test cases which do not derive from the' \
-                             ' pangea specific TestCase class.')
-  end
-
   # Automatically issues omit() if binaries required for a test are not present
   # @param binaries [Array<String>] binaries to check for (can be full path)
   def require_binaries(*binaries)
@@ -210,5 +183,30 @@ MSG
 
   def reset_child_status!
     system('true') # Resets $? to all good
+  end
+end
+
+class AllTestCasesArePangeaCases < TestCase
+  # This is a super special hack. We'll want to assert that all TestCases
+  # run are in fact derived from this class. But, since we use parallel to
+  # quickly run tests in multiple processes at the same time (bypassing the GIL)
+  # we cannot simply have a test that asserts it, as that test may be run in
+  # set A but not set B and set B may have offending test cases.
+  # To deal with this any set that includes any of our TestCase will have
+  # this suite forcefully added to assert that everything is alright.
+  #
+  # For future reference: the class name may need PID mutation to avoid
+  # conflicts in the output junit data. Unclear if this is a problem though.
+  def test_all_testcases_are_pangea_testcases
+    not_pangea = []
+    ObjectSpace.each_object do |obj|
+      next unless obj.is_a?(Class)
+      next if obj == Test::Unit::TestCase
+      next unless obj.ancestors.include?(Test::Unit::TestCase)
+      not_pangea << obj unless obj.ancestors.include?(TestCase)
+    end
+
+    assert_empty(not_pangea, 'Found test cases which do not derive from the' \
+                             ' pangea specific TestCase class.')
   end
 end
