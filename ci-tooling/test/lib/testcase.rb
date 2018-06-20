@@ -202,6 +202,8 @@ class AllTestCasesArePangeaCases < TestCase
     ObjectSpace.each_object do |obj|
       next unless obj.is_a?(Class)
       next if obj == Test::Unit::TestCase
+      p obj.ancestors
+      p Test::Unit::TestCase
       next unless obj.ancestors.include?(Test::Unit::TestCase)
       not_pangea << obj unless obj.ancestors.include?(TestCase)
     end
