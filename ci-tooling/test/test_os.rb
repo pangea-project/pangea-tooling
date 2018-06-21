@@ -1,7 +1,8 @@
 require_relative '../lib/os'
+require_relative 'lib/testcase'
 
 # Test os
-class OSTest < Test::Unit::TestCase
+class OSTest < TestCase
   def setup
     script_base_path = File.expand_path(File.dirname(__FILE__))
     script_name = File.basename(__FILE__, '.rb')

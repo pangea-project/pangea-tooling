@@ -5,7 +5,7 @@ end
 
 # Test TestCase class for everything we currently do not actively use as well
 # as failure scenarios.
-class TestTestCase < Test::Unit::TestCase
+class TestTestCase < TestCase
   # Prop is configured in order, so tests depend on their definition order.
   self.test_order = :defined
 
