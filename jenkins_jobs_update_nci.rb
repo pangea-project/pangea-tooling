@@ -409,13 +409,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTDigitalOcean.new)
     enqueue(MGMTDigitalOceanDangler.new)
     enqueue(MGMTSnapshot.new(dist: NCI.current_series, origin: 'release',
-                             target: 'user', appstream: ''))
+                             target: 'user', appstream: '_'+NCI.current_series))
     enqueue(MGMTSnapshot.new(dist: NCI.current_series, origin: 'release-lts',
-                             target: 'user-lts', appstream: '-lts'))
+                             target: 'user-lts', appstream: '_'+NCI.current_series+'-lts'))
     enqueue(MGMTSnapshot.new(dist: NCI.future_series, origin: 'release',
-                             target: 'user', appstream: ''))
+                             target: 'user', appstream: '_'+NCI.future_series+))
     enqueue(MGMTSnapshot.new(dist: NCI.future_series, origin: 'release-lts',
-                             target: 'user-lts', appstream: '-lts'))
+                             target: 'user-lts', appstream: '_'+NCI.future_series+'-lts'))
 
     enqueue(MGMTRepoDivert.new(target: 'unstable_bionic'))
     enqueue(MGMTRepoDivert.new(target: 'unstable_xenial'))
