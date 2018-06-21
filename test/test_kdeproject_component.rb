@@ -3,11 +3,12 @@ require 'test/unit'
 require 'webmock'
 require 'webmock/test_unit'
 
+require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../lib/kdeproject_component'
 
 require 'mocha/test_unit'
 
-class KDEProjectComponentTest < Test::Unit::TestCase
+class KDEProjectComponentTest < TestCase
   def test_kdeprojectcomponent
     stub_request(:get, 'https://projects.kde.org/api/v1/projects/frameworks').
         with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
