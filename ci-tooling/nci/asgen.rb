@@ -57,9 +57,14 @@ Apt.install(%w[meson ldc gir-to-d libappstream-dev libgdk-pixbuf2.0-dev
                xsltproc docbook-xsl]) || raise
 
 # Run
-Apt.install(%w[npm nodejs optipng liblmdb0 cmdtest]) || raise
+Apt.install(%w[npm nodejs optipng liblmdb0]) || raise
 
 cmd = TTY::Command.new
+
+cmd.run(*%w[curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -])
+cmd.run(*%w[echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list])
+Apt.update
+Apt.install(%w[yarn]) || raise
 
 cmd.run(*%w[npm install -g bower])
 
