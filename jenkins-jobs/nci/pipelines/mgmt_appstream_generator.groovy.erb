@@ -10,13 +10,16 @@ node('master') {
             // in turn newer glib/gobject-introspect. Since this is not worth
             // dealing with we'll simply freeze for xenial.
             if (env.DIST != 'xenial') {
-                error 'This build is frozen at v0.6.7, should be unfrozen for bionic'
+                checkout([$class: 'GitSCM',
+                        branches: [[name: 'refs/tags/v0.7.3']],
+                        userRemoteConfigs: [[url: 'https://github.com/ximion/appstream-generator.git']]])
+            } else {
+                checkout([$class: 'GitSCM',
+                        branches: [[name: 'refs/tags/v0.6.7']],
+                        userRemoteConfigs: [[url: 'https://github.com/ximion/appstream-generator.git']]])
+                // Also undo a commit which removed deprecations breaking compat with ldc in xenial backports
+                sh 'git revert --no-commit 14586457af92cd9b781277dfc6269d83a83322fb'
             }
-            checkout([$class: 'GitSCM',
-                      branches: [[name: 'refs/tags/v0.6.7']],
-                      userRemoteConfigs: [[url: 'https://github.com/ximion/appstream-generator.git']]])
-            // Also undo a commit which removed deprecations breaking compat with ldc in xenial backports
-            sh 'git revert --no-commit 14586457af92cd9b781277dfc6269d83a83322fb'
 
             stage 'Repository Setup'
             lts_exclude = ''
@@ -29,6 +32,9 @@ node('master') {
                   --exclude=*_arm64.deb \
                   --exclude=*.dsc  \
                   --exclude=*.tar.* \
+                  --exclude=*xenial* \
+                  --exclude=*bionic* \
+                  --include=*${env.DIST} \
                   neonarchives@archive-api.neon.kde.org:aptly/public/$APTLY_REPOSITORY/*  \
                   aptly-repository/"""
 
