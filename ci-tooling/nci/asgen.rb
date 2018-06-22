@@ -57,7 +57,7 @@ Apt.install(%w[meson ldc gir-to-d libappstream-dev libgdk-pixbuf2.0-dev
                xsltproc docbook-xsl]) || raise
 
 # Run
-Apt.install(%w[npm nodejs optipng liblmdb0]) || raise
+Apt.install(%w[npm nodejs optipng liblmdb0 cmdtest]) || raise
 
 cmd = TTY::Command.new
 
