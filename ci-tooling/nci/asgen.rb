@@ -61,8 +61,13 @@ Apt.install(%w[npm nodejs optipng liblmdb0]) || raise
 
 cmd = TTY::Command.new
 
-cmd.run(*%w[curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -])
-cmd.run(*%w[echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list])
+cmd.run(*%w[wget https://dl.yarnpkg.com/debian/pubkey.gpg])
+cmd.run(*%w[sudo apt-key add pubkey.gpg])
+File.open('/etc/apt/sources.list.d/yarn.list', 'w') do |file|
+  file.write(<<-APTSOURCE)
+deb https://dl.yarnpkg.com/debian/ stable main
+  APTSOURCE
+end
 Apt.update
 Apt.install(%w[yarn]) || raise
 
