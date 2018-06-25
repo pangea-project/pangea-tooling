@@ -50,7 +50,7 @@ pref.write
 
 # Build
 Apt.update
-Apt.install(%w[appstream-generator]) || raise
+Apt.install(%w[appstream-generator libmustache-d0 libstdx-allocator0]) || raise
 
 cmd = TTY::Command.new
 
