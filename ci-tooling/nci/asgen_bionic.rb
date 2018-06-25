@@ -50,27 +50,12 @@ pref.write
 
 # Build
 Apt.update
-Apt.install(%w[meson ldc gir-to-d libappstream-dev libgdk-pixbuf2.0-dev
-               libarchive-dev librsvg2-dev liblmdb-dev libglib2.0-dev
-               libcairo2-dev libcurl4-gnutls-dev libfreetype6-dev
-               libfontconfig1-dev libpango1.0-dev libmustache-d-dev
-               xsltproc docbook-xsl]) || raise
-
-# Run
-Apt.install(%w[npm nodejs optipng liblmdb0]) || raise
+Apt.install(%w[appstream-generator]) || raise
 
 cmd = TTY::Command.new
 
-cmd.run(*%w[npm install -g bower])
-
 build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
-
-Dir.mkdir(build_dir) unless File.exist?(build_dir)
-Dir.chdir(build_dir) do
-  cmd.run(*%w[meson -Ddownload_js=true ..])
-  cmd.run(*%w[ninja])
-end
 
 suite = DIST
 config = ASGEN::Conf.new("neon/#{TYPE}")
@@ -92,7 +77,7 @@ end
 Apt.install('breeze-icon-theme', 'hicolor-icon-theme')
 FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
 config.write("#{run_dir}/asgen-config.json")
-cmd.run("#{build_dir}/appstream-generator", 'process', suite,
+cmd.run("/usr/bin/appstream-generator", 'process', suite,
         chdir: run_dir)
 
 # TODO

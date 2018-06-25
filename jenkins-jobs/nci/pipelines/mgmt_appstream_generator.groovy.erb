@@ -9,11 +9,8 @@ node('master') {
             // Frozen at 0.6.8 as newer versions require newer appstream AND
             // in turn newer glib/gobject-introspect. Since this is not worth
             // dealing with we'll simply freeze for xenial.
-            if (env.DIST != 'xenial') {
-                checkout([$class: 'GitSCM',
-                        branches: [[name: 'refs/tags/v0.7.3']],
-                        userRemoteConfigs: [[url: 'https://github.com/ximion/appstream-generator.git']]])
-            } else {
+            // In bionic we just use the package from Ubuntu's apt archive
+            if (env.DIST == 'xenial') {
                 checkout([$class: 'GitSCM',
                         branches: [[name: 'refs/tags/v0.6.7']],
                         userRemoteConfigs: [[url: 'https://github.com/ximion/appstream-generator.git']]])
@@ -39,7 +36,11 @@ node('master') {
                   aptly-repository/"""
 
             stage 'Process'
-            sh '~/tooling/nci/contain.rb /tooling/ci-tooling/nci/asgen.rb'
+            if (env.DIST == 'xenial') {
+                sh '~/tooling/nci/contain.rb /tooling/ci-tooling/nci/asgen.rb'
+            } else {
+                sh '~/tooling/nci/contain.rb /tooling/ci-tooling/nci/asgen_bionic.rb'
+            }
 
             stage 'Publish'
             sh '~/tooling/nci/asgen_push.rb'
