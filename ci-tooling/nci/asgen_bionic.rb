@@ -57,6 +57,9 @@ cmd = TTY::Command.new
 build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
 
+cmd.run(*%w[wget https://launchpad.net/ubuntu/+archive/primary/+files/appstream-generator_0.7.3-1_amd64.deb])
+cmd.run(*%w[dpkg --install appstream-generator_0.7.3-1_amd64.deb])
+
 suite = DIST
 config = ASGEN::Conf.new("neon/#{TYPE}")
 config.ArchiveRoot = File.absolute_path('aptly-repository')
