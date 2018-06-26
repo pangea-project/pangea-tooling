@@ -31,7 +31,7 @@ node('master') {
                   --exclude=*.tar.* \
                   --exclude=*xenial* \
                   --exclude=*bionic* \
-                  --include=*${env.DIST} \
+                  --include=*${env.DIST}* \
                   neonarchives@archive-api.neon.kde.org:aptly/public/$APTLY_REPOSITORY/*  \
                   aptly-repository/"""
 
