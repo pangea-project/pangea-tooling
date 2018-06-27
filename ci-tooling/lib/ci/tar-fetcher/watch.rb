@@ -24,6 +24,7 @@ require 'tty-command'
 
 require_relative '../tarball'
 require_relative '../../debian/changelog'
+require_relative '../../debian/source'
 require_relative '../../debian/version'
 require_relative '../../os'
 require_relative '../../nci'
@@ -32,6 +33,7 @@ module CI
   # Fetch tarballs via uscan using debian/watch.
   class WatchTarFetcher
     class RepackOnNotCurrentSeries < StandardError; end
+    class NativePackaging < StandardError; end
 
     # @param watchfile String path to watch file for the fetcher
     # @param mangle_download Boolean whether to mangle KDE URIs to run through
@@ -46,6 +48,8 @@ module CI
       @watchfile = watchfile
       @mangle_download = mangle_download
       @series = series
+      return unless Debian::Source.new(@dir).format.type == :native
+      raise NativePackaging, 'run on native packaging. This is useless!'
     end
 
     def fetch(destdir)

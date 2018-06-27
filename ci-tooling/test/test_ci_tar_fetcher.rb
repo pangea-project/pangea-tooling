@@ -284,6 +284,16 @@ module CI
       end
     end
 
+    def test_watch_native
+      # native packages need not run uscan. It makes no sense as they generate
+      # their own source. Make sure this doesn't happen anywhere.
+      require_binaries(%w[uscan])
+
+      assert_raises CI::WatchTarFetcher::NativePackaging do
+        WatchTarFetcher.new(data('debian/watch'))
+      end
+    end
+
     def test_url_fetch_twice
       VCR.turned_off do
         stub_request(:get, 'http://troll/dragon-15.08.1.tar.xz')
