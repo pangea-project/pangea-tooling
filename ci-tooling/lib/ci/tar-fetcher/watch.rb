@@ -31,7 +31,7 @@ require_relative '../../nci'
 module CI
   # Fetch tarballs via uscan using debian/watch.
   class WatchTarFetcher
-    class RepackOnNotCurrentSeries < StandardError; end;
+    class RepackOnNotCurrentSeries < StandardError; end
 
     # @param watchfile String path to watch file for the fetcher
     # @param mangle_download Boolean whether to mangle KDE URIs to run through
