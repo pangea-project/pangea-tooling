@@ -273,6 +273,17 @@ module CI
       end
     end
 
+    def test_watch_hyphen_in_orig
+      require_binaries(%w[uscan])
+
+      Test.http_serve(data('http'), port: SERVER_PORT) do
+        f = WatchTarFetcher.new(data('debian/watch'))
+        f.fetch('source')
+
+        assert_path_exist('source/qtchooser_64-ga1b6736.orig.tar.gz')
+      end
+    end
+
     def test_url_fetch_twice
       VCR.turned_off do
         stub_request(:get, 'http://troll/dragon-15.08.1.tar.xz')

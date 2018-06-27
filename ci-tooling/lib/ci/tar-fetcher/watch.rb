@@ -201,7 +201,26 @@ module CI
 
       def all_tars_by_version
         all_tars.map do |x|
-          [Debian::Version.new(version_from_file(x)), x]
+          ver = Debian::Version.new(version_from_file(x))
+          if ver.revision
+            # qtchooser-gitref123-5 is a valid debian version as only the last
+            # dash counts as revision. When only working with a tarball version
+            # qtchooser-gitref123 Debian::Version won't know that the dash
+            # is not a revision but part of the upstream.
+            # However, the upstream_version may contain a hyphen in most cases.
+            # In no case does the hyphen denote an irrelevant revision though.
+            # e.g. in native packages 1.0-1 is foo_1.0-1.orig.tar as even
+            # revisions require a new tarball, in !natives 1.0-1-1-1 can all
+            # be parts of the upstream. We make no assumptions about the
+            # validity of the tarball names here, so we can always fold a
+            # potential revision back into the upstream version as they mustn't
+            # contain a hyphen for !native packages anyway. And this code here
+            # should decidely not be run for native packages (they generate
+            # their own source ;))
+            ver.upstream += "-#{ver.revision}"
+            ver.revision = nil
+          end
+          [ver, x]
         end.to_h
       end
 
