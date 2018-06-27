@@ -140,6 +140,7 @@ FUTURE_INCLUDE = %w[
   _kde_okular
   _kde_spectacle
   _neon_keyring
+  _neon_hardware-integration
   _neon_masks
   _neon_seeds
   _neon_settings
