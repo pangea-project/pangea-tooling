@@ -81,14 +81,14 @@ class NCISetupRepoTest < TestCase
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '--no-update', '-y',
-       'deb http://archive.neon.kde.org/unstable vivid main']
+       'deb http://archive.neon.kde.org/tmp/unstable vivid main']
     ]
 
     NCI.series.each_key do |series|
       File
         .expects(:write)
         .with("/etc/apt/sources.list.d/neon_src_#{series}.list",
-              "deb-src http://archive.neon.kde.org/unstable #{series} main\ndeb http://archive.neon.kde.org/unstable #{series} main")
+              "deb-src http://archive.neon.kde.org/tmp/unstable #{series} main\ndeb http://archive.neon.kde.org/tmp/unstable #{series} main")
         .returns(5000)
     end
     # Also disables deb-src in the main sources.list
@@ -127,7 +127,7 @@ class NCISetupRepoTest < TestCase
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '--no-update', '-y',
-       'deb http://archive.neon.kde.org/unstable vivid main'],
+       'deb http://archive.neon.kde.org/tmp/unstable vivid main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
     ]
