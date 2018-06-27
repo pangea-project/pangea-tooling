@@ -29,7 +29,7 @@ node('master') {
                   --exclude=*_arm64.deb \
                   --exclude=*.dsc  \
                   --exclude=*.tar.* \
-                  <% if env.DIST == 'xenial' %>
+                  <% if dist == 'xenial' %>
                   --exclude=*bionic* \
                   <% else %>
                   --exclude=*xenial* \
