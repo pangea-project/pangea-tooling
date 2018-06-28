@@ -252,6 +252,14 @@ EOF
 
     Apt.install(*EARLY_DEPS) || raise
 
+    if NCI.series.keys.include?(DIST)
+      # Pre-seed NCI keys to speed up all builds and prevent transient
+      # problems with talking to the GPG servers.
+      Retry.retry_it(times: 3, sleep: 8) do
+        raise 'Failed to import key' unless Apt::Key.add(NCI.archive_key)
+      end
+    end
+
     Retry.retry_it(times: 5, sleep: 8) do
       # NOTE: apt.rb automatically runs update the first time it is used.
       raise 'Dist upgrade failed' unless Apt.dist_upgrade
