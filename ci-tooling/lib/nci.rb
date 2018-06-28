@@ -54,4 +54,11 @@ module NCI
   def future_series
     data.fetch('future_series', nil)
   end
+
+  # The archive key for archive.neon.kde.org. The returned value is suitable
+  # as input for Apt::Key.add. Beyond this there are no assumptions to made
+  # about its format!
+  def archive_key
+    data.fetch('archive_key')
+  end
 end

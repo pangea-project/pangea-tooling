@@ -33,3 +33,7 @@ only_adt:
   - _unstable_plasma_
   - _stable_plasma_
   - _unstable_extras_kgraphviewer_
+
+# This may be any input acceptable to Apt::Key.add (i.e. a local/remote URI or
+# a fingerprint or short id)
+archive_key: 444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D

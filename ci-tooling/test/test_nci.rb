@@ -50,4 +50,12 @@ class NCITest < TestCase
       NCI.architectures << 'amd64'
     end
   end
+
+  def test_archive_key
+    # This is a daft assertion. Technically the constraint is any valid apt-key
+    # input, since we can't assert this, instead only assert that the data
+    # is being correctly read from the yaml. This needs updating if the yaml's
+    # data should ever change for whatever reason.
+    assert_equal(NCI.archive_key, '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
+  end
 end
