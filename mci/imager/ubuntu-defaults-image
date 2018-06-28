@@ -75,7 +75,7 @@ add_ppas () {
         FINGERPRINT=${FINGERPRINT#'"'}
 
         # fetch GPG key
-        gpg --no-default-keyring --primary-keyring config/archives/ubuntu-defaults.key  --keyserver keyserver.ubuntu.com --recv-key "$FINGERPRINT"
+        gpg --no-default-keyring --primary-keyring config/archives/ubuntu-defaults.key  --keyserver pool.sks-keyservers.net --recv-key "$FINGERPRINT"
 
         # add ppa apt source
         local DEB_PPA="deb http://ppa.launchpad.net/$ppa/ubuntu $SUITE main"

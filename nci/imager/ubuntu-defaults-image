@@ -75,7 +75,7 @@ add_ppas () {
         FINGERPRINT=${FINGERPRINT#'"'}
 
         # fetch GPG key
-        gpg --no-default-keyring --primary-keyring config/archives/ubuntu-defaults.key  --keyserver keyserver.ubuntu.com --recv-key "$FINGERPRINT"
+        gpg --no-default-keyring --primary-keyring config/archives/ubuntu-defaults.key  --keyserver pool.sks-keyservers.net --recv-key "$FINGERPRINT"
 
         # add ppa apt source
         local DEB_PPA="deb http://ppa.launchpad.net/$ppa/ubuntu $SUITE main"
@@ -310,7 +310,7 @@ if [ ! -e binary/casper/initrd.lz ]; then
         offset=$(((offset + $namesize + 3) & ~3))
         offset=$(((offset + $filesize + 3) & ~3))
     done
-    
+
     initramfs="${INITRD}"
     if [ $offset -ne 0 ]; then
         subarchive=$(mktemp ${TMPDIR:-/tmp}/initramfs_XXXXXX)

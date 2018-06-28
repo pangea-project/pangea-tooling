@@ -54,7 +54,7 @@ module Apt
 
       def add_fingerprint(id_or_fingerprint)
         system('apt-key', 'adv',
-               '--keyserver', 'keyserver.ubuntu.com',
+               '--keyserver', 'pool.sks-keyservers.net',
                '--recv', id_or_fingerprint)
       end
 
