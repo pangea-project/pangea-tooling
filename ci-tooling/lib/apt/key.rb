@@ -62,7 +62,7 @@ module Apt
 
       def fingerprint_added?(str)
         output = `apt-key adv --fingerprint '#{str}'`
-        return false if output.nil? || $?.success? # May be nil from mocking!
+        return false if output.nil? || !$?.success? # May be nil from mocking!
         # This is a bit imprecise, but cheapest way to do it without having
         # to parse the output as a whole. By only querying --fingerprint this
         # should still be reasonably accurate.
