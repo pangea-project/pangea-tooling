@@ -41,6 +41,9 @@ apt purge -y unattended-upgrades update-notifier-common snapd lxd
 ps aux
 apt update
 
+# Make sure the image is up to date.
+apt dist-upgrade -y
+
 # Deploy chef 13 and chef-dk 1.3 (we have no ruby right now.)
 cd /tmp
 wget https://omnitruck.chef.io/install.sh
