@@ -322,6 +322,9 @@ class AptTest < TestCase
     Apt::Key.expects(:`).never
 
     Apt::Key
+      .expects(:`)
+      .with("apt-key adv --fingerprint '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D'")
+    Apt::Key
       .expects(:system)
       .with('apt-key', 'adv', '--keyserver', 'pool.sks-keyservers.net', '--recv',
             '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
