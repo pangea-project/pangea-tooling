@@ -39,7 +39,7 @@ Aptly.configure do |config|
 end
 
 proposed = AptlyRepository.new(Aptly::Repository.get(REPO_KEY),
-                               "release#{IS_LTS ? '-lts' : ''}")
+                               "release#{IS_LTS ? '/lts' : ''}")
 
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
 snapshots.keep_if { |x| x.Name.start_with?(REPO_KEY) }
