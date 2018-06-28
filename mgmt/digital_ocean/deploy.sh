@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (C) 2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2017-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -19,6 +19,9 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 set -ex
+
+# Don't query us about things. We can't answer.
+export DEBIAN_FRONTEND=noninteractive
 
 # Disable bloody apt automation crap locking the database.
 systemctl disable --now apt-daily.timer
@@ -68,3 +71,6 @@ chmod 755 /root/deploy_tooling.sh
 cp -v /root/deploy_tooling.sh /tmp/
 sudo -u jenkins-slave -i /tmp/deploy_tooling.sh
 ################################################### !!!!!!!!!!!
+
+# Clean up cache to reduce image size.
+apt-get clean
