@@ -69,7 +69,7 @@ module CI
       end
       # Make sure our version exceeds Ubuntu's by prefixing us with an x.
       # This way -0xneon > -0ubuntu instead of -0neon < -0ubuntu
-      base_version.gsub('neon', 'xneon')
+      base_version = base_version.gsub('neon', 'xneon')
       base_version = "#{base_version}+#{@release_version}+build#{@build_rev}"
       create_changelog_entry(base_version)
     end
