@@ -205,9 +205,13 @@ class AllTestCasesArePangeaCases < TestCase
       next if obj == Test::Unit::TestCase
       p ['-- ancestors', obj.ancestors, 'is string?', obj.ancestors.is_a?(String)]
       warn ['-- ancestors', obj.ancestors, 'is string?', obj.ancestors.is_a?(String)].inspect
-      next unless obj.ancestors.any? do |ancestor|
-        # p ['ancestor', ancestor, 'is string?', ancestor.is_a?(String)]
-        ancestor == Test::Unit::TestCase
+      begin
+        next unless obj.ancestors.any? do |ancestor|
+          # p ['ancestor', ancestor, 'is string?', ancestor.is_a?(String)]
+          ancestor == Test::Unit::TestCase
+        end
+      rescue => e
+        raise ['-- ancestors', obj.ancestors, 'is string?', obj.ancestors.is_a?(String)].inspect
       end
       not_pangea << obj unless obj.ancestors.include?(TestCase)
     end
