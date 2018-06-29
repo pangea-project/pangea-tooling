@@ -202,6 +202,7 @@ class AllTestCasesArePangeaCases < TestCase
     ObjectSpace.each_object do |obj|
       next unless obj.is_a?(Class)
       next if obj == Test::Unit::TestCase
+      p ['-- ancestors', obj.ancestors, 'is string?', obj.ancestors.is_a?(String)]
       next unless obj.ancestors.any? do |ancestor|
         p ['ancestor', ancestor, 'is string?', ancestor.is_a?(String)]
         ancestor == Test::Unit::TestCase
