@@ -140,6 +140,28 @@ class AptTest < TestCase
     end
   end
 
+  def test_apt_key_add_already_added
+    Object.any_instance.expects(:system).never
+    Object.any_instance.expects(:`).never
+
+    seq = sequence('backtick-fingerprint')
+    Object
+      .any_instance
+      .expects(:`)
+      .with("apt-key adv --fingerprint '0x123456abc'")
+      .in_sequence(seq)
+      .returns('0x123456abc')
+    Process::Status
+      .any_instance
+      .expects(:success?)
+      .in_sequence(seq)
+      .returns(true)
+
+    Apt::Key.add('0x123456abc')
+
+    # Not expecting a system call to apt-key add!
+  end
+
   def test_apt_key_add_rel_file
     File.write('abc', 'keyly')
     # Expect IO.popen() {}
