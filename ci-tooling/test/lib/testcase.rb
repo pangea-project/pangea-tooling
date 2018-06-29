@@ -211,7 +211,7 @@ class AllTestCasesArePangeaCases < TestCase
           ancestor == Test::Unit::TestCase
         end
       rescue => e
-        raise ['-- ancestors', obj.class, 'obj', obj.inspect, 'ancestors', obj.ancestors.inspect, 'is string?', obj.ancestors.is_a?(String)].inspect
+        raise ['-- ancestors', obj.name, 'const', obj.constants, 'ances is string?', obj.ancestors.is_a?(String)].inspect
       end
       not_pangea << obj unless obj.ancestors.include?(TestCase)
     end
