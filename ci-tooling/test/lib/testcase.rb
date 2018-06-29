@@ -200,18 +200,21 @@ class AllTestCasesArePangeaCases < TestCase
   def test_all_testcases_are_pangea_testcases
     not_pangea = []
     ObjectSpace.each_object do |obj|
-      p 'each object....'
       next unless obj.is_a?(Class)
       next if obj == Test::Unit::TestCase
-      p ['-- ancestors', obj.ancestors, 'is string?', obj.ancestors.is_a?(String)]
-      warn ['-- ancestors', obj.ancestors, 'is string?', obj.ancestors.is_a?(String)].inspect
-      begin
-        next unless obj.ancestors.any? do |ancestor|
-          # p ['ancestor', ancestor, 'is string?', ancestor.is_a?(String)]
-          ancestor == Test::Unit::TestCase
-        end
-      rescue => e
-        raise ['-- ancestors', obj.name, 'const', obj.constants, 'ances is string?', obj.ancestors.is_a?(String)].inspect
+      # Hacky workaround. For unknown reasons the mobile CI fails semi-randomly
+      # on getting objects which are Class but have an ancestors that is a
+      # string. What is most peculiar about this is that the object is entirely
+      # uninspectable and everything simply returns an XML string.
+      # My theory is that something in the CI reporter stack is an object
+      # which somehow managed to override every single method to return to_s,
+      # I have no clue how or why, but given the problem is consistently showing
+      # the XML string in the output it must be that. While that sucks beyond
+      # comprehension, simply guarding against this should make the test work
+      # reliably.
+      next if obj.ancestors.is_a?(String) || !obj.ancestors.respond_to?(:any?)
+      next unless obj.ancestors.any? do |ancestor|
+        ancestor == Test::Unit::TestCase
       end
       not_pangea << obj unless obj.ancestors.include?(TestCase)
     end
