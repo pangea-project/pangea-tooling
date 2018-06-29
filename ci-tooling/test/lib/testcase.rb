@@ -200,11 +200,13 @@ class AllTestCasesArePangeaCases < TestCase
   def test_all_testcases_are_pangea_testcases
     not_pangea = []
     ObjectSpace.each_object do |obj|
+      p 'each object....'
       next unless obj.is_a?(Class)
       next if obj == Test::Unit::TestCase
       p ['-- ancestors', obj.ancestors, 'is string?', obj.ancestors.is_a?(String)]
+      warn ['-- ancestors', obj.ancestors, 'is string?', obj.ancestors.is_a?(String)].inspect
       next unless obj.ancestors.any? do |ancestor|
-        p ['ancestor', ancestor, 'is string?', ancestor.is_a?(String)]
+        # p ['ancestor', ancestor, 'is string?', ancestor.is_a?(String)]
         ancestor == Test::Unit::TestCase
       end
       not_pangea << obj unless obj.ancestors.include?(TestCase)
