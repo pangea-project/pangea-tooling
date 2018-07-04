@@ -36,6 +36,14 @@
           </selector>
           <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
         </hudson.plugins.copyartifact.CopyArtifact>
+        <hudson.tasks.ArtifactArchiver>
+          <artifacts>run_stamp</artifacts>
+          <allowEmptyArchive>false</allowEmptyArchive>
+          <onlyIfSuccessful>false</onlyIfSuccessful>
+          <fingerprint>false</fingerprint>
+          <defaultExcludes>true</defaultExcludes>
+          <caseSensitive>true</caseSensitive>
+        </hudson.tasks.ArtifactArchiver>
       </conditionalbuilders>
     </org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
