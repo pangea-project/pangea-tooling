@@ -75,7 +75,7 @@ add_ppas () {
         FINGERPRINT=${FINGERPRINT#'"'}
 
         # fetch GPG key
-        gpg --no-default-keyring --primary-keyring config/archives/ubuntu-defaults.key  --keyserver keyserver.ubuntu.com --recv-key "$FINGERPRINT"
+        gpg --no-default-keyring --primary-keyring config/archives/ubuntu-defaults.key  --keyserver pool.sks-keyservers.net --recv-key "$FINGERPRINT"
 
         # add ppa apt source
         local DEB_PPA="deb http://ppa.launchpad.net/$ppa/ubuntu $SUITE main"
@@ -205,9 +205,6 @@ done
 $SUDO lb clean
 rm -f .stage/config
 
-export BINARYFORMAT=iso-hybrid
-export IMAGEFORMAT=squashfs
-
 # Neon addition to easily override some variables
 if [ -e "$CONFIG_SETTINGS" ]; then
     . $CONFIG_SETTINGS
@@ -215,7 +212,7 @@ fi
 
 SUITE="$SUITE" PROJECT="$FLAVOR" ARCH="$ARCH" LB_ARCHITECTURES="$ARCH" \
     LB_MIRROR_BOOTSTRAP="$MIRROR" LB_MIRROR_CHROOT_SECURITY="$SECURITY_MIRROR" \
-    IMAGEFORMAT="$IMAGEFORMAT" BINARYFORMAT="$BINARYFORMAT" ISOHYBRID_OPTIONS="--uefi" lb config
+    IMAGEFORMAT=squashfs BINARYFORMAT=iso-hybrid ISOHYBRID_OPTIONS="--uefi" lb config
 
 if [ "$COMPONENTS" ]; then
     sed -i "s/^\\(LB_PARENT_ARCHIVE_AREAS=\\).*/\\1\"$COMPONENTS\"/" \
@@ -270,25 +267,66 @@ rm -vrf /tmp/*
 EOF
 
 # rename kernel and initrd to what syslinux expects
-cat <<EOF > config/hooks/rename-kernel.binary
-#!/bin/sh -e
+cat <<'EOF' > config/hooks/rename-kernel.binary
+#!/bin/sh -ex
+# Read bytes out of a file, checking that they are valid hex digits
+readhex()
+{
+	dd < "$1" bs=1 skip="$2" count="$3" 2> /dev/null | \
+		LANG=C grep -E "^[0-9A-Fa-f]{$3}\$"
+}
+checkzero()
+{
+	dd < "$1" bs=1 skip="$2" count=1 2> /dev/null | \
+		LANG=C grep -q -z '^$'
+}
+
 if [ ! -e binary/casper/initrd.lz ]; then
+
+    # There may be a prepended uncompressed archive.  cpio
+    # won't tell us the true size of this so we have to
+    # parse the headers and padding ourselves.  This is
+    # very roughly based on linux/lib/earlycpio.c
+    INITRD="$(ls binary/casper/initrd.img-*)"
+    offset=0
+    while true; do
+        if checkzero "${INITRD}" $offset; then
+            offset=$((offset + 4))
+            continue
+        fi
+        magic="$(readhex "${INITRD}" $offset 6)" || break
+        test $magic = 070701 || test $magic = 070702 || break
+        namesize=0x$(readhex "${INITRD}" $((offset + 94)) 8)
+        filesize=0x$(readhex "${INITRD}" $((offset + 54)) 8)
+        offset=$(((offset + 110)))
+        offset=$(((offset + $namesize + 3) & ~3))
+        offset=$(((offset + $filesize + 3) & ~3))
+    done
+
+    initramfs="${INITRD}"
+    if [ $offset -ne 0 ]; then
+        subarchive=$(mktemp ${TMPDIR:-/tmp}/initramfs_XXXXXX)
+        dd < "${INITRD}" bs="$offset" skip=1 2> /dev/null \
+            > $subarchive
+        initramfs=${subarchive}
+    fi
+
     echo "\$0: Renaming initramfs to initrd.lz..."
-    zcat binary/casper/initrd.img-* | lzma -c > binary/casper/initrd.lz
+    zcat ${initramfs} | lzma -c > binary/casper/initrd.lz
     rm binary/casper/initrd.img-*
 fi
 if [ ! -e binary/casper/vmlinuz ]; then
-    echo "\$0: Renaming kernel to vmlinuz..."
+    echo "$0: Renaming kernel to vmlinuz..."
     # This will go wrong if there's ever more than one vmlinuz-* after
     # excluding *.efi.signed.  We can deal with that if and when it arises.
     for x in binary/casper/vmlinuz-*; do
-	case \$x in
+	case $x in
 	    *.efi.signed)
 		;;
 	    *)
-		mv \$x binary/casper/vmlinuz
-		if [ -e "\$x.efi.signed" ]; then
-		    mv \$x.efi.signed binary/casper/vmlinuz.efi
+		mv $x binary/casper/vmlinuz
+		if [ -e "$x.efi.signed" ]; then
+		    mv $x.efi.signed binary/casper/vmlinuz.efi
 		fi
 		;;
 	esac
@@ -320,5 +358,7 @@ if [ -d "$BUILD_HOOKS" ]; then
   cp -v $BUILD_HOOKS/* config/hooks/
 fi
 #----
+
+cat config/common
 
 DISPLAY= $SUDO PROJECT="$FLAVOR" ARCH="$ARCH" lb build

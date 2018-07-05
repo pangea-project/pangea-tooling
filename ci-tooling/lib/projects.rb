@@ -139,11 +139,11 @@ class Project
     @series_branches = []
     @autopkgtest = false
     @debian = false
-    if KDEProjectsComponent.frameworks.include?(name)
+    if KDEProjectsComponent.frameworks_jobs.include?(name)
       @kdecomponent = 'frameworks'
-    elsif KDEProjectsComponent.applications.include?(name)
+    elsif KDEProjectsComponent.applications_jobs.include?(name)
       @kdecomponent = 'applications'
-    elsif KDEProjectsComponent.plasma.include?(name)
+    elsif KDEProjectsComponent.plasma_jobs.include?(name)
       @kdecomponent = 'plasma'
     else
       @kdecomponent = 'extragear'

@@ -135,9 +135,31 @@ class AptTest < TestCase
   end
 
   def test_apt_key_add_keyid
-    assert_system('apt-key', 'adv', '--keyserver', 'keyserver.ubuntu.com', '--recv', '0x123456abc') do
+    assert_system('apt-key', 'adv', '--keyserver', 'pool.sks-keyservers.net', '--recv', '0x123456abc') do
       Apt::Key.add('0x123456abc')
     end
+  end
+
+  def test_apt_key_add_already_added
+    Object.any_instance.expects(:system).never
+    Object.any_instance.expects(:`).never
+
+    seq = sequence('backtick-fingerprint')
+    Object
+      .any_instance
+      .expects(:`)
+      .with("apt-key adv --fingerprint '0x123456abc'")
+      .in_sequence(seq)
+      .returns('0x123456abc')
+    Process::Status
+      .any_instance
+      .expects(:success?)
+      .in_sequence(seq)
+      .returns(true)
+
+    Apt::Key.add('0x123456abc')
+
+    # Not expecting a system call to apt-key add!
   end
 
   def test_apt_key_add_rel_file
@@ -322,8 +344,11 @@ class AptTest < TestCase
     Apt::Key.expects(:`).never
 
     Apt::Key
+      .expects(:`)
+      .with("apt-key adv --fingerprint '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D'")
+    Apt::Key
       .expects(:system)
-      .with('apt-key', 'adv', '--keyserver', 'keyserver.ubuntu.com', '--recv',
+      .with('apt-key', 'adv', '--keyserver', 'pool.sks-keyservers.net', '--recv',
             '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
 
     Apt::Key.add('444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')

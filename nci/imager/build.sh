@@ -102,6 +102,8 @@ sudo -E $(dirname "$0")/ubuntu-defaults-image \
     --flavor neon \
     --components main,restricted,universe,multiverse
 
+cat config/common
+
 ls -lah
 
 if [ ! -e livecd.neon.iso ]; then

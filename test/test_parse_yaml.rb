@@ -18,10 +18,11 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'test/unit'
+require_relative '../ci-tooling/test/lib/testcase'
+
 require 'yaml'
 
-class ParseYAMLTest < Test::Unit::TestCase
+class ParseYAMLTest < TestCase
   def test_syntax
     Dir.chdir(File.dirname(__dir__)) # one above
 

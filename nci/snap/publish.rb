@@ -28,6 +28,12 @@ module NCI
     # Helper to publish a snap to the store.
     class Publisher
       SNAPNAME = ENV.fetch('APPNAME')
+      TYPE_TO_CHANNEL = {
+        'release' => 'candidate',
+        'stable' => 'beta',
+        'unstable' => 'edge'
+        # release-lts is not mapped as we should never build from there.
+      }.freeze
 
       def self.install!
         Apt.update || raise
@@ -43,12 +49,13 @@ module NCI
       end
 
       def self.run
+        channel = TYPE_TO_CHANNEL.fetch(ENV.fetch('TYPE'))
+
         install!
         copy_config!
 
         cmd = TTY::Command.new
-        # FIXME: the channels need dynamicism of some form.
-        cmd.run("snapcraft push #{SNAPNAME}*.snap --release edge")
+        cmd.run("snapcraft push #{SNAPNAME}*.snap --release #{channel}")
       end
     end
   end

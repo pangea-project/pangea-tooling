@@ -65,18 +65,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def populate_queue
     all_builds = []
     all_meta_builds = []
-    type_projects = {}
-
-    MCI.types.each do |type|
-      projects_file = "#{@projects_dir}/mci/#{type}.yaml"
-      projects = ProjectsFactory.from_file(projects_file,
-                                           branch: "Neon/#{type}")
-      type_projects[type] = projects
-    end
 
     MCI.series.each_key do |distribution|
       MCI.types.each do |type|
-        type_projects[type].each do |project|
+        projects_file = "#{@projects_dir}/mci/#{distribution}/#{type}.yaml"
+        projects = ProjectsFactory.from_file(projects_file,
+                                             branch: "Neon/#{type}")
+        projects.each do |project|
           jobs = ProjectJob.job(project,
                                 distribution: distribution,
                                 type: type,
@@ -96,15 +91,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
     end
 
-    mci_projects_file = "#{@projects_dir}/mci/mobile.yaml"
-    mci_projects = ProjectsFactory.from_file(mci_projects_file,
-                                             branch: 'halium-7.1')
-
     # This are really special projects, they need to be built with
     # different configuration options and should be published into
     # different repos. Instead of using traditional ProjectJob, we
     # use MCIProjectJob pipeline for it.
     MCI.series.each_key do |distribution|
+      mci_projects_file = "#{@projects_dir}/mci/#{distribution}/mobile.yaml"
+      mci_projects = ProjectsFactory.from_file(mci_projects_file,
+                                               branch: 'halium-7.1')
       mci_projects.each do |project|
         enqueue(MCIProjectJob.new(project,
                                   distribution: distribution,

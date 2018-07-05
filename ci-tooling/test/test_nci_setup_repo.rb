@@ -62,11 +62,17 @@ class NCISetupRepoTest < TestCase
   end
 
   def add_key_args
-    ['apt-key', 'adv', '--keyserver', 'keyserver.ubuntu.com', '--recv',
+    ['apt-key', 'adv', '--keyserver', 'pool.sks-keyservers.net', '--recv',
      '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D']
   end
 
   def expect_key_add
+    # Internal query if the key had been added already
+    Object
+      .any_instance
+      .stubs(:`)
+      .with("apt-key adv --fingerprint '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D'")
+    # Actual key adding (always run since the above comes back nil)
     Object
       .any_instance
       .expects(:system)

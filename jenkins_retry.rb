@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -26,12 +26,16 @@ require 'optparse'
 require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/retry'
 require_relative 'ci-tooling/lib/thread_pool'
+require_relative 'lib/kdeproject_component'
 
 @exclusion_states = %w[success unstable]
 strict_mode = false
+new_release = nil
 
+# This block is very long because it is essentially a DSL.
+# rubocop:disable Metrics/BlockLength
 OptionParser.new do |opts|
-  opts.banner = <<-EOS
+  opts.banner = <<-SUMMARY
 Usage: jenkins_retry.rb [options] 'regex'
 
 regex must be a valid Ruby regular expression matching the jobs you wish to
@@ -48,7 +52,25 @@ Only jobs that are not queued, not building, and failed will be retired.
     • All jobs:
       '.*'
 
-  EOS
+  SUMMARY
+
+  opts.on('-p', '--plasma', 'There has been a new Plasma release, run all' \
+                            ' watcher jobs for Plasma.') do
+    @exclusion_states.clear
+    new_release = KDEProjectsComponent.plasma_jobs
+  end
+
+  opts.on('-a', '--applications', 'There has been a new Applications release,' \
+                                  ' run all watcher jobs for Applications.') do
+    @exclusion_states.clear
+    new_release = KDEProjectsComponent.applications_jobs
+  end
+
+  opts.on('-f', '--frameworks', 'There has been a new Frameworks release, run' \
+                                ' all watcher jobs for Frameworks.') do
+    @exclusion_states.clear
+    new_release = KDEProjectsComponent.frameworks_jobs
+  end
 
   opts.on('-b', '--build', 'Rebuild even if job did not fail.') do
     @exclusion_states.clear
@@ -63,21 +85,28 @@ Only jobs that are not queued, not building, and failed will be retired.
     strict_mode = true
   end
 end.parse!
+# rubocop:enable Metrics/BlockLength
 
 @log = Logger.new(STDOUT).tap do |l|
   l.progname = 'retry'
   l.level = Logger::INFO
 end
 
-raise 'Need ruby pattern as argv0' if ARGV.empty?
-pattern = Regexp.new(ARGV[0])
+pattern = nil
+if new_release
+  pattern = Regexp.new("watcher_release_kde_(#{new_release.join('|')})$")
+else
+  raise 'Need ruby pattern as argv0' if ARGV.empty?
+  pattern = Regexp.new(ARGV[0])
+end
+
 @log.info pattern
 
 job_name_queue = Queue.new
 job_names = Jenkins.job.list_all
-job_names.each do |name|
-  next unless pattern.match(name)
-  job_name_queue << name
+job_names.each do |job_name|
+  next unless pattern.match(job_name)
+  job_name_queue << job_name
 end
 
 @log.info 'Setting system into maintenance mode.'

@@ -49,7 +49,7 @@ EXCLUDE_SNAPS = %w[
   kdesdk-thumbnailers khelpcenter kio-extras kqtquickcharts kuser
   libkdcraw libkdegames libkeduvocdocument libkexiv2 libkface
   libkgeomap libkipi libksane poxml akonadi-contacts print-manager
-  marble khangman bovo kdevplatform sddm kdevelop-python kdevelop-php
+  marble khangman kdevplatform sddm kdevelop-python kdevelop-php
   phonon-backend-vlc phonon-backend-gstreamer ktp-common-internals
   kaccounts-providers kdevelop-pg-qt kwalletmanager kdialog svgpart
   libkcddb libkcompactdisc mbox-importer akonadi-calendar-tools
@@ -75,18 +75,17 @@ applications_jobs = KDEProjectsComponent.applications.collect do |app|
   "_kde_#{app}"
 end
 
-FUTURE_SKIP = applications_jobs + %w[
-  _kde-extras_
+FUTURE_SKIP = %w[
   iso_neon_
   iso_neon-
   img_neon_
-  mgmt_daily_promotion_bionic_
   _pkg-kde-tools_
   _backports-xenial_
   _forks_
   _neon-packaging_
   _launchpad_
-  _unstable_neon_
+  _neon_
+  _extras_vc
 ].freeze
 # WARNING: for future reference: we need to be super duper careful with enabling
 #   forks!!!@#!!!!!!! Some of them are not forks at all but bloody backports.
@@ -125,7 +124,12 @@ FUTURE_INCLUDE = %w[
   _forks_pyqt5
   _forks_xf86-video-armsoc
   _forks_ubiquity
-  _kde-extras_phonon
+  _forks_libalkimia
+  _forks_massif-visualizer
+  _forks_kdesvn
+  _forks_krename
+  _forks_rsibreak
+  _extras_phonon
   _kde_ark
   _kde_dolphin
   _kde_gwenview
@@ -136,11 +140,27 @@ FUTURE_INCLUDE = %w[
   _kde_okular
   _kde_spectacle
   _neon_keyring
+  _neon_hardware-integration
   _neon_masks
   _neon_seeds
   _neon_settings
   _neon_syslinux-themes-neon
   _neon_xserver-xorg-video-intel-native-modesetting
+  _neon-packaging_atcore
+  _neon-packaging_babe
+  _neon-packaging_choqok
+  _neon-packaging_digikam
+  _neon-packaging_distro-release-notifier
+  _neon-packaging_falkon
+  _neon-packaging_kio-stash
+  _neon-packaging_kmarkdownwebview
+  _neon-packaging_ksystraycmd
+  _neon-packaging_libkvkontakte
+  _neon-packaging_libcedrus
+  _neon-packaging_libvdpau-sunxi
+  _neon-packaging_libump
+  _neon-packaging_libyuv
+  _launchpad_ubuntu-release-upgrader-neon
 ].freeze
 # NB: iso_neon_bionic_devedition-gitunstable_amd64 is currently manually
 #   mangled to use iso-hackery branch.
@@ -150,7 +170,10 @@ FUTURE_INCLUDE = %w[
 # this is to exclude things which would be matched by more generic includes.
 # e.g. _adwaita would include _adwaita and _adwaita-icon-theme but latter we
 # do not want
-FUTURE_EXCLUDE = %w[].freeze
+# - 3rdparty_indi is a backport
+FUTURE_EXCLUDE = %w[
+  _3rdparty_indi
+].freeze
 
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
@@ -240,7 +263,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         type_projects[type].each do |project|
           # Fairly akward special casing this. Snaps only build releases right
           # now.
-          if type == 'release' && KDEProjectsComponent.applications.include?(project.name) &&
+          is_app = KDEProjectsComponent.applications.include?(project.name)
+          if type == 'release' && (is_app || project.name == 'konversation') &&
              !EXCLUDE_SNAPS.include?(project.name) && !(distribution == NCI.future_series)
             enqueue(AppSnapJob.new(project.name))
           end
@@ -265,7 +289,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
           next unless type == 'release'
-          next unless %w[neon-packaging kde-extras].include?(project.component) ||
+          next unless %w[neon-packaging extras kde].include?(project.component) ||
             %w[applications frameworks plasma].include?(project.kdecomponent)
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
@@ -374,6 +398,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts',
                                                dist: NCI.current_series))
     enqueue(MGMTAppstreamHealthJob.new(dist: NCI.current_series))
+    enqueue(MGMTAppstreamGenerator.new(repo: 'user',
+                                       dist: NCI.future_series))
+    enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts',
+                                               dist: NCI.future_series))
+    # TODO enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTGitSemaphoreJob.new)
@@ -381,9 +410,24 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTDigitalOcean.new)
     enqueue(MGMTDigitalOceanDangler.new)
     enqueue(MGMTSnapshot.new(dist: NCI.current_series, origin: 'release',
-                             target: 'user', appstream: ''))
+                             target: 'user', appstream: '_'+NCI.current_series))
     enqueue(MGMTSnapshot.new(dist: NCI.current_series, origin: 'release-lts',
-                             target: 'user-lts', appstream: '-lts'))
+                             target: 'user-lts', appstream: '_'+NCI.current_series+'-lts'))
+    enqueue(MGMTSnapshot.new(dist: NCI.future_series, origin: 'release',
+                             target: 'user', appstream: '_'+NCI.future_series))
+    enqueue(MGMTSnapshot.new(dist: NCI.future_series, origin: 'release-lts',
+                             target: 'user-lts', appstream: '_'+NCI.future_series+'-lts'))
+
+    enqueue(MGMTRepoDivert.new(target: 'unstable_bionic'))
+    enqueue(MGMTRepoDivert.new(target: 'unstable_xenial'))
+    enqueue(MGMTRepoDivert.new(target: 'stable_bionic'))
+    enqueue(MGMTRepoDivert.new(target: 'stable_xenial'))
+
+    enqueue(MGMTRepoUndoDivert.new(target: 'unstable_bionic'))
+    enqueue(MGMTRepoUndoDivert.new(target: 'unstable_xenial'))
+    enqueue(MGMTRepoUndoDivert.new(target: 'stable_bionic'))
+    enqueue(MGMTRepoUndoDivert.new(target: 'stable_xenial'))
+
     enqueue(MGMTToolingJob.new(downstreams: [docker],
                                dependees: []))
     enqueue(MGMTRepoCleanupJob.new)

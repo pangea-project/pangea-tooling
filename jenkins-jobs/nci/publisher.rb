@@ -19,15 +19,18 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative '../publisher'
+require_relative '../../lib/kdeproject_component'
 
 # Neon extension to publisher
 class NeonPublisherJob < PublisherJob
   attr_reader :kdecomponent
+  attr_reader :project
 
   def initialize(basename, type:, distribution:, dependees:,
-                 component:, upload_map:, architectures:, kdecomponent:)
+                 component:, upload_map:, architectures:, kdecomponent:, project:)
     super(basename, type: type, distribution: distribution, dependees: dependees, component: component, upload_map: upload_map, architectures: architectures)
     @kdecomponent = kdecomponent
+    @project = project
   end
 
   # When chain-publishing lock all aptly resources. Chain publishing can
@@ -52,7 +55,7 @@ class NeonPublisherJob < PublisherJob
     #
     # NOTE: Not in release-lts since I think that is frozen, I am only
     #   guessing though. Jon has trouble writing comments.  - sitter
-    repos += ["stable_#{distribution}", "release_#{distribution}"] if qtish?
+    repos += ["stable_#{distribution}", "release_#{distribution}", "release-lts_#{distribution}"] if qtish?
 
     repos
   end
@@ -60,8 +63,8 @@ class NeonPublisherJob < PublisherJob
   private
 
   def push_to_stable?
-    kdecomponent == 'frameworks' ||
-      %w[pkg-kde-tools phonon].any? { |x| basename.include?(x) }
+    KDEProjectsComponent.frameworks_jobs.any? { |x| project.name == x } ||
+      %w[pkg-kde-tools phonon].any? { |x| project.name == x }
   end
 
   def qtish?

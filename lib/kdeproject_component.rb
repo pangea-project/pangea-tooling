@@ -25,8 +25,15 @@ require 'httparty'
 
 class KDEProjectsComponent
   class << self
+    @@projects_to_jobs = {'kirigami'=>'kirigami2', 'discover'=>'plasma-discover'}
+    @@projects_without_jobs = ['plasma-tests']
+
     def frameworks
       @frameworks ||= to_names(projects('frameworks'))
+    end
+
+    def frameworks_jobs
+      @frameworks_packgaes ||= to_jobs(frameworks)
     end
 
     def applications
@@ -36,11 +43,23 @@ class KDEProjectsComponent
       end
     end
 
+    def applications_jobs
+      @applications_jobs ||= to_jobs(applications)
+    end
+
     def plasma
       @plasma ||= to_names(projects('kde/workspace'))
     end
 
+    def plasma_jobs
+      @plasma_jobs ||= to_jobs(plasma).reject {|x| @@projects_without_jobs.include?(x)}
+    end
+
     private
+
+    def to_jobs(projects)
+        projects.collect {|x| @@projects_to_jobs[x]? @@projects_to_jobs[x] : x}
+    end
 
     def to_names(projects)
       projects.collect { |project| project.split('/')[-1] }

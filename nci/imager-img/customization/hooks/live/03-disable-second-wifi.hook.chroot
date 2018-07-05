@@ -4,3 +4,8 @@ cat << EOF > /etc/modprobe.d/wifi-rt8723-pine64.conf
 options 8723bs if2name=p2p0 rtw_power_mgnt=0
 options 8723cs if2name=p2p0 rtw_power_mgnt=0
 EOF
+
+cat << EOF > /etc/NetworkManager/conf.d/disable-p2p.conf
+[keyfile]
+unmanaged-devices=interface-name:p2p*
+EOF

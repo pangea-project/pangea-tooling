@@ -25,8 +25,13 @@ require_relative '../job'
 class PipelineJob < JenkinsJob
   attr_reader :cron
 
-  def initialize(name, template: name.tr('-', '_'), cron: '')
-    super(name, 'pipelinejob.xml.erb',
+  # @param name job name
+  # @param template the pipeline template basename
+  # @param cron the cron trigger rule if any
+  # @param job_template the xml job template basename
+  def initialize(name, template: name.tr('-', '_'), cron: '',
+                 job_template: 'pipelinejob')
+    super(name, "#{job_template}.xml.erb",
           script: "#{__dir__}/pipelines/#{template}.groovy.erb")
     @cron = cron
   end

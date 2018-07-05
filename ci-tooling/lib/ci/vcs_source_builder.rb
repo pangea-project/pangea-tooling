@@ -91,7 +91,11 @@ module CI
       repo = Rugged::Repository.discover(path)
       remote = repo.remotes['upstream'] if repo
       # Includes git.kde.org, otherwise it would run on *.neon.kde.org.
-      url = remote.url if remote&.url&.include?('git.kde.org')
+      # also, don't include scratch and clones, they don't have projects
+      # associated with them.
+      url = remote.url if remote&.url&.include?('git.kde.org') &&
+                          !remote&.url&.include?('/scratch/') &&
+                          !remote&.url&.include?('/clones/')
       url || nil
     end
 

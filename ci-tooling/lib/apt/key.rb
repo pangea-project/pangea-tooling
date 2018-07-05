@@ -39,7 +39,7 @@ module Apt
         if url?(str)
           add_url(str)
         else
-          add_fingerprint(str)
+          fingerprint_added?(str) ? true : add_fingerprint(str)
         end
       end
 
@@ -54,11 +54,20 @@ module Apt
 
       def add_fingerprint(id_or_fingerprint)
         system('apt-key', 'adv',
-               '--keyserver', 'keyserver.ubuntu.com',
+               '--keyserver', 'pool.sks-keyservers.net',
                '--recv', id_or_fingerprint)
       end
 
       private
+
+      def fingerprint_added?(str)
+        output = `apt-key adv --fingerprint '#{str}'`
+        return false if output.nil? || !$?.success? # May be nil from mocking!
+        # This is a bit imprecise, but cheapest way to do it without having
+        # to parse the output as a whole. By only querying --fingerprint this
+        # should still be reasonably accurate.
+        output.include?(str)
+      end
 
       def url?(str)
         uri = URI.parse(str)

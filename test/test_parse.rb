@@ -18,13 +18,14 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'test/unit'
+require_relative '../ci-tooling/test/lib/testcase'
+
 require 'yaml'
 
 require 'tty/command'
 require_relative '../lib/shebang'
 
-class ParseTest < Test::Unit::TestCase
+class ParseTest < TestCase
   SOURCE_DIRS = %w[
     bin
     dci

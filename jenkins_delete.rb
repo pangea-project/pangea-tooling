@@ -50,7 +50,7 @@ e.g.
 end.parse!
 
 @log = Logger.new(STDOUT).tap do |l|
-  l.progname = 'poll'
+  l.progname = File.basename($0)
   l.level = Logger::INFO
 end
 

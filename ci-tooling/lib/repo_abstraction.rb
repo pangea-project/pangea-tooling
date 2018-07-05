@@ -24,6 +24,7 @@ require_relative 'aptly-ext/package'
 require_relative 'debian/changes'
 require_relative 'dpkg'
 require_relative 'lsb'
+require_relative 'os'
 require_relative 'retry'
 require_relative '../../lib/gir_ffi'
 
@@ -51,9 +52,19 @@ class Repository
     @_name = name
     # @_repo = Apt::Repository.new(name)
     @install_exclusion = %w[base-files]
+    # Special hack for 16.04 where neon-adwaita isn't meant to be used but is
+    # still built and would consequently get installed in the install_check.
+    # Prevent this by blacklisting it. In 18.04 we want it installed though as
+    # it replaces an adwaita fork.
+    if OS::VERSION_ID == '16.04'
+      warn 'excluding neon-adwaita for 16.04'
+      @install_exclusion << 'neon-adwaita'
+    end
     # software-properties backs up Apt::Repository, must not be removed.
     @purge_exclusion = %w[base-files python3-software-properties
                           software-properties-common apt libapt-pkg5.0]
+
+    p self
   end
 
   def add

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -32,6 +32,52 @@ require 'tty-command'
 module NCI
   # uses uscan to check for new upstream releases
   class Watcher
+    # Updates version info in snapcraft.yaml.
+    # TODO: this maybe should also download the source and grab the desktop
+    #   file & icon. Needs checking if snapcraft does grab this
+    #   automatically yet, in which case we don't need to maintain copied data
+    #   at all and instead have them extracted at build time.
+    class SnapcraftUpdater
+      def initialize(dehs)
+        # TODO: this ungsub business is a bit meh. Maybe watcher should
+        #   mangle the DEHS object and ungsub it right after parsing?
+        @new_url = Watcher.ungsub_download_url(dehs.upstream_url)
+        @new_version = dehs.upstream_version
+        @snapcraft_yaml = 'snapcraft.yaml'
+      end
+
+      def run
+        unless File.exist?(@snapcraft_yaml)
+          puts "Snapcraft file #{@snapcraft_yaml} not found." \
+               ' Skipping snapcraft logic.'
+          return
+        end
+        snapcraft = YAML.load_file(@snapcraft_yaml)
+        snapcraft = mangle(snapcraft)
+        File.write(@snapcraft_yaml, YAML.dump(snapcraft, indentation: 4))
+        puts 'Snapcraft updated.'
+      end
+
+      private
+
+      def tar_basename_from_url(url)
+        File.basename(url).reverse.split('-', 2).fetch(-1).reverse
+      end
+
+      def mangle(snapcraft)
+        snapcraft['version'] = @new_version
+
+        newest_tar = tar_basename_from_url(@new_url)
+        snapcraft['parts'].each_value do |part|
+          tar = tar_basename_from_url(part['source'])
+          next unless tar == newest_tar
+          part['source'] = @new_url
+        end
+
+        snapcraft
+      end
+    end
+
     # Env variables which reflect jenkins trigger causes
     CAUSE_ENVS = %w[BUILD_CAUSE ROOT_BUILD_CAUSE].freeze
     # Key word for manually triggered builds
@@ -39,6 +85,18 @@ module NCI
 
     def uscan_cmd
       @uscan_cmd ||= TTY::Command.new
+    end
+
+    # KEEP IN SYNC with ungsub_download_url!
+    def self.gsub_download_url(url)
+      url.gsub('download.kde.org/', 'download.kde.internal.neon.kde.org:9191/')
+         .sub('https://', 'http://')
+    end
+
+    # KEEP IN SYNC with gsub_download_url!
+    def self.ungsub_download_url(url)
+      url.gsub('download.kde.internal.neon.kde.org:9191/', 'download.kde.org/')
+         .sub('http://', 'https://')
     end
 
     def run
@@ -50,17 +108,16 @@ module NCI
         # The download.kde.internal.neon.kde.org domain is not
         # publicly available!
         # Only available through blue system's internal DNS.
-        output += line.gsub(%r{download.kde.org/stable/},
-                            'download.kde.internal.neon.kde.org:9191/stable/').gsub('https','http')
+        output += self.class.gsub_download_url(line)
       end
       puts output
       File.open('debian/watch', 'w') { |file| file.write(output) }
       puts 'mangled debian/watch'
 
-      if File.readlines('debian/watch').grep(/unstable/).any?
+      if File.read('debian/watch').include?('unstable')
         puts 'Quitting watcher as debian/watch contains unstable ' \
              'and we only build stable tars in Neon'
-        return unless File.readlines('debian/watch').grep(/qqc2-desktop-style/).any?
+        return
       end
 
       result = uscan_cmd.run!('uscan --report --dehs') # run! to ignore errors
@@ -102,6 +159,7 @@ module NCI
       newer = Hash[newer.map { |k, v| [Debian::Version.new(k), v] }]
       newer = newer.sort.to_h
       newest = newer.keys[-1]
+      newest_dehs = newer.values[-1][0] # is 1 size'd Array because of group_by
       newest_dehs_package = newer.values[-1][0] # group_by results in an array
 
       puts "newest #{newest.inspect}"
@@ -132,14 +190,18 @@ module NCI
         next unless File.file?(path)
         data = File.read(path)
         begin
+          # We track gsub results here because we'll later wrap-and-sort
+          # iff something changed.
           source_change = data.gsub!('${source:Version}~ciBuild', version.to_s)
           binary_change = data.gsub!('${binary:Version}~ciBuild', version.to_s)
           something_changed ||= !(source_change || binary_change).nil?
-        rescue
-          raise "Failed to gsub #{path}"
+        rescue StandardError => e
+          raise "Failed to gsub #{path} -- #{e}"
         end
         File.write(path, data)
       end
+
+      SnapcraftUpdater.new(newest_dehs).run
 
       system('wrap-and-sort') if something_changed
 

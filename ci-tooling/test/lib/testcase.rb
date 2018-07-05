@@ -24,6 +24,7 @@ require 'tmpdir'
 require 'webmock/test_unit'
 require 'net/smtp'
 require 'mocha/test_unit'
+require 'objspace'
 
 require_relative 'assert_xml'
 
@@ -44,13 +45,16 @@ WebMock.stub_request(:get, 'http://unix/v1.16/version')
 # PWD in a tmpdir. On top of that fixture loading helpers are provided in the
 # form of {#data} and {#fixture_file} which grab fixtures out of
 # test/data/file_name/test_method_name.
+# rubocop:disable Metrics/ClassLength
+# This class is very long because it is very flexible and very complicated.
 class TestCase < Test::Unit::TestCase
+  # rubocop:enable Metrics/ClassLength
   include EquivalentXmlAssertations
 
   ATFILEFAIL = 'Could not determine the basename of the file of the' \
                ' class inheriting TestCase. Either flatten your inheritance' \
                ' graph or set the name manually using `self.file = __FILE__`' \
-               ' in class scope.'.freeze
+               ' in class scope.'
 
   class << self
     attr_accessor :file
@@ -68,7 +72,7 @@ class TestCase < Test::Unit::TestCase
       @file = path if path.include?('/test/')
       break
     end
-    fail ATFILEFAIL unless @file
+    raise ATFILEFAIL unless @file
   end
 
   def self.inherited(subclass)
@@ -89,10 +93,10 @@ class TestCase < Test::Unit::TestCase
   def assert_is_a(obj, expected)
     actual = obj.class.ancestors | obj.class.included_modules
     diff = AssertionMessage.delayed_diff(expected, actual)
-    format = <<EOT
+    format = <<MSG
 <?> expected but its ancestors and includes are at the very least
 <?>.?
-EOT
+MSG
     message = build_message(message, format, expected, actual, diff)
     assert_block(message) { obj.is_a?(expected) }
   end
@@ -179,5 +183,43 @@ EOT
 
   def reset_child_status!
     system('true') # Resets $? to all good
+  end
+end
+
+class AllTestCasesArePangeaCases < TestCase
+  # This is a super special hack. We'll want to assert that all TestCases
+  # run are in fact derived from this class. But, since we use parallel to
+  # quickly run tests in multiple processes at the same time (bypassing the GIL)
+  # we cannot simply have a test that asserts it, as that test may be run in
+  # set A but not set B and set B may have offending test cases.
+  # To deal with this any set that includes any of our TestCase will have
+  # this suite forcefully added to assert that everything is alright.
+  #
+  # For future reference: the class name may need PID mutation to avoid
+  # conflicts in the output junit data. Unclear if this is a problem though.
+  def test_all_testcases_are_pangea_testcases
+    not_pangea = []
+    ObjectSpace.each_object do |obj|
+      next unless obj.is_a?(Class)
+      next if obj == Test::Unit::TestCase
+      # Hacky workaround. For unknown reasons the mobile CI fails semi-randomly
+      # on getting objects which are Class but have an ancestors that is a
+      # string. What is most peculiar about this is that the object is entirely
+      # uninspectable and everything simply returns an XML string.
+      # My theory is that something in the CI reporter stack is an object
+      # which somehow managed to override every single method to return to_s,
+      # I have no clue how or why, but given the problem is consistently showing
+      # the XML string in the output it must be that. While that sucks beyond
+      # comprehension, simply guarding against this should make the test work
+      # reliably.
+      next if obj.ancestors.is_a?(String) || !obj.ancestors.respond_to?(:any?)
+      next unless obj.ancestors.any? do |ancestor|
+        ancestor == Test::Unit::TestCase
+      end
+      not_pangea << obj unless obj.ancestors.include?(TestCase)
+    end
+
+    assert_empty(not_pangea, 'Found test cases which do not derive from the' \
+                             ' pangea specific TestCase class.')
   end
 end

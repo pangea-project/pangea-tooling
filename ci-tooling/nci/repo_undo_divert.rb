@@ -50,6 +50,7 @@ Aptly::Ext::Remote.neon do
   snaps = Aptly::Snapshot.list.keep_if { |x| x.Name.start_with?(REPO_NAME) }
   raise "bad shots #{snaps}" unless snaps.size == 1
   snap = snaps[0]
+  puts = "Restoring #{REPO_NAME} from snapshot #{snap.Name}\n\n"
   snap.published_in.each do |pub|
     attributes = pub.to_h
     attributes.delete(:Sources)
@@ -60,5 +61,12 @@ Aptly::Ext::Remote.neon do
     raise 'could not call pub.api_prefix and get a result' unless prefix
     pub.drop
     repo.publish(prefix, attributes)
+  end
+  # drop the tmp prefix repo
+  repo.published_in.each do |pub|
+    prefix = pub.send(:api_prefix)
+    raise 'could not call pub.api_prefix and get a result' unless prefix
+    next unless prefix.start_with?("tmp_")
+    pub.drop
   end
 end

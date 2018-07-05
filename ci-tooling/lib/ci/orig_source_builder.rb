@@ -67,6 +67,9 @@ module CI
         base_version = base_version.split('ubuntu')
         base_version = base_version[0..-2].join('ubuntu')
       end
+      # Make sure our version exceeds Ubuntu's by prefixing us with an x.
+      # This way -0xneon > -0ubuntu instead of -0neon < -0ubuntu
+      base_version = base_version.gsub('neon', 'xneon')
       base_version = "#{base_version}+#{@release_version}+build#{@build_rev}"
       create_changelog_entry(base_version)
     end

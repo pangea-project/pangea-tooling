@@ -1,0 +1,5 @@
+qtchooser (64-ga1b6736-5) unstable; urgency=medium
+
+  * Add Breaks/Replaces against qtchooser-bin (closes: #884823).
+
+ -- Dmitry Shachnev <mitya57@debian.org>  Fri, 22 Dec 2017 00:00:57 +030

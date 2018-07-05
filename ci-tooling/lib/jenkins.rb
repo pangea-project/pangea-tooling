@@ -69,6 +69,72 @@ module JenkinsApi
                            port: @server_port, path: @jenkins_path)
     end
 
+    alias get_config_orig get_config
+    def get_config(url_prefix)
+      # Unlike post_config this already comes in with a /job/ prefix, only one
+      # though. Drop that, then sanitize to support Folders which need to have
+      # /job/Folder/job/OtherFolder/job/ActualJob
+      url = url_prefix.dup.gsub('/job/', '/')
+      url = "/#{url}" unless url[0] == '/'
+      url = url.gsub('//', '/')
+      get_config_orig(url.gsub('/', '/job/'))
+    end
+
+    # Fish folders out of the post config and construct a suitable path.
+    # Folders are a bit of a mess WRT posting configs...
+    alias post_config_orig post_config
+    def post_config(url_prefix, xml)
+      return if url_prefix.nil?
+      if File.basename(url_prefix) == 'config.xml'
+        return post_config_existing(url_prefix, xml)
+      end
+
+      uri = URI.parse(url_prefix)
+      query = CGI.parse(uri.query)
+
+      # Split the path into the job name and folder name(s)
+      name = query.fetch('name').fetch(0)
+      name = name.gsub('//', '') while name.include?('//')
+      name = "/#{name}" unless name[0] == '/'
+
+      dirname = File.dirname(name)
+      jobname = File.basename(name)
+      dirurl = dirname.gsub('/', '/job/')
+
+      if dirname != '.' && dirname != '/'
+        # Check if the dir part exists, if not auto-create folders.
+        # This will eventually recurse in on itself if the parent of our
+        # parent is also not existing.
+        begin
+          job.get_config(dirname)
+        rescue JenkinsApi::Exceptions::NotFound
+          warn "Missing folder #{dirname}. Auto-creating it..."
+          job.create(dirname, <<-XML)
+<?xml version='1.1' encoding='UTF-8'?>
+<com.cloudbees.hudson.plugins.folder.Folder plugin="cloudbees-folder@6.4">
+</com.cloudbees.hudson.plugins.folder.Folder>
+          XML
+        end
+
+        query['name'] = [jobname]
+        uri.path = "#{dirurl}#{uri.path}"
+        uri.query = URI.encode_www_form(query)
+      end
+
+      # At this point we'll have changed
+      #   /createItem?name=foo/bar/fries
+      # to
+      #   /job/foo/job/bar/createItem?name=fries
+      post_config_orig(uri.to_s, xml)
+    end
+
+    def post_config_existing(url_prefix, xml)
+      basename = File.basename(url_prefix)
+      dirname = File.dirname(url_prefix)
+      dirname = dirname.gsub('/job/', '/').gsub('//', '/').gsub('/', '/job/')
+      post_config_orig(File.join(dirname, basename), xml)
+    end
+
     # Monkey patch to not be broken.
     class View
       # Upstream version applies a filter via list(filter) which means view_name
@@ -82,6 +148,21 @@ module JenkinsApi
 
     # Extends Job with some useful methods not in upstream (probably could be).
     class Job
+      alias list_all_orig list_all
+      def list_all(root = '')
+        jobs = @client.api_get_request(root, 'tree=jobs[name]').fetch('jobs')
+
+        jobs = jobs.collect do |j|
+          next j unless j.fetch('_class').include?('Folder')
+          name = j.fetch('name')
+          leaves = list_all("#{root}/job/#{j.fetch('name')}")
+          leaves.collect { |x| "#{name}/#{x}" }
+        end
+        jobs = jobs.flatten
+
+        jobs.map { |job| job.respond_to?(:fetch) ? job.fetch('name') : job }.sort
+      end
+
       def building?(job_name, build_number = nil)
         build_number ||= get_current_build_number(job_name)
         raise "No builds for #{job_name}" unless build_number

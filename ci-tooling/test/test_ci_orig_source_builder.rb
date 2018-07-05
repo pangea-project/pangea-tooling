@@ -51,14 +51,19 @@ module CI
       builder.build(tarball)
 
       # On 14.04 the default was .gz, newer versions may yield .xz
-      debian_tar = Dir.glob('build/dragon_15.08.1-0+15.04+vivid+build3.debian.tar.*')
+      debian_tar = Dir.glob('build/dragon_15.08.1-0xneon+15.04+vivid+build3.debian.tar.*')
       assert_false(debian_tar.empty?, "no tar #{Dir.glob('build/*')}")
-      assert_path_exist('build/dragon_15.08.1-0+15.04+vivid+build3_source.changes')
-      assert_path_exist('build/dragon_15.08.1-0+15.04+vivid+build3.dsc')
-      puts File.read('build/dragon_15.08.1-0+15.04+vivid+build3.dsc')
+      assert_path_exist('build/dragon_15.08.1-0xneon+15.04+vivid+build3_source.changes')
+      assert_path_exist('build/dragon_15.08.1-0xneon+15.04+vivid+build3.dsc')
+      puts File.read('build/dragon_15.08.1-0xneon+15.04+vivid+build3.dsc')
       assert_path_exist('build/dragon_15.08.1.orig.tar.xz')
-      changes = File.read('build/dragon_15.08.1-0+15.04+vivid+build3_source.changes')
+      changes = File.read('build/dragon_15.08.1-0xneon+15.04+vivid+build3_source.changes')
       assert_include(changes.split($/), 'Distribution: vivid')
+      # Neon builds should have -0neon changed to -0xneon so we exceed ubuntu's
+      # -0ubuntu in case they have the same upstream version. This is pretty
+      # much only useful for when restaging on a newer ubuntu base, where the
+      # versions may initially overlap.
+      assert_include(changes.split($/), 'Version: 4:15.08.1-0xneon+15.04+vivid+build3')
     end
 
     def test_existing_builddir
