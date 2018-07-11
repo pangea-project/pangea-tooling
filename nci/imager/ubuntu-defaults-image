@@ -192,7 +192,7 @@ fi
 # make autobuilds reliable.
 case $ARCH in
     *amd64|*i386)
-	$SUDO apt-get -y install syslinux-themes-ubuntu syslinux-themes-ubuntu-$SUITE gfxboot-theme-ubuntu memtest86+ syslinux || exit 1
+	$SUDO apt-get -y install gfxboot-theme-ubuntu memtest86+ syslinux || exit 1
 	;;
 esac
 $SUDO apt-get -y install genisoimage
@@ -220,14 +220,6 @@ if [ "$COMPONENTS" ]; then
 fi
 
 sed -i "s/^\\(LB_SYSLINUX_THEME=\\).*/\\1\"neon\"/" config/binary
-
-#++++
-# FIXME: addition: remove desktop task from install list as the task contains
-#        libs that potentially conflict with CI'd versions (sobump)
-#        This potentially needs to expand to live as well which then renders
-#        the auto configs from livecd-rootfs rather pointless to begin with.
-sed -i 's/.* kubuntu-desktop//g' config/package-lists/livecd-rootfs.list.chroot_install
-#----
 
 if [ "${PACKAGE%.deb}" = "$PACKAGE" ]; then
     # package name, apt-get'able
