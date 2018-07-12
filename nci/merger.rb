@@ -19,6 +19,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require_relative '../ci-tooling/lib/nci'
 require_relative '../lib/merger'
 
 # FIXME: no test
@@ -34,6 +35,15 @@ class NCIMerger < Merger
                                            .merge_into('Neon/unstable')
     unstable.merge_into('Neon/mobile').push
     unstable.merge_into('Neon/pending-merge').push
+
+    NCI.series do |series|
+      unstable = sequence("Neon/release-lts_#{series}")
+                 .merge_into("Neon/release_#{series}")
+                 .merge_into("Neon/stable_#{series}")
+                 .merge_into("Neon/unstable_#{series}")
+      unstable.merge_into("Neon/mobile_#{series}").push
+      unstable.merge_into("Neon/pending-merge_#{series}").push
+    end
   end
 end
 
