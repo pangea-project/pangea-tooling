@@ -218,6 +218,7 @@ task :align_ruby do
     next
   when 1 # a new version was installed, we'll re-exec ourself.
     sh 'gem install rake'
+    sh 'gem install tty-command'
     ENV['ALIGN_RUBY_EXEC'] = 'true'
     # Reload ourself via new rake
     exec('rake', *ARGV)
