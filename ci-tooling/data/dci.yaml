@@ -1,5 +1,6 @@
 series:
   '1803': '20180315'
+  'stretch': '20170617'
   'next': '20181001'
   # Bump this when choosing a new snapshot for the next netrunner release
   'backports': '20181002'
