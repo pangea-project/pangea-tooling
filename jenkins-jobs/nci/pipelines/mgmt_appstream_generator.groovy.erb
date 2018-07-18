@@ -29,11 +29,11 @@ node('master') {
                   --exclude=*_arm64.deb \
                   --exclude=*.dsc  \
                   --exclude=*.tar.* \
-                  <% if dist == 'xenial' %>
+                  <% if dist == 'xenial' %> \
                   --exclude=*bionic* \
-                  <% else %>
+                  <% else %> \
                   --exclude=*xenial* \
-                  <% end %>
+                  <% end %> \
                   neonarchives@archive-api.neon.kde.org:aptly/public/$APTLY_REPOSITORY/*  \
                   aptly-repository/"""
 
