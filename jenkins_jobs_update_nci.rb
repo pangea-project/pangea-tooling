@@ -76,8 +76,6 @@ applications_jobs = KDEProjectsComponent.applications.collect do |app|
 end
 
 FUTURE_SKIP = %w[
-  iso_neon_
-  iso_neon-
   img_neon_
   _pkg-kde-tools_
   _backports-xenial_
@@ -162,8 +160,6 @@ FUTURE_INCLUDE = %w[
   _neon-packaging_libyuv
   _launchpad_ubuntu-release-upgrader-neon
 ].freeze
-# NB: iso_neon_bionic_devedition-gitunstable_amd64 is currently manually
-#   mangled to use iso-hackery branch.
 # NB: _launchpad_livecd-rootfs-neon is also currently mangled
 
 # Master exclude! Whatever is listed here will not be updated even when included
