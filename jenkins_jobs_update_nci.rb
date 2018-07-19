@@ -120,6 +120,7 @@ FUTURE_INCLUDE = %w[
   _forks_libqalculate
   _forks_live-build
   _forks_pyqt5
+  _forks_sip4
   _forks_xf86-video-armsoc
   _forks_ubiquity
   _forks_libalkimia
