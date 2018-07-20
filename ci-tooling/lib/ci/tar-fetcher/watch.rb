@@ -96,7 +96,7 @@ module CI
       # The download.kde.internal.neon.kde.org domain is not publicly available!
       # Only available through blue system's internal DNS.
       data.gsub(%r{download.kde.org/stable/},
-                'download.kde.internal.neon.kde.org:9191/stable/')
+                'download.kde.internal.neon.kde.org/stable/')
     end
 
     def changelog

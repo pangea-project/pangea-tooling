@@ -96,7 +96,7 @@ class NCIWatcherTest < TestCase
       assert_path_exist 'debian/watch'
       assert_includes File.read('debian/watch'), 'download.kde.org'
       assert_includes File.read('debian/watch'), 'https'
-      assert_not_includes File.read('debian/watch'), 'download.kde.internal.neon.kde.org:9191'
+      assert_not_includes File.read('debian/watch'), 'download.kde.internal.neon.kde.org'
     end
   end
 
@@ -135,7 +135,7 @@ class NCIWatcherTest < TestCase
     dehs = mock('dehs')
     dehs.stubs(:upstream_version).returns('18.14.1')
     # NB: watcher doesn't unmangle itself, we expect the updater to do it
-    dehs.stubs(:upstream_url).returns('http://download.kde.internal.neon.kde.org:9191/okular-18.14.1.tar.xz')
+    dehs.stubs(:upstream_url).returns('http://download.kde.internal.neon.kde.org/okular-18.14.1.tar.xz')
     NCI::Watcher::SnapcraftUpdater.new(dehs).run
     actual = YAML.load_file('snapcraft.yaml')
     expected = YAML.load_file('snapcraft.yaml.ref')
