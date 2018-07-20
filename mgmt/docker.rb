@@ -17,7 +17,7 @@ warn "ubuntu only: #{ENV.include?('PANGEA_UBUNTU_ONLY')}"
 warn "nci current?: #{ENV.include?('PANGEA_NEON_CURRENT_ONLY')}"
 
 ubuntu_series = (MCI.series.keys | NCI.series.keys)
-ubuntu_series = NCI.current_series if ENV.include?('PANGEA_NEON_CURRENT_ONLY')
+ubuntu_series = [NCI.current_series] if ENV.include?('PANGEA_NEON_CURRENT_ONLY')
 ubuntu_series = [] if ENV.include?('PANGEA_DEBIAN_ONLY')
 ubuntu_series.each_index do |index|
   series = ubuntu_series[index]
