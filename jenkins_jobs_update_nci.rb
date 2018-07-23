@@ -223,14 +223,20 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       next unless type == 'unstable'
       projects.each do |project|
         branch = project.packaging_scm.branch
+        branches = NCI.types.collect do |t|
+          # We have Neon/type and Neon/type_series if a branch is only
+          # applicable to a specific series.
+          ["Neon/#{t}"] + NCI.series.collect { |s, _| "Neon/#{t}_#{s}" }
+        end.flatten
+        branches << 'master'
+        next unless branch&.start_with?(*branches)
+
         # FIXME: this is fairly hackish
         dependees = []
         # Mergers need to be upstreams to the build jobs otherwise the
         # build jobs can trigger before the merge is done (e.g. when)
         # there was an upstream change resulting in pointless build
         # cycles.
-        branches = NCI.types.collect { |x| "Neon/#{x}" } << 'master'
-        next unless branch&.start_with?(*branches)
         NCI.series.each_key do |series|
           NCI.types.each do |type_for_dependee|
             # Skip if the type isn't enabled for future series.
