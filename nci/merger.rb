@@ -36,7 +36,7 @@ class NCIMerger < Merger
     unstable.merge_into('Neon/mobile').push
     unstable.merge_into('Neon/pending-merge').push
 
-    NCI.series do |series|
+    NCI.series do |series, _version|
       unstable = sequence("Neon/release-lts_#{series}")
                  .merge_into("Neon/release_#{series}")
                  .merge_into("Neon/stable_#{series}")
