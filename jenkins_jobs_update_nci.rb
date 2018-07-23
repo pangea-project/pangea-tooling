@@ -270,7 +270,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
           end
-          project_architectures = if type == 'unstable'
+          # enable ARM for xenial- & bionic-unstable and bionic-release
+          project_architectures = if type == 'unstable' || (type == 'release' && distribution == NCI.future_series)
                                     NCI.all_architectures
                                   else
                                     NCI.architectures
