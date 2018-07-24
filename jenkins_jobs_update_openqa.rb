@@ -49,6 +49,27 @@ class OpenQAProjectUpdater < ProjectUpdater
   private
 
   def populate_queue
+    NCI.series.each_key do |series|
+      # TODO: maybe we should have an editions list?
+      NCI.types.each do |type|
+        # FIXME: I totally don't like how testing is a regular type permutation
+        #   when there is absolutely nothing regular about it!
+        next if type == 'testing'
+
+        # FIXME: extend as we extend testing!!!
+        next unless series == 'bionic'
+        next unless type == 'unstable' || type == 'release'
+
+        # Standard install
+        enqueue(OpenQAInstallJob.new(series: series, type: type))
+        enqueue(OpenQAInstallOfflineJob.new(series: series, type: type))
+        enqueue(OpenQAInstallSecurebootJob.new(series: series, type: type))
+
+        if %w[release release.lts].include?(type)
+        end
+      end
+    end
+
     SNAPS.each do |snap|
       enqueue(OpenQASnapJob.new(snap, channel: 'candidate'))
     end
