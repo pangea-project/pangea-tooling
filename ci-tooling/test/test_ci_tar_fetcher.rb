@@ -199,7 +199,7 @@ module CI
       TTY::Command
         .any_instance
         .expects(:run!)
-        .with('apt-get', 'source', '--download-only', '-t', 'vivid', 'dragon',
+        .with('apt-get', 'source', '--only-source', '--download-only', '-t', 'vivid', 'dragon',
               chdir: 'source') do |*args|
                 Dir.chdir('source') do
                   File.write('dragon_15.08.1.orig.tar.xz', '')
@@ -207,7 +207,7 @@ module CI
                   File.write('dragon_15.08.1-4:15.08.1-0ubuntu1.debian.tar.xz', '')
                 end
 
-                args == ['apt-get', 'source', '--download-only', '-t', 'vivid',
+                args == ['apt-get', 'source', '--only-source', '--download-only', '-t', 'vivid',
                          'dragon', chdir: 'source']
               end
         .returns(nil)
@@ -238,7 +238,7 @@ module CI
       TTY::Command
         .any_instance
         .expects(:run!)
-        .with('apt-get', 'source', '--download-only', '-t', 'vivid', 'dragon',
+        .with('apt-get', 'source', '--only-source', '--download-only', '-t', 'vivid', 'dragon',
               chdir: 'source') do |*args|
                 Dir.chdir('source') do
                   File.write('dragon_15.08.1.orig.tar.xz', '')
@@ -246,7 +246,7 @@ module CI
                   File.write('dragon_15.08.1-4:15.08.1-0ubuntu1.debian.tar.xz', '')
                 end
 
-                args == ['apt-get', 'source', '--download-only', '-t', 'vivid',
+                args == ['apt-get', 'source', '--only-source', '--download-only', '-t', 'vivid',
                          'dragon', chdir: 'source']
               end
         .returns(nil)
