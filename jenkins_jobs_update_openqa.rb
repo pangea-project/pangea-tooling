@@ -58,7 +58,7 @@ class OpenQAProjectUpdater < ProjectUpdater
 
         # FIXME: extend as we extend testing!!!
         next unless series == 'bionic'
-        next unless type == 'unstable' || type == 'release'
+        next unless %w[unstable stable release].include?(type)
 
         # Standard install
         enqueue(OpenQAInstallJob.new(series: series, type: type))
