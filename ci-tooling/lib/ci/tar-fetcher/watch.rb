@@ -251,7 +251,7 @@ module CI
       end
 
       def find_for(series:)
-        TTY::Command.new.run!('apt-get', 'source',
+        TTY::Command.new.run!('apt-get', 'source', '--only-source',
                               '--download-only', '-t', series,
                               name,
                               chdir: destdir)
