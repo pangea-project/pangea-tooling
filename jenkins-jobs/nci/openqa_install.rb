@@ -19,6 +19,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative 'pipelinejob'
+require_relative '../../ci-tooling/lib/nci'
 
 # openqa installation test
 class OpenQAInstallJob < PipelineJob
@@ -39,7 +40,12 @@ class OpenQAInstallJob < PipelineJob
   end
 
   def env
-    []
+    # Default
+    return [] unless self.class == OpenQAInstallJob
+    # Only the main install job may archive itself.
+    return [] unless series == NCI.current_series
+    # And only iff the it is the currently active series.
+    %w[ARCHIVE=1]
   end
 
   def suffix
