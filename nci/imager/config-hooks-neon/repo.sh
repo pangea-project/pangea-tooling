@@ -1,4 +1,4 @@
-. /etc/os-release
+. /etc/os-release # to get access to version_codename; NB: of host container!
 
 GPG="gpg"
 ARGS=""
