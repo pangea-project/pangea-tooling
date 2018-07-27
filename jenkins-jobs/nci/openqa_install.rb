@@ -33,19 +33,18 @@ class OpenQAInstallJob < PipelineJob
     name += "_#{suffix}" if suffix
     super(name, job_template: 'openqa_install',
                 template: '') # there is no script template, it is in-repo
+    return if method(:env).owner == OpenQAInstallJob
+    raise "Don't override OpenQAInstallJob#env in #{self.class}, override" \
+          ' #extra_env instead!'
   end
 
   def script_path
     'Jenkinsfile'
   end
 
+  # Override extra_env to add stuff.
   def env
-    # Default
-    return [] unless self.class == OpenQAInstallJob
-    # Only the main install job may archive itself.
-    return [] unless series == NCI.current_series
-    # And only iff the it is the currently active series.
-    %w[ARCHIVE=1]
+    %w[INSTALLATION=1] + extra_env
   end
 
   def suffix
@@ -55,6 +54,15 @@ class OpenQAInstallJob < PipelineJob
   end
 
   private
+
+  def extra_env
+    # Default
+    return [] unless self.class == OpenQAInstallJob
+    # Only the main install job may archive itself.
+    return [] unless series == NCI.current_series
+    # And only iff the it is the currently active series.
+    %w[ARCHIVE=1]
+  end
 
   def edition_from_type(type)
     {
@@ -68,35 +76,35 @@ end
 
 # openqa secureboot installation test
 class OpenQAInstallSecurebootJob < OpenQAInstallJob
-  def script_path
-    'Jenkinsfile.secureboot'
+  def extra_env
+    %w[OPENQA_SECUREBOOT=1]
   end
 end
 
 # openqa offline installation test
 class OpenQAInstallOfflineJob < OpenQAInstallJob
-  def env
+  def extra_env
     %w[OPENQA_INSTALLATION_OFFLINE=1]
   end
 end
 
 # openqa bios installation test
 class OpenQAInstallBIOSJob < OpenQAInstallJob
-  def env
+  def extra_env
     %w[OPENQA_BIOS=1]
   end
 end
 
 # openqa oem installation test
 class OpenQAInstallOEMJob < OpenQAInstallJob
-  def script_path
-    'Jenkinsfile.oem'
+  def extra_env
+    %w[INSTALLATION_OEM=1]
   end
 end
 
 # openqa nonenglish installation test
 class OpenQAInstallNonEnglishJob < OpenQAInstallJob
-  def env
+  def extra_env
     %w[OPENQA_INSTALLATION_NONENGLISH=1]
   end
 end
