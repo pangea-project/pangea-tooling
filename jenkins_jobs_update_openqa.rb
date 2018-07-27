@@ -66,7 +66,7 @@ class OpenQAProjectUpdater < ProjectUpdater
         enqueue(OpenQAInstallSecurebootJob.new(series: series, type: type))
         enqueue(OpenQAInstallBIOSJob.new(series: series, type: type))
 
-        if %w[release release.lts].include?(type)
+        if %w[release release-lts].include?(type)
           # TODO: l10n with cala should work nowadays, but needs needles created
           enqueue(OpenQAInstallNonEnglishJob.new(series: series, type: type))
           enqueue(OpenQAInstallOEMJob.new(series: series, type: type))
