@@ -65,6 +65,8 @@ lb config \
 echo "I: copy customization"
 test -d /tooling/nci/imager-img/customization && cp -rf /tooling/nci/imager-img/customization/* config/
 
+echo "deb http://archive.neon.kde.org/${NEONARCHIVE} $SUITE main" >> config/archives/neon.list
+echo "deb-src http://archive.neon.kde.org/${NEONARCHIVE} $SUITE main" >> config/archives/neon.list
 
 if [ "$VERSION_CODENAME" = "bionic" ]; then
     # upadte hook to use prebuilt packages
