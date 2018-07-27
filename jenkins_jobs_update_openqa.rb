@@ -25,6 +25,7 @@ SNAPS = %w[
   blinken
   bomber
   bovo
+  falkon
   granatier
   katomic
   kblackbox
