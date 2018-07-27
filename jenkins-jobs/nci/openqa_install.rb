@@ -18,11 +18,10 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'pipelinejob'
-require_relative '../../ci-tooling/lib/nci'
+require_relative 'openqa_base'
 
 # openqa installation test
-class OpenQAInstallJob < PipelineJob
+class OpenQAInstallJob < OpenQAJobBase
   attr_reader :series
   attr_reader :edition
 
@@ -62,15 +61,6 @@ class OpenQAInstallJob < PipelineJob
     return [] unless series == NCI.current_series
     # And only iff the it is the currently active series.
     %w[ARCHIVE=1]
-  end
-
-  def edition_from_type(type)
-    {
-      'unstable' => 'devedition-gitunstable',
-      'stable' => 'devedition-gitstable',
-      'release' => 'useredition',
-      'release-lts' => 'useredition-lts'
-    }.fetch(type)
   end
 end
 
