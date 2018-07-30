@@ -129,15 +129,6 @@ FUTURE_INCLUDE = %w[
   _forks_krename
   _forks_rsibreak
   _extras_phonon
-  _kde_ark
-  _kde_dolphin
-  _kde_gwenview
-  _kde_kdialog
-  _kde_konsole
-  _kde_kate
-  _kde_print-manager
-  _kde_okular
-  _kde_spectacle
   _neon_keyring
   _neon_hardware-integration
   _neon_masks
