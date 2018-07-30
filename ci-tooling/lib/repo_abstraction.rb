@@ -150,7 +150,7 @@ class AptlyRepository < Repository
     puts 'Querying packages from aptly.'
     pool = new_query_pool
     promises = sources.collect do |source|
-      q = format('!$Architecture (source), $Source (%s), $SourceVersion (%s)',
+      q = format('!$Architecture (source), !$Architecture (udeb), $Source (%s), $SourceVersion (%s)',
                  source.name, source.version)
       Concurrent::Promise.execute(executor: pool) do
         Retry.retry_it(times: 4, sleep: 4) { @repo.packages(q: q) }
