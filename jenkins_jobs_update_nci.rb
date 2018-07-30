@@ -101,6 +101,7 @@ FUTURE_INCLUDE = %w[
   _forks_kdesvn
   _forks_krename
   _forks_rsibreak
+  _forks_util-linux
   _launchpad_ubuntu-release-upgrader-neon
 ].freeze
 # NB: _launchpad_livecd-rootfs-neon is also currently mangled manually
