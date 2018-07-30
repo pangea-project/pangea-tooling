@@ -80,38 +80,14 @@ FUTURE_SKIP = %w[
   _pkg-kde-tools_
   _backports-xenial_
   _forks_
-  _neon-packaging_
   _launchpad_
   _neon_
   _extras_vc
 ].freeze
 # WARNING: for future reference: we need to be super duper careful with enabling
 #   forks!!!@#!!!!!!! Some of them are not forks at all but bloody backports.
-#   At a glance the following things are not forks and should not be in bionic:
-#   - appstream (actually fork, but not needed as icon download doesn't need a
-#     patch anymore)
-#   - aptdaemon
-#   - avogadro
-#   - cryfs
-#   - ddcutil (techinically fork, not desired anymore)
-#   - fcitx-qt5 (rebuild?)
-#   - flatpak-builder
-#   - flatpak
-#   - gpgme
-#   - harfbuzz
-#   - json-glib
-#   - ldc
-#   - just about all lib*
-#   - lmdb
-#   - meson
-#   - ninja-build
-#   - openbabel
-#   - rtl8723ds-bt-wtf-lol123
-#   - taglib
-#   - util-linux
-#   - wayland
-#   - x11proto-core
-#   - xorg-server
+# https://phabricator.kde.org/T9285
+# https://phabricator.kde.org/T9288
 
 # Opposite of above, allows including part of the jobs within a skip rule
 FUTURE_INCLUDE = %w[
@@ -134,20 +110,6 @@ FUTURE_INCLUDE = %w[
   _neon_settings
   _neon_syslinux-themes-neon
   _neon_xserver-xorg-video-intel-native-modesetting
-  _neon-packaging_atcore
-  _neon-packaging_babe
-  _neon-packaging_choqok
-  _neon-packaging_digikam
-  _neon-packaging_distro-release-notifier
-  _neon-packaging_falkon
-  _neon-packaging_kio-stash
-  _neon-packaging_kmarkdownwebview
-  _neon-packaging_ksystraycmd
-  _neon-packaging_libkvkontakte
-  _neon-packaging_libcedrus
-  _neon-packaging_libvdpau-sunxi
-  _neon-packaging_libump
-  _neon-packaging_libyuv
   _launchpad_ubuntu-release-upgrader-neon
 ].freeze
 # NB: _launchpad_livecd-rootfs-neon is also currently mangled
@@ -157,8 +119,18 @@ FUTURE_INCLUDE = %w[
 # e.g. _adwaita would include _adwaita and _adwaita-icon-theme but latter we
 # do not want
 # - 3rdparty_indi is a backport
+# - flatbuffers backports
+# - mlt backport
+# - molequeue backport
+# - qoauth backport
+# - spglib backport
 FUTURE_EXCLUDE = %w[
   _3rdparty_indi
+  _neon-packaging_flatbuffers
+  _neon-packaging_mlt
+  _neon-packaging_molequeue
+  _neon-packaging_qoauth
+  _neon-packaging_spglib
 ].freeze
 
 # Updates Jenkins Projects
