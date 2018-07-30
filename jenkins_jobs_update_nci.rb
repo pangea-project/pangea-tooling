@@ -115,7 +115,6 @@ FUTURE_SKIP = %w[
 
 # Opposite of above, allows including part of the jobs within a skip rule
 FUTURE_INCLUDE = %w[
-  _calamares
   _forks_base-files
   _forks_libqalculate
   _forks_live-build
@@ -128,7 +127,6 @@ FUTURE_INCLUDE = %w[
   _forks_kdesvn
   _forks_krename
   _forks_rsibreak
-  _extras_phonon
   _neon_keyring
   _neon_hardware-integration
   _neon_masks
