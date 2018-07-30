@@ -94,7 +94,7 @@ ssh_args = key_file ? [{ keys: [key_file] }] : []
 Net::SFTP.start('racnoss.kde.org', 'neon', *ssh_args) do |sftp|
   puts "mkdir #{REMOTE_PUB_DIR}"
   sftp.cli_uploads = true
-  sftp.mkdir_p!(REMOTE_PUB_DIR)
+  sftp.mkdir!(REMOTE_PUB_DIR)
   types = %w[arm64.img.gz arm64.img.gz.sig contents zsync sha256sum]
   types.each do |type|
     Dir.glob("*#{type}").each do |file|
