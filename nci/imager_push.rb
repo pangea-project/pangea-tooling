@@ -27,17 +27,17 @@ require 'tty-command'
 
 require_relative '../ci-tooling/lib/nci'
 
+DIST = ENV.fetch('DIST')
+TYPE = ENV.fetch('TYPE')
+ARCH = ENV.fetch('ARCH')
+IMAGENAME = ENV.fetch('IMAGENAME')
+
 # FIXME: temporary hack to divert ISOS for future series. can be dropped once
 #   we want the ISO public
 if DIST == NCI.future_series
   system("sh 'scp -i $SSH_KEY_FILE -o StrictHostKeyChecking=no result/*.iso result/*.zsync bionic-iso@files.kde.mirror.pangea.pub:~/bionic/'")
   return
 end
-
-DIST = ENV.fetch('DIST')
-TYPE = ENV.fetch('TYPE')
-ARCH = ENV.fetch('ARCH')
-IMAGENAME = ENV.fetch('IMAGENAME')
 
 # copy to depot using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
