@@ -57,9 +57,6 @@ class OpenQAProjectUpdater < ProjectUpdater
         #   when there is absolutely nothing regular about it!
         next if type == 'testing'
 
-        # FIXME: extend as we extend testing!!!
-        next unless series == 'bionic'
-
         # Standard install
         enqueue(OpenQAInstallJob.new(series: series, type: type))
         enqueue(OpenQAInstallOfflineJob.new(series: series, type: type))
@@ -80,6 +77,7 @@ class OpenQAProjectUpdater < ProjectUpdater
   end
 
   # Don't do a template check. It doesn't support only listing openqa_*
+  # FIXME: fix this method to support our use case
   def check_jobs_exist; end
 end
 
