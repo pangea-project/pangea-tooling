@@ -35,9 +35,9 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # this to only be published if passing some QA test
 DATE = File.read('date_stamp').strip
 IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"
-REMOTE_DIR = "neon/images/pinebook-remix-nonfree/"
+REMOTE_DIR = "neon/images/pinebook-remix-nonfree/#{TYPE}/"
 if DIST == 'bionic'
-  REMOTE_DIR = "neon/images/pinebook-remix-nonfree/bionic/"
+  REMOTE_DIR = "neon/images/pinebook-remix-nonfree/bionic/#{TYPE}/"
 end
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
