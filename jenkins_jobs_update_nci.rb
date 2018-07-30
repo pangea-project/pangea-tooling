@@ -80,7 +80,6 @@ FUTURE_SKIP = %w[
   _backports-xenial_
   _forks_
   _launchpad_
-  _neon_
   _extras_vc
 ].freeze
 # WARNING: for future reference: we need to be super duper careful with enabling
@@ -102,16 +101,9 @@ FUTURE_INCLUDE = %w[
   _forks_kdesvn
   _forks_krename
   _forks_rsibreak
-  _neon_keyring
-  _neon_hardware-integration
-  _neon_masks
-  _neon_seeds
-  _neon_settings
-  _neon_syslinux-themes-neon
-  _neon_xserver-xorg-video-intel-native-modesetting
   _launchpad_ubuntu-release-upgrader-neon
 ].freeze
-# NB: _launchpad_livecd-rootfs-neon is also currently mangled
+# NB: _launchpad_livecd-rootfs-neon is also currently mangled manually
 
 # Master exclude! Whatever is listed here will not be updated even when included
 # this is to exclude things which would be matched by more generic includes.
@@ -123,6 +115,7 @@ FUTURE_INCLUDE = %w[
 # - molequeue backport
 # - qoauth backport
 # - spglib backport
+# - adwaita-icon-theme (not desired for bionic)
 FUTURE_EXCLUDE = %w[
   _3rdparty_indi
   _neon-packaging_flatbuffers
@@ -130,6 +123,7 @@ FUTURE_EXCLUDE = %w[
   _neon-packaging_molequeue
   _neon-packaging_qoauth
   _neon-packaging_spglib
+  _neon_adwaita-icon-theme
 ].freeze
 
 # Updates Jenkins Projects
