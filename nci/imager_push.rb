@@ -25,7 +25,7 @@ require 'net/sftp'
 require 'net/ssh'
 require 'tty-command'
 
-require_relative '../../ci-tooling/lib/nci'
+require_relative '../ci-tooling/lib/nci'
 
 # FIXME: temporary hack to divert ISOS for future series. can be dropped once
 #   we want the ISO public
