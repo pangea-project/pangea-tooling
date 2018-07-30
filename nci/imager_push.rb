@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2018 Harald Sitter <sitter@kde.org>
 # Copyright (C) 2016 Jonathan Riddell <jr@jriddell.org>
 #
 # This library is free software; you can redistribute it and/or
@@ -25,6 +25,8 @@ require 'net/sftp'
 require 'net/ssh'
 require 'tty-command'
 
+require_relative '../../ci-tooling/lib/nci'
+
 DIST = ENV.fetch('DIST')
 TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
@@ -34,7 +36,12 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # this to only be published if passing some QA test
 DATE = File.read('result/date_stamp').strip
 ISONAME = "#{IMAGENAME}-#{TYPE}"
-REMOTE_DIR = "neon/images/#{ISONAME}/"
+REMOTE_DIR = if DIST == NCI.future_series
+               # Subdir if not the standard version
+               "neon/images/#{DIST}-early-access/#{ISONAME}/"
+             else
+               "neon/images/#{ISONAME}/"
+             end
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 # NB: we use gpg without agent here. Jenkins credential paths are fairly long
