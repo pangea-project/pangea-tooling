@@ -60,7 +60,7 @@ class NCIQMLDepVerifyTest < TestCase
       .returns(['Psource kcoreaddons 5.21.0-0neon abc'])
     fake_repo
       .stubs(:packages)
-      .with(q: '!$Architecture (source), $Source (kcoreaddons), $SourceVersion (5.21.0-0neon)')
+      .with(q: '!$Architecture (source), !$Architecture (udeb), $Source (kcoreaddons), $SourceVersion (5.21.0-0neon)')
       .returns(['Pamd64 libkf5coreaddons-bin-dev 5.21.0-0neon abc',
                 'Pall libkf5coreaddons-data 5.21.0-0neon abc',
                 'Pamd64 libkf5coreaddons-dev 5.21.0-0neon abc',

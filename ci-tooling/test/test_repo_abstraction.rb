@@ -99,7 +99,7 @@ class RepoAbstractionAptlyTest < TestCase
       .returns(['Psource kactivities-kf5 4 jkl']) # Make sure this is filtered
     repo
       .stubs(:packages)
-      .with(:q => '!$Architecture (source), $Source (kactivities-kf5), $SourceVersion (4)')
+      .with(:q => '!$Architecture (source), !$Architecture (udeb), $Source (kactivities-kf5), $SourceVersion (4)')
       .returns(['Pamd64 libkactivites 4 abc'])
 
     Apt::Abstrapt.expects(:system).with do |*x|
@@ -118,7 +118,7 @@ class RepoAbstractionAptlyTest < TestCase
       .returns(['Psource kactivities-kf5 4 jkl'])
     repo
       .stubs(:packages)
-      .with(:q => '!$Architecture (source), $Source (kactivities-kf5), $SourceVersion (4)')
+      .with(:q => '!$Architecture (source), !$Architecture (udeb), $Source (kactivities-kf5), $SourceVersion (4)')
       .returns(['Pamd64 libkactivites 4 abc', 'Pamd64 kitteh 5 efd', 'Pamd64 base-files 5 efd'])
     # kitteh we filter, base-files should be default filtered
     Apt::Abstrapt
@@ -180,7 +180,7 @@ class RepoAbstractionRootOnAptlyTest < TestCase
       .returns(['Psource kactivities-kf5 4 jkl'])
     mock_repo1
       .stubs(:packages)
-      .with(:q => '!$Architecture (source), $Source (kactivities-kf5), $SourceVersion (4)')
+      .with(:q => '!$Architecture (source), !$Architecture (udeb), $Source (kactivities-kf5), $SourceVersion (4)')
       .returns(['Pamd64 libkactivites 4 abc'])
 
     mock_repo2 = mock('mock_repo2')
@@ -190,11 +190,11 @@ class RepoAbstractionRootOnAptlyTest < TestCase
       .returns(['Psource kactivities-kf5 4 jkl', 'Psource trollomatico 3 abc'])
     mock_repo2
       .stubs(:packages)
-      .with(:q => '!$Architecture (source), $Source (kactivities-kf5), $SourceVersion (4)')
+      .with(:q => '!$Architecture (source), !$Architecture (udeb), $Source (kactivities-kf5), $SourceVersion (4)')
       .returns(['Pamd64 libkactivites 4 abc'])
     mock_repo2
       .stubs(:packages)
-      .with(:q => '!$Architecture (source), $Source (trollomatico), $SourceVersion (3)')
+      .with(:q => '!$Architecture (source), !$Architecture (udeb), $Source (trollomatico), $SourceVersion (3)')
       .returns(['Pamd64 trollomatico 3 edf', 'Pamd64 unicornsparkles 4 xyz'])
 
     Apt::Abstrapt
