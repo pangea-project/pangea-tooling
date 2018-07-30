@@ -146,12 +146,47 @@ class AptlyRepository < Repository
                                        max_queue: sources.size * 2)
   end
 
+  # Helper to build aptly queries.
+  # This is more of an exercise in design of how a proper future builder might
+  # look and feel.
+  # TODO: could move to aptly ext and maybe aptly-api itself, may benefit from
+  #   some more engineering to allow building queries as a form of DSL?
+  class QueryBuilder
+    attr_reader :query
+
+    def initialize
+      @query = nil
+    end
+
+    def and(suffix, **kwords)
+      suffix = format(suffix, kwords) unless kwords.empty?
+      unless query
+        @query = suffix
+        return self
+      end
+      @query += ", #{suffix}"
+      self
+    end
+
+    def to_s
+      @query
+    end
+  end
+
+  def query_str_from_source(source)
+    QueryBuilder.new
+                .and('!$Architecture (source)')
+                .and('!$Architecture (udeb)')
+                .and('$Source (%<name>s)', name: source.name)
+                .and('$SourceVersion (%<version>s)', version: source.version)
+                .to_s
+  end
+
   def query_packages_from_sources
     puts 'Querying packages from aptly.'
     pool = new_query_pool
     promises = sources.collect do |source|
-      q = format('!$Architecture (source), !$Architecture (udeb), $Source (%s), $SourceVersion (%s)',
-                 source.name, source.version)
+      q = query_str_from_source(source)
       Concurrent::Promise.execute(executor: pool) do
         Retry.retry_it(times: 4, sleep: 4) { @repo.packages(q: q) }
       end
