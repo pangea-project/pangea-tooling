@@ -176,7 +176,6 @@ class AptlyRepository < Repository
   def query_str_from_source(source)
     QueryBuilder.new
                 .and('!$Architecture (source)')
-                .and('!$Architecture (udeb)')
                 .and('$Source (%<name>s)', name: source.name)
                 .and('$SourceVersion (%<version>s)', version: source.version)
                 .to_s
