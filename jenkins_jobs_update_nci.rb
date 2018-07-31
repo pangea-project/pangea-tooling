@@ -119,7 +119,6 @@ FUTURE_INCLUDE = %w[
 # - adwaita-icon-theme (not desired for bionic)
 FUTURE_EXCLUDE = %w[
   _3rdparty_indi
-  _neon-packaging_flatbuffers
   _neon-packaging_mlt
   _neon-packaging_molequeue
   _neon-packaging_qoauth
