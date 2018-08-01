@@ -106,6 +106,12 @@ class Project
   attr_reader :debian
   alias debian? debian
 
+  # List of dist ids that this project is restricted to (e.g. %w[xenial bionic]
+  # should prevent the project from being used to create jobs for `artful`)
+  # This actually taking effect depends on the specific job/project_updater
+  # implementation correctly implementing the restriction.
+  attr_reader :series_restrictions
+
   DEFAULT_URL = 'git.debian.org:/git/pkg-kde'
   @default_url = DEFAULT_URL
 
@@ -139,6 +145,7 @@ class Project
     @series_branches = []
     @autopkgtest = false
     @debian = false
+    @series_restrictions = []
     if KDEProjectsComponent.frameworks_jobs.include?(name)
       @kdecomponent = 'frameworks'
     elsif KDEProjectsComponent.applications_jobs.include?(name)
@@ -305,6 +312,15 @@ absolutely must not be native though!
       return
     end
 
+    # If the rule isn't as hash we can simply apply it as member object.
+    # This is for example enabling us to override arrays of strings etc.
+    unless rule.is_a?(Hash)
+      instance_variable_set("@#{member}", rule.dup)
+      return
+    end
+
+    # Otherwise the rule is a hash and we'll apply its valus to the object
+    # instead. This is not applying properties any deeper!
     rule.each do |var, value|
       next unless (value = render_override(value))
       # TODO: object.override! can jump in here and do what it wants

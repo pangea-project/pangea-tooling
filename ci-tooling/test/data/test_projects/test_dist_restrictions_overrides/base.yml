@@ -1,0 +1,5 @@
+'*/kinfocenter':
+  '*':
+    series_restrictions:
+      - xenial
+

@@ -133,6 +133,7 @@ class ProjectTest < TestCase
           assert_equal("kubuntu_#{stability}", project.packaging_scm.branch)
           assert_equal(nil, project.snapcraft)
           assert(project.debian?)
+          assert_empty(project.series_restrictions)
         end
       ensure
         FileUtils.rm_rf(tmpdir) unless tmpdir.nil?
@@ -325,6 +326,30 @@ class ProjectTest < TestCase
         project = Project.new(name, component, gitrepo, type: 'unstable')
         assert_equal 'snapcraft.yaml', project.snapcraft
         refute project.debian?
+      end
+    end
+  end
+
+  def test_series_restrictions_overrides
+    # series_restrictions is an array. overrides originally didn't proper apply
+    # for basic data types. this test asserts that this is actually working.
+    # for basic data types we want the deserialized object directly applied to
+    # the member (i.e. for series_restrictions the overrides array is the final
+    # restrictions array).
+
+    name = 'kinfocenter'
+    component = 'applications'
+
+    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    assert_not_nil(gitrepo)
+    assert_not_equal(gitrepo, '')
+
+    FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
+    CI::Overrides.instance_variable_set(:@default_files, ["#{Dir.pwd}/base.yml"])
+    Dir.mktmpdir(self.class.to_s) do |tmpdir|
+      Dir.chdir(tmpdir) do
+        project = Project.new(name, component, gitrepo, type: 'unstable')
+        assert_not_empty(project.series_restrictions)
       end
     end
   end
