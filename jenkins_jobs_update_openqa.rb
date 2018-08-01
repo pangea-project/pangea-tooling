@@ -59,11 +59,17 @@ class OpenQAProjectUpdater < ProjectUpdater
 
         # Standard install
         enqueue(OpenQAInstallJob.new(series: series, type: type))
+
+        # LTS is useless work to maintain. Only support core installs.
+        # We don't officially offer or support LTS much anyway.
+        next if type == 'release-lts'
+
+        # Advanced install scenarios
         enqueue(OpenQAInstallOfflineJob.new(series: series, type: type))
         enqueue(OpenQAInstallSecurebootJob.new(series: series, type: type))
         enqueue(OpenQAInstallBIOSJob.new(series: series, type: type))
 
-        if %w[release release-lts].include?(type)
+        if %w[release].include?(type)
           # TODO: l10n with cala should work nowadays, but needs needles created
           enqueue(OpenQAInstallNonEnglishJob.new(series: series, type: type))
           enqueue(OpenQAInstallOEMJob.new(series: series, type: type))
