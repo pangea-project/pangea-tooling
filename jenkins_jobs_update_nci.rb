@@ -229,7 +229,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         all_builds = [] # Tracks all builds in this type.
 
         type_projects[type].each do |project|
-          unless project.series_restrictions.include?(distribution)
+          if !project.series_restrictions.empty? &&
+             !project.series_restrictions.include?(distribution)
             warn "#{project.name} has been restricted to" \
                  " #{project.series_restrictions}." \
                  " We'll not create a job for #{distribution}."
