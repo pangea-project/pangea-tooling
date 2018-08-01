@@ -189,7 +189,11 @@ end
 
 # Publish ISO sources.
 Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
-  path = 'files.neon.kde.org.uk'
+  path = if DIST == NCI.future_series
+           "files.neon.kde.org.uk/#{DIST}"
+         else
+           "files.neon.kde.org.uk"
+         end
   types = %w[source.tar.xz source.tar]
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
