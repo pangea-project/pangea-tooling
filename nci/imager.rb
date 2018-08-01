@@ -22,6 +22,7 @@
 
 require 'fileutils'
 
+require_relative '../ci-tooling/lib/nci'
 require_relative '../lib/ci/containment'
 
 TOOLING_PATH = File.dirname(__dir__)
@@ -32,7 +33,13 @@ TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
 METAPACKAGE = ENV.fetch('METAPACKAGE')
 IMAGENAME = ENV.fetch('IMAGENAME')
-NEONARCHIVE = ENV.fetch('NEONARCHIVE')
+NEONARCHIVE = if DIST == NCI.future_series && ENV.fetch('NEONARCHIVE') == 'user'
+                # Temporary hack to use release repo
+                # FIXME: THIS NEEDS TO BE UNDONE BEFORE BUILDING BETA ISOS
+                'release'
+              else
+                ENV.fetch('NEONARCHIVE')
+              end
 
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
