@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -76,7 +76,7 @@ module CI
     def override_patterns_to_rules(branch_patterns)
       rules = {}
       branch_patterns.each do |patterns|
-        patterns.each do |_pattern, override|
+        patterns.each_value do |override|
           # deep_merge() and deep_merge!() are different!
           # deep_merge! will merge and overwrite any unmergeables in destination
           #   hash
