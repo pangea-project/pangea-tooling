@@ -229,6 +229,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         all_builds = [] # Tracks all builds in this type.
 
         type_projects[type].each do |project|
+          unless project.series_restrictions.include?(distribution)
+            warn "#{project.name} has been restricted to" \
+                 " #{project.series_restrictions}." \
+                 " We'll not create a job for #{distribution}."
+            next
+          end
           # Fairly akward special casing this. Snaps only build releases right
           # now.
           is_app = KDEProjectsComponent.applications.include?(project.name)
