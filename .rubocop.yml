@@ -41,3 +41,9 @@ Style/IndentHeredoc:
 # ['foo', 'mweo', 'asdf'] is cumbersome AF to write.
 Lint/UnneededSplatExpansion:
   Enabled: false
+
+# We generally load only trusted yaml sources produced by us or adjacent KDE
+# services (in fact, at the time of writing only us as foreign services
+# are generally giving json over the wire)
+Security/YAMLLoad:
+  Enabled: false
