@@ -19,6 +19,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+# To only update some jobs run on drax with e.g.
+# NO_UPDATE=1 UPDATE_INCLUDE='_calamares_' ./tooling/jenkins_jobs_update_nci.rb
+
 require_relative 'ci-tooling/lib/nci'
 require_relative 'ci-tooling/lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
