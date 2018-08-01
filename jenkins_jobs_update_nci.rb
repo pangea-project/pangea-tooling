@@ -166,11 +166,19 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     super
   end
 
+  def load_overrides!
+    files = Dir.glob("#{__dir__}/ci-tooling/data/projects/overrides/nci-*.yaml")
+    raise 'No overrides found?' if files.empty?
+    CI::Overrides.default_files += files
+  end
+
   def populate_queue
+    load_overrides!
+
     all_meta_builds = []
     all_mergers = []
-
     type_projects = {}
+
     NCI.types.each do |type|
       projects_file = "#{@projects_dir}/nci/#{type}.yaml"
       projects = ProjectsFactory.from_file(projects_file,
