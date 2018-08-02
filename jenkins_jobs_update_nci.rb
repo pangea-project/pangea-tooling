@@ -63,6 +63,18 @@ EXCLUDE_SNAPS = %w[
   kfind kfloppy kaddressbook konsole krfb ksystemlog
 ].freeze
 
+# VERY IMPORTANT for bionic!:
+# there is a second, new, system to prevent jobs from building. It is based
+# on overrides in pangea-conf-projects' nci-*.yaml override files. They define
+# series restrictions which get applied in populate_queue. If a job is not
+# in one of the static SKIP/EXCLUDE lists here but not showing up in bionic,
+# chances are it is using the new override system. All the stuff here should
+# be moved to overrides which is partially blocked on
+# https://phabricator.kde.org/T9288
+# https://phabricator.kde.org/T9285
+# as the overrides only work if stuff is properly sorted, so suitable wildcards
+# can be used.
+
 # Types to use for future series. Others get skipped.
 FUTURE_TYPES = %w[release-lts release stable unstable].freeze
 # Skip certain job bits for future series.
@@ -79,8 +91,6 @@ end
 
 FUTURE_SKIP = %w[
   img_neon_
-  _pkg-kde-tools_
-  _backports-xenial_
   _forks_
   _launchpad_
   _extras_vc
@@ -104,7 +114,6 @@ FUTURE_INCLUDE = %w[
   _forks_kdesvn
   _forks_krename
   _forks_rsibreak
-  _backports-bionic_util-linux
   _launchpad_ubuntu-release-upgrader-neon
 ].freeze
 # NB: _launchpad_livecd-rootfs-neon is also currently mangled manually
