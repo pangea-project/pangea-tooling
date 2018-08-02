@@ -35,7 +35,7 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # FIXME: temporary hack to divert ISOS for future series. can be dropped once
 #   we want the ISO public
 if DIST == NCI.future_series
-  system("sh 'scp -i $SSH_KEY_FILE -o StrictHostKeyChecking=no result/*.iso result/*.zsync bionic-iso@files.kde.mirror.pangea.pub:~/bionic/'")
+  system('scp -i $SSH_KEY_FILE -o StrictHostKeyChecking=no result/*.iso result/*.zsync bionic-iso@files.kde.mirror.pangea.pub:~/bionic/') || raise
   return
 end
 
