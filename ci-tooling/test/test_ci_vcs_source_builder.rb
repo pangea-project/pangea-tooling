@@ -306,4 +306,29 @@ class VCSBuilderTest < TestCase
       s.run
     end
   end
+
+  def test_l10n_origin_no_stable_fallback
+    # When a project has no stable branch but stable was requested we expect
+    # a fallback to trunk instead.
+    r = CI::VcsSourceBuilder.new(release: @release)
+    ENV['TYPE'] = 'stable'
+    project = stub('project')
+    project.expects(:i18n_stable).returns(nil)
+    project.expects(:i18n_trunk).returns('master')
+    origin = r.send(:l10n_origin_for, project)
+    assert_equal(:trunk, origin)
+  end
+
+  def test_l10n_origin_no_stable_and_no_trunk
+    # When a project has no i18n set at all fail fatally. This should not happen
+    # and indicates a problem with the project configuration.
+    r = CI::VcsSourceBuilder.new(release: @release)
+    ENV['TYPE'] = 'stable'
+    project = stub('project')
+    project.expects(:i18n_stable).returns(nil)
+    project.expects(:i18n_trunk).returns(nil)
+    assert_raises do
+      r.send(:l10n_origin_for, project)
+    end
+  end
 end

@@ -63,18 +63,39 @@ module CI
       projects[0]
     end
 
-    def l10n_origin
+    def l10n_origin_from_type
       {
         'unstable' => ReleaseMe::Origin::TRUNK,
         'stable' => ReleaseMe::Origin::STABLE
       }.fetch(ENV.fetch('TYPE'))
     end
 
+    def l10n_origin_for(project)
+      origin = l10n_origin_from_type
+
+      # TODO: ideally we should pass the BRANCH from the master job into
+      #   the sourcer job and assert that the upstream branch is the stable/
+      #   trunk branch which is set here. This would assert that the
+      #   upstream_scm used to create the jobs was in sync with the data we see.
+      #   If it was not this is a fatal problem as we might be integrating
+      #   incorrect translations.
+      if origin == ReleaseMe::Origin::STABLE && !project.i18n_stable
+        warn 'This project has no stable branch. Falling back to trunk.'
+        origin = ReleaseMe::Origin::TRUNK
+      end
+
+      if origin == ReleaseMe::Origin::TRUNK && !project.i18n_trunk
+        raise 'Project has no i18n trunk WTF. This should not happen.'
+      end
+
+      origin
+    end
+
     # Add l10n to source dir
     def add_l10n(source_path, repo_url)
       project = project_for_url(repo_url)
 
-      l10n = ReleaseMe::L10n.new(l10n_origin, project.identifier,
+      l10n = ReleaseMe::L10n.new(l10n_origin_for(project), project.identifier,
                                  project.i18n_path)
       l10n.default_excluded_languages = [] # Include even x-test.
       l10n.get(source_path)
