@@ -35,11 +35,8 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # this to only be published if passing some QA test
 DATE = File.read('date_stamp').strip
 IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"
-REMOTE_DIR = "neon/images/pinebook-remix-nonfree/#{TYPE}/"
-if DIST == 'bionic'
-  REMOTE_DIR = "neon/images/pinebook-remix-nonfree/bionic/#{TYPE}/"
-end
-REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
+REMOTE_DIR = "neon/images/pinebook-remix-nonfree/"
+REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{TYPE}/#{DATE}"
 
 puts "GPG signing disk image file"
 unless system('gpg', '--no-use-agent', '--armor', '--detach-sign', '-o',
@@ -94,7 +91,6 @@ ssh_args = key_file ? [{ keys: [key_file] }] : []
 Net::SFTP.start('racnoss.kde.org', 'neon', *ssh_args) do |sftp|
   puts "mkdir #{REMOTE_PUB_DIR}"
   sftp.cli_uploads = true
-  sftp.mkdir!(REMOTE_DIR)
   sftp.mkdir!(REMOTE_PUB_DIR)
   types = %w[arm64.img.gz arm64.img.gz.sig contents zsync sha256sum]
   types.each do |type|
@@ -115,6 +111,9 @@ Net::SFTP.start('racnoss.kde.org', 'neon', *ssh_args) do |sftp|
     #          " ln -s *img.sig #{IMAGENAME}-pinebook-remix-#{TYPE}-current.img.sig")
     ssh.exec!("cd #{REMOTE_DIR}; rm -f current; ln -s #{DATE} current")
   end
+
+  # return for now.
+  return
 
   # delete old directories
   img_directories = sftp.dir.glob(REMOTE_DIR, '*').collect(&:name)
