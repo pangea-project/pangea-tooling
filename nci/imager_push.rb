@@ -45,7 +45,7 @@ DATE = File.read('result/date_stamp').strip
 ISONAME = "#{IMAGENAME}-#{TYPE}"
 REMOTE_DIR = if DIST == NCI.future_series
                # Subdir if not the standard version
-               "neon/images/#{DIST}-early-access/#{ISONAME}/"
+               "neon/images/#{DIST}-preview/#{ISONAME}/"
              else
                "neon/images/#{ISONAME}/"
              end
