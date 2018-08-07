@@ -13,5 +13,6 @@ partprobe $LODEVICE
 mount "${LODEVICE}p1" /mnt
 dd conv=notrunc bs=1k seek=8 if="/mnt/boot/pine64/boot0-pine64-pinebook.bin" of="${LODEVICE}"
 dd conv=notrunc bs=1k seek=19096 if="/mnt/boot/pine64/u-boot-pine64-pinebook.bin" of="${LODEVICE}"
+date -u "+%Y-%m-%d %H:%M:%S" > /mnt/.disk/build_stamp
 umount /mnt
 losetup -d $LODEVICE

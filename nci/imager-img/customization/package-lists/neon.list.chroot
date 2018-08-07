@@ -25,6 +25,7 @@ rtl8723ds-bt-firmware
 rtl8723ds-bt
 smplayer
 mpv
+ntp
 smtube
 ksystraycmd5
 kde-runtime
