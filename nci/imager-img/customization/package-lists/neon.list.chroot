@@ -6,7 +6,9 @@ pine64-linux-image
 pine64-mali-x11
 xserver-xorg-video-armsoc
 neon-desktop
-neon-live
+calamares
+language-pack-en
+wamerican
 mesa-utils-extra
 neon-settings-pinebook
 libcedrus1
