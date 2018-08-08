@@ -91,7 +91,6 @@ end
 
 FUTURE_SKIP = %w[
   img_neon_
-  _forks_
   _launchpad_
   _extras_vc
 ].freeze
@@ -102,18 +101,6 @@ FUTURE_SKIP = %w[
 
 # Opposite of above, allows including part of the jobs within a skip rule
 FUTURE_INCLUDE = %w[
-  _forks_base-files
-  _forks_libqalculate
-  _forks_live-build
-  _forks_pyqt5
-  _forks_sip4
-  _forks_xf86-video-armsoc
-  _forks_ubiquity
-  _forks_libalkimia
-  _forks_massif-visualizer
-  _forks_kdesvn
-  _forks_krename
-  _forks_rsibreak
   _launchpad_ubuntu-release-upgrader-neon
 ].freeze
 # NB: _launchpad_livecd-rootfs-neon is also currently mangled manually
