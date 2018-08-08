@@ -78,6 +78,19 @@ class OpenQAProjectUpdater < ProjectUpdater
           enqueue(OpenQAInstallNonEnglishJob.new(series: series, type: type))
           enqueue(OpenQAInstallOEMJob.new(series: series, type: type))
         end
+
+        if %w[unstable release].include?(type)
+          enqueue(OpenQATestJob.new('plasma',
+                                    series: series, type: type,
+                                    extra_env: %w[PLASMA_DESKTOP=5]))
+          enqueue(
+            OpenQATestJob.new(
+              'plasma-wayland',
+              series: series, type: type,
+              extra_env: %w[TESTS_TO_RUN=tests/plasma/plasma_wayland.pm]
+            )
+          )
+        end
       end
     end
 
