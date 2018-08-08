@@ -23,10 +23,12 @@ require_relative 'openqa_base'
 # openqa installation test
 class OpenQAInstallJob < OpenQAJobBase
   attr_reader :series
+  attr_reader :type
   attr_reader :edition
 
   def initialize(series:, type:)
     @series = series
+    @type = type
     @edition = edition_from_type(type)
     name = "openqa_#{series}_#{edition}_installation"
     name += "_#{suffix}" if suffix
@@ -58,8 +60,10 @@ class OpenQAInstallJob < OpenQAJobBase
     # Default
     return [] unless self.class == OpenQAInstallJob
     # Only the main install job may archive itself.
-    return [] unless series == NCI.current_series
-    # And only iff the it is the currently active series.
+    return [] if series == NCI.future_series && type != 'unstable'
+    # And only iff the it is the currently active series OR future's unstable.
+    # NB: There are space concerns for archiving right now; hence the
+    #   restriction
     %w[ARCHIVE=1]
   end
 end
