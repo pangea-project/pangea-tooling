@@ -69,7 +69,11 @@ class OpenQAProjectUpdater < ProjectUpdater
         enqueue(OpenQAInstallSecurebootJob.new(series: series, type: type))
         enqueue(OpenQAInstallBIOSJob.new(series: series, type: type))
 
-        if %w[release].include?(type)
+        if type == 'unstable'
+          enqueue(OpenQAInstallPartitioningJob.new(series: series, type: type))
+        end
+
+        if type == 'release'
           # TODO: l10n with cala should work nowadays, but needs needles created
           enqueue(OpenQAInstallNonEnglishJob.new(series: series, type: type))
           enqueue(OpenQAInstallOEMJob.new(series: series, type: type))

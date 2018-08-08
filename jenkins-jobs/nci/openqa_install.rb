@@ -98,3 +98,10 @@ class OpenQAInstallNonEnglishJob < OpenQAInstallJob
     %w[OPENQA_INSTALLATION_NONENGLISH=1]
   end
 end
+
+# Runs all partitioning scenarios to make sure kpmcore isn't blowing up.
+class OpenQAInstallPartitioningJob < OpenQAInstallJob
+  def extra_env
+    %w[OPENQA_PARTITIONING=1]
+  end
+end
