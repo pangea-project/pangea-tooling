@@ -57,13 +57,15 @@ class OpenQAInstallJob < OpenQAJobBase
   private
 
   def extra_env
-    # Default
-    return [] unless self.class == OpenQAInstallJob
     # Only the main install job may archive itself.
-    return [] if series == NCI.future_series && type != 'unstable'
-    # And only iff the it is the currently active series OR future's unstable.
+    return [] unless self.class == OpenQAInstallJob
+    # And only iff the it is the currently active series OR selected futures.
     # NB: There are space concerns for archiving right now; hence the
     #   restriction
+    if series == NCI.future_series && !%w[release unstable].include?(type)
+      return []
+    end
+
     %w[ARCHIVE=1]
   end
 end
