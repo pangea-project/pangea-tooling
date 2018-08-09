@@ -91,7 +91,6 @@ end
 
 FUTURE_SKIP = %w[
   img_neon_
-  _launchpad_
   _extras_vc
 ].freeze
 # WARNING: for future reference: we need to be super duper careful with enabling
@@ -101,9 +100,7 @@ FUTURE_SKIP = %w[
 
 # Opposite of above, allows including part of the jobs within a skip rule
 FUTURE_INCLUDE = %w[
-  _launchpad_ubuntu-release-upgrader-neon
 ].freeze
-# NB: _launchpad_livecd-rootfs-neon is also currently mangled manually
 
 # Master exclude! Whatever is listed here will not be updated even when included
 # this is to exclude things which would be matched by more generic includes.
