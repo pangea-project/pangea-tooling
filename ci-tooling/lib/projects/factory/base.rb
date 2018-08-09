@@ -113,6 +113,7 @@ class ProjectsFactory
       params[:origin] = origin if origin
       Concurrent::Promise.execute(executor: self.class.promise_executor) do
         begin
+          next nil if name == 'ubiquity' && ENV['FUCK_UBIQUITY']
           Project.new(name, component, url_base, **params)
         rescue Project::ShitPileErrror => e
           warn "shitpile -- #{e}"
