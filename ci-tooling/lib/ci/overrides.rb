@@ -43,12 +43,19 @@ module CI
     end
 
     def rules_for_scm(scm)
-      # FIXME: branches make no sense for lunchpad, need a flat structure there.
+      # For launchpad rules need to use '*' or '' for branch. This is to keep
+      # the override format consistent and not having to write separate
+      # branches for launchpad here.
       repo_patterns = repo_patterns_for_scm(scm)
 
       branch_patterns = repo_patterns.collect do |_pattern, branches|
         next nil unless branches
-        patterns = CI::FNMatchPattern.filter(scm.branch, branches)
+        # launchpad has no branches so pretend the branch is empty. launchpad
+        # having no branch the only valid values in the overrides would be
+        # '*' and '', both of which would match an empty string branch, so
+        # for the purpose of filtering let's pretend branch is empty when
+        # not set at all.
+        patterns = CI::FNMatchPattern.filter(scm.branch || '', branches)
         patterns = CI::FNMatchPattern.sort_hash(patterns)
         next patterns if patterns
         nil

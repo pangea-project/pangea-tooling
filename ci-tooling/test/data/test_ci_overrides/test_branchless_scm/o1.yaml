@@ -1,0 +1,4 @@
+'lp:fishy':
+  '*':
+    upstream_scm:
+      url: http://meow.git

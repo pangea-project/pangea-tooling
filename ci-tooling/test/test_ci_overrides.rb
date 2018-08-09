@@ -83,5 +83,20 @@ module CI
       }
       assert_equal(expected, overrides)
     end
+
+    def test_branchless_scm
+      o = Overrides.new([data('o1.yaml')])
+      scm = SCM.new('bzr', 'lp:fishy', nil)
+
+      overrides = o.rules_for_scm(scm)
+
+      refute_nil overrides
+      expected = {
+        'upstream_scm' => {
+          'url' => 'http://meow.git'
+        }
+      }
+      assert_equal(expected, overrides)
+    end
   end
 end
