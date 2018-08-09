@@ -164,6 +164,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   end
 
   def load_overrides!
+    # TODO: there probably should be a conflict check so they don't override
+    # the same thing.
     files = Dir.glob("#{__dir__}/ci-tooling/data/projects/overrides/nci-*.yaml")
     raise 'No overrides found?' if files.empty?
     CI::Overrides.default_files += files
