@@ -1,7 +1,7 @@
 mkdir -vp config/gnupg
 mkdir -vp config/indices
 
-# Make sure we usea  suitably strong digest algorithm. SHA1 is deprecated and
+# Make sure we use a suitably strong digest algorithm. SHA1 is deprecated and
 # makes apt angry.
 cat > config/gnupg/gpg.conf <<EOF
 personal-digest-preferences SHA512
