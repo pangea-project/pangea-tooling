@@ -98,6 +98,8 @@ class VCSBuilderTest < TestCase
   end
 
   def test_quilt
+    ENV['TYPE'] = 'nol10n'
+
     s = CI::VcsSourceBuilder.new(release: @release)
     r = s.run
     assert_equal(:quilt, r.type)
@@ -108,9 +110,12 @@ class VCSBuilderTest < TestCase
 
     assert(File.read('last_version').start_with?('2.10+p'),
            "New version not recorded? -> #{File.read('last_version')}")
+  ensure
+    ENV.delete('TYPE')
   end
 
   def test_native
+    ENV['TYPE'] = 'nol10n'
     s = CI::VcsSourceBuilder.new(release: @release)
     r = s.run
     assert_equal(:native, r.type)
@@ -125,6 +130,8 @@ class VCSBuilderTest < TestCase
       assert_path_exist("#{r.name}-#{r.version}/debian")
       assert_path_exist("#{r.name}-#{r.version}/sourcey.file")
     end
+  ensure
+    ENV.delete('TYPE')
   end
 
   def test_empty_install
@@ -142,6 +149,7 @@ class VCSBuilderTest < TestCase
   end
 
   def test_build_fail
+    ENV['TYPE'] = 'nol10n'
     s = CI::VcsSourceBuilder.new(release: @release)
     assert_raise CI::VcsSourceBuilder::BuildPackageError do
       s.run
@@ -174,6 +182,7 @@ class VCSBuilderTest < TestCase
   end
 
   def test_hidden_sources
+    ENV['TYPE'] = 'nol10n'
     source = CI::VcsSourceBuilder.new(release: @release).run
     assert_not_nil(source.dsc)
     Dir.chdir('build') do
@@ -207,6 +216,7 @@ class VCSBuilderTest < TestCase
   end
 
   def test_quilt_full_source
+    ENV['TYPE'] = 'nol10n'
     source = CI::VcsSourceBuilder.new(release: @release,
                                       restricted_packaging_copy: true).run
     assert_equal(:quilt, source.type)
@@ -297,6 +307,7 @@ class VCSBuilderTest < TestCase
   def test_build_fail_resolution
     # Special build fail which actually comes out of a resolution problem.
     # This only tests if the ResolutionError gets transformed into a BuildPackageError
+    ENV['TYPE'] = 'nol10n'
     CI::DependencyResolver
       .expects(:resolve)
       .raises(CI::DependencyResolver::ResolutionError)

@@ -40,12 +40,9 @@ module CI
     # possibly later reused git clone.
     def copy_source_tree(*args)
       ret = super
-      unless %w[unstable stable].include?(ENV.fetch('TYPE', ''))
-        l10n_log.info 'Not doing l10n injection.'
-        l10n_log.info "Job type #{ENV.fetch('TYPE', '')}"
-        return ret
+      unless ENV['TYPE'] == 'nol10n' # used in tests
+        inject_l10n!("#{@build_dir}/source/") if args[0] == 'source'
       end
-      inject_l10n!("#{@build_dir}/source/") if args[0] == 'source'
       ret
     end
 
