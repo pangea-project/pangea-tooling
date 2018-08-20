@@ -63,7 +63,9 @@ module CI
     def l10n_origin_from_type
       {
         'unstable' => ReleaseMe::Origin::TRUNK,
-        'stable' => ReleaseMe::Origin::STABLE
+        'stable' => ReleaseMe::Origin::STABLE,
+        'release' => ReleaseMe::Origin::STABLE,
+        'release-lts' => ReleaseMe::Origin::STABLE
       }.fetch(ENV.fetch('TYPE'))
     end
 
