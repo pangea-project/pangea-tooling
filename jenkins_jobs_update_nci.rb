@@ -113,7 +113,6 @@ FUTURE_INCLUDE = %w[
 # - spglib backport
 # - adwaita-icon-theme (not desired for bionic)
 FUTURE_EXCLUDE = %w[
-  _3rdparty_indi
 ].freeze
 
 # Updates Jenkins Projects
