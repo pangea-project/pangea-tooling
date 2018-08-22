@@ -90,7 +90,6 @@ applications_jobs = KDEProjectsComponent.applications.collect do |app|
 end
 
 FUTURE_SKIP = %w[
-  img_neon_
 ].freeze
 
 # Opposite of above, allows including part of the jobs within a skip rule
@@ -323,14 +322,23 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                     cronjob: 'H H * * 5' }
         enqueue(NeonIsoJob.new(ko_user_release_isoargs))
       end
-      dev_unstable_imgargs = { type: 'devedition-gitunstable',
-                               distribution: distribution,
-                               architecture: 'arm64',
-                               metapackage: 'neon-desktop',
-                               imagename: 'neon',
-                               neonarchive: 'dev/unstable',
-                               cronjob: 'H H * * 0' }
-      enqueue(NeonImgJob.new(dev_unstable_imgargs))
+      if distribution == NCI.future_series
+        dev_unstable_imgargs = { type: 'devedition-gitunstable',
+                                 distribution: distribution,
+                                 architecture: 'arm64',
+                                 metapackage: 'neon-desktop',
+                                 imagename: 'neon',
+                                 neonarchive: 'dev/unstable',
+                                 cronjob: 'H H * * 0' }
+        enqueue(NeonImgJob.new(dev_unstable_imgargs))
+        user_imgargs = { type: 'useredition',
+                         distribution: distribution,
+                         architecture: 'arm64',
+                         metapackage: 'neon-desktop',
+                         imagename: 'neon',
+                         neonarchive: 'user' }
+        enqueue(NeonImgJob.new(user_imgargs))
+      end
     end
 
     # Watchers is a hash, only grab the actual jobs and enqueue them.
