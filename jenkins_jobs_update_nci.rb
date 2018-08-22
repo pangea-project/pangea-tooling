@@ -115,11 +115,6 @@ FUTURE_INCLUDE = %w[
 # - adwaita-icon-theme (not desired for bionic)
 FUTURE_EXCLUDE = %w[
   _3rdparty_indi
-  _neon-packaging_mlt
-  _neon-packaging_molequeue
-  _neon-packaging_qoauth
-  _neon-packaging_spglib
-  _neon-packaging_qca-qt5
 ].freeze
 
 # Updates Jenkins Projects
