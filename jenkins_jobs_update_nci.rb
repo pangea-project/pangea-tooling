@@ -92,10 +92,6 @@ end
 FUTURE_SKIP = %w[
   img_neon_
 ].freeze
-# WARNING: for future reference: we need to be super duper careful with enabling
-#   forks!!!@#!!!!!!! Some of them are not forks at all but bloody backports.
-# https://phabricator.kde.org/T9285
-# https://phabricator.kde.org/T9288
 
 # Opposite of above, allows including part of the jobs within a skip rule
 FUTURE_INCLUDE = %w[
@@ -105,13 +101,6 @@ FUTURE_INCLUDE = %w[
 # this is to exclude things which would be matched by more generic includes.
 # e.g. _adwaita would include _adwaita and _adwaita-icon-theme but latter we
 # do not want
-# - 3rdparty_indi is a backport
-# - flatbuffers backports
-# - mlt backport
-# - molequeue backport
-# - qoauth backport
-# - spglib backport
-# - adwaita-icon-theme (not desired for bionic)
 FUTURE_EXCLUDE = %w[
 ].freeze
 
