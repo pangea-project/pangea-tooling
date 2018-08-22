@@ -161,7 +161,6 @@ class Project
       raise ShitPileErrror,
             'stepped into a shit pile --> https://phabricator.kde.org/T4160'
     end
-    puts "XX component: #{component}/#{name}"
 
     # FIXME: this should run at the end. test currently assume it isn't though
     validate!
