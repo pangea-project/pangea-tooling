@@ -67,7 +67,6 @@ class ProjectsFactory
 
         base_id = ::Gitlab.group_search(base)[0].id
         repos = ::Gitlab.group_projects(base_id).auto_paginate
-        puts "repos #{repos}"
         @list_cache[base] = repos.collect(&:path).freeze
       end
     end
