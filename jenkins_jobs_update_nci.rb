@@ -120,7 +120,6 @@ FUTURE_EXCLUDE = %w[
   _neon-packaging_qoauth
   _neon-packaging_spglib
   _neon-packaging_qca-qt5
-  _neon_adwaita-icon-theme
 ].freeze
 
 # Updates Jenkins Projects
