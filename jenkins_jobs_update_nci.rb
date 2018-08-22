@@ -322,7 +322,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                     cronjob: 'H H * * 5' }
         enqueue(NeonIsoJob.new(ko_user_release_isoargs))
       end
-      if distribution == NCI.future_series
+      if distribution != 'xenial'
         dev_unstable_imgargs = { type: 'devedition-gitunstable',
                                  distribution: distribution,
                                  architecture: 'arm64',
