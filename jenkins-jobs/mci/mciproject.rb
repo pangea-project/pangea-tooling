@@ -26,7 +26,7 @@ class MCIProjectJob < PipelineJob
 
   def initialize(project, distribution:, architectures:)
     return [] unless project.debian?
-    super("mobile_#{project.name}",
+    super("mobile_#{distribution}_#{project.name}",
           template: 'mciproject')
     @project = project.freeze
     @distribution = @distribution.freeze
