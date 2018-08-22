@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.1' encoding='UTF-8'?>
 <project>
   <actions/>
   <description></description>
@@ -50,18 +50,18 @@
       <command>set -ex
 
 export RELEASEME_PROJECTS_API=1
-
+export GITLAB_API_ENDPOINT=https://gitlab.com/api/v4
 ./tooling/jenkins_jobs_update_mci.rb</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.20">
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.24">
       <testResults>reports/*</testResults>
       <keepLongStdio>false</keepLongStdio>
       <healthScaleFactor>1.0</healthScaleFactor>
       <allowEmptyResults>true</allowEmptyResults>
     </hudson.tasks.junit.JUnitResultArchiver>
-    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.27">
+    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.30">
       <targets class="empty-list"/>
       <strategy>ALL</strategy>
       <notifyOnBuildStart>true</notifyOnBuildStart>
@@ -75,14 +75,22 @@ export RELEASEME_PROJECTS_API=1
     </hudson.plugins.ircbot.IrcPublisher>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.18">
+    <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@1.16">
+      <bindings>
+        <org.jenkinsci.plugins.credentialsbinding.impl.StringBinding>
+          <credentialsId>GITLAB_API_PRIVATE_TOKEN</credentialsId>
+          <variable>GITLAB_API_PRIVATE_TOKEN</variable>
+        </org.jenkinsci.plugins.credentialsbinding.impl.StringBinding>
+      </bindings>
+    </org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper>
+    <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.19">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
         <timeoutMinutes>45</timeoutMinutes>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.8"/>
-    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.5.0">
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.9"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.5.2">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
   </buildWrappers>
