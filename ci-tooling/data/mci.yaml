@@ -1,5 +1,6 @@
 series:
   xenial: "16.04"
+  bionic: "18.04"
 architectures:
   - amd64
   - armhf
