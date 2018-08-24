@@ -29,6 +29,6 @@ class MCIProjectJob < PipelineJob
     super("mobile_#{distribution}_#{project.name}",
           template: 'mciproject')
     @project = project.freeze
-    @distribution = @distribution.freeze
+    @distribution = distribution.freeze
   end
 end
