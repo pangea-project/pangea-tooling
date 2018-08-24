@@ -55,7 +55,7 @@
       <command>
 export TYPE=<%= type %>
 if [ $TYPE = "halium" ]; then
-    ~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium *.changes
+    ~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium-<%= distribution %> *.changes
 else
     if [ -f ~/mobile-publish-testing ]; then
         ~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo <%= distribution %>-testing *.changes
