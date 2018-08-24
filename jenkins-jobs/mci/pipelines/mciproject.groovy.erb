@@ -108,10 +108,10 @@ stage('publish') {
     sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo <%= distribution %>-caf caf/result/*.changes'
     sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo <%= distribution %>-caf result/*_amd64.changes'
 <% else %>
-    sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium-<%= distribution %>generic build/*.changes'
-    sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium-<%= distribution %>caf build/*.changes'
-    sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium-<%= distribution %>generic result/*.changes'
-    sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium-<%= distribution %>caf caf/result/*.changes'
+    sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium-<%= distribution %>-generic build/*.changes'
+    sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium-<%= distribution %>-caf build/*.changes'
+    sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium-<%= distribution %>-generic result/*.changes'
+    sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo halium-<%= distribution %>-caf caf/result/*.changes'
 <% end %>
   }
 }
