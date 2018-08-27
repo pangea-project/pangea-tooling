@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2017-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -20,8 +20,8 @@
 
 require_relative '../job'
 
-# snapshots release repos
-class MGMTSnapshot < JenkinsJob
+# Base class for snapshotting. Don't use directly.
+class MGMTSnapshotBase < JenkinsJob
   attr_reader :target
   attr_reader :origin
   attr_reader :appstream
@@ -33,5 +33,23 @@ class MGMTSnapshot < JenkinsJob
     @target = target
     @appstream = appstream
     @dist = dist
+  end
+end
+
+# snapshots release repos
+class MGMTSnapshotUser < MGMTSnapshotBase
+  def initialize(dist:)
+    super(dist: dist,
+          origin: 'release', target: 'user',
+          appstream: "_#{dist}")
+  end
+end
+
+# snapshots release-lts repos
+class MGMTSnapshotUserLTS < MGMTSnapshotBase
+  def initialize(dist:)
+    super(dist: dist,
+          origin: 'release-lts', target: 'user-lts',
+          appstream: "_#{dist}-lts")
   end
 end
