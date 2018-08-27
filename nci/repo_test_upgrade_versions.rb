@@ -29,7 +29,7 @@ Aptly.configure do |config|
   # This is read-only.
 end
 
-NCI::VersionsTest.lister = NCI::RepoPackageLister.new(repo = Aptly::Repository.get(NCI::RepoPackageLister.current_repo))
+NCI::UpgradeVersionsTest.lister = NCI::RepoPackageLister.new(repo = Aptly::Repository.get(NCI::RepoPackageLister.current_repo))
 ENV['CI_REPORTS'] = Dir.pwd
 ARGV << '--ci-reporter'
 require 'minitest/autorun'
