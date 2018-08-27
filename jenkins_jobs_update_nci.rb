@@ -63,45 +63,9 @@ EXCLUDE_SNAPS = %w[
   kfind kfloppy kaddressbook konsole krfb ksystemlog
 ].freeze
 
-# VERY IMPORTANT for bionic!:
-# there is a second, new, system to prevent jobs from building. It is based
-# on overrides in pangea-conf-projects' nci-*.yaml override files. They define
-# series restrictions which get applied in populate_queue. If a job is not
-# in one of the static SKIP/EXCLUDE lists here but not showing up in bionic,
-# chances are it is using the new override system. All the stuff here should
-# be moved to overrides which is partially blocked on
-# https://phabricator.kde.org/T9288
-# https://phabricator.kde.org/T9285
-# as the overrides only work if stuff is properly sorted, so suitable wildcards
-# can be used.
-
-# Types to use for future series. Others get skipped.
-FUTURE_TYPES = %w[release-lts release stable unstable].freeze
-# Skip certain job bits for future series.
-# The bottom part of this list is temporary until qt is staged.
-# _pkg-kde-tools_ is definitely lower version than what is in bionic, unclear
-# if we still need it.
-
-# Skip skips UNLESS in include
-# Exclude trumps everything (should)
-
 applications_jobs = KDEProjectsComponent.applications.collect do |app|
   "_kde_#{app}"
 end
-
-FUTURE_SKIP = %w[
-].freeze
-
-# Opposite of above, allows including part of the jobs within a skip rule
-FUTURE_INCLUDE = %w[
-].freeze
-
-# Master exclude! Whatever is listed here will not be updated even when included
-# this is to exclude things which would be matched by more generic includes.
-# e.g. _adwaita would include _adwaita and _adwaita-icon-theme but latter we
-# do not want
-FUTURE_EXCLUDE = %w[
-].freeze
 
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
@@ -127,17 +91,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def all_template_files
     files = super
     files + Dir.glob("#{JenkinsJob.flavor_dir}/templates/**.xml.erb")
-  end
-
-  def enqueue(job)
-    future = job.job_name.include?(NCI.future_series)
-    whitelisted = FUTURE_INCLUDE.any? { |x| job.job_name.include?(x) }
-    skip = FUTURE_SKIP.any? { |x| job.job_name.include?(x) }
-    return job if FUTURE_EXCLUDE.any? { |x| job.job_name.include?(x) }
-    # if a job is not whitelisted and a future-skip we'll not enqueue it
-    return job if (!whitelisted && (future && skip))
-    # else run
-    super
   end
 
   def load_overrides!
@@ -180,9 +133,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         # cycles.
         NCI.series.each_key do |series|
           NCI.types.each do |type_for_dependee|
-            # Skip if the type isn't enabled for future series.
-            next if series == NCI.future_series &&
-                    !FUTURE_TYPES.include?(type_for_dependee)
             dependees << BuilderJobBuilder.basename(series,
                                                     type_for_dependee,
                                                     project.component,
@@ -198,10 +148,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     watchers = {}
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
-        # Skip if the type isn't enabled for future series.
-        next if distribution == NCI.future_series &&
-                !FUTURE_TYPES.include?(type)
-
         all_builds = [] # Tracks all builds in this type.
 
         type_projects[type].each do |project|
