@@ -11,6 +11,7 @@ cleanNode('master') {
   sh 'env'
   stage('source') {
     parallel(
+<% if project.upstream_scm.type == 'git' %>
       "git[source]": {
         checkout([$class: 'GitSCM',
                   branches: [[name: '<%= project.upstream_scm.branch %>']],
@@ -19,6 +20,7 @@ cleanNode('master') {
                   submoduleCfg: [],
                   userRemoteConfigs: [[url: '<%= project.upstream_scm.url %>']]])
       },
+<% end %>
       "git[packaging]": {
         checkout([$class: 'GitSCM',
                   branches: [[name: '<%= project.packaging_scm.branch %>']],
@@ -28,7 +30,7 @@ cleanNode('master') {
                   userRemoteConfigs: [[url: '<%= project.packaging_scm.url %>']]])
       }
     )
-    sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/sourcer.rb git'
+    sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/sourcer.rb <%= project.upstream_scm.type %>'
     sh 'ls -lah'
     stash name: 'source', includes: 'build/*'
   }
