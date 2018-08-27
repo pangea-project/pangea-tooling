@@ -141,11 +141,15 @@ module NCI
       nil
     end
 
-    def run
+    def run(upgrade=false)
       theirs = their_version
       ours = our_version
       return unless theirs # failed to find the package, we win.
-      return if ours > theirs
+      if (upgrade)
+        return if ours < theirs
+      else
+        return if ours > theirs
+      end
       raise VersionNotGreaterError, <<~ERRORMSG
         Our version of
         #{pkg.name} #{ours} < #{theirs}
@@ -228,4 +232,20 @@ module NCI
       super
     end
   end
+
+  class UpgradeVersionsTest < VersionsTest
+    class << self
+      def define_tests
+        Apt.update if Process.uid.zero? # update if root
+        @lister.packages.each do |pkg|
+          class_eval do
+            define_method("test_#{pkg.name}_#{pkg.version}") do
+              PackageVersionCheck.new(pkg).run(upgrade = true)
+            end
+          end
+        end
+      end
+    end
+  end
+
 end
