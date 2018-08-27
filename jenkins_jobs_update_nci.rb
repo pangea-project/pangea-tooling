@@ -268,6 +268,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                     cronjob: 'H H * * 5' }
         enqueue(NeonIsoJob.new(ko_user_release_isoargs))
       end
+
+      # The following images are only pertaining to dists that aren't xenial.
+      # This isn't necessarily restricted to bionic or anything.
       if distribution != 'xenial'
         dev_unstable_imgargs = { type: 'devedition-gitunstable',
                                  distribution: distribution,
