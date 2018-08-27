@@ -26,6 +26,7 @@ require_relative '../../ci-tooling/lib/aptly-ext/filter'
 require_relative '../../ci-tooling/lib/debian/version'
 require_relative '../../ci-tooling/lib/dpkg'
 require_relative '../../ci-tooling/lib/retry'
+require_relative '../../ci-tooling/lib/nci'
 require_relative '../../lib/aptly-ext/remote'
 
 # rubocop:disable Style/BeginBlock
@@ -41,6 +42,10 @@ module NCI
   class RepoPackageLister
     def self.default_repo
       "#{ENV.fetch('TYPE')}_#{ENV.fetch('DIST')}"
+    end
+
+    def self.current_repo
+      "#{ENV.fetch('TYPE')}_#{NCI.current_series}"
     end
 
     def initialize(repo = Aptly::Repository.get(self.class.default_repo))
