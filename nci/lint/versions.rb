@@ -188,7 +188,7 @@ module NCI
       return if ours < theirs
       raise VersionNotGreaterError, <<~ERRORMSG
         Current series version of
-        #{pkg.name} #{ours} is less then future series version #{theirs}
+        #{pkg.name} #{ours} is greater then future series version #{theirs}
         which is currently available in apt (likely from Ubuntu or us).
       ERRORMSG
     end
