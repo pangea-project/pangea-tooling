@@ -168,7 +168,7 @@ module NCI
       @future_packages ||= begin
         @repo = Aptly::Repository.get("#{ENV.fetch('TYPE')}_#{ENV.fetch('DIST')}")
         future_packages = Retry.retry_it(times: 4, sleep: 4) do
-          @repo.future_packages(q: '!$Architecture (source)')
+          @repo.packages(q: '!$Architecture (source)')
         end
         future_packages = Aptly::Ext::LatestVersionFilter.filter(future_packages)
         arch_filter = [DPKG::HOST_ARCH, 'all']
