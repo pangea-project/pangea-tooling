@@ -177,6 +177,7 @@ module NCI
     end
 
     def run
+      return unless pkg.name == 'kinit-dev'
       theirs = their_version # ubuntu bionic from container apt show
       # get future neon (bionic) aptly version, set theirs if larger
       future_packages.select { |x| x.name == "#{pkg.name}" }
