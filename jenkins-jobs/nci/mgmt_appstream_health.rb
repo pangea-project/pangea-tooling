@@ -28,7 +28,9 @@ class MGMTAppstreamHealthJob < PipelineJob
     suffix = "_#{dist}"
     # TODO: can be removed once xenial is dead
     suffix = '' if dist == 'xenial' # had no suffix in xenial
-    super("mgmt_appstream-health#{suffix}", cron: 'H H/3 * * *')
+    super("mgmt_appstream-health#{suffix}",
+          template: 'mgmt_appstream-health',
+          cron: 'H H/3 * * *')
     @dist = dist
   end
 end
