@@ -165,14 +165,14 @@ module NCI
 
   class PackageUpgradeVersionCheck < PackageVersionCheck
     def future_packages
-      @packages ||= begin
+      @future_packages ||= begin
         @repo = Aptly::Repository.get("#{ENV.fetch('TYPE')}_#{ENV.fetch('DIST')}")
-        packages = Retry.retry_it(times: 4, sleep: 4) do
-          @repo.packages(q: '!$Architecture (source)')
+        future_packages = Retry.retry_it(times: 4, sleep: 4) do
+          @repo.future_packages(q: '!$Architecture (source)')
         end
-        packages = Aptly::Ext::LatestVersionFilter.filter(packages)
+        future_packages = Aptly::Ext::LatestVersionFilter.filter(future_packages)
         arch_filter = [DPKG::HOST_ARCH, 'all']
-        packages.select { |x| arch_filter.include?(x.architecture) }
+        future_packages.select { |x| arch_filter.include?(x.architecture) }
       end
     end
 
@@ -180,8 +180,8 @@ module NCI
       return unless pkg.name == 'kinit-dev'
       theirs = their_version # ubuntu bionic from container apt show
       # get future neon (bionic) aptly version, set theirs if larger
-      future_packages.select { |x| x.name == "#{pkg.name}" }
-      future_version = Debian::Version.new(future_packages[0].version)
+      neon_future_packages = future_packages.select { |x| x.name == "#{pkg.name}" }
+      future_version = Debian::Version.new(neon_future_packages[0].version)
       theirs = future_version if future_version > theirs
 
       ours = our_version # neon xenial from aptly
