@@ -178,7 +178,7 @@ module NCI
     end
 
     def run
-      return unless pkg.name == 'libkf5'
+      return unless pkg.name.start_with('libkf5')
       theirs = their_version # ubuntu bionic from container apt show
       # get future neon (bionic) aptly version, set theirs if larger
       `date`
