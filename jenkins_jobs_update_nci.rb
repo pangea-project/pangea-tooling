@@ -309,11 +309,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts',
                                                dist: NCI.current_series))
     enqueue(MGMTAppstreamHealthJob.new(dist: NCI.current_series))
+    if NCI.future_series
+      enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
+    end
     enqueue(MGMTAppstreamGenerator.new(repo: 'user',
                                        dist: NCI.future_series))
     enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts',
                                                dist: NCI.future_series))
-    # TODO enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTGitSemaphoreJob.new)

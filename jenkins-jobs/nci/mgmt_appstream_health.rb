@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2017-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -25,7 +25,10 @@ class MGMTAppstreamHealthJob < PipelineJob
   attr_reader :dist
 
   def initialize(dist:)
-    super('mgmt_appstream-health', cron: 'H H/3 * * *')
+    suffix = "_#{dist}"
+    # TODO: can be removed once xenial is dead
+    suffix = '' if dist == 'xenial' # had no suffix in xenial
+    super("mgmt_appstream-health#{suffix}", cron: 'H H/3 * * *')
     @dist = dist
   end
 end
