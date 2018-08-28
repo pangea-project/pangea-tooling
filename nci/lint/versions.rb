@@ -180,7 +180,7 @@ module NCI
       return unless pkg.name == 'kinit-dev'
       theirs = their_version # ubuntu bionic from container apt show
       # get future neon (bionic) aptly version, set theirs if larger
-      neon_future_packages = future_packages.select { |x| x.name == "#{pkg.name}" }
+      neon_future_packages = self.future_packages.select { |x| x.name == "#{pkg.name}" }
       future_version = Debian::Version.new(neon_future_packages[0].version)
       theirs = future_version if future_version > theirs
 
