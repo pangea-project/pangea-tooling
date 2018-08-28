@@ -285,7 +285,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                          architecture: 'arm64',
                          metapackage: 'neon-desktop',
                          imagename: 'neon',
-                         neonarchive: 'user' }
+                         neonarchive: 'user',
+                         cronjob: 'H H * * 0'}
         enqueue(NeonImgJob.new(user_imgargs))
       end
     end
