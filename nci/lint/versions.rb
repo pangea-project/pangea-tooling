@@ -164,9 +164,26 @@ module NCI
   end
 
   class PackageUpgradeVersionCheck < PackageVersionCheck
+    def future_packages
+      @packages ||= begin
+        @repo = Aptly::Repository.get("#{ENV.fetch('TYPE')}_#{ENV.fetch('DIST')}")
+        packages = Retry.retry_it(times: 4, sleep: 4) do
+          @repo.packages(q: '!$Architecture (source)')
+        end
+        packages = Aptly::Ext::LatestVersionFilter.filter(packages)
+        arch_filter = [DPKG::HOST_ARCH, 'all']
+        packages.select { |x| arch_filter.include?(x.architecture) }
+      end
+    end
+
     def run
-      theirs = their_version
-      ours = our_version
+      theirs = their_version # ubuntu bionic from container apt show
+      # get future neon (bionic) aptly version, set theirs if larger
+      future_packages.select { |x| x.name == "#{pkg.name}" }
+      future_version = Debian::Version.new(future_packages[0].version)
+      theirs = future_version if future_version > theirs
+
+      ours = our_version # neon xenial from aptly
       return unless theirs # failed to find the package, we win.
       return if ours < theirs
       raise VersionNotGreaterError, <<~ERRORMSG
