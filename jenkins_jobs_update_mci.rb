@@ -108,7 +108,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     enqueue(MCIImageJob.new(repo: 'https://github.com/bhush9/rootfs-builder',
                             branch: 'pm',
-                            type: 'generic'))
+                            type: 'xenial'))
+
+    enqueue(MCIImageJob.new(repo: 'https://github.com/bhush9/rootfs-builder',
+                            branch: 'pm-bionic',
+                            type: 'bionic'))
 
     progenitor = enqueue(
       MgmtProgenitorJob.new(downstream_jobs: all_meta_builds)
