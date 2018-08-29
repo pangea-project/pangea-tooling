@@ -179,7 +179,6 @@ module NCI
     end
 
     def run
-      return unless pkg.name.start_with?('kde-config')
       theirs = their_version || Debian::Version.new('0') # ubuntu bionic from container apt show
       # get future neon (bionic) aptly version, set theirs if larger
       puts `date`
