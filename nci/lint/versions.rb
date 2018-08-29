@@ -174,18 +174,20 @@ module NCI
         arch_filter = [DPKG::HOST_ARCH, 'all']
         future_packages.select { |x| arch_filter.include?(x.architecture) }
         puts "XXX Updating future_packages"
+        future_packages
       end
     end
 
     def run
-      return unless pkg.name.start_with?('libkf5')
+      return unless pkg.name.start_with?('kde-config')
       theirs = their_version # ubuntu bionic from container apt show
       # get future neon (bionic) aptly version, set theirs if larger
-      `date`
-      neon_future_packages = self.future_packages.select { |x| x.name == "#{pkg.name}" }
+      puts `date`
+      future_packages
+      neon_future_packages = @future_packages.select { |x| x.name == "#{pkg.name}" }
       future_version = Debian::Version.new(neon_future_packages[0].version)
       theirs = future_version if future_version > theirs
-      `date`
+      puts `date`
 
       ours = our_version # neon xenial from aptly
       return unless theirs # failed to find the package, we win.
