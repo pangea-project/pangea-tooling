@@ -273,7 +273,7 @@ module NCI
     class << self
       def define_tests
         Apt.update if Process.uid.zero? # update if root
-        @lister.packages[0..10].each do |pkg|
+        @lister.packages.each do |pkg|
           class_eval do
             define_method("test_#{pkg.name}_#{pkg.version}") do
               PackageUpgradeVersionCheck.new(pkg).run
