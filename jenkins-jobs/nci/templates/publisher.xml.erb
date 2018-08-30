@@ -72,9 +72,24 @@
     <hudson.tasks.Shell>
       <command>
         export BUNDLE_GEMFILE=$HOME/tooling/Gemfile # Make bundler able to setup.
+
+<% if basename.include?('_release_') %>
+# Special fancy code for ubuntu-release-upgrader publishing.
+# Only on release builds!
+if [ -e dist-upgrader_*.tar.gz ]; then
+  echo "Uplading dist upgrader data."
+  mkdir DistUpgrade
+  tar -xf dist-upgrader_*.tar.gz -C DistUpgrade
+  export DIST=<%= distribution %>
+  export APTLY_REPOSITORY=release
+  ~/tooling/nci/release_upgrader_push.rb
+fi
+<% end %>
+
         GATEWAY="ssh://neonarchives@archive-api.neon.kde.org/srv/neon-services/aptly.sock"
 <%  repos = repo_names.uniq.compact.map { |x| "--repo #{x}" }.join(' ') %>
     ~/tooling/ci-tooling/bin/pangea_dput --gateway $GATEWAY <%= repos %>  *.changes
+
       </command>
     </hudson.tasks.Shell>
   </builders>
