@@ -164,8 +164,8 @@ module NCI
   end
 
   class PackageUpgradeVersionCheck < PackageVersionCheck
-    def future_packages
-      @future_packages ||= begin
+    def self.future_packages
+      @@future_packages ||= begin
         @repo = Aptly::Repository.get("#{ENV.fetch('TYPE')}_#{ENV.fetch('DIST')}")
         future_packages = Retry.retry_it(times: 4, sleep: 4) do
           @repo.packages(q: '!$Architecture (source)')
@@ -182,10 +182,14 @@ module NCI
       theirs = their_version || Debian::Version.new('0') # ubuntu bionic from container apt show
       # get future neon (bionic) aptly version, set theirs if larger
       puts `date`
-      future_packages
-      neon_future_packages = @future_packages.select { |x| x.name == "#{pkg.name}" }
-      future_version = Debian::Version.new(neon_future_packages[0].version)
-      theirs = future_version if future_version > theirs
+      puts "RUN"
+      PackageUpgradeVersionCheck.future_packages
+      neon_future_packages = @@future_packages.select { |x| x.name == "#{pkg.name}" }
+      if neon_future_packages.length > 0
+        future_version = Debian::Version.new(neon_future_packages[0].version)
+        theirs = future_version if future_version > theirs
+      end
+      puts "RUN DONE"
       puts `date`
 
       ours = our_version # neon xenial from aptly
@@ -269,7 +273,7 @@ module NCI
     class << self
       def define_tests
         Apt.update if Process.uid.zero? # update if root
-        @lister.packages[0..20].each do |pkg|
+        @lister.packages[0..10].each do |pkg|
           class_eval do
             define_method("test_#{pkg.name}_#{pkg.version}") do
               PackageUpgradeVersionCheck.new(pkg).run
