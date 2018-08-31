@@ -20,6 +20,7 @@
 
 require 'minitest/test'
 require 'tty/command'
+require 'httparty'
 
 require_relative '../../ci-tooling/lib/apt'
 require_relative '../../ci-tooling/lib/aptly-ext/filter'
@@ -164,6 +165,22 @@ module NCI
   end
 
   class PackageUpgradeVersionCheck < PackageVersionCheck
+
+    # Download and parse the neon-settings xenial->bionic pin override file
+    def self.override_packages
+      @@override_packages ||= begin
+        url = "https://packaging.neon.kde.org/neon/settings.git/plain/etc/apt/preferences.d/99-xenial-overrides?h=Neon/release-lts"
+        response = HTTParty.get(url)
+        response.parsed_response
+        override_packages = []
+        response.each_line do |line|
+          match = line.match(/Package: (.*)/)
+          override_packages << match[1] if match&.length == 2
+        end
+        override_packages
+      end
+    end
+
     def self.future_packages
       @@future_packages ||= begin
         @repo = Aptly::Repository.get("#{ENV.fetch('TYPE')}_#{ENV.fetch('DIST')}")
@@ -192,6 +209,8 @@ module NCI
       ours = our_version # neon xenial from aptly
       return unless theirs # failed to find the package, we win.
       return if ours < theirs
+      PackageUpgradeVersionCheck.override_packages
+      return if @@override_packages.include?(pkg.name) # already pinned in neon-settings
       raise VersionNotGreaterError, <<~ERRORMSG
         Current series version of
         #{pkg.name} #{ours} is greater then future series version #{theirs}
