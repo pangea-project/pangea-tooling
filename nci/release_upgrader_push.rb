@@ -56,7 +56,7 @@ Dir.mktmpdir('release_upgrader_push') do |tmpdir|
     opts[:keys] = [key, File.expand_path('~/.ssh/id_rsa')]
   end
 
-  Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives', *opts) do |sftp|
+  Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives', **opts) do |sftp|
     ssh = sftp.session
     begin
       puts ssh.exec!("rm -rf #{remote_tmp}")
