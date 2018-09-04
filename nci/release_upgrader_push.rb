@@ -50,7 +50,13 @@ Dir.mktmpdir('release_upgrader_push') do |tmpdir|
     done
   CODE
 
-  Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives') do |sftp|
+  # Grab, key form environment when run on jenkins.
+  opts = {}
+  if (key = ENV['SSH_KEY_FILE'])
+    opts[:keys] = [key, File.expand_path('~/.ssh/id_rsa')]
+  end
+
+  Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives', *opts) do |sftp|
     ssh = sftp.session
     begin
       puts ssh.exec!("rm -rf #{remote_tmp}")
