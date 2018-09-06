@@ -62,7 +62,7 @@ class Repository
     end
     # software-properties backs up Apt::Repository, must not be removed.
     @purge_exclusion = %w[base-files python3-software-properties
-                          software-properties-common apt libapt-pkg5.0]
+                          software-properties-common apt libapt-pkg5.0 libblkid1 libblkid-dev]
 
     p self
   end
