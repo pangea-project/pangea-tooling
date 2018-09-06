@@ -51,7 +51,7 @@ class Repository
     #        demands multiple repos
     @_name = name
     # @_repo = Apt::Repository.new(name)
-    @install_exclusion = %w[base-files]
+    @install_exclusion = %w[base-files libblkid1 libblkid-dev]
     # Special hack for 16.04 where neon-adwaita isn't meant to be used but is
     # still built and would consequently get installed in the install_check.
     # Prevent this by blacklisting it. In 18.04 we want it installed though as
