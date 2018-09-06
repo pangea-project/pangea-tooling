@@ -54,7 +54,7 @@ module Docker
       containers.each do |container|
         created = container_creation(container)
         next if (DateTime.now - created).to_i < days_old
-        remove_container(container, force: true)
+        remove_container(container, force: false)
       end
     end
 
@@ -87,7 +87,9 @@ module Docker
         force = true if repo == 'pangea/debian'
         # Remove all our containers and containers from a dangling image.
         # Dangling in this case would be any image that isn't tagged.
-        return unless force || !repo.include?(CI::PangeaImage.namespace)
+        is_pangea = repo.include?(CI::PangeaImage.namespace)
+        log.warn "image(#{repo}) [force: #{force}, pangea: #{is_pangea}]"
+        return if !is_pangea && !force
       else
         log.warn 'While cleaning up containers we found a container that has ' \
                  'no image associated with it. This should not happen: ' \
