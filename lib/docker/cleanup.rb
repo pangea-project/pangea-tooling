@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'date'
-require 'docker'
 require 'json'
 require 'logger'
 require 'logger/colors'
 
+require_relative '../ci/docker'
 require_relative '../ci/pangeaimage'
 
 module Docker
