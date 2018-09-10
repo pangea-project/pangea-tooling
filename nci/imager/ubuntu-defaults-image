@@ -315,6 +315,7 @@ if [ ! -e binary/casper/initrd.lz ]; then
     zcat ${initramfs} | lzma -c > binary/casper/initrd.lz
     rm binary/casper/initrd.img-*
 fi
+ls -lah binary/casper/ || true
 if [ ! -e binary/casper/vmlinuz ]; then
     echo "$0: Renaming kernel to vmlinuz..."
     # This will go wrong if there's ever more than one vmlinuz-* after
