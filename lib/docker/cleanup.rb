@@ -94,7 +94,6 @@ module Docker
         log.warn 'While cleaning up containers we found a container that has ' \
                  'no image associated with it. This should not happen: ' \
                  " #{container}"
-
       end
       begin
         log.warn "Removing container #{container.id}"
