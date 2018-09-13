@@ -98,7 +98,8 @@ module Docker
       end
       begin
         log.warn "Removing container #{container.id}"
-        container.kill!
+        # NB: kill! doesn't rescue ServerError, kill however does
+        container.kill
         container.remove(force: true)
       rescue Docker::Error::DockerError => e
         log.warn 'Removing failed, continuing.'
