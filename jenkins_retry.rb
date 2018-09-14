@@ -27,10 +27,12 @@ require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/retry'
 require_relative 'ci-tooling/lib/thread_pool'
 require_relative 'lib/kdeproject_component'
+require_relative 'ci-tooling/lib/nci'
 
 @exclusion_states = %w[success unstable]
 strict_mode = false
 new_release = nil
+pim_release = nil
 
 # This block is very long because it is essentially a DSL.
 # rubocop:disable Metrics/BlockLength
@@ -72,6 +74,12 @@ Only jobs that are not queued, not building, and failed will be retired.
     new_release = KDEProjectsComponent.frameworks_jobs
   end
 
+  opts.on('--pim', 'There has been a PIM ABI bump, run' \
+                    ' all unstable jobs for PIM.') do
+    @exclusion_states.clear
+    pim_release = KDEProjectsComponent.pim_jobs
+  end
+
   opts.on('-b', '--build', 'Rebuild even if job did not fail.') do
     @exclusion_states.clear
   end
@@ -95,6 +103,8 @@ end
 pattern = nil
 if new_release
   pattern = Regexp.new("watcher_release_kde_(#{new_release.join('|')})$")
+elsif pim_release
+  pattern = Regexp.new("(#{NCI.current_series}|#{NCI.future_series})_unstable_kde_(#{pim_release.join('|')})$")
 else
   raise 'Need ruby pattern as argv0' if ARGV.empty?
   pattern = Regexp.new(ARGV[0])

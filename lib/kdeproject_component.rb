@@ -36,6 +36,14 @@ class KDEProjectsComponent
       @frameworks_packgaes ||= to_jobs(frameworks)
     end
 
+    def pim
+      @pim ||= to_names(projects('kde/pim'))
+    end
+
+    def pim_jobs
+      @pim_packgaes ||= to_jobs(pim)
+    end
+
     def applications
       @applications ||= begin
         apps = projects('kde').reject {|x| x.start_with?('kde/workspace') }
