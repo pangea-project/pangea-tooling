@@ -1,0 +1,3 @@
+echo "I: Enabling service to save/restore sound on suspend/resume"
+systemctl enable on-suspend
+systemctl enable on-resume
