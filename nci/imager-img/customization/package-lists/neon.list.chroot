@@ -30,4 +30,5 @@ smtube
 ksystraycmd5
 kde-runtime
 frei0r-plugins
+zram-config
 libnss-systemd-
