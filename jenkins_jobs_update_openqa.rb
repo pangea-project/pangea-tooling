@@ -69,7 +69,8 @@ class OpenQAProjectUpdater < ProjectUpdater
         enqueue(OpenQAInstallSecurebootJob.new(series: series, type: type))
         enqueue(OpenQAInstallBIOSJob.new(series: series, type: type))
 
-        if type == 'unstable'
+        # Skip this for xenial. It's about to die in favor of bionic anyway.
+        if series != 'xenial'
           enqueue(OpenQAInstallPartitioningJob.new(series: series, type: type))
         end
 
