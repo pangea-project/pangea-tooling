@@ -146,12 +146,12 @@ module CI
     def guard_unwanted_repacks
       return unless File.read(@watchfile).include?('repack')
       return unless %w[ubuntu neon].any? { |x| OS::ID == x }
-      return if OS::UBUNTU_CODENAME == NCI.current_series
+      return if OS::UBUNTU_CODENAME == NCI.future_series
       raise RepackOnNotCurrentSeries, <<~ERROR
         The watch file wants to repack the source. We tried to download an
         already repacked source from our archives but didn't find one. For
         safety reasons we are not going to uscan a source that requires
-        repacking on any series but our current one (#{NCI.current_series}).
+        repacking on any series but our current one (#{NCI.future_series}).
         Make sure the build of this source for the current series is built first
       ERROR
     end
