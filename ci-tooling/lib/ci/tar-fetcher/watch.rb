@@ -146,7 +146,7 @@ module CI
     def guard_unwanted_repacks
       return unless File.read(@watchfile).include?('repack')
       return unless %w[ubuntu neon].any? { |x| OS::ID == x }
-      return if OS::UBUNTU_CODENAME == NCI.future_series
+      return if OS::UBUNTU_CODENAME == NCI.future_series || OS::UBUNTU_CODENAME == NCI.current_series
       raise RepackOnNotCurrentSeries, <<~ERROR
         The watch file wants to repack the source. We tried to download an
         already repacked source from our archives but didn't find one. For
