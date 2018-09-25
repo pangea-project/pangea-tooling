@@ -20,6 +20,7 @@
 
 require 'addressable/uri'
 require 'jenkins_api_client'
+require 'cgi'
 
 # Monkey patch for Client to fold in our config data.
 # This is entirely and only necessary because the silly default client
@@ -36,7 +37,8 @@ module AutoConfigJenkinsClient
 
   module_function
 
-  def config(file: "#{ENV['HOME']}/.config/pangea-jenkins.json")
+  def config(file: ENV.fetch('JENKINS_CONFIG',
+                             "#{ENV['HOME']}/.config/pangea-jenkins.json"))
     kwords = default_config_data
     if File.exist?(file)
       kwords.merge!(JSON.parse(File.read(file), symbolize_names: true))
