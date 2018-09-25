@@ -71,6 +71,8 @@ class Template
              File.read("#{@template_directory}/#{path}")
            end
     ERB.new(data).result(binding)
+  rescue StandardError => e
+    raise "Failed to render #{self.class}{#{self}}[#{inspect}]:: #{e}"
   end
 
   def render_script
