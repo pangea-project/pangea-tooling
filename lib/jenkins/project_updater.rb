@@ -188,7 +188,6 @@ Check the detailed output to find output relating to the failed creation of the 
     def standard_plugins
       %w[
         greenballs
-        status-view
         simple-theme-plugin
       ]
     end
