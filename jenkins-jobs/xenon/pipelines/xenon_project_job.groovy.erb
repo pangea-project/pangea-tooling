@@ -1,0 +1,115 @@
+env.DIST = '<%= distribution %>'
+env.TYPE = '<%= type %>'
+env.JOB_NAME = '<%= project.name %>'
+env.PWD_BIND = '/workspace'
+
+cleanNode('master') {
+  sh 'env'
+  stage('source') {
+    parallel(
+<% if project&.upstream_scm&.type == 'git' %>
+      "git[source]": {
+        checkout([$class: 'GitSCM',
+                  branches: [[name: '*/<%= project.upstream_scm.branch %>']],
+                  doGenerateSubmoduleConfigurations: false,
+                  extensions: [
+                    [$class: 'SubmoduleOption',
+                      disableSubmodules: false,
+                      parentCredentials: false,
+                      recursiveSubmodules: true,
+                      reference: '',
+                      trackingSubmodules: false],
+                    [$class: 'ScmName', name: 'source'],
+                    [$class: 'RelativeTargetDirectory', relativeTargetDir: 'source']
+                  ],
+                  extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'source']],
+                  submoduleCfg: [],
+                  userRemoteConfigs: [[url: '<%= project.upstream_scm.url %>']]])
+      },
+<% end %>
+      "git[packaging]": {
+        checkout([$class: 'GitSCM',
+                  branches: [[name: '<%= project.packaging_scm.branch %>']],
+                  doGenerateSubmoduleConfigurations: false,
+                  extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'packaging']],
+                  submoduleCfg: [],
+                  userRemoteConfigs: [[url: '<%= project.packaging_scm.url %>']]])
+      }
+    )
+    // FIXME: this was derived from upstream scm, which is ok, but upstream scm
+    //   may be nil
+    sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/sourcer.rb <%= project.packaging_scm.type %>'
+    sh 'ls -lah'
+    stash name: 'source', includes: 'build/*'
+  }
+}
+
+stage('binaries') {
+  parallel(
+    "binary:amd64": {
+      cleanNode('amd64') {
+        unstash 'source'
+        sh 'mv build/* .'
+        sh 'rm -rv build'
+        sh 'ls -lah'
+        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` generic'
+        junit allowEmptyResults: true, testResults: 'reports/*.xml'
+        stash name: 'debs_amd64', includes: 'result/**', allowEmpty: true
+      }
+    },
+    "binary:arm64": {
+      cleanNode('arm64') {
+        unstash 'source'
+        sh 'mv build/* .'
+        sh 'rm -rv build'
+        sh 'ls -lah'
+        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` generic'
+        junit allowEmptyResults: true, testResults: 'reports/*.xml'
+        stash name: 'debs_arm64', includes: 'result/**', allowEmpty: true
+      }
+    },
+    "binary:armhf": {
+      cleanNode('armhf') {
+        unstash 'source'
+        sh 'mv build/* .'
+        sh 'rm -rv build'
+        sh 'ls -lah'
+        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` generic'
+        junit allowEmptyResults: true, testResults: 'reports/*.xml'
+        stash name: 'debs_armhf', includes: 'result/**', allowEmpty: true
+      }
+    }
+  )
+}
+
+stage('publish') {
+  cleanNode('master') {
+    unstash 'source'
+    unstash 'debs_amd64'
+    unstash 'debs_arm64'
+    unstash 'debs_armhf'
+    sh 'ls -lahR'
+
+
+    gateway = "ssh://aptly@localhost/home/aptly/aptly.socket"
+    sh "~/tooling/ci-tooling/bin/pangea_dput --gateway ${gateway} --repo <%= type %>_<%= distribution %> *.changes"
+
+
+    // sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo <%= distribution %> *.changes'
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}

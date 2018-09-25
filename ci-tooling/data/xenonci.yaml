@@ -1,0 +1,10 @@
+series:
+  bionic: "18.04"
+
+architectures:
+  - amd64
+  - arm64
+  - armhf
+
+types:
+  - unstable
