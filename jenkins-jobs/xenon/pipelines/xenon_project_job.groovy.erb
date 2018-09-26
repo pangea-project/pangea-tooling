@@ -3,6 +3,13 @@ env.TYPE = '<%= type %>'
 env.JOB_NAME = '<%= project.name %>'
 env.PWD_BIND = '/workspace'
 
+// In the template this looks super complicated.
+// What this does is first map all values to read "'v'" where v is the value
+// and '' is actually part of the string. It then joins them to form an array
+// definition.
+// end result is: ['a', 'b', 'c']
+def architectures = [<%= architectures.map { |x| "'#{x}'" }.join(', ') %>]
+
 cleanNode('master') {
   sh 'env'
   stage('source') {
@@ -40,56 +47,35 @@ cleanNode('master') {
     //   may be nil
     sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/sourcer.rb <%= project.packaging_scm.type %>'
     sh 'ls -lah'
-    stash name: 'source', includes: 'build/*'
+    dir('build') { stash name: 'source', includes: '*' }
   }
 }
 
 stage('binaries') {
-  parallel(
-    "binary:amd64": {
-      cleanNode('amd64') {
+  def binaries = [:]
+
+  architectures.each { arch ->
+    binaries["binary:${arch}"] = {
+      cleanNode(arch) {
         unstash 'source'
-        sh 'mv build/* .'
-        sh 'rm -rv build'
         sh 'ls -lah'
         sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` generic'
         junit allowEmptyResults: true, testResults: 'reports/*.xml'
-        stash name: 'debs_amd64', includes: 'result/**', allowEmpty: true
-      }
-    },
-    "binary:arm64": {
-      cleanNode('arm64') {
-        unstash 'source'
-        sh 'mv build/* .'
-        sh 'rm -rv build'
-        sh 'ls -lah'
-        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` generic'
-        junit allowEmptyResults: true, testResults: 'reports/*.xml'
-        stash name: 'debs_arm64', includes: 'result/**', allowEmpty: true
-      }
-    },
-    "binary:armhf": {
-      cleanNode('armhf') {
-        unstash 'source'
-        sh 'mv build/* .'
-        sh 'rm -rv build'
-        sh 'ls -lah'
-        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` generic'
-        junit allowEmptyResults: true, testResults: 'reports/*.xml'
-        stash name: 'debs_armhf', includes: 'result/**', allowEmpty: true
+        dir('result') { stash name: "debs_${arch}", includes: '**', allowEmpty: true }
       }
     }
-  )
+  }
+
+  parallel(binaries)
 }
 
 stage('publish') {
   cleanNode('master') {
     unstash 'source'
-    unstash 'debs_amd64'
-    unstash 'debs_arm64'
-    unstash 'debs_armhf'
+    architectures.each { arch ->
+      unstash "debs_${arch}"
+    }
     sh 'ls -lahR'
-
 
     gateway = "ssh://aptly@localhost/home/aptly/aptly.socket"
     sh "~/tooling/ci-tooling/bin/pangea_dput --gateway ${gateway} --repo <%= type %>_<%= distribution %> *.changes"
