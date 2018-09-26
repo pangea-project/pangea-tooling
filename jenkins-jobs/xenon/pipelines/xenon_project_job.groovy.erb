@@ -29,7 +29,6 @@ cleanNode('master') {
                     [$class: 'ScmName', name: 'source'],
                     [$class: 'RelativeTargetDirectory', relativeTargetDir: 'source']
                   ],
-                  extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'source']],
                   submoduleCfg: [],
                   userRemoteConfigs: [[url: '<%= project.upstream_scm.url %>']]])
       },
