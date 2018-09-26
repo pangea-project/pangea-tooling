@@ -36,12 +36,7 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # this to only be published if passing some QA test
 DATE = File.read('result/date_stamp').strip
 ISONAME = "#{IMAGENAME}-#{TYPE}"
-REMOTE_DIR = if DIST == NCI.future_series
-               # Subdir if not the standard version
-               "neon/images/#{DIST}-preview/#{ISONAME}/"
-             else
-               "neon/images/#{ISONAME}/"
-             end
+REMOTE_DIR = "neon/images/#{ISONAME}/"
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 # NB: we use gpg without agent here. Jenkins credential paths are fairly long
