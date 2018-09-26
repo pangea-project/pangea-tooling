@@ -25,13 +25,15 @@ class XenonProjectJob < PipelineJob
   attr_reader :project
   attr_reader :distribution
   attr_reader :type
+  attr_reader :architectures
 
-  def initialize(project, distribution:, type:)
+  def initialize(project, distribution:, type:, architectures:)
     return unless project.debian?
     super("#{distribution}_#{type}_#{project.name}",
           template: 'xenon_project_job')
     @project = project.freeze
     @distribution = distribution.freeze
     @type = type.freeze
+    @architectures = architectures
   end
 end
