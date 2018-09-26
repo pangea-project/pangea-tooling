@@ -216,6 +216,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
       # end of type
 
+      next if distribution == 'xenial' # No more xenial ISOs
+
       # ISOs
       NCI.architectures.each do |architecture|
         dev_unstable_isoargs = { type: 'devedition-gitunstable',
