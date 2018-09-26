@@ -120,12 +120,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTPauseIntegrationJob.new(downstreams: [progenitor]))
     docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     enqueue(MGMTGitSemaphoreJob.new)
-    enqueue(MGMTGitJewellerJob.new)
+    jeweller = enqueue(MGMTGitJewellerJob.new)
     enqueue(MGMTJobUpdater.new)
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     tooling_test =
       enqueue(MGMTToolingTestJob.new(downstreams: [tooling_deploy]))
-    enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_test]))
+    enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_test],
+                                         also_trigger: [jeweller]))
   end
 end
 
