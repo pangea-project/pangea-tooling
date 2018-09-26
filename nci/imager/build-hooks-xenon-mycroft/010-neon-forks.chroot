@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -e
+
+UBIQUITY=`apt-cache policy ubiquity | grep http | head -n 1 | awk '{print $2}' | sed 's,[a-z]*$,,'`
+LIVE_BUILD=`apt-cache policy live-build | grep http | head -n 1 | awk '{print $2}' | sed 's,[a-z]*$,,'`
+BASE_FILES=`apt-cache policy base-files | grep http | head -n 1 | awk '{print $2}' | sed 's,[a-z]*$,,'`
+
+if ! grep -q http://archive.neon.kde.org/ <<<$UBIQUITY; then
+  echo "error: Ubiquity does not come from neon"; \
+  exit 1; \
+fi
+
+if ! grep -q http://archive.neon.kde.org/ <<<$LIVE_BUILD; then
+  echo "error: live-build does not come from neon"; \
+  exit 1; \
+fi
+
+if ! grep -q http://archive.neon.kde.org/ <<<$BASE_FILES; then
+  echo "error: base-files does not come from neon"; \
+  exit 1; \
+fi
+
+#if exists /usr/share/grub-installer/grub-installer but not neon grep then exit
+
+if [ -e /usr/share/grub-installer/grub-installer ] && ! grep neon /usr/share/grub-installer/grub-installer; then
+   echo "error: grub-installer does not have neon-efi.diff patch applied, apply it manually in bzr archive"; \
+   exit 1; \
+fi

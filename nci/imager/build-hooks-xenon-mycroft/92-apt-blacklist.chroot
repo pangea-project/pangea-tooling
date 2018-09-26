@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -e
+
+# Drop blacklisted nonesense pulled in via recommends or platform seed.
+apt-get purge -y unattended-upgrades || true
