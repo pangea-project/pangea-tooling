@@ -24,7 +24,7 @@ $GPG \
   --no-default-keyring \
   --primary-keyring config/archives/ubuntu-defaults.key \
   --keyserver pool.sks-keyservers.net \
-  --recv-keys 'E47F 5011 FA60 FC1D EBB1  9989 3305 6FA1 4AD3 A421'
+  --recv-keys 'CB87 A99C D05E 5E0C 7017  4A68 E8AF 1B0B 45D8 3EBD'
 
 echo "deb http://archive.xenon.pangea.pub/unstable $SUITE main" >> config/archives/neon.list
 echo "deb-src http://archive.xenon.pangea.pub/unstable $SUITE main" >> config/archives/neon.list
