@@ -189,12 +189,12 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
     end
 
     def install_dependencies
-      dep_resolve(File.absolute_path(BUILD_DIR))
+      dep_resolve(BUILD_DIR)
     rescue RuntimeError => e
       raise e unless bin_only_possible?
       warn 'Failed to resolve all build-depends, trying binary only' \
            ' (skipping Build-Depends-Indep)'
-      dep_resolve(File.absolute_path(BUILD_DIR), bin_only: true)
+      dep_resolve(BUILD_DIR, bin_only: true)
       @bin_only = true
       JUnitBinaryOnlyBuild.new.write_file
     end

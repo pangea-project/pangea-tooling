@@ -70,7 +70,7 @@ module CI
         opts << '--host-architecture' << arch if arch
         opts << '--yes'
         opts << 'build-dep'
-        opts << dir
+        opts << File.absolute_path(dir)
         ret = cmd.run!(RESOLVER_ENV, RESOLVER_BIN, *opts)
         raise ResolutionError, 'Failed to satisfy depends' unless ret.success?
       end
