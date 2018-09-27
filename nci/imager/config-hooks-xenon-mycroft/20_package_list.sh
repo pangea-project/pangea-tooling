@@ -3,4 +3,8 @@
 cat << EOF > config/package-lists/ubuntu-defaults.list.chroot_install
 konsole
 plasma-minishell
+mycroft-gui
+mycroft-core
+mycroft-skill-installer
+mycroft-settings
 EOF
