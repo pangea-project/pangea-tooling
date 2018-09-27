@@ -19,6 +19,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'tty/command'
+
 require_relative '../os'
 require_relative '../retry'
 
@@ -40,9 +42,10 @@ module CI
       attr_writer :simulate
     end
 
-    def self.resolve(dir, bin_only: false, retries: 5)
+    def self.resolve(dir, bin_only: false, retries: 5, arch: nil)
       return true if @simulate
       raise "Can't find #{RESOLVER_BIN}!" unless File.executable?(RESOLVER_BIN)
+      raise "#{self.class} doesn't support cross build for #{arch}" if arch
 
       Retry.retry_it(times: retries) do
         opts = []
@@ -50,6 +53,25 @@ module CI
         opts << '--control' << "#{dir}/debian/control"
         ret = system(RESOLVER_ENV, RESOLVER_BIN, *opts)
         raise ResolutionError, 'Failed to satisfy depends' unless ret
+      end
+    end
+  end
+
+  class DependencyResolverAPT < DependencyResolver
+    RESOLVER_BIN = '/usr/bin/apt-get'
+
+    def self.resolve(dir, bin_only: false, retries: 5, arch: nil)
+      return true if @simulate
+      cmd = TTY::Command.new(uuid: false)
+
+      Retry.retry_it(times: retries) do
+        opts = []
+        opts << '--arch-only' if bin_only
+        opts << '--host-architecture' << arch if arch
+        opts << 'build-dep'
+        opts << dir
+        ret = cmd.run!(RESOLVER_ENV, RESOLVER_BIN, *opts)
+        raise ResolutionError, 'Failed to satisfy depends' unless ret.success?
       end
     end
   end

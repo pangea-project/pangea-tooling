@@ -167,13 +167,20 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
 
     private
 
+    # Apt resolver is opt-in for now.
+    RESOLVER = if ENV['PANGEA_APT_RESOLVER']
+                 DependencyResolverAPT
+               else
+                 DependencyResolver
+               end
+
     def install_dependencies
-      DependencyResolver.resolve(BUILD_DIR)
+      RESOLVER.resolve(BUILD_DIR)
     rescue RuntimeError => e
       raise e unless bin_only_possible?
       warn 'Failed to resolve all build-depends, trying binary only' \
            ' (skipping Build-Depends-Indep)'
-      DependencyResolver.resolve(BUILD_DIR, bin_only: true)
+      RESOLVER.resolve(BUILD_DIR, bin_only: true)
       @bin_only = true
       JUnitBinaryOnlyBuild.new.write_file
     end

@@ -32,6 +32,9 @@ whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
                NODE_NAME NODE_LABELS
                PANGEA_PROVISION_AUTOINST
                DH_VERBOSE]
+# Whitelist all PANGEA_ prefix'd variables.
+ENV.each_key { |k| whitelist << k if k.start_with?('PANGEA_') }
+# And whatever was explicitly whitelisted via environment itself.
 whitelist += (ENV['DOCKER_ENV_WHITELIST'] || '').split(':')
 ENV['DOCKER_ENV_WHITELIST'] = whitelist.join(':')
 
