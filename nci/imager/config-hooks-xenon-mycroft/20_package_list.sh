@@ -14,6 +14,7 @@ konsole
 kde-cli-tools
 khotkeys
 kio-extras
+kwin
 libsasl2-modules
 libu2f-udev
 neon-hardware-integration
@@ -22,6 +23,8 @@ neon-settings
 oxygen-sounds
 plasma-nm
 plasma-pa
+plasma-workspace-wallpapers
+plasma-workspace-wayland
 pm-utils
 powerdevil
 sddm
