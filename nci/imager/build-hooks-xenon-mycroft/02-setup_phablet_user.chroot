@@ -20,3 +20,11 @@ mkdir -p /home/$USER/Documents
 chown -R $UGID:$UGID /home/$USER
 
 usermod -a -G ${DEFGROUPS} ${USER}
+
+# if mycroft is installed, chown it to phablet user
+chown -Rv phablet /opt/mycroft || true
+chown -Rv phablet /var/log/mycroft || true
+
+if [ -e /home/phablet ] && [ ! -e /home/phablet/mycroft-core ]; then
+    ln -s /opt/mycroft /home/phablet/mycroft-core
+fi
