@@ -81,6 +81,9 @@ module CI
         overlap = args & keys
         keys == overlap
       end.returns(true)
+      Apt::Abstrapt.expects(:system).with do |*args|
+        args.include?('update')
+      end.returns(true)
 
       builder = PackageBuilder.new
       builder.build_package

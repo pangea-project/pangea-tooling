@@ -265,6 +265,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       return unless cross?
       cmd = TTY::Command.new(uuid: false)
       cmd.run('dpkg', '--add-architecture', cross_arch)
+      Apt.update || raise
       Apt.install("gcc-#{cross_triplet}",
                   "g++-#{cross_triplet}",
                   'dpkg-cross') || raise
