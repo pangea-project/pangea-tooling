@@ -30,6 +30,13 @@ module CI
   class BuildBinaryTest < TestCase
     required_binaries %w(dpkg-buildpackage dpkg-source dpkg dh)
 
+    def setup
+      Apt::Repository.send(:reset)
+      # Disable automatic update
+      Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
+      Apt::Repository.stubs(:`).returns('')
+    end
+
     def refute_bin_only(builder)
       refute(builder.instance_variable_get(:@bin_only))
       assert_path_not_exist('reports/build_binary_dependency_resolver.xml')
@@ -50,6 +57,38 @@ module CI
       refute_equal([], Dir.glob('*.deb'))
       assert_path_exist('hello_2.10_amd64.changes')
       changes = Debian::Changes.new('hello_2.10_amd64.changes')
+      changes.parse!
+      refute_equal([], changes.fields['files'].map(&:name))
+
+      refute_bin_only(builder)
+    end
+
+    # Cross compile for i386
+    def test_build_package_cross
+      FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
+
+      arch = 'i386'
+      ENV['PANGEA_CROSS'] = arch
+
+      # This is a bit stupid because we expect here that this is there is
+      # only one cmd instance in the builder, which is true for now but may
+      # not always be the case. Might be worth revisiting this if it changes.
+      cmd = mock('cmd')
+      cmd.expects(:run).with('dpkg', '--add-architecture', arch)
+      TTY::Command.expects(:new).returns(cmd)
+      Apt::Abstrapt.expects(:system).with do |*args|
+        keys = ['install', 'gcc-i686-linux-gnu', 'g++-i686-linux-gnu', 'dpkg-cross']
+        overlap = args & keys
+        keys == overlap
+      end.returns(true)
+
+      builder = PackageBuilder.new
+      builder.build_package
+
+      refute_equal([], Dir.glob('build/*'))
+      refute_equal([], Dir.glob('*.deb'))
+      assert_path_exist('hello_2.10_i386.changes')
+      changes = Debian::Changes.new('hello_2.10_i386.changes')
       changes.parse!
       refute_equal([], changes.fields['files'].map(&:name))
 

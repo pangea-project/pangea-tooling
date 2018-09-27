@@ -26,6 +26,7 @@ require 'tty/command'
 require_relative 'dependency_resolver'
 require_relative 'setcap_validator'
 require_relative 'source'
+require_relative '../apt'
 require_relative '../debian/control'
 require_relative '../dpkg'
 require_relative '../os'
@@ -91,6 +92,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
         raise "could not find overlay bins in #{overlay_path}"
       end
       ENV['PATH'] = "#{overlay_path}:#{ENV['PATH']}"
+      cross_setup
     end
 
     def extract
@@ -174,13 +176,25 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
                  DependencyResolver
                end
 
+    def dep_resolve(dir, bin_only: false)
+      # This wraps around a conditional arch argument.
+      # We can't just expand {} as that'd mess up mocha in the tests, so pass
+      # arch only if it actually is applicable. This is a bit hackish but beats
+      # potentially having to update a lot of tests.
+      opts = {}
+      opts[:bin_only] = bin_only if bin_only
+      opts[:arch] = cross_arch if cross?
+      return RESOLVER.resolve(dir, **opts) unless opts.empty?
+      RESOLVER.resolve(dir)
+    end
+
     def install_dependencies
-      RESOLVER.resolve(BUILD_DIR)
+      dep_resolve(BUILD_DIR)
     rescue RuntimeError => e
       raise e unless bin_only_possible?
       warn 'Failed to resolve all build-depends, trying binary only' \
            ' (skipping Build-Depends-Indep)'
-      RESOLVER.resolve(BUILD_DIR, bin_only: true)
+      dep_resolve(BUILD_DIR, bin_only: true)
       @bin_only = true
       JUnitBinaryOnlyBuild.new.write_file
     end
@@ -200,12 +214,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
     def build_flags
       dpkg_buildopts = []
       if arch_all?
-        # Automatically decide how many concurrent build jobs we can support.
-        # NOTE: special cased for trusty master servers to pass
-        dpkg_buildopts << '-j1' unless pretty_old_system?
-        dpkg_buildopts << '-jauto' if scaling_node?
-        # On arch:all only build the binaries, the source is already built.
-        dpkg_buildopts << '-b'
+        dpkg_buildopts += build_flags_arch_all
       else
         # Automatically decide how many concurrent build jobs we can support.
         # NOTE: special cased for trusty master servers to pass
@@ -216,10 +225,54 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
         # to the repo.
         dpkg_buildopts << '-B'
       end
+      dpkg_buildopts << '-a' << cross_arch if cross?
       # If we only installed @bin_only dependencies as indep didn't want to
       # install we'll coerce -b into -B irregardless of platform.
       dpkg_buildopts.collect! { |x| x == '-b' ? '-B' : x } if @bin_only
       dpkg_buildopts
+    end
+
+    def build_flags_arch_all
+      flags = []
+      # Automatically decide how many concurrent build jobs we can support.
+      # NOTE: special cased for trusty master servers to pass
+      flags << '-j1' unless pretty_old_system?
+      flags << '-jauto' if scaling_node?
+      # On arch:all only build the binaries, the source is already built.
+      flags << '-b'
+      flags
+    end
+
+    # FIXME: this is not used
+    def build_flags_cross
+      # Unclear if we need config_site CONFIG_SITE=/etc/dpkg-cross/cross-config.i386
+      [] << '-a' << cross_arch
+    end
+
+    def cross?
+      @is_cross ||= !cross_arch.nil?
+    end
+
+    def cross_arch
+      @cross_arch ||= ENV['PANGEA_CROSS']
+    end
+
+    def cross_triplet
+      { 'i386' => 'i686-linux-gnu' }.fetch(cross_arch)
+    end
+
+    def cross_setup
+      return unless cross?
+      cmd = TTY::Command.new(uuid: false)
+      cmd.run('dpkg', '--add-architecture', cross_arch)
+      Apt.install("gcc-#{cross_triplet}",
+                  "g++-#{cross_triplet}",
+                  'dpkg-cross') || raise
+    end
+
+    def arch_flags
+      return [] unless cross?
+      [] << '-a' << cross_arch
     end
 
     def arch_all?
@@ -238,7 +291,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       parsed_dsc.parse!
       architectures = parsed_dsc.fields['architecture'].split
       architectures.each do |arch|
-        _, ec = DPKG.run_with_ec('dpkg-architecture', ['-i', arch])
+        _, ec = DPKG.run_with_ec('dpkg-architecture', arch_flags + ['-i', arch])
         return true if ec
       end
       false
