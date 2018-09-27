@@ -68,6 +68,7 @@ module CI
         opts = []
         opts << '--arch-only' if bin_only
         opts << '--host-architecture' << arch if arch
+        opts << '--yes'
         opts << 'build-dep'
         opts << dir
         ret = cmd.run!(RESOLVER_ENV, RESOLVER_BIN, *opts)

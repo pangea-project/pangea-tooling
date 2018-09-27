@@ -37,6 +37,7 @@ module CI
               '/usr/bin/apt-get',
               '--arch-only',
               '--host-architecture', 'i386',
+              '--yes',
               'build-dep', builddir)
         .returns(TTY::Command::Result.new(0, '', ''))
       TTY::Command.expects(:new).returns(cmd)
