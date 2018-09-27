@@ -15,4 +15,17 @@ class BinarierJob
       job_name.include?(x)
     end
   end
+
+  def architecture
+    return @architecture unless @architecture == 'i386'
+    'amd64'
+  end
+
+  def cross_architecture
+    @architecture
+  end
+
+  def cross_compile?
+    @architecture == 'i386'
+  end
 end

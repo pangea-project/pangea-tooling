@@ -65,6 +65,12 @@ export TYPE=<%= type %>
 
 export PWD_BIND=/workspace
 echo $BUILD_URL > build_url # for lint_bin
+
+<% if cross_compile? %>
+export PANGEA_APT_RESOLVER=1
+export PANGEA_CROSS=<%= cross_architecture %>
+<% end %>
+
 ~/tooling/nci/contain.rb /tooling/ci-tooling/nci/builder.rb $JOB_NAME `pwd`
 
 # ADT will mangle after copying to /workspace so bind the workspace
