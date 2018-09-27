@@ -31,6 +31,9 @@ class ProjectJob < JenkinsJob
   def self.job(project, distribution:, architectures:, type:)
     return [] unless project.debian?
 
+    architectures = architectures.dup
+    architectures << 'i386' if project.name.include?('util-linux')
+
     basename = basename(distribution, type, project.component, project.name)
 
     dependees = project.dependees.collect do |d|
