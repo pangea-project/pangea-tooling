@@ -23,6 +23,7 @@ neon-settings
 oxygen-sounds
 plasma-nm
 plasma-pa
+plasma-widgets-addons
 plasma-workspace-wallpapers
 plasma-workspace-wayland
 pm-utils
