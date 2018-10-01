@@ -43,5 +43,6 @@ xserver-xorg-video-intel-arbiter
 xserver-xorg-input-evdev
 xserver-xorg-input-synaptics
 xserver-xorg-video-intel-native-modesetting
+grub-efi-ia32-bin
 zip
 EOF
