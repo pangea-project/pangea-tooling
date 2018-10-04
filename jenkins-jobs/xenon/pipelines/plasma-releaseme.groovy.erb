@@ -13,7 +13,11 @@ cleanNode('master') {
     }
   }
   stage('push') {
-    echo 'I am groovy pushing'
+    dir('plasma') {
+      sh '. VERSIONS.inc; mkdir /var/www/${VERSION}'
+      sh '. VERSIONS.inc; cp -r ${VERSION}/*gz /var/www/plasma/'
+    }
+    echo 'Now available at http://files.xenon.pangea.pub/plasma/'
   }
 }
 
