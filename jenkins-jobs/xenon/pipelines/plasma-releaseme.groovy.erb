@@ -1,7 +1,16 @@
-cleanNode('amd64') {
+// env.RELEASEME_DEBUG = 1
+env.RELEASEME_READONLY = 1
+
+cleanNode('master') {
+  stage('git') {
+    git branch: "master", url: "https://anongit.kde.org/releaseme"
+  }
   stage('plasma-tars') {
     echo 'I am groovy'
-    //sh '~/tooling/nci/imager.rb'
+    sh 'ls'
+    dir('plasma') {
+        sh './plasma-tars'
+    }
   }
   stage('push') {
     echo 'I am groovy pushing'
