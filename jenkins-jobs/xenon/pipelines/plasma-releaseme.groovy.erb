@@ -1,0 +1,24 @@
+cleanNode('amd64') {
+  stage('plasma-tars') {
+    echo 'I am groovy'
+    //sh '~/tooling/nci/imager.rb'
+  }
+  stage('push') {
+    echo 'I am groovy pushing'
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}

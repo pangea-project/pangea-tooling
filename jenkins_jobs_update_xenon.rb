@@ -95,6 +95,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # enqueue(MGMTJobUpdater.new)
     # enqueue(MGMTDigitalOcean.new)
     # enqueue(MGMTDigitalOceanDangler.new)
+    enqueue(PlasmaReleaseme.new)
 
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     tooling_test =
