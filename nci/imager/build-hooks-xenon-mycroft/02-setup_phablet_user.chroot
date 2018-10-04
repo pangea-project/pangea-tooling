@@ -9,8 +9,8 @@ DEFGROUPS="tty,sudo,adm,dialout,cdrom,plugdev,audio,dip,video"
 echo "I: creating default user $USER"
 adduser --gecos $GECOS --disabled-login $USER --uid $UGID
 
-echo "I: set user $USER password to blank"
-passwd -d $USER
+echo "I: set user $USER password to 1234"
+echo "phablet:1234" | /usr/sbin/chpasswd
 
 mkdir -p /home/$USER/Music
 mkdir -p /home/$USER/Pictures
