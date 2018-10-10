@@ -73,6 +73,10 @@ module NCI
   end
 
   def maybe_setup_apt_preference
+    # If the dist at hand is the future series establish a preference.
+    # Due to teh moving nature of the future series it may fall behind ubuntu
+    # and build against the incorrect packages. The preference is meant to
+    # prevent this by forcing our versions to be the gold standard.
     return unless ENV.fetch('DIST', NCI.current_series) == NCI.future_series
     puts 'Setting up apt preference.'
     @preference = Apt::Preference.new('pangea-neon', content: <<-PREFERENCE)
