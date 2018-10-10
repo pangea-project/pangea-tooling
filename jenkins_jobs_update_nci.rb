@@ -160,13 +160,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           end
           # Fairly akward special casing this. Snaps only build releases right
           # now.
+          # FIXME: xenial hardcoded because moving to bionic requires some
+          #   changes to how the framework snap is built and named and handled
+          #   to avoid ABI issues.
           is_app = KDEProjectsComponent.applications.include?(project.name)
           if type == 'release' && (is_app || project.name == 'konversation') &&
-             !EXCLUDE_SNAPS.include?(project.name) && !(distribution == NCI.future_series)
+             !EXCLUDE_SNAPS.include?(project.name) && distribution == 'xenial'
             enqueue(AppSnapJob.new(project.name))
           end
           if type == 'unstable' && project.snapcraft &&
-             !EXCLUDE_SNAPS.include?(project.name) && !(distribution == NCI.future_series)
+             !EXCLUDE_SNAPS.include?(project.name) && distribution == 'xenial'
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
           end
