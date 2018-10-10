@@ -180,7 +180,7 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
   path = if DIST == NCI.future_series
            "files.neon.kde.org.uk/#{DIST}"
          else
-           "files.neon.kde.org.uk"
+           'files.neon.kde.org.uk'
          end
   types = %w[source.tar.xz source.tar]
   types.each do |type|
