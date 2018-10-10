@@ -1,9 +1,9 @@
 series:
   xenial: "16.04"
   bionic: "18.04"
-old_series: # must be part of series list (or nil)
-current_series: xenial # must be part of series list
-future_series: bionic # must be part of series list (or nil)
+old_series: xenial # must be part of series list (or nil)
+current_series: bionic # must be part of series list
+future_series: # must be part of series list (or nil)
 
 architectures:
   - amd64
