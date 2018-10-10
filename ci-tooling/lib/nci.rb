@@ -43,6 +43,13 @@ module NCI
     data['only_adt']
   end
 
+  # The old main series. That is: the series being phased out in favor of
+  # the current.
+  # This may be nil when none is being phased out!
+  def old_series
+    data.fetch('old_series')
+  end
+
   # The current main series. That is: the series in production.
   def current_series
     data.fetch('current_series')
