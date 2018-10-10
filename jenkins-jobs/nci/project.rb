@@ -112,6 +112,10 @@ class ProjectJob < JenkinsJob
   # FIXME: this is a compat thingy for sourcer (see render method)
   attr_reader :upstream_scm
 
+  # @! attribute [r] distribution
+  #   @return [String] codename of distribution
+  attr_reader :distribution
+
   private
 
   def initialize(basename, distribution:, project:, jobs:, dependees: [])
