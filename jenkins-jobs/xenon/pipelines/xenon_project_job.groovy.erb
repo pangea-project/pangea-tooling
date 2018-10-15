@@ -32,6 +32,8 @@ cleanNode('master') {
                   submoduleCfg: [],
                   userRemoteConfigs: [[url: '<%= project.upstream_scm.url %>']]])
       },
+<% elsif project&.upstream_scm&.type == 'tarball' %>
+<%= fetch_tarball %>
 <% end %>
       "git[packaging]": {
         checkout([$class: 'GitSCM',
