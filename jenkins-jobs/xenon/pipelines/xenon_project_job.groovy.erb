@@ -58,7 +58,7 @@ stage('binaries') {
       cleanNode(arch) {
         unstash 'source'
         sh 'ls -lah'
-        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/mci/binarier.rb $JOB_NAME `pwd` generic'
+        sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/xci/binarier.rb $JOB_NAME `pwd` generic'
         junit allowEmptyResults: true, testResults: 'reports/*.xml'
         dir('result') { stash name: "debs_${arch}", includes: '**', allowEmpty: true }
       }
