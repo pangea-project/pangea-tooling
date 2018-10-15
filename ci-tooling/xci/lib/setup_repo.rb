@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
 # Copyright (C) 2016 Bhushan Shah <bshah@kde.org>
+# Copyright (C) 2018 Rohan Garg <rohan@garg.io>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -25,7 +26,7 @@ require_relative '../../lib/lsb'
 require_relative '../../lib/retry'
 
 # Mobile CI specific helpers.
-module XCI
+module XenonCI
   module_function
 
   def setup_repo!

@@ -29,8 +29,8 @@ require_relative 'lib/setup_env'
 
 ENV['VARIANT'] = 'generic'
 
-XCI.setup_env!
-XCI.setup_repo!
+XenonCI.setup_env!
+XenonCI.setup_repo!
 
 def orig_source(fetcher)
   tarball = fetcher.fetch('source')

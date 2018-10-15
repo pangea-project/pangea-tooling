@@ -3,6 +3,7 @@
 #
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
 # Copyright (C) 2016 Bhushan Shah <bshah@kde.org>
+# Copyright (C) 2018 Rohan Garg <rohan@garg.io>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -24,8 +25,8 @@ require_relative 'lib/setup_repo'
 require_relative 'lib/setup_env'
 require_relative '../lib/ci/build_binary'
 
-XCI.setup_env!
-XCI.setup_repo!
+XenonCI.setup_env!
+XenonCI.setup_repo!
 
 builder = CI::PackageBuilder.new
 builder.build

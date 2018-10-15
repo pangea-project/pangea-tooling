@@ -20,7 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 # Mobile CI specific helpers.
-module MCI
+module XenonCI
   module_function
 
   def setup_env!
