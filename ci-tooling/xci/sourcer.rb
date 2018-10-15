@@ -27,8 +27,6 @@ require_relative '../lib/ci/tar_fetcher'
 require_relative 'lib/setup_repo'
 require_relative 'lib/setup_env'
 
-ENV['VARIANT'] = 'generic'
-
 XenonCI.setup_env!
 XenonCI.setup_repo!
 
