@@ -30,9 +30,6 @@ module XenonCI
   module_function
 
   def setup_repo!
-    @type = ENV.fetch('TYPE')
-    @variant = ENV.fetch('VARIANT')
-
     neon = format('deb http://archive.neon.kde.org/unstable %s main',
                     LSB::DISTRIB_CODENAME)
     raise 'adding repo failed' unless Apt::Repository.add(neon)
