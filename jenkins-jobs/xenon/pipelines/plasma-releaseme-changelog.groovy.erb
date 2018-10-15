@@ -1,0 +1,36 @@
+// env.RELEASEME_DEBUG = 1
+env.RELEASEME_READONLY = 1
+
+cleanNode('master') {
+  stage('git') {
+    git branch: "master", url: "https://anongit.kde.org/releaseme"
+  }
+  stage('plasma-tars') {
+    echo 'I am groovy'
+    sh 'ls'
+    dir('plasma') {
+        sh './plasma-changelog'
+    }
+  }
+  stage('push') {
+    dir('plasma') {
+      sh '. ./VERSIONS.inc; cp plasma-${OLD_VERSION}-${VERSION}-changelog.php /var/www/files/plasma/${VERSION}/'
+    }
+    echo 'Now available at http://files.xenon.pangea.pub/plasma/plasma-${OLD_VERSION}-${VERSION}-changelog.php'
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}
