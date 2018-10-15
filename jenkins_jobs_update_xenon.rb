@@ -92,7 +92,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     docker = enqueue(MGMTDockerJob.new(dependees: []))
     # enqueue(MGMTGitSemaphoreJob.new)
-    # enqueue(MGMTJobUpdater.new)
+    enqueue(MGMTJobUpdater.new)
     # enqueue(MGMTDigitalOcean.new)
     # enqueue(MGMTDigitalOceanDangler.new)
     enqueue(PlasmaReleaseme.new)
