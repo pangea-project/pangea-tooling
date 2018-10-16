@@ -1,0 +1,28 @@
+// env.RELEASEME_DEBUG = 1
+env.RELEASEME_READONLY = 1
+
+cleanNode('master') {
+  stage('git') {
+    git branch: "master", url: "https://anongit.kde.org/releaseme"
+  }
+  stage('plasma-tars') {
+    dir('plasma') {
+        sh './plasma-update-versions'
+    }
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}
