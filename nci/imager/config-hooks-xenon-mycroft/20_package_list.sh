@@ -11,6 +11,12 @@ mycroft-settings
 breeze
 fonts-hack-ttf
 fonts-noto-hinted
+gstreamer1.0-plugins-good
+gstreamer1.0-plugins-bad
+gstreamer1.0-plugins-ugly
+gstreamer1.0-fluendo-mp3
+gstreamer1.0-libav
+gstreamer1.0-vaapi
 konsole
 kde-cli-tools
 khotkeys
