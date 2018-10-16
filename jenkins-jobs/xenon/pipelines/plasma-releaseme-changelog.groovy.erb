@@ -14,7 +14,7 @@ cleanNode('master') {
   }
   stage('push') {
     dir('plasma') {
-      sh '. ./VERSIONS.inc; mkdir -p /var/www/files/${VERSION}'
+      sh '. ./VERSIONS.inc; mkdir -p /var/www/files/plasma/${VERSION}'
       sh '. ./VERSIONS.inc; cp plasma-${OLD_VERSION}-${VERSION}-changelog.php /var/www/files/plasma/${VERSION}/'
       sh '. ./VERSIONS.inc; echo Now available at http://files.xenon.pangea.pub/plasma/plasma-${OLD_VERSION}-${VERSION}-changelog.php'
     }
