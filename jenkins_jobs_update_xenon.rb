@@ -95,7 +95,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTJobUpdater.new)
     # enqueue(MGMTDigitalOcean.new)
     # enqueue(MGMTDigitalOceanDangler.new)
-    enqueue(PlasmaReleasemeUpdateVersions.new)
     enqueue(PlasmaReleasemeTars.new)
     enqueue(PlasmaReleasemeChangelog.new)
     enqueue(PlasmaReleasemeTagsTest.new)
