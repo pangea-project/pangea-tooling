@@ -5,9 +5,9 @@ cleanNode('master') {
   stage('git') {
     git branch: "master", url: "https://anongit.kde.org/releaseme"
   }
-  stage('plasma-tars') {
+  stage('plasma-tags-test') {
     dir('plasma') {
-        sh './plasma-update-versions'
+        sh 'ruby plasma-tag-test'
     }
   }
 }
