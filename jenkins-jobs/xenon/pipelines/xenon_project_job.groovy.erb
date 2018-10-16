@@ -42,6 +42,12 @@ cleanNode('master') {
                   userRemoteConfigs: [[url: '<%= project.packaging_scm.url %>']]])
       }
     )
+
+<% if project&.upstream_scm&.type == 'tarball' %>
+    sh 'mkdir source'
+    sh "echo '<%= project.upstream_scm.url %>' > source/url"
+<% end %>
+
     // FIXME: this was derived from upstream scm, which is ok, but upstream scm
     //   may be nil
     sh '~/tooling/mci/contain.rb /var/lib/jenkins/ci-tooling/xci/sourcer.rb <%= project.packaging_scm.type %>'
