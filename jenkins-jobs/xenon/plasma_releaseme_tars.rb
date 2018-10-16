@@ -22,10 +22,10 @@
 
 require_relative 'pipelinejob'
 
-class PlasmaReleaseme < PipelineJob
+class PlasmaReleasemeTars < PipelineJob
 
   def initialize()
-    super("plasma-releaseme",
-          template: 'plasma-releaseme')
+    super("plasma-releaseme-tars",
+          template: 'plasma-releaseme-tars')
   end
 end

@@ -6,17 +6,12 @@ cleanNode('master') {
     git branch: "master", url: "https://anongit.kde.org/releaseme"
   }
   stage('plasma-tars') {
-    echo 'I am groovy'
-    sh 'ls'
     dir('plasma') {
         sh './plasma-tars'
     }
   }
   stage('push') {
     dir('plasma') {
-      sh 'ls'
-      sh 'cat VERSIONS.inc'
-      sh 'whoami'
       sh '. ./VERSIONS.inc; mkdir -p /var/www/files/${VERSION}'
       sh '. ./VERSIONS.inc; cp -r ${VERSION}/*xz /var/www/files/plasma/${VERSION}/'
       sh '. ./VERSIONS.inc; cp -r ${VERSION}/${VERSION}-release-data /var/www/files/plasma/${VERSION}/'
