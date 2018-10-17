@@ -22,7 +22,7 @@ require_relative 'gitlab'
 
 class ProjectsFactory
   # Debian specific project factory.
-  class Debian < Gitlab
+  class Salsa < Gitlab
     @url_base = 'https://salsa.debian.org'
 
     def self.understand?(type)
