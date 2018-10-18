@@ -35,12 +35,14 @@ plasma-workspace-wallpapers
 plasma-workspace-wayland
 pm-utils
 powerdevil
+polkit-kde-agent-1
 sddm
 sddm-theme-breeze
 software-properties-common
 systemsettings
 ubuntu-drivers-common
 unzip
+upower
 wireless-tools
 wpasupplicant
 xdg-user-dirs
