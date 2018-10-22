@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -24,13 +24,22 @@ require 'date'
 require 'terminal-table'
 
 require_relative '../lib/aptly-ext/filter'
+require_relative '../lib/nci'
 require_relative '../lib/optparse'
+
+dist = NCI.current_series
 
 parser = OptionParser.new do |opts|
   opts.banner =
     "Usage: #{opts.program_name} REPO1 REPO2"
+
+  opts.on('-d DIST', '--dist DIST', 'Distribution label to look for') do |v|
+    dist = v
+  end
 end
 parser.parse!
+
+puts "Checking dist: #{dist}"
 
 Aptly.configure do |config|
   config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')
@@ -40,7 +49,7 @@ end
 all_pubs = Aptly::PublishedRepository.list
 pubs = []
 ARGV.each do |arg|
-  pubs << all_pubs.find { |x| x.Prefix == arg }
+  pubs << all_pubs.find { |x| x.Prefix == arg && x.Distribution == dist }
 end
 packages_for_pubs = {}
 pubs.each do |pub|
