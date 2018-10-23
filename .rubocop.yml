@@ -28,9 +28,6 @@ Metrics/MethodLength:
   Exclude:
     - jenkins-jobs/*
 
-Style/MethodMissing:
-  Enabled: false
-
 # Style suggestion is to use activesupport to be able to indent heredocs. I say
 # fuck this suggestion. I am not going to require some stupid gem to be able to
 # indent heredocs. Ruby 2.3 will solve this with <<~ heredocs.
