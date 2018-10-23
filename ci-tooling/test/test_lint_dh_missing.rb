@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,27 +18,24 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'log/cmake'
-require_relative 'log/dh_missing'
-require_relative 'log/lintian'
-require_relative 'log/list_missing'
+require_relative '../lib/lint/log/dh_missing'
+require_relative 'lib/testcase'
 
-module Lint
-  # Lints a build log
-  class Log
-    attr_reader :log_data
+# Test lint lintian
+class LintDHMissingTest < TestCase
+  def test_valid
+    r = Lint::Log::DHMissing.new.lint(File.read(data))
+    assert(r.valid)
+    assert_equal(0, r.informations.size)
+    assert_equal(0, r.warnings.size)
+    assert_equal(6, r.errors.size)
+  end
 
-    def initialize(log_data)
-      @log_data = log_data
-    end
-
-    # @return [Array<Result>]
-    def lint
-      results = []
-      [CMake, Lintian, ListMissing, DHMissing].each do |klass|
-        results << klass.new.lint(@log_data.clone)
-      end
-      results
-    end
+  def test_no_dh_missing
+    r = Lint::Log::DHMissing.new.lint(File.read(data))
+    assert(r.valid)
+    assert_equal(0, r.informations.size)
+    assert_equal(0, r.warnings.size)
+    assert_equal(0, r.errors.size)
   end
 end

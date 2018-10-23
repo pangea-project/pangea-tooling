@@ -98,11 +98,43 @@ N: 2 tags overridden (1 error, 1 warning)
 === End lintian
 rm ../.pkg-kde-lintian.changes
 make[1]: Leaving directory '/build/buildd/cantor-15.04.0+git20150428.0243+15.04'
+make[1]: Entering directory '/workspace/build'
+dh_install --list-missing
+dh_install: Please use dh_missing --list-missing/--fail-missing instead
+dh_install: This feature will be removed in compat 12.
+	install -d debian/libkpmcore8//usr/lib/x86_64-linux-gnu
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/libkpmcore.so.8 debian/libkpmcore8//usr/lib/x86_64-linux-gnu/
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/libkpmcore.so.8 debian/libkpmcore8//usr/lib/x86_64-linux-gnu/
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/libkpmcore.so.3.50.0 debian/libkpmcore8//usr/lib/x86_64-linux-gnu/
+	install -d debian/libkpmcore8//usr/lib/x86_64-linux-gnu/qt5
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/qt5/plugins/ debian/libkpmcore8//usr/lib/x86_64-linux-gnu/qt5/
+	install -d debian/.debhelper/generated/libkpmcore8
+	install -d debian/libkpmcore-dev//usr/include
+	cp --reflink=auto -a debian/tmp/usr/include/kpmcore debian/libkpmcore-dev//usr/include/
+	install -d debian/libkpmcore-dev//usr/lib/x86_64-linux-gnu
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/libkpmcore.so debian/libkpmcore-dev//usr/lib/x86_64-linux-gnu/
+	install -d debian/libkpmcore-dev//usr/lib/x86_64-linux-gnu/cmake
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/cmake/KPMcore debian/libkpmcore-dev//usr/lib/x86_64-linux-gnu/cmake/
+	install -d debian/.debhelper/generated/libkpmcore-dev
+	install -d debian/.debhelper/generated/kpmcore
+	dh_missing --list-missing
+dh_missing: etc/dbus-1/system.d/org.kde.kpmcore.helperinterface.conf exists in debian/tmp but is not installed to anywhere
+	The following debhelper tools have reported what they installed (with files per package)
+	 * dh_install: kpmcore (0), libkpmcore-dev (3), libkpmcore8 (3)
+	If the missing files are installed by another tool, please file a bug against it.
+	When filing the report, if the tool is not part of debhelper itself, please reference the
+	"Logging helpers and dh_missing" section from the "PROGRAMMING" guide for debhelper (10.6.3+).
+	  (in the debhelper package: /usr/share/doc/debhelper/PROGRAMMING.gz)
+	Be sure to test with dpkg-buildpackage -A/-B as the results may vary when only a subset is built
+	For a short-term work-around: Add the files to debian/not-installed
+make[1]: Leaving directory '/workspace/build'
+
 # "binary" target is done
 -- SUCCESS making standard target 'binary'.
  dpkg-genchanges -b -mUbuntu Build Daemon <buildd@lgw01-18.buildd> >../cantor_15.04.0+git20150428.0243+15.04-0ubuntu0_amd64.changes
 dpkg-genchanges: binary-only upload (no source code included)
  dpkg-source --after-build cantor-15.04.0+git20150428.0243+15.04
+dpkg-deb: building package 'libkpmcore8' in '../libkpmcore8_3.3.0+p18.04+git20180803.0808-0_amd64.deb'.
 dpkg-buildpackage: binary-only upload (no source included)
 ******************************************************************************
 Build finished at 20150428-0254

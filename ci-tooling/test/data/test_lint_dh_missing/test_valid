@@ -1,0 +1,386 @@
+Started by upstream project "bionic_stable_extras_kpmcore" build number 21
+originally caused by:
+ Started by user Harald Sitter
+[EnvInject] - Loading node environment variables.
+Building remotely on jenkins-do-2core.build.neon-712d5beb-7eb2-41f7-a102-863943803e1f (cloud 2core-amd64 amd64) in workspace /var/lib/jenkins-slave/workspace/bionic_stable_extras_kpmcore_bin_amd64
+[WS-CLEANUP] Deleting project workspace...
+Run condition [Always] enabling prebuild for step [BuilderChain]
+Run condition [Always] enabling perform for step [BuilderChain]
+Copied 1 artifact from "bionic_stable_extras_kpmcore" build number 21
+Archiving artifacts
+Copied 6 artifacts from "bionic_stable_extras_kpmcore_src" build number 21
+[bionic_stable_extras_kpmcore_bin_amd64] $ /bin/sh -xe /tmp/jenkins4540683003722511759.sh
++ export DIST=bionic
++ export TYPE=stable
++ export PWD_BIND=/workspace
++ echo https://build.neon.kde.org/job/bionic_stable_extras_kpmcore_bin_amd64/15/
++ pwd
++ /var/lib/jenkins-slave/tooling/nci/contain.rb /tooling/ci-tooling/nci/builder.rb bionic_stable_extras_kpmcore_bin_amd64 /var/lib/jenkins-slave/workspace/bionic_stable_extras_kpmcore_bin_amd64
+I, [2018-08-03T08:09:02.609632 #24866]  INFO -- CI::Containment: Not cleaning up, no previous container found.
+I, [2018-08-03T08:09:02.609911 #24866]  INFO -- CI::Containment: Cleaning up lingering bridge connections of neon_bionic_stable_extras_kpmcore_bin_amd64
+I, [2018-08-03T08:09:02.612699 #24866]  INFO -- CI::Containment: Not cleaning network bridge, not connected.
+I, [2018-08-03T08:09:02.623645 #24866]  INFO -- CI::Containment: Not cleaning up, no previous container found.
+I, [2018-08-03T08:09:02.623882 #24866]  INFO -- CI::Containment: Cleaning up lingering bridge connections of neon_bionic_stable_extras_kpmcore_bin_amd64
+I, [2018-08-03T08:09:02.626419 #24866]  INFO -- CI::Containment: Not cleaning network bridge, not connected.
+Set proxy to http://apt.cache.pangea.pub:8000
+Warning: apt-key output should not be parsed (stdout is not a terminal)
+W, [2018-08-03T08:09:04.271321 #1]  WARN -- : APT run (apt-get, ["-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "update"])
+Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+Get:4 http://security.ubuntu.com/ubuntu bionic-security InRelease [83.2 kB]
+Get:1 https://archive.neon.kde.org/dev/stable bionic InRelease [12.8 kB]
+Get:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+Get:6 https://archive.neon.kde.org/dev/stable bionic/main all Packages [110 kB]
+Get:7 https://archive.neon.kde.org/dev/stable bionic/main amd64 Packages [776 kB]
+Fetched 1,146 kB in 1s (1,182 kB/s)
+Reading package lists...
+W: --force-yes is deprecated, use one of the options starting with --allow instead.
+W, [2018-08-03T08:09:06.314708 #1]  WARN -- : APT run (apt-get, ["-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "update"])
+Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease
+Hit:3 http://security.ubuntu.com/ubuntu bionic-security InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+Get:1 https://archive.neon.kde.org/dev/stable bionic InRelease [12.8 kB]
+Fetched 12.8 kB in 1s (19.8 kB/s)
+Reading package lists...
+W: --force-yes is deprecated, use one of the options starting with --allow instead.
+W, [2018-08-03T08:09:08.115756 #1]  WARN -- : APT run (apt-get, ["-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "install", "pkg-kde-tools"])
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Starting pkgProblemResolver with broken count: 0
+Starting 2 pkgProblemResolver with broken count: 0
+Done
+pkg-kde-tools is already the newest version (0.15.28ubuntu1).
+0 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
+W: --force-yes is deprecated, use one of the options starting with --allow instead.
+backticking: dpkg-architecture -qDEB_HOST_ARCH
+rm -rf build
+pid 1043 exit 0
+dpkg-source: warning: extracting unsigned source package (kpmcore_3.3.0+p18.04+git20180803.0808-0.dsc)
+dpkg-source: info: extracting kpmcore in build
+dpkg-source: info: unpacking kpmcore_3.3.0+p18.04+git20180803.0808.orig.tar.xz
+dpkg-source: info: unpacking kpmcore_3.3.0+p18.04+git20180803.0808-0.debian.tar.xz
+ -> Attempting to satisfy build-dependencies
+ -> Creating pbuilder-satisfydepends-dummy package
+Package: pbuilder-satisfydepends-dummy
+Version: 0.invalid.0
+Architecture: amd64
+Maintainer: Debian Pbuilder Team <pbuilder-maint@lists.alioth.debian.org>
+Description: Dummy package to satisfy dependencies with aptitude - created by pbuilder
+ This package was created automatically by pbuilder to satisfy the
+ build-dependencies of the package being currently built.
+Depends: cmake, debhelper (>= 9), extra-cmake-modules, libblkid-dev, libkf5auth-dev, libkf5coreaddons-dev, libkf5i18n-dev, libkf5widgetsaddons-dev, libqca-qt5-2-dev, pkg-config, pkg-kde-tools
+dpkg-deb: building package 'pbuilder-satisfydepends-dummy' in '/tmp/satisfydepends-aptitude/pbuilder-satisfydepends-dummy.deb'.
+Selecting previously unselected package pbuilder-satisfydepends-dummy.
+(Reading database ... 82407 files and directories currently installed.)
+Preparing to unpack .../pbuilder-satisfydepends-dummy.deb ...
+Unpacking pbuilder-satisfydepends-dummy (0.invalid.0) ...
+Setting up pbuilder-satisfydepends-dummy (0.invalid.0) ...
+dpkg: pbuilder-satisfydepends-dummy: dependency problems, but configuring anyway as you requested:
+ pbuilder-satisfydepends-dummy depends on extra-cmake-modules; however:
+  Package extra-cmake-modules is not installed.
+ pbuilder-satisfydepends-dummy depends on libblkid-dev; however:
+  Package libblkid-dev is not installed.
+ pbuilder-satisfydepends-dummy depends on libkf5auth-dev; however:
+  Package libkf5auth-dev is not installed.
+ pbuilder-satisfydepends-dummy depends on libkf5coreaddons-dev; however:
+  Package libkf5coreaddons-dev is not installed.
+ pbuilder-satisfydepends-dummy depends on libkf5i18n-dev; however:
+  Package libkf5i18n-dev is not installed.
+ pbuilder-satisfydepends-dummy depends on libkf5widgetsaddons-dev; however:
+  Package libkf5widgetsaddons-dev is not installed.
+ pbuilder-satisfydepends-dummy depends on libqca-qt5-2-dev; however:
+  Package libqca-qt5-2-dev is not installed.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Initializing package states...
+Writing extended state information...
+Building tag database...
+pbuilder-satisfydepends-dummy is already installed at the requested version (0.invalid.0)
+pbuilder-satisfydepends-dummy is already installed at the requested version (0.invalid.0)
+The following NEW packages will be installed:
+  extra-cmake-modules{a} gamin{a} libargon2-0{a} libavahi-client3{a} libavahi-common-data{a} libavahi-common3{a} libblkid-dev{a} libcap2{a} libcap2-bin{a} libclang1-5.0{a} libcryptsetup12{a} libcups2{a} libdevmapper1.02.1{a} libdouble-conversion1{a} libdrm-amdgpu1{a} libdrm-common{a} libdrm-dev{a} libdrm-intel1{a} libdrm-nouveau2{a} libdrm-radeon1{a} libdrm2{a} libegl-mesa0{a} libegl1{a} libevdev2{a} libgamin0{a} libgbm1{a} libgl1{a} libgl1-mesa-dev{a} libgl1-mesa-dri{a} libglapi-mesa{a} libgles2{a} libglu1-mesa{a} libglu1-mesa-dev{a} libglvnd-core-dev{a} libglvnd-dev{a} libglvnd0{a} libglx-mesa0{a} libglx0{a} libgstreamer-plugins-base1.0-0{a} libgstreamer1.0-0{a} libgudev-1.0-0{a} libhyphen0{a} libice6{a} libidn11{a} libinput-bin{a} libinput10{a} libip4tc0{a} libjson-c3{a} libkf5auth-bin-dev{a} libkf5auth-data{a} libkf5auth-dev{a} libkf5auth5{a} libkf5coreaddons-data{a} libkf5coreaddons-dev{a} libkf5coreaddons-dev-bin{a} libkf5coreaddons5{a} libkf5i18n-data{a} libkf5i18n-dev{a} libkf5i18n5{a} libkf5widgetsaddons-data{a} libkf5widgetsaddons-dev{a} libkf5widgetsaddons5{a} libllvm5.0{a} libllvm6.0{a} libmtdev1{a} libopengl0{a} liborc-0.4-0{a} libpam-systemd{a} libpciaccess0{a} libpcre2-16-0{a} libpolkit-agent-1-0{a} libpolkit-gobject-1-0{a} libpolkit-qt5-1-1{a} libpthread-stubs0-dev{a} libqca-qt5-2{a} libqca-qt5-2-dev{a} libqt5concurrent5{a} libqt5core5a{a} libqt5dbus5{a} libqt5designer5{a} libqt5designercomponents5{a} libqt5gui5{a} libqt5help5{a} libqt5network5{a} libqt5positioning5{a} libqt5printsupport5{a} libqt5qml5{a} libqt5quick5{a} libqt5quickwidgets5{a} libqt5script5{a} libqt5scripttools5{a} libqt5sensors5{a} libqt5sql5{a} libqt5sql5-sqlite{a} libqt5test5{a} libqt5webchannel5{a} libqt5webkit5{a} libqt5widgets5{a} libqt5xml5{a} libsensors4{a} libsm6{a} libwacom-common{a} libwacom2{a} libwayland-client0{a} libwayland-server0{a} libx11-dev{a} libx11-xcb-dev{a} libx11-xcb1{a} libxau-dev{a} libxcb-dri2-0{a} libxcb-dri2-0-dev{a} libxcb-dri3-0{a} libxcb-dri3-dev{a} libxcb-glx0{a} libxcb-glx0-dev{a} libxcb-icccm4{a} libxcb-image0{a} libxcb-keysyms1{a} libxcb-present-dev{a} libxcb-present0{a} libxcb-randr0{a} libxcb-randr0-dev{a} libxcb-render-util0{a} libxcb-render0-dev{a} libxcb-shape0{a} libxcb-shape0-dev{a} libxcb-sync-dev{a} libxcb-sync1{a} libxcb-util1{a} libxcb-xfixes0{a} libxcb-xfixes0-dev{a} libxcb-xinerama0{a} libxcb-xkb1{a} libxcb1-dev{a} libxdamage-dev{a} libxdamage1{a} libxdmcp-dev{a} libxext-dev{a} libxfixes-dev{a} libxfixes3{a} libxi6{a} libxkbcommon-x11-0{a} libxkbcommon0{a} libxshmfence-dev{a} libxshmfence1{a} libxxf86vm-dev{a} libxxf86vm1{a} mesa-common-dev{a} qt5-assistant{a} qt5-qmake{a} qt5-qmake-bin{a} qtbase5-dev{a} qtbase5-dev-tools{a} qtchooser{a} qtscript5-dev{a} qttools5-dev-tools{a} systemd{a} systemd-sysv{a} uuid-dev{a} x11-common{a} x11proto-core-dev{a} x11proto-damage-dev{a} x11proto-dev{a} x11proto-dri2-dev{a} x11proto-fixes-dev{a} x11proto-gl-dev{a} x11proto-xext-dev{a} x11proto-xf86vidmode-dev{a} xkb-data{a} xorg-sgml-doctools{a} xtrans-dev{a}
+The following packages will be upgraded:
+  libblkid1
+The following packages are RECOMMENDED but will NOT be installed:
+  dmsetup geoclue-2.0 gstreamer1.0-plugins-base libgl1-mesa-glx libnss-systemd libpam-cap libqca-qt5-2-plugins libqt5opengl5-dev libqt5svg5 libwacom-bin libx11-doc networkd-dispatcher qt5-default qt5-gtk-platformtheme qttranslations5-l10n
+1 packages upgraded, 171 newly installed, 0 to remove and 1 not upgraded.
+Need to get 88.2 MB of archives. After unpacking 490 MB will be used.
+Writing extended state information...
+Get: 1 http://archive.ubuntu.com/ubuntu bionic/main amd64 libcap2 amd64 1:2.25-1.2 [13.0 kB]
+Get: 2 http://archive.ubuntu.com/ubuntu bionic/main amd64 libargon2-0 amd64 0~20161029-1.1 [19.9 kB]
+Get: 3 http://archive.ubuntu.com/ubuntu bionic/main amd64 libdevmapper1.02.1 amd64 2:1.02.145-4.1ubuntu3 [127 kB]
+Get: 4 http://archive.ubuntu.com/ubuntu bionic/main amd64 libjson-c3 amd64 0.12.1-1.3 [21.4 kB]
+Get: 5 http://archive.ubuntu.com/ubuntu bionic/main amd64 libcryptsetup12 amd64 2:2.0.2-1ubuntu1 [134 kB]
+Get: 6 http://archive.ubuntu.com/ubuntu bionic/main amd64 libidn11 amd64 1.33-2.1ubuntu1 [45.7 kB]
+Get: 7 http://archive.ubuntu.com/ubuntu bionic/main amd64 libip4tc0 amd64 1.6.1-2ubuntu2 [19.6 kB]
+Get: 8 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 systemd amd64 237-3ubuntu10.3 [2896 kB]
+Get: 9 https://archive.neon.kde.org/dev/stable bionic/main amd64 libqt5core5a amd64 5.11.1+dfsg-2+18.04+bionic+build43 [1928 kB]
+Get: 10 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 systemd-sysv amd64 237-3ubuntu10.3 [11.7 kB]
+Get: 11 http://archive.ubuntu.com/ubuntu bionic/main amd64 libdouble-conversion1 amd64 2.0.1-4ubuntu1 [33.0 kB]
+Get: 12 http://archive.ubuntu.com/ubuntu bionic/universe amd64 libpcre2-16-0 amd64 10.31-2 [169 kB]
+Get: 13 http://archive.ubuntu.com/ubuntu bionic/main amd64 libdrm-common all 2.4.91-2 [4916 B]
+Get: 14 http://archive.ubuntu.com/ubuntu bionic/main amd64 libdrm2 amd64 2.4.91-2 [31.1 kB]
+Get: 15 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libglvnd0 amd64 1.0.0-2ubuntu2.1 [46.6 kB]
+Get: 16 http://archive.ubuntu.com/ubuntu bionic/main amd64 libwayland-server0 amd64 1.14.0-2 [28.8 kB]
+Get: 17 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libgbm1 amd64 18.0.5-0ubuntu0~18.04.1 [24.4 kB]
+Get: 18 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libglapi-mesa amd64 18.0.5-0ubuntu0~18.04.1 [23.7 kB]
+Get: 19 http://archive.ubuntu.com/ubuntu bionic/main amd64 libwayland-client0 amd64 1.14.0-2 [22.7 kB]
+Get: 20 http://archive.ubuntu.com/ubuntu bionic/main amd64 libx11-xcb1 amd64 2:1.6.4-3 [9626 B]
+Get: 21 http://archive.ubuntu.com/ubuntu bionic/main amd64 libxcb-dri2-0 amd64 1.13-1 [6928 B]
+Get: 22 http://archive.ubuntu.com/ubuntu bionic/main amd64 libxcb-dri3-0 amd64 1.13-1 [6536 B]
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/createpartitiontableoperation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/createvolumegroupoperation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/removevolumegroupoperation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/deactivatevolumegroupoperation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/resizevolumegroupoperation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/deleteoperation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/newoperation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/operation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/resizeoperation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/restoreoperation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/setfilesystemlabeloperation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/ops/setpartflagsoperation.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/util/libpartitionmanagerexport.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/util/capacity.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/util/externalcommand.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/util/globallog.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/util/helpers.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/util/htmlreport.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/util/report.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/gui/partresizerwidget.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/gui/partwidget.h
+-- Installing: /workspace/build/debian/tmp/usr/include/kpmcore/gui/partwidgetbase.h
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/qt5/plugins/libpmsfdiskbackendplugin.so
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/qt5/plugins/libpmdummybackendplugin.so
+make[1]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+   debian/rules override_dh_install
+make[1]: Entering directory '/workspace/build'
+dh_install --list-missing
+dh_install: Please use dh_missing --list-missing/--fail-missing instead
+dh_install: This feature will be removed in compat 12.
+	install -d debian/libkpmcore8//usr/lib/x86_64-linux-gnu
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/libkpmcore.so.8 debian/libkpmcore8//usr/lib/x86_64-linux-gnu/
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/libkpmcore.so.8 debian/libkpmcore8//usr/lib/x86_64-linux-gnu/
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/libkpmcore.so.3.50.0 debian/libkpmcore8//usr/lib/x86_64-linux-gnu/
+	install -d debian/libkpmcore8//usr/lib/x86_64-linux-gnu/qt5
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/qt5/plugins/ debian/libkpmcore8//usr/lib/x86_64-linux-gnu/qt5/
+	install -d debian/.debhelper/generated/libkpmcore8
+	install -d debian/libkpmcore-dev//usr/include
+	cp --reflink=auto -a debian/tmp/usr/include/kpmcore debian/libkpmcore-dev//usr/include/
+	install -d debian/libkpmcore-dev//usr/lib/x86_64-linux-gnu
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/libkpmcore.so debian/libkpmcore-dev//usr/lib/x86_64-linux-gnu/
+	install -d debian/libkpmcore-dev//usr/lib/x86_64-linux-gnu/cmake
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/cmake/KPMcore debian/libkpmcore-dev//usr/lib/x86_64-linux-gnu/cmake/
+	install -d debian/.debhelper/generated/libkpmcore-dev
+	install -d debian/.debhelper/generated/kpmcore
+	dh_missing --list-missing
+dh_missing: etc/dbus-1/system.d/org.kde.kpmcore.helperinterface.conf exists in debian/tmp but is not installed to anywhere
+dh_missing: etc/dbus-1/system.d/org.kde.kpmcore.applicationinterface.conf exists in debian/tmp but is not installed to anywhere
+dh_missing: etc/dbus-1/system.d/org.kde.kpmcore.externalcommand.conf exists in debian/tmp but is not installed to anywhere
+dh_missing: usr/share/dbus-1/system-services/org.kde.kpmcore.externalcommand.service exists in debian/tmp but is not installed to anywhere
+dh_missing: usr/share/polkit-1/actions/org.kde.kpmcore.externalcommand.policy exists in debian/tmp but is not installed to anywhere
+dh_missing: usr/lib/x86_64-linux-gnu/libexec/kauth/kpmcore_externalcommand exists in debian/tmp but is not installed to anywhere
+	The following debhelper tools have reported what they installed (with files per package)
+	 * dh_install: kpmcore (0), libkpmcore-dev (3), libkpmcore8 (3)
+	If the missing files are installed by another tool, please file a bug against it.
+	When filing the report, if the tool is not part of debhelper itself, please reference the
+	"Logging helpers and dh_missing" section from the "PROGRAMMING" guide for debhelper (10.6.3+).
+	  (in the debhelper package: /usr/share/doc/debhelper/PROGRAMMING.gz)
+	Be sure to test with dpkg-buildpackage -A/-B as the results may vary when only a subset is built
+	For a short-term work-around: Add the files to debian/not-installed
+make[1]: Leaving directory '/workspace/build'
+   dh_installdocs -O--parallel
+	install -d debian/libkpmcore8/usr/share/doc/libkpmcore8
+	install -p -m0644 debian/copyright debian/libkpmcore8/usr/share/doc/libkpmcore8/copyright
+	install -d debian/libkpmcore-dev/usr/share/doc/libkpmcore-dev
+	install -p -m0644 debian/copyright debian/libkpmcore-dev/usr/share/doc/libkpmcore-dev/copyright
+	install -d debian/kpmcore/usr/share/doc/kpmcore
+	install -p -m0644 debian/copyright debian/kpmcore/usr/share/doc/kpmcore/copyright
+   dh_installchangelogs -O--parallel
+	install -p -m0644 debian/changelog debian/kpmcore/usr/share/doc/kpmcore/changelog.Debian
+	install -p -m0644 debian/changelog debian/libkpmcore8/usr/share/doc/libkpmcore8/changelog.Debian
+	install -p -m0644 debian/changelog debian/libkpmcore-dev/usr/share/doc/libkpmcore-dev/changelog.Debian
+   dh_perl -O--parallel
+   dh_link -O--parallel
+	rm -f debian/libkpmcore8/usr/lib/x86_64-linux-gnu/libkpmcore.so.8
+	ln -s libkpmcore.so.3.50.0 debian/libkpmcore8/usr/lib/x86_64-linux-gnu/libkpmcore.so.8
+	rm -f debian/libkpmcore-dev/usr/lib/x86_64-linux-gnu/libkpmcore.so
+	ln -s libkpmcore.so.8 debian/libkpmcore-dev/usr/lib/x86_64-linux-gnu/libkpmcore.so
+   dh_strip_nondeterminism -O--parallel
+   dh_compress -O--parallel
+	cd debian/libkpmcore8
+	cd debian/kpmcore
+	chmod a-x usr/share/doc/libkpmcore8/changelog.Debian
+	chmod a-x usr/share/doc/kpmcore/changelog.Debian
+	gzip -9nf usr/share/doc/kpmcore/changelog.Debian
+	gzip -9nf usr/share/doc/libkpmcore8/changelog.Debian
+	cd '/workspace/build'
+	cd '/workspace/build'
+	cd debian/libkpmcore-dev
+	chmod a-x usr/share/doc/libkpmcore-dev/changelog.Debian
+	gzip -9nf usr/share/doc/libkpmcore-dev/changelog.Debian
+	cd '/workspace/build'
+   dh_fixperms -O--parallel
+	find debian/libkpmcore8 -true -print0 2>/dev/null | xargs -0r chown --no-dereference 0:0
+	find debian/kpmcore -true -print0 2>/dev/null | xargs -0r chown --no-dereference 0:0
+	find debian/libkpmcore8 ! -type l -a -true -a -true -print0 2>/dev/null | xargs -0r chmod go=rX,u+rw,a-s
+	find debian/kpmcore ! -type l -a -true -a -true -print0 2>/dev/null | xargs -0r chmod go=rX,u+rw,a-s
+	find debian/kpmcore/usr/share/doc -type f -a -true -a ! -regex 'debian/kpmcore/usr/share/doc/[^/]*/examples/.*' -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libkpmcore8/usr/share/doc -type f -a -true -a ! -regex 'debian/libkpmcore8/usr/share/doc/[^/]*/examples/.*' -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/kpmcore/usr/share/doc -type d -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0755
+	find debian/libkpmcore8/usr/share/doc -type d -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0755
+	find debian/kpmcore -type f \( -name '*.so.*' -o -name '*.so' -o -name '*.la' -o -name '*.a' -o -name '*.js' -o -name '*.css' -o -name '*.scss' -o -name '*.sass' -o -name '*.jpeg' -o -name '*.jpg' -o -name '*.png' -o -name '*.gif' -o -name '*.cmxs' \) -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libkpmcore8 -type f \( -name '*.so.*' -o -name '*.so' -o -name '*.la' -o -name '*.a' -o -name '*.js' -o -name '*.css' -o -name '*.scss' -o -name '*.sass' -o -name '*.jpeg' -o -name '*.jpg' -o -name '*.png' -o -name '*.gif' -o -name '*.cmxs' \) -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libkpmcore8/usr/lib -type f -name '*.ali' -a -true -a -true -print0 2>/dev/null | xargs -0r chmod uga-w
+	find debian/libkpmcore-dev -true -print0 2>/dev/null | xargs -0r chown --no-dereference 0:0
+	find debian/libkpmcore-dev ! -type l -a -true -a -true -print0 2>/dev/null | xargs -0r chmod go=rX,u+rw,a-s
+	find debian/libkpmcore-dev/usr/share/doc -type f -a -true -a ! -regex 'debian/libkpmcore-dev/usr/share/doc/[^/]*/examples/.*' -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libkpmcore-dev/usr/share/doc -type d -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0755
+	find debian/libkpmcore-dev/usr/include -type f -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libkpmcore-dev -type f \( -name '*.so.*' -o -name '*.so' -o -name '*.la' -o -name '*.a' -o -name '*.js' -o -name '*.css' -o -name '*.scss' -o -name '*.sass' -o -name '*.jpeg' -o -name '*.jpg' -o -name '*.png' -o -name '*.gif' -o -name '*.cmxs' \) -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libkpmcore-dev/usr/lib -type f -name '*.ali' -a -true -a -true -print0 2>/dev/null | xargs -0r chmod uga-w
+   dh_missing -O--parallel
+   dh_strip -O--parallel
+	install -d debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/6f
+	objcopy --only-keep-debug --compress-debug-sections debian/libkpmcore8/usr/lib/x86_64-linux-gnu/libkpmcore.so.3.50.0 debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/6f/34567cb427f3edf24257b2aecf85215dc935a3.debug
+	chmod 0644 -- debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/6f/34567cb427f3edf24257b2aecf85215dc935a3.debug
+	chown 0:0 -- debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/6f/34567cb427f3edf24257b2aecf85215dc935a3.debug
+	strip --remove-section=.comment --remove-section=.note --strip-unneeded debian/libkpmcore8/usr/lib/x86_64-linux-gnu/libkpmcore.so.3.50.0
+	objcopy --add-gnu-debuglink debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/6f/34567cb427f3edf24257b2aecf85215dc935a3.debug debian/libkpmcore8/usr/lib/x86_64-linux-gnu/libkpmcore.so.3.50.0
+	install -d debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/b0
+	objcopy --only-keep-debug --compress-debug-sections debian/libkpmcore8/usr/lib/x86_64-linux-gnu/qt5/plugins/libpmdummybackendplugin.so debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/b0/81d6354e0db3b22eda9c75e849fdf5ef53a20f.debug
+	chmod 0644 -- debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/b0/81d6354e0db3b22eda9c75e849fdf5ef53a20f.debug
+	chown 0:0 -- debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/b0/81d6354e0db3b22eda9c75e849fdf5ef53a20f.debug
+	strip --remove-section=.comment --remove-section=.note --strip-unneeded debian/libkpmcore8/usr/lib/x86_64-linux-gnu/qt5/plugins/libpmdummybackendplugin.so
+	objcopy --add-gnu-debuglink debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/b0/81d6354e0db3b22eda9c75e849fdf5ef53a20f.debug debian/libkpmcore8/usr/lib/x86_64-linux-gnu/qt5/plugins/libpmdummybackendplugin.so
+	install -d debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/a8
+	objcopy --only-keep-debug --compress-debug-sections debian/libkpmcore8/usr/lib/x86_64-linux-gnu/qt5/plugins/libpmsfdiskbackendplugin.so debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/a8/a04394b19b2758d640c86e05cee435b3aa24e7.debug
+	chmod 0644 -- debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/a8/a04394b19b2758d640c86e05cee435b3aa24e7.debug
+	chown 0:0 -- debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/a8/a04394b19b2758d640c86e05cee435b3aa24e7.debug
+	strip --remove-section=.comment --remove-section=.note --strip-unneeded debian/libkpmcore8/usr/lib/x86_64-linux-gnu/qt5/plugins/libpmsfdiskbackendplugin.so
+	objcopy --add-gnu-debuglink debian/.debhelper/libkpmcore8/dbgsym-root/usr/lib/debug/.build-id/a8/a04394b19b2758d640c86e05cee435b3aa24e7.debug debian/libkpmcore8/usr/lib/x86_64-linux-gnu/qt5/plugins/libpmsfdiskbackendplugin.so
+	install -d debian/.debhelper/libkpmcore8/dbgsym-root/usr/share/doc
+	ln -s libkpmcore8 debian/.debhelper/libkpmcore8/dbgsym-root/usr/share/doc/libkpmcore8-dbgsym
+   debian/rules override_dh_makeshlibs
+make[1]: Entering directory '/workspace/build'
+dh_makeshlibs -- -v3.3.0+p18.04+git20180803.0808
+	rm -f debian/libkpmcore8/DEBIAN/shlibs
+	install -d debian/libkpmcore8/DEBIAN
+	echo "libkpmcore 8 libkpmcore8" >> debian/libkpmcore8/DEBIAN/shlibs
+	chmod 0644 -- debian/libkpmcore8/DEBIAN/shlibs
+	chown 0:0 -- debian/libkpmcore8/DEBIAN/shlibs
+	mv debian/.debhelper/generated/libkpmcore8/triggers.new debian/.debhelper/generated/libkpmcore8/triggers
+	rm -f debian/libkpmcore-dev/DEBIAN/shlibs
+	rm -f debian/kpmcore/DEBIAN/shlibs
+make[1]: Leaving directory '/workspace/build'
+   dh_shlibdeps -O--parallel
+	dpkg-shlibdeps -Tdebian/libkpmcore8.substvars debian/libkpmcore8/usr/lib/x86_64-linux-gnu/qt5/plugins/libpmdummybackendplugin.so debian/libkpmcore8/usr/lib/x86_64-linux-gnu/qt5/plugins/libpmsfdiskbackendplugin.so debian/libkpmcore8/usr/lib/x86_64-linux-gnu/libkpmcore.so.3.50.0
+   dh_installdeb -O--parallel
+	install -p -m0644 debian/.debhelper/generated/libkpmcore8/triggers debian/libkpmcore8/DEBIAN/triggers
+	install -d debian/libkpmcore-dev/DEBIAN
+	install -d debian/kpmcore/DEBIAN
+   dh_gencontrol -O--parallel
+	echo misc:Depends= >> debian/kpmcore.substvars
+	echo misc:Pre-Depends= >> debian/kpmcore.substvars
+	dpkg-gencontrol -pkpmcore -ldebian/changelog -Tdebian/kpmcore.substvars -Pdebian/kpmcore -UMulti-Arch
+	echo misc:Depends= >> debian/libkpmcore8.substvars
+	echo misc:Pre-Depends= >> debian/libkpmcore8.substvars
+	install -d debian/.debhelper/libkpmcore8/dbgsym-root/DEBIAN
+	dpkg-gencontrol -plibkpmcore8 -ldebian/changelog -Tdebian/libkpmcore8.substvars -Pdebian/.debhelper/libkpmcore8/dbgsym-root -UPre-Depends -URecommends -USuggests -UEnhances -UProvides -UEssential -UConflicts -DPriority=optional -UHomepage -UImportant -DAuto-Built-Package=debug-symbols -DPackage=libkpmcore8-dbgsym "-DDepends=libkpmcore8 (= \${binary:Version})" "-DDescription=debug symbols for libkpmcore8" "-DBuild-Ids=6f34567cb427f3edf24257b2aecf85215dc935a3 a8a04394b19b2758d640c86e05cee435b3aa24e7 b081d6354e0db3b22eda9c75e849fdf5ef53a20f" -DSection=debug -DPackage-Type=ddeb -UMulti-Arch -UReplaces -UBreaks
+	chmod 0644 -- debian/.debhelper/libkpmcore8/dbgsym-root/DEBIAN/control
+	chown 0:0 -- debian/.debhelper/libkpmcore8/dbgsym-root/DEBIAN/control
+	dpkg-gencontrol -plibkpmcore8 -ldebian/changelog -Tdebian/libkpmcore8.substvars -Pdebian/libkpmcore8 -UMulti-Arch
+dpkg-gencontrol: warning: Depends field of package kpmcore: unknown substitution variable ${shlibs:Depends}
+	chmod 0644 -- debian/kpmcore/DEBIAN/control
+	chown 0:0 -- debian/kpmcore/DEBIAN/control
+	chmod 0644 -- debian/libkpmcore8/DEBIAN/control
+	chown 0:0 -- debian/libkpmcore8/DEBIAN/control
+	echo misc:Depends= >> debian/libkpmcore-dev.substvars
+	echo misc:Pre-Depends= >> debian/libkpmcore-dev.substvars
+	dpkg-gencontrol -plibkpmcore-dev -ldebian/changelog -Tdebian/libkpmcore-dev.substvars -Pdebian/libkpmcore-dev -UMulti-Arch
+dpkg-gencontrol: warning: Depends field of package libkpmcore-dev: unknown substitution variable ${shlibs:Depends}
+	chmod 0644 -- debian/libkpmcore-dev/DEBIAN/control
+	chown 0:0 -- debian/libkpmcore-dev/DEBIAN/control
+   dh_md5sums -O--parallel
+	(cd debian/libkpmcore8 >/dev/null ; find . -type f  ! -regex './DEBIAN/.*' -printf '%P\0' | LC_ALL=C sort -z | xargs -r0 md5sum | perl -pe 'if (s@^\\@@) { s/\\\\/\\/g; }' > DEBIAN/md5sums) >/dev/null
+	(cd debian/kpmcore >/dev/null ; find . -type f  ! -regex './DEBIAN/.*' -printf '%P\0' | LC_ALL=C sort -z | xargs -r0 md5sum | perl -pe 'if (s@^\\@@) { s/\\\\/\\/g; }' > DEBIAN/md5sums) >/dev/null
+	chmod 0644 -- debian/kpmcore/DEBIAN/md5sums
+	chown 0:0 -- debian/kpmcore/DEBIAN/md5sums
+	chmod 0644 -- debian/libkpmcore8/DEBIAN/md5sums
+	chown 0:0 -- debian/libkpmcore8/DEBIAN/md5sums
+	(cd debian/.debhelper/libkpmcore8/dbgsym-root >/dev/null ; find . -type f ! -regex './DEBIAN/.*' -printf '%P\0' | LC_ALL=C sort -z | xargs -r0 md5sum | perl -pe 'if (s@^\\@@) { s/\\\\/\\/g; }' > DEBIAN/md5sums) >/dev/null
+	chmod 0644 -- debian/.debhelper/libkpmcore8/dbgsym-root/DEBIAN/md5sums
+	chown 0:0 -- debian/.debhelper/libkpmcore8/dbgsym-root/DEBIAN/md5sums
+	(cd debian/libkpmcore-dev >/dev/null ; find . -type f  ! -regex './DEBIAN/.*' -printf '%P\0' | LC_ALL=C sort -z | xargs -r0 md5sum | perl -pe 'if (s@^\\@@) { s/\\\\/\\/g; }' > DEBIAN/md5sums) >/dev/null
+	chmod 0644 -- debian/libkpmcore-dev/DEBIAN/md5sums
+	chown 0:0 -- debian/libkpmcore-dev/DEBIAN/md5sums
+   dh_builddeb -O--parallel
+	dpkg-deb --build debian/libkpmcore-dev ..
+	dpkg-deb --build debian/libkpmcore8 ..
+dpkg-deb: building package 'libkpmcore-dev' in '../libkpmcore-dev_3.3.0+p18.04+git20180803.0808-0_amd64.deb'.
+dpkg-deb: building package 'libkpmcore8' in '../libkpmcore8_3.3.0+p18.04+git20180803.0808-0_amd64.deb'.
+	dpkg-deb --build debian/kpmcore ..
+dpkg-deb: building package 'kpmcore' in '../kpmcore_3.3.0+p18.04+git20180803.0808-0_all.deb'.
+	install -d debian/.debhelper/scratch-space/build-libkpmcore8
+	dpkg-deb --build debian/.debhelper/libkpmcore8/dbgsym-root debian/.debhelper/scratch-space/build-libkpmcore8
+dpkg-deb: building package 'libkpmcore8-dbgsym' in 'debian/.debhelper/scratch-space/build-libkpmcore8/libkpmcore8-dbgsym_3.3.0+p18.04+git20180803.0808-0_amd64.deb'.
+	Renaming libkpmcore8-dbgsym_3.3.0+p18.04+git20180803.0808-0_amd64.deb to libkpmcore8-dbgsym_3.3.0+p18.04+git20180803.0808-0_amd64.ddeb
+	mv debian/.debhelper/scratch-space/build-libkpmcore8/libkpmcore8-dbgsym_3.3.0\+p18.04\+git20180803.0808-0_amd64.deb ../libkpmcore8-dbgsym_3.3.0\+p18.04\+git20180803.0808-0_amd64.ddeb
+ dpkg-genbuildinfo --build=binary
+ dpkg-genchanges --build=binary >../kpmcore_3.3.0+p18.04+git20180803.0808-0_amd64.changes
+dpkg-genchanges: info: binary-only upload (no source code included)
+ dpkg-source --after-build build
+dpkg-buildpackage: info: binary-only upload (no source included)
+renamed 'build/../kpmcore_3.3.0+p18.04+git20180803.0808-0_all.deb' -> 'result/kpmcore_3.3.0+p18.04+git20180803.0808-0_all.deb'
+renamed 'build/../kpmcore_3.3.0+p18.04+git20180803.0808-0_amd64.buildinfo' -> 'result/kpmcore_3.3.0+p18.04+git20180803.0808-0_amd64.buildinfo'
+renamed 'build/../libkpmcore-dev_3.3.0+p18.04+git20180803.0808-0_amd64.deb' -> 'result/libkpmcore-dev_3.3.0+p18.04+git20180803.0808-0_amd64.deb'
+renamed 'build/../libkpmcore8-dbgsym_3.3.0+p18.04+git20180803.0808-0_amd64.ddeb' -> 'result/libkpmcore8-dbgsym_3.3.0+p18.04+git20180803.0808-0_amd64.ddeb'
+renamed 'build/../libkpmcore8_3.3.0+p18.04+git20180803.0808-0_amd64.deb' -> 'result/libkpmcore8_3.3.0+p18.04+git20180803.0808-0_amd64.deb'
+renamed 'build/../kpmcore_3.3.0+p18.04+git20180803.0808-0_amd64.changes' -> 'result/kpmcore_3.3.0+p18.04+git20180803.0808-0_amd64.changes'
+W, [2018-08-03T08:11:49.798709 #5447]  WARN -- : APT run (apt-get, ["-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "update"])
+Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+Hit:2 http://security.ubuntu.com/ubuntu bionic-security InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+Get:3 https://archive.neon.kde.org/dev/stable bionic InRelease [12.8 kB]
+Fetched 12.8 kB in 1s (22.8 kB/s)
+Reading package lists...
+W: --force-yes is deprecated, use one of the options starting with --allow instead.
+Run options: -v --ci-reporter --seed 26556
+
+# Running:
+
+NCI::VersionsTest#test_kpmcore_3.3.0+p18.04+git20180803.0808-0 = NCI::VersionsTest#test_libkpmcore-dev_3.3.0+p18.04+git20180803.0808-0 = NCI::VersionsTest#test_libkpmcore8_3.3.0+p18.04+git20180803.0808-0 = 1.50 s = .
+1.57 s = .
+1.64 s = .
+
+Finished in 1.658866s, 1.8085 runs/s, 0.0000 assertions/s.
+
+3 runs, 0 assertions, 0 failures, 0 errors, 0 skips
+Loaded suite /tooling/ci-tooling/nci/builder
+Started
+..................
+Finished in 0.09750512 seconds.
+-------------------------------------------------------------------------------
+18 tests, 0 assertions, 0 failures, 0 errors, 0 pendings, 0 omissions, 0 notifications
+100% passed
+-------------------------------------------------------------------------------
+184.61 tests/s, 0.00 assertions/s
++ export PWD_BIND=/input
++ echo bionic_stable_extras_kpmcore_bin_amd64
++ /var/lib/jenkins-slave/tooling/nci/contain.rb /tooling/ci-tooling/nci/adt.rb
+I, [2018-08-03T08:11:58.935991 #31014]  INFO -- CI::Containment: Not cleaning up, no previous container found.
+I, [2018-08-03T08:11:58.936175 #31014]  INFO -- CI::Containment: Cleaning up lingering bridge connections of neon_bionic_stable_extras_kpmcore_bin_amd64
+I, [2018-08-03T08:11:58.939326 #31014]  INFO -- CI::Containment: Not cleaning network bridge, not connected.
+I, [2018-08-03T08:11:58.957581 #31014]  INFO -- CI::Containment: Not cleaning up, no previous container found.
+I, [2018-08-03T08:11:58.957830 #31014]  INFO -- CI::Containment: Cleaning up lingering bridge connections of neon_bionic_stable_extras_kpmcore_bin_amd64
+I, [2018-08-03T08:11:58.961126 #31014]  INFO -- CI::Containment: Not cleaning network bridge, not connected.
+Job bionic_stable_extras_kpmcore_bin_amd64 not enabled. Not running autopkgtest (adt).
+Recording test results
+Archiving artifacts
+[WS-CLEANUP] Deleting project workspace...[WS-CLEANUP] done
+Finished: SUCCESS
