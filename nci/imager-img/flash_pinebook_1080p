@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -x
+set -e
+
+# Pinebook expects Linux to be at a certain place on the disk
+# So we leave a space at the start of the disk LB_HDD_PARTITION_START="40960s"
+# then here we mount it and copy Linux from the filesystem into the start of the disk
+
+# FIXME: All of the following makes lots of assumptions, should be fixed later
+LODEVICE=$(losetup -f)
+losetup $LODEVICE $1
+partprobe $LODEVICE
+mount "${LODEVICE}p1" /mnt
+dd conv=notrunc bs=1k seek=8 if="/mnt/boot/pine64/boot0-pine64-pinebook1080p.bin" of="${LODEVICE}"
+dd conv=notrunc bs=1k seek=19096 if="/mnt/boot/pine64/u-boot-pine64-pinebook1080p.bin" of="${LODEVICE}"
+chroot /mnt update-alternatives --install /boot/uEnv.txt pine64-linux-uenv /boot/uEnv-1080p.txt 100
+date -u "+%Y-%m-%d %H:%M:%S" > /mnt/.disk/build_stamp
+umount /mnt
+losetup -d $LODEVICE

@@ -30,11 +30,15 @@ mkdir -p chroot/usr/share/keyrings/
 cp /usr/share/keyrings/ubuntu-archive-keyring.gpg chroot/usr/share/keyrings/ubuntu-archive-keyring.gpg
 /tooling/nci/imager-img/configure_pinebook
 lb build 
+# flash normal 768p build
 /tooling/nci/imager-img/flash_pinebook ${LIVE_IMAGE_NAME}-${ARCH}.img
 
 pigz --stdout ${LIVE_IMAGE_NAME}-${ARCH}.img > ${LIVE_IMAGE_NAME}-${ARCH}.img.gz
-#zsyncmake ${LIVE_IMAGE_NAME}-${ARCH}.img.gz
-sha256sum ${LIVE_IMAGE_NAME}-${ARCH}.img > ${LIVE_IMAGE_NAME}-${ARCH}.sha256sum
 sha256sum ${LIVE_IMAGE_NAME}-${ARCH}.img.gz >> ${LIVE_IMAGE_NAME}-${ARCH}.sha256sum
+
+# flash 1080p build and gzip it
+/tooling/nci/imager-img/flash_pinebook_1080p ${LIVE_IMAGE_NAME}-${ARCH}.img
+pigz --stdout ${LIVE_IMAGE_NAME}-${ARCH}.img > ${LIVE_IMAGE_NAME}-${ARCH}-1080p.img.gz
+sha256sum ${LIVE_IMAGE_NAME}-${ARCH}-1080p.img.gz >> ${LIVE_IMAGE_NAME}-${ARCH}.sha256sum
 
 echo $DATETIME > date_stamp
