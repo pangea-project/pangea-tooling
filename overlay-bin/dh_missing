@@ -25,6 +25,8 @@ require_relative 'lib/paths' # Drop the overlay from the PATH env.
 # Intercepts dh_missing and enables list-missing regardless of compat version
 # (by default compat 11 doesn't run with list missing)
 
-args = ['dh_missing', '--list-missing', *ARGV]
+args = ['dh_missing']
+args << '--list-missing' unless ARGV.include?('list-missing')
+args += *ARGV
 warn "Overlay Executing #{args}"
 exec(*args)
