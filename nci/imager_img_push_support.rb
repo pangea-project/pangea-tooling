@@ -23,6 +23,6 @@
 def old_directories_to_remove(img_directories)
   img_directories.delete('current') # keep current symlink
   img_directories = img_directories.sort
-  img_directories.pop(4) # keep the latest four builds
+  img_directories.pop(3) # keep the latest three builds
   img_directories
 end    
