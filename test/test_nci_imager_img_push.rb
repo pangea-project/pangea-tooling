@@ -36,13 +36,13 @@ module NCI
       img_directories = old_directories_to_remove(img_directories)
       assert_equal([], img_directories)
 
-      img_directories = ['current', '20190218-1206', '20180319-1110', '20180218-1210', '20180319-1112']
+      img_directories = ['current', '20190218-1206', '20180319-1110', '20180319-1112']
       img_directories = old_directories_to_remove(img_directories)
       assert_equal([], img_directories)
 
       img_directories = ['current', '20190218-1206', '20180319-1110', '20180218-1210', '20180319-1112', '20180218-1255', '20180319-1155']
       img_directories = old_directories_to_remove(img_directories)
-      assert_equal(["20180218-1210", "20180218-1255"], img_directories)
+      assert_equal(["20180218-1210", "20180218-1255", "20180319-1110"], img_directories)
     end
   end
 end
