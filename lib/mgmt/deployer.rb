@@ -30,7 +30,7 @@ module MGMT
       ENV['DIST'] = @base.tag
       ENV['PANGEA_PROVISION_AUTOINST'] = '1' if openqa?
       @origin_tags = origin_tags
-      @testing = true if CI::PangeaImage.namespace.include? 'testing'
+      @testing = true if CI::PangeaImage.namespace.include?('testing')
       init_logging
     end
 
