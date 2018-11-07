@@ -86,6 +86,9 @@ module NCI
         # Array<String>
         attr_accessor :exclude_debs
 
+        # Array<String>
+        attr_accessor :parse_info
+
         attr_accessor :source
         attr_accessor :source_type
         attr_accessor :source_depth
