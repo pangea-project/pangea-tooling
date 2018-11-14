@@ -49,6 +49,13 @@ cmd.run('npm', 'install', '-g', 'bower')
 build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
 
+# Mangle docs out of the build. They do not pass half the time and we don't
+# need them -.-
+
+data = File.read('meson.build')
+data = data.gsub("subdir('docs')", '')
+File.write('meson.build', data)
+
 Dir.mkdir(build_dir) unless File.exist?(build_dir)
 Dir.chdir(build_dir) do
   cmd.run('meson', '-Ddownload_js=true', '..')
