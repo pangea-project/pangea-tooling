@@ -72,6 +72,8 @@ module Jenkins
       content.sort_by { |c| File.basename(c).to_i }
     end
 
+    # WARNING: I am almost certain min_count is off-by-one, so, be mindful when
+    #   you want to keep 1 build! ~sitter, Nov 2018
     # @param min_count [Integer] the minimum amount of builds to keep
     # @param max_age [Integer,nil] the maximum age in days or nil if there is
     #   none. builds older than this are listed *unless* they are in the
