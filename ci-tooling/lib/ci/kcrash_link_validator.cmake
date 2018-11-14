@@ -4,7 +4,7 @@ function(kcrash_validator_get_subs output dir)
     # NB: the same function has the same scope if called recursively.
     get_property(_subs DIRECTORY ${dir} PROPERTY SUBDIRECTORIES)
     foreach(sub ${_subs})
-        get_subs(${output} ${sub})
+        kcrash_validator_get_subs(${output} ${sub})
     endforeach()
     set(${output} ${${output}} ${_subs} PARENT_SCOPE)
 endfunction()
