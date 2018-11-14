@@ -25,6 +25,7 @@ require_relative 'lib/testcase'
 class KCrashLinkValidatorTest < TestCase
   def setup
     FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
+    ENV['PANGEA_KCRASH_VALIDATE'] = '1'
   end
 
   def test_run
