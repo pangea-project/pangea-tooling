@@ -31,7 +31,8 @@ PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
 whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
                NODE_NAME NODE_LABELS
                PANGEA_PROVISION_AUTOINST
-               DH_VERBOSE]
+               DH_VERBOSE
+               APTLY_REPOSITORY]
 # Whitelist all PANGEA_ prefix'd variables.
 ENV.each_key { |k| whitelist << k if k.start_with?('PANGEA_') }
 # And whatever was explicitly whitelisted via environment itself.
