@@ -27,6 +27,8 @@ require_relative '../ci-tooling/lib/apt'
 require_relative '../ci-tooling/lib/asgen'
 require_relative '../ci-tooling/lib/nci'
 
+STDOUT.sync = true # lest TTY output from meson gets merged randomly
+
 TYPE = ENV.fetch('TYPE')
 DIST = ENV.fetch('DIST')
 cmd = TTY::Command.new
