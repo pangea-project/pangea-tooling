@@ -24,6 +24,7 @@ require 'jenkins_junit_builder'
 require 'tty/command'
 
 require_relative 'dependency_resolver'
+require_relative 'kcrash_link_validator'
 require_relative 'setcap_validator'
 require_relative 'source'
 require_relative '../apt'
@@ -117,7 +118,9 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
 
       Dir.chdir(BUILD_DIR) do
         SetCapValidator.run do
-          raise unless system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
+          KCrashLinkValidator.run do
+            raise unless system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
+          end
         end
       end
     end
