@@ -205,7 +205,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         meta_builder = MetaBuildJob.new(type: type,
                                         distribution: distribution,
                                         downstream_jobs: all_builds)
-        all_meta_builds << enqueue(meta_builder)
+
+        # Legacy distros deserve no daily builds. Only manual ones. So, do
+        # not put them in the regular meta list and thus prevent progenitor from
+        # even knowing about them.
+        if distribution != NCI.old_series
+          all_meta_builds << enqueue(meta_builder)
+        end
 
         enqueue(DailyPromoteJob.new(type: type,
                                     distribution: distribution,
