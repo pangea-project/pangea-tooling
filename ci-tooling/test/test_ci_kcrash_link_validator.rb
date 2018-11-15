@@ -25,7 +25,7 @@ require_relative 'lib/testcase'
 class KCrashLinkValidatorTest < TestCase
   def setup
     FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
-    ENV['PANGEA_KCRASH_VALIDATE'] = '1'
+    ENV['TYPE'] = 'unstable'
   end
 
   def test_run
@@ -40,5 +40,13 @@ class KCrashLinkValidatorTest < TestCase
       assert_path_not_exist('CMakeLists.txt')
     end
     assert_path_not_exist('CMakeLists.txt')
+  end
+
+  def test_run_on_unstable_only
+    ENV['TYPE'] = 'stable'
+    CI::KCrashLinkValidator.run do
+      assert_not_includes(File.read('CMakeLists.txt'), 'kcrash_validator_check_all_targets')
+    end
+    assert_not_includes(File.read('CMakeLists.txt'), 'kcrash_validator_check_all_targets')
   end
 end

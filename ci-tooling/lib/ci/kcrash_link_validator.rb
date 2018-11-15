@@ -31,7 +31,7 @@ module CI
 
     def run(&block)
       # FIXME: PANGEA_KCRASH_VALIDATE is temporary for initial rollout testing
-      unless File.exist?('CMakeLists.txt') && ENV['PANGEA_KCRASH_VALIDATE']
+      unless File.exist?('CMakeLists.txt') && ENV['TYPE'] == 'unstable'
         yield
         return
       end
