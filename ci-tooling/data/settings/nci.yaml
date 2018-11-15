@@ -6,6 +6,10 @@
 
 # Others
 
+'*_neon-packaging_{kirigami-gallery}_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_neon-packaging_{peruse}_*':
   sourcer:
     restricted_packaging_copy: true
