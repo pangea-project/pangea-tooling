@@ -253,7 +253,7 @@ module NCI
         repo.send(:mangle_push_path!) # private
         Dir.chdir('fishy') do
           ret = `git remote show origin`.strip
-          warn ret
+          warn "fishy ret: #{ret}; $? #{$?}"
           # find the line which defines the push url
           ret = ret.split($/).find { |x| x.strip.downcase.start_with?('push') }
           ret = ret.strip.split(' ')[-1] # url is last space separated part
