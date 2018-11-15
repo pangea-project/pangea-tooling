@@ -71,7 +71,7 @@
 <% end %>
     <hudson.tasks.Shell>
       <command>
-        export BUNDLE_GEMFILE=$HOME/tooling/Gemfile # Make bundler able to setup.
+        export BUNDLE_GEMFILE=$JENKINS_HOME/tooling/Gemfile # Make bundler able to setup.
 
 <% if basename.include?('_release_') %>
 # Special fancy code for ubuntu-release-upgrader publishing.
