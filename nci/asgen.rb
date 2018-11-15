@@ -59,11 +59,20 @@ data = File.read('meson.build')
 data = data.gsub("subdir('docs')", '')
 File.write('meson.build', data)
 
-Dir.mkdir(build_dir) unless File.exist?(build_dir)
-Dir.chdir(build_dir) do
-  cmd.run('meson', '-Ddownload_js=true', '..')
-  cmd.run('ninja')
+# Only run meson iff the build dir doesn't exist. If we run configure
+# when it already exists it will always rebuild everything even when effectively
+# nothing has changed!
+unless Dir.exist?(build_dir)
+  cmd.run('meson', build_dir)
+  # Since we only run this if the build dir doesn't exist applying additional
+  # configs either means that you need to wipe all build dirs in all asgen jobs,
+  # or programtically determine whether to wipe the build dir. The latter you
+  # can do by json dumping the build flags
+  # `meson introspect --buildoptions build`
+  cmd.run('meson', 'configure', '-Ddownload-js=true', '-Dbuildtype=minsize',
+          build_dir)
 end
+cmd.run('ninja', '-C', build_dir)
 
 suites = [DIST]
 config = ASGEN::Conf.new("neon/#{TYPE}")
