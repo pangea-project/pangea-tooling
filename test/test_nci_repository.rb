@@ -22,6 +22,7 @@ require_relative '../ci-tooling/test/lib/testcase'
 
 require 'mocha/test_unit'
 require 'rugged'
+require 'tty/command'
 
 require_relative '../nci/debian-merge/repository'
 
@@ -30,6 +31,7 @@ module NCI
     class NCIRepositoryTest < TestCase
       def setup
         Rugged.stubs(:features).returns([:ssh])
+        @cmd = TTY::Command.new(uuid: false)
       end
 
       def teardown
@@ -248,11 +250,13 @@ module NCI
         assert_path_exist('fishy') # the clone
         repo.tag_base = 'debian/2'
         Dir.chdir('fishy') do
-          puts `git remote set-url origin git://anongit.neon.kde.org/kde/khtml`.strip
+          puts '-- remot set-url'
+          @cmd.run!('nslookup anongit.neon.kde.org')
+          puts @cmd.run('git remote set-url origin git://anongit.neon.kde.org/kde/khtml').out.strip
         end
         repo.send(:mangle_push_path!) # private
         Dir.chdir('fishy') do
-          ret = `git remote show origin`.strip
+          ret = @cmd.run('git remote show origin').out.strip
           warn "fishy ret: #{ret}; $? #{$?}"
           # find the line which defines the push url
           ret = ret.split($/).find { |x| x.strip.downcase.start_with?('push') }
