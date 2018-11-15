@@ -70,8 +70,6 @@ Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives') do |sftp|
 end
 FileUtils.rm_rf(repo_dir)
 
-# FIXME: should be separate by repo but we can't forward repo into container
-#        when generating the paths :/
-pubdir = '/var/www/metadata/appstream/' # #{APTLY_REPOSITORY}"
+pubdir = "/var/www/metadata/appstream/#{TYPE}"
 FileUtils.mkpath(pubdir)
 FileUtils.cp_r("#{export_dir}/.", pubdir, verbose: true)
