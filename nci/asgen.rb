@@ -31,6 +31,7 @@ STDOUT.sync = true # lest TTY output from meson gets merged randomly
 
 TYPE = ENV.fetch('TYPE')
 DIST = ENV.fetch('DIST')
+APTLY_REPOSITORY = ENV.fetch('APTLY_REPOSITORY')
 cmd = TTY::Command.new
 
 Dir.chdir('asgen')
