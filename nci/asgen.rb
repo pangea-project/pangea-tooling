@@ -90,6 +90,9 @@ config.HtmlBaseUrl =
   "https://metadata.neon.kde.org/appstream/#{TYPE}_#{DIST}/html"
 config.Backend = 'debian'
 config.Features['validateMetainfo'] = true
+# FIXME: we should merge the dist jobs and make one job generate all supported
+#   series. this also requires adjustments to asgen_push to "detect" which dists
+#   it needs to publish instead of hardcoding DIST.
 suites.each do |suite|
   config.Suites << ASGEN::Suite.new(suite).tap do |s|
     s.sections = %w[main]
