@@ -75,7 +75,7 @@ File.write(LAST_BUILD_STAMP, current_rev)
 # Runtime Deps
 Apt::Get.install('appstream-generator') # Make sure runtime deps are in.
 Apt::Get.purge('appstream-generator')
-Apt.install(%w[npm optipng liblmdb0]) || raise
+Apt.install(%w[npm optipng liblmdb0 libmustache-d0]) || raise
 Apt.install(%w[nodejs-legacy]) || Apt.install(%w[nodejs]) || raise
 cmd.run('npm', 'install', '-g', 'bower')
 
