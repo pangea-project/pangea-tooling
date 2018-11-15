@@ -29,7 +29,6 @@ require_relative '../ci-tooling/lib/nci'
 
 DIST = ENV.fetch('DIST')
 TYPE = ENV.fetch('TYPE')
-
 APTLY_REPOSITORY = ENV.fetch('APTLY_REPOSITORY')
 
 run_dir = File.absolute_path('run')
