@@ -75,4 +75,4 @@ pubdir = "/var/www/metadata/appstream/#{TYPE}_#{DIST}"
 FileUtils.mkpath(pubdir)
 FileUtils.cp_r("#{export_dir}/.", pubdir, verbose: true)
 # This is the export dep11 data, we don't need it, so throw it away
-FileUtils.rm_rf("#{export_dir}/data")
+FileUtils.rm_rf("#{pubdir}/data")
