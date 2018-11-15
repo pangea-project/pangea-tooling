@@ -27,8 +27,10 @@ require 'tmpdir'
 require_relative '../ci-tooling/lib/debian/release'
 require_relative '../ci-tooling/lib/nci'
 
-APTLY_REPOSITORY = ENV.fetch('APTLY_REPOSITORY')
 DIST = ENV.fetch('DIST')
+TYPE = ENV.fetch('TYPE')
+
+APTLY_REPOSITORY = ENV.fetch('APTLY_REPOSITORY')
 
 run_dir = File.absolute_path('run')
 
