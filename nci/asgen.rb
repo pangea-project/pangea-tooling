@@ -47,7 +47,8 @@ cmd = TTY::Command.new
 Dir.chdir('asgen')
 
 current_rev = cmd.run('git', 'rev-parse', 'HEAD').out.strip
-if old_rev && old_rev != current_rev
+unless old_rev && old_rev == current_rev
+  warn 'Building asgen!'
   # Buildtime Deps
   Apt::Get.build_dep('appstream-generator')
 
