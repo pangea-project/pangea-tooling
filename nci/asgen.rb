@@ -32,47 +32,51 @@ STDOUT.sync = true # lest TTY output from meson gets merged randomly
 TYPE = ENV.fetch('TYPE')
 DIST = ENV.fetch('DIST')
 APTLY_REPOSITORY = ENV.fetch('APTLY_REPOSITORY')
-cmd = TTY::Command.new
-
-Dir.chdir('asgen')
+LAST_BUILD_STAMP = File.absolute_path('last_build')
 
 NCI.setup_repo!
 
-# Build
-Apt.update
-Apt::Get.install('appstream-generator') # Make sure runtime deps are in.
-Apt::Get.purge('appstream-generator')
-Apt::Get.build_dep('appstream-generator')
-
-# Runtime
-Apt.install(%w[npm optipng liblmdb0]) || raise
-Apt.install(%w[nodejs-legacy]) || Apt.install(%w[nodejs]) || raise
-cmd.run('npm', 'install', '-g', 'bower')
+old_rev = nil
+old_rev = File.read(LAST_BUILD_STAMP).strip if File.exist?(LAST_BUILD_STAMP)
 
 build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
 
-# Mangle docs out of the build. They do not pass half the time and we don't
-# need them -.-
+cmd = TTY::Command.new
 
-data = File.read('meson.build')
-data = data.gsub("subdir('docs')", '')
-File.write('meson.build', data)
+Dir.chdir('asgen')
 
-# Only run meson iff the build dir doesn't exist. If we run configure
-# when it already exists it will always rebuild everything even when effectively
-# nothing has changed!
-unless Dir.exist?(build_dir)
+current_rev = cmd.run('git', 'rev-parse', 'HEAD').out.strip
+if old_rev && old_rev != current_rev
+  # Buildtime Deps
+  Apt::Get.build_dep('appstream-generator')
+
+  # Mangle docs out of the build. They do not pass half the time and we don't
+  # need them -.-
+
+  data = File.read('meson.build')
+  data = data.gsub("subdir('docs')", '')
+  File.write('meson.build', data)
+
+  FileUtils.rm_rf(build_dir, verbose: true)
   cmd.run('meson', build_dir)
   # Since we only run this if the build dir doesn't exist applying additional
-  # configs either means that you need to wipe all build dirs in all asgen jobs,
-  # or programtically determine whether to wipe the build dir. The latter you
-  # can do by json dumping the build flags
+  # configs either means that you need to wipe all build dirs in all asgen
+  # jobs, or programtically determine whether to wipe the build dir.
+  # The latter you can do by json dumping the build flags
   # `meson introspect --buildoptions build`
   cmd.run('meson', 'configure', '-Ddownload-js=true', '-Dbuildtype=minsize',
           build_dir)
+  cmd.run('ninja', '-C', build_dir)
 end
-cmd.run('ninja', '-C', build_dir)
+File.write(LAST_BUILD_STAMP, current_rev)
+
+# Runtime Deps
+Apt::Get.install('appstream-generator') # Make sure runtime deps are in.
+Apt::Get.purge('appstream-generator')
+Apt.install(%w[npm optipng liblmdb0]) || raise
+Apt.install(%w[nodejs-legacy]) || Apt.install(%w[nodejs]) || raise
+cmd.run('npm', 'install', '-g', 'bower')
 
 suites = [DIST]
 config = ASGEN::Conf.new("neon/#{TYPE}")
