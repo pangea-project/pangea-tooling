@@ -46,6 +46,13 @@ Dir.chdir('asgen')
 build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
 
+# Runtime Deps
+Apt::Get.install('appstream-generator') # Make sure runtime deps are in.
+Apt::Get.purge('appstream-generator')
+Apt.install(%w[npm optipng liblmdb0 libmustache-d0]) || raise
+Apt.install(%w[nodejs-legacy]) || Apt.install(%w[nodejs]) || raise
+cmd.run('npm', 'install', '-g', 'bower')
+
 current_rev = cmd.run('git', 'rev-parse', 'HEAD').out.strip
 unless old_rev && old_rev == current_rev
   warn 'Building asgen!'
@@ -73,13 +80,6 @@ unless old_rev && old_rev == current_rev
   cmd.run('ninja', '-j', '2', '-l', '5', '-C', build_dir)
 end
 File.write(LAST_BUILD_STAMP, current_rev)
-
-# Runtime Deps
-Apt::Get.install('appstream-generator') # Make sure runtime deps are in.
-Apt::Get.purge('appstream-generator')
-Apt.install(%w[npm optipng liblmdb0 libmustache-d0]) || raise
-Apt.install(%w[nodejs-legacy]) || Apt.install(%w[nodejs]) || raise
-cmd.run('npm', 'install', '-g', 'bower')
 
 suites = [DIST]
 config = ASGEN::Conf.new("neon/#{TYPE}")
