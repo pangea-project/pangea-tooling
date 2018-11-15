@@ -39,12 +39,12 @@ NCI.setup_repo!
 old_rev = nil
 old_rev = File.read(LAST_BUILD_STAMP).strip if File.exist?(LAST_BUILD_STAMP)
 
-build_dir = File.absolute_path('build')
-run_dir = File.absolute_path('run')
-
 cmd = TTY::Command.new
 
 Dir.chdir('asgen')
+
+build_dir = File.absolute_path('build')
+run_dir = File.absolute_path('run')
 
 current_rev = cmd.run('git', 'rev-parse', 'HEAD').out.strip
 unless old_rev && old_rev == current_rev
