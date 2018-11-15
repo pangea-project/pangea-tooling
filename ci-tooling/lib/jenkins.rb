@@ -38,7 +38,7 @@ module AutoConfigJenkinsClient
   module_function
 
   def config(file: ENV.fetch('JENKINS_CONFIG',
-                             "#{ENV['JENKINS_HOME']}/.config/pangea-jenkins.json"))
+                             "#{ENV['HOME']}/.config/pangea-jenkins.json"))
     kwords = default_config_data
     if File.exist?(file)
       kwords.merge!(JSON.parse(File.read(file), symbolize_names: true))
