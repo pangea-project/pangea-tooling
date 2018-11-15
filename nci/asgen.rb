@@ -68,8 +68,10 @@ end
 suites = [DIST]
 config = ASGEN::Conf.new("neon/#{TYPE}")
 config.ArchiveRoot = "https://archive.neon.kde.org/#{APTLY_REPOSITORY}"
-config.MediaBaseUrl = "https://metadata.neon.kde.org/appstream/#{TYPE}/media"
-config.HtmlBaseUrl = "https://metadata.neon.kde.org/appstream/#{TYPE}/html"
+config.MediaBaseUrl =
+  "https://metadata.neon.kde.org/appstream/#{TYPE}_#{DIST}/media"
+config.HtmlBaseUrl =
+  "https://metadata.neon.kde.org/appstream/#{TYPE}_#{DIST}/html"
 config.Backend = 'debian'
 config.Features['validateMetainfo'] = true
 suites.each do |suite|

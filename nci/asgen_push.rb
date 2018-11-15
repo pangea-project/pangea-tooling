@@ -70,6 +70,6 @@ Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives') do |sftp|
 end
 FileUtils.rm_rf(repo_dir)
 
-pubdir = "/var/www/metadata/appstream/#{TYPE}"
+pubdir = "/var/www/metadata/appstream/#{TYPE}_#{DIST}"
 FileUtils.mkpath(pubdir)
 FileUtils.cp_r("#{export_dir}/.", pubdir, verbose: true)
