@@ -68,7 +68,9 @@ unless old_rev && old_rev == current_rev
   # `meson introspect --buildoptions build`
   cmd.run('meson', 'configure', '-Ddownload-js=true', '-Dbuildtype=minsize',
           build_dir)
-  cmd.run('ninja', '-C', build_dir)
+  # Run with low concurrency since this is currently run on master
+  # FIXME: don't run asgen on master + drop job and load restriction
+  cmd.run('ninja', '-j', '2', '-l', '5', '-C', build_dir)
 end
 File.write(LAST_BUILD_STAMP, current_rev)
 
