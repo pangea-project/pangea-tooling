@@ -74,4 +74,4 @@ FileUtils.rm_rf(repo_dir)
 #        when generating the paths :/
 pubdir = '/var/www/metadata/appstream/' # #{APTLY_REPOSITORY}"
 FileUtils.mkpath(pubdir)
-FileUtils.cp_r("#{export_dir}/.", pubdir)
+FileUtils.cp_r("#{export_dir}/.", pubdir, verbose: true)
