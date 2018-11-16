@@ -38,6 +38,15 @@ function(kcrash_validator_check_all_targets)
                 continue()
             endif()
 
+            # Not probably a test
+            # (There is no actual way to tell a test from a regular target in
+            # CMake before 3.10 [introduces TESTS property on DIRECTORY], so
+            # we can only approximate this)
+            list(FIND target_libs "Qt5::Test" target_testlib_index)
+            if(${target_testlib_index} GREATER -1)
+                continue()
+            endif()
+
             message("target: ${target}")
             add_custom_target(objdump-kcrash-${target} ALL
                 COMMAND echo "  $<TARGET_FILE:${target}>"
