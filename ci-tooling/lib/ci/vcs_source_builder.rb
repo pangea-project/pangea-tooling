@@ -81,7 +81,7 @@ module CI
 
     def l10n_origin_for(project)
       kde4_l10n_projects = %w[kdeedu-data] # TODO move to .yaml file
-      puts "XXX #{@source.name}"
+      l10n_log.info "XXX #{@source.name}"
       if kde4_l10n_projects.include?(@source.name)
         origin = kde4_l10n_origin_from_type
       else
