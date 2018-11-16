@@ -16,6 +16,12 @@ function(kcrash_validator_check_all_targets)
     foreach(sub ${subs})
         get_property(targets DIRECTORY ${sub} PROPERTY BUILDSYSTEM_TARGETS)
         foreach(target ${targets})
+            # Is part of all target
+            get_target_property(target_exclude_all ${target} EXCLUDE_FROM_ALL)
+            if(${target_exclude_all})
+                continue()
+            endif()
+
             # Is a linked type (exectuable/lib)
             get_target_property(target_type ${target} TYPE)
             list(FIND linked_types ${target_type} linked_type_index)
