@@ -25,13 +25,20 @@ module CI
   # indeed ended up linked.
   # https://markmail.org/thread/zv5pheijaze72bzs
   class KCrashLinkValidator
+    BLACKLIST = [
+      # Uses the same link list for the bin and a plugin. Unreasonable to expect
+      # a change there.
+      '_kmail-account-wizard_',
+    ].freeze
+
     def self.run(&block)
       new.run(&block)
     end
 
     def run(&block)
-      # FIXME: PANGEA_KCRASH_VALIDATE is temporary for initial rollout testing
-      unless File.exist?('CMakeLists.txt') && ENV['TYPE'] == 'unstable'
+      if ENV['TYPE'] != 'unstable' ||
+         !File.exist?('CMakeLists.txt') ||
+         BLACKLIST.any? { |x| ENV.fetch('JOB_NAME').include?(x) }
         yield
         return
       end
