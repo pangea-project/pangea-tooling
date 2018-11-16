@@ -81,7 +81,7 @@ module CI
     end
 
     def l10n_origin_for(project)
-      kde4_l10n_projects = %w[kdeedu-data] # TODO move to .yaml file
+      kde4_l10n_projects = %w[kdeedu-data phonon phonon-backend-gstreamer phonon-backend-vlc] # TODO move to .yaml file
       l10n_log.info "XXX #{@source.name}"
       if kde4_l10n_projects.include?(@source.name)
         origin = kde4_l10n_origin_from_type
