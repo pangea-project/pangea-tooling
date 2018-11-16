@@ -69,8 +69,23 @@ module CI
       }.fetch(ENV.fetch('TYPE'))
     end
 
+    def kde4_l10n_origin_from_type
+      #read yaml file and set origin to  ReleaseMe::Origin::TRUNK_KDE4
+      {
+        'unstable' => ReleaseMe::Origin::TRUNK_KDE4,
+        'stable' => ReleaseMe::Origin::STABLE_KDE4,
+        'release' => ReleaseMe::Origin::STABLE_KDE4,
+        'release-lts' => ReleaseMe::Origin::STABLE_KDE4
+      }.fetch(ENV.fetch('TYPE'))
+    end
+
     def l10n_origin_for(project)
-      origin = l10n_origin_from_type
+      kde4_l10n_projects = %w[kdeedu-data] # TODO move to .yaml file
+      if kde4_l10n_projects.include?(@source.name)
+        origin = kde4_l10n_origin_from_type
+      else
+        origin = l10n_origin_from_type
+      end
 
       # TODO: ideally we should pass the BRANCH from the master job into
       #   the sourcer job and assert that the upstream branch is the stable/
@@ -78,12 +93,12 @@ module CI
       #   upstream_scm used to create the jobs was in sync with the data we see.
       #   If it was not this is a fatal problem as we might be integrating
       #   incorrect translations.
-      if origin == ReleaseMe::Origin::STABLE && !project.i18n_stable
+      if (origin == ReleaseMe::Origin::STABLE || origin == ReleaseMe::Origin::STABLE_KDE4) && !project.i18n_stable
         warn 'This project has no stable branch. Falling back to trunk.'
         origin = ReleaseMe::Origin::TRUNK
       end
 
-      if origin == ReleaseMe::Origin::TRUNK && !project.i18n_trunk
+      if (origin == ReleaseMe::Origin::TRUNK || origin == ReleaseMe::Origin::TRUNK_KDE4) && !project.i18n_trunk
         raise 'Project has no i18n trunk WTF. This should not happen.'
       end
 
