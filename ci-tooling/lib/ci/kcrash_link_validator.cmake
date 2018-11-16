@@ -24,6 +24,8 @@ function(kcrash_validator_check_all_targets)
             endif()
 
             # Wants KCrash
+            # NB: cannot use IN_LIST condition because it is policy dependant
+            #   and we do not want to change the policy configuration
             get_target_property(target_libs ${target} LINK_LIBRARIES)
             list(FIND target_libs "KF5::Crash" target_lib_index)
             if(${target_lib_index} LESS 0)
