@@ -49,6 +49,10 @@ Aptly::Ext::Remote.neon do
   stamp = Time.now.utc.strftime('%Y%m%d.%H%M%S')
 
   repo = Aptly::Repository.get(REPO_NAME)
+  if repo.published_in[0].Prefix.include?('tmp')
+    abort "already Published at tmp/"
+  end
+
   snapshot = repo.snapshot("#{REPO_NAME}-#{stamp}")
   repo.published_in.each do |pub|
     attributes = pub.to_h
