@@ -1,58 +1,28 @@
 env.DIST = '<%= dist %>'
-env.TYPE = 'user'
+env.TYPE = '<%= type %>'
 env.APTLY_REPOSITORY = '<%= repo %>'
+env.PWD_BIND = '/workspace'
 
 node('master') {
     wrap([$class: 'TimestamperBuildWrapper']) {
         wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-            stage 'Checkout'
-            // Frozen at 0.6.8 as newer versions require newer appstream AND
-            // in turn newer glib/gobject-introspect. Since this is not worth
-            // dealing with we'll simply freeze for xenial.
-            // In bionic we just use the package from Ubuntu's apt archive
-            if (env.DIST == 'xenial') {
-                checkout([$class: 'GitSCM',
-                        branches: [[name: 'refs/tags/v0.6.7']],
-                        userRemoteConfigs: [[url: 'https://github.com/ximion/appstream-generator.git']]])
-                // https://bugs.kde.org/show_bug.cgi?id=396149
-                sh 'git cherry-pick 818c03c000384a0a4c912e6534e3bbf809c0a37f'
-                // Also undo a commit which removed deprecations breaking compat with ldc in xenial backports
-                sh 'git revert --no-commit 14586457af92cd9b781277dfc6269d83a83322fb'
+            stage('clone[asgen]') {
+                sh '[ -d asgen ] || mkdir asgen'
+                dir('asgen') {
+                    git branch: 'bionic-with-http-fix', url: 'https://github.com/apachelogger/appstream-generator.git'
+                }
             }
 
-            stage 'Repository Setup'
-            lts_exclude = ''
-            <% unless repo.include?('lts') %>
-            lts_exclude = '--exclude lts/'
-            <% end %>
-            sh """rsync -avH \
-                  --delete $lts_exclude  \
-                  --exclude=*_armhf.deb  \
-                  --exclude=*_arm64.deb \
-                  --exclude=*.dsc  \
-                  --exclude=*.tar.* \
-                  <% if dist == 'xenial' %> \
-                  --exclude=*bionic* \
-                  <% else %> \
-                  --exclude=*xenial* \
-                  <% end %> \
-                  neonarchives@archive-api.neon.kde.org:aptly/public/$APTLY_REPOSITORY/*  \
-                  aptly-repository/"""
-
-            stage 'Process'
-            if (env.DIST == 'xenial') {
-                sh '~/tooling/nci/contain.rb /tooling/ci-tooling/nci/asgen.rb'
-            } else {
-                sh '~/tooling/nci/contain.rb /tooling/ci-tooling/nci/asgen_bionic.rb'
+            stage('generate') {
+                sh '~/tooling/nci/contain.rb /tooling/nci/asgen.rb'
+                sh 'tree asgen/run/' // Debug
             }
 
-            stage 'Publish'
-            sh '~/tooling/nci/asgen_push.rb'
-            sh 'mkdir -p /var/www/metadata/appstream/$APTLY_REPOSITORY || true'
-            sh 'cp -rv run/export/. /var/www/metadata/appstream/$APTLY_REPOSITORY'
-
-            stage 'Cleanup'
-            sh '#rm -rf aptly-repository'
+            stage('publish') {
+                dir('asgen') {
+                    sh '~/tooling/nci/asgen_push.rb'
+                }
+            }
         }
     }
 }

@@ -24,14 +24,12 @@ require_relative '../job'
 class MGMTSnapshotBase < JenkinsJob
   attr_reader :target
   attr_reader :origin
-  attr_reader :appstream
   attr_reader :dist
 
-  def initialize(origin:, target:, appstream:, dist:)
+  def initialize(origin:, target:, dist:)
     super("mgmt_snapshot_#{dist}_#{target}", 'mgmt_snapshot.xml.erb')
     @origin = origin
     @target = target
-    @appstream = appstream
     @dist = dist
   end
 end
@@ -39,17 +37,13 @@ end
 # snapshots release repos
 class MGMTSnapshotUser < MGMTSnapshotBase
   def initialize(dist:)
-    super(dist: dist,
-          origin: 'release', target: 'user',
-          appstream: "_#{dist}")
+    super(dist: dist, origin: 'release', target: 'user')
   end
 end
 
 # snapshots release-lts repos
 class MGMTSnapshotUserLTS < MGMTSnapshotBase
   def initialize(dist:)
-    super(dist: dist,
-          origin: 'release-lts', target: 'user-lts',
-          appstream: "_#{dist}-lts")
+    super(dist: dist, origin: 'release-lts', target: 'user-lts')
   end
 end

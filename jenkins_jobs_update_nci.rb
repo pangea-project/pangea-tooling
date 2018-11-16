@@ -313,24 +313,49 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     docker = enqueue(MGMTDockerJob.new(dependees: []))
     enqueue(MGMTMergerDebianFrameworks.new)
     enqueue(MGMTGerminateJob.new(dist: NCI.current_series))
-    enqueue(MGMTAppstreamGenerator.new(repo: 'user',
-                                       dist: NCI.current_series))
-    enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts',
-                                               dist: NCI.current_series))
     enqueue(MGMTAppstreamHealthJob.new(dist: NCI.current_series))
     if NCI.future_series
       enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
     end
     enqueue(MGMTAppstreamGenerator.new(repo: 'user',
+                                       type: 'user',
                                        dist: NCI.future_series))
-    enqueue(MGMTAppstreamGenerator.new('-lts', repo: 'user/lts',
-                                               dist: NCI.future_series))
+    enqueue(MGMTAppstreamGenerator.new(repo: 'user/lts',
+                                       type: 'user-lts',
+                                       dist: NCI.future_series))
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTJobUpdater.new)
     enqueue(MGMTDigitalOcean.new)
     enqueue(MGMTDigitalOceanDangler.new)
+
+    # FIXME: this is hardcoded because we don't have a central map between
+    #   'type' and repo path, additionally doing this programatically would
+    #   require querying the aptly api. it's unclear if this is worthwhile.
+    enqueue(MGMTAppstreamGenerator.new(repo: 'dev/unstable',
+                                       type: 'unstable',
+                                       dist: NCI.current_series))
+    enqueue(MGMTAppstreamGenerator.new(repo: 'dev/stable',
+                                       type: 'stable',
+                                       dist: NCI.current_series))
+    enqueue(MGMTAppstreamGenerator.new(repo: 'release',
+                                       type: 'release',
+                                       dist: NCI.current_series))
+    enqueue(MGMTAppstreamGenerator.new(repo: 'release/lts',
+                                       type: 'release-lts',
+                                       dist: NCI.current_series))
+    enqueue(MGMTAppstreamGenerator.new(repo: 'user',
+                                       type: 'user',
+                                       dist: NCI.current_series))
+    enqueue(MGMTAppstreamGenerator.new(repo: 'user/lts',
+                                       type: 'user-lts',
+                                       dist: NCI.current_series))
+    # Note for the future: when introducing a future_series it's probably wise
+    # to split the job and asgen.rb for the new series. That way its easy to
+    # drop legacy support when the time comes. At the time of writing both
+    # things are highly coupled to their series, so treating them as something
+    # generic is folly.
 
     enqueue(MGMTSnapshotUser.new(dist: NCI.current_series))
     enqueue(MGMTSnapshotUserLTS.new(dist: NCI.current_series))

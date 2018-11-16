@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2017-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -24,11 +24,15 @@ require_relative 'pipelinejob'
 class MGMTAppstreamGenerator < PipelineJob
   attr_reader :repo
   attr_reader :dist
+  attr_reader :type
 
-  def initialize(suffix = '', repo:, dist:)
-    super("mgmt_appstream-generator_#{dist}#{suffix}",
-          template: 'mgmt_appstream_generator')
+  def initialize(repo:, dist:, type:)
+    # crons once a day. maybe should be made type dependent and run more often
+    # for dev editions and less for user editions (they get run on publish)?
+    super("mgmt_appstream-generator_#{dist}_#{type}",
+          template: 'mgmt_appstream_generator', cron: 'H H * * *')
     @repo = repo
     @dist = dist
+    @type = type
   end
 end
