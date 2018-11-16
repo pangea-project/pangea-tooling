@@ -71,6 +71,7 @@ module CI
 
     def kde4_l10n_origin_from_type
       #read yaml file and set origin to  ReleaseMe::Origin::TRUNK_KDE4
+      l10n_log.info "XXX kde4_l10n_origin_from_type"
       {
         'unstable' => ReleaseMe::Origin::TRUNK_KDE4,
         'stable' => ReleaseMe::Origin::STABLE_KDE4,
@@ -94,12 +95,12 @@ module CI
       #   upstream_scm used to create the jobs was in sync with the data we see.
       #   If it was not this is a fatal problem as we might be integrating
       #   incorrect translations.
-      if (origin == ReleaseMe::Origin::STABLE || origin == ReleaseMe::Origin::STABLE_KDE4) && !project.i18n_stable
+      if origin == ReleaseMe::Origin::STABLE && !project.i18n_stable
         warn 'This project has no stable branch. Falling back to trunk.'
         origin = ReleaseMe::Origin::TRUNK
       end
 
-      if (origin == ReleaseMe::Origin::TRUNK || origin == ReleaseMe::Origin::TRUNK_KDE4) && !project.i18n_trunk
+      if origin == ReleaseMe::Origin::TRUNK && !project.i18n_trunk
         raise 'Project has no i18n trunk WTF. This should not happen.'
       end
 
