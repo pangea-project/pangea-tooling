@@ -28,7 +28,7 @@ module CI
     BLACKLIST = [
       # Uses the same link list for the bin and a plugin. Unreasonable to expect
       # a change there.
-      '_kmail-account-wizard_',
+      '_kmail-account-wizard_'
     ].freeze
 
     def self.run(&block)
