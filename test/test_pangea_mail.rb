@@ -45,6 +45,7 @@ module Pangea
       smtp = mock('smtp')
       # To talk to bluemchen we need to enable starttls
       smtp.expects(:enable_starttls_auto)
+      smtp.expects(:open_timeout=).with(240)
       # Starts a thingy
       session = mock('smtp.session')
       session.expects('dud')
