@@ -54,7 +54,7 @@ class ProjectsFactory
       default_params.merge(
         name: name,
         component: component,
-        url_base: self.class.url_base + '/' + group
+        url_base: "#{self.class.url_base}/#{group}"
       )
     end
 
