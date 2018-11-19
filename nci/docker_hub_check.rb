@@ -40,7 +40,7 @@ class DockerHubCheck
   attr_reader :urls
   def initialize
     @urls = {'plasma'=> 'https://hub.docker.com/v2/repositories/kdeneon/plasma/buildhistory/?page_size=10',
-             'all'=> 'https://hub.docker.com/v2/repositories/kdeneon/plasma/buildhistory/?page_size=10'}
+             'all'=> 'https://hub.docker.com/v2/repositories/kdeneon/all/buildhistory/?page_size=10'}
   end
   
   # Returns a hash of images and their latest build status
