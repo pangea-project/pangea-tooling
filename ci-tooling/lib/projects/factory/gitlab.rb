@@ -41,7 +41,6 @@ class ProjectsFactory
 
     private
 
-    # FIXME: same as in Neon except component is merged
     def split_entry(entry)
       parts = entry.split('/')
       group = parts.length > 2 ? parts[0] : ''
@@ -69,10 +68,9 @@ class ProjectsFactory
         repos = ::Gitlab.group_projects(base_id).auto_paginate.collect(&:path)
         ::Gitlab.group_subgroups(base_id).auto_paginate.each do |subgroup|
           ::Gitlab.group_projects(subgroup.id).each do |repo|
-            repos << subgroup.path + '/' + repo.path
+            repos << "#{subgroup.path}/#{repo.path}"
           end
         end
-        puts repos
         @list_cache[base] = repos.freeze
       end
     end
