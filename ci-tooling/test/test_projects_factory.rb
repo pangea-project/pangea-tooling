@@ -395,7 +395,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
   end
 
   def test_gitlab_from_list
-    gitlab_repos = %w(calamares/calamares-debian calamares/calamares-debian/neon/neon-pinebook)
+    gitlab_repos = %w(calamares/calamares-debian calamares/neon/neon-pinebook)
     gitlab_dir = create_fake_git(branches: %w(master kubuntu_unstable),
                                  repos: gitlab_repos)
     ProjectsFactory::Gitlab.instance_variable_set(:@url_base, gitlab_dir)
@@ -411,7 +411,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
       ::Gitlab::PaginatedResponse.new([resource.new('calamares-debian')])
 
     subgroup_projects =
-      ::Gitlab::PaginatedResponse.new([resource.new('calamares-pinebook')])
+      ::Gitlab::PaginatedResponse.new([resource.new('neon-pinebook')])
 
 
     ::Gitlab.expects(:group_projects)
@@ -438,9 +438,9 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
 
     project = projects[1]
     refute_equal(project, nil)
-    assert_equal 'calamares-pinebook', project.name
+    assert_equal 'neon-pinebook', project.name
     assert_equal 'git', project.packaging_scm.type
-    assert_equal "#{gitlab_dir}/calamares/calamares-debian/neon/neon-pinebook", project.packaging_scm.url
+    assert_equal "#{gitlab_dir}/calamares/neon/neon-pinebook", project.packaging_scm.url
     assert_equal 'kubuntu_unstable', project.packaging_scm.branch
   end
 
