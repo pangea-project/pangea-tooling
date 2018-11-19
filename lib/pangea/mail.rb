@@ -53,6 +53,7 @@ module Pangea
     def start(&block)
       smtp = Net::SMTP.new(address, port)
       smtp.enable_starttls_auto
+      smtp.open_timeout=120
       smtp.start(helo, user, secret, authtype, &block)
       # No finish as we expect a block which auto-finishes upon return
     end
