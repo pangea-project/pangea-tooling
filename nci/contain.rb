@@ -26,6 +26,7 @@ Docker.options[:read_timeout] = 7 * 60 * 60 # 7 hours.
 DIST = ENV.fetch('DIST')
 JOB_NAME = ENV.fetch('JOB_NAME')
 PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
+PANGEA_MAIL_CONFIG_PATH = File.dirname(ENV.fetch('PANGEA_MAIL_CONFIG_PATH'))
 
 # Whitelist a bunch of Jenkins variables for consumption inside the container.
 whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
@@ -76,6 +77,7 @@ c = nil
 if PWD_BIND != Dir.pwd # backwards compat. Behave as previosuly without pwd_bind
   binds = ["#{Dir.pwd}:#{PWD_BIND}"]
   binds << "#{CCACHE_DIR}:/ccache" if CCACHE_DIR
+  binds << "#{PANGEA_MAIL_CONFIG_PATH}:#{PANGEA_MAIL_CONFIG_PATH}"
   c = CI::Containment.new(CONTAINER_NAME,
                           image: CI::PangeaImage.new(:ubuntu, DIST),
                           binds: binds)
