@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 #
 # Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
@@ -394,13 +395,14 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
   end
 
   def test_gitlab_from_list
-    gitlab_repos = %w(calamares/calamares-debian)
+    gitlab_repos = %w(calamares/calamares-debian calamares/calamares-debian/neon/neon-pinebook)
     gitlab_dir = create_fake_git(branches: %w(master kubuntu_unstable),
                                  repos: gitlab_repos)
     ProjectsFactory::Gitlab.instance_variable_set(:@url_base, gitlab_dir)
 
     # mock the octokit query
     group = Struct.new(:id)
+    subgroup = Struct.new(:id, :path)
     resource = Struct.new(:path)
     ::Gitlab.expects(:group_search)
             .returns([group.new('999')])
@@ -408,19 +410,37 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     response =
       ::Gitlab::PaginatedResponse.new([resource.new('calamares-debian')])
 
+    subgroup_projects =
+      ::Gitlab::PaginatedResponse.new([resource.new('calamares-pinebook')])
+
+
     ::Gitlab.expects(:group_projects)
-            .returns(response)
+            .twice
+            .returns(response, subgroup_projects)
+
+    subgroup_response =
+      ::Gitlab::PaginatedResponse.new([subgroup.new('1000', 'neon')])
+
+    ::Gitlab.expects(:group_subgroups)
+            .returns(subgroup_response)
 
     factory = ProjectsFactory::Gitlab.new('gitlab.com')
-    projects = factory.factorize([{ 'calamares' => ['calamares-debian'] }])
+    projects = factory.factorize([{ 'calamares' => ['calamares-debian', 'neon/neon-pinebook'] }])
 
     refute_nil(projects)
-    assert_equal(1, projects.size)
+    assert_equal(2, projects.size)
     project = projects[0]
     refute_equal(project, nil)
     assert_equal 'calamares-debian', project.name
     assert_equal 'git', project.packaging_scm.type
     assert_equal "#{gitlab_dir}/calamares/calamares-debian", project.packaging_scm.url
+    assert_equal 'kubuntu_unstable', project.packaging_scm.branch
+
+    project = projects[1]
+    refute_equal(project, nil)
+    assert_equal 'calamares-pinebook', project.name
+    assert_equal 'git', project.packaging_scm.type
+    assert_equal "#{gitlab_dir}/calamares/calamares-debian/neon/neon-pinebook", project.packaging_scm.url
     assert_equal 'kubuntu_unstable', project.packaging_scm.branch
   end
 

@@ -44,17 +44,18 @@ class ProjectsFactory
     # FIXME: same as in Neon except component is merged
     def split_entry(entry)
       parts = entry.split('/')
+      group = parts[0]
       name = parts[-1]
-      component = parts[0..-2].join('_') || 'gitlab'
-      [name, component]
+      component = parts[-2] || 'gitlab'
+      [name, component, group]
     end
 
     def params(str)
-      name, component = split_entry(str)
+      name, component, group = split_entry(str)
       default_params.merge(
         name: name,
         component: component,
-        url_base: self.class.url_base
+        url_base: self.class.url_base + '/' + group
       )
     end
 
@@ -64,10 +65,15 @@ class ProjectsFactory
         return @list_cache[base] if @list_cache.key?(base)
         # Gitlab sends over paginated replies, make sure we iterate till
         # no more results are being returned.
-
         base_id = ::Gitlab.group_search(base)[0].id
-        repos = ::Gitlab.group_projects(base_id).auto_paginate
-        @list_cache[base] = repos.collect(&:path).freeze
+        repos = ::Gitlab.group_projects(base_id).auto_paginate.collect(&:path)
+        ::Gitlab.group_subgroups(base_id).auto_paginate.each do |subgroup|
+          ::Gitlab.group_projects(subgroup.id).each do |repo|
+            repos << subgroup.path + '/' + repo.path
+          end
+        end
+        puts repos
+        @list_cache[base] = repos.freeze
       end
     end
   end
