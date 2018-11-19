@@ -44,7 +44,7 @@ class ProjectsFactory
     # FIXME: same as in Neon except component is merged
     def split_entry(entry)
       parts = entry.split('/')
-      group = parts[0]
+      group = parts.length > 2 ? parts[0] : ""
       name = parts[-1]
       component = parts[-2] || 'gitlab'
       [name, component, group]
