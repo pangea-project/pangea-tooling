@@ -72,7 +72,7 @@ class DockerHubCheck
     puts 'sending notification mail'
     Pangea::SMTP.start do |smtp|
       mail = <<-MAIL
-From: Neon CI <no-reply@kde.org>
+From: Neon CI <noreply@kde.org>
 To: neon-notifications@kde.org
 Subject: Broken Neon Docker Hub Build
 
