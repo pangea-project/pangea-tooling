@@ -74,7 +74,9 @@ class ProjectsFactory
         repos += ::Gitlab.group_projects(group_id)
                          .auto_paginate
                          .collect(&:path_with_namespace)
-        ::Gitlab.group_subgroups(group_id).auto_paginate.each do |subgroup|
+        repos += ::Gitlab.group_subgroups(group_id).auto_paginate.collect do |subgroup|
+			list_repos(subgroup.id)
+        end
           repos += list_repos(subgroup.id)
         end
         return repos
