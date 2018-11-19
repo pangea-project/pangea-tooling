@@ -452,6 +452,13 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     assert_equal 'git', project.packaging_scm.type
     assert_equal "#{gitlab_dir}/calamares/neon/neon-pinebook", project.packaging_scm.url
     assert_equal 'kubuntu_unstable', project.packaging_scm.branch
+
+    project = projects[2]
+    refute_equal(project, nil)
+    assert_equal 'oem-config', project.name
+    assert_equal 'git', project.packaging_scm.type
+    assert_equal "#{gitlab_dir}/calamares/neon/oem/oem-config", project.packaging_scm.url
+    assert_equal 'kubuntu_unstable', project.packaging_scm.branch
   end
 
   def test_launchpad_understand
