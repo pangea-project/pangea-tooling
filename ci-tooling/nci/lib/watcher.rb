@@ -210,27 +210,6 @@ module NCI
       puts "git commit -a -m 'New release'"
       system("git commit -a -m 'New release'")
 
-      puts ENV.to_h
-      if CAUSE_ENVS.any? { |v| ENV[v] == MANUAL_CAUSE }
-        puts 'build was manually triggered. not sending info email'
-        return
-      end
-
-      puts 'sending notification mail'
-      Pangea::SMTP.start do |smtp|
-        mail = <<-MAIL
-From: Neon CI <no-reply@kde.org>
-To: neon-notifications@kde.org
-Subject: #{newest_dehs_package.name} new version #{newest}
-
-#{ENV['RUN_DISPLAY_URL']}
-
-#{newest_dehs_package.inspect}
-        MAIL
-        smtp.send_message(mail,
-                          'no-reply@kde.org',
-                          'neon-notifications@kde.org')
-      end
     end
   end
 end
