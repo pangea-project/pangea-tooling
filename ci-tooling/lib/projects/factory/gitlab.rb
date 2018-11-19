@@ -63,20 +63,22 @@ class ProjectsFactory
         @list_cache ||= {}
         return @list_cache[base] if @list_cache.key?(base)
         base_id = ::Gitlab.group_search(base)[0].id
+        # gitlab API is bit meh, when you ask path, it just returns parent subgroup
+        # so we, ask for path_with_namespace and strip the top-most group name
         repos = list_repos(base_id).collect { |x| x.split('/', 2)[-1] }
         @list_cache[base] = repos.freeze
       end
 
       def list_repos(group_id)
-        repos = []
         # Gitlab sends over paginated replies, make sure we iterate till
         # no more results are being returned.
-        repos += ::Gitlab.group_projects(group_id)
+        repos = ::Gitlab.group_projects(group_id)
                          .auto_paginate
                          .collect(&:path_with_namespace)
         repos += ::Gitlab.group_subgroups(group_id).auto_paginate.collect do |subgroup|
-          repos += list_repos(subgroup.id)
+          list_repos(subgroup.id)
         end
+        repos.flatten
       end
     end
   end
