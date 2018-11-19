@@ -43,9 +43,9 @@ class ProjectsFactory
 
     def split_entry(entry)
       parts = entry.split('/')
-      group = parts.length > 2 ? parts[0] : ''
-      name = parts[-1]
-      component = parts[-2] || 'gitlab'
+      name = parts.pop
+      component = parts.pop
+      group = parts.join('/')
       [name, component, group]
     end
 
@@ -62,16 +62,22 @@ class ProjectsFactory
       def ls(base)
         @list_cache ||= {}
         return @list_cache[base] if @list_cache.key?(base)
+        base_id = ::Gitlab.group_search(base)[0].id
+        repos = list_repos(base_id).collect { |x| x.split('/', 2)[-1] }
+        @list_cache[base] = repos.freeze
+      end
+
+      def list_repos(group_id)
+        repos = []
         # Gitlab sends over paginated replies, make sure we iterate till
         # no more results are being returned.
-        base_id = ::Gitlab.group_search(base)[0].id
-        repos = ::Gitlab.group_projects(base_id).auto_paginate.collect(&:path)
-        ::Gitlab.group_subgroups(base_id).auto_paginate.each do |subgroup|
-          ::Gitlab.group_projects(subgroup.id).each do |repo|
-            repos << "#{subgroup.path}/#{repo.path}"
-          end
+        repos += ::Gitlab.group_projects(group_id)
+                         .auto_paginate
+                         .collect(&:path_with_namespace)
+        ::Gitlab.group_subgroups(group_id).auto_paginate.each do |subgroup|
+          repos += list_repos(subgroup.id)
         end
-        @list_cache[base] = repos.freeze
+        return repos
       end
     end
   end

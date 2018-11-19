@@ -395,7 +395,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
   end
 
   def test_gitlab_from_list
-    gitlab_repos = %w(calamares/calamares-debian calamares/neon/neon-pinebook)
+    gitlab_repos = %w(calamares/calamares-debian calamares/neon/neon-pinebook
+                      calamares/neon/oem/oem-config)
     gitlab_dir = create_fake_git(branches: %w(master kubuntu_unstable),
                                  repos: gitlab_repos)
     ProjectsFactory::Gitlab.instance_variable_set(:@url_base, gitlab_dir)
@@ -403,32 +404,41 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     # mock the octokit query
     group = Struct.new(:id)
     subgroup = Struct.new(:id, :path)
-    resource = Struct.new(:path)
+    resource = Struct.new(:path_with_namespace)
     ::Gitlab.expects(:group_search)
             .returns([group.new('999')])
 
     response =
-      ::Gitlab::PaginatedResponse.new([resource.new('calamares-debian')])
+      ::Gitlab::PaginatedResponse.new([resource.new('calamares/calamares-debian')])
 
     subgroup_projects =
-      ::Gitlab::PaginatedResponse.new([resource.new('neon-pinebook')])
+      ::Gitlab::PaginatedResponse.new([resource.new('calamares/neon/neon-pinebook')])
 
+    recursive_projects =
+      ::Gitlab::PaginatedResponse.new([resource.new('calamares/neon/oem/oem-config')])
 
     ::Gitlab.expects(:group_projects)
-            .twice
-            .returns(response, subgroup_projects)
+            .times(3)
+            .returns(response, subgroup_projects, recursive_projects)
 
     subgroup_response =
       ::Gitlab::PaginatedResponse.new([subgroup.new('1000', 'neon')])
 
+    recursive_subgroup =
+      ::Gitlab::PaginatedResponse.new([subgroup.new('1001', 'oem')])
+
+    none_subgroup =
+      ::Gitlab::PaginatedResponse.new([])
+
     ::Gitlab.expects(:group_subgroups)
-            .returns(subgroup_response)
+            .times(3)
+            .returns(subgroup_response, recursive_subgroup, none_subgroup)
 
     factory = ProjectsFactory::Gitlab.new('gitlab.com')
-    projects = factory.factorize([{ 'calamares' => ['calamares-debian', 'neon/neon-pinebook'] }])
+    projects = factory.factorize([{ 'calamares' => ['calamares-debian', 'neon/neon-pinebook', 'neon/oem/oem-config'] }])
 
     refute_nil(projects)
-    assert_equal(2, projects.size)
+    assert_equal(3, projects.size)
     project = projects[0]
     refute_equal(project, nil)
     assert_equal 'calamares-debian', project.name
