@@ -111,6 +111,7 @@ class DeployTest < TestCase
     copy_data
 
     ENV['HOME'] = Dir.pwd
+    ENV['JENKINS_HOME'] = Dir.pwd
 
     vcr_it(__method__, erb: true) do |cassette|
       if cassette.recording?
@@ -137,6 +138,7 @@ class DeployTest < TestCase
     copy_data
 
     ENV['HOME'] = Dir.pwd
+    ENV['JENKINS_HOME'] = Dir.pwd
 
     vcr_it(__method__, erb: true) do |cassette|
       if cassette.recording?
