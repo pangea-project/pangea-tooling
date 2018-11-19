@@ -41,20 +41,20 @@ class ProjectsFactory
 
     private
 
-    # FIXME: same as in Neon except component is merged
     def split_entry(entry)
       parts = entry.split('/')
-      name = parts[-1]
-      component = parts[0..-2].join('_') || 'gitlab'
-      [name, component]
+      name = parts.pop
+      component = parts.pop
+      group = parts.join('/')
+      [name, component, group]
     end
 
     def params(str)
-      name, component = split_entry(str)
+      name, component, group = split_entry(str)
       default_params.merge(
         name: name,
         component: component,
-        url_base: self.class.url_base
+        url_base: "#{self.class.url_base}/#{group}"
       )
     end
 
@@ -62,12 +62,23 @@ class ProjectsFactory
       def ls(base)
         @list_cache ||= {}
         return @list_cache[base] if @list_cache.key?(base)
+        base_id = ::Gitlab.group_search(base)[0].id
+        # gitlab API is bit meh, when you ask path, it just returns parent subgroup
+        # so we, ask for path_with_namespace and strip the top-most group name
+        repos = list_repos(base_id).collect { |x| x.split('/', 2)[-1] }
+        @list_cache[base] = repos.freeze
+      end
+
+      def list_repos(group_id)
         # Gitlab sends over paginated replies, make sure we iterate till
         # no more results are being returned.
-
-        base_id = ::Gitlab.group_search(base)[0].id
-        repos = ::Gitlab.group_projects(base_id).auto_paginate
-        @list_cache[base] = repos.collect(&:path).freeze
+        repos = ::Gitlab.group_projects(group_id)
+                         .auto_paginate
+                         .collect(&:path_with_namespace)
+        repos += ::Gitlab.group_subgroups(group_id).auto_paginate.collect do |subgroup|
+          list_repos(subgroup.id)
+        end
+        repos.flatten
       end
     end
   end
