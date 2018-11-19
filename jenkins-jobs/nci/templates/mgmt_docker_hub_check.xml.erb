@@ -43,13 +43,11 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-<!-- now called by progenitor
   <triggers>
     <hudson.triggers.TimerTrigger>
       <spec>H H * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
--->
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
@@ -59,6 +57,13 @@
       </command>
     </hudson.tasks.Shell>
   </builders>
+  <publishers>
+    <hudson.tasks.Mailer plugin="mailer@1.20">
+      <recipients>neon-notifications@kde.org</recipients>
+      <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
+      <sendToIndividuals>false</sendToIndividuals>
+    </hudson.tasks.Mailer>
+  </publishers>
   <publishers>
     <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.20">
       <testResults>reports/*</testResults>

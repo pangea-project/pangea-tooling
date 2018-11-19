@@ -300,14 +300,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
 
     enqueue(MGMTDockerHubRebuild.new(dependees: []))
-    docker_hub_check = enqueue(MGMTDockerHubCheck.new(dependees: []))
+    enqueue(MGMTDockerHubCheck.new(dependees: []))
 
     # Watchers is a hash, only grab the actual jobs and enqueue them.
     watchers.each_value { |w| enqueue(w) }
 
     merger = enqueue(MetaMergeJob.new(downstream_jobs: all_mergers))
     progenitor = enqueue(
-      MgmtProgenitorJob.new(downstream_jobs: all_meta_builds + docker_hub_check,
+      MgmtProgenitorJob.new(downstream_jobs: all_meta_builds,
                             blockables: [merger])
     )
     enqueue(MGMTPauseIntegrationJob.new(downstreams: [progenitor]))
