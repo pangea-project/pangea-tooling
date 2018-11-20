@@ -135,6 +135,28 @@ module NCI
       puts 'unmangle debian/watch `git checkout debian/watch`'
       system('git checkout debian/watch')
 
+      # These parts get pre-released on server so don't pick them up automatically
+      if ENV['JOB_NAME'].include?('_kde_') and CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
+        puts 'KDE Plasma/Apps/Framework watcher should be run manually not by timer, quitting'
+        puts 'sending notification mail'
+        Pangea::SMTP.start do |smtp|
+            mail = <<-MAIL
+    From: Neon CI <no-reply@kde.org>
+    To: neon-notifications@kde.org
+    Subject: #{newest_dehs_package.name} new version #{newest}
+
+    New release being prepped, run jenkins_retry for this release near to release day.
+    #{ENV['RUN_DISPLAY_URL']}
+
+    #{newest_dehs_package.inspect}
+            MAIL
+            smtp.send_message(mail,
+                            'no-reply@kde.org',
+                            'neon-notifications@kde.org')
+        end
+        return
+      end
+
       cmd = TTY::Command.new
       cmd.run!('git status')
       merged = false
