@@ -139,7 +139,6 @@ module NCI
       if ENV['JOB_NAME'].include?('_kde_') and CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
         puts 'KDE Plasma/Apps/Framework watcher should be run manually not by timer, quitting'
         puts 'sending notification mail'
-        package = newer.values[-1][0] # group_by results in an array
         Pangea::SMTP.start do |smtp|
             mail = <<-MAIL
     From: Neon CI <no-reply@kde.org>
