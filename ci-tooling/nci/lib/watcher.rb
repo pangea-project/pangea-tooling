@@ -148,7 +148,6 @@ module NCI
     New release being prepped, run jenkins_retry for this release near to release day.
     #{ENV['RUN_DISPLAY_URL']}
 
-    #{newest_dehs_package.inspect}
             MAIL
             smtp.send_message(mail,
                             'no-reply@kde.org',
