@@ -100,7 +100,7 @@ module MGMT
         cmd << upgrade.from << upgrade.to
       end
       c = CI::Container.create(Image: base.to_s,
-                               WorkingDir: ENV.fetch('JENKINS_HOME'),
+                               WorkingDir: ENV.fetch('JENKINS_HOME', Dir.home),
                                Cmd: cmd,
                                binds: ["#{Dir.home}/tooling-pending:/tooling-pending"])
       unless @testing
