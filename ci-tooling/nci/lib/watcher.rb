@@ -143,9 +143,10 @@ module NCI
             mail = <<-MAIL
 From: Neon CI <no-reply@kde.org>
 To: neon-notifications@kde.org
-Subject: #{ENV['JOB_NAME']} new version
+Subject: #{ENV['JOB_NAME']} found a new version
 
-New release being prepped, run jenkins_retry for this release near to release day.
+New release found on the server but not building because it may not be public yet,
+run jenkins_retry manually for this release on release day.
 #{ENV['RUN_DISPLAY_URL']}
             MAIL
             smtp.send_message(mail,
