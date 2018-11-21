@@ -22,6 +22,8 @@
 # To only update some jobs run on drax with e.g.
 # NO_UPDATE=1 UPDATE_INCLUDE='_calamares_' ./tooling/jenkins_jobs_update_nci.rb
 
+require 'etc'
+
 require_relative 'ci-tooling/lib/nci'
 require_relative 'ci-tooling/lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
@@ -313,7 +315,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTPauseIntegrationJob.new(downstreams: [progenitor]))
     enqueue(MGMTAptlyJob.new(dependees: [progenitor]))
     enqueue(MGMTWorkspaceCleanerJob.new(dist: NCI.current_series))
-    docker = enqueue(MGMTDockerJob.new(dependees: []))
     enqueue(MGMTMergerDebianFrameworks.new)
     enqueue(MGMTGerminateJob.new(dist: NCI.current_series))
     enqueue(MGMTAppstreamHealthJob.new(dist: NCI.current_series))
@@ -378,7 +379,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTRepoUndoDivert.new(target: 'stable_bionic'))
     enqueue(MGMTRepoUndoDivert.new(target: 'stable_xenial'))
 
-    enqueue(MGMTToolingJob.new(downstreams: [docker],
+    enqueue(MGMTToolingJob.new(downstreams: [],
                                dependees: []))
     enqueue(MGMTRepoCleanupJob.new)
   end
