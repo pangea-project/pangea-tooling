@@ -35,10 +35,10 @@ rm -rf $dir
 mkdir -p $dir
 cd $dir
 
-git clone --depth 1 --branch Neon/unstable $NEON_GIT/neon/seeds neon.xenial
+git clone --depth 1 --branch Neon/unstable_xenial $NEON_GIT/neon/seeds neon.xenial
 git clone --depth 1 --branch xenial $UBUNTU_SEEDS/platform platform.xenial
 
-git clone --depth 1 --branch Neon/unstable_bionic $NEON_GIT/neon/seeds neon.bionic
+git clone --depth 1 --branch Neon/unstable $NEON_GIT/neon/seeds neon.bionic
 git clone --depth 1 --branch xenial $UBUNTU_SEEDS/platform platform.bionic
 
 cd $ROOT
