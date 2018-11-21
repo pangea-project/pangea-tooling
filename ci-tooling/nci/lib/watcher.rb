@@ -141,12 +141,12 @@ module NCI
         puts 'sending notification mail'
         Pangea::SMTP.start do |smtp|
             mail = <<-MAIL
-    From: Neon CI <no-reply@kde.org>
-    To: neon-notifications@kde.org
-    Subject: #{ENV['JOB_NAME']} new version
+From: Neon CI <no-reply@kde.org>
+To: neon-notifications@kde.org
+Subject: #{ENV['JOB_NAME']} new version
 
-    New release being prepped, run jenkins_retry for this release near to release day.
-    #{ENV['RUN_DISPLAY_URL']}
+New release being prepped, run jenkins_retry for this release near to release day.
+#{ENV['RUN_DISPLAY_URL']}
             MAIL
             smtp.send_message(mail,
                             'no-reply@kde.org',
