@@ -332,6 +332,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTJobUpdater.new)
     enqueue(MGMTDigitalOcean.new)
     enqueue(MGMTDigitalOceanDangler.new)
+    enqueue(MGMTSeedDeploy.new)
 
     # FIXME: this is hardcoded because we don't have a central map between
     #   'type' and repo path, additionally doing this programatically would
