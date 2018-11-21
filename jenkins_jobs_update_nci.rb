@@ -22,8 +22,6 @@
 # To only update some jobs run on drax with e.g.
 # NO_UPDATE=1 UPDATE_INCLUDE='_calamares_' ./tooling/jenkins_jobs_update_nci.rb
 
-require 'etc'
-
 require_relative 'ci-tooling/lib/nci'
 require_relative 'ci-tooling/lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
@@ -328,7 +326,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                        type: 'user-lts',
                                        dist: NCI.future_series))
     enqueue(MGMTJenkinsPruneParameterListJob.new)
-    enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTJobUpdater.new)
     enqueue(MGMTDigitalOcean.new)
