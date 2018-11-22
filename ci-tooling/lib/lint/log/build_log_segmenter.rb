@@ -35,5 +35,10 @@ module BuildLogSegmenter
     data.shift # Ditch start line
     data.pop # Ditch end line
     data
+  rescue ArgumentError => e
+    # FIXME: this is temporary debugging and should be removed. it makes the
+    # meth too long!
+    p [start_marker, end_marker, data]
+    raise e
   end
 end
