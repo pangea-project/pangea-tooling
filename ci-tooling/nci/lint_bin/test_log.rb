@@ -32,6 +32,7 @@ module Lint
       def log_orig
         @log_orig ||= Retry.retry_it(times: 2, sleep: 8) do
           uri = ENV.fetch('LOG_URL')
+          warn "Loading Build Log: #{uri}"
           io = open(uri)
           p io # FIXME: temporary debugging
           io.read.freeze
