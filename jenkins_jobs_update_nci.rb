@@ -319,13 +319,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTAppstreamHealthJob.new(dist: NCI.current_series))
     if NCI.future_series
       enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
+      enqueue(MGMTAppstreamGenerator.new(repo: 'user',
+                                        type: 'user',
+                                        dist: NCI.future_series))
+      enqueue(MGMTAppstreamGenerator.new(repo: 'user/lts',
+                                        type: 'user-lts',
+                                        dist: NCI.future_series))
     end
-    enqueue(MGMTAppstreamGenerator.new(repo: 'user',
-                                       type: 'user',
-                                       dist: NCI.future_series))
-    enqueue(MGMTAppstreamGenerator.new(repo: 'user/lts',
-                                       type: 'user-lts',
-                                       dist: NCI.future_series))
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsArchive.new)
     enqueue(MGMTGitSemaphoreJob.new)
@@ -363,8 +363,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     enqueue(MGMTSnapshotUser.new(dist: NCI.current_series))
     enqueue(MGMTSnapshotUserLTS.new(dist: NCI.current_series))
-    enqueue(MGMTSnapshotUser.new(dist: NCI.future_series))
-    enqueue(MGMTSnapshotUserLTS.new(dist: NCI.future_series))
+    if NCI.future_series
+      enqueue(MGMTSnapshotUser.new(dist: NCI.future_series))
+      enqueue(MGMTSnapshotUserLTS.new(dist: NCI.future_series))
+    end
 
     enqueue(MGMTRepoDivert.new(target: 'unstable_bionic'))
     enqueue(MGMTRepoDivert.new(target: 'unstable_xenial'))
