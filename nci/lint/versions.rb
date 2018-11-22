@@ -49,6 +49,10 @@ module NCI
       "#{ENV.fetch('TYPE')}_#{NCI.current_series}"
     end
 
+    def self.old_repo
+      "#{ENV.fetch('TYPE')}_#{NCI.old_series}"
+    end
+
     def initialize(repo = Aptly::Repository.get(self.class.default_repo))
       @repo = repo
     end
