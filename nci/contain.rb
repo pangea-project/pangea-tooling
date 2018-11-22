@@ -29,7 +29,7 @@ PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
 PANGEA_MAIL_CONFIG_PATH = ENV.fetch('PANGEA_MAIL_CONFIG_PATH', nil)
 
 # Whitelist a bunch of Jenkins variables for consumption inside the container.
-whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
+whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME BUILD_URL
                NODE_NAME NODE_LABELS
                PANGEA_PROVISION_AUTOINST
                DH_VERBOSE
