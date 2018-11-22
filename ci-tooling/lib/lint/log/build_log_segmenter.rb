@@ -27,8 +27,10 @@ module BuildLogSegmenter
   def segmentify(data, start_marker, end_marker)
     start_index = data.index(start_marker)
     raise SegmentMissingError, "missing #{start_marker}" unless start_index
+
     end_index = data.index(end_marker, start_index)
     raise SegmentMissingError, "missing #{end_marker}" unless end_index
+
     data = data.slice(start_index..end_index).split("\n")
     data.shift # Ditch start line
     data.pop # Ditch end line
