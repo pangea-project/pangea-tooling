@@ -44,3 +44,9 @@ Lint/UnneededSplatExpansion:
 # are generally giving json over the wire)
 Security/YAMLLoad:
   Enabled: false
+
+# This is not a web application. If we can't trust the data we open then we may
+# as well quit our jobs and become bards traveling the lands to sing the tales
+# of Brave Sir Robin.
+Security/Open:
+  Enabled: false
