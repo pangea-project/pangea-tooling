@@ -71,6 +71,8 @@ module NCI
         # Array<String>
         attr_accessor :build_packages
         # Array<String>
+        attr_accessor :build_snaps
+        # Array<String>
         attr_accessor :stage_packages
         # Hash
         attr_accessor :filesets
