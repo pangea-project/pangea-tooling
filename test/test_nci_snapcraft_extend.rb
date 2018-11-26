@@ -33,9 +33,9 @@ module NCI::Snap
       FileUtils.cp_r(data('source'), '.')
       FileUtils.mv('source/git', 'source/.git')
 
-      stub_request(:get, Extender::STAGED_CONTENT_PATH).
+      stub_request(:get, Extender::Core16::STAGED_CONTENT_PATH).
         to_return(status: 200, body: JSON.generate(['bar']))
-      stub_request(:get, Extender::STAGED_DEV_PATH).
+      stub_request(:get, Extender::Core16::STAGED_DEV_PATH).
         to_return(status: 200, body: JSON.generate(['bar-dev']))
 
       assert_path_not_exist('snapcraft.yaml')
@@ -59,9 +59,9 @@ module NCI::Snap
     def test_release_no_gitification
       ENV['TYPE'] = 'release-lts'
 
-      stub_request(:get, Extender::STAGED_CONTENT_PATH).
+      stub_request(:get, Extender::Core16::STAGED_CONTENT_PATH).
         to_return(status: 200, body: JSON.generate(['bar']))
-      stub_request(:get, Extender::STAGED_DEV_PATH).
+      stub_request(:get, Extender::Core16::STAGED_DEV_PATH).
         to_return(status: 200, body: JSON.generate(['bar-dev']))
 
       assert_path_not_exist('snapcraft.yaml')
@@ -70,6 +70,28 @@ module NCI::Snap
       data = YAML.load_file('snapcraft.yaml')
       ref = YAML.load_file(data('output.yaml'))
       assert_equal(ref, data)
+    end
+
+    def test_extend_core18
+      # source is a symlink, dereference it
+      FileUtils.mkpath('source')
+      FileUtils.cp_r(data('source/.'), 'source/', verbose: true)
+
+      FileUtils.mv('source/git', 'source/.git')
+
+      stub_request(:get, Extender::Core18::STAGED_CONTENT_PATH)
+        .to_return(status: 200, body: JSON.generate(['bar']))
+      stub_request(:get, Extender::Core18::STAGED_DEV_PATH)
+        .to_return(status: 200, body: JSON.generate(['bar-dev']))
+
+      assert_path_not_exist('snapcraft.yaml')
+      Extender.extend(data('snapcraft.yaml'))
+      assert_path_exist('snapcraft.yaml')
+      data = YAML.load_file('snapcraft.yaml')
+      ref = YAML.load_file(data('output.yaml'))
+      assert_equal(ref, data)
+
+      assert_path_exist('snap/plugins/x-stage-debs.py')
     end
   end
 end

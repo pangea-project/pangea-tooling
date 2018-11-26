@@ -1,0 +1,91 @@
+---
+name: kolourpaint
+version: master+8f70cce
+summary: An easy-to-use paint program
+description: xxxx
+confinement: strict
+grade: stable
+base: core18
+apps:
+  kolourpaint:
+    command: kf5-launch kolourpaint
+    plugs:
+    - kde-frameworks-5-plug
+    - yyyy
+plugs:
+  kde-frameworks-5-plug:
+    content: kde-frameworks-5-all
+    interface: content
+    default-provider: kde-frameworks-5
+    target: kf5
+parts:
+  kde-frameworks-5-env:
+    plugin: dump
+    filesets:
+      exclusion:
+      - "-usr/lib/*/cmake/*"
+      - "-usr/include/*"
+      - "-usr/share/ECM/*"
+      - "-usr/share/doc/*"
+      - "-usr/share/man/*"
+      - "-usr/share/icons/breeze-dark*"
+      - "-usr/bin/X11"
+      - "-usr/lib/gcc/x86_64-linux-gnu/6.0.0"
+      - "-usr/lib/aspell/*"
+    prime:
+    - kf5-launch
+    - kf5-portal-launch
+    - kf5
+    - "$exclusion"
+    source: https://github.com/apachelogger/kf5-snap-env.git
+  kolourpaint:
+    after:
+    - kde-frameworks-5-env
+    - runtime-of-kolourpaint
+    plugin: cmake
+    build-packages:
+    - foo-dev
+    build-snap:
+    - kde-frameworks-5-dev
+    filesets:
+      exclusion:
+      - "-usr/lib/*/cmake/*"
+      - "-usr/include/*"
+      - "-usr/share/ECM/*"
+      - "-usr/share/doc/*"
+      - "-usr/share/man/*"
+      - "-usr/share/icons/breeze-dark*"
+      - "-usr/bin/X11"
+      - "-usr/lib/gcc/x86_64-linux-gnu/6.0.0"
+      - "-usr/lib/aspell/*"
+    prime:
+    - "$exclusion"
+    source: https://anongit.kde.org/kolourpaint
+    source-type: git
+    source-commit: 8f70cceda10f93f5981191fdb9f2ee2a9482a5c2
+    configflags:
+    - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+    - "-DCMAKE_INSTALL_PREFIX=/usr"
+    - "-DCMAKE_BUILD_TYPE=Release"
+    - "-DENABLE_TESTING=OFF"
+    - "-DBUILD_TESTING=OFF"
+    - "-DKDE_SKIP_TEST_SETTINGS=ON"
+  runtime-of-kolourpaint:
+    plugin: stage-debs
+    filesets:
+      exclusion:
+      - "-usr/lib/*/cmake/*"
+      - "-usr/include/*"
+      - "-usr/share/ECM/*"
+      - "-usr/share/doc/*"
+      - "-usr/share/man/*"
+      - "-usr/share/icons/breeze-dark*"
+      - "-usr/bin/X11"
+      - "-usr/lib/gcc/x86_64-linux-gnu/6.0.0"
+      - "-usr/lib/aspell/*"
+    prime:
+    - "$exclusion"
+    debs:
+    - foo
+    exclude-debs:
+    - bar

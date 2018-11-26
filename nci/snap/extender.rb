@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2017-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -29,25 +29,65 @@ require_relative 'snapcraft_config'
 module NCI
   module Snap
     # Extends a snapcraft file with code necessary to use the content snap.
-    module Extender
-      module_function
+    class Extender
+      module Core16
+        STAGED_CONTENT_PATH = 'https://build.neon.kde.org/job/kde-frameworks-5-release_amd64.snap/lastSuccessfulBuild/artifact/stage-content.json'
+        STAGED_DEV_PATH = 'https://build.neon.kde.org/job/kde-frameworks-5-release_amd64.snap/lastSuccessfulBuild/artifact/stage-dev.json'
+      end
+      module Core18
+        STAGED_CONTENT_PATH = 'https://build.neon.kde.org/job/kde-frameworks-5-core18-release_amd64.snap/lastSuccessfulBuild/artifact/stage-content.json'
+        STAGED_DEV_PATH = 'https://build.neon.kde.org/job/kde-frameworks-5-core18-release_amd64.snap/lastSuccessfulBuild/artifact/stage-dev.json'
+      end
 
-      STAGED_CONTENT_PATH = 'https://build.neon.kde.org/job/kde-frameworks-5-release_amd64.snap/lastSuccessfulBuild/artifact/stage-content.json'
-      STAGED_DEV_PATH = 'https://build.neon.kde.org/job/kde-frameworks-5-release_amd64.snap/lastSuccessfulBuild/artifact/stage-dev.json'
+      class << self
+        def extend(file)
+          new(file).extend
+        end
+
+        def run
+          extend(ARGV.fetch(0, "#{Dir.pwd}/snapcraft.yaml"))
+        end
+      end
+
+      def initialize(file)
+        @data = YAML.load_file(file)
+        require 'pp'
+        pp data
+        data['parts'].each do |k, v|
+          data['parts'][k] = SnapcraftConfig::Part.new(v)
+        end
+        setup_base
+      end
+
+      def extend
+        convert_source!
+        convert_to_deb_staging!
+        add_plugins!
+
+        File.write('snapcraft.yaml', YAML.dump(data))
+      end
+
+      private
+
+      attr_reader :data
+
+      def setup_base
+        case data['base']
+        when 'core18'
+          @base = Core18
+        when 'core16', nil
+          @base = Core16
+        else
+          raise "Do not know how to handle base value #{data[base].inspects}"
+        end
+      end
 
       def snapname
         @snapname ||= ENV.fetch('APPNAME')
       end
 
       def content_stage
-        @content_stage ||= JSON.parse(open(STAGED_CONTENT_PATH).read)
-      end
-
-      def dev_stage
-        @dev_stage ||= begin
-          stage = JSON.parse(open(STAGED_DEV_PATH).read)
-          stage.reject { |x| x.include?('doctools') }
-        end
+        @content_stage ||= JSON.parse(open(@base::STAGED_CONTENT_PATH).read)
       end
 
       def add_runtime(name, part)
@@ -77,19 +117,6 @@ module NCI
         data['version'] = [repo_branch, oid].join('+').tr('/', '.')
       end
 
-      def data
-        @data
-      end
-
-      def load(file)
-        @data = YAML.load_file(file)
-        require 'pp'
-        pp data
-        data['parts'].each do |k, v|
-          data['parts'][k] = SnapcraftConfig::Part.new(v)
-        end
-      end
-
       def runtimes
         data['parts'].reject do |_name, part|
           part.stage_packages.empty? || part.plugin == 'stage-debs'
@@ -109,28 +136,13 @@ module NCI
       def convert_source!
         if ENV.fetch('TYPE', 'unstable').include?('release')
           raise "Devel grade can't be TYPE release" if data['grade'] == 'devel'
+
           data['parts'].each_value do |part|
             raise 'Contains git source' if part.source.include?('git.kde')
           end
         else
           convert_to_git!
         end
-      end
-
-      def extend(file)
-        load(file)
-
-        convert_source!
-        convert_to_deb_staging!
-        add_plugins!
-
-        p Dir.pwd
-        p file
-        File.write('snapcraft.yaml', YAML.dump(data))
-      end
-
-      def run
-        extend(ARGV.fetch(0, "#{Dir.pwd}/snapcraft.yaml"))
       end
     end
   end
