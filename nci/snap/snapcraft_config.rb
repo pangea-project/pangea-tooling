@@ -128,7 +128,7 @@ module NCI
           ]
           @stage ||= []
           @snap ||= []
-          @snap += %w[$exclusion]
+          @snap += %w[$exclusion] unless @snap.include?('$exclusion')
         end
 
         def from_h(h)
