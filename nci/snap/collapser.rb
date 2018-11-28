@@ -43,7 +43,7 @@ module NCI
         Dir.mktmpdir do |tmpdir|
           file = download_into(tmpdir)
 
-          FileUtils.mkpath(snap_dir, verbose: true)
+          FileUtils.mkpath(snap_dir) if Process.uid.zero?
           @cmd.run('unsquashfs', '-d', target_dir, file)
         end
         target_dir
