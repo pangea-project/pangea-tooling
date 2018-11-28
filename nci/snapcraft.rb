@@ -38,12 +38,13 @@ if $PROGRAM_NAME == __FILE__
                          '/usr/local/share:/usr/share'
   # Use our own remote parts file.
   ENV['SNAPCRAFT_PARTS_URI'] = 'https://metadata.neon.kde.org/snap/parts.yaml'
+  # snapd is necessary for the snap CLI so we can download build-snaps.
   # docbook-xml and docbook-xsl are loaded by kdoctools through hardcoded paths.
   # FIXME libdrm-dev is pulled in because libqt5gui's cmake currently has its
   #   include path hard compiled and thus isn't picked up from the stage
   #   directory (which in turn already contains it because of the content
   #   snap dev tarball)
-  Apt.install(%w[snapcraft docbook-xml docbook-xsl libdrm-dev])
+  Apt.install(%w[snapcraft docbook-xml docbook-xsl libdrm-dev snapd])
   NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run
   TTY::Command.new(uuid: false).run('snapcraft --debug')
 end
