@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2017-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -24,12 +24,15 @@ require 'tty/command'
 require_relative '../ci-tooling/lib/apt'
 require_relative '../ci-tooling/nci/lib/setup_repo'
 
+require_relative 'snap/collapser'
+
 if $PROGRAM_NAME == __FILE__
   ENV['TERM'] = 'dumb' # make snpacraft not give garbage progress spam
   STDOUT.sync = true
   NCI.setup_repo!
   # KDoctools is rubbish and lets meinproc resolve asset paths through
   #  QStandardPaths *AT BUILD TIME*.
+  # TODO: can be dropped when build-snap transition is done.
   ENV['XDG_DATA_DIRS'] = "#{Dir.pwd}/stage/usr/local/share:" \
                          "#{Dir.pwd}/stage/usr/share:" \
                          '/usr/local/share:/usr/share'
@@ -41,5 +44,6 @@ if $PROGRAM_NAME == __FILE__
   #   directory (which in turn already contains it because of the content
   #   snap dev tarball)
   Apt.install(%w[snapcraft docbook-xml docbook-xsl libdrm-dev])
+  NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run
   TTY::Command.new(uuid: false).run('snapcraft --debug')
 end
