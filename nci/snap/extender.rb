@@ -75,11 +75,21 @@ module NCI
         case data['base']
         when 'core18'
           @base = Core18
+          raise 'Trying to build core18 snap on not 18.04' unless bionic?
         when 'core16', nil
           @base = Core16
+          raise 'Trying to build core16 snap on not 18.04' unless xenial?
         else
           raise "Do not know how to handle base value #{data[base].inspects}"
         end
+      end
+
+      def bionic?
+        ENV.fetch('DIST') == 'bionic'
+      end
+
+      def xenial?
+        ENV.fetch('DIST') == 'xenial'
       end
 
       def snapname

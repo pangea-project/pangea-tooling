@@ -27,6 +27,7 @@ module NCI::Snap
   class Extendertest < TestCase
     def setup
       ENV['APPNAME'] = 'kolourpaint'
+      ENV['DIST'] = 'xenial'
     end
 
     def test_extend
@@ -73,6 +74,8 @@ module NCI::Snap
     end
 
     def test_extend_core18
+      ENV['DIST'] = 'bionic'
+
       # source is a symlink, dereference it
       FileUtils.mkpath('source')
       FileUtils.cp_r(data('source/.'), 'source/', verbose: true)
