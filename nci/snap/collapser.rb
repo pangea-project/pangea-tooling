@@ -114,8 +114,10 @@ module NCI
     # they can be used without snapd.
     class BuildSnapCollapser
       attr_reader :data
+      attr_reader :orig_path
 
       def initialize(snapcraft_yaml)
+        @orig_path = File.absolute_path(snapcraft_yaml)
         @data = YAML.load_file(snapcraft_yaml)
         data['parts'].each do |k, v|
           data['parts'][k] = SnapcraftConfig::Part.new(v)
@@ -123,10 +125,18 @@ module NCI
         @cmd = TTY::Command.new(uuid: false)
       end
 
+      # Temporariy collapses the snapcraft.yaml, must get a block. The file
+      # is un-collapsed once the method returns!
       def run
+        bak_path = "#{@orig_path}.bak"
+        FileUtils.cp(@orig_path, bak_path, verbose: true)
         data['parts'].each_value do |part|
           BuildSnapPartCollapser.new(part).run
         end
+        File.write(@orig_path, YAML.dump(data))
+        yield
+      ensure
+        FileUtils.mv(bak_path, @orig_path, verbose: true)
       end
     end
   end

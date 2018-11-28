@@ -1,0 +1,31 @@
+---
+name: kblocks
+version: 18.08.2
+summary: xx
+description: KBlocks is the classic falling blocks game. The idea is to stack the
+confinement: strict
+grade: stable
+base: core18
+parts:
+  kblocks:
+    plugin: cmake
+    build-packages:
+    - libkf5kdegames-dev
+    build-snaps:
+    - kde-frameworks-5-core18-sdk/latest/edge
+    filesets:
+      exclusion:
+      - "-usr/lib/*/cmake/*"
+      - "-usr/include/*"
+      - "-usr/share/ECM/*"
+      - "-usr/share/doc/*"
+      - "-usr/share/man/*"
+      - "-usr/share/icons/breeze-dark*"
+      - "-usr/bin/X11"
+      - "-usr/lib/gcc/x86_64-linux-gnu/6.0.0"
+      - "-usr/lib/aspell/*"
+    prime:
+    - "$exclusion"
+    source: https://anongit.kde.org/kblocks.git
+    configflags:
+    - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"

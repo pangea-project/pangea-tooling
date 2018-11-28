@@ -45,6 +45,7 @@ if $PROGRAM_NAME == __FILE__
   #   directory (which in turn already contains it because of the content
   #   snap dev tarball)
   Apt.install(%w[snapcraft docbook-xml docbook-xsl libdrm-dev snapd])
-  NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run
-  TTY::Command.new(uuid: false).run('snapcraft --debug')
+  NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
+    TTY::Command.new(uuid: false).run('snapcraft --debug')
+  end
 end

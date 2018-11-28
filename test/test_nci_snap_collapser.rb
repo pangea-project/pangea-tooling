@@ -95,7 +95,17 @@ module NCI::Snap
       part_collapser.expects(:run)
 
       FileUtils.cp(data('snapcraft.yaml'), Dir.pwd)
-      BuildSnapCollapser.new('snapcraft.yaml').run
+      FileUtils.cp(data('snapcraft.yaml.ref'), Dir.pwd)
+
+      orig_data = YAML.load_file('snapcraft.yaml')
+      data = nil
+      BuildSnapCollapser.new('snapcraft.yaml').run do
+        ref = YAML.load_file('snapcraft.yaml.ref')
+        data = YAML.load_file('snapcraft.yaml')
+        assert_equal(ref, data)
+      end
+      data = YAML.load_file('snapcraft.yaml')
+      assert_equal(orig_data, data)
     end
   end
 end
