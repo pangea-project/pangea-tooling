@@ -77,12 +77,22 @@ module NCI
         # Drop ids and fill root_paths
         ids_to_root_paths!
         extend_xdg_data_dirs!
-        # Then add all unpacked paths as root path for cmake.
-        part.configflags ||= []
-        part.configflags << "-DCMAKE_FIND_ROOT_PATH=#{root_paths.join(';')}"
+        extend_configflags!
       end
 
       private
+
+      def extend_configflags!
+        # Then add all unpacked paths as root path for cmake.
+        part.configflags ||= []
+        part.configflags.reject! do |flag|
+          name, value = flag.split('=', 2)
+          next false unless name == '-DCMAKE_FIND_ROOT_PATH'
+
+          root_paths << value
+        end
+        part.configflags << "-DCMAKE_FIND_ROOT_PATH=#{root_paths.join(';')}"
+      end
 
       def extend_xdg_data_dirs!
         # KDoctools is rubbish and lets meinproc resolve asset paths through
