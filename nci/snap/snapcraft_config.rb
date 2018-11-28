@@ -113,8 +113,6 @@ module NCI
           @stage_packages ||= []
           @filesets ||= {}
           @filesets['exclusion'] ||= []
-          # TODO: aspell is presently being ripped out because it has absolute
-          #   symlinks to out-of-tree which the store rejects. Needs sorting.
           @filesets['exclusion'] += %w[
             -usr/lib/*/cmake/*
             -usr/include/*
@@ -126,6 +124,7 @@ module NCI
             -usr/lib/gcc/x86_64-linux-gnu/6.0.0
             -usr/lib/aspell/*
           ]
+          @filesets['exclusion'].uniq!
           @stage ||= []
           @snap ||= []
           @snap += %w[$exclusion] unless @snap.include?('$exclusion')
