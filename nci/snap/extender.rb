@@ -51,8 +51,6 @@ module NCI
 
       def initialize(file)
         @data = YAML.load_file(file)
-        require 'pp'
-        pp data
         data['parts'].each do |k, v|
           data['parts'][k] = SnapcraftConfig::Part.new(v)
         end
