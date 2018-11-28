@@ -20,12 +20,8 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'aptly'
-require 'date'
 require 'terminal-table'
-
-require_relative '../lib/aptly-ext/filter'
-require_relative '../lib/nci'
-require_relative '../lib/optparse'
+require_relative 'lib/repo_diff'
 
 dist = NCI.current_series
 
@@ -39,43 +35,13 @@ parser = OptionParser.new do |opts|
 end
 parser.parse!
 
-puts "Checking dist: #{dist}"
-
 Aptly.configure do |config|
   config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')
   # This is read-only.
 end
 
-all_pubs = Aptly::PublishedRepository.list
-pubs = []
-ARGV.each do |arg|
-  pubs << all_pubs.find { |x| x.Prefix == arg && x.Distribution == dist }
-end
-packages_for_pubs = {}
-pubs.each do |pub|
-  packages_for_pubs[pub] = pub.Sources.collect do |x|
-    x.packages(q: '$Architecture (source)')
-  end.flatten.uniq
-end
+puts "Checking dist: #{dist}"
 
-packages_for_pubs.each_slice(2) do |x|
-  one = x[0]
-  two = x.fetch(1, nil)
-  raise 'Uneven amount of publishing endpoints' unless two
-
-  puts "\nOnly in #{one[0].Prefix}"
-  only_in_one = one[1] - two[1]
-  only_in_one = Aptly::Ext::LatestVersionFilter.filter(only_in_one)
-  packages_in_two = Aptly::Ext::LatestVersionFilter.filter(two[1])
-  packages_in_two = packages_in_two.group_by(&:name)
-
-  rows = []
-  only_in_one.sort_by!(&:name)
-  only_in_one.each do |package|
-    new_version = package.version
-    old_version = packages_in_two.fetch(package.name, nil)
-    old_version = old_version ? old_version[0].version : ''
-    rows << [package.name, package.architecture, new_version, old_version]
-  end
-  puts Terminal::Table.new(rows: rows)
-end
+differ = RepoDiff.new
+rows = differ.diff_repo(ARGV[0], ARGV[1], dist)
+puts Terminal::Table.new(rows: rows)
