@@ -45,7 +45,7 @@ parts:
     plugin: cmake
     build-packages:
     - foo-dev
-    build-snap:
+    build-snaps:
     - kde-frameworks-5-dev
     filesets:
       exclusion:
