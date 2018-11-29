@@ -169,8 +169,10 @@ class DeployTest < TestCase
     copy_data
     ENV['HOME'] = Dir.pwd
 
+    vcr_recording = nil
     vcr_it(__method__, erb: true) do |cassette|
-      if cassette.recording?
+      vcr_recording = cassette.recording?
+      if vcr_recording
         VCR.eject_cassette
         VCR.turned_off do
           remove_base(:ubuntu, 'wily')
@@ -192,7 +194,7 @@ class DeployTest < TestCase
     end
   ensure
     VCR.turned_off do
-      remove_base(:ubuntu, __method__)
+      remove_base(:ubuntu, __method__) if vcr_recording
     end
   end
 
