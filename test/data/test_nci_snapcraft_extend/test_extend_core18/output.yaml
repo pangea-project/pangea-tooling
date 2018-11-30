@@ -41,7 +41,6 @@ parts:
   kolourpaint:
     after:
     - kde-frameworks-5-env
-    - runtime-of-kolourpaint
     plugin: cmake
     build-packages:
     - foo-dev
@@ -71,6 +70,7 @@ parts:
     - "-DBUILD_TESTING=OFF"
     - "-DKDE_SKIP_TEST_SETTINGS=ON"
   runtime-of-kolourpaint:
+    after: [kolourpaint]
     plugin: stage-debs
     filesets:
       exclusion:

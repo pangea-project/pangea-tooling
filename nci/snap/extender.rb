@@ -106,10 +106,11 @@ module NCI
         runtime.plugin = 'stage-debs'
         runtime.debs = debs
         runtime.exclude_debs = content_stage.uniq.compact
+        runtime.after ||= []
+        runtime.after << name
         # Part has a standard exclusion rule for priming which should be fine.
         runname = "runtime-of-#{name}"
         @data['parts'][runname] = runtime
-        part.after << runname
       end
 
       def convert_to_git!
