@@ -180,7 +180,7 @@ class ProjectTest < TestCase
   # Attempt to clone a bad repo. Should result in error!
   def test_init_bad_repo
     assert_raise Project::GitTransactionError do
-      Project.new('tn', 'tc', 'file:///yolo', branch: 'kittens')
+      Project.new('tn', 'tc', 'git://foo.bar.ja', branch: 'kittens')
     end
   end
 
