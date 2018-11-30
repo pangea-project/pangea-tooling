@@ -60,7 +60,8 @@ end
 tmpdir = "/home/neonarchives/asgen_push.#{APTLY_REPOSITORY.tr('/', '-')}"
 targetdir = "/home/neonarchives/aptly/skel/#{APTLY_REPOSITORY}/dists/#{DIST}"
 
-Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives') do |sftp|
+Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives',
+                keys: ENV.fetch('SSH_KEY_FILE'), keys_only: true) do |sftp|
   puts sftp.session.exec!("rm -rf #{tmpdir}")
   puts sftp.session.exec!("mkdir -p #{tmpdir}")
 

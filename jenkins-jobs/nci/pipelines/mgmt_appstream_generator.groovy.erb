@@ -15,12 +15,13 @@ node('master') {
 
             stage('generate') {
                 sh '~/tooling/nci/contain.rb /tooling/nci/asgen.rb'
-                sh 'tree asgen/run/' // Debug
             }
 
             stage('publish') {
                 dir('asgen') {
-                    sh '~/tooling/nci/asgen_push.rb'
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: '')]) {
+                      sh '~/tooling/nci/asgen_push.rb'
+                    }
                 }
             }
         }
