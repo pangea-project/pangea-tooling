@@ -44,7 +44,6 @@ cleanNode('master') {
   stage('publish') {
     unstash 'snaps'
     sh 'env'
-    sh 'tree || ls -lahR'
     // Temporary workspace during pipeline execution can't be accessed via UI, so
     // this should be save.
     // Even so we should move to a contain.rb which forward mounts the snapcraft
