@@ -48,6 +48,7 @@ class NCIWatcherTest < TestCase
   end
 
   def test_run
+    require_binaries(%w[dch])
     smtp = mock('smtp')
     smtp.expects(:send_message).with do |_body, from, to|
       from == 'no-reply@kde.org' && to == 'neon-notifications@kde.org'
