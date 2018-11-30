@@ -101,6 +101,9 @@ module NCI
 
         attr_accessor :configflags
 
+        # Array<String>
+        attr_accessor :build_attributes
+
         def initialize(hash = {})
           from_h(hash)
           init_defaults
@@ -128,6 +131,14 @@ module NCI
           @stage ||= []
           @snap ||= []
           @snap += %w[$exclusion] unless @snap.include?('$exclusion')
+          # Make sure we do not pull-in system libraries. This is the default
+          # in snapcraft master as of 2018-11-30 (earlier too) and is necessary
+          # to not end up pulling things from the content/build snap.
+          # FIXME: this also hides the warning about files, so we want to
+          #   get rid of this ASAP as it hides valuable information.
+          @build_attributes ||= []
+          @build_attributes += %w[no-system-libraries]
+          @build_attributes.uniq!
         end
 
         def from_h(h)
