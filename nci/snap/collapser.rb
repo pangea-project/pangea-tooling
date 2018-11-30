@@ -76,6 +76,12 @@ module NCI
       def run
         # Drop ids and fill root_paths
         ids_to_root_paths!
+        # Return if no paths were found. Do note that the above method
+        # asserts that only cmake plugins may have build-snaps, so the following
+        # calls would only happen iff build-snaps are set AND the plugin type
+        # is in fact supported.
+        return if @root_paths.empty?
+
         extend_xdg_data_dirs!
         extend_configflags!
       end
