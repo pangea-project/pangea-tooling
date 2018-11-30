@@ -85,6 +85,7 @@ module NCI
       def extend_configflags!
         # Then add all unpacked paths as root path for cmake.
         return unless part.configflags
+
         part.configflags.reject! do |flag|
           name, value = flag.split('=', 2)
           next false unless name == '-DCMAKE_FIND_ROOT_PATH'
