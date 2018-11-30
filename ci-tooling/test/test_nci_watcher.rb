@@ -101,6 +101,7 @@ class NCIWatcherTest < TestCase
   end
 
   def test_no_mail_on_manual_trigger
+    require_binaries(%w[dch])
     Pangea::SMTP.expects(:start).never
 
     ENV['BUILD_CAUSE'] = 'MANUALTRIGGER'
