@@ -32,7 +32,8 @@ if $PROGRAM_NAME == __FILE__
   NCI.setup_repo!
   # KDoctools is rubbish and lets meinproc resolve asset paths through
   #  QStandardPaths *AT BUILD TIME*.
-  # TODO: can be dropped when build-snap transition is done.
+  # TODO: can be dropped when build-snap transition is done (this completely
+  #   moved to SDK wrappers; see also similar comment in collapser.rb)
   ENV['XDG_DATA_DIRS'] = "#{Dir.pwd}/stage/usr/local/share:" \
                          "#{Dir.pwd}/stage/usr/share:" \
                          '/usr/local/share:/usr/share'
