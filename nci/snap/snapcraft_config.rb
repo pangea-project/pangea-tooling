@@ -136,6 +136,7 @@ module NCI
           # to not end up pulling things from the content/build snap.
           # FIXME: this also hides the warning about files, so we want to
           #   get rid of this ASAP as it hides valuable information.
+          return if ENV['PANGEA_UNDER_TEST']
           @build_attributes ||= []
           @build_attributes += %w[no-system-libraries]
           @build_attributes.uniq!
