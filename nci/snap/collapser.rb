@@ -98,8 +98,11 @@ module NCI
         # KDoctools is rubbish and lets meinproc resolve asset paths through
         #  QStandardPaths *AT BUILD TIME*. So, we need to set up
         #  paths correctly.
+        # FIXME: this actually moved into the SDK wrapper and can be dropped
+        #   in 2019 or so.
         ENV['XDG_DATA_DIRS'] ||= '/usr/local/share:/usr/share'
-        ENV['XDG_DATA_DIRS'] = "#{root_paths.join(':')}:#{ENV['XDG_DATA_DIRS']}"
+        data_paths = root_paths.map { |x| File.join(x, '/usr/share') }
+        ENV['XDG_DATA_DIRS'] = "#{data_paths.join(':')}:#{ENV['XDG_DATA_DIRS']}"
       end
 
       def ids_to_root_paths!
