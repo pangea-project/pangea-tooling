@@ -52,7 +52,7 @@ class NCITest < TestCase
   end
 
   def test_freeze
-    assert_raises RuntimeError do
+    assert_raises do
       NCI.architectures << 'amd64'
     end
   end
