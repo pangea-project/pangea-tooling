@@ -77,6 +77,13 @@ class StabeDebsPlugin(snapcraft.BasePlugin):
 
         logger.debug(os.getcwd())
         if self.options.debs:
+            # First wipe auto marked packages, so we may have a better chance
+            # of getting the dependencies we actually need on top of core.
+            # Otherwise the system may include build-packages from previous
+            # parts and not download necessary packages.
+            remove_cmd = ['apt-get', '-y', 'autoremove']
+            subprocess.check_call(remove_cmd, cwd=self.builddir)
+
             cmd = ['apt-get',
                    '-y',
                    '-o', 'Debug::NoLocking=true',
