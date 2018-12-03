@@ -73,10 +73,12 @@ end
 FileUtils.rm_rf(repo_dir)
 
 pubdir = "/var/www/metadata/appstream/#{TYPE}_#{DIST}"
-Net::SFTP.start('drax.kde.org', 'metadataneon',
-                keys: ENV.fetch('SSH_KEY_FILE'), keys_only: true) do |sftp|
-  puts sftp.session.exec!("mkdir -p #{pubdir}")
-  sftp.upload!("#{export_dir}/", pubdir)
-  # This is the export dep11 data, we don't need it, so throw it away
-  puts sftp.session.exec!("rm -rf #{pubdir}/data")
-end
+
+# This is the export dep11 data, we don't need it, so throw it away
+system("rm -rf #{export_dir}/data")
+# NB: We use rsync here because a) SFTP is dumb and may require copyign things
+#   to tmp path, removing pubdir and moving tmpdir to pubdir, while rsync will
+#   be faster.
+remote_dir = "metadataneon@drax.kde.org:#{pubdir}"
+rsync_opts = "-av --delete -e 'ssh -i #{ENV.fetch['SSH_KEY_FILE']}'"
+system("rsync #{rsync_opts} #{export_dir} #{remote_dir}") || raise
