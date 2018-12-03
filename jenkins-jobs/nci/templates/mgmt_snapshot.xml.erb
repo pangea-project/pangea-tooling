@@ -58,7 +58,7 @@
     <hudson.tasks.Shell>
       <command>export DIST=<%= dist %>
 cd $JENKINS_HOME/tooling
-bundle exec $JENKINS_HOME/tooling/nci/repo_snapshot_<%= target %>.rb
+bundle exec $JENKINS_HOME/tooling/nci/repo_snapshot_user.rb -t <%= target %>
 </command>
     </hudson.tasks.Shell>
     <hudson.plugins.parameterizedtrigger.TriggerBuilder plugin="parameterized-trigger@2.33">

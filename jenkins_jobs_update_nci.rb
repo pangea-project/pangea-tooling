@@ -361,11 +361,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # things are highly coupled to their series, so treating them as something
     # generic is folly.
 
-    enqueue(MGMTSnapshotUser.new(dist: NCI.current_series))
-    enqueue(MGMTSnapshotUserLTS.new(dist: NCI.current_series))
+    enqueue(MGMTSnapshotUser.new(dist: NCI.current_series), origin: 'release', target: 'user')
+    enqueue(MGMTSnapshotUser.new(dist: NCI.current_series), origin: 'release-lts', target: 'user-lts')
     if NCI.future_series
-      enqueue(MGMTSnapshotUser.new(dist: NCI.future_series))
-      enqueue(MGMTSnapshotUserLTS.new(dist: NCI.future_series))
+      enqueue(MGMTSnapshotUser.new(dist: NCI.future_series), origin: 'release', target: 'user')
+      enqueue(MGMTSnapshotUser.new(dist: NCI.future_series), origin: 'release-lts', target: 'user-lts')
     end
 
     enqueue(MGMTRepoDivert.new(target: 'unstable_bionic'))

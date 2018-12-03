@@ -36,14 +36,7 @@ end
 
 # snapshots release repos
 class MGMTSnapshotUser < MGMTSnapshotBase
-  def initialize(dist:)
-    super(dist: dist, origin: 'release', target: 'user')
-  end
-end
-
-# snapshots release-lts repos
-class MGMTSnapshotUserLTS < MGMTSnapshotBase
-  def initialize(dist:)
-    super(dist: dist, origin: 'release-lts', target: 'user-lts')
+  def initialize(dist:, origin:, target:)
+    super(dist: dist, origin: origin, target: target)
   end
 end
