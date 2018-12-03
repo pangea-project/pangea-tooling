@@ -73,7 +73,10 @@ end
 FileUtils.rm_rf(repo_dir)
 
 pubdir = "/var/www/metadata/appstream/#{TYPE}_#{DIST}"
-FileUtils.mkpath(pubdir)
-FileUtils.cp_r("#{export_dir}/.", pubdir, verbose: true)
-# This is the export dep11 data, we don't need it, so throw it away
-FileUtils.rm_rf("#{pubdir}/data")
+Net::SFTP.start('drax.kde.org', 'neonmetadata',
+                keys: ENV.fetch('SSH_KEY_FILE'), keys_only: true) do |sftp|
+  puts sftp.session.exec!("mkdir -p #{pubdir}")
+  sftp.upload!("#{export_dir}/", pubdir)
+  # This is the export dep11 data, we don't need it, so throw it away
+  puts sftp.session.exec!("rm -rf #{pubdir}/data")
+end
