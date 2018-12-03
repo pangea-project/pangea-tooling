@@ -80,5 +80,5 @@ system("rm -rf #{export_dir}/data")
 #   to tmp path, removing pubdir and moving tmpdir to pubdir, while rsync will
 #   be faster.
 remote_dir = "metadataneon@drax.kde.org:#{pubdir}"
-rsync_opts = "-av --delete -e 'ssh -i #{ENV.fetch['SSH_KEY_FILE']}'"
+rsync_opts = "-av --delete -e 'ssh -i #{ENV.fetch('SSH_KEY_FILE')}'"
 system("rsync #{rsync_opts} #{export_dir} #{remote_dir}") || raise
