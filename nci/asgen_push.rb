@@ -73,7 +73,7 @@ end
 FileUtils.rm_rf(repo_dir)
 
 pubdir = "/var/www/metadata/appstream/#{TYPE}_#{DIST}"
-Net::SFTP.start('drax.kde.org', 'neonmetadata',
+Net::SFTP.start('drax.kde.org', 'metadataneon',
                 keys: ENV.fetch('SSH_KEY_FILE'), keys_only: true) do |sftp|
   puts sftp.session.exec!("mkdir -p #{pubdir}")
   sftp.upload!("#{export_dir}/", pubdir)
