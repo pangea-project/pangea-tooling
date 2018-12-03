@@ -82,4 +82,4 @@ system("rm -rf #{export_dir}/data")
 remote_dir = "metadataneon@drax.kde.org:#{pubdir}"
 ssh_command = "ssh -o StrictHostKeyChecking=no -i #{ENV.fetch('SSH_KEY_FILE')}"
 rsync_opts = "-av --delete -e '#{ssh_command}'"
-system("rsync #{rsync_opts} #{export_dir} #{remote_dir}") || raise
+system("rsync #{rsync_opts} #{export_dir}/* #{remote_dir}/") || raise
