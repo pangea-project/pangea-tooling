@@ -98,6 +98,10 @@ module NCI
         @content_stage ||= JSON.parse(open(@base::STAGED_CONTENT_PATH).read)
       end
 
+      def dev_stage
+        @dev_stage ||= JSON.parse(open(@base::STAGED_DEV_PATH).read)
+      end
+
       def add_runtime(name, part)
         debs = part.stage_packages.dup
         part.stage_packages.clear
@@ -105,7 +109,13 @@ module NCI
         runtime = SnapcraftConfig::Part.new
         runtime.plugin = 'stage-debs'
         runtime.debs = debs
-        runtime.exclude_debs = content_stage.uniq.compact
+        exclusion = content_stage
+        # Include dev packages in case someone was lazy and used a dev package
+        # as stage package. This is technically a bit wrong since the dev stage
+        # is not part of the content snap, but if one takes the dev shortcut all
+        # bets are off anyway. It's either this or having oversized snaps.
+        exclusion += dev_stage if debs.any? { |x| x.end_with?('-dev') }
+        runtime.exclude_debs = exclusion.uniq.compact
         runtime.after ||= []
         runtime.after << name
         # Part has a standard exclusion rule for priming which should be fine.
