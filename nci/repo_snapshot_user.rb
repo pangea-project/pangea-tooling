@@ -24,6 +24,8 @@ require 'date'
 require 'optparse'
 
 require_relative '../lib/aptly-ext/remote'
+require_relative '../lib/pangea/mail'
+require_relative '../ci-tooling/nci/lib/repo_diff'
 
 DIST = ENV.fetch('DIST')
 lts = nil
@@ -36,11 +38,36 @@ OptionParser.new do |opts|
   end
 end
 
+def send_email(mailText)
+  puts 'sending notification mail'
+  Pangea::SMTP.start do |smtp|
+    mail = <<-MAIL
+From: Neon CI <noreply@kde.org>
+To: neon-notifications@kde.org
+Subject: User Snapshot Done
+
+#{mailText}
+      MAIL
+      smtp.send_message(mail,
+                        'no-reply@kde.org',
+                        'neon-notifications@kde.org')
+  end
+end
+
 Faraday.default_connection_options =
   Faraday::ConnectionOptions.new(timeout: 15 * 60)
 
 # SSH tunnel so we can talk to the repo
 Aptly::Ext::Remote.neon do
+  mailText = ""
+  differ = RepoDiff.new
+  diffRows = differ.diffRepo(ARGV[0], ARGV[1], dist)
+  diffRows.each do |name, architecture, new_version, old_version| 
+    mailText += name.ljust(20) + architecture.ljust(10) + new_version.ljust(40) + old_version.ljust(40) + "\n"
+  end
+  puts "Repo Diff:"
+  puts mailText
+
   stamp = Time.now.utc.strftime('%Y%m%d.%H%M')
   release = Aptly::Repository.get("release#{lts}_#{DIST}")
   snapshot = release.snapshot(Name: "release#{lts}_#{DIST}-#{stamp}")
@@ -73,4 +100,5 @@ Aptly::Ext::Remote.neon do
   puts "Dangling snapshots: #{dangling_snapshots.map(&:Name)}"
   dangling_snapshots.each(&:delete)
   puts 'Dangling snapshots deleted'
+  send_email(mailText)
 end
