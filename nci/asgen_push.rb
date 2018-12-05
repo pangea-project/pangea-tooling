@@ -72,14 +72,14 @@ Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives',
 end
 FileUtils.rm_rf(repo_dir)
 
-pubdir = "/var/www/metadata/appstream/#{TYPE}_#{DIST}"
+pubdir = "/srv/www/metadata.neon.kde.org/appstream/#{TYPE}_#{DIST}"
 
 # This is the export dep11 data, we don't need it, so throw it away
 system("rm -rf #{export_dir}/data")
 # NB: We use rsync here because a) SFTP is dumb and may require copyign things
 #   to tmp path, removing pubdir and moving tmpdir to pubdir, while rsync will
 #   be faster.
-remote_dir = "metadataneon@drax.kde.org:#{pubdir}"
+remote_dir = "metadataneon@charlotte.kde.org:#{pubdir}"
 ssh_command = "ssh -o StrictHostKeyChecking=no -i #{ENV.fetch('SSH_KEY_FILE')}"
 rsync_opts = "-av --delete -e '#{ssh_command}'"
 system("rsync #{rsync_opts} #{export_dir}/* #{remote_dir}/") || raise
