@@ -45,9 +45,7 @@ module NCI
         # snapcraft looks for them.
         cfgdir = "#{Dir.home}/.config/snapcraft"
         FileUtils.mkpath(cfgdir)
-        origin = ENV.fetch('PANGEA_SNAPCRAFT_CFG_FILE',
-                           "#{cfgdir}/snapcraft.cfg")
-        File.write(origin, File.read('snapcraft.cfg'))
+        File.write("#{cfgdir}/snapcraft.cfg", File.read('snapcraft.cfg'))
       end
 
       def self.run
