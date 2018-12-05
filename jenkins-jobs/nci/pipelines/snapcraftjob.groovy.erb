@@ -16,40 +16,33 @@ cleanNode('amd64') { // && cloud') {
     <% elsif upstream_scm.type == 'uscan' %>
     <% else; raise "Unknown upstream scm type on #{upstream_scm}"; end %>
 
+    // FIXME: this is temporary so publish can iterate quickly; should be not used anymore
+    //   used in-palace of /tooling currently...
     sh 'mkdir tooling'
     dir('tooling') {
       git url: 'https://github.com/pangea-project/pangea-tooling'
     }
   }
+
   stage('extend') {
     sh 'ls -lah tooling/nci/snapcraft_extend.rb'
     sh '~/tooling/nci/contain.rb /workspace/tooling/nci/snapcraft_extend.rb'
     archiveArtifacts 'snapcraft.yaml'
   }
+
   stage('snapcraft') {
     sh '~/tooling/nci/contain.rb /workspace/tooling/nci/snapcraft.rb'
     archiveArtifacts '*_amd64.snap'
-    stash name: 'snaps', includes: '*_amd64.snap'
     sh 'ls -lah'
   }
-}
 
-cleanNode('master') {
-  stage('clone') {
-    sh 'mkdir tooling'
-    dir('tooling') {
-      git url: 'https://github.com/pangea-project/pangea-tooling'
-    }
-  }
   stage('publish') {
     unstash 'snaps'
-    sh 'env'
-    // Temporary workspace during pipeline execution can't be accessed via UI, so
-    // this should be save.
-    // Even so we should move to a contain.rb which forward mounts the snapcraft
-    // dir as volume into the container.
-    sh 'cp ~/.config/snapcraft/snapcraft.cfg snapcraft.cfg'
-    sh '~/tooling/nci/contain.rb /workspace/tooling/nci/snapcraft_publish.rb'
+    withCredentials([file(credentialsId: 'snapcraft.cfg', variable: 'PANGEA_SNAPCRAFT_CFG_FILE')]) {
+      // FIXME: drop this after our new publish.rb is on all nodes (picks up file from env)
+      sh 'cp $PANGEA_SNAPCRAFT_CFG_FILE snapcraft.cfg'
+      sh '~/tooling/nci/contain.rb /workspace/tooling/nci/snapcraft_publish.rb'
+    }
   }
 }
 
