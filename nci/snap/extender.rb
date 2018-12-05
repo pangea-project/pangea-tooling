@@ -118,6 +118,23 @@ module NCI
         runtime.exclude_debs = exclusion.uniq.compact
         runtime.after ||= []
         runtime.after << name
+
+        # Carry exclusions into the runtime part so we can ditch paths as
+        # necessary.
+        runtime.stage ||= []
+        part.stage&.each do |path|
+          next unless path.start_with?('-')
+
+          runtime.stage << path
+        end
+
+        runtime.snap ||= []
+        part.snap&.each do |path|
+          next unless path.start_with?('-')
+
+          runtime.snap << path
+        end
+
         # Part has a standard exclusion rule for priming which should be fine.
         runname = "runtime-of-#{name}"
         @data['parts'][runname] = runtime
