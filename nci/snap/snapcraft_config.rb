@@ -78,6 +78,7 @@ module NCI
         attr_accessor :filesets
         # Array<String>
         attr_accessor :stage
+        # FIXME: port to new keyword prime
         # Array<String>
         attr_accessor :snap
         # Hash<String, String>
