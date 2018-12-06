@@ -37,7 +37,6 @@ cleanNode('amd64') { // && cloud') {
   }
 
   stage('publish') {
-    unstash 'snaps'
     withCredentials([file(credentialsId: 'snapcraft.cfg', variable: 'PANGEA_SNAPCRAFT_CFG_FILE')]) {
       // FIXME: drop this after our new publish.rb is on all nodes (picks up file from env)
       sh 'cp $PANGEA_SNAPCRAFT_CFG_FILE snapcraft.cfg'
