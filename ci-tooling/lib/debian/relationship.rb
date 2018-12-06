@@ -55,21 +55,23 @@ module Debian
          \s* \(                      # open parenthesis for version part
          \s* (?<operator>
               <<|<=|=|>=|>>|[<>])    # relation part
-         \s* (?<version>.*?)         # do not attempt to parse version
+         \s* (?<version>
+              [^\)\s]+)              # do not attempt to parse version
          \s* \)                      # closing parenthesis
        )?                            # end of optional part
        (?:                           # start of optional architecture
          \s* \[                      # open bracket for architecture
          \s* (?<architectures>
-              .*?)                   # don't parse architectures now
+              [^\]]+)                  # don't parse architectures now
          \s* \]                      # closing bracket
        )?                            # end of optional architecture
-       (?:                           # start of optional restriction
-         \s* <                       # open bracket for restriction
-         \s* (?<profiles>
-              .*)                    # do not parse restrictions now
-         \s* >                       # closing bracket
-       )?                            # end of optional restriction
+       (?<profiles>
+         (?:                           # start of optional restriction
+           \s* <                       # open bracket for restriction
+           \s* ([^>]+)                    # do not parse restrictions now
+           \s* >                       # closing bracket
+         )+                            # end of optional restriction
+       )?
        \s*$                          # trailing spaces at end
      /x
 
