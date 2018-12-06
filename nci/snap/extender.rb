@@ -115,6 +115,7 @@ module NCI
         # is not part of the content snap, but if one takes the dev shortcut all
         # bets are off anyway. It's either this or having oversized snaps.
         exclusion += dev_stage if debs.any? { |x| x.end_with?('-dev') }
+        exclusion << 'qt5-gtk-platformtheme'
         runtime.exclude_debs = exclusion.uniq.compact
         runtime.after ||= []
         runtime.after << name
