@@ -46,6 +46,10 @@ if $PROGRAM_NAME == __FILE__
   #   directory (which in turn already contains it because of the content
   #   snap dev tarball)
   Apt.install(%w[snapcraft docbook-xml docbook-xsl libdrm-dev snapd])
+  # We somehow end up with a bogus ssl-dev in the images, drop it as otherwise
+  # it may prevent snapcraft carrying out package installations (it doesn't
+  # do problem resolution it seems).
+  Apt.purge('libssl1.0-dev')
   NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
     TTY::Command.new(uuid: false).run('snapcraft --debug')
   end
