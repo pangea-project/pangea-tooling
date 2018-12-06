@@ -95,7 +95,9 @@ module Debian
     def <=>(other)
       if substvar? || other.substvar? # any is a substvar
         return -1 unless other.substvar? # substvar always looses
+
         return 1 unless substvar? # non-substvar always wins
+
         return substvarcmp(other) # substvars are compared among themself
       end
       @name <=> other.name
@@ -133,6 +135,7 @@ module Debian
 
     def f(str, *params)
       return '' if params.any?(&:nil?)
+
       format(str, *params)
     end
 
