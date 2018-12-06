@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -54,7 +54,29 @@ module Debian
       assert_equal('<<', rel.operator)
       assert_equal('1.0', rel.version)
       assert_equal('linux-any', rel.architectures.to_s)
+      assert_equal(1, rel.profiles.size)
+      assert_equal(1, rel.profiles[0].size)
+      assert_equal('multi', rel.profiles[0][0].to_s)
       assert_equal('a (<< 1.0) [linux-any] <multi>', rel.to_s)
+    end
+
+    def test_parse_profiles
+      rel = Relationship.new('foo <nocheck cross> <nocheck>')
+      profiles = rel.profiles
+      assert(profiles.is_a?(Array))
+      assert_equal(2, profiles.size)
+      assert(profiles[0].is_a?(ProfileGroup))
+    end
+
+    def test_applicable_profile
+      # Also tests various input formats
+      rel = Relationship.new('foo <nocheck cross> <nocheck>')
+      assert rel.applicable_to_profile?('nocheck')
+      refute rel.applicable_to_profile?(Profile.new('cross'))
+      assert rel.applicable_to_profile?(%w[cross nocheck])
+      assert rel.applicable_to_profile?('cross   nocheck')
+      assert rel.applicable_to_profile?(ProfileGroup.new(%w[cross nocheck]))
+      refute rel.applicable_to_profile?(nil)
     end
 
     def test_compare
