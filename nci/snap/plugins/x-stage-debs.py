@@ -75,7 +75,7 @@ class StabeDebsPlugin(snapcraft.BasePlugin):
     def build(self):
         super().build()
 
-        logger.debug(os.getcwd())
+        print(os.getcwd())
         if self.options.debs:
             # First wipe auto marked packages, so we may have a better chance
             # of getting the dependencies we actually need on top of core.
@@ -94,10 +94,10 @@ class StabeDebsPlugin(snapcraft.BasePlugin):
 
         pkgs_abs_path = glob.glob(os.path.join(self.builddir, '*.deb'))
         for pkg in pkgs_abs_path:
-            logger.debug(pkg)
+            print(pkg)
             if self.exclude(pkg):
                 continue
-            logger.debug('extract')
+            print('  extract')
             subprocess.check_call(['dpkg-deb', '--extract', pkg, self.installdir])
 
         # # Non-recursive stage, not sure this ever has a use case with
