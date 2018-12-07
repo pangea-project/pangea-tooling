@@ -110,7 +110,8 @@ module Debian
     def applicable_to_profile?(array_or_profile)
       group = array_or_profile
       group = ProfileGroup.new(group) unless group.is_a?(ProfileGroup)
-      profiles.any? { |x| x.matches?(group) }
+      profiles_ = profiles || [ProfileGroup.new(nil)]
+      profiles_.any? { |x| x.matches?(group) }
     end
 
     def substvar?

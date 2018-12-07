@@ -72,11 +72,18 @@ module Debian
       # Also tests various input formats
       rel = Relationship.new('foo <nocheck cross> <nocheck>')
       assert rel.applicable_to_profile?('nocheck')
+      refute rel.applicable_to_profile?('bar')
       refute rel.applicable_to_profile?(Profile.new('cross'))
       assert rel.applicable_to_profile?(%w[cross nocheck])
       assert rel.applicable_to_profile?('cross   nocheck')
       assert rel.applicable_to_profile?(ProfileGroup.new(%w[cross nocheck]))
       refute rel.applicable_to_profile?(nil)
+    end
+
+    def test_applicable_profile_none
+      rel = Relationship.new('foo')
+      assert rel.applicable_to_profile?(nil)
+      assert rel.applicable_to_profile?('nocheck')
     end
 
     def test_compare
