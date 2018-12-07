@@ -25,6 +25,7 @@ require_relative '../../lib/debian/uscan'
 require_relative '../../lib/debian/version'
 require_relative '../../lib/nci'
 
+require_relative '../../../lib/kdeproject_component'
 require_relative '../../../lib/pangea/mail'
 
 require 'tty-command'
@@ -139,8 +140,14 @@ module NCI
       if ENV['JOB_NAME'].include?('_kde_') and CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
         puts 'KDE Plasma/Apps/Framework watcher should be run manually not by timer, quitting'
         puts 'sending notification mail'
-        Pangea::SMTP.start do |smtp|
-            mail = <<-MAIL
+        # Take first package from each product and send e-mail for only that one to stop spam
+        frameworksPackage = KDEProjectsComponent.frameworks[0]
+        plasmaPackage = KDEProjectsComponent.plasma[0]
+        applicationsPackage = KDEProjectsComponent.applications[0]
+        kdeProducts = [frameworksPackage, plasmaPackage, applicationsPackage]
+        if kdeProducts.any? {|package| ENV['JOB_NAME'].include?("_#{package}")}
+          Pangea::SMTP.start do |smtp|
+              mail = <<-MAIL
 From: Neon CI <no-reply@kde.org>
 To: neon-notifications@kde.org
 Subject: #{ENV['JOB_NAME']} found a new version
@@ -148,10 +155,11 @@ Subject: #{ENV['JOB_NAME']} found a new version
 New release found on the server but not building because it may not be public yet,
 run jenkins_retry manually for this release on release day.
 #{ENV['RUN_DISPLAY_URL']}
-            MAIL
-            smtp.send_message(mail,
-                            'no-reply@kde.org',
-                            'neon-notifications@kde.org')
+              MAIL
+              smtp.send_message(mail,
+                              'no-reply@kde.org',
+                              'neon-notifications@kde.org')
+          end
         end
         return
       end
