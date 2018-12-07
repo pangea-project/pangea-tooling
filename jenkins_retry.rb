@@ -104,7 +104,7 @@ pattern = nil
 if new_release
   pattern = Regexp.new("watcher_release_kde_(#{new_release.join('|')})$")
 elsif pim_release
-  pattern = Regexp.new("(#{NCI.current_series}|#{NCI.future_series})_unstable_kde_(#{pim_release.join('|')})$")
+  pattern = Regexp.new("#{NCI.current_series}_unstable_kde_(#{pim_release.join('|')})$")
 else
   raise 'Need ruby pattern as argv0' if ARGV.empty?
   pattern = Regexp.new(ARGV[0])
