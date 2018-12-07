@@ -31,6 +31,7 @@ require_relative 'ci/overrides'
 require_relative 'ci/upstream_scm'
 require_relative 'debian/control'
 require_relative 'debian/source'
+require_relative 'debian/relationship'
 require_relative 'retry'
 require_relative '../../lib/kdeproject_component'
 
@@ -266,6 +267,9 @@ absolutely must not be native though!
     end
     fields.each do |field|
       control.source.fetch(field, []).each do |alt_deps|
+        alt_deps = alt_deps.select do |relationship|
+          relationship.applicable_to_profile?(nil)
+        end
         @dependencies += alt_deps.collect(&:name)
       end
     end

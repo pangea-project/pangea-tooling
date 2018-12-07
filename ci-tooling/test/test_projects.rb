@@ -142,6 +142,21 @@ class ProjectTest < TestCase
     end
   end
 
+  def test_init_profiles
+    name = 'tn'
+    component = 'tc'
+    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    assert_not_nil(gitrepo)
+    assert_not_equal(gitrepo, '')
+
+    Dir.mktmpdir(self.class.to_s) do |tmpdir|
+      Dir.chdir(tmpdir) do
+        project = Project.new(name, component, gitrepo, type: 'unstable')
+        assert_equal(%w(gwenview), project.dependencies)
+      end
+    end
+  end
+
   # Tests init with explicit branch name instead of just type specifier
   def test_init_branch
     name = 'tn'
