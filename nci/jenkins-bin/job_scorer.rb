@@ -35,8 +35,7 @@ module NCI
       attr_reader :config
       attr_reader :config_file
 
-      CONFIG_FILE =
-        File.absolute_path("#{ENV['HOME']}/.config/nci-jobs-to-cores.json")
+      CONFIG_FILE = "#{Dir.home}/.config/nci-jobs-to-cores.json"
 
       def initialize(jobex: /.+_bin_amd64$/, config_file: CONFIG_FILE)
         @jobex = jobex

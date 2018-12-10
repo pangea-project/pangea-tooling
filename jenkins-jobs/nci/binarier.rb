@@ -6,7 +6,9 @@ require_relative '../binarier'
 class BinarierJob
   # Monkey patch cores in
   def cores
-    JSON.parse(File.read("#{ENV['HOME']}/.config/nci-jobs-to-cores.json")).fetch(job_name, '2')
+    config_file = "#{Dir.home}/.config/nci-jobs-to-cores.json"
+    return '2' unless File.exist?(config_file)
+    JSON.parse(File.read(config_file)).fetch(job_name, '2')
   end
 
   def compress?
