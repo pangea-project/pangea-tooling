@@ -89,6 +89,7 @@ class StabeDebsPlugin(snapcraft.BasePlugin):
                    '-o', 'Debug::NoLocking=true',
                    '-o', 'Dir::Cache::Archives=' + self.builddir,
                    '--reinstall',
+                   '--no-install-recommends',
                    '--download-only', 'install'] + self.options.debs
             subprocess.check_call(cmd, cwd=self.builddir)
 
