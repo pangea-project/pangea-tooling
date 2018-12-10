@@ -36,7 +36,7 @@ module NCI
       attr_reader :config_file
 
       CONFIG_FILE =
-        File.absolute_path("#{__dir__}/../../data/nci/jobs-to-cores.json")
+        File.absolute_path("#{ENV['HOME']}/.config/nci-jobs-to-cores.json")
 
       def initialize(jobex: /.+_bin_amd64$/, config_file: CONFIG_FILE)
         @jobex = jobex
@@ -80,6 +80,7 @@ module NCI
       end
 
       def run!
+        FileUtils.mkpath("#{ENV['HOME']}/.config/")
         forget_missing_jobs!
 
         pool = Concurrent::FixedThreadPool.new(4)
