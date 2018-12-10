@@ -32,7 +32,6 @@ cleanNode('amd64') { // && cloud') {
 
   stage('snapcraft') {
     sh '~/tooling/nci/contain.rb /workspace/tooling/nci/snapcraft.rb'
-    archiveArtifacts '*_amd64.snap'
     sh 'ls -lah'
   }
 
