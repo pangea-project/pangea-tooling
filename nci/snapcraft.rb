@@ -25,6 +25,7 @@ require_relative '../ci-tooling/lib/apt'
 require_relative '../ci-tooling/nci/lib/setup_repo'
 
 require_relative 'snap/collapser'
+require_relative 'snap/manifest_extender'
 
 if $PROGRAM_NAME == __FILE__
   ENV['TERM'] = 'dumb' # make snpacraft not give garbage progress spam
@@ -50,7 +51,9 @@ if $PROGRAM_NAME == __FILE__
   # it may prevent snapcraft carrying out package installations (it doesn't
   # do problem resolution it seems).
   Apt.purge('libssl1.0-dev')
-  NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
-    TTY::Command.new(uuid: false).run('snapcraft --debug')
+  NCI::Snap::ManifestExtender.new('snapcraft.yaml').run do
+    NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
+      TTY::Command.new(uuid: false).run('snapcraft --debug')
+    end
   end
 end

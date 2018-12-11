@@ -5,6 +5,7 @@ summary: An easy-to-use paint program
 description: xxxx
 confinement: strict
 grade: stable
+base: core18
 
 apps:
     kolourpaint:
@@ -21,10 +22,19 @@ plugs:
         target: kf5
 
 parts:
+    kde-frameworks-5-env:
+        plugin: dump
+        prime:
+        - kf5-launch
+        - kf5-portal-launch
+        - kf5
+        source: https://github.com/apachelogger/kf5-snap-env.git
     kolourpaint:
-        after: [kde-frameworks-5-dev, kde-frameworks-5-env]
+        after: [kde-frameworks-5-env]
         source: https://download.kde.org/stable/applications/17.04.3/src/kolourpaint-17.04.3.tar.xz
         plugin: cmake
+        stage-packages: [foobar]
+        build-packages: [foobar]
         configflags:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
         - "-DCMAKE_INSTALL_PREFIX=/usr"

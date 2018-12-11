@@ -59,7 +59,6 @@ module NCI
 
       def extend
         convert_source!
-        convert_to_deb_staging!
         add_plugins!
 
         File.write('snapcraft.yaml', YAML.dump(data))
@@ -102,45 +101,6 @@ module NCI
         @dev_stage ||= JSON.parse(open(@base::STAGED_DEV_PATH).read)
       end
 
-      def add_runtime(name, part)
-        debs = part.stage_packages.dup
-        part.stage_packages.clear
-
-        runtime = SnapcraftConfig::Part.new
-        runtime.plugin = 'stage-debs'
-        runtime.debs = debs
-        exclusion = content_stage
-        # Include dev packages in case someone was lazy and used a dev package
-        # as stage package. This is technically a bit wrong since the dev stage
-        # is not part of the content snap, but if one takes the dev shortcut all
-        # bets are off anyway. It's either this or having oversized snaps.
-        exclusion += dev_stage if debs.any? { |x| x.end_with?('-dev') }
-        exclusion << 'qt5-gtk-platformtheme' unless ENV['PANGEA_UNDER_TEST']
-        runtime.exclude_debs = exclusion.uniq.compact
-        runtime.after ||= []
-        runtime.after << name
-
-        # Carry exclusions into the runtime part so we can ditch paths as
-        # necessary.
-        runtime.stage ||= []
-        part.stage&.each do |path|
-          next unless path.start_with?('-')
-
-          runtime.stage << path
-        end
-
-        runtime.snap ||= []
-        part.snap&.each do |path|
-          next unless path.start_with?('-')
-
-          runtime.snap << path
-        end
-
-        # Part has a standard exclusion rule for priming which should be fine.
-        runname = "runtime-of-#{name}"
-        @data['parts'][runname] = runtime
-      end
-
       def convert_to_git!
         repo = Rugged::Repository.new("#{Dir.pwd}/source")
         repo_branch = repo.branches[repo.head.name].name if repo.head.branch?
@@ -152,16 +112,6 @@ module NCI
         oid = repo.last_commit.oid[0..6]
         # Versions cannot have slashes, branches can though, so convert to .
         data['version'] = [repo_branch, oid].join('+').tr('/', '.')
-      end
-
-      def runtimes
-        data['parts'].reject do |_name, part|
-          part.stage_packages.empty? || part.plugin == 'stage-debs'
-        end.to_h
-      end
-
-      def convert_to_deb_staging!
-        runtimes.each { |name, part| add_runtime(name, part) }
       end
 
       def add_plugins!
