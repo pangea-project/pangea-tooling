@@ -67,8 +67,8 @@ class NCIWatcherTest < TestCase
           # uscan gets called here.
           assert_path_exist 'debian/watch'
           assert_includes File.read('debian/watch'), 'download.kde.internal.neon.kde.org'
-          assert_includes File.read('debian/watch'), 'http'
-          assert_not_includes File.read('debian/watch'), 'https'
+          assert_includes File.read('debian/watch'), 'https'
+          assert_not_includes File.read('debian/watch'), 'http'
           assert_not_includes File.read('debian/watch'), 'download.kde.org'
           args == 'uscan --report --dehs'
         end
@@ -98,6 +98,7 @@ class NCIWatcherTest < TestCase
       assert_includes File.read('debian/watch'), 'download.kde.org'
       assert_includes File.read('debian/watch'), 'https'
       assert_not_includes File.read('debian/watch'), 'download.kde.internal.neon.kde.org'
+      assert_not_includes File.read('debian/watch'), 'download.kde.internal.neon.kde.org:9191'
     end
   end
 
