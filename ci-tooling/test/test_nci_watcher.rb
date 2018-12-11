@@ -34,6 +34,7 @@ class NCIWatcherTest < TestCase
     NCI.stubs(:setup_env!).returns(true)
     # Rip out causes from the test env so we don't trigger on them.
     NCI::Watcher::CAUSE_ENVS.each { |e| ENV.delete(e) }
+    ENV['JOB_NAME'] = 'HIIIIYA'
   end
 
   def with_remote_repo(seed_dir)
