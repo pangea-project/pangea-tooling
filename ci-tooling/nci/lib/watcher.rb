@@ -134,18 +134,23 @@ module NCI
       puts 'unmangle debian/watch `git checkout debian/watch`'
       system('git checkout debian/watch')
 
-      # These parts get pre-released on server so don't pick them up automatically
-      if ENV['JOB_NAME'].include?('_kde_') and CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
-        puts 'KDE Plasma/Apps/Framework watcher should be run manually not by timer, quitting'
+      # These parts get pre-released on server so don't pick them up
+      # automatically
+      if ENV['JOB_NAME'].include?('_kde_') && \
+         CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
+        puts 'KDE Plasma/Apps/Framework watcher should be run manually not by '\
+             'timer, quitting'
         puts 'sending notification mail'
-        # Take first package from each product and send e-mail for only that one to stop spam
-        frameworksPackage = KDEProjectsComponent.frameworks[0]
-        plasmaPackage = KDEProjectsComponent.plasma[0]
-        applicationsPackage = KDEProjectsComponent.applications[0]
-        kdeProducts = [frameworksPackage, plasmaPackage, applicationsPackage]
-        if kdeProducts.any? {|package| ENV['JOB_NAME'].include?("_#{package}")}
+        # Take first package from each product and send e-mail for only that
+        # one to stop spam
+        frameworks_package = KDEProjectsComponent.frameworks[0]
+        plasma_package = KDEProjectsComponent.plasma[0]
+        applications_package = KDEProjectsComponent.applications[0]
+        kde_products = [frameworks_package, plasma_package, \
+                        applications_package]
+        if kde_products.any? { |package| ENV['JOB_NAME'].include?("_#{package}") }
           Pangea::SMTP.start do |smtp|
-              mail = <<-MAIL
+            mail = <<-MAIL
 From: Neon CI <no-reply@kde.org>
 To: neon-notifications@kde.org
 Subject: #{ENV['JOB_NAME']} found a new version
@@ -153,8 +158,8 @@ Subject: #{ENV['JOB_NAME']} found a new version
 New release found on the server but not building because it may not be public yet,
 run jenkins_retry manually for this release on release day.
 #{ENV['RUN_DISPLAY_URL']}
-              MAIL
-              smtp.send_message(mail,
+            MAIL
+            smtp.send_message(mail,
                               'no-reply@kde.org',
                               'neon-notifications@kde.org')
           end
