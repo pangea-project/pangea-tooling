@@ -18,8 +18,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '../../lib/ci/fake_package'
-
 require_relative 'extender'
 
 module NCI
