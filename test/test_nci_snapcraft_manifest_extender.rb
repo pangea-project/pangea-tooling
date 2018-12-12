@@ -26,6 +26,9 @@ require 'mocha/test_unit'
 module NCI::Snap
   class ManifestExtendertest < TestCase
     def setup
+      # called to check if a package is installed; always not installed
+      DPKG.expects(:list).returns(nil)
+
       pkgfaker = mock('fake_package')
       FakePackage.expects(:new).returns(pkgfaker)
       pkgfaker.stubs(:install)
