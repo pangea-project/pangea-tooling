@@ -26,10 +26,7 @@ require 'mocha/test_unit'
 module NCI::Snap
   class ManifestExtendertest < TestCase
     def setup
-      pkgfaker = mock('fake_package')
-      FakePackage.expects(:new).returns(pkgfaker)
-      pkgfaker.stubs(:install)
-
+      ManifestExtender.install_fakes = false
       ManifestExtender.manifest_path = "#{Dir.pwd}/man"
       ENV['APPNAME'] = 'kolourpaint'
       ENV['DIST'] = 'bionic'
@@ -38,6 +35,10 @@ module NCI::Snap
         .to_return(status: 200, body: JSON.generate(['meep']))
       stub_request(:get, Extender::Core18::STAGED_DEV_PATH)
         .to_return(status: 200, body: JSON.generate(['meep-dev']))
+    end
+
+    def teardown
+      ManifestExtender.install_fakes = false
     end
 
     def test_run
