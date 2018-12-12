@@ -29,7 +29,7 @@ class FakePackageTest < TestCase
     cmd = mock('cmd')
     TTY::Command.expects(:new).returns(cmd)
     cmd.expects(:run).with do |*args|
-      next false if args != ['dpkg-deb', '-b', 'foo', 'foo.deb']
+      next false if args != ['dpkg-deb', '-b', '-Znone', '-Snone', 'foo', 'foo.deb']
 
       assert_path_exist('foo/DEBIAN/control')
       control = File.read('foo/DEBIAN/control')

@@ -80,6 +80,6 @@ class FakePackage
       Maintainer: Harald Sitter <sitter@kde.org>
       Description: fake override package for CI use
     CONTROL
-    cmd.run('dpkg-deb', '-b', name, deb)
+    cmd.run('dpkg-deb', '-b', '-Znone', '-Snone', name, deb)
   end
 end
