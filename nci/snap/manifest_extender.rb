@@ -56,13 +56,7 @@ module NCI
       def install_duds!
         # build-packages do not get excluded by manifest, we'll manually need
         # to keep them out by installing fake debs!
-        exclusion.each do |pkg|
-          # already installed -> don't managle it. otherwise we'd break
-          # the system itself (potentially)
-          next if DPKG.list(pkg)
-
-          FakePackage.new(pkg).install
-        end
+        exclusion.each { |pkg| FakePackage.new(pkg).install }
       end
 
       def append!
