@@ -51,8 +51,10 @@ if $PROGRAM_NAME == __FILE__
   # it may prevent snapcraft carrying out package installations (it doesn't
   # do problem resolution it seems).
   Apt.purge('libssl1.0-dev')
-  NCI::Snap::ManifestExtender.new('snapcraft.yaml').run do
-    NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
+  NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
+    # Collapse first, extending also managles dpkg a bit, so we can't
+    # expect packages to be in a sane state inside the extender.
+    NCI::Snap::ManifestExtender.new('snapcraft.yaml').run do
       TTY::Command.new(uuid: false).run('snapcraft --debug')
     end
   end
