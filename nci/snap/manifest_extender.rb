@@ -33,17 +33,11 @@ module NCI
         def manifest_path
           @manifest_path ||= MANIFEST_PATH
         end
-
-        attr_writer :install_fakes
-        def install_fakes
-          @install_fakes ||= true
-        end
       end
 
       def run
         FileUtils.cp(manifest_path, "#{manifest_path}.bak", verbose: true)
         append!
-        install_duds! # this is not undone
         # for diganostic purposes we'll make a copy of the extended version...
         FileUtils.cp(manifest_path, "#{manifest_path}.ext", verbose: true)
 
@@ -55,14 +49,6 @@ module NCI
       end
 
       private
-
-      def install_duds!
-        return unless self.class.install_fakes
-
-        # build-packages do not get excluded by manifest, we'll manually need
-        # to keep them out by installing fake debs!
-        exclusion.each { |pkg| FakePackage.new(pkg).install }
-      end
 
       def append!
         File.open(manifest_path, 'a') { |f| f.puts(exclusion.join("\n")) }
