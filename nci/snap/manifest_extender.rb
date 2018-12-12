@@ -61,8 +61,22 @@ module NCI
         # is not part of the content snap, but if one takes the dev shortcut all
         # bets are off anyway. It's either this or having oversized snaps.
         pkgs += dev_stage if any_dev?
+        # Do not pull in dev packages that are in the stage-packages list.
+        # They may be used to easily get the libs they depend on, but they
+        # themselves have no business being in the stage really.
+        # Fairly hacky shortcut this.
+        pkgs += staged_devs
+        # never let gtk be pulled in, it should be in the content-snap
         pkgs << 'qt5-gtk-platformtheme' unless ENV['PANGEA_UNDER_TEST']
-        pkgs
+        pkgs.uniq
+      end
+
+      def staged_devs
+        devs = []
+        data['parts'].values.collect do |part|
+          part&.stage_packages&.each { |x| devs << x if x.end_with?('-dev') }
+        end
+        devs.uniq.compact
       end
 
       def manifest_path
@@ -73,9 +87,7 @@ module NCI
       def extend; end
 
       def any_dev?
-        data['parts'].values.any? do |part|
-          part&.stage_packages&.any? { |x| x.end_with?('-dev') }
-        end
+        @any_dev ||= !staged_devs.empty?
       end
     end
   end
