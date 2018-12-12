@@ -29,6 +29,7 @@ require_relative 'snap/manifest_extender'
 
 if $PROGRAM_NAME == __FILE__
   ENV['TERM'] = 'dumb' # make snpacraft not give garbage progress spam
+  ENV['PYTHONUNBUFFERED'] = 'true' # make python also sync stdout
   STDOUT.sync = true
   NCI.setup_repo!
   # KDoctools is rubbish and lets meinproc resolve asset paths through
