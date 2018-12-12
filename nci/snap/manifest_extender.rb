@@ -35,11 +35,6 @@ module NCI
         def manifest_path
           @manifest_path ||= MANIFEST_PATH
         end
-
-        attr_writer :install_fakes
-        def install_fakes
-          @install_fakes ||= true
-        end
       end
 
       def run
@@ -59,8 +54,6 @@ module NCI
       private
 
       def install_duds!
-        return unless self.class.install_fakes
-
         # build-packages do not get excluded by manifest, we'll manually need
         # to keep them out by installing fake debs!
         exclusion.each { |pkg| FakePackage.new(pkg).install }
