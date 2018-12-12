@@ -30,6 +30,7 @@ require_relative 'dpkg'
 require_relative 'repo_abstraction'
 require_relative 'retry'
 require_relative 'thread_pool'
+require_relative '../../lib/ci/fake_package'
 
 # Base class for install checks, isolating common logic.
 class InstallCheckBase
@@ -90,21 +91,7 @@ end
 # Kubuntu install check.
 class InstallCheck < InstallCheckBase
   def install_fake_pkg(name)
-    Dir.mktmpdir do |tmpdir|
-      Dir.chdir(tmpdir) do
-        Dir.mkdir(name)
-        Dir.mkdir("#{name}/DEBIAN")
-        File.write("#{name}/DEBIAN/control", <<~CONTROL)
-        Package: #{name}
-        Version: 999:999
-        Architecture: all
-        Maintainer: Harald Sitter <sitter@kde.org>
-        Description: fake override package for kubuntu ci install checks
-        CONTROL
-        system("dpkg-deb -b #{name} #{name}.deb")
-        DPKG.dpkg(['-i', "#{name}.deb"])
-      end
-    end
+    FakePackage.new(name).install
   end
 
   def run(candidate_ppa, target_ppa)
