@@ -30,6 +30,7 @@ require 'mkmf'
 require 'open-uri'
 require 'tmpdir'
 
+require_relative 'lib/ci/fake_package'
 require_relative 'lib/rake/bundle'
 require_relative 'ci-tooling/lib/nci'
 
@@ -78,23 +79,8 @@ end
   end
 end
 
-# FIXME: code copy from install_check
 def install_fake_pkg(name)
-  require_relative 'ci-tooling/lib/dpkg'
-  Dir.mktmpdir do |tmpdir|
-    Dir.chdir(tmpdir) do
-      FileUtils.mkpath("#{name}/DEBIAN")
-      File.write("#{name}/DEBIAN/control", <<-CONTROL.gsub(/^\s+/, ''))
-        Package: #{name}
-        Version: 999:999
-        Architecture: all
-        Maintainer: Harald Sitter <sitter@kde.org>
-        Description: fake override package for ci install checks
-      CONTROL
-      system("dpkg-deb -b #{name} #{name}.deb")
-      DPKG.dpkg(['-i', "#{name}.deb"])
-    end
-  end
+  FakePackage.new(name).install
 end
 
 def custom_version_id
