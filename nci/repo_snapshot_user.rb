@@ -62,7 +62,7 @@ Faraday.default_connection_options =
 Aptly::Ext::Remote.neon do
   mailText = ""
   differ = RepoDiff.new
-  diffRows = differ.diff_repo(ARGV[0], ARGV[1], DIST)
+  diffRows = differ.diff_repo(prefix, "release#{lts}", DIST)
   diffRows.each do |name, architecture, new_version, old_version| 
     mailText += name.ljust(20) + architecture.ljust(10) + new_version.ljust(40) + old_version.ljust(40) + "\n"
   end
