@@ -41,7 +41,7 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-def send_email(mailText)
+def send_email(mailText, prefix)
   puts 'sending notification mail'
   Pangea::SMTP.start do |smtp|
     mail = <<-MAIL
@@ -103,5 +103,5 @@ Aptly::Ext::Remote.neon do
   puts "Dangling snapshots: #{dangling_snapshots.map(&:Name)}"
   dangling_snapshots.each(&:delete)
   puts 'Dangling snapshots deleted'
-  send_email(mailText)
+  send_email(mailText, prefix)
 end
