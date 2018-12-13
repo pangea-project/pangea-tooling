@@ -31,11 +31,13 @@ require_relative '../ci-tooling/nci/lib/repo_diff'
 DIST = ENV.fetch('DIST')
 lts = nil
 prefix = 'user'
+repo = 'release'
 
 OptionParser.new do |opts|
   opts.on('-t', '--target [TARGET]', 'user or user-lts') do |target|
     lts = '/lts' if target == 'user-lts'
     prefix = "user#{lts}"
+    repo = "release-lts" if target == 'user-lts'
   end
 end.parse!
 
@@ -45,7 +47,7 @@ def send_email(mailText)
     mail = <<-MAIL
 From: Neon CI <noreply@kde.org>
 To: neon-notifications@kde.org
-Subject: User Snapshot Done
+Subject: #{prefix} Snapshot Done
 
 #{mailText}
       MAIL
@@ -70,8 +72,8 @@ Aptly::Ext::Remote.neon do
   puts mailText
 
   stamp = Time.now.utc.strftime('%Y%m%d.%H%M')
-  release = Aptly::Repository.get("release#{lts}_#{DIST}")
-  snapshot = release.snapshot(Name: "release#{lts}_#{DIST}-#{stamp}")
+  release = Aptly::Repository.get("#{repo}_#{DIST}")
+  snapshot = release.snapshot(Name: "#{repo}_#{DIST}-#{stamp}")
   # Limit to user for now.
   pubs = Aptly::PublishedRepository.list.select do |x|
     x.Prefix == "#{prefix}" && x.Distribution == DIST
