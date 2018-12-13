@@ -34,10 +34,10 @@ prefix = 'user'
 
 OptionParser.new do |opts|
   opts.on('-t', '--target [TARGET]', 'user or user-lts') do |target|
-    lts = '-lts' if target == 'user-lts'
-    prefix = target
+    lts = '/lts' if target == 'user-lts'
+    prefix = "user#{lts}"
   end
-end
+end.parse!
 
 def send_email(mailText)
   puts 'sending notification mail'
@@ -62,7 +62,7 @@ Faraday.default_connection_options =
 Aptly::Ext::Remote.neon do
   mailText = ""
   differ = RepoDiff.new
-  diffRows = differ.diff_repo(prefix, "release#{lts}", DIST)
+  diffRows = differ.diff_repo("user#{lts}", "release#{lts}", DIST)
   diffRows.each do |name, architecture, new_version, old_version| 
     mailText += name.ljust(20) + architecture.ljust(10) + new_version.ljust(40) + old_version.ljust(40) + "\n"
   end
