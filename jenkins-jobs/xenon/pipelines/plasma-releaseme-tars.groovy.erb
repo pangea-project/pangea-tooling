@@ -15,6 +15,7 @@ cleanNode('master') {
       sh '. ./VERSIONS.inc; mkdir -p /var/www/files/plasma/${VERSION}'
       sh '. ./VERSIONS.inc; cp -r ${VERSION}/*xz /var/www/files/plasma/${VERSION}/'
       sh '. ./VERSIONS.inc; cp -r ${VERSION}/${VERSION}-release-data /var/www/files/plasma/${VERSION}/'
+      sh '. ./VERSIONS.inc; cp -r ${VERSION}/source-plasma-${VERSION}.inc /var/www/files/plasma/${VERSION}/'
     }
     echo 'Now available at http://files.xenon.pangea.pub/plasma/'
   }
