@@ -51,9 +51,7 @@ if $PROGRAM_NAME == __FILE__
   # We somehow end up with a bogus ssl-dev in the images, drop it as otherwise
   # it may prevent snapcraft carrying out package installations (it doesn't
   # do problem resolution it seems).
-  # libwrap0 is a core dep of pulse, we can't have it installed or it won't
-  # get staged properly...
-  Apt.purge('libssl1.0-dev libwrap0')
+  Apt.purge('libssl1.0-dev')
   NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
     # Collapse first, extending also managles dpkg a bit, so we can't
     # expect packages to be in a sane state inside the extender.
