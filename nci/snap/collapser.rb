@@ -123,6 +123,11 @@ module NCI
           end
 
           @root_paths << BuildSnapUnpacker.new(build_snap).unpack
+          # When build-snaps are classic they rpath the core, so make sure we
+          # have the core available for use!
+          # Don't add to root_paths. Presently I cannot imagine what useful
+          # stuff cmake might find there that is not also in the host system.
+          BuildSnapUnpacker.new('core18').unpack
           true
         end
       end

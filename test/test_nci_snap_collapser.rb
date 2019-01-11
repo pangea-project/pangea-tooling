@@ -64,8 +64,12 @@ module NCI::Snap
   class BuildSnapPartCollapserTest < TestCase
     def test_part_collapse
       unpacker = mock('unpacker')
-      BuildSnapUnpacker.expects(:new).returns(unpacker)
+      BuildSnapUnpacker.expects(:new).with('kblocks').returns(unpacker)
       unpacker.expects(:unpack).returns('/snap/kblocks/current')
+
+      core_unpacker = mock('core_unpacker')
+      BuildSnapUnpacker.expects(:new).with('core18').returns(core_unpacker)
+      core_unpacker.expects(:unpack).returns('/snap/core18/current')
 
       part = SnapcraftConfig::Part.new
       part.build_snaps = ['kblocks']
