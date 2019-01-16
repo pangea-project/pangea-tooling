@@ -34,7 +34,7 @@ class RepoMetadataCheck
 
   attr_reader :diff
   def doDiff
-    diff = `git whatchanged --since="8 day ago" -p`
+    diff = `git whatchanged --since="1 day ago" -p`
     puts diff
   end
 
