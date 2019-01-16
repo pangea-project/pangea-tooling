@@ -301,6 +301,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     enqueue(MGMTDockerHubRebuild.new(dependees: []))
     enqueue(MGMTDockerHubCheck.new(dependees: []))
+    enqueue(MGMTRepoMetadataCheck.new(dependees: []))
 
     # Watchers is a hash, only grab the actual jobs and enqueue them.
     watchers.each_value { |w| enqueue(w) }
