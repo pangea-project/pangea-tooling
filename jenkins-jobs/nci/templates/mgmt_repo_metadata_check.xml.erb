@@ -33,9 +33,6 @@
         <reference></reference>
         <parentCredentials>false</parentCredentials>
       </hudson.plugins.git.extensions.impl.SubmoduleOption>
-      <hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
-        <relativeTargetDir>tooling</relativeTargetDir>
-      </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
     </extensions>
   </scm>
   <assignedNode>master</assignedNode>
@@ -53,7 +50,7 @@
     <hudson.tasks.Shell>
       <command>set -ex
 
-./tooling/nci/repo_metadata_check.rb
+/home/neon/tooling/nci/repo_metadata_check.rb
       </command>
     </hudson.tasks.Shell>
   </builders>
