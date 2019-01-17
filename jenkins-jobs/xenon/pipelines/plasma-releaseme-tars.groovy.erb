@@ -9,8 +9,10 @@ cleanNode('master') {
     dir('plasma') {
         sh './plasma-tars'
     }
+    echo 'done'
   }
   stage('push') {
+    echo 'done'
     dir('plasma') {
       sh '. ./VERSIONS.inc; mkdir -p /var/www/files/plasma/${VERSION}'
       sh '. ./VERSIONS.inc; cp -r ${VERSION}/*xz /var/www/files/plasma/${VERSION}/'
@@ -18,6 +20,13 @@ cleanNode('master') {
       sh '. ./VERSIONS.inc; cp -r ${VERSION}/source-plasma-${VERSION}.inc /var/www/files/plasma/${VERSION}/'
     }
     echo 'Now available at http://files.xenon.pangea.pub/plasma/'
+  }
+  stage('QA') {
+    dir('plasma') {
+        sh './plasma-tars-qa'
+        archiveArtifacts '*po-testoutput'
+    }
+    echo 'done'
   }
 }
 
