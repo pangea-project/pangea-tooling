@@ -34,18 +34,8 @@ class RepoMetadataCheck
 
   attr_reader :diff
   def doDiff
-    diff = `git whatchanged --since="1 day ago" -p`
-    puts diff
-  end
-
-  def format_email
-    @text = ""
-    @statuses.each do |name, status_code|
-      if status_code < 0
-        @text += "#{name}: #{status_code}\n"
-      end
-    end
-    @text
+    @diff = `git whatchanged --since="1 day ago" -p`
+    puts "Changed since 1 day ago: #{@diff}"
   end
 
   def send_email
@@ -57,7 +47,7 @@ From: Neon CI <noreply@kde.org>
 To: neon-notifications@kde.org
 Subject: Changes in repo-metadata
 
-#{diff}
+#{@diff}
         MAIL
         smtp.send_message(mail,
                           'no-reply@kde.org',
@@ -69,5 +59,5 @@ end
 if __FILE__==$0
   checker = RepoMetadataCheck.new
   checker.doDiff
-#  checker.send_email
+  checker.send_email
 end
