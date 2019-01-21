@@ -36,7 +36,7 @@ plasma-workspace-wayland
 pm-utils
 powerdevil
 polkit-kde-agent-1
-r8618-dkms
+r8168-dkms
 sddm
 sddm-theme-breeze
 software-properties-common
