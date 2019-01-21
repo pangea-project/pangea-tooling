@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# coding: utf-8
 # frozen_string_literal: true
 #
 # Copyright (C) 2015-2018 Harald Sitter <sitter@kde.org>
@@ -102,7 +103,7 @@ end
 
 pattern = nil
 if new_release
-  pattern = Regexp.new("watcher_release_kde_(#{new_release.join('|')})$")
+  pattern = Regexp.new("bionic_stable_kde_(#{new_release.join('|')})$")
 elsif pim_release
   pattern = Regexp.new("#{NCI.current_series}_unstable_kde_(#{pim_release.join('|')})$")
 else

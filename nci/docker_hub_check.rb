@@ -51,7 +51,7 @@ class DockerHubCheck
       json = JSON.parse(f.read)
       json['results'].each do |result|
         @statuses.key?(result['dockertag_name']) || @statuses[result['dockertag_name']] = result['status']
-        @failure_found = true if result['status'] < 0
+        @failure_found = true if @statuses[result['dockertag_name']] < 0
       end
     end
     @statuses
