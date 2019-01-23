@@ -51,7 +51,15 @@ module NCI
       private
 
       def append!
+        return unless kf5_build_snap?
+
         File.open(manifest_path, 'a') { |f| f.puts(exclusion.join("\n")) }
+      end
+
+      def kf5_build_snap?
+        data['parts'].any? do |_name, part|
+          part.build_snaps&.any? { |x| x.include?('kde-frameworks-5') }
+        end
       end
 
       def exclusion

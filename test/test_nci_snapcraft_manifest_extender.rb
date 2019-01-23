@@ -47,5 +47,17 @@ module NCI::Snap
       assert_equal('', File.read('man'))
       assert_includes(File.read('man.ext'), 'meep')
     end
+
+    def test_no_run_without_base_snap
+      File.write(ManifestExtender.manifest_path, '')
+      FileUtils.cp(data, 'snapcraft.yaml')
+      ManifestExtender.new('snapcraft.yaml').run do
+      end
+      assert_path_exist('man')
+      assert_path_exist('man.bak')
+      assert_path_exist('man.ext')
+      assert_equal('', File.read('man'))
+      assert_equal(File.read('man.ext'), '') # MUST BE EMPTY! this is no kf5 snap
+    end
   end
 end

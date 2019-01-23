@@ -30,7 +30,7 @@ parts:
         - kf5
         source: https://github.com/apachelogger/kf5-snap-env.git
     kolourpaint:
-        build-snaps: [kde-frameworks-5-core18-sdk]
+        build-snaps: [gnome123]
         after: [kde-frameworks-5-env]
         source: https://download.kde.org/stable/applications/17.04.3/src/kolourpaint-17.04.3.tar.xz
         plugin: cmake
