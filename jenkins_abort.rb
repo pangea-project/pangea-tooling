@@ -33,7 +33,7 @@ class JobsAborter
   attr_reader :pattern
   attr_reader :builds
 
-  def initialize(pattern)
+  def initialize(pattern, force:)
     @log = Logger.new(STDOUT).tap do |l|
       l.progname = File.basename(__FILE__, '.rb')
       l.level = Logger::INFO
@@ -41,6 +41,7 @@ class JobsAborter
     @log.info pattern
     @pattern = pattern
     @builds = initial_builds
+    @force = force
   end
 
   def run
@@ -52,6 +53,10 @@ class JobsAborter
   end
 
   private
+
+  def force?
+    @force
+  end
 
   def murder
     stab_them(:abort)
@@ -69,6 +74,8 @@ class JobsAborter
   end
 
   def query_continue?(failed_action, new_action)
+    return true if force?
+
     loop do
       puts <<-MSG
 --------------------------------------------------------------------------------
@@ -119,6 +126,8 @@ These jobs did not #{failed_action} in time, do you want to #{new_action}? [y/n]
   end
 end
 
+@force = false
+
 OptionParser.new do |opts|
   opts.banner = <<-HELP_BANNER
 Usage: #{$0} 'regex'
@@ -135,9 +144,13 @@ e.g.
   • All jobs:
     '.*src'
   HELP_BANNER
+
+  opts.on('-f', '--force', 'TERM and KILL if necessary') do
+    @force = true
+  end
 end.parse!
 
 raise 'Need ruby pattern as argv0' if ARGV.empty?
 pattern = Regexp.new(ARGV[0])
 
-JobsAborter.new(pattern).run
+JobsAborter.new(pattern, force: @force).run
