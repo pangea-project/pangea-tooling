@@ -30,64 +30,112 @@ require_relative 'lib/testcase'
 require 'mocha/test_unit'
 require 'webmock/test_unit'
 
-  VCR.configure do |config|
-    config.cassette_library_dir = '../data/test_dci_release_branches/fixtures/vcr_cassettes'
-    config.hook_into :webmock
-    config.filter_sensitive_data(ENV.fetch['OCTOKIT_TEST_GITHUB_TOKEN']) do |interaction|
-      interaction.request.headers['Authorization'].first
+
+VCR.configure do |config|
+  config.cassette_library_dir = '../data/test_dci_release_branches/fixtures/vcr_cassettes'
+  config.hook_into :webmock
+end
+
+class VCRTest < TestCase
+  def test_github_org_repos
+    VCR.use_cassette('org_repos') do
+      response = Net::HTTP.get_response(URI('https://api.github.com/orgs/dci-extras-packaging'))
+      assert_match /dci-extras-packaging/, response.body
+      request = stub_request(:get, 'https://api.github.com/orgs/dci-extras-packaging')
+      .with(
+          headers: {
+            'Accept'=>'application/vnd.github.v3+json',
+            'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'Content-Type'=>'application/json',
+            'User-Agent'=>'Octokit Ruby Gem 4.13.0'
+          }
+        ).to_return(status: 200, body: response.body, headers: {})
+      resource = Octokit::Client.new(adapter: request)
+      repos = resource.org_repos('dci-extras-packaging')
+      assert_not_nil(repos)
+      repo_names = []
+      repos.each do |r|
+        repo_names << r.name
+      end
+      assert repo_names.include?('ring-kde')
     end
   end
 
-  class VCRTest < TestCase
-    def test_github_org_repos
-      VCR.use_cassette('orgs_repos') do
-        response = Net::HTTP.get_response(URI('https://api.github.com/orgs/dci-extras-packaging'))
-        assert_match /dci-extras-packaging/, response.body
-        request = stub_request(:get, 'https://api.github.com/orgs/dci-extras-packaging')
-        .with(
-            headers: {
-              'Accept'=>'application/vnd.github.v3+json',
-              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-              'Content-Type'=>'application/json',
-              'User-Agent'=>'Octokit Ruby Gem 4.13.0'
-            }
-          ).to_return(status: 200, body: response.body, headers: {})
-        resource = Octokit::Client.new(adapter: request)
-        repos = resource.org_repos('dci-extras-packaging')
-        assert_not_nil(repos)
-        repo_names = []
-        repos.each do |r|
-          repo_names << r.name
-        end
-        assert repo_names.include?('ring-kde')
-      end
-    end
+  def test_github_branches
+    resource = Struct.new(:org_repos, :name, :branch)
+    Octokit::Client
+      .any_instance
+      .expects(:org_repos)
+      .returns([resource.new('dci-extras-packaging', 'ring-kde', 'Netrunner/1901')])
 
-    def test_github_extras_branches
-      VCR.use_cassette('repobranches2') do
+    fixture_path = "#{datadir}/packaging"
+    branches = %w(master Netrunner/1901)
+    Dir.mktmpdir do |dir|
+      FileUtils.mkpath(dir)
+      Rugged::Repository.init_at(dir, :bare)
+      Dir.chdir(dir) do
+        repo = Rugged::Repository.clone_at(dir, "#{dir}/ring-kde")
+        Dir.mkdir('debian') unless Dir.exist?('debian')
+        raise "missing fixture: #{fixture_path}" unless File.exist?(fixture_path)
 
-        response = Net::HTTP.get_response(URI('https://api.github.com/orgs/dci-extras-packaging/repos'))
-        assert_match /dci-extras-packaging/, response.body
-        request = stub_request(:get, 'https://api.github.com/orgs/dci-extras-packaging/repos')
-        .with(
-            headers: {
-              'Accept'=>'application/vnd.github.v3+json',
-              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-              'Content-Type'=>'application/json',
-              'User-Agent'=>'Octokit Ruby Gem 4.13.0'
-            }
-          ).to_return(status: 200, body: response.body, headers: {})
-        resource = Octokit::Client.new(adapter: request)
-        repos = resource.repositories
-        assert_not_nil(repos)
-        repo_names = []
-        repos.each do |r|
-          repo_names << r.name
-          puts r.name
+        FileUtils.cp_r("#{fixture_path}/.", '.')
+        index = repo.index
+        index.add_all
+        index.write
+        tree = index.write_tree
+        author = { name: 'Test', email: 'test@test.com', time: Time.now }
+        Rugged::Commit.create(repo,
+                              author: author,
+                              message: 'commitmsg',
+                              committer: author,
+                              parents: [],
+                              tree: tree,
+                              update_ref: 'HEAD')
+
+        branches.each do |branch|
+          repo.create_branch(branch) unless repo.branches.exist?(branch)
         end
+        origin = repo.remotes['origin']
+        repo.references.each_name do |r|
+          origin.push(r)
+        end
+        repo.checkout 'Netrunner/1901'
+        dci = Octokit::Client.new
+        assert dci.org_repos('dci-extras-packaging')
+        assert_equal 'Netrunner/1901', repo.head.name.sub(/^refs\/heads\//, '')
       end
     end
   end
+end
+
+  #   end
+  # end
+  #
+  #   def test_github_extras_branches
+  #     VCR.use_cassette('repobranches2') do
+  #
+  #       response = Net::HTTP.get_response(URI("https://api.github.com/orgs/dci-extras-packaging/repos?access_token=#{AUTH_TOKEN}"))
+  #       assert_match /dci-extras-packaging/, response.body
+  #       request = stub_request(response)
+  #       .with(
+  #           headers: {
+  #             'Accept'=>'application/vnd.github.v3+json',
+  #             'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+  #             'Content-Type'=>'application/json',
+  #             'User-Agent'=>'Octokit Ruby Gem 4.13.0'
+  #           }
+  #         ).to_return(status: 200, body: response.body, headers: {})
+  #       resource = Octokit::Client.new(adapter: request)
+  #       repos = resource.repositories
+  #       assert_not_nil(repos)
+  #       repo_names = []
+  #       repos.each do |r|
+  #         repo_names << r.name
+  #         puts r.name
+  #       end
+  #     end
+  #   end
+
 
       #     github_repos = %w(dci-extras-packaging/latte-dock)
       #     github_dir = create_fake_git(branches: %w(master Netrunner/1901),
