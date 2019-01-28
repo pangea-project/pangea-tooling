@@ -51,7 +51,10 @@ module NCI
       private
 
       def append!
-        return unless kf5_build_snap?
+        unless kf5_build_snap?
+          warn 'NOT A KF5 BUILD SNAP USER. NOT MANGLING MANIFEST!'
+          return
+        end
 
         File.open(manifest_path, 'a') { |f| f.puts(exclusion.join("\n")) }
       end
