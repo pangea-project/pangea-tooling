@@ -3,7 +3,7 @@ env.TYPE = '<%= type %>'
 env.APTLY_REPOSITORY = '<%= repo %>'
 env.PWD_BIND = '/workspace'
 
-node('master') {
+node('cloud && amd64') {
     wrap([$class: 'TimestamperBuildWrapper']) {
         wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
             stage('clone[asgen]') {
