@@ -62,7 +62,9 @@ module NCI
 
       def kf5_build_snap?
         data['parts'].any? do |_name, part|
-          part.build_snaps&.any? { |x| x.include?('kde-frameworks-5') }
+          is = part.build_snaps&.any? { |x| x.include?('kde-frameworks-5') }
+          use = part.configflags&.any? { |x| x.include?('kde-frameworks-5') }
+          is || use
         end
       end
 

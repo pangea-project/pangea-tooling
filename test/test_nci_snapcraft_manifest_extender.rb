@@ -48,6 +48,21 @@ module NCI::Snap
       assert_includes(File.read('man.ext'), 'meep')
     end
 
+    # The build snap collapser removes records of the build snap, so our
+    # detection logic for extending the manifest needs to have other
+    # (post-collapsion) ways to determine if a snap is using the build snap.
+    def test_run_using_sdk
+      File.write(ManifestExtender.manifest_path, '')
+      FileUtils.cp(data, 'snapcraft.yaml')
+      ManifestExtender.new('snapcraft.yaml').run do
+      end
+      assert_path_exist('man')
+      assert_path_exist('man.bak')
+      assert_path_exist('man.ext')
+      assert_equal('', File.read('man'))
+      assert_includes(File.read('man.ext'), 'meep')
+    end
+
     def test_no_run_without_base_snap
       File.write(ManifestExtender.manifest_path, '')
       FileUtils.cp(data, 'snapcraft.yaml')
