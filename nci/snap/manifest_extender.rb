@@ -57,7 +57,6 @@ module NCI
         end
 
         File.open(manifest_path, 'a') { |f| f.puts(exclusion.join("\n")) }
-        puts File.read(manifest_path)
       end
 
       def kf5_build_snap?
