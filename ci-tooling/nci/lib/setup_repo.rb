@@ -162,24 +162,14 @@ APT::Default-Release "#{LSB::DISTRIB_CODENAME}";
 
     def debline(type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
       type = type.tr('-', '/')
-      if %w[unstable stable].include?(type)
-        format('deb http://archive.neon.kde.org/tmp/%<type>s %<dist>s main',
+      format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
-      else
-        format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
-             type: type, dist: dist)
-      end
     end
 
     def debsrcline(type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
       type = type.tr('-', '/')
-      if %w[unstable stable].include?(type)
-        format('deb-src http://archive.neon.kde.org/tmp/%<type>s %<dist>s main',
+      format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
-      else
-        format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
-             type: type, dist: dist)
-      end
     end
 
     def add_repo!
