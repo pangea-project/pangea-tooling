@@ -29,6 +29,7 @@ module NCI
     class Publisher
       SNAPNAME = ENV.fetch('APPNAME')
       TYPE_TO_CHANNEL = {
+        'user' => 'candidate',
         'release' => 'candidate',
         'stable' => 'beta',
         'unstable' => 'edge'
