@@ -158,18 +158,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                  " We'll not create a job for #{distribution}."
             next
           end
-          # Fairly akward special casing this. Snaps only build releases right
-          # now.
-          # FIXME: xenial hardcoded because moving to bionic requires some
-          #   changes to how the framework snap is built and named and handled
-          #   to avoid ABI issues.
-          is_app = KDEProjectsComponent.applications.include?(project.name)
-          if type == 'release' && (is_app || project.name == 'konversation') &&
-             !EXCLUDE_SNAPS.include?(project.name) && distribution == 'xenial'
-            enqueue(AppSnapJob.new(project.name))
-          end
-          if type == 'unstable' && project.snapcraft &&
-             !EXCLUDE_SNAPS.include?(project.name) && distribution == 'xenial'
+          # Fairly akward special casing because snapcrafting is a bit
+          # special-interest.
+          # Also forced onto bionic, snapcraft porting requires special care
+          # and is detatched from deb-tech more or less.
+          if %w[unstable release].include?(type) && project.snapcraft &&
+             !EXCLUDE_SNAPS.include?(project.name) && distribution == 'bionic'
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
           end
