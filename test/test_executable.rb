@@ -52,7 +52,9 @@ class ExecutableTest < TestCase
           next unless File.exist?(file)
           if File.executable?(file)
             sb = Shebang.new(File.open(file).readline)
-            assert(sb.valid, "Invalid shebang #{file}")
+            # The trailing space in the msg is so it can be copy pasted,
+            # without this it'd end in a fullstop.
+            assert(sb.valid, "Invalid shebang #{file} ")
           else
             not_executable << file
           end
