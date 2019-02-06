@@ -26,6 +26,7 @@ class KCrashLinkValidatorTest < TestCase
   def setup
     FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
     ENV['TYPE'] = 'unstable'
+    ENV['JOB_NAME'] = 'whoopdydoopdy' # only used for blacklist check
   end
 
   def test_run
