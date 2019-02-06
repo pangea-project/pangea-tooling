@@ -49,7 +49,7 @@ pwd
 tar -xf *.tar.gz
 
 rm -rv .bundle || true
-gem install --no-rdoc bundler
+gem install --no-document bundler
 # FIXME: add --without development test back
 # https://github.com/pangea-project/pangea-tooling/issues/17
 bundle install --jobs=`nproc` --no-cache --local --frozen --system
