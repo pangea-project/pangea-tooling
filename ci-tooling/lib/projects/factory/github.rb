@@ -67,7 +67,7 @@ class ProjectsFactory
         begin
             client.login
             repos = client.org_repos(base)
-        rescue Net::OpenTimeout
+        rescue Net::OpenTimeout, Faraday::SSLError, Faraday::ConnectionFailed
             retry
         end
         @list_cache[base] = repos.collect(&:name).freeze
