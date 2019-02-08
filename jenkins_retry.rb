@@ -103,7 +103,7 @@ end
 
 pattern = nil
 if new_release
-  pattern = Regexp.new("bionic_stable_kde_(#{new_release.join('|')})$")
+  pattern = Regexp.new("watcher_release_kde_(#{new_release.join('|')})$")
 elsif pim_release
   pattern = Regexp.new("#{NCI.current_series}_unstable_kde_(#{pim_release.join('|')})$")
 else
