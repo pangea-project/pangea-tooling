@@ -88,8 +88,7 @@ Apt.install('breeze-icon-theme', 'hicolor-icon-theme')
 FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
 config.write("#{run_dir}/asgen-config.json")
 suites.each do |suite|
-  cmd.run("#{build_dir}/appstream-generator", 'process', '--verbose', suite,
-          chdir: run_dir)#,
+  cmd.run("appstream-generator", 'process', '--verbose', suite, chdir: run_dir)#,
           # env: { http_proxy: NCI::PROXY_URI, https_proxy: NCI::PROXY_URI })
 end
 
