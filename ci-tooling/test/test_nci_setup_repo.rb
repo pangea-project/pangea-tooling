@@ -230,4 +230,12 @@ class NCISetupRepoTest < TestCase
   ensure
     Apt::Preference.config_dir = nil
   end
+
+  def test_codename
+    assert_equal('vivid', NCI.setup_repo_codename)
+    NCI.setup_repo_codename = 'xx'
+    assert_equal('xx', NCI.setup_repo_codename)
+    NCI.reset_setup_repo
+    assert_equal('vivid', NCI.setup_repo_codename)
+  end
 end

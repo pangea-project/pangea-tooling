@@ -34,6 +34,14 @@ module NCI
 
   module_function
 
+  def setup_repo_codename
+    @setup_repo_codename ||= OS::VERSION_CODENAME
+  end
+
+  def setup_repo_codename=(codename)
+    @setup_repo_codename = codename
+  end
+
   def default_sources_file=(file)
     @default_sources_file = file
   end
@@ -45,6 +53,7 @@ module NCI
   def reset_setup_repo
     @repo_added = nil
     @default_sources_file = nil
+    @setup_repo_codename = nil
   end
 
   def add_repo_key!
@@ -123,7 +132,7 @@ Pin-Priority: 1001
     # This effectively increases the apt score of the current series to 990!
     def set_default_release!
       File.write('/etc/apt/apt.conf.d/99-default', <<-CONFIG)
-APT::Default-Release "#{OS::VERSION_CODENAME}";
+APT::Default-Release "#{setup_repo_codename}";
       CONFIG
     end
 
@@ -143,7 +152,7 @@ APT::Default-Release "#{OS::VERSION_CODENAME}";
         lines = [debsrcline(dist: dist)]
         # Also add deb entry -.-
         # https://bugs.debian.org/892174
-        lines << debline(dist: dist) if dist != OS::VERSION_CODENAME
+        lines << debline(dist: dist) if dist != setup_repo_codename
         File.write("/etc/apt/sources.list.d/neon_src_#{dist}.list",
                    lines.join("\n"))
       end
@@ -160,13 +169,13 @@ APT::Default-Release "#{OS::VERSION_CODENAME}";
       File.write(default_sources_file, lines.join("\n"))
     end
 
-    def debline(type: ENV.fetch('TYPE'), dist: OS::VERSION_CODENAME)
+    def debline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
       type = type.tr('-', '/')
       format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
     end
 
-    def debsrcline(type: ENV.fetch('TYPE'), dist: OS::VERSION_CODENAME)
+    def debsrcline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
       type = type.tr('-', '/')
       format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
