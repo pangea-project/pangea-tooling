@@ -75,9 +75,7 @@ CONTAINER_NAME = "neon_#{JOB_NAME}"
 c = nil
 binds = ["#{Dir.pwd}:#{PWD_BIND}"]
 binds << "#{CCACHE_DIR}:/ccache" if CCACHE_DIR
-if PANGEA_MAIL_CONFIG_PATH
-  binds << "#{PANGEA_MAIL_CONFIG_PATH}:#{PANGEA_MAIL_CONFIG_PATH}"
-end
+binds << "#{PANGEA_MAIL_CONFIG_PATH}:#{PANGEA_MAIL_CONFIG_PATH}" if PANGEA_MAIL_CONFIG_PATH
 c = CI::Containment.new(CONTAINER_NAME, image: IMAGE, binds: binds)
 
 status_code = c.run(Cmd: ARGV, WorkingDir: PWD_BIND)
