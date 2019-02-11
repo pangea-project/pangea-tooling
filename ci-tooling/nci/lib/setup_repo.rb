@@ -65,8 +65,8 @@ module NCI
     end
   end
 
-  def setup_repo!(with_source: false)
-    setup_proxy!
+  def setup_repo!(with_source: false, with_proxy: true)
+    setup_proxy! if with_proxy
     add_repo!
     add_source_repo! if with_source
     setup_testing! if ENV.fetch('TYPE').include?('testing')
