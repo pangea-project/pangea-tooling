@@ -74,6 +74,7 @@ end
 # correctly set up. Manually force the right codename.
 # Note that we do this here because we only need this to install the
 # correct icon themes.
+# Also disable proxy since we don't want debian shebang cached (for now)
 NCI.setup_repo_codename = DIST
 NCI.setup_repo!(with_proxy: false)
 
