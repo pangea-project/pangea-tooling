@@ -75,7 +75,7 @@ end
 # Note that we do this here because we only need this to install the
 # correct icon themes.
 NCI.setup_repo_codename = DIST
-NCI.setup_repo!
+NCI.setup_repo!(with_proxy: false)
 
 # FIXME: http_proxy and friends are possibly not the smartest idea.
 #   this will also route image fetching through the proxy I think, and the proxy
