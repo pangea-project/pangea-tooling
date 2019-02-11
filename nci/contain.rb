@@ -25,7 +25,7 @@ Docker.options[:read_timeout] = 7 * 60 * 60 # 7 hours.
 
 DIST = ENV.fetch('DIST')
 JOB_NAME = ENV.fetch('JOB_NAME')
-PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
+PWD_BIND = ENV.fetch('PWD_BIND', '/workspace')
 PANGEA_MAIL_CONFIG_PATH = ENV.fetch('PANGEA_MAIL_CONFIG_PATH', nil)
 IMAGE = ENV.fetch('PANGEA_DOCKER_IMAGE', CI::PangeaImage.new(:ubuntu, DIST))
 
@@ -72,23 +72,13 @@ end
 CCACHE_DIR = default_ccache_dir
 CONTAINER_NAME = "neon_#{JOB_NAME}"
 
-# TODO: transition away from compat behavior and have contain properly
-#       apply pwd_bind all the time?
 c = nil
-if PWD_BIND != Dir.pwd # backwards compat. Behave as previosuly without pwd_bind
-  binds = ["#{Dir.pwd}:#{PWD_BIND}"]
-  binds << "#{CCACHE_DIR}:/ccache" if CCACHE_DIR
-  if PANGEA_MAIL_CONFIG_PATH
-    binds << "#{PANGEA_MAIL_CONFIG_PATH}:#{PANGEA_MAIL_CONFIG_PATH}"
-  end
-  c = CI::Containment.new(CONTAINER_NAME, image: IMAGE, binds: binds)
-else
-  binds = ["#{Dir.pwd}"]
-  if PANGEA_MAIL_CONFIG_PATH
-    binds << "#{PANGEA_MAIL_CONFIG_PATH}"
-  end
-  c = CI::Containment.new(CONTAINER_NAME, image: IMAGE, binds: binds)
+binds = ["#{Dir.pwd}:#{PWD_BIND}"]
+binds << "#{CCACHE_DIR}:/ccache" if CCACHE_DIR
+if PANGEA_MAIL_CONFIG_PATH
+  binds << "#{PANGEA_MAIL_CONFIG_PATH}:#{PANGEA_MAIL_CONFIG_PATH}"
 end
+c = CI::Containment.new(CONTAINER_NAME, image: IMAGE, binds: binds)
 
 status_code = c.run(Cmd: ARGV, WorkingDir: PWD_BIND)
 exit status_code
