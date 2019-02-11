@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2019 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -27,6 +27,10 @@ require_relative '../ci-tooling/lib/apt'
 require_relative '../ci-tooling/lib/asgen'
 require_relative '../ci-tooling/lib/nci'
 
+# WARNING: this program is run from a minimal debian container without
+#  the tooling properly provisioned. Great care must be taken about
+#  brining in too many or complex dependencies!
+
 STDOUT.sync = true # lest TTY output from meson gets merged randomly
 
 TYPE = ENV.fetch('TYPE')
@@ -36,54 +40,19 @@ LAST_BUILD_STAMP = File.absolute_path('last_build')
 
 NCI.setup_repo!
 
-old_rev = nil
-old_rev = File.read(LAST_BUILD_STAMP).strip if File.exist?(LAST_BUILD_STAMP)
-
 cmd = TTY::Command.new
 
-Dir.chdir('asgen')
-
-build_dir = File.absolute_path('build')
 run_dir = File.absolute_path('run')
 
 # Runtime Deps
 Apt::Get.install('appstream-generator') # Make sure runtime deps are in.
-Apt::Get.purge('appstream-generator')
-Apt.install(%w[npm optipng liblmdb0 libmustache-d0]) || raise
-Apt.install(%w[nodejs-legacy]) || Apt.install(%w[nodejs]) || raise
-cmd.run('npm', 'install', '-g', 'bower')
-
-current_rev = cmd.run('git', 'rev-parse', 'HEAD').out.strip
-unless old_rev && old_rev == current_rev
-  warn 'Building asgen!'
-  # Buildtime Deps
-  Apt::Get.build_dep('appstream-generator')
-
-  # Mangle docs out of the build. They do not pass half the time and we don't
-  # need them -.-
-
-  data = File.read('meson.build')
-  data = data.gsub("subdir('docs')", '')
-  File.write('meson.build', data)
-
-  FileUtils.rm_rf(build_dir, verbose: true)
-  cmd.run('meson', build_dir)
-  # Since we only run this if the build dir doesn't exist applying additional
-  # configs either means that you need to wipe all build dirs in all asgen
-  # jobs, or programtically determine whether to wipe the build dir.
-  # The latter you can do by json dumping the build flags
-  # `meson introspect --buildoptions build`
-  cmd.run('meson', 'configure', '-Ddownload-js=true', '-Dbuildtype=minsize',
-          build_dir)
-  # Run with low concurrency since this is currently run on master
-  # FIXME: don't run asgen on master + drop job and load restriction
-  cmd.run('ninja', '-j', '2', '-l', '5', '-C', build_dir)
-end
-File.write(LAST_BUILD_STAMP, current_rev)
 
 suites = [DIST]
 config = ASGEN::Conf.new("neon/#{TYPE}")
-config.ArchiveRoot = "https://archive.neon.kde.org/#{APTLY_REPOSITORY}"
+# NB: use origin here. dlang's curl wrapper doesn't know how HTTP works and
+# parses HTTP/2 status lines incorrectly. Fixed in git and landing with LDC 1.13
+# https://github.com/dlang/phobos/commit/1d4cfe3d8875c3e6a57c7e90fb736f09b18ddf2d
+config.ArchiveRoot = "https://origin.archive.neon.kde.org/#{APTLY_REPOSITORY}"
 config.MediaBaseUrl =
   "https://metadata.neon.kde.org/appstream/#{TYPE}_#{DIST}/media"
 config.HtmlBaseUrl =

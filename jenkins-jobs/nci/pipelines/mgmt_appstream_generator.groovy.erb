@@ -2,19 +2,20 @@ env.DIST = '<%= dist %>'
 env.TYPE = '<%= type %>'
 env.APTLY_REPOSITORY = '<%= repo %>'
 env.PWD_BIND = '/workspace'
+env.PANGEA_DOCKER_IMAGE = 'debian:sid'
 
 node('cloud && amd64') {
     wrap([$class: 'TimestamperBuildWrapper']) {
         wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-            stage('clone[asgen]') {
-                sh '[ -d asgen ] || mkdir asgen'
-                dir('asgen') {
-                    git branch: 'bionic-with-http-fix', url: 'https://github.com/apachelogger/appstream-generator.git'
+            stage('clone[tooling]') {
+                sh '[ -d tooling ] || mkdir tooling'
+                dir('tooling') {
+                    git branch: 'master', url: 'https://github.com/blue-systems/pangea-tooling'
                 }
             }
 
             stage('generate') {
-                sh '~/tooling/nci/contain.rb /tooling/nci/asgen.rb'
+                sh 'tooling/nci/contain.rb $PWD_BIND/tooling/nci/asgen.sh'
             }
 
             stage('publish') {
