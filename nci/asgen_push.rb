@@ -76,7 +76,7 @@ pubdir = "/srv/www/metadata.neon.kde.org/appstream/#{TYPE}_#{DIST}"
 
 # This is the export dep11 data, we don't need it, so throw it away
 system("rm -rf #{export_dir}/data")
-# NB: We use rsync here because a) SFTP is dumb and may require copyign things
+# NB: We use rsync here because a) SFTP is dumb and may require copying things
 #   to tmp path, removing pubdir and moving tmpdir to pubdir, while rsync will
 #   be faster.
 remote_dir = "metadataneon@charlotte.kde.org:#{pubdir}"
