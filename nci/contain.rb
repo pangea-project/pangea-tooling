@@ -72,7 +72,6 @@ end
 CCACHE_DIR = default_ccache_dir
 CONTAINER_NAME = "neon_#{JOB_NAME}"
 
-c = nil
 binds = ["#{Dir.pwd}:#{PWD_BIND}"]
 binds << "#{CCACHE_DIR}:/ccache" if CCACHE_DIR
 binds << "#{PANGEA_MAIL_CONFIG_PATH}:#{PANGEA_MAIL_CONFIG_PATH}" if PANGEA_MAIL_CONFIG_PATH
