@@ -26,7 +26,7 @@ require 'webmock/test_unit'
 
 class NCISetupRepoTest < TestCase
   def setup
-    LSB.instance_variable_set(:@hash, DISTRIB_CODENAME: 'vivid')
+    OS.instance_variable_set(:@hash, VERSION_CODENAME: 'vivid')
 
     # Reset caching.
     Apt::Repository.send(:reset)
@@ -57,7 +57,7 @@ class NCISetupRepoTest < TestCase
     Apt::Repository.send(:reset)
 
     WebMock.allow_net_connect!
-    LSB.reset
+    OS.reset
     ENV.delete('TYPE')
   end
 

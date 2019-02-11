@@ -22,7 +22,7 @@ require 'net/http'
 require 'open-uri'
 
 require_relative '../../lib/apt'
-require_relative '../../lib/lsb'
+require_relative '../../lib/os'
 require_relative '../../lib/retry'
 require_relative '../../lib/nci'
 
@@ -123,7 +123,7 @@ Pin-Priority: 1001
     # This effectively increases the apt score of the current series to 990!
     def set_default_release!
       File.write('/etc/apt/apt.conf.d/99-default', <<-CONFIG)
-APT::Default-Release "#{LSB::DISTRIB_CODENAME}";
+APT::Default-Release "#{OS::VERSION_CODENAME}";
       CONFIG
     end
 
@@ -143,7 +143,7 @@ APT::Default-Release "#{LSB::DISTRIB_CODENAME}";
         lines = [debsrcline(dist: dist)]
         # Also add deb entry -.-
         # https://bugs.debian.org/892174
-        lines << debline(dist: dist) if dist != LSB::DISTRIB_CODENAME
+        lines << debline(dist: dist) if dist != OS::VERSION_CODENAME
         File.write("/etc/apt/sources.list.d/neon_src_#{dist}.list",
                    lines.join("\n"))
       end
@@ -160,13 +160,13 @@ APT::Default-Release "#{LSB::DISTRIB_CODENAME}";
       File.write(default_sources_file, lines.join("\n"))
     end
 
-    def debline(type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
+    def debline(type: ENV.fetch('TYPE'), dist: OS::VERSION_CODENAME)
       type = type.tr('-', '/')
       format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
     end
 
-    def debsrcline(type: ENV.fetch('TYPE'), dist: LSB::DISTRIB_CODENAME)
+    def debsrcline(type: ENV.fetch('TYPE'), dist: OS::VERSION_CODENAME)
       type = type.tr('-', '/')
       format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
