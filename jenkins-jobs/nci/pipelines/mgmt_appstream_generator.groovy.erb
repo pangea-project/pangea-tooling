@@ -19,10 +19,8 @@ node('cloud && amd64') {
             }
 
             stage('publish') {
-                dir('asgen') {
-                    withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: '')]) {
-                      sh '~/tooling/nci/asgen_push.rb'
-                    }
+                withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: '')]) {
+                    sh '~/tooling/nci/asgen_push.rb'
                 }
             }
         }
