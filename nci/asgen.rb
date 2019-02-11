@@ -38,14 +38,13 @@ DIST = ENV.fetch('DIST')
 APTLY_REPOSITORY = ENV.fetch('APTLY_REPOSITORY')
 LAST_BUILD_STAMP = File.absolute_path('last_build')
 
-NCI.setup_repo!
+# Runtime Deps - install before repo setup so we get these from debian and
+# not run into comapt issues between neon's repo and debian!
+Apt::Get.install('appstream-generator') # Make sure runtime deps are in.
 
 cmd = TTY::Command.new
 
 run_dir = File.absolute_path('run')
-
-# Runtime Deps
-Apt::Get.install('appstream-generator') # Make sure runtime deps are in.
 
 suites = [DIST]
 config = ASGEN::Conf.new("neon/#{TYPE}")
@@ -70,6 +69,13 @@ suites.each do |suite|
     s.useIconTheme = 'breeze'
   end
 end
+
+# Since we are on debian the actual repo codename needs some help to get
+# correctly set up. Manually force the right codename.
+# Note that we do this here because we only need this to install the
+# correct icon themes.
+NCI.setup_repo_codename = DIST
+NCI.setup_repo!
 
 # FIXME: http_proxy and friends are possibly not the smartest idea.
 #   this will also route image fetching through the proxy I think, and the proxy
