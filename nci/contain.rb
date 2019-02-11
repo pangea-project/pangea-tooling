@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2014-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2014-2019 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -27,6 +27,7 @@ DIST = ENV.fetch('DIST')
 JOB_NAME = ENV.fetch('JOB_NAME')
 PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
 PANGEA_MAIL_CONFIG_PATH = ENV.fetch('PANGEA_MAIL_CONFIG_PATH', nil)
+IMAGE = ENV.fetch('PANGEA_DOCKER_IMAGE', CI::PangeaImage.new(:ubuntu, DIST))
 
 # Whitelist a bunch of Jenkins variables for consumption inside the container.
 whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME BUILD_URL
@@ -80,17 +81,13 @@ if PWD_BIND != Dir.pwd # backwards compat. Behave as previosuly without pwd_bind
   if PANGEA_MAIL_CONFIG_PATH
     binds << "#{PANGEA_MAIL_CONFIG_PATH}:#{PANGEA_MAIL_CONFIG_PATH}"
   end
-  c = CI::Containment.new(CONTAINER_NAME,
-                          image: CI::PangeaImage.new(:ubuntu, DIST),
-                          binds: binds)
+  c = CI::Containment.new(CONTAINER_NAME, image: IMAGE, binds: binds)
 else
   binds = ["#{Dir.pwd}"]
   if PANGEA_MAIL_CONFIG_PATH
     binds << "#{PANGEA_MAIL_CONFIG_PATH}"
   end
-  c = CI::Containment.new(CONTAINER_NAME,
-                          image: CI::PangeaImage.new(:ubuntu, DIST),
-                          binds: binds)
+  c = CI::Containment.new(CONTAINER_NAME, image: IMAGE, binds: binds)
 end
 
 status_code = c.run(Cmd: ARGV, WorkingDir: PWD_BIND)
