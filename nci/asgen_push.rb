@@ -23,6 +23,7 @@ require 'fileutils'
 require 'net/sftp'
 require 'net/ssh'
 require 'tmpdir'
+require 'tty-command'
 
 require_relative '../ci-tooling/lib/debian/release'
 require_relative '../ci-tooling/lib/nci'
@@ -65,11 +66,72 @@ targetdir = "/home/neonarchives/aptly/skel/#{APTLY_REPOSITORY}/dists/#{DIST}"
 # stop-gap we'll simply make sure an uncompressed file is around.
 # https://github.com/aptly-dev/aptly/pull/473#issuecomment-391281324
 Dir.glob("#{dep11_dir}/**/*.gz") do |compressed|
+  next if compressed.include?('by-hash') # do not follow by-hash
   system('gunzip', '-k', compressed) || raise
 end
 
-tmpdir = "/home/neonarchives/asgen_push.#{APTLY_REPOSITORY.tr('/', '-')}"
-targetdir = "/home/neonarchives/aptly/skel/#{APTLY_REPOSITORY}/dists/#{DIST}"
+Sum = Struct.new(:file, :value)
+
+keys_and_tools = {
+  'MD5Sum' => 'md5sum',
+  'SHA1' => 'sha1sum',
+  'SHA256' => 'sha256sum',
+  'SHA512' => 'sha512sum'
+}
+
+keys_and_sums = {}
+
+cmd = TTY::Command.new
+
+# Create a sum map for all files, we'll then by-hash each of them.
+Dir.glob("#{dep11_dir}/*") do |file|
+  next if File.basename(file) == 'by-hash'
+  raise "Did not expect !file: #{file}" unless File.file?(file)
+  keys_and_tools.each do |key, tool|
+    keys_and_sums[key] ||= []
+    sum = cmd.run(tool, file).out.split(' ')[0]
+    keys_and_sums[key] << Sum.new(File.absolute_path(file), sum)
+  end
+end
+require 'pp'
+pp keys_and_sums
+
+Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives',
+                keys: ENV.fetch('SSH_KEY_FILE'), keys_only: true) do |sftp|
+  begin
+    sftp.lstat!("#{targetdir}/by-hash")
+    sftp.download!("#{targetdir}/by-hash", dep11_dir)
+  rescue Net::SFTP::StatusException
+    warn 'by-hash does not exist yet! generating from scratch'
+  end
+end
+
+keys_and_sums.each do |key, sums|
+  dir = "#{dep11_dir}/by-hash/#{key}/"
+  FileUtils.mkpath(dir) unless File.exist?(dir)
+  Dir.chdir(dir) do
+    sums.each do |sum|
+      basename = File.basename(sum.file)
+
+      rotate = proc do
+        old = "#{basename}.old"
+        if File.exist?(old)
+          link_target = File.readlink(old)
+          FileUtils.rm_f([link_target, old], verbose: true)
+        end
+        FileUtils.mv(basename, old, verbose: true) if File.symlink?(basename)
+      end
+      rotate.call
+
+      FileUtils.cp(sum.file, sum.value, verbose: true)
+      FileUtils.ln_s(sum.value, basename)
+    end
+  end
+end
+
+Dir.chdir(dep11_dir) do
+  cmd.run! 'tree'
+end
 
 Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives',
                 keys: ENV.fetch('SSH_KEY_FILE'), keys_only: true) do |sftp|
