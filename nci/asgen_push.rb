@@ -35,11 +35,22 @@ run_dir = File.absolute_path('run')
 
 # Move data into basic dir structure of repo skel.
 export_dir = "#{run_dir}/export"
+export_data_dir = "#{export_dir}/data"
 repo_dir = "#{export_dir}/repo"
 dep11_dir = "#{repo_dir}/main/dep11"
+
+unless File.exist?(export_data_dir)
+  warn "The data dir #{export_data_dir} does not exist." \
+       ' It seems asgen found no new data. Skipping publish!'
+  exit 0
+end
+
 FileUtils.rm_r(repo_dir) if Dir.exist?(repo_dir)
 FileUtils.mkpath(dep11_dir)
-FileUtils.cp_r("#{export_dir}/data/#{DIST}/main/.", dep11_dir, verbose: true)
+FileUtils.cp_r("#{export_data_dir}/#{DIST}/main/.", dep11_dir, verbose: true)
+
+tmpdir = "/home/neonarchives/asgen_push.#{APTLY_REPOSITORY.tr('/', '-')}"
+targetdir = "/home/neonarchives/aptly/skel/#{APTLY_REPOSITORY}/dists/#{DIST}"
 
 # This depends on https://github.com/aptly-dev/aptly/pull/473
 # Aptly versions must take care to actually have the PR applied to them until
@@ -75,11 +86,11 @@ FileUtils.rm_rf(repo_dir)
 pubdir = "/srv/www/metadata.neon.kde.org/appstream/#{TYPE}_#{DIST}"
 
 # This is the export dep11 data, we don't need it, so throw it away
-system("rm -rf #{export_dir}/data")
+system("rm -rf #{export_data_dir}")
 # NB: We use rsync here because a) SFTP is dumb and may require copying things
 #   to tmp path, removing pubdir and moving tmpdir to pubdir, while rsync will
 #   be faster.
 remote_dir = "metadataneon@charlotte.kde.org:#{pubdir}"
 ssh_command = "ssh -o StrictHostKeyChecking=no -i #{ENV.fetch('SSH_KEY_FILE')}"
-rsync_opts = "-av --delete -e '#{ssh_command}'"
+rsync_opts = "-av -e '#{ssh_command}'"
 system("rsync #{rsync_opts} #{export_dir}/* #{remote_dir}/") || raise
