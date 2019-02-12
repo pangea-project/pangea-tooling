@@ -96,38 +96,38 @@ end
 require 'pp'
 pp keys_and_sums
 
-Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives',
-                keys: ENV.fetch('SSH_KEY_FILE'), keys_only: true) do |sftp|
-  begin
-    sftp.lstat!("#{targetdir}/by-hash")
-    sftp.download!("#{targetdir}/by-hash", dep11_dir)
-  rescue Net::SFTP::StatusException
-    warn 'by-hash does not exist yet! generating from scratch'
-  end
-end
+# Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives',
+#                 keys: ENV.fetch('SSH_KEY_FILE'), keys_only: true) do |sftp|
+#   begin
+#     sftp.lstat!("#{targetdir}/by-hash")
+#     sftp.download!("#{targetdir}/by-hash", dep11_dir)
+#   rescue Net::SFTP::StatusException
+#     warn 'by-hash does not exist yet! generating from scratch'
+#   end
+# end
 
-keys_and_sums.each do |key, sums|
-  dir = "#{dep11_dir}/by-hash/#{key}/"
-  FileUtils.mkpath(dir) unless File.exist?(dir)
-  Dir.chdir(dir) do
-    sums.each do |sum|
-      basename = File.basename(sum.file)
+# keys_and_sums.each do |key, sums|
+#   dir = "#{dep11_dir}/by-hash/#{key}/"
+#   FileUtils.mkpath(dir) unless File.exist?(dir)
+#   Dir.chdir(dir) do
+#     sums.each do |sum|
+#       basename = File.basename(sum.file)
 
-      rotate = proc do
-        old = "#{basename}.old"
-        if File.exist?(old)
-          link_target = File.readlink(old)
-          FileUtils.rm_f([link_target, old], verbose: true)
-        end
-        FileUtils.mv(basename, old, verbose: true) if File.symlink?(basename)
-      end
-      rotate.call
+#       rotate = proc do
+#         old = "#{basename}.old"
+#         if File.exist?(old)
+#           link_target = File.readlink(old)
+#           FileUtils.rm_f([link_target, old], verbose: true)
+#         end
+#         FileUtils.mv(basename, old, verbose: true) if File.symlink?(basename)
+#       end
+#       rotate.call
 
-      FileUtils.cp(sum.file, sum.value, verbose: true)
-      FileUtils.ln_s(sum.value, basename)
-    end
-  end
-end
+#       FileUtils.cp(sum.file, sum.value, verbose: true)
+#       FileUtils.ln_s(sum.value, basename)
+#     end
+#   end
+# end
 
 Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives',
                 keys: ENV.fetch('SSH_KEY_FILE'), keys_only: true) do |sftp|
