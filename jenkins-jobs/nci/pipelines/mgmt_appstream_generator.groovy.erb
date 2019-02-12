@@ -30,6 +30,7 @@ node('cloud && amd64') {
             }
 
             stage('generate') {
+                sh 'docker image pull $PANGEA_DOCKER_IMAGE'
                 sh 'tooling/nci/contain.rb $PWD_BIND/tooling/nci/asgen.sh'
             }
 
