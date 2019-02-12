@@ -8,7 +8,7 @@ node('master') {
     wrap([$class: 'TimestamperBuildWrapper']) {
         wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
             stage('cache[get]') {
-                stash allowEmpty: true, includes: 'run/**, name: 'cache'
+                stash allowEmpty: true, includes: 'run/**', name: 'cache'
             }
         }
     }
