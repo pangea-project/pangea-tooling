@@ -129,10 +129,6 @@ keys_and_sums.each do |key, sums|
   end
 end
 
-Dir.chdir(dep11_dir) do
-  cmd.run! 'tree'
-end
-
 Net::SFTP.start('archive-api.neon.kde.org', 'neonarchives',
                 keys: ENV.fetch('SSH_KEY_FILE'), keys_only: true) do |sftp|
   puts sftp.session.exec!("rm -rf #{tmpdir}")
