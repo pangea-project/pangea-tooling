@@ -26,7 +26,7 @@
 
 set -ex
 
-ROOT=/var/www/metadata/germinate
+ROOT=/srv/www/metadata.neon.kde.org/germinate
 NEON_GIT="git://anongit.neon.kde.org"
 UBUNTU_SEEDS="https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git"
 
