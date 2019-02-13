@@ -213,4 +213,4 @@ class NCI::AppstreamGeneratorPush
   end
 end
 
-NCI::AppstreamGeneratorPush.run if $PROGRAM_NAME == __FILE__
+NCI::AppstreamGeneratorPush.new.run if $PROGRAM_NAME == __FILE__
