@@ -34,7 +34,7 @@ class NCI::AppstreamGeneratorPush
   Sum = Struct.new(:file, :value)
 
   class RSync
-    def sync(from, to)
+    def self.sync(from, to)
       ssh_command = "ssh -o StrictHostKeyChecking=no -i #{ENV.fetch('SSH_KEY_FILE')}"
       rsync_opts = "-av -e '#{ssh_command}'"
       system("rsync #{rsync_opts} #{from} #{to}") || raise
