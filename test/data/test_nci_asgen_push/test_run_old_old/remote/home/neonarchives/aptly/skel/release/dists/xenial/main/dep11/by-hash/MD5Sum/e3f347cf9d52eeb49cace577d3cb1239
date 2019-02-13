@@ -1,0 +1,321 @@
+---
+File: DEP-11
+Version: '0.10'
+Origin: neon/user-xenial-main
+MediaBaseUrl: https://metadata.neon.kde.org/appstream/user/media/xenial
+Priority: 1
+Time: 20180517T133553
+---
+Type: desktop-application
+ID: org.kde.kget
+Package: kget
+Name:
+  de: KGet
+  pl: KGet
+  sk: KGet
+  en-GB: KGet
+  C: KGet
+  id: KGet
+  pt: KGet
+  cs: KGet
+  ca-valencia: KGet
+  gl: KGet
+  uk: KGet
+  es: KGet
+  fr: KGet
+  sv: Kget
+  zh-CN: KGet
+  ca: KGet
+  it: KGet
+  nl: KGet
+Summary:
+  de: Download-Verwaltung
+  pl: Zarządzanie pobieraniem
+  sk: Správca sťahovania
+  en-GB: Download Manager
+  C: Download Manager
+  id: Download Manager
+  pt: Gestor de Transferências
+  cs: Správce stahování
+  ca-valencia: Gestor de baixades
+  gl: Xestor de descargas
+  uk: Керування отриманням даних
+  es: Gestor de descargas
+  fr: Gestionnaire de téléchargement
+  sv: Nerladdningshanterare
+  zh-CN: 下载管理器
+  ca: Gestor de baixades
+  it: Gestore degli scaricamenti
+  nl: Downloadbeheerder
+Description:
+  pl: >-
+    <p>KGet jest wszechstronnym i przyjaznym użytkownikowi programem do zarządzania pobieraniem.</p>
+
+    <p>Możliwości:</p>
+
+    <ul>
+      <li>Pobieranie plików ze źródeł FTP oraz HTTP(S)</li>
+      <li>Wstrzymywanie i wznawianie pobieranych plików, a także możliwość pobrania ich na nowo.</li>
+      <li>Mówi wiele informacji o obecnych i oczekujących pobieraniach.</li>
+      <li>Osadzanie na tacce systemowej.</li>
+      <li>Integracja z przeglądarką internetową Konqueror</li>
+      <li>Obsługa metałączy, które zawierają wiele adresów URL do pobrania, wraz z sumami sprawdzającymi i innymi informacjami.</li>
+    </ul>
+  de: >-
+    <p>Ein vielseitiges und einfach zu benutzendes Verwaltungsprogramm zum Herunterladen.</p>
+
+    <p>Funktionen:</p>
+
+    <ul>
+      <li>Herunterladen von Dateien aus FTP- und HTTP(s)-Adressen.</li>
+      <li>Anhalten und Fortsetzen des Herunterladens von Dateien, außerdem gibt es auch die Möglichkeit, das Herunterladen
+    neu zu starten.</li>
+      <li>Viele Informationen über aktuelle und anstehende Downloads.</li>
+      <li>Eingebettet in den Systemabschnitt der Kontrollleiste.</li>
+      <li>Integration mit dem Internet-Browser Konqueror.</li>
+      <li>Unterstützung für Metalinks, die mehrere Adressen (Urls) zum Herunterladen enthalten, zusammen mit Prüfsummen und
+    weiteren Informationen.</li>
+    </ul>
+  sk: >-
+    <p>Funkcie:</p>
+
+    <ul>
+
+    </ul>
+  en-GB: >-
+    <p>KGet is a versatile and user-friendly download manager.</p>
+
+    <p>Features:</p>
+
+    <ul>
+      <li>Downloading files from FTP and HTTP(S) sources.</li>
+      <li>Pausing and resuming of downloading files, as well as the ability to restart a download.</li>
+      <li>Tells lots of information about current and pending downloads.</li>
+      <li>Embedding into system tray.</li>
+      <li>Integration with the Konqueror web browser.</li>
+      <li>Metalink support which contain multiple URLs for downloads, along with checksums and other information.</li>
+    </ul>
+  uk: >-
+    <p>KGet — гнучка і зручна програма для отримання даних з мережі.</p>
+
+    <p>Можливості:</p>
+
+    <ul>
+      <li>Отримання файлів з джерел FTP та HTTP(S).</li>
+      <li>Можливість призупинення та відновлення отримання файлів, а також можливість перезапустити отримання.</li>
+      <li>Можливість отримання широкого спектра даних щодо поточного сеансу отримання та завдань з отримання даних з черги.</li>
+      <li>Можливість вбудовування до лотка системи.</li>
+      <li>Інтеграція із програмою для перегляду сторінок інтернету Konqueror.</li>
+      <li>Підтримка метапосилань, які містять декілька адрес даних, а також контрольні суми та інші відомості.</li>
+    </ul>
+  id: >-
+    <p>KGet adalah download manager yang serbaguna dan mudah digunakan.</p>
+
+    <p>Fitur-fitur:</p>
+
+    <ul>
+      <li>Mendownload file dari sumber-sumber FTP dan HTTP(S)</li>
+      <li>Berhenti sejenak dan melanjutkan dari mendownload file-file, begitu pula kemampuan untuk memulai kembali sebuah
+    download-an.</li>
+      <li>Memberikan banyak informasi tentang download-an yang ada sekarang dan yang sedang dihentikan.</li>
+      <li>Membubuhkan kedalam system tray.</li>
+      <li>Integrasi dengan web browser Konqueror.</li>
+      <li>Dukungan Metalink yang terdiri dari banyak bagian URL untuk download-an, bersamaan dengan checksums dan informasi
+    lain.</li>
+    </ul>
+  pt: >-
+    <p>O KGet é um gestor de transferências versátil e amigável.</p>
+
+    <p>Funcionalidades:</p>
+
+    <ul>
+      <li>Transferência de ficheiros de fontes em FTP ou HTTP(S).</li>
+      <li>Pausa e continuação dos ficheiros transferidos, assim como a capacidade de reiniciar uma transferência.</li>
+      <li>Devolve bastantes informações sobre as transferências actuais e pendentes.</li>
+      <li>Incorporação na bandeja do sistema.</li>
+      <li>Integração com o navegador Web Konqueror.</li>
+      <li>Suporte para &apos;metalink&apos;, o qual contém vários URL&apos;s para as transferências, em conjunto com os códigos
+    de validação e outras informações.</li>
+    </ul>
+  C: >-
+    <p>KGet is a versatile and user-friendly download manager.</p>
+
+    <p>Features:</p>
+
+    <ul>
+      <li>Downloading files from FTP and HTTP(S) sources.</li>
+      <li>Pausing and resuming of downloading files, as well as the ability to restart a download.</li>
+      <li>Tells lots of information about current and pending downloads.</li>
+      <li>Embedding into system tray.</li>
+      <li>Integration with the Konqueror web browser.</li>
+      <li>Metalink support which contain multiple URLs for downloads, along with checksums and other information.</li>
+    </ul>
+  ca-valencia: >-
+    <p>El KGet és un gestor de baixades de fitxers versàtil i fàcil d&apos;utilitzar.</p>
+
+    <p>Característiques:</p>
+
+    <ul>
+      <li>Baixa fitxers des de fonts FTP i HTTP/S.</li>
+      <li>Pausa i reprén la baixada de fitxers, així com la possibilitat de reiniciar una baixada.</li>
+      <li>Dóna molta informació sobre les baixades actuals i pendents.</li>
+      <li>Està incrustat a la safata del sistema.</li>
+      <li>S&apos;integra amb el navegador web Konqueror.</li>
+      <li>Admet el «Metalink», el qual conté múltiples URL per a baixades, juntament amb les sumes de verificació i altra
+    informació.</li>
+    </ul>
+  gl: >-
+    <p>KGet é un xestor de descargar versátil e fácil de usar.</p>
+
+    <p>Funcionalidades:</p>
+
+    <ul>
+      <li>Descargar ficheiros de fontes FTP, HTTP e HTTPS.</li>
+      <li>Pausa e continuación de descargas de ficheiros, así como a posibilidade de reiniciar a descarga.</li>
+      <li>Fornece unha morea de información sobre as descargas actuais e pendentes.</li>
+      <li>Integración coa zona de notificacións.</li>
+      <li>Integración co navegador web Konqueror.</li>
+      <li>Compatibilidade con metaligazóns que conteñen varios enderezos URL de descarga, xunto con sumas de comprobación
+    e outra información.</li>
+    </ul>
+  es: >-
+    <p>KGet es un gestor de descargas versátil y amigable.</p>
+
+    <p>Funcionalidades:</p>
+
+    <ul>
+      <li>Descarga de archivos de fuentes FTP y HTTP(S).</li>
+      <li>Pausa y reanudación de los archivos en descarga, así como la posibilidad de reiniciar descargas.</li>
+      <li>Muestra gran cantidad de información sobre las descargas actuales y pendientes.</li>
+      <li>Se puede empotrar en la bandeja del sistema.</li>
+      <li>Integración con el navegador web Konqueror.</li>
+      <li>Permite usar Metalink, que contiene múltiples URL para las descargas, además de sumas de verificación y otra información.</li>
+    </ul>
+  sv: >-
+    <p>Kget är en mångsidig och lättanvänd nerladdningshanterare av filer.</p>
+
+    <p>Funktioner:</p>
+
+    <ul>
+      <li>Nerladdning av filer från FTP- och HTTP(S)-källor.</li>
+      <li>Pausa och återuppta nerladdning av filer, samt möjlighet att starta om en nerladdning.</li>
+      <li>Ger mängder av information om aktuella och väntande nerladdningar.</li>
+      <li>Inbäddning i systembrickan.</li>
+      <li>Integrering i webbläsaren Konqueror.</li>
+      <li>Stör för metalänkar som innehåller flera webbadresser för nerladdning, tillsammans med checksummor och annan information.</li>
+    </ul>
+  cs: >-
+    <p>Vlastnosti:</p>
+
+    <ul>
+
+    </ul>
+  fr: >-
+    <p>Fonctionnalités :</p>
+
+    <ul>
+
+    </ul>
+  zh-CN: >-
+    <p>KGet 是一个功能多样且用户友好的下载管理器。</p>
+
+    <p>功能：</p>
+
+    <ul>
+      <li>从 FTP 和 HTTP(S) 源下载文件。</li>
+      <li>暂停和继续文件下载，还能够重新开始下载。</li>
+      <li>显示当前和队列下载的许多信息。</li>
+      <li>嵌入到系统托盘。</li>
+      <li>Konqueror 网页浏览器集成。</li>
+      <li>支持 Metalink ，包含多个下载连接，校验和和其他信息。</li>
+    </ul>
+  ca: >-
+    <p>El KGet és un gestor de baixades de fitxers versàtil i fàcil d&apos;utilitzar.</p>
+
+    <p>Característiques:</p>
+
+    <ul>
+      <li>Baixa fitxers des de fonts FTP i HTTP/S.</li>
+      <li>Pausa i reprèn la baixada de fitxers, així com la possibilitat de reiniciar una baixada.</li>
+      <li>Dóna molta informació sobre les baixades actuals i pendents.</li>
+      <li>Està incrustat a la safata del sistema.</li>
+      <li>S&apos;integra amb el navegador web Konqueror.</li>
+      <li>Admet el «Metalink», el qual conté múltiples URL per a baixades, juntament amb les sumes de verificació i altra
+    informació.</li>
+    </ul>
+  it: >-
+    <p>KGet è un gestore degli scaricamenti versatile e facile da usare.</p>
+
+    <p>Caratteristiche:</p>
+
+    <ul>
+      <li>Scaricamento di file da fonti FTP e HTTP(S).</li>
+      <li>Interruzione e ripresa dello scaricamento dei file, oltre alla capacità di riavviare uno scaricamento.</li>
+      <li>Fornisce molte informazioni sugli scaricamenti in corso e in attesa.</li>
+      <li>Integrato nel vassoio di sistema.</li>
+      <li>Integrazione con il browser web Konqueror.</li>
+      <li>Supporto per Metalink che contiene diversi URL da scaricare, oltre a codici di controllo ed altre informazioni.</li>
+    </ul>
+  nl: >-
+    <p>KGet is een veelzijdige en gebruikersvriendelijke downloadbeheerder.</p>
+
+    <p>Mogelijkheden:</p>
+
+    <ul>
+      <li>Downloaden van bestanden uit FTP en HTTP(S) bronnen.</li>
+      <li>Pauzeren en hervatten van downloaden van bestanden, evenals de mogelijkheid om een download opnieuw te starten.</li>
+      <li>Vertelt veel informatie over huidige en in behandeling zijnde downloads.</li>
+      <li>Ingebed in het systeemvak.</li>
+      <li>Integratie met de webbrowser Konqueror.</li>
+      <li>Ondersteuning van Metalink die meerdere URL&apos;s voor downloads bevat, samen met controlesommen en andere informatie.</li>
+    </ul>
+ProjectGroup: KDE
+ProjectLicense: GPL-2.0+
+Categories:
+- Network
+- FileTransfer
+- Network
+- FileTransfer
+Url:
+  bugtracker: https://bugs.kde.org/enter_bug.cgi?format=guided&product=kget
+  homepage: https://www.kde.org/applications/internet/kget/
+  help: https://docs.kde.org/?application=kget
+  donation: https://www.kde.org/community/donations/
+Icon:
+  cached:
+  - name: kget_kget.png
+    width: 64
+    height: 64
+  - name: kget_kget.png
+    width: 128
+    height: 128
+  - name: kget_kget.png
+    width: 64
+    height: 64
+    scale: 2
+Launchable:
+  desktop-id:
+  - org.kde.kget.desktop
+Provides:
+  binaries:
+  - kget
+  mimetypes:
+  - application/metalink+xml
+  - application/x-bittorrent
+  - application/metalink+xml
+  - application/x-bittorrent
+  mimetypes:
+  - application/metalink+xml
+  - application/x-bittorrent
+  - application/metalink+xml
+  - application/x-bittorrent
+Screenshots:
+- default: true
+  thumbnails:
+  - url: org/kde/kget/2FA2BE8DE27E9B4A5F30D8473463689B/screenshots/image-1_624x345.png
+    width: 624
+    height: 345
+  source-image:
+    url: org/kde/kget/2FA2BE8DE27E9B4A5F30D8473463689B/screenshots/image-1_orig.png
+    width: 746
+    height: 413
