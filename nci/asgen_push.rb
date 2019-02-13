@@ -179,7 +179,7 @@ class NCI::AppstreamGeneratorPush
           path = File.join(dir, entry.name)
           puts path
           if entry.symlink?
-            used_blobs << File.absolute_path(sftp.readlink!(path), dir)
+            used_blobs << File.absolute_path(sftp.readlink!(path).name, dir)
           else
             blobs << File.absolute_path(path)
           end

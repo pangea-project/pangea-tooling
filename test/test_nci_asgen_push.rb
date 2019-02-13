@@ -102,7 +102,7 @@ module NCI
       end
 
       def readlink!(path)
-        File.readlink(chroot(path))
+        NameStub.new(File.readlink(chroot(path)))
       rescue Errno::ENOENT => e
         raise Net::SFTP::StatusException.allocate.exception(e.message)
       end
