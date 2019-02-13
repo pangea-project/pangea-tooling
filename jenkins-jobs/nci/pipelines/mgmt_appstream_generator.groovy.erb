@@ -30,7 +30,7 @@ cleanNode('amd64') {
 
     stage('publish') {
         withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: '')]) {
-            sh '~/tooling/nci/asgen_push.rb'
+            sh 'tooling/nci/asgen_push.rb'
         }
     }
 
