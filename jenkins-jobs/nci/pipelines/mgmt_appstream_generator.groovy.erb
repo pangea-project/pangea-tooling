@@ -10,7 +10,13 @@ fancyNode('master') {
     }
 }
 
-cleanNode('amd64') {
+// Only build on cloud nodes because the peristent ones are very slow
+// computationally (asgen scales icons/screenshots etc) and also
+// not very dependable as load caused by other CIs may cause asgen to flake
+// out. As a result even waiting for the cloud node to spin up will most
+// of the time be faster than actually working on a persistent node (even when
+// the node doesn't have extra load).
+cleanNode('amd64 && cloud') {
     stage('cache[unstash]') {
         sh 'rm -rfv *'
         unstash 'cache'
