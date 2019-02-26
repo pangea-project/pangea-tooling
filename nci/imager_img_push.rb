@@ -88,7 +88,7 @@ key_file = ENV.fetch('SSH_KEY_FILE', nil)
 ssh_args = key_file ? [{ keys: [key_file] }] : []
 
 # Publish ISO and associated content.
-Net::SFTP.start('racnoss.kde.org', 'neon', *ssh_args) do |sftp|
+Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
   puts "mkdir #{REMOTE_PUB_DIR}"
   sftp.cli_uploads = true
   sftp.mkdir!(REMOTE_PUB_DIR)
@@ -103,7 +103,7 @@ Net::SFTP.start('racnoss.kde.org', 'neon', *ssh_args) do |sftp|
   sftp.cli_uploads = false
 
   # Need a second SSH session here, since the SFTP one is busy looping.
-  Net::SSH.start('racnoss.kde.org', 'neon', *ssh_args) do |ssh|
+  Net::SSH.start('master.kde.org', 'neon', *ssh_args) do |ssh|
     ssh.exec!("cd #{REMOTE_DIR}/#{TYPE}; rm -f current; ln -s #{DATE} current")
   end
 
