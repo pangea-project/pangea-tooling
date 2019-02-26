@@ -64,6 +64,9 @@ module Lint
 
     def result_dhmissing
       @result_dhmissing ||= Log::DHMissing.new.lint(@log)
+      if ! @result_dhmissing.valid_encoding?
+        @result_dhmissing = @result_dhmissing.encode("UTF-16be", :invalid=>:replace, :replace=>"?").encode('UTF-8')
+      end
     end
 
     %i[CMake Lintian ListMissing DHMissing].each do |klass_name|
