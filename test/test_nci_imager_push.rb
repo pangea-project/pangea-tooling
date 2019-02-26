@@ -96,7 +96,7 @@ module NCI
     end
 
     def stub_sftp
-      racnoss = SFTPAdaptor.new('racnoss.kde.org')
+      racnoss = SFTPAdaptor.new('master.kde.org')
       # We do not mkpath properly in the pusher, simulate what we already have
       # server-side.
       racnoss.mkpath('neon/images/neon-devedition-gitstable')
@@ -106,7 +106,7 @@ module NCI
       weegie.mkpath('files.neon.kde.org.uk')
 
       Net::SFTP.expects(:start).never
-      Net::SFTP.expects(:start).with('racnoss.kde.org', 'neon').yields(racnoss)
+      Net::SFTP.expects(:start).with('master.kde.org', 'neon').yields(racnoss)
       Net::SFTP.expects(:start).with('files.kde.mirror.pangea.pub', 'neon-image-sync').yields(mirror)
       Net::SFTP.expects(:start).with('weegie.edinburghlinux.co.uk', 'neon').yields(weegie)
     end
@@ -114,11 +114,11 @@ module NCI
     def stub_ssh
       files = SSHAdaptor.new('files.kde.mirror.pangea.pub', simulate: true)
 
-      racnoss = SSHAdaptor.new('racnoss.kde.org')
+      racnoss = SSHAdaptor.new('master.kde.org')
 
       Net::SSH.expects(:start).never
       Net::SSH.expects(:start).with('files.kde.mirror.pangea.pub', 'neon-image-sync').yields(files)
-      Net::SSH.expects(:start).with('racnoss.kde.org', 'neon').yields(racnoss)
+      Net::SSH.expects(:start).with('master.kde.org', 'neon').yields(racnoss)
     end
 
     # This brings down coverage which is meh, it does neatly isolate things
@@ -158,11 +158,11 @@ module NCI
       assert_equal(pid, waitedpid)
       assert(status.success?)
 
-      assert_path_exist('racnoss.kde.org/neon/images/neon-devedition-gitstable/1234/.message')
-      assert_path_exist('racnoss.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-1234-amd64.iso')
-      assert_path_exist('racnoss.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-1234-amd64.iso.sig')
-      assert_path_exist('racnoss.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-current.iso.sig')
-      assert_path_exist('racnoss.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-current.iso')
+      assert_path_exist('master.kde.org/neon/images/neon-devedition-gitstable/1234/.message')
+      assert_path_exist('master.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-1234-amd64.iso')
+      assert_path_exist('master.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-1234-amd64.iso.sig')
+      assert_path_exist('master.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-current.iso.sig')
+      assert_path_exist('master.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-current.iso')
 
       assert_path_exist('weegie.edinburghlinux.co.uk/files.neon.kde.org.uk/source.tar.xz')
     end
