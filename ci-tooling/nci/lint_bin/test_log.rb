@@ -46,6 +46,7 @@ module Lint
 
     def setup
       @log = self.class.log_orig.dup
+      warn "setup: log is nil #{@log.nil?}; log size: #{@log&.size}"
     end
 
     def result_lintian
