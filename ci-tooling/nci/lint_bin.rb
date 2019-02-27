@@ -25,6 +25,16 @@ ENV['CI_REPORTS'] = "#{Dir.pwd}/reports"
 BUILD_URL = File.read('build_url').strip
 ENV['LOG_URL'] = "#{BUILD_URL}/consoleText"
 
+if ENV['PANGEA_UNDER_TEST']
+  warn 'Enabling test coverage merging'
+  require 'simplecov'
+  SimpleCov.start do
+    root ENV.fetch('SIMPLECOV_ROOT') # set by lint_bin test
+    command_name "#{__FILE__}_#{Time.now.to_i}_#{rand}"
+    merge_timeout 16
+  end
+end
+
 Dir.glob(File.expand_path('lint_bin/test_*.rb', __dir__)).each do |file|
   require file
 end

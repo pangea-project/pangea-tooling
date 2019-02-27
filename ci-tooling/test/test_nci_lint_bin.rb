@@ -23,6 +23,7 @@ require_relative 'lib/testcase'
 class NCILintBinTest < TestCase
   def setup
     ENV['BUILD_URL'] = '/'
+    ENV['SIMPLECOV_ROOT'] = SimpleCov.root
   end
 
   def teardown
