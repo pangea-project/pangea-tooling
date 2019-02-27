@@ -25,6 +25,10 @@ ENV['CI_REPORTS'] = "#{Dir.pwd}/reports"
 BUILD_URL = File.read('build_url').strip
 ENV['LOG_URL'] = "#{BUILD_URL}/consoleText"
 
+# DONT FLIPPING EAT STDOUTERR ... WHAT THE FUCK
+#   option for ci-reporter
+ENV['CI_CAPTURE'] = "off"
+
 if ENV['PANGEA_UNDER_TEST']
   warn 'Enabling test coverage merging'
   require 'simplecov'
