@@ -169,14 +169,14 @@ APT::Default-Release "#{setup_repo_codename}";
       File.write(default_sources_file, lines.join("\n"))
     end
 
-    def debline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
-      type = type.tr('-', '/')
+    def debline(type: 'qt511-kf554', dist: setup_repo_codename)
+      type = type.tr('-', '-')
       format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
     end
 
-    def debsrcline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
-      type = type.tr('-', '/')
+    def debsrcline(type: 'qt511-kf554', dist: setup_repo_codename)
+      type = type.tr('-', '-')
       format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
     end
