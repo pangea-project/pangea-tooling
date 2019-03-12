@@ -24,6 +24,8 @@ require 'yaml'
 require_relative 'pattern'
 
 module CI
+  class SetCapError < StandardError; end
+
   # DRB server side for setcap expecation checking.
   class SetCapServer
     def initialize
@@ -35,7 +37,7 @@ module CI
 
     def check_expected(argv)
       return if expected?(argv)
-      raise <<~ERRORMSG
+      raise SetCapError, <<~ERRORMSG
         \n
         Unallowed call to: setcap #{argv.inspect}
         setcap must not be called. Build containers are run without a whole
@@ -49,7 +51,7 @@ module CI
 
     def assert_all_called
       return if @expected.empty?
-      raise <<~ERRORMSG
+      raise SetCapError, <<~ERRORMSG
         A number of setcap calls were expected but didn't actually happen.
         This is indicative of the build no longer needing setcap. Check the code
         and if applicable make sure there no longer are postinst calls to setcap
@@ -94,7 +96,12 @@ module CI
       validator = new
       validator.start
       validator.with_client { yield }
+      validator.stop
+      validator.validate!
     ensure
+      # Stop the validator (again) but do not validate. If the inferior block
+      # raised an exception then ensure is still run but we do not actually
+      # care about setcap violations.
       validator.stop
     end
 
@@ -107,6 +114,9 @@ module CI
       ENV.delete('PACKAGE_BUILDER_DRB_URI')
       @server.stop_service
       @server.thread.join # Wait for thread
+    end
+
+    def validate!
       @server.front.assert_all_called
     end
 

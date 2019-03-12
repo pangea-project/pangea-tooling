@@ -222,7 +222,23 @@ module CI
       File.write('build/debian/setcap.yaml', YAML.dump(setcap))
 
       builder = PackageBuilder.new
-      assert_raise do
+      assert_raise CI::SetCapError do
+        builder.build_package
+      end
+    end
+
+    def test_setcap_subproc_fail
+      # Make sure we don't get a setcap violation if the sub process failed.
+      # It'd make reading build failures unnecessarily difficult.
+      FileUtils.cp_r("#{data}/.", Dir.pwd)
+
+      setcap = [['foo', '/workspace/yolo/bar'], ['bar', 'foo']]
+
+      FileUtils.mkpath('build/debian/')
+      File.write('build/debian/setcap.yaml', YAML.dump(setcap))
+
+      builder = PackageBuilder.new
+      assert_raise RuntimeError do
         builder.build_package
       end
     end

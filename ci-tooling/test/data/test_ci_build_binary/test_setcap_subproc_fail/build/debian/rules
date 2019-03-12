@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	exit 1
+
+override_dh_auto_install:
+	setcap foo /workspace/yolo/bar || true
+
+.PHONY: clean
