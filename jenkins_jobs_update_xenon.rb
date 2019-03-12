@@ -39,7 +39,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
     @job_queue = Queue.new
     @flavor = 'xenon'
-    @projects_dir = "#{__dir__}/ci-tooling/data/projects"
+    @projects_dir = "#{__dir__}/ci-tooling/xenon-data/projects"
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
     super
   end
@@ -54,7 +54,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def load_overrides!
     # TODO: there probably should be a conflict check so they don't override
     # the same thing.
-    files = Dir.glob("#{__dir__}/ci-tooling/data/projects/overrides/xenon-*.yaml")
+    files = Dir.glob("#{__dir__}/ci-tooling/xenon-data/overrides/*.yaml")
     # raise 'No overrides found?' if files.empty?
     CI::Overrides.default_files += files
   end
