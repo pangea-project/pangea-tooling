@@ -29,6 +29,8 @@ gem 'octokit'
 gem 'rake', '~> 12.0'
 gem 'rugged'
 gem 'tty-command'
+gem 'tty-prompt'
+gem 'tty-spinner'
 gem 'xorcist'
 
 # Git URI management

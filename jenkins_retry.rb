@@ -23,6 +23,8 @@
 require 'logger'
 require 'logger/colors'
 require 'optparse'
+require 'tty/prompt'
+require 'tty/spinner'
 
 require_relative 'ci-tooling/lib/jenkins'
 require_relative 'ci-tooling/lib/retry'
@@ -113,11 +115,25 @@ end
 
 @log.info pattern
 
+spinner = TTY::Spinner.new('[:spinner] Loading job list', format: :spin_2)
+spinner.update(title: 'Loading job list')
+spinner.auto_spin
 job_name_queue = Queue.new
 job_names = Jenkins.job.list_all
+spinner.success
+
 job_names.each do |job_name|
   next unless pattern.match(job_name)
   job_name_queue << job_name
+end
+
+if job_name_queue.size > 8
+  if TTY::Prompt.new.no?("Your are going to retry #{job_name_queue.size} jobs." \
+    ' Do you want to continue?')
+    abort
+  end
+elsif job_name_queue.empty?
+  abort 'No jobs matched your pattern'
 end
 
 @log.info 'Setting system into maintenance mode.'
@@ -154,3 +170,8 @@ BlockingThreadPool.run do
 end
 
 @log.unknown "The CI is now in maintenance mode. Don't forget to unpause it!"
+
+unless TTY::Prompt.new.no?('Unpause now? Only when you are sure only useful' \
+  ' jobs are being retried.')
+  Jenkins.system.cancel_quiet_down
+end
