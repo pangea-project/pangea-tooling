@@ -69,7 +69,8 @@ module NCI
     setup_proxy! if with_proxy
     add_repo!
     add_source_repo! if with_source
-    setup_testing! if ENV.fetch('TYPE').include?('testing')
+    # TODO rename old testing repo as stable is now new testing repo
+    #setup_testing! if ENV.fetch('TYPE').include?('testing')
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     # Make sure we have the latest pkg-kde-tools, not whatever is in the image.
     raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools])
@@ -170,6 +171,7 @@ APT::Default-Release "#{setup_repo_codename}";
     end
 
     def debline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
+      type = 'testing' if type == 'stable'
       type = type.tr('-', '/')
       format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
