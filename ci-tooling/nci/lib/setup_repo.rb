@@ -171,6 +171,7 @@ APT::Default-Release "#{setup_repo_codename}";
     end
 
     def debline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
+      # rename editions but not (yet) renamed the job type
       type = 'testing' if type == 'stable'
       type = type.tr('-', '/')
       format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
@@ -178,6 +179,8 @@ APT::Default-Release "#{setup_repo_codename}";
     end
 
     def debsrcline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
+      # rename editions but not (yet) renamed the job type
+      type = 'testing' if type == 'stable'
       type = type.tr('-', '/')
       format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
