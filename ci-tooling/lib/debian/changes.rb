@@ -42,7 +42,7 @@ module Debian
 
       # Source Paragraph
       fields = {
-        mandatory: %w[format date source architecture version distribution maintainer description changes checksums-sha1 checksums-sha256 files],
+        mandatory: %w[format date source architecture version distribution maintainer changes checksums-sha1 checksums-sha256 files],
         relationship: %w[],
         foldable: %w[binary] + %w[],
         multiline: %w[description changes checksums-sha1 checksums-sha256 files]
