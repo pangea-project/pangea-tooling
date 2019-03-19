@@ -35,6 +35,7 @@ class QMLDependencyVerifier
     @log.level = Logger::INFO
     @log.progname = self.class.to_s
     @repo = repo
+    @repo = 'testing' if @repo == 'stable'
   end
 
   def missing_modules
