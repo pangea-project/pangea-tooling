@@ -209,18 +209,17 @@ class ProjectTest < TestCase
       privatekey: '/weesh.key',
       passphrase: ''
     ).returns('wrupp')
+    gitrepo = create_fake_git(name: 'tc', component: 'tn', branches: %w(kittens))
     Rugged::Repository.expects(:clone_at).with do |*args|
       p args
       next false unless args[0] == 'ssh://git@github.com/tn/tc' &&
                         args[1] == "#{Dir.pwd}/cache/projects/git@github.com/tn/tc" &&
                         args[2][:bare] == true &&
                         args[2][:credentials] == 'wrupp'
-      FileUtils.mkpath("#{Dir.pwd}/cache/projects/git@github.com/tn/tc")
-      git_init_repo(args[1])
-      git_init_commit(args[1], %w(kitten))
+      FileUtils.mkpath("#{Dir.pwd}/cache/projects/git@github.com/tn")
+      system("git clone #{gitrepo}/tn/tc #{Dir.pwd}/cache/projects/git@github.com/tn/tc")
       true
     end.returns(true)
-    Rugged::Repository.expects(:fetch).with('origin').returns(true)
     Project.new('tc', 'tn', 'ssh://git@github.com:', branch: 'kittens')
   end
 
