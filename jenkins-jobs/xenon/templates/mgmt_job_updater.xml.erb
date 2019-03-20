@@ -74,6 +74,7 @@
     <hudson.tasks.Shell>
       <command>set -ex
 
+export NO_UPDATE=1
 export RELEASEME_PROJECTS_API=1
 export GITLAB_API_ENDPOINT=https://gitlab.com/api/v4
 ./tooling/jenkins_jobs_update_xenon.rb</command>
