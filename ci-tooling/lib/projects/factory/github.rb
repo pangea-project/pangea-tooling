@@ -27,11 +27,17 @@ class ProjectsFactory
   # Debian specific project factory.
   class GitHub < Base
     include ProjectsFactoryCommon
+
     DEFAULT_URL_BASE = 'https://github.com'
+    DEFAULT_PRIVATE_URL_BASE = 'ssh://git@github.com:'
 
     # FIXME: same as in neon
     def self.url_base
       @url_base ||= DEFAULT_URL_BASE
+    end
+
+    def self.private_url_base
+      @private_url_base ||= DEFAULT_PRIVATE_URL_BASE
     end
 
     def self.understand?(type)
@@ -50,27 +56,45 @@ class ProjectsFactory
 
     def params(str)
       name, component = split_entry(str)
+
+      component_repos = self.class.repo_cache.fetch(component)
+      repo = component_repos.find { |x| x.name == name }
+      raise unless repo
+      url_base = "#{self.class.url_base}/"
+      url_base = self.class.private_url_base if repo.private
+
       default_params.merge(
         name: name,
         component: component,
-        url_base: "#{self.class.url_base}/"
+        url_base: url_base
       )
     end
 
     class << self
-      def ls(base)
-        @list_cache ||= {}
-        return @list_cache[base] if @list_cache.key?(base)
+      def repo_cache
+        @repo_cache ||= {}
+      end
 
-        Octokit.auto_paginate = true
-        client = Octokit::Client.new
-        begin
+      def repo_names_for_base(base)
+        repo_cache[base]&.collect(&:name)&.freeze
+      end
+
+      def load_repos_for_base(base)
+        repo_cache[base] ||= begin
+          Octokit.auto_paginate = true
+          client = Octokit::Client.new
+          begin
             client.login
-            repos = client.org_repos(base)
-        rescue Net::OpenTimeout, Faraday::SSLError, Faraday::ConnectionFailed
+            client.org_repos(base)
+          rescue Net::OpenTimeout, Faraday::SSLError, Faraday::ConnectionFailed
             retry
+          end
         end
-        @list_cache[base] = repos.collect(&:name).freeze
+      end
+
+      def ls(base)
+        load_repos_for_base(base)
+        repo_cache[base]&.collect(&:name)&.freeze
       end
     end
   end
