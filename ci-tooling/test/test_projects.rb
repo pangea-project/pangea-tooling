@@ -199,6 +199,31 @@ class ProjectTest < TestCase
     end
   end
 
+  def test_init_from_ssh
+    Net::SSH::Config.expects(:for).with('github.com').returns({
+      keys: ['/weesh.key']
+    })
+    Rugged::Credentials::SshKey.expects(:new).with(
+      username: 'git',
+      publickey: '/weesh.key.pub',
+      privatekey: '/weesh.key',
+      passphrase: ''
+    ).returns('wrupp')
+    Rugged::Repository.expects(:clone_at).with do |*args|
+      p args
+      next false unless args[0] == 'ssh://git@github.com/tn/tc' &&
+                        args[1] == "#{Dir.pwd}/cache/projects/git@github.com/tn/tc" &&
+                        args[2][:bare] == true &&
+                        args[2][:credentials] == 'wrupp'
+      FileUtils.mkpath("#{Dir.pwd}/cache/projects/git@github.com/tn/tc")
+      git_init_repo(args[1])
+      git_init_commit(args[1], %w(kitten))
+      true
+    end.returns(true)
+    Rugged::Repository.expects(:fetch).with('origin').returns(true)
+    Project.new('tc', 'tn', 'ssh://git@github.com:', branch: 'kittens')
+  end
+
   # Tests init with explicit branch name instead of just type specifier.
   # The branch is meant to not exist. We expect an error here!
   def test_init_branch_not_available

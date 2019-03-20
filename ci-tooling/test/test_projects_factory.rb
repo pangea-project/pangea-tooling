@@ -375,11 +375,11 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     ProjectsFactory::GitHub.instance_variable_set(:@url_base, github_dir)
 
     # mock the octokit query
-    resource = Struct.new(:name)
+    resource = Struct.new(:name, :private)
     Octokit::Client
       .any_instance
       .expects(:org_repos)
-      .returns([resource.new('calamares-debian')])
+      .returns([resource.new('calamares-debian', false)])
 
     factory = ProjectsFactory::GitHub.new('github.com')
     projects = factory.factorize([{ 'calamares' => ['calamares-debian'] }])
@@ -393,6 +393,32 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     assert_equal "#{github_dir}/calamares/calamares-debian", project.packaging_scm.url
     assert_equal 'kubuntu_unstable', project.packaging_scm.branch
   end
+
+  def test_github_private
+    github_repos = %w(calamares/calamares-debian)
+    github_dir = create_fake_git(branches: %w(master kubuntu_unstable),
+                                 repos: github_repos)
+    ProjectsFactory::GitHub.instance_variable_set(:@url_base, github_dir)
+
+    # mock the octokit query
+    resource = Struct.new(:name, :private)
+    Octokit::Client
+      .any_instance
+      .expects(:org_repos)
+      .returns([resource.new('calamares-debian', true)])
+
+    Project.expects(:new).with do |*args|
+      args[0] == "calamares-debian" &&
+      args[1] == "calamares" &&
+      args[2] == "git@github.com:"
+    end.returns('x')
+
+    factory = ProjectsFactory::GitHub.new('github.com')
+    ret = factory.factorize([{ 'calamares' => ['calamares-debian'] }])
+    # faked return from mocha
+    assert_equal(%w[x], ret)
+  end
+
 
   def test_gitlab_from_list
     gitlab_repos = %w(calamares/calamares-debian calamares/neon/neon-pinebook

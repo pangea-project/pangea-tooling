@@ -26,6 +26,7 @@ require 'forwardable' # For cleanup_uri delegation
 require 'git_clone_url'
 require 'json'
 require 'rugged'
+require 'net/ssh'
 
 require_relative 'ci/overrides'
 require_relative 'ci/upstream_scm'
@@ -340,7 +341,24 @@ absolutely must not be native though!
     # @param dest <String> directory name of the dir to clone as
     def get_git(uri, dest)
       return if File.exist?(dest)
-      Rugged::Repository.clone_at(uri, dest, bare: true)
+      if URI.parse(uri).scheme == 'ssh'
+        config = Net::SSH::Config.for(GitCloneUrl.parse(uri).host)
+        username = GitCloneUrl.parse(uri).user
+        default_key = "#{Dir.home}/.ssh/id_rsa"
+        key = File.expand_path(config.fetch(:keys, [default_key])[0])
+        credentials = Rugged::Credentials::SshKey.new(
+          username: username,
+          publickey: key + '.pub',
+          privatekey: key,
+          passphrase: ''
+        )
+        p credentials
+        Rugged::Repository.clone_at(uri, dest, bare: true,
+                                    credentials: credentials)
+      else
+        Rugged::Repository.clone_at(uri, dest, bare: true)
+      end
+
     rescue Rugged::NetworkError => e
       raise GitTransactionError, e
     end
