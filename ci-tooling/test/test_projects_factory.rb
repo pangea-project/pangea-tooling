@@ -410,7 +410,7 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     Project.expects(:new).with do |*args|
       args[0] == "calamares-debian" &&
       args[1] == "calamares" &&
-      args[2] == "git@github.com:"
+      args[2] == "ssh://git@github.com:"
     end.returns('x')
 
     factory = ProjectsFactory::GitHub.new('github.com')
