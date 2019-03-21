@@ -90,9 +90,11 @@ export LB_APT_HTTP_PROXY="http://apt.cache.pangea.pub:8000"
 ## lb_source, which would otherwise bypass the proxy entirely.
 export APT_OPTIONS="--yes -o Acquire::http::Proxy='$LB_APT_HTTP_PROXY'"
 
-export CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}.sh"
-export CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
-export BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}"
+[ -z "$CONFIG_SETTINGS" ] && CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}.sh"
+[ -z "$CONFIG_HOOKS" ] && CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
+[ -z "$BUILD_HOOKS" ] && BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}"
+
+export CONFIG_SETTINGS CONFIG_HOOKS BUILD_HOOKS
 
 # Preserve envrionment -E plz.
 sudo -E $(dirname "$0")/ubuntu-defaults-image \
