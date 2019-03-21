@@ -35,7 +35,6 @@ cat /proc/self/cgroup
 ls -lah /tooling/nci
 ls -lah /tooling/ci-tooling
 ls -lah /tooling/ci-tooling/lib
-find /var/lib/jenkins/
 /tooling/nci/setup_apt_repo.rb --no-repo
 sudo apt-add-repository http://archive.neon.kde.org/${NEONARCHIVE}
 sudo apt update
