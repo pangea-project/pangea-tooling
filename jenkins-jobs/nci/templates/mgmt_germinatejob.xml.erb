@@ -13,6 +13,7 @@
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
         <url>neon@git.neon.kde.org:neon/seeds</url>
+        <credentialsId>ssh.jobs.git.neon</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -30,7 +31,7 @@
       </hudson.plugins.git.extensions.impl.UserIdentity>
     </extensions>
   </scm>
-  <assignedNode>master</assignedNode>
+  <assignedNode>amd64</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
@@ -44,7 +45,9 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>set -ex
+      <command>export GIT_SSH=&quot;$HOME/tooling/lib/libexec/ssh_key_file.sh&quot;
+
+set -ex
 env
 git branch -a
 export DIST=<%= dist %>
@@ -99,6 +102,16 @@ git push origin HEAD:Neon/release</command>
       <cleanupParameter></cleanupParameter>
       <externalDelete></externalDelete>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
+    <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@1.18">
+      <bindings>
+        <org.jenkinsci.plugins.credentialsbinding.impl.SSHUserPrivateKeyBinding>
+          <credentialsId>ssh.jobs.git.neon</credentialsId>
+          <keyFileVariable>SSH_KEY_FILE</keyFileVariable>
+          <usernameVariable></usernameVariable>
+          <passphraseVariable></passphraseVariable>
+        </org.jenkinsci.plugins.credentialsbinding.impl.SSHUserPrivateKeyBinding>
+      </bindings>
+    </org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.7"/>
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.3">
       <colorMapName>xterm</colorMapName>
