@@ -17,7 +17,7 @@ Style/HashSyntax:
 # as we use a freeer license than most of Ruby code and need a licenses header
 # to properly license!
 # https://github.com/bbatsov/ruby-style-guide#magic-comments
-Style/EmptyLineAfterMagicComment:
+Layout/EmptyLineAfterMagicComment:
   Enabled: false
 
 Metrics/AbcSize:
@@ -31,7 +31,7 @@ Metrics/MethodLength:
 # Style suggestion is to use activesupport to be able to indent heredocs. I say
 # fuck this suggestion. I am not going to require some stupid gem to be able to
 # indent heredocs. Ruby 2.3 will solve this with <<~ heredocs.
-Style/IndentHeredoc:
+Layout/IndentHeredoc:
   Enabled: false
 
 # We have plenty of system(*%w(....)) which is good to have because
