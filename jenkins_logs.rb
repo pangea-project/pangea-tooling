@@ -32,7 +32,6 @@ require_relative 'lib/jenkins/job'
 @grep_pattern = nil
 
 # This block is very long because it is essentially a DSL.
-# rubocop:disable Metrics/BlockLength
 OptionParser.new do |opts|
   opts.banner = <<-SUMMARY
 Streams all build of failed logs to STDOUT. Note that this is potentially a lot
@@ -50,20 +49,21 @@ retry. See jenkins_retry for examples.
     @grep_pattern = CI::FNMatchPattern.new(v)
   end
 end.parse!
-# rubocop:enable Metrics/BlockLength
 
 pattern = nil
 raise 'Need ruby pattern as argv0' if ARGV.empty?
+
 pattern = Regexp.new(ARGV[0])
 
 spinner = TTY::Spinner.new('[:spinner] :title', format: :spin_2)
 spinner.update(title: 'Loading job list')
 spinner.auto_spin
-job_names = job_names = Jenkins.job.list_by_status('failure')
+job_names = Jenkins.job.list_by_status('failure')
 spinner.success
 
 job_names = job_names.select do |job_name|
   next false unless pattern.match(job_name)
+
   true
 end
 
@@ -76,8 +76,9 @@ elsif job_names.empty?
   abort 'No jobs matched your pattern'
 end
 
+# Wrapper around a joblog so output only needs fetching once
 class JobLog
-  attr :name
+  attr_reader :name
 
   def initialize(name)
     @name = name
@@ -88,18 +89,7 @@ class JobLog
       spinner = TTY::Spinner.new('[:spinner] :title', format: :spin_2)
       spinner.update(title: "Download console of #{name}")
       spinner.auto_spin
-      text = ""
-      offset = 0
-      job = Jenkins::Job.new(name)
-      loop do
-
-        output = job.console_output(job.build_number)
-        text += output.fetch('output')
-        break unless output.fetch('more')
-
-        offset += output.fetch('size') # stream next part
-        sleep 5
-      end
+      text = read
       spinner.success
       text
     end
@@ -107,6 +97,26 @@ class JobLog
 
   def to_s
     name
+  end
+
+  private
+
+  def job
+    @job ||= Jenkins::Job.new(name)
+  end
+
+  def read
+    text = ''
+    offset = 0
+    loop do
+      output = job.console_output(job.build_number)
+      text += output.fetch('output')
+      break unless output.fetch('more')
+
+      offset += output.fetch('size') # stream next part
+      sleep 5
+    end
+    text
   end
 end
 
@@ -117,16 +127,16 @@ if @grep_pattern
   end
 end
 
-abort "No matching logs found :(" if logs.empty?
+abort 'No matching logs found :(' if logs.empty?
 
 # group_by would make the value an array, since names are unique we don't need that though
-logs = logs.map {|log| [log.name, log] }.to_h
+logs = logs.map { |log| [log.name, log] }.to_h
 
 prompt = TTY::Prompt.new
 loop do
-
-  selection = prompt.select('Select job or hit ctrl-c to exit', logs.keys,
-    per_page: 32, filter: true)
+  selection = prompt.select('Select job or hit ctrl-c to exit',
+                            logs.keys,
+                            per_page: 32, filter: true)
 
   log = logs.fetch(selection)
   pager = TTY::Pager.new
