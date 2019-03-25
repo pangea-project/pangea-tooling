@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2018 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2018-2019 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -32,6 +32,14 @@ class LintDHMissingTest < TestCase
   end
 
   def test_no_dh_missing
+    r = Lint::Log::DHMissing.new.lint(File.read(data))
+    assert(r.valid)
+    assert_equal(0, r.informations.size)
+    assert_equal(0, r.warnings.size)
+    assert_equal(0, r.errors.size)
+  end
+
+  def test_bad_log
     r = Lint::Log::DHMissing.new.lint(File.read(data))
     assert(r.valid)
     assert_equal(0, r.informations.size)

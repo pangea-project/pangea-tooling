@@ -1,0 +1,196 @@
+/workspace/build/obj-x86_64-linux-gnu/filters/sheets/excel/import/records.h:4614:25: warning: â€˜virtual const char* Swinder::GridSetReservedRecord::name() constâmake[3]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+
+
+
+
+debian/tmp/usr/lib/x86_64-linux-gnu/libkoplugin.so
+debian/tmp/usr/lib/x86_64-linux-gnu/libflowprivate.so
+debian/tmp/usr/lib/x86_64-linux-gnu/libkoodfreader.so
+# - headers
+rm -rfv debian/tmp/usr/include
+# - cmake configuration files
+rm -rfv debian/tmp/usr/share/kde4/apps/cmake
+# Remove mimetypes already provided by shared-mime-info
+rm -f debian/tmp/usr/share/mime/packages/msooxml-all.xml
+rm -f debian/tmp/usr/share/mime/packages/x-iwork-keynote-sffkey.xml
+make[1]: Leaving directory '/workspace/build'
+   debian/rules override_dh_install
+make[1]: Entering directory '/workspace/build'
+dh_install --list-missing
+dh_install: Please use dh_missing --list-missing/--fail-missing instead
+dh_install: This feature will be removed in compat 12.
+Overlay Executing ["dh_missing", "--list-missing"]
+make[1]: Leaving directory '/workspace/build'
+   dh_movelibkdeinit -O--parallel
+   dh_installdocs -O--parallel
+   dh_installchangelogs -O--parallel
+   dh_installman -O--parallel
+   dh_lintian -O--parallel
+   dh_icons -O--parallel
+   dh_perl -O--parallel
+   debian/rules override_dh_link
+make[1]: Entering directory '/workspace/build'
+# the calligra-gemini components are installed in a multi-arch library
+# directory, but kdelibs 4.x does not support that -- instead,
+# create a simple symlink to avoid shuffling things too much
+if [ -d debian/calligra-gemini ]; then \
+    ln -s x86_64-linux-gnu/calligra /workspace/build/debian/calligra-gemini/usr/lib/calligra; \
+fi
+dh_link
+make[1]: Leaving directory '/workspace/build'
+   dh_strip_nondeterminism -O--parallel
+	Normalized debian/calligra-data/usr/share/locale/hu/LC_MESSAGES/calligra-dockers.mo
+	Normalized debian/calligra-data/usr/share/locale/x-test/LC_MESSAGES/calligra_shape_threed.mo
+   dh_compress -X.dcl -X.docbook -X-license -X.tag -X.sty -X.el -O--parallel
+   dh_fixperms -O--parallel
+   dh_missing -O--parallel
+Overlay Executing ["dh_missing", "--list-missing", "-O--parallel"]
+   debian/rules override_dh_strip
+make[1]: Entering directory '/workspace/build'
+dh_strip --dbgsym-migration='calligra-dbg (<< 1:2.9.11)'
+make[1]: Leaving directory '/workspace/build'
+   dh_makeshlibs -Xusr/lib/kde4/ -O--parallel
+   dh_shlibdeps -O--parallel
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligraflow.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_karbon.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrawords.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrastage.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_calligrasheets.so'
+dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/calligrasheets/usr/lib/x86_64-linux-gnu/qt5/plugins/calligrasheets/extensions/sheetssolver.so was not linked against libgslcblas.so.0 (it uses none of the library's symbols)
+   dh_installdeb -O--parallel
+   dh_gencontrol -O--parallel
+dpkg-gencontrol: warning: Depends field of package calligragemini: unknown substitution variable ${shlibs:Depends}
+dpkg-gencontrol: warning: Depends field of package braindump: unknown substitution variable ${shlibs:Depends}
+   dh_md5sums -O--parallel
+   dh_builddeb -O--parallel
+dpkg-deb: building package 'calligra' in '../calligra_3.1.0+p18.04+git20190317.1332-0_all.deb'.
+dpkg-deb: building package 'calligragemini' in '../calligragemini_3.1.0+p18.04+git20190317.1332-0_all.deb'.
+dpkg-deb: building package 'calligrastage' in '../calligrastage_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'karbon-dbgsym' in 'debian/.debhelper/scratch-space/build-karbon/karbon-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'okular-backend-odp' in '../okular-backend-odp_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'calligraflow-dbgsym' in 'debian/.debhelper/scratch-space/build-calligraflow/calligraflow-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'calligra-libs-dbgsym' in 'debian/.debhelper/scratch-space/build-calligra-libs/calligra-libs-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'calligrawords-dbgsym' in 'debian/.debhelper/scratch-space/build-calligrawords/calligrawords-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'calligrastage-data' in '../calligrastage-data_3.1.0+p18.04+git20190317.1332-0_all.deb'.
+dpkg-deb: building package 'calligra-gemini' in '../calligra-gemini_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'okular-backend-odt' in '../okular-backend-odt_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'calligrasheets-dbgsym' in 'debian/.debhelper/scratch-space/build-calligrasheets/calligrasheets-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'braindump' in '../braindump_3.1.0+p18.04+git20190317.1332-0_all.deb'.
+dpkg-deb: building package 'karbon' in '../karbon_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'okular-backend-odt-dbgsym' in 'debian/.debhelper/scratch-space/build-okular-backend-odt/okular-backend-odt-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'okular-backend-odp-dbgsym' in 'debian/.debhelper/scratch-space/build-okular-backend-odp/okular-backend-odp-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+	Renaming calligraflow-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb to calligraflow-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb
+dpkg-deb: building package 'calligrawords' in '../calligrawords_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+	Renaming okular-backend-odp-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb to okular-backend-odp-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb
+	Renaming okular-backend-odt-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb to okular-backend-odt-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb
+dpkg-deb: building package 'calligrastage-dbgsym' in 'debian/.debhelper/scratch-space/build-calligrastage/calligrastage-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'calligra-libs' in '../calligra-libs_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+dpkg-deb: building package 'calligra-gemini-dbgsym' in 'debian/.debhelper/scratch-space/build-calligra-gemini/calligra-gemini-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+	Renaming karbon-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb to karbon-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb
+dpkg-deb: building package 'calligrasheets' in '../calligrasheets_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+	Renaming calligra-gemini-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb to calligra-gemini-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb
+	Renaming calligrasheets-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb to calligrasheets-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb
+dpkg-deb: building package 'calligraflow' in '../calligraflow_3.1.0+p18.04+git20190317.1332-0_amd64.deb'.
+	Renaming calligrawords-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb to calligrawords-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb
+dpkg-deb: building package 'calligrawords-data' in '../calligrawords-data_3.1.0+p18.04+git20190317.1332-0_all.deb'.
+	Renaming calligra-libs-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb to calligra-libs-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb
+dpkg-deb: building package 'calligra-data' in '../calligra-data_3.1.0+p18.04+git20190317.1332-0_all.deb'.
+	Renaming calligrastage-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.deb to calligrastage-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb
+ dpkg-genbuildinfo --build=binary
+ dpkg-genchanges --build=binary >../calligra_3.1.0+p18.04+git20190317.1332-0_amd64.changes
+dpkg-genchanges: info: binary-only upload (no source code included)
+ dpkg-source --after-build build
+dpkg-buildpackage: info: binary-only upload (no source included)
+cp /tmp/d20190317-1-1c7c9bw/CMakeLists.txt /workspace/build
+renamed 'build/../braindump_3.1.0+p18.04+git20190317.1332-0_all.deb' -> 'result/braindump_3.1.0+p18.04+git20190317.1332-0_all.deb'
+renamed 'build/../calligra-data_3.1.0+p18.04+git20190317.1332-0_all.deb' -> 'result/calligra-data_3.1.0+p18.04+git20190317.1332-0_all.deb'
+renamed 'build/../calligra-gemini-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb' -> 'result/calligra-gemini-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb'
+renamed 'build/../calligra-gemini_3.1.0+p18.04+git20190317.1332-0_amd64.deb' -> 'result/calligra-gemini_3.1.0+p18.04+git20190317.1332-0_amd64.deb'
+renamed 'build/../calligra-libs-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb' -> 'result/calligra-libs-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb'
+renamed 'build/../calligra-libs_3.1.0+p18.04+git20190317.1332-0_amd64.deb' -> 'result/calligra-libs_3.1.0+p18.04+git20190317.1332-0_amd64.deb'
+renamed 'build/../calligra_3.1.0+p18.04+git20190317.1332-0_all.deb' -> 'result/calligra_3.1.0+p18.04+git20190317.1332-0_all.deb'
+renamed 'build/../calligra_3.1.0+p18.04+git20190317.1332-0_amd64.buildinfo' -> 'result/calligra_3.1.0+p18.04+git20190317.1332-0_amd64.buildinfo'
+renamed 'build/../calligraflow-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb' -> 'result/calligraflow-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb'
+renamed 'build/../calligraflow_3.1.0+p18.04+git20190317.1332-0_amd64.deb' -> 'result/calligraflow_3.1.0+p18.04+git20190317.1332-0_amd64.deb'
+renamed 'build/../calligragemini_3.1.0+p18.04+git20190317.1332-0_all.deb' -> 'result/calligragemini_3.1.0+p18.04+git20190317.1332-0_all.deb'
+renamed 'build/../calligrasheets-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb' -> 'result/calligrasheets-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb'
+renamed 'build/../calligrasheets_3.1.0+p18.04+git20190317.1332-0_amd64.deb' -> 'result/calligrasheets_3.1.0+p18.04+git20190317.1332-0_amd64.deb'
+renamed 'build/../calligrastage-data_3.1.0+p18.04+git20190317.1332-0_all.deb' -> 'result/calligrastage-data_3.1.0+p18.04+git20190317.1332-0_all.deb'
+renamed 'build/../calligrastage-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb' -> 'result/calligrastage-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb'
+renamed 'build/../calligrastage_3.1.0+p18.04+git20190317.1332-0_amd64.deb' -> 'result/calligrastage_3.1.0+p18.04+git20190317.1332-0_amd64.deb'
+renamed 'build/../calligrawords-data_3.1.0+p18.04+git20190317.1332-0_all.deb' -> 'result/calligrawords-data_3.1.0+p18.04+git20190317.1332-0_all.deb'
+renamed 'build/../calligrawords-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb' -> 'result/calligrawords-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb'
+renamed 'build/../calligrawords_3.1.0+p18.04+git20190317.1332-0_amd64.deb' -> 'result/calligrawords_3.1.0+p18.04+git20190317.1332-0_amd64.deb'
+renamed 'build/../karbon-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb' -> 'result/karbon-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb'
+renamed 'build/../karbon_3.1.0+p18.04+git20190317.1332-0_amd64.deb' -> 'result/karbon_3.1.0+p18.04+git20190317.1332-0_amd64.deb'
+renamed 'build/../okular-backend-odp-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb' -> 'result/okular-backend-odp-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb'
+renamed 'build/../okular-backend-odp_3.1.0+p18.04+git20190317.1332-0_amd64.deb' -> 'result/okular-backend-odp_3.1.0+p18.04+git20190317.1332-0_amd64.deb'
+renamed 'build/../okular-backend-odt-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb' -> 'result/okular-backend-odt-dbgsym_3.1.0+p18.04+git20190317.1332-0_amd64.ddeb'
+renamed 'build/../okular-backend-odt_3.1.0+p18.04+git20190317.1332-0_amd64.deb' -> 'result/okular-backend-odt_3.1.0+p18.04+git20190317.1332-0_amd64.deb'
+renamed 'build/../calligra_3.1.0+p18.04+git20190317.1332-0_amd64.changes' -> 'result/calligra_3.1.0+p18.04+git20190317.1332-0_amd64.changes'
+W, [2019-03-17T13:48:02.549073 #26795]  WARN -- : APT run (apt-get, ["-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "update"])
+Hit:2 http://security.ubuntu.com/ubuntu bionic-security InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu bionic InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+Get:1 https://archive.neon.kde.org/dev/unstable bionic InRelease [153 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+Fetched 153 kB in 0s (311 kB/s)
+Reading package lists...
+W: --force-yes is deprecated, use one of the options starting with --allow instead.
+Run options: -v --ci-reporter --seed 2055
+

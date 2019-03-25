@@ -34,7 +34,6 @@ module Lint
           uri = ENV.fetch('LOG_URL')
           warn "Loading Build Log: #{uri}"
           io = open(uri)
-          p io # FIXME: temporary debugging
           io.read.freeze
         end
       end
@@ -46,7 +45,6 @@ module Lint
 
     def setup
       @log = self.class.log_orig.dup
-      warn "setup: log is nil #{@log.nil?}; log size: #{@log&.size}"
     end
 
     def result_lintian
