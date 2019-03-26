@@ -127,13 +127,13 @@ module NCI
       pid = fork do
         ENV['DIST'] = 'xenial'
         ENV['ARCH'] = 'amd64'
-        ENV['TYPE'] = 'devedition-gitstable'
+        ENV['TYPE'] = 'testing'
         ENV['IMAGENAME'] = 'neon'
 
         Dir.mkdir('result')
         File.write('result/date_stamp', '1234')
         File.write('result/.message', 'hey hey wow wow')
-        File.write("result/#{ENV['IMAGENAME']}-#{ENV['TYPE']}-1234-amd64.iso", 'blob')
+        File.write("result/#{ENV['IMAGENAME']}-#{ENV['TYPE']}-1234.iso", 'blob')
         File.write('result/source.tar.xz', 'blob')
 
         Object.any_instance.expects(:system).never
@@ -158,11 +158,11 @@ module NCI
       assert_equal(pid, waitedpid)
       assert(status.success?)
 
-      assert_path_exist('master.kde.org/neon/images/neon-devedition-gitstable/1234/.message')
-      assert_path_exist('master.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-1234-amd64.iso')
-      assert_path_exist('master.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-1234-amd64.iso.sig')
-      assert_path_exist('master.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-current.iso.sig')
-      assert_path_exist('master.kde.org/neon/images/neon-devedition-gitstable/1234/neon-devedition-gitstable-current.iso')
+      assert_path_exist('master.kde.org/neon/images/testing/1234/.message')
+      assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-1234.iso')
+      assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-1234.iso.sig')
+      assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-current.iso.sig')
+      assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-current.iso')
 
       assert_path_exist('weegie.edinburghlinux.co.uk/files.neon.kde.org.uk/source.tar.xz')
     end

@@ -45,8 +45,8 @@ REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 # a dedicated socket directory.
 unless TTY::Command.new.run('gpg', '--no-use-agent', '--armor', '--detach-sign',
                             '-o',
-                            "result/#{ISONAME}-#{DATE}-amd64.iso.sig",
-                            "result/#{ISONAME}-#{DATE}-amd64.iso")
+                            "result/#{ISONAME}-#{DATE}.iso.sig",
+                            "result/#{ISONAME}-#{DATE}.iso")
   raise 'Failed to sign'
 end
 
