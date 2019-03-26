@@ -132,7 +132,7 @@ ssh_args = key_file ? [{ keys: [key_file] }] : []
 Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
   sftp.cli_uploads = true
   sftp.mkdir!(REMOTE_PUB_DIR)
-  types = %w[amd64.iso amd64.iso.sig manifest zsync zsync.README sha256sum]
+  types = %w[.iso .iso.sig manifest zsync zsync.README sha256sum]
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
       name = File.basename(file)
@@ -147,9 +147,9 @@ Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
   # Need a second SSH session here, since the SFTP one is busy looping.
   Net::SSH.start('master.kde.org', 'neon', *ssh_args) do |ssh|
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *amd64.iso #{ISONAME}-current.iso")
+              " ln -s *.iso #{ISONAME}-current.iso")
     ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *amd64.iso.sig #{ISONAME}-current.iso.sig")
+              " ln -s *.iso.sig #{ISONAME}-current.iso.sig")
     ssh.exec!("cd #{REMOTE_DIR}; rm -f current; ln -s #{DATE} current")
   end
 
