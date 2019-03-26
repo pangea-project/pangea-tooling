@@ -32,11 +32,11 @@ TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
 IMAGENAME = ENV.fetch('IMAGENAME')
 
-# copy to depot using same directory without -proposed for now, later we want
+# copy to master.kde.org using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
 DATE = File.read('result/date_stamp').strip
 ISONAME = "#{IMAGENAME}-#{TYPE}"
-REMOTE_DIR = "neon/images/#{ISONAME}/"
+REMOTE_DIR = "neon/images/#{TYPE}/"
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 # NB: we use gpg without agent here. Jenkins credential paths are fairly long

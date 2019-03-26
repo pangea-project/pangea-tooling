@@ -31,7 +31,7 @@ TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
 IMAGENAME = ENV.fetch('IMAGENAME')
 
-# copy to depot using same directory without -proposed for now, later we want
+# copy to master.kde.org using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
 DATE = File.read('date_stamp').strip
 IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"

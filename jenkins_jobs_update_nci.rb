@@ -220,32 +220,32 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
       # ISOs
       NCI.architectures.each do |architecture|
-        dev_unstable_isoargs = { type: 'devedition-gitunstable',
+        dev_unstable_isoargs = { type: 'unstable',
                                  distribution: distribution,
                                  architecture: architecture,
                                  metapackage: 'neon-desktop',
                                  imagename: 'neon',
-                                 neonarchive: 'dev/unstable',
+                                 neonarchive: 'unstable',
                                  cronjob: 'H H * * 0' }
         enqueue(NeonIsoJob.new(dev_unstable_isoargs))
-        dev_unstable_dev_name = 'devedition-gitunstable-development'
+        dev_unstable_dev_name = 'development'
         dev_unstable_dev_isoargs = { type: dev_unstable_dev_name,
                                      distribution: distribution,
                                      architecture: architecture,
                                      metapackage: 'neon-desktop',
                                      imagename: 'neon-development',
-                                     neonarchive: 'dev/unstable',
+                                     neonarchive: 'unstable',
                                      cronjob: 'H H * * 1' }
         enqueue(NeonIsoJob.new(dev_unstable_dev_isoargs))
-        dev_stable_isoargs = { type: 'devedition-gitstable',
+        dev_stable_isoargs = { type: 'testing',
                                distribution: distribution,
                                architecture: architecture,
                                metapackage: 'neon-desktop',
                                imagename: 'neon',
-                               neonarchive: 'dev/stable',
+                               neonarchive: 'testing',
                                cronjob: 'H H * * 2' }
         enqueue(NeonIsoJob.new(dev_stable_isoargs))
-        user_releaselts_isoargs = { type: 'userltsedition',
+        user_releaselts_isoargs = { type: 'user_lts',
                                     distribution: distribution,
                                     architecture: architecture,
                                     metapackage: 'neon-desktop',
@@ -253,7 +253,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                     neonarchive: 'user/lts',
                                     cronjob: 'H H * * 3' }
         enqueue(NeonIsoJob.new(user_releaselts_isoargs))
-        user_release_isoargs = { type: 'useredition',
+        user_release_isoargs = { type: 'user',
                                  distribution: distribution,
                                  architecture: architecture,
                                  metapackage: 'neon-desktop',
@@ -261,7 +261,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                  neonarchive: 'user',
                                  cronjob: 'H H * * 4' }
         enqueue(NeonIsoJob.new(user_release_isoargs))
-        ko_user_release_isoargs = { type: 'devedition-gitstable',
+        ko_user_release_isoargs = { type: 'testing',
                                     distribution: distribution,
                                     architecture: architecture,
                                     metapackage: 'neon-desktop-ko',
