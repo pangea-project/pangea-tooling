@@ -120,21 +120,21 @@ mv source.debian.tar ../result/ || true
 cd ../result/
 
 for f in live*; do
-    new_name=$(echo $f | sed "s/livecd\.neon/${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}/")
+    new_name=$(echo $f | sed "s/livecd\.neon/${IMAGENAME}-${TYPE}-${DATETIME}/")
     mv $f $new_name
 done
 
 mv source.debian.tar ${IMAGENAME}-${TYPE}-${DATETIME}-source.tar || true
-ln -s ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso ${IMAGENAME}-${TYPE}-current.iso
+ln -s ${IMAGENAME}-${TYPE}-${DATETIME}.iso ${IMAGENAME}-${TYPE}-current.iso
 zsyncmake ${IMAGENAME}-${TYPE}-current.iso
-sha256sum ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso > ${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.sha256sum
+sha256sum ${IMAGENAME}-${TYPE}-${DATETIME}.iso > ${IMAGENAME}-${TYPE}-${DATETIME}.sha256sum
 cat > .message << END
 KDE neon
 
-${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso Live and Installable ISO
-${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.iso.sig PGP Digital Signature
-${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.manifest ISO contents
-${IMAGENAME}-${TYPE}-${DATETIME}-${ARCH}.sha256sum Checksum
+${IMAGENAME}-${TYPE}-${DATETIME}.iso Live and Installable ISO
+${IMAGENAME}-${TYPE}-${DATETIME}.iso.sig PGP Digital Signature
+${IMAGENAME}-${TYPE}-${DATETIME}.manifest ISO contents
+${IMAGENAME}-${TYPE}-${DATETIME}.sha256sum Checksum
 "current" files are the same files for those wanting a URL which does not change daily.
 END
 echo $DATETIME > date_stamp
