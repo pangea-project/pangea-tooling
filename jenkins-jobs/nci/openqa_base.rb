@@ -27,10 +27,10 @@ class OpenQAJobBase < PipelineJob
 
   def edition_from_type(type)
     {
-      'unstable' => 'devedition-gitunstable',
-      'stable' => 'devedition-gitstable',
-      'release' => 'useredition',
-      'release-lts' => 'userltsedition'
+      'unstable' => 'unstable',
+      'stable' => 'testing',
+      'release' => 'user',
+      'release-lts' => 'user_lts'
     }.fetch(type)
   end
 end
