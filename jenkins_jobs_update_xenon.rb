@@ -55,6 +55,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # TODO: there probably should be a conflict check so they don't override
     # the same thing.
     files = Dir.glob("#{__dir__}/ci-tooling/xenon-data/overrides/*.yaml")
+    p files
     # raise 'No overrides found?' if files.empty?
     CI::Overrides.default_files += files
   end
