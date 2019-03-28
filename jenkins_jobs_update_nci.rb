@@ -228,7 +228,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                  neonarchive: 'unstable',
                                  cronjob: 'H H * * 0' }
         enqueue(NeonIsoJob.new(dev_unstable_isoargs))
-        dev_unstable_dev_isoargs = { type: 'development',
+        dev_unstable_dev_isoargs = { type: 'developer',
                                      distribution: distribution,
                                      architecture: architecture,
                                      metapackage: 'neon-desktop',
