@@ -228,12 +228,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                  neonarchive: 'unstable',
                                  cronjob: 'H H * * 0' }
         enqueue(NeonIsoJob.new(dev_unstable_isoargs))
-        dev_unstable_dev_name = 'development'
-        dev_unstable_dev_isoargs = { type: dev_unstable_dev_name,
+        dev_unstable_dev_isoargs = { type: 'development',
                                      distribution: distribution,
                                      architecture: architecture,
                                      metapackage: 'neon-desktop',
-                                     imagename: 'neon-development',
+                                     imagename: 'neon',
                                      neonarchive: 'unstable',
                                      cronjob: 'H H * * 1' }
         enqueue(NeonIsoJob.new(dev_unstable_dev_isoargs))
@@ -261,12 +260,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                  neonarchive: 'user',
                                  cronjob: 'H H * * 4' }
         enqueue(NeonIsoJob.new(user_release_isoargs))
-        ko_user_release_isoargs = { type: 'testing',
+        ko_user_release_isoargs = { type: 'ko',
                                     distribution: distribution,
                                     architecture: architecture,
                                     metapackage: 'neon-desktop-ko',
-                                    imagename: 'neon-ko',
-                                    neonarchive: 'dev/stable',
+                                    imagename: 'neon',
+                                    neonarchive: 'testing',
                                     cronjob: 'H H * * 5' }
         enqueue(NeonIsoJob.new(ko_user_release_isoargs))
       end

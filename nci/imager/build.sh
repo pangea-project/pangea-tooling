@@ -94,6 +94,12 @@ export APT_OPTIONS="--yes -o Acquire::http::Proxy='$LB_APT_HTTP_PROXY'"
 [ -z "$CONFIG_HOOKS" ] && CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
 [ -z "$BUILD_HOOKS" ] && BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}"
 
+if [ $TYPE == 'development' ] || [ $TYPE == 'ko' ]; then
+    CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}-${TYPE}.sh"
+    CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}-${TYPE}"
+    BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}-${TYPE}"
+fi
+
 export CONFIG_SETTINGS CONFIG_HOOKS BUILD_HOOKS
 
 # Preserve envrionment -E plz.
