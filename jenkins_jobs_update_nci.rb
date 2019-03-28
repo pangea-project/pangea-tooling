@@ -244,7 +244,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                neonarchive: 'testing',
                                cronjob: 'H H * * 2' }
         enqueue(NeonIsoJob.new(dev_stable_isoargs))
-        user_releaselts_isoargs = { type: 'user_lts',
+        user_releaselts_isoargs = { type: 'plasma_lts',
                                     distribution: distribution,
                                     architecture: architecture,
                                     metapackage: 'neon-desktop',
