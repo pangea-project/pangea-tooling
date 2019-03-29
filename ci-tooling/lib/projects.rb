@@ -344,24 +344,28 @@ absolutely must not be native though!
   end
 
   class << self
+    def git_credentials(url, username, types)
+      config = Net::SSH::Config.for(GitCloneUrl.parse(url).host)
+      default_key = "#{Dir.home}/.ssh/id_rsa"
+      key = File.expand_path(config.fetch(:keys, [default_key])[0])
+      p credentials = Rugged::Credentials::SshKey.new(
+        username: username,
+        publickey: key + '.pub',
+        privatekey: key,
+        passphrase: ''
+      )
+      credentials
+    end
+
     # @param uri <String> uri of the repo to clone
     # @param dest <String> directory name of the dir to clone as
     def get_git(uri, dest)
       return if File.exist?(dest)
+
       if URI.parse(uri).scheme == 'ssh'
-        config = Net::SSH::Config.for(GitCloneUrl.parse(uri).host)
-        username = GitCloneUrl.parse(uri).user
-        default_key = "#{Dir.home}/.ssh/id_rsa"
-        key = File.expand_path(config.fetch(:keys, [default_key])[0])
-        credentials = Rugged::Credentials::SshKey.new(
-          username: username,
-          publickey: key + '.pub',
-          privatekey: key,
-          passphrase: ''
-        )
-        p credentials
-        Rugged::Repository.clone_at(uri, dest, bare: true,
-                                    credentials: credentials)
+        Rugged::Repository.clone_at(uri, dest,
+                                    bare: true,
+                                    credentials: method(:git_credentials))
       else
         Rugged::Repository.clone_at(uri, dest, bare: true)
       end
