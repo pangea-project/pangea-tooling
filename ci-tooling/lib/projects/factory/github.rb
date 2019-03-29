@@ -28,7 +28,7 @@ class ProjectsFactory
   class GitHub < Base
     include ProjectsFactoryCommon
 
-    DEFAULT_URL_BASE = 'https://github.com'
+    DEFAULT_URL_BASE = 'https://github.com/'
     DEFAULT_PRIVATE_URL_BASE = 'ssh://git@github.com:'
 
     # FIXME: same as in neon
@@ -56,18 +56,21 @@ class ProjectsFactory
 
     def params(str)
       name, component = split_entry(str)
-
-      component_repos = self.class.repo_cache.fetch(component)
-      repo = component_repos.find { |x| x.name == name }
-      raise unless repo
-      url_base = "#{self.class.url_base}/"
-      url_base = self.class.private_url_base if repo.private
+      url_base = url_base_for(name, component)
 
       default_params.merge(
         name: name,
         component: component,
         url_base: url_base
       )
+    end
+
+    def url_base_for(name, component)
+      component_repos = self.class.repo_cache.fetch(component)
+      repo = component_repos.find { |x| x.name == name }
+      raise unless repo
+
+      repo.private ? self.class.private_url_base : self.class.url_base
     end
 
     class << self
