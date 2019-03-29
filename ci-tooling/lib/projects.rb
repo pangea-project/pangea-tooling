@@ -254,16 +254,14 @@ class Project
     return false if Debian::Source.new(directory).format.type != :native
 
     blacklist = %w[applications frameworks plasma kde-extras]
+    return true unless blacklist.include?(component)
 
-    if blacklist.include?(component)
-      # NOTE: this is a bit broad in scope, may be more prudent to have the
-      #   factory handle this after collecting all promises.
-      raise <<-ERROR
+    # NOTE: this is a bit broad in scope, may be more prudent to have the
+    #   factory handle this after collecting all promises.
+    raise <<-ERROR
 #{name} is in #{component} and marked native. Projects in that component
 absolutely must not be native though!
-      ERROR
-    end
-    true
+    ERROR
   end
 
   def init_deps_from_control(control)
