@@ -60,6 +60,7 @@ class Project
       # @return [Bool] if this path requires updating
       def update?(path)
         return false if ENV.include?('NO_UPDATE')
+
         !cache.include?(path)
       end
 
@@ -148,15 +149,15 @@ class Project
     @autopkgtest = false
     @debian = false
     @series_restrictions = []
-    if KDEProjectsComponent.frameworks_jobs.include?(name)
-      @kdecomponent = 'frameworks'
-    elsif KDEProjectsComponent.applications_jobs.include?(name)
-      @kdecomponent = 'applications'
-    elsif KDEProjectsComponent.plasma_jobs.include?(name)
-      @kdecomponent = 'plasma'
-    else
-      @kdecomponent = 'extragear'
-    end
+    @kdecomponent = if KDEProjectsComponent.frameworks_jobs.include?(name)
+                      'frameworks'
+                    elsif KDEProjectsComponent.applications_jobs.include?(name)
+                      'applications'
+                    elsif KDEProjectsComponent.plasma_jobs.include?(name)
+                      'plasma'
+                    else
+                      'extragear'
+                    end
 
     if component == 'kde-extras_kde-telepathy'
       puts 'stepped into a shit pile --> https://phabricator.kde.org/T4160'
@@ -196,6 +197,7 @@ class Project
     #   unaware of the code branching.
     branch = series_branches.find { |b| b.split('_')[-1] == series }
     return packaging_scm unless branch
+
     CI::SCM.new(packaging_scm.type, packaging_scm.url, branch)
   end
 
@@ -216,6 +218,7 @@ class Project
 
   def init_from_debian_source(dir)
     return unless File.exist?("#{dir}/debian/control")
+
     control = Debian::Control.new(dir)
     # TODO: raise? return?
     control.parse!
@@ -243,19 +246,22 @@ class Project
   def find_snapcraft(dir)
     file = Dir.glob("#{dir}/**/snapcraft.yaml")[0]
     return file unless file
+
     Pathname.new(file).relative_path_from(Pathname.new(dir)).to_s
   end
 
   def native?(directory)
     return false if Debian::Source.new(directory).format.type != :native
+
     blacklist = %w[applications frameworks plasma kde-extras]
+
     if blacklist.include?(component)
       # NOTE: this is a bit broad in scope, may be more prudent to have the
       #   factory handle this after collecting all promises.
-      raise <<-EOF
+      raise <<-ERROR
 #{name} is in #{component} and marked native. Projects in that component
 absolutely must not be native though!
-      EOF
+      ERROR
     end
     true
   end
@@ -328,6 +334,7 @@ absolutely must not be native though!
     # instead. This is not applying properties any deeper!
     rule.each do |var, value|
       next unless (value = render_override(value))
+
       # TODO: object.override! can jump in here and do what it wants
       object.instance_variable_set("@#{var}", value)
     end
@@ -367,11 +374,13 @@ absolutely must not be native though!
     def get_bzr(uri, dest)
       return if File.exist?(dest)
       return if system("bzr checkout --lightweight #{uri} #{dest}")
+
       raise BzrTransactionError, "Could not checkout #{uri}"
     end
 
     def update_git(dir)
       return unless VCSCache.update?(dir)
+
       # TODO: should change to .bare as its faster. also in checkout.
       repo = Rugged::Repository.new(dir)
       repo.config.store('remote.origin.prune', true)
@@ -383,6 +392,7 @@ absolutely must not be native though!
     def update_bzr(dir)
       return unless VCSCache.update?(dir)
       return if system('bzr up', chdir: dir)
+
       raise BzrTransactionError, 'Failed to update'
     end
   end
@@ -397,6 +407,7 @@ absolutely must not be native though!
 
   def schemeless_path(url)
     return url if url[0] == '/' # Seems to be an absolute path already!
+
     uri = GitCloneUrl.parse(url)
     uri.scheme = nil
     path = uri.to_s
@@ -407,6 +418,7 @@ absolutely must not be native though!
   def cache_path_from(scm)
     path = schemeless_path(scm.url)
     raise "couldnt build cache path from #{uri}" if path.empty?
+
     path = File.absolute_path("cache/projects/#{path}")
     dir = File.dirname(path)
     FileUtils.mkdir_p(dir, verbose: true) unless Dir.exist?(dir)
@@ -472,6 +484,7 @@ absolutely must not be native though!
     unless branches.include?(b)
       raise GitNoBranchError, "No branch #{b} for #{name} found #{branches}"
     end
+
     repo.reset(b, :hard)
   end
 
@@ -479,6 +492,7 @@ absolutely must not be native though!
     # This meth cannot have transaction errors as there is no network IO going
     # on here.
     return checkout_lp(cache_dir, checkout_dir) if @component == 'launchpad'
+
     checkout_git(branch, cache_dir, checkout_dir)
   end
 end
