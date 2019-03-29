@@ -58,6 +58,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_extras_{skanlite}_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_extras_{zanshin}_*':
   sourcer:
     restricted_packaging_copy: true
