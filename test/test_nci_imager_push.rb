@@ -29,6 +29,15 @@ require 'tty/command'
 #   avoid the fork.
 module NCI
   class ImagerPushTest < TestCase
+    def assert_path_symlink(path, message=nil)
+      failure_message = build_message(message,
+                                      "<?> was expected to be a symlink",
+                                      path)
+      assert_block(failure_message) do
+        File.symlink?(path)
+      end
+    end
+
     # Adapts sftp interface to local paths, making it possible to simulate
     # sftp against a local dir.
     class SFTPAdaptor
@@ -50,6 +59,9 @@ module NCI
 
       def upload!(src, target, requests: nil)
         # We don't care about requests.
+        # NB: cp flattens symlinks, this is intentional because we consider
+        #   symblinks not portable and thus they should not get uploaded if
+        #   they are not meant to be flattened.
         FileUtils.cp(src, File.join(pwd, target), verbose: true)
       end
 
@@ -134,6 +146,15 @@ module NCI
         File.write('result/date_stamp', '1234')
         File.write('result/.message', 'hey hey wow wow')
         File.write("result/#{ENV['IMAGENAME']}-#{ENV['TYPE']}-1234.iso", 'blob')
+        # imager creates the current files despite us wanting to create them
+        # on the remote manually, make sure the symlinks are not resolved to
+        # raw data (i.e. two isos being uploaded). The imager creates this file
+        # because it needs to zsyncmake and having a dangling zsyncmake file
+        # without associated iso file is also horrible.
+        system('ln', '-s',
+               "#{ENV['IMAGENAME']}-#{ENV['TYPE']}-1234.iso",
+               "result/#{ENV['IMAGENAME']}-#{ENV['TYPE']}-current.iso") || raise
+        File.write("result/#{ENV['IMAGENAME']}-#{ENV['TYPE']}-current.iso.zsync", 'blob')
         File.write('result/source.tar.xz', 'blob')
 
         Object.any_instance.expects(:system).never
@@ -161,8 +182,9 @@ module NCI
       assert_path_exist('master.kde.org/neon/images/testing/1234/.message')
       assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-1234.iso')
       assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-1234.iso.sig')
-      assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-current.iso.sig')
-      assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-current.iso')
+      assert_path_symlink('master.kde.org/neon/images/testing/1234/neon-testing-current.iso.sig')
+      assert_path_symlink('master.kde.org/neon/images/testing/1234/neon-testing-current.iso')
+      assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-current.iso.zsync')
 
       assert_path_exist('weegie.edinburghlinux.co.uk/files.neon.kde.org.uk/source.tar.xz')
     end
