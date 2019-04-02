@@ -50,6 +50,7 @@ class ProjectJob < JenkinsJob
         basename(distribution, 'stable', d.component, d.name)
         # Release is as well, but only iff component is not one we release.
         next if project.component == 'frameworks'
+
         basename(distribution, 'release', d.component, d.name)
       end
     end
@@ -116,6 +117,10 @@ class ProjectJob < JenkinsJob
   #   @return [String] codename of distribution
   attr_reader :distribution
 
+  def self.basename(dist, type, component, name)
+    "#{dist}_#{type}_#{component}_#{name}"
+  end
+
   private
 
   def initialize(basename, distribution:, project:, jobs:, dependees: [])
@@ -125,6 +130,7 @@ class ProjectJob < JenkinsJob
     # them appropriately.
     job_names = jobs.collect do |job|
       next job.collect(&:job_name) if job.is_a?(Array)
+
       job.job_name
     end
 
@@ -151,24 +157,14 @@ class ProjectJob < JenkinsJob
 
   def render_upstream_scm
     @upstream_scm = @project.upstream_scm # FIXME: compat assignment
-    return '' unless @upstream_scm
-    case @upstream_scm.type
-    when 'git'
-      render('upstream-scms/git.xml.erb')
-    when 'svn'
-      render('upstream-scms/svn.xml.erb')
-    when 'tarball'
-      ''
-    when 'bzr'
-      ''
-    when 'uscan'
+
+    case @upstream_scm&.type
+    when 'git', 'svn'
+      render("upstream-scms/#{@upstream_scm.type}.xml.erb")
+    when 'tarball', 'bzr', 'uscan'
       ''
     else
-      raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
+      raise "Unknown upstream_scm type encountered '#{@upstream_scm&.type}'"
     end
-  end
-
-  def self.basename(dist, type, component, name)
-    "#{dist}_#{type}_#{component}_#{name}"
   end
 end
