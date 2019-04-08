@@ -46,4 +46,14 @@ class LintDHMissingTest < TestCase
     assert_equal(0, r.warnings.size)
     assert_equal(0, r.errors.size)
   end
+
+  def test_indented_dh_output
+    # For unknown reasons sometimes the dh output can be indented. Make sure
+    # it still parses correctly.
+    r = Lint::Log::DHMissing.new.lint(File.read(data))
+    assert(r.valid)
+    assert_equal(0, r.informations.size)
+    assert_equal(0, r.warnings.size)
+    assert_equal(1, r.errors.size)
+  end
 end

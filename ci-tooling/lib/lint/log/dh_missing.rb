@@ -33,12 +33,15 @@ module Lint
 
       def lint(data)
         r = Result.new
+        # Sometimes dh lines may start with indentation. It's uncear
+        # why that happens.
         data = segmentify(data,
-                          /^dh_install( .+)?$/,
-                          /^dpkg-deb: building package.+$/)
+                          /^(\s*)dh_install( .+)?$/,
+                          /^(\s*)dpkg-deb: building package.+$/)
 
         data.each do |line|
-          next unless line.start_with?('dh_missing: ')
+          next unless line.strip.start_with?('dh_missing: ')
+
           r.errors << line
         end
         r.valid = true
