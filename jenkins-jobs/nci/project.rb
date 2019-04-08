@@ -157,14 +157,15 @@ class ProjectJob < JenkinsJob
 
   def render_upstream_scm
     @upstream_scm = @project.upstream_scm # FIXME: compat assignment
+    return '' unless @upstream_scm # native packages have no upstream_scm
 
-    case @upstream_scm&.type
+    case @upstream_scm.type
     when 'git', 'svn'
       render("upstream-scms/#{@upstream_scm.type}.xml.erb")
     when 'tarball', 'bzr', 'uscan'
       ''
     else
-      raise "Unknown upstream_scm type encountered '#{@upstream_scm&.type}'"
+      raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
     end
   end
 end
