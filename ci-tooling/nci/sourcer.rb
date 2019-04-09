@@ -36,6 +36,7 @@ module NCISourcer
       restrict = sourcer_settings.fetch('restricted_packaging_copy',
                                         nil)
       return args unless restrict
+
       args[:restricted_packaging_copy] = restrict
       args
     end
@@ -43,6 +44,7 @@ module NCISourcer
     def orig_source(fetcher)
       tarball = fetcher.fetch('source')
       raise 'Failed to fetch tarball' unless tarball
+
       sourcer = CI::OrigSourceBuilder.new(**sourcer_args)
       sourcer.build(tarball.origify)
     end
