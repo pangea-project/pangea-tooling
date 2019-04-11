@@ -182,6 +182,15 @@ task :deploy_openqa do
   end
 end
 
+desc 'Disable ipv6 on gpg so it does not trip over docker sillyness'
+task :fix_gpg do
+  # https://rvm.io/rvm/security#ipv6-issues
+  gpghome = "#{Dir.home}/.gnupg"
+  dirmngrconf = "#{gpghome}/dirmngr.conf"
+  FileUtils.mkpath(gpghome, verbose: true)
+  File.write(dirmngrconf, "disable-ipv6\n")
+end
+
 desc 'Upgrade to newer ruby if required'
 task :align_ruby do
   FileUtils.rm_rf('/tmp/kitchen') # Instead of messing with pulls, just clone.
@@ -214,7 +223,7 @@ task :align_ruby do
 end
 
 desc 'deploy inside the container'
-task :deploy_in_container => %i[align_ruby deploy_openqa] do
+task :deploy_in_container => %i[fix_gpg align_ruby deploy_openqa] do
   final_ci_tooling_compat_path = File.join(home, 'tooling')
   final_ci_tooling_compat_compat_path = File.join(home, 'ci-tooling')
 
