@@ -55,7 +55,7 @@ if $PROGRAM_NAME == __FILE__
   NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
     # switch to internal download URL
     non_managled_snap = File.read('snapcraft.yaml')
-    mangled_snap = orig_data.gsub(%r{download.kde.org/stable/}, 'download.kde.internal.neon.kde.org/stable/')
+    mangled_snap = non_managled_snap.gsub(%r{download.kde.org/stable/}, 'download.kde.internal.neon.kde.org/stable/')
     File.write('snapcraft.yaml', mangled_snap)
     # Collapse first, extending also managles dpkg a bit, so we can't
     # expect packages to be in a sane state inside the extender.
