@@ -53,10 +53,15 @@ if $PROGRAM_NAME == __FILE__
   # do problem resolution it seems).
   Apt.purge('libssl1.0-dev')
   NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
+    # switch to internal download URL
+    non_managled_snap = File.read('snapcraft.yaml')
+    mangled_snap = orig_data.gsub(%r{download.kde.org/stable/}, 'download.kde.internal.neon.kde.org/stable/')
+    File.write('snapcraft.yaml', mangled_snap)
     # Collapse first, extending also managles dpkg a bit, so we can't
     # expect packages to be in a sane state inside the extender.
     NCI::Snap::ManifestExtender.new('snapcraft.yaml').run do
       TTY::Command.new(uuid: false).run('snapcraft --debug')
     end
+    File.write('snapcraft.yaml', non_managled_snap)
   end
 end
