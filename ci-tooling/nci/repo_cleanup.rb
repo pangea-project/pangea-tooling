@@ -49,6 +49,7 @@ class RepoCleaner
   def self.clean(repo_whitelist = [], keep_amount: 1)
     Aptly::Repository.list.each do |repo|
       next unless repo_whitelist.include?(repo.Name)
+      puts "-- Now cleaning repo: #{repo}"
       RepoCleaner.new(repo, keep_amount: keep_amount).clean
     end
   end
