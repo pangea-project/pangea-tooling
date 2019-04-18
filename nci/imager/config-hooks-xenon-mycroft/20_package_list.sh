@@ -7,7 +7,8 @@ plasma-minishell
 mycroft-gui
 mycroft-core
 mycroft-skill-installer
-mycroft-settings
+plasma-mycroft-tablet
+mycroft-tablet-settings
 breeze
 fonts-hack-ttf
 fonts-noto-hinted
