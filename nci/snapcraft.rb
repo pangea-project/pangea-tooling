@@ -26,6 +26,7 @@ require_relative '../ci-tooling/nci/lib/setup_repo'
 
 require_relative 'snap/collapser'
 require_relative 'snap/manifest_extender'
+require_relative 'snap/snapcraft_snap_installer'
 
 if $PROGRAM_NAME == __FILE__
   ENV['TERM'] = 'dumb' # make snpacraft not give garbage progress spam
@@ -47,7 +48,14 @@ if $PROGRAM_NAME == __FILE__
   #   include path hard compiled and thus isn't picked up from the stage
   #   directory (which in turn already contains it because of the content
   #   snap dev tarball)
-  Apt.install(%w[snapcraft docbook-xml docbook-xsl libdrm-dev snapd])
+  Apt.install(%w[docbook-xml docbook-xsl libdrm-dev snapd])
+
+  if ENV['PANGEA_SNAPCRAFT_FROM_SNAP']
+    NCI::Snap::Snapcraft.install
+  else
+    Apt.install(%w[snapcraft])
+  end
+
   # We somehow end up with a bogus ssl-dev in the images, drop it as otherwise
   # it may prevent snapcraft carrying out package installations (it doesn't
   # do problem resolution it seems).
