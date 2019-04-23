@@ -27,11 +27,17 @@ module NCI
     class ManifestExtender < Extender
       MANIFEST_PATH =
         '/usr/lib/python3/dist-packages/snapcraft/internal/repo/manifest.txt'
+      SNAP_MANIFEST_PATH =
+        '/snap/snapcraft/current/lib/python3.5/site-packages/snapcraft/internal/repo/manifest.txt'
 
       class << self
         attr_writer :manifest_path
         def manifest_path
-          @manifest_path ||= MANIFEST_PATH
+          @manifest_path ||= if File.exist?(SNAP_MANIFEST_PATH)
+                               SNAP_MANIFEST_PATH
+                             else
+                               MANIFEST_PATH
+                             end
         end
       end
 
