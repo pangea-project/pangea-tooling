@@ -39,6 +39,7 @@ powerdevil
 polkit-kde-agent-1
 qml-module-org-kde-lottie
 r8168-dkms
+ruby
 sddm
 sddm-theme-breeze
 software-properties-common
