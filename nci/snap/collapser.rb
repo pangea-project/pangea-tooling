@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2018 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2018-2019 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,51 +18,13 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'tmpdir'
-require 'tty/command'
 require 'yaml'
 
-require_relative 'identifier'
 require_relative 'snapcraft_config'
+require_relative 'unpacker'
 
 module NCI
   module Snap
-    # Takes a snapcraft channel id, downloads the snap, and unpacks it into
-    # /snap
-    class BuildSnapUnpacker
-      attr_reader :snap
-
-      def initialize(id_str)
-        @snap = Identifier.new(id_str)
-        @cmd = TTY::Command.new(uuid: false)
-      end
-
-      def unpack
-        snap_dir = "/snap/#{snap.name}"
-        target_dir = "#{snap_dir}/current"
-        Dir.mktmpdir do |tmpdir|
-          file = download_into(tmpdir)
-
-          FileUtils.mkpath(snap_dir) if Process.uid.zero?
-          @cmd.run('unsquashfs', '-d', target_dir, file)
-        end
-        target_dir
-      end
-
-      private
-
-      def download_into(dir)
-        @cmd.run('snap', 'download', "--channel=#{snap.risk}", snap.name,
-                 chdir: dir)
-        snaps = Dir.glob("#{dir}/*.snap")
-        unless snaps.size == 1
-          raise "Failed to find one snap in #{dir}: #{snaps}"
-        end
-
-        snaps[0]
-      end
-    end
-
     # Takes a Part instance and collappses its build-snaps by unpacking them.
     class BuildSnapPartCollapser
       attr_reader :part
@@ -122,12 +84,12 @@ module NCI
             raise "Part contains #{build_snap} but is not using cmake."
           end
 
-          @root_paths << BuildSnapUnpacker.new(build_snap).unpack
+          @root_paths << Unpacker.new(build_snap).unpack
           # When build-snaps are classic they rpath the core, so make sure we
           # have the core available for use!
           # Don't add to root_paths. Presently I cannot imagine what useful
           # stuff cmake might find there that is not also in the host system.
-          BuildSnapUnpacker.new('core18').unpack
+          Unpacker.new('core18').unpack
           true
         end
       end
