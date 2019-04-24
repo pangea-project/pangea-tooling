@@ -50,11 +50,7 @@ if $PROGRAM_NAME == __FILE__
   #   snap dev tarball)
   Apt.install(%w[docbook-xml docbook-xsl libdrm-dev snapd])
 
-  if ENV['PANGEA_SNAPCRAFT_FROM_SNAP']
-    NCI::Snap::Snapcraft.install
-  else
-    Apt.install(%w[snapcraft])
-  end
+  NCI::Snap::Snapcraft.install
 
   # We somehow end up with a bogus ssl-dev in the images, drop it as otherwise
   # it may prevent snapcraft carrying out package installations (it doesn't

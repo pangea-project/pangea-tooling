@@ -132,19 +132,6 @@ module NCI
           @stage ||= []
           @snap ||= []
           @snap += %w[$exclusion] unless @snap.include?('$exclusion')
-
-          # Make sure we do not pull-in system libraries. This is the default
-          # in snapcraft master as of 2018-11-30 (earlier too) and is necessary
-          # to not end up pulling things from the content/build snap.
-          # FIXME: this also hides the warning about files, so we want to
-          #   get rid of this ASAP as it hides valuable information.
-          if ENV['PANGEA_UNDER_TEST'] || ENV['PANGEA_SNAPCRAFT_FROM_SNAP']
-            return
-          end
-
-          @build_attributes ||= []
-          @build_attributes += %w[no-system-libraries]
-          @build_attributes.uniq!
         end
 
         def from_h(h)
