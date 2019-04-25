@@ -101,7 +101,7 @@ module CI
           ReleaseMe::Project.from_repo_url(url)
         end
       if projects.size != 1
-        raise "Could not resolve #{url} to KDE project. OMG. #{projects}"
+        raise "Could not resolve #{url} to KDE project for #{@packaging_repo}. OMG. #{projects}"
       end
       ProjectCache.cache(url, projects[0]) # Caches nil if applicable.
     end
