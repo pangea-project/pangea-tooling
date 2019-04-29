@@ -120,12 +120,19 @@ module NCI
         FileUtils.cp_r("#{__dir__}/plugins", target, verbose: true)
       end
 
+      def dangerous_git_part?(part)
+        part.source.include?('git.kde') &&
+          !part.source.include?('snap-kf5-launcher')
+      end
+
       def convert_source!
         if ENV.fetch('TYPE', 'unstable').include?('release')
           raise "Devel grade can't be TYPE release" if data['grade'] == 'devel'
 
           data['parts'].each_value do |part|
-            raise 'Contains git source' if part.source.include?('git.kde')
+            # Guard against accidently building git parts for the stable
+            # channel.
+            raise 'Contains git source' if dangerous_git_part?(part)
           end
         else
           convert_to_git!
