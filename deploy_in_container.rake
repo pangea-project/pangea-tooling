@@ -175,8 +175,7 @@ task :deploy_openqa do
   # Only openqa on neon dists and if explicitly enabled.
   next unless NCI.series.keys.include?(DIST) &&
               ENV.include?('PANGEA_PROVISION_AUTOINST')
-  # FIXME: temporary clean up
-  FileUtils.rm_rf('/opt/os-autoinst')
+
   Dir.mktmpdir do |tmpdir|
     system 'git clone --depth 1 ' \
        "https://github.com/apachelogger/kde-os-autoinst #{tmpdir}/"
