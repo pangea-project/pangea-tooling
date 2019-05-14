@@ -69,8 +69,7 @@ module NCI
     setup_proxy! if with_proxy
     add_repo!
     add_source_repo! if with_source
-    # TODO rename old testing repo as stable is now new testing repo
-    #setup_testing! if ENV.fetch('TYPE').include?('testing')
+    setup_experimental! if ENV.fetch('TYPE').include?('experimental')
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     # Make sure we have the latest pkg-kde-tools, not whatever is in the image.
     raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools])
@@ -104,25 +103,25 @@ Pin-Priority: 1001
     @preference = nil
   end
 
-  def maybe_teardown_testing_apt_preference
-    return unless @testing_preference
+  def maybe_teardown_experimental_apt_preference
+    return unless @experimental_preference
     puts 'Discarding testing apt preference.'
-    @testing_preference.delete
-    @testing_preference = nil
+    @experimental_preference.delete
+    @experimental_preference = nil
   end
 
   class << self
     private
 
-    def setup_testing!
-      puts 'Setting up apt preference for testing repository.'
-      @testing_preference = Apt::Preference.new('pangea-neon-testing',
+    def setup_experimental!
+      puts 'Setting up apt preference for experimental repository.'
+      @experimental_preference = Apt::Preference.new('pangea-neon-experimental',
                                                 content: <<-PREFERENCE)
 Package: *
-Pin: release l=Neon - Testing
+Pin: release l=Experimental Edition
 Pin-Priority: 1001
       PREFERENCE
-      @testing_preference.write
+      @experimental_preference.write
       ENV['TYPE'] = 'release'
       add_repo!
     end

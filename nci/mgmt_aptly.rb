@@ -44,12 +44,14 @@ NCI.series.each_key do |series|
       repo(label_type: 'Dev Unstable Edition', series: series),
     PublishingRepo.new("stable_#{series}", 'dev_stable') =>
       repo(label_type: 'Dev Stable Edition', series: series),
+    PublishingRepo.new("stable_#{series}", 'testing') =>
+      repo(label_type: 'Testing Edition', series: series),
     PublishingRepo.new("release_#{series}", 'release') =>
       repo(label_type: 'User Edition', series: series),
     PublishingRepo.new("release-lts_#{series}", 'release_lts') =>
       repo(label_type: 'User Edition (LTS)', series: series),
-    PublishingRepo.new("testing_#{series}", 'testing') =>
-      repo(label_type: 'User Edition (LTS)', series: series)
+    PublishingRepo.new("experimental_#{series}", 'experimental') =>
+      repo(label_type: 'Experimental Edition', series: series),
   )
 end
 
