@@ -64,4 +64,8 @@ class NCITest < TestCase
     # data should ever change for whatever reason.
     assert_equal(NCI.archive_key, '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
   end
+
+  def test_qt_stage_type
+    assert_equal(NCI.qt_stage_type, 'experimental')
+  end
 end

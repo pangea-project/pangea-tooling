@@ -68,4 +68,10 @@ module NCI
   def archive_key
     data.fetch('archive_key')
   end
+
+  # Special abstraction for the name of the type and repo Qt updates gets
+  # staged in.
+  def qt_stage_type
+    data.fetch('qt_stage_type')
+  end
 end
