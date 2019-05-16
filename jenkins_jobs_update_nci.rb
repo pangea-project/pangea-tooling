@@ -192,7 +192,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           watchers[watcher.job_name] = watcher
         end
 
-        next if type.start_with?('testing')
+        next if type == NCI.qt_stage_type
 
         # Meta builders.
         all_builds.select! { |j| j.is_a?(ProjectJob) }

@@ -53,9 +53,7 @@ class OpenQAProjectUpdater < ProjectUpdater
     NCI.series.each_key do |series|
       # TODO: maybe we should have an editions list?
       NCI.types.each do |type|
-        # FIXME: I totally don't like how testing is a regular type permutation
-        #   when there is absolutely nothing regular about it!
-        next if type == 'testing'
+        next if type == NCI.qt_stage_type
 
         # Standard install
         enqueue(OpenQAInstallJob.new(series: series, type: type))
