@@ -91,7 +91,7 @@ class ProjectJob < JenkinsJob
     end
 
     jobs << new(basename, distribution: distribution, project: project,
-                          jobs: jobs, dependees: dependees)
+                          jobs: jobs, type: type, dependees: dependees)
     # The actual jobs array cannot be nested, so flatten it out.
     jobs.flatten
   end
@@ -117,13 +117,17 @@ class ProjectJob < JenkinsJob
   #   @return [String] codename of distribution
   attr_reader :distribution
 
+  # @! attribute [r] type
+  #   @return [String] type name of the build (e.g. unstable or something)
+  attr_reader :type
+
   def self.basename(dist, type, component, name)
     "#{dist}_#{type}_#{component}_#{name}"
   end
 
   private
 
-  def initialize(basename, distribution:, project:, jobs:, dependees: [])
+  def initialize(basename, distribution:, project:, jobs:, type:, dependees: [])
     super(basename, 'project.xml.erb')
 
     # We use nested jobs for phases with multiple jobs, we need to aggregate
@@ -139,6 +143,7 @@ class ProjectJob < JenkinsJob
     @jobs = job_names.flatten.freeze
     @dependees = dependees.freeze
     @project = project.freeze
+    @type = type.freeze
   end
 
   def render_phases
@@ -153,6 +158,13 @@ class ProjectJob < JenkinsJob
   def render_packaging_scm
     scm = @project.packaging_scm_for(series: @distribution)
     PackagingSCMTemplate.new(scm: scm).render_template
+  end
+
+  def render_commit_hook_disabled
+    # disable triggers for legacy series during transition-period
+    return 'true' if NCI.old_series == distribution
+
+    'false'
   end
 
   def render_upstream_scm

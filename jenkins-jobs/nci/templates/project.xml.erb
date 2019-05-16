@@ -22,7 +22,7 @@
   <triggers>
     <hudson.triggers.SCMTrigger>
       <spec></spec>
-      <ignorePostCommitHooks><%= NCI.old_series == distribution ? 'true' : 'false' %></ignorePostCommitHooks>
+      <ignorePostCommitHooks><%= render_commit_hook_disabled %></ignorePostCommitHooks>
     </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
