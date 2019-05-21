@@ -118,7 +118,7 @@ Pin-Priority: 1001
       @experimental_preference = Apt::Preference.new('pangea-neon-experimental',
                                                 content: <<-PREFERENCE)
 Package: *
-Pin: release l=Experimental Edition
+Pin: release l=KDE neon - Experimental Edition
 Pin-Priority: 1001
       PREFERENCE
       @experimental_preference.write
