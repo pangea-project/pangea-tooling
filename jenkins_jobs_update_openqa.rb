@@ -77,6 +77,16 @@ class OpenQAProjectUpdater < ProjectUpdater
           enqueue(OpenQAInstallNonEnglishJob.new(series: series, type: type))
         end
 
+        if type == 'unstable'
+          enqueue(
+            OpenQATestJob.new(
+              'plasma-bootchart',
+              series: series, type: type,
+              extra_env: %w[TESTS_TO_RUN=tests/plasma/bootchart.pm]
+            )
+          )
+        end
+
         if %w[unstable release].include?(type)
           # We do not support OEM for testing. In fact, we only test unstable
           # so we don't have nasty surprises once cala is released.
