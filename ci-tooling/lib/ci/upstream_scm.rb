@@ -129,7 +129,8 @@ module CI
 
     def adjust?
       default_branch? && url.include?('.kde.org') && type == 'git' &&
-        !url.include?('/scratch/') && !url.include?('/clones/')
+        !url.include?('/scratch/') && !url.include?('/clones/') &&
+        !url.include?('invent.kde.org')
     end
   end
 end
