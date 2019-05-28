@@ -94,6 +94,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     docker = enqueue(MGMTDockerJob.new(dependees: []))
     # enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTJobUpdater.new)
+    jeweller = enqueue(MGMTGitJewellerJob.new)
     # enqueue(MGMTDigitalOcean.new)
     # enqueue(MGMTDigitalOceanDangler.new)
     #enqueue(PlasmaReleasemeTars.new)
@@ -103,7 +104,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     tooling_test =
       enqueue(MGMTToolingTestJob.new(downstreams: [tooling_deploy]))
-    enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_test]))
+    enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_test],
+                                         also_trigger: [jeweller]))
   end
 end
 
