@@ -173,7 +173,7 @@ end
 # openqa
 task :deploy_openqa do
   # Only openqa on neon dists and if explicitly enabled.
-  next unless NCI.series.keys.include?(DIST) &&
+  next unless NCI.series.key?(DIST) &&
               ENV.include?('PANGEA_PROVISION_AUTOINST')
 
   Dir.mktmpdir do |tmpdir|
