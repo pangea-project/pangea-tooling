@@ -82,7 +82,8 @@ class OpenQAProjectUpdater < ProjectUpdater
             OpenQATestJob.new(
               'plasma-bootchart',
               series: series, type: type,
-              extra_env: %w[TESTS_TO_RUN=tests/plasma/bootchart.pm]
+              extra_env: %w[TESTS_TO_RUN=tests/plasma/bootchart.pm
+                            OPENQA_APT_UPGRADE=all]
             )
           )
         end
