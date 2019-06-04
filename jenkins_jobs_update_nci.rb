@@ -361,10 +361,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
 
     enqueue(MGMTRepoDivert.new(target: 'unstable_bionic'))
-    enqueue(MGMTRepoDivert.new(target: 'testing_bionic'))
+    enqueue(MGMTRepoDivert.new(target: 'stable_bionic'))
 
     enqueue(MGMTRepoUndoDivert.new(target: 'unstable_bionic'))
-    enqueue(MGMTRepoUndoDivert.new(target: 'testing_bionic'))
+    enqueue(MGMTRepoUndoDivert.new(target: 'stable_bionic'))
 
     enqueue(MGMTToolingJob.new(downstreams: [],
                                dependees: []))
