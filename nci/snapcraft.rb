@@ -26,6 +26,7 @@ require_relative '../ci-tooling/nci/lib/setup_repo'
 
 require_relative 'snap/collapser'
 require_relative 'snap/manifest_extender'
+require_relative 'snap/snapcraft_snap_installer'
 
 if $PROGRAM_NAME == __FILE__
   ENV['TERM'] = 'dumb' # make snpacraft not give garbage progress spam
@@ -47,16 +48,24 @@ if $PROGRAM_NAME == __FILE__
   #   include path hard compiled and thus isn't picked up from the stage
   #   directory (which in turn already contains it because of the content
   #   snap dev tarball)
-  Apt.install(%w[snapcraft docbook-xml docbook-xsl libdrm-dev snapd])
+  Apt.install(%w[docbook-xml docbook-xsl libdrm-dev snapd])
+
+  NCI::Snap::Snapcraft.install
+
   # We somehow end up with a bogus ssl-dev in the images, drop it as otherwise
   # it may prevent snapcraft carrying out package installations (it doesn't
   # do problem resolution it seems).
   Apt.purge('libssl1.0-dev')
   NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
+    # switch to internal download URL
+    non_managled_snap = File.read('snapcraft.yaml')
+    mangled_snap = non_managled_snap.gsub(%r{download.kde.org/stable/}, 'download.kde.internal.neon.kde.org/stable/')
+    File.write('snapcraft.yaml', mangled_snap)
     # Collapse first, extending also managles dpkg a bit, so we can't
     # expect packages to be in a sane state inside the extender.
     NCI::Snap::ManifestExtender.new('snapcraft.yaml').run do
       TTY::Command.new(uuid: false).run('snapcraft --debug')
     end
+    File.write('snapcraft.yaml', non_managled_snap)
   end
 end

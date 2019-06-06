@@ -76,7 +76,8 @@ sudo apt install -y --no-install-recommends  syslinux-themes-ubuntu syslinux-the
 # around defaults-image by exporting the vars lb uses :O
 
 ## Super internal var used in lb_binary_disk to figure out the version of LB_DISTRIBUTION
-EDITION=$(echo $NEONARCHIVE | sed 's,/,,')
+# used in e.g. renaming the ubiquity .desktop file on Desktop by casper which gets it from /cdrom/.disk/info from live-build lb_binary_disk
+EDITION=$TYPE
 export RELEASE_${DIST}=${EDITION}
 ## Bring down the overall size a bit by using a more sophisticated albeit expensive algorithm.
 export LB_COMPRESSION=none
@@ -94,8 +95,8 @@ export APT_OPTIONS="--yes -o Acquire::http::Proxy='$LB_APT_HTTP_PROXY'"
 [ -z "$CONFIG_HOOKS" ] && CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
 [ -z "$BUILD_HOOKS" ] && BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}"
 
-# jriddell 03-2019 special case where development and ko ISOs get their build hooks to allow for simpler ISO names
-if [ $TYPE == 'development' ] || [ $TYPE == 'ko' ]; then
+# jriddell 03-2019 special case where developer and ko ISOs get their build hooks to allow for simpler ISO names
+if [ $TYPE = 'developer' ] || [ $TYPE = 'ko' ]; then
     CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}-${TYPE}.sh"
     CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}-${TYPE}"
     BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}-${TYPE}"

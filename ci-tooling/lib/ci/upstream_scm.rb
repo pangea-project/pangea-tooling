@@ -101,7 +101,7 @@ module CI
           ReleaseMe::Project.from_repo_url(url)
         end
       if projects.size != 1
-        raise "Could not resolve #{url} to KDE project. OMG. #{projects}"
+        raise "Could not resolve #{url} to KDE project for #{@packaging_repo} branch #{@packaging_branch}. OMG. #{projects}"
       end
       ProjectCache.cache(url, projects[0]) # Caches nil if applicable.
     end
@@ -129,7 +129,8 @@ module CI
 
     def adjust?
       default_branch? && url.include?('.kde.org') && type == 'git' &&
-        !url.include?('/scratch/') && !url.include?('/clones/')
+        !url.include?('/scratch/') && !url.include?('/clones/') &&
+        !url.include?('invent.kde.org')
     end
   end
 end

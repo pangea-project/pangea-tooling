@@ -135,6 +135,11 @@ Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
   types = %w[.iso .iso.sig manifest zsync zsync.README sha256sum]
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
+      # Skip over current symlinks, we'll recreate them on the remote.
+      # They'd only trip up sftp uploads as symlinks being preserved is a bit
+      # hit and miss.
+      next if File.symlink?(file)
+
       name = File.basename(file)
       sftp.cli_uploads = File.new(file).lstat.size > 4 * 1024 * 1024
       STDERR.puts "Uploading #{file} (via cli: #{sftp.cli_uploads})... "

@@ -56,6 +56,7 @@ module QMLDepVerify
       unless Apt.install("#{package}=#{version}")
         raise "Failed to install #{package} #{version}"
       end
+
       # Mark the package as manual so it doens't get purged by autoremove.
       Apt::Mark.tmpmark(package, Apt::Mark::MANUAL) do
         Apt::Get.autoremove(args: '--purge')

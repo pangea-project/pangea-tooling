@@ -53,9 +53,7 @@ class OpenQAProjectUpdater < ProjectUpdater
     NCI.series.each_key do |series|
       # TODO: maybe we should have an editions list?
       NCI.types.each do |type|
-        # FIXME: I totally don't like how testing is a regular type permutation
-        #   when there is absolutely nothing regular about it!
-        next if type == 'testing'
+        next if type == NCI.qt_stage_type
 
         # Standard install
         enqueue(OpenQAInstallJob.new(series: series, type: type))
@@ -77,10 +75,24 @@ class OpenQAProjectUpdater < ProjectUpdater
         if type == 'release'
           # TODO: l10n with cala should work nowadays, but needs needles created
           enqueue(OpenQAInstallNonEnglishJob.new(series: series, type: type))
-          enqueue(OpenQAInstallOEMJob.new(series: series, type: type))
+        end
+
+        if type == 'unstable'
+          enqueue(
+            OpenQATestJob.new(
+              'plasma-bootchart',
+              series: series, type: type,
+              extra_env: %w[TESTS_TO_RUN=tests/plasma/bootchart.pm
+                            OPENQA_APT_UPGRADE=all]
+            )
+          )
         end
 
         if %w[unstable release].include?(type)
+          # We do not support OEM for testing. In fact, we only test unstable
+          # so we don't have nasty surprises once cala is released.
+          enqueue(OpenQAInstallOEMJob.new(series: series, type: type))
+
           enqueue(OpenQATestJob.new('plasma',
                                     series: series, type: type,
                                     extra_env: %w[PLASMA_DESKTOP=5]))

@@ -274,9 +274,11 @@ module CI
       # and ubuntu-ui-toolkit containing legit locale data
       if %w[kconfigwidgets
             kdelibs4support
-            ubuntu-ui-toolkit].include?(@source.name)
+            ubuntu-ui-toolkit
+            ubuntu-release-upgrader-neon].include?(@source.name)
         return
       end
+
       mangle_locale(file)
       # If the package is now empty, lintian override the empty warning
       # to avoid false positives

@@ -1,0 +1,144 @@
+make[3]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[3]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 91%] Building CXX object src/CMakeFiles/kded5.dir/kded5_autogen/mocs_compilation.cpp.o
+make[3]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[3]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[100%] Linking CXX executable ../bin/kded5
+make[3]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[2]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[100%] Built target kded5
+make[2]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+   dh_auto_test --buildsystem=kf5 -O--buildsystem=kf5
+   create-stamp debian/debhelper-build-stamp
+ debian/rules binary
+dh binary --with kf5,pkgkde_symbolshelper --buildsystem kf5 --without build_stamp
+   dh_testroot -O--buildsystem=kf5
+   dh_prep -O--buildsystem=kf5
+   dh_installdirs -O--buildsystem=kf5
+   dh_auto_install --buildsystem=kf5 -O--buildsystem=kf5
+	cd obj-x86_64-linux-gnu && make -j2 -O install DESTDIR=/workspace/build/debian/tmp AM_UPDATE_INFO_DIR=no
+make[2]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 16%] Built target docs-kded5-kded5-8
+make[2]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[3]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[  8%] Automatic MOC for target kdeinit_kded5
+make[3]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[2]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 16%] Built target kdeinit_kded5_autogen
+make[2]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[3]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 25%] Automatic MOC for target kded5
+make[3]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[2]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 25%] Built target kded5_autogen
+make[2]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[2]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 66%] Built target kdeinit_kded5
+make[2]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[2]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[100%] Built target kded5
+make[2]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[3]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[ 75%] Checking if target linked KCrash: kdeinit_kded5
+  /workspace/build/obj-x86_64-linux-gnu/bin/libkdeinit5_kded5.so
+  NEEDED               libKF5Crash.so.5
+make[3]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[2]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+[100%] Built target objdump-kcrash-kdeinit_kded5
+make[2]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+make[1]: Entering directory '/workspace/build/obj-x86_64-linux-gnu'
+Install the project...
+-- Install configuration: "Debian"
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/cmake/KDED/KDEDConfig.cmake
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/cmake/KDED/KDEDConfigVersion.cmake
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/cmake/KDED/KDEDTargets.cmake
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/cmake/KDED/KDEDTargets-debian.cmake
+-- Installing: /workspace/build/debian/tmp/etc/xdg/kded.categories
+-- Installing: /workspace/build/debian/tmp/usr/share/applications/org.kde.kded5.desktop
+-- Installing: /workspace/build/debian/tmp/usr/share/man/man8/kded5.8
+-- Installing: /workspace/build/debian/tmp/usr/lib/x86_64-linux-gnu/libkdeinit5_kded5.so
+-- Installing: /workspace/build/debian/tmp/usr/bin/kded5
+-- Set runtime path of "/workspace/build/debian/tmp/usr/bin/kded5" to ""
+-- Installing: /workspace/build/debian/tmp/usr/share/dbus-1/interfaces/org.kde.kded5.xml
+-- Installing: /workspace/build/debian/tmp/usr/share/dbus-1/services/org.kde.kded5.service
+-- Installing: /workspace/build/debian/tmp/usr/share/kservicetypes5/kdedmodule.desktop
+make[1]: Leaving directory '/workspace/build/obj-x86_64-linux-gnu'
+   dh_install -O--buildsystem=kf5
+   dh_movelibkdeinit -O--buildsystem=kf5
+   dh_installdocs -O--buildsystem=kf5
+   dh_installchangelogs -O--buildsystem=kf5
+   dh_installexamples -O--buildsystem=kf5
+   dh_installman -O--buildsystem=kf5
+   dh_installcatalogs -O--buildsystem=kf5
+   dh_installcron -O--buildsystem=kf5
+   dh_installdebconf -O--buildsystem=kf5
+   dh_installemacsen -O--buildsystem=kf5
+   dh_installifupdown -O--buildsystem=kf5
+   dh_installinfo -O--buildsystem=kf5
+   dh_installinit -O--buildsystem=kf5
+   dh_installsystemd -O--buildsystem=kf5
+   dh_installmenu -O--buildsystem=kf5
+   dh_installmime -O--buildsystem=kf5
+   dh_installmodules -O--buildsystem=kf5
+   dh_installlogcheck -O--buildsystem=kf5
+   dh_installlogrotate -O--buildsystem=kf5
+   dh_installpam -O--buildsystem=kf5
+   dh_installppp -O--buildsystem=kf5
+   dh_installudev -O--buildsystem=kf5
+   dh_installgsettings -O--buildsystem=kf5
+   dh_bugfiles -O--buildsystem=kf5
+   dh_ucf -O--buildsystem=kf5
+   dh_lintian -O--buildsystem=kf5
+   dh_gconf -O--buildsystem=kf5
+   dh_icons -O--buildsystem=kf5
+   dh_perl -O--buildsystem=kf5
+   dh_usrlocal -O--buildsystem=kf5
+   dh_link -O--buildsystem=kf5
+   dh_installwm -O--buildsystem=kf5
+   dh_installxfonts -O--buildsystem=kf5
+   dh_strip_nondeterminism -O--buildsystem=kf5
+   dh_compress -X.dcl -X.docbook -X-license -X.tag -X.sty -X.el -O--buildsystem=kf5
+   dh_fixperms -O--buildsystem=kf5
+   dh_missing -O--buildsystem=kf5
+Overlay Executing ["dh_missing", "--list-missing", "-O--buildsystem=kf5"]
+dh_missing: usr/share/applications/org.kde.kded5.desktop exists in debian/tmp but is not installed to anywhere
+	The following debhelper tools have reported what they installed (with files per package)
+	 * dh_install: kded5 (7), kded5-dev (1)
+	 * dh_installdocs: kded5 (0), kded5-dev (0)
+	 * dh_installexamples: kded5 (0), kded5-dev (0)
+	 * dh_installinfo: kded5 (0), kded5-dev (0)
+	 * dh_installman: kded5 (0), kded5-dev (0)
+	If the missing files are installed by another tool, please file a bug against it.
+	When filing the report, if the tool is not part of debhelper itself, please reference the
+	"Logging helpers and dh_missing" section from the "PROGRAMMING" guide for debhelper (10.6.3+).
+	  (in the debhelper package: /usr/share/doc/debhelper/PROGRAMMING.gz)
+	Be sure to test with dpkg-buildpackage -A/-B as the results may vary when only a subset is built
+	For a short-term work-around: Add the files to debian/not-installed
+   debian/rules override_dh_strip
+make[1]: Entering directory '/workspace/build'
+dh_strip --dbgsym-migration='kded5-dbg (<= 5.19.0-1~~)'
+make[1]: Leaving directory '/workspace/build'
+   dh_makeshlibs -Xusr/lib/libkdeinit5_\* -O--buildsystem=kf5
+   dh_shlibdeps -O--buildsystem=kf5
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_kded5.so'
+dpkg-shlibdeps: warning: can't extract name and version from library name 'libkdeinit5_kded5.so'
+   dh_installdeb -O--buildsystem=kf5
+   dh_gencontrol -O--buildsystem=kf5
+   dh_md5sums -O--buildsystem=kf5
+   dh_builddeb -O--buildsystem=kf5
+dpkg-deb: building package 'kded5' in '../kded5_5.56.0+p18.04+git20190408.0339-0_amd64.deb'.
+dpkg-deb: building package 'kded5-dev' in '../kded5-dev_5.56.0+p18.04+git20190408.0339-0_amd64.deb'.
+dpkg-deb: building package 'kded5-dbgsym' in 'debian/.debhelper/scratch-space/build-kded5/kded5-dbgsym_5.56.0+p18.04+git20190408.0339-0_amd64.deb'.
+	Renaming kded5-dbgsym_5.56.0+p18.04+git20190408.0339-0_amd64.deb to kded5-dbgsym_5.56.0+p18.04+git20190408.0339-0_amd64.ddeb
+ dpkg-genbuildinfo --build=binary
+ dpkg-genchanges --build=binary >../kded_5.56.0+p18.04+git20190408.0339-0_amd64.changes
+dpkg-genchanges: info: binary-only upload (no source code included)
+ dpkg-source --after-build build
+dpkg-buildpackage: info: binary-only upload (no source included)
+cp /tmp/d20190408-1-2jvrh0/CMakeLists.txt /workspace/build
+renamed 'build/../kded5-dbgsym_5.56.0+p18.04+git20190408.0339-0_amd64.ddeb' -> 'result/kded5-dbgsym_5.56.0+p18.04+git20190408.0339-0_amd64.ddeb'
+renamed 'build/../kded5-dev_5.56.0+p18.04+git20190408.0339-0_amd64.deb' -> 'result/kded5-dev_5.56.0+p18.04+git20190408.0339-0_amd64.deb'
+renamed 'build/../kded5_5.56.0+p18.04+git20190408.0339-0_amd64.deb' -> 'result/kded5_5.56.0+p18.04+git20190408.0339-0_amd64.deb'
+renamed 'build/../kded_5.56.0+p18.04+git20190408.0339-0_amd64.buildinfo' -> 'result/kded_5.56.0+p18.04+git20190408.0339-0_amd64.buildinfo'
+renamed 'build/../kded_5.56.0+p18.04+git20190408.0339-0_amd64.changes' -> 'result/kded_5.56.0+p18.04+git20190408.0339-0_amd64.changes'
+

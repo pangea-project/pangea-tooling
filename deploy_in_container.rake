@@ -47,7 +47,7 @@ EARLY_DEPS = [
 CORE_RUNTIME_DEPS = %w[apt-transport-https software-properties-common].freeze
 DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           python-launchpadlib ubuntu-dev-tools gnome-pkg-tools git dh-systemd
-          zlib1g-dev python-paramiko sudo locales mercurial pxz aptitude
+          zlib1g-dev python-paramiko sudo locales mercurial aptitude
           autotools-dev cdbs dh-autoreconf dh-linktree germinate gnupg2
           gobject-introspection sphinx-common po4a pep8 pyflakes ppp-dev dh-di
           libgirepository1.0-dev libglib2.0-dev bash-completion
@@ -173,13 +173,23 @@ end
 # openqa
 task :deploy_openqa do
   # Only openqa on neon dists and if explicitly enabled.
-  next unless NCI.series.keys.include?(DIST) &&
+  next unless NCI.series.key?(DIST) &&
               ENV.include?('PANGEA_PROVISION_AUTOINST')
+
   Dir.mktmpdir do |tmpdir|
     system 'git clone --depth 1 ' \
        "https://github.com/apachelogger/kde-os-autoinst #{tmpdir}/"
     Dir.chdir('/opt') { sh "#{tmpdir}/bin/install.rb" }
   end
+end
+
+desc 'Disable ipv6 on gpg so it does not trip over docker sillyness'
+task :fix_gpg do
+  # https://rvm.io/rvm/security#ipv6-issues
+  gpghome = "#{Dir.home}/.gnupg"
+  dirmngrconf = "#{gpghome}/dirmngr.conf"
+  FileUtils.mkpath(gpghome, verbose: true)
+  File.write(dirmngrconf, "disable-ipv6\n")
 end
 
 desc 'Upgrade to newer ruby if required'
@@ -214,7 +224,7 @@ task :align_ruby do
 end
 
 desc 'deploy inside the container'
-task :deploy_in_container => %i[align_ruby deploy_openqa] do
+task :deploy_in_container => %i[fix_gpg align_ruby deploy_openqa] do
   final_ci_tooling_compat_path = File.join(home, 'tooling')
   final_ci_tooling_compat_compat_path = File.join(home, 'ci-tooling')
 

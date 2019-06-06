@@ -113,7 +113,7 @@ class JobLog
       text += output.fetch('output')
       break unless output.fetch('more')
 
-      offset += output.fetch('size') # stream next part
+      offset += output.fetch('size').to_i # stream next part
       sleep 5
     end
     text

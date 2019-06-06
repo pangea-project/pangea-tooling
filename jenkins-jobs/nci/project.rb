@@ -50,6 +50,7 @@ class ProjectJob < JenkinsJob
         basename(distribution, 'stable', d.component, d.name)
         # Release is as well, but only iff component is not one we release.
         next if project.component == 'frameworks'
+
         basename(distribution, 'release', d.component, d.name)
       end
     end
@@ -90,7 +91,7 @@ class ProjectJob < JenkinsJob
     end
 
     jobs << new(basename, distribution: distribution, project: project,
-                          jobs: jobs, dependees: dependees)
+                          jobs: jobs, type: type, dependees: dependees)
     # The actual jobs array cannot be nested, so flatten it out.
     jobs.flatten
   end
@@ -116,15 +117,24 @@ class ProjectJob < JenkinsJob
   #   @return [String] codename of distribution
   attr_reader :distribution
 
+  # @! attribute [r] type
+  #   @return [String] type name of the build (e.g. unstable or something)
+  attr_reader :type
+
+  def self.basename(dist, type, component, name)
+    "#{dist}_#{type}_#{component}_#{name}"
+  end
+
   private
 
-  def initialize(basename, distribution:, project:, jobs:, dependees: [])
+  def initialize(basename, distribution:, project:, jobs:, type:, dependees: [])
     super(basename, 'project.xml.erb')
 
     # We use nested jobs for phases with multiple jobs, we need to aggregate
     # them appropriately.
     job_names = jobs.collect do |job|
       next job.collect(&:job_name) if job.is_a?(Array)
+
       job.job_name
     end
 
@@ -133,6 +143,7 @@ class ProjectJob < JenkinsJob
     @jobs = job_names.flatten.freeze
     @dependees = dependees.freeze
     @project = project.freeze
+    @type = type.freeze
   end
 
   def render_phases
@@ -149,26 +160,24 @@ class ProjectJob < JenkinsJob
     PackagingSCMTemplate.new(scm: scm).render_template
   end
 
+  def render_commit_hook_disabled
+    # disable triggers for legacy series during transition-period
+    return 'true' if NCI.old_series == distribution
+
+    'false'
+  end
+
   def render_upstream_scm
     @upstream_scm = @project.upstream_scm # FIXME: compat assignment
-    return '' unless @upstream_scm
+    return '' unless @upstream_scm # native packages have no upstream_scm
+
     case @upstream_scm.type
-    when 'git'
-      render('upstream-scms/git.xml.erb')
-    when 'svn'
-      render('upstream-scms/svn.xml.erb')
-    when 'tarball'
-      ''
-    when 'bzr'
-      ''
-    when 'uscan'
+    when 'git', 'svn'
+      render("upstream-scms/#{@upstream_scm.type}.xml.erb")
+    when 'tarball', 'bzr', 'uscan'
       ''
     else
       raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
     end
-  end
-
-  def self.basename(dist, type, component, name)
-    "#{dist}_#{type}_#{component}_#{name}"
   end
 end

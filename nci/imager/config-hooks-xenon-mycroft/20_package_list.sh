@@ -7,7 +7,8 @@ plasma-minishell
 mycroft-gui
 mycroft-core
 mycroft-skill-installer
-mycroft-settings
+plasma-mycroft-tablet
+mycroft-tablet-settings
 breeze
 fonts-hack-ttf
 fonts-noto-hinted
@@ -38,6 +39,7 @@ powerdevil
 polkit-kde-agent-1
 qml-module-org-kde-lottie
 r8168-dkms
+ruby
 sddm
 sddm-theme-breeze
 software-properties-common

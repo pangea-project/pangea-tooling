@@ -6,6 +6,14 @@
 
 # Others
 
+'*_backports-bionic_{libappimage}_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-bionic_{squashfuse}_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-bionic_{libheif}_*':
   sourcer:
     restricted_packaging_copy: true
@@ -55,6 +63,10 @@
     restricted_packaging_copy: true
 
 '*_extras_{knights}_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_extras_{skanlite}_*':
   sourcer:
     restricted_packaging_copy: true
 

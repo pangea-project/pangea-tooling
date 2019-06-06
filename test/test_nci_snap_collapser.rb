@@ -24,51 +24,14 @@ require_relative '../nci/snap/collapser'
 require 'mocha/test_unit'
 
 module NCI::Snap
-  class BuildSnapUnpackerTest < TestCase
-    def test_unpack
-      mockcmd = mock('tty::command')
-      TTY::Command.expects(:new).returns(mockcmd)
-      mockcmd.expects(:run).with do |*args, **kwords|
-        next false unless args & ['snap', 'download',
-                                  '--channel=stable', 'kblocks']
-        next false unless kwords[:chdir]
-
-        FileUtils.touch("#{kwords[:chdir]}/foo.snap")
-      end
-      mockcmd.expects(:run).with do |*args|
-        args & ['unsquashfs', '-d', '/snap/kblocks/current'] &&
-          args.any? { |x| x.include?('foo.snap') }
-      end
-
-      ret = BuildSnapUnpacker.new('kblocks').unpack
-      assert_equal('/snap/kblocks/current', ret)
-    end
-
-    def test_no_snap
-      mockcmd = mock('tty::command')
-      TTY::Command.expects(:new).returns(mockcmd)
-      mockcmd.expects(:run).with do |*args|
-        next false unless args & ['snap', 'download',
-                                  '--channel=stable', 'kblocks']
-
-        # Intentionally create no file here. We'll want an exception!
-        true
-      end
-
-      assert_raises do
-        BuildSnapUnpacker.new('kblocks').unpack
-      end
-    end
-  end
-
   class BuildSnapPartCollapserTest < TestCase
     def test_part_collapse
       unpacker = mock('unpacker')
-      BuildSnapUnpacker.expects(:new).with('kblocks').returns(unpacker)
+      Unpacker.expects(:new).with('kblocks').returns(unpacker)
       unpacker.expects(:unpack).returns('/snap/kblocks/current')
 
       core_unpacker = mock('core_unpacker')
-      BuildSnapUnpacker.expects(:new).with('core18').returns(core_unpacker)
+      Unpacker.expects(:new).with('core18').returns(core_unpacker)
       core_unpacker.expects(:unpack).returns('/snap/core18/current')
 
       part = SnapcraftConfig::Part.new

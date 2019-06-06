@@ -192,7 +192,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           watchers[watcher.job_name] = watcher
         end
 
-        next if type.start_with?('testing')
+        next if type == NCI.qt_stage_type
 
         # Meta builders.
         all_builds.select! { |j| j.is_a?(ProjectJob) }
@@ -228,7 +228,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                  neonarchive: 'unstable',
                                  cronjob: 'H H * * 0' }
         enqueue(NeonIsoJob.new(dev_unstable_isoargs))
-        dev_unstable_dev_isoargs = { type: 'development',
+        dev_unstable_dev_isoargs = { type: 'developer',
                                      distribution: distribution,
                                      architecture: architecture,
                                      metapackage: 'neon-desktop',
@@ -313,11 +313,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     if NCI.future_series
       enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
       enqueue(MGMTAppstreamGenerator.new(repo: 'user',
-                                        type: 'user',
-                                        dist: NCI.future_series))
+                                         type: 'user',
+                                         dist: NCI.future_series))
       enqueue(MGMTAppstreamGenerator.new(repo: 'user/lts',
-                                        type: 'user-lts',
-                                        dist: NCI.future_series))
+                                         type: 'user-lts',
+                                         dist: NCI.future_series))
     end
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTGitSemaphoreJob.new)
@@ -361,14 +361,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
 
     enqueue(MGMTRepoDivert.new(target: 'unstable_bionic'))
-    enqueue(MGMTRepoDivert.new(target: 'unstable_xenial'))
     enqueue(MGMTRepoDivert.new(target: 'stable_bionic'))
-    enqueue(MGMTRepoDivert.new(target: 'stable_xenial'))
 
     enqueue(MGMTRepoUndoDivert.new(target: 'unstable_bionic'))
-    enqueue(MGMTRepoUndoDivert.new(target: 'unstable_xenial'))
     enqueue(MGMTRepoUndoDivert.new(target: 'stable_bionic'))
-    enqueue(MGMTRepoUndoDivert.new(target: 'stable_xenial'))
 
     enqueue(MGMTToolingJob.new(downstreams: [],
                                dependees: []))

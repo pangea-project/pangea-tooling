@@ -18,9 +18,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-# We trust our configs entirely.
-# rubocop:disable Security/YAMLLoad
-
 require 'yaml'
 
 require_relative '../projects'
@@ -33,6 +30,7 @@ class ProjectsFactory
       constants.collect do |const|
         klass = const_get(const)
         next nil unless klass.is_a?(Class)
+
         klass
       end.compact
     end
@@ -41,6 +39,7 @@ class ProjectsFactory
       selection = nil
       factories.each do |factory|
         next unless (selection = factory.from_type(type))
+
         break
       end
       selection
@@ -49,6 +48,7 @@ class ProjectsFactory
     def from_file(file, **kwords)
       data = YAML.load(File.read(file))
       raise unless data.is_a?(Hash)
+
       # Special config setting origin control where to draw default upstream_scm
       # data from.
       kwords[:origin] = data.delete('origin').to_sym if data.key?('origin')
@@ -64,8 +64,10 @@ class ProjectsFactory
       data.collect do |type, list|
         raise unless type.is_a?(String)
         raise unless list.is_a?(Array)
+
         factory = factory_for(type)
         raise unless factory
+
         factory.default_params = factory.default_params.merge(kwords)
         factory.factorize(list)
       end.flatten.compact
@@ -86,10 +88,12 @@ class ProjectsFactory
     def resolved_dependency(project, dependency, provided_by, projects)
       # NOTE: if this was an instance we could cache provided_by!
       return nil unless provided_by.include?(dependency)
+
       dependency = provided_by[dependency]
       # Reverse insert us into the list of dependees of our dependency
       projects.collect! do |dep_project|
         next dep_project if dep_project.name != dependency.name
+
         dep_project.dependees << project
         dep_project.dependees.compact!
         break dep_project
