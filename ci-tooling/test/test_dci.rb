@@ -12,7 +12,7 @@ class DCITest < TestCase
   end
 
   def test_architectures
-    assert_equal_collection(%w(arm64 amd64 armhf), DCI.architectures)
+    assert_equal_collection(%w(amd64), DCI.architectures)
   end
 
   def test_extra_architectures
@@ -20,16 +20,16 @@ class DCITest < TestCase
   end
 
   def test_all_architectures
-    assert_equal_collection(%w(arm64 amd64 armhf), DCI.all_architectures)
+    assert_equal_collection(%w(amd64), DCI.all_architectures)
   end
 
   def test_series
-    assert_equal_collection(%w(1803 stretch backports next), DCI.series.keys)
-    assert_equal_collection(%w(20180315 20170617 20181001 20181002), DCI.series.values)
-    assert_equal('20180315', DCI.series['1803'])
+    assert_equal_collection(%w(1901 stretch backports next), DCI.series.keys)
+    assert_equal_collection(%w(20181001 20170617 20190606 20190607), DCI.series.values)
+    assert_equal('20181001', DCI.series['1901'])
     assert_equal('20170617', DCI.series['stretch'])
-    assert_equal('20181001', DCI.series['next'])
-    assert_equal('20181002', DCI.series['backports'])
+    assert_equal('20190606', DCI.series['next'])
+    assert_equal('20190607', DCI.series['backports'])
 
     # With sorting
     assert_equal('stretch', DCI.series(sort: :ascending).keys.first)

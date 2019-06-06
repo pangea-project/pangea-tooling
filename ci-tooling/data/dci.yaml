@@ -1,13 +1,11 @@
 series:
-  '1803': '20180315'
+  '1901': '20181001'
   'stretch': '20170617'
-  'next': '20181001'
+  'next': '20190606'
   # Bump this when choosing a new snapshot for the next netrunner release
-  'backports': '20181002'
+  'backports': '20190607'
 architectures:
   - amd64
-  - armhf
-  - arm64
 extra_architectures: []
 types:
   - release
