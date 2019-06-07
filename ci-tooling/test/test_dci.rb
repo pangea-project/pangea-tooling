@@ -8,7 +8,7 @@ class DCITest < TestCase
   end
 
   def test_types
-    assert_equal_collection(%w(desktop), DCI.types)
+    assert_equal_collection(%w(desktop release), DCI.types)
   end
 
   def test_architectures

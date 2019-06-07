@@ -24,9 +24,9 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>PANGEA_DEBIAN_ONLY=1
+      <command>export PANGEA_DEBIAN_ONLY=1
         ~/tooling/mgmt/docker_cleanup.rb
-       ~/tooling/mgmt/docker.rb
+        ~/tooling/mgmt/docker.rb
      </command>
     </hudson.tasks.Shell>
   </builders>
