@@ -1,12 +1,12 @@
 series:
   '1901': '20181001'
-  'stretch': '20170617'
   'next': '20190606'
 architectures:
   - amd64
 extra_architectures: []
 types:
   - desktop
+  - release
 
 # Desktop release only temporarily.
 # Once we add back arm we will split into the different types via yaml files in pangea conf.
