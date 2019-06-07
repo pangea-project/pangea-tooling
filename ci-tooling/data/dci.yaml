@@ -2,8 +2,6 @@ series:
   '1901': '20181001'
   'stretch': '20170617'
   'next': '20190606'
-  # Bump this when choosing a new snapshot for the next netrunner release
-  'backports': '20190607'
 architectures:
   - amd64
 extra_architectures: []
