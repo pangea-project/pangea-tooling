@@ -24,8 +24,10 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>~/tooling/mgmt/docker_cleanup.rb
-~/tooling/mgmt/docker.rb</command>
+      <command>PANGEA_DEBIAN_ONLY=1
+        ~/tooling/mgmt/docker_cleanup.rb
+       ~/tooling/mgmt/docker.rb
+     </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -61,17 +63,5 @@
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.2">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
-    <ruby-proxy-object>
-      <ruby-object ruby-class="Jenkins::Plugin::Proxies::BuildWrapper" pluginid="rvm">
-        <pluginid pluginid="rvm" ruby-class="String">rvm</pluginid>
-        <object ruby-class="RvmWrapper" pluginid="rvm">
-          <launcher ruby-class="Jenkins::Launcher" pluginid="rvm">
-            <native ruby-class="Java::Hudson::LocalLauncher" pluginid="rvm"/>
-          </launcher>
-          <rvm__path pluginid="rvm" ruby-class="String">~/.rvm/scripts/rvm</rvm__path>
-          <impl pluginid="rvm" ruby-class="String">2.4.1</impl>
-        </object>
-      </ruby-object>
-    </ruby-proxy-object>
   </buildWrappers>
 </project>
