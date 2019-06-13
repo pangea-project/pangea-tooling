@@ -43,30 +43,6 @@
       <optional>true</optional>
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
-    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
-      <project><%= basename %>_bin_armhf</project>
-      <filter></filter>
-      <target></target>
-      <excludes></excludes>
-      <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
-        <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
-      </selector>
-      <flatten>true</flatten>
-      <optional>true</optional>
-      <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
-    </hudson.plugins.copyartifact.CopyArtifact>
-    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
-      <project><%= basename %>_bin_arm64</project>
-      <filter></filter>
-      <target></target>
-      <excludes></excludes>
-      <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
-        <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
-      </selector>
-      <flatten>true</flatten>
-      <optional>true</optional>
-      <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
-    </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
 ~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://dci@dci.ds9.pub:8081 --repo <%= repo %>-<%= distribution %> *.changes
@@ -110,14 +86,6 @@
     </hudson.plugins.ws__cleanup.WsCleanup>
   </publishers>
   <buildWrappers>
-    <ruby-proxy-object>
-      <ruby-object ruby-class="Jenkins::Plugin::Proxies::BuildWrapper" pluginid="rvm">
-        <pluginid pluginid="rvm" ruby-class="String">rvm</pluginid>
-        <object ruby-class="RvmWrapper" pluginid="rvm">
-          <impl pluginid="rvm" ruby-class="String">2.4.1</impl>
-        </object>
-      </ruby-object>
-    </ruby-proxy-object>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.26">
       <deleteDirs>false</deleteDirs>
       <cleanupParameter></cleanupParameter>
