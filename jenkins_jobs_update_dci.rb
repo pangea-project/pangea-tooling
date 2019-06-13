@@ -111,7 +111,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     tooling =
-      enqueue(MGMTToolingJob.new(downstreams: [tooling_deploy]))
+      enqueue(MGMTToolingJob.new(downstreams: [tooling_deploy],  dependees: []))
     enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling]))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
     enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
