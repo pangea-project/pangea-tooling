@@ -36,7 +36,8 @@ module DCI
     setup_i386
 
     repos += %w[netrunner]
-    components += %w[frameworks backports plasma qt5 kde-applications extras]
+    components += %w["extras-#{@dist} calamares-#{@dist} ds9-artwork-#{@dist} \
+      ds9-common-#{@dist} plasma-#{@dist} netrunner-#{@dist} plasmazilla-#{@dist}"]
     components += %w[odroid pine64] unless DPKG::BUILD_ARCH == 'amd64'
     @dist = "netrunner-#{@dist}" unless @dist.start_with?('netrunner')
 

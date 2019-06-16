@@ -41,7 +41,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-export DIST='stable'
+export DIST=<%= distribution %>
 ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
       </command>
     </hudson.tasks.Shell>
