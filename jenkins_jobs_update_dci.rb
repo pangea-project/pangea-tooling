@@ -85,7 +85,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
 
     image_job_config =
-      "#{File.expand_path(File.dirname(__FILE__))}/data/#{@flavor}.image.yaml"
+      "#{File.expand_path(File.dirname(__FILE__))}/data/dci/dci.image.yaml"
 
     if File.exist? image_job_config
       image_jobs = YAML.load_stream(File.read(image_job_config))
@@ -110,10 +110,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
-    tooling =
-      enqueue(MGMTToolingJob.new(downstreams: [tooling_deploy], dependees: []))
+    tooling = enqueue(MGMTToolingJob.new(downstreams: [tooling_deploy], dependees: []))
     enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling]))
-    enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
     enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
   end
 end
