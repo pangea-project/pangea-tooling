@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'job'
+require_relative '../job'
 
 class ImageJob < JenkinsJob
   attr_reader :type
@@ -15,6 +15,6 @@ class ImageJob < JenkinsJob
     @architecture = architecture
     @repo = repo
     @branch = branch
-    super("img_#{type}_#{flavor}_#{release}_#{architecture}", 'img.xml.erb')
+    super("img_#{type}_#{flavor}_#{release}_#{architecture}", 'dci_img.xml.erb')
   end
 end
