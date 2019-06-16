@@ -38,7 +38,7 @@ class DCISetupRepoTest < TestCase
     reset_child_status!
     # Disable all web (used for key).
     WebMock.disable_net_connect!
-    ENV['DIST'] = '1703'
+    ENV['DIST'] = 'next'
   end
 
   def teardown
@@ -53,7 +53,8 @@ class DCISetupRepoTest < TestCase
     system_calls = [
       ['dpkg --add-architecture i386'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-1703 frameworks backports plasma qt5 kde-applications extras'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-next extras-next calamares-next ds9-artwork-next \
+        ds9-common-next plasma-next netrunner-next'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'update'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'dist-upgrade']
     ]
