@@ -63,6 +63,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       @ci_module.types.each do |type|
         file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
         next unless File.exist?(file)
+
         projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
         all_builds = projects.collect do |project|
           BuilderJobBuilder.job(project, distribution: distribution, type: type,
@@ -95,11 +96,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           v[:architectures] ||= @ci_module.architectures
           v[:architectures].each do |arch|
             v[:releases].each do |release, branch|
-              enqueue(ImageJob.new(flavor: flavor,
+              v[:types].each do |type|
+              enqueue(ImageJob.new(type: type,
+                                   flavor: flavor,
                                    release: release,
                                    architecture: arch,
                                    repo: v[:repo],
                                    branch: branch))
+              end
             end
           end
         end
