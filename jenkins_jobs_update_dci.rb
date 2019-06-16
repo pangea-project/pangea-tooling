@@ -95,8 +95,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         image_job.each do |flavor, v|
           v[:architectures] ||= @ci_module.architectures
           v[:architectures].each do |arch|
-            v[:types].each do |type, branch|
-              v[:releases].each do |release|
+            v[:types].each do |type|
+              v[:releases].each do |release, branch|
               enqueue(ImageJob.new(type: type,
                                    flavor: flavor,
                                    release: release,

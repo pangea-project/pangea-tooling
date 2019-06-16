@@ -4,9 +4,9 @@
     :architectures:
       - amd64
     :types:
-      desktop: master
+      - desktop
     :releases:
-      - next
+      next: master
 
   # netrunner-core:
   #   :repo: https://github.com/netrunner-core/live-build
