@@ -47,6 +47,13 @@ export DIST=<%= release %>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
+    <hudson.tasks.ArtifactArchiver>
+      <artifacts>live-config/result/*</artifacts>
+      <allowEmptyArchive>false</allowEmptyArchive>
+      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <fingerprint>false</fingerprint>
+      <defaultExcludes>true</defaultExcludes>
+    </hudson.tasks.ArtifactArchiver>
     <hudson.plugins.s3.S3BucketPublisher plugin="s3@0.8">
       <profileName>DCI S3</profileName>
       <entries>
