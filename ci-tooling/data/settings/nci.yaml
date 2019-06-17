@@ -6,6 +6,10 @@
 
 # Others
 
+'*_backports-bionic_{appstream}_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-bionic_{poppler}_*':
   sourcer:
     restricted_packaging_copy: true
