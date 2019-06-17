@@ -53,7 +53,7 @@ class DCISetupRepoTest < TestCase
     system_calls = [
       ['dpkg --add-architecture i386'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-next extras-next calamares-next ds9-artwork-next ds9-common-next plasma-next netrunner-next'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-next extras calamares ds9-artwork ds9-common plasma netrunner netrunner-desktop'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'update'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'dist-upgrade']
     ]
