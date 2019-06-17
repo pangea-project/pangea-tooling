@@ -10,7 +10,7 @@ DIST = ENV.fetch('DIST')
 BUILD_TAG = ENV.fetch('BUILD_TAG')
 
 c = CI::Containment.new(BUILD_TAG,
-                        image: 'test',
+                        image: CI::PangeaImage.new(:debian, DIST),
                         privileged: true,
                         no_exit_handlers: false)
 status_code = c.run(Cmd: ARGV)
