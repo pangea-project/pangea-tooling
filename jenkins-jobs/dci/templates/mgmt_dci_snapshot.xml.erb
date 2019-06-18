@@ -13,7 +13,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-        ~/tooling/ci-tooling/dci/snapshot.rb -r ".*-next" -g ssh://dci@dci.ds9.pub:8081 -d netrunner-<%= snapshot %>
+        ~/tooling/ci-tooling/dci/snapshot.rb -r ".*-next" -g ssh://dci@dci.ds9.pub:8081 -d netrunner-<%= @snapshot %>
       </command>
     </hudson.tasks.Shell>
   </builders>

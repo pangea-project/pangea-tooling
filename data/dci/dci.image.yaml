@@ -8,7 +8,7 @@
     :releases:
       next: master
     :snapshots:
-      - '19.08'
+      - '1908'
 
 
   # netrunner-core:
