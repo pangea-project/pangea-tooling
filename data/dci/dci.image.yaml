@@ -7,6 +7,9 @@
       - desktop
     :releases:
       next: master
+    :snapshots:
+      - '19.08'
+
 
   # netrunner-core:
   #   :repo: https://github.com/netrunner-core/live-build
