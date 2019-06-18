@@ -109,7 +109,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                     )
                   )
                   enqueue(
-                    MGMTSnapShotJob.new(
+                    SnapShotJob.new(
                       snapshot: snapshot,
                       type: type,
                       flavor: flavor,
