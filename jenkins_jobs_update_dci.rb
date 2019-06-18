@@ -97,12 +97,19 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           v[:architectures].each do |arch|
             v[:types].each do |type|
               v[:releases].each do |release, branch|
-              enqueue(ImageJob.new(type: type,
-                                   flavor: flavor,
-                                   release: release,
-                                   architecture: arch,
-                                   repo: v[:repo],
-                                   branch: branch))
+                v[:snapshots].each do |snapshot|
+                  enqueue(
+                    ImageJob.new(
+                      type: type,
+                      flavor: flavor,
+                      release: release,
+                      architecture: arch,
+                      repo: v[:repo],
+                      branch: branch
+                    )
+                  )
+                  enqueue(MGMTSnapShotJob.new(snapshot: snapshot))
+                end
               end
             end
           end
