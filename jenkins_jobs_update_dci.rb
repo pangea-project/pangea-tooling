@@ -108,7 +108,15 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                       branch: branch
                     )
                   )
-                  enqueue(MGMTSnapShotJob.new(snapshot: snapshot))
+                  enqueue(
+                    SnapShotJob.new(
+                      snapshot: snapshot,
+                      type: type,
+                      flavor: flavor,
+                      release: release,
+                      architecture: arch
+                    )
+                  )
                 end
               end
             end
