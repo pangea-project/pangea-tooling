@@ -6,7 +6,7 @@
 
 # Others
 
-'*_backports-bionic_{appstream}_*':
+'*_backports-bionic_{appstream-bionic}_*':
   sourcer:
     restricted_packaging_copy: true
 
