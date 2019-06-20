@@ -63,7 +63,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       @ci_module.types.each do |type|
         if distribution == 'backports'
           file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/backports/#{backport}/#{type}.yaml"
-          distribution = "backports-#{distribution}""
+          distribution = "backports-#{distribution}"
         else
           file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
         end
