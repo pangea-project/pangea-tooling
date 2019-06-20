@@ -3,5 +3,5 @@
 cat << EOF > config/package-lists/ubuntu-defaults.list.chroot_install
 konsole
 neon-desktop
-kde-development-environment
+kdesdk-devenv-dependencies
 EOF
