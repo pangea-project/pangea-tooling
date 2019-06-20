@@ -1,6 +1,7 @@
 series:
   '1901': '20181001'
   'next': '20190606'
+  'backports': '1901'
 architectures:
   - amd64
 extra_architectures: []

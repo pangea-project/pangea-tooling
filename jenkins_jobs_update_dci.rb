@@ -59,9 +59,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def populate_queue
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
-    @ci_module.series.each_key do |distribution|
+    @ci_module.series.each_key do |distribution, backport|
       @ci_module.types.each do |type|
-        file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
+        if distribution == 'backports'
+          file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/backports/#{backport}/#{type}.yaml"
+          distribution = "backports-#{distribution}""
+        else
+          file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
+        end
         next unless File.exist?(file)
 
         projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
