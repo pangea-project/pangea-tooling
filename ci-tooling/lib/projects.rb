@@ -369,6 +369,7 @@ absolutely must not be native though!
       end
 
     rescue Rugged::NetworkError => e
+      p uri
       raise GitTransactionError, e
     end
 
