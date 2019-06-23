@@ -61,27 +61,31 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     all_meta_builds = []
     @ci_module.series.each_key do |distribution|
       @ci_module.types.each do |type|
-        file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
-        next unless File.exist?(file)
+      file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
+      next unless File.exist?(file)
 
-        projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
-        all_builds = projects.collect do |project|
-          BuilderJobBuilder.job(project, distribution: distribution, type: type,
-                                         architectures: @ci_module.architectures,
-                                         upload_map: @upload_map)
-        end
-        all_builds.flatten!
-        all_builds.each { |job| enqueue(job) }
+      projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
+      all_builds = projects.collect do |project|
+        BuilderJobBuilder.job(
+          project,
+          distribution: distribution,
+          type: type,
+          architectures: @ci_module.architectures,
+          upload_map: @upload_map
+        )
+      end
+      all_builds.flatten!
+      all_builds.each { |job| enqueue(job) }
         # Remove everything but source as they are the anchor points for
         # other jobs that might want to reference them.
-        puts all_builds
-        all_builds.select! { |project| project.job_name.end_with?('_src') }
+      puts all_builds
+      all_builds.select! { |project| project.job_name.end_with?('_src') }
 
         # This could actually returned into a collect if placed below
-        meta_build = MetaBuildJob.new(type: type,
-                                      distribution: distribution,
-                                      downstream_jobs: all_builds)
-        all_meta_builds << enqueue(meta_build)
+      meta_build = MetaBuildJob.new(type: type,
+                                    distribution: distribution,
+                                    downstream_jobs: all_builds)
+      all_meta_builds << enqueue(meta_build)
       end
     end
 
