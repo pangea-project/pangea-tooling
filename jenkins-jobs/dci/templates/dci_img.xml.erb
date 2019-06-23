@@ -3,14 +3,24 @@
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
-  <assignedNode>master</assignedNode>
-  <canRoam>false</canRoam>
-  <disabled>false</disabled>
-  <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
-  <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
-  <triggers/>
-  <concurrentBuild>false</concurrentBuild>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.0">
+   <properties>
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.3">
+      <useBuildBlocker>false</useBuildBlocker>
+      <blockLevel>GLOBAL</blockLevel>
+      <scanQueueFor>DISABLED</scanQueueFor>
+      <blockingJobs></blockingJobs>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>3</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <com.synopsys.arc.jenkinsci.plugins.jobrestrictions.jobs.JobRestrictionProperty plugin="job-restrictions@0.8"/>
+  </properties>
+ <scm class="hudson.plugins.git.GitSCM" plugin="git@3.10.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -30,29 +40,35 @@
       </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
     </extensions>
   </scm>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
   <triggers>
-    <% unless @release == 'jessie' %>
     <hudson.triggers.TimerTrigger>
       <spec>H H(5-8) * * *</spec>
     </hudson.triggers.TimerTrigger>
-    <% end %>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>
-export DIST=<%= release %>
-~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
+           export DIST=<%= release %>
+           ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
+           export RESULT='ls live-config/result/'
+           echo $RESULT
       </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.plugins.s3.S3BucketPublisher plugin="s3@0.8">
+    <hudson.plugins.s3.S3BucketPublisher plugin="s3@0.11.2">
       <profileName>DCI S3</profileName>
       <entries>
         <hudson.plugins.s3.Entry>
           <bucket>ds9-eu/dci/images/<%= @release %>/<%= @architecture %>/<%= @flavor %></bucket>
           <sourceFile>live-config/result/*</sourceFile>
+          <excludedFile></excludedFile>
           <storageClass>REDUCED_REDUNDANCY</storageClass>
           <selectedRegion>eu-central-1</selectedRegion>
           <noUploadOnFailure>true</noUploadOnFailure>
@@ -60,12 +76,27 @@ export DIST=<%= release %>
           <managedArtifacts>true</managedArtifacts>
           <useServerSideEncryption>true</useServerSideEncryption>
           <flatten>true</flatten>
+          <gzipFiles>false</gzipFiles>
+          <showDirectlyInBrowser>false</showDirectlyInBrowser>
+          <keepForever>false</keepForever>
         </hudson.plugins.s3.Entry>
       </entries>
       <dontWaitForConcurrentBuildCompletion>false</dontWaitForConcurrentBuildCompletion>
+       <consoleLogLevel>
+        <name>INFO</name>
+        <value>800</value>
+        <resourceBundleName>sun.util.logging.resources.logging</resourceBundleName>
+      </consoleLogLevel>
+      <pluginFailureResultConstraint>
+        <name>FAILURE</name>
+        <ordinal>2</ordinal>
+        <color>RED</color>
+        <completeBuild>true</completeBuild>
+      </pluginFailureResultConstraint>
       <userMetadata/>
     </hudson.plugins.s3.S3BucketPublisher>
-    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
+   <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.37">
+      <patterns class="empty-list"/>
       <deleteDirs>false</deleteDirs>
       <skipWhenFailed>false</skipWhenFailed>
       <cleanWhenSuccess>true</cleanWhenSuccess>
@@ -75,33 +106,17 @@ export DIST=<%= release %>
       <cleanWhenAborted>true</cleanWhenAborted>
       <notFailBuild>false</notFailBuild>
       <cleanupMatrixParent>false</cleanupMatrixParent>
-      <externalDelete/>
+      <externalDelete></externalDelete>
+      <disableDeferredWipeout>false</disableDeferredWipeout>
     </hudson.plugins.ws__cleanup.WsCleanup>
-    <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
-      <regexp>Publish artifacts to S3 Bucket bucket=(.*?)\/([^\s]*), file=(.*(?&lt;!iso.zsync|latest.iso|latest.tar)) region=([^\s]+),</regexp>
-      <regexpForFailed></regexpForFailed>
-      <description>&lt;a href=&quot;http://\1.s3-website.\4.amazonaws.com/\2/\3&quot;&gt;\3&lt;/a&gt;</description>
-      <setForMatrix>false</setForMatrix>
-    </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
-    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.27">
-      <targets class="empty-list"/>
-      <strategy>ALL</strategy>
-      <notifyOnBuildStart>false</notifyOnBuildStart>
-      <notifySuspects>false</notifySuspects>
-      <notifyCulprits>false</notifyCulprits>
-      <notifyFixers>false</notifyFixers>
-      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
-      <buildToChatNotifier class="hudson.plugins.im.build_notify.SummaryOnlyBuildToChatNotifier" plugin="instant-messaging@1.35"/>
-      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
-      <channels/>
-    </hudson.plugins.ircbot.IrcPublisher>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.28">
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.37">
       <deleteDirs>false</deleteDirs>
-      <cleanupParameter/>
-      <externalDelete/>
+      <cleanupParameter></cleanupParameter>
+      <externalDelete></externalDelete>
+      <disableDeferredWipeout>false</disableDeferredWipeout>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.9"/>
   </buildWrappers>
 </project>
