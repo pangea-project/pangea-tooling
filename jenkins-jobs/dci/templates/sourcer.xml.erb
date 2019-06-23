@@ -4,10 +4,21 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.3">
+      <useBuildBlocker>false</useBuildBlocker>
+      <blockLevel>GLOBAL</blockLevel>
+      <scanQueueFor>DISABLED</scanQueueFor>
+      <blockingJobs></blockingJobs>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.29.4">
+      <projectUrl><%= packaging_scm.url %></projectUrl>
+      <displayName></displayName>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    <com.synopsys.arc.jenkinsci.plugins.jobrestrictions.jobs.JobRestrictionProperty plugin="job-restrictions@0.8"/>
   </properties>
-  <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.4">
+  <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.6">
     <scms>
-      <hudson.plugins.git.GitSCM plugin="git@2.3.5">
+      <hudson.plugins.git.GitSCM plugin="git@3.10.0">
         <configVersion>2</configVersion>
         <userRemoteConfigs>
           <hudson.plugins.git.UserRemoteConfig>
@@ -37,11 +48,11 @@
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
   <triggers>
-    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.29.3">
-      <spec/>
+  <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.29.4">
+      <spec></spec>
     </com.cloudbees.jenkins.GitHubPushTrigger>
     <hudson.triggers.SCMTrigger>
-      <spec/>
+      <spec></spec>
       <ignorePostCommitHooks>false</ignorePostCommitHooks>
     </hudson.triggers.SCMTrigger>
   </triggers>
@@ -74,19 +85,7 @@ printf ${JOB_NAME} &gt; job_name
         <completeBuild>true</completeBuild>
       </threshold>
     </hudson.tasks.BuildTrigger>
-    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.26">
-      <targets class="empty-list"/>
-      <strategy>ANY_FAILURE</strategy>
-      <notifyOnBuildStart>false</notifyOnBuildStart>
-      <notifySuspects>false</notifySuspects>
-      <notifyCulprits>false</notifyCulprits>
-      <notifyFixers>false</notifyFixers>
-      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
-      <buildToChatNotifier class="hudson.plugins.im.build_notify.SummaryOnlyBuildToChatNotifier" plugin="instant-messaging@1.35"/>
-      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
-      <channels/>
-    </hudson.plugins.ircbot.IrcPublisher>
-    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.26">
+    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.37">
       <patterns>
         <hudson.plugins.ws__cleanup.Pattern>
           <pattern>build/*</pattern>
@@ -103,10 +102,11 @@ printf ${JOB_NAME} &gt; job_name
       <notFailBuild>false</notFailBuild>
       <cleanupMatrixParent>false</cleanupMatrixParent>
       <externalDelete></externalDelete>
+      <disableDeferredWipeout>false</disableDeferredWipeout>
     </hudson.plugins.ws__cleanup.WsCleanup>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.28">
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.37">
       <patterns>
         <hudson.plugins.ws__cleanup.Pattern>
           <pattern>source/*tar.*</pattern>
@@ -114,11 +114,12 @@ printf ${JOB_NAME} &gt; job_name
         </hudson.plugins.ws__cleanup.Pattern>
       </patterns>
       <deleteDirs>false</deleteDirs>
-      <cleanupParameter/>
-      <externalDelete/>
+      <cleanupParameter></cleanupParameter>
+      <externalDelete></externalDelete>
+      <disableDeferredWipeout>false</disableDeferredWipeout>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6.2"/>
-    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.9"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.6.2">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
   </buildWrappers>
