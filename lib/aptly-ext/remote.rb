@@ -52,6 +52,12 @@ ssh://mci@neon.plasma-mobile.org:9090
 EOF
       end
 
+      def self.dci(&block)
+        connect(URI.parse(<<-EOF.strip), &block)
+ssh://dci@dci.ds9.pub:8081
+EOF
+      end
+
       def self.neon_read_only(&block)
         connect(URI::HTTPS.build(host: 'archive-api.neon.kde.org'), &block)
       end
