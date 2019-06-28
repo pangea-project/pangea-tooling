@@ -7,5 +7,11 @@ Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
 Docker::Cleanup.containers
 Docker::Cleanup.images
-Docker::Cleanup.remove_image(Docker::Image.get('debianci/amd64:next'))
-Docker::Cleanup.remove_image(Docker::Image.get('pangea/debian:next'))
+%w[debianci/amd64:next pangea/debian:next].each do |name|
+  begin
+    Docker::Cleanup.remove_image(Docker::Image.get(name))
+  rescue => e
+    log.info "Failed to get #{name} :: #{e}"
+    next
+  end
+end
