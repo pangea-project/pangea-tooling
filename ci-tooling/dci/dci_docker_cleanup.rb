@@ -1,15 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-
-require 'logger'
-require 'logger/colors'
-
 require_relative '../../lib/docker/cleanup'
 
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
 Docker::Cleanup.containers
 Docker::Cleanup.images
+log = Docker::Cleanup.log
 %w[debianci/amd64:next pangea/debian:next].each do |name|
   begin
     Docker::Cleanup.remove_image(Docker::Image.get(name))
