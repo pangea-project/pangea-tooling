@@ -33,15 +33,15 @@ module MCI
     @variant = ENV.fetch('VARIANT')
 
     if @type != 'halium'
-      debline = format('deb http://mobile.neon.pangea.pub %s main',
+      debline = format('deb http://repo.plasma-mobile.org %s main',
                        LSB::DISTRIB_CODENAME)
       raise 'adding repo failed' unless Apt::Repository.add(debline)
 
       mcivariant = if @variant == 'caf'
-                     format('deb http://mobile.neon.pangea.pub/caf %s main',
+                     format('deb http://repo.plasma-mobile.org/caf %s main',
                             LSB::DISTRIB_CODENAME)
                    else
-                     format('deb http://mobile.neon.pangea.pub/generic %s main',
+                     format('deb http://repo.plasma-mobile.org/generic %s main',
                             LSB::DISTRIB_CODENAME)
                    end
       raise 'adding repo failed' unless Apt::Repository.add(mcivariant)
@@ -64,7 +64,7 @@ module MCI
                   end
     raise 'adding repo failed' unless Apt::Repository.add(variantrepo)
 
-    Apt::Key.add('http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key')
+    Apt::Key.add('http://repo.plasma-mobile.org/Pangea%20CI.gpg.key')
     raise 'Failed to import key' unless $?.to_i.zero?
 
     Apt::Key.add('http://archive.neon.kde.org/public.key')

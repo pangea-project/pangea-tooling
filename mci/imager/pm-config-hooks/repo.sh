@@ -1,6 +1,6 @@
 keyfile="/tmp/tmp.key"
 rm -rf $keyfile
-wget -O $keyfile "http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key"
+wget -O $keyfile "http://repo.plasma-mobile.org/Pangea%20CI.gpg.key"
 gpg --no-default-keyring --primary-keyring config/archives/ubuntu-defaults.key --import $keyfile
-echo "deb http://mobile.neon.pangea.pub $SUITE main" >> config/archives/mci.list
-echo "deb-src http://mobile.neon.pangea.pub $SUITE main" >> config/archives/mci.list
+echo "deb http://repo.plasma-mobile.org $SUITE main" >> config/archives/mci.list
+echo "deb-src http://repo.plasma-mobile.org $SUITE main" >> config/archives/mci.list
