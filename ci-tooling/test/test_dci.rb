@@ -35,6 +35,6 @@ class DCITest < TestCase
   end
 
   def test_latest_series
-    assert_equal('1908', DCI.latest_series)
+    assert_equal('next', DCI.latest_series)
   end
 end
