@@ -151,36 +151,25 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
       backports-1803
       backports-backports
       backports-next
-      backports-stable
-      backports-stretch
       calamares-1801
       calamares-1803
       calamares-backports
       calamares-next
-      calamares-stable
-      calamares-stretch
       ds9-artwork-1801
       ds9-artwork-1803
       ds9-artwork-backports
       ds9-artwork-next
-      ds9-artwork-stable
-      ds9-artwork-stretch
       ds9-common-1801
       ds9-common-1803
       ds9-common-backports
       ds9-common-next
-      ds9-common-stable
-      ds9-common-stretch
       extras-1801
       extras-1803
       extras-backports
       extras-next
-      extras-stable
-      extras-stretch
       frameworks-1801
       frameworks-1803
       frameworks-backports
-      frameworks-stable
       kde-applications-1801
       kde-applications-1803
       kde-applications-backports
@@ -191,55 +180,37 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
       netrunner-core-1803
       netrunner-core-backports
       netrunner-core-next
-      netrunner-core-stable
-      netrunner-core-stretch
       netrunner-desktop-1801
       netrunner-desktop-1803
       netrunner-desktop-backports
       netrunner-desktop-next
-      netrunner-desktop-stable
-      netrunner-desktop-stretch
       netrunner-next
-      netrunner-stable
-      netrunner-stretch
-      netrunner-zeronet-stretch
       odroid-1801
       odroid-1803
       odroid-backports
       odroid-next
-      odroid-stable
-      odroid-stretch
       pine64-1801
       pine64-1803
       pine64-backports
       pine64-next
-      pine64-stretch
       plasma-1801
       plasma-1803
       plasma-backports
       plasma-next
-      plasma-stable
-      plasma-stretch
       plasmazilla-1801
       plasmazilla-1803
       plasmazilla-backports
       plasmazilla-next
-      plasmazilla-stable
-      plasmazilla-stretch
       qt5-1801
       qt5-1803
       qt5-backports
       qt5-next
-      qt5-stable
-      qt5-stretch
       rock64-1801
       rock64-1803
       rock64-next
-      rock64-stretch
       zeronet-1801
       zeronet-1803
       zeronet-next
-      zeronet-stretch
 ], keep_amount: 2)
 
   end

@@ -58,8 +58,8 @@ class MCISetupRepoTest < TestCase
   def test_setup_repo
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://mobile.neon.pangea.pub vivid main'],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://mobile.neon.pangea.pub/caf vivid main'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://repo.plasma-mobile.org vivid main'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://repo.plasma-mobile.org/caf vivid main'],
       ['add-apt-repository', '--no-update', '-y', 'deb http://archive.neon.kde.org/unstable vivid main'],
       ['add-apt-repository', '--no-update', '-y', 'deb http://repo.halium.org vivid main'],
       ['add-apt-repository', '--no-update', '-y', 'deb http://repo.halium.org/caf vivid main'],
@@ -91,7 +91,7 @@ class MCISetupRepoTest < TestCase
       .yields(key_catcher_neon)
       .returns(true)
 
-    stub_request(:get, 'http://mobile.neon.pangea.pub/Pangea%20CI.gpg.key')
+    stub_request(:get, 'http://repo.plasma-mobile.org/Pangea%20CI.gpg.key')
       .to_return(status: 200, body: 'abc')
 
     stub_request(:get, 'http://archive.neon.kde.org/public.key')
