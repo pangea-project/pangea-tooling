@@ -1,7 +1,7 @@
 series:
   '1901': '20181001'
   '1908': '20190630'
-  'next': '20190606'
+  'next': '20190701'
 architectures:
   - amd64
 extra_architectures: []
