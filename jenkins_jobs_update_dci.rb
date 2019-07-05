@@ -101,26 +101,40 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           v[:architectures].each do |arch|
             v[:types].each do |type|
               v[:releases].each do |release, branch|
+                enqueue(
+                  ImageJob.new(
+                    type: type,
+                    flavor: flavor,
+                    release: release,
+                    architecture: arch,
+                    repo: v[:repo],
+                    branch: branch
+                  )
+                )
+              end
+            end
+          end
+        end
+      end
+    end
+    if File.exist? image_job_config
+      snapshot_jobs = YAML.load_stream(File.read(image_job_config))
+      snapshot_jobs.each do |snapshot_job|
+        snapshot_job.each do |flavor, v|
+          v[:architectures] ||= @ci_module.architectures
+          v[:architectures].each do |arch|
+            v[:types].each do |type|
+              v[:releases].each do |release, _branch|
                 v[:snapshots].each do |snapshot|
-                  enqueue(
-                    ImageJob.new(
-                      type: type,
-                      flavor: flavor,
-                      release: release,
-                      architecture: arch,
-                      repo: v[:repo],
-                      branch: branch
-                    )
+                enqueue(
+                  SnapShotJob.new(
+                    snapshot: snapshot,
+                    type: type,
+                    flavor: flavor,
+                    release: release,
+                    architecture: arch
                   )
-                  enqueue(
-                    SnapShotJob.new(
-                      snapshot: snapshot,
-                      type: type,
-                      flavor: flavor,
-                      release: release,
-                      architecture: arch
-                    )
-                  )
+                )
                 end
               end
             end
@@ -128,6 +142,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         end
       end
     end
+
 
     # MGMT Jobs follow
     docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
