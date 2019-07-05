@@ -64,6 +64,15 @@ XDG_RUNTIME_DIR=/run/user/`id -u` systemctl --user start aptly_db_cleanup
     end
   end
 
+  def self.restart_aptly
+    Net::SSH.start('dci.ds9.pub', 'dci') do |ssh|
+      # Set XDG_RUNTIME_DIR so we can find our dbus socket.
+      ssh.exec!(<<-COMMAND)
+  XDG_RUNTIME_DIR=/run/user/`id -u` systemctl --user start aptly
+      COMMAND
+    end
+  end
+
   private
 
   def clean_sources
@@ -217,5 +226,6 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
 
   puts 'Finally cleaning out database...'
   RepoCleaner.clean_db
+  RepoCleaner.restart_aptly
   puts 'All done!'
 end
