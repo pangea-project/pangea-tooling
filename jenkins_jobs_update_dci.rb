@@ -130,7 +130,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                     snapshot: snapshot,
                     type: type,
                     flavor: flavor,
-                    release: release,
                     architecture: arch
                   )
                 )
