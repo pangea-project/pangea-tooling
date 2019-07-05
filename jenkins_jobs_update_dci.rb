@@ -124,8 +124,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           v[:architectures] ||= @ci_module.architectures
           v[:architectures].each do |arch|
             v[:types].each do |type|
-              v[:releases].each do |release, _branch|
-                v[:snapshots].each do |snapshot|
+              v[:snapshots].each do |snapshot|
                 enqueue(
                   SnapShotJob.new(
                     snapshot: snapshot,
@@ -135,7 +134,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                     architecture: arch
                   )
                 )
-                end
               end
             end
           end
