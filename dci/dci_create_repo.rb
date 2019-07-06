@@ -43,9 +43,9 @@ Aptly::Ext::Remote.dci do
         else
           puts "Creating #{repo}-#{distribution}".gsub(/[\,\"\[\]*]/, '')
           x = Aptly::Repository.create(
-            "#{repo}-#{distribution}",
+            "#{repo}-#{distribution}".gsub(/[\,\"\[\]*]/, ''),
             DefaultDistribution: "netrunner-#{distribution}",
-            DefaultComponent: repo,
+            DefaultComponent: repo.to_s.gsub(/[\,\"\[\]*]/, ''),
             Architectures: %w[all amd64 armhf arm64 i386 source]
           )
           @repos << { Name: x.Name, Component: x.DefaultComponent }
