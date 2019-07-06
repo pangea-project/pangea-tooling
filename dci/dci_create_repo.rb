@@ -22,6 +22,7 @@ Aptly::Ext::Remote.dci do
   all_repos.compact!
   puts @all_repos
   @repos = []
+  @pub_repos = {}
   DCI.series.each_key do |distribution|
     DCI.types.each do |type|
       file =
@@ -48,13 +49,13 @@ Aptly::Ext::Remote.dci do
             DefaultComponent: repo.to_s.gsub(/[\,\"\[\]*]/, ''),
             Architectures: %w[all amd64 armhf arm64 i386 source]
           )
-          @repos << { Name: x.Name, Component: x.DefaultComponent }
+          @pub_repos << { Name: x.Name, Component: x.DefaultComponent }
         end
       end
     end
   end
   Aptly.publish(
-    @repos,
+    @pub_repos,
     'netrunner',
     Architectures: %w[all amd64 armhf arm64 i386 source]
   )
