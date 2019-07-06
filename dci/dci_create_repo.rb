@@ -20,8 +20,8 @@ Aptly::Ext::Remote.dci do
     @all_repos << repo.Name
   end
   all_repos.compact!
+  puts @all_repos
   @repos = []
-  @pub_repos = []
   DCI.series.each_key do |distribution|
     DCI.types.each do |type|
       file =
@@ -32,29 +32,29 @@ Aptly::Ext::Remote.dci do
       repo_base.each do |repos|
         repos.each do |_url, allrepos|
           allrepos.each.with_index do |component, _repo|
-            @repos << component.keys.to_s
+            @repos << component.keys
           end
         end
       end
       @repos.each do |repo|
-        if @all_repos.include?("#{repo}-#{distribution}")
-          puts "#{repo}-#{distribution} exists, moving on."
+        if @all_repos.include?("#{repo}-#{distribution}".gsub(/[\,\"\[\]*]/, ''))
+          puts "#{repo}-#{distribution} exists, moving on.".gsub(/[\,\"\[\]*]/, '')
           next
         else
-          puts "Creating #{repo}-#{distribution}"
+          puts "Creating #{repo}-#{distribution}".gsub(/[\,\"\[\]*]/, '')
           x = Aptly::Repository.create(
             "#{repo}-#{distribution}",
             DefaultDistribution: "netrunner-#{distribution}",
             DefaultComponent: repo,
             Architectures: %w[all amd64 armhf arm64 i386 source]
           )
-          @pub_repos << { Name: x.Name, Component: x.DefaultComponent }
+          @repos << { Name: x.Name, Component: x.DefaultComponent }
         end
       end
     end
   end
   Aptly.publish(
-    @pub_repos,
+    @repos,
     'netrunner',
     Architectures: %w[all amd64 armhf arm64 i386 source]
   )
