@@ -20,9 +20,8 @@ Aptly::Ext::Remote.dci do
     @all_repos << repo.Name
   end
   all_repos.compact!
-  puts @all_repos
   @repos = []
-  @pub_repos = {}
+  @pub_repos = []
   DCI.series.each_key do |distribution|
     DCI.types.each do |type|
       file =
