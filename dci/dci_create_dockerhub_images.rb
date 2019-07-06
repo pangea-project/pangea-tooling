@@ -28,7 +28,7 @@ threads = []
 ## TODO: This needs to pull in values from YAML config files.
 archs = %w[amd64 arm64 armhf]
 cmd = TTY::Command.new
-version = 'next'
+DIST = ENV.fetch('DIST')
 
 cmd.run('sudo apt -y install binfmt-support qemu qemu-user-static debootstrap')
 pool =
@@ -71,14 +71,14 @@ archs.each do |arch|
   else
     puts 'Tar was not generated - something went wrong.'
   end
-  unless Docker::Image.exist?("debianci/#{arch}:#{version}")
+  unless Docker::Image.exist?("debianci/#{arch}:#{DIST}")
     File.open("#{arch}.tar.bz2") do |file|
       docker = Docker::Image.import_stream { file.read(10_000).to_s }
-      docker.tag(repo: "debianci/#{arch}", tag: "#{version}")
+      docker.tag(repo: "debianci/#{arch}", tag: "#{DIST}")
     end
   end
-  if Docker::Image.exist?("debianci/#{arch}:#{version}")
-    puts "Docker image debianci/#{arch}:#{version} successful"
+  if Docker::Image.exist?("debianci/#{arch}:#{DIST}")
+    puts "Docker image debianci/#{arch}:#{DIST} successful"
   else
     puts 'Something went wrong in docker image creation.'
   end
