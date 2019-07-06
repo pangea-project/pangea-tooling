@@ -42,7 +42,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-        ~/tooling/dci/mgmt_dci_create_dockerhub_images.rb
+        ~/tooling/dci/dci_create_dockerhub_images.rb
         docker push debianci/amd64:$DIST
         docker push debianci/arm64:$DIST
         docker push debianci/armhf:$DIST
