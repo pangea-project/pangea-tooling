@@ -40,13 +40,13 @@ Aptly::Ext::Remote.dci do
                 next
               else
                 puts "Creating #{repo}-#{distribution}".gsub(/[\,\"\[\]*]/, '')
-                # x = Aptly::Repository.create(
-                #   "#{repo}-#{distribution}".gsub(/[\,\"\[\]*]/, ''),
-                #   DefaultDistribution: "netrunner-#{distribution}",
-                #   DefaultComponent: repo.to_s.gsub(/[\,\"\[\]*]/, ''),
-                #   Architectures: %w[all amd64 armhf arm64 i386 source]
-                # )
-                # @repos << { Name: x.Name, Component: x.DefaultComponent }
+                x = Aptly::Repository.create(
+                  "#{repo}-#{distribution}".gsub(/[\,\"\[\]*]/, ''),
+                  DefaultDistribution: "netrunner-#{distribution}",
+                  DefaultComponent: repo.to_s.gsub(/[\,\"\[\]*]/, ''),
+                  Architectures: %w[all amd64 armhf arm64 i386 source]
+                )
+                @repos << { Name: x.Name, Component: x.DefaultComponent }
               end
             end
           end
@@ -54,9 +54,9 @@ Aptly::Ext::Remote.dci do
       end
     end
   end
-  # Aptly.publish(
-  #   @repos,
-  #   'netrunner',
-  #   Architectures: %w[all amd64 armhf arm64 i386 source]
-  # )
+  Aptly.publish(
+    @repos,
+    'netrunner',
+    Architectures: %w[all amd64 armhf arm64 i386 source]
+  )
 end
