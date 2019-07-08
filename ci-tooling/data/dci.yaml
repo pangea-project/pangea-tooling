@@ -1,5 +1,4 @@
 series:
-  '1901': '20181001'
   '1908': '20190630'
   'next': '20190701'
 architectures:
@@ -7,7 +6,6 @@ architectures:
 extra_architectures: []
 types:
   - desktop
-  - release
   - backports
 
 # Desktop release only temporarily.
