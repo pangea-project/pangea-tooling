@@ -64,19 +64,6 @@ git config --local --add url."neon@git.neon.kde.org:".pushInsteadOf "https://ano
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.25">
-      <targets>
-      </targets>
-      <strategy>FAILURE_AND_FIXED</strategy>
-      <notifyOnBuildStart>false</notifyOnBuildStart>
-      <notifySuspects>false</notifySuspects>
-      <notifyCulprits>false</notifyCulprits>
-      <notifyFixers>false</notifyFixers>
-      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
-      <buildToChatNotifier class="hudson.plugins.im.build_notify.SummaryOnlyBuildToChatNotifier" plugin="instant-messaging@1.30"/>
-      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
-      <channels/>
-    </hudson.plugins.ircbot.IrcPublisher>
     <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.25">
       <configs>
         <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>

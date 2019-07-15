@@ -36,25 +36,7 @@
       </command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers>
-    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.25">
-      <targets>
-        <hudson.plugins.im.GroupChatIMMessageTarget plugin="instant-messaging@1.30">
-          <name>#apacheloggerslounge</name>
-          <notificationOnly>false</notificationOnly>
-        </hudson.plugins.im.GroupChatIMMessageTarget>
-      </targets>
-      <strategy>FAILURE_AND_FIXED</strategy>
-      <notifyOnBuildStart>false</notifyOnBuildStart>
-      <notifySuspects>false</notifySuspects>
-      <notifyCulprits>false</notifyCulprits>
-      <notifyFixers>false</notifyFixers>
-      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
-      <buildToChatNotifier class="hudson.plugins.im.build_notify.DefaultBuildToChatNotifier" plugin="instant-messaging@1.30"/>
-      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
-      <channels/>
-    </hudson.plugins.ircbot.IrcPublisher>
-  </publishers>
+  <publishers/>
   <buildWrappers>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6"/>
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">

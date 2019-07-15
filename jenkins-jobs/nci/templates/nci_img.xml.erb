@@ -32,18 +32,6 @@ export NEONARCHIVE=<%= neonarchive %>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.25">
-      <targets class="empty-list"/>
-      <strategy>ALL</strategy>
-      <notifyOnBuildStart>true</notifyOnBuildStart>
-      <notifySuspects>false</notifySuspects>
-      <notifyCulprits>false</notifyCulprits>
-      <notifyFixers>false</notifyFixers>
-      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
-      <buildToChatNotifier class="hudson.plugins.im.build_notify.DefaultBuildToChatNotifier" plugin="instant-messaging@1.30"/>
-      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
-      <channels/>
-    </hudson.plugins.ircbot.IrcPublisher>
     <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.34">
       <patterns class="empty-list"/>
       <deleteDirs>false</deleteDirs>
