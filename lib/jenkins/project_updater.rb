@@ -105,6 +105,7 @@ Check the detailed output to find output relating to the failed creation of the 
       @job_queue = Queue.new
       @job_names = []
       @log = Logger.new(STDOUT)
+      @used_plugins = []
     end
 
     def update_submodules
@@ -192,20 +193,23 @@ Check the detailed output to find output relating to the failed creation of the 
       ]
     end
 
-    # FIXME: this installs all plugins used by all CIs, not the ones at hand
     def plugins_to_install
-      plugins = []
       installed_plugins = Jenkins.plugin_manager.list_installed.keys
-      all_template_files.each do |path|
-        File.readlines(path).each do |line|
-          match = line.match(/.*plugin="(.+)".*/)
-          next unless match&.size == 2
-          plugin = match[1].split('@').first
-          next if installed_plugins.include?(plugin)
-          plugins << plugin
-        end
+      @used_plugins.reject { |plugin| installed_plugins.include?(plugin) }
+    end
+
+    def collect_plugins(job)
+      data = job.render_template
+      data.split("\n").each do |line|
+        match = line.match(/.*plugin="(.+)".*/)
+        next unless match&.size == 2
+
+        plugin = match[1].split('@').first
+        next if @used_plugins.include?(plugin)
+
+        @used_plugins << plugin
+        p @used_plugins
       end
-      plugins.uniq.compact
     end
 
     def enqueue(obj)
@@ -214,6 +218,7 @@ Check the detailed output to find output relating to the failed creation of the 
         raise "#{obj.job_name} already queued. Jobs need only be queued once..."
       end
       @job_names << obj.job_name
+      collect_plugins(obj)
       obj
     end
 
