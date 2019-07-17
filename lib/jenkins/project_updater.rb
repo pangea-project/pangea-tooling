@@ -138,6 +138,7 @@ Check the detailed output to find output relating to the failed creation of the 
       plugins = (plugins_to_install + standard_plugins).uniq
       plugins.each do |plugin|
         next if installed_plugins.include?(plugin)
+
         puts "--- Installing #{plugin} ---"
         Jenkins.plugin_manager.install(plugin)
       end
