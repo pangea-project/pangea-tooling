@@ -32,6 +32,8 @@ class ProjectsFactory
     def from_string(str)
       *project, name = str.split('/')
       component = 'launchpad'
+      return nil if skip?(name)
+
       Project.new(name, component, "lp:#{project.join('/')}")
     end
   end
