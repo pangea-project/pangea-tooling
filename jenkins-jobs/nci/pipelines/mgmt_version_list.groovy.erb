@@ -1,14 +1,8 @@
 notify {
     cleanNode('master') {
-        stage('clone[tooling]') {
-            sh '[ -d tooling ] || mkdir tooling'
-            dir('tooling') {
-                git branch: 'version_list', url: 'https://github.com/blue-systems/pangea-tooling'
-            }
-        }
         try {
             withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: '')]) {
-                sh './tooling/nci/version_list.rb'
+                sh '~/tooling/nci/version_list.rb'
             }
         } finally {
             archiveArtifacts 'versions.html'
