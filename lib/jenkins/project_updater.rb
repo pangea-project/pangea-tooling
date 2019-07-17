@@ -208,7 +208,6 @@ Check the detailed output to find output relating to the failed creation of the 
         next if @used_plugins.include?(plugin)
 
         @used_plugins << plugin
-        p @used_plugins
       end
     end
 
