@@ -62,6 +62,7 @@ module NCI
       private
 
       def tar_basename_from_url(url)
+        return url if url.nil?
         File.basename(url).reverse.split('-', 2).fetch(-1).reverse
       end
 
