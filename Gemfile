@@ -11,6 +11,7 @@ end
 gem 'aptly-api', '~> 0.9.1'
 gem 'concurrent-ruby'
 gem 'deep_merge', '~> 1.0'
+gem 'did_you_mean', '~> 1.1.0' # 1.2+ part of ruby in 2.5+
 gem 'docker-api', '~> 1.24' # Container.refresh! only introduced in 1.23
 gem 'gir_ffi'
 gem 'git'
