@@ -14,13 +14,41 @@
   sourcer:
     restricted_packaging_copy: true
 
-'*_forks_*_*':
+'*_forks_fcitx-qt5_*':
   sourcer:
     restricted_packaging_copy: true
 
-'*_forks_base-files_*':
+'*_forks_heaptrack_*':
   sourcer:
-    restricted_packaging_copy: false
+    restricted_packaging_copy: true
+
+'*_forks_kaidan_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_forks_kbibtex_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_forks_kdelive_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_forks_kdiff3_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_forks_krename_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_forks_libqalculate_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_forks_massif-visualizer_*':
+  sourcer:
+    restricted_packaging_copy: true
 
 '*_extras_*_*':
    sourcer:
