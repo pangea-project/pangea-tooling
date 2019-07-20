@@ -15,13 +15,18 @@
       - '1901'
 
 
-  # netrunner-core:
-  #   :repo: https://github.com/netrunner-core/live-build
-  #   :architectures:
-  #     - amd64
-  #   :releases:
-  #     stable: Debian/stable
-  #     jessie: Debian/jessie
+  netrunner-core:
+    :repo: https://github.com/netrunner-core/live-build
+    :architectures:
+      - amd64
+    :types:
+      - core
+    :releases:
+      next: master
+      1908: Netrunner/1908
+    :snapshots:
+      - 'next'
+      - '1908'
 
   # c1-netrunner-core:
   #   :repo: https://github.com/netrunner-odroid/c1-live-build-core
