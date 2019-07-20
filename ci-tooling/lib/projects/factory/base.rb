@@ -71,12 +71,19 @@ class ProjectsFactory
 
     private
 
+    def skip?(name)
+      ENV['PANGEA_FACTORIZE_ONLY'] && name != ENV['PANGEA_FACTORIZE_ONLY']
+    end
+
     def aggregate_promises(promises)
       # Wait on promises individually before zipping them. Zipping will gobble
       # up results making it super hard to find exceptions. 9/10 times ruby
       # just SIGSEVs because we murdered all threads with exceptions.
       ret = promises.collect(&:value!).flatten.compact
-      raise if ret.empty?
+      if ret.empty? && !ENV['PANGEA_FACTORIZE_ONLY']
+        raise 'Couldn\'t aggregate any projects.' \
+              ' Broken configs? Strict restrcitions?'
+      end
       ret
     end
 
@@ -113,7 +120,8 @@ class ProjectsFactory
       params[:origin] = origin if origin
       Concurrent::Promise.execute(executor: self.class.promise_executor) do
         begin
-          next nil if name == 'ubiquity' && ENV['FUCK_UBIQUITY']
+          next nil if skip?(name)
+
           Project.new(name, component, url_base, **params)
         rescue Project::ShitPileErrror => e
           warn "shitpile -- #{e}"

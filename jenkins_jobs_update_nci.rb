@@ -360,6 +360,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       enqueue(MGMTSnapshotUser.new(dist: NCI.future_series, origin: 'release-lts', target: 'user-lts'))
     end
 
+    enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'user'))
+
     enqueue(MGMTRepoDivert.new(target: 'unstable_bionic'))
     enqueue(MGMTRepoDivert.new(target: 'stable_bionic'))
 

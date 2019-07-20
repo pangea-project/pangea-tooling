@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2019 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,23 +18,20 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'base'
+require_relative 'pipelinejob'
 
-class ProjectsFactory
-  # Launchpad (bzr) specific project factory.
-  class Launchpad < Base
-    def self.understand?(type)
-      type == 'launchpad.net'
-    end
+# does a whole bunch of stuff to do with versions. notably assert we have
+# all released and generates a version dump for consumption by the website
+class MGMTVersionListJob < PipelineJob
+  attr_reader :dist
+  attr_reader :type
 
-    private
-
-    def from_string(str)
-      *project, name = str.split('/')
-      component = 'launchpad'
-      return nil if skip?(name)
-
-      Project.new(name, component, "lp:#{project.join('/')}")
-    end
+  def initialize(dist:, type:)
+    # crons once a day. maybe should be made type dependent and run more often
+    # for dev editions and less for user editions (they get run on publish)?
+    super("mgmt_version_list_#{dist}_#{type}",
+          template: 'mgmt_version_list', cron: 'H H * * *')
+    @dist = dist
+    @type = type
   end
 end

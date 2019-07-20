@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2019 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,23 +18,42 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'base'
+class Violation
+  attr_reader :name
 
-class ProjectsFactory
-  # Launchpad (bzr) specific project factory.
-  class Launchpad < Base
-    def self.understand?(type)
-      type == 'launchpad.net'
+  def to_s
+    raise 'not implemented'
+  end
+end
+
+class MissingPackageViolation < Violation
+  def initialize(name, corrections)
+    @name = name
+    @corrections = corrections
+  end
+
+  def to_s
+    s = "The source #{@name} appears not available in our repo!"
+    if @corrections && !@corrections.empty?
+      if @corrections&.size == 1
+        s += "\nLooks like this needs a map (double check this!!!):"
+        s += "\n  '#{@corrections[0]}' => '#{@name}',"
+      else
+        s += "\n  Did you mean?\n         #{@corrections.join("\n         ")}"
+      end
     end
+    s
+  end
+end
 
-    private
+class WrongVersionViolation < Violation
+  def initialize(name, expected, found)
+    @name = name
+    @expected = expected
+    @found = found
+  end
 
-    def from_string(str)
-      *project, name = str.split('/')
-      component = 'launchpad'
-      return nil if skip?(name)
-
-      Project.new(name, component, "lp:#{project.join('/')}")
-    end
+  def to_s
+    "Version for #{@name} found '#{@found}' but expected '#{@expected}'!"
   end
 end

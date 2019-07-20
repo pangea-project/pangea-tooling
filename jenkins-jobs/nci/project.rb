@@ -43,7 +43,7 @@ class ProjectJob < JenkinsJob
     # Base builds have no stable thingy but their unstable version is equal
     # to their not unstable version.
     # NB: '' is for pkg-kde-tools which lives in /
-    if (%w[forks qt] << '').include?(project.component) ||
+    if (%w[qt] << '').include?(project.component) ||
        %w[pyqt5].include?(project.name) || project.kdecomponent == 'frameworks'
       dependees += project.dependees.collect do |d|
         # Stable is a dependee

@@ -76,8 +76,10 @@ class Net::SSH::SocketGateway
   private
 
   def attach_logger(netsshobj)
+    return unless ENV.include?('SSH_DEBUG')
     # No littering when testing please.
     return if ENV.include?('PANGEA_UNDER_TEST')
+
     # :nocov:
     log_file = "/tmp/net-ssh-#{$$}-#{netsshobj.object_id.abs}.log"
     File.write(log_file, '')

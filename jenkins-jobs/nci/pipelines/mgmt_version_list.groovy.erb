@@ -1,0 +1,40 @@
+notify {
+    cleanNode('master') {
+        try {
+            withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: '')]) {
+                sh '~/tooling/nci/version_list.rb'
+            }
+        } finally {
+            archiveArtifacts 'versions.html'
+            junit allowEmptyResults: true, testResults: 'report.xml'
+        }
+    }
+}
+
+def notify(body) {
+    try {
+        body()
+    } catch (e) {
+        stage('notify') {
+            mail to: 'neon-notifications@kde.org',
+                 subject: "version problems #${BUILD_NUMBER}",
+                 body: """Some packages from scoped releases are either not packaged or have an unexpected version #${BUILD_NUMBER}. ${BUILD_URL}/testReport"""
+        }
+        throw e
+    }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}
