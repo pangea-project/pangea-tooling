@@ -22,10 +22,8 @@
     :types:
       - core
     :releases:
-      next: master
       1908: Netrunner/1908
     :snapshots:
-      - 'next'
       - '1908'
 
   # c1-netrunner-core:
