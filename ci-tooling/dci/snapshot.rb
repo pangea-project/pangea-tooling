@@ -96,12 +96,13 @@ end
   { Name: snap.Name, Component: snap.DefaultComponent }
 end
 
-@s3 = Aptly::PublishedRepository.list.select do |x| 
+@s3 = Aptly::PublishedRepository.list.select do |x|
   !x.Storage.empty? && (x.SourceKind == 'snapshot') &&
     (x.Distribution == opts[:Distribution]) && (x.Prefix == 'netrunner')
 end
 
 if @s3.empty?
+  puts @sources
   Aptly.publish(@sources, 's3:ds9-eu:netrunner', 'snapshot', opts)
   @log.info("Snapshots published")
 elsif @s3.count == 1
