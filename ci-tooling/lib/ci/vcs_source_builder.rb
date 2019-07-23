@@ -63,6 +63,7 @@ module CI
     def l10n_origin_from_type
       {
         'desktop' => ReleaseMe::Origin::TRUNK,
+        'core' => ReleaseMe::Origin::TRUNK,
         'unstable' => ReleaseMe::Origin::TRUNK,
         'stable' => ReleaseMe::Origin::STABLE,
         'release' => ReleaseMe::Origin::STABLE,
