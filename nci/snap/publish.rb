@@ -56,7 +56,7 @@ module NCI
         copy_config!
 
         cmd = TTY::Command.new
-        cmd.run("snapcraft push #{SNAPNAME}*.snap --release #{channel}")
+        cmd.run("snapcraft push *.snap --release #{channel}")
       end
     end
   end
