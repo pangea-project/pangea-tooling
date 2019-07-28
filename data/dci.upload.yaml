@@ -4,7 +4,6 @@
   calamares: calamares
   netrunner: netrunner
   netrunner-debian: netrunner
-  plasmazilla: plasmazilla
   netrunner-odroid: odroid
   netrunner-core: netrunner-core
   wayland: backports
@@ -21,7 +20,6 @@
   ds9-artwork: ds9-artwork
   dci-extras-packaging: extras
   netrunner-desktop: netrunner-desktop
-  highvoltage: backports
   netrunner-pine64: pine64
   netrunner-pinebook: pine64
   linuxmint: extras
