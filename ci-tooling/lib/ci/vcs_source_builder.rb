@@ -63,6 +63,7 @@ module CI
     def l10n_origin_from_type
       {
         'desktop' => ReleaseMe::Origin::TRUNK,
+        'core' => ReleaseMe::Origin::TRUNK,
         'unstable' => ReleaseMe::Origin::TRUNK,
         'stable' => ReleaseMe::Origin::STABLE,
         'release' => ReleaseMe::Origin::STABLE,
@@ -70,23 +71,8 @@ module CI
       }.fetch(ENV.fetch('TYPE'))
     end
 
-    def kde4_l10n_origin_from_type
-      #read yaml file and set origin to  ReleaseMe::Origin::TRUNK_KDE4
-      {
-        'unstable' => ReleaseMe::Origin::TRUNK_KDE4,
-        'stable' => ReleaseMe::Origin::STABLE_KDE4,
-        'release' => ReleaseMe::Origin::STABLE_KDE4,
-        'release-lts' => ReleaseMe::Origin::STABLE_KDE4
-      }.fetch(ENV.fetch('TYPE'))
-    end
-
     def l10n_origin_for(project)
-      kde4_l10n_projects = %w[kdeedu-data phonon phonon-backend-gstreamer phonon-backend-vlc] # TODO move to .yaml file
-      if kde4_l10n_projects.include?(@source.name)
-        origin = kde4_l10n_origin_from_type
-      else
-        origin = l10n_origin_from_type
-      end
+      origin = l10n_origin_from_type
 
       # TODO: ideally we should pass the BRANCH from the master job into
       #   the sourcer job and assert that the upstream branch is the stable/

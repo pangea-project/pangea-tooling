@@ -13,7 +13,9 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-        ~/tooling/ci-tooling/dci/snapshot.rb -r ".*-<%= @snapshot %>" -g ssh://dci@dci.ds9.pub:8081 -d netrunner-<%= @type %>-<%= @snapshot %>
+        export DIST=netrunner-<%= @type %>
+        export VERSION=<%= @snapshot %>
+        ~/tooling/ci-tooling/dci/snapshot.rb
       </command>
     </hudson.tasks.Shell>
   </builders>
