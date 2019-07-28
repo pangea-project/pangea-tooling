@@ -34,7 +34,7 @@ class DCISnapshotTest < TestCase
     WebMock.disable_net_connect!
     ENV['DIST'] = 'netrunner-next'
     ENV['VERSION'] = 'next'
-    @d = DCISnapshot.new('netrunner-desktop', 'next')
+    @d = DCISnapshot.new
   end
 
   def teardown

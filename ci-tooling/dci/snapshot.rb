@@ -44,12 +44,12 @@ options.distribution = nil
 
 #Run aptly snapshot on given DIST eg: netrunner-desktop-next.
 class DCISnapshot
-  def initialize(dist, ver)
-    @dist = dist
+  def initialize
+    @dist = ENV['DIST']
     @snapshots = []
     @repos = []
     @components = []
-    @version = ver
+    @version = ENV['VERSION']
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new(STDOUT).tap do |l|
       l.progname = 'snapshotter'
@@ -157,10 +157,7 @@ class DCISnapshot
   end
 end
 
-version = ENV['VERSION']
-dist = ENV['DIST']
-
-s = DCISnapshot.new(dist, version)
+s = DCISnapshot.new
 s.snapshot_repo
 s.publish_snapshot
 #     @snapshots = []
