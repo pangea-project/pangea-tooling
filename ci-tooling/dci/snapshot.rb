@@ -50,7 +50,6 @@ class DCISnapshot
     @repos = []
     @components = []
     @version = ver
-    @versioned_dist = dist + '-' + ver
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new(STDOUT).tap do |l|
       l.progname = 'snapshotter'
@@ -104,6 +103,7 @@ class DCISnapshot
 
   def snapshot_repo
     repo_array
+    @versioned_dist = @dist + '-' + @version
     arches = arch_array
     arches << 'all'
     arches << 'source'
