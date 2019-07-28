@@ -79,4 +79,15 @@ class DCISnapshotTest < TestCase
     assert_equal('netrunner-desktop-next', v_dist)
     teardown
   end
+
+  def test_aptly_options
+    setup
+    data = @d.aptly_options
+    opts = {}
+    opts[:Distribution] = 'netrunner-desktop-next'
+    opts[:Architectures] = %w[amd64 all source]
+    opts[:ForceOverwrite] = true
+    opts[:SourceKind] = 'snapshot'
+    assert_equal(opts, data)
+  end
 end
