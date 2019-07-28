@@ -126,19 +126,23 @@ class DCISnapshot
     arch
   end
 
-  def snapshot_repo
-    repo_array
+  def aptly_options
     versioned_dist
     arches = arch_array
+    opts = {}
+    opts[:Distribution] = @versioned_dist
+    opts[:Architectures] = arches
+    opts[:ForceOverwrite] = true
+    opts[:SourceKind] = 'snapshot'
+    opts
+  end
+
+  def snapshot_repo
+    repo_array
+    opts = aptly_options
     Faraday.default_connection_options =
       Faraday::ConnectionOptions.new(timeout: 40 * 60 * 60)
     Aptly::Ext::Remote.dci do
-      opts = {}
-      opts[:Distribution] = @versioned_dist
-      opts[:Architectures] = arches
-      opts[:ForceOverwrite] = true
-      opts[:SourceKind] = 'snapshot'
-
       @repos.each do |repo_name|
         repo = Aptly::Repository.get(repo_name)
         @log.info "Phase 1: Snapshotting #{repo.Name}"
@@ -159,6 +163,7 @@ class DCISnapshot
   end
 
   def publish_snapshot
+    opts = aptly_options
     @log.info 'Phase 2: Publishing of snapshots'
     Faraday.default_connection_options =
       Faraday::ConnectionOptions.new(timeout: 40 * 60 * 60)
