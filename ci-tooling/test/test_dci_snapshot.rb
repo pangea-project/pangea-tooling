@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 #
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
@@ -26,7 +27,6 @@ require_relative 'lib/testcase'
 
 require 'mocha/test_unit'
 require 'webmock/test_unit'
-require 'shoulda-context'
 
 class DCISnapshotTest < TestCase
   def setup
