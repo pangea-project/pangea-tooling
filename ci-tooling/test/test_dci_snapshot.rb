@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 #
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
@@ -26,31 +27,33 @@ require_relative 'lib/testcase'
 
 require 'mocha/test_unit'
 require 'webmock/test_unit'
-require 'shoulda-context'
 
 class DCISnapshotTest < TestCase
   def setup
     # Disable all web (used for key).
     WebMock.disable_net_connect!
-    @d = DCISnapshot.new('netrunner-desktop', 'next')
+    ENV['DIST'] = 'netrunner-desktop'
+    ENV['VERSION'] = 'next'
+    @d = DCISnapshot.new
   end
 
   def teardown
     WebMock.allow_net_connect!
-    ENV['DIST'] = nil
+    ENV['DIST'] = ''
+    ENV['VERSION'] = ''
   end
 
   def test_config
     setup
     data = @d.config
-    assert data.is_a?(Hash)
+    assert_is_a(data, Hash)
     teardown
   end
 
   def test_components
     setup
     data = @d.components
-    assert data.is_a?(Array)
+    assert_is_a(data, Array)
     test_data = %w[netrunner extras backports ds9-artwork ds9-common netrunner-desktop calamares plasma]
     assert_equal test_data, data
     teardown
@@ -68,5 +71,23 @@ class DCISnapshotTest < TestCase
     data = @d.arch_array
     assert data.include?('amd64')
     teardown
+  end
+
+  def test_versioned_dist
+    setup
+    v_dist = @d.versioned_dist
+    assert_equal('netrunner-desktop-next', v_dist)
+    teardown
+  end
+
+  def test_aptly_options
+    setup
+    data = @d.aptly_options
+    opts = {}
+    opts[:Distribution] = 'netrunner-desktop-next'
+    opts[:Architectures] = %w[amd64 all source]
+    opts[:ForceOverwrite] = true
+    opts[:SourceKind] = 'snapshot'
+    assert_equal(opts, data)
   end
 end

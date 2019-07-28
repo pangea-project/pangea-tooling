@@ -5,10 +5,10 @@
       - amd64
     :types:
       - desktop
-    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-desktop,calamares,plasma'
+    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-desktop,calamares'
     :releases:
       next: master
-      1908: Netrunner/1908
+      1908: Netrunner/19.08
     :snapshots:
       - 'next'
       - '1908'
@@ -19,9 +19,9 @@
       - amd64
     :types:
       - core
-    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares,plasma'
+    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares'
     :releases:
-      1908: Netrunner/1908
+      1908: Netrunner/19.08
     :snapshots:
       - 'next'
       - '1908'
