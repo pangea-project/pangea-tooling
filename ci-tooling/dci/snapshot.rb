@@ -160,22 +160,26 @@ class DCISnapshot
 
   def publish_snapshot
     @log.info 'Phase 2: Publishing of snapshots'
-    @sources = @snapshots.collect do |snap|
-      puts snap
-      { Name: snap.Name, Component: snap.DefaultComponent }
-    end
-    @s3 = Aptly::PublishedRepository.list.select do |x|
-      !x.Storage.empty? && (x.SourceKind == 'snapshot') &&
-      (x.Distribution == opts[:Distribution]) && (x.Prefix == 'netrunner')
-    end
-    puts @s3
-    if @s3.empty?
-      Aptly.publish(@sources, 's3:ds9-eu:netrunner', 'snapshot', opts)
-      @log.info("Snapshots published")
-    elsif @s3.count == 1
-      pubd = @s3[0]
-      pubd.update!(Snapshots: @sources, ForceOverwrite: true)
-      @log.info("Snapshots updated")
+    Faraday.default_connection_options =
+      Faraday::ConnectionOptions.new(timeout: 40 * 60 * 60)
+    Aptly::Ext::Remote.dci do
+      @sources = @snapshots.collect do |snap|
+        puts snap
+        { Name: snap.Name, Component: snap.DefaultComponent }
+      end
+      @s3 = Aptly::PublishedRepository.list.select do |x|
+        !x.Storage.empty? && (x.SourceKind == 'snapshot') &&
+        (x.Distribution == opts[:Distribution]) && (x.Prefix == 'netrunner')
+      end
+      puts @s3
+      if @s3.empty?
+        Aptly.publish(@sources, 's3:ds9-eu:netrunner', 'snapshot', opts)
+        @log.info("Snapshots published")
+      elsif @s3.count == 1
+        pubd = @s3[0]
+        pubd.update!(Snapshots: @sources, ForceOverwrite: true)
+        @log.info("Snapshots updated")
+      end
     end
   end
 end
