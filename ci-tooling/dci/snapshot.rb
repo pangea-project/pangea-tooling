@@ -157,8 +157,8 @@ class DCISnapshot
   end
 end
 
-version = ENV.fetch('VERSION')
-dist = ENV.fetch('DIST')
+version = ENV['VERSION']
+dist = ENV['DIST']
 
 s = DCISnapshot.new(dist, version)
 s.snapshot_repo
