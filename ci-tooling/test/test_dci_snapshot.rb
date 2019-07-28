@@ -30,9 +30,13 @@ require 'webmock/test_unit'
 
 class DCISnapshotTest < TestCase
   def setup
+    system('export DIST=netrunner-desktop')
+    system('export VERSION=next')
+    version = ENV['VERSION']
+    dist = ENV['DIST']
     # Disable all web (used for key).
     WebMock.disable_net_connect!
-    @d = DCISnapshot.new('netrunner-desktop', 'next')
+    @d = DCISnapshot.new(dist, version)
   end
 
   def teardown
