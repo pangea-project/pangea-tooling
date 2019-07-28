@@ -45,11 +45,12 @@ options.distribution = nil
 #Run aptly snapshot on given DIST eg: netrunner-desktop-next.
 class DCISnapshot
   def initialize
-    @dist = ENV['DIST']
     @snapshots = []
     @repos = []
     @components = []
-    @version = ENV['VERSION']
+    @dist = ''
+    @versioned_dist = ''
+    @version = ''
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new(STDOUT).tap do |l|
       l.progname = 'snapshotter'
@@ -72,17 +73,38 @@ class DCISnapshot
     data
   end
 
+  def distribution
+    @dist = ENV['DIST']
+  end
+
+  def version
+    @version = ENV['VERSION']
+  end
+
+  def versioned_dist
+    distribution
+    version
+    @versioned_dist = @dist + '-' + @version
+  end
+
+  def currentdist
+    distribution
+    data = config
+    currentdist = data.select { |dist, _options| dist.include? @dist }
+    currentdist
+  end
+
   def components
     components = []
-    data = config
-    current_dist = data.select { |dist, options| dist.include? @dist }
-    current_dist.each do |_dist, v|
+    data = currentdist
+    data.each do |_dist, v|
       components = v[:components].split(',')
     end
     components
   end
 
   def repo_array
+    version
     data = components
     data.each do |x|
       ver_repo = x + '-' + @version
@@ -93,20 +115,21 @@ class DCISnapshot
 
   def arch_array
     arch = []
-    data = config
-    current_dist = data.select { |dist, options| dist.include? @dist }
-    current_dist.each do |_dist, v|
-      arch = v[:architectures]
+    data = currentdist
+    data.each do |_dist, v|
+      v[:architectures].each do |a|
+        arch << a
+      end
     end
+    arch << 'all'
+    arch << 'source'
     arch
   end
 
   def snapshot_repo
     repo_array
-    @versioned_dist = @dist + '-' + @version
+    versioned_dist
     arches = arch_array
-    arches << 'all'
-    arches << 'source'
     Faraday.default_connection_options =
       Faraday::ConnectionOptions.new(timeout: 40 * 60 * 60)
     Aptly::Ext::Remote.dci do
@@ -157,70 +180,12 @@ class DCISnapshot
   end
 end
 
-s = DCISnapshot.new
-s.snapshot_repo
-s.publish_snapshot
-#     @snapshots = []
-#     @repos = []
-#     @components = []
-#
-#     component_config_file =
-#                 "#{File.expand_path(File.dirname(__FILE__))}/data/dci/dci.image.yaml"
-#
-#
-#     if File.exist? component_config_file
-#       components_config = YAML.load_stream(File.read(component_config_file))
-#       components_config.each do |component_config|
-#         component_config.each do |flavor, v|
-#           if flavor =~ DIST
-#             @components < v[:components]
-#             puts @components
-#             @components.each do |component|
-#               versioned_repo = component + '-' + DIST
-#               @repos < versioned_repo
-#             end
 
-#             puts opts
-#             puts @repos
-#           else
-#             next
-#           end
-#           @repos.each do |repo|
-#             puts repo
-#         #   @log.info "Phase 1: Snapshotting #{repo.Name}"
-#         #   snapshot =
-#         #     if repo.packages.empty?
-#         #       Aptly::Snapshot.create("#{repo.Name}_#{options.distribution}_#{stamp}", opts)
-#         #     else
-#         #       # component = repo.Name.match(/(.*)-netrunner-backports/)[1].freeze
-#         #       repo.snapshot("#{repo.Name}_#{options.distribution}_#{stamp}", opts)
-#         #     end
-#         #   snapshot.DefaultComponent = repo.DefaultComponent
-#         #   @snapshots << snapshot
-#         #   @log.info 'Phase 1: Snapshotting complete'
-#         #   end
-#         #
-#         # @log.info 'Phase 2: Publishing of snapshots'
-#         # @sources = @snapshots.collect do |snap|
-#         #   { Name: snap.Name, Component: snap.DefaultComponent }
-#         # end
-#         #
-#         # @s3 = Aptly::PublishedRepository.list.select do |x|
-#         #   !x.Storage.empty? && (x.SourceKind == 'snapshot') &&
-#         #     (x.Distribution == opts[:Distribution]) && (x.Prefix == 'netrunner')
-#         # end
-#         #
-#         # if @s3.empty?
-#         #   puts @sources
-#         #   Aptly.publish(@sources, 's3:ds9-eu:netrunner', 'snapshot', opts)
-#         #   @log.info("Snapshots published")
-#         # elsif @s3.count == 1
-#         #   pubd = @s3[0]
-#         #   pubd.update!(Snapshots: @sources, ForceOverwrite: true)
-#         #   @log.info("Snapshots updated")
-#         # end
-#           end
-#         end
-#       end
-#     end
-# end
+
+# :nocov:
+if $PROGRAM_NAME == __FILE__
+  s = DCISnapshot.new
+  s.snapshot_repo
+  s.publish_snapshot
+end
+# :nocov:
