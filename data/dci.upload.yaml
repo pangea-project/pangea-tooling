@@ -1,6 +1,7 @@
 ---
   default: netrunner
   dci-debian-qt: qt5
+  dci-debian-plasma: plasma
   calamares: calamares
   netrunner: netrunner
   netrunner-debian: netrunner
