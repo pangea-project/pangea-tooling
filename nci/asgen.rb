@@ -57,6 +57,7 @@ config.MediaBaseUrl =
 config.HtmlBaseUrl =
   "https://metadata.neon.kde.org/appstream/#{TYPE}_#{DIST}/html"
 config.Backend = 'debian'
+config.ExtraMetainfoDir = "#{Dir.pwd}/extra-metainfo"
 config.Features['validateMetainfo'] = true
 # FIXME: we should merge the dist jobs and make one job generate all supported
 #   series. this also requires adjustments to asgen_push to "detect" which dists
