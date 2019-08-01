@@ -175,6 +175,8 @@ to our removed-components.json
 Before doing this please make sure which component is the current one and that
 the other one is in fact a duplicate that needs removing! When in in doubt: ask.
 
+https://community.kde.org/Neon/Appstream#Duplicated_Components
+
     DESCRIPTION
 
     warn 'REVIEW CAREFULLY! Here is the complete blacklist array'
