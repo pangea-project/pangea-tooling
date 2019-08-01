@@ -1,0 +1,41 @@
+env.DIST = '<%= dist %>'
+env.TYPE = '<%= type %>'
+
+notify {
+    cleanNode('amd64') {
+        stage('Test') {
+            sh '~/tooling/nci/appstream_components_duplicates.rb'
+        }
+    }
+}
+
+def notify(body) {
+    try {
+        body()
+    } catch (e) {
+        stage('notify') {
+            mail to: 'neon-notifications@kde.org',
+                 subject: "AppStream components duplicates found ${BUILD_NUMBER}!",
+                 body: """The AppStream data of repositories have apparently duplicated data.
+This degrades the discover experience and should be resolved by likely marking components for removal.
+
+${BUILD_URL}/consoleText/"""
+        }
+        throw e
+    }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}

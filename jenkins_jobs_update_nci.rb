@@ -326,6 +326,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTDigitalOceanDangler.new)
     enqueue(MGMTSeedDeploy.new)
 
+    # This QA is only run for user edition, otherwise we'd end up in a nightmare
+    # of which component is available in which edition but not the other.
+    enqueue(MGMTAppstreamComponentsDuplicatesJob.new(type: 'user',
+                                                     dist: NCI.current_siers))
+
     # FIXME: this is hardcoded because we don't have a central map between
     #   'type' and repo path, additionally doing this programatically would
     #   require querying the aptly api. it's unclear if this is worthwhile.
