@@ -2,7 +2,7 @@ env.DIST = '<%= dist %>'
 env.TYPE = '<%= type %>'
 
 notify {
-    cleanNode('amd64') {
+    cleanNode('amd64 && cloud') {
         stage('Test') {
             sh '~/tooling/nci/contain.rb /tooling/nci/appstream_components_duplicates.rb'
         }
