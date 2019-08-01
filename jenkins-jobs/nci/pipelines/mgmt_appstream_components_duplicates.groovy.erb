@@ -4,7 +4,7 @@ env.TYPE = '<%= type %>'
 notify {
     cleanNode('amd64') {
         stage('Test') {
-            sh '~/tooling/nci/appstream_components_duplicates.rb'
+            sh '~/tooling/nci/contain.rb /tooling/nci/appstream_components_duplicates.rb'
         }
     }
 }

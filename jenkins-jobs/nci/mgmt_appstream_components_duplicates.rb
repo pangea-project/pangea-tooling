@@ -31,6 +31,6 @@ class MGMTAppstreamComponentsDuplicatesJob < PipelineJob
           template: 'mgmt_appstream_components_duplicates',
           cron: 'H H/3 * * *')
     @dist = dist
-    type = type
+    @type = type
   end
 end
