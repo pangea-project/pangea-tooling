@@ -140,15 +140,15 @@ if $PROGRAM_NAME == __FILE__
     cmd = TTY::Command.new(printer: :null)
     ret = cmd.run!('appstreamcli', 'dump', id.active)
     unless ret.success?
-      warn "!! #{id.active} should be available but it is not!"
-      warn '   Maybe it is incorrectly blacklisted?'
+      puts "!! #{id.active} should be available but it is not!"
+      puts '   Maybe it is incorrectly blacklisted?'
       missing << id.active
     end
 
     id.permutations.each do |permutation|
       ret = cmd.run!('appstreamcli', 'dump', permutation)
       if ret.success?
-        warn "#{id.active} also has permutation: #{permutation}"
+        puts "#{id.active} also has permutation: #{permutation}"
         blacklist << permutation
       end
     end
@@ -179,8 +179,8 @@ https://community.kde.org/Neon/Appstream#Duplicated_Components
 
     DESCRIPTION
 
-    warn 'REVIEW CAREFULLY! Here is the complete blacklist array'
-    warn JSON.generate(blacklist)
+    puts 'REVIEW CAREFULLY! Here is the complete blacklist array'
+    puts JSON.generate(blacklist)
     2.times { puts }
   end
 
@@ -197,7 +197,7 @@ removed-components.json for a start.
 
     DESCRIPTION
 
-    warn JSON.generate(missing)
+    puts JSON.generate(missing)
     2.times { puts }
   end
 
