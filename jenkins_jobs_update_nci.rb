@@ -329,7 +329,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # This QA is only run for user edition, otherwise we'd end up in a nightmare
     # of which component is available in which edition but not the other.
     enqueue(MGMTAppstreamComponentsDuplicatesJob.new(type: 'user',
-                                                     dist: NCI.current_siers))
+                                                     dist: NCI.current_series))
 
     # FIXME: this is hardcoded because we don't have a central map between
     #   'type' and repo path, additionally doing this programatically would
