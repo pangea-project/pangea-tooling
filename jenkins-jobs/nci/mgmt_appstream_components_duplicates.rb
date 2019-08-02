@@ -29,7 +29,7 @@ class MGMTAppstreamComponentsDuplicatesJob < PipelineJob
   def initialize(dist:, type:)
     super("mgmt_appstream-components_#{dist}_#{type}",
           template: 'mgmt_appstream_components_duplicates',
-          cron: 'H H/3 * * *')
+          cron: 'H H * * *')
     @dist = dist
     @type = type
   end
