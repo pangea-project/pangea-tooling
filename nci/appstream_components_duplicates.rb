@@ -26,6 +26,7 @@ require 'open-uri'
 require 'pp'
 require 'tty/command'
 require 'yaml'
+require 'concurrent'
 
 require_relative '../ci-tooling/lib/apt'
 require_relative '../ci-tooling/nci/lib/setup_repo'
@@ -88,6 +89,10 @@ end
 # end
 
 if $PROGRAM_NAME == __FILE__
+  def puts(str = '')
+    print(str + "\n") # Write newline one go lest they get messed by threads.
+  end
+
   NCI.setup_repo!
 
   Retry.retry_it(times: 3) { Apt.update || raise }
@@ -133,26 +138,30 @@ if $PROGRAM_NAME == __FILE__
   ids = ids.uniq.compact
   ids = ids.collect { |x| ID.new(x) }
 
-  missing = []
-  blacklist = []
-  puts '---------------'
-  ids.each do |id|
-    cmd = TTY::Command.new(printer: :null)
-    ret = cmd.run!('appstreamcli', 'dump', id.active)
-    unless ret.success?
-      puts "!! #{id.active} should be available but it is not!"
-      puts '   Maybe it is incorrectly blacklisted?'
-      missing << id.active
-    end
+  missing = Concurrent::Array.new
+  blacklist = Concurrent::Array.new
 
-    id.permutations.each do |permutation|
-      ret = cmd.run!('appstreamcli', 'dump', permutation)
-      if ret.success?
-        puts "#{id.active} also has permutation: #{permutation}"
-        blacklist << permutation
+  puts '---------------'
+  promises = ids.collect do |id|
+    Concurrent::Promise.execute do
+      cmd = TTY::Command.new(printer: :null)
+      ret = cmd.run!('appstreamcli', 'dump', id.active)
+      unless ret.success?
+        puts "!! #{id.active} should be available but it is not!"
+        puts '   Maybe it is incorrectly blacklisted?'
+        missing << id.active
+      end
+
+      id.permutations.each do |permutation|
+        ret = cmd.run!('appstreamcli', 'dump', permutation)
+        if ret.success?
+          puts "#{id.active} also has permutation: #{permutation}"
+          blacklist << permutation
+        end
       end
     end
   end
+  promises.collect(&:wait!)
   puts '---------------'
 
   exit 0 if blacklist.empty? && missing.empty?
