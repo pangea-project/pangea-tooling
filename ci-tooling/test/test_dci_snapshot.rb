@@ -85,7 +85,7 @@ class DCISnapshotTest < TestCase
     data = @d.aptly_options
     opts = {}
     opts[:Distribution] = 'netrunner-desktop-next'
-    opts[:Architectures] = %w[amd64 all source]
+    opts[:Architectures] = %w[amd64 i386 all source]
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
     assert_equal(opts, data)

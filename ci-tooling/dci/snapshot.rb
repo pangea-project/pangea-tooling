@@ -121,6 +121,7 @@ class DCISnapshot
         arch << a
       end
     end
+    arch << 'i386'
     arch << 'all'
     arch << 'source'
     arch
