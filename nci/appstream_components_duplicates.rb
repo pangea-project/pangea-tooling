@@ -138,12 +138,21 @@ if $PROGRAM_NAME == __FILE__
   ids = ids.uniq.compact
   ids = ids.collect { |x| ID.new(x) }
 
+  # appstreamcli can exhaust allowed open files, put strict limits on just how
+  # much we'll thread it to avoid this problem.
+  pool = Concurrent::ThreadPoolExecutor.new(
+    min_threads: 2,
+    max_threads: Concurrent.processor_count,
+    max_queue: 16,
+    fallback_policy: :caller_runs
+  )
+
   missing = Concurrent::Array.new
   blacklist = Concurrent::Array.new
 
   puts '---------------'
   promises = ids.collect do |id|
-    Concurrent::Promise.execute do
+    Concurrent::Promise.execute(executor: pool) do
       cmd = TTY::Command.new(printer: :null)
       ret = cmd.run!('appstreamcli', 'dump', id.active)
       unless ret.success?
