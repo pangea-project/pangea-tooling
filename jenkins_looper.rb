@@ -74,16 +74,18 @@ class Walker
   # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   # This would be a separate class, anything else we'd have to pass our state
   # vars through, so simply accept this method beng a bit complicated.
-  def find_loop(name, orig = name, root: true, depth: 1)
-    puts "#{Array.new(depth * 2, ' ').join}#{name}"
+  def find_loop(name, root: true, depth: 1, stack: [name])
+    @log.info "#{Array.new(depth * 2, ' ').join}#{name} #{root}"
     @known[name].each do |up|
-      next if @seen.include?(up)
-      if up == orig && !root
+      if stack.include?(up)
         error = LoopError.new('loop found')
         error.set_backtrace(up.to_s)
         raise error
       end
-      find_loop(up, orig, root: false, depth: depth + 1)
+
+      next if @seen.include?(up)
+
+      find_loop(up, root: false, depth: depth + 1, stack: stack + [up])
       @seen << up
     end
   rescue LoopError => e
