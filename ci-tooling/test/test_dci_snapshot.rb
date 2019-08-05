@@ -54,7 +54,7 @@ class DCISnapshotTest < TestCase
     setup
     data = @d.components
     assert_is_a(data, Array)
-    test_data = %w[netrunner extras backports ds9-artwork ds9-common netrunner-desktop calamares plasma]
+    test_data = %w[netrunner extras backports ds9-artwork ds9-common netrunner-desktop calamares]
     assert_equal test_data, data
     teardown
   end
