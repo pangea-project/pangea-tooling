@@ -1,0 +1,30 @@
+env.DIST='<%= distribution %>'
+env.ARCH='<%= architecture %>'
+env.TYPE='<%= type %>'
+
+cleanNode('amd64') {
+  stage('torrent') {
+    lock('ISO_PUBLISHING') {
+      withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon',
+                                         keyFileVariable: 'SSH_KEY_FILE',
+                                         passphraseVariable: '', usernameVariable: '')]) {
+        sh 'tooling/nci/imager_push_torrent.rb'
+      }
+    }
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}
