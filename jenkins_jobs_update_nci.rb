@@ -220,54 +220,61 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
       # ISOs
       NCI.architectures.each do |architecture|
-        dev_unstable_isoargs = { type: 'unstable',
-                                 distribution: distribution,
-                                 architecture: architecture,
-                                 metapackage: 'neon-desktop',
-                                 imagename: 'neon',
-                                 neonarchive: 'unstable',
-                                 cronjob: 'H H * * 0' }
+        standard_args = {
+          imagename: 'neon',
+          distribution: distribution,
+          architecture: architecture,
+          metapackage: 'neon-desktop'
+        }.freeze
+
+        dev_unstable_isoargs = standard_args.merge(
+          type: 'unstable',
+          neonarchive: 'unstable',
+          cronjob: 'H H * * 0'
+        )
         enqueue(NeonIsoJob.new(dev_unstable_isoargs))
-        dev_unstable_dev_isoargs = { type: 'developer',
-                                     distribution: distribution,
-                                     architecture: architecture,
-                                     metapackage: 'neon-desktop',
-                                     imagename: 'neon',
-                                     neonarchive: 'unstable',
-                                     cronjob: 'H H * * 1' }
+        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'unstable')))
+
+        dev_unstable_dev_isoargs = standard_args.merge(
+          type: 'developer',
+          neonarchive: 'unstable',
+          cronjob: 'H H * * 1'
+        )
         enqueue(NeonIsoJob.new(dev_unstable_dev_isoargs))
-        dev_stable_isoargs = { type: 'testing',
-                               distribution: distribution,
-                               architecture: architecture,
-                               metapackage: 'neon-desktop',
-                               imagename: 'neon',
-                               neonarchive: 'testing',
-                               cronjob: 'H H * * 2' }
+        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'developer')))
+
+        dev_stable_isoargs = standard_args.merge(
+          type: 'testing',
+          neonarchive: 'testing',
+          cronjob: 'H H * * 2'
+        )
         enqueue(NeonIsoJob.new(dev_stable_isoargs))
-        user_releaselts_isoargs = { type: 'plasma_lts',
-                                    distribution: distribution,
-                                    architecture: architecture,
-                                    metapackage: 'neon-desktop',
-                                    imagename: 'neon',
-                                    neonarchive: 'user/lts',
-                                    cronjob: 'H H * * 3' }
+        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'testing')))
+
+        user_releaselts_isoargs = standard_args.merge(
+          type: 'plasma_lts',
+          neonarchive: 'user/lts',
+          cronjob: 'H H * * 3'
+        )
         enqueue(NeonIsoJob.new(user_releaselts_isoargs))
-        user_release_isoargs = { type: 'user',
-                                 distribution: distribution,
-                                 architecture: architecture,
-                                 metapackage: 'neon-desktop',
-                                 imagename: 'neon',
-                                 neonarchive: 'user',
-                                 cronjob: 'H H * * 4' }
+        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'plasma_lts')))
+
+        user_release_isoargs = standard_args.merge(
+          type: 'user',
+          neonarchive: 'user',
+          cronjob: 'H H * * 4'
+        )
         enqueue(NeonIsoJob.new(user_release_isoargs))
-        ko_user_release_isoargs = { type: 'ko',
-                                    distribution: distribution,
-                                    architecture: architecture,
-                                    metapackage: 'neon-desktop-ko',
-                                    imagename: 'neon',
-                                    neonarchive: 'testing',
-                                    cronjob: 'H H * * 5' }
+        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'user')))
+
+        ko_user_release_isoargs = standard_args.merge(
+          type: 'ko',
+          neonarchive: 'testing',
+          cronjob: 'H H * * 5',
+          metapackage: 'neon-desktop-ko'
+        )
         enqueue(NeonIsoJob.new(ko_user_release_isoargs))
+        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'ko')))
       end
 
       # The following images are only pertaining to dists that aren't xenial.
