@@ -52,11 +52,15 @@ Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
 
   File.write(meta4_name, open(meta4_url).read)
   begin
-    File.write(torrent_name, open(torrent_url).read)
-  rescue OpenURI::HTTPError => e
-    raise e if e.io.status[0] != '404'
+    # Download the torrent over sftp lest we get funny redirects. Mirrobrain
+    # redirects https to http and open-uri gets angry (rightfully).
+    torrent_path = "#{remote_dir_path}/#{torrent_name}"
+    sftp.stat!(torrent_path) # only care if it raises anything
+    sftp.download!(torrent_path, torrent_name)
+  rescue Net::SFTP::StatusException => e
+    raise e unless e.code == Net::SFTP::Constants::StatusCodes::FX_NO_SUCH_FILE
 
-    puts "Torrent doesn't exist yet!"
+    puts "Torrent #{torrent_path} doesn't exist yet!"
   end
 
   cmd = TTY::Command.new(uuid: false)
