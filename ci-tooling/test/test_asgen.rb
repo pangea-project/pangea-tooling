@@ -30,8 +30,10 @@ class ASGENTest < TestCase
     config.Backend = 'debian'
     config.Features['validateMetainfo'] = true
     config.Suites << ASGEN::Suite.new('xenial', ['main'], ['amd64'])
+    config.ExtraMetainfoDir = "123"
     config.write('test_file')
-    ref = {"ProjectName"=>"KDE neon", "Features"=>{"validateMetainfo"=>true}, "Suites"=>{"xenial"=>{"sections"=>["main"], "architectures"=>["amd64"]}}, "ArchiveRoot"=>"/home/nci/public/user", "Backend"=>"debian"}
+    ref = {"ProjectName"=>"KDE neon", "Features"=>{"validateMetainfo"=>true}, "Suites"=>{"xenial"=>{"sections"=>["main"], "architectures"=>["amd64"]}}, "ArchiveRoot"=>"/home/nci/public/user", "Backend"=>"debian",
+  "ExtraMetainfoDir"=>"123"}
     assert_equal(ref, JSON.load(File.read('test_file')))
   end
 end

@@ -1,8 +1,6 @@
-#!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2018 Harald Sitter <sitter@kde.org>
-# Copyright (C) 2016 Jonathan Riddell <jr@jriddell.org>
+# Copyright (C) 2019 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -20,9 +18,17 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-def old_directories_to_remove(img_directories)
-  img_directories.delete('current') # keep current symlink
-  img_directories = img_directories.sort
-  img_directories.pop(3) # keep the latest three builds
-  img_directories
+require_relative '../ci-tooling/test/lib/testcase'
+require_relative '../nci/appstream_components_duplicates'
+
+require 'mocha/test_unit'
+
+module NCI
+  class AppstreamComponentsDuplicatesIDTest < TestCase
+    def test_init
+      id = ID.new('org.kde.foo.desktop')
+      assert_equal('org.kde.foo.desktop', id.active)
+      assert_equal(["org.kde.foo", "foo", "foo.desktop"].sort, id.permutations.sort)
+    end
+  end
 end

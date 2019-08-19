@@ -74,6 +74,7 @@ module ASGEN
     attr_accessor :Features
     attr_accessor :Suites
     attr_accessor :CAInfo
+    attr_accessor :ExtraMetainfoDir
 
     def initialize(name)
       @ProjectName = name

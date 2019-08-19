@@ -143,6 +143,7 @@ ${IMAGENAME}-${TYPE}-${DATETIME}.iso Live and Installable ISO
 ${IMAGENAME}-${TYPE}-${DATETIME}.iso.sig PGP Digital Signature
 ${IMAGENAME}-${TYPE}-${DATETIME}.manifest ISO contents
 ${IMAGENAME}-${TYPE}-${DATETIME}.sha256sum Checksum
+${IMAGENAME}-${TYPE}-${DATETIME}.torrent Web Seed torrent (you client needs to support web seeds or it may not work)
 "current" files are the same files for those wanting a URL which does not change daily.
 END
 echo $DATETIME > date_stamp

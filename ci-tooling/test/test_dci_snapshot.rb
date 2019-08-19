@@ -54,7 +54,7 @@ class DCISnapshotTest < TestCase
     setup
     data = @d.components
     assert_is_a(data, Array)
-    test_data = %w[netrunner extras backports ds9-artwork ds9-common netrunner-desktop calamares plasma]
+    test_data = %w[netrunner extras backports ds9-artwork ds9-common netrunner-desktop calamares]
     assert_equal test_data, data
     teardown
   end
@@ -85,7 +85,7 @@ class DCISnapshotTest < TestCase
     data = @d.aptly_options
     opts = {}
     opts[:Distribution] = 'netrunner-desktop-next'
-    opts[:Architectures] = %w[amd64 all source]
+    opts[:Architectures] = %w[amd64 i386 all source]
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
     assert_equal(opts, data)

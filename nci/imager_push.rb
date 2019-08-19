@@ -142,7 +142,7 @@ Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
 
       name = File.basename(file)
       sftp.cli_uploads = File.new(file).lstat.size > 4 * 1024 * 1024
-      STDERR.puts "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
+      warn "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
       sftp.upload!(file, "#{REMOTE_PUB_DIR}/#{name}")
     end
   end
@@ -191,16 +191,16 @@ Net::SFTP.start('weegie.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
   types.each do |type|
     Dir.glob("result/*#{type}").each do |file|
       # Remove old ones
-      STDERR.puts "src rm #{path}/#{ISONAME}*#{type}"
+      warn "src rm #{path}/#{ISONAME}*#{type}"
       sftp.dir.glob(path, "#{ISONAME}*#{type}") do |e|
-        STDERR.puts "glob src rm #{path}/#{e.name}"
+        warn "glob src rm #{path}/#{e.name}"
         sftp.remove!("#{path}/#{e.name}")
       end
       # upload new one
       name = File.basename(file)
 
       sftp.cli_uploads = File.new(file).lstat.size > 4 * 1024 * 1024
-      STDERR.puts "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
+      warn "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
       sftp.upload!(file, "#{path}/#{name}")
     end
   end

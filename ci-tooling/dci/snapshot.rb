@@ -42,7 +42,7 @@ options.repos = nil
 options.all = false
 options.distribution = nil
 
-#Run aptly snapshot on given DIST eg: netrunner-desktop-next.
+# Run aptly snapshot on given DIST eg: netrunner-desktop-next.
 class DCISnapshot
   def initialize
     @snapshots = []
@@ -61,7 +61,6 @@ class DCISnapshot
   def load(file)
     hash = {}
     hash.deep_merge!(YAML.load(File.read(File.expand_path(file))))
-    #hash = CI::IncludePattern.convert_hash(hash, recurse: false)
     hash
   end
 
@@ -121,6 +120,7 @@ class DCISnapshot
         arch << a
       end
     end
+    arch << 'i386'
     arch << 'all'
     arch << 'source'
     arch
@@ -150,7 +150,9 @@ class DCISnapshot
         puts repo.DefaultComponent
         snapshot =
           if repo.packages.empty?
-            Aptly::Snapshot.create("#{repo.Name}_#{@versioned_dist}_#{@stamp}", opts)
+            Aptly::Snapshot.create(
+              "#{repo.Name}_#{@versioned_dist}_#{@stamp}", opts
+            )
           else
             # component = repo.Name.match(/(.*)-netrunner-backports/)[1].freeze
             repo.snapshot("#{repo.Name}_#{@versioned_dist}_#{@stamp}", opts)
@@ -174,16 +176,16 @@ class DCISnapshot
       end
       @s3 = Aptly::PublishedRepository.list.select do |x|
         !x.Storage.empty? && (x.SourceKind == 'snapshot') &&
-        (x.Distribution == opts[:Distribution]) && (x.Prefix == 'netrunner')
+          (x.Distribution == opts[:Distribution]) && (x.Prefix == 'netrunner')
       end
       puts @s3
       if @s3.empty?
         Aptly.publish(@sources, 's3:ds9-eu:netrunner', 'snapshot', opts)
-        @log.info("Snapshots published")
+        @log.info('Snapshots published')
       elsif @s3.count == 1
         pubd = @s3[0]
         pubd.update!(Snapshots: @sources, ForceOverwrite: true)
-        @log.info("Snapshots updated")
+        @log.info('Snapshots updated')
       end
     end
   end
