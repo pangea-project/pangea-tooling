@@ -8,11 +8,11 @@ class DCITest < TestCase
   end
 
   def test_types
-    assert_equal_collection(%w(desktop backports core), DCI.types)
+    assert_equal_collection(%w(desktop backports core core-c1), DCI.types)
   end
 
   def test_architectures
-    assert_equal_collection(%w(amd64), DCI.architectures)
+    assert_equal_collection(%w(amd64 armhf), DCI.architectures)
   end
 
   def test_extra_architectures
@@ -20,7 +20,7 @@ class DCITest < TestCase
   end
 
   def test_all_architectures
-    assert_equal_collection(%w(amd64), DCI.all_architectures)
+    assert_equal_collection(%w(amd64 armhf), DCI.all_architectures)
   end
 
   def test_series
