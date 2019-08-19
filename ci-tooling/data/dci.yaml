@@ -3,11 +3,13 @@ series:
   'next': '20190701'
 architectures:
   - amd64
+  - armhf
 extra_architectures: []
 types:
   - desktop
   - backports
   - core
+  - core-c1
 
 # Desktop release only temporarily.
 # Once we add back arm we will split into the different types via yaml files in pangea conf.

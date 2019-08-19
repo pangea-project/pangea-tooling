@@ -26,10 +26,16 @@
       - 'next'
       - '1908'
 
-  # c1-netrunner-core:
-  #   :repo: https://github.com/netrunner-odroid/c1-live-build-core
-  #   :architectures:
-  #     - armhf
-  #   :releases:
-  #     stable: Debian/stable
-  #     jessie: Debian/jessie
+  c1-netrunner-core:
+    :repo: https://github.com/netrunner-odroid/c1-live-build-core
+    :architectures:
+      - armhf
+    :types:
+      - core-c1
+    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares,netrunner-odroid'
+    :releases:
+      next: master
+      1908: Netrunner/19.08
+    :snapshots:
+      - 'next'
+      - '1908'
