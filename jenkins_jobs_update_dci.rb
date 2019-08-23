@@ -65,9 +65,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       next unless File.exist?(file)
       @arches = []
       if type == 'core-c1'
-        @arches = [armhf]
+        @arches = ['armhf']
       else
-        @arches = [amd64]
+        @arches = ['amd64']
       end
       projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
       all_builds = projects.collect do |project|
