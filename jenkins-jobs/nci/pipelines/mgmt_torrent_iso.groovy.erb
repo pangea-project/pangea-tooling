@@ -8,7 +8,7 @@ cleanNode('amd64') {
       withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon',
                                          keyFileVariable: 'SSH_KEY_FILE',
                                          passphraseVariable: '', usernameVariable: '')]) {
-        sh 'tooling/nci/imager_push_torrent.rb'
+        sh '~/tooling/nci/imager_push_torrent.rb'
       }
     }
   }
