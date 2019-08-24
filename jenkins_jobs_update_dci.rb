@@ -63,11 +63,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       @ci_module.types.each do |type|
       file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
       next unless File.exist?(file)
-      @arches = []
+      @arches = ''
       if type == 'core-c1'
-        @arches = ['armhf']
+        @arches = 'armhf'
       else
-        @arches = ['amd64']
+        @arches = 'amd64'
       end
       projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
       all_builds = projects.collect do |project|
