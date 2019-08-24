@@ -19,24 +19,24 @@ class DCIBuilderJobBuilder
                              type: type,
                              distribution: distribution,
                              project: project)
-
+    publishers = architectures.collect do |architecture|
+      publisher = DCIPublisherJob.new(basename,
+                                      type: type,
+                                      distribution: distribution,
+                                      dependees: dependees,
+                                      component: project.component,
+                                      upload_map: upload_map,
+                                      architectures: architecture)
     binariers = architectures.collect do |architecture|
       binarier = BinarierJob.new(basename,
                                  type: type,
                                  distribution: distribution,
                                  architecture: architecture)
-      publisher = DCIPublisherJob.new(basename,
-                                   type: type,
-                                   distribution: distribution,
-                                   dependees: dependees,
-                                   component: project.component,
-                                   upload_map: upload_map,
-                                   architectures: architecture)
       sourcer.trigger(binarier)
       binarier.trigger(publisher)
       binarier
     end
-    [sourcer] + binariers + [publisher]
+    [sourcer] + binariers + publishers
   end
 
   def self.basename(dist, type, component, name)
