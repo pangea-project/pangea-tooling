@@ -15,6 +15,9 @@ class DCIBuilderJobBuilder
     dependees = project.dependees.collect do |d|
       "#{basename(distribution, type, d.component, d.name)}_src"
     end.compact
+    sourcer = []
+    publisher = []
+    binarier = []
     architectures.collect do |architecture|
       sourcer = SourcerJob.new(basename,
                              type: type,
