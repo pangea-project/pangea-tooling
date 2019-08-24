@@ -15,11 +15,11 @@ class DCIBuilderJobBuilder
     dependees = project.dependees.collect do |d|
       "#{basename(distribution, type, d.component, d.name)}_src"
     end.compact
-    sourcer = SourcerJob.new(basename,
+    architectures.collect do |architecture|
+      sourcer = SourcerJob.new(basename,
                              type: type,
                              distribution: distribution,
                              project: project)
-    publishers = architectures.collect do |architecture|
       publisher = DCIPublisherJob.new(basename,
                                       type: type,
                                       distribution: distribution,
@@ -27,18 +27,14 @@ class DCIBuilderJobBuilder
                                       component: project.component,
                                       upload_map: upload_map,
                                       architecture: architecture)
-      publisher
-    end
-    binariers = architectures.collect do |architecture|
       binarier = BinarierJob.new(basename,
                                  type: type,
                                  distribution: distribution,
                                  architecture: architecture)
       sourcer.trigger(binarier)
-      binarier.trigger(publishers.join(', '))
-      binarier
+      binarier.trigger(publisher)
     end
-    [sourcer] + binariers + publishers
+    [sourcer] + [binarier] + [publisher]
   end
 
   def self.basename(dist, type, component, name)
