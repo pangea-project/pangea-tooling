@@ -15,7 +15,7 @@ class DCIPublisherJob < JenkinsJob
 
   def initialize(basename, type:, distribution:, dependees:,
                  component:, upload_map:, architecture:)
-    super("#{basename}_#{architecture}_pub", 'publisher.xml.erb')
+    super("#{basename}_#{architecture}_pub", 'dci_publisher.xml.erb')
     @type = type
     @distribution = distribution
     @artifact_origin = "#{basename}_bin"
