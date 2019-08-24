@@ -26,7 +26,7 @@ class DCIBuilderJobBuilder
                                       dependees: dependees,
                                       component: project.component,
                                       upload_map: upload_map,
-                                      architectures: architecture)
+                                      architecture: architecture)
       publisher
     end
     binariers = architectures.collect do |architecture|

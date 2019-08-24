@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 require_relative '../job'
-require_relative '../publisher'
 
 # publisher
-class DCIPublisherJob < PublisherJob
+class DCIPublisherJob < JenkinsJob
   attr_reader :type
   attr_reader :distribution
   attr_reader :artifact_origin
@@ -12,10 +11,10 @@ class DCIPublisherJob < PublisherJob
   attr_reader :basename
   attr_reader :repo
   attr_reader :component
-  attr_reader :architectures
+  attr_reader :architecture
 
   def initialize(basename, type:, distribution:, dependees:,
-                 component:, upload_map:, architectures:)
+                 component:, upload_map:, architecture:)
     super("#{basename}_pub", 'publisher.xml.erb')
     @type = type
     @distribution = distribution
@@ -24,7 +23,7 @@ class DCIPublisherJob < PublisherJob
     @downstream_triggers = []
     @basename = basename
     @component = component
-    @architectures = architectures
+    @architecture = architecture
 
     if upload_map
       @repo = upload_map[component]
