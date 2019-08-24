@@ -35,7 +35,7 @@ class DCIBuilderJobBuilder
                                  distribution: distribution,
                                  architecture: architecture)
       sourcer.trigger(binarier)
-      binarier.trigger(publishers)
+      binarier.trigger(publishers.join(', '))
       binarier
     end
     [sourcer] + binariers + publishers
