@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative '../job'
 
-class ImageJob < JenkinsJob
+class DCIImageJob < JenkinsJob
   attr_reader :type
   attr_reader :repo
   attr_reader :release
