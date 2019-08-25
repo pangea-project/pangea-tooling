@@ -4,12 +4,14 @@ series:
 architectures:
   - amd64
   - armhf
+  - arm64
 extra_architectures: []
 types:
   - desktop
   - backports
   - core
   - core-c1
+  - zeronet
 
 # Desktop release only temporarily.
 # Once we add back arm we will split into the different types via yaml files in pangea conf.
