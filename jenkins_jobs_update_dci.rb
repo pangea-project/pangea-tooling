@@ -66,6 +66,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       @arches = []
       if type == 'core-c1'
         @arches = ['armhf']
+      elsif type == 'zeronet'
+        @arches = ['armhf', 'arm64']
       else
         @arches = ['amd64']
       end
