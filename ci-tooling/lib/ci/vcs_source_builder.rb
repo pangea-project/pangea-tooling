@@ -64,6 +64,7 @@ module CI
       {
         'desktop' => ReleaseMe::Origin::TRUNK,
         'core' => ReleaseMe::Origin::TRUNK,
+        'core-c1' => ReleaseMe::Origin::TRUNK,
         'unstable' => ReleaseMe::Origin::TRUNK,
         'stable' => ReleaseMe::Origin::STABLE,
         'release' => ReleaseMe::Origin::STABLE,

@@ -31,7 +31,19 @@
       - armhf
     :types:
       - core-c1
-    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares,netrunner-odroid'
+    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares,odroid'
+    :releases:
+      1908: Netrunner/19.08
+    :snapshots:
+      - '1908'
+
+  rock64-zeronet-netrunner:
+    :repo: https://github.com/netrunner-zeronet/rock64-live-build-zeronet
+    :architectures:
+      - arm64
+    :types:
+      - zeronet
+    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares,rock64'
     :releases:
       1908: Netrunner/19.08
     :snapshots:
