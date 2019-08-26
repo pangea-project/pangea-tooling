@@ -25,14 +25,13 @@ require_relative '../dci/sourcer'
 require 'mocha/test_unit'
 
 class DCISourcerTest < TestCase
-  
+
   def setup
     ENV['DIST'] = 'testing'
     ENV['BUILD_NUMBER'] = '123'
   end
 
-  def teardown
-  end
+  def teardown; end
 
   def test_run_fallback
     fake_builder = mock('fake_builder')
@@ -54,7 +53,7 @@ class DCISourcerTest < TestCase
 
     fake_builder = mock('fake_builder')
     fake_builder.stubs(:build)
-    CI::OrigSourceBuilder.expects(:new).with(release:ENV.fetch('DIST'), strip_symbols: true).returns(fake_builder)
+    CI::OrigSourceBuilder.expects(:new).with(release: ENV.fetch('DIST'), strip_symbols: true).returns(fake_builder)
 
     DCISourcer.run('tarball')
   end
@@ -68,20 +67,20 @@ class DCISourcerTest < TestCase
 
     fake_builder = mock('fake_builder')
     fake_builder.stubs(:build)
-    CI::OrigSourceBuilder.expects(:new).with(release:ENV.fetch('DIST'), strip_symbols: true).returns(fake_builder)
+    CI::OrigSourceBuilder.expects(:new).with(release: ENV.fetch('DIST'), strip_symbols: true).returns(fake_builder)
 
     DCISourcer.run('uscan')
   end
 
   def test_args
-    assert_equal({:release=>ENV.fetch('DIST'), :strip_symbols=>true}, DCISourcer.sourcer_args)
+    assert_equal({ release: ENV.fetch('DIST'), strip_symbols: true }, DCISourcer.sourcer_args)
   end
 
   def test_settings_args
     DCI::Settings.expects(:for_job).returns(
       { 'sourcer' => { 'restricted_packaging_copy' => true } }
     )
-    assert_equal({:release=>ENV.fetch('DIST'), :strip_symbols=>true, :restricted_packaging_copy=>true},
+    assert_equal({release: ENV.fetch('DIST'), strip_symbols: true, restricted_packaging_copy: true },
                  DCISourcer.sourcer_args)
   end
 end
