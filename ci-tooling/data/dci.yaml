@@ -10,8 +10,8 @@ types:
   - desktop
   - backports
   - core
-  - core-c1
-  - zeronet
+  - c1
+  - rock64-zeronet
 
 # Desktop release only temporarily.
 # Once we add back arm we will split into the different types via yaml files in pangea conf.
