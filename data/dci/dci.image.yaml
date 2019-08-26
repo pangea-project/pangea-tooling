@@ -25,7 +25,7 @@
     :snapshots:
       - '1908'
 
-  c1-netrunner:
+  netrunner-c1:
     :repo: https://github.com/netrunner-odroid/c1-live-build-core
     :architectures:
       - armhf
@@ -37,7 +37,7 @@
     :snapshots:
       - '1908'
 
-  rock64-zeronet-netrunner:
+  netrunner-rock64-zeronet:
     :repo: https://github.com/netrunner-zeronet/rock64-live-build-zeronet
     :architectures:
       - arm64
