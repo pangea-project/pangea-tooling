@@ -64,10 +64,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
       next unless File.exist?(file)
       @arches = []
-      if type == 'core-c1'
+      if type == 'c1'
         @arches = ['armhf']
-      elsif type == 'zeronet'
-        @arches = ['armhf', 'arm64']
+      elsif type == 'rock64-zeronet'
+        @arches = ['arm64']
       else
         @arches = ['amd64']
       end
