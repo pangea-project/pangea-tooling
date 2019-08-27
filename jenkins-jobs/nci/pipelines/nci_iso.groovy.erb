@@ -12,15 +12,16 @@ cleanNode('amd64-iso') {
 
   lock('ISO_PUBLISHING') {
 
-  withCredentials([zip(credentialsId: 'gpg.iso.zip', variable: 'GNUPGHOME'),
-                   sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon',
-                                     keyFileVariable: 'SSH_KEY_FILE',
-                                     passphraseVariable: '', usernameVariable: '')]) {
-    stage('push') {
-      sh '~/tooling/nci/imager_push.rb'
-    }
-    stage('torrent') {
-      sh '~/tooling/nci/imager_push_torrent.rb'
+    withCredentials([zip(credentialsId: 'gpg.iso.zip', variable: 'GNUPGHOME'),
+                    sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon',
+                                      keyFileVariable: 'SSH_KEY_FILE',
+                                      passphraseVariable: '', usernameVariable: '')]) {
+      stage('push') {
+        sh '~/tooling/nci/imager_push.rb'
+      }
+      stage('torrent') {
+        sh '~/tooling/nci/imager_push_torrent.rb'
+      }
     }
   }
 }

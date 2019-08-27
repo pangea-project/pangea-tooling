@@ -26,7 +26,7 @@
       - '1908'
 
   netrunner-c1:
-    :repo: https://github.com/netrunner-odroid/c1-live-build-core
+    :repo: https://github.com/netrunner-odroid/c1-live-build-full
     :architectures:
       - armhf
     :types:

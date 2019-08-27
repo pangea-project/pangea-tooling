@@ -19,18 +19,63 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'digest'
 require 'net/sftp'
+require 'nokogiri'
 require 'open-uri'
 require 'tty-command'
 
 STDOUT.sync = true # Make sure output is synced and bypass caching.
 
 TYPE = ENV.fetch('TYPE')
-
 REMOTE_DIR = "neon/images/#{TYPE}/"
+
+# Torrent piece size
+PIECE_LENGTH = 262_144
 
 key_file = ENV.fetch('SSH_KEY_FILE', nil)
 ssh_args = key_file ? [{ keys: [key_file] }] : []
+
+def fix_meta4(path)
+  meta4_doc = Nokogiri::XML(File.open(path))
+  meta4_doc.remove_namespaces!
+
+  meta4_doc.xpath('//metalink/file').each do |file|
+    filename = file.attribute('name').value
+    raise '<file> not found in meta4' if filename.empty?
+
+    filename = "result/#{filename}" # during pushing we have stuff in a subdir
+    raise "#{filename} doesn't exist" unless File.exist?(filename)
+
+    size = file.at_xpath('./size').content.to_i
+    raise 'Size not valid in meta4' unless size >= 0
+    unless File.size(filename) == size
+      raise "Size in meta4 different #{size} vs #{File.size(filename)}"
+    end
+
+    pieces_node = file.at_xpath('./pieces')
+    next if pieces_node
+
+    # Otherwise create the node
+
+    pieces_node = Nokogiri::XML::Node.new('pieces', meta4_doc)
+    pieces_node['length'] = PIECE_LENGTH
+    pieces_node['type'] = 'sha1'
+    file.add_child(pieces_node)
+
+    File.open(filename) do |f|
+      loop do
+        data = f.read(PIECE_LENGTH)
+        break unless data
+
+        sha = Digest::SHA1.hexdigest(data)
+        pieces_node.add_child("<hash>#{sha}</hash>")
+      end
+    end
+  end
+
+  File.write(path, meta4_doc.to_xml)
+end
 
 Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
   iso = nil
@@ -62,6 +107,8 @@ Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
 
     puts "Torrent #{torrent_path} doesn't exist yet!"
   end
+
+  fix_meta4(meta4_name)
 
   cmd = TTY::Command.new(uuid: false)
   # Run a harness to setup a container. We need a container since the host
