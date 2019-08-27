@@ -19,6 +19,9 @@ cleanNode('amd64-iso') {
       stage('push') {
         sh '~/tooling/nci/imager_push.rb'
       }
+      stage('torrent') {
+        sh '~/tooling/nci/imager_push_torrent.rb'
+      }
     }
   }
 }
