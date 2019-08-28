@@ -54,7 +54,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-           '''#!/bin/bash
+           '''
            export DIST=<%= release %>
            ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
            cd live-config
