@@ -54,7 +54,6 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-           '''
            export DIST=<%= release %>
            ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
            cd live-config
@@ -62,7 +61,6 @@
            mv *.img result/ || true
            export RESULT=$(ls live-config/result/)
            echo $RESULT
-           '''
       </command>
     </hudson.tasks.Shell>
   </builders>
