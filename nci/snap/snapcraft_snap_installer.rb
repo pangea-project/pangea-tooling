@@ -39,7 +39,7 @@ module NCI
         Unpacker.new('core').unpack
         Unpacker.new('snapcraft').unpack
 
-        wrapper = open('https://raw.githubusercontent.com/snapcore/snapcraft/master/docker/bin/snapcraft-wrapper')
+        wrapper = open('https://raw.githubusercontent.com/snapcore/snapcraft/b292b64d74b643e2ddb3c1ac3f6d6a0bb9baffee/docker/bin/snapcraft-wrapper')
         File.write('/usr/bin/snapcraft', wrapper.read)
         File.chmod(0o744, '/usr/bin/snapcraft')
       end
