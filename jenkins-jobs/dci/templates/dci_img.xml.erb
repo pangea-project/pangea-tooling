@@ -56,9 +56,6 @@
       <command>
            export DIST=<%= release %>
            ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
-           cd live-config
-           ./flash || true
-           mv *.img result/ || true
            export RESULT=$(ls live-config/result/)
            echo $RESULT
       </command>
