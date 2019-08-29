@@ -14,7 +14,7 @@ Retry.retry_it(times: 5) do
   raise 'Apt update failed' unless Apt.update
   raise 'Apt upgrade failed' unless Apt.dist_upgrade
   #Should be on base image now.
-  raise 'Apt install failed' unless Apt.install(%w[live-build parted])
+  raise 'Apt install failed' unless Apt.install(%w[live-build parted initramfs-tools])
 end
 
 @lb = LiveBuildRunner.new('live-config')
