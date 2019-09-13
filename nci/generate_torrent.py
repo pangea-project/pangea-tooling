@@ -38,21 +38,7 @@ args = parser.parse_args()
 
 meta4 = BeautifulSoup(open(args.meta4), 'xml')
 name = meta4.file['name']
-fileSize = int(meta4.file.size.string)
-fileHash = meta4.file.select('hash[type=sha-1]')[0].text
-pieceSize = int(meta4.file.pieces['length'])
-pieceCount = 0
-pieceHashes = bytearray()
 mirrorList = []
-
-for node in meta4.file.pieces.children:
-    pieceHash = node.string.strip()
-
-    if not pieceHash:
-        continue
-
-    pieceHashes += bytearray.fromhex(pieceHash)
-    pieceCount += 1
 
 for node in meta4.file.select('url'):
     mirrorList.append(node.string.strip())
@@ -62,10 +48,6 @@ if args.urlname:
     name = os.path.basename(url.path)
 
 print("File:       ", name)
-print("File Size:  ", fileSize)
-print("File Hash:  ", fileHash)
-print("Piece Size: ", pieceSize, "(", pieceSize * pieceCount, ")")
-print("Piece Count:", pieceCount)
 print("Mirrors:    ", len(mirrorList))
 
 torrent = None
@@ -73,6 +55,26 @@ if os.path.isfile(args.torrent):
     with open(args.torrent, 'rb') as f:
         torrent = bencode3.bdecode(f.read())
 else:
+    fileSize = int(meta4.file.size.string)
+    fileHash = meta4.file.select('hash[type=sha-1]')[0].text
+    pieceSize = int(meta4.file.pieces['length'])
+    pieceCount = 0
+    pieceHashes = bytearray()
+
+    for node in meta4.file.pieces.children:
+        pieceHash = node.string.strip()
+
+        if not pieceHash:
+            continue
+
+        pieceHashes += bytearray.fromhex(pieceHash)
+        pieceCount += 1
+
+    print("File Size:  ", fileSize)
+    print("File Hash:  ", fileHash)
+    print("Piece Size: ", pieceSize, "(", pieceSize * pieceCount, ")")
+    print("Piece Count:", pieceCount)
+
     torrent = {
         'announce': 'udp://tracker.openbittorrent.com:80',
         'creation date': int(time()),

@@ -44,6 +44,11 @@ def fix_meta4(path)
     filename = file.attribute('name').value
     raise '<file> not found in meta4' if filename.empty?
 
+    pieces_node = file.at_xpath('./pieces')
+    next if pieces_node
+
+    warn '!!! No pieces data available yet! Need to generate it manually !!!'
+
     filename = "result/#{filename}" # during pushing we have stuff in a subdir
     raise "#{filename} doesn't exist" unless File.exist?(filename)
 
@@ -53,9 +58,6 @@ def fix_meta4(path)
       raise "Size in meta4 different #{size} vs #{File.size(filename)}"
     end
 
-    pieces_node = file.at_xpath('./pieces')
-    next if pieces_node
-
     # Otherwise create the node
 
     pieces_node = Nokogiri::XML::Node.new('pieces', meta4_doc)
@@ -63,15 +65,20 @@ def fix_meta4(path)
     pieces_node['type'] = 'sha1'
     file.add_child(pieces_node)
 
+    filedigest = Digest::SHA1.new
     File.open(filename) do |f|
       loop do
         data = f.read(PIECE_LENGTH)
         break unless data
 
+        filedigest.update(data)
         sha = Digest::SHA1.hexdigest(data)
-        pieces_node.add_child("<hash>#{sha}</hash>")
+        pieces_node.add_child("<hash>#{sha}</hash>\n")
       end
     end
+    # NB: the python thingy also needs the sha1 of the complete file to
+    # accept the piece information!
+    file.add_child("<hash type='sha-1'>#{filedigest.hexdigest}</hash>\n")
   end
 
   File.write(path, meta4_doc.to_xml)
@@ -108,7 +115,9 @@ Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
     puts "Torrent #{torrent_path} doesn't exist yet!"
   end
 
-  fix_meta4(meta4_name)
+  # Fix meta4, but only if we have no torrent file. We don't need piece info
+  # if we already have a torrent as we only extend the seed list.
+  fix_meta4(meta4_name) unless File.exist?(torrent_name)
 
   cmd = TTY::Command.new(uuid: false)
   # Run a harness to setup a container. We need a container since the host
