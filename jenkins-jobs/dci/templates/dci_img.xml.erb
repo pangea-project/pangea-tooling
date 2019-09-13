@@ -58,10 +58,10 @@
            ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
            export RESULT=$(ls live-config/result/)
            echo $RESULT
-           if test -f 'live-config/flash'; then
-            cd live-config
-            ./flash
-           fi
+           #if test -f 'live-config/flash'; then
+           #  cd live-config
+           #  ./flash
+           #fi
       </command>
     </hudson.tasks.Shell>
   </builders>
