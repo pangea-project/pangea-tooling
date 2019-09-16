@@ -53,8 +53,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>
-        '''#!/bin/bash
+      <command>#!/bin/bash
            arch=$(dpkg --print-architecture)
            export DIST=<%= release %>
            ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
@@ -66,7 +65,7 @@
              #  cd live-config
              #  ./flash
              #fi
-           fi'''
+           fi
       </command>
     </hudson.tasks.Shell>
   </builders>
