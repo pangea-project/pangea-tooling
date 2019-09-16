@@ -54,12 +54,12 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-           arch=dpkg --print-architecture
+           arch=$(dpkg --print-architecture)
            export DIST=<%= release %>
            ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
            export RESULT=$(ls live-config/result/)
            echo $RESULT
-           if $arch =~ ^arm; then 
+           if $arch =~ ^arm; then
              pigz live-config/result/$RESULT
              #if test -f 'live-config/flash'; then
              #  cd live-config
