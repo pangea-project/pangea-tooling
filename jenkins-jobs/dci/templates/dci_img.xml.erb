@@ -62,6 +62,7 @@
            if [[ $arch =~ ^arm ]]; then
              cd live-config/result/
              pigz $RESULT
+             cd ../..
              #if test -f 'live-config/flash'; then
              #  cd live-config
              #  ./flash
