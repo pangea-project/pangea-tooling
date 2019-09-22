@@ -56,7 +56,7 @@
       <command>
            arch=$(uname -i)
            export DIST=<%= release %>
-           ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
+           ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/ci/imager.rb
            export RESULT=$(ls live-config/result/)
            echo $RESULT
            if [ $arch =~ ^arm || $arch == aarch64 ]; then
