@@ -36,6 +36,7 @@ class LiveBuildRunner
   end
 
   def flash!
+    puts 'flash found, running..'
     raise FlashFailedError unless system('./flash')
   end
 end
