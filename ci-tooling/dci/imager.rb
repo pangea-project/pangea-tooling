@@ -3,7 +3,7 @@
 
 require_relative '../lib/apt'
 require_relative '../lib/retry'
-require_relative 'lib/lb_runner'
+require_relative '../lib/ci/lb_runner'
 require_relative '../dci/lib/setup_repo'
 
 raise 'No live-config found!' unless File.exist?('live-config')
