@@ -37,6 +37,7 @@ previous = DigitalOcean::Droplet.from_name(DROPLET_NAME)
 if previous
   logger.warn "previous droplet found; deleting: #{previous}"
   raise "Failed to delete #{previous}" unless previous.delete
+
   ret = DigitalOcean::Action.wait(retries: 10) do
     DigitalOcean::Droplet.from_name(DROPLET_NAME).nil?
   end
@@ -109,6 +110,7 @@ system("ssh root@#{droplet.public_ip} shutdown now")
 
 droplet.shutdown!.complete! do |times|
   break if times >= 10
+
   logger.info 'Waiting for shutdown'
 end
 
