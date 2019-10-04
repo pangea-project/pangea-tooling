@@ -75,4 +75,6 @@ sudo -u jenkins-slave -i /tmp/deploy_tooling.sh
 ################################################### !!!!!!!!!!!
 
 # Clean up cache to reduce image size.
+apt --purge --yes autoremove
 apt-get clean
+journalctl --vacuum-time=1s
