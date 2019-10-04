@@ -43,6 +43,21 @@ if previous
   raise 'Deletion failed apparently' unless ret
 end
 
+# Sometime snapshots become dangling for not quite clear reasons.
+# Clean up excess snapshots and only keep the most recent one for creating
+# our droplet.
+old_images = DigitalOcean::Client.new.snapshots.all.find_all do |x|
+  x.name == IMAGE_NAME
+end
+old_images.sort_by { |x| DateTime.parse(x.created_at) }
+old_images.pop
+old_images.each do |x|
+  logger.warn "deleting excess snapshot #{x.id}"
+  unless DigitalOcean::Client.new.snapshots.delete(id: old_image.id)
+    logger.error 'failed to delete :|'
+  end
+end
+
 logger.info 'Creating new droplet.'
 droplet = DigitalOcean::Droplet.create(DROPLET_NAME, IMAGE_NAME)
 
