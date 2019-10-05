@@ -3,7 +3,3 @@
 '*-kde-applications_*':
   sourcer:
     restricted_packaging_copy: true
-
-'*_*_*_netrunner-zeronet-manual-cockpit-module_*':
-   sourcer:
-     restricted_packaging_copy: true
