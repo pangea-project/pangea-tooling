@@ -26,6 +26,8 @@ export DEBIAN_FRONTEND=noninteractive
 # Disable bloody apt automation crap locking the database.
 systemctl disable --now apt-daily.timer
 systemctl disable --now apt-daily.service
+systemctl mask apt-daily.service
+systemctl mask apt-daily.timer
 systemctl stop apt-daily.service || true
 
 # SSH comes up while cloud-init is still in progress. Wait for it to actually
@@ -73,4 +75,6 @@ sudo -u jenkins-slave -i /tmp/deploy_tooling.sh
 ################################################### !!!!!!!!!!!
 
 # Clean up cache to reduce image size.
+apt --purge --yes autoremove
 apt-get clean
+journalctl --vacuum-time=1s

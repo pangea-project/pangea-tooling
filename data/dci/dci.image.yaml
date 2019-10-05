@@ -37,13 +37,25 @@
     :snapshots:
       - '1908'
 
-  netrunner-rock64-zeronet:
+  netrunner-z2:
     :repo: https://github.com/netrunner-zeronet/rock64-live-build-zeronet
     :architectures:
       - arm64
     :types:
-      - rock64-zeronet
+      - z2
     :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares,rock64,zeronet'
+    :releases:
+      1908: Netrunner/19.08
+    :snapshots:
+      - '1908'
+
+  netrunner-z1:
+    :repo: https://github.com/netrunner-zeronet/rock64-live-build-zeronet
+    :architectures:
+      - arm64
+    :types:
+      - z1
+    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares,odroid,zeronet'
     :releases:
       1908: Netrunner/19.08
     :snapshots:

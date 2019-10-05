@@ -37,10 +37,26 @@ previous = DigitalOcean::Droplet.from_name(DROPLET_NAME)
 if previous
   logger.warn "previous droplet found; deleting: #{previous}"
   raise "Failed to delete #{previous}" unless previous.delete
+
   ret = DigitalOcean::Action.wait(retries: 10) do
     DigitalOcean::Droplet.from_name(DROPLET_NAME).nil?
   end
   raise 'Deletion failed apparently' unless ret
+end
+
+# Sometime snapshots become dangling for not quite clear reasons.
+# Clean up excess snapshots and only keep the most recent one for creating
+# our droplet.
+old_images = DigitalOcean::Client.new.snapshots.all.find_all do |x|
+  x.name == IMAGE_NAME
+end
+old_images.sort_by { |x| DateTime.parse(x.created_at) }
+old_images.pop
+old_images.each do |x|
+  logger.warn "deleting excess snapshot #{x.id}"
+  unless DigitalOcean::Client.new.snapshots.delete(id: old_image.id)
+    logger.error 'failed to delete :|'
+  end
 end
 
 logger.info 'Creating new droplet.'
@@ -94,6 +110,7 @@ system("ssh root@#{droplet.public_ip} shutdown now")
 
 droplet.shutdown!.complete! do |times|
   break if times >= 10
+
   logger.info 'Waiting for shutdown'
 end
 

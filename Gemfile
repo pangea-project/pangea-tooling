@@ -8,6 +8,7 @@ source 'https://gem.cache.pangea.pub' do
   gem 'releaseme' # Not released as gem at all
 end
 
+gem 'activesupport', '< 6.0.0' # not a dep, >=6 depends on ruby 2.4+
 gem 'aptly-api', '~> 0.9.1'
 gem 'concurrent-ruby'
 gem 'deep_merge', '~> 1.0'

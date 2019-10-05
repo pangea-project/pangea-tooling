@@ -8,7 +8,7 @@ class DCITest < TestCase
   end
 
   def test_types
-    assert_equal_collection(%w(desktop backports core c1 rock64-zeronet), DCI.types)
+    assert_equal_collection(%w(desktop backports core c1 z1 z2), DCI.types)
   end
 
   def test_architectures
