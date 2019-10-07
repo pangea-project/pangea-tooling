@@ -42,7 +42,7 @@
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
-      <command>export GEM_HOME=$(ruby -rubygems -e &apos;puts Gem.user_dir&apos;)
+      <command>export GEM_HOME=$(ruby -r rubygems -e &apos;puts Gem.user_dir&apos;)
 export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
 export PATH=$GEM_HOME/bin:$PATH
 hostname
