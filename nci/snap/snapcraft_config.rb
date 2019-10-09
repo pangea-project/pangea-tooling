@@ -104,6 +104,7 @@ module NCI
 
         # Array<String>
         attr_accessor :build_attributes
+        attr_accessor :override_build
 
         def initialize(hash = {})
           from_h(hash)
