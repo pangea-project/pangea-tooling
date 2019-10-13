@@ -24,18 +24,11 @@ module ProjectsFactoryCommon
     selection.compact.collect { |s| from_string(*s) }
   end
 
-  def match_path_to_subsets(*kwords)
-    raise ArgumentError if kwords.size > 3
-
-    subset = kwords[-1]
-    name = kwords[-2]
-    path = "#{kwords[0]}/#{kwords[1]}" if kwords.size == 3
-
+  def match_path_to_subsets(base, name, subset)
     matches = {}
     each_pattern_value(subset) do |pattern, value|
       next unless pattern.match?(name)
-      match = [name, value]
-      match = [path, value] if path
+      match = ["#{base}/#{name}", value]
       matches[pattern] = match
     end
     matches
