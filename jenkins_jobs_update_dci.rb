@@ -19,7 +19,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'ci-tooling/lib/mobilekci'
 require_relative 'ci-tooling/lib/dci'
 require_relative 'ci-tooling/lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
@@ -36,15 +35,11 @@ end
 
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
-  MODULE_MAP = {
-    dci: DCI,
-    mci: MCI
-  }.freeze
 
-  def initialize(flavor:)
+  def initialize()
     super()
-    @flavor = flavor
-    @ci_module = MODULE_MAP[@flavor]
+    @flavor = dci
+    @ci_module = DCI
 
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
 
@@ -71,7 +66,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       else
         @arches = ['amd64']
       end
-      projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
+      projects = ProjectsFactory.from_file(file, branch: "master")
       all_builds = projects.collect do |project|
         DCIBuilderJobBuilder.job(
           project,
@@ -160,16 +155,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 end
 
 if $PROGRAM_NAME == __FILE__
-  options = {}
-  options[:flavor] = :mci
-  OptionParser.new do |opts|
-    opts.on('--ci [flavor]', [:dci, :mci],
-            'Run for CI flavor (dci, mci)') do |f|
-      options[:flavor] = f
-    end
-  end.parse!
-
-  updater = ProjectUpdater.new(flavor: options[:flavor])
+  updater = ProjectUpdater.new()
   updater.update
   updater.install_plugins
 end
