@@ -73,6 +73,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
       projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
       all_builds = projects.collect do |project|
+        puts project
         DCIBuilderJobBuilder.job(
           project,
           distribution: distribution,
