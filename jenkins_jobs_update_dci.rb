@@ -67,6 +67,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
       projects = ProjectsFactory.from_file(file, branch: "master")
       all_builds = projects.collect do |project|
+        puts 'Processing ' + project.name distribution type @arches @uploadmap
           DCIBuilderJobBuilder.job(
           project,
           distribution: distribution,
