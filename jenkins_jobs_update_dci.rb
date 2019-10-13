@@ -109,7 +109,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             v[:types].each do |type|
               v[:releases].each do |release, branch|
                 enqueue(
-                  ImageJob.new(
+                  DCIImageJob.new(
                     type: type,
                     flavor: flavor,
                     release: release,
