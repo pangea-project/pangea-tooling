@@ -39,7 +39,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize()
     super()
     @flavor = 'dci'
-    @ci_module = DCI
 
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
 
@@ -54,8 +53,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def populate_queue
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
-    @ci_module.series.each_key do |distribution|
-      @ci_module.types.each do |type|
+    DCI.series.each_key do |distribution|
+      DCI.types.each do |type|
       file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
       next unless File.exist?(file)
       @arches = []
@@ -99,7 +98,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
       image_jobs.each do |image_job|
         image_job.each do |flavor, v|
-          v[:architectures] ||= @ci_module.architectures
+          v[:architectures] ||= DCI.architectures
           v[:architectures].each do |arch|
             v[:types].each do |type|
               v[:releases].each do |release, branch|
@@ -123,7 +122,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       snapshot_jobs = YAML.load_stream(File.read(image_job_config))
       snapshot_jobs.each do |snapshot_job|
         snapshot_job.each do |flavor, v|
-          v[:architectures] ||= @ci_module.architectures
+          v[:architectures] ||= DCI.architectures
           v[:architectures].each do |arch|
             v[:types].each do |type|
               v[:snapshots].each do |snapshot|
