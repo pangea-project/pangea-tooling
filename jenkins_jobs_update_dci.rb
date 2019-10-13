@@ -77,7 +77,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           project,
           distribution: distribution,
           type: type,
-          architectures: @ci_module.architectures,
+          architectures: @arches,
           upload_map: @upload_map
         )
       end
