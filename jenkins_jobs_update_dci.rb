@@ -73,7 +73,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
       projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
       all_builds = projects.collect do |project|
-        BuilderJobBuilder.job(
+        DCIBuilderJobBuilder.job(
           project,
           distribution: distribution,
           type: type,
@@ -156,8 +156,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling]))
     enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
     enqueue(MGMTRepoCleanupJob.new)
-    enqueue(MGMTCreateReposJob.new)
-    enqueue(MGMTCreateDockerhubImagesJob.new)
   end
 end
 
