@@ -24,11 +24,19 @@ module ProjectsFactoryCommon
     selection.compact.collect { |s| from_string(*s) }
   end
 
-  def match_path_to_subsets(base, name, subset)
+  def match_path_to_subsets(*kwords)
+    raise ArgumentError if kwords.size > 3
+
+    subset = kwords[-1]
+    name = kwords[-2]
+    path = "#{kwords[0]}/#{kwords[1]}" if kwords.size == 3
+
     matches = {}
     each_pattern_value(subset) do |pattern, value|
       next unless pattern.match?(name)
-      match = ["#{base}/#{name}", value]
+      value[:ignore_missing_branches] = pattern.to_s.include?('*')
+      match = [name, value]
+      match = [path, value] if path
       matches[pattern] = match
     end
     matches
@@ -48,13 +56,17 @@ module ProjectsFactoryCommon
     [base, subset]
   end
 
-  def from_string(str, params = {})
+  def from_string(str, params = {}, ignore_missing_branches: false)
     kwords = params(str)
     kwords.merge!(symbolize(params))
     puts "new_project(#{kwords})"
-    new_project(**kwords)
-  rescue Project::GitTransactionError, RuntimeError => e
-    p e
-    nil
+    new_project(**kwords).rescue do |e|
+      begin
+        raise e
+      rescue Project::GitNoBranchError => e
+        raise e unless ignore_missing_branches
+        nil
+      end
+    end
   end
 end
