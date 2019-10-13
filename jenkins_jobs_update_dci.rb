@@ -39,7 +39,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize()
     super()
     @flavor = 'dci'
-    @ci_module = DCI
+    @ci_module = 'DCI'
 
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
 
