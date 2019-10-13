@@ -38,7 +38,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
   def initialize()
     super()
-    @flavor = dci
+    @flavor = 'dci'
     @ci_module = DCI
 
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
@@ -68,8 +68,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
       projects = ProjectsFactory.from_file(file, branch: "master")
       all_builds = projects.collect do |project|
-        puts project
-        DCIBuilderJobBuilder.job(
+          DCIBuilderJobBuilder.job(
           project,
           distribution: distribution,
           type: type,
