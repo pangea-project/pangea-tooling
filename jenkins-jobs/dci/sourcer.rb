@@ -37,7 +37,8 @@ class DCISourcerJob < JenkinsJob
 
   def render_upstream_scm
     if !@upstream_scm
-      puts 'WARNING NO UPSTREAM SCM Please verify'
+      puts 'WARNING NO UPSTREAM SCM Please verify ' + @name
+      puts 'HINT: native format in packaging can trigger this.'
     end
     return '' unless @upstream_scm
       case @upstream_scm.type
