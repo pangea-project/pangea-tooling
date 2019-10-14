@@ -13,7 +13,7 @@ EXCLUDE_UPSTREAM_SCM = %w[mintinstall rootactions-servicemenu
                           default-settings-autostart
                           default-settings-profiled
                           default-settings-e2fsprogs
-                          efault-settings-systemd
+                          default-settings-systemd
                           default-settings-xdg-user-dirs
                           ].freeze
 # source builder
