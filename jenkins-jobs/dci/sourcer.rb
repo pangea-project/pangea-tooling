@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 require_relative '../job'
 
+
+EXCLUDE_UPSTREAM_SCM = w%[mintinstall].freeze
 # source builder
 class DCISourcerJob < JenkinsJob
   attr_reader :name
@@ -33,17 +35,19 @@ class DCISourcerJob < JenkinsJob
   end
 
   def render_upstream_scm
-    case @upstream_scm.type
-    when 'git'
+    if !EXCLUDE_UPSTREAM_SCM.include?(project.name)
+      case @upstream_scm.type
+      when 'git'
       render('upstream-scms/git.xml.erb')
-    when 'svn'
+      when 'svn'
       render('upstream-scms/svn.xml.erb')
-    when 'uscan'
+      when 'uscan'
       ''
-    when 'tarball'
+      when 'tarball'
       ''
-    else
+      else
       raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
+      end
     end
   end
 
