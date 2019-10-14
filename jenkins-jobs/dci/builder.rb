@@ -25,7 +25,6 @@ class DCIBuilderJobBuilder
       publisher = DCIPublisherJob.new(basename,
                                       type: type,
                                       distribution: distribution,
-                                      dependees: dependees,
                                       component: project.component,
                                       upload_map: upload_map,
                                       architecture: architecture)
