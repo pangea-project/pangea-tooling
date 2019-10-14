@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative '../sourcer'
+require_relative 'sourcer'
 require_relative '../binarier'
 require_relative 'publisher'
 
@@ -10,19 +10,18 @@ require_relative 'publisher'
 # as generic as possible with shared names.
 class DCIBuilderJobBuilder
   def self.job(project, type:, distribution:, architectures:, upload_map: nil)
-    basename = basename(distribution, type, project.component, project.name)
+    basename = basename(distribution, type, project.component,
+                        project.name)
 
-    dependees = project.dependees.collect do |d|
-      "#{basename(distribution, type, d.component, d.name)}_src"
-    end.compact
     sourcer = []
     publisher = []
     binarier = []
     architectures.collect do |architecture|
-      sourcer = SourcerJob.new(basename,
-                             type: type,
-                             distribution: distribution,
-                             project: project)
+      sourcer = DCISourcerJob.new(basename,
+                               type: type,
+                               distribution: distribution,
+                               project: project,
+                               architecture: architecture)
       publisher = DCIPublisherJob.new(basename,
                                       type: type,
                                       distribution: distribution,
