@@ -2,7 +2,8 @@
 require_relative '../job'
 
 
-EXCLUDE_UPSTREAM_SCM = %w[mintinstall rootactions-servicemenu].freeze
+EXCLUDE_UPSTREAM_SCM = %w[mintinstall rootactions-servicemenu
+                          software-properties].freeze
 # source builder
 class DCISourcerJob < JenkinsJob
   attr_reader :name
