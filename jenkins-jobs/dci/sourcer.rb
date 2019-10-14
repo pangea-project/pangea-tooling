@@ -42,18 +42,17 @@ class DCISourcerJob < JenkinsJob
     return '' unless @upstream_scm
       case @upstream_scm.type
       when 'git'
-      render('upstream-scms/git.xml.erb')
+        render('upstream-scms/git.xml.erb')
       when 'svn'
-      render('upstream-scms/svn.xml.erb')
+        render('upstream-scms/svn.xml.erb')
       when 'uscan'
-      ''
+        ''
       when 'tarball'
-      ''
+        ''
       else
       raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
       end
     end
-  end
 
   def fetch_tarball
     return '' unless @upstream_scm&.type == 'tarball'
