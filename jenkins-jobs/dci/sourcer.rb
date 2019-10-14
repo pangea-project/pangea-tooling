@@ -2,11 +2,6 @@
 require_relative '../job'
 
 
-EXCLUDE_UPSTREAM_SCM = %w[mintinstall rootactions-servicemenu
-                          software-properties
-                          ds9-common
-                          ds9-artwork
-                          ].freeze
 # source builder
 class DCISourcerJob < JenkinsJob
   attr_reader :name
@@ -41,7 +36,10 @@ class DCISourcerJob < JenkinsJob
   end
 
   def render_upstream_scm
-    if !EXCLUDE_UPSTREAM_SCM.include?(@name) || !EXCLUDE_UPSTREAM_SCM.include?(@component)
+    if !@upstream_scm
+      puts 'WARNING NO UPSTREAM SCM Please verify'
+    end
+    return '' unless @upstream_scm
       case @upstream_scm.type
       when 'git'
       render('upstream-scms/git.xml.erb')
