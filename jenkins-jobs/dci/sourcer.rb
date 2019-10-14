@@ -3,21 +3,8 @@ require_relative '../job'
 
 
 EXCLUDE_UPSTREAM_SCM = %w[mintinstall rootactions-servicemenu
-                          software-properties default-settings-thunderbird
-                          default-systemsettings-settings
-                          default-settings-xsession
-                          default-settings-applications
-                          default-settings-kdeapps
-                          default-settings-plasma
-                          default-settings-pulseaudio
-                          default-settings-autostart
-                          default-settings-profiled
-                          default-settings-e2fsprogs
-                          default-settings-systemd
-                          default-settings-xdg-user-dirs
-                          artwork-windows-cursor
-                          aurorae-theme-forman
-                          artwork-whiteclassicia-cursor
+                          software-properties
+                          ds9-common
                           ds9-artwork
                           ].freeze
 # source builder
@@ -30,6 +17,7 @@ class DCISourcerJob < JenkinsJob
   attr_reader :packaging_scm
   attr_reader :packaging_branch
   attr_reader :downstream_triggers
+  attr_reader :component
 
   def initialize(basename, project:, type:, distribution:, architecture:)
     super("#{basename}_#{architecture}_src", 'dci_sourcer.xml.erb')
