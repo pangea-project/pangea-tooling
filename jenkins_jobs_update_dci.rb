@@ -51,6 +51,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   private
 
   def populate_queue
+    CI::Overrides.default_files
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
     DCI.series.each_key do |distribution|
