@@ -18,6 +18,7 @@ EXCLUDE_UPSTREAM_SCM = %w[mintinstall rootactions-servicemenu
                           artwork-windows-cursor
                           aurorae-theme-forman
                           artwork-whiteclassicia-cursor
+                          ds9-artwork
                           ].freeze
 # source builder
 class DCISourcerJob < JenkinsJob
@@ -33,6 +34,7 @@ class DCISourcerJob < JenkinsJob
   def initialize(basename, project:, type:, distribution:, architecture:)
     super("#{basename}_#{architecture}_src", 'dci_sourcer.xml.erb')
     @name = project.name
+    @component = project.component
     @basename = basename
     @upstream_scm = project.upstream_scm
     @type = type
@@ -51,7 +53,7 @@ class DCISourcerJob < JenkinsJob
   end
 
   def render_upstream_scm
-    if !EXCLUDE_UPSTREAM_SCM.include?(@name)
+    if !EXCLUDE_UPSTREAM_SCM.include?(@name) || !EXCLUDE_UPSTREAM_SCM.include?(@component)
       case @upstream_scm.type
       when 'git'
       render('upstream-scms/git.xml.erb')
