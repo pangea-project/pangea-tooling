@@ -35,7 +35,7 @@ class DCISourcerJob < JenkinsJob
   end
 
   def render_upstream_scm
-    if !EXCLUDE_UPSTREAM_SCM.include?(project.name)
+    if !EXCLUDE_UPSTREAM_SCM.include?(@name)
       case @upstream_scm.type
       when 'git'
       render('upstream-scms/git.xml.erb')
