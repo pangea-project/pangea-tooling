@@ -15,6 +15,7 @@ EXCLUDE_UPSTREAM_SCM = %w[mintinstall rootactions-servicemenu
                           default-settings-e2fsprogs
                           default-settings-systemd
                           default-settings-xdg-user-dirs
+                          artwork-windows-cursor
                           ].freeze
 # source builder
 class DCISourcerJob < JenkinsJob
