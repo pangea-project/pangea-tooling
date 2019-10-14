@@ -16,6 +16,7 @@ EXCLUDE_UPSTREAM_SCM = %w[mintinstall rootactions-servicemenu
                           default-settings-systemd
                           default-settings-xdg-user-dirs
                           artwork-windows-cursor
+                          aurorae-theme-forman
                           ].freeze
 # source builder
 class DCISourcerJob < JenkinsJob
