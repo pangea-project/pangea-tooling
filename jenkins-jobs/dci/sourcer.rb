@@ -3,7 +3,19 @@ require_relative '../job'
 
 
 EXCLUDE_UPSTREAM_SCM = %w[mintinstall rootactions-servicemenu
-                          software-properties default-settings-thunderbird].freeze
+                          software-properties default-settings-thunderbird
+                          default-systemsettings-settings
+                          default-settings-xsession
+                          default-settings-applications
+                          default-settings-kdeapps
+                          default-settings-plasma
+                          default-settings-pulseaudio
+                          default-settings-autostart
+                          default-settings-profiled
+                          default-settings-e2fsprogs
+                          efault-settings-systemd
+                          default-settings-xdg-user-dirs
+                          ].freeze
 # source builder
 class DCISourcerJob < JenkinsJob
   attr_reader :name
