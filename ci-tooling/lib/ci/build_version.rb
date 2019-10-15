@@ -38,7 +38,8 @@ module CI
 
     def initialize(changelog)
       @changelog = changelog
-      @suffix = format('+p%s+git%s', version_id, time)
+      @suffix = format('+p%<os_version>s+git%<time>s',
+                       os_version: version_id, time: time)
       @tar = "#{clean_base}#{@suffix}"
       @base = "#{changelog.version(Changelog::EPOCH)}#{clean_base}#{@suffix}"
       @full = "#{base}-0"
@@ -64,6 +65,7 @@ module CI
       base = @changelog.version(Changelog::BASE)
       base = base.chop until base.empty? || base[-1].match(/[\d\.]/)
       return base unless base.empty?
+
       raise 'Failed to find numeric version in the changelog version:' \
            " #{@changelog.version(Changelog::BASE)}"
     end
@@ -75,6 +77,7 @@ module CI
       end
 
       return '9' if OS::ID == 'debian'
+
       raise 'VERSION_ID not defined!'
     end
   end
