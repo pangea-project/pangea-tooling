@@ -109,5 +109,17 @@ module CI
         assert_not_include(files, 'dragonplayer.symbols.armhf')
       end
     end
+
+    def test_experimental_suffix
+      # Experimental TYPE should cause a suffix including ~exp before build
+      # number to ensure it doesn't exceed the number of "proper" types
+
+      ENV['TYPE'] = 'experimental'
+      tarball = Tarball.new(@tarfile)
+      builder = OrigSourceBuilder.new(release: 'unstable')
+      builder.build(tarball)
+
+      assert_path_exist('build/dragon_15.08.1-0xneon+15.04+vivid~exp+build3_source.changes')
+    end
   end
 end
