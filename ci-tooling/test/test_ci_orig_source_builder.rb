@@ -15,6 +15,7 @@ module CI
       OS.instance_variable_set(:@hash, VERSION_ID: '15.04')
       ENV['BUILD_NUMBER'] = '3'
       ENV['DIST'] = 'vivid'
+      ENV['TYPE'] = 'unstable'
       @tarname = 'dragon_15.08.1.orig.tar.xz'
       @tarfile = "#{Dir.pwd}/#{@tarname}"
       FileUtils.cp_r(Dir.glob("#{data}/."), Dir.pwd)
