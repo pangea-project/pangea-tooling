@@ -57,6 +57,7 @@ module CI
       unless projects.size == 1
         raise "failed to resolve project #{url} :: #{projects}"
       end
+
       projects[0]
     end
 
