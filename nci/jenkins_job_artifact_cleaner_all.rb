@@ -41,7 +41,7 @@ module NCI
       end
 
       def self.back_count(id)
-        ret = id - ENV.fetch('PANGEA_ARTIFACT_CLEAN_HISTORY', 16)
+        ret = id - ENV.fetch('PANGEA_ARTIFACT_CLEAN_HISTORY', 16).to_i
         ret.positive? ? ret : 1
       end
     end

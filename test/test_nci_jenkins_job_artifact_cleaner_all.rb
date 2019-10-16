@@ -42,6 +42,8 @@ module NCI
     end
 
     def test_clean
+      ENV['PANGEA_ARTIFACT_CLEAN_HISTORY'] = '100'
+
       # All deb files should get ripped out.
 
       # job foo
