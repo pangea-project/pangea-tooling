@@ -59,12 +59,19 @@ module NCI
       end
 
       def clean!
+        marker = "#{path}/_artifact_cleaned"
+        return unless File.exist?(path) # path doesn't exist, nothing to do
+        return if File.exist?(marker) # this build was already cleaned
+
         puts "Cleaning #{name} in #{path}" if @verbose
         Dir.glob("#{path}/**/**") do |entry|
           next if File.directory?(entry)
           next unless BLACKLIST.any? { |x| x.match?(entry) }
+
           FileUtils.rm(entry, verbose: true)
         end
+
+        FileUtils.touch(marker)
       end
 
       private
