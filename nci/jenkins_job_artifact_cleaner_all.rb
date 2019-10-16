@@ -31,6 +31,7 @@ module NCI
       def self.run
         Dir.foreach(Job.jobs_dir).each do |job_name|
           next if %w[. ..].include?(job_name)
+
           job = Job.new(job_name, verbose: false)
           build_id = job.last_build_id
           (back_count(build_id)..build_id).each do |id|
