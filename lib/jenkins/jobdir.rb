@@ -39,15 +39,12 @@ module Jenkins
 
     def self.recursive?(file)
       return false unless File.symlink?(file)
+
       abs_file = File.absolute_path(file)
       abs_file_dir = File.dirname(abs_file)
       link = File.readlink(abs_file)
       abs_link = File.absolute_path(link, abs_file_dir)
       abs_link == abs_file
-    end
-
-    def self.existing_symlink?(file)
-      File.symlink?(file) && File.exist?(file)
     end
 
     # @return [Array<String>] of build dirs inside a jenkins builds/ tree
@@ -56,19 +53,44 @@ module Jenkins
     def self.build_dirs(buildsdir)
       content = Dir.glob("#{buildsdir}/*")
 
+      # Paths that may not be processed in any form or fashion.
       locked = []
-      content.reject! do |d|
-        # Symlink but points to itself
-        next true if recursive?(d)
-        # Symlink is not a static one, keep these
-        next false unless STATE_SYMLINKS.include?(File.basename(d))
-        # Symlink, but points to invalid target
-        next true unless existing_symlink?(d)
+
+      # Add stateful symlinks and their targets to the locked list.
+      # This is done separately from removal for ease of reading.
+      content.each do |d|
+        # Is it a stateful symlink?
+        next unless STATE_SYMLINKS.include?(File.basename(d))
+
+        # Lock it!
+        locked << d
+
+        # Does the target of the link exist?
+        next unless File.exist?(d)
+
+        # Lock that too!
         locked << File.realpath(d)
       end
 
-      # Filter now locked directories
-      content.reject! { |d| locked.include?(File.realpath(d)) }
+      # Remove locked paths from the content list. They are entirely excluded
+      # from processing.
+      content = content.reject do |d|
+        next true if locked.include?(d)
+
+        # Deal with broken symlinks before calling realpath...
+        # Broken would be a symlink that doesn't exist at all or points to
+        # itself. We've already skipped stateful symlinks here as per the
+        # above condition, so whatever remains would be build numbers.
+        if File.symlink?(d) && (!File.exist?(d) || recursive?(d))
+          FileUtils.rm(d)
+          next true
+        end
+
+        next true if locked.include?(File.realpath(d))
+
+        false
+      end
+
       content.sort_by { |c| File.basename(c).to_i }
     end
 

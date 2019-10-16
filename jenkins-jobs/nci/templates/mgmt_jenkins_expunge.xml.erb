@@ -23,9 +23,10 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-        # clean up litter before archiving
+        # clean up litter somewhat aggresive when it is kinda old
         ~/tooling/nci/jenkins_job_artifact_cleaner_all.rb
-        ~/tooling/nci/jenkins_archive.rb
+        # wipe everything super aggresively when it is very old
+        ~/tooling/nci/jenkins_expunge.rb
       </command>
     </hudson.tasks.Shell>
   </builders>

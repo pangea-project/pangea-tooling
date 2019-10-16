@@ -20,9 +20,9 @@
 
 require_relative '../job'
 
-# Archives old builds
-class MGMTJenkinsArchive < JenkinsJob
+# Expunge old builds
+class MGMTJenkinsExpunge < JenkinsJob
   def initialize
-    super('mgmt_jenkins_archive', 'mgmt_jenkins_archive.xml.erb')
+    super('mgmt_jenkins_expunge', 'mgmt_jenkins_expunge.xml.erb')
   end
 end
