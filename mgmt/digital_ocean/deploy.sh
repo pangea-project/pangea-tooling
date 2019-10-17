@@ -40,14 +40,15 @@ done
 # Make sure we do not have random services claiming dpkg locks.
 # Nor random background stuff we don't use (snapd, lxd)
 ps aux
-apt purge -y unattended-upgrades update-notifier-common snapd lxd
+apt purge -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
+  -y unattended-upgrades update-notifier-common snapd lxd
 
 # DOs by default come with out of date cache.
 ps aux
 apt update
 
 # Make sure the image is up to date.
-apt dist-upgrade -y
+apt dist-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 
 # Deploy chef 13 and chef-dk 1.3 (we have no ruby right now.)
 cd /tmp
