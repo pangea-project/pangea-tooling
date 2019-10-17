@@ -55,7 +55,7 @@ module NCIJenkinsJobHistory
     end
   end
 
-  def self.purge
+  def self.purge(jobdir)
     # Purges "super" old builds entirely so they don't even appear anymore.
     # NB: this intentionally has a lower min_count since the age is higher.
     #   Age restricts on top of min_count, we really do not care about builds
