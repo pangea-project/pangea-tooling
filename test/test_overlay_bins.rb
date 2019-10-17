@@ -20,7 +20,6 @@
 
 require 'date'
 
-require_relative '../nci/jenkins_archive'
 require_relative '../ci-tooling/test/lib/testcase'
 
 require 'mocha/test_unit'
