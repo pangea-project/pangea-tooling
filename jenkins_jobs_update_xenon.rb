@@ -101,11 +101,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     #enqueue(PlasmaReleasemeChangelog.new)
     #enqueue(PlasmaReleasemeTagsTest.new)
 
-    tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
-    tooling_test =
-      enqueue(MGMTToolingTestJob.new(downstreams: [tooling_deploy]))
-    enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_test],
-                                         also_trigger: [jeweller]))
+    enqueue(MGMTTooling.new)
   end
 end
 
