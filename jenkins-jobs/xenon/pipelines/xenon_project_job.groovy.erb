@@ -74,17 +74,16 @@ stage('binaries') {
 
 stage('publish') {
   cleanNode('master') {
-    unstash 'source'
-    architectures.each { arch ->
-      unstash "debs_${arch}"
+    lock(label: 'APTLY', quantity: 1) {
+      unstash 'source'
+      architectures.each { arch ->
+        unstash "debs_${arch}"
+      }
+      sh 'ls -lahR'
+
+      gateway = "ssh://aptly@localhost/home/aptly/aptly.socket"
+      sh "~/tooling/ci-tooling/bin/pangea_dput --gateway ${gateway} --repo <%= type %>_<%= distribution %> *.changes"
     }
-    sh 'ls -lahR'
-
-    gateway = "ssh://aptly@localhost/home/aptly/aptly.socket"
-    sh "~/tooling/ci-tooling/bin/pangea_dput --gateway ${gateway} --repo <%= type %>_<%= distribution %> *.changes"
-
-
-    // sh '~/tooling/ci-tooling/bin/pangea_dput --gateway ssh://mci@neon.plasma-mobile.org:9090 --port 9090 --repo <%= distribution %> *.changes'
   }
 }
 
