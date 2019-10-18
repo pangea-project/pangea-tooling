@@ -22,7 +22,7 @@
 require 'net/ssh'
 
 require_relative '../../lib/aptly-ext/remote'
-require_relative '../../lib/aptly-ext/repo_cleanup'
+require_relative '../../lib/aptly-ext/repo_cleaner'
 
 # Helper to construct repo names
 class RepoNames
