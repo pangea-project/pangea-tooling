@@ -72,9 +72,12 @@ module NCIJenkinsJobHistory
   def self.clean
     jobsdir = "#{ENV.fetch('JENKINS_HOME')}/jobs"
     Dir.glob("#{jobsdir}/*").each do |jobdir|
-      puts '---- PURGE ----'
+      # this does interlaced looping so we have a good chance that the
+      # directories are still in disk cache thus improving performance.
+      name = File.basename(jobdir)
+      puts "---- PURGE #{name} ----"
       purge(jobdir)
-      puts '---- MANGLE ----'
+      puts "---- MANGLE #{name} ----"
       mangle(jobdir)
     end
   end
