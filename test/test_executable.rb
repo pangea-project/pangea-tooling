@@ -32,12 +32,14 @@ class ExecutableTest < TestCase
     ci-tooling/dci
     ci-tooling/mci
     ci-tooling/nci
+    ci-tooling/xci
     dci
     lib/libexec
     mci
     nci
     mgmt
     overlay-bin
+    xci
   ].freeze
 
   SUFFIXES = %w[.py .rb .sh].freeze
