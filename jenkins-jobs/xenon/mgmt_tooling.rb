@@ -23,6 +23,6 @@ require_relative 'pipelinejob'
 # Clones, tests and deploys tooling to all slaves.
 class MGMTTooling < PipelineJob
   def initialize
-    super('mgmt_tooling', template: 'mgmt_tooling')
+    super('mgmt_tooling', template: 'mgmt_tooling', sandbox: false)
   end
 end
