@@ -89,7 +89,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # enqueue(MGMTJenkinsPruneParameterListJob.new)
     # enqueue(MGMTJenkinsArchive.new)
 
-    # enqueue(MGMTRepoCleanupJob.new)
+    enqueue(MGMTRepoCleanup.new)
 
     docker = enqueue(MGMTDockerJob.new(dependees: []))
     # enqueue(MGMTGitSemaphoreJob.new)

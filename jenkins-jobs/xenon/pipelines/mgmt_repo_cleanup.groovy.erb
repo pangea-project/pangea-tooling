@@ -1,0 +1,22 @@
+cleanNode('master') {
+  stage('cleanup') {
+    lock(label: 'APTLY') {
+      sh '~/tooling/xci/aptly_cleanup.rb'
+    }
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}
