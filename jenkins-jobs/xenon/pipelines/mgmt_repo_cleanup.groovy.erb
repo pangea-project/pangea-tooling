@@ -1,7 +1,7 @@
 cleanNode('master') {
   stage('cleanup') {
     lock(label: 'APTLY') {
-      sh '~/tooling/xci/aptly_cleanup.rb'
+      sh '~/tooling/xci/repo_cleanup.rb'
     }
   }
 }
