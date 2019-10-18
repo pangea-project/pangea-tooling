@@ -19,12 +19,9 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'aptly'
-require 'net/ssh/gateway'
-require 'net/ssh'
 
 require_relative '../../ci-tooling/lib/aptly-ext/filter'
 require_relative '../../ci-tooling/lib/nci' # nci config module
-require_relative 'remote'
 
 # Cleans up an Aptly::Repository by removing all versions of source+bin that
 # are older than the newest version.
@@ -123,4 +120,3 @@ class RepoCleaner
     @repo.delete_packages(keys)
   end
 end
-
