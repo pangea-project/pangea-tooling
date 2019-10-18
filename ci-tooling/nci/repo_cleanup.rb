@@ -19,11 +19,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'aptly'
-require 'net/ssh/gateway'
 require 'net/ssh'
 
-require_relative '../lib/aptly-ext/filter'
 require_relative '../../lib/aptly-ext/remote'
 require_relative '../../lib/aptly-ext/repo_cleanup'
 
