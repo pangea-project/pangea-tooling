@@ -66,7 +66,7 @@ suites.each do |suite|
   config.Suites << ASGEN::Suite.new(suite).tap do |s|
     s.sections = %w[main]
     s.architectures = %w[amd64]
-    s.dataPriority = 1
+    s.dataPriority = 200 # definitely >> ubuntu (currently caps at 40)
     s.useIconTheme = 'breeze'
   end
 end
