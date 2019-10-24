@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'job'
+require_relative '../job'
 
 # binary builder
 class DCIBinarierJob < JenkinsJob
