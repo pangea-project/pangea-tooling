@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require_relative 'sourcer'
-require_relative '../binarier'
+require_relative 'binarier'
 require_relative 'publisher'
 
 # Magic builder to create an array of build steps
@@ -28,7 +28,7 @@ class DCIBuilderJobBuilder
                                       component: project.component,
                                       upload_map: upload_map,
                                       architecture: architecture)
-      binarier = BinarierJob.new(basename,
+      binarier = DCIBinarierJob.new(basename,
                                  type: type,
                                  distribution: distribution,
                                  architecture: architecture)
