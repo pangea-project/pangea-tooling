@@ -156,70 +156,61 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
     Faraday::ConnectionOptions.new(timeout: 15 * 60)
   Aptly::Ext::Remote.dci do
     RepoCleaner.clean(%w[
-      backports-1801
-      backports-1803
+      backports-1901
+      backports-1908
       backports-backports
       backports-next
-      calamares-1801
-      calamares-1803
+      calamares-1901
+      calamares-1908
       calamares-backports
       calamares-next
-      ds9-artwork-1801
-      ds9-artwork-1803
+      ds9-artwork-1901
+      ds9-artwork-1908
       ds9-artwork-backports
       ds9-artwork-next
-      ds9-common-1801
-      ds9-common-1803
+      ds9-common-1901
+      ds9-common-1908
       ds9-common-backports
       ds9-common-next
-      extras-1801
-      extras-1803
+      extras-1901
+      extras-1908
       extras-backports
       extras-next
-      frameworks-1801
-      frameworks-1803
+      frameworks-1901
+      frameworks-1908
       frameworks-backports
-      kde-applications-1801
-      kde-applications-1803
+      kde-applications-1901
+      kde-applications-1908
       kde-applications-backports
-      netrunner-1801
-      netrunner-1803
+      netrunner-1901
+      netrunner-1908
       netrunner-backports
-      netrunner-core-1801
-      netrunner-core-1803
+      netrunner-core-1901
+      netrunner-core-1908
       netrunner-core-backports
-      netrunner-core-next
-      netrunner-desktop-1801
-      netrunner-desktop-1803
+      netrunner-desktop-1901
+      netrunner-desktop-1908
       netrunner-desktop-backports
       netrunner-desktop-next
       netrunner-next
-      odroid-1801
-      odroid-1803
+      odroid-1901
+      odroid-1908
       odroid-backports
-      odroid-next
-      pine64-1801
-      pine64-1803
+      pine64-1901
+      pine64-1908
       pine64-backports
-      pine64-next
-      plasma-1801
-      plasma-1803
+      plasma-1901
+      plasma-1908
       plasma-backports
       plasma-next
-      plasmazilla-1801
-      plasmazilla-1803
-      plasmazilla-backports
-      plasmazilla-next
-      qt5-1801
-      qt5-1803
+      qt5-1901
+      qt5-1908
       qt5-backports
       qt5-next
-      rock64-1801
-      rock64-1803
-      rock64-next
-      zeronet-1801
-      zeronet-1803
-      zeronet-next
+      rock64-1901
+      rock64-1908
+      zeronet-1901
+      zeronet-1908
 ], keep_amount: 2)
 
   end
