@@ -11,7 +11,7 @@ class DCIBinarierJob < JenkinsJob
   attr_reader :downstream_triggers
 
   def initialize(basename, type:, distribution:, architecture:)
-    super("#{basename}_bin_#{architecture}", 'binarier.xml.erb')
+    super("#{basename}_bin_#{architecture}", 'dci_binarier.xml.erb')
     @basename = basename
     @type = type
     @distribution = distribution
