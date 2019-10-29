@@ -60,6 +60,65 @@ module NCI
       FileUtils.mkpath(foo_archive1)
       FileUtils.touch("#{foo_archive1}/aa.deb")
 
+      ## lastBuild->3
+      File.write('jobs/foo/builds/permalinks', 'lastBuild 3', mode: 'a')
+
+      # job bar
+
+      ## 200 so we test if we don't iterate the entire build history
+      bar_archive200 = 'jobs/bar/builds/200/archive'
+      FileUtils.mkpath(bar_archive200)
+      FileUtils.touch("#{bar_archive200}/aa.deb")
+
+      ## 100 also has some litter
+      bar_archive100 = 'jobs/bar/builds/100/archive'
+      FileUtils.mkpath(bar_archive100)
+      FileUtils.touch("#{bar_archive100}/aa.deb")
+
+      ## 99 also has some litter but shouldn't get cleaned
+      bar_archive99 = 'jobs/bar/builds/99/archive'
+      FileUtils.mkpath(bar_archive99)
+      FileUtils.touch("#{bar_archive99}/aa.deb")
+
+      ## lastBuild->200
+      File.write('jobs/bar/builds/permalinks', 'lastBuild 200', mode: 'a')
+
+      # twonkle - do not explode on jobs that haven't built yet (invalid
+      # symlink raises Errno::ENOENT)
+      FileUtils.mkpath('jobs/twonkle/builds')
+      File.write('jobs/twonkle/builds/permalinks', 'lastBuild -1', mode: 'a')
+
+      JenkinsJobArtifactCleaner::AllJobs.run
+
+      assert_path_not_exist("#{foo_archive3}/aa.deb")
+      assert_path_not_exist("#{foo_archive1}/aa.deb")
+
+      assert_path_not_exist("#{bar_archive200}/aa.deb")
+      assert_path_not_exist("#{bar_archive100}/aa.deb")
+      assert_path_exist("#{bar_archive99}/aa.deb")
+    end
+
+    def test_clean_legacy_symlinks
+      # verbatim copy of test_clean but with symlinks
+
+      ENV['PANGEA_ARTIFACT_CLEAN_HISTORY'] = '100'
+
+      # All deb files should get ripped out.
+
+      # job foo
+
+      ## 3 so we test if clamping to 1 at the smallest works.
+      foo_archive3 = 'jobs/foo/builds/3/archive'
+      FileUtils.mkpath(foo_archive3)
+      FileUtils.touch("#{foo_archive3}/aa.deb")
+
+      ## skip 2 to see if a missing build doesn't crash
+
+      ## 1 also has some litter
+      foo_archive1 = 'jobs/foo/builds/1/archive'
+      FileUtils.mkpath(foo_archive1)
+      FileUtils.touch("#{foo_archive1}/aa.deb")
+
       ## symlink lastBuild->3
       FileUtils.ln_s('3', 'jobs/foo/builds/lastBuild', verbose: true)
 

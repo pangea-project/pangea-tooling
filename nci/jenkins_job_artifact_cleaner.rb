@@ -29,6 +29,46 @@ module NCI
   module JenkinsJobArtifactCleaner
     # Logic wrapper encapsulating the cleanup logic of a job.
     class Job
+      # An entry in builds/permalinks identifying a common name for a
+      # build (such as lastFailedBuild) and its respective build number (or -1)
+      class Permalink
+        attr_reader :id
+        attr_reader :number
+
+        def initialize(line)
+          @id, @number = line.split(' ', 2)
+          @number = @number.to_i
+        end
+      end
+
+      # A permalinks file builds/permalinks representing the common names
+      # to build numbers map.
+      class Permalinks
+        attr_reader :path
+        attr_reader :links
+
+        def initialize(path)
+          @path = path
+          @links = []
+
+          File.open(path, 'r') do |f|
+            f.each_line do |line|
+              parse_line(line)
+            end
+          end
+        end
+
+        private
+
+        def parse_line(line)
+          line = line.strip
+          return if line.empty? || !line.start_with?('last')
+          raise "malformed line #{line} in #{path}" unless line.count(' ') == 1
+
+          @links << Permalink.new(line)
+        end
+      end
+
       attr_reader :name
       attr_reader :build
 
@@ -47,6 +87,27 @@ module NCI
       end
 
       def last_build_id
+        # After errors jenkins sometimes implodes and fails to update the
+        # symlinks, so we use a newer (and also a bit more efficient) peramlinks
+        # file which contains the same information in a single file. Whatever
+        # we find in there is the highest number, unless it is in fact not
+        # a positive number in which case we still fall back to try our luck
+        # with the symlinks.
+
+        file = "#{builds_path}/permalinks"
+        return last_build_id_by_symlink unless File.exist?(file)
+
+        perma = Permalinks.new(file)
+        numbers = perma.links.group_by(&:number).keys
+        puts "  permanumbers #{numbers}"
+        max = numbers.max
+        return max if max.positive?
+
+        last_build_id_by_symlink # fall back to legacy symlinks (needs readlink)
+      end
+
+      def last_build_id_by_symlink
+        puts "Failed to get permalink for #{builds_path}, falling back to links"
         id = -1
         Dir.glob("#{builds_path}/last*").each do |link|
           begin
