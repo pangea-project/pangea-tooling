@@ -58,6 +58,8 @@
            export DIST=<%= release %>
            if [[ $arch =~ ^arm ]]; then
              ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
+             cd live-config/result/
+             pigz $RESULT
              cd ../..
            else
              ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/ci-tooling/dci/imager.rb
@@ -66,11 +68,6 @@
            ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
            export RESULT=$(ls live-config/result/)
            echo $RESULT
-           if [[ $arch =~ ^arm ]]; then
-             cd live-config/result/
-             pigz $RESULT
-             cd ../..
-           fi
       </command>
     </hudson.tasks.Shell>
   </builders>
