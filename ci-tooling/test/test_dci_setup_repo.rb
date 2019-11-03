@@ -38,14 +38,14 @@ class DCISetupRepoTest < TestCase
     reset_child_status!
     # Disable all web (used for key).
     WebMock.disable_net_connect!
-    ENV['DIST'] = 'next'
+    ENV['DIST_RELEASE'] = 'next'
   end
 
   def teardown
     Apt::Repository.send(:reset)
 
     WebMock.allow_net_connect!
-    ENV['DIST'] = nil
+    ENV['DIST_RELEASE'] = nil
   end
 
   def test_setup_repos
