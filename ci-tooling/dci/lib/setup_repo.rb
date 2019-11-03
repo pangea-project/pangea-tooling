@@ -30,7 +30,7 @@ module DCI
   module_function
 
   def setup_repo!
-    @dist = ENV.fetch('DIST')
+    @dist = ENV.fetch('DIST_RELEASE')
     repos = []
     components = []
     setup_i386
