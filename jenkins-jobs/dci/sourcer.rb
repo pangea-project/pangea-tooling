@@ -55,7 +55,7 @@ class DCISourcerJob < JenkinsJob
       else
       raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
       end
-    end
+  end
 
   def fetch_tarball
     return '' unless @upstream_scm&.type == 'tarball'
