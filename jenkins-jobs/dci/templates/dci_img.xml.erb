@@ -55,8 +55,7 @@
     <hudson.tasks.Shell>
       <command>#!/bin/bash
            arch=$(dpkg --print-architecture)
-           export DIST="<%= distribution %>+<%= architecture %>"
-           export DIST_RELEASE=<%= distribution %>
+           export DIST=<%= release %>
            if [[ $arch =~ ^arm ]]; then
              ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
              cd live-config/result/
