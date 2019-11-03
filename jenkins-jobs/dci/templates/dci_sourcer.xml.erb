@@ -60,7 +60,8 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-export DIST=<%= distribution %>
+export DIST="<%= distribution %>+<%= architecture %>"
+export DIST_RELEASE=<%= distribution %>
 export TYPE=<%= type %>
 <%= fetch_tarball %>
 printf ${JOB_NAME} &gt; job_name

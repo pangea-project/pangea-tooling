@@ -28,9 +28,10 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
-export DIST=<%= distribution %>
-export TYPE=<%= type %>
-~/tooling/dci/contain.rb /tooling/ci-tooling/dci/builder.rb
+        export DIST="<%= distribution %>+<%= architecture %>"
+        export DIST_RELEASE=<%= distribution %>
+        export TYPE=<%= type %>
+        ~/tooling/dci/contain.rb /tooling/ci-tooling/dci/builder.rb
       </command>
     </hudson.tasks.Shell>
   </builders>

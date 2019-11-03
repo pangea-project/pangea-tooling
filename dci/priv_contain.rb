@@ -12,7 +12,7 @@ binds = [
 
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
-DIST = ENV.fetch('DIST')
+DIST = ENV.fetch('DIST_RELEASE')
 
 BUILD_TAG = ENV.fetch('BUILD_TAG')
 

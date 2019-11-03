@@ -5,7 +5,7 @@ require_relative '../lib/ci/containment'
 
 Docker.options[:read_timeout] = 36 * 60 * 60 # 36 hours. Because, QtWebEngine.
 
-DIST = ENV.fetch('DIST')
+DIST = ENV.fetch('DIST_RELEASE')
 BUILD_TAG = ENV.fetch('BUILD_TAG')
 
 # Whitelist a bunch of Jenkins variables for consumption inside the container.
