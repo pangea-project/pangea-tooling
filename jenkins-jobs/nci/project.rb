@@ -28,6 +28,19 @@ require_relative '../multijob_phase'
 
 # Magic builder to create an array of build steps
 class ProjectJob < JenkinsJob
+  def self.qt_or_framework?(project)
+    # NB: '' is for pkg-kde-tools which lives in /
+    return true if (%w[qt] << '').include?(project.component)
+    return true if %w[pyqt5].include?(project.name)
+    return true if framework?(project)
+
+    false
+  end
+
+  def self.framework?(project)
+    project.kdecomponent == 'frameworks'
+  end
+
   def self.job(project, distribution:, architectures:, type:)
     return [] unless project.debian?
 
@@ -42,14 +55,15 @@ class ProjectJob < JenkinsJob
     # FIXME: frameworks is special, very special ...
     # Base builds have no stable thingy but their unstable version is equal
     # to their not unstable version.
-    # NB: '' is for pkg-kde-tools which lives in /
-    if (%w[qt] << '').include?(project.component) ||
-       %w[pyqt5].include?(project.name) || project.kdecomponent == 'frameworks'
+    # This only applies to unstable! All other types (so far as they have
+    # Qt and frameworks - such as experimental) do not have this propagation.
+    if qt_or_framework?(project) && type == 'unstable'
       dependees += project.dependees.collect do |d|
         # Stable is a dependee
         basename(distribution, 'stable', d.component, d.name)
-        # Release is as well, but only iff component is not one we release.
-        next if project.component == 'frameworks'
+        # Release is as well, but only iff component is not one we release (
+        # e.g. frameworks)
+        next if framework?(project)
 
         basename(distribution, 'release', d.component, d.name)
       end
