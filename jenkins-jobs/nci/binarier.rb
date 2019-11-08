@@ -8,6 +8,7 @@ class BinarierJob
   def cores
     config_file = "#{Dir.home}/.config/nci-jobs-to-cores.json"
     return '2' unless File.exist?(config_file)
+
     JSON.parse(File.read(config_file)).fetch(job_name, '2')
   end
 
@@ -19,8 +20,10 @@ class BinarierJob
   end
 
   def architecture
-    return @architecture unless @architecture == 'i386'
-    'amd64'
+    # i386 is actually cross-built via amd64
+    return 'amd64' if @architecture == 'i386'
+
+    @architecture
   end
 
   def cross_architecture
