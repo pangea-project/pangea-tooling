@@ -41,7 +41,8 @@ module NCI
         @jobex = jobex
         @log = Logger.new(STDOUT)
         @config_file = config_file
-        @config = JSON.parse(File.read(config_file))
+        @config = JSON.parse(File.read(config_file)) if File.exist?(config_file)
+        @config ||= {}
         concurify!
       end
 
