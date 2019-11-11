@@ -14,6 +14,7 @@ class DPKGTest < TestCase
     assert_backtick('dpkg-architecture -qDEB_BUBU') do
       DPKG::BUBU
     end
+  end
 end
 
 class DPKGArchitectureTest < TestCase
