@@ -82,5 +82,5 @@ Aptly::Ext::Remote.neon do
   raise unless target_repo
 
   target_repo.add_packages(packages)
-  repo.published_in.each(&:update!)
+  target_repo.published_in.each(&:update!)
 end
