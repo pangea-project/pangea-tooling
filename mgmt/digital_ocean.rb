@@ -54,7 +54,7 @@ old_images.sort_by { |x| DateTime.parse(x.created_at) }
 old_images.pop
 old_images.each do |x|
   logger.warn "deleting excess snapshot #{x.id}"
-  unless DigitalOcean::Client.new.snapshots.delete(id: old_image.id)
+  unless DigitalOcean::Client.new.snapshots.delete(id: x.id)
     logger.error 'failed to delete :|'
   end
 end
