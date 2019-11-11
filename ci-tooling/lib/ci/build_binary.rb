@@ -210,7 +210,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
     def auto_bin_only(bin_only)
       return bin_only if bin_only || !arch_bin_only?
 
-      bin_only = arch_all?
+      bin_only = !arch_all?
       if bin_only
         puts '!!! Running in automatic bin-only mode. Building binary only.' \
               ' (skipping Build-Depends-Indep)'

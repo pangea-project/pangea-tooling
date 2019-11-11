@@ -152,6 +152,26 @@ module CI
       assert_bin_only(builder)
     end
 
+    def test_build_bin_only_amd64
+      # Should NOT bin only
+      DPKG.stubs(:run)
+        .with('dpkg-architecture', ['-qDEB_HOST_ARCH'])
+        .returns(['amd64'])
+
+      builder = PackageBuilder.new
+      refute(builder.send(:auto_bin_only, false))
+    end
+
+    def test_build_bin_only_arm64
+      # Should bin only!
+      DPKG.stubs(:run)
+        .with('dpkg-architecture', ['-qDEB_HOST_ARCH'])
+        .returns(['arm64'])
+
+      builder = PackageBuilder.new
+      assert(builder.send(:auto_bin_only, false))
+    end
+
     def test_build_bin_only_bad_value
       # Make sure bad env variables raise
       ENV['PANGEA_ARCH_BIN_ONLY'] = 'foobar'
