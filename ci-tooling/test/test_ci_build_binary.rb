@@ -70,6 +70,8 @@ module CI
       arch = 'i386'
       ENV['PANGEA_CROSS'] = arch
 
+      DPKG.stubs(:architecture).returns('amd64')
+
       # This is a bit stupid because we expect here that this is there is
       # only one cmd instance in the builder, which is true for now but may
       # not always be the case. Might be worth revisiting this if it changes.
@@ -183,9 +185,13 @@ module CI
     end
 
     def test_build_bin_only_auto_arch
+      # bin-only gets auto enabled for a !arch_all architecture (arm64)
+
       FileUtils.cp_r("#{data}/.", Dir.pwd)
 
       Dir.chdir('build') { system('dpkg-buildpackage -S -us -uc') }
+
+      DPKG.stubs(:architecture).returns('arm64')
 
       DependencyResolver.expects(:resolve)
                         .with('build', bin_only: true)
@@ -215,9 +221,7 @@ module CI
       FileUtils.cp_r("#{data}/.", Dir.pwd)
       builder = PackageBuilder.new
 
-      DPKG.stubs(:run)
-          .with('dpkg-architecture', ['-qDEB_HOST_ARCH'])
-          .returns('arm64')
+      DPKG.stubs(:architecture).returns('arm64')
 
       DPKG::Architecture.any_instance.expects(:is).with('amd64').returns(false)
       DPKG::Architecture.any_instance.expects(:is).with('all').returns(false)

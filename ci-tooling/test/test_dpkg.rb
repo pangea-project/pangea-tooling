@@ -4,16 +4,49 @@ require_relative 'lib/testcase'
 
 # Test DPKG
 class DPKGTest < TestCase
-  prepend AssertBacktick
-
   def test_architectures
-    assert_backtick('dpkg-architecture -qDEB_BUILD_ARCH') do
-      DPKG::BUILD_ARCH
-    end
+    TTY::Command
+      .any_instance
+      .expects(:run)
+      .with('dpkg-architecture', '-qDEB_BUILD_ARCH')
+      .returns(-> {
+        status = mock('arch_status')
+        status.stubs(:out).returns("foobar\n")
+        status
+      }.())
 
-    assert_backtick('dpkg-architecture -qDEB_BUBU') do
-      DPKG::BUBU
-    end
+    assert_equal('foobar', DPKG::BUILD_ARCH)
+  end
+
+  def test_architectures_fail
+    err_status = mock('status')
+    err_status.stubs(:out)
+    err_status.stubs(:err)
+    err_status.stubs(:exit_status)
+    TTY::Command
+      .any_instance
+      .expects(:run)
+      .with('dpkg-architecture', '-qDEB_BUBU')
+      .raises(TTY::Command::ExitError.new("bubub", err_status))
+
+    assert_equal(nil, DPKG::BUBU)
+  end
+
+  def test_listing
+    TTY::Command
+      .any_instance
+      .expects(:run)
+      .with('dpkg', '-L', 'abc')
+      .returns( -> {
+        status = mock('status')
+        status.stubs(:out).returns("/.\n/etc\n/usr\n")
+        status
+      }.())
+
+    assert_equal(
+      %w[/. /etc /usr],
+      DPKG.list('abc')
+    )
   end
 end
 

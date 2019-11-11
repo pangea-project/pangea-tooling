@@ -18,16 +18,18 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'tty/command'
+
 # Wrapper around dpkg commandline tool.
 module DPKG
   def self.run(cmd, args)
-    args = [*args]
-    puts "backticking: #{cmd} #{args.join(' ')}"
-    output = `#{cmd} #{args.join(' ')}`
-    puts $?
-    return [] unless $?.to_i.zero?
-    # FIXME: write test
-    output.strip.split($/).compact
+    proc = TTY::Command.new(uuid: false, printer: :null)
+    result = proc.run(cmd, *args)
+    result.out.strip.split($/).compact
+  rescue TTY::Command::ExitError
+    # TODO: port away from internal resuce, let the caller deal with errors
+    #   needs making sure that we don't break anything by not rescuing though
+    []
   end
 
   def self.dpkg(args)

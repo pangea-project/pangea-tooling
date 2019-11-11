@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'fileutils'
 require 'vcr'
 
@@ -77,22 +78,19 @@ class QMLDependencyVerifierTest < TestCase
     const_reset(QML, :SEARCH_PATHS, [File.join(data, 'qml')])
 
     system_sequence = sequence('system')
-    backtick_sequence = sequence('backtick')
+    list_sequence = sequence('dpkglist')
     JSON.parse(File.read(data('system_sequence'))).each do |cmd|
       Object.any_instance.expects(:system)
             .with(*cmd)
             .returns(true)
             .in_sequence(system_sequence)
     end
-    JSON.parse(File.read(data('backtick_sequence'))).each do |cmd|
-      Object.any_instance.expects(:`)
-            .with(*cmd)
-            .returns('')
-            .in_sequence(backtick_sequence)
+    JSON.parse(File.read(data('list_sequence'))).each do |cmd|
+      DPKG.stubs(:list).with(*cmd).returns([])
     end
-    Object.any_instance.stubs(:`)
-          .with('dpkg -L plasma-widgets-addons')
-          .returns(data('main.qml'))
+    DPKG.stubs(:list)
+        .with('plasma-widgets-addons')
+        .returns([data('main.qml')])
     # org.plasma.configuration is static mapped to plasma-framework, so we
     # need this call to happen to check if it installed.
     # this must not ever be removed!
@@ -103,7 +101,7 @@ class QMLDependencyVerifierTest < TestCase
     repo = mock('repo')
     repo.stubs(:add).returns(true)
     repo.stubs(:remove).returns(true)
-    repo.stubs(:binaries).returns({"kwin-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "plasma-dataengines-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "plasma-runners-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "plasma-wallpapers-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "plasma-widget-kimpanel"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "plasma-widgets-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0", "kdeplasma-addons-data"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0"})
+    repo.stubs(:binaries).returns('kwin-addons' => '4:5.2.1+git20150316.1204+15.04-0ubuntu0', 'plasma-dataengines-addons' => '4:5.2.1+git20150316.1204+15.04-0ubuntu0', 'plasma-runners-addons' => '4:5.2.1+git20150316.1204+15.04-0ubuntu0', 'plasma-wallpapers-addons' => '4:5.2.1+git20150316.1204+15.04-0ubuntu0', 'plasma-widget-kimpanel' => '4:5.2.1+git20150316.1204+15.04-0ubuntu0', 'plasma-widgets-addons' => '4:5.2.1+git20150316.1204+15.04-0ubuntu0', 'kdeplasma-addons-data' => '4:5.2.1+git20150316.1204+15.04-0ubuntu0')
 
     missing = QMLDependencyVerifier.new(repo).missing_modules
     assert_equal(1, missing.size, 'More things missing than expected' \
@@ -136,22 +134,22 @@ class QMLDependencyVerifierTest < TestCase
 
     system_sequence = sequence('system')
     Object.any_instance.expects(:system)
-          .with("apt-get","-y", "-o", "APT::Get::force-yes=true","-o","Debug::pkgProblemResolver=true","-q","install","kwin-addons=4:5.2.1+git20150316.1204+15.04-0ubuntu0")
+          .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'install', 'kwin-addons=4:5.2.1+git20150316.1204+15.04-0ubuntu0')
           .returns(true)
           .in_sequence(system_sequence)
     Object.any_instance.expects(:system)
-          .with("apt-get","-y", "-o", "APT::Get::force-yes=true","-o","Debug::pkgProblemResolver=true","-q","--purge","autoremove")
+          .with('apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', '--purge', 'autoremove')
           .returns(true)
           .in_sequence(system_sequence)
 
-    Object.any_instance.stubs(:`)
-          .with('dpkg -L kwin-addons')
-          .returns(data('main.qml'))
+    # DPKG.stubs(:list).returns([])
+    DPKG.stubs(:list).with('kwin-addons')
+        .returns([data('main.qml')])
 
     repo = mock('repo')
     repo.stubs(:add).returns(true)
     repo.stubs(:remove).returns(true)
-    repo.stubs(:binaries).returns({"kwin-addons"=>"4:5.2.1+git20150316.1204+15.04-0ubuntu0"})
+    repo.stubs(:binaries).returns('kwin-addons' => '4:5.2.1+git20150316.1204+15.04-0ubuntu0')
 
     assert_raises QML::Module::ExistingStaticError do
       QMLDependencyVerifier.new(repo).missing_modules
