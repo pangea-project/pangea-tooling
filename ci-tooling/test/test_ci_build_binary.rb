@@ -121,6 +121,12 @@ module CI
 
       Dir.chdir('build') { system('dpkg-buildpackage -S -us -uc') }
 
+      # Disable automatic bin only based on architecture. (i.e. amd64 is arch
+      # all so it could be bin only by default, but for this test we want
+      # to test bin_only detection, so the arch based bin only is getting in
+      # the way).
+      ENV['PANGEA_ARCH_BIN_ONLY'] = 'false'
+
       DependencyResolver.expects(:resolve)
                         .with('build')
                         .raises(RuntimeError.new)
@@ -144,6 +150,45 @@ module CI
       assert(File.read('result/test-build-bin-only_2.10_amd64.deb.info.txt').size > 100)
 
       assert_bin_only(builder)
+    end
+
+    def test_build_bin_only_bad_value
+      # Make sure bad env variables raise
+      ENV['PANGEA_ARCH_BIN_ONLY'] = 'foobar'
+
+      builder = PackageBuilder.new
+      assert_raises do
+        builder.send(:auto_bin_only, false)
+      end
+    end
+
+    def test_build_bin_only_auto_arch
+      FileUtils.cp_r("#{data}/.", Dir.pwd)
+
+      Dir.chdir('build') { system('dpkg-buildpackage -S -us -uc') }
+
+      DependencyResolver.expects(:resolve)
+                        .with('build', bin_only: true)
+                        .returns(true)
+
+      builder = PackageBuilder.new
+      builder.build
+
+      refute_equal([], Dir.glob('build/*'))
+      refute_equal([], Dir.glob('result/*.deb'))
+      assert_path_exist('result/test-build-bin-only_2.10_amd64.changes')
+      changes = Debian::Changes.new('result/test-build-bin-only_2.10_amd64.changes')
+      changes.parse!
+      refute_equal([], changes.fields['files'].map(&:name))
+
+      assert_path_exist('result/test-build-bin-only_2.10_amd64.deb.info.txt')
+      # Should have plenty of characters (i.e. not be empty and probably contain
+      # relevant output)
+      assert(File.read('result/test-build-bin-only_2.10_amd64.deb.info.txt').size > 100)
+
+      # Don't assert bin-only, it also includes the report, for auto bin-only
+      # we have no report expectation.
+      assert(builder.instance_variable_get(:@bin_only))
     end
 
     def test_arch_all_only_source

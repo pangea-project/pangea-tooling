@@ -15,6 +15,7 @@
 |PANGEA_MAIL_CONFIG_PATH|Path to mail config yaml for pangea/mail.rb|
 |PANGEA_UNDER_TEST|Set during test runs. Only should used if code paths need disabling during tests. Check with Harald before using it.|
 |PANGEA_DOCKER_IMAGE|NCI only. Allows forcing a specific docker image (by name) to be used by contain.rb
+|PANGEA_ARCH_BIN_ONLY|true/false. Default: true. Controls whether to perform bin_only builds on !arch:all architecutres (i.e. !amd64)|
 
 # Job (aka Project) updates
 

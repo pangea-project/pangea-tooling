@@ -119,7 +119,9 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       Dir.chdir(BUILD_DIR) do
         SetCapValidator.run do
           KCrashLinkValidator.run do
-            raise unless system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
+            unless system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
+              raise_build_failure
+            end
           end
         end
       end
@@ -179,15 +181,61 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
                  DependencyResolver
                end
 
+    def raise_build_failure
+      msg = 'Failed to build from source!'
+      msg += ' This source was built in bin-only mode.' if @bin_only
+      raise msg
+    end
+
+    def arch_bin_only?
+      value = ENV.fetch('PANGEA_ARCH_BIN_ONLY', 'true')
+      case value.downcase
+      when 'true', 'on'
+        return true
+      when 'false', 'off'
+        return false
+      end
+      raise "Unexpected value in PANGEA_ARCH_BIN_ONLY: #{value}"
+    end
+
+    # auto determine if bin_only is cool or not.
+    # NB: this intentionally doesn't take bin_only_possible?
+    #   into account as this should theoretically be ok to do. BUT only as long
+    #   as sources correctly implement binary only support correctly. If not
+    #   this can fail in a number of awkward ways. Should that happen
+    #   bin_only_possible? needs to get used (or a thing like it, possibly
+    #   with a blacklist instead of a whitelist). Automatic bin-only in theory
+    #   affords us faster build times on ARM when a source supports bin-only.
+    # @return new bin_only
+    def auto_bin_only(bin_only)
+      return bin_only if bin_only || !arch_bin_only?
+
+      bin_only = arch_all?
+      if bin_only
+        puts '!!! Running in automatic bin-only mode. Building binary only.' \
+              ' (skipping Build-Depends-Indep)'
+      end
+      bin_only
+    end
+
+    # Create a dep resolver
+    # @param bin_only whether to force binary-only resolution. This will
     def dep_resolve(dir, bin_only: false)
       # This wraps around a conditional arch argument.
       # We can't just expand {} as that'd mess up mocha in the tests, so pass
       # arch only if it actually is applicable. This is a bit hackish but beats
       # potentially having to update a lot of tests.
+      # IOW we only set bin_only if it is true so the expecations for
+      # pre-existing scenarios remain the same.
+
+      bin_only = auto_bin_only(bin_only)
+      @bin_only = bin_only # track, builder will make flag adjustments
+
       opts = {}
       opts[:bin_only] = bin_only if bin_only
       opts[:arch] = cross_arch if cross?
       return RESOLVER.resolve(dir, **opts) unless opts.empty?
+
       RESOLVER.resolve(dir)
     end
 
@@ -195,10 +243,10 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       dep_resolve(BUILD_DIR)
     rescue RuntimeError => e
       raise e unless bin_only_possible?
+
       warn 'Failed to resolve all build-depends, trying binary only' \
            ' (skipping Build-Depends-Indep)'
       dep_resolve(BUILD_DIR, bin_only: true)
-      @bin_only = true
       JUnitBinaryOnlyBuild.new.write_file
     end
 
