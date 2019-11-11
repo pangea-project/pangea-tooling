@@ -322,9 +322,10 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
                   'dpkg-cross') || raise
     end
 
-    def arch_flags
-      return [] unless cross?
-      [] << '-a' << cross_arch
+    def host_arch
+      return nil unless cross?
+
+      cross_arch
     end
 
     def arch_all?
@@ -342,11 +343,9 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       parsed_dsc = Debian::DSC.new(@dsc)
       parsed_dsc.parse!
       architectures = parsed_dsc.fields['architecture'].split
-      architectures.each do |arch|
-        _, ec = DPKG.run_with_ec('dpkg-architecture', arch_flags + ['-i', arch])
-        return true if ec
+      architectures.any? do |arch|
+        DPKG::Architecture.new(host_arch: host_arch).is(arch)
       end
-      false
     end
 
     def pretty_old_system?

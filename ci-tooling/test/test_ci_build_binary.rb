@@ -199,14 +199,8 @@ module CI
           .with('dpkg-architecture', ['-qDEB_HOST_ARCH'])
           .returns('arm64')
 
-      DPKG.stubs(:run_with_ec)
-      .with('dpkg-architecture', %w[-i amd64])
-      .returns([[], false])
-
-
-      DPKG.stubs(:run_with_ec)
-      .with('dpkg-architecture', %w[-i all])
-      .returns([[], false])
+      DPKG::Architecture.any_instance.expects(:is).with('amd64').returns(false)
+      DPKG::Architecture.any_instance.expects(:is).with('all').returns(false)
 
       builder.expects(:extract)
              .never
@@ -220,13 +214,8 @@ module CI
           .with('dpkg-architecture', ['-qDEB_HOST_ARCH'])
           .returns(['amd64'])
 
-      DPKG.stubs(:run_with_ec)
-      .with('dpkg-architecture', %w[-i armhf])
-      .returns([[], false])
-
-      DPKG.stubs(:run_with_ec)
-      .with('dpkg-architecture', %w[-i arm64])
-      .returns([[], false])
+      DPKG::Architecture.any_instance.expects(:is).with('armhf').returns(false)
+      DPKG::Architecture.any_instance.expects(:is).with('arm64').returns(false)
 
       builder = PackageBuilder.new
 

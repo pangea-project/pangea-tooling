@@ -21,18 +21,13 @@
 # Wrapper around dpkg commandline tool.
 module DPKG
   def self.run(cmd, args)
-    retval, ec = run_with_ec(cmd, args)
-    retval
-  end
-
-  def self.run_with_ec(cmd, args)
     args = [*args]
     puts "backticking: #{cmd} #{args.join(' ')}"
     output = `#{cmd} #{args.join(' ')}`
     puts $?
     return [] unless $?.to_i.zero?
     # FIXME: write test
-    return output.strip.split($/).compact, $?.success?
+    output.strip.split($/).compact
   end
 
   def self.dpkg(args)
@@ -45,6 +40,26 @@ module DPKG
 
   def self.const_missing(name)
     architecture("DEB_#{name}")
+  end
+
+  # optionized wrapper around dpkg-architecture
+  class Architecture
+    attr_reader :host_arch
+
+    def initialize(host_arch: nil)
+      # Make sure empty string also becomes nil. Otherwise simply set it.
+      @host_arch = host_arch&.empty? ? nil : host_arch
+    end
+
+    def args
+      args = []
+      args << '--host-arch' << host_arch if host_arch
+      args
+    end
+
+    def is(wildcard)
+      system('dpkg-architecture', *args, '--is', wildcard)
+    end
   end
 
   module_function

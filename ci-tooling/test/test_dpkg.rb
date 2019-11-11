@@ -14,11 +14,35 @@ class DPKGTest < TestCase
     assert_backtick('dpkg-architecture -qDEB_BUBU') do
       DPKG::BUBU
     end
+end
+
+class DPKGArchitectureTest < TestCase
+  def test_is
+    arch = DPKG::Architecture.new
+    arch.expects(:system)
+        .with('dpkg-architecture', '--is', 'amd64')
+        .returns(true)
+    assert(arch.is('amd64'))
+    arch.expects(:system)
+        .with('dpkg-architecture', '--is', 'amd64')
+        .returns(false)
+    refute(arch.is('amd64'))
   end
 
-  def test_listing
-    assert_backtick('dpkg -L abc') do
-      DPKG.list('abc')
-    end
+  def test_is_with_host_arch
+    arch = DPKG::Architecture.new(host_arch: 'arm64')
+    arch.expects(:system)
+        .with('dpkg-architecture', '--host-arch', 'arm64', '--is', 'amd64')
+        .returns(false)
+    refute(arch.is('amd64'))
+  end
+
+  def test_is_with_host_arch_empty
+    # empty string should result in no argument getting set
+    arch = DPKG::Architecture.new(host_arch: '')
+    arch.expects(:system)
+        .with('dpkg-architecture', '--is', 'amd64')
+        .returns(true)
+    assert(arch.is('amd64'))
   end
 end
