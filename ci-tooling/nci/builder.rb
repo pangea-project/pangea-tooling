@@ -38,6 +38,10 @@ if File.exist?('/ccache')
   ENV['CCACHE_DIR'] = '/ccache'
 end
 
+# Enable the apt resolver by default (instead of pbuilder); should be faster!
+# TODO: make default everywhere. only needs some soft testing in production
+ENV['PANGEA_APT_RESOLVER'] = '1'
+
 builder = CI::PackageBuilder.new
 builder.build
 
