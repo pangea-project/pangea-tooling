@@ -58,6 +58,9 @@ module Debian
 
       while (line = lines.shift) && line && !line.strip.empty?
         next if line.start_with?('#') # Comment
+        # Make sure the line is well-formed. If a paragraph is at EOF but
+        # doesn't have a terminal \n it'd trip our parsing expectations here.
+        line = line + "\n" unless line.end_with?("\n")
 
         header_match = line.match(/^(\S+):(.*\n?)$/)
         # Only match a single space for foldables, in the case of multiline

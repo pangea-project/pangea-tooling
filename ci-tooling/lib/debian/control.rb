@@ -62,7 +62,12 @@ module Debian
         output += dump_paragraph(b, binary_fields) + "\n"
       end
 
-      output
+      # Drop a double newline. dump_para can end in a newline so we'd have added
+      # extra newlines at the end now.
+      # e.g. Description always ends in \n so we'd effectively make it \n\n
+      #   (as would be expected) mid-document, at the end we only want one.
+      # Simply chop all control chars and replace them with a single \n
+      output.rstrip + "\n"
     end
 
     private

@@ -45,4 +45,3 @@ Breaks: baloo-kf5 (<< 5.28),
         libkf5globalaccel-bin (<< 5.28),
         libkf5kdelibs4support5 (<< 5.28),
         libkf5service-bin (<< 5.28)
-

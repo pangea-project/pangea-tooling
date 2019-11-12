@@ -1,0 +1,12 @@
+Source: kcrash
+Section: libs
+Priority: optional
+Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Build-Depends: cmake (>= 2.8.12)
+Standards-Version: 3.9.8
+
+Package: libkf5crash5
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Support for application crash analysis and bug report from apps
+ KCrash provides support for intercepting and handling application crashes.

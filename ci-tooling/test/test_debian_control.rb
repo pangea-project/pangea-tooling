@@ -173,12 +173,14 @@ module Debian
     def test_trailing_newline_dump
       c = Control.new(__method__)
       c.parse!
-      # The input does not end in a terminal newline (i.e. \n\nEOF). This
+      # The input does not end in a terminal newline (i.e. \nEOF). This
       # shouldn't trip up the parser.
       # Assert that stripping the terminal newline from the dump is consistent
       # with the input data.
-      assert_equal(File.read("#{__method__}/debian/control"),
-                   c.dump[0..-2])
+      ref = File.read("#{__method__}/debian/control")
+      assert(ref[-1] != "\n") # make sure the fixture is correct!
+      assert_equal(ref + "\n",
+                   c.dump)
     end
 
     def test_preserve_description_left_space
@@ -190,6 +192,16 @@ module Debian
       # consistency.
       assert_equal(File.read("#{__method__}.description.ref").rstrip,
                    c.binaries[0]['Description'].rstrip)
+    end
+
+    def test_excess_newlines
+      c = Control.new(__method__)
+      c.parse!
+      # Assert that the output doens't have extra newlines. When the last
+      # field is Description it would end in \n\n (possibly)
+      assert_equal(File.read("#{__method__}/debian/control"),
+                   c.dump)
+      assert(c.dump[-2] != "\n")
     end
   end
 end
