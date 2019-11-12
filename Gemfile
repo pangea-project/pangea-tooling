@@ -58,6 +58,7 @@ group :development, :test do
   gem 'simplecov'
   gem 'simplecov-rcov'
   gem 'terminal-table'
+  gem 'tty-logger'
   gem 'vcr', '>= 3.0.1'
   gem 'webmock'
 end
