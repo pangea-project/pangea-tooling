@@ -21,6 +21,11 @@
 
 require 'mkmf' # for find_exectuable
 
+# Enable the apt resolver by default (instead of pbuilder); should be faster!
+# NB: This needs to be set before requires, it's evaluated at global scope.
+# TODO: make default everywhere. only needs some soft testing in production
+ENV['PANGEA_APT_RESOLVER'] = '1'
+
 require_relative 'lib/setup_repo'
 require_relative '../lib/ci/build_binary'
 require_relative '../lib/nci'
@@ -37,10 +42,6 @@ if File.exist?('/ccache')
   ENV['CXX'] = find_executable('c++')
   ENV['CCACHE_DIR'] = '/ccache'
 end
-
-# Enable the apt resolver by default (instead of pbuilder); should be faster!
-# TODO: make default everywhere. only needs some soft testing in production
-ENV['PANGEA_APT_RESOLVER'] = '1'
 
 builder = CI::PackageBuilder.new
 builder.build
