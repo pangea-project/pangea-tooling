@@ -25,14 +25,13 @@ require 'git'
 require 'rugged'
 
 require_relative '../ci-tooling/lib/debian/control'
+require_relative '../ci-tooling/lib/debian/uscan'
 require_relative '../ci-tooling/lib/debian/version'
 require_relative '../ci-tooling/lib/nci'
 
 # Merges Qt stuff from debian and bumps versions around [highly experimental]
 
 TARGET_BRANCH = 'Neon/release'
-
-VERSION = '5.13.2'
 
 # not actually qt versioned:
 # - qtgamepad
@@ -196,6 +195,26 @@ class Merginator
     File.write('debian/control', control.dump)
   end
 
+  # uscan dehs result
+  def dehs
+    # Only do this once for the first source for efficency
+    @dehs ||= begin
+      result = cmd.run!('uscan --report --dehs')
+      data = result.out
+      puts "uscan exited (#{result}) :: #{data}"
+      newer = Debian::UScan::DEHS.parse_packages(data).collect do |package|
+        next nil unless package.status == Debian::UScan::States::NEWER_AVAILABLE
+        package
+      end.compact
+
+      raise "There is no Qt release pending says uscan???" if newer.empty?
+      # uscan technically kinda supports multiple sources, we do not.
+      raise "More than one uscan result?! #{newer.inspect}" if newer.size > 1
+
+      newer[0]
+    end
+  end
+
   def run
     Dir.mkdir('qtsies') unless File.exist?('qtsies')
     Dir.chdir('qtsies')
@@ -212,8 +231,9 @@ class Merginator
 
           cmd.run "git checkout #{TARGET_BRANCH}"
           old_version, = cmd.run 'dpkg-parsechangelog -SVersion'
-          next if old_version.start_with?(VERSION) # already bumped
           old_version = Version.new(old_version)
+          # check if already bumped
+          next if old_version.real_upstream.start_with?(dehs.upstream_version)
 
           last_merge = nil
           repo.walk(repo.head.target) do |commit|
@@ -283,8 +303,9 @@ class Merginator
 
           # Construct new version from pre-existing one. This retains epoch
           # and possibly upstream suffix
-          new_version = old_version.dup
-          new_version.real_upstream = VERSION
+          new_version = Version.new(dehs.upstream_version)
+          new_version.epoch = old_version.epoch
+          new_version.real_upstream_suffix = old_version.real_upstream_suffix
           new_version.revision = "0neon"
 
           # Reapply version delta with new version.
