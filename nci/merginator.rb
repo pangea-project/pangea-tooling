@@ -139,8 +139,8 @@ MODS.each do |mod|
       cmd.run('git reset --hard')
 
       cmd.run "git checkout #{TARGET_BRANCH}"
-      version, = cmd.run 'dpkg-parsechangelog -SVersion'
-      next if version.start_with?(VERSION) # already bumped
+      oldversion, = cmd.run 'dpkg-parsechangelog -SVersion'
+      next if oldversion.start_with?(VERSION) # already bumped
 
       last_merge = nil
       repo = Rugged::Repository.new(Dir.pwd)
@@ -240,9 +240,12 @@ MODS.each do |mod|
       end
       File.write('debian/control', control.dump)
 
+      newversion = VERSION
+      oldversion = Debian::Version.new(oldversion)
+      newversion += '+dfsg' if oldversion.upstream.end_with?('+dfsg')
       cmd.run('dch',
               '--distribution', NCI.current_series,
-              '--newversion', "#{VERSION}-0neon",
+              '--newversion', "#{newversion}-0neon",
               "New release #{VERSION}")
       git.commit("[TR] New release #{VERSION}", add_all: true)
 
