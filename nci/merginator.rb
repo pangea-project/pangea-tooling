@@ -179,10 +179,12 @@ MODS.each do |mod|
       cmd.run 'git pull --rebase'
       tag, = cmd.run 'git describe'
       tag = tag.strip
+
       cmd.run "git checkout #{TARGET_BRANCH}"
       cmd.run "git reset --hard origin/#{TARGET_BRANCH}"
-
       train_rerere(repo)
+      cmd.run "git checkout #{TARGET_BRANCH}"
+      cmd.run "git reset --hard origin/#{TARGET_BRANCH}"
 
       # Undo version delta because Bhushan insists on not having ephemeral
       # version constriction applied via tooling at build time!
