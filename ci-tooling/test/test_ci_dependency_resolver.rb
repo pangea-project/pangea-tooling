@@ -37,6 +37,7 @@ module CI
               '/usr/bin/apt-get',
               '--arch-only',
               '--host-architecture', 'i386',
+              '-o', 'Debug::pkgProblemResolver=true',
               '--yes',
               'build-dep', builddir)
         .returns(TTY::Command::Result.new(0, '', ''))

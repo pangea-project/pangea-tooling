@@ -68,6 +68,7 @@ module CI
         opts = []
         opts << '--arch-only' if bin_only
         opts << '--host-architecture' << arch if arch
+        opts << '-o' << 'Debug::pkgProblemResolver=true'
         opts << '--yes'
         opts << 'build-dep'
         opts << File.absolute_path(dir)
