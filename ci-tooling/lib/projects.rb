@@ -48,6 +48,18 @@ class Project
   # and Runtime in factories only...
   class GitNoBranchError < RuntimeError; end
   class ShitPileErrror < RuntimeError; end
+  # Override expectation makes no sense. The member is nil.
+  class OverrideNilError < RuntimeError
+    def initialize(member)
+      super(<<~ERR)
+        There is an override for @#{member} but that member is
+        nil. Members which are nil cannot be overridden as nil is
+        considered a final state. e.g. a nil @upstream_scm means
+        the source is native so it would not make sense to set a
+        source as it would not be used. Check your conditions!
+      ERR
+    end
+  end
 
   # Caches VCS update runs to not update the same VCS multitple times.
   module VCSCache
@@ -302,6 +314,20 @@ absolutely must not be native though!
     @override_rule.delete(member)
   end
 
+  def override_applicable?(member)
+    return false unless @override_rule
+
+    unless instance_variable_get("@#{member}")
+      raise OverrideNilError, member if override_rule_for(member)
+
+      return false
+    end
+
+    return false unless @override_rule.include?(member)
+
+    true
+  end
+
   # TODO: this doesn't do deep-application. So we can override attributes of
   #   our instance vars, but not of the instance var's instance vars.
   #   (no use case right now)
@@ -311,10 +337,9 @@ absolutely must not be native though!
   # FIXME: failure not test covered as we cannot supply a broken override
   #   without having one in the live data.
   def override_apply(member)
-    return unless @override_rule
-    return unless (object = instance_variable_get("@#{member}"))
-    return unless @override_rule.include?(member)
+    return unless override_applicable?(member)
 
+    object = instance_variable_get("@#{member}")
     rule = override_rule_for(member)
     unless rule
       instance_variable_set("@#{member}", nil)

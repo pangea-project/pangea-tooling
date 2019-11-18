@@ -393,4 +393,31 @@ class ProjectTest < TestCase
       end
     end
   end
+
+  def test_useless_native_override
+    # overrides are set to not be able to override nil members. nil members
+    # would mean the member doesn't exist or it was explicitly left nil.
+    # e.g. 'native' packaging forces upstream_scm to be nil because dpkg would
+    # not care if we made an upstream tarball anyway. native packaging cannot
+    # ever have an upstream_scm!
+    # This should raise an error as otherwise it's nigh impossible to figure out
+    # why the override doesn't stick.
+
+    name = 'native'
+    component = 'componento'
+
+    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    assert_not_nil(gitrepo)
+    assert_not_equal(gitrepo, '')
+
+    FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
+    CI::Overrides.instance_variable_set(:@default_files, ["#{Dir.pwd}/base.yml"])
+    Dir.mktmpdir(self.class.to_s) do |tmpdir|
+      Dir.chdir(tmpdir) do
+        assert_raises Project::OverrideNilError do
+          Project.new(name, component, gitrepo, type: 'unstable')
+        end
+      end
+    end
+  end
 end
