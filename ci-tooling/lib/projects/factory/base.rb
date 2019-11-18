@@ -41,7 +41,7 @@ class ProjectsFactory
       def promise_executor
         @pool ||=
           Concurrent::ThreadPoolExecutor.new(
-            min_threads: 2,
+            min_threads: 1,
             # Do not thread too aggressively. We only thread for git pulling.
             # Outside that use case too much threading actually would slow us
             # down due to GIL, locking and scheduling overhead.
