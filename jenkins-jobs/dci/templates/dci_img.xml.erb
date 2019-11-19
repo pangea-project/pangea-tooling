@@ -76,7 +76,7 @@
       <entries>
         <hudson.plugins.s3.Entry>
           <bucket>ds9-eu/dci/images/<%= @release %>/<%= @architecture %>/<%= @flavor %></bucket>
-          <sourceFile>live-config/result/*</sourceFile>
+          <sourceFile>result/*</sourceFile>
           <excludedFile></excludedFile>
           <storageClass>REDUCED_REDUNDANCY</storageClass>
           <selectedRegion>eu-central-1</selectedRegion>
@@ -104,6 +104,18 @@
       </pluginFailureResultConstraint>
       <userMetadata/>
     </hudson.plugins.s3.S3BucketPublisher>
+    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
+      <deleteDirs>true</deleteDirs>
+      <skipWhenFailed>false</skipWhenFailed>
+      <cleanWhenSuccess>true</cleanWhenSuccess>
+      <cleanWhenUnstable>true</cleanWhenUnstable>
+      <cleanWhenFailure>true</cleanWhenFailure>
+      <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
+      <cleanWhenAborted>true</cleanWhenAborted>
+      <notFailBuild>false</notFailBuild>
+      <cleanupMatrixParent>true</cleanupMatrixParent>
+      <externalDelete/>
+    </hudson.plugins.ws__cleanup.WsCleanup>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.37">
