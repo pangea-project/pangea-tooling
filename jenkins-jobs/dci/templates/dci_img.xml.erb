@@ -59,11 +59,11 @@
            export DIST_RELEASE=<%= release %>
            if [[ $arch =~ ^arm ]]; then
              ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
-             export RESULT=$(ls live-config/result/)
+             export RESULT=$(ls result/)
              echo $RESULT
-             cd live-config/result/
+             cd result/
              pigz $RESULT
-             cd ../..
+             cd ../
            else
              ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/ci-tooling/dci/imager.rb
            fi

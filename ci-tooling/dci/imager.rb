@@ -23,6 +23,6 @@ end
 @lb.configure!
 @lb.build!
 
-FileUtils.mv('result', "#{workspace}/", verbose: true)
+FileUtils.mv('live-config/result', "#{workspace}/", verbose: true)
 raise 'No result found!' unless File.exist?("#{workspace}/result")
 FileUtils.remove_dir('live-config')
