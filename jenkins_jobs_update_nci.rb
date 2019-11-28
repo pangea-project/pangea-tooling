@@ -299,7 +299,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
     end
 
-    enqueue(MGMTDockerHubRebuild.new(dependees: []))
+    # Docker hub changed API and I can not work out a way to trigger a build now
+    #enqueue(MGMTDockerHubRebuild.new(dependees: []))
     enqueue(MGMTDockerHubCheck.new(dependees: []))
     enqueue(MGMTRepoMetadataCheck.new(dependees: []))
 
