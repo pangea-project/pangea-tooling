@@ -50,9 +50,9 @@ class Project
   class ShitPileErrror < RuntimeError; end
   # Override expectation makes no sense. The member is nil.
   class OverrideNilError < RuntimeError
-    def initialize(component, url_base, name, member)
+    def initialize(component, url_base, name, member, value)
       super(<<~ERR)
-        There is an override for @#{member} in @#{name} #{component} #{url_base} but that member is
+        There is an override for @#{member} of #{value} in @#{name} #{component} #{url_base} but that member is
         nil. Members which are nil cannot be overridden as nil is
         considered a final state. e.g. a nil @upstream_scm means
         the source is native so it would not make sense to set a
@@ -318,7 +318,7 @@ absolutely must not be native though!
     return false unless @override_rule
 
     unless instance_variable_get("@#{member}")
-      raise OverrideNilError.new(@component, @url_base, @name, member) if override_rule_for(member)
+      raise OverrideNilError.new(@component, @url_base, @name, member, override_rule_for(member)) if override_rule_for(member)
 
       return false
     end
