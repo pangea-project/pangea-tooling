@@ -318,7 +318,7 @@ absolutely must not be native though!
     return false unless @override_rule
 
     unless instance_variable_get("@#{member}")
-      raise OverrideNilError, @name, member if override_rule_for(member)
+      raise OverrideNilError.new(@name, member) if override_rule_for(member)
 
       return false
     end
