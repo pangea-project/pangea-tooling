@@ -55,9 +55,6 @@
     <hudson.tasks.Shell>
       <command>#!/bin/bash
            set -e
-           export DIST=netrunner-<%= @type %>
-           export VERSION=<%= @snapshot %>
-           ~/tooling/ci-tooling/dci/snapshot.rb
            arch=$(dpkg --print-architecture)
            export DIST_RELEASE=<%= release %>
            if [[ $arch =~ ^arm ]]; then
