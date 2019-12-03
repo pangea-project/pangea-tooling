@@ -317,6 +317,17 @@ absolutely must not be native though!
   def override_applicable?(member)
     return false unless @override_rule
 
+    # Overrides are cascading so a more general rule could conflict with a more
+    # specific one. In that event manually setting the specific one to nil
+    # should be passing as no-op.
+    # e.g. all Neon/releases are forced to use uscan. That would fail the
+    # validation below, so native software would then explicit set
+    # upstream_scm:nil in their specific override. This then triggers equallity
+    # which we consider no-op.
+    if override_rule_for(member) == instance_variable_get("@#{member}")
+      return false
+    end
+
     unless instance_variable_get("@#{member}")
       raise OverrideNilError.new(@component, @url_base, @name, member, override_rule_for(member)) if override_rule_for(member)
 

@@ -420,4 +420,30 @@ class ProjectTest < TestCase
       end
     end
   end
+
+  def test_useless_native_override_override
+    # since overrides are cascading it can be that a generic rule sets
+    # an (incorrect) upstream_scm which we'd ordinarilly refuse to override
+    # and fatally error out on when operating on a native package.
+    # To bypass this a more specific rule may be set for the specific native
+    # package to explicitly force it to nil again. The end result is an
+    # override that would attemtp to set upstream_scm to nil, which it
+    # already is, so it gets skipped without error.
+
+    name = 'override_override'
+    component = 'componento'
+
+    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    assert_not_nil(gitrepo)
+    assert_not_equal(gitrepo, '')
+
+    FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
+    CI::Overrides.instance_variable_set(:@default_files, ["#{Dir.pwd}/base.yml"])
+    Dir.mktmpdir(self.class.to_s) do |tmpdir|
+      Dir.chdir(tmpdir) do
+        project = Project.new(name, component, gitrepo, type: 'unstable')
+        assert_nil(project.upstream_scm)
+      end
+    end
+  end
 end

@@ -2,4 +2,8 @@
   '*':
     upstream_scm:
       type: 'git'
+'*/override_override':
+  '*':
+    upstream_scm: null
+
 
