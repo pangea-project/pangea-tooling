@@ -311,7 +311,7 @@ absolutely must not be native though!
   end
 
   def override_rule_for(member)
-    @override_rule.delete(member)
+    @override_rule[member]
   end
 
   def override_applicable?(member)
