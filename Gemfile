@@ -46,7 +46,7 @@ gem 'minitest'
 group :development, :test do
   gem 'droplet_kit'
   gem 'equivalent-xml'
-  gem 'mocha', '< 1.0.0'
+  gem 'mocha', '~> 1.9.0'
   gem 'parallel_tests'
   gem 'rake-notes'
   gem 'rubocop', '>= 0.38'
