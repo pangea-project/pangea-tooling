@@ -6,6 +6,11 @@
   <assignedNode>master</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H H(5-8) * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
   <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
   <triggers/>
@@ -32,19 +37,19 @@
       <cleanupMatrixParent>false</cleanupMatrixParent>
       <externalDelete/>
     </hudson.plugins.ws__cleanup.WsCleanup>
-      <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.27">
-      <targets class="empty-list"/>
-      <strategy>ALL</strategy>
-      <notifyOnBuildStart>false</notifyOnBuildStart>
-      <notifySuspects>false</notifySuspects>
-      <notifyCulprits>false</notifyCulprits>
-      <notifyFixers>false</notifyFixers>
-      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
-      <buildToChatNotifier class="hudson.plugins.im.build_notify.SummaryOnlyBuildToChatNotifier" plugin="instant-messaging@1.35"/>
-      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
-      <channels/>
-    </hudson.plugins.ircbot.IrcPublisher>
   </publishers>
+  <hudson.plugins.downstream__ext.DownstreamTrigger plugin="downstream-ext@1.8">
+  <childProjects>img_<%= @type %>_netrunner-<%= @type %>_<%= @snapshot %>_<%= @architecture %></childProjects>
+  <threshold>
+    <name>SUCCESS</name>
+    <ordinal>0</ordinal>
+    <color>BLUE</color>
+    <completeBuild>true</completeBuild>
+  </threshold>
+  <thresholdStrategy>AND_HIGHER</thresholdStrategy>
+  <onlyIfSCMChanges>false</onlyIfSCMChanges>
+  <onlyIfLocalSCMChanges>false</onlyIfLocalSCMChanges>
+</hudson.plugins.downstream__ext.DownstreamTrigger>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.28">
       <deleteDirs>false</deleteDirs>
