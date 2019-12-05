@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project>
+<matrix-project plugin="matrix-project@1.5">
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
@@ -25,7 +25,7 @@
   <axes>
     <org.jenkinsci.plugins.elasticaxisplugin.ElasticAxis plugin="elastic-axis@1.2">
       <name>label</name>
-      <label>master</label>
+      <label>builder</label>
       <ignoreOffline>false</ignoreOffline>
     </org.jenkinsci.plugins.elasticaxisplugin.ElasticAxis>
   </axes>
@@ -38,22 +38,6 @@
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.27">
-      <targets>
-        <hudson.plugins.im.GroupChatIMMessageTarget plugin="instant-messaging@1.35">
-          <name>#dci-ci</name>
-          <notificationOnly>true</notificationOnly>
-        </hudson.plugins.im.GroupChatIMMessageTarget>
-      </targets>
-      <strategy>FAILURE_AND_FIXED</strategy>
-      <notifyOnBuildStart>false</notifyOnBuildStart>
-      <notifySuspects>false</notifySuspects>
-      <notifyCulprits>false</notifyCulprits>
-      <notifyFixers>false</notifyFixers>
-      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
-      <buildToChatNotifier class="hudson.plugins.im.build_notify.DefaultBuildToChatNotifier" plugin="instant-messaging@1.35"/>
-      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
-    </hudson.plugins.ircbot.IrcPublisher>
     <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.30">
       <configs>
         <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
@@ -71,4 +55,4 @@
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
   </buildWrappers>
-</project>
+</matrix-project>
