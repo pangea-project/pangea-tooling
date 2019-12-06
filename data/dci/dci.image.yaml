@@ -9,9 +9,11 @@
     :releases:
       next: master
       1908: Netrunner/19.08
+      2001: Netrunner/20.01
     :snapshots:
       - 'next'
       - '1908'
+      - '2001'
 
   netrunner-core:
     :repo: https://github.com/netrunner-core/live-build
