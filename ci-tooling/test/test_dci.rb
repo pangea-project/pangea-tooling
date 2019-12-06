@@ -31,10 +31,10 @@ class DCITest < TestCase
     assert_equal('20190701', DCI.series['next'])
 
     # With sorting
-    assert_equal('2001', DCI.series(sort: :ascending).keys.first)
+    assert_equal('1908', DCI.series(sort: :ascending).keys.first)
   end
 
   def test_latest_series
-    assert_equal('next', DCI.latest_series)
+    assert_equal('2001', DCI.latest_series)
   end
 end
