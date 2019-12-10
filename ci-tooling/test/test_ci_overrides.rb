@@ -98,5 +98,20 @@ module CI
       }
       assert_equal(expected, overrides)
     end
+
+    def test_nil_upstream_scm
+      # standalone deep_merge would overwrite properties set to nil explicitly, but
+      # we want them preserved!
+      o = Overrides.new([data('o1.yaml')])
+      scm = SCM.new('git', 'git://packaging.neon.kde.org.uk/qt/qt5webkit', 'test_nil_upstream_scm')
+
+      overrides = o.rules_for_scm(scm)
+
+      refute_nil overrides
+      expected = {
+        'upstream_scm' => nil
+      }
+      assert_equal(expected, overrides)
+    end
   end
 end

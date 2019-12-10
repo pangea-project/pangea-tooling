@@ -74,6 +74,23 @@ module CI
       repo_patterns
     end
 
+    def nil_fix(h)
+      h.each_with_object({}) do |(k, v), enumerable|
+        enumerable[k] = v
+        enumerable[k] = nil_fix(v) if v.is_a?(Hash)
+        enumerable[k] ||= 'NilClass'
+      end
+    end
+
+    def nil_unfix(h)
+      h.each_with_object({}) do |(k, v), enumerable|
+        enumerable[k] = v
+        enumerable[k] = nil if v == 'NilClass'
+        enumerable[k] = nil_unfix(v) if v.is_a?(Hash)
+        enumerable[k]
+      end
+    end
+
     # Flattens a pattern hash array into a hash of override rules.
     # Namely the overrides will be deep merged in order to cascade all relevant
     # rules against the first one.
@@ -94,10 +111,16 @@ module CI
           #   attached to foo! that I ever saw, in particular considering the
           #   STL uses ! to mean in-place. So deep_merge! is behaviorwise not
           #   equal to merge! but deeper...)
-          rules = rules.deep_merge(override)
+          # NOTE: even more crap: deep_merge considers nil to mean nothing, but
+          #   for us nothing has meaning. Basically if a key is nil we don't want
+          #   it replaced, because nil is not undefined!! We have project overrides
+          #   that set upstream_scm to nil which is to say if it is nil already
+          #   do not override. So to bypass deep merge's assumption here we fixate
+          #   the nil value and then unfixate it again.
+          rules = rules.deep_merge(nil_fix(override))
         end
       end
-      rules
+      nil_unfix(rules)
     end
 
     def overrides

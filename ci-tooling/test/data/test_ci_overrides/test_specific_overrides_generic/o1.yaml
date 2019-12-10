@@ -7,6 +7,9 @@
     upstream_scm:
       type: tarball
       url: http://http.debian.net/<%= name %>.tar.xz
+  test_nil_upstream_scm:
+    upstream_scm:
+      type: "abc"
 
 '*{git.debian,packaging.neon}*/qt/qt5webkit':
   '*':
@@ -19,3 +22,5 @@
   kubuntu_vivid_mobile:
     upstream_scm:
       url: http://http.debian.net/qtwebkit.tar.xz
+  test_nil_upstream_scm:
+    upstream_scm: null
