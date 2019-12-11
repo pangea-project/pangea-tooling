@@ -41,9 +41,9 @@ pool =
 
 archs.each do |arch|
   threads << Concurrent::Promise.execute(executor: pool) do
-    unless File.exist?("testing-#{arch}") || File.exist?("#{arch}.tar.bz2")
+    unless File.exist?("stable-#{arch}") || File.exist?("#{arch}.tar.bz2")
       puts "Building Image for #{arch}"
-      cmd.run("sudo qemu-debootstrap --arch=#{arch} testing ./testing-#{arch} http://deb.debian.org/debian")
+      cmd.run("sudo qemu-debootstrap --arch=#{arch} stable ./stable-#{arch} http://deb.debian.org/debian")
     end
   end
 end
@@ -51,20 +51,20 @@ end
 Concurrent::Promise.zip(*threads).wait!
 
 archs.each do |arch|
-  if File.exist?("testing-#{arch}")
-    cmd.run("sudo chroot ./testing-#{arch} apt-get clean")
-    cmd.run("sudo chroot ./testing-#{arch} apt-get autoclean")
-    cmd.run("sudo chroot ./testing-#{arch} apt-get -y install git awscli pigz live-build vim make")
-    cmd.run("sudo chroot ./testing-#{arch} sed --in-place=.bak -e 's|umount \"$TARGET/proc\" 2>/dev/null \\|\\| true|#umount \"$TARGET/proc\" 2>/dev/null \\|\\| true|g' /usr/share/debootstrap/functions")
-    cmd.run("sudo chroot ./testing-#{arch} cat /usr/share/debootstrap/functions | grep '#umount \"$TARGET/proc\" 2>/dev/null'")
+  if File.exist?("stable-#{arch}")
+    cmd.run("sudo chroot ./stable-#{arch} apt-get clean")
+    cmd.run("sudo chroot ./stable-#{arch} apt-get autoclean")
+    cmd.run("sudo chroot ./stable-#{arch} apt-get -y install git awscli pigz live-build vim make")
+    cmd.run("sudo chroot ./stable-#{arch} sed --in-place=.bak -e 's|umount \"$TARGET/proc\" 2>/dev/null \\|\\| true|#umount \"$TARGET/proc\" 2>/dev/null \\|\\| true|g' /usr/share/debootstrap/functions")
+    cmd.run("sudo chroot ./stable-#{arch} cat /usr/share/debootstrap/functions | grep '#umount \"$TARGET/proc\" 2>/dev/null'")
   else
-    puts "testing-#{arch} does not exist, if  this is first run, something failed"
+    puts "stable-#{arch} does not exist, if  this is first run, something failed"
   end
   unless File.exist?("#{arch}.tar.bz2")
-    cmd.run("cd testing-#{arch} && sudo tar cjvf ../#{arch}.tar.bz2 . && cd ..")
+    cmd.run("cd stable-#{arch} && sudo tar cjvf ../#{arch}.tar.bz2 . && cd ..")
   end
-  if File.exist?("#{arch}.tar.bz2") && File.exist?("testing-#{arch}")
-    cmd.run("sudo rm -rfv testing-#{arch}")
+  if File.exist?("#{arch}.tar.bz2") && File.exist?("stable-#{arch}")
+    cmd.run("sudo rm -rfv stable-#{arch}")
   end
   if File.exist?("#{arch}.tar.bz2")
     puts 'We have a tar, moving on'
