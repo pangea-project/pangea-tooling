@@ -21,7 +21,7 @@ Aptly::Ext::Remote.dci do
   end
   all_repos.compact!
   @repos = []
-  DCI.series.each_key do |distribution|
+  DCI.latest_series do |distribution|
     DCI.types.each do |type|
       file =
         "ci-tooling/data/projects/dci/#{distribution}/#{type}.yaml"
