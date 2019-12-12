@@ -15,23 +15,16 @@ cleanNode('amd64') { // && cloud') {
     }
     <% elsif upstream_scm.type == 'uscan' %>
     <% else; raise "Unknown upstream scm type on #{upstream_scm}"; end %>
-
-    // FIXME: this is temporary so publish can iterate quickly; should be not used anymore
-    //   used in-palace of /tooling currently...
-    sh 'mkdir tooling'
-    dir('tooling') {
-      git url: 'https://github.com/pangea-project/pangea-tooling'
-    }
   }
 
   stage('extend') {
-    sh 'ls -lah tooling/nci/snapcraft_extend.rb'
-    sh '~/tooling/nci/contain.rb /workspace/tooling/nci/snapcraft_extend.rb'
+    sh 'ls -lah ~/tooling/nci/snapcraft_extend.rb'
+    sh '~/tooling/nci/contain.rb ~/tooling/nci/snapcraft_extend.rb'
     archiveArtifacts 'snapcraft.yaml'
   }
 
   stage('snapcraft') {
-    sh '~/tooling/nci/contain.rb /workspace/tooling/nci/snapcraft.rb'
+    sh '~/tooling/nci/contain.rb ~/tooling/nci/snapcraft.rb'
     sh 'ls -lah'
   }
 
@@ -39,7 +32,7 @@ cleanNode('amd64') { // && cloud') {
     withCredentials([file(credentialsId: 'snapcraft.cfg', variable: 'PANGEA_SNAPCRAFT_CFG_FILE')]) {
       // FIXME: drop this after our new publish.rb is on all nodes (picks up file from env)
       sh 'cp $PANGEA_SNAPCRAFT_CFG_FILE snapcraft.cfg'
-      sh '~/tooling/nci/contain.rb /workspace/tooling/nci/snapcraft_publish.rb'
+      sh '~/tooling/nci/contain.rb ~/tooling/nci/snapcraft_publish.rb'
     }
   }
 }
