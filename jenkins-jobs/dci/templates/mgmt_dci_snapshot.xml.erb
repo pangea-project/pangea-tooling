@@ -47,7 +47,7 @@
   </builders>
   <publishers>
     <hudson.tasks.BuildTrigger>
-      <childProjects>img_desktop_netrunner-desktop_next_amd64</childProjects>
+      <childProjects>img_<%= @type %>_netrunner-<%= @type %>_<%= @snapshot %>_<%= @architecture %></childProjects>
       <threshold>
         <name>SUCCESS</name>
         <ordinal>0</ordinal>
