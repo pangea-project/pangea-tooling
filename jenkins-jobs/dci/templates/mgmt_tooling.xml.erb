@@ -37,38 +37,6 @@
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <hudson.plugins.parameterizedtrigger.TriggerBuilder plugin="parameterized-trigger@2.35.2">
-     <configs>
-       <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
-         <configs class="empty-list"/>
-         <projects>mgmt_tooling_progenitor</projects>
-         <condition>ALWAYS</condition>
-         <triggerWithNoParameters>true</triggerWithNoParameters>
-         <triggerFromChildProjects>false</triggerFromChildProjects>
-         <block>
-           <buildStepFailureThreshold>
-             <name>FAILURE</name>
-             <ordinal>2</ordinal>
-             <color>RED</color>
-             <completeBuild>true</completeBuild>
-           </buildStepFailureThreshold>
-           <unstableThreshold>
-             <name>UNSTABLE</name>
-             <ordinal>1</ordinal>
-             <color>YELLOW</color>
-             <completeBuild>true</completeBuild>
-           </unstableThreshold>
-           <failureThreshold>
-             <name>FAILURE</name>
-             <ordinal>2</ordinal>
-             <color>RED</color>
-             <completeBuild>true</completeBuild>
-           </failureThreshold>
-         </block>
-         <buildAllNodesWithLabel>false</buildAllNodesWithLabel>
-       </hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
-     </configs>
-   </hudson.plugins.parameterizedtrigger.TriggerBuilder>
    <com.cloudbees.jenkins.GitHubSetCommitStatusBuilder plugin="github@1.29.5">
    <statusMessage>
      <content></content>
@@ -365,24 +333,7 @@ deploy</tasks>
       <onlyIfSCMChanges>false</onlyIfSCMChanges>
       <onlyIfLocalSCMChanges>false</onlyIfLocalSCMChanges>
     </hudson.plugins.downstream__ext.DownstreamTrigger>
-    <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.26">
-      <targets>
-        <hudson.plugins.im.GroupChatIMMessageTarget plugin="instant-messaging@1.35">
-          <name>#pangea-monitoring</name>
-          <notificationOnly>true</notificationOnly>
-        </hudson.plugins.im.GroupChatIMMessageTarget>
-      </targets>
-      <strategy>FAILURE_AND_FIXED</strategy>
-      <notifyOnBuildStart>false</notifyOnBuildStart>
-      <notifySuspects>false</notifySuspects>
-      <notifyCulprits>false</notifyCulprits>
-      <notifyFixers>false</notifyFixers>
-      <notifyUpstreamCommitters>false</notifyUpstreamCommitters>
-      <buildToChatNotifier class="hudson.plugins.im.build_notify.PrintFailingTestsBuildToChatNotifier" plugin="instant-messaging@1.35"/>
-      <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
-      <channels/>
-    </hudson.plugins.ircbot.IrcPublisher>
-    <com.cloudbees.jenkins.GitHubCommitNotifier plugin="github@1.13.3">
+      <com.cloudbees.jenkins.GitHubCommitNotifier plugin="github@1.13.3">
       <resultOnFailure>FAILURE</resultOnFailure>
     </com.cloudbees.jenkins.GitHubCommitNotifier>
     <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.25">
