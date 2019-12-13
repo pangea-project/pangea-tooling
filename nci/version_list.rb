@@ -101,7 +101,7 @@ ssh_args = key_file ? [{ keys: [key_file] }] : []
 product_and_versions = []
 
 # Publish ISO and associated content.
-%w[applications frameworks plasma].each do |scope|
+%w[release-service frameworks plasma].each do |scope|
   Net::SFTP.start('master.kde.org', 'ftpneon', *ssh_args) do |sftp|
     # delete old directories
     dir_path = "stable/#{scope}/"
