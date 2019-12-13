@@ -112,7 +112,11 @@ product_and_versions = []
     latest = version_dirs[-1]
 
     world_readable = ((latest.attributes.permissions & S_IROTH) == S_IROTH)
-    raise "Version #{latest.name} not world readable!" unless world_readable
+    unless world_readable
+      warn "Version #{latest.name} of #{scope} not world readable!" \
+           " This will mean that this scope's version isn't checked!"
+      next
+    end
 
     latest_path = "#{dir_path}/#{latest.name}/"
     tars = sftp.dir.glob(latest_path, '**/**')
