@@ -12,7 +12,6 @@
       2001: Netrunner/20.01
     :snapshots:
       - 'next'
-      - '1908'
       - '2001'
 
   netrunner-core:
@@ -23,10 +22,8 @@
       - core
     :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares'
     :releases:
-      1908: Netrunner/19.08
       2001: Netrunner/20.01
     :snapshots:
-      - '1908'
       - '2001'
 
   netrunner-c1:
@@ -37,7 +34,6 @@
       - c1
     :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares,odroid'
     :releases:
-      1908: Netrunner/19.08
       2001: Netrunner/20.01
     :snapshots:
       - '1908'
@@ -51,10 +47,8 @@
       - z2
     :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares,rock64,zeronet'
     :releases:
-      1908: Netrunner/19.08
       2001: Netrunner/20.01
     :snapshots:
-      - '1908'
       - '2001'
 
   netrunner-z1:
@@ -68,5 +62,4 @@
       1908: Netrunner/19.08
       2001: Netrunner/20.01
     :snapshots:
-      - '1908'
       - '2001'
