@@ -24,14 +24,13 @@ class DCITest < TestCase
   end
 
   def test_series
-    assert_equal_collection(%w(2001 1908 next), DCI.series.keys)
-    assert_equal_collection(%w(20191205 20190630 20190701), DCI.series.values)
+    assert_equal_collection(%w(2001 next), DCI.series.keys)
+    assert_equal_collection(%w(20191205 20191206), DCI.series.values)
     assert_equal('20191205', DCI.series['2001'])
-    assert_equal('20190630', DCI.series['1908'])
-    assert_equal('20190701', DCI.series['next'])
+    assert_equal('20191206', DCI.series['next'])
 
     # With sorting
-    assert_equal('1908', DCI.series(sort: :ascending).keys.first)
+    assert_equal('2001', DCI.series(sort: :ascending).keys.first)
   end
 
   def test_latest_series
