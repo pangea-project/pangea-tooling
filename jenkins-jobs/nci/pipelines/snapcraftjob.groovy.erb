@@ -19,12 +19,12 @@ cleanNode('amd64') { // && cloud') {
 
   stage('extend') {
     sh 'ls -lah ~/tooling/nci/snapcraft_extend.rb'
-    sh '~/tooling/nci/contain.rb ~/tooling/nci/snapcraft_extend.rb'
+    sh '~/tooling/nci/contain.rb /tooling/nci/snapcraft_extend.rb'
     archiveArtifacts 'snapcraft.yaml'
   }
 
   stage('snapcraft') {
-    sh '~/tooling/nci/contain.rb ~/tooling/nci/snapcraft.rb'
+    sh '~/tooling/nci/contain.rb /tooling/nci/snapcraft.rb'
     sh 'ls -lah'
   }
 
@@ -32,7 +32,7 @@ cleanNode('amd64') { // && cloud') {
     withCredentials([file(credentialsId: 'snapcraft.cfg', variable: 'PANGEA_SNAPCRAFT_CFG_FILE')]) {
       // FIXME: drop this after our new publish.rb is on all nodes (picks up file from env)
       sh 'cp $PANGEA_SNAPCRAFT_CFG_FILE snapcraft.cfg'
-      sh '~/tooling/nci/contain.rb ~/tooling/nci/snapcraft_publish.rb'
+      sh '~/tooling/nci/contain.rb /tooling/nci/snapcraft_publish.rb'
     }
   }
 }
