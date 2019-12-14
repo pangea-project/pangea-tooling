@@ -19,9 +19,10 @@ Aptly::Ext::Remote.dci do
 
     @all_repos << repo.Name
   end
+  puts @all_repos
   all_repos.compact!
   @repos = []
-  DCI.latest_series do |distribution|
+  distribution = DCI.latest_series
     DCI.types.each do |type|
       file =
         "ci-tooling/data/projects/dci/#{distribution}/#{type}.yaml"
@@ -35,7 +36,7 @@ Aptly::Ext::Remote.dci do
           allrepos.each.with_index do |component, _repo|
             puts component
             component.each_key do |repo|
-              if @all_repos.include?("#{repo}-#{distribution}".gsub(/[\,\"\[\]*]/, ''))
+              if @all_repos.include?("#{repo}-#{distribution}")
                 puts "#{repo}-#{distribution} exists, moving on.".gsub(/[\,\"\[\]*]/, '')
                 next
               else
@@ -53,7 +54,6 @@ Aptly::Ext::Remote.dci do
         end
       end
     end
-  end
   Aptly.publish(
     @repos,
     'netrunner',
