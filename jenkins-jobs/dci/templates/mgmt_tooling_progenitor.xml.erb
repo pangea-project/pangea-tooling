@@ -1,78 +1,105 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.1' encoding='UTF-8'?>
 <project>
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
-    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.14.0">
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.3">
+      <useBuildBlocker>false</useBuildBlocker>
+      <blockLevel>GLOBAL</blockLevel>
+      <scanQueueFor>DISABLED</scanQueueFor>
+      <blockingJobs></blockingJobs>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.29.5">
       <projectUrl>http://github.com/pangea-project/pangea-tooling/</projectUrl>
+      <displayName></displayName>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    <com.suryagaddipati.jenkins.SlaveUtilizationProperty plugin="slave-utilization-plugin@1.8">
+      <needsExclusiveAccessToNode>false</needsExclusiveAccessToNode>
+      <singleInstancePerSlave>false</singleInstancePerSlave>
+    <slaveUtilizationPercentage>0</slaveUtilizationPercentage>
+    </com.suryagaddipati.jenkins.SlaveUtilizationProperty>
+    <com.synopsys.arc.jenkinsci.plugins.jobrestrictions.jobs.JobRestrictionProperty plugin="job-restrictions@0.8"/>
+    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@2.0.1">
+      <categories class="java.util.concurrent.CopyOnWriteArrayList"/>
+      <throttleEnabled>false</throttleEnabled>
+      <throttleOption>project</throttleOption>
+      <limitOneJobWithMatchingParams>false</limitOneJobWithMatchingParams>
+      <paramsToUseForLimit></paramsToUseForLimit>
+    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.0">
-    <configVersion>2</configVersion>
-    <userRemoteConfigs>
-      <hudson.plugins.git.UserRemoteConfig>
-        <url>https://github.com/pangea-project/pangea-tooling.git</url>
-      </hudson.plugins.git.UserRemoteConfig>
-    </userRemoteConfigs>
-    <branches>
-      <hudson.plugins.git.BranchSpec>
-        <name>*/master</name>
-      </hudson.plugins.git.BranchSpec>
-    </branches>
-    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-    <submoduleCfg class="list"/>
-    <extensions/>
-  </scm>
-  <assignedNode>master</assignedNode>
-  <canRoam>false</canRoam>
-  <disabled>true</disabled>
-  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
-  <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
-  <concurrentBuild>false</concurrentBuild>
-  <builders>
-    <hudson.tasks.Shell>
-      <command>lsb_release -a
-ruby -e &apos;print Gem.user_dir&apos;
-env
-ls -ah
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@4.0.0">
+     <configVersion>2</configVersion>
+     <userRemoteConfigs>
+       <hudson.plugins.git.UserRemoteConfig>
+         <url>https://github.com/pangea-project/pangea-tooling.git</url>
+       </hudson.plugins.git.UserRemoteConfig>
+     </userRemoteConfigs>
+     <branches>
+       <hudson.plugins.git.BranchSpec>
+         <name>*/master</name>
+       </hudson.plugins.git.BranchSpec>
+     </branches>
+     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+     <submoduleCfg class="list"/>
+     <extensions/>
+   </scm>
+   <assignedNode>master</assignedNode>
+   <canRoam>false</canRoam>
+   <disabled>false</disabled>
+   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+   <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
+   <triggers/>
+   <concurrentBuild>false</concurrentBuild>
+   <builders>
+     <hudson.tasks.Shell>
+       <command>lsb_release -a
+ ruby -e &apos;print Gem.user_dir&apos;
+ env
+ ls -ah
 
-rm Gemfile.lock || true
+ rm Gemfile.lock || true
 
-gem install --no-document bundler
-bundle package --all --all-platforms --no-install
-# Strip directories out of the cache.
-# Git sources are left in there unpacked which prevents them from being installed into the system path.
-find ./vendor/cache/* -maxdepth 0 -type d | xargs --no-run-if-empty rm -r
+ gem install --no-document bundler
+ bundle package --all --all-platforms --no-install
+ # Strip directories out of the cache.
+ # Git sources are left in there unpacked which prevents them from being installed into the system path.
+ find ./vendor/cache/* -maxdepth 0 -type d | xargs --no-run-if-empty rm -r
 
-rm tooling.tar.gz || true
-tar -cp * .noexec.yml .rubocop.yml | gzip --rsyncable -1 &gt; tooling.tar.gz
-</command>
-    </hudson.tasks.Shell>
-  </builders>
-  <publishers>
-    <hudson.tasks.BuildTrigger>
-      <childProjects><%= downstreams.join(', ') %></childProjects>
-      <threshold>
-        <name>UNSTABLE</name>
-        <ordinal>1</ordinal>
-        <color>YELLOW</color>
-        <completeBuild>true</completeBuild>
-      </threshold>
-    </hudson.tasks.BuildTrigger>
-    <hudson.tasks.ArtifactArchiver>
-      <artifacts>tooling.tar.gz</artifacts>
-      <allowEmptyArchive>false</allowEmptyArchive>
-      <onlyIfSuccessful>false</onlyIfSuccessful>
-      <fingerprint>false</fingerprint>
-      <defaultExcludes>true</defaultExcludes>
-      <caseSensitive>true</caseSensitive>
-    </hudson.tasks.ArtifactArchiver>
-  </publishers>
-  <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
-    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.2">
-      <colorMapName>xterm</colorMapName>
-    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
-  </buildWrappers>
-</project>
+ rm tooling.tar.gz || true
+ tar -cp * .noexec.yml .rubocop.yml | gzip --rsyncable -1 &gt; tooling.tar.gz
+ </command>
+     </hudson.tasks.Shell>
+   </builders>
+   <publishers>
+     <hudson.tasks.BuildTrigger>
+       <childProjects><%= downstreams.join(', ') %></childProjects>
+       <threshold>
+         <name>UNSTABLE</name>
+         <ordinal>1</ordinal>
+         <color>YELLOW</color>
+         <completeBuild>true</completeBuild>
+       </threshold>
+     </hudson.tasks.BuildTrigger>
+     <hudson.tasks.ArtifactArchiver>
+       <artifacts>tooling.tar.gz</artifacts>
+       <allowEmptyArchive>false</allowEmptyArchive>
+       <onlyIfSuccessful>false</onlyIfSuccessful>
+       <fingerprint>false</fingerprint>
+       <defaultExcludes>true</defaultExcludes>
+       <caseSensitive>true</caseSensitive>
+     </hudson.tasks.ArtifactArchiver>
+   </publishers>
+   <buildWrappers>
+     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.37">
+       <deleteDirs>false</deleteDirs>
+       <cleanupParameter></cleanupParameter>
+       <externalDelete></externalDelete>
+       <disableDeferredWipeout>false</disableDeferredWipeout>
+     </hudson.plugins.ws__cleanup.PreBuildCleanup>
+     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.10"/>
+     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.6.2">
+       <colorMapName>xterm</colorMapName>
+     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+   </buildWrappers>
+ </project>
