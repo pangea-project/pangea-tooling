@@ -46,6 +46,7 @@
     <hudson.tasks.Shell>
       <command>
 rm -rf .bundle || true
+gem update --system
 gem install --no-document bundler
 [ -f Gemfile.lock ] || bundle install --jobs=`nproc`
 bundle update --jobs=`nproc`
