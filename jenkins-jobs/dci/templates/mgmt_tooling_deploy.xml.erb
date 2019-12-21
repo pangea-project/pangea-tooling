@@ -35,6 +35,8 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>export GEM_HOME=$(ruby -r rubygems -e &apos;puts Gem.user_dir&apos;)
+export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
+export PATH=$GEM_HOME/bin:$PATH
 hostname
 lsb_release -a
 ruby -e &apos;print Gem.user_dir&apos;
