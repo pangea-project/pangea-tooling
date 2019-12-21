@@ -34,30 +34,19 @@
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
-      <command>export GEM_HOME=$(ruby -r rubygems -e &apos;puts Gem.user_dir&apos;)
-export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
-export PATH=$GEM_HOME/bin:$PATH
-hostname
+      <command>hostname
 lsb_release -a
 ruby -e &apos;print Gem.user_dir&apos;
 env
-ls -ah
-
-pwd
 
 tar -xf *.tar.gz
 
-rm -rv .bundle || true
-gem update --system
 gem install --no-document bundler
-# FIXME: add --without development test back
-# https://github.com/pangea-project/pangea-tooling/issues/17
 bundle install --jobs=`nproc` --no-cache --local --frozen --system
 
 rake clean
 rake deploy
 
-find ~/tooling-pending/vendor/cache/* -maxdepth 0 -type d | xargs -r rm -rv
 </command>
     </hudson.tasks.Shell>
   </builders>
