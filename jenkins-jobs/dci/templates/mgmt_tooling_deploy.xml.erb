@@ -1,18 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project>
+<matrix-project plugin="matrix-project@1.6">
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
-    <hudson.model.ParametersDefinitionProperty>
-      <parameterDefinitions>
-        <hudson.model.StringParameterDefinition>
-          <name>remote</name>
-          <description/>
-          <defaultValue>yes</defaultValue>
-        </hudson.model.StringParameterDefinition>
-      </parameterDefinitions>
-    </hudson.model.ParametersDefinitionProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <assignedNode>master</assignedNode>
@@ -22,6 +13,13 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
+  <axes>
+    <org.jenkinsci.plugins.elasticaxisplugin.ElasticAxis plugin="elastic-axis@1.2">
+      <name>label</name>
+      <label>builder</label>
+      <ignoreOffline>true</ignoreOffline>
+    </org.jenkinsci.plugins.elasticaxisplugin.ElasticAxis>
+  </axes>
   <builders>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.37">
       <project>mgmt_tooling_progenitor</project>
@@ -36,7 +34,10 @@
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
-      <command>hostname
+      <command>export GEM_HOME=$(ruby -r rubygems -e &apos;puts Gem.user_dir&apos;)
+export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
+export PATH=$GEM_HOME/bin:$PATH
+hostname
 lsb_release -a
 ruby -e &apos;print Gem.user_dir&apos;
 env
@@ -46,11 +47,16 @@ pwd
 
 tar -xf *.tar.gz
 
+rm -rv .bundle || true
 gem install --no-document bundler
+# FIXME: add --without development test back
+# https://github.com/pangea-project/pangea-tooling/issues/17
 bundle install --jobs=`nproc` --no-cache --local --frozen --system
 
 rake clean
 rake deploy
+
+find ~/tooling-pending/vendor/cache/* -maxdepth 0 -type d | xargs -r rm -rv
 </command>
     </hudson.tasks.Shell>
   </builders>
@@ -91,4 +97,4 @@ rake deploy
   <executionStrategy class="hudson.matrix.DefaultMatrixExecutionStrategyImpl">
     <runSequentially>false</runSequentially>
   </executionStrategy>
-</project>
+</matrix-project>
