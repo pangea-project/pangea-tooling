@@ -63,7 +63,7 @@ module MCI
       raise 'adding repo failed' unless Apt::Repository.add(variantrepo)
     else
       mobile = format('deb http://repo.plasma-mobile.org/%s %s main',
-		      @type, LSB::DISTRIB_CODENAME)
+                      @type, LSB::DISTRIB_CODENAME)
       raise 'adding repo failed' unless Apt::Repository.add(mobile)
     end
 

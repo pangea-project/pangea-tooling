@@ -115,16 +115,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     MCI.series.each_key do |distribution|
       MCI.devices.each do |device|
         device_projects_file = "#{@projects_dir}/mci/#{distribution}/device-#{device}.yaml"
-	device_projects = ProjectsFactory.from_file(device_projects_file,
-						    branch: "master")
-	device_projects.each do |project|
-	  enqueue(MobileProjectJob.new(project,
-				       distribution: distribution,
-				       type: device,
-				       architectures: MCI.architectures_for_device[device]))
-	end
-      end
-    end
+        device_projects = ProjectsFactory.from_file(device_projects_file,
+                                                    branch: "master")
+        device_projects.each do |project|
+          enqueue(MobileProjectJob.new(project,
+                                       distribution: distribution,
+                                       type: device,
+                                       architectures: MCI.architectures_for_device[device]))
+        end
+     end
+   end
 
     enqueue(MCIImageJob.new(repo: 'https://invent.kde.org/bshah/rootfs-builder',
                             branch: 'pm-bionic',
