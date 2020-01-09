@@ -68,6 +68,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   end
 
   def populate_queue
+    load_overrides!
     all_builds = []
     all_meta_builds = []
 
