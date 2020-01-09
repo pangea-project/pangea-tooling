@@ -107,10 +107,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
 
     enqueue(MCIImageJob.new(repo: 'https://invent.kde.org/bshah/rootfs-builder',
-                            branch: 'pm',
-                            type: 'xenial'))
-
-    enqueue(MCIImageJob.new(repo: 'https://invent.kde.org/bshah/rootfs-builder',
                             branch: 'pm-bionic',
                             type: 'bionic'))
 
