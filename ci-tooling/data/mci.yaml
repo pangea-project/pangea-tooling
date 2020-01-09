@@ -6,3 +6,9 @@ architectures:
 types:
   - unstable
   - halium
+devices:
+  - pinephone
+architectures_for_device:
+  pinephone:
+    - amd64
+    - arm64
