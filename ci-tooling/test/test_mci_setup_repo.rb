@@ -60,9 +60,9 @@ class MCISetupRepoTest < TestCase
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '--no-update', '-y', 'deb http://repo.plasma-mobile.org vivid main'],
       ['add-apt-repository', '--no-update', '-y', 'deb http://repo.plasma-mobile.org/caf vivid main'],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://archive.neon.kde.org/unstable vivid main'],
       ['add-apt-repository', '--no-update', '-y', 'deb http://repo.halium.org vivid main'],
       ['add-apt-repository', '--no-update', '-y', 'deb http://repo.halium.org/caf vivid main'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://archive.neon.kde.org/unstable vivid main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
     ]
