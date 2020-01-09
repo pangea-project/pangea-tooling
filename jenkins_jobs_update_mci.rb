@@ -116,11 +116,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         device_projects_file = "#{@projects_dir}/mci/#{distribution}/device-#{device}.yaml"
 	device_projects = ProjectsFactory.from_file(device_projects_file,
 						    branch: "master")
-	mci_projects.each do |project|
+	device_projects.each do |project|
 	  enqueue(MobileProjectJob.new(project,
 				       distribution: distribution,
 				       type: device,
 				       architectures: MCI.architectures_for_device[device]))
+	end
       end
     end
 
