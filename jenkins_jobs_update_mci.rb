@@ -55,6 +55,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     files + Dir.glob("#{JenkinsJob.flavor_dir}/templates/**.xml.erb")
   end
 
+  def load_overrides!
+    files = Dir.glob("#{__dir__}/ci-tooling/data/projects/overrides/mci-*.yaml")
+    CI::Overrides.default_files += files
+  end
+
   def enqueue(job)
     return job if BLACKLIST_JOBS.any? do |x|
       job.job_name.include?(x)
@@ -103,6 +108,19 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(MCIProjectJob.new(project,
                                   distribution: distribution,
                                   architectures: MCI.architectures))
+      end
+    end
+
+    MCI.series.each_key do |distribution|
+      MCI.devices.each do |device|
+        device_projects_file = "#{@projects_dir}/mci/#{distribution}/device-#{device}.yaml"
+	device_projects = ProjectsFactory.from_file(device_projects_file,
+						    branch: "master")
+	mci_projects.each do |project|
+	  enqueue(MobileProjectJob.new(project,
+				       distribution: distribution,
+				       type: device,
+				       architectures: MCI.architectures_for_device[device]))
       end
     end
 
