@@ -9,3 +9,11 @@ architectures:
 types:
   - unstable
   - megablast
+
+architectures_for_type:
+  unstable:
+    - amd64
+    - armhf
+    - arm64
+  megablast:
+    - amd64
