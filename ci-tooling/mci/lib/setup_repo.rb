@@ -32,7 +32,7 @@ module MCI
     @type = ENV.fetch('TYPE')
     @variant = ENV.fetch('VARIANT')
 
-    if @type != 'halium'
+    if @type == 'unstable'
       debline = format('deb http://repo.plasma-mobile.org %s main',
                        LSB::DISTRIB_CODENAME)
       raise 'adding repo failed' unless Apt::Repository.add(debline)
@@ -46,23 +46,32 @@ module MCI
                    end
       raise 'adding repo failed' unless Apt::Repository.add(mcivariant)
 
+    end
+
+    if @type == 'unstable' || type == 'halium'
+      haliumrepo = format('deb http://repo.halium.org %s main',
+                       LSB::DISTRIB_CODENAME)
+      raise 'adding repo failed' unless Apt::Repository.add(haliumrepo)
+      
+      variantrepo = if @variant == 'caf'
+                      format('deb http://repo.halium.org/caf %s main',
+                             LSB::DISTRIB_CODENAME)
+                    else
+                      format('deb http://repo.halium.org/generic %s main',
+                             LSB::DISTRIB_CODENAME)
+                    end
+      raise 'adding repo failed' unless Apt::Repository.add(variantrepo)
+    else
+      mobile = format('deb http://repo.plasma-mobile.org/%s %s main',
+		      @type, LSB::DISTRIB_CODENAME)
+      raise 'adding repo failed' unless Apt::Repository.add(mobile)
+    end
+
+    if @type != 'halium'
       neon = format('deb http://archive.neon.kde.org/unstable %s main',
                     LSB::DISTRIB_CODENAME)
       raise 'adding repo failed' unless Apt::Repository.add(neon)
     end
-
-    haliumrepo = format('deb http://repo.halium.org %s main',
-                     LSB::DISTRIB_CODENAME)
-    raise 'adding repo failed' unless Apt::Repository.add(haliumrepo)
-
-    variantrepo = if @variant == 'caf'
-                    format('deb http://repo.halium.org/caf %s main',
-                           LSB::DISTRIB_CODENAME)
-                  else
-                    format('deb http://repo.halium.org/generic %s main',
-                           LSB::DISTRIB_CODENAME)
-                  end
-    raise 'adding repo failed' unless Apt::Repository.add(variantrepo)
 
     Apt::Key.add('http://repo.plasma-mobile.org/Pangea%20CI.gpg.key')
     raise 'Failed to import key' unless $?.to_i.zero?
