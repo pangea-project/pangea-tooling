@@ -74,7 +74,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           j = XenonProjectJob.new(project,
                                   distribution: distribution,
                                   type: type,
-                                  architectures: XenonCI.architectures)
+                                  architectures: XenonCI.architectures_for_type[type])
           all_builds << enqueue(j)
         end
       end
