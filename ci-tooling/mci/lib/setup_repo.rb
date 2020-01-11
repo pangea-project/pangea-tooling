@@ -48,7 +48,7 @@ module MCI
 
     end
 
-    if @type == 'unstable' || type == 'halium'
+    if @type == 'unstable' || @type == 'halium'
       haliumrepo = format('deb http://repo.halium.org %s main',
                        LSB::DISTRIB_CODENAME)
       raise 'adding repo failed' unless Apt::Repository.add(haliumrepo)
