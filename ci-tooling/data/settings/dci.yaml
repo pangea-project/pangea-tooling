@@ -3,7 +3,3 @@
 '*-kde-applications_*':
   sourcer:
     restricted_packaging_copy: true
-
-'*dci-extras-packaging_xdg-utils-cxx_*':
-  sourcer:
-    restricted_packaging_copy: true
