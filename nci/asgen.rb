@@ -40,6 +40,7 @@ LAST_BUILD_STAMP = File.absolute_path('last_build')
 
 # Runtime Deps - install before repo setup so we get these from debian and
 # not run into comapt issues between neon's repo and debian!
+Apt::Get.install('libglibd-2.0-dev')
 Apt::Get.install('appstream-generator') # Make sure runtime deps are in.
 
 cmd = TTY::Command.new
