@@ -19,44 +19,30 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'concurrent-ruby'
 require 'tty-command'
 require 'docker'
 
-threads = []
-
 ## TODO: This needs to pull in values from YAML config files.
-archs = %w[amd64 arm64 armhf]
 cmd = TTY::Command.new
 DIST = ENV.fetch('DIST')
+arch = ENV.fetch('ARCH')
 
 cmd.run('sudo apt -y install binfmt-support qemu qemu-user-static debootstrap')
-pool =
-  Concurrent::ThreadPoolExecutor.new(
-    min_threads: 2,
-    max_threads: 4,
-    max_queue: 512,
-    fallback_policy: :caller_runs
-  )
 
-archs.each do |arch|
-  threads << Concurrent::Promise.execute(executor: pool) do
-    unless File.exist?("stable-#{arch}") || File.exist?("#{arch}.tar.bz2")
-      puts "Building Image for #{arch}"
-      cmd.run("sudo qemu-debootstrap --arch=#{arch} stable ./stable-#{arch} http://deb.debian.org/debian")
-    end
+  unless File.exist?("stable-#{arch}") || File.exist?("#{arch}.tar.bz2")
+    puts "Building Image for #{arch}"
+    cmd.run("sudo qemu-debootstrap --arch=#{arch} stable ./stable-#{arch} http://deb.debian.org/debian")
   end
-end
 
-Concurrent::Promise.zip(*threads).wait!
-
-archs.each do |arch|
   if File.exist?("stable-#{arch}")
     cmd.run("sudo chroot ./stable-#{arch} apt-get clean")
     cmd.run("sudo chroot ./stable-#{arch} apt-get autoclean")
     cmd.run("sudo chroot ./stable-#{arch} apt-get -y install git awscli pigz live-build vim make")
     cmd.run("sudo chroot ./stable-#{arch} sed --in-place=.bak -e 's|umount \"$TARGET/proc\" 2>/dev/null \\|\\| true|#umount \"$TARGET/proc\" 2>/dev/null \\|\\| true|g' /usr/share/debootstrap/functions")
     cmd.run("sudo chroot ./stable-#{arch} cat /usr/share/debootstrap/functions | grep '#umount \"$TARGET/proc\" 2>/dev/null'")
+    cmd.run("sudo chroot ./stable-#{arch} mkdir /usr/local/share/ca-certificates/cacert.org")
+    cmd.run("sudo chroot ./stable-#{arch} wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/certs/root.crt http://www.cacert.org/certs/class3.crt")
+    cmd.run("sudo chroot ./stable-#{arch} update-ca-certificates")
   else
     puts "stable-#{arch} does not exist, if  this is first run, something failed"
   end
@@ -82,4 +68,3 @@ archs.each do |arch|
   else
     puts 'Something went wrong in docker image creation.'
   end
-end
