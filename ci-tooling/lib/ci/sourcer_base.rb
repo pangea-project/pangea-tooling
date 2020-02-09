@@ -106,10 +106,23 @@ module CI
       FileUtils.rm_r(@build_dir) if Dir.exist?(@build_dir)
       Dir.mkdir(@build_dir)
 
+      init_overlay
+
       # vcs
       # TODO:
       # orig
       @sourcepath = "#{@builddir}/source" # Created by extract.
+    end
+
+    def init_overlay
+      # Cripple stupid bin calls issued by the dpkg build tooling. In our
+      # overlay we have scripts that alter the behavior of certain commands that
+      # are being called in an undesirable manner (e.g. causing too much output)
+      overlay_path = File.expand_path("#{__dir__}/../../../overlay-bin")
+      unless File.exist?(overlay_path)
+        raise "could not find overlay bins in #{overlay_path}"
+      end
+      ENV['PATH'] = "#{overlay_path}:#{ENV['PATH']}"
     end
 
     def mangle_symbols

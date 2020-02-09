@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+# SPDX-FileCopyrightText: 2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+# frozen_string_literal: true
+
+require_relative 'lib/paths' # Drop the overlay from the PATH env.
+
+f_index = ARGV.index { |e| e.start_with?('--fuzz=') }
+unless f_index
+  # find possible -F and delete the num following it
+  f_index = ARGV.index('-F')
+  ARGV.delete_at(f_index+1) if f_index
+end
+if f_index # repalce fuzz with hardcoded fuzz 2 like quilt push
+  ARGV[f_index] = '--fuzz=2'
+end
+
+p ARGV
+exec('patch', *ARGV)

@@ -156,61 +156,36 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
     Faraday::ConnectionOptions.new(timeout: 15 * 60)
   Aptly::Ext::Remote.dci do
     RepoCleaner.clean(%w[
-      backports-1901
-      backports-1908
-      backports-backports
-      backports-next
-      calamares-1901
-      calamares-1908
-      calamares-backports
+      backports-2001
+      calamares-2001
       calamares-next
-      ds9-artwork-1901
-      ds9-artwork-1908
+      ds9-artwork-2001
       ds9-artwork-backports
       ds9-artwork-next
-      ds9-common-1901
-      ds9-common-1908
+      ds9-common-2001
       ds9-common-backports
       ds9-common-next
-      extras-1901
-      extras-1908
+      extras-2001
       extras-backports
       extras-next
-      frameworks-1901
-      frameworks-1908
-      frameworks-backports
-      kde-applications-1901
-      kde-applications-1908
-      kde-applications-backports
-      netrunner-1901
-      netrunner-1908
+      netrunner-2001
       netrunner-backports
-      netrunner-core-1901
-      netrunner-core-1908
+      netrunner-next
+      netrunner-core-2001
       netrunner-core-backports
-      netrunner-desktop-1901
-      netrunner-desktop-1908
+      netrunner-core-next
+      netrunner-desktop-2001
       netrunner-desktop-backports
       netrunner-desktop-next
-      netrunner-next
-      odroid-1901
-      odroid-1908
+      odroid-2001
       odroid-backports
-      pine64-1901
-      pine64-1908
+      pine64-2001
       pine64-backports
-      plasma-1901
-      plasma-1908
-      plasma-backports
-      plasma-next
-      qt5-1901
-      qt5-1908
+      qt5-2001
       qt5-backports
       qt5-next
-      rock64-1901
-      rock64-1908
-      zeronet-1901
-      zeronet-1908
+      rock64-2001
+      zeronet-2001
 ], keep_amount: 2)
 
   end
