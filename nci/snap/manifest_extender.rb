@@ -28,7 +28,7 @@ module NCI
       MANIFEST_PATH =
         '/usr/lib/python3/dist-packages/snapcraft/internal/repo/manifest.txt'
       SNAP_MANIFEST_PATH =
-        '/snap/snapcraft/current/lib/python3.5/site-packages/snapcraft/internal/repo/manifest.txt'
+        '/snap/snapcraft/current/lib/python3.6/site-packages/snapcraft/internal/repo/manifest.txt'
 
       class << self
         attr_writer :manifest_path
