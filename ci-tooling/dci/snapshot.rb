@@ -116,7 +116,7 @@ class DCISnapshot
     arch = []
     data = currentdist
     data.each do |_dist, v|
-      v[:architectures].each do |a|
+      v[:architectures].uniq.each do |a|
         arch << a
       end
     end
