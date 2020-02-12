@@ -13,6 +13,18 @@
       - 'next'
       - '2001'
 
+  netrunner-desktop-final:
+    :repo: https://github.com/netrunner-desktop/live-build-final
+    :architectures:
+      - amd64
+    :types:
+      - desktop
+    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-desktop,calamares'
+    :releases:
+      2001: Netrunner/20.01
+    :snapshots:
+      - '2001'
+      
   netrunner-core:
     :repo: https://github.com/netrunner-core/live-build
     :architectures:
