@@ -17,8 +17,8 @@
   dci-debian-packaging-backports: backports
   forks: backports
   netrunner-common: netrunner
-  ds9-common: ds9-common
-  ds9-artwork: ds9-artwork
+  ds9-common: netrunner
+  ds9-artwork: netrunner
   dci-extras-packaging: extras
   netrunner-desktop: netrunner-desktop
   netrunner-pine64: pine64
