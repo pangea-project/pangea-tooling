@@ -5,7 +5,7 @@
       - amd64
     :types:
       - desktop
-    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-desktop,calamares'
+    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-desktop'
     :releases:
       next: master
       2001: Netrunner/20.01
@@ -19,7 +19,7 @@
       - amd64
     :types:
       - desktop
-    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-desktop,calamares'
+    :components: 'netrunner,extras,backports,netrunner-desktop'
     :releases:
       2001: Netrunner/20.01
     :snapshots:
@@ -31,7 +31,7 @@
       - amd64
     :types:
       - core
-    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares'
+    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core'
     :releases:
       2001: Netrunner/20.01
     :snapshots:
@@ -55,7 +55,7 @@
       - arm64
     :types:
       - z2
-    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares,rock64,zeronet'
+    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,rock64,zeronet'
     :releases:
       2001: Netrunner/20.01
     :snapshots:
@@ -67,7 +67,7 @@
       - armhf
     :types:
       - z1
-    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,calamares,odroid,zeronet'
+    :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,odroid,zeronet'
     :releases:
       2001: Netrunner/20.01
     :snapshots:
