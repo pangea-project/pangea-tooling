@@ -123,7 +123,7 @@ class DCISnapshot
     arch << 'i386'
     arch << 'all'
     arch << 'source'
-    arch
+    arch.uniq
   end
 
   def aptly_options
