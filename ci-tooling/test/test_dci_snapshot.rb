@@ -45,14 +45,14 @@ class DCISnapshotTest < TestCase
   end
 
   def test_config
-    omit('broken')
+    setup
     data = @d.config
     assert_is_a(data, Hash)
     teardown
   end
 
   def test_components
-    omit('broken')
+    setup
     data = @d.components
     assert_is_a(data, Array)
     test_data = %w[netrunner extras backports ds9-artwork ds9-common netrunner-desktop calamares]
@@ -61,29 +61,27 @@ class DCISnapshotTest < TestCase
   end
 
   def test_repo_array
-    omit('broken')
+    setup
     data = @d.repo_array
     assert data.include?('netrunner-next')
     teardown
   end
 
   def test_arch_array
-    omit('broken')
+    setup
     data = @d.arch_array
     assert data.include?('amd64')
     teardown
   end
 
   def test_versioned_dist
-    omit('broken')
-    ENV['FLAVOR'] = 'netrunner-desktop-next' # override setup()
+    setup
     v_dist = @d.versioned_dist
     assert_equal('netrunner-desktop-next', v_dist)
     teardown
   end
 
   def test_aptly_options
-    omit('broken')
     setup
     data = @d.aptly_options
     opts = {}
