@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative '../job'
 
-class DCIImageJob < JenkinsJob
+class DCIFinalImageJob < JenkinsJob
   attr_reader :type
   attr_reader :repo
   attr_reader :release
@@ -15,6 +15,6 @@ class DCIImageJob < JenkinsJob
     @architecture = architecture
     @repo = repo
     @branch = branch
-    super("img_#{release}_#{flavor}_#{architecture}", 'dci_img.xml.erb')
+    super("img_#{release}_#{flavor}_#{architecture}", 'dci_img_final.xml.erb')
   end
 end

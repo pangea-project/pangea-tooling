@@ -73,7 +73,7 @@ class DCISnapshot
   end
 
   def distribution
-    @dist = ENV['DIST']
+    @dist = ENV['FLAVOR']
   end
 
   def version
