@@ -40,9 +40,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     super()
     @ci_flavor = 'dci'
 
-    JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@ci_flavor}"
+    JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/dci"
 
-    upload_map = "#{__dir__}/data/#{@ci_flavor}.upload.yaml"
+    upload_map = "#{__dir__}/data/dci.upload.yaml"
     @upload_map = nil
     return unless File.exist?(upload_map)
     @upload_map = YAML.load_file(upload_map)
@@ -54,9 +54,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     CI::Overrides.default_files
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
-    DCI.series.each_key do |dist_release|
+    DCI.series.each_key do |distribution|
       DCI.types.each do |type|
-      file = "#{__dir__}/ci-tooling/data/projects/#{@ci_flavor}/#{dist_release}/#{type}.yaml"
+      file = "#{__dir__}/ci-tooling/data/projects/dci/#{distribution}/#{type}.yaml"
       next unless File.exist?(file)
       @arches = []
       if type == 'c1' || type == 'z1'
@@ -70,7 +70,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       all_builds = projects.collect do |project|
           DCIBuilderJobBuilder.job(
           project,
-          distribution: dist_release,
+          distribution: distribution,
           type: type,
           architectures: @arches,
           upload_map: @upload_map
@@ -103,29 +103,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           v[:architectures].each do |arch|
             v[:types].each do |type|
               v[:releases].each do |release, branch|
-                if flavor.end_with?('final')
-                  enqueue(
-                    DCIFinalImageJob.new(
-                      type: type,
-                      flavor: flavor,
-                      release: release,
-                      architecture: arch,
-                      repo: v[:repo],
-                      branch: branch
-                    )
+                enqueue(
+                  DCIImageJob.new(
+                    type: type,
+                    flavor: flavor,
+                    release: release,
+                    architecture: arch,
+                    repo: v[:repo],
+                    branch: branch
                   )
-                else
-                  enqueue(
-                    DCIImageJob.new(
-                      type: type,
-                      flavor: flavor,
-                      release: release,
-                      architecture: arch,
-                      repo: v[:repo],
-                      branch: branch
-                    )
-                  )
-                end
+                )
               end
             end
           end
@@ -161,11 +148,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
-    enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
+    tooling = enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
     enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
     enqueue(MGMTRepoCleanupJob.new)
-    # enqueue(MGMTCreateDockerhubImagesJob.new)
-    # enqueue(MGMTCreateReposJob.new)
+    enqueue(MGMTCreateDockerhubImagesJob.new)
+    enqueue(MGMTCreateReposJob.new)
   end
 end
 

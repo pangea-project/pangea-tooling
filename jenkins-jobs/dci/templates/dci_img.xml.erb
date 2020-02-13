@@ -52,8 +52,7 @@
       <command>#!/bin/bash
            set -e
            arch=$(dpkg --print-architecture)
-           export FLAVOR=<%= flavor %>
-           export DIST_RELEASE=<%= distribution %>
+           export DIST_RELEASE=<%= release %>
            if [[ $arch =~ ^arm ]]; then
              ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
              export RESULT=$(ls result/)

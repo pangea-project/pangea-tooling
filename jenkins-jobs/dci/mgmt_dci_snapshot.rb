@@ -12,6 +12,6 @@ class SnapShotJob < JenkinsJob
     @flavor = flavor
     @architecture = architecture
     @snapshot = snapshot
-    super("snapshot_#{snapshot}_#{flavor}_#{architecture}", 'mgmt_dci_snapshot.xml.erb')
+    super("snapshot_#{flavor}_#{snapshot}_#{architecture}", 'mgmt_dci_snapshot.xml.erb')
   end
 end

@@ -82,7 +82,7 @@ class DCISnapshot
 
   def versioned_dist
     version
-    @versioned_dist = distribution + '-' + version
+    @versioned_dist = @dist + '-' + version
   end
 
   def currentdist

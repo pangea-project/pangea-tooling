@@ -39,6 +39,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
+        export DIST=netrunner-<%= @type %>
         export VERSION=<%= @snapshot %>
         ~/tooling/ci-tooling/dci/snapshot.rb
       </command>
@@ -46,7 +47,7 @@
   </builders>
   <publishers>
     <hudson.tasks.BuildTrigger>
-      <childProjects>img_<%= @snapshot %>_<%= @flavor %>_<%= @architecture %></childProjects>
+      <childProjects>img_<%= @flavor %>_<%= @snapshot %>_<%= @architecture %></childProjects>
       <threshold>
         <name>SUCCESS</name>
         <ordinal>0</ordinal>
