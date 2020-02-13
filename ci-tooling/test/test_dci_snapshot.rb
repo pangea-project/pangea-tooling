@@ -33,6 +33,7 @@ class DCISnapshotTest < TestCase
     # Disable all web (used for key).
     WebMock.disable_net_connect!
     ENV['DIST'] = 'netrunner-desktop'
+    ENV['FLAVOR'] = 'netrunner-desktop'
     ENV['VERSION'] = 'next'
     @d = DCISnapshot.new
   end
