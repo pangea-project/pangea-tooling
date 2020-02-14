@@ -125,6 +125,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       snapshot_jobs = YAML.load_stream(File.read(image_job_config))
       snapshot_jobs.each do |snapshot_job|
         snapshot_job.each do |flavor, v|
+          puts flavor
           v[:architectures] ||= DCI.architectures
           v[:architectures].each do |arch|
             v[:types].each do |type|
@@ -150,11 +151,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
-    tooling = enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
+    enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
     enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
     enqueue(MGMTRepoCleanupJob.new)
-    enqueue(MGMTCreateDockerhubImagesJob.new)
-    enqueue(MGMTCreateReposJob.new)
   end
 end
 
