@@ -39,7 +39,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-        export FLAVOR=netrunner-<%= @flavor %>
+        export FLAVOR=<%= @flavor %>
         export VERSION=<%= @snapshot %>
         ~/tooling/ci-tooling/dci/snapshot.rb
       </command>

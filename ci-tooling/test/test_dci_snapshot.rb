@@ -32,7 +32,6 @@ class DCISnapshotTest < TestCase
   def setup
     # Disable all web (used for key).
     WebMock.disable_net_connect!
-    ENV['DIST'] = 'netrunner-desktop'
     ENV['FLAVOR'] = 'netrunner-desktop'
     ENV['VERSION'] = 'next'
     @d = DCISnapshot.new
@@ -40,7 +39,7 @@ class DCISnapshotTest < TestCase
 
   def teardown
     WebMock.allow_net_connect!
-    ENV['DIST'] = ''
+    ENV['FLAVOR'] = ''
     ENV['VERSION'] = ''
   end
 
@@ -55,7 +54,7 @@ class DCISnapshotTest < TestCase
     setup
     data = @d.components
     assert_is_a(data, Array)
-    test_data = %w[netrunner extras backports ds9-artwork ds9-common netrunner-desktop calamares]
+    test_data = %w[netrunner extras backports ds9-artwork ds9-common netrunner-desktop]
     assert_equal test_data, data
     teardown
   end
@@ -63,7 +62,7 @@ class DCISnapshotTest < TestCase
   def test_repo_array
     setup
     data = @d.repo_array
-    assert data.include?('netrunner-next')
+    assert data.include?('netrunner-desktop')
     teardown
   end
 
