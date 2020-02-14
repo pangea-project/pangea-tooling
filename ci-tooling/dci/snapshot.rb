@@ -48,9 +48,9 @@ class DCISnapshot
     @snapshots = []
     @repos = []
     @components = []
-    @dist = ''
+    @dist = ENV['FLAVOR']
     @versioned_dist = ''
-    @version = ''
+    @version = ENV['VERSION']
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new(STDOUT).tap do |l|
       l.progname = 'snapshotter'
