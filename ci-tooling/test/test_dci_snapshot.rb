@@ -62,7 +62,7 @@ class DCISnapshotTest < TestCase
   def test_repo_array
     setup
     data = @d.repo_array
-    assert data.include?('netrunner-desktop')
+    assert data.include?('netrunner-desktop-next')
     teardown
   end
 
