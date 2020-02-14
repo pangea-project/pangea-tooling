@@ -82,7 +82,7 @@ class DCISnapshot
 
   def versioned_dist
     version
-    @versioned_dist = @dist + '-' + version
+    @versioned_dist = @dist + '-' + @version
   end
 
   def currentdist
@@ -125,10 +125,10 @@ class DCISnapshot
 
   def aptly_options
     versioned_dist
-    arches = arch_array
+    arch = arch_array
     opts = {}
     opts[:Distribution] = @versioned_dist
-    opts[:Architectures] = arches
+    opts[:Architectures] = arch
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
     opts
