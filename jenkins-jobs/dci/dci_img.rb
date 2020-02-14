@@ -15,6 +15,6 @@ class DCIImageJob < JenkinsJob
     @architecture = architecture
     @repo = repo
     @branch = branch
-    super("img_#{release}_#{flavor}_#{architecture}", 'dci_img.xml.erb')
+    super("img_#{flavor}_#{release}_#{architecture}", 'dci_img.xml.erb')
   end
 end
