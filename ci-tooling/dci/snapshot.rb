@@ -103,7 +103,7 @@ class DCISnapshot
   def repo_array
     data = components
     data.each do |x|
-      ver_repo = x + '-' + version
+      ver_repo = x + '-' + @version
       @repos << ver_repo
     end
     @repos
