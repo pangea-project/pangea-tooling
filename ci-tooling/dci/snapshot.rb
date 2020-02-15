@@ -49,7 +49,7 @@ class DCISnapshot
     @repos = []
     @components = []
     @dist = ENV['FLAVOR']
-    @versioned_dist = ''
+    @versioned_dist = @dist + '-' + @version
     @version = ENV['VERSION']
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new(STDOUT).tap do |l|
@@ -81,29 +81,29 @@ class DCISnapshot
   end
 
   def versioned_dist
-    version
-    @versioned_dist = @dist + '-' + @version
+    @versioned_dist
   end
 
-  def currentdist
+  def distdata
     data = config
-    currentdist = data.select { |dist, _options| dist.include?(@dist) }
-    currentdist
+    distdata = data.slice(@dist)
+  raise 'Something went wrong in data selection' unless distdata[0] == @dist[0]
+  distdata
   end
 
   def components
     components = []
-    data = currentdist
+    data = distdata
     data.each do |_dist, v|
       components = v[:components].split(',')
     end
-    components
+    raise 'No components? unlikely.' unless components
   end
 
   def repo_array
     data = components
     data.each do |x|
-      ver_repo = x + '-' + @version
+      ver_repo = x + '-' + version
       @repos << ver_repo
     end
     @repos
@@ -111,7 +111,7 @@ class DCISnapshot
 
   def arch_array
     arch = []
-    data = currentdist
+    data = distdata
     data.each do |_dist, v|
       v[:architectures].uniq.each do |a|
         arch << a
