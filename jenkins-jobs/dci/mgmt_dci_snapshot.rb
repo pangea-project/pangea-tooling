@@ -2,7 +2,6 @@
 require_relative '../job'
 
 class SnapShotJob < JenkinsJob
-  attr_reader :type
   attr_reader :architecture
   attr_reader :flavor
   attr_reader :snapshot
