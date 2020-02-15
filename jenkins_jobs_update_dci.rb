@@ -132,7 +132,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                 enqueue(
                   SnapShotJob.new(
                     snapshot: snapshot,
-                    type: type,
                     flavor: flavor,
                     architecture: arch
                   )
