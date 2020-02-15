@@ -89,6 +89,5 @@ class DCISnapshotTest < TestCase
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
     assert_equal(opts, data)
-    teardown
   end
 end
