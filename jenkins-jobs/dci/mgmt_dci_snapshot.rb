@@ -7,7 +7,8 @@ class SnapShotJob < JenkinsJob
   attr_reader :flavor
   attr_reader :snapshot
 
-  def initialize(snapshot:, flavor:, architecture:)
+  def initialize(snapshot:, type:, flavor:, architecture:)
+    @type = type
     @flavor = flavor
     @architecture = architecture
     @snapshot = snapshot
