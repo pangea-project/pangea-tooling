@@ -13,6 +13,7 @@ binds = [
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 DIST_RELEASE = ENV.fetch('DIST_RELEASE')
 BUILD_TAG = ENV.fetch('BUILD_TAG')
+DIST = ENV.fetch('DIST_RELEASE')
 
 # Whitelist a bunch of Jenkins variables for consumption inside the container.
 whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
