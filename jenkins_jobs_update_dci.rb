@@ -107,7 +107,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               v[:releases].each do |release, branch|
                 enqueue(
                   DCIImageJob.new(
-                    type: type,
                     flavor: flavor,
                     release: release,
                     architecture: arch,
