@@ -48,9 +48,9 @@ class DCISnapshot
     @snapshots = []
     @repos = []
     @components = []
-    @dist = ENV['FLAVOR']
+    @dist = ''
     @versioned_dist = ''
-    @version = ENV['VERSION']
+    @version = ''
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new(STDOUT).tap do |l|
       l.progname = 'snapshotter'
@@ -73,21 +73,23 @@ class DCISnapshot
   end
 
   def distribution
-    @dist ||= ENV['FLAVOR']
+    @dist = ENV['FLAVOR']
   end
 
   def version
-    @version ||= ENV['VERSION']
+    @version = ENV['VERSION']
   end
 
   def versioned_dist
+    distribution
     version
     @versioned_dist = @dist + '-' + @version
   end
 
   def currentdist
+    distribution
     data = config
-    currentdist = data.select { |dist, _options| dist.include?(@dist) }
+    currentdist = data.select { |dist, _options| dist.include? @dist }
     currentdist
   end
 
@@ -101,6 +103,7 @@ class DCISnapshot
   end
 
   def repo_array
+    version
     data = components
     data.each do |x|
       ver_repo = x + '-' + @version
@@ -113,22 +116,22 @@ class DCISnapshot
     arch = []
     data = currentdist
     data.each do |_dist, v|
-      v[:architectures].uniq.each do |a|
+      v[:architectures].each do |a|
         arch << a
       end
     end
     arch << 'i386'
     arch << 'all'
     arch << 'source'
-    arch.uniq
+    arch
   end
 
   def aptly_options
     versioned_dist
-    arch = arch_array
+    arches = arch_array
     opts = {}
     opts[:Distribution] = @versioned_dist
-    opts[:Architectures] = arch
+    opts[:Architectures] = arches
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
     opts
