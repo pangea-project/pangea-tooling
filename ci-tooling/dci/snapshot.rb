@@ -89,7 +89,7 @@ class DCISnapshot
   def currentdist
     distribution
     data = config
-    currentdist = data.select { |dist, _options| dist.include? @dist }
+    currentdist = data.select { |dist, _options| dist.include?( /dist$/ ) }
     currentdist
   end
 
