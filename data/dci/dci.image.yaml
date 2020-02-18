@@ -41,7 +41,7 @@
   netrunner-zeronet-c1:
     :repo: https://github.com/netrunner-zeronet/c1-live-build-zeronet
     :architectures:
-      - arm64
+      - armhf
     :types:
       - z2
     :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,rock64,zeronet'
