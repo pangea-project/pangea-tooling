@@ -43,7 +43,7 @@ class WatcherJob < JenkinsJob
                             'neon@git.neon.kde.org:')
     # Don't touch release-lts for Plasma jobs
     if KDEProjectsComponent.plasma_jobs.include? project.name
-      @scm_writable.branch.replace('Neon/release')
+      @scm_writable.branch.replace('Neon/release-lts')
     else
       @scm_writable.branch.replace('Neon/release-lts')
     end
