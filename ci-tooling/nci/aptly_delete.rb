@@ -37,6 +37,10 @@ parser = OptionParser.new do |opts|
     options.repos ||= []
     options.repos << v.to_s
   end
+
+  opts.on('-g', '--gateway URI', 'open gateway to remote (auto-defaults to neon)') do |v|
+    options.gateway = URI(v)
+  end
 end
 parser.parse!
 
@@ -47,8 +51,17 @@ log = Logger.new(STDOUT)
 log.level = Logger::DEBUG
 log.progname = $PROGRAM_NAME
 
-# SSH tunnel so we can talk to the repo
-Aptly::Ext::Remote.neon do
+# SSH tunnel so we can talk to the repo. For extra flexibility this is not
+# neon specific but can get any gateway.
+with_connection = Proc.new do |&block|
+  if options.gateway
+    Aptly::Ext::Remote.connect(options.gateway, &block)
+  else
+    Aptly::Ext::Remote.neon(&block)
+  end
+end
+
+with_connection.call do
   log.info 'APTLY'
   Aptly::Repository.list.each do |repo|
     next unless options.repos.include?(repo.Name)
