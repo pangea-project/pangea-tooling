@@ -164,7 +164,7 @@ class ProjectTest < TestCase
 
     gitrepo = create_fake_git(name: name,
                               component: component,
-                              branches: %w(kittens kittens_vivid))
+                              branches: %w(kittens kittens_vivid kittens_piggy))
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
 
@@ -185,7 +185,10 @@ class ProjectTest < TestCase
       #        Projects.new for each type manually). If this was backend/config
       #        driven we'd be much better off. OTOH we do rather differnitiate
       #        between types WRT dependency tracking and so forth....
-      assert_equal(%w(kittens_vivid), project.series_branches)
+      # NB: this must assert **two** branches to ensure all lines are stripped
+      #   properly.
+      assert_equal(%w(kittens_vivid kittens_piggy).sort,
+                   project.series_branches.sort)
     end
   ensure
     FileUtils.rm_rf(tmpdir) unless tmpdir.nil?

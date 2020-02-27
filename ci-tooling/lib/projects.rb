@@ -501,11 +501,13 @@ absolutely must not be native though!
       else
         self.class.update_git(dir)
 
-        # FIXME: We are not sure this is even useful anymore. It certainly was
-        #   not actively used since utopic.
+        # NB: this is used for per-series mutation when neon is moving
+        #   from one to another series. The branch gets recorded here
+        #   and the job templates then figure out what branch to use by calling
+        #   #packaging_scm_for
         branches = `cd #{dir} && git for-each-ref --format='%(refname)' refs/remotes/origin/#{branch}_\*`.strip.lines
         branches.each do |b|
-          @series_branches << b.gsub('refs/remotes/origin/', '')
+          @series_branches << b.gsub('refs/remotes/origin/', '').strip
         end
       end
     end
