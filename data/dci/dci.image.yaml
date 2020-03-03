@@ -8,12 +8,10 @@
     :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-desktop'
     :releases:
       next: master
-      2001: Netrunner/20.01
     :snapshots:
       - 'next'
-      - '2001'
       
-  netrunner-core:
+ netrunner-core:
     :repo: https://github.com/netrunner-core/live-build
     :architectures:
       - amd64
@@ -21,10 +19,9 @@
       - core
     :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core'
     :releases:
-      2001: Netrunner/20.01
-    :snapshots:
-      - '2001'
-
+      - next: master
+    :snapshot
+    - 'next'
 
   netrunner-core-c1:
     :repo: https://github.com/netrunner-odroid/c1-live-build-core
@@ -34,9 +31,9 @@
       - c1
     :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core,odroid'
     :releases:
-      2001: Netrunner/20.01
+      next: master
     :snapshots:
-      - '2001'
+      - 'next'
 
   netrunner-zeronet-c1:
     :repo: https://github.com/netrunner-zeronet/c1-live-build-zeronet
