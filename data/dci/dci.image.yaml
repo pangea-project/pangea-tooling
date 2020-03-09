@@ -10,8 +10,8 @@
       next: master
     :snapshots:
       - 'next'
-            
- netrunner-core:
+      
+  netrunner-core:
     :repo: https://github.com/netrunner-core/live-build
     :architectures:
       - amd64
@@ -21,8 +21,8 @@
     :releases:
       next: master
     :snapshots:
-     - 'next'
-    
+      - 'next'
+      
   netrunner-core-c1:
     :repo: https://github.com/netrunner-odroid/c1-live-build-core
     :architectures:
