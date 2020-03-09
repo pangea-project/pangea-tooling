@@ -10,7 +10,7 @@
       next: master
     :snapshots:
       - 'next'
-      
+            
  netrunner-core:
     :repo: https://github.com/netrunner-core/live-build
     :architectures:
@@ -19,10 +19,10 @@
       - core
     :components: 'netrunner,extras,backports,ds9-artwork,ds9-common,netrunner-core'
     :releases:
-      - next: master
+      next: master
     :snapshot
     - 'next'
-
+    
   netrunner-core-c1:
     :repo: https://github.com/netrunner-odroid/c1-live-build-core
     :architectures:
@@ -34,7 +34,7 @@
       next: master
     :snapshots:
       - 'next'
-
+      
   netrunner-zeronet-c1:
     :repo: https://github.com/netrunner-zeronet/c1-live-build-zeronet
     :architectures:
@@ -46,7 +46,7 @@
       2001: Netrunner/20.01
     :snapshots:
       - '2001'
-
+      
   netrunner-zeronet-rock64:
     :repo: https://github.com/netrunner-zeronet/rock64-live-build-zeronet
     :architectures:
@@ -58,3 +58,4 @@
       2001: Netrunner/20.01
     :snapshots:
       - '2001'
+      
