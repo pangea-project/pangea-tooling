@@ -39,17 +39,17 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize()
     super()
     @ci_flavor = 'dci'
-
+    
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/dci"
-
+    
     upload_map = "#{__dir__}/data/dci.upload.yaml"
     @upload_map = nil
     return unless File.exist?(upload_map)
     @upload_map = YAML.load_file(upload_map)
   end
-
+  
   private
-
+  
   def populate_queue
     CI::Overrides.default_files
     # FIXME: maybe for meta lists we can use the return arrays via collect?
@@ -82,7 +82,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         # other jobs that might want to reference them.
       puts all_builds
       all_builds.select! { |project| project.job_name.end_with?('_src') }
-
+      
         # This could actually returned into a collect if placed below
       meta_build = MetaBuildJob.new(type: type,
                                     distribution: distribution,
@@ -90,13 +90,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       all_meta_builds << enqueue(meta_build)
       end
     end
-
+    
     image_job_config =
-      "#{File.expand_path(File.dirname(__FILE__))}/data/dci/dci.image.yaml"
-
+      "#{__dir__}/data/dci/dci.image.yaml"
+      
     if File.exist? image_job_config
       image_jobs = YAML.load_stream(File.read(image_job_config))
-
+      
       image_jobs.each do |image_job|
         image_job.each do |flavor, v|
           puts flavor
@@ -141,8 +141,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         end
       end
     end
-
-
+    
+    
     # MGMT Jobs follow
     docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
