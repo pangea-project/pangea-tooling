@@ -73,9 +73,16 @@ end
 # and the folder becomes undeletable.
 %w[EXIT HUP INT QUIT TERM].each do |signal|
   Signal.trap(signal) do
-    next unless Etc.passwd { |u| break true if u.name == 'jenkins' }
-    FileUtils.chown_R('jenkins', 'jenkins', tooling_path, verbose: true,
-                                                          force: true)
+    # Resolve uid and gid. FileUtils can do that internally but to do so
+    # it will require 'etc' which in ruby2.7+rubygems can cause ThreadError
+    # getting thrown out of require since the signal thread isn't necessarily
+    # equipped to do on-demand-requires.
+    # Since we have etc required already we may as well resolve the ids directly
+    # and thus bypass the internal lookup of FU.
+    uid = Etc.getpwnam('jenkins') ? Etc.getpwnam('jenkins').uid : nil
+    gid = Etc.getgrnam('jenkins') ? Etc.getgrnam('jenkins').gid : nil
+    next unless uid && gid
+    FileUtils.chown_R(uid, gid, tooling_path, verbose: true, force: true)
   end
 end
 
