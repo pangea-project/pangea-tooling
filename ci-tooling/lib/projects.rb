@@ -530,11 +530,22 @@ absolutely must not be native though!
     repo.reset(b, :hard)
   end
 
-  def checkout(branch, cache_dir, checkout_dir)
+  def checkout(branch, cache_dir, checkout_dir, series: false)
     # This meth cannot have transaction errors as there is no network IO going
     # on here.
     return checkout_lp(cache_dir, checkout_dir) if @component == 'launchpad'
 
     checkout_git(branch, cache_dir, checkout_dir)
+  rescue Project::GitNoBranchError => e
+    raise e if series || !branch.start_with?('Neon/')
+
+    require_relative 'nci'
+    new_branch = @series_branches.find { |x| x.end_with?(NCI.current_series) }
+    unless new_branch
+      new_branch = @series_branches.find { |x| x.end_with?(NCI.future_series) }
+    end
+    raise e unless new_branch
+    warn "Failed to find branch #{branch}; falling back to #{new_branch}"
+    checkout(new_branch, cache_dir, checkout_dir, series: true)
   end
 end

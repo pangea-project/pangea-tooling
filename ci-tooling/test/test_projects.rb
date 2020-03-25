@@ -449,4 +449,30 @@ class ProjectTest < TestCase
       end
     end
   end
+
+  def test_neon_series
+    # when a neon repo doesn't have the desired branch, check for a branch
+    # named after current series or future series instead. the checkout
+    # must not fail so long as either is available
+
+    name = 'test_override_packaging_branch'
+    component = 'componento'
+
+    require_relative '../lib/nci'
+    NCI.expects(:current_series).returns("bionic")
+    NCI.expects(:future_series).returns("focal")
+    gitrepo = create_fake_git(name: name, component: component, branches: %w(Neon/unstable_focal))
+    assert_not_nil(gitrepo)
+    assert_not_equal(gitrepo, '')
+
+    FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
+    CI::Overrides.instance_variable_set(:@default_files, ["#{Dir.pwd}/base.yml"])
+    Dir.mktmpdir(self.class.to_s) do |tmpdir|
+      Dir.chdir(tmpdir) do
+        project = Project.new(name, component, gitrepo, type: 'unstable', branch: 'Neon/unstable')
+        assert_include(project.series_branches, 'Neon/unstable_focal')
+        # for the checkout expectations it's sufficient if we got no gitnobranch error raised
+      end
+    end
+  end
 end
