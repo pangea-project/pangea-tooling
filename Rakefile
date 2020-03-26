@@ -40,6 +40,7 @@ BIN_DIRS = %w[
   ci-tooling
   overlay-bin
 ].freeze
+
 SOURCE_DIRS = %w[
   ci-tooling/ci
   ci-tooling/dci
