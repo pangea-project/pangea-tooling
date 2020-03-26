@@ -19,6 +19,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'fileutils'
+
 require_relative 'lib/lint/qml'
 require_relative 'lib/setup_repo'
 require_relative '../../lib/aptly-ext/remote'
@@ -27,6 +29,18 @@ NCI.add_repo_key!
 NCI.setup_proxy!
 NCI.maybe_setup_apt_preference
 
+def without_recommends
+  path = '/etc/apt/apt.conf.d/neon-no-recommends'
+  File.write(path, <<-CONF)
+    APT::Get::Install-Recommends "false";
+  CONF
+  yield
+ensure
+  FileUtils.rm_f(path)
+end
+
 Aptly::Ext::Remote.neon_read_only do
-  Lint::QML.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).lint
+  without_recommends do
+    Lint::QML.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).lint
+  end
 end
