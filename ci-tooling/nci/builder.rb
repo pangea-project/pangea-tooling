@@ -43,6 +43,10 @@ if File.exist?('/ccache')
   ENV['CCACHE_DIR'] = '/ccache'
 end
 
+if NCI.only_adt.none? { |x| ENV['JOB_NAME']&.include?(x) }
+  File.write('adt_disabled', '') # marker file to tell our cmake overlay to disable test building
+end
+
 builder = CI::PackageBuilder.new
 builder.build
 

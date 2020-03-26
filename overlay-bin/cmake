@@ -29,4 +29,7 @@ require_relative 'lib/paths' # Drop the overlay from the PATH env.
 unless File.exist?("#{WORKSPACE}/cmake_verbose_makefile")
   ARGV.reject! { |x| x.start_with?('-DCMAKE_VERBOSE_MAKEFILE') }
 end
+if File.exist?("#{WORKSPACE}/adt_disabled")
+  ARGV << "-DBUILD_TESTING=OFF"
+end
 exec('cmake', *ARGV)
