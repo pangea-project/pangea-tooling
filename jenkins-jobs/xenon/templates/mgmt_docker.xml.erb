@@ -37,6 +37,14 @@ fi
     </hudson.tasks.Shell>
   </builders>
   <publishers>
+    <hudson.tasks.ArtifactArchiver>
+      <artifacts>*.log</artifacts>
+      <excludes></excludes>
+      <allowEmptyArchive>false</allowEmptyArchive>
+      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <fingerprint>false</fingerprint>
+      <defaultExcludes>true</defaultExcludes>
+    </hudson.tasks.ArtifactArchiver>
     <hudson.plugins.ircbot.IrcPublisher plugin="ircbot@2.26">
       <targets>
         <hudson.plugins.im.GroupChatIMMessageTarget plugin="instant-messaging@1.35">
