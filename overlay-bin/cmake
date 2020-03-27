@@ -36,7 +36,7 @@ if File.exist?("#{WORKSPACE}/adt_disabled")
   ex_none = ex_markers.none? { |x| ARGV.any? { |arg| arg.start_with?(x) } }
   if in_all && ex_none
     warn "Tooling: injecting -DBUILD_TESTING=OFF; this build doesn't have ADT"
-    ARGV << "-DBUILD_TESTING=OFF"
+    ARGV.unshift("-DBUILD_TESTING=OFF")
   end
 end
 exec('cmake', *ARGV)

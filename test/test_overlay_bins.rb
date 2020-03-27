@@ -74,7 +74,7 @@ class OverlayBinsTest < TestCase
     File.write('adt_disabled', '')
     assert system(@env, "#{OVERLAY_DIR}/cmake", '-DCMAKE_INSTALL_PREFIX=xx')
     assert_path_exist 'cmake_call'
-    assert_equal '-DCMAKE_INSTALL_PREFIX=xx -DBUILD_TESTING=OFF', File.read('cmake_call').strip
+    assert_equal '-DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=xx', File.read('cmake_call').strip
   end
 
   def test_cmake_but_not_a_build
