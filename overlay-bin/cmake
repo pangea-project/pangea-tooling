@@ -39,4 +39,5 @@ if File.exist?("#{WORKSPACE}/adt_disabled")
     ARGV.unshift("-DBUILD_TESTING=OFF")
   end
 end
+puts "Executing: cmake #{ARGV.join(' ')}"
 exec('cmake', *ARGV)
