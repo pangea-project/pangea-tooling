@@ -122,7 +122,7 @@ module Lint
           if line.include?('source-is-missing')
             # yeah no, don't fail build on this. it can trigger even if a blob
             # is not questionable and only used for tests
-            result.warning << line
+            result.warnings << line
           else
             result.errors << line
           end
