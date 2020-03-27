@@ -49,6 +49,7 @@ ubuntu_series.each_index do |index|
     $stderr = tee
     d = MGMT::Deployer.new('ubuntu', series, origins)
     d.run!
+    exit
   end
 
   pid_map[pid] = "ubuntu-#{series}"
@@ -65,6 +66,7 @@ debian_series.each do |series|
     $stderr = tee
     d = MGMT::Deployer.new('debian', series)
     d.run!
+    exit
   end
 
   pid_map[pid] = "debian-#{series}"
