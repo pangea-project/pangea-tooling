@@ -36,17 +36,17 @@ end
 
 debian_series = DCI.series.keys
 debian_series = [] if ENV.include?('PANGEA_UBUNTU_ONLY')
-debian_series.each do |k|
+debian_series.each do |series|
   log_path = "#{Dir.pwd}/debian-#{series}.log"
-  warn "building debian #{k}; logging to #{log_path}"
+  warn "building debian #{series}; logging to #{log_path}"
   pid = fork do
     $stdout.reopen(log_path, 'a')
     $stderr.reopen(log_path, 'a')
-    d = MGMT::Deployer.new('debian', k)
+    d = MGMT::Deployer.new('debian', series)
     d.run!
   end
 
-  pid_map[pid] = "debian-#{k}"
+  pid_map[pid] = "debian-#{series}"
 end
 
 ec = Process.waitall
