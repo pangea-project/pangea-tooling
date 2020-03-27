@@ -6,6 +6,25 @@ require_relative '../ci-tooling/lib/mobilekci'
 require_relative '../ci-tooling/lib/nci'
 require_relative '../lib/mgmt/deployer'
 
+class TeeLog
+  def initialize(*ios)
+    @ios = ios
+    @stderr = STDERR # so we can log unexpected method calls in method_missing
+  end
+
+  def write(*args)
+    @ios.each { |io| io.write(*args) }
+  end
+
+  def close
+    @ios.each(&:close)
+  end
+
+  def method_missing(*args)
+    @stderr.puts "TeeLog not implemented: #{args}"
+  end
+end
+
 # NCI and mobile *can* have series overlap, they both use ubuntu as a base
 # though, so union the series keys and create images for the superset.
 
@@ -25,8 +44,9 @@ ubuntu_series.each_index do |index|
   log_path = "#{Dir.pwd}/ubuntu-#{series}.log"
   warn "building ubuntu #{series}; logging to #{log_path}"
   pid = fork do
-    $stdout.reopen(log_path, 'a')
-    $stderr.reopen(log_path, 'a')
+    tee = TeeLog.new(STDOUT, File.open(log_path, "a"))
+    $stdout = tee
+    $stderr = tee
     d = MGMT::Deployer.new('ubuntu', series, origins)
     d.run!
   end
@@ -40,8 +60,9 @@ debian_series.each do |series|
   log_path = "#{Dir.pwd}/debian-#{series}.log"
   warn "building debian #{series}; logging to #{log_path}"
   pid = fork do
-    $stdout.reopen(log_path, 'a')
-    $stderr.reopen(log_path, 'a')
+    tee = TeeLog.new(STDOUT, File.open(log_path, "a"))
+    $stdout = tee
+    $stderr = tee
     d = MGMT::Deployer.new('debian', series)
     d.run!
   end
