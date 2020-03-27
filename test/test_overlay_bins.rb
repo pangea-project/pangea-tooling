@@ -68,4 +68,22 @@ class OverlayBinsTest < TestCase
     assert_path_exist 'archive_pickup/CMakeCache.txt'
     assert_equal 'yy', File.read('archive_pickup/CMakeCache.txt').strip
   end
+
+  def test_cmake_no_testing_override
+    # disable testing if adt is disabled
+    File.write('adt_disabled', '')
+    assert system(@env, "#{OVERLAY_DIR}/cmake", '-DCMAKE_INSTALL_PREFIX=xx')
+    assert_path_exist 'cmake_call'
+    assert_equal '-DCMAKE_INSTALL_PREFIX=xx -DBUILD_TESTING=OFF', File.read('cmake_call').strip
+  end
+
+  def test_cmake_but_not_a_build
+    # cmake can be invoked to run a cmake "script" rather than to configure
+    # a build. when that happens it should not disable testing (as the arg
+    # will be invalid!)
+    File.write('adt_disabled', '')
+    assert system(@env, "#{OVERLAY_DIR}/cmake", '-E', 'rm', '/tmp/')
+    assert_path_exist 'cmake_call'
+    assert_equal '-E rm /tmp/', File.read('cmake_call').strip
+  end
 end

@@ -30,6 +30,12 @@ unless File.exist?("#{WORKSPACE}/cmake_verbose_makefile")
   ARGV.reject! { |x| x.start_with?('-DCMAKE_VERBOSE_MAKEFILE') }
 end
 if File.exist?("#{WORKSPACE}/adt_disabled")
-  ARGV << "-DBUILD_TESTING=OFF"
+  # But only if this is a configure run, not a script run!
+  ex_markers = %w[-E --build --find-package]
+  in_all = ARGV.any? { |x| x.start_with?('-DCMAKE_INSTALL_PREFIX') }
+  ex_none = ex_markers.none? { |x| ARGV.any? { |arg| arg.start_with?(x) } }
+  if in_all && ex_none
+    ARGV << "-DBUILD_TESTING=OFF"
+  end
 end
 exec('cmake', *ARGV)
