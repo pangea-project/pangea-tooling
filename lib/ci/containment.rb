@@ -101,6 +101,7 @@ module CI
         # mock this right now unfortunately.
         # :nocov:
         container.attach do |stream, chunk|
+          # STDERR.puts(["DEBUG", stream, chunk].inspect)
           io = stream == 'stderr' ? STDERR : STDOUT
           io.print(chunk)
           io.flush if chunk.end_with?("\n")

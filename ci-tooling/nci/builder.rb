@@ -31,6 +31,12 @@ require_relative '../lib/ci/build_binary'
 require_relative '../lib/nci'
 require_relative '../lib/retry'
 
+ENV['EXCON_DEBUG'] = '10'
+
+File.write('/etc/apt/apt.conf.d/99color', 'APT::Color "0";Binary::apt::APT::Color "0";')
+
+system('apt-config dump')
+
 NCI.setup_repo!
 
 if File.exist?('/ccache')

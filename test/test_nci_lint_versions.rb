@@ -20,6 +20,7 @@
 
 require_relative '../ci-tooling/test/lib/testcase'
 require_relative '../nci/lint/versions'
+require_relative '../lib/tty/command'
 
 require 'mocha/test_unit'
 
