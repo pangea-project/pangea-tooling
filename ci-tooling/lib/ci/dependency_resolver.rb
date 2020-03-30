@@ -23,6 +23,7 @@ require 'tty/command'
 
 require_relative '../os'
 require_relative '../retry'
+require_relative '../../../lib/tty_command'
 
 module CI
   # Resolves build dependencies and installs them.
