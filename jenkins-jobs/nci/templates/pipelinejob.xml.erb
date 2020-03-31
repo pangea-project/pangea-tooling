@@ -7,16 +7,18 @@
     <org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty/>
     <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
       <triggers>
-        <hudson.triggers.SCMTrigger>
-          <spec></spec>
-          <ignorePostCommitHooks>false</ignorePostCommitHooks>
-        </hudson.triggers.SCMTrigger>
+        <% if with_push_trigger %>
+          <hudson.triggers.SCMTrigger>
+            <spec></spec>
+            <ignorePostCommitHooks>false</ignorePostCommitHooks>
+          </hudson.triggers.SCMTrigger>
+          <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.29.4">
+            <spec></spec>
+          </com.cloudbees.jenkins.GitHubPushTrigger>
+        <% end %>
         <hudson.triggers.TimerTrigger>
           <spec><%= cron %></spec>
         </hudson.triggers.TimerTrigger>
-        <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.29.4">
-          <spec></spec>
-        </com.cloudbees.jenkins.GitHubPushTrigger>
       </triggers>
     </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
   </properties>

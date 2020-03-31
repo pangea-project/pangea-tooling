@@ -25,6 +25,7 @@ require_relative '../job'
 class PipelineJob < JenkinsJob
   attr_reader :cron
   attr_reader :sandbox
+  attr_reader :with_push_trigger
 
   # @param name job name
   # @param template the pipeline template basename
@@ -33,10 +34,12 @@ class PipelineJob < JenkinsJob
   # @param sandbox whether to sandbox the pipeline - BE VERY CAREFUL WITH THIS
   #   it punches a huge security hole into jenkins for the specific job
   def initialize(name, template: name.tr('-', '_'), cron: '',
-                 job_template: 'pipelinejob', sandbox: true)
+                 job_template: 'pipelinejob', sandbox: true,
+                 with_push_trigger: true)
     super(name, "#{job_template}.xml.erb",
           script: "#{__dir__}/pipelines/#{template}.groovy.erb")
     @cron = cron
     @sandbox = sandbox
+    @with_push_trigger = with_push_trigger
   end
 end
