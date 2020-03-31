@@ -28,8 +28,11 @@ class MGMTRepoTestVersionsJob < PipelineJob
   def initialize(distribution:, type:)
     super("mgmt_repo_test_versions_#{type}_#{distribution}",
           template: 'mgmt_repo_test_versions',
-          cron: 'H H(21-23) * * *')
+          cron: 'H H(21-23) * * *',
+          with_push_trigger: false)
     # Runs once a day after 21 UTC
+    # Disables with_push_trigger because it clones its own tooling, so it'd
+    # erronously trigger on tooling changes.
     @distribution = distribution
     @type = type
   end
