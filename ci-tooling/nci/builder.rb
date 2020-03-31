@@ -43,7 +43,12 @@ if File.exist?('/ccache')
   ENV['CCACHE_DIR'] = '/ccache'
 end
 
-if NCI.only_adt.none? { |x| ENV['JOB_NAME']&.include?(x) }
+no_adt = NCI.only_adt.none? { |x| ENV['JOB_NAME']&.include?(x) }
+# Hacky: p-f's tests/testengine is only built and installed when
+#   BUILD_TESTING is set, fairly weird but I don't know if it is
+#   intentional
+is_plasma_framework = ENV['JOB_NAME']&.include?('plasma-framework')
+if no_adt && !is_plasma_framework
   File.write('adt_disabled', '') # marker file to tell our cmake overlay to disable test building
 end
 
