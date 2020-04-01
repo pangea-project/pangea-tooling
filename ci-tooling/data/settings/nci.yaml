@@ -54,6 +54,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_forks_zxing-cpp_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_extras_*_*':
    sourcer:
      restricted_packaging_copy: true
