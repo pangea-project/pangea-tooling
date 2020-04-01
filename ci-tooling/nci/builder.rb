@@ -47,8 +47,13 @@ no_adt = NCI.only_adt.none? { |x| ENV['JOB_NAME']&.include?(x) }
 # Hacky: p-f's tests/testengine is only built and installed when
 #   BUILD_TESTING is set, fairly weird but I don't know if it is
 #   intentional
-is_plasma_framework = ENV['JOB_NAME']&.include?('plasma-framework')
-if no_adt && !is_plasma_framework
+# - kimap installs kimaptest fakeserver/mockjob (likely needs making unconditional of build_testing?)
+needs_testing = %w[
+  plasma-framework
+  kimap
+]
+is_excluded = needs_testing.any? { |x| ENV['JOB_NAME']&.include?(x) }
+if no_adt && !is_excluded
   File.write('adt_disabled', '') # marker file to tell our cmake overlay to disable test building
 end
 
