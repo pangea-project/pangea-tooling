@@ -61,7 +61,7 @@ module Lint
         data = segmentify(data, "=== Start lintian\n", "=== End lintian\n")
         r.valid = true
         data.each do |line|
-          lint_line(line, r)
+          lint_line(mangle(line), r)
         end
         r
       rescue BuildLogSegmenter::SegmentMissingError => e
@@ -70,6 +70,17 @@ module Lint
       end
 
       private
+
+      def mangle(line)
+        error_reduction = %w[
+          copyright-contains-dh_make-todo-boilerplate
+          helper-templates-in-copyright
+        ]
+        if error_reduction.any? { |x| line.include?(x) }
+          return line.gsub('E: ', 'W: ')
+        end
+        line
+      end
 
       def exclusion
         @exclusion ||= begin
