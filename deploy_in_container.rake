@@ -380,6 +380,10 @@ SCRIPT
   # it adds no value.
   install_fake_pkg('fonts-noto-cjk')
 
+  # Runs database update on apt-update (unnecessary slow down) and
+  # that update also has opportunity to fail by the looks of it.
+  install_fake_pkg('command-not-found')
+
   # Ubuntu's language-pack-en-base calls this internally, since this is
   # unavailable on Debian, call it manually.
   locale_tag = "#{ENV.fetch('LANG')} UTF-8"
