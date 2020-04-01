@@ -39,8 +39,11 @@ module NCI
         @log = Logger.new(STDOUT)
 
         @overrides = {
-          # Needs enough RAM https://bugs.kde.org/show_bug.cgi?id=362946
           CI::FNMatchPattern.new('*_plasma-desktop_bin_amd64') =>
+            Cores::CORES[-1],
+          CI::FNMatchPattern.new('*_plasma-workspace_bin_amd64') =>
+            Cores::CORES[-1],
+          CI::FNMatchPattern.new('*_kdeplasma-addons_bin_amd64') =>
             Cores::CORES[-1],
           CI::FNMatchPattern.new('*_qt_*_bin_amd64') =>
             Cores::CORES[-1]
