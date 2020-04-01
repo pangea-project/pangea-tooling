@@ -47,7 +47,8 @@ no_adt = NCI.only_adt.none? { |x| ENV['JOB_NAME']&.include?(x) }
 # Hacky: p-f's tests/testengine is only built and installed when
 #   BUILD_TESTING is set, fairly weird but I don't know if it is
 #   intentional
-# - kimap installs kimaptest fakeserver/mockjob (likely needs making unconditional of build_testing?)
+# - kimap installs kimaptest fakeserver/mockjob
+#   https://bugs.kde.org/show_bug.cgi?id=419481
 needs_testing = %w[
   plasma-framework
   kimap
