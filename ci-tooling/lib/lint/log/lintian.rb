@@ -48,6 +48,9 @@ module Lint
         # We entirely do not care about random debian transitions but defer
         # to KDE developer's judgment.
         'script-uses-deprecated-nodejs-location',
+        # Maybe it should, maybe we just don't care. In particular since this is
+        # an error but really it is not even making a warning in my mind.
+        'copyright-should-refer-to-common-license-file-for-lgpl',
 
         # libkdeinit5 never needs ldconfig triggers actually
         #   16.04
