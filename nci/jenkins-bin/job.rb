@@ -45,6 +45,10 @@ module NCI
             Cores::CORES[-1],
           CI::FNMatchPattern.new('*_kdeplasma-addons_bin_amd64') =>
             Cores::CORES[-1],
+          CI::FNMatchPattern.new('*pyqt5_bin_amd64') =>
+            Cores::CORES[-1],
+          CI::FNMatchPattern.new('*sip4_bin_amd64') =>
+            Cores::CORES[-1],
           CI::FNMatchPattern.new('*_qt_*_bin_amd64') =>
             Cores::CORES[-1]
         }
