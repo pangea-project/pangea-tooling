@@ -23,6 +23,7 @@ require 'fileutils'
 require 'releaseme'
 require 'yaml'
 
+require_relative '../../../lib/tty_command'
 require_relative '../apt'
 require_relative '../debian/changelog'
 require_relative '../debian/source'
@@ -185,15 +186,24 @@ module CI
       copy_source_tree('packaging', *args)
     end
 
+    def tar_it(origin, xzfile)
+      # Try to compress using all cores, if that fails fall back to serial.
+      cmd = TTY::Command.new
+      cmd.run(
+        { 'XZ_OPT' => '--threads=0 -6' },
+        'tar', '-cJf', xzfile, origin
+      )
+    rescue TTY::Command::ExitError
+      warn 'Tar fail. Falling back to slower single threaded compression...'
+      cmd.run(
+        { 'XZ_OPT' => '-6' },
+        'tar', '-cJf', xzfile, origin
+      )
+    end
+
     def create_orig_tar
       Dir.chdir(@build_dir) do
-        tar = "#{@source.name}_#{@tar_version}.orig.tar"
-        raise 'Failed to create orig tar' unless system("tar -cf #{tar} source")
-        r = system("pxz -6 #{tar}")
-        unless r
-          warn 'Falling back to slower single threaded compression'
-          raise 'Failed to compress the tarball' unless system("xz -6 #{tar}")
-        end
+        tar_it('source', "#{@source.name}_#{@tar_version}.orig.tar.xz")
       end
     end
 
