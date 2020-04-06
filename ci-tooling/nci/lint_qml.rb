@@ -39,6 +39,14 @@ ensure
   FileUtils.rm_f(path)
 end
 
+# Make sure our bin/patch behaves same as at build time (raises fuzz limit from
+# conservative dpkg-source default).
+overlay_path = File.expand_path("#{__dir__}/../../overlay-bin")
+unless File.exist?(overlay_path)
+  raise "could not find overlay bins in #{overlay_path}"
+end
+ENV['PATH'] = "#{overlay_path}:#{ENV['PATH']}"
+
 Aptly::Ext::Remote.neon_read_only do
   without_recommends do
     Lint::QML.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).lint
