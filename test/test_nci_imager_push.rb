@@ -19,6 +19,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative '../ci-tooling/test/lib/testcase'
+require_relative '../ci-tooling/lib/nci'
 
 require 'net/sftp'
 require 'tty/command'
@@ -137,7 +138,7 @@ module NCI
     # though.
     def test_run
       pid = fork do
-        ENV['DIST'] = 'xenial'
+        ENV['DIST'] = NCI.current_series
         ENV['ARCH'] = 'amd64'
         ENV['TYPE'] = 'testing'
         ENV['IMAGENAME'] = 'neon'
