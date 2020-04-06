@@ -72,6 +72,6 @@ class NCITest < TestCase
   def test_future_is_early
     # just shouldn't raise return value is truthy or falsey, which one we don't
     # care cause this is simply passing a .fetch() through.
-    NCI.future_is_early
+    assert([true, false].include?(NCI.future_is_early))
   end
 end
