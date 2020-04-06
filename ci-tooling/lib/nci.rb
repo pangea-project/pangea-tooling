@@ -62,6 +62,13 @@ module NCI
     data.fetch('future_series', nil)
   end
 
+  # Whether the future series is in its early stages. While this is true
+  # the series mustn't be very public (e.g. ISOs should go to some private
+  # place etc.)
+  def future_is_early
+    data.fetch('future_is_early')
+  end
+
   # The archive key for archive.neon.kde.org. The returned value is suitable
   # as input for Apt::Key.add. Beyond this there are no assumptions to made
   # about its format!

@@ -4,6 +4,7 @@ series:
 old_series: # must be part of series list (or nil)
 current_series: bionic # must be part of series list
 future_series: focal # must be part of series list (or nil)
+future_is_early: true # controls where the ISOs go. must be true early on!
 
 architectures:
   - amd64

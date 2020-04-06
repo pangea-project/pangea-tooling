@@ -68,4 +68,10 @@ class NCITest < TestCase
   def test_qt_stage_type
     assert_equal(NCI.qt_stage_type, 'experimental')
   end
+
+  def test_future_is_early
+    # just shouldn't raise return value is truthy or falsey, which one we don't
+    # care cause this is simply passing a .fetch() through.
+    NCI.future_is_early
+  end
 end
