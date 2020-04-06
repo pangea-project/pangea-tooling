@@ -384,6 +384,9 @@ SCRIPT
   # that update also has opportunity to fail by the looks of it.
   install_fake_pkg('command-not-found')
 
+  # Disable man-db; utterly useless at buildtime
+  install_fake_pkg('man-db')
+
   # Ubuntu's language-pack-en-base calls this internally, since this is
   # unavailable on Debian, call it manually.
   locale_tag = "#{ENV.fetch('LANG')} UTF-8"
