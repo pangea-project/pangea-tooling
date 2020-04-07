@@ -12,8 +12,6 @@ module TTY
     alias :initialize_orig :initialize
     def initialize(*args, **kwords)
       kwords = { printer: NativePrinter }.merge(kwords)
-      warn "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-      warn [args, kwords].inspect
       initialize_orig(*args, **kwords)
     end
   end
