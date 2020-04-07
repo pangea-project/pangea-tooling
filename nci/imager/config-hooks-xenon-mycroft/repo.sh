@@ -1,12 +1,7 @@
-. /etc/os-release # to get access to version_codename; NB: of host container!
-
-GPG="gpg"
-ARGS=""
-if [ "$VERSION_CODENAME" = "bionic" ]; then
-  apt install -y dirmngr gnupg1
-  ARGS="--batch --verbose"
-  GPG="gpg1"
-fi
+# Use gpg1, mostly because we are lazy and don't know how to best port this to v2
+apt install -y dirmngr gnupg1
+ARGS="--batch --verbose"
+GPG="gpg1"
 
 $GPG --list-keys
 
