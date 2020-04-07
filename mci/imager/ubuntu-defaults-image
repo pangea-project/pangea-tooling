@@ -33,6 +33,8 @@ SUITE=$(lsb_release -sc)
 KEEP_APT_OPT=
 DELETE_APT_LISTS="rm -vf /var/lib/apt/lists/*_*"
 
+. /etc/os-release
+
 if which dpkg-architecture >/dev/null 2>&1; then
 	ARCH="$(dpkg-architecture -qDEB_HOST_ARCH)"
 fi
@@ -251,8 +253,12 @@ if ! [ -e "$HOOK" ]; then
 fi
 sed "s/#DEFAULTS_PACKAGE#/$PACKAGENAME/" < "$HOOK" > config/hooks/00_language-support.chroot
 
-# work around live-build failure with lzma initramfs (Debian #637979)
-sed -i 's/^LB_INITRAMFS_COMPRESSION="lzma"/LB_INITRAMFS_COMPRESSION="gzip"/' config/common
+# This was changed/fixed in focal at least, the LB_ var now overrides the
+# initramfs internal defaults.
+if [ "$VERSION_CODENAME" = "focal" ]; then
+    # work around live-build failure with lzma initramfs (Debian #637979)
+    sed -i 's/^LB_INITRAMFS_COMPRESSION="lzma"/LB_INITRAMFS_COMPRESSION="gzip"/' config/common
+fi
 
 # run hooks from defaults package
 cat <<EOF > config/hooks/10_ubuntu-defaults.chroot
