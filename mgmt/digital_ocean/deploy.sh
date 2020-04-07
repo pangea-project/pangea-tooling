@@ -30,6 +30,12 @@ systemctl mask apt-daily.service
 systemctl mask apt-daily.timer
 systemctl stop apt-daily.service || true
 
+systemctl disable --now apt-daily-upgrade.timer
+systemctl disable --now apt-daily-upgrade.service
+systemctl mask apt-daily-upgrade.timer
+systemctl mask apt-daily-upgrade.service
+systemctl stop apt-daily-upgrade.service || true
+
 # SSH comes up while cloud-init is still in progress. Wait for it to actually
 # finish.
 until grep '"stage"' /run/cloud-init/status.json | grep -q 'null'; do
