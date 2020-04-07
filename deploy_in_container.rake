@@ -53,7 +53,7 @@ DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           libgirepository1.0-dev libglib2.0-dev bash-completion
           python3-setuptools python3-setuptools-scm python-setuptools python-setuptools-scm dkms
           mozilla-devscripts libffi-dev subversion libcurl4-gnutls-dev
-          libhttp-parser-dev javahelper rsync].freeze + CORE_RUNTIME_DEPS
+          libhttp-parser-dev javahelper rsync man-db].freeze + CORE_RUNTIME_DEPS
 
 def home
   '/var/lib/jenkins'
@@ -384,8 +384,13 @@ SCRIPT
   # that update also has opportunity to fail by the looks of it.
   install_fake_pkg('command-not-found')
 
-  # Disable man-db; utterly useless at buildtime
-  install_fake_pkg('man-db')
+  # FIXME: drop this. temporary undo for fake man-db
+  Apt.purge('man-db')
+  Apt.install('man-db')
+
+  # Disable man-db; utterly useless at buildtime. mind that lintian requires
+  # an actual man-db package to be installed though, so we can't fake it here!
+  FileUtils.rm_rf('/var/lib/man-db/auto-update', verbose: true)
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
   # unavailable on Debian, call it manually.
