@@ -247,7 +247,7 @@ sed "s/#DEFAULTS_PACKAGE#/$PACKAGENAME/" < "$HOOK" > config/hooks/00_language-su
 
 # This was changed/fixed in focal at least, the LB_ var now overrides the
 # initramfs internal defaults.
-if [ "$VERSION_CODENAME" = "focal" ]; then
+if [ "$VERSION_CODENAME" != "focal" ]; then
     # work around live-build failure with lzma initramfs (Debian #637979)
     sed -i 's/^LB_INITRAMFS_COMPRESSION="lzma"/LB_INITRAMFS_COMPRESSION="gzip"/' config/common
 fi
