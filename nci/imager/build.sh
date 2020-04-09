@@ -97,7 +97,7 @@ export APT_OPTIONS="--yes -o Acquire::http::Proxy='$LB_APT_HTTP_PROXY'"
 [ -z "$BUILD_HOOKS" ] && BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}"
 
 # jriddell 03-2019 special case where developer and ko ISOs get their build hooks to allow for simpler ISO names
-if [ $TYPE = 'developer' ] || [ $TYPE = 'ko' ]; then
+if [ $TYPE = 'developer' ] || [ $TYPE = 'ko' ] || [ $TYPE = 'mobile' ]; then
     CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}-${TYPE}.sh"
     CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}-${TYPE}"
     BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}-${TYPE}"
