@@ -278,6 +278,15 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         )
         enqueue(NeonIsoJob.new(ko_user_release_isoargs))
         enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'ko')))
+
+        mobile_isoargs = standard_args.merge(
+          type: 'pm',
+          neonarchive: 'unstable',
+          cronjob: 'H H * * 0'
+          metapackage: 'plasma-phone'
+        )
+        enqueue(NeonIsoJob.new(mobile_isoargs))
+        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'mobile')))
       end
 
       # The following images are only pertaining to dists that aren't xenial.
