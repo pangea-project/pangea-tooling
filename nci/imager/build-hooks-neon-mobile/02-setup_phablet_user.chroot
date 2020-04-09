@@ -4,13 +4,13 @@ USER=phablet
 GECOS=Ubuntu
 UGID=32011
 
-DEFGROUPS="tty,sudo,adm,dialout,cdrom,plugdev,audio,dip,video"
+DEFGROUPS="tty,sudo,adm,dialout,cdrom,plugdev,audio,dip,video,sudo"
 
 echo "I: creating default user $USER"
 adduser --gecos $GECOS --disabled-login $USER --uid $UGID
 
-echo "I: set user $USER password to blank"
-passwd -d $USER
+echo "I: set user $USER password to 1234"
+echo "$USER:1234" | chpasswd
 
 mkdir -p /home/$USER/Music
 mkdir -p /home/$USER/Pictures
@@ -20,3 +20,6 @@ mkdir -p /home/$USER/Documents
 chown -R $UGID:$UGID /home/$USER
 
 usermod -a -G ${DEFGROUPS} ${USER}
+
+sed -i s,Session=.*,Session=plasma-mobile, /etc/sddm.conf
+sed -i s,User=.*,User=phablet, /etc/sddm.conf
