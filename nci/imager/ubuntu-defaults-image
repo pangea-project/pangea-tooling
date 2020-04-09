@@ -343,7 +343,7 @@ EOF
 
 # set default language
 cat <<EOF > config/hooks/default-language.binary
-#!/bin/sh -e
+#!/bin/sh -ex
 LOC=chroot/usr/share/$PACKAGENAME/language.txt
 if [ -e "\$LOC" ]; then
     echo "\$0: \$LOC exists, setting gfxboot default language..."
