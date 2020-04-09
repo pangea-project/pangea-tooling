@@ -280,7 +280,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'ko')))
 
         mobile_isoargs = standard_args.merge(
-          type: 'pm',
+          type: 'mobile',
           neonarchive: 'unstable',
           cronjob: 'H H * * 0',
           metapackage: 'plasma-phone'
