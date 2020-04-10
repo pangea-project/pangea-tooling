@@ -21,5 +21,9 @@ chown -R $UGID:$UGID /home/$USER
 
 usermod -a -G ${DEFGROUPS} ${USER}
 
-sed -i s,Session=.*,Session=plasma-mobile, /etc/sddm.conf
-sed -i s,User=.*,User=phablet, /etc/sddm.conf
+# Set phablet as default user and autologin session to be plasma-mobile
+cat << EOF > /etc/sddm.conf
+[Autologin]
+User=phablet
+Session=plasma-mobile.desktop
+EOF
