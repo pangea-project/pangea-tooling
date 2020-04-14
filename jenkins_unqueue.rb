@@ -52,7 +52,13 @@ BlockingThreadPool.run do
     Retry.retry_it(times: 5) do
       id = Jenkins.client.queue.get_id(name)
       @log.info "unqueueing #{name} (#{id})"
-      Jenkins.client.api_post_request('/queue/cancelItem', id: id)
+
+      begin
+        Jenkins.client.api_post_request('/queue/cancelItem', id: id)
+      rescue => e
+        # jenkins returns 204 and the api gem doesn't know what to do with that
+        raise e unless e.message == 'Error code 204'
+      end
     end
   end
 end
