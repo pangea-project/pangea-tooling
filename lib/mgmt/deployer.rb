@@ -50,11 +50,33 @@ module MGMT
       end
     end
 
+    def self.target_arch
+      node_labels = ENV.fetch('NODE_LABELS').split
+      arches = node_labels.find_all do |label|
+        arches = DPKG.run('dpkg-architecture', ["-W#{label}", '-L'])
+        if arches.size > 1
+          raise "The jenkins node label #{label} unexpectedly mapped to" \
+                " multiple architectures in DPKG: #{arches}"
+        end
+        arches.size == 1 # either 1 or 0; 1 is found, 0 is not.
+      end
+
+      case arches.size
+      when 0
+        warn "Failed to find an arch for labels #{node_labels};" \
+             " falling back to default: #{DPKG::HOST_ARCH}"
+        return DPKG::HOST_ARCH
+      when 1
+        return arches.first
+      end
+
+      raise "Unexpectedly found multiple possible architectures matching the" \
+            "jenkins node labels. don't know what to do!"
+    end
+
     def create_base
       upgrade = nil
-      node_label = ENV.fetch('NODE_LABELS').split.first
-      arch = DPKG.run('dpkg-architecture', ["-W#{node_label}", '-L'])
-      arch = arch.empty? ? DPKG::HOST_ARCH : arch.first
+      arch = self.class.target_arch
 
       case @base.flavor
       when 'debian'

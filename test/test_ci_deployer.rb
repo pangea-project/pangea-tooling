@@ -211,4 +211,24 @@ class DeployTest < TestCase
   ensure
     ENV.delete('PANGEA_PROVISION_AUTOINST')
   end
+
+  def test_target_arch
+    # Arch is determined from the node labels, labels.size can be 0-N so make
+    # sure we pick the right arch. Otherwise our image can become the wrong
+    # arch and set everything on fire!
+
+    # Burried in other labels
+    ENV['NODE_LABELS'] = 'persistent abc armhf fooobar'
+    assert_equal('armhf', MGMT::Deployer.target_arch)
+
+    # Multiple arch labels aren't supported. This technically could mean
+    # 'make two images' but in reality that should need handling on the CI
+    # level not the tooling level
+    ENV['NODE_LABELS'] = 'arm64 armhf'
+    assert_raises { MGMT::Deployer.target_arch }
+
+    # It also checks for multiple dpkg arches coming out of the query. It's
+    # untested because I think that cannot actually happen, but the return
+    # type is an array, so we need to make sure it's not malformed.
+  end
 end
