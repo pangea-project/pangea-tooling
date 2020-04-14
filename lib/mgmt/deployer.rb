@@ -86,7 +86,7 @@ module MGMT
 
         case arch
         when 'armhf'
-          base_image = "armhf/#{base_image}"
+          base_image = "arm32v7/#{base_image}"
         when 'arm64'
           base_image = "arm64v8/#{base_image}"
         end
