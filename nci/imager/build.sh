@@ -42,12 +42,28 @@ sudo apt dist-upgrade -y
 sudo apt install -y --no-install-recommends \
     git ubuntu-defaults-builder wget ca-certificates zsync distro-info \
     syslinux-utils livecd-rootfs xorriso base-files lsb-release \
-    neon-settings
+    neon-settings debootstrap
 
 cd $WD
 ls -lah
 cleanup
 ls -lah
+
+# hicky hack for focal+
+# debootstrap is kinda container aware now and also very broken.
+# The debian-common script (and by extension the ubuntus) link the container
+# /proc into place when detecting docker (similar to how fakeroot would work)
+# but then ALSO attempt to setup a proc from scratch (as would be the case
+# without fakeroot). This then smashes the container's /proc and everything
+# goes up in flames. To prevent this we force-disable the container logic.
+# Our ISO containers are specifically twiddled so they behave like an ordinary
+# chroot and so the "native" proc logic will work just fine.
+# Half using container logic and half not, however, is not fine.
+# Simply prepend CONTAINER="" to unset whatever detect_container() set.
+# NB: all ubuntus are symlinked to gutsy, so that's why we edit gutsy.
+echo 'CONTAINER=""' > /usr/share/debootstrap/scripts/gutsy.new
+cat /usr/share/debootstrap/scripts/gutsy >> /usr/share/debootstrap/scripts/gutsy.new
+mv /usr/share/debootstrap/scripts/gutsy.new /usr/share/debootstrap/scripts/gutsy
 
 cd $WD/build
 
