@@ -12,9 +12,8 @@ if dpkg -s ubiquity; then
     exit 1; \
   fi
 elif ! dpkg -s calamares; then
-    echo "Neither ubiquity nor calamares are installed!"
-    exit 1
-  fi
+  echo "Neither ubiquity nor calamares are installed!"
+  exit 1
 fi
 
 if ! grep -q http://archive.neon.kde.org/ <<<$LIVE_BUILD; then
