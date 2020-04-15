@@ -37,7 +37,8 @@ if DIST == NCI.future_series && NCI.future_is_early
   TTY::Command.new.run('scp',
                        '-i', ENV.fetch('SSH_KEY_FILE'),
                        '-o', 'StrictHostKeyChecking=no',
-                       'result/*.iso', 'result/*.zsync',
+                       *Dir.glob('result/*.iso'),
+                       *Dir.glob('result/*.zsync'),
                        'bionic-iso@files.kde.mirror.pangea.pub:~/bionic/')
   return
 end
