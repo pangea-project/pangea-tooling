@@ -34,6 +34,7 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 
 # Temporary early previews go to a different server away from prying eyes.
 if DIST == NCI.future_series && NCI.future_is_early
+  TTY::Command.new.run('ls', 'result/')
   TTY::Command.new.run('scp',
                        '-i', ENV.fetch('SSH_KEY_FILE'),
                        '-o', 'StrictHostKeyChecking=no',
