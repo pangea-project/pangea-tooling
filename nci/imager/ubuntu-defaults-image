@@ -343,7 +343,7 @@ if [ ! -e binary/casper/vmlinuz ]; then
 fi
 EOF
 else
-  cat <<EOF > config/hooks/rename-kernel.binary
+  cat <<EOF > config/hooks/00-rename-kernel.binary
 #!/bin/sh -ex
 ls -lah binary/
 ls -lah binary/casper
