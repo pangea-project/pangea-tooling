@@ -1,0 +1,12 @@
+#!/bin/sh
+# SPDX-FileCopyrightText: 2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
+set -e
+
+echo "Generating md5sum.txt"
+# is used on focal+ to verify ISO data integrity
+
+cd binary
+find . -type f | xargs md5sum >> md5sum.txt
+cd ..
