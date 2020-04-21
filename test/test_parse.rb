@@ -87,7 +87,7 @@ class ParseTest < TestCase
     #   it isn't strictly speaking desirable to follow that as it would make the
     #   test pass even though it should not. As such we make a temporary config
     #   forcing the value we want.
-    config = YAML.dump('AllCops' => { 'TargetRubyVersion' => '2.3' })
+    config = YAML.dump('AllCops' => { 'TargetRubyVersion' => '2.5' })
     File.write('config.yaml', config)
     res = cmd.run!('rubocop', '--only', 'Layout/Tab',
                    '--config', "#{Dir.pwd}/config.yaml",
