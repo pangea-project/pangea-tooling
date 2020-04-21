@@ -92,7 +92,13 @@ class ParseTest < TestCase
     res = cmd.run!('rubocop', '--only', 'Layout/Tab',
                    '--config', "#{Dir.pwd}/config.yaml",
                    *self.class.all_ruby)
-    assert(res.success?, res.out)
+    assert(res.success?, <<~ERR)
+      ==stdout==
+      #{res.out}
+
+      ==stderr==
+      #{res.err}
+    ERR
   end
 
   private
