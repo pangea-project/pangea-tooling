@@ -89,7 +89,7 @@ class ParseTest < TestCase
     #   forcing the value we want.
     config = YAML.dump('AllCops' => { 'TargetRubyVersion' => '2.5' })
     File.write('config.yaml', config)
-    res = cmd.run!('rubocop', '--only', 'Layout/Tab',
+    res = cmd.run!('rubocop', '--only', 'Layout/IndentationStyle',
                    '--config', "#{Dir.pwd}/config.yaml",
                    *self.class.all_ruby)
     assert(res.success?, <<~ERR)
