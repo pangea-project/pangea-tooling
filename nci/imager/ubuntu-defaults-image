@@ -347,9 +347,9 @@ else
 #!/bin/sh -ex
 ls -lah binary/
 ls -lah binary/casper
-if [ ! -e binary/casper/initrd.lz ]; then
-    echo "\$0: Renaming initramfs to initrd.lz..."
-    mv -v binary/casper/initrd.img-* binary/casper/initrd.lz
+if [ ! -e binary/casper/initrd ]; then
+    echo "\$0: Renaming initramfs to initrd..."
+    mv -v binary/casper/initrd.img-* binary/casper/initrd
 fi
 if [ ! -e binary/casper/vmlinuz ]; then
     echo "\$0: Renaming kernel to vmlinuz..."
