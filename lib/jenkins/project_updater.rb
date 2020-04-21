@@ -106,6 +106,7 @@ Check the detailed output to find output relating to the failed creation of the 
       @job_names = []
       @log = Logger.new(STDOUT)
       @used_plugins = []
+      @blacklisted_plugins = []
     end
 
     def update_submodules
@@ -196,7 +197,8 @@ Check the detailed output to find output relating to the failed creation of the 
 
     def plugins_to_install
       installed_plugins = Jenkins.plugin_manager.list_installed.keys
-      @used_plugins.reject { |plugin| installed_plugins.include?(plugin) }
+      plugins = @used_plugins.reject { |x| installed_plugins.include?(x) }
+      plugins.reject { |x| @blacklisted_plugins.include?(x) }
     end
 
     def collect_plugins(job)

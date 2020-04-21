@@ -72,6 +72,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
     @job_queue = Queue.new
     @flavor = 'nci'
+    @blacklisted_plugins = [
+      'ircbot', # spammy drain on performance
+      'instant-messaging' # dep of ircbot and otherwise useless
+    ]
     @projects_dir = "#{__dir__}/ci-tooling/data/projects"
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
     super
