@@ -25,7 +25,7 @@ require 'httparty'
 
 class KDEProjectsComponent
   class << self
-    @@projects_to_jobs = {'discover'=>'plasma-discover'}
+    @@projects_to_jobs = {'discover'=>'plasma-discover', 'kcalendarcore'=>'kcalcore'}
     @@projects_without_jobs = ['plasma-tests']
 
     def frameworks
