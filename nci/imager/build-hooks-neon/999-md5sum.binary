@@ -5,8 +5,15 @@
 set -e
 
 echo "Generating md5sum.txt"
-# is used on focal+ to verify ISO data integrity
+# is used on focal+ to verify ISO data integrity.
+# we exlcude md5sum.txt for obvious reasons (still being written and changing)
+
+# TODO: we could use an inverted check: all files listed in md5sum.txt
+# NOTE: we exclude isolinux.bin because live-build will exclude it so long
+#   as we are building with bootloader syslinux which is the case thanks to
+#   (I think) livecd-rootfs. Should that change we would want to not have this
+#   filter anymore.
 
 cd binary
-find . -type f | xargs md5sum >> md5sum.txt
+find . -type f ! -name "md5sum.txt" ! -name 'isolinux.bin' | xargs md5sum >> md5sum.txt
 cd ..
