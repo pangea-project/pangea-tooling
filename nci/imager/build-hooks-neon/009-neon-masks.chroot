@@ -39,3 +39,8 @@ if dpkg -s ubuntu-advantage-tools; then
   echo 'ubuntu-advantage-tools is still installed. It is expected to be masked!'
   exit 1
 fi
+
+# Make sure adwaita is masked. Depending on dep resolution we may hav ended
+# up with the real adwaita
+apt-get install --purge -y neon-adwaita
+apt-mark auto neon-adwaita
