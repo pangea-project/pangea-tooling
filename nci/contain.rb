@@ -72,10 +72,16 @@ end
 CCACHE_DIR = default_ccache_dir
 CONTAINER_NAME = "neon_#{JOB_NAME}"
 
+# Current (2020-04-24) armhf server is so old its seccomp doesn't know what
+# to do with utime syscalls used by focal libc, so we always run priv'd
+# in this scenario as otherwise everything would eventually EPERM.
+PRIVILEGED = JOB_NAME.end_with?('_armhf') && DIST != 'bionic'
+
 binds = ["#{Dir.pwd}:#{PWD_BIND}"]
 binds << "#{CCACHE_DIR}:/ccache" if CCACHE_DIR
 binds << "#{PANGEA_MAIL_CONFIG_PATH}:#{PANGEA_MAIL_CONFIG_PATH}" if PANGEA_MAIL_CONFIG_PATH
-c = CI::Containment.new(CONTAINER_NAME, image: IMAGE, binds: binds)
+c = CI::Containment.new(CONTAINER_NAME, image: IMAGE, binds: binds,
+                                        privileged: PRIVILEGED)
 
 status_code = c.run(Cmd: ARGV, WorkingDir: PWD_BIND)
 exit status_code
