@@ -346,6 +346,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                          dist: NCI.future_series))
     end
     enqueue(MGMTJenkinsPruneParameterListJob.new)
+    enqueue(MGMTJenkinsPruneOld.new)
     enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTJobUpdater.new)
     enqueue(MGMTDigitalOcean.new)

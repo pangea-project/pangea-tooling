@@ -41,3 +41,11 @@ class MGMTJenkinsPruneParameterListJob < MGMTJenkinsBasePruneJob
           max_age: -1, min_count: 1)
   end
 end
+
+# Prunes entire builds that are too old.
+class MGMTJenkinsPruneOld < MGMTJenkinsBasePruneJob
+  def initialize
+    super(name: 'old', paths: %w[.],
+          max_age: 60, min_count: 10)
+  end
+end
