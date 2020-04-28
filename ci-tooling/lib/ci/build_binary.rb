@@ -30,7 +30,6 @@ require_relative 'source'
 require_relative '../apt'
 require_relative '../debian/control'
 require_relative '../dpkg'
-require_relative '../../../lib/lintian_profile'
 require_relative '../os'
 require_relative '../retry'
 require_relative '../debian/dsc'
@@ -94,10 +93,6 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
         raise "could not find overlay bins in #{overlay_path}"
       end
       ENV['PATH'] = "#{overlay_path}:#{ENV['PATH']}"
-
-      # hijack lintian to disable a whole bunch of tags we don't care about
-      Lintian::Profile.new('pangea').export
-
       cross_setup
     end
 

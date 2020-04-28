@@ -35,9 +35,6 @@ module CI
       # Disable automatic update
       Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
       Apt::Repository.stubs(:`).returns('')
-
-      ENV['LINTIAN_CFG'] = "#{Dir.pwd}/cfg"
-      ENV['LINTIAN_PROFILE_DIR'] = "#{Dir.pwd}/prof"
     end
 
     def refute_bin_only(builder)
