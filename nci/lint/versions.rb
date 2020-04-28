@@ -111,7 +111,7 @@ module NCI
 
     # returns a hash of name=>version. version may be nil!
     def self.load_theirs(packages)
-      names = packages.collect(&:name)
+      names = packages.collect(&:name).sort
       # The overhead of apt is rather substantial, so we'll want to get all
       # data in one go ideally. Should this exhaust some argument limit
       # at some point we'll want to split into chunks instead.
