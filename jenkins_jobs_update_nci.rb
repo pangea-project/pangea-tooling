@@ -220,6 +220,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         enqueue(MGMTRepoTestVersionsJob.new(type: type,
                                             distribution: distribution))
+
+        if (NCI.future_series && NCI.future_series == distribution) ||
+           (NCI.old_series && NCI.current_series == distribution)
+          enqueue(MGMTRepoTestVersionsUpgradeJob.new(type: type,
+                                                     distribution: distribution))
+        end
       end
       # end of type
 
