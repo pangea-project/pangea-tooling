@@ -50,7 +50,14 @@ module NCI
     end
 
     def self.old_repo
-      "#{ENV.fetch('TYPE')}_#{NCI.old_series}"
+      if NCI.future_series
+        "#{ENV.fetch('TYPE')}_#{NCI.current_series}" # "old" is the current one
+      elsif NCI.old_series
+        "#{ENV.fetch('TYPE')}_#{NCI.old_series}"
+      else
+        raise "Don't know what old or future is, maybe this job isn't" \
+              " necessary and should be deleted?"
+      end
     end
 
     def initialize(repo = Aptly::Repository.get(self.class.default_repo))
