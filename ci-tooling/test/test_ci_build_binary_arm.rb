@@ -29,6 +29,11 @@ module CI
   class BuildARMBinaryTest < TestCase
     required_binaries %w(dpkg-buildpackage dpkg-source dpkg dh)
 
+    def setup
+      ENV['LINTIAN_CFG'] = "#{Dir.pwd}/cfg"
+      ENV['LINTIAN_PROFILE_DIR'] = "#{Dir.pwd}/prof"
+    end
+
     def refute_bin_only(builder)
       refute(builder.instance_variable_get(:@bin_only))
     end
