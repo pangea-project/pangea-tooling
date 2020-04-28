@@ -1,22 +1,6 @@
 # frozen_string_literal: true
-#
-# Copyright (C) 2017 Harald Sitter <sitter@kde.org>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) version 3, or any
-# later version accepted by the membership of KDE e.V. (or its
-# successor approved by the membership of KDE e.V.), which shall
-# act as a proxy defined in Section 6 of version 3 of the license.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-FileCopyrightText: 2017-2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require 'minitest/test'
 require 'tty/command'
@@ -117,17 +101,52 @@ module NCI
       Debian::Version.new(pkg.version)
     end
 
+    def self.cmd
+      @cmd ||= TTY::Command.new(printer: :null)
+    end
+
+    def self.cmd=(cmd)
+      @cmd = cmd
+    end
+
+    # returns a hash of name=>version. version may be nil!
+    def self.load_theirs(packages)
+      names = packages.collect(&:name)
+      # The overhead of apt is rather substantial, so we'll want to get all
+      # data in one go ideally. Should this exhaust some argument limit
+      # at some point we'll want to split into chunks instead.
+      res = cmd.run('apt-cache', 'policy', *names)
+
+      map = {}
+      name = nil
+      version = nil
+      res.out.split("\n").each do |line|
+        if line.start_with?(/^\w.+:/) # package lines aren't indented
+          name = line.split(':', 2)[0].strip
+          next
+        end
+        if line.start_with?(/\s+Candidate:/) # always indented
+          version = line.split(':', 2)[1].strip
+          raise line unless name && !name.empty?
+          raise line unless version && !version.empty?
+          version = version == '(none)' ? nil : Debian::Version.new(version)
+          map[name.strip] = version
+          name = nil
+          version = nil
+          next
+        end
+      end
+
+      @their_versions = map
+    end
+
+    def self.their_versions
+      raise "load_theirs wasn't called" unless @their_versions
+      @their_versions
+    end
+
     def their_version
-      res = @cmd.run!("apt show #{pkg.name}")
-      # When exit code !0 it means the package is not found which makes
-      # our version by default greater.
-      return nil if res.failure?
-      # Same for pure virtual packages which come back 0 but with random output.
-      return nil if result_is_probably_virtual?(res)
-      theirs = version_from_apt_show(res.out)
-      return theirs if theirs
-      raise "We somehow failed to parse the version of #{pkg.name}\n" \
-            "[\n#{res.to_ary.join('------')}\n]"
+      PackageVersionCheck.their_versions.fetch(pkg.name, nil)
     end
 
     def result_is_probably_virtual?(res)
@@ -141,16 +160,6 @@ module NCI
       out.empty? &&
         err.split($/).size == 1 &&
         err.include?('does not have a stable CLI interface')
-    end
-
-    def version_from_apt_show(output)
-      output.split($/).each do |line|
-        key, value = line.split(': ', 2)
-        raise "unexpected #{line}" if key == 'Package' && value != pkg.name
-        next if key != 'Version'
-        return Debian::Version.new(value.strip)
-      end
-      nil
     end
 
     def run
@@ -279,7 +288,9 @@ module NCI
       # which wait and potentially raise from their promises.
       def define_tests
         Apt.update if Process.uid.zero? # update if root
-        @lister.packages.each do |pkg|
+        packages = @lister.packages
+        PackageVersionCheck.load_theirs(packages)
+        packages.each do |pkg|
           class_eval do
             define_method("test_#{pkg.name}_#{pkg.version}") do
               PackageVersionCheck.new(pkg).run
@@ -300,7 +311,9 @@ module NCI
     class << self
       def define_tests
         Apt.update if Process.uid.zero? # update if root
-        @lister.packages.each do |pkg|
+        packages = @lister.packages
+        PackageUpgradeVersionCheck.load_theirs(packages)
+        packages.each do |pkg|
           class_eval do
             define_method("test_#{pkg.name}_#{pkg.version}") do
               PackageUpgradeVersionCheck.new(pkg).run
