@@ -224,7 +224,7 @@ module NCI
       return if @@override_packages.include?(pkg.name) # already pinned in neon-settings
       raise VersionNotGreaterError, <<~ERRORMSG
         Current series version of
-        #{pkg.name} #{ours} is greater then future series version #{theirs}
+        #{pkg.name} #{ours} is greater than future series version #{theirs}
         which is currently available in apt (likely from Ubuntu or us).
       ERRORMSG
     end
