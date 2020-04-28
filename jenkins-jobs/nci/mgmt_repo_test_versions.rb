@@ -49,7 +49,7 @@ class MGMTRepoTestVersionsUpgradeJob < PipelineJob
   # distribution in this case is the series the test should be run as.
   # the "old" series is determined from the NCI metadata
   def initialize(distribution:, type:)
-    super("mgmt_repo_test_versions_#{type}_#{distribution}",
+    super("mgmt_repo_test_versions_upgrades_#{type}_#{distribution}",
           template: 'mgmt_repo_test_versions_upgrade',
           cron: 'H H(21-23) * * *',
           with_push_trigger: false)
