@@ -34,7 +34,7 @@ require_relative '../../lib/aptly-ext/remote'
 BEGIN {
   # Use 4 threads in minitest parallelism, apt-cache is heavy, so we can't
   # bind this to the actual CPU cores. 4 Is reasonably performant on SSDs.
-  ENV['N'] ||= '4'
+  ENV['MT_CPU'] ||= '4'
 }
 # rubocop:enable
 
