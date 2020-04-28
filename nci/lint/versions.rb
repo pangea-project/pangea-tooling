@@ -146,7 +146,7 @@ module NCI
     end
 
     def their_version
-      PackageVersionCheck.their_versions.fetch(pkg.name, nil)
+      self.class.their_versions.fetch(pkg.name, nil)
     end
 
     def result_is_probably_virtual?(res)
