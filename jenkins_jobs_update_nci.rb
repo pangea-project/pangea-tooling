@@ -343,12 +343,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTGerminateJob.new(dist: NCI.current_series))
     enqueue(MGMTAppstreamHealthJob.new(dist: NCI.current_series))
     if NCI.future_series
+      # Add generator jobs as necessary here. Probably sound to start out
+      # with unstable first though.
       enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
-      enqueue(MGMTAppstreamGenerator.new(repo: 'user',
-                                         type: 'user',
-                                         dist: NCI.future_series))
-      enqueue(MGMTAppstreamGenerator.new(repo: 'user/lts',
-                                         type: 'user-lts',
+      enqueue(MGMTAppstreamGenerator.new(repo: 'dev/unstable',
+                                         type: 'unstable',
                                          dist: NCI.future_series))
     end
     enqueue(MGMTJenkinsPruneParameterListJob.new)
