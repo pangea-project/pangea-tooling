@@ -52,6 +52,10 @@ env
 git branch -a
 export DIST=<%= dist %>
 export PWD_BIND=/workspace
+if [ "$DIST" != "bionic" ]; then
+  echo "germinate is no longer needed on 20.04+ this job needs removing entirely"
+  exit 1
+fi
 ~/tooling/nci/contain.rb ./update_in_container
 git status
 git commit -a -m &apos;update&apos; || exit 0
