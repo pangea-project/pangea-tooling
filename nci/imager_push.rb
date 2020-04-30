@@ -80,6 +80,13 @@ if DIST == NCI.future_series && NCI.future_is_early
                        *Dir.glob('result/*.sig'),
                        *Dir.glob('result/*.zsync'),
                        'bionic-iso@files.kde.mirror.pangea.pub:~/bionic/')
+  TTY::Command.new.run('ssh',
+                       '-i', ENV.fetch('SSH_KEY_FILE'),
+                       '-o', 'StrictHostKeyChecking=no',
+                       'bionic-iso@files.kde.mirror.pangea.pub',
+                       'ln', '-s',
+                       "#{ISONAME}-#{DATE}.iso.sig",
+                       "~/bionic/#{ISONAME}-current.iso.sig")
   return
 end
 
