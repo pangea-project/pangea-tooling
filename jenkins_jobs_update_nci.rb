@@ -313,6 +313,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                         neonarchive: 'user',
                         cronjob: 'H H * * 0'}
       enqueue(NeonImgJob.new(user_imgargs))
+
+      enqueue(MGMTRepoDivert.new(target: "unstable_#{distribution}"))
+      enqueue(MGMTRepoDivert.new(target: "stable_#{distribution}"))
+
+      enqueue(MGMTRepoUndoDivert.new(target: "unstable_#{distribution}"))
+      enqueue(MGMTRepoUndoDivert.new(target: "stable_#{distribution}"))
     end
 
     # Docker hub changed API and I can not work out a way to trigger a build now so now use empty-push.sh from invent:neon-docker run on embra
@@ -392,13 +398,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
 
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'user'))
-
-    enqueue(MGMTRepoDivert.new(target: 'unstable_bionic'))
-    enqueue(MGMTRepoDivert.new(target: 'stable_bionic'))
-
-    enqueue(MGMTRepoUndoDivert.new(target: 'unstable_bionic'))
-    enqueue(MGMTRepoUndoDivert.new(target: 'stable_bionic'))
-
     enqueue(MGMTToolingJob.new(downstreams: [],
                                dependees: []))
     enqueue(MGMTRepoCleanupJob.new)
