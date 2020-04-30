@@ -32,23 +32,6 @@ TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
 IMAGENAME = ENV.fetch('IMAGENAME')
 
-# Temporary early previews go to a different server away from prying eyes.
-if DIST == NCI.future_series && NCI.future_is_early
-  TTY::Command.new.run('ls', 'result/')
-  TTY::Command.new.run('ssh',
-                       '-i', ENV.fetch('SSH_KEY_FILE'),
-                       '-o', 'StrictHostKeyChecking=no',
-                       'bionic-iso@files.kde.mirror.pangea.pub',
-                       'rm', '-rfv', '~/bionic/*')
-  TTY::Command.new.run('scp',
-                       '-i', ENV.fetch('SSH_KEY_FILE'),
-                       '-o', 'StrictHostKeyChecking=no',
-                       *Dir.glob('result/*.iso'),
-                       *Dir.glob('result/*.zsync'),
-                       'bionic-iso@files.kde.mirror.pangea.pub:~/bionic/')
-  return
-end
-
 # copy to master.kde.org using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
 DATE = File.read('result/date_stamp').strip
@@ -80,6 +63,24 @@ unless TTY::Command.new.run('gpg', '--no-use-agent', '--armor', '--detach-sign',
                             "result/#{ISONAME}-#{DATE}.iso.sig",
                             "result/#{ISONAME}-#{DATE}.iso")
   raise 'Failed to sign'
+end
+
+# Temporary early previews go to a different server away from prying eyes.
+if DIST == NCI.future_series && NCI.future_is_early
+  TTY::Command.new.run('ls', 'result/')
+  TTY::Command.new.run('ssh',
+                       '-i', ENV.fetch('SSH_KEY_FILE'),
+                       '-o', 'StrictHostKeyChecking=no',
+                       'bionic-iso@files.kde.mirror.pangea.pub',
+                       'rm', '-rfv', '~/bionic/*')
+  TTY::Command.new.run('scp',
+                       '-i', ENV.fetch('SSH_KEY_FILE'),
+                       '-o', 'StrictHostKeyChecking=no',
+                       *Dir.glob('result/*.iso'),
+                       *Dir.glob('result/*.sig'),
+                       *Dir.glob('result/*.zsync'),
+                       'bionic-iso@files.kde.mirror.pangea.pub:~/bionic/')
+  return
 end
 
 # Add readme about zsync being defective.
