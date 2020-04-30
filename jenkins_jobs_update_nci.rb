@@ -229,8 +229,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
       # end of type
 
-      next if distribution == 'xenial' # No more xenial ISOs
-
       # ISOs
       NCI.architectures.each do |architecture|
         standard_args = {
@@ -299,26 +297,22 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'mobile')))
       end
 
-      # The following images are only pertaining to dists that aren't xenial.
-      # This isn't necessarily restricted to bionic or anything.
-      if distribution != 'xenial'
-        dev_unstable_imgargs = { type: 'devedition-gitunstable',
-                                 distribution: distribution,
-                                 architecture: 'arm64',
-                                 metapackage: 'neon-desktop',
-                                 imagename: 'neon',
-                                 neonarchive: 'dev/unstable',
-                                 cronjob: 'H H * * 0' }
-        enqueue(NeonImgJob.new(dev_unstable_imgargs))
-        user_imgargs = { type: 'useredition',
-                         distribution: distribution,
-                         architecture: 'arm64',
-                         metapackage: 'neon-desktop',
-                         imagename: 'neon',
-                         neonarchive: 'user',
-                         cronjob: 'H H * * 0'}
-        enqueue(NeonImgJob.new(user_imgargs))
-      end
+      dev_unstable_imgargs = { type: 'devedition-gitunstable',
+                                distribution: distribution,
+                                architecture: 'arm64',
+                                metapackage: 'neon-desktop',
+                                imagename: 'neon',
+                                neonarchive: 'dev/unstable',
+                                cronjob: 'H H * * 0' }
+      enqueue(NeonImgJob.new(dev_unstable_imgargs))
+      user_imgargs = { type: 'useredition',
+                        distribution: distribution,
+                        architecture: 'arm64',
+                        metapackage: 'neon-desktop',
+                        imagename: 'neon',
+                        neonarchive: 'user',
+                        cronjob: 'H H * * 0'}
+      enqueue(NeonImgJob.new(user_imgargs))
     end
 
     # Docker hub changed API and I can not work out a way to trigger a build now so now use empty-push.sh from invent:neon-docker run on embra
