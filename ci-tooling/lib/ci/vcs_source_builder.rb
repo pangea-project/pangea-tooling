@@ -97,9 +97,18 @@ module CI
       origin
     end
 
+    def scaling_node?
+      File.exist?('/tooling/is_scaling_node')
+    end
+
     # Add l10n to source dir
     def add_l10n(source_path, repo_url)
       project = project_for_url(repo_url)
+
+      # Hack for insufficient connection limits on svn. Limit to 1 fetch thread.
+      unless scaling_node?
+        ReleaseMe::TranslationUnit.const_set(:THREAD_COUNT, 1)
+      end
 
       l10n = ReleaseMe::L10n.new(l10n_origin_for(project), project.identifier,
                                  project.i18n_path)
