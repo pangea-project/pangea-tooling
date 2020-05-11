@@ -101,6 +101,9 @@ module CI
     def add_l10n(source_path, repo_url)
       project = project_for_url(repo_url)
 
+      # Use the pangea mirror (exclusively mirrors l10n messages) to avoid
+      # too low connection limits on the regular KDE server.
+      ENV['RELEASEME_SVN_REPO_URL'] = 'svn://gem.cache.pangea.pub/home/kde'
       l10n = ReleaseMe::L10n.new(l10n_origin_for(project), project.identifier,
                                  project.i18n_path)
       l10n.default_excluded_languages = [] # Include even x-test.
