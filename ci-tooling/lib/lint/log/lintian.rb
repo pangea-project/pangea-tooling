@@ -75,15 +75,9 @@ module Lint
       private
 
       def mangle(line)
-        error_reduction = %w[
-          copyright-contains-dh_make-todo-boilerplate
-          helper-templates-in-copyright
-          package-must-activate-ldconfig-trigger
-        ]
-        if error_reduction.any? { |x| line.include?(x) }
-          return line.gsub('E: ', 'W: ')
-        end
-        line
+        # Lintian has errors that aren't so let's mangle the lot.
+        # Nobody cares for stupid noise.
+        line.gsub(/^\s*E: /, 'W: ')
       end
 
       def exclusion
