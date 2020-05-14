@@ -78,6 +78,7 @@ module Lint
         error_reduction = %w[
           copyright-contains-dh_make-todo-boilerplate
           helper-templates-in-copyright
+          package-must-activate-ldconfig-trigger
         ]
         if error_reduction.any? { |x| line.include?(x) }
           return line.gsub('E: ', 'W: ')
