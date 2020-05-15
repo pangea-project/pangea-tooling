@@ -22,9 +22,9 @@ class LintLogTest < TestCase
     # one I and one N from lintian
     assert_equal(2, infos)
     # two W from lintian, one cmake package
-    assert_equal(3, warnings)
+    assert_equal(4, warnings)
     # one E from lintian, two list-missing files, one dh_missing
-    assert_equal(4, errors)
+    assert_equal(3, errors)
   end
 
   def test_invalid
