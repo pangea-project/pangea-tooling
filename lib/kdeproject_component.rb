@@ -77,6 +77,7 @@ class KDEProjectsComponent
       url = "https://projects.kde.org/api/v1/projects/#{filter}"
       response = HTTParty.get(url)
       response.parsed_response
+      return [] # FIXME remove this and update for new categories jriddell 2020-05-18
     end
   end
 end
