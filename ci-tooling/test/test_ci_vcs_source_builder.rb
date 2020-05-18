@@ -230,6 +230,9 @@ class VCSBuilderTest < TestCase
     end
   end
 
+  # NOTE: this actually talks to the real life svn server and can flake
+  #   when that happens chances are something actually moved in production.
+  #   this is kinda intentional since this is a blackbox test!
   def test_l10n
     # The git dir is not called .git as to not confuse the actual tooling git.
     FileUtils.mv('source/gitty', 'source/.git')
@@ -237,7 +240,9 @@ class VCSBuilderTest < TestCase
     ENV['TYPE'] = 'stable'
 
     stub_request(:get, 'https://projects.kde.org/api/v1/repo/kmenuedit')
-      .to_return(body: '{"i18n":{"stable":"none","stableKF5":"Plasma/5.10","trunk":"none","trunkKF5":"master","component":"kde-workspace"},"path":"kde/workspace/kmenuedit","repo":"kmenuedit"}')
+      .to_return(body: '{"i18n":{"stable":"none","stableKF5":"Plasma/5.10",
+        "trunk":"none","trunkKF5":"master","component":"kde-workspace"},
+        "path":"kde/workspace/kmenuedit","repo":"plasma/kmenuedit"}')
 
     source = CI::VcsSourceBuilder.new(release: @release).run
 
