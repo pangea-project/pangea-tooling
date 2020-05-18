@@ -1,22 +1,7 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2014-2017 Harald Sitter <sitter@kde.org>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) version 3, or any
-# later version accepted by the membership of KDE e.V. (or its
-# successor approved by the membership of KDE e.V.), which shall
-# act as a proxy defined in Section 6 of version 3 of the license.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-FileCopyrightText: 2014-2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require 'releaseme'
 
@@ -77,6 +62,10 @@ module CI
       repo_url = "https://anongit.kde.org/#{@name.chomp('-qt4')}"
       branch = DEFAULT_BRANCH
 
+      # Should move elsewhere, no clue where though.
+      # We releaseme_adjust urls as well and need read-only variants.
+      ENV['RELEASEME_READONLY'] = '1'
+
       super('git', repo_url, branch)
     end
 
@@ -84,6 +73,7 @@ module CI
       return nil unless adjust?
       if project
         @branch = branch_from_origin(project, origin.to_sym)
+        @url = SCM.cleanup_uri(project.vcs.repository)
         return self
       end
       # No or multiple results
@@ -96,14 +86,26 @@ module CI
       url = self.url.gsub(/.git$/, '') # sanitize
       project = ProjectCache.fetch(url)
       return project if project
-      projects =
-        Retry.retry_it(times: 5) do
-          ReleaseMe::Project.from_repo_url(url)
-        end
+      projects = Retry.retry_it(times: 5) do
+                   guess_project(url)
+                 end
       if projects.size != 1
         raise "Could not resolve #{url} to KDE project for #{@packaging_repo} branch #{@packaging_branch}. OMG. #{projects}"
       end
       ProjectCache.cache(url, projects[0]) # Caches nil if applicable.
+    end
+
+    def guess_project(url)
+      projects = ReleaseMe::Project.from_repo_url(url)
+      return projects unless projects.empty?
+
+      # The repo path didn't yield a direct query result. We can only surmize
+      # that it isn't a valid invent repo path, as a fall back try to guess
+      # the project by its basename as an id.
+      # On invent project names aren't unique but in lieu of a valid repo url
+      # this is the best we can do.
+      warn "Trying to guess KDE project for #{url}. This is a hack!"
+      ReleaseMe::Project.from_find(File.basename(url))
     end
 
     # This implements a preference fallback system.
@@ -129,8 +131,7 @@ module CI
 
     def adjust?
       default_branch? && url.include?('.kde.org') && type == 'git' &&
-        !url.include?('/scratch/') && !url.include?('/clones/') &&
-        !url.include?('invent.kde.org')
+        !url.include?('/scratch/') && !url.include?('/clones/')
     end
   end
 end
