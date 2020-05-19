@@ -51,8 +51,8 @@ class KDEProjectsComponent
         response = HTTParty.get(url)
         body = response.body
         modules = []
-        body.each_line("master\n") do |x|
-          modules << x.rpartition("master\n")[0].rstrip
+        body.each_line("master\n") do |line|
+          modules << line.split(/\s/, 2)[0]
         end
         modules.sort
       end

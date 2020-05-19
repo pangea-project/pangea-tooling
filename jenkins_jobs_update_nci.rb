@@ -63,7 +63,7 @@ EXCLUDE_SNAPS = %w[
   kfind kfloppy kaddressbook konsole krfb ksystemlog
 ].freeze
 
-applications_jobs = KDEProjectsComponent.applications.collect do |app|
+release_service_jobs = KDEProjectsComponent.release_service_jobs.collect do |app|
   "_kde_#{app}"
 end
 
@@ -193,7 +193,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           #   stable for
           next unless type == 'release'
           next unless %w[neon-packaging extras kde].include?(project.component) ||
-                      %w[applications frameworks plasma].include?(project.kdecomponent)
+                      %w[release_service frameworks plasma].include?(project.kdecomponent)
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
           watchers[watcher.job_name] = watcher

@@ -39,8 +39,6 @@ class KDEProjectComponentTest < TestCase
     plasma_jobs = KDEProjectsComponent.plasma_jobs
     pim = KDEProjectsComponent.pim
     r = KDEProjectsComponent.release_service
-    pp p
-    pp plasma_jobs
     assert f.include? 'attica'
     assert p.include? 'bluedevil'
     assert plasma_jobs.include? 'plasma-discover'

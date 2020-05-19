@@ -91,7 +91,7 @@ class Project
   attr_reader :name
   # Super component (e.g. plasma)
   attr_reader :component
-  # KDE component (e.g. frameworks, plasma, applications, extragear)
+  # KDE component (e.g. frameworks, plasma, release_service, extragear)
   attr_reader :kdecomponent
   # Scm instance describing the upstream SCM associated with this project.
   # FIXME: should this really be writable? need this for projects to force
@@ -164,8 +164,8 @@ class Project
     @series_restrictions = []
     @kdecomponent = if KDEProjectsComponent.frameworks_jobs.include?(name)
                       'frameworks'
-                    elsif KDEProjectsComponent.applications_jobs.include?(name)
-                      'applications'
+                    elsif KDEProjectsComponent.release_service_jobs.include?(name)
+                      'release_service'
                     elsif KDEProjectsComponent.plasma_jobs.include?(name)
                       'plasma'
                     else
@@ -266,7 +266,7 @@ class Project
   def native?(directory)
     return false if Debian::Source.new(directory).format.type != :native
 
-    blacklist = %w[applications frameworks plasma kde-extras]
+    blacklist = %w[release_service frameworks plasma kde-extras]
     return true unless blacklist.include?(component)
 
     # NOTE: this is a bit broad in scope, may be more prudent to have the
