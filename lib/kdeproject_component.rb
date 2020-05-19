@@ -37,26 +37,40 @@ class KDEProjectsComponent
     end
 
     def pim
-      @pim ||= to_names(projects('kde/pim'))
+      @pim ||= to_names(projects('pim'))
     end
 
     def pim_jobs
       @pim_packgaes ||= to_jobs(pim)
     end
 
-    def applications
-      @applications ||= begin
-        apps = projects('kde').reject {|x| x.start_with?('kde/workspace') }
-        to_names(apps)
+    def release_service
+      # the way to get what is in the release service is from release-tools list
+      @release_service ||= begin
+        url = "https://invent.kde.org/sysadmin/release-tools/-/raw/master/modules.git"
+        response = HTTParty.get(url)
+        body = response.body
+        modules = []
+        body.each_line("master\n") do |x|
+          modules << x.rpartition("master\n")[0].rstrip
+        end
+        modules.sort
       end
     end
 
-    def applications_jobs
-      @applications_jobs ||= to_jobs(applications)
+    def release_service_jobs
+      @release_service_jobs ||= to_jobs(release_service)
     end
 
     def plasma
-      @plasma ||= to_names(projects('kde/workspace'))
+      # the way to get what is in the release service is from release-tools list
+      @plasma ||= begin
+        url = "https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release-normal"
+        response = HTTParty.get(url)
+        body = response.body
+        modules = body.split
+        modules.sort
+      end
     end
 
     def plasma_jobs
@@ -77,7 +91,6 @@ class KDEProjectsComponent
       url = "https://projects.kde.org/api/v1/projects/#{filter}"
       response = HTTParty.get(url)
       response.parsed_response
-      return [] # FIXME remove this and update for new categories jriddell 2020-05-18
     end
   end
 end
