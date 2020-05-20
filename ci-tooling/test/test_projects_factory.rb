@@ -48,6 +48,12 @@ class ProjectsFactoryTest < TestCase
         to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: {'Content-Type'=> 'text/json'})
     stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde').
         to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: {'Content-Type'=> 'text/json'})
+    stub_request(:get, 'https://invent.kde.org/sysadmin/release-tools/-/raw/master/modules.git').
+        with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+        to_return(status: 200, body: "kdialog                                     master\nkeditbookmarks                              master\n", headers: {'Content-Type'=> 'text/plain'})
+    stub_request(:get, 'https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release-normal').
+        with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+        to_return(status: 200, body: "bluedevil breeze breeze-grub breeze-gtk breeze-plymouth discover drkonqi", headers: {'Content-Type'=> 'text/plain'})
   end
 
   def teardown
