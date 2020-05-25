@@ -66,14 +66,21 @@ module CI
       # We releaseme_adjust urls as well and need read-only variants.
       ENV['RELEASEME_READONLY'] = '1'
 
+      @default_url = repo_url.clone.freeze
       super('git', repo_url, branch)
     end
 
     def releaseme_adjust!(origin)
       return nil unless adjust?
+
       if project
-        @branch = branch_from_origin(project, origin.to_sym)
-        @url = SCM.cleanup_uri(project.vcs.repository)
+        # Plasma may have its branch overridden because of peculiar nuances in
+        # the timing between branching and actual update of the metadata.
+        # These are not global adjust? considerations so we have two methods
+        # that instead make opinionated choices about whether or not the branch
+        # or the url **may** be changed.
+        adjust_branch_to(project, origin)
+        adjust_url_to(project)
         return self
       end
       # No or multiple results
@@ -82,16 +89,48 @@ module CI
 
     private
 
+    def default_url?
+      raise unless @default_url # make sure this doesn't just do a nil compare
+
+      @default_url == @url
+    end
+
+    def adjust_branch_to(project, origin)
+      if default_branch?
+        @branch = branch_from_origin(project, origin.to_sym)
+      else
+        warn <<~WARNING
+          #{url} is getting redirected to proper KDE url, but its branch was
+          changed by an override to #{@branch} already. The actually detected
+          KDE branch will not be applied!
+        WARNING
+      end
+    end
+
+    def adjust_url_to(project)
+      if default_url?
+        @url = SCM.cleanup_uri(project.vcs.repository)
+      else
+        warn <<~WARNING
+          #{url} would be getting redirected to proper KDE url, but its url was
+          changed by an override already. The actually detected KDE url will
+          not be applied!
+        WARNING
+      end
+    end
+
     def project
       url = self.url.gsub(/.git$/, '') # sanitize
       project = ProjectCache.fetch(url)
       return project if project
+
       projects = Retry.retry_it(times: 5) do
-                   guess_project(url)
-                 end
+        guess_project(url)
+      end
       if projects.size != 1
         raise "Could not resolve #{url} to KDE project for #{@packaging_repo} branch #{@packaging_branch}. OMG. #{projects}"
       end
+
       ProjectCache.cache(url, projects[0]) # Caches nil if applicable.
     end
 
@@ -130,7 +169,7 @@ module CI
     end
 
     def adjust?
-      default_branch? && url.include?('.kde.org') && type == 'git' &&
+      url.include?('.kde.org') && type == 'git' &&
         !url.include?('/scratch/') && !url.include?('/clones/')
     end
   end
