@@ -1,4 +1,5 @@
 AllCops:
+  NewCops: enable # https://docs.rubocop.org/en/latest/versioning/
   TargetRubyVersion: 2.5
 
 Style/Next:
@@ -31,12 +32,12 @@ Metrics/MethodLength:
 # Style suggestion is to use activesupport to be able to indent heredocs. I say
 # fuck this suggestion. I am not going to require some stupid gem to be able to
 # indent heredocs. Ruby 2.3 will solve this with <<~ heredocs.
-Layout/IndentHeredoc:
+Layout/HeredocIndentation:
   Enabled: false
 
 # We have plenty of system(*%w(....)) which is good to have because
 # ['foo', 'mweo', 'asdf'] is cumbersome AF to write.
-Lint/UnneededSplatExpansion:
+Lint/RedundantSplatExpansion:
   Enabled: false
 
 # We generally load only trusted yaml sources produced by us or adjacent KDE
