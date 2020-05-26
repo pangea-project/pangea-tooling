@@ -56,7 +56,9 @@ module Lint
         #   16.04
         %r{E: (\w+): postinst-must-call-ldconfig (.+)/libkdeinit5_(.+).so},
         #   18.04
-        %r{E: (\w+): package-must-activate-ldconfig-trigger (.+)/libkdeinit5_(.+).so}
+        %r{E: (\w+): package-must-activate-ldconfig-trigger (.+)/libkdeinit5_(.+).so},
+        inconsistent-appstream-metadata-license,
+        incomplete-creative-commons-license
       ].freeze
 
       def lint(data)
