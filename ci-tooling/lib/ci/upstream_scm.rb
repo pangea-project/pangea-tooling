@@ -25,6 +25,10 @@ module CI
           project
         end
 
+        def reset!
+          @hash = {}
+        end
+
         private
 
         def hash
@@ -85,9 +89,26 @@ module CI
       end
       # No or multiple results
       nil
+    ensure
+      # Assert that we don't have an anongit URL. But only if there is no
+      # other pending exception lest we hide the underlying problem.
+      assert_url unless $!
     end
 
     private
+
+    def assert_url
+      return unless url&.include?('anongit.kde.org')
+
+      raise <<~ERROR
+        Upstream SCM has invalid url #{url}! Anongit is no more. Either
+        this repo should have mapped to a KDE repo (and failed), or it has an
+        invalid override, or it needs to have a manual override so it knows
+        where to find its source (not automatically possible for !KDE).
+        If this is a KDE repo debug why it failed to map and fix it.
+        DO NOT OVERRIDE URLS FOR LEGIT KDE PROJECTS!
+      ERROR
+    end
 
     def default_url?
       raise unless @default_url # make sure this doesn't just do a nil compare
