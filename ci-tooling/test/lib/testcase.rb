@@ -157,6 +157,7 @@ MSG
     caller = _method_name
     file = File.join(*[@datadir, caller, path].compact)
     return file if File.exist?(file)
+
     raise "Could not find data path #{file}"
   end
 
@@ -167,6 +168,7 @@ MSG
     caller = _method_name
     file = File.join(*[@datadir, "#{caller}#{ext}"].compact)
     return file if File.exist?(file)
+
     raise "Could not find data file #{file}"
   end
 
