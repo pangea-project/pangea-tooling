@@ -3,6 +3,8 @@
 # SPDX-FileCopyrightText: 2014-2020 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
+require 'git_clone_url'
+require 'open-uri'
 require 'releaseme'
 
 require_relative 'scm'
@@ -23,6 +25,15 @@ module CI
         def cache(repo_url, project)
           hash[repo_url] = project
           project
+        end
+
+        def skip(repo_url)
+          hash[repo_url] = :skip
+        end
+
+        def skip?(repo_url)
+          data = hash[repo_url]
+          data == :skip
         end
 
         def reset!
@@ -74,21 +85,26 @@ module CI
       super('git', repo_url, branch)
     end
 
+    # a bit too long but fairly straight forward and also not very complex
+    # rubocop:disable Metrics/MethodLength
     def releaseme_adjust!(origin)
+      # rubocop:enable Metrics/MethodLength
       return nil unless adjust?
 
-      if project
-        # Plasma may have its branch overridden because of peculiar nuances in
-        # the timing between branching and actual update of the metadata.
-        # These are not global adjust? considerations so we have two methods
-        # that instead make opinionated choices about whether or not the branch
-        # or the url **may** be changed.
-        adjust_branch_to(project, origin)
-        adjust_url_to(project)
-        return self
+      if personal_repo?
+        warn "#{url} is a user repo, we'll not adjust it using releaseme info"
+        ProjectCache.skip(url)
+        return nil
       end
-      # No or multiple results
-      nil
+
+      # Plasma may have its branch overridden because of peculiar nuances in
+      # the timing between branching and actual update of the metadata.
+      # These are not global adjust? considerations so we have two methods
+      # that instead make opinionated choices about whether or not the branch
+      # or the url **may** be changed.
+      adjust_branch_to(project, origin)
+      adjust_url_to(project)
+      self
     ensure
       # Assert that we don't have an anongit URL. But only if there is no
       # other pending exception lest we hide the underlying problem.
@@ -96,6 +112,17 @@ module CI
     end
 
     private
+
+    def personal_repo?
+      return false unless url.include?('invent.kde.org')
+
+      # https://docs.gitlab.com/ee/api/README.html#namespaced-path-encoding
+      path = URI.parse(url).path.gsub(/.git$/, '')
+      path = path.gsub(%r{^/+}, '').gsub('/', '%2F')
+      api_url = "https://invent.kde.org/api/v4/projects/#{path}"
+      data = JSON.parse(open(api_url).read)
+      data.fetch('namespace').fetch('kind') == 'user'
+    end
 
     def assert_url
       return unless url&.include?('anongit.kde.org')
@@ -191,7 +218,8 @@ module CI
 
     def adjust?
       url.include?('.kde.org') && type == 'git' &&
-        !url.include?('/scratch/') && !url.include?('/clones/')
+        !url.include?('/scratch/') && !url.include?('/clones/') &&
+        !ProjectCache.skip?(url)
     end
   end
 end

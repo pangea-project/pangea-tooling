@@ -106,6 +106,11 @@ class UpstreamSCMTest < TestCase
   end
 
   def test_releaseme_url_suffix
+    stub_request(:get, 'https://invent.kde.org/api/v4/projects/breeze')
+      .to_return(status: 200,
+                 headers: { 'Content-Type' => 'text/json' },
+                 body: File.read(data('body.json')))
+
     # In overrides people sometimes use silly urls with a .git suffix, this
     # should still lead to correct adjustments regardless.
     ReleaseMe::Project.unstub(:from_repo_url)
@@ -165,5 +170,45 @@ class UpstreamSCMTest < TestCase
       scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
     end
     assert_equal('https://anongit.kde.org/breeze', scm.url)
+  end
+
+  def test_skip_cache
+    # simply test for caching
+
+    # skips after marked for skipping
+    refute(CI::UpstreamSCM::ProjectCache.skip?('a'))
+    CI::UpstreamSCM::ProjectCache.skip('a')
+    assert(CI::UpstreamSCM::ProjectCache.skip?('a'))
+    CI::UpstreamSCM::ProjectCache.reset!
+
+    # not skipping if object cached
+    refute(CI::UpstreamSCM::ProjectCache.skip?('a'))
+    CI::UpstreamSCM::ProjectCache.cache('a', 'b')
+    refute(CI::UpstreamSCM::ProjectCache.skip?('a'))
+  end
+
+  def test_releasme_adjust_personal_repo
+    # Personal repos on invent shouldn't be releaseme adjusted.
+    # The way this works on a higher level is that an override is applied
+    # to the SCM which in turn means the url will be !default_url? and that
+    # in turn means that additional magic should kick in.
+    # Invent urls need to be checked for type. If they are personal repos
+    # then they may be used as-is without adjustment. Otherwise they must
+    # still resolve.
+
+    stub_request(:get, 'https://invent.kde.org/api/v4/projects/bshah%2Fkarchive')
+      .to_return(status: 200,
+                 headers: { 'Content-Type' => 'text/json' },
+                 body: File.read(data('body.json')))
+
+    scm = CI::UpstreamSCM.new(__method__.to_s, 'kubuntu_unstable', '/')
+    orig_url = scm.url
+    scm.instance_variable_set(:@url, 'https://invent.kde.org/bshah/karchive.git')
+    refute_equal(orig_url, scm.url) # make sure we adjust on a different url!
+    # Must not raise anything on account of skipping over this since this is
+    # a personal repo!
+    scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
+    assert_equal('https://invent.kde.org/bshah/karchive.git', scm.url)
+    assert_equal('master', scm.branch)
   end
 end
