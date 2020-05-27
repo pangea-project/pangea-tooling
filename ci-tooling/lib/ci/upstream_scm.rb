@@ -125,7 +125,7 @@ module CI
     end
 
     def assert_url
-      return unless url&.include?('anongit.kde.org')
+      return unless type == 'git' && url&.include?('anongit.kde.org')
 
       raise <<~ERROR
         Upstream SCM has invalid url #{url}! Anongit is no more. Either

@@ -170,6 +170,13 @@ class UpstreamSCMTest < TestCase
       scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
     end
     assert_equal('https://anongit.kde.org/breeze', scm.url)
+
+    # Make sure this doesn't explode when the type is uscan though!
+    scm = CI::UpstreamSCM.new('mooooooo', 'kubuntu_unstable', '/')
+    scm.instance_variable_set(:@type, 'uscan')
+    scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
+    assert_equal('https://anongit.kde.org/mooooooo', scm.url)
+    assert_equal('master', scm.branch)
   end
 
   def test_skip_cache
