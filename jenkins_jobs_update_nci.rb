@@ -152,9 +152,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     watchers = {}
     NCI.series.each_key do |distribution|
       NCI.types.each do |type|
-        # Only unstable for focal just now.
-        next if distribution == NCI.future_series && type != 'unstable'
-
         all_builds = [] # Tracks all builds in this type.
 
         type_projects[type].each do |project|
