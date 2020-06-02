@@ -123,10 +123,7 @@ module CI
       # Includes git.kde.org, otherwise it would run on *.neon.kde.org.
       # also, don't include scratch and clones, they don't have projects
       # associated with them.
-      url = remote.url if remote&.url&.include?('git.kde.org') &&
-                          remote&.url&.include?('invent.kde.org') &&
-                          !remote&.url&.include?('/scratch/') &&
-                          !remote&.url&.include?('/clones/')
+      url = remote.url if remote&.url&.include?('invent.kde.org')
       url || nil
     end
 
