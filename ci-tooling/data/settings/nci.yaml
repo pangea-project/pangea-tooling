@@ -38,7 +38,7 @@
   sourcer:
     restricted_packaging_copy: true
 
-'*_forks_kdelive_*':
+'*_forks_kdenlive_*':
   sourcer:
     restricted_packaging_copy: true
 
