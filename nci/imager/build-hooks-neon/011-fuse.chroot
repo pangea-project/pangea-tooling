@@ -25,6 +25,13 @@
 # here after everything else.  The stuff which use fuse are fine as
 # fuse3 provides fuse and should be backwards compatible for user space bits.q
 
+# only available on unstable and testing for now but enable universally when it has a real release
+
 set -e
 
-apt-get install -y kio-fuse fuse3
+if grep -q Unstable /etc/os-release; then
+    apt-get install -y kio-fuse fuse3
+fi
+if grep -q Testing /etc/os-release; then
+    apt-get install -y kio-fuse fuse3
+fi
