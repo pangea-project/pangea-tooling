@@ -52,8 +52,8 @@ Only jobs that are not queued, not building, and failed will be retired.
       '^(vivid|utopic)_.*_.*'
     • All unstable builds:
       '^.*_unstable_.*'
-    • All neon applications
-      'bionic_release_applications_[^_]+$'
+    • All neon kde releases
+      'bionic_release_[^_]+_[^_]+$'
     • All jobs:
       '.*'
 
@@ -65,10 +65,10 @@ Only jobs that are not queued, not building, and failed will be retired.
     new_release = KDEProjectsComponent.plasma_jobs
   end
 
-  opts.on('-a', '--applications', 'There has been a new Applications release,' \
-                                  ' run all watcher jobs for Applications.') do
+  opts.on('-r', '--releases', 'There has been new Release Service releases,' \
+                                  ' run all watcher jobs for them.') do
     @exclusion_states.clear
-    new_release = KDEProjectsComponent.applications_jobs
+    new_release = KDEProjectsComponent.release_service_jobs
   end
 
   opts.on('-f', '--frameworks', 'There has been a new Frameworks release, run' \
