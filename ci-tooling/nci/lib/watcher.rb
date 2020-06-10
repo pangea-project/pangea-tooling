@@ -139,16 +139,16 @@ module NCI
       # automatically
       if ENV['JOB_NAME'].include?('_kde_') && \
          CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
-        puts 'KDE Plasma/Apps/Framework watcher should be run manually not by '\
+        puts 'KDE Plasma/Releases/Framework watcher should be run manually not by '\
              'timer, quitting'
         puts 'sending notification mail'
         # Take first package from each product and send e-mail for only that
         # one to stop spam
         frameworks_package = KDEProjectsComponent.frameworks[0]
         plasma_package = KDEProjectsComponent.plasma[0]
-        applications_package = KDEProjectsComponent.applications[0]
+        release_service_package = KDEProjectsComponent.release_service[0]
         kde_products = [frameworks_package, plasma_package, \
-                        applications_package]
+                        release_service_package]
         if kde_products.any? { |package| ENV['JOB_NAME'].include?("_#{package}") }
           Pangea::SMTP.start do |smtp|
             mail = <<-MAIL
