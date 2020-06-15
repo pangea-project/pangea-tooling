@@ -28,7 +28,6 @@ module Lint
   # A QML linter
   class QML
     def initialize(type, dist)
-      type = 'testing' if type == 'stable'
       @type = type.tr('-', '/')
       @repo = "#{type}_#{dist}"
       @missing_modules = []
