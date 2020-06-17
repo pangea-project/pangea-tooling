@@ -171,6 +171,12 @@ ssh_args = key_file ? [{ keys: [key_file] }] : []
 # Publish ISO and associated content.
 Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
   sftp.cli_uploads = true
+  begin
+    # Make sure the parent dir exists
+    sftp.mkdir!(REMOTE_DIR)
+  rescue Net::SFTP::StatusException # dir already exists
+    puts "#{REMOTE_DIR} already exists; not creating"
+  end
   sftp.mkdir!(REMOTE_PUB_DIR)
   types = %w[.iso .iso.sig manifest zsync zsync.README sha256sum]
   types.each do |type|

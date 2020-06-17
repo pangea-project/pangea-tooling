@@ -112,7 +112,7 @@ module NCI
       master = SFTPAdaptor.new('master.kde.org')
       # We do not mkpath properly in the pusher, simulate what we already have
       # server-side.
-      master.mkpath('neon/images/testing')
+      master.mkpath('neon/images')
       mirror = SFTPAdaptor.new('files.kde.mirror.pangea.pub')
       weegie = SFTPAdaptor.new('weegie.edinburghlinux.co.uk')
       # We also do not properly mkpath against weegie.
