@@ -71,7 +71,7 @@ DEBIAN_TO_KDE_NAMES = {
 # Sources that we do not package for some reason. Should be documented why!
 BLACKLIST = [
   # Supposedly unmainatined which is why we opt to not maintain the entire
-  # telepeathy stack.
+  # telepathy stack.
   'ktp-contact-runner',
   'ktp-kded-module',
   'ktp-auth-handler',
@@ -101,7 +101,7 @@ ssh_args = key_file ? [{ keys: [key_file] }] : []
 
 product_and_versions = []
 
-# Publish ISO and associated content.
+# Grab list of all released tarballs
 %w[release-service frameworks plasma].each do |scope|
   Net::SFTP.start('master.kde.org', 'ftpneon', *ssh_args) do |sftp|
     # delete old directories
