@@ -48,9 +48,9 @@ REMOTE_DIR = case DIST
                "neon/images/#{DIST}-preview/#{TYPE}/"
              when NCI.old_series
                raise "The old series ISO built but it shouldn't have!" \
-                     " Remove the jobs or smth."
+                     ' Remove the jobs or smth.'
              else
-               raise "No DIST env var defined; no idea what to do!"
+               raise 'No DIST env var defined; no idea what to do!'
              end
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
