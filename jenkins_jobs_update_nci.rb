@@ -234,6 +234,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           architecture: architecture,
           metapackage: 'neon-desktop'
         }.freeze
+        is_future = distribution == NCI.future_series
 
         dev_unstable_isoargs = standard_args.merge(
           type: 'unstable',
@@ -264,7 +265,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         user_releaselts_isoargs = standard_args.merge(
           type: 'plasma_lts',
-          neonarchive: 'user/lts',
+          neonarchive: is_future ? 'release/lts' : 'user/lts',
           cronjob: 'H H * * 3'
         )
         enqueue(NeonIsoJob.new(user_releaselts_isoargs))
@@ -272,7 +273,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         user_release_isoargs = standard_args.merge(
           type: 'user',
-          neonarchive: 'user',
+          neonarchive: is_future ? 'release' : 'user',
           cronjob: 'H H * * 4'
         )
         enqueue(NeonIsoJob.new(user_release_isoargs))
