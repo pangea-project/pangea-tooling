@@ -26,9 +26,8 @@ require 'net/ssh'
 require 'tty-command'
 
 require_relative '../ci-tooling/lib/nci'
+require_relative 'lib/imager_push_paths'
 
-DIST = ENV.fetch('DIST')
-TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
 IMAGENAME = ENV.fetch('IMAGENAME')
 
@@ -36,22 +35,6 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # this to only be published if passing some QA test
 DATE = File.read('result/date_stamp').strip
 ISONAME = "#{IMAGENAME}-#{TYPE}"
-# NB: DO NOT CHANGE THIS LIGHTLY!!!!
-# The series guards prevent the !current series from publishing over the current
-# series. When the ISO should change you'll want to edit nci.yaml and shuffle
-# the series entries around there.
-REMOTE_DIR = case DIST
-             when NCI.current_series
-               "neon/images/#{TYPE}/"
-             when NCI.future_series
-               # Subdir if not the standard version
-               "neon/images/#{DIST}-preview/#{TYPE}/"
-             when NCI.old_series
-               raise "The old series ISO built but it shouldn't have!" \
-                     ' Remove the jobs or smth.'
-             else
-               raise 'No DIST env var defined; no idea what to do!'
-             end
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 # NB: we use gpg without agent here. Jenkins credential paths are fairly long

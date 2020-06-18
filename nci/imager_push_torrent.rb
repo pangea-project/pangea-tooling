@@ -24,11 +24,10 @@ require 'net/sftp'
 require 'nokogiri'
 require 'open-uri'
 require 'tty-command'
+require_relative '../ci-tooling/lib/nci'
+require_relative 'lib/imager_push_paths'
 
 STDOUT.sync = true # Make sure output is synced and bypass caching.
-
-TYPE = ENV.fetch('TYPE')
-REMOTE_DIR = "neon/images/#{TYPE}/"
 
 # Torrent piece size
 PIECE_LENGTH = 262_144
