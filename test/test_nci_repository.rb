@@ -252,7 +252,7 @@ module NCI
         Dir.chdir('fishy') do
           puts '-- remot set-url'
           @cmd.run!('nslookup anongit.neon.kde.org')
-          puts @cmd.run('git remote set-url origin git://anongit.neon.kde.org/kde/khtml').out.strip
+          puts @cmd.run('git remote set-url origin https://anongit.neon.kde.org/kde/khtml').out.strip
         end
         repo.send(:mangle_push_path!) # private
         Dir.chdir('fishy') do
