@@ -25,7 +25,8 @@ mkdir -p binary/.disk/ || true
 echo full_cd/single > binary/.disk/cd_type
 
 # Make a cfg
-cat > binary/boot/grub/grub.cfg << EOF
+# NB: this is a verbatim '' string to avoid interpolation of $grub_platform
+cat > binary/boot/grub/grub.cfg << 'EOF'
 # This is a composite, glued together from bits of an actual generated
 # grub.cfg from a regular system, and the auto generated stuff created for
 # Kubuntu.
