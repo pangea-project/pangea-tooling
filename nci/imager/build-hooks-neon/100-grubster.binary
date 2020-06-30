@@ -76,4 +76,14 @@ menuentry "Start KDE neon (OEM mode)" {
 	linux	/casper/vmlinuz boot=casper apparmor=0 quiet splash ${LB_BOOTAPPEND_LIVE} --- oem-config/enable=true
 	initrd	/casper/initrd
 }
+
+grub_platform
+if [ "$grub_platform" = "efi" ]; then
+	menuentry 'Boot from next volume' {
+		exit
+	}
+	menuentry 'UEFI Firmware Settings' {
+		fwsetup
+	}
+fi
 EOF
