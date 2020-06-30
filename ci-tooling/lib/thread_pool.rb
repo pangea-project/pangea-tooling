@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'thwait'
 
 require_relative 'queue'
 
@@ -18,6 +17,6 @@ module BlockingThreadPool
         block.call
       end
     end
-    ThreadsWait.all_waits(threads)
+    threads.each(&:join)
   end
 end

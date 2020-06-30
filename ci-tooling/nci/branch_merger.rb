@@ -26,8 +26,6 @@ require 'logger'
 require 'logger/colors'
 require 'tmpdir'
 
-require 'thwait'
-
 require_relative '../lib/optparse'
 require_relative '../lib/projects/factory/neon'
 require_relative '../lib/retry'
