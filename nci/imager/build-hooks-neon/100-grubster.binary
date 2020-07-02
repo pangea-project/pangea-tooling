@@ -25,8 +25,8 @@ mkdir -p binary/.disk/ || true
 echo full_cd/single > binary/.disk/cd_type
 
 # Make a cfg
-# NB: this is a verbatim '' string to avoid interpolation of $grub_platform
-cat > binary/boot/grub/grub.cfg << 'EOF'
+# NB: this is interpolated for LB_BOOTAPPEND_LIVE. variables for grub must be escaped!
+cat > binary/boot/grub/grub.cfg << EOF
 # This is a composite, glued together from bits of an actual generated
 # grub.cfg from a regular system, and the auto generated stuff created for
 # Kubuntu.
@@ -39,7 +39,7 @@ if loadfont /boot/grub/unicode.pf2 ; then
 	set gfxmode=auto
 	load_video
 	insmod gfxterm
-	set locale_dir=$prefix/locale
+	set locale_dir=\$prefix/locale
 	set lang=en_US
 	insmod gettext
 fi
@@ -79,7 +79,7 @@ menuentry "Start KDE neon (OEM mode)" {
 }
 
 grub_platform
-if [ "$grub_platform" = "efi" ]; then
+if [ "\$grub_platform" = "efi" ]; then
 	menuentry 'Boot from next volume' {
 		exit
 	}
