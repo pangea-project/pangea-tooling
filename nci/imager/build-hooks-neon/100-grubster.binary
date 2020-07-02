@@ -71,7 +71,11 @@ menuentry "Start KDE neon" {
 	initrd	/casper/initrd
 }
 
-menuentry "Start KDE neon (OEM mode)" {
+menuentry "Start KDE neon (safe graphics)" {
+	set gfxpayload=keep
+	linux	/casper/vmlinuz boot=casper apparmor=0 quiet splash nomodeset ${LB_BOOTAPPEND_LIVE} ---
+	initrd	/casper/initrd
+}
 
 menuentry "Start KDE neon (OEM mode - for manufacturers)" {
 	load_video
