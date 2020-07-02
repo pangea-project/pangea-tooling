@@ -72,6 +72,7 @@ menuentry "Start KDE neon" {
 }
 
 menuentry "Start KDE neon (safe graphics)" {
+	load_video
 	set gfxpayload=keep
 	linux	/casper/vmlinuz boot=casper apparmor=0 quiet splash nomodeset ${LB_BOOTAPPEND_LIVE} ---
 	initrd	/casper/initrd
