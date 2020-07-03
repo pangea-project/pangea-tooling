@@ -64,21 +64,21 @@ set menu_color_highlight=black/light-gray
 #   parts of the ISO from working properly (e.g. snapd or kmail; latter only
 #   if the user opts to install it of course).
 
-menuentry "Start KDE neon" {
+menuentry "KDE neon" {
 	load_video
 	set gfxpayload=keep
 	linux	/casper/vmlinuz boot=casper apparmor=0 quiet splash ${LB_BOOTAPPEND_LIVE} ---
 	initrd	/casper/initrd
 }
 
-menuentry "Start KDE neon (safe graphics)" {
+menuentry "KDE neon (safe graphics)" {
 	load_video
 	set gfxpayload=keep
 	linux	/casper/vmlinuz boot=casper apparmor=0 quiet splash nomodeset ${LB_BOOTAPPEND_LIVE} ---
 	initrd	/casper/initrd
 }
 
-menuentry "Start KDE neon (OEM mode - for manufacturers)" {
+menuentry "KDE neon (OEM mode - for manufacturers)" {
 	load_video
 	set gfxpayload=keep
 	linux	/casper/vmlinuz boot=casper apparmor=0 quiet splash ${LB_BOOTAPPEND_LIVE} --- oem-config/enable=true
