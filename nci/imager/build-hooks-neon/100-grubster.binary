@@ -85,6 +85,13 @@ menuentry "KDE neon (OEM mode - for manufacturers)" {
 	initrd	/casper/initrd
 }
 
+menuentry "KDE neon (OEM mode + safe graphics)" {
+	load_video
+	set gfxpayload=keep
+	linux	/casper/vmlinuz boot=casper apparmor=0 quiet splash nomodeset ${LB_BOOTAPPEND_LIVE} --- oem-config/enable=true
+	initrd	/casper/initrd
+}
+
 grub_platform
 if [ "\$grub_platform" = "efi" ]; then
 	menuentry 'Boot from next volume' {
