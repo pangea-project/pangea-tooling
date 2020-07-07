@@ -402,7 +402,7 @@ absolutely must not be native though!
                                     bare: true,
                                     credentials: method(:git_credentials))
       else
-        `git clone #{uri} #{dest}`.chop
+        Rugged::Repository.clone_at(uri, dest, bare: true)
       end
 
     rescue Rugged::NetworkError => e
