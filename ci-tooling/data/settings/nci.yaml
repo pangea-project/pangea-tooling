@@ -6,6 +6,10 @@
 
 # Others
 
+'*_backports-focal_*_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-bionic_*_*':
   sourcer:
     restricted_packaging_copy: true
