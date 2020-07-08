@@ -186,10 +186,10 @@ module NCI
 
   class PackageUpgradeVersionCheck < PackageVersionCheck
 
-    # Download and parse the neon-settings xenial->bionic pin override file
+    # Download and parse the neon-settings bionic->focal pin override file
     def self.override_packages
       @@override_packages ||= begin
-        url = "https://packaging.neon.kde.org/neon/settings.git/plain/etc/apt/preferences.d/99-xenial-overrides?h=Neon/release-lts"
+        url = "https://packaging.neon.kde.org/neon/settings.git/plain/etc/apt/preferences.d/99-focal-overrides?h=Neon/release-lts"
         response = HTTParty.get(url)
         response.parsed_response
         override_packages = []
