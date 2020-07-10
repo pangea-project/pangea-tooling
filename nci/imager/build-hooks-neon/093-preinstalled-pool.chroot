@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 echo 'running preinstalled pool hoook'
 
 mkdir -p /var/lib/preinstalled-pool/pool/
