@@ -27,7 +27,6 @@ apt-get \
   fakeroot \
   libfakeroot \
   libc6-i386 \
-  grub-pc \
   grub-efi \
   grub-efi-amd64 \
   grub-efi-amd64-bin \
@@ -43,5 +42,11 @@ apt-get \
   bcmwl-kernel-source \
   oem-config \
   oem-config-kde
+apt-get \
+  -o Debug::NoLocking=true \
+  -o Dir::Cache::Archives=`pwd`/cache \
+  --download-only \
+  install \
+  grub-pc
 mv cache/*.deb .
 rm -r cache
