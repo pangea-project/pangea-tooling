@@ -46,6 +46,7 @@ apt-get \
   -o Debug::NoLocking=true \
   -o Dir::Cache::Archives=`pwd`/cache \
   --download-only \
+  -y \
   install \
   grub-pc
 mv cache/*.deb .
