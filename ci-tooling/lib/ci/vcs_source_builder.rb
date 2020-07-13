@@ -72,6 +72,7 @@ module ReleaseMe
     def export(target, path)
       ftp.get(path, target)
     rescue Net::FTPPermError => e
+      FileUtils.rm_f(target) # git ignorantly touches the file before trying to read -.-
       false
     end
 
