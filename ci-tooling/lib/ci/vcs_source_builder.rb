@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 #
 # Copyright (C) 2015 Rohan Garg <rohan@garg.io>
-# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2020 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -23,6 +23,11 @@ require 'fileutils'
 require 'releaseme'
 require 'yaml'
 
+# for releasem ftp vcs
+require 'concurrent'
+require 'net/ftp'
+require 'net/ftp/list'
+
 require_relative '../../../lib/tty_command'
 require_relative '../apt'
 require_relative '../debian/changelog'
@@ -32,6 +37,84 @@ require_relative 'build_version'
 require_relative 'source'
 require_relative 'sourcer_base'
 require_relative 'version_enforcer'
+
+module ReleaseMe
+  # SVN replacement hijacks svn and redirects to ftp intead
+  # this isn't tested because testing ftp is a right headache.
+  # Be very careful with rescuing errors, due to the lack of testing
+  # rescuing must be veeeeeeery carefully done.
+  class FTP < Vcs
+    def initialize
+      @svn = Svn.allocate
+      @thread_storage ||= Concurrent::Hash.new
+    end
+
+    def clean!(*)
+      # already clean with ftp, there's no temporary cache on-disk
+    end
+
+    def ftp
+      # this is kinda thread safe in that Thread.current cannot change out from
+      # under us, and the storage is a concurrent hash.
+      @thread_storage[Thread.current] ||= begin
+        uri = URI.parse(repository)
+        ftp = Net::FTP.new(uri.host, port: uri.port)
+        ftp.login
+        ftp.chdir(uri.path)
+        ftp
+      end
+    end
+
+    def cat(file_path)
+      ftp.get(file_path, nil)
+    end
+
+    def export(target, path)
+      ftp.get(path, target)
+    rescue Net::FTPPermError => e
+      false
+    end
+
+    def get_r(ftp, target, path)
+      any = false
+      ftp.list(path).each do |e|
+        entry = Net::FTP::List.parse(e)
+        entry_path = File.join(path, entry.basename)
+        target_path = File.join(target, entry.basename)
+        if entry.file?
+          FileUtils.mkpath(File.dirname(target_path))
+          ftp.get(entry_path, target_path)
+        elsif entry.dir?
+          get_r(ftp, target_path, entry_path)
+        else
+          raise "Unsupported entry #{entry} #{entry.inspect}"
+        end
+        any = true
+      end
+      any
+    end
+
+    def get(target, path = nil, clean: false)
+      get_r(ftp, target, path)
+    end
+
+    def list(path = nil)
+      ftp.nlst(path).join("\n")
+    end
+
+    def method_missing(symbol, *arguments, &block)
+      if @svn.respond_to?(symbol)
+        raise "#{symbol} not implemented by #{self.class} overlay for SVN"
+      end
+
+      super
+    end
+
+    def respond_to_missing?(symbol, include_private = false)
+      @svn.respond_to?(symbol, include_private) || super
+    end
+  end
+end
 
 module CI
   # Extend a builder with l10n functionality based on releaseme.
@@ -103,9 +186,9 @@ module CI
 
       # Use the pangea mirror (exclusively mirrors l10n messages) to avoid
       # too low connection limits on the regular KDE server.
-      ENV['RELEASEME_SVN_REPO_URL'] = 'svn://gem.cache.pangea.pub/home/kde'
+      ENV['RELEASEME_SVN_REPO_URL'] = 'ftp://files.kde.mirror.pangea.pub:21012'
       l10n = ReleaseMe::L10n.new(l10n_origin_for(project), project.identifier,
-                                 project.i18n_path)
+                                 project.i18n_path, vcs: ReleaseMe::FTP.new)
       l10n.default_excluded_languages = [] # Include even x-test.
       l10n.get(source_path)
       l10n.vcs.clean!("#{source_path}/po")

@@ -21,6 +21,7 @@ gem 'insensitive_hash'
 gem 'jenkins_api_client'
 gem 'jenkins_junit_builder', '~> 0.0.6' # Don't pickup v0.0.1
 gem 'logger-colors'
+gem 'net-ftp-list'
 gem 'net-sftp'
 gem 'net-ssh', '= 4.2.0'
 gem 'net-ssh-gateway'
