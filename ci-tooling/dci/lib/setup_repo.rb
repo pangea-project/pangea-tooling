@@ -37,7 +37,7 @@ module DCI
 
 #to-do: split components:repo to yaml
     repos += %w[netrunner]
-    components += %w[extras calamares ds9-artwork ds9-common netrunner netrunner-desktop netrunner-core]
+    components += %w[extras calamares netrunner netrunner-desktop netrunner-core]
     components += %w[odroid pine64 zeronet rock64] unless DPKG::BUILD_ARCH == 'amd64'
     @dist = "netrunner-#{@dist}" unless @dist.start_with?('netrunner')
 
