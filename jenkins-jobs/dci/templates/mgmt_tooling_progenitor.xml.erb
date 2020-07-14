@@ -19,6 +19,11 @@
       <singleInstancePerSlave>false</singleInstancePerSlave>
     <slaveUtilizationPercentage>0</slaveUtilizationPercentage>
     </com.suryagaddipati.jenkins.SlaveUtilizationProperty>
+      <hudson.plugins.copyartifact.CopyArtifactPermissionProperty plugin="copyartifact@1.45">
+      <projectNameList>
+        <string>mgmt_tooling_deploy</string>
+      </projectNameList>
+    </hudson.plugins.copyartifact.CopyArtifactPermissionProperty>
     <com.synopsys.arc.jenkinsci.plugins.jobrestrictions.jobs.JobRestrictionProperty plugin="job-restrictions@0.8"/>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@2.0.1">
       <categories class="java.util.concurrent.CopyOnWriteArrayList"/>
@@ -28,7 +33,7 @@
       <paramsToUseForLimit></paramsToUseForLimit>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@4.0.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@4.3.0">
      <configVersion>2</configVersion>
      <userRemoteConfigs>
        <hudson.plugins.git.UserRemoteConfig>
@@ -58,6 +63,7 @@
  env
  ls -ah
 
+ set -e
  rm Gemfile.lock || true
 
  gem install --no-document bundler
@@ -84,21 +90,21 @@
      <hudson.tasks.ArtifactArchiver>
        <artifacts>tooling.tar.gz</artifacts>
        <allowEmptyArchive>false</allowEmptyArchive>
-       <onlyIfSuccessful>false</onlyIfSuccessful>
+       <onlyIfSuccessful>true</onlyIfSuccessful>
        <fingerprint>false</fingerprint>
        <defaultExcludes>true</defaultExcludes>
        <caseSensitive>true</caseSensitive>
      </hudson.tasks.ArtifactArchiver>
    </publishers>
    <buildWrappers>
-     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.37">
+     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.38">
        <deleteDirs>false</deleteDirs>
        <cleanupParameter></cleanupParameter>
        <externalDelete></externalDelete>
        <disableDeferredWipeout>false</disableDeferredWipeout>
      </hudson.plugins.ws__cleanup.PreBuildCleanup>
-     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.10"/>
-     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.6.2">
+     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.11"/>
+     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.7.0">
        <colorMapName>xterm</colorMapName>
      </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
    </buildWrappers>
