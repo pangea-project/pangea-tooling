@@ -159,12 +159,6 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
       backports-2001
       calamares-2001
       calamares-next
-      ds9-artwork-2001
-      ds9-artwork-backports
-      ds9-artwork-next
-      ds9-common-2001
-      ds9-common-backports
-      ds9-common-next
       extras-2001
       extras-backports
       extras-next
