@@ -59,7 +59,7 @@ class KDEProjectsComponent
     end
 
     def release_service_jobs
-      @release_service_jobs ||= to_jobs(release_service)
+      @release_service_jobs ||= to_jobs(release_service).reject {|x| @@projects_without_jobs.include?(x)}
     end
 
     def plasma
