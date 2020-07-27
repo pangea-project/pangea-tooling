@@ -32,8 +32,11 @@ module Jenkins
     def initialize(name, client = JenkinsApi::Client.new)
       @client = client
       @name = name
-      return unless @name.is_a?(Hash)
-      @name = @name.fetch('name') { raise 'name is a Hash but has no name key' }
+      if @name.is_a?(Hash)
+        @name = @name.fetch('name') { raise 'name is a Hash but has no name key' }
+      end
+      @name = @name.gsub('/', '/job/')
+      p @name
     end
 
     def delete!
