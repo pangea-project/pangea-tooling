@@ -87,7 +87,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # FIXME: openqa is temporary while this is still being set up.
     JenkinsApi::Client.new.view.list_jobs('testy') +
       JenkinsApi::Client.new.job.list('^test_.*') +
-      JenkinsApi::Client.new.job.list('^openqa.*') +
       %w[a_extra-cmake-modules] # This is a multibranch pipe, a view itself.
   end
 
