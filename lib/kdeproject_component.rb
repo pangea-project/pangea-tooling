@@ -26,7 +26,7 @@ require 'httparty'
 class KDEProjectsComponent
   class << self
     @@projects_to_jobs = {'discover'=>'plasma-discover', 'kcalendarcore'=>'kcalcore', 'kdeconnect-kde'=>'kdeconnect'}
-    @@projects_without_jobs = ['plasma-tests']
+    @@projects_without_jobs = ['plasma-tests', 'akonadi-airsync', 'akonadi-exchange', 'akonadi-phabricator-resource', 'kpeoplesink', 'akonadiclient', 'kblog']
 
     def frameworks
       @frameworks ||= to_names(projects('frameworks'))
