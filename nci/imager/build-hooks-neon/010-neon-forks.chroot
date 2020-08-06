@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 UBIQUITY=`apt-cache policy ubiquity | grep http | head -n 1 | awk '{print $2}' | sed 's,[a-z]*$,,'`
 LIVE_BUILD=`apt-cache policy live-build | grep http | head -n 1 | awk '{print $2}' | sed 's,[a-z]*$,,'`
