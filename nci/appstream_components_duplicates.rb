@@ -108,7 +108,7 @@ if $PROGRAM_NAME == __FILE__
   # from other repos (i.e. ubuntu)
   data = nil
   Retry.retry_it(times: 3) do
-    data = open('https://origin.archive.neon.kde.org/user/dists/bionic/main/dep11/Components-amd64.yml').read
+    data = open('https://origin.archive.neon.kde.org/user/dists/focal/main/dep11/Components-amd64.yml').read
   end
 
   docs = []

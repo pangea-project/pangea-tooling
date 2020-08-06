@@ -22,7 +22,7 @@
 require_relative 'lint/versions'
 
 # test versions in current_series (xenial) neon builds are all smaller than
-# in future_series (bionic) ubuntu + neon builds
+# in future_series (focal) ubuntu + neon builds
 
 Aptly.configure do |config|
   config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')

@@ -53,7 +53,7 @@ Only jobs that are not queued, not building, and failed will be retired.
     • All unstable builds:
       '^.*_unstable_.*'
     • All neon kde releases
-      'bionic_release_[^_]+_[^_]+$'
+      'focal_release_[^_]+_[^_]+$'
     • All jobs:
       '.*'
 

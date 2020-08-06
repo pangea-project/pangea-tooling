@@ -143,7 +143,7 @@ violations = []
 
 Aptly::Ext::Remote.neon do
   pub = Aptly::PublishedRepository.list.find do |r|
-    r.Prefix == 'user' && r.Distribution == 'bionic'
+    r.Prefix == 'user' && r.Distribution == 'focal'
   end
   pub.Sources.each do |source|
     packages = source.packages(q: '$Architecture (source)')

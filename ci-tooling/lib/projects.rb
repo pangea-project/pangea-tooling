@@ -122,7 +122,7 @@ class Project
   attr_reader :debian
   alias debian? debian
 
-  # List of dist ids that this project is restricted to (e.g. %w[xenial bionic]
+  # List of dist ids that this project is restricted to (e.g. %w[xenial bionic focal]
   # should prevent the project from being used to create jobs for `artful`)
   # This actually taking effect depends on the specific job/project_updater
   # implementation correctly implementing the restriction.

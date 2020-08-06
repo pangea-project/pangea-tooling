@@ -97,7 +97,7 @@ Dir.chdir('/') do
   FileUtils.cp("#{__dir__}/adt-helpers/mktemp", '/usr/sbin/mktemp',
                verbose: true)
   FileUtils.chmod(0o0755, '/usr/sbin/mktemp')
-  if File.exist?('/usr/bin/autopkgtest') # bionic
+  if File.exist?('/usr/bin/autopkgtest') # bionic and focal
     # Applies with a bit of offset.
     system('patch',
            '/usr/bin/autopkgtest',
@@ -133,7 +133,7 @@ if binary == 'adt-run' # xenial compat
   Dir.glob('result/*.deb').each { |x| args << '--binary' << x }
   args << '--built-tree' << "#{Dir.pwd}/build"
   args << '---' << 'null'
-else # bionic
+else # bionic and focal
   # newer versions use an even dafter cmdline format than you could possibly
   # imagine where you just throw random shit at it and it will *try* to figure
   # out what you mean. The code where it does that is glorious spaghetti.

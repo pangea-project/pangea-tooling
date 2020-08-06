@@ -28,7 +28,7 @@ APTLY_REPOSITORY = ENV.fetch('APTLY_REPOSITORY')
 DIST = ENV.fetch('DIST')
 
 # TODO: current? version cleanup? rotating?
-#   ubuntu publishes them as ...-all/1.2.3/bionic.tar.gz etc. and keeps ~3
+#   ubuntu publishes them as ...-all/1.2.3/focal.tar.gz etc. and keeps ~3
 #   versions. they also keep a current folder which is probably simply a symlink
 #   or copy of the latest version. seems a bit useless IMO so I haven't written
 #   any code for that and all goes into current currently. -sitter

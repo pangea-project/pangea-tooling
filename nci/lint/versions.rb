@@ -216,9 +216,9 @@ module NCI
 
     def run
       return if pkg.name.include? 'dbg'
-      # set theirs to ubuntu bionic from container apt show, do not report if no package in ubuntu bionic
+      # set theirs to ubuntu focal from container apt show, do not report if no package in ubuntu focal
       theirs = their_version || return # Debian::Version.new('0')
-      # get future neon (bionic) aptly version, set theirs if larger
+      # get future neon (focal) aptly version, set theirs if larger
       PackageUpgradeVersionCheck.future_packages
       neon_future_packages = @@future_packages.select { |x| x.name == "#{pkg.name}" }
       if neon_future_packages.length > 0

@@ -39,7 +39,7 @@ REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 # NB: we use gpg without agent here. Jenkins credential paths are fairly long
 # and trigger https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=847206
-# we can use gpg2 in bionic iff we call `gpgconf --create-socketdir` to create
+# we can use gpg2 in bionic/focal iff we call `gpgconf --create-socketdir` to create
 # a dedicated socket directory.
 unless TTY::Command.new.run('gpg', '--no-use-agent', '--armor', '--detach-sign',
                             '-o',
@@ -49,6 +49,7 @@ unless TTY::Command.new.run('gpg', '--no-use-agent', '--armor', '--detach-sign',
 end
 
 # Temporary early previews go to a different server away from prying eyes.
+# Despire the username this is for focal and future ones too.
 if DIST == NCI.future_series && NCI.future_is_early
   TTY::Command.new.run('ls', 'result/')
   TTY::Command.new.run('ssh',

@@ -342,7 +342,7 @@ if [ ! -e binary/casper/vmlinuz ]; then
     done
 fi
 EOF
-else
+else # for focal
   cat <<EOF > config/hooks/000-rename-kernel.binary
 #!/bin/sh -ex
 ls -lah binary/
