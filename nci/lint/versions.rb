@@ -200,7 +200,6 @@ module NCI
         url = "https://packaging.neon.kde.org/neon/settings.git/plain/etc/apt/preferences.d/50-neon-mariadb?h=Neon/release-lts"
         response = HTTParty.get(url)
         response.parsed_response
-        override_packages = []
         response.each_line do |line|
           match = line.match(/Package: (.*)/)
           override_packages << match[1] if match&.length == 2
