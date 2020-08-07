@@ -138,11 +138,11 @@ foo:
           to_return(status: 200, body: "Package: aptdaemon\nPin: release o=Ubuntu\nPin-Priority: 1100\n\nPackage: aptdaemon-data\nPin: release o=Ubuntu\nPin-Priority: 1100", headers: {'Content-Type'=> 'text/plain'})
       stub_request(:get, 'https://packaging.neon.kde.org/neon/settings.git/plain/etc/apt/preferences.d/50-neon-mariadb?h=Neon/release-lts').
           with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-          to_return(status: 200, body: "Package: aptdaemon\nPin: release o=Ubuntu\nPin-Priority: 1100\n\nPackage: aptdaemon-data\nPin: release o=Ubuntu\nPin-Priority: 1100", headers: {'Content-Type'=> 'text/plain'})
+          to_return(status: 200, body: "Package: mysql-client-core-8.0\nPin: origin \"archive.neon.kde.org\"\nPin-Priority: 1100\n\nPackage: mysql-server-core-8.0\nPin: origin \"archive.neon.kde.org\"\nPin-Priority: 1100", headers: {'Content-Type'=> 'text/plain'})
 
       PackageUpgradeVersionCheck.override_packages
       override_packages = PackageUpgradeVersionCheck.override_packages
-      assert_equal(["aptdaemon", "aptdaemon-data"], override_packages)
+      assert_equal(["aptdaemon", "aptdaemon-data", "mysql-client-core-8.0", "mysql-server-core-8.0"], override_packages)
     end
 
   end
