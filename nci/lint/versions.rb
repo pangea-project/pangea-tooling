@@ -179,6 +179,7 @@ module NCI
     def run
       theirs = their_version
       ours = our_version
+      PackageVersionCheck.override_packages
       return if @@override_packages.include?(pkg.name) # already pinned in neon-settings
       return unless theirs # failed to find the package, we win.
       return if ours > theirs
