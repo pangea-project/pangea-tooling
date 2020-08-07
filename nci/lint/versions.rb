@@ -237,6 +237,8 @@ module NCI
       return unless theirs # failed to find the package, we win.
       return if ours < theirs
       PackageUpgradeVersionCheck.override_packages
+      puts "XXX testing #{pkg.name}"
+      puts @@override_packages
       return if @@override_packages.include?(pkg.name) # already pinned in neon-settings
       raise VersionNotGreaterError, <<~ERRORMSG
         Current series version of
