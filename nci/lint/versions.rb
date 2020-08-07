@@ -162,9 +162,24 @@ module NCI
         err.include?('does not have a stable CLI interface')
     end
 
+    def self.override_packages
+      @@override_packages ||= begin
+        url = "https://packaging.neon.kde.org/neon/settings.git/plain/etc/apt/preferences.d/50-neon-mariadb?h=Neon/release-lts"
+        response = HTTParty.get(url)
+        response.parsed_response
+        override_packages = []
+        response.each_line do |line|
+          match = line.match(/Package: (.*)/)
+          override_packages << match[1] if match&.length == 2
+        end
+        override_packages
+      end
+    end
+
     def run
       theirs = their_version
       ours = our_version
+      return if @@override_packages.include?(pkg.name) # already pinned in neon-settings
       return unless theirs # failed to find the package, we win.
       return if ours > theirs
       raise VersionNotGreaterError, <<~ERRORMSG
@@ -237,8 +252,6 @@ module NCI
       return unless theirs # failed to find the package, we win.
       return if ours < theirs
       PackageUpgradeVersionCheck.override_packages
-      puts "XXX testing #{pkg.name}"
-      puts @@override_packages
       return if @@override_packages.include?(pkg.name) # already pinned in neon-settings
       raise VersionNotGreaterError, <<~ERRORMSG
         Current series version of
