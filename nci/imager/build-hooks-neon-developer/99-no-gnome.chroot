@@ -22,4 +22,4 @@
 
 set -e
 
-apt-get remove ubuntu-session gnome-shell
+apt-get remove -y ubuntu-session gnome-shell
