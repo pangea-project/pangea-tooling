@@ -17,7 +17,8 @@ REMOTE_DIR = case DIST
                "neon/images/#{TYPE}/"
              when NCI.future_series
                # Subdir if not the standard version
-               "neon/images/#{DIST}-preview/#{TYPE}/"
+               #"neon/images/#{DIST}-preview/#{TYPE}/"
+               "neon/images/#{TYPE}/"
              when NCI.old_series
                raise "The old series ISO built but it shouldn't have!" \
                      ' Remove the jobs or smth.'
