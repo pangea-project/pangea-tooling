@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -ex
+
+echo 'running blacklist hook'
+
+# Drop blacklisted nonesense pulled in via recommends or platform seed.
+apt-get purge -y unattended-upgrades || true
+
+echo 'blacklist done'

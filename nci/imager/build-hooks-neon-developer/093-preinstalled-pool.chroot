@@ -1,0 +1,53 @@
+#!/bin/sh
+
+set -e
+
+echo 'running preinstalled pool hoook'
+
+mkdir -p /var/lib/preinstalled-pool/pool/
+cd /var/lib/preinstalled-pool/pool/
+
+# To resolve all relevant dependencies of the packages we want to have in our
+# ISO repo we'll run a regular apt-get install with a fake cache directory.
+# This has the effect of apt-get going through the entire dep resolution step
+# and actually downloading all missing packages into our cache dir from which
+# we'll then fish them into the pool.
+# This does require all packages to be resolvable at the same time. Should
+# this become impossible at some point this would have to be split into
+# multiple steps.
+mkdir -p cache/partial
+apt-get \
+  -o Debug::NoLocking=true \
+  -o Dir::Cache::Archives=`pwd`/cache \
+  --download-only \
+  -y \
+  install \
+  b43-fwcutter \
+  dkms \
+  fakeroot \
+  libfakeroot \
+  libc6-i386 \
+  grub-efi \
+  grub-efi-amd64 \
+  grub-efi-amd64-bin \
+  grub-efi-amd64-signed \
+  lupin-support \
+  mokutil \
+  mouseemu \
+  patch \
+  setserial \
+  shim \
+  shim-signed \
+  user-setup \
+  bcmwl-kernel-source \
+  oem-config \
+  oem-config-kde
+apt-get \
+  -o Debug::NoLocking=true \
+  -o Dir::Cache::Archives=`pwd`/cache \
+  --download-only \
+  -y \
+  install \
+  grub-pc
+mv cache/*.deb .
+rm -r cache
