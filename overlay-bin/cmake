@@ -23,6 +23,7 @@ is_ubuntu = File.read('/etc/os-release').include?('ubuntu')
 is_release_lts = ENV.fetch('TYPE', '') == 'release-lts'
 is_arm = %w[armhf arm64].any? { |x| ENV.fetch('NODE_LABELS', '').include?(x) }
 if is_ubuntu && (is_release_lts || is_arm)
+  warn "Tooling: forcing build type"
   found_type = ARGV.reject! { |x| x.start_with?('-DCMAKE_BUILD_TYPE') }
   ARGV.unshift('-DCMAKE_BUILD_TYPE=RelWithDebInfo') if found_type
 end
@@ -37,5 +38,5 @@ if File.exist?("#{WORKSPACE}/adt_disabled")
     ARGV.unshift("-DBUILD_TESTING=OFF")
   end
 end
-puts "Executing: cmake #{ARGV.join(' ')}"
+warn "Executing: cmake #{ARGV.join(' ')}"
 exec('cmake', *ARGV)
