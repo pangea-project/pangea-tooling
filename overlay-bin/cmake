@@ -2,23 +2,8 @@
 #
 # frozen_string_literal: true
 #
-# Copyright (C) 2017 Harald Sitter <sitter@kde.org>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) version 3, or any
-# later version accepted by the membership of KDE e.V. (or its
-# successor approved by the membership of KDE e.V.), which shall
-# act as a proxy defined in Section 6 of version 3 of the license.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-FileCopyrightText: 2017-2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require_relative 'lib/paths' # Drop the overlay from the PATH env.
 
@@ -30,6 +15,18 @@ unless File.exist?("#{WORKSPACE}/cmake_verbose_makefile")
   ARGV.reject! { |x| x.start_with?('-DCMAKE_VERBOSE_MAKEFILE') }
   ARGV.reject! { |x| x.start_with?('-DCMAKE_AUTOGEN_VERBOSE') }
 end
+
+# Force a cmake build type as opposed to distro cflags. This notably makes it
+# possible for cmake configs (such as Qt's) to detect this as a release type and
+# inject flags accordingly (e.g. -DNDEBUG)
+is_ubuntu = File.read('/etc/os-release').include?('ubuntu')
+is_release_lts = ENV.fetch('TYPE', '') == 'release-lts'
+is_arm = %w[armhf arm64].any? { |x| ENV.fetch('NODE_LABELS', '').include?(x) }
+if is_ubuntu && (is_release_lts || is_arm)
+  found_type = ARGV.reject! { |x| x.start_with?('-DCMAKE_BUILD_TYPE') }
+  ARGV.unshift('-DCMAKE_BUILD_TYPE=RelWithDebInfo') if found_type
+end
+
 if File.exist?("#{WORKSPACE}/adt_disabled")
   # But only if this is a configure run, not a script run!
   ex_markers = %w[-E --build --find-package]
