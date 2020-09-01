@@ -181,7 +181,7 @@ end
 task :deploy_openqa do
   # Only openqa on neon dists and if explicitly enabled.
   next unless NCI.series.key?(DIST) &&
-              ENV.include?('PANGEA_PROVISION_AUTOINST')
+              ENV.fetch('PANGEA_PROVISION_AUTOINST', '') == '1'
 
   Dir.mktmpdir do |tmpdir|
     system 'git clone --depth 1 ' \
