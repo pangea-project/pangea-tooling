@@ -110,6 +110,13 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       }
     end
 
+    def logged_system(env, *cmd)
+      env_string = build_env.map { |k, v| "#{k}=#{v}" }.join(' ')
+      cmd_string = cmd.join(' ')
+      puts "Running: #{env_string} #{cmd_string}"
+      system(env, *cmd)
+    end
+
     def build_package
       # FIXME: buildpackage probably needs to be a method on the DPKG module
       #   for logging purposes and so on and so forth
@@ -119,7 +126,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       Dir.chdir(BUILD_DIR) do
         SetCapValidator.run do
           KCrashLinkValidator.run do
-            unless system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
+            unless logged_system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
               raise_build_failure
             end
           end
