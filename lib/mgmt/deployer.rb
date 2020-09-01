@@ -35,6 +35,9 @@ module MGMT
     end
 
     def openqa?
+      # Do not foce openqa on if it was already manually defined elsewhere.
+      return false if ENV.include?('PANGEA_PROVISION_AUTOINST')
+
       Socket.gethostname.include?('openqa')
     end
 
