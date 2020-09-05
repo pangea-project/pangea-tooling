@@ -155,6 +155,7 @@ APT::Default-Release "#{setup_repo_codename}";
         lines << debline(dist: dist) if dist != setup_repo_codename
         File.write("/etc/apt/sources.list.d/neon_src_#{dist}.list",
                    lines.join("\n"))
+        puts "lines: #{lines.join('\n')}"
       end
       disable_all_src
     end
