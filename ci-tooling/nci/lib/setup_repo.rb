@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+  # frozen_string_literal: true
 #
 # Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
 #
@@ -201,6 +201,7 @@ APT::Default-Release "#{setup_repo_codename}";
       Retry.retry_it(times: 5, sleep: 4) do
         raise 'adding repo failed' unless Apt::Repository.add(debline)
       end
+      puts "added #{debline}"
     end
   end
 end
