@@ -174,26 +174,16 @@ APT::Default-Release "#{setup_repo_codename}";
       # rename editions but not (yet) renamed the job type
       type = 'testing' if type == 'stable'
       type = type.tr('-', '/')
-      if %w[unstable stable].include?(type)
-        format('deb http://archive.neon.kde.org/tmp/%<type>s %<dist>s main',
+      format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
-      else
-        format('deb http://archive.neon.kde.org/%<type>s %<dist>s main',
-             type: type, dist: dist)
-      end
     end
 
     def debsrcline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
       # rename editions but not (yet) renamed the job type
       type = 'testing' if type == 'stable'
       type = type.tr('-', '/')
-      if %w[unstable stable].include?(type)
-        format('deb-src http://archive.neon.kde.org/tmp/%<type>s %<dist>s main',
+      format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
              type: type, dist: dist)
-      else
-        format('deb-src http://archive.neon.kde.org/%<type>s %<dist>s main',
-             type: type, dist: dist)
-      end
     end
 
     def add_repo!
