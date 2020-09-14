@@ -170,8 +170,26 @@ Aptly::Ext::Remote.neon do
       scoped_versions[pretty_name] = version
     end
 
+    # The same entity can appear with different versions. Notably that happens
+    # when a hotfix is put in the same directory. For exampke kio 5.74.0 had
+    # a bug so 5.74.1 is put in the same dir (even though frameworks usually
+    # have no .1 releases).
+    # More generally put that means if the same product appears more than once
+    # we need to de-duplicate them as hash keys are always unique so the
+    # selected version is undefined in that scenario. Given the fact that this
+    # can only happen when a product directory contains more than one tarball
+    # with the same name but different version we'll adjust the actual
+    # expectation to be the strictly greatest version.
+    product_and_versions_h = {}
+    product_and_versions.map do |k, v|
+      product_and_versions_h[k] ||= v
+      next if Gem::Version.new(product_and_versions_h[k]) >= Gem::Version.new(v)
+
+      product_and_versions_h[k] = v # we found a greater version
+    end
+
     checker = DidYouMean::SpellChecker.new(dictionary: by_name.keys)
-    product_and_versions.to_h.each do |remote_name, remote_version|
+    product_and_versions_h.each do |remote_name, remote_version|
       next if BLACKLIST.include?(remote_name) # we don't package some stuff
 
       in_repo = by_name.include?(remote_name)
