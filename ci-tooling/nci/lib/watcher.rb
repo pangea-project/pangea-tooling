@@ -13,6 +13,7 @@ require_relative '../../lib/nci'
 require_relative '../../../lib/kdeproject_component'
 require_relative '../../../lib/pangea/mail'
 
+require 'shellwords'
 require 'tty-command'
 
 module NCI
@@ -262,7 +263,8 @@ run jenkins_retry manually for this release on release day.
       # layout etc, so tell a dev to deal with it.
       puts ''
       puts 'This is a non-KDE project. It never gets automerged or bumped!'
-      puts "Use dch to bump manually and merge as necessary\n`#{dch}`"
+      puts 'Use dch to bump manually and merge as necessary'
+      puts "`#{Shellwords.shelljoin(dch)}`"
       puts ''
       raise NotKDESoftware, 'New version available but not doing auto-bump!'
     end
