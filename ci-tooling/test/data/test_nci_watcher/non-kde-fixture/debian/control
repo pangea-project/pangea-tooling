@@ -1,0 +1,13 @@
+Source: ark
+Section: kde
+Priority: optional
+Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Build-Depends: cmake (>= 2.8.12~)
+
+Package: ark
+Section: utils
+Architecture: any
+Depends: xyz (>= ${source:Version}~ciBuild)
+Recommends: xyz (>= ${binary:Version}~ciBuild)
+Description: archive utility
+ Ark manages various archive formats, including tar, gzip, bzip2, rar and zip

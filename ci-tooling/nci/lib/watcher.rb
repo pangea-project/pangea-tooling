@@ -1,22 +1,7 @@
 # frozen_string_literal: true
-#
-# Copyright (C) 2016-2018 Harald Sitter <sitter@kde.org>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) version 3, or any
-# later version accepted by the membership of KDE e.V. (or its
-# successor approved by the membership of KDE e.V.), which shall
-# act as a proxy defined in Section 6 of version 3 of the license.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+# SPDX-FileCopyrightText: 2016-2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require 'pp'
 
@@ -33,6 +18,8 @@ require 'tty-command'
 module NCI
   # uses uscan to check for new upstream releases
   class Watcher
+    class NotKDESoftware < StandardError; end
+
     # Updates version info in snapcraft.yaml.
     # TODO: this maybe should also download the source and grab the desktop
     #   file & icon. Needs checking if snapcraft does grab this
@@ -126,6 +113,7 @@ module NCI
 
       newer = Debian::UScan::DEHS.parse_packages(data).collect do |package|
         next nil unless package.status == Debian::UScan::States::NEWER_AVAILABLE
+
         package
       end.compact
       pp newer
@@ -135,10 +123,11 @@ module NCI
       puts 'unmangle debian/watch `git checkout debian/watch`'
       system('git checkout debian/watch')
 
+      job_is_kde = ENV.fetch('JOB_NAME').include?('_kde_')
+
       # These parts get pre-released on server so don't pick them up
       # automatically
-      if ENV['JOB_NAME'].include?('_kde_') && \
-         CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
+      if job_is_kde && CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
         puts 'KDE Plasma/Releases/Framework watcher should be run manually not by '\
              'timer, quitting'
         puts 'sending notification mail'
@@ -221,6 +210,7 @@ run jenkins_retry manually for this release on release day.
       Dir.glob('debian/*') do |path|
         next unless path.end_with?('changelog', 'control', 'rules')
         next unless File.file?(path)
+
         data = File.read(path)
         begin
           # We track gsub results here because we'll later wrap-and-sort
@@ -244,26 +234,37 @@ run jenkins_retry manually for this release on release day.
       system("git commit -a -m 'New release'")
 
       puts ENV.to_h
-      if CAUSE_ENVS.any? { |v| ENV[v] == MANUAL_CAUSE }
-        puts 'build was manually triggered. not sending info email'
+
+      if CAUSE_ENVS.none? { |v| ENV[v] == MANUAL_CAUSE }
+        puts 'sending notification mail'
+        Pangea::SMTP.start do |smtp|
+          mail = <<-MAIL
+  From: Neon CI <no-reply@kde.org>
+  To: neon-notifications@kde.org
+  Subject: #{newest_dehs_package.name} new version #{newest}
+
+  #{ENV['RUN_DISPLAY_URL']}
+
+  #{newest_dehs_package.inspect}
+          MAIL
+          smtp.send_message(mail,
+                            'no-reply@kde.org',
+                            'neon-notifications@kde.org')
+        end
+      end
+
+      if job_is_kde ||
+         newest_dehs_package.upstream_url.include?('download.kde.org')
         return
       end
 
-      puts 'sending notification mail'
-      Pangea::SMTP.start do |smtp|
-        mail = <<-MAIL
-From: Neon CI <no-reply@kde.org>
-To: neon-notifications@kde.org
-Subject: #{newest_dehs_package.name} new version #{newest}
-
-#{ENV['RUN_DISPLAY_URL']}
-
-#{newest_dehs_package.inspect}
-        MAIL
-        smtp.send_message(mail,
-                          'no-reply@kde.org',
-                          'neon-notifications@kde.org')
-      end
+      # Raise on none KDE software, they may not feature standard branch
+      # layout etc, so tell a dev to deal with it.
+      puts ''
+      puts 'This is a non-KDE project. It never gets automerged or bumped!'
+      puts "Use dch to bump manually and merge as necessary\n`#{dch}`"
+      puts ''
+      raise NotKDESoftware, 'New version available but not doing auto-bump!'
     end
   end
 end
