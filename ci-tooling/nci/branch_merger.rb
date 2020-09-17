@@ -29,6 +29,7 @@ require 'tmpdir'
 require_relative '../lib/optparse'
 require_relative '../lib/projects/factory/neon'
 require_relative '../lib/retry'
+require_relative '../../lib/kdeproject_component'
 
 origins = []
 target = nil
@@ -37,7 +38,7 @@ dir = nil
 
 parser = OptionParser.new do |opts|
   opts.banner =
-    "Usage: #{opts.program_name} --origin ORIGIN --target TARGET GIT-SUBDIR"
+    "Usage: #{opts.program_name} --origin ORIGIN --target TARGET KDE_COMPONENT"
 
   opts.on('-o ORIGIN_BRANCH', '--origin BRANCH',
           'Branch to merge or branch from. Multiple origins can be given',
@@ -80,6 +81,15 @@ if COMPONENT.nil? || COMPONENT.empty?
   abort "COMPONENT must not be empty!\n" + parser.help
 end
 
+projects_in_component = case COMPONENT
+                        when 'plasma'
+                          KDEProjectsComponent.plasma_jobs
+                        else
+                          # NB release service and kf5 are not intentionally
+                          # missing. am just lazy -sitter
+                          raise 'Failed to map your kde component :(('
+                        end
+
 logger = Logger.new(STDOUT)
 logger.level = Logger::DEBUG
 
@@ -96,7 +106,13 @@ logger.warn 'Pushing does not happen until after you had a chance to inspect' \
 
 logger.warn "#{origins.join('|')} ⇢ #{target}"
 
-repos = ProjectsFactory::Neon.ls.select { |r| r.start_with?(COMPONENT) }
+repos = ProjectsFactory::Neon.ls.select do |path|
+  projects_in_component.include?(File.basename(path))
+end
+# Ensure everything that was meant to get mapped was actually mapped!
+unless repos.size == projects_in_component.size
+  raise 'Repo<->Project map failed'
+end
 logger.debug "repos: #{repos}"
 
 nothing_to_push = []
