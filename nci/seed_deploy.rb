@@ -36,7 +36,8 @@ end
 serieses = NCI.series.keys
 
 series_branches = begin
-  out, _ = cmd.run('git', 'ls-remote', '--heads', '--exit-code', NEON_REPO, 'Neon/unstable*')
+  out, _ = cmd.run('git', 'ls-remote', '--heads', '--exit-code',
+                   NEON_REPO, 'Neon/unstable*')
   found_main_branch = false
   branches = {}
   out.strip.split($/).collect do |line|
@@ -44,8 +45,9 @@ series_branches = begin
     branch = ref.gsub('refs/heads/', '')
     if branch == 'Neon/unstable'
       found_main_branch = true
-    elsif series = serieses.find { |s| branch == "Neon/unstable_#{s}" }
+    elsif (series = serieses.find { |s| branch == "Neon/unstable_#{s}" })
       raise unless series # just to make double sure we found smth
+
       branches[series] = branch
     elsif branch.start_with?('Neon/unstable_')
       warn "Seems we found a legacy branch #{branch}, skipping."
@@ -54,8 +56,9 @@ series_branches = begin
     end
   end
   unless found_main_branch
-    raise "Did not find Neon/unstable branch! Something went well wrong!"
+    raise 'Did not find Neon/unstable branch! Something went well wrong!'
   end
+
   branches
 end
 p series_branches
@@ -65,8 +68,10 @@ Dir.chdir(dir) do
     neondir = "neon.#{series}"
     platformdir = "platform.#{series}"
     branch = series_branches.fetch(series, 'Neon/unstable')
-    cmd.run('git', 'clone', '--depth', '1', '--branch', branch, NEON_REPO, neondir)
-    cmd.run('git', 'clone', '--depth', '1', '--branch', series, PLATFORM_REPO, platformdir)
+    cmd.run('git', 'clone', '--depth', '1', '--branch', branch,
+            NEON_REPO, neondir)
+    cmd.run('git', 'clone', '--depth', '1', '--branch', series,
+            PLATFORM_REPO, platformdir)
   end
 end
 
