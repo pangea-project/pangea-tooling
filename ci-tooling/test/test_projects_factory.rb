@@ -16,7 +16,7 @@ require 'mocha/test_unit'
 require 'webmock/test_unit'
 
 class ProjectsFactoryTest < TestCase
-  required_binaries %w(git)
+  required_binaries %w[git]
 
   def setup
     CI::Overrides.default_files = [] # Disable overrides by default.
@@ -49,15 +49,15 @@ class ProjectsFactoryTest < TestCase
     WebMock.allow_net_connect!
   end
 
-  def git_init_commit(repo_path, branches = %w(master kubuntu_unstable))
+  def git_init_commit(repo_path, branches = %w[master kubuntu_unstable])
     repo_path = File.absolute_path(repo_path)
-    repo_name = File.basename(repo_path)
     fixture_path = "#{datadir}/packaging"
     Dir.mktmpdir do |dir|
       repo = Rugged::Repository.clone_at(repo_path, dir)
       Dir.chdir(dir) do
         Dir.mkdir('debian') unless Dir.exist?('debian')
         fail "missing fixture: #{fixture_path}" unless File.exist?(fixture_path)
+
         FileUtils.cp_r("#{fixture_path}/.", '.')
 
         index = repo.index
@@ -139,18 +139,18 @@ class ProjectsFactoryTest < TestCase
   end
 
   def test_from_file
-    neon_repos = %w(frameworks/attica
+    neon_repos = %w[frameworks/attica
                     frameworks/solid
                     plasma/plasma-desktop
                     plasma/plasma-workspace
-                    qt/qtbase)
-    neon_dir = create_fake_git(branches: %w(master kubuntu_unstable),
+                    qt/qtbase]
+    neon_dir = create_fake_git(branches: %w[master kubuntu_unstable],
                                repos: neon_repos)
     ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
 
-    debian_repos = %w(frameworks/ki18n)
+    debian_repos = %w[frameworks/ki18n]
     debian_dir = create_fake_git(prefix: 'pkg-kde',
-                                 branches: %w(master kubuntu_unstable),
+                                 branches: %w[master kubuntu_unstable],
                                  repos: debian_repos)
     ProjectsFactory::Debian.instance_variable_set(:@url_base, debian_dir)
 
@@ -193,10 +193,10 @@ class ProjectsFactoryTest < TestCase
   end
 
   def test_from_file_with_properties
-    neon_repos = %w(qt/qtbase
+    neon_repos = %w[qt/qtbase
                     qt/sni-qt
-                    qt/qtsvg)
-    neon_dir = create_fake_git(branches: %w(master kubuntu_unstable kubuntu_stable kubuntu_vivid_mobile),
+                    qt/qtsvg]
+    neon_dir = create_fake_git(branches: %w[master kubuntu_unstable kubuntu_stable kubuntu_vivid_mobile],
                                repos: neon_repos)
     ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
     # Mock neon listing.
@@ -238,10 +238,10 @@ class ProjectsFactoryTest < TestCase
   def test_from_file_kwords
     # Same as with_properties but we override the default via a kword for
     # from_file.
-    neon_repos = %w(qt/qtbase
+    neon_repos = %w[qt/qtbase
                     qt/sni-qt
-                    qt/qtsvg)
-    neon_dir = create_fake_git(branches: %w(master kitten kubuntu_stable kubuntu_vivid_mobile),
+                    qt/qtsvg]
+    neon_dir = create_fake_git(branches: %w[master kitten kubuntu_stable kubuntu_vivid_mobile],
                                repos: neon_repos)
     ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
     # Mock neon listing.
@@ -277,15 +277,15 @@ class ProjectsFactoryTest < TestCase
   end
 
   def test_neon_from_list
-    neon_repos = %w(frameworks/attica)
-    neon_dir = create_fake_git(branches: %w(master kubuntu_unstable),
+    neon_repos = %w[frameworks/attica]
+    neon_dir = create_fake_git(branches: %w[master kubuntu_unstable],
                                repos: neon_repos)
     ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
     # disable neon listing.
     mock_kde_invent_api!(nil)
 
     factory = ProjectsFactory::Neon.new('packaging.neon.kde.org.uk')
-    projects = factory.factorize(%w(frameworks/attica))
+    projects = factory.factorize(%w[frameworks/attica])
 
     refute_nil(projects)
     assert_equal(1, projects.size)
@@ -308,14 +308,15 @@ class ProjectsFactoryTest < TestCase
   end
 
   def test_neon_new_project_override
-    neon_repos = %w(qt/qtbase)
-    neon_dir = create_fake_git(branches: %w(master kubuntu_unstable),
+    neon_repos = %w[qt/qtbase]
+    neon_dir = create_fake_git(branches: %w[master kubuntu_unstable],
                                repos: neon_repos)
     ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
     # disable neon listing.
     mock_kde_invent_api!(nil)
 
-    CI::Overrides.default_files = [ data('override1.yaml'), data('override2.yaml') ]
+    CI::Overrides.default_files = [ data('override1.yaml'),
+                                    data('override2.yaml') ]
     factory = ProjectsFactory::Neon.new('packaging.neon.kde.org.uk')
 
     # This uses new_project directly as we otherwise have no way to set
@@ -339,9 +340,9 @@ class ProjectsFactoryTest < TestCase
   end
 
   def test_debian_from_list
-    debian_repos = %w(frameworks/solid)
+    debian_repos = %w[frameworks/solid]
     debian_dir = create_fake_git(prefix: 'pkg-kde',
-                                 branches: %w(master kubuntu_unstable),
+                                 branches: %w[master kubuntu_unstable],
                                  repos: debian_repos)
     ProjectsFactory::Debian.instance_variable_set(:@url_base, debian_dir)
     # Cache a mocked listing
@@ -362,8 +363,8 @@ class ProjectsFactoryTest < TestCase
   end
 
   def test_github_from_list
-    github_repos = %w(calamares/calamares-debian)
-    github_dir = create_fake_git(branches: %w(master kubuntu_unstable),
+    github_repos = %w[calamares/calamares-debian]
+    github_dir = create_fake_git(branches: %w[master kubuntu_unstable],
                                  repos: github_repos)
     ProjectsFactory::GitHub.instance_variable_set(:@url_base, github_dir)
 
@@ -388,8 +389,8 @@ class ProjectsFactoryTest < TestCase
   end
 
   def test_github_private
-    github_repos = %w(calamares/calamares-debian)
-    github_dir = create_fake_git(branches: %w(master kubuntu_unstable),
+    github_repos = %w[calamares/calamares-debian]
+    github_dir = create_fake_git(branches: %w[master kubuntu_unstable],
                                  repos: github_repos)
     ProjectsFactory::GitHub.instance_variable_set(:@url_base, github_dir)
 
@@ -401,9 +402,9 @@ class ProjectsFactoryTest < TestCase
       .returns([resource.new('calamares-debian', true)])
 
     Project.expects(:new).with do |*args|
-      args[0] == "calamares-debian" &&
-      args[1] == "calamares" &&
-      args[2] == "ssh://git@github.com:"
+      args[0] == 'calamares-debian' &&
+        args[1] == 'calamares' &&
+        args[2] == 'ssh://git@github.com:'
     end.returns('x')
 
     factory = ProjectsFactory::GitHub.new('github.com')
@@ -412,11 +413,10 @@ class ProjectsFactoryTest < TestCase
     assert_equal(%w[x], ret)
   end
 
-
   def test_gitlab_from_list
-    gitlab_repos = %w(calamares/calamares-debian calamares/neon/neon-pinebook
-                      calamares/neon/oem/oem-config)
-    gitlab_dir = create_fake_git(branches: %w(master kubuntu_unstable),
+    gitlab_repos = %w[calamares/calamares-debian calamares/neon/neon-pinebook
+                      calamares/neon/oem/oem-config]
+    gitlab_dir = create_fake_git(branches: %w[master kubuntu_unstable],
                                  repos: gitlab_repos)
     ProjectsFactory::Gitlab.instance_variable_set(:@url_base, gitlab_dir)
 
@@ -506,7 +506,7 @@ class ProjectsFactoryTest < TestCase
     Dir.mkdir(bin)
     bzr = "#{bin}/bzr"
     File.write(bzr, bzr_render)
-    File.chmod(0744, bzr)
+    File.chmod(0o744, bzr)
     ENV['PATH'] = "#{bin}:#{ENV['PATH']}"
 
     factory = ProjectsFactory::Launchpad.new('launchpad.net')
@@ -535,9 +535,9 @@ class ProjectsFactoryTest < TestCase
   end
 
   def test_kde_l10n_from_hash
-    l10n_repos = %w(kde-l10n-ru kde-l10n-de)
+    l10n_repos = %w[kde-l10n-ru kde-l10n-de]
     l10n_dir = create_fake_git(prefix: 'kde-l10n',
-                               branches: %w(kubuntu_unstable),
+                               branches: %w[kubuntu_unstable],
                                repos: l10n_repos)
     ProjectsFactory::KDEL10N.instance_variable_set(:@url_base, l10n_dir)
 
@@ -564,8 +564,8 @@ class ProjectsFactoryTest < TestCase
   end
 
   def test_empty_base
-    neon_repos = %w(pkg-kde-tools)
-    neon_dir = create_fake_git(branches: %w(master kittens),
+    neon_repos = %w[pkg-kde-tools]
+    neon_dir = create_fake_git(branches: %w[master kittens],
                                repos: neon_repos)
     ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
 
