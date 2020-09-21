@@ -34,8 +34,10 @@ module CI
     def copy_source_tree(source_dir, *args)
       ret = super
       return ret if File.basename(source_dir) != 'packaging'
+
       url = vcs_url_of(source_dir)
       return ret unless url
+
       edit_control("#{@build_dir}/source/") do |control|
         fill_vcs_fields(control, url)
       end
@@ -50,6 +52,7 @@ module CI
 
     def vcs_url_of(path)
       return nil unless Dir.exist?(path)
+
       repo = Rugged::Repository.discover(path)
       remote = repo.remotes['origin']
       remote.url
@@ -60,6 +63,9 @@ module CI
 
     def fill_vcs_fields(control, url)
       control_log.info "Automatically filling VCS fields pointing to #{url}"
+      # One could technically append '-b $branchname' as per the debian policy
+      # but honestly figuring out the right branch is more work than this is
+      # worth. I've never heared of anybody using this field for anything.
       control.source['Vcs-Git'] = url
       uri = GitCloneUrl.parse(url)
       uri.path = uri.path.gsub('.git', '') # sanitize
@@ -69,9 +75,10 @@ module CI
 
     def vcs_browser(uri)
       case uri.host
-      when 'anongit.neon.kde.org', 'git.neon.kde.org'
-        "https://packaging.neon.kde.org#{uri.path}.git"
-      # :nocov: no point covering this besides the interpolation
+      when 'invent.kde.org'
+        "https://invent.kde.org#{uri.path}"
+      # :nocov: no point covering this besides the interpolation.
+      #   neon is actually tested!
       when 'git.debian.org', 'anonscm.debian.org'
         "https://anonscm.debian.org/cgit#{uri.path}.git"
       when 'github.com'

@@ -274,8 +274,8 @@ class VCSBuilderTest < TestCase
       dir = "#{source.name}-#{source.build_version.tar}/"
       assert_path_exist(dir)
       data = File.read("#{dir}/debian/control").strip
-      assert_include(data, 'Vcs-Git: git://anongit.neon.kde.org/plasma/kmenuedit')
-      assert_include(data, 'Vcs-Browser: https://packaging.neon.kde.org/plasma/kmenuedit.git')
+      assert_include(data, 'Vcs-Git: https://invent.kde.org/neon/kde/kmenuedit.git')
+      assert_include(data, 'Vcs-Browser: https://invent.kde.org/neon/kde/kmenuedit')
     end
   end
 
