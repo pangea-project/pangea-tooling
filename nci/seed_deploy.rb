@@ -15,7 +15,7 @@ require_relative '../ci-tooling/lib/nci'
 require_relative '../lib/tty_command'
 
 ROOT = '/srv/www/metadata.neon.kde.org/germinate'
-NEON_GIT = 'https://anongit.neon.kde.org'
+NEON_GIT = 'https://invent.kde.org/neon'
 NEON_REPO = "#{NEON_GIT}/neon/seeds"
 UBUNTU_SEEDS = 'https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git'
 PLATFORM_REPO = "#{UBUNTU_SEEDS}/platform"
