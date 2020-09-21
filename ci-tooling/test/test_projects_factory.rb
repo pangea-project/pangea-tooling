@@ -1,23 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-#
-# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) version 3, or any
-# later version accepted by the membership of KDE e.V. (or its
-# successor approved by the membership of KDE e.V.), which shall
-# act as a proxy defined in Section 6 of version 3 of the license.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+# SPDX-FileCopyrightText: 2016-2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require 'fileutils'
 require 'tmpdir'
@@ -124,22 +109,25 @@ class ProjectsFactoryTest < TestCase
     remotetmpdir
   end
 
-  def gitolite_ls(paths)
-    paths = paths.dup
-    paths << 'random/garbage' # to make sure we filter correctly
-    <<-EOF
-hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git 2.1.4
+  def mock_kde_invent_api!(paths = nil)
+    ::Gitlab::Client.expects(:new).never # safety net
 
-#{paths.map { |p| " R W\t#{p}" }.join("\n")}
-    EOF
-  end
+    unless paths
+      # Expect this path to not call into listing at all
+      ::Gitlab.expects(:client).never
+      return
+    end
 
-  def cache_neon_backtick(return_value)
-    reset_child_status!
-    TTY::Command.any_instance.expects(:run)
-                .with('ssh neon@git.neon.kde.org')
-                .returns(return_value)
-    ProjectsFactory::Neon.ls
+    client = mock('gitlab-client')
+    ::Gitlab.expects(:client).returns(client)
+    groups = mock('gitlab-groups')
+    client
+      .expects(:group_projects)
+      .with('neon', include_subgroups: true)
+      .returns(groups)
+    groups.expects(:auto_paginate).returns(paths.collect do |v|
+      OpenStruct.new({ path_with_namespace: v })
+    end)
   end
 
   def cache_debian_backtick(path, return_value)
@@ -166,8 +154,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
                                  repos: debian_repos)
     ProjectsFactory::Debian.instance_variable_set(:@url_base, debian_dir)
 
-    # Cache a mocked listing for Neon
-    cache_neon_backtick(gitolite_ls(neon_repos))
+    # Mock neon listing.
+    mock_kde_invent_api!(neon_repos)
     # Also cache a mocked listing for Debian's pkg-kde
     cache_debian_backtick('pkg-kde', "/git/pkg-kde/framworks\n")
     # And another for Debian's pkg-kde/frameworks
@@ -211,8 +199,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     neon_dir = create_fake_git(branches: %w(master kubuntu_unstable kubuntu_stable kubuntu_vivid_mobile),
                                repos: neon_repos)
     ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
-    # Cache a mocked listing for Neon
-    cache_neon_backtick(gitolite_ls(neon_repos))
+    # Mock neon listing.
+    mock_kde_invent_api!(neon_repos)
 
     projects = ProjectsFactory.from_file("#{data}/projects.yaml")
 
@@ -256,8 +244,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     neon_dir = create_fake_git(branches: %w(master kitten kubuntu_stable kubuntu_vivid_mobile),
                                repos: neon_repos)
     ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
-    # Cache a mocked listing for Neon
-    cache_neon_backtick(gitolite_ls(neon_repos))
+    # Mock neon listing.
+    mock_kde_invent_api!(neon_repos)
 
     projects = ProjectsFactory.from_file("#{data}/projects.yaml",
                                          branch: 'kitten')
@@ -293,8 +281,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     neon_dir = create_fake_git(branches: %w(master kubuntu_unstable),
                                repos: neon_repos)
     ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
-    # Cache a mocked listing for Neon
-    cache_neon_backtick(gitolite_ls(neon_repos))
+    # disable neon listing.
+    mock_kde_invent_api!(nil)
 
     factory = ProjectsFactory::Neon.new('packaging.neon.kde.org.uk')
     projects = factory.factorize(%w(frameworks/attica))
@@ -312,12 +300,11 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     # Make sure our parsing is on-point and doesn't include any unexpected
     # rubbish.
     neon_repos = %w[frameworks/attica]
-    # Cache a mocked listing for Neon
-    cache_neon_backtick(gitolite_ls(neon_repos))
-    # 'random/garbage' is also getting injected by gitolite_ls!
+    # Mock neon listing.
+    mock_kde_invent_api!(neon_repos)
 
     list = ProjectsFactory::Neon.ls
-    assert_equal(['frameworks/attica', 'random/garbage'], list.sort)
+    assert_equal(['frameworks/attica'], list.sort)
   end
 
   def test_neon_new_project_override
@@ -325,8 +312,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     neon_dir = create_fake_git(branches: %w(master kubuntu_unstable),
                                repos: neon_repos)
     ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
-    # Cache a mocked listing for Neon
-    cache_neon_backtick(gitolite_ls(neon_repos))
+    # disable neon listing.
+    mock_kde_invent_api!(nil)
 
     CI::Overrides.default_files = [ data('override1.yaml'), data('override2.yaml') ]
     factory = ProjectsFactory::Neon.new('packaging.neon.kde.org.uk')
@@ -581,8 +568,8 @@ hello sitter, this is gitolite3@weegie running gitolite3 3.6.1-3 (Debian) on git
     neon_dir = create_fake_git(branches: %w(master kittens),
                                repos: neon_repos)
     ProjectsFactory::Neon.instance_variable_set(:@url_base, neon_dir)
-    # Cache a mocked listing for Neon
-    cache_neon_backtick(gitolite_ls(neon_repos))
+
+    mock_kde_invent_api!(neon_repos)
 
     factory = ProjectsFactory::Neon.new('packaging.neon.kde.org.uk')
     projects = factory.factorize([{

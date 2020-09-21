@@ -1,22 +1,7 @@
 # frozen_string_literal: true
-#
-# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) version 3, or any
-# later version accepted by the membership of KDE e.V. (or its
-# successor approved by the membership of KDE e.V.), which shall
-# act as a proxy defined in Section 6 of version 3 of the license.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+# SPDX-FileCopyrightText: 2016-2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require 'tty/command'
 
@@ -25,31 +10,36 @@ require_relative 'base'
 class ProjectsFactory
   # Neon specific project factory.
   class Neon < Base
-    DEFAULT_URL_BASE = 'https://anongit.neon.kde.org'
+    DEFAULT_URL_BASE = 'https://invent.kde.org/neon'
+    NEON_GROUP = 'neon'
+    GITLAB_API_ENDPOINT = 'https://invent.kde.org/api/v4'
+    GITLAB_PRIVATE_TOKEN = ''
 
-    # FIXME: needs a writer!
     def self.url_base
       @url_base ||= DEFAULT_URL_BASE
     end
 
     def self.understand?(type)
       %w[packaging.neon.kde.org.uk packaging.neon.kde.org
-         git.neon.kde.org anongit.neon.kde.org].include?(type)
+         git.neon.kde.org anongit.neon.kde.org
+         invent.kde.org].include?(type)
     end
 
     private
 
     def split_entry(entry)
       parts = entry.split('/')
+      # throw out neon master group.
+      # our grouping system by component becomes increasingly painful for one
+      # components mean very little but most importantly they are all below
+      # a leading group on invent.kde.org which requires extra hacks :|
+      parts.shift if parts[0] == NEON_GROUP
       name = parts[-1]
       component = parts[0..-2].join('_') || 'neon'
       [name, component]
     end
 
     def params(str)
-      # FIXME: branch hardcoded!!@#!$%!!
-      # FIXME: also in debian
-      # FIXME: also in github
       name, component = split_entry(str)
       default_params.merge(
         name: name,
@@ -57,7 +47,6 @@ class ProjectsFactory
         url_base: self.class.url_base
       )
     end
-
 
     def from_string(str, args = {}, ignore_missing_branches: false)
       kwords = params(str)
@@ -102,6 +91,7 @@ class ProjectsFactory
       matches = {}
       each_pattern_value(subset) do |pattern, value|
         next unless pattern.match?(path)
+
         value[:ignore_missing_branches] = pattern.to_s.include?('*')
         match = [path, value] # This will be an argument list for from_string.
         matches[pattern] = match
@@ -115,6 +105,7 @@ class ProjectsFactory
 
       selection = self.class.ls.collect do |path|
         next nil unless path.start_with?(base) # speed-up, these can't match...
+
         matches = match_path_to_subsets(path, subset)
         # Get best matching pattern.
         CI::PatternBase.sort_hash(matches).values[0]
@@ -124,14 +115,21 @@ class ProjectsFactory
 
     class << self
       def ls
+        # NB: when listing more than path_with_namespace you will need to
+        #   change a whole bunch of stuff in test tooling.
         return @listing if defined?(@listing) # Cache in class scope.
-        out, _err = TTY::Command.new(printer: :null)
-                                .run('ssh neon@git.neon.kde.org')
-        listing = out.chop.split($/)
-        listing.shift # welcome message leading, drop it.
-        @listing = listing.collect do |entry|
-          entry.split[-1]
-        end.uniq.compact.freeze
+
+        client = ::Gitlab.client(
+          endpoint: GITLAB_API_ENDPOINT,
+          private_token: GITLAB_PRIVATE_TOKEN
+        )
+
+        # Gitlab sends over paginated replies, make sure we iterate till
+        # no more results are being returned.
+        repos = client.group_projects(NEON_GROUP, include_subgroups: true)
+                      .auto_paginate
+                      .collect(&:path_with_namespace)
+        @listing = repos.flatten
       end
     end
   end
