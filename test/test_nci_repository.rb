@@ -251,8 +251,8 @@ module NCI
         repo.tag_base = 'debian/2'
         Dir.chdir('fishy') do
           puts '-- remot set-url'
-          @cmd.run!('nslookup anongit.neon.kde.org')
-          puts @cmd.run('git remote set-url origin https://anongit.neon.kde.org/kde/khtml').out.strip
+          @cmd.run!('nslookup invent.kde.org')
+          puts @cmd.run('git remote set-url origin https://invent.kde.org/neon/kde/khtml').out.strip
         end
         repo.send(:mangle_push_path!) # private
         Dir.chdir('fishy') do
@@ -261,7 +261,7 @@ module NCI
           # find the line which defines the push url
           ret = ret.split($/).find { |x| x.strip.downcase.start_with?('push') }
           ret = ret.strip.split(' ')[-1] # url is last space separated part
-          assert_equal('neon@git.neon.kde.org:kde/khtml', ret)
+          assert_equal('git@invent.kde.org:neon/kde/khtml', ret)
         end
       end
 

@@ -306,7 +306,7 @@ class VCSBuilderTest < TestCase
     # Make sure neon git urls do not trigger l10n injection code.
     r = CI::VcsSourceBuilder
         .new(release: @release)
-        .send(:repo_url_from_path, 'git://anongit.neon.kde.org/')
+        .send(:repo_url_from_path, 'https://invent.kde.org/neon')
     assert_equal(nil, r)
   end
 

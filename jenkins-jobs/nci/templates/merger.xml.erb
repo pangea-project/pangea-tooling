@@ -57,8 +57,8 @@
     <hudson.tasks.Shell>
       <command>
 ssh-keygen -F git.neon.kde.org || ssh-keyscan -H git.neon.kde.org >> ~/.ssh/known_hosts
-git config --remove-section url."neon@git.neon.kde.org:" || true
-git config --local --add url."neon@git.neon.kde.org:".pushInsteadOf "https://anongit.neon.kde.org/" || true
+git config --remove-section url."git@invent.kde.org:" || true
+git config --local --add url."git@invent.kde.org:".pushInsteadOf "https://invent.kde.org/" || true
 ~/tooling/nci/merger.rb
       </command>
     </hudson.tasks.Shell>

@@ -36,8 +36,8 @@ module NCI
         return unless remote.url.include?('invent.kde.org/neon')
 
         pull_path = GitCloneUrl.parse(remote.url).path[1..-1]
-        puts "mangle to neon@git.neon.kde.org:#{pull_path}"
-        remote.push_url = "neon@git.neon.kde.org:#{pull_path}"
+        puts "mangle to git@invent.kde.org:#{pull_path}"
+        remote.push_url = "git@invent.kde.org:#{pull_path}"
       end
 
       def credentials(url, username, types)
