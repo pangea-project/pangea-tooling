@@ -29,11 +29,6 @@ class ProjectsFactory
 
     def split_entry(entry)
       parts = entry.split('/')
-      # throw out neon master group.
-      # our grouping system by component becomes increasingly painful for one
-      # components mean very little but most importantly they are all below
-      # a leading group on invent.kde.org which requires extra hacks :|
-      parts.shift if parts[0] == NEON_GROUP
       name = parts[-1]
       component = parts[0..-2].join('_') || 'neon'
       [name, component]
@@ -100,6 +95,9 @@ class ProjectsFactory
     end
 
     def from_hash(hash)
+      # FIXME: when .ls doesn't return a very specific repo enabled in the
+      # yaml that should raise a warning of sorts. This is similar to wildcard
+      # rules and ignore missing branches in from_string.
       base, subset = split_hash(hash)
       raise 'not array' unless subset.is_a?(Array)
 
@@ -128,8 +126,18 @@ class ProjectsFactory
         # no more results are being returned.
         repos = client.group_projects(NEON_GROUP, include_subgroups: true)
                       .auto_paginate
-                      .collect(&:path_with_namespace)
-        @listing = repos.flatten
+        repos = repos.collect do |r|
+          # We only list existing repos. This is kinda awkward because it allows
+          # the factory yamls to define a project which we do not list
+          # but that doesn't trigger any warnings. Not really a new problem
+          # though.
+          next nil if r.empty_repo
+
+          # Strip group prefix. Otherwise we have a consistency problem because
+          # overrides and project confs in general do not have it (yet anyway)
+          r.path_with_namespace.sub("#{NEON_GROUP}/", '')
+        end
+        @listing = repos.flatten.uniq.compact
       end
     end
   end
