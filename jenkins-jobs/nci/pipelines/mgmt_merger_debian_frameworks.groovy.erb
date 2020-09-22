@@ -5,19 +5,19 @@ notify {
             try {
                 step([$class: 'CopyArtifact', projectName: env.JOB_NAME, selector: [$class: 'LastCompletedBuildSelector']])
             } catch(e) {}
-            sh 'ssh-keygen -F git.neon.kde.org || ssh-keyscan -H git.neon.kde.org >> ~/.ssh/known_hosts'
+            sh 'ssh-keygen -F invent.kde.org || ssh-keyscan -H invent.kde.org >> ~/.ssh/known_hosts'
             sh 'ruby ~/tooling/nci/debian-merge/tagdetective.rb'
             archiveArtifacts 'data.json'
         }
         stage('merge') {
-            sh 'ssh-keygen -F git.neon.kde.org || ssh-keyscan -H git.neon.kde.org >> ~/.ssh/known_hosts'
+            sh 'ssh-keygen -F invent.kde.org || ssh-keyscan -H invent.kde.org >> ~/.ssh/known_hosts'
             sh 'ruby ~/tooling/nci/debian-merge/merger.rb'
         }
         stage('finalization') {
             stash includes: 'data.json', name: 'data'
             deleteDir()
             unstash 'data'
-            sh 'ssh-keygen -F git.neon.kde.org || ssh-keyscan -H git.neon.kde.org >> ~/.ssh/known_hosts'
+            sh 'ssh-keygen -F invent.kde.org || ssh-keyscan -H invent.kde.org >> ~/.ssh/known_hosts'
             sh 'ruby ~/tooling/nci/debian-merge/finalizer.rb'
         }
     }
