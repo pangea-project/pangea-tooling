@@ -114,6 +114,7 @@ module CI
     private
 
     def personal_repo?
+      # FIXME: we already got the project in the factory. we could pass it through
       return false unless url.include?('invent.kde.org')
 
       # https://docs.gitlab.com/ee/api/README.html#namespaced-path-encoding
