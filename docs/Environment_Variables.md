@@ -21,7 +21,7 @@
 
 |Variable|Description|
 |--------|-----------|
-|UPDATE_INCLUDE|Limits jenkins jobs getting updated during updater runs. Useful to speed things up when only a specific job needs pushing to jenkins. Values is a string that is checked with `.include?` against all jobs.|
+|UPDATE_INCLUDE|Limits jenkins jobs getting updated during updater runs. Useful to speed things up when only a specific job needs pushing to jenkins. Values is a string that is checked with `.include?` against all jobs. Can also be a regex but must be in a string of the form `/regexgoeshere/`|
 |NO_UPDATE|Disables `git fetch`, `bzr update` etc.. New projects are still cloned, but existing ones will not get updated. This must be used with care as it can revert jobs to an early config for example WRT dependency linking. Useful to speed things up when running a job update within a short time frame.|
 |PANGEA_FACTORY_THREADS|Overrides maximum thread count for project factorization. Can potentially improve `git fetch` speed by spreading IO-waiting across multiple threads. Note that Ruby's GIL can get in the way and more threads aren't necessarily faster! Careful with KDE servers, they reject connections from the same host exceeding a certain limit.|
 |PANGEA_FACTORIZE_ONLY|Partial string of projects to factorize, this can be used to only git update a selected repo. Best not use, there's lots of caveats you have to be aware of.|

@@ -52,11 +52,40 @@ class JenkinsJob < Template
   end
   # rubocop:enable Style/ClassVars
 
+  def self.include_pattern
+    @include_pattern ||= begin
+      include_pattern = ENV.fetch('UPDATE_INCLUDE', '')
+      if include_pattern.start_with?('/')
+        # TODO: this check would be handy somewhere else. at update we
+        #   have done half the work already, so aborting here is meh.
+        unless include_pattern.end_with?('/')
+          raise 'Include pattern malformed. starts with /, must end with /'
+        end
+
+        # eval the regex literal returns a Regexp if valid, raises otherwise
+        include_pattern = eval(include_pattern)
+      end
+      include_pattern
+    end
+  end
+
+  def include_pattern
+    # not going through class, this isn't mutable for different instances of Job
+    JenkinsJob.include_pattern
+  end
+
+  def include?
+    return include_pattern.match?(job_name) if include_pattern.is_a?(Regexp)
+
+    job_name.include?(ENV.fetch('UPDATE_INCLUDE', ''))
+  end
+
   # Creates or updates the Jenkins job.
   # @return the job_name
   def update(log: Logger.new(STDOUT))
     # FIXME: this should use retry_it
-    return unless job_name.include?(ENV.fetch('UPDATE_INCLUDE', ''))
+    return unless include?
+
     xml = render_template
     Retry.retry_it(times: 4, sleep: 1) do
       xml_debug(xml) if @debug
