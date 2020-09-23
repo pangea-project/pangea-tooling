@@ -188,6 +188,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
           next unless type == 'release'
+          next unless distribution == NCI.current_series ||
+                      (NCI.future_series && distribution == NCI.future_series)
+          # Projects without upstream scm are native and don't need watching.
+          next unless project.upstream_scm
+          # Do not watch !uscan. They'll not be able to produce anything
+          # worthwhile.
+          # TODO: should maybe assert that all release builds are either git
+          #   or uscan? otherwise we may have trouble with not getting updates
+          next unless project.upstream_scm.type == 'uscan'
+
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
           watchers[watcher.job_name] = watcher
