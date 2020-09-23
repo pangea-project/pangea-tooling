@@ -254,8 +254,9 @@ run jenkins_retry manually for this release on release day.
         end
       end
 
+      # NB: download.kde.org gets mangled so we must do a partial include check.
       if job_is_kde ||
-         newest_dehs_package.upstream_url.include?('download.kde.org')
+         newest_dehs_package.upstream_url.include?('download.kde.')
         return
       end
 
