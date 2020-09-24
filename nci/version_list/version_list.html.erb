@@ -1,10 +1,15 @@
+<h1>Products</h2>
 <table style="width: 100%; display: table;">
   <% scoped_versions.each do |name, version| %>
     <tr>
-        <td><strong><%= name %></strong></td>
-        <td><strong><%= version %></strong></td>
+        <td><%= name %></td>
+        <td><%= version %></td>
     </tr>
   <% end %>
+</table>
+
+<h1>Individual Releases</h2>
+<table style="width: 100%; display: table;">
   <% packaged_versions.sort.each do |name, version| %>
     <tr>
         <td><%= name %></td>
