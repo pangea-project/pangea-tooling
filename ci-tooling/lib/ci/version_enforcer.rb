@@ -58,7 +58,21 @@ module CI
 
     def validate_epochs(old_epoch, new_epoch)
       return if old_epoch == new_epoch
-      raise UnauthorizedChangeError, "#{old_epoch} -> #{new_epoch}"
+      home = ENV.fetch('JENKINS_HOME', nil)
+      job_name = ENV.fetch('JOB_NAME', nil)
+      artifact_path = "#{home}/jobs/#{job_name}/builds/*/archive/last_version"
+      artifact_rm = "rm -v #{artifact_path}"
+      raise UnauthorizedChangeError, <<-EOF
+This epoch bump is not authorized!
+#{old_epoch} -> #{new_epoch}
+Bumping epochs is prevented by default to avoid accidents. If you are
+**absolute** sure this bump is correct and justified and wanted then you can
+let it pass by deleting the last_version marker of this job.
+
+#{artifact_rm}
+
+Depending on the CI last_version may actually live in the workspace:
+#{Dir.pwd}
     end
   end
 end
