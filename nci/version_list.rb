@@ -66,25 +66,15 @@ DEBIAN_TO_KDE_NAMES = {
   'kcalcore' => 'kcalendarcore',
 
   # plasma
-  'plasma-discover' => 'discover'
+  'plasma-discover' => 'discover',
+
+  # the stupidest name of all them stupid divergent names. like what does this
+  # even accomplish...
+  'ktp-kded-integration-module' => 'ktp-kded-module'
 }
 
 # Sources that we do not package for some reason. Should be documented why!
 BLACKLIST = [
-  # Supposedly unmainatined which is why we opt to not maintain the entire
-  # telepathy stack.
-  'ktp-contact-runner',
-  'ktp-kded-module',
-  'ktp-auth-handler',
-  'ktp-approver',
-  'ktp-desktop-applets',
-  'ktp-accounts-kcm',
-  'ktp-text-ui',
-  'ktp-call-ui',
-  'ktp-send-file',
-  'ktp-common-internals',
-  'ktp-contact-list',
-  'ktp-filetransfer-handler',
   # Not actually useful for anything in production. It's a repo with tests.
   'plasma-tests'
 ]
