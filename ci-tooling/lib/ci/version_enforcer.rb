@@ -62,7 +62,7 @@ module CI
       job_name = ENV.fetch('JOB_NAME', nil)
       artifact_path = "#{home}/jobs/#{job_name}/builds/*/archive/last_version"
       artifact_rm = "rm -v #{artifact_path}"
-      raise UnauthorizedChangeError, <<-EOF
+      raise UnauthorizedChangeError, <<-ERROR_MSG
 This epoch bump is not authorized!
 #{old_epoch} -> #{new_epoch}
 Bumping epochs is prevented by default to avoid accidents. If you are
@@ -73,6 +73,7 @@ let it pass by deleting the last_version marker of this job.
 
 Depending on the CI last_version may actually live in the workspace:
 #{Dir.pwd}
+      ERROR_MSG
     end
   end
 end
