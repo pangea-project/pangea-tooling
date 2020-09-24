@@ -54,7 +54,7 @@ EOF
 end
 parser.parse!
 
-jobdirs = Dir.glob("#{Dir.home}/jobs/*")
+jobdirs = Dir.glob("#{ENV.fetch('JENKINS_HOME')}/jobs/*")
 jobdirs.each_with_index do |jobdir, i|
   puts "#{i}/#{jobdirs.size} #{jobdir}"
   Jenkins::JobDir.prune(jobdir, options)
