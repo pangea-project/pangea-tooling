@@ -58,8 +58,9 @@ module CI
 
     def validate_epochs(old_epoch, new_epoch)
       return if old_epoch == new_epoch
-      home = ENV.fetch('JENKINS_HOME', nil)
-      job_name = ENV.fetch('JOB_NAME', nil)
+
+      home = '$JENKINS_HOME'
+      job_name = ENV.fetch('JOB_NAME')
       artifact_path = "#{home}/jobs/#{job_name}/builds/*/archive/last_version"
       artifact_rm = "rm -v #{artifact_path}"
       raise UnauthorizedChangeError, <<-ERROR_MSG
@@ -71,8 +72,7 @@ let it pass by deleting the last_version marker of this job.
 
 #{artifact_rm}
 
-Depending on the CI last_version may actually live in the workspace:
-#{Dir.pwd}
+(Depending on the CI last_version may actually live in the workspace.)
       ERROR_MSG
     end
   end
