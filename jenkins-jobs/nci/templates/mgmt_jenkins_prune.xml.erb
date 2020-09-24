@@ -22,7 +22,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>~/tooling/mgmt/jenkins_prune.rb --max-age <%= max_age %> --min-count <%= min_count %> --paths <%= paths.join(',') %></command>
+      <command>ionice ~/tooling/mgmt/jenkins_prune.rb --max-age <%= max_age %> --min-count <%= min_count %> --paths <%= paths.join(',') %></command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
