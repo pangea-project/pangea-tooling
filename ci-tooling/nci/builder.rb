@@ -19,8 +19,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'mkmf' # for find_exectuable
-
 # Enable the apt resolver by default (instead of pbuilder); should be faster!
 # NB: This needs to be set before requires, it's evaluated at global scope.
 # TODO: make default everywhere. only needs some soft testing in production
@@ -34,6 +32,8 @@ require_relative '../lib/retry'
 NCI.setup_repo!
 
 if File.exist?('/ccache')
+  require 'mkmf' # for find_exectuable
+
   Retry.retry_it(times: 4) { Apt.install('ccache') || raise }
   system('ccache', '-z') # reset stats, ignore return value
   ENV['PATH'] = "/usr/lib/ccache:#{ENV.fetch('PATH')}"
