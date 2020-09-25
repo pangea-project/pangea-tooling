@@ -21,9 +21,17 @@ end
 # possible for cmake configs (such as Qt's) to detect this as a release type and
 # inject flags accordingly (e.g. -DNDEBUG)
 if PangeaBuildTypeConfig.override?
+  type = 'RelWithDebInfo'
+  if PangeaBuildTypeConfig.release_lts?
+    # Don't build debug symbols for release-lts, users shouldn't really use that
+    # edition and debug symbmols are fairly expensive space-wise (and for build
+    # speed actually... stripping can take ages).
+    type = 'Release'
+  end
+
   warn 'Tooling: forcing build type'
   found_type = ARGV.reject! { |x| x.start_with?('-DCMAKE_BUILD_TYPE') }
-  ARGV.unshift('-DCMAKE_BUILD_TYPE=RelWithDebInfo') if found_type
+  ARGV.unshift("-DCMAKE_BUILD_TYPE=#{type}") if found_type
 end
 
 if File.exist?("#{WORKSPACE}/adt_disabled")
