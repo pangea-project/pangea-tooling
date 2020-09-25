@@ -1,23 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-#
-# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) version 3, or any
-# later version accepted by the membership of KDE e.V. (or its
-# successor approved by the membership of KDE e.V.), which shall
-# act as a proxy defined in Section 6 of version 3 of the license.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+# SPDX-FileCopyrightText: 2016-2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 # Enable the apt resolver by default (instead of pbuilder); should be faster!
 # NB: This needs to be set before requires, it's evaluated at global scope.
@@ -28,6 +13,7 @@ require_relative 'lib/setup_repo'
 require_relative '../lib/ci/build_binary'
 require_relative '../lib/nci'
 require_relative '../lib/retry'
+require_relative '../../lib/pangea_build_type_config'
 
 NCI.setup_repo!
 
@@ -43,6 +29,21 @@ if File.exist?('/ccache')
   ENV['CCACHE_DIR'] = '/ccache'
 end
 
+# Strip optimization relevant flags from dpkg-buildflags. We'll defer this
+# decision to cmake (via our overlay-bin/cmake)
+if PangeaBuildTypeConfig.override?
+  flags = %w[CFLAGS CPPFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS OBJCXXFLAGS FFLAGS
+             FCFLAGS LDFLAGS]
+  flagsconf = flags.collect do |flag|
+    <<-FLAGSEGMENT
+STRIP #{flag} -g
+STRIP #{flag} -O2
+STRIP #{flag} -O0
+    FLAGSEGMENT
+  end.join("\n")
+  File.write('/etc/dpkg/buildflags.conf', flagsconf)
+end
+
 no_adt = NCI.only_adt.none? { |x| ENV['JOB_NAME']&.include?(x) }
 # Hacky: p-f's tests/testengine is only built and installed when
 #   BUILD_TESTING is set, fairly weird but I don't know if it is
@@ -55,7 +56,8 @@ needs_testing = %w[
 ]
 is_excluded = needs_testing.any? { |x| ENV['JOB_NAME']&.include?(x) }
 if no_adt && !is_excluded
-  File.write('adt_disabled', '') # marker file to tell our cmake overlay to disable test building
+  # marker file to tell our cmake overlay to disable test building
+  File.write('adt_disabled', '')
 end
 
 builder = CI::PackageBuilder.new

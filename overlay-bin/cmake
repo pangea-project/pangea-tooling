@@ -5,7 +5,8 @@
 # SPDX-FileCopyrightText: 2017-2020 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
-require_relative 'lib/paths' # Drop the overlay from the PATH env.
+require_relative 'lib/paths' # Drop the overlay from the PATH env.''
+require_relative '../lib/pangea_build_type_config'
 
 # Drops excessively verbose makefile setting from cmake invocations.
 # With the verbosity enabled the entire CC lines including all -Ds
@@ -19,10 +20,7 @@ end
 # Force a cmake build type as opposed to distro cflags. This notably makes it
 # possible for cmake configs (such as Qt's) to detect this as a release type and
 # inject flags accordingly (e.g. -DNDEBUG)
-is_ubuntu = File.read('/etc/os-release').include?('ubuntu')
-is_release_lts = ENV.fetch('TYPE', '') == 'release-lts'
-is_arm = %w[armhf arm64].any? { |x| ENV.fetch('NODE_LABELS', '').include?(x) }
-if !ENV.key?('PANGEA_NO_BUILD_TYPE') && is_ubuntu && (is_release_lts || is_arm)
+if PangeaBuildTypeConfig.override?
   warn 'Tooling: forcing build type'
   found_type = ARGV.reject! { |x| x.start_with?('-DCMAKE_BUILD_TYPE') }
   ARGV.unshift('-DCMAKE_BUILD_TYPE=RelWithDebInfo') if found_type
