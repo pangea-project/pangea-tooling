@@ -32,6 +32,7 @@ end
 # Strip optimization relevant flags from dpkg-buildflags. We'll defer this
 # decision to cmake (via our overlay-bin/cmake)
 if PangeaBuildTypeConfig.override?
+  warn 'Tooling: stripping various dpkg-buildflags'
   flags = %w[CFLAGS CPPFLAGS CXXFLAGS OBJCFLAGS OBJCXXFLAGS OBJCXXFLAGS FFLAGS
              FCFLAGS LDFLAGS]
   flagsconf = flags.collect do |flag|
