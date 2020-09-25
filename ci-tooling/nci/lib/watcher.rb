@@ -265,7 +265,7 @@ run jenkins_retry manually for this release on release day.
       puts ''
       puts 'This is a non-KDE project. It never gets automerged or bumped!'
       puts 'Use dch to bump manually and merge as necessary, e.g.:'
-      puts "#{Shellwords.shelljoin(dch)} && git commit -a -m 'New release'"
+      puts "git checkout Neon/release-lts && git merge origin/Neon/stable && #{Shellwords.shelljoin(dch)} && git commit -a -m 'New release'"
       puts ''
       raise NotKDESoftware, 'New version available but not doing auto-bump!'
     end
