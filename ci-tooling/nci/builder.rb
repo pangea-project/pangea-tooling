@@ -68,16 +68,14 @@ if File.exist?('/ccache')
   system('ccache', '-s') # print stats, ignore return value
 end
 
-if File.exist?('build_url')
-  url = File.read('build_url').strip
-  if NCI.experimental_skip_qa.any? { |x| url.include?(x) }
-    puts "Not linting, #{url} is in exclusion list."
-    exit
-  end
-  # skip the linting if build dir doesn't exist
-  # happens in case of Architecture: all packages on armhf for example
-  require_relative 'lint_bin' if Dir.exist?('build')
+build_url = ENV.fetch('BUILD_URL') { File.read('build_url') }.strip
+if NCI.experimental_skip_qa.any? { |x| build_url.include?(x) }
+  puts "Not linting, #{build_url} is in exclusion list."
+  exit
 end
+# skip the linting if build dir doesn't exist
+# happens in case of Architecture: all packages on armhf for example
+require_relative 'lint_bin' if Dir.exist?('build')
 
 # For the version check we'll need to unmanagle the preference pin as we rely
 # on apt show to give us 'available version' info.
