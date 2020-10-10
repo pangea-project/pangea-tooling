@@ -124,11 +124,13 @@ module NCI
       puts 'unmangle debian/watch `git checkout debian/watch`'
       system('git checkout debian/watch')
 
-      job_is_kde = ENV.fetch('JOB_NAME').include?('_kde_')
-
       # These parts get pre-released on server so don't pick them up
       # automatically
-      if job_is_kde && CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
+      released_products = KDEProjectsComponent.frameworks_jobs + KDEProjectsComponent.plasma_jobs + KDEProjectsComponent.release_service_jobs
+      job_project = ENV['JOB_NAME'].split("_")[-1]
+      job_is_kde_released = released_products.include?(job_product)
+
+      if job_is_kde_released && CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
         puts 'KDE Plasma/Releases/Framework watcher should be run manually not by '\
              'timer, quitting'
         puts 'sending notification mail'
