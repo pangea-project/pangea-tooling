@@ -85,14 +85,20 @@ product_and_versions = []
     version_dirs = sftp.dir.glob(dir_path, '*')
     version_dirs = version_dirs.select(&:directory?)
     version_dirs = version_dirs.sort_by { |x| Gem::Version.new(x.name) }
-    # lowest is first
-    latest = version_dirs[-1]
+    # lowest is first, pick the latest two. one of them must be world readable!
+    latest = version_dirs[-2..-1].reverse.find do |dir|
+      world_readable = ((dir.attributes.permissions & S_IROTH) == S_IROTH)
+      unless world_readable
+        warn "Version #{dir.name} of #{scope} not world readable!" \
+            " This will mean that this scope's version isn't checked!"
+        next nil
+      end
+      dir
+    end
 
-    world_readable = ((latest.attributes.permissions & S_IROTH) == S_IROTH)
-    unless world_readable
-      warn "Version #{latest.name} of #{scope} not world readable!" \
-           " This will mean that this scope's version isn't checked!"
-      next
+    unless latest
+      raise 'Neither the latest nor the previous version are world readable!' \
+            ' Something is astray! This means there are two pending releases???'
     end
 
     latest_path = "#{dir_path}/#{latest.name}/"
