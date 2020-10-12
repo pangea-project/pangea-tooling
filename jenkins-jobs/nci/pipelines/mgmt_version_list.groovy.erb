@@ -1,3 +1,7 @@
+env.DIST='<%= distribution %>'
+env.TYPE='<%= type %>'
+
+
 notify {
     cleanNode('master') {
         try {
@@ -15,11 +19,13 @@ def notify(body) {
     try {
         body()
     } catch (e) {
+        <% if notify %>
         stage('notify') {
             mail to: 'neon-notifications@kde.org',
                  subject: "version problems #${BUILD_NUMBER}",
                  body: """Some packages from scoped releases are either not packaged or have an unexpected version #${BUILD_NUMBER}. ${BUILD_URL}/testReport"""
         }
+        <% end %>
         throw e
     }
 }

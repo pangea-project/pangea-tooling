@@ -25,13 +25,15 @@ require_relative 'pipelinejob'
 class MGMTVersionListJob < PipelineJob
   attr_reader :dist
   attr_reader :type
+  attr_reader :notify
 
-  def initialize(dist:, type:)
+  def initialize(dist:, type:, notify: false)
     # crons once a day. maybe should be made type dependent and run more often
     # for dev editions and less for user editions (they get run on publish)?
     super("mgmt_version_list_#{dist}_#{type}",
           template: 'mgmt_version_list', cron: 'H H * * *')
     @dist = dist
     @type = type
+    @notify = notify
   end
 end
