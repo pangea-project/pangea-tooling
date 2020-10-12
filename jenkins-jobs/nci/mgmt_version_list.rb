@@ -31,7 +31,7 @@ class MGMTVersionListJob < PipelineJob
     # crons once a day. maybe should be made type dependent and run more often
     # for dev editions and less for user editions (they get run on publish)?
     super("mgmt_version_list_#{dist}_#{type}",
-          template: 'mgmt_version_list', cron: 'H H * * *')
+          template: 'mgmt_version_list', cron: (notify ? 'H H * * *' : ''))
     @dist = dist
     @type = type
     @notify = notify
