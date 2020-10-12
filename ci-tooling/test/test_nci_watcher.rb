@@ -7,6 +7,7 @@ require_relative 'lib/testcase'
 
 require_relative '../lib/debian/control'
 require_relative '../nci/lib/watcher'
+require_relative '../../lib/kdeproject_component'
 
 require 'mocha/test_unit'
 require 'rugged'
@@ -20,6 +21,33 @@ class NCIWatcherTest < TestCase
     # Rip out causes from the test env so we don't trigger on them.
     NCI::Watcher::CAUSE_ENVS.each { |e| ENV.delete(e) }
     ENV['JOB_NAME'] = 'HIIIIYA'
+
+    stub_request(:get, "https://projects.kde.org/api/v1/projects/frameworks").
+      with(
+        headers: {
+              'Accept'=>'*/*',
+              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'User-Agent'=>'Ruby'
+        }).
+      to_return(status: 200, body: '["frameworks/attica","frameworks/baloo","frameworks/bluez-qt","frameworks/breeze-icons"]', headers: {"Content-Type":"application/json"})
+
+    stub_request(:get, "https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release-normal").
+      with(
+        headers: {
+            'Accept'=>'*/*',
+            'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'User-Agent'=>'Ruby'
+        }).
+      to_return(status: 200, body: "bluedevil breeze breeze-grub breeze-gtk breeze-plymouth discover drkonqi", headers: {"Content-Type":"text/plain"})
+
+    stub_request(:get, "https://invent.kde.org/sysadmin/release-tools/-/raw/master/modules.git").
+      with(
+        headers: {
+              'Accept'=>'*/*',
+              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'User-Agent'=>'Ruby'
+        }).
+      to_return(status: 200, body: "kdialog                                     master\nkeditbookmarks                              master", headers: {"Content-Type":"text/plain"})  
   end
 
   def with_remote_repo(seed_dir)

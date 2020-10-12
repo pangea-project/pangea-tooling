@@ -187,7 +187,6 @@ run jenkins_retry manually for this release on release day.
       newest_dehs = newer.values[-1][0] # is 1 size'd Array because of group_by
       newest_dehs_package = newer.values[-1][0] # group_by results in an array
 
-      puts "newest #{newest.inspect}"
       p newest_dehs_package.to_s
       raise 'No newest version found' unless newest
 
@@ -257,7 +256,7 @@ run jenkins_retry manually for this release on release day.
       end
 
       # NB: download.kde.org gets mangled so we must do a partial include check.
-      if job_is_kde ||
+      if job_is_kde_released ||
          newest_dehs_package.upstream_url.include?('download.kde.')
         return
       end
