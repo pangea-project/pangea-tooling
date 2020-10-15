@@ -32,7 +32,7 @@ cleanNode('amd64 && cloud') {
     stage('clone[extra-metainfo]') {
         sh '[ -d extra-metainfo ] || mkdir extra-metainfo'
         dir('extra-metainfo') {
-            git branch: 'Neon/release', url: 'https://invent.kde.org/sitter/neon-appstream-extra-metainfo'
+            git branch: 'Neon/release', url: 'https://invent.kde.org/sysadmin/neon-appstream-extra-metainfo.git'
         }
     }
 
