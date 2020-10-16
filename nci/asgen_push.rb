@@ -34,7 +34,9 @@ class NCI::AppstreamGeneratorPush
     ENV.fetch('TYPE')
   end
 
-  def aptly_repository
+  def repository_path
+    # NB: the env var is called aply repo but it is in fact the repo path
+    #   i.e. not 'unstable_focal' but dev/unstable
     ENV.fetch('APTLY_REPOSITORY')
   end
 
@@ -71,8 +73,8 @@ class NCI::AppstreamGeneratorPush
     FileUtils.mkpath(dep11_dir)
     FileUtils.cp_r("#{export_data_dir}/#{dist}/main/.", dep11_dir, verbose: true)
 
-    tmpdir = "#{APTLY_HOME}/asgen_push.#{aptly_repository.tr('/', '-')}"
-    targetdir = "#{APTLY_HOME}/aptly/skel/#{aptly_repository}/dists/#{dist}"
+    tmpdir = "#{APTLY_HOME}/asgen_push.#{repository_path.tr('/', '-')}"
+    targetdir = "#{APTLY_HOME}/aptly/skel/#{repository_path}/dists/#{dist}"
 
     # This depends on https://github.com/aptly-dev/aptly/pull/473
     # Aptly versions must take care to actually have the PR applied to them until
