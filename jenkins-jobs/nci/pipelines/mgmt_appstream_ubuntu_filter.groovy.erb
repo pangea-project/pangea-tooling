@@ -1,0 +1,56 @@
+// SPDX-FileCopyrightText: 2020 Harald Sitter <sitter@kde.org>
+// SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
+env.DIST = '<%= dist %>'
+
+// Only build on cloud nodes because the peristent ones are very slow
+// computationally (asgen scales icons/screenshots etc) and also
+// not very dependable as load caused by other CIs may cause asgen to flake
+// out. As a result even waiting for the cloud node to spin up will most
+// of the time be faster than actually working on a persistent node (even when
+// the node doesn't have extra load).
+cleanNode('(amd64 && persistent) || (amd64 && cloud) || amd64') {
+    def branch = "Neon/release"
+    stage('clone') {
+        git url: 'git@invent.kde.org:sysadmin/neon-appstream-extra-metainfo.git',
+            branch: branch,
+            credentialsId: 'ssh.jobs.archive.neon'
+    }
+
+    stage('generate') {
+        sh '~/tooling/nci/contain.rb /tooling/nci/appstream_ubuntu_filter.rb'
+    }
+
+    stage('publish') {
+        sh 'git config user.name "Neon CI"'
+        sh 'git config user.email "neon@kde.org"'
+        sh 'git add -v $DIST' // add dist dir to stage
+        sh 'git commit -m "refresh filtered ubuntu components"'
+        withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.git.neon', keyFileVariable: 'SSH_KEY_FILE')]) {
+            withEnv(["GIT_SSH=$HOME/tooling/lib/libexec/ssh_key_file.sh"]) {
+                sh "git push origin ${branch}"
+            }
+        }
+    }
+}
+
+def fancyWrap(body) {
+    wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+            body()
+        }
+    }
+}
+
+def cleanNode(label = null, body) {
+    node(label) {
+        deleteDir()
+        try {
+            fancyWrap {
+                body()
+            }
+        } finally {
+            step([$class: 'WsCleanup', cleanWhenFailure: true])
+        }
+    }
+}
