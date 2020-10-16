@@ -84,8 +84,8 @@ end
 removed_components = JSON.parse(File.read('removed-components.json'))
 manually_removed_components = removed_components - auto_removed_components
 
-removed_components = (manually_removed_components +
-                     filter_components.collect(&:id))
+filter_components = filter_components.collect(&:id)
+removed_components = (manually_removed_components + filter_components)
 
 File.write('auto-removed-components.json',
            JSON.generate(filter_components.uniq.compact) + "\n")
