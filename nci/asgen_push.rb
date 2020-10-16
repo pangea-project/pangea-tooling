@@ -13,14 +13,17 @@ require 'tty-command'
 require_relative '../ci-tooling/lib/debian/release'
 require_relative '../ci-tooling/lib/nci'
 
+# appstream pusher
 class NCI::AppstreamGeneratorPush
-  APTLY_HOME = "/home/neonarchives"
+  APTLY_HOME = '/home/neonarchives'
 
   Sum = Struct.new(:file, :value)
 
+  # Convenience wrapper around rsync cli
   class RSync
     def self.sync(from, to)
-      ssh_command = "ssh -o StrictHostKeyChecking=no -i #{ENV.fetch('SSH_KEY_FILE')}"
+      ssh_command =
+        "ssh -o StrictHostKeyChecking=no -i #{ENV.fetch('SSH_KEY_FILE')}"
       rsync_opts = "-av -e '#{ssh_command}'"
       TTY::Command.new.run("rsync #{rsync_opts} #{from} #{to}")
     end
@@ -77,22 +80,23 @@ class NCI::AppstreamGeneratorPush
     targetdir = "#{APTLY_HOME}/aptly/skel/#{repository_path}/dists/#{dist}"
 
     # This depends on https://github.com/aptly-dev/aptly/pull/473
-    # Aptly versions must take care to actually have the PR applied to them until
-    # landed upstream!
-    # NB: this is updating off-by-one. i.e. when we run the old data is published,
-    #   we update the data but it will only be updated the next time the publish
-    #   is updated (we may do this in the future as acquire-by-hash is desired for
-    #   such quick update runs).
+    # Aptly versions must take care to actually have the PR applied to them
+    # until landed upstream!
+    # NB: this is updating off-by-one. i.e. when we run the old data is
+    #   published, we update the data but it will only be updated the next
+    #   time the publish is updated (we may do this in the future as
+    #   acquire-by-hash is desired for such quick update runs).
 
-    # We need the checksum of the uncompressed file in the Release file of the repo,
-    # this is currently not correctly handled in the aptly skel system. As a quick
-    # stop-gap we'll simply make sure an uncompressed file is around.
+    # We need the checksum of the uncompressed file in the Release file
+    # of the repo, this is currently not correctly handled in the aptly
+    # skel system. As a quick stop-gap we'll simply make sure an
+    # uncompressed file is around.
     # https://github.com/aptly-dev/aptly/pull/473#issuecomment-391281324
     Dir.glob("#{dep11_dir}/**/*.gz") do |compressed|
       next if compressed.include?('by-hash') # do not follow by-hash
+
       system('gunzip', '-k', compressed) || raise
     end
-
 
     keys_and_tools = {
       'MD5Sum' => 'md5sum',
@@ -109,6 +113,7 @@ class NCI::AppstreamGeneratorPush
     Dir.glob("#{dep11_dir}/*") do |file|
       next if File.basename(file) == 'by-hash'
       raise "Did not expect !file: #{file}" unless File.file?(file)
+
       keys_and_tools.each do |key, tool|
         keys_and_sums[key] ||= []
         sum = cmd.run(tool, file).out.split(' ')[0]
@@ -149,7 +154,8 @@ class NCI::AppstreamGeneratorPush
           if symlink?(sftp, base_path)
             # If we have a current variant, make it the old variant.
             sftp.rename!(base_path, old_path,
-              Net::SFTP::Constants::RenameFlags::OVERWRITE | Net::SFTP::Constants::RenameFlags::ATOMIC)
+                         Net::SFTP::Constants::RenameFlags::OVERWRITE |
+                         Net::SFTP::Constants::RenameFlags::ATOMIC)
           end
 
           # Use our current data as the new current variant.
@@ -192,9 +198,9 @@ class NCI::AppstreamGeneratorPush
 
     # This is the export dep11 data, we don't need it, so throw it away
     system("rm -rf #{export_data_dir}")
-    # NB: We use rsync here because a) SFTP is dumb and may require copying things
-    #   to tmp path, removing pubdir and moving tmpdir to pubdir, while rsync will
-    #   be faster.
+    # NB: We use rsync here because a) SFTP is dumb and may require copying
+    #   things to tmp path, removing pubdir and moving tmpdir to pubdir,
+    #   while rsync will be faster.
     remote_dir = "metadataneon@charlotte.kde.org:#{pubdir}"
     RSync.sync("#{export_dir}/*", "#{remote_dir}/")
   end
