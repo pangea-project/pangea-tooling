@@ -39,7 +39,7 @@ end
 # no good reason.
 
 ID_PATTERN_PREFIX = 'Identifier:'
-ID_PATTERN = /#{ID_PATTERN_PREFIX} (?<id>[\w\.-]+) \[(?<kind>.+)\]/.freeze
+ID_PATTERN = /#{ID_PATTERN_PREFIX} (?<id>[^\s]+) \[(?<kind>.+)\]/.freeze
 NULLCMD = TTY::Command.new(printer: :null)
 
 out, _err = NULLCMD.run('appstreamcli', 'search', '*')
