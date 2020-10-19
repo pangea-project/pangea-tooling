@@ -172,6 +172,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
+          p project
           next unless type == 'release'
           next unless distribution == NCI.current_series ||
                       (NCI.future_series && distribution == NCI.future_series)
@@ -182,9 +183,21 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # TODO: should maybe assert that all release builds are either git
           #   or uscan? otherwise we may have trouble with not getting updates
           next unless project.upstream_scm.type == 'uscan'
+          # TODO: this is a bit of a crutch it may be wiser to actually
+          #   pass the branch as param into watcher.rb and have it make
+          #   sense of it (requires some changes to the what-needs-merging
+          #   logic first)
+          # FIXME: the crutch is also a fair bit unreliable. if a repo doesn't
+          #   have a release branch (which is technically possible - e.g.
+          #   ubuntu-release-upgrader only has a single branch) then the watcher
+          #   coverage will be lacking.
+          next unless %w[Neon/release Neon/release-lts].any? do |x|
+            x == project.packaging_scm&.branch
+          end
 
           watcher = WatcherJob.new(project)
           next if watchers.key?(watcher.job_name) # Already have one.
+
           watchers[watcher.job_name] = watcher
         end
 
@@ -341,7 +354,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       # Add generator jobs as necessary here. Probably sound to start out
       # with unstable first though.
       enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
-      enqueue(MGMTAppstreamGenerator.new(repo: 'dev/unstable',
+      enqueue(MGMTAppstreamGenerator.new(repo: 'unstable',
                                          type: 'unstable',
                                          dist: NCI.future_series))
     end
@@ -361,10 +374,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # FIXME: this is hardcoded because we don't have a central map between
     #   'type' and repo path, additionally doing this programatically would
     #   require querying the aptly api. it's unclear if this is worthwhile.
-    enqueue(MGMTAppstreamGenerator.new(repo: 'dev/unstable',
+    enqueue(MGMTAppstreamGenerator.new(repo: 'unstable',
                                        type: 'unstable',
                                        dist: NCI.current_series))
-    enqueue(MGMTAppstreamGenerator.new(repo: 'dev/stable',
+    enqueue(MGMTAppstreamGenerator.new(repo: 'testing',
                                        type: 'stable',
                                        dist: NCI.current_series))
     enqueue(MGMTAppstreamGenerator.new(repo: 'release',
