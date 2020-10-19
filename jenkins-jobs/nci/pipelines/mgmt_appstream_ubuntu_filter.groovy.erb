@@ -25,10 +25,14 @@ cleanNode('(amd64 && persistent) || (amd64 && cloud) || amd64') {
         sh 'git config user.name "Neon CI"'
         sh 'git config user.email "neon@kde.org"'
         sh 'git add -v $DIST' // add dist dir to stage
-        sh 'git commit -m "refresh filtered ubuntu components"'
-        withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.git.neon', keyFileVariable: 'SSH_KEY_FILE')]) {
-            withEnv(["GIT_SSH=$HOME/tooling/lib/libexec/ssh_key_file.sh"]) {
-                sh "git push origin ${branch}"
+        try {
+            sh 'git diff --cached --exit-code'
+        } catch(e) { // diff dirty -> commit delta
+            sh 'git commit -m "refresh filtered ubuntu components"'
+            withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.git.neon', keyFileVariable: 'SSH_KEY_FILE')]) {
+                withEnv(["GIT_SSH=$HOME/tooling/lib/libexec/ssh_key_file.sh"]) {
+                    sh "git push origin ${branch}"
+                }
             }
         }
     }
