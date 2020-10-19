@@ -38,15 +38,18 @@ end
 # see our stuff, so adding neon repos would only make things slower for
 # no good reason.
 
-ID_PATTERN = /Identifier: (?<id>[\w\.]+) \[(?<kind>.+)\]/.freeze
+ID_PATTERN_PREFIX = 'Identifier:'
+ID_PATTERN = /#{ID_PATTERN_PREFIX} (?<id>[\w\.-]+) \[(?<kind>.+)\]/.freeze
 NULLCMD = TTY::Command.new(printer: :null)
 
 out, _err = NULLCMD.run('appstreamcli', 'search', '*')
 
 components = []
 out.each_line do |line|
+  next unless line.start_with?(ID_PATTERN_PREFIX)
+
   match = ID_PATTERN.match(line)
-  next unless match
+  raise "Expected match on: #{line}" unless match
 
   components << Component.new(match[:id], match[:kind])
 end
