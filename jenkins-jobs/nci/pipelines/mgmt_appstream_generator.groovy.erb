@@ -48,18 +48,7 @@ cleanNode('amd64 && cloud') {
     }
 
     stage('cache[new]') {
-        // NB: we do not persist the export/ directory. This has two primary effects:
-        // a) stashing is fairly fast
-        // b) on subsequent runs export/ may not be fully populated
-        // asgen only exports "new" data, so when it detects no change export/ will be
-        // kind of empty. This basically allows us to skip asgen_push runs. BUT!
-        // It also means that when rsyncing data to metadata.neon.kde.org we can't use
-        // --delete since we'd drop still valid data. If and when the stash gets cleaned
-        // out metadata also needs to get cleaned out!
-        // In the grand scheme of things this is more efficient than stashing the export
-        // but complicates the relationship between the two data sets. When in doubt
-        // wipe all data and regenerate from scratch. That always creates a full data set.
-        stash allowEmpty: false, includes: 'run/db/**, run/cache/**', name: 'new-cache'
+        stash allowEmpty: false, includes: 'run/db/**, run/cache/**, run/export/**', name: 'new-cache'
     }
 }
 
