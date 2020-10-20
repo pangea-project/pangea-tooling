@@ -148,7 +148,7 @@ end
 class RootInstallCheck < InstallCheck
   # Override the core test which assumes a 'live' repo and a 'staging' repo.
   # Instead we have a proposed repo and a root.
-  # The root is installed version-less. Then we upgrae to the proposed repo and
+  # The root is installed version-less. Then we upgrade to the proposed repo and
   # hope everything is awesome.
   def run_test(proposed, root)
     proposed.remove
