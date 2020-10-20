@@ -1,22 +1,7 @@
 # frozen_string_literal: true
-#
-# Copyright (C) 2014-2017 Harald Sitter <sitter@kde.org>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) version 3, or any
-# later version accepted by the membership of KDE e.V. (or its
-# successor approved by the membership of KDE e.V.), which shall
-# act as a proxy defined in Section 6 of version 3 of the license.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+# SPDX-FileCopyrightText: 2014-2017 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require 'logger'
 require 'open-uri'
@@ -70,6 +55,7 @@ module Apt
         caller_args.delete_if do |arg|
           next false unless arg.is_a?(Hash)
           next false unless arg.key?(:args)
+
           injection_args = [*(arg[:args])]
           true
         end
@@ -85,6 +71,7 @@ module Apt
         return if @auto_update_disabled
         return unless @last_update.nil? || (Time.now - @last_update) >= (5 * 60)
         return unless Apt.update
+
         @last_update = Time.now
       end
 
@@ -157,10 +144,13 @@ module Apt
       cmd = TTY::Command.new(printer: :pretty)
       out, = cmd.run(BINARY, 'showauto', pkg)
       return AUTO if out.strip == pkg
+
       out, = cmd.run(BINARY, 'showmanual', pkg)
       return MANUAL if out.strip == pkg
+
       out, = cmd.run(BINARY, 'showhold', pkg)
       return HOLD if out.strip == pkg
+
       warn "#{pkg} has an unknown mark state :O"
       nil
       # FIXME: we currently do not raise here because the cmake and qml dep
