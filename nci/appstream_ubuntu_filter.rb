@@ -57,10 +57,13 @@ raise 'No components found, something is wrong!' if components.empty?
 
 filter_components = components.select do |comp|
   case comp.kind
-  when 'desktop-application', 'addon'
+  when 'desktop-application'
     true
   when 'generic', 'font', 'inputmethod', 'web-application',
-       'console-application', 'codec', 'driver'
+       'console-application', 'codec', 'driver', 'addon'
+    # NOTE: addons do not appear in discover on their own, so there is no
+    #   point in filtering them. Worse yet, filtering them means the packages
+    #   themselves will show up with shitty metadata.
     # TODO: should we really leave web-applications?
     # <struct Component id="im.riot.webapp", kind="web-application">
     # <struct Component id="io.devdocs.webapp", kind="web-application">
