@@ -42,6 +42,7 @@ parser.parse!
 Repo = Aptly::Repository
 Snap = Aptly::Snapshot
 Key = Aptly::Ext::Package::Key
+Pub = Aptly::PublishedRepository
 
 Aptly::Ext::Remote.connect(options.gateway) do
   require 'irb'

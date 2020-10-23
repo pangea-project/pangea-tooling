@@ -31,6 +31,7 @@ require_relative '../../lib/aptly-ext/remote'
 Repo = Aptly::Repository
 Snap = Aptly::Snapshot
 Key = Aptly::Ext::Package::Key
+Pub = Aptly::PublishedRepository
 
 Aptly::Ext::Remote.neon do
   require 'irb'
