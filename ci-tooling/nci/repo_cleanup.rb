@@ -40,7 +40,7 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
                       RepoNames.all('unstable') + RepoNames.all('stable'),
                       keep_amount: 1)
     RepoCleaner.clean(RepoNames.all('release'), keep_amount: 4)
-    RepoCleaner.clean(RepoNames.all('release-lts'), keep_amount: 4)
+    RepoCleaner.clean(RepoNames.all('release-lts'), keep_amount: 2)
   end
 
   puts 'Finally cleaning out database...'
