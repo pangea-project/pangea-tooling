@@ -63,6 +63,9 @@ class VCSBuilderTest < TestCase
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
 
     CI::DependencyResolver.simulate = true
+
+    # dud. only used for output in version enforcer
+    ENV['JOB_NAME'] = 'RaRaRasputin'
   end
 
   def teardown
