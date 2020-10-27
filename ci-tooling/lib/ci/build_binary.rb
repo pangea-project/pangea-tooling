@@ -275,8 +275,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
         dpkg_buildopts += build_flags_arch_all
       else
         # Automatically decide how many concurrent build jobs we can support.
-        # NOTE: special cased for trusty master servers to pass
-        dpkg_buildopts << '-jauto' unless pretty_old_system?
+        dpkg_buildopts << '-jauto'
         # We only build arch:all on amd64, all other architectures must only
         # build architecture dependent packages. Otherwise we have confliciting
         # checksums when publishing arch:all packages of different architectures
@@ -293,9 +292,10 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
     def build_flags_arch_all
       flags = []
       # Automatically decide how many concurrent build jobs we can support.
-      # NOTE: special cased for trusty master servers to pass
-      flags << '-j1' unless pretty_old_system?
-      flags << '-jauto' if scaling_node?
+      # Persistent amd64 nodes are used across all our CIs and they are super
+      # weak in the knees - be nice!
+      flags << '-j1'
+      flags << '-jauto' if scaling_node? # entirely use cloud nodes
       # On arch:all only build the binaries, the source is already built.
       flags << '-b'
       flags
@@ -353,12 +353,6 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       architectures.any? do |arch|
         DPKG::Architecture.new(host_arch: host_arch).is(arch)
       end
-    end
-
-    def pretty_old_system?
-      OS::VERSION_ID == '14.04'
-    rescue
-      false
     end
 
     def scaling_node?
