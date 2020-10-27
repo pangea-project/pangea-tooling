@@ -387,12 +387,15 @@ absolutely must not be native though!
     def get_git(uri, dest)
       return if File.exist?(dest)
 
+      warn "get_git #{uri}"
+
       if URI.parse(uri).scheme == 'ssh'
         Rugged::Repository.clone_at(uri, dest,
                                     bare: true,
                                     credentials: method(:git_credentials))
       else
-        Rugged::Repository.clone_at(uri, dest, bare: true)
+        Rugged::Repository.clone_at(uri, dest, bare: true,
+                                               progress: ->(*args) { p ['progress', uri, args] })
       end
 
     rescue Rugged::NetworkError => e
