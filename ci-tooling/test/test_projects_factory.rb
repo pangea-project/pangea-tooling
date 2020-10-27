@@ -123,7 +123,7 @@ class ProjectsFactoryTest < TestCase
     groups = mock('gitlab-groups')
     client
       .expects(:group_projects)
-      .with('neon', include_subgroups: true)
+      .with('neon', include_subgroups: true, archived: false)
       .returns(groups)
     groups.expects(:auto_paginate).returns(paths.collect do |v|
       OpenStruct.new({ path_with_namespace: v })
