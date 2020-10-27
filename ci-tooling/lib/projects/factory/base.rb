@@ -76,17 +76,52 @@ class ProjectsFactory
     end
 
     def aggregate_promises(promises)
-      # Wait on promises individually before zipping them. Zipping will gobble
-      # up results making it super hard to find exceptions. 9/10 times ruby
-      # just SIGSEVs because we murdered all threads with exceptions.
-      warn 'aggregating promises'
-      ret = promises.collect(&:value!).flatten.compact
-      warn 'all promises resolved!'
+      # Wait on promises individually the main thread can't proceed anyway
+      # and more builtin constructs of concurrent aren't nearly as reliable as
+      # doing things manually here.
+      ret = promises.collect(&:value).flatten.compact
+      errors = promises.collect(&:reason).flatten.compact.uniq
+      puts 'all promises resolved!'
+
+      throw_errors(errors) unless errors.empty?
+
       if ret.empty? && !ENV['PANGEA_FACTORIZE_ONLY']
         raise 'Couldn\'t aggregate any projects.' \
               ' Broken configs? Strict restrcitions?'
       end
       ret
+    end
+
+    def throw_errors(errors)
+      warn '# ERRORS'
+      errors.each_with_index do |e, i|
+        warn "## error #{i}"
+        e.set_backtrace(mangle_error_bt(e))
+        warn e.full_message
+      end
+      raise 'Factory tripped over unhandled exceptions. Fix them.'
+    end
+
+    def mangle_error_bt(error)
+      bt = error.backtrace
+      # leave untouched if concurrent itself broke
+      return bt if bt[0].include?('concurrent-ruby')
+
+      concurrent_filter(bt)
+    end
+
+    def concurrent_filter(backtrace)
+      found_concurrent = false
+      backtrace = backtrace.select do |line|
+        if line.include?('concurrent-ruby')
+          found_concurrent = true
+          next false
+        end
+        true
+      end
+      return backtrace unless found_concurrent
+
+      backtrace << 'unknown:0:Leading ruby-concurrent frames removed'
     end
 
     class << self
