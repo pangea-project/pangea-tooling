@@ -176,10 +176,12 @@ class Project
     get(cache_dir)
     warn "  update #{name}"
     update(branch, cache_dir)
+    warn "  checkout #{name}"
     Dir.mktmpdir do |checkout_dir|
       checkout(branch, cache_dir, checkout_dir)
       init_from_source(checkout_dir)
     end
+    warn "  donecheckout #{name}"
 
     @override_rule.each do |member, _|
       override_apply(member)
