@@ -125,7 +125,8 @@ class ProjectsFactory
 
         # Gitlab sends over paginated replies, make sure we iterate till
         # no more results are being returned.
-        repos = client.group_projects(NEON_GROUP, include_subgroups: true)
+        repos = client.group_projects(NEON_GROUP, include_subgroups: true,
+                                                  archived: false)
                       .auto_paginate
         repos = repos.collect do |r|
           # We only list existing repos. This is kinda awkward because it allows
