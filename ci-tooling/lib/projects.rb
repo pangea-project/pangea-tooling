@@ -536,12 +536,24 @@ absolutely must not be native though!
   rescue Project::GitNoBranchError => e
     raise e if series || !branch.start_with?('Neon/')
 
+    # NB: this is only used for building of the dependency list and the like.
+    # The actual target branches are picked from the series_branches at
+    # job templating time, much later. This order only represents our
+    # preference for dep data (they'll generally only vary in minor degress
+    # between the various branches).
+    # Secondly we want to raise back into the factory if they asked us to
+    # construct a project for branch Neon/unstable but no such branch and no
+    # series variant of it exists.
     require_relative 'nci'
     new_branch = @series_branches.find { |x| x.end_with?(NCI.current_series) }
-    unless new_branch
+    if NCI.future_series && !new_branch
       new_branch = @series_branches.find { |x| x.end_with?(NCI.future_series) }
     end
+    if NCI.old_series && !new_branch
+      new_branch = @series_branches.find { |x| x.end_with?(NCI.old_series) }
+    end
     raise e unless new_branch
+
     warn "Failed to find branch #{branch}; falling back to #{new_branch}"
     checkout(new_branch, cache_dir, checkout_dir, series: true)
   end
