@@ -173,23 +173,18 @@ class Project
     @override_rule = CI::Overrides.new.rules_for_scm(@packaging_scm)
     override_apply('packaging_scm')
 
-    warn "get #{name}"
     get(cache_dir)
-    warn "  update #{name}"
     update(branch, cache_dir)
-    warn "  checkout #{name}"
     Dir.mktmpdir do |checkout_dir|
       checkout(branch, cache_dir, checkout_dir)
       init_from_source(checkout_dir)
     end
-    warn "  donecheckout #{name}"
 
     @override_rule.each do |member, _|
       override_apply(member)
     end
 
     upstream_scm&.releaseme_adjust!(origin)
-    warn "done #{name}"
   end
 
   def packaging_scm_for(series:)
@@ -388,15 +383,12 @@ absolutely must not be native though!
     def get_git(uri, dest)
       return if File.exist?(dest)
 
-      warn "get_git #{uri}"
-
       if URI.parse(uri).scheme == 'ssh'
         Rugged::Repository.clone_at(uri, dest,
                                     bare: true,
                                     credentials: method(:git_credentials))
       else
-        Rugged::Repository.clone_at(uri, dest, bare: true,
-                                               progress: ->(*args) { p ['progress', uri, args] })
+        Rugged::Repository.clone_at(uri, dest, bare: true)
       end
 
     rescue Rugged::NetworkError => e
@@ -418,10 +410,7 @@ absolutely must not be native though!
       # TODO: should change to .bare as its faster. also in checkout.
       repo = Rugged::Repository.new(dir)
       repo.config.store('remote.origin.prune', true)
-      repo.remotes['origin'].fetch(progress: ->(*args) { p ['update-progress', dir, args] },
-                                   transfer_progress: ->(*args) { p ['update-transfer-progress', dir, args] },
-                                   update_tips: ->(*args) { p ['update-update-tips', dir, args] },
-                                   certificate_check: ->(*args) { p ['update-certificate_check-tips', dir, args]; true })
+      repo.remotes['origin'].fetch
     rescue Rugged::NetworkError => e
       raise GitTransactionError, e
     end
