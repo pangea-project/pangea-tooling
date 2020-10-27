@@ -35,6 +35,7 @@ module CI
 
       branch_patterns = repo_patterns.collect do |_pattern, branches|
         next nil unless branches
+
         # launchpad has no branches so pretend the branch is empty. launchpad
         # having no branch the only valid values in the overrides would be
         # '*' and '', both of which would match an empty string branch, so
@@ -43,6 +44,7 @@ module CI
         patterns = CI::FNMatchPattern.filter(scm.branch || '', branches)
         patterns = CI::FNMatchPattern.sort_hash(patterns)
         next patterns if patterns
+
         nil
       end.compact # compact nils away.
 
@@ -63,6 +65,7 @@ module CI
       repo_patterns = CI::FNMatchPattern.filter(url, @overrides)
       repo_patterns = CI::FNMatchPattern.sort_hash(repo_patterns)
       return {} if repo_patterns.empty?
+
       repo_patterns
     end
 
