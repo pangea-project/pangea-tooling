@@ -421,7 +421,7 @@ absolutely must not be native though!
       repo.remotes['origin'].fetch(progress: ->(*args) { p ['update-progress', dir, args] },
                                    transfer_progress: ->(*args) { p ['update-transfer-progress', dir, args] },
                                    update_tips: ->(*args) { p ['update-update-tips', dir, args] },
-                                   certificate_check: ->(*args) { p ['update-certificate_check-tips', dir, args] })
+                                   certificate_check: ->(*args) { p ['update-certificate_check-tips', dir, args]; true })
     rescue Rugged::NetworkError => e
       raise GitTransactionError, e
     end
