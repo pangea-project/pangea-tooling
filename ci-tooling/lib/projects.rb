@@ -172,7 +172,9 @@ class Project
     @override_rule = CI::Overrides.new.rules_for_scm(@packaging_scm)
     override_apply('packaging_scm')
 
+    warn "get #{name}"
     get(cache_dir)
+    warn "  update #{name}"
     update(branch, cache_dir)
     Dir.mktmpdir do |checkout_dir|
       checkout(branch, cache_dir, checkout_dir)
@@ -184,6 +186,7 @@ class Project
     end
 
     upstream_scm&.releaseme_adjust!(origin)
+    warn "done #{name}"
   end
 
   def packaging_scm_for(series:)
