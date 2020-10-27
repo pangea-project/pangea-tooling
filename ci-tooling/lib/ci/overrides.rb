@@ -53,7 +53,14 @@ module CI
 
     def repo_patterns_for_scm(scm)
       @overrides ||= global_override_load
-      repo_patterns = CI::FNMatchPattern.filter(scm.url, @overrides)
+      # TODO: maybe rethink the way matching works. Actively matching against
+      # an actual url is entirely pointless, we just need something that is
+      # easy to understand and easy to compute. That could just be a sanitized
+      # host/path string as opposed to the actual url. This then also means
+      # we can freely mutate urls between writable and readonly (e.g. with
+      # gitlab and github either going through ssh or https)
+      url = scm.url.gsub(/\.git$/, '') # sanitize to simplify matching
+      repo_patterns = CI::FNMatchPattern.filter(url, @overrides)
       repo_patterns = CI::FNMatchPattern.sort_hash(repo_patterns)
       return {} if repo_patterns.empty?
       repo_patterns

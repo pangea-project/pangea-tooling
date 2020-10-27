@@ -33,5 +33,15 @@ module CI
       assert_equal('lp:kitten', SCM.cleanup_uri('lp:kitten'))
       assert_equal('lp:kitten///', SCM.cleanup_uri('lp:kitten///'))
     end
+
+    def test_invent_pointgit_http
+      # invent urls must have a .git suffix attached!
+      # NOTE: at the time of writing the class doesn't support ssh uris properly
+      type = 'git'
+      url = 'https://invent.kde.org/git/pkg-kde/yolo'
+      branch = 'master'
+      scm = SCM.new(type, url, branch)
+      assert_equal('https://invent.kde.org/git/pkg-kde/yolo.git', scm.url)
+    end
   end
 end

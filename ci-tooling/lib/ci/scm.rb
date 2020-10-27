@@ -37,6 +37,11 @@ module CI
     def self.cleanup_uri(url)
       uri = URI(url)
       uri.path &&= Pathname.new(uri.path).cleanpath.to_s
+
+      # Append .git for gitlab. Otherwise we'd get server-side redirects
+      # counting against the rate limiting for no good reason.
+      uri.path += '.git' if uri.host == 'invent.kde.org'
+
       uri.to_s
     end
   end
