@@ -417,8 +417,10 @@ absolutely must not be native though!
       # TODO: should change to .bare as its faster. also in checkout.
       repo = Rugged::Repository.new(dir)
       repo.config.store('remote.origin.prune', true)
-      repo.remotes['origin'].fetch(progress: ->(*args) { p ['update-progress', uri, args] },
-                                   transfer_progress: ->(*args) { p ['update-transfer-progress', uri, args] })
+      repo.remotes['origin'].fetch(progress: ->(*args) { p ['update-progress', dir, args] },
+                                   transfer_progress: ->(*args) { p ['update-transfer-progress', dir, args] },
+                                   update_tips: ->(*args) { p ['update-update-tips', dir, args] },
+                                   certificate_check: ->(*args) { p ['update-certificate_check-tips', dir, args] })
     rescue Rugged::NetworkError => e
       raise GitTransactionError, e
     end
