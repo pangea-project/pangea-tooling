@@ -43,7 +43,7 @@ class UpstreamSCMTest < TestCase
     assert_equal('master', scm.branch)
     scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
     assert_equal('git', scm.type)
-    assert_equal('https://invent.kde.org/breeze', scm.url)
+    assert_equal('https://invent.kde.org/breeze.git', scm.url)
     assert_equal('Plasma/5.10', scm.branch)
   end
 
@@ -157,7 +157,7 @@ class UpstreamSCMTest < TestCase
     scm.releaseme_adjust!(CI::UpstreamSCM::Origin::STABLE)
     assert_equal('master', scm.branch)
     # url was also adjusted!
-    assert_equal('https://invent.kde.org/plasma/drkonqi', scm.url)
+    assert_equal('https://invent.kde.org/plasma/drkonqi.git', scm.url)
   end
 
   def test_releasme_adjust_fail
