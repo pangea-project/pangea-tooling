@@ -79,7 +79,9 @@ class ProjectsFactory
       # Wait on promises individually before zipping them. Zipping will gobble
       # up results making it super hard to find exceptions. 9/10 times ruby
       # just SIGSEVs because we murdered all threads with exceptions.
+      warn 'aggregating promises'
       ret = promises.collect(&:value!).flatten.compact
+      warn 'all promises resolved!'
       if ret.empty? && !ENV['PANGEA_FACTORIZE_ONLY']
         raise 'Couldn\'t aggregate any projects.' \
               ' Broken configs? Strict restrcitions?'
