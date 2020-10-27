@@ -6,6 +6,7 @@
 # SPDX-FileCopyrightText: 2015 Bhushan Shah <bshah@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
+require 'concurrent'
 require 'fileutils'
 require 'forwardable' # For cleanup_uri delegation
 require 'git_clone_url'
@@ -65,7 +66,7 @@ class Project
       private
 
       def cache
-        @cache ||= []
+        @cache ||= Concurrent::Array.new
       end
     end
   end
