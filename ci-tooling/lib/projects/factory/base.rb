@@ -66,6 +66,8 @@ class ProjectsFactory
       # Launchpad factory is shit and doesn't use new_project. So it doesn't
       # come back with promises...
       return promises if promises[0].is_a?(Project)
+
+      warn "WAITING FOR QUEUED PROMISES. Total: #{promises.size}"
       aggregate_promises(promises)
     end
 
@@ -79,7 +81,10 @@ class ProjectsFactory
       # Wait on promises individually the main thread can't proceed anyway
       # and more builtin constructs of concurrent aren't nearly as reliable as
       # doing things manually here.
-      ret = promises.collect(&:value).flatten.compact
+      ret = promises.each_with_index.map do |promise, i|
+        warn "Resolving ##{i}"
+        promise.value
+      end.flatten.compact
       errors = promises.collect(&:reason).flatten.compact.uniq
       puts 'all promises resolved!'
 
