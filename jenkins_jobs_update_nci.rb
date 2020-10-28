@@ -174,7 +174,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
           # FIXME: presently not forcing release versions of things we have a
           #   stable for
-          p project
           next unless type == 'release'
           next unless distribution == NCI.current_series ||
                       (NCI.future_series && distribution == NCI.future_series)
