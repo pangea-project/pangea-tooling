@@ -7,6 +7,8 @@
 # To only update some jobs run locally with e.g.
 # PANGEA_FACTORIZE_ONLY='keurocalc' NO_UPDATE=1 UPDATE_INCLUDE='_keurocalc' ./jenkins_jobs_update_nci.rb
 
+require 'sigdump/setup'
+
 require_relative 'ci-tooling/lib/nci'
 require_relative 'ci-tooling/lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
