@@ -546,4 +546,23 @@ absolutely must not be native though!
     warn "Failed to find branch #{branch}; falling back to #{new_branch}"
     checkout(new_branch, cache_dir, checkout_dir, series: true)
   end
+
+  def inspect
+    vset = instance_variables[0..4]
+    str = "<#{self.class}:#{object_id} "
+    str += vset.collect do |v|
+      value = instance_variable_get(v)
+      # Prevent infinite recursion in case there's a loop in our
+      # dependency members.
+      inspection = if value.is_a?(Array) && value[0]&.is_a?(self.class)
+                     'ArrayOfNestedProjects'
+                   else
+                     value.inspect
+                   end
+      "#{v}=#{inspection}"
+    end.compact.join(', ')
+    str += '>'
+
+    str
+  end
 end
