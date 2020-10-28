@@ -27,6 +27,12 @@ require_relative '../ci-tooling/lib/retry'
 require_relative '../lib/jenkins/job'
 require_relative 'template'
 
+class LocalJenkinsJobAdaptor < Jenkins::Job
+  def get_config
+    File.read("#{ENV.fetch('JENKINS_HOME', Dir.home)}/jobs/#{name}/config.xml")
+  end
+end
+
 # Base class for Jenkins jobs.
 class JenkinsJob < Template
   # FIXME: redundant should be name
@@ -89,7 +95,11 @@ class JenkinsJob < Template
     xml = render_template
     Retry.retry_it(times: 4, sleep: 1) do
       xml_debug(xml) if @debug
-      jenkins_job = Jenkins::Job.new(job_name)
+      jenkins_job = if ENV['PANGEA_LOCAL_JENKINS']
+                      LocalJenkinsJobAdaptor.new(job_name)
+                    else
+                      Jenkins::Job.new(job_name)
+                    end
       log.info job_name
 
       if remote_jobs.include?(job_name) # Already exists.
