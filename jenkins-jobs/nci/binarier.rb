@@ -1,4 +1,9 @@
 # frozen_string_literal: true
+
+# SPDX-FileCopyrightText: 2015-2020 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2018 Bhushan Shah <bshah@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
 require_relative '../job'
 require_relative '../binarier'
 
@@ -7,9 +12,9 @@ class BinarierJob
   # Monkey patch cores in
   def cores
     config_file = "#{Dir.home}/.config/nci-jobs-to-cores.json"
-    return '2' unless File.exist?(config_file)
+    return '8' unless File.exist?(config_file)
 
-    JSON.parse(File.read(config_file)).fetch(job_name, '2')
+    JSON.parse(File.read(config_file)).fetch(job_name, '8')
   end
 
   def compress?
