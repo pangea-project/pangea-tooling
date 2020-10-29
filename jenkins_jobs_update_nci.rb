@@ -88,6 +88,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # the same thing.
     files = Dir.glob("#{__dir__}/ci-tooling/data/projects/overrides/nci-*.yaml")
     raise 'No overrides found?' if files.empty?
+
     CI::Overrides.default_files += files
   end
 
@@ -105,6 +106,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       type_projects[type] = projects
 
       next unless type == 'unstable'
+
       projects.each do |project|
         branch = project.packaging_scm.branch
         branches = NCI.types.collect do |t|
@@ -157,7 +159,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
           end
-          # enable ARM for xenial- & bionic-unstable and bionic-release and focal-unstable and focal-release
+          # enable ARM for xenial- & bionic-unstable and bionic-release and
+          # focal-unstable and focal-release
           project_architectures = if type == 'unstable' ||
                                      (type == 'release' && distribution != 'xenial')
                                     NCI.all_architectures
@@ -305,20 +308,20 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
 
       dev_unstable_imgargs = { type: 'devedition-gitunstable',
-                                distribution: distribution,
-                                architecture: 'arm64',
-                                metapackage: 'neon-desktop',
-                                imagename: 'neon',
-                                neonarchive: 'dev/unstable',
-                                cronjob: 'H H * * 0' }
+                               distribution: distribution,
+                               architecture: 'arm64',
+                               metapackage: 'neon-desktop',
+                               imagename: 'neon',
+                               neonarchive: 'dev/unstable',
+                               cronjob: 'H H * * 0' }
       enqueue(NeonImgJob.new(dev_unstable_imgargs))
       user_imgargs = { type: 'useredition',
-                        distribution: distribution,
-                        architecture: 'arm64',
-                        metapackage: 'neon-desktop',
-                        imagename: 'neon',
-                        neonarchive: 'user',
-                        cronjob: 'H H * * 0'}
+                       distribution: distribution,
+                       architecture: 'arm64',
+                       metapackage: 'neon-desktop',
+                       imagename: 'neon',
+                       neonarchive: 'user',
+                       cronjob: 'H H * * 0'}
       enqueue(NeonImgJob.new(user_imgargs))
 
       enqueue(MGMTRepoDivert.new(target: "unstable_#{distribution}"))
