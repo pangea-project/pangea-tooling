@@ -329,11 +329,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       enqueue(MGMTAppstreamUbuntuFilter.new(dist: distribution))
     end
 
-    # Docker hub changed API and I can not work out a way to trigger a build now so now use empty-push.sh from invent:neon-docker run on embra
-    #enqueue(MGMTDockerHubRebuild.new(dependees: []))
-    # Docker hub broke API with reponse frozen in Feb 2019.  Maybe it just needs the account's builds set up again but that needs Ben to do
-    # jriddell 2019-11
-    # enqueue(MGMTDockerHubCheck.new(dependees: []))
     enqueue(MGMTRepoMetadataCheck.new(dependees: []))
 
     # Watchers is a hash, only grab the actual jobs and enqueue them.
