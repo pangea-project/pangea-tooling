@@ -50,10 +50,6 @@ EXCLUDE_SNAPS = %w[
   kfind kfloppy kaddressbook konsole krfb ksystemlog
 ].freeze
 
-release_service_jobs = KDEProjectsComponent.release_service_jobs.collect do |app|
-  "_kde_#{app}"
-end
-
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
