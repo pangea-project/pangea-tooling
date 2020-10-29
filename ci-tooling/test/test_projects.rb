@@ -465,8 +465,8 @@ class ProjectTest < TestCase
     component = 'componento'
 
     require_relative '../lib/nci'
-    NCI.expects(:current_series).returns("bionic")
-    NCI.expects(:future_series).returns("focal")
+    NCI.stubs(:current_series).returns("bionic")
+    NCI.stubs(:future_series).returns("focal")
     gitrepo = create_fake_git(name: name, component: component, branches: %w(Neon/unstable_focal))
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
