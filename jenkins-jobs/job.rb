@@ -89,11 +89,7 @@ class JenkinsJob < Template
     xml = render_template
     Retry.retry_it(times: 4, sleep: 1) do
       xml_debug(xml) if @debug
-      jenkins_job = if ENV['PANGEA_LOCAL_JENKINS']
-                      LocalJenkinsJobAdaptor.new(job_name)
-                    else
-                      Jenkins::Job.new(job_name)
-                    end
+      jenkins_job = Jenkins::Job.new(job_name)
       log.info job_name
 
       if remote_jobs.include?(job_name) # Already exists.

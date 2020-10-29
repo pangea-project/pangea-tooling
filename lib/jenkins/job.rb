@@ -9,8 +9,9 @@ module Jenkins
   # A Jenkins Job.
   # Gives jobs a class so one can use it like a bloody OOP construct rather than
   # I don't even know what the default api client thing does...
-  class Job
+  class APIJob
     attr_reader :name
+
     alias to_s name
     alias to_str to_s
 
@@ -91,26 +92,29 @@ module Jenkins
       end
     end
   end
-end
 
-# Overlay bypassing the API where possible to talk to the file system directly
-# and speed things up since we save the entire roundtrip through https + apache
-# + jenkins.
-# Obviously only works when run on the master server.
-class LocalJenkinsJobAdaptor < Jenkins::Job
-  def get_config
-    File.read("#{job_dir}/config.xml")
+  # Overlay bypassing the API where possible to talk to the file system directly
+  # and speed things up since we save the entire roundtrip through https + apache
+  # + jenkins.
+  # Obviously only works when run on the master server.
+  class LocalJobAdaptor < APIJob
+    def get_config
+      File.read("#{job_dir}/config.xml")
+    end
+
+    def build_number
+      File.read("#{job_dir}/nextBuildNumber").strip.to_i
+    rescue Errno::ENOENT
+      0
+    end
+
+    private
+
+    def job_dir
+      @job_dir ||= "#{ENV.fetch('JENKINS_HOME', Dir.home)}/jobs/#{name}"
+    end
   end
 
-  def build_number
-    File.read("#{job_dir}/nextBuildNumber").strip.to_i
-  rescue Errno::ENOENT
-    0
-  end
-
-  private
-
-  def job_dir
-    @job_dir ||= "#{ENV.fetch('JENKINS_HOME', Dir.home)}/jobs/#{name}"
-  end
+  # Automatically pick the right Job class
+  Job = ENV['PANGEA_LOCAL_JENKINS'] ? LocalJobAdaptor : APIJob
 end
