@@ -49,10 +49,11 @@ module NCI
       end
 
       def override
-        @overrride ||= begin
+        @override ||= begin
           patterns = CI::FNMatchPattern.filter(name, overrides)
           patterns = CI::FNMatchPattern.sort_hash(patterns)
           return nil if patterns.empty?
+
           patterns.values[0]
         end
       end
