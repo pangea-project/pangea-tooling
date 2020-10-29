@@ -27,12 +27,6 @@ require_relative '../ci-tooling/lib/retry'
 require_relative '../lib/jenkins/job'
 require_relative 'template'
 
-class LocalJenkinsJobAdaptor < Jenkins::Job
-  def get_config
-    File.read("#{ENV.fetch('JENKINS_HOME', Dir.home)}/jobs/#{name}/config.xml")
-  end
-end
-
 # Base class for Jenkins jobs.
 class JenkinsJob < Template
   # FIXME: redundant should be name
