@@ -1,0 +1,33 @@
+// SPDX-FileCopyrightText: 2020 Harald Sitter <sitter@kde.org>
+// SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
+env.PANGEA_LOCAL_JENKINS = '1'
+
+// Must be on master because of performance but also the fact that the data
+// lives in ~/.config so job updater can easily find it.
+cleanNode('master') {
+    stage('score') {
+        sh '~/tooling/nci/jenkins_bin.rb'
+    }
+}
+
+def fancyWrap(body) {
+    wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+            body()
+        }
+    }
+}
+
+def cleanNode(label = null, body) {
+    node(label) {
+        deleteDir()
+        try {
+            fancyWrap {
+                body()
+            }
+        } finally {
+            step([$class: 'WsCleanup', cleanWhenFailure: true])
+        }
+    }
+}

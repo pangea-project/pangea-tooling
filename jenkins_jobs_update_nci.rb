@@ -361,6 +361,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsPruneOld.new)
+    enqueue(MGMTJenkinsJobScorer.new)
     enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTJobUpdater.new)
     enqueue(MGMTDigitalOcean.new)
