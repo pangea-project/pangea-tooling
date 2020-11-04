@@ -109,7 +109,7 @@ module NCI
     end
 
     def stub_sftp
-      master = SFTPAdaptor.new('master.kde.org')
+      master = SFTPAdaptor.new('rsync.kde.org')
       # We do not mkpath properly in the pusher, simulate what we already have
       # server-side.
       master.mkpath('neon/images')
@@ -119,7 +119,7 @@ module NCI
       weegie.mkpath('files.neon.kde.org.uk')
 
       Net::SFTP.expects(:start).never
-      Net::SFTP.expects(:start).with('master.kde.org', 'neon').yields(master)
+      Net::SFTP.expects(:start).with('rsync.kde.org', 'neon').yields(master)
       Net::SFTP.expects(:start).with('files.kde.mirror.pangea.pub', 'neon-image-sync').yields(mirror)
       Net::SFTP.expects(:start).with('weegie.edinburghlinux.co.uk', 'neon').yields(weegie)
     end
@@ -127,11 +127,11 @@ module NCI
     def stub_ssh
       files = SSHAdaptor.new('files.kde.mirror.pangea.pub', simulate: true)
 
-      master = SSHAdaptor.new('master.kde.org')
+      master = SSHAdaptor.new('rsync.kde.org')
 
       Net::SSH.expects(:start).never
       Net::SSH.expects(:start).with('files.kde.mirror.pangea.pub', 'neon-image-sync').yields(files)
-      Net::SSH.expects(:start).with('master.kde.org', 'neon').yields(master)
+      Net::SSH.expects(:start).with('rsync.kde.org', 'neon').yields(master)
     end
 
     # This brings down coverage which is meh, it does neatly isolate things

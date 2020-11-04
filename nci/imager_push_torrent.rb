@@ -83,7 +83,7 @@ def fix_meta4(path)
   File.write(path, meta4_doc.to_xml)
 end
 
-Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
+Net::SFTP.start('rsync.kde.org', 'neon', *ssh_args) do |sftp|
   iso = nil
   sftp.dir.glob(REMOTE_DIR, '*/*.iso') do |entry|
     next if entry.name.include?('-current')

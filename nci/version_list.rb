@@ -79,7 +79,7 @@ product_and_versions = []
 
 # Grab list of all released tarballs
 %w[release-service frameworks plasma].each do |scope|
-  Net::SFTP.start('master.kde.org', 'ftpneon', *ssh_args) do |sftp|
+  Net::SFTP.start('rsync.kde.org', 'ftpneon', *ssh_args) do |sftp|
     # delete old directories
     dir_path = "stable/#{scope}/"
     version_dirs = sftp.dir.glob(dir_path, '*')

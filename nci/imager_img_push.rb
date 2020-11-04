@@ -31,7 +31,7 @@ TYPE = ENV.fetch('TYPE')
 ARCH = ENV.fetch('ARCH')
 IMAGENAME = ENV.fetch('IMAGENAME')
 
-# copy to master.kde.org using same directory without -proposed for now, later we want
+# copy to rsync.kde.org using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
 DATE = File.read('date_stamp').strip
 IMGNAME="#{IMAGENAME}-pinebook-remix-#{TYPE}-#{DATE}-#{ARCH}"
@@ -88,7 +88,7 @@ key_file = ENV.fetch('SSH_KEY_FILE', nil)
 ssh_args = key_file ? [{ keys: [key_file] }] : []
 
 # Publish ISO and associated content.
-Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
+Net::SFTP.start('rsync.kde.org', 'neon', *ssh_args) do |sftp|
   puts "mkdir #{REMOTE_PUB_DIR}"
   sftp.cli_uploads = true
   sftp.mkdir!(REMOTE_PUB_DIR)
@@ -103,7 +103,7 @@ Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
   sftp.cli_uploads = false
 
   # Need a second SSH session here, since the SFTP one is busy looping.
-  Net::SSH.start('master.kde.org', 'neon', *ssh_args) do |ssh|
+  Net::SSH.start('rsync.kde.org', 'neon', *ssh_args) do |ssh|
     ssh.exec!("cd #{REMOTE_DIR}/#{TYPE}; rm -f current; ln -s #{DATE} current")
   end
 
@@ -116,4 +116,4 @@ Net::SFTP.start('master.kde.org', 'neon', *ssh_args) do |sftp|
     sftp.dir.glob(path, '*') { |e| sftp.remove!("#{path}/#{e.name}") }
     sftp.rmdir!(path)
   end
-end 
+end
