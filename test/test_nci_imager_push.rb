@@ -114,14 +114,10 @@ module NCI
       # server-side.
       master.mkpath('neon/images')
       mirror = SFTPAdaptor.new('files.kde.mirror.pangea.pub')
-      weegie = SFTPAdaptor.new('weegie.edinburghlinux.co.uk')
-      # We also do not properly mkpath against weegie.
-      weegie.mkpath('files.neon.kde.org.uk')
 
       Net::SFTP.expects(:start).never
       Net::SFTP.expects(:start).with('rsync.kde.org', 'neon').yields(master)
       Net::SFTP.expects(:start).with('files.kde.mirror.pangea.pub', 'neon-image-sync').yields(mirror)
-      Net::SFTP.expects(:start).with('weegie.edinburghlinux.co.uk', 'neon').yields(weegie)
     end
 
     def stub_ssh
@@ -180,14 +176,12 @@ module NCI
       assert_equal(pid, waitedpid)
       assert(status.success?)
 
-      assert_path_exist('master.kde.org/neon/images/testing/1234/.message')
-      assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-1234.iso')
-      assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-1234.iso.sig')
-      assert_path_symlink('master.kde.org/neon/images/testing/1234/neon-testing-current.iso.sig')
-      assert_path_symlink('master.kde.org/neon/images/testing/1234/neon-testing-current.iso')
-      assert_path_exist('master.kde.org/neon/images/testing/1234/neon-testing-current.iso.zsync')
-
-      assert_path_exist('weegie.edinburghlinux.co.uk/files.neon.kde.org.uk/source.tar.xz')
+      assert_path_exist('rsync.kde.org/neon/images/testing/1234/.message')
+      assert_path_exist('rsync.kde.org/neon/images/testing/1234/neon-testing-1234.iso')
+      assert_path_exist('rsync.kde.org/neon/images/testing/1234/neon-testing-1234.iso.sig')
+      assert_path_symlink('rsync.kde.org/neon/images/testing/1234/neon-testing-current.iso.sig')
+      assert_path_symlink('rsync.kde.org/neon/images/testing/1234/neon-testing-current.iso')
+      assert_path_exist('rsync.kde.org/neon/images/testing/1234/neon-testing-current.iso.zsync')
     end
   end
 end

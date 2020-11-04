@@ -20,8 +20,6 @@ DATETIME="${_DATE}-${_TIME}"
 REMIX_NAME="pinebook-remix"
 export LIVE_IMAGE_NAME="${IMAGENAME}-${REMIX_NAME}-${TYPE}-${DATETIME}"
 
-wget http://weegie.edinburghlinux.co.uk/~neon/debs/live-build_20171207_all.deb
-dpkg --install live-build_20171207_all.deb
 apt-get -y install qemu-user-static cpio parted udev zsync pigz
 
 lb clean --all
@@ -29,7 +27,7 @@ rm -rf config
 mkdir -p chroot/usr/share/keyrings/
 cp /usr/share/keyrings/ubuntu-archive-keyring.gpg chroot/usr/share/keyrings/ubuntu-archive-keyring.gpg
 /tooling/nci/imager-img/configure_pinebook
-lb build 
+lb build
 # flash normal 768p build
 /tooling/nci/imager-img/flash_pinebook ${LIVE_IMAGE_NAME}-${ARCH}.img
 
