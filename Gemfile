@@ -10,9 +10,11 @@ end
 
 gem 'activesupport', '>= 6.0.3.1'
 gem 'aptly-api', '~> 0.9.1'
+gem 'bencode' # for torrent generation
 gem 'concurrent-ruby'
 gem 'deep_merge', '~> 1.0'
 gem 'docker-api', '~> 1.24' # Container.refresh! only introduced in 1.23
+gem 'faraday' # implicit dep but also explicitly used in e.g. torrent tech
 gem 'gir_ffi'
 gem 'git'
 gem 'gitlab'
