@@ -61,6 +61,7 @@ class PangeaImageTest < TestCase
     ENV['NODE_LABELS'] = 'aarch64 arm64 shared-node'
     ENV['PANGEA_FLAVOR_ARCH'] = 'arm64'
     image = CI::PangeaImage.new('ubuntu', 'focal')
+    assert_equal('ubuntu', image.flavor)
     assert_equal("#{@namespace}/ubuntu-arm64:focal", image.to_s)
   end
 

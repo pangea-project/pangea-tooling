@@ -4,6 +4,7 @@ module CI
   class PangeaImage
     attr_accessor :tag
     attr_accessor :flavor
+    attr_accessor :variant
 
     class << self
       def namespace
@@ -15,10 +16,7 @@ module CI
     def initialize(flavor, tag)
       @flavor = flavor
       @tag = tag
-
-      # Adjust flavor if the system is shared for multiple architectures.
-      variant = flavor_variant
-      @flavor = "#{@flavor}-#{variant}" if variant
+      @variant = flavor_variant
     end
 
     def flavor_variant
@@ -33,7 +31,9 @@ module CI
     end
 
     def repo
-      "#{self.class.namespace}/#{@flavor}"
+      suffix = ''
+      suffix = "-#{variant}" if variant
+      "#{self.class.namespace}/#{@flavor}#{suffix}"
     end
 
     # Tagging arguments for Image.tag.
