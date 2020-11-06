@@ -169,7 +169,6 @@ module MGMT
       else
         @log.warn 'Flattening latest image by exporting and importing it.' \
                   ' This can take a while.'
-        require 'thwait'
 
         rd, wr = IO.pipe
 
@@ -188,7 +187,7 @@ module MGMT
           @log.warn 'Export complete'
           wr.close
         end
-        ThreadsWait.all_waits(read_thread, write_thread)
+        [read_thread, write_thread].each(&:join)
       end
 
       c.remove
