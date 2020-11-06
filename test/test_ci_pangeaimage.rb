@@ -54,4 +54,21 @@ class PangeaImageTest < TestCase
     assert_equal({ repo: "#{@namespace}/#{flavor}", tag: series, force: true },
                  tag_args.merge(force: true))
   end
+
+  def test_arch_split
+    # For systems that share multiple architectures (e.g. arm32 and arm64)
+    # we need to split the image based on additional metadata.
+    ENV['NODE_LABELS'] = 'aarch64 arm64 shared-node'
+    ENV['PANGEA_FLAVOR_ARCH'] = 'arm64'
+    image = CI::PangeaImage.new('ubuntu', 'focal')
+    assert_equal("#{@namespace}/ubuntu-arm64:focal", image.to_s)
+  end
+
+  def test_arch_split_missing_arch
+    # Like test_arch_split but missing flavor configuration
+    ENV['NODE_LABELS'] = 'aarch64 arm64 shared-node'
+    assert_raises KeyError do
+      CI::PangeaImage.new('ubuntu', 'focal')
+    end
+  end
 end

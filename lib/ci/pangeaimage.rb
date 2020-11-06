@@ -15,6 +15,21 @@ module CI
     def initialize(flavor, tag)
       @flavor = flavor
       @tag = tag
+
+      # Adjust flavor if the system is shared for multiple architectures.
+      variant = flavor_variant
+      @flavor = "#{@flavor}-#{variant}" if variant
+    end
+
+    def flavor_variant
+      # TODO could probably drop the defaulting if we updated all tests
+      # accordingly :|
+      node_labels = ENV.fetch('NODE_LABELS', '').split
+      return nil unless node_labels.include?('shared-node')
+
+      # When the node is shared the diversion arch needs to be tagged via this
+      # env var.
+      ENV.fetch('PANGEA_FLAVOR_ARCH')
     end
 
     def repo
