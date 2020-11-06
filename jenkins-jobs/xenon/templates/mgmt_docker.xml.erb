@@ -32,7 +32,9 @@ if [[ "$NODE_NAME" == "master" || "$NODE_LABELS" =~ "neon" ]]; then
 export PANGEA_UBUNTU_ONLY=1
 fi
 
-~/tooling/mgmt/docker_cleanup.rb
+if [[ ! "$NODE_LABELS" =~ "shared-node" ]]; then
+  ~/tooling/mgmt/docker_cleanup.rb
+fi
 ~/tooling/mgmt/docker.rb</command>
     </hudson.tasks.Shell>
   </builders>
