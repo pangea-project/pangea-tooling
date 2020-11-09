@@ -26,8 +26,9 @@ module Docker
                                          filters: JSON.generate(filters))
       containers.each do |container|
         created = container_creation(container)
-        force = ((DateTime.now - created).to_i > days_old)
-        remove_container(container, force: force)
+        next if (DateTime.now - created).to_i < days_old
+
+        remove_container(container, force: true)
       end
     end
 
