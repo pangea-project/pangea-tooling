@@ -99,6 +99,7 @@ Net::SFTP.start('rsync.kde.org', 'neon', *ssh_args) do |sftp|
     }
   }
 
+  puts "Trying to obtain link list from #{iso_url}"
   # mirrorbits' link header contains mirror urls, use it to build the list.
   # <$url>; rel=$something; pri=$priority; geo=$region, <$url> ...
   # This is a bit awkward since link is entirely missing when there are
