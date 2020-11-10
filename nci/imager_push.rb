@@ -210,4 +210,28 @@ Net::SSH.start('files.kde.mirror.pangea.pub', 'neon-image-sync',
   raise 'Failed sync' unless status.fetch(:exit_code, 1).zero?
 end
 
-# TODO: push sources somewhere. Old server no longer there.
+# Publish ISO sources.
+Net::SFTP.start('embra.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
+  path = if DIST == NCI.future_series
+           "files.neon.kde.org.uk/#{DIST}"
+         else
+           'files.neon.kde.org.uk'
+         end
+  types = %w[source.tar.xz source.tar]
+  types.each do |type|
+    Dir.glob("result/*#{type}").each do |file|
+      # Remove old ones
+      warn "src rm #{path}/#{ISONAME}*#{type}"
+      sftp.dir.glob(path, "#{ISONAME}*#{type}") do |e|
+        warn "glob src rm #{path}/#{e.name}"
+        sftp.remove!("#{path}/#{e.name}")
+      end
+      # upload new one
+      name = File.basename(file)
+
+      sftp.cli_uploads = File.new(file).lstat.size > 4 * 1024 * 1024
+      warn "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
+      sftp.upload!(file, "#{path}/#{name}")
+    end
+  end
+end
