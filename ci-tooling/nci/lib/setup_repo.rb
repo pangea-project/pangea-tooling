@@ -174,7 +174,7 @@ APT::Default-Release "#{setup_repo_codename}";
       # rename editions but not (yet) renamed the job type
       type = 'testing' if type == 'stable'
       type = type.tr('-', '/')
-      if %w[unstable stable].include?(type)
+      if %w[unstable testing].include?(type)
         format('deb http://archive.neon.kde.org/tmp/%<type>s %<dist>s main',
              type: type, dist: dist)
       else
