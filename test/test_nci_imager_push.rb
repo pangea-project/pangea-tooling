@@ -114,10 +114,14 @@ module NCI
       # server-side.
       master.mkpath('neon/images')
       mirror = SFTPAdaptor.new('files.kde.mirror.pangea.pub')
+      embra = SFTPAdaptor.new('embra.edinburghlinux.co.uk')
+      # We also do not properly mkpath against weegie.
+      embra.mkpath('files.neon.kde.org.uk')
 
       Net::SFTP.expects(:start).never
       Net::SFTP.expects(:start).with('rsync.kde.org', 'neon').yields(master)
       Net::SFTP.expects(:start).with('files.kde.mirror.pangea.pub', 'neon-image-sync').yields(mirror)
+      Net::SFTP.expects(:start).with('embra.edinburghlinux.co.uk', 'neon').yields(embra)
     end
 
     def stub_ssh
