@@ -106,7 +106,8 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       deb_build_options = ENV.fetch('DEB_BUILD_OPTIONS', '').split(' ')
       {
         'DEB_BUILD_OPTIONS' => (deb_build_options + ['nocheck']).join(' '),
-        'DH_BUILD_DDEBS' => '1'
+        'DH_BUILD_DDEBS' => '1',
+        'DH_QUIET' => '1'
       }
     end
 
