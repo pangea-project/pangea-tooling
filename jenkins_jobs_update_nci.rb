@@ -343,7 +343,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTAptlyJob.new(dependees: [progenitor]))
     enqueue(MGMTWorkspaceCleanerJob.new(dist: NCI.current_series))
     enqueue(MGMTMergerDebianFrameworks.new)
-    enqueue(MGMTGerminateJob.new(dist: NCI.current_series))
     enqueue(MGMTAppstreamHealthJob.new(dist: NCI.current_series))
     if NCI.future_series
       # Add generator jobs as necessary here. Probably sound to start out
