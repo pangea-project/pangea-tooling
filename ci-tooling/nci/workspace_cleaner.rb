@@ -20,7 +20,8 @@ module WorkspaceCleaner
     DEFAULT_WORKSPACE_PATHS = ["#{Dir.home}/workspace",
                                "#{Dir.home}/dci*/workspace",
                                "#{Dir.home}/mci*/workspace",
-                               "#{Dir.home}/nci*/workspace"].freeze
+                               "#{Dir.home}/nci*/workspace",
+                               "#{Dir.home}/xci*/workspace"].freeze
 
     def workspace_paths
       @workspace_paths ||= DEFAULT_WORKSPACE_PATHS.clone
