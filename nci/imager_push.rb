@@ -171,22 +171,15 @@ Net::SFTP.start('rsync.kde.org', 'neon', *ssh_args) do |sftp|
       next if File.symlink?(file)
 
       name = File.basename(file)
+      current_name = name.gsub(/\d+-\d+/, 'current')
       sftp.cli_uploads = File.new(file).lstat.size > 4 * 1024 * 1024
       warn "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
       sftp.upload!(file, "#{REMOTE_PUB_DIR}/#{name}")
+      sftp.symlink!("#{REMOTE_PUB_DIR}/#{name}", "#{REMOTE_PUB_DIR}/#{current_name}")
     end
   end
   sftp.cli_uploads = false
   sftp.upload!('result/.message', "#{REMOTE_PUB_DIR}/.message")
-
-  # Need a second SSH session here, since the SFTP one is busy looping.
-  Net::SSH.start('rsync.kde.org', 'neon', *ssh_args) do |ssh|
-    ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *.iso #{ISONAME}-current.iso")
-    ssh.exec!("cd #{REMOTE_PUB_DIR};" \
-              " ln -s *.iso.sig #{ISONAME}-current.iso.sig")
-    ssh.exec!("cd #{REMOTE_DIR}; rm -f current; ln -s #{DATE} current")
-  end
 
   sftp.dir.glob(REMOTE_DIR, '*') do |entry|
     next unless entry.directory? # current is a symlink
