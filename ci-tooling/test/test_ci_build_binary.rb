@@ -129,12 +129,12 @@ module CI
       # the way).
       ENV['PANGEA_ARCH_BIN_ONLY'] = 'false'
 
-      DependencyResolver.expects(:resolve)
-                        .with('build')
-                        .raises(RuntimeError.new)
-      DependencyResolver.expects(:resolve)
-                        .with('build', bin_only: true)
-                        .returns(true)
+      PackageBuilder::RESOLVER.expects(:resolve)
+                              .with('build')
+                              .raises(RuntimeError.new)
+      PackageBuilder::RESOLVER.expects(:resolve)
+                              .with('build', bin_only: true)
+                              .returns(true)
 
       builder = PackageBuilder.new
       builder.build
@@ -193,9 +193,9 @@ module CI
 
       DPKG.stubs(:architecture).returns('arm64')
 
-      DependencyResolver.expects(:resolve)
-                        .with('build', bin_only: true)
-                        .returns(true)
+      PackageBuilder::RESOLVER.expects(:resolve)
+                              .with('build', bin_only: true)
+                              .returns(true)
 
       builder = PackageBuilder.new
       builder.build

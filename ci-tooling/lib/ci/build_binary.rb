@@ -182,11 +182,13 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
 
     private
 
-    # Apt resolver is opt-in for now.
-    RESOLVER = if ENV['PANGEA_APT_RESOLVER']
-                 DependencyResolverAPT
-               else
+    # pbuilder resolver is here for fallback should it be temporarily necessary
+    # for whatever reason. Generally speaking the apt resolver is faster and
+    # should be more reliable though!
+    RESOLVER = if ENV['PANGEA_PBUILDER_RESOLVER']
                  DependencyResolver
+               else
+                 DependencyResolverAPT
                end
 
     def raise_build_failure
