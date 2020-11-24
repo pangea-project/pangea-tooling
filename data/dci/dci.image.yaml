@@ -8,8 +8,10 @@
     :components: 'netrunner,extras,backports,netrunner-desktop'
     :releases:
       next: master
+      2101: Netrunner/21.01
     :snapshots:
       - 'next'
+      - '2101'
       
   netrunner-core:
     :repo: https://github.com/netrunner-core/live-build
