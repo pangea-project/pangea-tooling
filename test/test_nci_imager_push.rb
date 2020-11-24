@@ -89,6 +89,10 @@ module NCI
       def cli_uploads=(x)
         @cli_uploads = x
       end
+
+      def symlink!(x, y)
+        FileUtils.symlink(File.join(pwd, x), File.join(pwd, y), verbose: true)
+      end
     end
 
     # Adapts ssh interface against localhost.
@@ -144,16 +148,16 @@ module NCI
         ENV['IMAGENAME'] = 'neon'
 
         Dir.mkdir('result')
-        File.write('result/date_stamp', '1234')
+        File.write('result/date_stamp', '20201123-1425')
         File.write('result/.message', 'hey hey wow wow')
-        File.write("result/#{ENV['IMAGENAME']}-#{ENV['TYPE']}-1234.iso", 'blob')
+        File.write("result/#{ENV['IMAGENAME']}-#{ENV['TYPE']}-20201123-1425.iso", 'blob')
         # imager creates the current files despite us wanting to create them
         # on the remote manually, make sure the symlinks are not resolved to
         # raw data (i.e. two isos being uploaded). The imager creates this file
         # because it needs to zsyncmake and having a dangling zsyncmake file
         # without associated iso file is also horrible.
         system('ln', '-s',
-               "#{ENV['IMAGENAME']}-#{ENV['TYPE']}-1234.iso",
+               "#{ENV['IMAGENAME']}-#{ENV['TYPE']}-20201123-1425.iso",
                "result/#{ENV['IMAGENAME']}-#{ENV['TYPE']}-current.iso") || raise
         File.write("result/#{ENV['IMAGENAME']}-#{ENV['TYPE']}-current.iso.zsync", 'blob')
         File.write('result/source.tar.xz', 'blob')
@@ -180,12 +184,12 @@ module NCI
       assert_equal(pid, waitedpid)
       assert(status.success?)
 
-      assert_path_exist('rsync.kde.org/neon/images/testing/1234/.message')
-      assert_path_exist('rsync.kde.org/neon/images/testing/1234/neon-testing-1234.iso')
-      assert_path_exist('rsync.kde.org/neon/images/testing/1234/neon-testing-1234.iso.sig')
-      assert_path_symlink('rsync.kde.org/neon/images/testing/1234/neon-testing-current.iso.sig')
-      assert_path_symlink('rsync.kde.org/neon/images/testing/1234/neon-testing-current.iso')
-      assert_path_exist('rsync.kde.org/neon/images/testing/1234/neon-testing-current.iso.zsync')
+      assert_path_exist('rsync.kde.org/neon/images/testing/20201123-1425/.message')
+      assert_path_exist('rsync.kde.org/neon/images/testing/20201123-1425/neon-testing-20201123-1425.iso')
+      assert_path_exist('rsync.kde.org/neon/images/testing/20201123-1425/neon-testing-20201123-1425.iso.sig')
+      assert_path_symlink('rsync.kde.org/neon/images/testing/20201123-1425/neon-testing-current.iso.sig')
+      assert_path_symlink('rsync.kde.org/neon/images/testing/20201123-1425/neon-testing-current.iso')
+      assert_path_exist('rsync.kde.org/neon/images/testing/20201123-1425/neon-testing-current.iso.zsync')
     end
   end
 end
