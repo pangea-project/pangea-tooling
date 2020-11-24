@@ -85,3 +85,4 @@ sudo -u jenkins-slave -i /tmp/deploy_tooling.sh
 apt --purge --yes autoremove
 apt-get clean
 journalctl --vacuum-time=1s
+rm -rfv /var/log/journal/*
