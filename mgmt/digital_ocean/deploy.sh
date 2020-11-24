@@ -72,6 +72,8 @@ berks install
 berks vendor
 chef-client --local-mode --enable-reporting
 
+apt install snapcraft
+
 # Make sure we do not have random services claiming dpkg locks.
 apt purge -y unattended-upgrades
 
