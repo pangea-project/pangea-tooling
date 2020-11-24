@@ -44,10 +44,10 @@ until grep '"stage"' /run/cloud-init/status.json | grep -q 'null'; do
 done
 
 # Make sure we do not have random services claiming dpkg locks.
-# Nor random background stuff we don't use (snapd, lxd)
+# Nor random background stuff we don't use (lxd)
 ps aux
 apt purge -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-  -y unattended-upgrades update-notifier-common snapd lxd
+  -y unattended-upgrades update-notifier-common lxd
 
 # DOs by default come with out of date cache.
 ps aux
@@ -72,8 +72,7 @@ berks install
 berks vendor
 chef-client --local-mode --enable-reporting
 
-apt-get -y install snapd
-snap install snapcraft
+snap install --classic snapcraft
 
 # Make sure we do not have random services claiming dpkg locks.
 apt purge -y unattended-upgrades
