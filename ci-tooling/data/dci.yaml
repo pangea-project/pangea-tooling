@@ -1,6 +1,6 @@
 series:
   '2101': '20201123'
-  'next': '20191206'
+  'next': '20201124'
 architectures:
   - amd64
   - armhf
