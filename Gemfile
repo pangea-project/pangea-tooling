@@ -47,6 +47,25 @@ gem 'ci_reporter_minitest'
 gem 'test-unit', '~> 3.0'
 gem 'minitest'
 
+# Hack. jenkins_api_client depends on mixlib-shellout which depends on
+# chef-utils and that has excessive version requirements for ruby because chef
+# has an entire binary distro bundle that allows them to pick whichever ruby.
+# Instead lock chef-utils at a low enough version that it will work for all our
+# systems (currently that is at least bionic with ruby 2.5).
+# jenkins_api_client literally just uses it as a glorified system() so the
+# entire dep is incredibly questionable.
+# Anyway, this lock should be fine to keep so long as the jenkins api client
+# doesn't go belly up.
+gem 'chef-utils', '<= 13'
+# We are also locking this for now becuase this is a working version and
+# the dep that pulls in chef-utils. This way we can ensure the version
+# combiation will work.
+# NOTE: when either of the constraints conflict with another constraint
+#   of one of the gems this needs revisiting. Either we can move to a newer
+#   version because bionic is no longer used on any server or we need a more
+#   creative solution.
+gem 'mixlib-shellout', '~> 3.1.0'
+
 group :development, :test do
   gem 'droplet_kit'
   gem 'equivalent-xml'
