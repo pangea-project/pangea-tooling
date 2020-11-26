@@ -44,7 +44,9 @@ warn "debian only: #{ENV.include?('PANGEA_DEBIAN_ONLY')}"
 warn "ubuntu only: #{ENV.include?('PANGEA_UBUNTU_ONLY')}"
 warn "nci current?: #{ENV.include?('PANGEA_NEON_CURRENT_ONLY')}"
 
-ubuntu_series = (MCI.series.keys | NCI.series.keys)
+# mobile CI is not covered. Bhushan wants to remove the CI entirely and in the
+# meantime we can avoid bionic images by not mixing MCI requirements in.
+ubuntu_series = NCI.series.keys
 ubuntu_series = [NCI.current_series] if ENV.include?('PANGEA_NEON_CURRENT_ONLY')
 ubuntu_series = [] if ENV.include?('PANGEA_DEBIAN_ONLY')
 ubuntu_series.each_index do |index|
