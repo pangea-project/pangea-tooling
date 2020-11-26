@@ -313,6 +313,7 @@ EOF
         /usr/share/info/**/**
         /usr/share/groff/**/**
         /usr/share/doc/**/**
+        /usr/share/ri/**/**
       ],
       excludes: %w[
         /usr/share/locale/*
@@ -320,6 +321,7 @@ EOF
         /usr/share/info/*
         /usr/share/groff/*
         /usr/share/doc/*
+        /usr/share/ri/*
       ],
       includes: %w[
         /usr/share/locale/en

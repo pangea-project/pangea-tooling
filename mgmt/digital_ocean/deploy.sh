@@ -1,22 +1,6 @@
 #!/bin/bash
-#
-# Copyright (C) 2017-2018 Harald Sitter <sitter@kde.org>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) version 3, or any
-# later version accepted by the membership of KDE e.V. (or its
-# successor approved by the membership of KDE e.V.), which shall
-# act as a proxy defined in Section 6 of version 3 of the license.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-FileCopyrightText: 2017-2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 set -ex
 
@@ -45,9 +29,11 @@ done
 
 # Make sure we do not have random services claiming dpkg locks.
 # Nor random background stuff we don't use (snapd, lxd)
+# Nor automatic cron jobs. Cloud servers aren't remotely long enough around for
+# cron jobs to matter.
 ps aux
 apt purge -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-  -y unattended-upgrades update-notifier-common snapd lxd
+  -y unattended-upgrades update-notifier-common snapd lxd cron
 
 # DOs by default come with out of date cache.
 ps aux
@@ -82,8 +68,15 @@ sudo -u jenkins-slave -i /tmp/deploy_tooling.sh
 ################################################### !!!!!!!!!!!
 
 # Clean up cache to reduce image size.
+apt-get purge chef\*
 apt --purge --yes autoremove
 apt-get clean
+# We could skip docs via dpkg exclusion rules like used in the ubuntu docker
+# image but it's hardly worth the headache here. The overhead of installing
+# them and then removing them again hardly makes any diff.
+rm -rfv /usr/share/ri/*
+rm -rfv /usr/share/doc/*
+rm -rfv /usr/share/man/*
 journalctl --vacuum-time=1s
 rm -rfv /var/log/journal/*
 truncate -s 0 \
