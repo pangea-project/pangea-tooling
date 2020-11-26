@@ -68,6 +68,10 @@ sudo -u jenkins-slave -i /tmp/deploy_tooling.sh
 ################################################### !!!!!!!!!!!
 
 # Clean up cache to reduce image size.
+# We don't need to keep chef. It's only in this deployment script and it
+# only runs daily, so speed is not of the essence nor does it help anything.
+# We can easily install chef again on the next run, it costs nothing but reduces
+# the image size by a non trivial amount.
 apt-get purge chef\*
 apt --purge --yes autoremove
 apt-get clean
