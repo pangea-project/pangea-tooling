@@ -86,3 +86,10 @@ apt --purge --yes autoremove
 apt-get clean
 journalctl --vacuum-time=1s
 rm -rfv /var/log/journal/*
+truncate -s 0 \
+  /var/log/fail2ban.log \
+  /var/log/cloud-init.log \
+  /var/log/syslog \
+  /var/log/kern.log \
+  /var/log/apt/term.log \
+  || true
