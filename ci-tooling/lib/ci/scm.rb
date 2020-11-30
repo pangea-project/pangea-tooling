@@ -40,7 +40,9 @@ module CI
 
       # Append .git for gitlab. Otherwise we'd get server-side redirects
       # counting against the rate limiting for no good reason.
-      uri.path += '.git' if uri.host == 'invent.kde.org'
+      if uri.host == 'invent.kde.org' && !uri.path.end_with?('.git')
+        uri.path += '.git'
+      end
 
       uri.to_s
     end
