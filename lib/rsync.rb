@@ -7,10 +7,12 @@ require 'tty-command'
 
 # Convenience wrapper around rsync cli
 class RSync
-  def self.sync(from:, to:)
+  def self.sync(from:, to:, verbose: false)
     ssh_command =
       "ssh -o StrictHostKeyChecking=no -i #{ENV.fetch('SSH_KEY_FILE')}"
-    rsync_opts = "-av -e '#{ssh_command}'"
+    rsync_opts = '-a'
+    rsync_opts += ' -v' if verbose
+    rsync_opts += " -e '#{ssh_command}'"
     TTY::Command.new.run("rsync #{rsync_opts} #{from} #{to}")
   end
 end
