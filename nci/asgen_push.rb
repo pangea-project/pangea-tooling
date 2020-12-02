@@ -12,30 +12,14 @@ require 'tty-command'
 
 require_relative '../ci-tooling/lib/debian/release'
 require_relative '../ci-tooling/lib/nci'
+require_relative '../lib/rsync'
+require_relative 'lib/asgen_remote'
 
 # appstream pusher
-class NCI::AppstreamGeneratorPush
+class NCI::AppstreamGeneratorPush < NCI::AppstreamGeneratorRemote
   APTLY_HOME = '/home/neonarchives'
 
   Sum = Struct.new(:file, :value)
-
-  # Convenience wrapper around rsync cli
-  class RSync
-    def self.sync(from, to)
-      ssh_command =
-        "ssh -o StrictHostKeyChecking=no -i #{ENV.fetch('SSH_KEY_FILE')}"
-      rsync_opts = "-av -e '#{ssh_command}'"
-      TTY::Command.new.run("rsync #{rsync_opts} #{from} #{to}")
-    end
-  end
-
-  def dist
-    ENV.fetch('DIST')
-  end
-
-  def type
-    ENV.fetch('TYPE')
-  end
 
   def repository_path
     # NB: the env var is called aply repo but it is in fact the repo path
@@ -58,10 +42,7 @@ class NCI::AppstreamGeneratorPush
   end
 
   def run
-    run_dir = File.absolute_path('run')
-
     # Move data into basic dir structure of repo skel.
-    export_dir = "#{run_dir}/export"
     export_data_dir = "#{export_dir}/data"
     repo_dir = "#{export_dir}/repo"
     dep11_dir = "#{repo_dir}/main/dep11"
@@ -194,15 +175,9 @@ class NCI::AppstreamGeneratorPush
     end
     FileUtils.rm_rf(repo_dir)
 
-    pubdir = "/srv/www/metadata.neon.kde.org/appstream/#{type}_#{dist}"
-
     # This is the export dep11 data, we don't need it, so throw it away
     system("rm -rf #{export_data_dir}")
-    # NB: We use rsync here because a) SFTP is dumb and may require copying
-    #   things to tmp path, removing pubdir and moving tmpdir to pubdir,
-    #   while rsync will be faster.
-    remote_dir = "metadataneon@charlotte.kde.org:#{pubdir}"
-    RSync.sync("#{export_dir}/*", "#{remote_dir}/")
+    RSync.sync(from: "#{export_dir}/*", to: "#{rsync_pubdir_expression}/")
   end
 end
 
