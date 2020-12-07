@@ -157,29 +157,35 @@ if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
   Aptly::Ext::Remote.dci do
     RepoCleaner.clean(%w[
       backports-2001
+      backports-2101
       calamares-2001
       calamares-next
       extras-2001
+      extras-2101
       extras-backports
       extras-next
       netrunner-2001
+      netrunner-2101
       netrunner-backports
       netrunner-next
       netrunner-core-2001
+      netrunner-core-2101
       netrunner-core-backports
       netrunner-core-next
       netrunner-desktop-2001
+      netrunner-desktop-2101
       netrunner-desktop-backports
       netrunner-desktop-next
       odroid-2001
+      odroid-2101
       odroid-backports
       pine64-2001
+      pine64-2101
       pine64-backports
-      qt5-2001
-      qt5-backports
-      qt5-next
       rock64-2001
+      rock64-2101
       zeronet-2001
+      zeronet-2101
 ], keep_amount: 2)
 
   end
