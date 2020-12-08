@@ -48,11 +48,6 @@ class WatcherJob < JenkinsJob
       @scm_writable.branch.replace('Neon/release-lts')
     end
     @nci = NCI
-    periodic_watch_components = %w[kde extras neon-packaging forks]
-    @periodic_build = if periodic_watch_components.include?(project.component)
-                        'H H * * *'
-                      else
-                        ''
-                      end
+    @periodic_build = 'H H * * *'
   end
 end
