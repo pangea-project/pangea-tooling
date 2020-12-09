@@ -84,6 +84,8 @@ module NCI
     raise 'Failed to import cmake key' unless Apt::Key.add(cmake_key)
     raise 'Failed to add cmake repo' unless Apt::Repository.add(cmake_line)
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
+    # may be installed in base image
+    raise unless Apt.install('cmake')
   end
 
   def setup_proxy!
