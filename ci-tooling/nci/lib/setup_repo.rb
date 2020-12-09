@@ -73,6 +73,16 @@ module NCI
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     # Make sure we have the latest pkg-kde-tools, not whatever is in the image.
     raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools])
+
+    # Qt6 Hack
+    return unless %w[_qt6_bin_ _qt6_src].any? do |x|
+      ENV.fetch('JOB_NAME', '').include?(x)
+    end
+
+    cmake_key = '6D90 3995 424A 83A4 8D42  D53D A8E5 EF3A 0260 0268'
+    cmake_line = 'deb https://apt.kitware.com/ubuntu/ focal main'
+    raise 'Failed to import cmake key' unless Apt::Key.add(cmake_key)
+    raise 'Failed to add cmake repo' unless Apt::Repository.add(cmake_line)
   end
 
   def setup_proxy!

@@ -184,6 +184,12 @@ class Project
       override_apply(member)
     end
 
+    # Qt6 Hack
+    if name == 'qt6'
+      upstream_scm.instance_variable_set(:@type, 'uscan')
+      return
+    end
+
     upstream_scm&.releaseme_adjust!(origin)
   end
 
