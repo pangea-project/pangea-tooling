@@ -182,15 +182,6 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
 
     private
 
-    # pbuilder resolver is here for fallback should it be temporarily necessary
-    # for whatever reason. Generally speaking the apt resolver is faster and
-    # should be more reliable though!
-    RESOLVER = if ENV['PANGEA_PBUILDER_RESOLVER']
-                 DependencyResolver
-               else
-                 DependencyResolverAPT
-               end
-
     def raise_build_failure
       msg = 'Failed to build from source!'
       msg += ' This source was built in bin-only mode.' if @bin_only
@@ -244,9 +235,9 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       opts = {}
       opts[:bin_only] = bin_only if bin_only
       opts[:arch] = cross_arch if cross?
-      return RESOLVER.resolve(dir, **opts) unless opts.empty?
+      return DependencyResolver.resolve(dir, **opts) unless opts.empty?
 
-      RESOLVER.resolve(dir)
+      DependencyResolver.resolve(dir)
     end
 
     def install_dependencies

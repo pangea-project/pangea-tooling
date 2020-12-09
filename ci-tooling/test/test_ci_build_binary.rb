@@ -104,7 +104,7 @@ module CI
       Object.any_instance.expects(:system).never
 
       File.expects(:executable?)
-          .with(DependencyResolver::RESOLVER_BIN)
+          .with(DependencyResolverPBuilder::RESOLVER_BIN)
           .returns(true)
 
       Object.any_instance
@@ -115,7 +115,7 @@ module CI
                   '--control', "#{Dir.pwd}/debian/control")
             .returns(true)
 
-      DependencyResolver.resolve(Dir.pwd, bin_only: true)
+      DependencyResolverPBuilder.resolve(Dir.pwd, bin_only: true)
     end
 
     def test_build_bin_only
@@ -129,12 +129,12 @@ module CI
       # the way).
       ENV['PANGEA_ARCH_BIN_ONLY'] = 'false'
 
-      PackageBuilder::RESOLVER.expects(:resolve)
-                              .with('build')
-                              .raises(RuntimeError.new)
-      PackageBuilder::RESOLVER.expects(:resolve)
-                              .with('build', bin_only: true)
-                              .returns(true)
+      CI::DependencyResolver.expects(:resolve)
+                             .with('build')
+                             .raises(RuntimeError.new)
+      CI::DependencyResolver.expects(:resolve)
+                             .with('build', bin_only: true)
+                             .returns(true)
 
       builder = PackageBuilder.new
       builder.build
@@ -193,9 +193,9 @@ module CI
 
       DPKG.stubs(:architecture).returns('arm64')
 
-      PackageBuilder::RESOLVER.expects(:resolve)
-                              .with('build', bin_only: true)
-                              .returns(true)
+      CI::DependencyResolver.expects(:resolve)
+                            .with('build', bin_only: true)
+                            .returns(true)
 
       builder = PackageBuilder.new
       builder.build

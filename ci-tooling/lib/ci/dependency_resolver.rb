@@ -27,7 +27,7 @@ require_relative '../../../lib/tty_command'
 
 module CI
   # Resolves build dependencies and installs them.
-  class DependencyResolver
+  class DependencyResolverPBuilder
     class ResolutionError < RuntimeError; end
 
     RESOLVER_BIN = '/usr/lib/pbuilder/pbuilder-satisfydepends'
@@ -58,7 +58,7 @@ module CI
     end
   end
 
-  class DependencyResolverAPT < DependencyResolver
+  class DependencyResolverAPT < DependencyResolverPBuilder
     RESOLVER_BIN = '/usr/bin/apt-get'
 
     def self.resolve(dir, bin_only: false, retries: 5, arch: nil)
@@ -78,4 +78,13 @@ module CI
       end
     end
   end
+
+  # pbuilder resolver is here for fallback should it be temporarily necessary
+  # for whatever reason. Generally speaking the apt resolver is faster and
+  # should be more reliable though!
+  DependencyResolver = if ENV['PANGEA_PBUILDER_RESOLVER']
+                         DependencyResolverPBuilder
+                       else
+                         DependencyResolverAPT
+                       end
 end
