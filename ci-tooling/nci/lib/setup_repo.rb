@@ -83,6 +83,7 @@ module NCI
     cmake_line = 'deb https://apt.kitware.com/ubuntu/ focal main'
     raise 'Failed to import cmake key' unless Apt::Key.add(cmake_key)
     raise 'Failed to add cmake repo' unless Apt::Repository.add(cmake_line)
+    Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
   end
 
   def setup_proxy!
