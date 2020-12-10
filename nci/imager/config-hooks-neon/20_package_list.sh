@@ -7,5 +7,6 @@ shim-signed
 grub-efi-amd64-signed
 grub-efi-ia32-bin
 konsole
+calamares-settings
 neon-desktop
 EOF
