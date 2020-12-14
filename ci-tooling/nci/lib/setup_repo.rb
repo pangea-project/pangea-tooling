@@ -81,8 +81,11 @@ module NCI
 
     cmake_key = '6D90 3995 424A 83A4 8D42  D53D A8E5 EF3A 0260 0268'
     cmake_line = 'deb https://apt.kitware.com/ubuntu/ focal main'
-    raise 'Failed to import cmake key' unless Apt::Key.add(cmake_key)
+    Retry.retry_it(times: 3, sleep: 8) do
+      raise 'Failed to import cmake key' unless Apt::Key.add(cmake_key)
+    end
     raise 'Failed to add cmake repo' unless Apt::Repository.add(cmake_line)
+
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     # may be installed in base image
     raise unless Apt.install('cmake')
