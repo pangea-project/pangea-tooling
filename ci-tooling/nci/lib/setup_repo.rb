@@ -72,7 +72,7 @@ module NCI
     setup_experimental! if ENV.fetch('TYPE').include?('experimental')
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
     # Make sure we have the latest pkg-kde-tools, not whatever is in the image.
-    raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools])
+    raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools debhelper])
 
     # Qt6 Hack
     return unless %w[_qt6_bin_ _qt6_src].any? do |x|

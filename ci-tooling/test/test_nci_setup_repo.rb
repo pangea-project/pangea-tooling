@@ -104,7 +104,7 @@ class NCISetupRepoTest < TestCase
 
     system_calls += [
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools', 'debhelper']
     ]
 
     system_sequence = sequence('system-calls')
@@ -135,7 +135,7 @@ class NCISetupRepoTest < TestCase
       ['add-apt-repository', '--no-update', '-y',
        'deb http://archive.neon.kde.org/unstable vivid main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools']
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools', 'debhelper']
     ]
 
     system_sequence = sequence('system-calls')
