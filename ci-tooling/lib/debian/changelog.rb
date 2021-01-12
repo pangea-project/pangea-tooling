@@ -90,3 +90,7 @@ class Changelog
     @comps[:epoch] += ':' unless @comps[:epoch].empty?
   end
 end
+
+module Debian
+  Changelog = ::Changelog
+end
