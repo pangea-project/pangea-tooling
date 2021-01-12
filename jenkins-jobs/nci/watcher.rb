@@ -42,7 +42,7 @@ class WatcherJob < JenkinsJob
     @scm_writable.url.gsub!('https://invent.kde.org/',
                             'git@invent.kde.org:')
     # Don't touch release-lts for Plasma jobs
-    if KDEProjectsComponent.plasma_jobs.include? project.name
+    if KDEProjectsComponent.plasma_jobs.include?(project.name)
       @scm_writable.branch.replace('Neon/release')
     else
       @scm_writable.branch.replace('Neon/release-lts')
