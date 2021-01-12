@@ -15,6 +15,11 @@ export PATH=$GEM_HOME/bin:$PATH
 rm Gemfile.lock || true
 
 gem install --no-document bundler
+# Put all relevant architectures into the Gemfile.lock otherwise the
+# install might crap on the hosts later on.
+bundle lock --add-platform x86_64-linux
+bundle lock --add-platform arm-linux
+bundle lock --add-platform aarch64-linux
 bundle pack --all-platforms --no-install
 # Strip directories out of the cache.
 # Git sources are left in there unpacked which prevents them from being installed into the system path.
