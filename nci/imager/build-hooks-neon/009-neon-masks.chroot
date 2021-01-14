@@ -28,3 +28,9 @@ fi
 # up with the real adwaita
 apt-get install --purge -y neon-adwaita
 apt-mark auto neon-adwaita
+
+# TODO HACK temporary measure to test nomodeset without having it install for regular seeds @sitter
+if [[ ${VERSION,,} = unstable* ]]; then
+  apt-get install -y kde-nomodeset
+  apt-mark auto kde-nomodeset
+fi
