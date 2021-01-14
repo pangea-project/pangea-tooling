@@ -8,11 +8,6 @@ set -e
 
 . /etc/os-release
 
-if [ "$VERSION_ID" = "xenial" ]; then
-  echo "not masking packages on xenial -> skipping"
-  exit 0
-fi
-
 # This is canonical support stuff. Not useful and probably also not offered.
 # Our mask removes the ubuntu version.
 # It's being installed by debootstrap, so we'll have to manually rip it out
