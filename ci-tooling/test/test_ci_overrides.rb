@@ -21,7 +21,7 @@ module CI
     def test_pattern_match
       # FIXME: this uses live data
       o = Overrides.new([data('o1.yaml')])
-      scm = SCM.new('git', 'git://invent.kde.org/kde/kitten', 'kubuntu_stable')
+      scm = SCM.new('git', 'git://packaging.neon.kde.org.uk/plasma/kitten', 'kubuntu_stable')
       overrides = o.rules_for_scm(scm)
       refute_nil overrides
       assert_equal({"upstream_scm"=>{"branch"=>"Plasma/5.5"}}, overrides)
