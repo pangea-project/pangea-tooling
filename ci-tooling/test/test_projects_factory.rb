@@ -264,12 +264,12 @@ class ProjectsFactoryTest < TestCase
   end
 
   def test_neon_understand
-    assert ProjectsFactory::Neon.understand?('packaging.neon.kde.org.uk')
+    assert ProjectsFactory::Neon.understand?('invent.kde.org/neon')
     refute ProjectsFactory::Neon.understand?('git.debian.org')
   end
 
   def test_neon_unknown_array_content
-    factory = ProjectsFactory::Neon.new('packaging.neon.kde.org.uk')
+    factory = ProjectsFactory::Neon.new('invent.kde.org/neon')
 
     assert_raise RuntimeError do
       factory.factorize([1])
@@ -284,7 +284,7 @@ class ProjectsFactoryTest < TestCase
     # disable neon listing.
     mock_kde_invent_api!(nil)
 
-    factory = ProjectsFactory::Neon.new('packaging.neon.kde.org.uk')
+    factory = ProjectsFactory::Neon.new('invent.kde.org/neon')
     projects = factory.factorize(%w[frameworks/attica])
 
     refute_nil(projects)
@@ -317,7 +317,7 @@ class ProjectsFactoryTest < TestCase
 
     CI::Overrides.default_files = [ data('override1.yaml'),
                                     data('override2.yaml') ]
-    factory = ProjectsFactory::Neon.new('packaging.neon.kde.org.uk')
+    factory = ProjectsFactory::Neon.new('invent.kde.org/neon')
 
     # This uses new_project directly as we otherwise have no way to set
     # overrides right now.

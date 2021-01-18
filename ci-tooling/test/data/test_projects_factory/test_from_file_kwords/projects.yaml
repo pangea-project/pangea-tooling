@@ -1,4 +1,4 @@
-packaging.neon.kde.org.uk:
+invent.kde.org/neon:
   - qt:
     - '*':
         branch: kubuntu_vivid_mobile

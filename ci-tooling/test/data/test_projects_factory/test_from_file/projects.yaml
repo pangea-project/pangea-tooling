@@ -1,4 +1,4 @@
-packaging.neon.kde.org.uk:
+invent.kde.org/neon:
   - frameworks/attica
   - plasma:
     - '*'
