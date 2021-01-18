@@ -26,10 +26,10 @@ module NCI
       PackageVersionCheck.cmd = stub('VersionsTest.cmd')
                                   .responds_like_instance_of(TTY::Command)
       VersionsTest.reset!
-      stub_request(:get, 'https://packaging.neon.kde.org/neon/settings.git/plain/etc/apt/preferences.d/99-focal-overrides?h=Neon/release-lts').
+      stub_request(:get, 'https://invent.kde.org/neon/neon/settings/-/raw/Neon/release-lts/etc/apt/preferences.d/99-focal-overrides').
           with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
           to_return(status: 200, body: "Package: aptdaemon\nPin: release o=Ubuntu\nPin-Priority: 1100\n\nPackage: aptdaemon-data\nPin: release o=Ubuntu\nPin-Priority: 1100", headers: {'Content-Type'=> 'text/plain'})
-      stub_request(:get, 'https://packaging.neon.kde.org/neon/settings.git/plain/etc/apt/preferences.d/50-neon-mariadb?h=Neon/release-lts').
+      stub_request(:get, 'https://invent.kde.org/neon/neon/settings/-/raw/Neon/release-lts/etc/apt/preferences.d/50-neon-mariadb').
           with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
           to_return(status: 200, body: "Package: mysql-client-core-8.0\nPin: origin \"archive.neon.kde.org\"\nPin-Priority: 1100\n\nPackage: mysql-server-core-8.0\nPin: origin \"archive.neon.kde.org\"\nPin-Priority: 1100", headers: {'Content-Type'=> 'text/plain'})
 

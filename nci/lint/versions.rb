@@ -164,7 +164,7 @@ module NCI
 
     def self.override_packages
       @@override_packages ||= begin
-        url = "https://packaging.neon.kde.org/neon/settings.git/plain/etc/apt/preferences.d/50-neon-mariadb?h=Neon/release-lts"
+        url = "https://invent.kde.org/neon/neon/settings/-/raw/Neon/release-lts/etc/apt/preferences.d/50-neon-mariadb"
         response = HTTParty.get(url)
         response.parsed_response
         override_packages = []
@@ -205,7 +205,7 @@ module NCI
     # Download and parse the neon-settings bionic->focal pin override file
     def self.override_packages
       @@override_packages ||= begin
-        url = "https://packaging.neon.kde.org/neon/settings.git/plain/etc/apt/preferences.d/99-focal-overrides?h=Neon/release-lts"
+        url = "https://invent.kde.org/neon/neon/settings/-/raw/Neon/release-lts/etc/apt/preferences.d/99-focal-overrides"
         response = HTTParty.get(url)
         response.parsed_response
         override_packages = []
@@ -213,7 +213,7 @@ module NCI
           match = line.match(/Package: (.*)/)
           override_packages << match[1] if match&.length == 2
         end
-        url = "https://packaging.neon.kde.org/neon/settings.git/plain/etc/apt/preferences.d/50-neon-mariadb?h=Neon/release-lts"
+        url = "https://invent.kde.org/neon/neon/settings/-/raw/Neon/release-lts/etc/apt/preferences.d/50-neon-mariadb"
         response = HTTParty.get(url)
         response.parsed_response
         response.each_line do |line|
