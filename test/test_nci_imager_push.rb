@@ -54,6 +54,10 @@ module NCI
         FileUtils.mkdir(File.join(pwd, dir), verbose: true)
       end
 
+      def remove!(file)
+        FileUtils.rm_f(File.join(pwd, file), verbose: true)
+      end
+
       def mkpath(path)
         FileUtils.mkpath(File.join(pwd, path), verbose: true)
       end
