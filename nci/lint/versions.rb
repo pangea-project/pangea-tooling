@@ -164,27 +164,10 @@ module NCI
         err.include?('does not have a stable CLI interface')
     end
 
-    def self.override_packages
-      @@override_packages ||= begin
-        url = "https://invent.kde.org/neon/neon/settings/-/raw/Neon/release-lts/etc/apt/preferences.d/50-neon-mariadb"
-        response = HTTParty.get(url)
-        response.parsed_response
-        override_packages = []
-        response.each_line do |line|
-          match = line.match(/Package: (.*)/)
-          override_packages << match[1] if match&.length == 2
-        end
-        override_packages
-      end
-    end
-
     def run
       theirs = their_version
       ours = our_version
-      PackageVersionCheck.override_packages
 
-      # already pinned in neon-settings
-      return if @@override_packages.include?(pkg.name)
       return unless theirs # failed to find the package, we win.
       return if ours > theirs
 
@@ -206,28 +189,6 @@ module NCI
   end
 
   class PackageUpgradeVersionCheck < PackageVersionCheck
-    # Download and parse the neon-settings bionic->focal pin override file
-    def self.override_packages
-      @@override_packages ||= begin
-        url = "https://invent.kde.org/neon/neon/settings/-/raw/Neon/release-lts/etc/apt/preferences.d/99-focal-overrides"
-        response = HTTParty.get(url)
-        response.parsed_response
-        override_packages = []
-        response.each_line do |line|
-          match = line.match(/Package: (.*)/)
-          override_packages << match[1] if match&.length == 2
-        end
-        url = "https://invent.kde.org/neon/neon/settings/-/raw/Neon/release-lts/etc/apt/preferences.d/50-neon-mariadb"
-        response = HTTParty.get(url)
-        response.parsed_response
-        response.each_line do |line|
-          match = line.match(/Package: (.*)/)
-          override_packages << match[1] if match&.length == 2
-        end
-        override_packages
-      end
-    end
-
     def self.future_packages
       @@future_packages ||= begin
         @repo = Aptly::Repository.get("#{ENV.fetch('TYPE')}_#{ENV.fetch('DIST')}")
@@ -258,11 +219,6 @@ module NCI
       ours = our_version # neon xenial from aptly
       return unless theirs # failed to find the package, we win.
       return if ours < theirs
-
-      PackageUpgradeVersionCheck.override_packages
-
-      # already pinned in neon-settings
-      return if @@override_packages.include?(pkg.name)
 
       raise VersionNotGreaterError, <<~ERRORMSG
         Current series version of

@@ -138,12 +138,5 @@ foo:
       linter = VersionsTest.new
       linter.send('test_foo_1.0')
     end
-
-    def test_override_packages
-      PackageUpgradeVersionCheck.override_packages
-      override_packages = PackageUpgradeVersionCheck.override_packages
-      assert_equal(["mysql-client-core-8.0", "mysql-server-core-8.0"], override_packages)
-    end
-
   end
 end
