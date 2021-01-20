@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# SPDX-FileCopyrightText: 2017-2020 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2017-2021 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require 'minitest/test'
@@ -40,7 +40,7 @@ module NCI
         "#{ENV.fetch('TYPE')}_#{NCI.old_series}"
       else
         raise "Don't know what old or future is, maybe this job isn't" \
-              " necessary and should be deleted?"
+              ' necessary and should be deleted?'
       end
     end
 
@@ -129,6 +129,7 @@ module NCI
           version = line.split(':', 2)[1].strip
           raise line unless name && !name.empty?
           raise line unless version && !version.empty?
+
           version = version == '(none)' ? nil : Debian::Version.new(version)
           map[name.strip] = version
           name = nil
@@ -142,6 +143,7 @@ module NCI
 
     def self.their_versions
       raise "load_theirs wasn't called" unless @their_versions
+
       @their_versions
     end
 
@@ -180,9 +182,12 @@ module NCI
       theirs = their_version
       ours = our_version
       PackageVersionCheck.override_packages
-      return if @@override_packages.include?(pkg.name) # already pinned in neon-settings
+
+      # already pinned in neon-settings
+      return if @@override_packages.include?(pkg.name)
       return unless theirs # failed to find the package, we win.
       return if ours > theirs
+
       raise VersionNotGreaterError, <<~ERRORMSG
         Our version of
         #{pkg.name} #{ours} < #{theirs}
@@ -201,7 +206,6 @@ module NCI
   end
 
   class PackageUpgradeVersionCheck < PackageVersionCheck
-
     # Download and parse the neon-settings bionic->focal pin override file
     def self.override_packages
       @@override_packages ||= begin
@@ -239,12 +243,14 @@ module NCI
 
     def run
       return if pkg.name.include? 'dbg'
-      # set theirs to ubuntu focal from container apt show, do not report if no package in ubuntu focal
+
+      # set theirs to ubuntu focal from container apt show, do not report
+      # if no package in ubuntu focal
       theirs = their_version || return # Debian::Version.new('0')
       # get future neon (focal) aptly version, set theirs if larger
       PackageUpgradeVersionCheck.future_packages
       neon_future_packages = @@future_packages.select { |x| x.name == "#{pkg.name}" }
-      if neon_future_packages.length > 0
+      if neon_future_packages.positive?
         future_version = Debian::Version.new(neon_future_packages[0].version)
         theirs = future_version if future_version > theirs
       end
@@ -252,8 +258,12 @@ module NCI
       ours = our_version # neon xenial from aptly
       return unless theirs # failed to find the package, we win.
       return if ours < theirs
+
       PackageUpgradeVersionCheck.override_packages
-      return if @@override_packages.include?(pkg.name) # already pinned in neon-settings
+
+      # already pinned in neon-settings
+      return if @@override_packages.include?(pkg.name)
+
       raise VersionNotGreaterError, <<~ERRORMSG
         Current series version of
         #{pkg.name} #{ours} is greater than future series version #{theirs}
@@ -285,6 +295,7 @@ module NCI
       # :nocov:
       def runnable_methods
         return if ENV['PANGEA_UNDER_TEST']
+
         super
       end
       # :nocov:
@@ -296,6 +307,7 @@ module NCI
 
       def lister=(lister)
         raise 'lister mustnt be set twice' if @lister
+
         @lister = lister
         define_tests
       end
@@ -346,5 +358,4 @@ module NCI
       end
     end
   end
-
 end
