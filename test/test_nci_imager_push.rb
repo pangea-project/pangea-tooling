@@ -183,7 +183,7 @@ module NCI
       waitedpid, status = Process.waitpid2(pid)
       assert_equal(pid, waitedpid)
       assert(status.success?)
-
+      Dir.each_child("result") {|x| puts "Got #{x}" }
       assert_path_exist('rsync.kde.org/neon/images/testing/20201123-1425/.message')
       assert_path_exist('rsync.kde.org/neon/images/testing/20201123-1425/neon-testing-20201123-1425.iso')
       assert_path_exist('rsync.kde.org/neon/images/testing/20201123-1425/neon-testing-20201123-1425.iso.sig')
