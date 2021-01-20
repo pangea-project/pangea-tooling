@@ -176,11 +176,13 @@ Net::SFTP.start('rsync.kde.org', 'neon', *ssh_args) do |sftp|
       sftp.cli_uploads = File.new(file).lstat.size > 4 * 1024 * 1024
       warn "Uploading #{file} (via cli: #{sftp.cli_uploads})... "
       sftp.upload!(file, "#{REMOTE_PUB_DIR}/#{name}")
-      sftp.symlink!("#{name}", "#{REMOTE_PUB_DIR}/#{current_name}") unless File.basename(file).include?('current')
+      sftp.symlink!("#{name}", "#{REMOTE_PUB_DIR}/#{current_name}")
     end
   end
   sftp.cli_uploads = false
   sftp.upload!('result/.message', "#{REMOTE_PUB_DIR}/.message")
+  sftp.remove!("#{REMOTE_DIR}/current")
+  sftp.symlink!("#{DATE}", "#{REMOTE_DIR}/current")
 
   sftp.dir.glob(REMOTE_DIR, '*') do |entry|
     next unless entry.directory? # current is a symlink
