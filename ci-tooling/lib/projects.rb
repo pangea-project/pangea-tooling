@@ -232,7 +232,7 @@ class Project
     @upstream_scm = nil if native?(dir)
     @debian = true
   rescue => e
-    raise e.exception("#{e.message}\nWhile working on #{dir}/debian")
+    raise e.exception("#{e.message}\nWhile working on #{dir}/debian -- #{name}")
   end
 
   def init_from_source(dir)
