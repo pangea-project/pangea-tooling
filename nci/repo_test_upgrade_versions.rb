@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'lint/versions'
+require_relative 'lint/upgrade_versions'
 
 # test versions in current_series (xenial) neon builds are all smaller than
 # in future_series (focal) ubuntu + neon builds
