@@ -19,7 +19,6 @@ module WorkspaceCleaner
     # multiple architectures we need to match /dci-armhf/ as well.
     DEFAULT_WORKSPACE_PATHS = ["#{Dir.home}/workspace",
                                "#{Dir.home}/dci*/workspace",
-                               "#{Dir.home}/mci*/workspace",
                                "#{Dir.home}/nci*/workspace",
                                "#{Dir.home}/xci*/workspace"].freeze
 

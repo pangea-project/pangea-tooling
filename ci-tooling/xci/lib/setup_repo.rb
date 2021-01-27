@@ -25,7 +25,7 @@ require_relative '../../lib/dpkg'
 require_relative '../../lib/lsb'
 require_relative '../../lib/retry'
 
-# Mobile CI specific helpers.
+# Xenon CI specific helpers.
 module XenonCI
   module_function
 

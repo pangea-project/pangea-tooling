@@ -30,12 +30,10 @@ class ExecutableTest < TestCase
     ci-tooling/bin
     ci-tooling/ci
     ci-tooling/dci
-    ci-tooling/mci
     ci-tooling/nci
     ci-tooling/xci
     dci
     lib/libexec
-    mci
     nci
     mgmt
     overlay-bin

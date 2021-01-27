@@ -34,9 +34,6 @@ def setup_logger(name)
   $stderr = tee
 end
 
-# NCI and mobile *can* have series overlap, they both use ubuntu as a base
-# though, so union the series keys and create images for the superset.
-
 pid_map = {}
 
 p ENV
@@ -44,8 +41,6 @@ warn "debian only: #{ENV.include?('PANGEA_DEBIAN_ONLY')}"
 warn "ubuntu only: #{ENV.include?('PANGEA_UBUNTU_ONLY')}"
 warn "nci current?: #{ENV.include?('PANGEA_NEON_CURRENT_ONLY')}"
 
-# mobile CI is not covered. Bhushan wants to remove the CI entirely and in the
-# meantime we can avoid bionic images by not mixing MCI requirements in.
 ubuntu_series = NCI.series.keys
 ubuntu_series = [NCI.current_series] if ENV.include?('PANGEA_NEON_CURRENT_ONLY')
 ubuntu_series = [] if ENV.include?('PANGEA_DEBIAN_ONLY')

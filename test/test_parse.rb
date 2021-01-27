@@ -32,11 +32,9 @@ class ParseTest < TestCase
     jenkins-jobs
     lib
     nci
-    mci
     test
     ci-tooling/dci
     ci-tooling/lib
-    ci-tooling/mci
     ci-tooling/nci
     ci-tooling/test
     overlay-bin

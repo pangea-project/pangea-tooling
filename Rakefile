@@ -45,12 +45,10 @@ SOURCE_DIRS = %w[
   ci-tooling/ci
   ci-tooling/dci
   ci-tooling/lib
-  ci-tooling/mci
   ci-tooling/nci
   dci
   jenkins-jobs
   lib
-  mci
   nci
   mgmt
   overlay-bin

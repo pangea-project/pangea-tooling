@@ -33,8 +33,7 @@ end
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
   MODULE_MAP = {
-    dci: DCI,
-    mci: MCI
+    dci: DCI
   }.freeze
 
   def initialize(flavor:)
@@ -108,10 +107,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     tooling_test =
       enqueue(MGMTToolingTestJob.new(downstreams: [tooling_deploy]))
-    if @flavor == :mci
-      enqueue(MGMTGitJewellerJob.new)
-      enqueue(MGMTGitSemaphoreJob.new)
-    end
     enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_test]))
     enqueue(MgmtProgenitorJob.new(downstream_jobs: all_meta_builds))
     enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
@@ -120,10 +115,10 @@ end
 
 if $PROGRAM_NAME == __FILE__
   options = {}
-  options[:flavor] = :mci
+  options[:flavor] = :dci
   OptionParser.new do |opts|
-    opts.on('--ci [flavor]', [:dci, :mci],
-            'Run for CI flavor (dci, mci)') do |f|
+    opts.on('--ci [flavor]', [:dci],
+            'Run for CI flavor (dci)') do |f|
       options[:flavor] = f
     end
   end.parse!
