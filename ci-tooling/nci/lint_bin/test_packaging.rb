@@ -16,7 +16,7 @@ module Lint
       @dir = 'build'
     end
 
-    %i[Control Series Symbols Lintian].each do |klass_name|
+    %i[Control Series Symbols].each do |klass_name|
       # Because this is invoked as a kind of blackbox test we'd have a really
       # hard time of testing lintian without either tangling the test up
       # with the build test or adding binary artifacts to the repo. I dislike
