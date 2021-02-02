@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+# SPDX-FileCopyrightText: 2016-2021 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
 require_relative '../lib/lint/log'
 require_relative 'lib/testcase'
 
@@ -19,11 +23,10 @@ class LintLogTest < TestCase
       warnings += r.warnings.size
       errors += r.errors.size
     end
-    # one I and one N from lintian
-    assert_equal(2, infos)
-    # two W from lintian, one cmake package
-    assert_equal(4, warnings)
-    # one E from lintian, two list-missing files, one dh_missing
+    assert_equal(0, infos)
+    # one cmake package warning
+    assert_equal(1, warnings)
+    # two list-missing files, one dh_missing
     assert_equal(3, errors)
   end
 

@@ -9,6 +9,11 @@ class NCILintBinTest < TestCase
   def setup
     ENV.delete('BUILD_URL')
     ENV['SIMPLECOV_ROOT'] = SimpleCov.root
+    # Linitian testing is really hard to get to run sensibly since lintian
+    # itself will want to unpack sources and compare debs and whatnot.
+    # So we skip it in the hopes that it won't break API. The actual
+    # functionality is tested in lintian's own unit test
+    ENV['PANGEA_TEST_NO_LINTIAN'] = '1'
   end
 
   def run!

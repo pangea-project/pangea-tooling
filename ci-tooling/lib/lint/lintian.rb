@@ -1,0 +1,168 @@
+# frozen_string_literal: true
+# SPDX-FileCopyrightText: 2016-2021 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2020 Jonathan Riddell <jr@jriddell.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
+require 'tty/command'
+
+require_relative 'linter'
+
+module Lint
+  # Lintian log linter
+  class Lintian < Linter
+    TYPE = ENV.fetch('TYPE', '')
+    EXCLUSION = [
+      # Our names are very long because our versions are very long because
+      # we usually include some form of time stamp as well as extra sugar.
+      'source-package-component-has-long-file-name',
+      'package-has-long-file-name',
+      # We really do not care about standards versions for now. They only ever
+      # get bumped by the pkg-kde team anyway.
+      'out-of-date-standards-version',
+      'newer-standards-version',
+      'ancient-standards-version',
+      # We package an enormous amount of GUI apps without manpages (in fact
+      # they arguably wouldn't even make sense what with being GUI apps). So
+      # ignore any and all manpage warnings to save Harald from having to
+      # override them in every single application repository.
+      'binary-without-manpage',
+      # Equally we don't really care enough about malformed manpages.
+      'manpage-has-errors-from-man',
+      'manpage-has-bad-whatis-entry',
+      # We do also not care about correct dep5 format as we do nothing with
+      # it.
+      'dep5-copyright-license-name-not-unique',
+      'missing-license-paragraph-in-dep5-copyright',
+      'global-files-wildcard-not-first-paragraph-in-dep5-copyright',
+      'debian-revision-should-not-be-zero',
+      # Lintian doesn't necessarily know the distros we talk about.
+      'bad-distribution-in-changes-file',
+      # On dev editions we actually pack x-test for testing purposes.
+      'unknown-locale-code x-test',
+      # We entirely do not care about random debian transitions but defer
+      # to KDE developer's judgment.
+      'script-uses-deprecated-nodejs-location',
+      # Maybe it should, maybe we just don't care. In particular since this is
+      # an error but really it is not even making a warning in my mind.
+      'copyright-should-refer-to-common-license-file-for-lgpl',
+
+      # libkdeinit5 never needs ldconfig triggers actually
+      %r{E: (\w+): package-must-activate-ldconfig-trigger (.+)/libkdeinit5_(.+).so},
+      # While this is kind of a concern it's not something we can do anything
+      # about on a packaging level and getting this sort of stuff takes ages,
+      # judging from past experiences.
+      'inconsistent-appstream-metadata-license',
+      'incomplete-creative-commons-license'
+    ].freeze
+
+    def initialize(package_directory = Dir.pwd,
+                   cmd: TTY::Command.new(printer: :null))
+      @package_directory = package_directory
+      @cmd = cmd
+      super()
+    end
+
+    def lint
+      @result = Result.new
+      @result.valid = true
+      data.each do |line|
+        lint_line(mangle(line), @result)
+      end
+      @result
+    end
+
+    private
+
+    def changes_file
+      '../.lintian.changes'
+    end
+
+    # called with chdir inside packaging dir
+    def dpkg_genchanges
+      raise 'Found no dsc :O' if Dir.glob('../*dsc').empty?
+
+      @cmd.run('dpkg-genchanges', "-O#{changes_file}")
+    end
+
+    # called with chdir inside packaging dir
+    def lintian
+      result = @cmd.run!('lintian', '--allow-root', changes_file)
+      if result.failure?
+        warn 'lintian exited !0, outputs were' + result.out + "\n" + result.err
+      end
+      result.out.split("\n")
+    end
+
+    def data
+      @data ||= Dir.chdir(@package_directory) do
+        dpkg_genchanges
+        lintian
+      end
+    end
+
+    def mangle(line)
+      # Lintian has errors that aren't so let's mangle the lot.
+      # Nobody cares for stupid noise.
+      line.gsub(/^\s*E: /, 'W: ')
+    end
+
+    def exclusion
+      @exclusion ||= begin
+        ex = EXCLUSION.dup
+        unless %w[release release-lts].include?(TYPE)
+          # For non-release builds we do not care about tarball signatures,
+          # we generated the tarballs anyway (mostly anyway).
+          # FIXME: what about Qt though :(
+          ex << 'orig-tarball-missing-upstream-signature'
+        end
+        ex
+      end
+    end
+
+    def static_exclude?(line)
+      # Always exclude random warnings from lintian itself.
+      return true if line.start_with?('warning: ')
+      # Also silly override reports.
+      return true if line =~ /N: \d+ tags overridden \(.*\)/
+    end
+
+    def exclusion_excluse?(line)
+      exclusion.any? do |e|
+        next line.include?(e) if e.is_a?(String)
+        next line =~ e if e.is_a?(Regexp)
+
+        false
+      end
+    end
+
+    def exclude?(line)
+      # Always exclude certain things.
+      return true if static_exclude?(line)
+      # Main exclusion list, may be slightly different based on ENV[TYPE]
+      return true if exclusion_excluse?(line)
+
+      # Linter based ignore system per-source. Ought not be used anywhere
+      # as I don't think we load anything ever.
+      @ignores.each do |i|
+        next unless i.match?(line)
+
+        return true
+      end
+      false
+    end
+
+    def lint_line(line, result)
+      return if exclude?(line)
+
+      case line[0..1]
+      when 'W:'
+        result.warnings << line
+      when 'E:'
+        result.errors << line
+      when 'I:'
+        result.informations << line
+      end
+      # else: skip
+    end
+  end
+end
