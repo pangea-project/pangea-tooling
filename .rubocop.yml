@@ -51,3 +51,7 @@ Security/YAMLLoad:
 # of Brave Sir Robin.
 Security/Open:
   Enabled: false
+
+Layout/LineLength:
+  # SPDX tags cannot be line broken, ignore them for the purpose of line length!
+  IgnoredPatterns: ['\A# SPDX']
