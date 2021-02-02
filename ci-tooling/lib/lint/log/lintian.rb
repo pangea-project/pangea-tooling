@@ -43,12 +43,6 @@ module Lint
         'bad-distribution-in-changes-file',
         # On dev editions we actually pack x-test for testing purposes.
         'unknown-locale-code x-test',
-        # As of 18.04 this warning is no longer true as transitionals should be
-        # in optional now (extra was deprecated). Skip the old warning for 16.04
-        # the new warning has a different ID and gets raised on 18.04+.
-        'transitional-package-should-be-oldlibs-extra',
-        # Same as transitional above.
-        'debug-package-should-be-priority-extra',
         # We entirely do not care about random debian transitions but defer
         # to KDE developer's judgment.
         'script-uses-deprecated-nodejs-location',
@@ -57,9 +51,6 @@ module Lint
         'copyright-should-refer-to-common-license-file-for-lgpl',
 
         # libkdeinit5 never needs ldconfig triggers actually
-        #   16.04
-        %r{E: (\w+): postinst-must-call-ldconfig (.+)/libkdeinit5_(.+).so},
-        #   18.04
         %r{E: (\w+): package-must-activate-ldconfig-trigger (.+)/libkdeinit5_(.+).so},
         'inconsistent-appstream-metadata-license',
         'incomplete-creative-commons-license'
