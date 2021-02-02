@@ -103,7 +103,27 @@ module Lint
     def mangle(line)
       # Lintian has errors that aren't so let's mangle the lot.
       # Nobody cares for stupid noise.
-      line.gsub(/^\s*E: /, 'W: ')
+      line = line.gsub(/^\s*E: /, 'W: ')
+
+      # If this is a soname mismatch we'll take a closer look at what package
+      # this affects. An actual library package must not contain unexpected
+      # sonames or they need to be explicitly overridden.
+      # This is specifically to guard against cases where
+      #  a) the install rule contained too broad wildcarding matching libraries
+      #     or versions it shouldn't have matched
+      #  b) an unrelated library is shoved into the same binary package, which
+      #     can be fine but needs opting into since two different libraries
+      #     may eventually diverge in so-version, so we cannot assume that this
+      #     is fine, it sometimes is it often isn't.
+      return line unless line.include?('package-name-doesnt-match-sonames')
+
+      line_expr = /\w: (?<package>.+): package-name-doesnt-match-sonames .+/
+      package = line.match(line_expr)&.[](:package)&.strip
+      raise "Failed to parse line #{line}" unless package
+      return line unless package =~ /lib.+\d/
+
+      # Promote this warning to an error if it is a lib package
+      line.gsub(/^\s*W: /, 'E: ')
     end
 
     def exclusion

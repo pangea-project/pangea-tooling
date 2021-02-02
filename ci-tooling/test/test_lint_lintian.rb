@@ -28,4 +28,32 @@ class LintLintianTest < TestCase
       assert_equal(0, r.errors.size)
     end
   end
+
+  def test_lib_error_promotion
+    # soname mismatches on library packages are considered errors,
+    # others are mere warnings.
+    # this helps guard against wrong packaging leading to ABI issues
+    Dir.mkdir('build')
+    # Linter checks for a dsc file first
+    FileUtils.touch('foo.dsc')
+    Dir.chdir('build') do
+      cmd = TTY::Command.new
+      cmd.expects(:run).with('dpkg-genchanges', '-O../.lintian.changes')
+      cmd
+        .expects(:run!)
+        .with { |*args| args[0] == 'lintian' }
+        .returns(TTY::Command::Result.new(0, <<~OUTPUT, ''))
+W: libkcolorpicker0: package-name-doesnt-match-sonames libkColorPicker0.1.4
+W: meow: package-name-doesnt-match-sonames libmeowsa
+        OUTPUT
+      # Exit code 0 or 1 shouldn't make a diff. Lintian will exit 1 if there
+      # are problems, 0 when not - we do run parsing eitherway
+
+      r = Lint::Lintian.new(Dir.pwd, cmd: cmd).lint
+      assert(r.valid)
+      assert_equal(0, r.informations.size)
+      assert_equal(1, r.warnings.size)
+      assert_equal(1, r.errors.size)
+    end
+  end
 end
