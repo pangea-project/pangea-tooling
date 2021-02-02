@@ -14,7 +14,8 @@ module Lint
 
       TYPE = ENV.fetch('TYPE', '')
       EXCLUSION = [
-        # Package names can easily go beyond what shit can suck on, so gag it.
+        # Our names are very long because our versions are very long because
+        # we usually include some form of time stamp as well as extra sugar.
         'source-package-component-has-long-file-name',
         'package-has-long-file-name',
         # We really do not care about standards versions for now. They only ever
@@ -35,11 +36,8 @@ module Lint
         'dep5-copyright-license-name-not-unique',
         'missing-license-paragraph-in-dep5-copyright',
         'global-files-wildcard-not-first-paragraph-in-dep5-copyright',
-        # TODO: check if we still need or want these
-        # next if line.include?('not-binnmuable-any-depends-all')
-        # Lintian is made for stupid people.
-        # FIXME: needs test probably
         'debian-revision-should-not-be-zero',
+        # Lintian doesn't necessarily know the distros we talk about.
         'bad-distribution-in-changes-file',
         # On dev editions we actually pack x-test for testing purposes.
         'unknown-locale-code x-test',
@@ -52,6 +50,9 @@ module Lint
 
         # libkdeinit5 never needs ldconfig triggers actually
         %r{E: (\w+): package-must-activate-ldconfig-trigger (.+)/libkdeinit5_(.+).so},
+        # While this is kind of a concern it's not something we can do anything
+        # about on a packaging level and getting this sort of stuff takes ages,
+        # judging from past experiences.
         'inconsistent-appstream-metadata-license',
         'incomplete-creative-commons-license'
       ].freeze
