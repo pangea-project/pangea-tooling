@@ -1,4 +1,8 @@
 # frozen_string_literal: true
+# SPDX-FileCopyrightText: 2016-2021 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2020 Jonathan Riddell <jr@jriddell.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
 require_relative '../linter'
 require_relative 'build_log_segmenter'
 
