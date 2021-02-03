@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require_relative 'lib/setup_repo'
-require_relative '../lib/ci/build_binary'
+require_relative '../lib/ci/package_builder'
 require_relative '../lib/nci'
 require_relative '../lib/retry'
 require_relative '../../lib/pangea_build_type_config'

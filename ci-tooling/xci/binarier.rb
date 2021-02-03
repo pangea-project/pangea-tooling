@@ -23,7 +23,7 @@
 
 require_relative 'lib/setup_repo'
 require_relative 'lib/setup_env'
-require_relative '../lib/ci/build_binary'
+require_relative '../lib/ci/package_builder'
 
 XenonCI.setup_env!
 XenonCI.setup_repo!
