@@ -27,7 +27,7 @@ parts:
         plugin: cmake
         stage-packages: [foo]
         build-packages: [foo-dev]
-        configflags:
+        cmake-parameters:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
         - "-DCMAKE_INSTALL_PREFIX=/usr"
         - "-DCMAKE_BUILD_TYPE=Release"
