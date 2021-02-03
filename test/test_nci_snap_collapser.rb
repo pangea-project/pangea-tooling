@@ -40,7 +40,7 @@ module NCI::Snap
       BuildSnapPartCollapser.new(part).run
 
       assert_empty(part.build_snaps)
-      assert_includes(part.configflags, '-DCMAKE_FIND_ROOT_PATH=/snap/kblocks/current')
+      assert_includes(part.cmake_parameters, '-DCMAKE_FIND_ROOT_PATH=/snap/kblocks/current')
     end
 
     def test_part_no_cmake

@@ -51,14 +51,14 @@ module NCI
       private
 
       def extend_configflags!
-        part.configflags ||= []
-        part.configflags.reject! do |flag|
+        part.cmake_parameters ||= []
+        part.cmake_parameters.reject! do |flag|
           name, value = flag.split('=', 2)
           next false unless name == '-DCMAKE_FIND_ROOT_PATH'
 
           root_paths << value
         end
-        part.configflags << "-DCMAKE_FIND_ROOT_PATH=#{root_paths.join(';')}"
+        part.cmake_parameters << "-DCMAKE_FIND_ROOT_PATH=#{root_paths.join(';')}"
       end
 
       def extend_xdg_data_dirs!
