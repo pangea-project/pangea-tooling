@@ -100,7 +100,7 @@ module NCI
         attr_accessor :source_tag
         attr_accessor :source_subdir
 
-        attr_accessor :configflags
+        attr_accessor :cmake_parameters
 
         # Array<String>
         attr_accessor :build_attributes

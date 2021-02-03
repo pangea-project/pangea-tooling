@@ -38,6 +38,10 @@ module NCI
         STAGED_CONTENT_PATH = 'https://build.neon.kde.org/job/kde-frameworks-5-core18-release_amd64.snap/lastSuccessfulBuild/artifact/stage-content.json'
         STAGED_DEV_PATH = 'https://build.neon.kde.org/job/kde-frameworks-5-core18-release_amd64.snap/lastSuccessfulBuild/artifact/stage-dev.json'
       end
+      module Core20
+        STAGED_CONTENT_PATH = 'https://build.neon.kde.org/job/kde-frameworks-5-qt-5-15-core20-release_amd64.snap/lastSuccessfulBuild/artifact/stage-content.json'
+        STAGED_DEV_PATH = 'https://build.neon.kde.org/job/kde-frameworks-5-qt-5-15-core20-release_amd64.snap/lastSuccessfulBuild/artifact/stage-dev.json'
+      end
 
       class << self
         def extend(file)
@@ -70,6 +74,9 @@ module NCI
 
       def setup_base
         case data['base']
+        when 'core20'
+          @base = Core20
+          raise 'Trying to build core20 snap on not 18.04' unless focal?
         when 'core18'
           @base = Core18
           raise 'Trying to build core18 snap on not 18.04' unless bionic?
@@ -79,6 +86,10 @@ module NCI
         else
           raise "Do not know how to handle base value #{data[base].inspects}"
         end
+      end
+
+      def focal?
+        ENV.fetch('DIST') == 'focal'
       end
 
       def bionic?
