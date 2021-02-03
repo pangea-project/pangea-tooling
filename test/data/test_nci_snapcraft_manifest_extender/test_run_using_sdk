@@ -35,7 +35,7 @@ parts:
         plugin: cmake
         stage-packages: [foobar]
         build-packages: [foobar]
-        configflags:
+        cmake-parameters:
         - "-DCMAKE_FIND_ROOT_PATH=/snap/kde-frameworks-5-core18-sdk/current"
         - "-DCMAKE_INSTALL_PREFIX=/usr"
         - "-DCMAKE_BUILD_TYPE=Release"

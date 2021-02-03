@@ -27,5 +27,5 @@ parts:
     prime:
     - "$exclusion"
     source: https://anongit.kde.org/kblocks.git
-    configflags:
+    cmake-parameters:
     - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"

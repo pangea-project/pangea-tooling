@@ -13,6 +13,6 @@ parts:
         build-packages: [libkf5kdegames-dev]
         plugin: cmake
         source: https://anongit.kde.org/kblocks.git
-        configflags:
+        cmake-parameters:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
 
