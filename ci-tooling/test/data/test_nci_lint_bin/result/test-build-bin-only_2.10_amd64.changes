@@ -1,0 +1,25 @@
+Format: 1.8
+Date: Sun, 22 Mar 2015 11:56:00 +0100
+Source: test-build-bin-only
+Binary: test-build-bin-only
+Architecture: amd64
+Version: 2.10
+Distribution: unstable
+Urgency: low
+Maintainer: Santiago Vila <sanvila@debian.org>
+Changed-By: Santiago Vila <sanvila@debian.org>
+Description:
+ test-build-bin-only - example package based on GNU hello
+Changes:
+ test-build-bin-only (2.10) unstable; urgency=low
+ .
+   * New upstream release.
+Checksums-Sha1:
+ d53aef0a9fbba9a40191226711beae4fbae270f6 6991 test-build-bin-only_2.10_amd64.buildinfo
+ a9e7526accd28a8a2f710b7d3d2036975e81ca00 1360 test-build-bin-only_2.10_amd64.deb
+Checksums-Sha256:
+ 2c3d3be04250b42cb2c6c0d4c81b316a3794cb58f29258003b180e6d9aec08f4 6991 test-build-bin-only_2.10_amd64.buildinfo
+ fd78001a9b943ce70fb969841cc31fe84d09b075297e0e260c72c38a6d67ba66 1360 test-build-bin-only_2.10_amd64.deb
+Files:
+ ae22a028c857b0b40b7de5dae3f2aad1 6991 devel optional test-build-bin-only_2.10_amd64.buildinfo
+ 51f48345b8c130e831ae8b22d3e7b7e5 1360 devel optional test-build-bin-only_2.10_amd64.deb

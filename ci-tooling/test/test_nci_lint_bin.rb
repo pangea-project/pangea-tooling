@@ -8,6 +8,10 @@ require_relative 'lib/testcase'
 class NCILintBinTest < TestCase
   def setup
     ENV.delete('BUILD_URL')
+    # This test cannot run by its lonesome because we need coverage merging
+    # but that requires simplecov to be set up which currently is done by the
+    # test-unit helper thingy but that cannot be included in random files.
+    # Rock and a hard place.
     ENV['SIMPLECOV_ROOT'] = SimpleCov.root
     # Linitian testing is really hard to get to run sensibly since lintian
     # itself will want to unpack sources and compare debs and whatnot.
@@ -30,10 +34,12 @@ class NCILintBinTest < TestCase
 
   description 'should work with a good url'
   def test_run
-    ENV['BUILD_URL'] = data
+    ENV['BUILD_URL'] = data # works because open-uri is smart about paths too
 
     FileUtils.mkpath('build') # Dump a fake debian in.
     FileUtils.cp_r("#{datadir}/debian", "#{Dir.pwd}/build")
+    # And also a results dir with some data
+    FileUtils.cp_r("#{datadir}/result", Dir.pwd)
 
     output = run!
 

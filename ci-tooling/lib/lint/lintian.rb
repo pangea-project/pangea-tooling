@@ -55,9 +55,9 @@ module Lint
       'incomplete-creative-commons-license'
     ].freeze
 
-    def initialize(package_directory = Dir.pwd,
+    def initialize(changes_directory = Dir.pwd,
                    cmd: TTY::Command.new(printer: :null))
-      @package_directory = package_directory
+      @changes_directory = changes_directory
       @cmd = cmd
       super()
     end
@@ -73,15 +73,12 @@ module Lint
 
     private
 
-    def changes_file
-      '../.lintian.changes'
-    end
-
     # called with chdir inside packaging dir
-    def dpkg_genchanges
-      raise 'Found no dsc :O' if Dir.glob('../*dsc').empty?
+    def changes_file
+      files = Dir.glob("#{@changes_directory}/*.changes")
+      raise "Found not exactly one changes: #{files}" if files.size != 1
 
-      @cmd.run('dpkg-genchanges', "-O#{changes_file}")
+      files[0]
     end
 
     # called with chdir inside packaging dir
@@ -94,10 +91,7 @@ module Lint
     end
 
     def data
-      @data ||= Dir.chdir(@package_directory) do
-        dpkg_genchanges
-        lintian
-      end
+      @data ||= lintian
     end
 
     def mangle(line)
