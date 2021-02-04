@@ -1,5 +1,5 @@
-[submodule "ci-tooling/data/projects"]
-	path = ci-tooling/data/projects
+[submodule "data/projects"]
+	path = data/projects
 	url = https://github.com/pangea-project/pangea-conf-projects.git
 	branch = master
 	ignore = all
