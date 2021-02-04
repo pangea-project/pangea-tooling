@@ -21,7 +21,7 @@ module Lint
       @dir = 'build' # default dir
       # dir override per class
       @klass_to_dir = {
-        Lintian: '.' # lint on the source's changes
+        Lintian => '.' # lint on the source's changes
       }
     end
 
@@ -40,7 +40,7 @@ module Lint
           def test_#{klass_name.downcase}_#{meth_type}
             log_klass = #{klass_name}
             assert_meth = "assert_#{meth_type}".to_sym
-            dir = @klass_to_dir.fetch(klass_name, @dir)
+            dir = @klass_to_dir.fetch(log_klass, @dir)
 
             # NB: test-unit runs each test in its own instance, this means we
             # need to use a class variable as otherwise the cache wouldn't
