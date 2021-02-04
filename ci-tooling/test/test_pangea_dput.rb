@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+# SPDX-FileCopyrightText: 2016-2021 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2016 Rohan Garg <rohan@garg.io>
+
 require 'net/ssh/gateway'
 require 'vcr'
 require 'webmock'
@@ -12,7 +17,7 @@ class PangeaDPutTest < TestCase
   def setup
     VCR.turn_off!
     WebMock.disable_net_connect!
-    @dput = File.join(__dir__, '../bin/pangea_dput')
+    @dput = File.join(__dir__, '../ci/pangea_dput')
     ARGV.clear
   end
 

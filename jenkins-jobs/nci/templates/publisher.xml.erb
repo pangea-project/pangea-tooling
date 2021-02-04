@@ -88,7 +88,7 @@ fi
 
         GATEWAY="ssh://neonarchives@archive-api.neon.kde.org/srv/neon-services/aptly.sock"
 <%  repos = repo_names.uniq.compact.map { |x| "--repo #{x}" }.join(' ') %>
-    ~/tooling/ci-tooling/bin/pangea_dput --gateway $GATEWAY <%= repos %>  *.changes
+    ~/tooling/ci/pangea_dput --gateway $GATEWAY <%= repos %>  *.changes
 
       </command>
     </hudson.tasks.Shell>

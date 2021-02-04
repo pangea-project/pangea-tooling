@@ -82,7 +82,7 @@ stage('publish') {
       sh 'ls -lahR'
 
       gateway = "ssh://aptly@localhost/home/aptly/aptly.socket"
-      sh "~/tooling/ci-tooling/bin/pangea_dput --gateway ${gateway} --repo <%= type %>_<%= distribution %> *.changes"
+      sh "~/tooling/ci/pangea_dput --gateway ${gateway} --repo <%= type %>_<%= distribution %> *.changes"
     }
   }
 }
