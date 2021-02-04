@@ -54,14 +54,14 @@
            arch=$(dpkg --print-architecture)
            export DIST_RELEASE=<%= release %>
            if [[ $arch =~ ^arm ]]; then
-             ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
+             ~/tooling/dci/priv_contain.rb /tooling/dci/imager.rb
              export RESULT=$(ls result/)
              echo $RESULT
              cd result/
              pigz $RESULT
              cd ../
            else
-             ~/tooling/dci/priv_contain.rb /tooling/ci-tooling/dci/imager.rb
+             ~/tooling/dci/priv_contain.rb /tooling/dci/imager.rb
            fi
       </command>
     </hudson.tasks.Shell>

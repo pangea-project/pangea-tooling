@@ -10,8 +10,8 @@ require 'net/ssh'
 require 'tmpdir'
 require 'tty-command'
 
-require_relative '../ci-tooling/lib/debian/release'
-require_relative '../ci-tooling/lib/nci'
+require_relative '../lib/debian/release'
+require_relative '../lib/nci'
 require_relative '../lib/rsync'
 require_relative 'lib/asgen_remote'
 

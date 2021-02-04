@@ -19,7 +19,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative '../job'
-require_relative '../../ci-tooling/lib/nci'
+require_relative '../../lib/nci'
 require_relative '../../lib/kdeproject_component'
 
 # Watches for releases.

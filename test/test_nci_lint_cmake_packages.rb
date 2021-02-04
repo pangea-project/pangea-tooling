@@ -18,9 +18,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 
-require_relative '../ci-tooling/lib/apt'
+require_relative '../lib/apt'
 
 require 'mocha/test_unit'
 
@@ -39,7 +39,7 @@ module NCI
       pid = fork do
         # Needed so we can properly mock before loading the binary.
         require_relative '../nci/lint/cmake_packages'
-        require_relative '../ci-tooling/nci/lib/setup_repo'
+        require_relative '../nci/lib/setup_repo'
 
         ENV['TYPE'] = 'release'
         ENV['DIST'] = 'xenial'

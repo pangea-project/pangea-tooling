@@ -9,8 +9,8 @@ require 'erb'
 require 'jenkins_junit_builder'
 require 'net/sftp'
 
-require_relative '../ci-tooling/lib/aptly-ext/filter'
-require_relative '../ci-tooling/lib/aptly-ext/package'
+require_relative '../lib/aptly-ext/filter'
+require_relative '../lib/aptly-ext/package'
 require_relative '../lib/aptly-ext/remote'
 require_relative 'version_list/violations'
 

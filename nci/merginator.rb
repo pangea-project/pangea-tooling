@@ -24,10 +24,10 @@ require 'tty/logger'
 require 'git'
 require 'rugged'
 
-require_relative '../ci-tooling/lib/debian/control'
-require_relative '../ci-tooling/lib/debian/uscan'
-require_relative '../ci-tooling/lib/debian/version'
-require_relative '../ci-tooling/lib/nci'
+require_relative '../lib/debian/control'
+require_relative '../lib/debian/uscan'
+require_relative '../lib/debian/version'
+require_relative '../lib/nci'
 
 # Merges Qt stuff from debian and bumps versions around [highly experimental]
 

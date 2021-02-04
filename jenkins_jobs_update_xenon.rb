@@ -21,9 +21,9 @@
 
 ENV['JENKINS_CONFIG'] = File.join(Dir.home, '.config/pangea-jenkins.json.xenon')
 
-require_relative 'ci-tooling/lib/xenonci'
-require_relative 'ci-tooling/lib/ci/overrides'
-require_relative 'ci-tooling/lib/projects/factory'
+require_relative 'lib/xenonci'
+require_relative 'lib/ci/overrides'
+require_relative 'lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
 
 Dir.glob(File.expand_path('jenkins-jobs/*.rb', __dir__)).each do |file|
@@ -39,7 +39,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
     @job_queue = Queue.new
     @flavor = 'xenon'
-    @projects_dir = "#{__dir__}/ci-tooling/xenon-data/projects"
+    @projects_dir = "#{__dir__}/xenon-data/projects"
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
     super
   end
@@ -54,7 +54,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def load_overrides!
     # TODO: there probably should be a conflict check so they don't override
     # the same thing.
-    files = Dir.glob("#{__dir__}/ci-tooling/xenon-data/overrides/*.yaml")
+    files = Dir.glob("#{__dir__}/xenon-data/overrides/*.yaml")
     p files
     # raise 'No overrides found?' if files.empty?
     CI::Overrides.default_files += files

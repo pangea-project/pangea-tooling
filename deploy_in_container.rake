@@ -32,7 +32,7 @@ require 'tmpdir'
 
 require_relative 'lib/ci/fake_package'
 require_relative 'lib/rake/bundle'
-require_relative 'ci-tooling/lib/nci'
+require_relative 'lib/nci'
 
 DIST = ENV.fetch('DIST')
 # These will be installed in one-go before the actual deps are being installed.
@@ -91,7 +91,7 @@ def install_fake_pkg(name)
 end
 
 def custom_version_id
-  require_relative 'ci-tooling/lib/dci'
+  require_relative 'lib/dci'
   return unless DCI.series.keys.include?(DIST)
 
   file = '/etc/os-release'
@@ -251,8 +251,8 @@ EOF
       Gem.install('bundler')
     end
 
-    require_relative 'ci-tooling/lib/apt'
-    require_relative 'ci-tooling/lib/retry'
+    require_relative 'lib/apt'
+    require_relative 'lib/retry'
 
     Apt.install(*EARLY_DEPS) || raise
 
@@ -294,7 +294,7 @@ EOF
       # Make sure the parent exists, in case of /var/lib/jenkins on slaves
       # that is not the case for new builds.
       FileUtils.mkpath(File.dirname(compat))
-      FileUtils.ln_s("#{final_path}/ci-tooling", compat, verbose: true)
+      FileUtils.ln_s(final_path, compat, verbose: true)
     end
   end
 

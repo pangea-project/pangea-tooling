@@ -7,7 +7,7 @@ require 'uri'
 require 'net/ssh/gateway'
 require 'date'
 
-require_relative '../ci-tooling/lib/dci'
+require_relative '../lib/dci'
 require_relative '../lib/aptly-ext/remote'
 
 Faraday.default_connection_options =
@@ -24,8 +24,7 @@ Aptly::Ext::Remote.dci do
   @repos = []
   distribution = DCI.latest_series
     DCI.types.each do |type|
-      file =
-        "ci-tooling/data/projects/dci/#{distribution}/#{type}.yaml"
+      file = "data/projects/dci/#{distribution}/#{type}.yaml"
       next unless File.exist?(file)
 
       puts distribution

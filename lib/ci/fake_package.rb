@@ -21,7 +21,7 @@
 require 'tmpdir'
 require 'tty/command'
 
-require_relative '../../ci-tooling/lib/dpkg'
+require_relative '../../lib/dpkg'
 
 # A fake package
 class FakePackage

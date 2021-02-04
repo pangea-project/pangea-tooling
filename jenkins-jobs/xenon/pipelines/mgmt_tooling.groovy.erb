@@ -36,7 +36,8 @@ tar -cp * .noexec.yml .rubocop.yml | gzip --rsyncable -1 > tooling.tar.gz
     ws { // open a second ws to not pollute the main (persistent) ws
       withCleanup {
         unstash 'tooling.tar.gz'
-        sh label: 'rake test', script: '''
+        try {
+          sh label: 'rake test', script: '''
 export GEM_HOME=$(ruby -r rubygems -e \'puts Gem.user_dir\')
 export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
 export PATH=$GEM_HOME/bin:$PATH
@@ -52,11 +53,13 @@ rake test
 rake cloc
 rake rubocop
 '''
-
-        junit 'test/reports/*.xml'
-        // Kaput with pipelines
-        // step([$class: 'RcovPublisher', targets: []])
-        sloccountPublish pattern: 'cloc.xml'
+        } finally {
+          // always record reports not having reports on failures is daft
+          junit 'test/reports/*.xml'
+          // Kaput with pipelines
+          // step([$class: 'RcovPublisher', targets: []])
+          sloccountPublish pattern: 'cloc.xml'
+        }
       }
     }
   }

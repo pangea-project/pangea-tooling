@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2018 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2018-2021 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -22,6 +22,7 @@
 module GLibLoadClassWorkaround
   def load_class(klass, *args)
     return if klass == :IConv
+
     super
   end
 end
@@ -34,4 +35,11 @@ module GirFFI
   end
 end
 
+# TODO: verify if this is still necessary from time to time
+# Somewhere in test-unit the lib path is injected in the load paths and since
+# the file has the same name as the original require this would cause
+# a recursion require. So, rip the current path out of the load path temorarily.
+old_paths = $LOAD_PATH.dup
+$LOAD_PATH.reject! { |x| x == __dir__ }
 require 'gir_ffi'
+$LOAD_PATH.replace(old_paths)

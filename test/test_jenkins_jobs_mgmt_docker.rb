@@ -1,4 +1,4 @@
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 require_relative '../jenkins-jobs/mgmt_docker'
 
 class MGMTDockerTest < TestCase

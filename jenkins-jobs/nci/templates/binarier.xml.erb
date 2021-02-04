@@ -70,13 +70,13 @@ echo $BUILD_URL > build_url # for lint_bin
 export PANGEA_CROSS=<%= cross_architecture %>
 <% end %>
 
-~/tooling/nci/contain.rb /tooling/ci-tooling/nci/builder.rb $JOB_NAME `pwd`
+~/tooling/nci/contain.rb /tooling/nci/builder.rb $JOB_NAME `pwd`
 
 # ADT will mangle after copying to /workspace so bind the workspace
 # into /input where our ADT will pick it up.
 export PWD_BIND=/input
 echo $JOB_NAME > job_name
-~/tooling/nci/contain.rb /tooling/ci-tooling/nci/adt.rb
+~/tooling/nci/contain.rb /tooling/nci/adt.rb
       </command>
     </hudson.tasks.Shell>
   </builders>

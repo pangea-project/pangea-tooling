@@ -21,7 +21,7 @@
 require 'fileutils'
 require 'tty/command'
 
-require_relative '../../ci-tooling/lib/apt'
+require_relative '../../lib/apt'
 
 module NCI
   module Snap

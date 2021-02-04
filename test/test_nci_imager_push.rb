@@ -18,8 +18,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '../ci-tooling/test/lib/testcase'
-require_relative '../ci-tooling/lib/nci'
+require_relative 'lib/testcase'
+require_relative '../lib/nci'
 
 require 'net/sftp'
 require 'tty/command'

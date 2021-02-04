@@ -1,4 +1,4 @@
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 require_relative '../lib/ci/pangeaimage'
 
 class PangeaImageTest < TestCase

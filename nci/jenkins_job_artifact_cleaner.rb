@@ -21,7 +21,7 @@
 
 require 'fileutils'
 
-require_relative '../ci-tooling/lib/ci/pattern'
+require_relative '../lib/ci/pattern'
 
 module NCI
   # Cleans up artifacts of lastSuccessfulBuild of jobs passed as array of

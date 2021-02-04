@@ -5,7 +5,7 @@ require 'logger'
 require 'logger/colors'
 require 'socket'
 
-require_relative '../../ci-tooling/lib/dpkg'
+require_relative '../../lib/dpkg'
 require_relative '../ci/container'
 require_relative '../ci/pangeaimage'
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2015-2021 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 
 require 'yaml'
 
@@ -32,12 +32,9 @@ class ParseTest < TestCase
     jenkins-jobs
     lib
     nci
-    test
-    ci-tooling/dci
-    ci-tooling/lib
-    ci-tooling/nci
-    ci-tooling/test
     overlay-bin
+    test
+    xci
   ].freeze
 
   attr_reader :cmd
@@ -88,6 +85,7 @@ class ParseTest < TestCase
     config = YAML.dump('AllCops' => { 'TargetRubyVersion' => '2.5' })
     File.write('config.yaml', config)
     res = cmd.run!('rubocop', '--only', 'Layout/IndentationStyle',
+                   '--cache', 'false',
                    '--config', "#{Dir.pwd}/config.yaml",
                    *self.class.all_ruby)
     assert(res.success?, <<~ERR)

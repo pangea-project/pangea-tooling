@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative '../ci-tooling/lib/dci'
-require_relative '../ci-tooling/lib/nci'
+require_relative '../lib/dci'
+require_relative '../lib/nci'
 require_relative '../lib/mgmt/deployer'
 
 class TeeLog

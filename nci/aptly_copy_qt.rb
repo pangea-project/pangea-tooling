@@ -26,8 +26,8 @@ require 'net/ssh/gateway'
 require 'ostruct'
 require 'optparse'
 
-require_relative '../ci-tooling/lib/aptly-ext/filter'
-require_relative '../ci-tooling/lib/nci'
+require_relative '../lib/aptly-ext/filter'
+require_relative '../lib/nci'
 require_relative '../lib/aptly-ext/remote'
 
 # options = OpenStruct.new

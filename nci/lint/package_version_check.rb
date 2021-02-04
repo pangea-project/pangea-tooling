@@ -4,8 +4,8 @@
 
 require 'tty/command'
 
-require_relative '../../ci-tooling/lib/debian/version'
-require_relative '../../ci-tooling/lib/retry'
+require_relative '../../lib/debian/version'
+require_relative '../../lib/retry'
 
 module NCI
   # Helper class for VersionsTest.

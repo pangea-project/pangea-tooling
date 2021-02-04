@@ -4,7 +4,7 @@
 
 require 'tty/command'
 
-require_relative '../../ci-tooling/lib/debian/version'
+require_relative '../../lib/debian/version'
 
 module NCI
   # Lists packages that are currently pinned

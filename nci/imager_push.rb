@@ -25,7 +25,7 @@ require 'net/sftp'
 require 'net/ssh'
 require 'tty-command'
 
-require_relative '../ci-tooling/lib/nci'
+require_relative '../lib/nci'
 require_relative 'lib/imager_push_paths'
 
 ARCH = ENV.fetch('ARCH')

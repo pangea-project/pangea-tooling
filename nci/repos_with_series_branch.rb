@@ -3,7 +3,7 @@
 # SPDX-FileCopyrightText: 2020 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
-require_relative '../ci-tooling/lib/projects/factory/neon'
+require_relative '../lib/projects/factory/neon'
 
 require 'optparse'
 require 'tty/command'

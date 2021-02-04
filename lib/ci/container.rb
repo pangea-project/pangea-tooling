@@ -2,7 +2,7 @@
 require 'deep_merge'
 require_relative 'docker'
 require_relative 'directbindingarray'
-require_relative '../../ci-tooling/lib/retry'
+require_relative '../../lib/retry'
 
 module CI
   # Container with somewhat more CI-geared behavior and defaults.

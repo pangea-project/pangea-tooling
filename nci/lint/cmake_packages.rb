@@ -22,7 +22,7 @@ require 'aptly'
 require 'logger'
 require 'logger/colors'
 
-require_relative '../../ci-tooling/lib/repo_abstraction'
+require_relative '../../lib/repo_abstraction'
 require_relative 'cmake_dep_verify/package'
 require_relative 'cmake_dep_verify/junit'
 

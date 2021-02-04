@@ -2,7 +2,7 @@ require 'vcr'
 
 require_relative '../lib/ci/container.rb'
 require_relative '../lib/ci/container/ephemeral'
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 
 require 'mocha/test_unit'
 

@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 
 require_relative '../lib/shebang'
 
@@ -26,18 +26,13 @@ class ExecutableTest < TestCase
   BINARY_DIRS = %w[
     .
     bin
-    ci-tooling
-    ci-tooling/bin
-    ci-tooling/ci
-    ci-tooling/dci
-    ci-tooling/nci
-    ci-tooling/xci
     dci
     lib/libexec
     nci
     mgmt
     overlay-bin
     xci
+    ci
   ].freeze
 
   SUFFIXES = %w[.py .rb .sh].freeze

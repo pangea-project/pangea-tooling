@@ -21,8 +21,8 @@
 
 require 'tty/command'
 
-require_relative '../ci-tooling/lib/apt'
-require_relative '../ci-tooling/nci/lib/setup_repo'
+require_relative 'lib/setup_repo'
+require_relative '../lib/apt'
 
 require_relative 'snap/collapser'
 require_relative 'snap/manifest_extender'

@@ -2,10 +2,10 @@
 # SPDX-FileCopyrightText: 2017-2021 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
-require_relative '../../ci-tooling/lib/aptly-ext/filter'
-require_relative '../../ci-tooling/lib/dpkg'
-require_relative '../../ci-tooling/lib/retry'
-require_relative '../../ci-tooling/lib/nci'
+require_relative '../../lib/aptly-ext/filter'
+require_relative '../../lib/dpkg'
+require_relative '../../lib/retry'
+require_relative '../../lib/nci'
 require_relative '../../lib/aptly-ext/remote'
 
 module NCI

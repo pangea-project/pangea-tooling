@@ -24,9 +24,9 @@ require 'logger'
 require 'logger/colors'
 require 'optparse'
 
-require_relative 'ci-tooling/lib/jenkins'
-require_relative 'ci-tooling/lib/thread_pool'
-require_relative 'ci-tooling/lib/retry'
+require_relative 'lib/jenkins'
+require_relative 'lib/thread_pool'
+require_relative 'lib/retry'
 
 QUALIFIER_STATES = %w[success unstable].freeze
 

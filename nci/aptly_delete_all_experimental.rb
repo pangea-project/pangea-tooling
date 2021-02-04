@@ -29,7 +29,7 @@ require 'tty-prompt'
 require 'tty-spinner'
 
 require_relative '../lib/aptly-ext/remote'
-require_relative '../ci-tooling/lib/nci'
+require_relative '../lib/nci'
 
 options = OpenStruct.new
 options.repos ||= ["experimental_#{NCI.current_series}"]

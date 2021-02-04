@@ -11,7 +11,7 @@
 
 require 'date'
 
-require_relative '../ci-tooling/lib/nci'
+require_relative '../lib/nci'
 require_relative '../lib/tty_command'
 
 ROOT = '/srv/www/metadata.neon.kde.org/germinate'

@@ -1,6 +1,6 @@
 require 'vcr'
 
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 require_relative '../lib/docker/cleanup'
 
 class MGMTDockerCleanupTest < TestCase

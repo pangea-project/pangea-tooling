@@ -21,8 +21,8 @@
 
 require 'optparse'
 
-require_relative '../ci-tooling/lib/apt'
-require_relative '../ci-tooling/nci/lib/setup_repo'
+require_relative 'lib/setup_repo'
+require_relative '../lib/apt'
 
 OptionParser.new do |opts|
   opts.banner = <<-BANNER

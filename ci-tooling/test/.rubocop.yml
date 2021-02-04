@@ -1,3 +1,0 @@
-inherit_from:
- - ../.rubocop.yml # ci-tooling
- - ../../test/.rubocop.yml # pangea-tooling/test

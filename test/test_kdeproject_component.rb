@@ -3,7 +3,7 @@ require 'test/unit'
 require 'webmock'
 require 'webmock/test_unit'
 
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 require_relative '../lib/kdeproject_component'
 
 require 'mocha/test_unit'

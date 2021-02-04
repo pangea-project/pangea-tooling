@@ -37,15 +37,11 @@ require_relative 'lib/rake/bundle'
 
 BIN_DIRS = %w[
   .
-  ci-tooling
   overlay-bin
 ].freeze
 
 SOURCE_DIRS = %w[
-  ci-tooling/ci
-  ci-tooling/dci
-  ci-tooling/lib
-  ci-tooling/nci
+  ci
   dci
   jenkins-jobs
   lib
@@ -53,41 +49,21 @@ SOURCE_DIRS = %w[
   mgmt
   overlay-bin
   overlay-bin/lib
+  xci
 ].freeze
 
 desc 'run all unit tests'
-task :test do
-  # We separately run pangea (host) and ci-tooling (host/container) tooling
-  # as former is not particularly suited to parallel exceution due to it
-  # using a live docker, so reentrancy and so forth is a concern.
-  # Latter however is perfectly suited and is run in parallel to speed up
-  # test execution.
+Rake::TestTask.new do |t|
+  t.ruby_opts << "-r#{File.expand_path(__dir__)}/test/helper.rb"
+  # Parsing happens in a separate task because failure there outranks everything
+  list =FileList['test/test_*.rb'].exclude('test/test_parse.rb')
+  t.test_files = list
+  t.options = "--stop-on-failure --verbose=v"
+  t.verbose = false
 end
-task :test => 'ci:setup:testunit'
-task :test => :test_pangea
-task :test => :test_ci_parallel
+task :test => :test_pangea_parse
 CLEAN << 'coverage' # Created through helper's simplecov
 CLEAN << 'test/reports'
-
-desc 'run ci-tooling tests (this runs in sync via TestTask)'
-Rake::TestTask.new(:test_ci) do |t|
-  t.ruby_opts << "-r#{File.expand_path(__dir__)}/test/helper.rb"
-  t.test_files = FileList['ci-tooling/test/test_*.rb']
-  t.verbose = true
-end
-
-desc 'run ci-tooling tests in parallel'
-task :test_ci_parallel do
-  ENV['PARALLEL_TESTS_EXECUTABLE'] = "ruby -r#{__dir__}/test/helper.rb"
-  opts = []
-  opts << '--serialize-stdout'
-  opts << '--combine-stderr'
-  opts << '--nice'
-  opts << '--verbose'
-  test_files = FileList['ci-tooling/test/test_*.rb']
-  sh('parallel_test', *opts, *test_files)
-end
-task :test_ci_parallel => 'ci:setup:testunit'
 
 desc 'run pangea-tooling (parse) test'
 Rake::TestTask.new(:test_pangea_parse) do |t|
@@ -95,14 +71,6 @@ Rake::TestTask.new(:test_pangea_parse) do |t|
   t.test_files = FileList['test/test_parse.rb']
   t.verbose = true
 end
-
-desc 'run pangea-tooling tests'
-Rake::TestTask.new(:test_pangea_core) do |t|
-  t.ruby_opts << "-r#{File.expand_path(__dir__)}/test/helper.rb"
-  t.test_files = FileList['test/test_*.rb'].exclude('test/test_parse.rb')
-  t.verbose = true
-end
-multitask :test_pangea => [:test_pangea_parse, :test_pangea_core]
 
 desc 'generate line count report'
 task :cloc do

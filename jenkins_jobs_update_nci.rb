@@ -9,8 +9,8 @@
 
 require 'sigdump/setup'
 
-require_relative 'ci-tooling/lib/nci'
-require_relative 'ci-tooling/lib/projects/factory'
+require_relative 'lib/nci'
+require_relative 'lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
 require_relative 'lib/kdeproject_component'
 
@@ -59,7 +59,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       'ircbot', # spammy drain on performance
       'instant-messaging' # dep of ircbot and otherwise useless
     ]
-    @projects_dir = "#{__dir__}/ci-tooling/data/projects"
+    @projects_dir = "#{__dir__}/data/projects"
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
     super
   end
@@ -82,7 +82,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def load_overrides!
     # TODO: there probably should be a conflict check so they don't override
     # the same thing.
-    files = Dir.glob("#{__dir__}/ci-tooling/data/projects/overrides/nci-*.yaml")
+    files = Dir.glob("#{__dir__}/data/projects/overrides/nci-*.yaml")
     raise 'No overrides found?' if files.empty?
 
     CI::Overrides.default_files += files

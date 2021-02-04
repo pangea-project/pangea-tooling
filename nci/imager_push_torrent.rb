@@ -11,7 +11,7 @@ require 'net/sftp'
 require 'nokogiri'
 require 'open-uri'
 require 'tty-command'
-require_relative '../ci-tooling/lib/nci'
+require_relative '../lib/nci'
 require_relative 'lib/imager_push_paths'
 
 STDOUT.sync = true # Make sure output is synced and bypass caching.

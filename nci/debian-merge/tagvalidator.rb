@@ -20,7 +20,7 @@
 
 require 'yaml'
 
-require_relative '../../ci-tooling/lib/ci/pattern'
+require_relative '../../lib/ci/pattern'
 
 module NCI
   module DebianMerge

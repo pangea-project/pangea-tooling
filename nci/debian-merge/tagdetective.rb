@@ -25,7 +25,7 @@ require 'logger'
 require 'logger/colors'
 require 'tmpdir'
 
-require_relative '../../ci-tooling/lib/projects/factory/neon'
+require_relative '../../lib/projects/factory/neon'
 require_relative 'data'
 
 # Finds latest tag of ECM and then makes sure all other frameworks

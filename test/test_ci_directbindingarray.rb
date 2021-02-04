@@ -1,5 +1,5 @@
 require_relative '../lib/ci/directbindingarray'
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 
 class DirectBindingArrayTest < TestCase
   def test_to_volumes

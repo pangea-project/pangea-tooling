@@ -22,7 +22,7 @@
 # and bundler isn't installed up until later
 require 'bundler'
 
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 require_relative '../lib/rake/bundle'
 
 require 'mocha/test_unit'

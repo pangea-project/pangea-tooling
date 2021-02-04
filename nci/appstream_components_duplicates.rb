@@ -28,8 +28,8 @@ require 'tty/command'
 require 'yaml'
 require 'concurrent'
 
-require_relative '../ci-tooling/lib/apt'
-require_relative '../ci-tooling/nci/lib/setup_repo'
+require_relative '../lib/apt'
+require_relative 'lib/setup_repo'
 
 # Simple wrapper around an appstream id and its likely permutations that may
 # indicate a dupe. e.g. org.kde.foo => [org.kde.foo.desktop, foo.desktop, foo]

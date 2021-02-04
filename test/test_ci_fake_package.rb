@@ -20,7 +20,7 @@
 
 require_relative '../lib/ci/fake_package'
 
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 
 require 'mocha/test_unit'
 

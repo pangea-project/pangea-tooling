@@ -20,7 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative '../lib/aptly-ext/remote'
-require_relative '../ci-tooling/lib/nci'
+require_relative '../lib/nci'
 
 # NB: in publish prefixes _ is replaced by / on the server, to get _ you need
 #   to use __

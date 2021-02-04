@@ -22,8 +22,8 @@
 require 'logger'
 require 'logger/colors'
 
-require_relative 'ci-tooling/lib/jenkins'
-require_relative 'ci-tooling/lib/optparse'
+require_relative 'lib/jenkins'
+require_relative 'lib/optparse'
 
 # A Jenkins node.
 class Node

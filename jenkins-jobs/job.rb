@@ -23,7 +23,7 @@ require 'logger'
 require 'logger/colors'
 require 'rexml/document'
 
-require_relative '../ci-tooling/lib/retry'
+require_relative '../lib/retry'
 require_relative '../lib/jenkins/job'
 require_relative 'template'
 

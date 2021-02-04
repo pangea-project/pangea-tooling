@@ -20,8 +20,8 @@
 
 require 'aptly'
 
-require_relative '../../ci-tooling/lib/aptly-ext/filter'
-require_relative '../../ci-tooling/lib/nci' # nci config module
+require_relative '../../lib/aptly-ext/filter'
+require_relative '../../lib/nci' # nci config module
 
 # Cleans up an Aptly::Repository by removing all versions of source+bin that
 # are older than the newest version.

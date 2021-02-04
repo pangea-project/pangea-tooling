@@ -24,7 +24,7 @@ require 'jenkins_junit_builder'
 require 'logger'
 require 'logger/colors'
 
-require_relative '../../ci-tooling/lib/thread_pool'
+require_relative '../../lib/thread_pool'
 
 module Jenkins
   # Updates Jenkins Projects

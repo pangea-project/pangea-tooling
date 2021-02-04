@@ -22,7 +22,7 @@ require 'concurrent'
 require 'logger'
 require 'logger/colors'
 
-require_relative '../../ci-tooling/lib/jenkins'
+require_relative '../../lib/jenkins'
 require_relative 'job'
 
 # Scores a job with regards to how many cores it should get.

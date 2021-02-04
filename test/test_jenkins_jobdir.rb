@@ -1,7 +1,7 @@
 require 'date'
 
 require_relative '../lib/jenkins/jobdir'
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 
 class JenkinsJobDirTest < TestCase
   def setup

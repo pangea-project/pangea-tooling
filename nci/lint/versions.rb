@@ -2,9 +2,9 @@
 # SPDX-FileCopyrightText: 2017-2021 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
-require 'minitest/test'
+require 'minitest'
 
-require_relative '../../ci-tooling/lib/apt'
+require_relative '../../lib/apt'
 
 require_relative 'cache_package_lister'
 require_relative 'dir_package_lister'

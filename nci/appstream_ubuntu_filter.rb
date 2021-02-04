@@ -19,8 +19,8 @@
 require 'json'
 require 'tty/command'
 
-require_relative '../ci-tooling/lib/apt'
-require_relative '../ci-tooling/nci/lib/setup_repo'
+require_relative '../lib/apt'
+require_relative 'lib/setup_repo'
 
 Component = Struct.new(:id, :kind)
 

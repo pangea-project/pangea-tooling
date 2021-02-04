@@ -23,10 +23,11 @@ require 'aptly'
 require 'date'
 require 'optparse'
 
-require_relative '../ci-tooling/lib/jenkins'
+require_relative 'lib/repo_diff'
+
+require_relative '../lib/jenkins'
 require_relative '../lib/aptly-ext/remote'
 require_relative '../lib/pangea/mail'
-require_relative '../ci-tooling/nci/lib/repo_diff'
 
 DIST = ENV.fetch('DIST')
 lts = nil
@@ -65,7 +66,7 @@ Aptly::Ext::Remote.neon do
   mailText = ""
   differ = RepoDiff.new
   diffRows = differ.diff_repo("user#{lts}", "release#{lts}", DIST)
-  diffRows.each do |name, architecture, new_version, old_version| 
+  diffRows.each do |name, architecture, new_version, old_version|
     mailText += name.ljust(20) + architecture.ljust(10) + new_version.ljust(40) + old_version.ljust(40) + "\n"
   end
   puts "Repo Diff:"

@@ -22,7 +22,7 @@
 require 'date'
 require 'jenkins_junit_builder'
 
-require_relative '../ci-tooling/lib/projects/factory/neon'
+require_relative '../lib/projects/factory/neon'
 
 module NCI
   # Checks for duplicated repos.

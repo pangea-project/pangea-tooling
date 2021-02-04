@@ -20,8 +20,8 @@
 
 require 'tty-command'
 
-require_relative '../../../ci-tooling/lib/apt'
-require_relative '../../../ci-tooling/lib/dpkg'
+require_relative '../../../lib/apt'
+require_relative '../../../lib/dpkg'
 
 module CMakeDepVerify
   # Wrapper around a package we want to test.

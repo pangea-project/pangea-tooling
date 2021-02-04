@@ -26,11 +26,11 @@ require 'optparse'
 require 'tty/prompt'
 require 'tty/spinner'
 
-require_relative 'ci-tooling/lib/jenkins'
-require_relative 'ci-tooling/lib/retry'
-require_relative 'ci-tooling/lib/thread_pool'
+require_relative 'lib/jenkins'
+require_relative 'lib/retry'
+require_relative 'lib/thread_pool'
 require_relative 'lib/kdeproject_component'
-require_relative 'ci-tooling/lib/nci'
+require_relative 'lib/nci'
 
 @exclusion_states = %w[success unstable]
 strict_mode = false

@@ -3,7 +3,7 @@
 # SPDX-FileCopyrightText: 2019-2020 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
-require_relative '../ci-tooling/test/lib/testcase'
+require_relative 'lib/testcase'
 require_relative '../nci/asgen_push'
 
 require 'mocha/test_unit'

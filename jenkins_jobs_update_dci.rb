@@ -19,8 +19,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'ci-tooling/lib/dci'
-require_relative 'ci-tooling/lib/projects/factory'
+require_relative 'lib/dci'
+require_relative 'lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
 
 require 'optparse'
@@ -39,24 +39,24 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize()
     super()
     @ci_flavor = 'dci'
-    
+
     JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/dci"
-    
+
     upload_map = "#{__dir__}/data/dci.upload.yaml"
     @upload_map = nil
     return unless File.exist?(upload_map)
     @upload_map = YAML.load_file(upload_map)
   end
-  
+
   private
-  
+
   def populate_queue
     CI::Overrides.default_files
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
     DCI.series.each_key do |distribution|
       DCI.types.each do |type|
-      file = "#{__dir__}/ci-tooling/data/projects/dci/#{distribution}/#{type}.yaml"
+      file = "#{__dir__}/data/projects/dci/#{distribution}/#{type}.yaml"
       next unless File.exist?(file)
       @arches = []
       if type == 'c1' || type == 'z1'
@@ -82,7 +82,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         # other jobs that might want to reference them.
       puts all_builds
       all_builds.select! { |project| project.job_name.end_with?('_src') }
-      
+
         # This could actually returned into a collect if placed below
       meta_build = MetaBuildJob.new(type: type,
                                     distribution: distribution,
@@ -90,13 +90,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       all_meta_builds << enqueue(meta_build)
       end
     end
-    
+
     image_job_config =
       "#{__dir__}/data/dci/dci.image.yaml"
-      
+
     if File.exist? image_job_config
       image_jobs = YAML.load_stream(File.read(image_job_config))
-      
+
       image_jobs.each do |image_job|
         image_job.each do |flavor, v|
           puts flavor
@@ -141,8 +141,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         end
       end
     end
-    
-    
+
+
     # MGMT Jobs follow
     docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))

@@ -19,8 +19,8 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'ci-tooling/lib/dci'
-require_relative 'ci-tooling/lib/projects/factory'
+require_relative 'lib/dci'
+require_relative 'lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
 
 require 'optparse'
@@ -55,7 +55,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     all_meta_builds = []
     @ci_module.series.each_key do |distribution|
       @ci_module.types.each do |type|
-        file = "#{__dir__}/ci-tooling/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
+        file = "#{__dir__}/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
         next unless File.exist?(file)
         projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
         all_builds = projects.collect do |project|

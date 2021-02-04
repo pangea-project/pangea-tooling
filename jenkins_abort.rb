@@ -25,8 +25,8 @@ require 'logger/colors'
 require 'optparse'
 
 require_relative 'lib/jenkins/job'
-require_relative 'ci-tooling/lib/jenkins'
-require_relative 'ci-tooling/lib/retry'
+require_relative 'lib/jenkins'
+require_relative 'lib/retry'
 
 # Aborts jobs, if that fails it terms them, if that fails it kills them.
 class JobsAborter

@@ -25,8 +25,8 @@ require 'tty/pager'
 require 'tty/prompt'
 require 'tty/spinner'
 
-require_relative 'ci-tooling/lib/jenkins'
-require_relative 'ci-tooling/lib/ci/pattern'
+require_relative 'lib/jenkins'
+require_relative 'lib/ci/pattern'
 require_relative 'lib/jenkins/job'
 
 @grep_pattern = nil

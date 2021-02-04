@@ -22,10 +22,10 @@
 require 'fileutils'
 require 'tty-command'
 
-require_relative '../ci-tooling/nci/lib/setup_repo'
-require_relative '../ci-tooling/lib/apt'
-require_relative '../ci-tooling/lib/asgen'
-require_relative '../ci-tooling/lib/nci'
+require_relative 'lib/setup_repo'
+require_relative '../lib/apt'
+require_relative '../lib/asgen'
+require_relative '../lib/nci'
 
 # WARNING: this program is run from a minimal debian container without
 #  the tooling properly provisioned. Great care must be taken about

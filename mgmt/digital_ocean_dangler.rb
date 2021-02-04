@@ -21,7 +21,7 @@
 
 require 'date'
 
-require_relative '../ci-tooling/lib/jenkins'
+require_relative '../lib/jenkins'
 require_relative '../lib/digital_ocean/droplet'
 
 client = DigitalOcean::Client.new

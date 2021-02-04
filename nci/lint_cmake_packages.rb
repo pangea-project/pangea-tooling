@@ -22,7 +22,7 @@
 require 'aptly'
 
 require_relative 'lint/cmake_packages'
-require_relative '../ci-tooling/nci/lib/setup_repo'
+require_relative 'lib/setup_repo'
 require_relative '../lib/aptly-ext/remote'
 
 NCI.add_repo_key!
