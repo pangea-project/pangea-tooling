@@ -6,6 +6,8 @@
 require_relative 'lib/testcase'
 
 class NCILintBinTest < TestCase
+  required_binaries %w[lintian dpkg]
+
   def setup
     ENV.delete('BUILD_URL')
     # This test cannot run by its lonesome because we need coverage merging
