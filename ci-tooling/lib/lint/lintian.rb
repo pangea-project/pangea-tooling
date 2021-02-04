@@ -56,7 +56,7 @@ module Lint
     ].freeze
 
     def initialize(changes_directory = Dir.pwd,
-                   cmd: TTY::Command.new(printer: :null))
+                   cmd: TTY::Command.new)
       @changes_directory = changes_directory
       @cmd = cmd
       super()
@@ -84,9 +84,6 @@ module Lint
     # called with chdir inside packaging dir
     def lintian
       result = @cmd.run!('lintian', '--allow-root', changes_file)
-      if result.failure?
-        warn 'lintian exited !0, outputs were' + result.out + "\n" + result.err
-      end
       result.out.split("\n")
     end
 
