@@ -158,7 +158,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # Also forced onto bionic, snapcraft porting requires special care
           # and is detatched from deb-tech more or less.
           if %w[unstable release].include?(type) && project.snapcraft &&
-             !EXCLUDE_SNAPS.include?(project.name) && distribution == 'bionic'
+             !EXCLUDE_SNAPS.include?(project.name) && distribution == 'focal'
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
           end
