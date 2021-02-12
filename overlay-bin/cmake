@@ -22,7 +22,7 @@ end
 # inject flags accordingly (e.g. -DNDEBUG)
 if PangeaBuildTypeConfig.override?
   type = 'RelWithDebInfo'
-  if PangeaBuildTypeConfig.release_lts?
+  if PangeaBuildTypeConfig.release_build?
     # Don't build debug symbols for release-lts, users shouldn't really use that
     # edition and debug symbmols are fairly expensive space-wise (and for build
     # speed actually... stripping can take ages).
