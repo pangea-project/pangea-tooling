@@ -24,6 +24,5 @@ require_relative 'snap/publish.rb'
 
 if $PROGRAM_NAME == __FILE__
   ENV['TERM'] = 'dumb' # make snpacraft not give garbage progress spam
-  NCI.setup_repo!
   NCI::Snap::Publisher.run
 end
