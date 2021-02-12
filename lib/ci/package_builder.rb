@@ -31,6 +31,7 @@ require_relative '../apt'
 require_relative '../debian/control'
 require_relative '../dpkg'
 require_relative '../os'
+require_relative '../pangea_build_type_config'
 require_relative '../retry'
 require_relative '../debian/dsc'
 
@@ -104,6 +105,9 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
 
     def build_env
       deb_build_options = ENV.fetch('DEB_BUILD_OPTIONS', '').split(' ')
+      if PangeaBuildTypeConfig.release_build?
+        deb_build_options << 'noautodbgsym'
+      end
       {
         'DEB_BUILD_OPTIONS' => (deb_build_options + ['nocheck']).join(' '),
         'DH_BUILD_DDEBS' => '1',
