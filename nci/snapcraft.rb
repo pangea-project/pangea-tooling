@@ -49,10 +49,6 @@ if $PROGRAM_NAME == __FILE__
   #   snap dev tarball)
   #Apt.install(%w[docbook-xml docbook-xsl libdrm-dev snapd])
 
-  #NCI::Snap::Snapcraft.install
-  `sudo snap install snapcraft`
-  `sudo snap install lxd`
-
   # We somehow end up with a bogus ssl-dev in the images, drop it as otherwise
   # it may prevent snapcraft carrying out package installations (it doesn't
   # do problem resolution it seems).
