@@ -47,7 +47,7 @@ if $PROGRAM_NAME == __FILE__
   #   include path hard compiled and thus isn't picked up from the stage
   #   directory (which in turn already contains it because of the content
   #   snap dev tarball)
-  Apt.install(%w[docbook-xml docbook-xsl libdrm-dev snapd])
+  #Apt.install(%w[docbook-xml docbook-xsl libdrm-dev snapd])
 
   NCI::Snap::Snapcraft.install
 
