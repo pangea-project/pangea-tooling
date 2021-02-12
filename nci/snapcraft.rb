@@ -32,7 +32,6 @@ if $PROGRAM_NAME == __FILE__
   ENV['TERM'] = 'dumb' # make snpacraft not give garbage progress spam
   ENV['PYTHONUNBUFFERED'] = 'true' # make python also sync stdout
   STDOUT.sync = true
-  NCI.setup_repo!
   # KDoctools is rubbish and lets meinproc resolve asset paths through
   #  QStandardPaths *AT BUILD TIME*.
   # TODO: can be dropped when build-snap transition is done (this completely
@@ -55,17 +54,15 @@ if $PROGRAM_NAME == __FILE__
   # We somehow end up with a bogus ssl-dev in the images, drop it as otherwise
   # it may prevent snapcraft carrying out package installations (it doesn't
   # do problem resolution it seems).
-  Apt.purge('libssl1.0-dev')
-  NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
+  #Apt.purge('libssl1.0-dev')
+  #NCI::Snap::BuildSnapCollapser.new('snapcraft.yaml').run do
     # switch to internal download URL
     non_managled_snap = File.read('snapcraft.yaml')
     mangled_snap = non_managled_snap.gsub(%r{download.kde.org/stable/}, 'download.kde.internal.neon.kde.org/stable/')
     File.write('snapcraft.yaml', mangled_snap)
     # Collapse first, extending also managles dpkg a bit, so we can't
     # expect packages to be in a sane state inside the extender.
-    NCI::Snap::ManifestExtender.new('snapcraft.yaml').run do
-      TTY::Command.new(uuid: false).run('snapcraft --debug')
-    end
+    TTY::Command.new(uuid: false).run('snapcraft --enable-experimental-package-repositories --debug --use-lxd')
     File.write('snapcraft.yaml', non_managled_snap)
-  end
+  #end
 end
