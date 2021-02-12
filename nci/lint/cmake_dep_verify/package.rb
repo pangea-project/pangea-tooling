@@ -64,6 +64,7 @@ module CMakeDepVerify
       Dir.mktmpdir do |tmpdir|
         File.write("#{tmpdir}/CMakeLists.txt", <<-EOF)
 cmake_minimum_required(VERSION 3.0)
+project(CMakeLintTestProject)
 find_package(#{cmake_package} REQUIRED)
 EOF
         cmd = TTY::Command.new(dry_run: self.class.dry_run || false)
