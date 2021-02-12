@@ -52,7 +52,20 @@ module Lint
       # about on a packaging level and getting this sort of stuff takes ages,
       # judging from past experiences.
       'inconsistent-appstream-metadata-license',
-      'incomplete-creative-commons-license'
+      'incomplete-creative-commons-license',
+      # Sourcing happens a number of ways but generally we'll want to rely on
+      # uscan to verify signatures if applicable. The trouble here is that
+      # we only run lintian during the bin_ job at which point there is
+      # generally no signature available.
+      # What's more, depending on how the src_ job runs it also may have
+      # no signature. For example it can fetch a tarball from our own
+      # apt repo instead of upstream when doing a rebuild at which point
+      # there is no siganture but the source is implicitly trusted. As such
+      # it's probably best to skip over signature warnings as they are 99%
+      # irrelevant for us. There probably should be a way to warn when uscan
+      # isn't configured to check a signature but it probably needs to be
+      # done manually outside lintian somewhere.
+      'orig-tarball-missing-upstream-signature'
     ].freeze
 
     def initialize(changes_directory = Dir.pwd,
@@ -119,14 +132,7 @@ module Lint
 
     def exclusion
       @exclusion ||= begin
-        ex = EXCLUSION.dup
-        unless %w[release release-lts].include?(TYPE)
-          # For non-release builds we do not care about tarball signatures,
-          # we generated the tarballs anyway (mostly anyway).
-          # FIXME: what about Qt though :(
-          ex << 'orig-tarball-missing-upstream-signature'
-        end
-        ex
+        EXCLUSION.dup # since we dup you could opt to manipulate this array
       end
     end
 
