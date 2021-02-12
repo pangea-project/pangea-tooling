@@ -4,7 +4,7 @@ env.TYPE = "<%= type %>"
 env.DOCKER_ENV_WHITELIST = 'APPNAME'
 env.PWD_BIND = '/workspace'
 
-cleanNode('amd64') { // && cloud') {
+cleanNode('cloud && amd64-snap') {
   stage('clone') {
     git branch: "<%= packaging_scm.branch %>", url: "<%= packaging_scm.url %>"
 
@@ -17,14 +17,8 @@ cleanNode('amd64') { // && cloud') {
     <% else; raise "Unknown upstream scm type on #{upstream_scm}"; end %>
   }
 
-  stage('extend') {
-    sh 'ls -lah ~/tooling/nci/snapcraft_extend.rb'
-    sh '~/tooling/nci/contain.rb /tooling/nci/snapcraft_extend.rb'
-    archiveArtifacts 'snapcraft.yaml'
-  }
-
   stage('snapcraft') {
-    sh '~/tooling/nci/contain.rb /tooling/nci/snapcraft.rb'
+    sh '~/tooling/nci/snapcraft.rb'
     sh 'ls -lah'
   }
 
@@ -32,7 +26,7 @@ cleanNode('amd64') { // && cloud') {
     withCredentials([file(credentialsId: 'snapcraft.cfg', variable: 'PANGEA_SNAPCRAFT_CFG_FILE')]) {
       // FIXME: drop this after our new publish.rb is on all nodes (picks up file from env)
       sh 'cp $PANGEA_SNAPCRAFT_CFG_FILE snapcraft.cfg'
-      sh '~/tooling/nci/contain.rb /tooling/nci/snapcraft_publish.rb'
+      sh '~/tooling/nci/snapcraft_publish.rb'
     }
   }
 }
