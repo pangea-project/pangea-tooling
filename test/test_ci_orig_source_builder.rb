@@ -22,6 +22,9 @@ module CI
       FileUtils.cp_r("#{datadir}/http/dragon-15.08.1.tar.xz", @tarfile)
 
       CI::DependencyResolver.simulate = true
+
+      # Turn a bunch of debhelper sub process calls noop to improve speed.
+      ENV['PATH'] = "#{__dir__}/dud-bin:#{ENV['PATH']}"
     end
 
     def teardown

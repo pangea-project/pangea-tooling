@@ -19,6 +19,9 @@ module CI
       # Disable automatic update
       Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
       Apt::Repository.stubs(:`).returns('')
+
+      # Turn a bunch of debhelper sub process calls noop to improve speed.
+      ENV['PATH'] = "#{__dir__}/dud-bin:#{ENV['PATH']}"
     end
 
     def refute_bin_only(builder)

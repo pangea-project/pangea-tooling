@@ -66,6 +66,8 @@ class VCSBuilderTest < TestCase
 
     # dud. only used for output in version enforcer
     ENV['JOB_NAME'] = 'RaRaRasputin'
+    # Turn a bunch of debhelper sub process calls noop to improve speed.
+    ENV['PATH'] = "#{__dir__}/dud-bin:#{ENV['PATH']}"
   end
 
   def teardown

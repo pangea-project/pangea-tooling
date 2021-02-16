@@ -29,6 +29,11 @@ module CI
   class BuildARMBinaryTest < TestCase
     required_binaries %w(dpkg-buildpackage dpkg-source dpkg dh)
 
+    def setup
+      # Turn a bunch of debhelper sub process calls noop to improve speed.
+      ENV['PATH'] = "#{__dir__}/dud-bin:#{ENV['PATH']}"
+    end
+
     def refute_bin_only(builder)
       refute(builder.instance_variable_get(:@bin_only))
     end
