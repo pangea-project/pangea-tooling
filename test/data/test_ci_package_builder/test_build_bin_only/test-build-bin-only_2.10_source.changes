@@ -1,0 +1,25 @@
+Format: 1.8
+Date: Sun, 22 Mar 2015 11:56:00 +0100
+Source: test-build-bin-only
+Architecture: source
+Version: 2.10
+Distribution: unstable
+Urgency: low
+Maintainer: Santiago Vila <sanvila@debian.org>
+Changed-By: Santiago Vila <sanvila@debian.org>
+Changes:
+ test-build-bin-only (2.10) unstable; urgency=low
+ .
+   * New upstream release.
+Checksums-Sha1:
+ a782ddbcea50516f42cc4ec7a3513b011f94c3e0 668 test-build-bin-only_2.10.dsc
+ b9c39b34a7653a7dd2c30b6074ce0fa2b3dd2b11 1038 test-build-bin-only_2.10.tar.gz
+ 2f210c3fb02d7c6a02b28a6f397368e0b730aec4 6954 test-build-bin-only_2.10_source.buildinfo
+Checksums-Sha256:
+ 47de8b59552819c1d471c980e3495b457397c43bbac2da06df249d729acbe4fb 668 test-build-bin-only_2.10.dsc
+ 3772f3d753bea06d0280bb31bc4d58253c87a28e3eef242290e98d85de6289e3 1038 test-build-bin-only_2.10.tar.gz
+ 38bb94c281c6296f8eac8717846d922229bc8286021780f5a3378545cdedc214 6954 test-build-bin-only_2.10_source.buildinfo
+Files:
+ 9524f9f5eeb1717917a25e99d45e40b0 668 devel optional test-build-bin-only_2.10.dsc
+ 5779c9d6ac84319e25c5f54a4687efc8 1038 devel optional test-build-bin-only_2.10.tar.gz
+ 4744169184994e9199f39e4dcb2b535b 6954 devel optional test-build-bin-only_2.10_source.buildinfo
