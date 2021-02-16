@@ -63,7 +63,9 @@ module Lint
 
     def run_internal
       repo.binaries.each do |package, version|
-        next if package.end_with?('-dbg', '-dbgsym', '-data', '-bin', '-common', '-udeb')
+        next if package.end_with?('-dbg', '-dbgsym', '-data', '-bin', '-common',
+                                  '-udeb')
+
         pkg = CMakeDepVerify::Package.new(package, version)
         @log.info "Checking #{package}: #{version}"
         @package_results[package] = pkg.test

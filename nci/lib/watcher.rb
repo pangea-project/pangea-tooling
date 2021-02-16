@@ -51,6 +51,7 @@ module NCI
 
       def tar_basename_from_url(url)
         return url if url.nil?
+
         File.basename(url).reverse.split('-', 2).fetch(-1).reverse
       end
 
@@ -61,6 +62,7 @@ module NCI
         snapcraft['parts'].each_value do |part|
           tar = tar_basename_from_url(part['source'])
           next unless tar == newest_tar
+
           part['source'] = @new_url
         end
 
@@ -126,8 +128,10 @@ module NCI
 
       # These parts get pre-released on server so don't pick them up
       # automatically
-      released_products = KDEProjectsComponent.frameworks_jobs + KDEProjectsComponent.plasma_jobs + KDEProjectsComponent.release_service_jobs
-      job_project = ENV['JOB_NAME'].split("_")[-1]
+      released_products = KDEProjectsComponent.frameworks_jobs +
+                          KDEProjectsComponent.plasma_jobs +
+                          KDEProjectsComponent.release_service_jobs
+      job_project = ENV['JOB_NAME'].split('_')[-1]
       job_is_kde_released = released_products.include?(job_project)
 
       if job_is_kde_released && CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
