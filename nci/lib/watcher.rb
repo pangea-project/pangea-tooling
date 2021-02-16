@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# SPDX-FileCopyrightText: 2016-2020 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2016-2021 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require 'pp'
@@ -143,7 +143,7 @@ module NCI
                         release_service_package]
         if kde_products.any? { |package| ENV['JOB_NAME'].include?("_#{package}") }
           Pangea::SMTP.start do |smtp|
-            mail = <<-MAIL
+            mail = <<~MAIL
 From: Neon CI <no-reply@kde.org>
 To: neon-notifications@kde.org
 Subject: #{ENV['JOB_NAME']} found a new version
@@ -240,7 +240,7 @@ run jenkins_retry manually for this release on release day.
       if CAUSE_ENVS.none? { |v| ENV[v] == MANUAL_CAUSE }
         puts 'sending notification mail'
         Pangea::SMTP.start do |smtp|
-          mail = <<-MAIL
+          mail = <<~MAIL
   From: Neon CI <no-reply@kde.org>
   To: neon-notifications@kde.org
   Subject: #{newest_dehs_package.name} new version #{newest}

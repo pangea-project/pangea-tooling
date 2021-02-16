@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# SPDX-FileCopyrightText: 2017-2020 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2017-2021 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require_relative 'lib/testcase'
@@ -190,8 +190,13 @@ class NCIWatcherTest < TestCase
     require_binaries(%w[dch])
 
     smtp = mock('smtp')
-    smtp.expects(:send_message).with do |_body, from, to|
-      from == 'no-reply@kde.org' && to == 'neon-notifications@kde.org'
+    match_body = nil # for asserting the body content later
+    smtp.expects(:send_message).with do |body, from, to|
+      match = from == 'no-reply@kde.org' && to == 'neon-notifications@kde.org'
+      next false unless match
+
+      match_body = body
+      true
     end
     Pangea::SMTP.expects(:start).yields(smtp)
 
@@ -209,5 +214,16 @@ class NCIWatcherTest < TestCase
         NCI::Watcher.new.run
       end
     end
+
+    # If this is the expected invocation assert that the body is well formed.
+    # Specifically the headers mustn't be indented as can happen with heredoc.
+    # Split by \n\n to isolate the header block.
+    assert(match_body)
+    lines = match_body.split("\n\n", 2)[0].lines
+    lines = lines.collect(&:rstrip) # strip trailing \n for easy compare
+    refute(lines.empty?)
+    assert_includes(lines, 'From: Neon CI <no-reply@kde.org>')
+    assert_includes(lines, 'To: neon-notifications@kde.org')
+    assert_includes(lines, 'Subject: ark new version 17.04.2')
   end
 end
