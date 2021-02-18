@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# SPDX-FileCopyrightText: 2014-2016 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2014-2021 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require_relative 'apt'
@@ -9,6 +9,7 @@ require_relative 'aptly-ext/package'
 require_relative 'debian/changes'
 require_relative 'dpkg'
 require_relative 'lsb'
+require_relative 'nci'
 require_relative 'os'
 require_relative 'retry'
 require_relative 'gir_ffi'
@@ -117,7 +118,11 @@ class AptlyRepository < Repository
     # working where it automatically fetches prefix from the aptly.
     # I'll revert this when I get tests working but for now to get lint
     # working this is crude solution
-    super("http://archive.neon.kde.org/#{prefix}")
+    if NCI.divert_repo?(repo)
+      super("http://archive.neon.kde.org/tmp/#{prefix}")
+    else
+      super("http://archive.neon.kde.org/#{prefix}")
+    end
   end
 
   # FIXME: Why is this public?!

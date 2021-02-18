@@ -4,6 +4,7 @@ old_series: # must be part of series list (or nil)
 current_series: focal # must be part of series list
 future_series: # must be part of series list (or nil)
 future_is_early: false # controls where the ISOs go. must be true early on!
+repo_diversion: false # toggle when experimental is getting staged for deployment
 
 architectures:
   - amd64
@@ -31,6 +32,16 @@ experimental_skip_qa:
   - _forks_
   - _launchpad_
   - _qt_
+
+# The repo path component of repos that may be diverted when experimental is
+# being staged for landing. When repo_diversion is set the interaction with
+# these repos is going to
+#   archive.neon.kde.org/tmp/$name
+# instead of
+#   archive.neon.kde.org/$name
+divertable_repos:
+  - unstable
+  - testing
 
 # Only run adt on jobs matching string.include? patterns. This only applies
 # after experimental_skip_qa.
