@@ -28,12 +28,6 @@ require 'uri'
 require_relative '../lib/ci/deb822_lister'
 require_relative '../lib/aptly-ext/remote'
 
-# TODO: this is currently opt-in
-if ENV['CTR_OVERLAY'] || %w[focal bionic xenial].any? { |x| ARGV.join.include?(x) }
-  warn 'enabling CTR overlay'
-  require_relative '../lib/net/ssh/ctr_overlay'
-end
-
 STDOUT.sync = true # Make sure output is synced and bypass caching.
 
 options = OpenStruct.new

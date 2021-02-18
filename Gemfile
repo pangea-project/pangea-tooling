@@ -25,7 +25,7 @@ gem 'jenkins_junit_builder', '~> 0.0.6' # Don't pickup v0.0.1
 gem 'logger-colors'
 gem 'net-ftp-list'
 gem 'net-sftp'
-gem 'net-ssh', '= 4.2.0'
+gem 'net-ssh', '~> 6.1'
 gem 'net-ssh-gateway'
 gem 'nokogiri'
 gem 'octokit'
