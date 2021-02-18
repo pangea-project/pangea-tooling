@@ -59,7 +59,7 @@ gem 'minitest'
 gem 'chef-utils', '<= 13'
 # We are also locking this for now becuase this is a working version and
 # the dep that pulls in chef-utils. This way we can ensure the version
-# combiation will work.
+# combination will work.
 # NOTE: when either of the constraints conflict with another constraint
 #   of one of the gems this needs revisiting. Either we can move to a newer
 #   version because bionic is no longer used on any server or we need a more
