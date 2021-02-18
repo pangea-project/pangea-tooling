@@ -152,12 +152,12 @@ class ProjectJob < JenkinsJob
       job.job_name
     end
 
-    @distribution = distribution.freeze
-    @nested_jobs = job_names.freeze
+    @distribution = distribution.dup.freeze
+    @nested_jobs = job_names.dup.freeze
     @jobs = job_names.flatten.freeze
-    @dependees = dependees.freeze
-    @project = project.freeze
-    @type = type.freeze
+    @dependees = dependees.dup.freeze
+    @project = project.dup.freeze
+    @type = type.dup.freeze
   end
 
   def render_phases
