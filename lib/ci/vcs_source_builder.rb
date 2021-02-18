@@ -280,19 +280,21 @@ module CI
       copy_source_tree('packaging', *args)
     end
 
+    def compression_level
+      return '-0' if ENV['PANGEA_UNDER_TEST']
+
+      '-6'
+    end
+
     def tar_it(origin, xzfile)
       # Try to compress using all cores, if that fails fall back to serial.
       cmd = TTY::Command.new
-      cmd.run(
-        { 'XZ_OPT' => '--threads=0 -6' },
-        'tar', '-cJf', xzfile, origin
-      )
+      cmd.run({ 'XZ_OPT' => "--threads=0 #{compression_level}" },
+              'tar', '-cJf', xzfile, origin)
     rescue TTY::Command::ExitError
       warn 'Tar fail. Falling back to slower single threaded compression...'
-      cmd.run(
-        { 'XZ_OPT' => '-6' },
-        'tar', '-cJf', xzfile, origin
-      )
+      cmd.run({ 'XZ_OPT' => compression_level },
+              'tar', '-cJf', xzfile, origin)
     end
 
     def create_orig_tar

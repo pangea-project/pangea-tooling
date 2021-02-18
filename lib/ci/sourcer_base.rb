@@ -201,6 +201,7 @@ module CI
         '-S', # Only build source
         '-d' # Do not enforce build-depends
       ]
+      args << '-nc' if ENV['PANGEA_UNDER_TEST'] # don't clean - be fast!
       raise BuildPackageError, 'dpkg-buildpackage failed!' unless system(*args)
     end
 
