@@ -68,7 +68,7 @@ module NCI
         fake_repo
           .expects(:packages)
           .at_least_once
-          .with(q: '!$Architecture (source), !$Architecture (udeb), $Source (kcoreaddons), $SourceVersion (5.21.0-0neon)')
+          .with(q: '!$Architecture (source), $PackageType (deb), $Source (kcoreaddons), $SourceVersion (5.21.0-0neon)')
           .returns(['Pamd64 libkf5coreaddons-bin-dev 5.21.0-0neon abc',
                     'Pall libkf5coreaddons-data 5.21.0-0neon abc',
                     'Pamd64 libkf5coreaddons-dev 5.21.0-0neon abc',
