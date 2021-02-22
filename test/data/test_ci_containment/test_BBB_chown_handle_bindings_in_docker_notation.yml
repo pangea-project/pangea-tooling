@@ -8,16 +8,18 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.34.0
+      - Swipely/Docker-API 2.0.0
+      Accept:
+      - "*/*"
       Content-Type:
       - text/plain
   response:
     status:
       code: 404
-      message: 
+      message: null
     headers:
       Api-Version:
-      - '1.29'
+      - '1.40'
       Content-Type:
       - application/json
       Docker-Experimental:
@@ -25,9 +27,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce (linux)
+      - Docker/19.03.8 (linux)
       Date:
-      - Mon, 19 Feb 2018 12:42:43 GMT
+      - Mon, 22 Feb 2021 12:25:10 GMT
       Content-Length:
       - '53'
     body:
@@ -35,8 +37,7 @@ http_interactions:
       string: '{"message":"No such container: vivid_unstable_test"}
 
 '
-    http_version: 
-  recorded_at: Mon, 19 Feb 2018 12:42:43 GMT
+  recorded_at: Mon, 22 Feb 2021 12:25:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/containers/vivid_unstable_test/json
@@ -45,16 +46,18 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.34.0
+      - Swipely/Docker-API 2.0.0
+      Accept:
+      - "*/*"
       Content-Type:
       - text/plain
   response:
     status:
       code: 404
-      message: 
+      message: null
     headers:
       Api-Version:
-      - '1.29'
+      - '1.40'
       Content-Type:
       - application/json
       Docker-Experimental:
@@ -62,9 +65,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce (linux)
+      - Docker/19.03.8 (linux)
       Date:
-      - Mon, 19 Feb 2018 12:42:43 GMT
+      - Mon, 22 Feb 2021 12:25:10 GMT
       Content-Length:
       - '53'
     body:
@@ -72,8 +75,7 @@ http_interactions:
       string: '{"message":"No such container: vivid_unstable_test"}
 
 '
-    http_version: 
-  recorded_at: Mon, 19 Feb 2018 12:42:43 GMT
+  recorded_at: Mon, 22 Feb 2021 12:25:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/containers/vivid_unstable_test/json
@@ -82,16 +84,18 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.34.0
+      - Swipely/Docker-API 2.0.0
+      Accept:
+      - "*/*"
       Content-Type:
       - text/plain
   response:
     status:
       code: 404
-      message: 
+      message: null
     headers:
       Api-Version:
-      - '1.29'
+      - '1.40'
       Content-Type:
       - application/json
       Docker-Experimental:
@@ -99,9 +103,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce (linux)
+      - Docker/19.03.8 (linux)
       Date:
-      - Mon, 19 Feb 2018 12:42:43 GMT
+      - Mon, 22 Feb 2021 12:25:10 GMT
       Content-Length:
       - '53'
     body:
@@ -109,8 +113,7 @@ http_interactions:
       string: '{"message":"No such container: vivid_unstable_test"}
 
 '
-    http_version: 
-  recorded_at: Mon, 19 Feb 2018 12:42:43 GMT
+  recorded_at: Mon, 22 Feb 2021 12:25:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/containers/vivid_unstable_test/json
@@ -119,16 +122,18 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.34.0
+      - Swipely/Docker-API 2.0.0
+      Accept:
+      - "*/*"
       Content-Type:
       - text/plain
   response:
     status:
       code: 404
-      message: 
+      message: null
     headers:
       Api-Version:
-      - '1.29'
+      - '1.40'
       Content-Type:
       - application/json
       Docker-Experimental:
@@ -136,9 +141,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce (linux)
+      - Docker/19.03.8 (linux)
       Date:
-      - Mon, 19 Feb 2018 12:42:43 GMT
+      - Mon, 22 Feb 2021 12:25:10 GMT
       Content-Length:
       - '53'
     body:
@@ -146,8 +151,7 @@ http_interactions:
       string: '{"message":"No such container: vivid_unstable_test"}
 
 '
-    http_version: 
-  recorded_at: Mon, 19 Feb 2018 12:42:43 GMT
+  recorded_at: Mon, 22 Feb 2021 12:25:10 GMT
 - request:
     method: get
     uri: unix:///var/run/docker.sock/networks/bridge
@@ -156,16 +160,18 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.34.0
+      - Swipely/Docker-API 2.0.0
+      Accept:
+      - "*/*"
       Content-Type:
       - text/plain
   response:
     status:
       code: 200
-      message: 
+      message: null
     headers:
       Api-Version:
-      - '1.29'
+      - '1.40'
       Content-Type:
       - application/json
       Docker-Experimental:
@@ -173,36 +179,37 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce (linux)
+      - Docker/19.03.8 (linux)
       Date:
-      - Mon, 19 Feb 2018 12:42:43 GMT
+      - Mon, 22 Feb 2021 12:25:10 GMT
       Content-Length:
-      - '677'
+      - '724'
     body:
       encoding: ASCII-8BIT
-      string: '{"Name":"bridge","Id":"f319621499cdc423b222f02bfa0167c667789a5e0986bf07f7649e0d7fe4c41e","Created":"2018-02-19T09:34:05.684970726+01:00","Scope":"local","Driver":"bridge","EnableIPv6":false,"IPAM":{"Driver":"default","Options":null,"Config":[{"Subnet":"172.17.0.0/16","Gateway":"172.17.0.1"}]},"Internal":false,"Attachable":false,"Ingress":false,"Containers":{},"Options":{"com.docker.network.bridge.default_bridge":"true","com.docker.network.bridge.enable_icc":"true","com.docker.network.bridge.enable_ip_masquerade":"true","com.docker.network.bridge.host_binding_ipv4":"0.0.0.0","com.docker.network.bridge.name":"docker0","com.docker.network.driver.mtu":"1500"},"Labels":{}}
+      string: '{"Name":"bridge","Id":"34c9fdc2b40bd82185bd45662b495c399313c2ac14e8191865ec207f09ce0f3c","Created":"2021-02-22T13:04:39.738743318+01:00","Scope":"local","Driver":"bridge","EnableIPv6":false,"IPAM":{"Driver":"default","Options":null,"Config":[{"Subnet":"172.17.0.0/16","Gateway":"172.17.0.1"}]},"Internal":false,"Attachable":false,"Ingress":false,"ConfigFrom":{"Network":""},"ConfigOnly":false,"Containers":{},"Options":{"com.docker.network.bridge.default_bridge":"true","com.docker.network.bridge.enable_icc":"true","com.docker.network.bridge.enable_ip_masquerade":"true","com.docker.network.bridge.host_binding_ipv4":"0.0.0.0","com.docker.network.bridge.name":"docker0","com.docker.network.driver.mtu":"1500"},"Labels":{}}
 
 '
-    http_version: 
-  recorded_at: Mon, 19 Feb 2018 12:42:43 GMT
+  recorded_at: Mon, 22 Feb 2021 12:25:10 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/networks/f319621499cdc423b222f02bfa0167c667789a5e0986bf07f7649e0d7fe4c41e/disconnect
+    uri: unix:///var/run/docker.sock/networks/34c9fdc2b40bd82185bd45662b495c399313c2ac14e8191865ec207f09ce0f3c/disconnect
     body:
       encoding: UTF-8
       string: '{"container":"vivid_unstable_test","force":true}'
     headers:
       User-Agent:
-      - Swipely/Docker-API 1.34.0
+      - Swipely/Docker-API 2.0.0
+      Accept:
+      - "*/*"
       Content-Type:
       - application/json
   response:
     status:
       code: 404
-      message: 
+      message: null
     headers:
       Api-Version:
-      - '1.29'
+      - '1.40'
       Content-Type:
       - application/json
       Docker-Experimental:
@@ -210,9 +217,9 @@ http_interactions:
       Ostype:
       - linux
       Server:
-      - Docker/17.05.0-ce (linux)
+      - Docker/19.03.8 (linux)
       Date:
-      - Mon, 19 Feb 2018 12:42:43 GMT
+      - Mon, 22 Feb 2021 12:25:10 GMT
       Content-Length:
       - '53'
     body:
@@ -220,6 +227,5 @@ http_interactions:
       string: '{"message":"endpoint vivid_unstable_test not found"}
 
 '
-    http_version: 
-  recorded_at: Mon, 19 Feb 2018 12:42:43 GMT
-recorded_with: VCR 4.0.0
+  recorded_at: Mon, 22 Feb 2021 12:25:10 GMT
+recorded_with: VCR 6.0.0

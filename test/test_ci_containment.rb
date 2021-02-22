@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+# SPDX-FileCopyrightText: 2015-2021 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2015-2016 Rohan Garg <rohan@garg.io>
+
 require 'vcr'
 
 require_relative '../lib/ci/containment.rb'
@@ -173,8 +178,9 @@ module CI
     def test_run_fail
       vcr_it(__method__) do
         c = Containment.new(@job_name, image: @image, binds: [])
-        ret = c.run(Cmd: ['garbage_fail'])
-        assert_not_equal(0, ret)
+        assert_raises Docker::Error::ClientError do
+          c.run(Cmd: ['garbage_fail'])
+        end
       end
     end
 
