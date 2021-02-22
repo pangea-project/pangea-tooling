@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: none
+
 inherit_from:
  - ../.rubocop.yml # pangea-tooling
 
@@ -10,11 +13,50 @@ Style/Documentation:
 Naming/FileName:
   Enabled: false
 
+Naming/MethodName:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+
 Metrics/AbcSize:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
   Enabled: false
 
 Metrics/MethodLength:
   Enabled: false
 
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
 Layout/LineLength:
+  Enabled: false
+
+# In tests we often don't care.
+Lint/SuppressedException:
+  Enabled: false
+
+# There are many test that open a block merely to comply with the method
+# signature or to trigger a certain branch within the method. They are usually
+# intentionally empty and when not we'll also not really care because these
+# are tests.
+Lint/EmptyBlock:
+  Enabled: false
+
+# We trust our fixtures
+Security/JSONLoad:
   Enabled: false
