@@ -1,6 +1,12 @@
 AllCops:
   NewCops: enable # https://docs.rubocop.org/en/latest/versioning/
   TargetRubyVersion: 2.5
+  # Skip all git ignored but mangle paths to apply recursively foo/ -> foo/**
+  Exclude:
+    - ci-tooling/**/* # symlinks back up
+  <% `git status --ignored --porcelain`.lines.grep(/^!! /).each do |path| %>
+    - <%= path = path.strip.sub(/^!! /, '');  path = "#{path}**" if path.end_with?('/'); path %>
+  <% end %>
 
 Style/Next:
   Enabled: false
