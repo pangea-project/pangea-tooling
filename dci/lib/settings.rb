@@ -54,6 +54,7 @@ module DCI
       job_patterns = CI::FNMatchPattern.filter(job, settings)
       job_patterns = CI::FNMatchPattern.sort_hash(job_patterns)
       return {} if job_patterns.empty?
+
       merge(job_patterns)
     end
 

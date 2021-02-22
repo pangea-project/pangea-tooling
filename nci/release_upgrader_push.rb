@@ -63,6 +63,7 @@ Dir.mktmpdir('release_upgrader_push') do |tmpdir|
 
       dirs = Dir.glob('*.*.*')
       raise 'no dir matches found' if dirs.empty?
+
       dirs.each do |dir|
         next unless File.directory?(dir)
         raise 'tar count wrong' unless Dir.glob("#{dir}/*.tar.gz").size == 1

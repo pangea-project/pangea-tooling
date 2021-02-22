@@ -72,6 +72,7 @@ module QML
       static_package = QML::StaticMap.new.package(self)
       return false unless static_package
       return package_installed?(static_package) unless modules_installed?
+
       raise ExistingStaticError, <<-ERROR
 #{self} was found in QML load paths but also statically mapped! This means
 that dependency detection will not work correctly. You must remove the static
@@ -95,6 +96,7 @@ module override for the package.
 
     def package_installed?(package_name)
       return true if package_name == 'fake-global-ignore'
+
       # FIXME: move to dpkg module
       # FIXME: instead of calling -s this probably should manually check
       #   /var/lib/dpkg/info as -s is rather slow
@@ -104,11 +106,14 @@ module override for the package.
     def parse(line)
       minsize = 3 # import + name + version
       return nil if line.to_s.empty?
+
       parts = line.split(/\s/)
       return nil unless parts.size >= minsize
+
       parts.delete_if { |str| str.nil? || str.empty? }
       return nil unless parts.size >= minsize && parts[0] == 'import'
       return nil if parts[1].start_with?('"') # Directory import.
+
       @identifier = parts[1]
       @version = parts[2]
       # FIXME: what if part 3 is not as?

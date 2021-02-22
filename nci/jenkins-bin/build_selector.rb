@@ -120,6 +120,7 @@ and what triggers it raising an exception.
           builds << build if build
         end
         return nil unless builds.size >= set_size
+
         builds
       rescue CoreMismatchError
         nil # Logged at raise time already

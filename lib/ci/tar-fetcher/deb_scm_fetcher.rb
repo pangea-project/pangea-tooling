@@ -33,8 +33,10 @@ module CI
       #   anyway though...
       tars = Dir.glob("#{@dir}/*.tar*").reject { |x| x.include?('.debian.tar') }
       raise "Expected exactly one tar, got: #{tars}" if tars.size != 1
+
       dscs = Dir.glob("#{@dir}/*.dsc")
       raise "Expected exactly one dsc, got: #{dscs}" if dscs.size != 1
+
       DSCTarball.new(tars[0], dsc: dscs[0])
     end
   end

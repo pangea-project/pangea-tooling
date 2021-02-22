@@ -68,9 +68,11 @@ The following modules are missing:
     missing_modules = {}
     repo.binaries.each do |package, version|
       next if package.end_with?('-dbg', '-dbgsym', '-dev')
+
       pkg = QMLDepVerify::Package.new(package, version)
       @log.info "Checking #{package}: #{version}"
       next if pkg.missing.empty?
+
       missing_modules[package] = pkg.missing
     end
     log_missing(missing_modules)

@@ -35,6 +35,7 @@ class Logger
       spacers = (max_line - msg.size - white_space_count) / 2
       spacers = ' ' * spacers
       next "\n\e[1m#{spacers} #{msg} #{spacers}\e[0m\n" if severity == 'ANY'
+
       "[#{severity[0]}] #{progname}: #{msg}\n"
     end
   end
@@ -102,6 +103,7 @@ class Merger
 
   def setup_semaphore!
     return false unless File.exist?('/var/lib/jenkins/git-semaphore/git')
+
     @log.info 'Setting up git semaphore as git binary'
     Git.configure { |c| c.binary_path = '/var/lib/jenkins/git-semaphore/git' }
     true
@@ -109,6 +111,7 @@ class Merger
 
   def setup_ssh_key!
     return false unless ENV.include?('SSH_KEY_FILE')
+
     @log.info 'Setting up GIT_SSH to load the key file defined in SSH_KEY_FILE'
     ENV['GIT_SSH'] = "#{File.expand_path(__dir__)}/libexec/ssh_key_file.sh"
     true
@@ -122,6 +125,7 @@ class Merger
     repo
   rescue Git::GitExecuteError => e
     raise e if repo_path.end_with?('.git', '.git/')
+
     repo_path = "#{repo_path}/.git"
     retry
   end
@@ -166,6 +170,7 @@ class Merger
   def noci_merge?(source)
     log = @git.log.between('', source.full)
     return false unless log.size >= 1
+
     log.each do |commit|
       return false unless commit.message.include?('NOCI')
     end

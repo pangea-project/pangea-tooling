@@ -67,6 +67,7 @@ module Debian
 
     def post_process
       return unless @fields
+
       if @fields['files']
         # Mangle list fields into structs.
         @fields['files'] = parse_types(@fields['files'], File)
@@ -76,6 +77,7 @@ module Debian
       end
 
       return unless @fields.key?('package-list')
+
       @fields['package-list'].reject! { |x| x.respond_to?(:empty?) && x.empty? }
     end
 

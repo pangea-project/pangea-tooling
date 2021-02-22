@@ -79,6 +79,7 @@ exit_status = 0
 
 ec.each do |pid, status|
   next if status.success?
+
   puts "ERROR: Creating container for #{pid_map[pid]} failed"
   exit_status = 1
 end

@@ -28,6 +28,7 @@ module ProjectsFactoryCommon
     matches = {}
     each_pattern_value(subset) do |pattern, value|
       next unless pattern.match?(name)
+
       match = ["#{base}/#{name}", value]
       matches[pattern] = match
     end

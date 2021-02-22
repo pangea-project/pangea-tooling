@@ -156,6 +156,7 @@ module JenkinsApi
 
         jobs = jobs.collect do |j|
           next j unless j.fetch('_class').include?('Folder')
+
           name = j.fetch('name')
           leaves = list_all("#{root}/job/#{j.fetch('name')}")
           leaves.collect { |x| "#{name}/#{x}" }
@@ -168,6 +169,7 @@ module JenkinsApi
       def building?(job_name, build_number = nil)
         build_number ||= get_current_build_number(job_name)
         raise "No builds for #{job_name}" unless build_number
+
         @client.api_get_request(
           "/job/#{path_encode job_name}/#{build_number}"
         )['building']
@@ -186,8 +188,10 @@ module JenkinsApi
       def abstract_murdering(job_name, build_number: nil, method:)
         build_number ||= get_current_build_number(job_name)
         raise "No builds for #{job_name}" unless build_number
+
         @logger.info "Calling '#{method}' on '#{job_name}' ##{build_number}"
         return unless building?(job_name, build_number)
+
         @client.api_post_request(
           "/job/#{path_encode(job_name)}/#{build_number}/#{method}"
         )

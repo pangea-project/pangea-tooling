@@ -54,6 +54,7 @@ module NCI
           self.class.readable_attrs.each do |readable_attrs|
             next unless (data = method(readable_attrs).call)
             next if data.respond_to?(:empty?) && data.empty?
+
             c[attr_name_to_yaml(readable_attrs)] = data
           end
           super(c) if defined?(super)

@@ -90,6 +90,7 @@ class XenonProjectMultiJob < JenkinsJob
     # them appropriately.
     job_names = jobs.collect do |job|
       next job.collect(&:job_name) if job.is_a?(Array)
+
       job.job_name
     end
 
@@ -115,6 +116,7 @@ class XenonProjectMultiJob < JenkinsJob
   def render_upstream_scm
     @upstream_scm = @project.upstream_scm # FIXME: compat assignment
     return '' unless @upstream_scm
+
     case @upstream_scm.type
     when 'git'
       render('upstream-scms/git.xml.erb')

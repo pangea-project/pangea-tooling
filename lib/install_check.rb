@@ -113,6 +113,7 @@ class InstallCheck < InstallCheckBase
       # Install ubuntu-minmal first to make sure foundations nonsense isn't
       # going to make the test fail half way through.
       raise 'failed to install minimal' unless Apt.install('ubuntu-minimal')
+
       # Because dependencies are fucked
       # [14:27] <sitter> dictionaries-common is a crap package
       # [14:27] <sitter> it suggests a wordlist but doesn't pre-depend them or

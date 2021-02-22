@@ -55,6 +55,7 @@ module Docker
       containers.each do |container|
         created = container_creation(container)
         next if (DateTime.now - created).to_i < days_old
+
         remove_container(container, force: false)
       end
     end
@@ -121,9 +122,11 @@ module Docker
     def image_broken?(image)
       tags = image.info.fetch('RepoTags', [])
       return false unless tags.any? { |x| x.start_with?('pangea/') }
+
       created = object_creation(image)
       # rubocop:disable Style/NumericLiterals
       return false if Time.at(1470048138).to_datetime < created.to_datetime
+
       # rubocop:enable Style/NumericLiterals
       true
     end

@@ -19,6 +19,7 @@ module Lint
         control.parse!
         result.valid = !control.source.nil?
         return result unless result.valid
+
         result = lint_vcs(result, control)
       end
       result

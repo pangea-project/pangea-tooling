@@ -66,6 +66,7 @@ def default_ccache_dir
   dir = '/var/cache/pangea-ccache-neon'
   return nil unless CCACHE_WHITELIST.any? { |x| JOB_NAME.include?("_#{x}_") }
   return dir if File.exist?(dir) && ENV.fetch('TYPE', '') == 'unstable'
+
   nil
 end
 

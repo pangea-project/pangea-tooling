@@ -36,6 +36,7 @@ module Aptly
         constants.each do |const|
           klass = const_get(const)
           next unless klass.connects?(uri)
+
           klass.connect(uri, &block)
         end
       end

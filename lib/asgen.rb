@@ -27,6 +27,7 @@ module ASGEN
       instance_variables.collect do |x|
         value = to_json_instance(x)
         next nil unless value
+
         [x.to_s.tr('@', ''), value]
       end.compact.to_h.to_json(options)
     end
@@ -57,6 +58,7 @@ module ASGEN
     def to_json_instance(var)
       value = super(var)
       return nil if var == :@name # Don't serialize name
+
       value
     end
   end

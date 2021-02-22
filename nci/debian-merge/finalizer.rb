@@ -53,6 +53,7 @@ module NCI
         def assert_fastforward!
           return if pending.target == target.target
           return if @rug.merge_analysis(pending.target).include?(:fastforward)
+
           raise NoFastForwardError,
                 "cannot fast forward #{@rug.workdir}, must be out of date :O"
         end
@@ -76,6 +77,7 @@ module NCI
 
         def push
           return unless pending && target
+
           mangle_push_path!
           @log.info "pushing #{@rug.remotes['origin'].url}"
           push_all

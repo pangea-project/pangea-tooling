@@ -50,6 +50,7 @@ class RepoCleaner
     Aptly::Repository.list.each do |repo|
       puts repo.Name
       next unless repo_whitelist.include?(repo.Name)
+
       puts "-- Now cleaning repo: #{repo}"
       RepoCleaner.new(repo, keep_amount: keep_amount).clean
     end

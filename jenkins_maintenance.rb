@@ -128,6 +128,7 @@ cis.each do |ci|
   node_client.list.each do |name|
     node = Node.new(name, node_client)
     next if node.skip?
+
     @log.info "Taking #{node} on #{ci.server_ip} #{Node.target_state}"
     node.toggle!
   end

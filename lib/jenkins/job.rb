@@ -61,6 +61,7 @@ module Jenkins
       if name.to_s.end_with?('=')
         return @client.job.respond_to?("set_#{name}".to_sym, include_private)
       end
+
       @client.job.respond_to?(name, include_private) ||
         @client.job.respond_to?("get_#{name}".to_sym, include_private) ||
         super

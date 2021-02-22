@@ -63,6 +63,7 @@ module CI
 
     def self.resolve(dir, bin_only: false, retries: 5, arch: nil)
       return true if @simulate
+
       cmd = TTY::Command.new(uuid: false)
 
       Retry.retry_it(times: retries) do

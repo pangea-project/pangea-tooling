@@ -102,6 +102,7 @@ module CI
         # In order to effecitvely set ulimits we need docker 1.6.
         docker_version = Docker.version['Version']
         return if Gem::Version.new(docker_version) >= Gem::Version.new('1.12')
+
         raise "Containment requires Docker 1.12; found #{docker_version}"
       end
 
@@ -120,6 +121,7 @@ module CI
       # stringy form.
       def stringy_env_var!(v)
         return nil unless ENV.include?(v)
+
         format('%s=%s', v, ENV[v])
       end
 
@@ -154,6 +156,7 @@ module CI
         ours = our_options[:Env]
         theirs = their_options[:Env]
         return our_options if theirs.nil?
+
         our_hash = ours.map { |i| i.split('=') }.to_h
         their_hash = theirs.map { |i| i.split('=') }.to_h
         our_options[:Env] = our_hash.merge(their_hash).map { |i| i.join('=') }

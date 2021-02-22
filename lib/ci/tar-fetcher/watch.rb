@@ -49,6 +49,7 @@ module CI
       @mangle_download = mangle_download
       @series = series
       return unless Debian::Source.new(@dir).format.type == :native
+
       raise NativePackaging, 'run on native packaging. This is useless!'
     end
 
@@ -63,6 +64,7 @@ module CI
         tar = TarFinder.new(destdir,
                             version: current_upstream_version).find_and_delete
         return tar unless tar # can be nil from pop
+
         Tarball.new("#{destdir}/#{File.basename(tar)}")
       end
     end
@@ -77,10 +79,12 @@ module CI
       unless File.basename(watchfile) == 'watch'
         raise "path not a watch file #{watchfile}"
       end
+
       debiandir = File.dirname(File.absolute_path(watchfile))
       unless File.basename(debiandir) == 'debian'
         raise "path not a debian dir #{debiandir}"
       end
+
       debiandir
     end
 
@@ -103,6 +107,7 @@ module CI
       @changelog ||= begin
         file = "#{@dir}/debian/changelog"
         raise "changelog not found at #{file}" unless File.exist?(file)
+
         Changelog.new(file)
       end
     end
@@ -125,6 +130,7 @@ module CI
       @series.each do |series|
         tar = apt_sourcer.find_for(series: series)
         next unless tar
+
         puts "Found a suitable tarball: #{tar.basename}. Not uscanning..."
         @have_source = true
         break
@@ -147,6 +153,7 @@ module CI
       return unless File.read(@watchfile).include?('repack')
       return unless %w[ubuntu neon].any? { |x| OS::ID == x }
       return if OS::UBUNTU_CODENAME == NCI.future_series || OS::UBUNTU_CODENAME == NCI.current_series
+
       raise RepackOnNotCurrentSeries, <<~ERROR
         The watch file wants to repack the source. We tried to download an
         already repacked source from our archives but didn't find one. For
@@ -174,6 +181,7 @@ module CI
       def find_and_delete
         puts "I've found the following tars: #{all_tars_by_version}"
         return nil unless tar
+
         puts "The following tar is considered golden: #{tar}"
         # Automatically ditch all but the newest tarball. This prevents
         # preserved workspaces from getting littered with old tars.
@@ -190,6 +198,7 @@ module CI
         end.to_h.values
         raise "Too many tars: #{tars}" if tars.size > 1
         return nil if tars.empty?
+
         tars[0]
       end
 

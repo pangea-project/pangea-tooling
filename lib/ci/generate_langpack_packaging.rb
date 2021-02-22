@@ -30,6 +30,7 @@ module CI
         match_pattern = /aaa(KDELANGNAME|UBUNTULANGCODE|KDELANGCODE|UBUNTULANGDEP)bbb/
         Dir.glob('debian/*').each do |file|
           next unless File.file? file
+
           subbed = File.open(file).read.gsub(match_pattern, @lang)
           subbed.gsub!(/@ORIGLANG@/, lang)
           File.write(file, subbed)

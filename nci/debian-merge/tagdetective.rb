@@ -69,6 +69,7 @@ module NCI
           @log.info 'finding latest tag of ECM'
           ecm = frameworks.find { |x| x.include?(ECM) }
           raise unless ecm
+
           Dir.mktmpdir do |tmpdir|
             git = Git.clone(ecm, tmpdir)
             last_tag = git.describe(ORIGIN, tags: true, abbrev: 0)
@@ -117,12 +118,14 @@ module NCI
 
       def reuse_old_data?
         return false unless Data.file_exist?
+
         olddata = Data.from_file
         olddata.tag_base == last_tag_base
       end
 
       def run
         return if reuse_old_data?
+
         Data.write(investigation_data)
       end
       alias investigate run

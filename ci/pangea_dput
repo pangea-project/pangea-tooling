@@ -102,9 +102,11 @@ Aptly::Ext::Remote.connect(options.gateway) do
 
   ARGV.each do |file|
     next unless File.size?(file)
+
     puts "translating uploads #{file}"
     files = CI::Deb822Lister.files_to_upload_for(file)
     raise 'Changes lists no files to upload!?' if files.empty?
+
     puts "Uploading files... #{files}"
     Aptly::Files.tmp_upload(files) do |dir|
       repos.each { |r| r.add_file(dir, noRemove: 1) }

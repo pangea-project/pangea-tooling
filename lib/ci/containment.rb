@@ -141,6 +141,7 @@ module CI
     def chown_handler
       STDERR.puts 'Running chown handler'
       return @chown_handler if defined?(@chown_handler)
+
       binds_ = @binds.dup # Remove from object context so Proc can be a closure.
       binds_ = chown_any_mapped(binds_)
       @chown_handler = proc do
@@ -201,6 +202,7 @@ module CI
     def init(no_exit_handlers)
       cleanup
       return unless handle_exit?(no_exit_handlers)
+
       # TODO: finalize object and clean up container
       trap!
     end
@@ -208,6 +210,7 @@ module CI
     def handle_exit?(no_exit_handlers)
       return false if no_exit_handlers
       return false if self.class.userns?
+
       true
     end
 

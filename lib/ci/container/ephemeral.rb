@@ -32,6 +32,7 @@ module CI
       unless RUNNING_STATES.include?(state.fetch('Status'))
         raise EphemeralContainerUnhandledState, state.fetch('Status')
       end
+
       state.fetch('Running')
     end
 

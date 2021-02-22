@@ -31,6 +31,7 @@ module Debian
           unless system('which', 'dpkg', %i[out err] => '/dev/null')
             raise 'dpkg not installed'
           end
+
           true
         end
       end

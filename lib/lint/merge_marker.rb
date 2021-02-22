@@ -19,6 +19,7 @@ module Lint
         # Check filter. If this becomes too cumbersome, FileMagic offers a
         # reasonable solution to filetype checking based on mime.
         next if %w[.png .svgz .pdf].include?(File.extname(file))
+
         lint_file(result, file)
       end
       result
@@ -30,6 +31,7 @@ module Lint
       File.open(path, 'r') do |file|
         file.each_line do |line|
           next unless line.start_with?('<<<<<<< ', '>>>>>>> ')
+
           result.errors << "File #{path} contains merge markers!"
           break
         end

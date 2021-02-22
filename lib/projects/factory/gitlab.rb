@@ -62,6 +62,7 @@ class ProjectsFactory
       def ls(base)
         @list_cache ||= {}
         return @list_cache[base] if @list_cache.key?(base)
+
         base_id = ::Gitlab.group_search(base)[0].id
         # gitlab API is bit meh, when you ask path, it just returns parent subgroup
         # so we, ask for path_with_namespace and strip the top-most group name

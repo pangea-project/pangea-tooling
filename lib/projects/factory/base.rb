@@ -31,6 +31,7 @@ class ProjectsFactory
     class << self
       def from_type(type)
         return nil unless understand?(type)
+
         new(type)
       end
 
@@ -60,6 +61,7 @@ class ProjectsFactory
       promises = data.collect do |entry|
         next from_string(entry) if entry.is_a?(String)
         next from_hash(entry) if entry.is_a?(Hash)
+
         # FIXME: use a proper error here.
         raise 'unkown type'
       end.flatten.compact
@@ -135,6 +137,7 @@ class ProjectsFactory
       def reset!
         instance_variables.each do |v|
           next if v == :@mocha
+
           remove_instance_variable(v)
         end
       end

@@ -14,6 +14,7 @@ module XCI
   def series(sort: :none)
     return sort_version_hash(data['series']).to_h if sort == :ascending
     return sort_version_hash(data['series']).reverse.to_h if sort == :descending
+
     data['series']
   end
 
@@ -81,8 +82,10 @@ module XCI
 
   def data
     return @data if defined?(@data)
+
     file = File.join(data_dir, data_file_name)
     raise "Data file not found (#{file})" unless File.exist?(file)
+
     @data = YAML.load(File.read(file))
     @data.each_value(&:freeze) # May be worth looking into a deep freeze gem.
   end

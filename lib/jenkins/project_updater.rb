@@ -118,6 +118,7 @@ Check the detailed output to find output relating to the failed creation of the 
         unless system(*%w[git submodule update --remote --recursive])
           raise 'failed to update git submodules of tooling!'
         end
+
         @submodules_updated = true
       end
     end
@@ -170,6 +171,7 @@ Check the detailed output to find output relating to the failed creation of the 
 
     def job_warn(warning_str, names)
       return if names.empty?
+
       log.warn warning_str
       names.each do |name|
         uri = JenkinsApi::Client.new.uri
@@ -219,6 +221,7 @@ Check the detailed output to find output relating to the failed creation of the 
       if @job_names.include?(obj.job_name)
         raise "#{obj.job_name} already queued. Jobs need only be queued once..."
       end
+
       @job_names << obj.job_name
       collect_plugins(obj)
       obj
@@ -226,6 +229,7 @@ Check the detailed output to find output relating to the failed creation of the 
 
     def proc_is_jenkins?(pid)
       return false if pid =~ /\D/
+
       cmdline = IO.read("/proc/#{pid}/cmdline").split("\000")
       jenkins = cmdline.any? { |x| x.include?('java') }
       jenkins &= cmdline.any? { |x| x.include?('jenkins.war') }

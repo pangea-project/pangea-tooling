@@ -39,6 +39,7 @@ module DigitalOcean
           sleep(sleep_for)
         end
         raise error if error && !broken
+
         broken
       end
     end

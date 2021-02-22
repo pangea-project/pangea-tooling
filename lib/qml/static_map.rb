@@ -25,6 +25,7 @@ module QML
       data_file ||= self.class.data_file
       data = YAML.load(File.read(data_file))
       return if data.nil? || !data || data.empty?
+
       parse(data)
     end
 
@@ -39,6 +40,7 @@ module QML
       @hash.each do |mod, package|
         next unless mod.identifier == qml_module.identifier
         next unless version_match?(mod.version, qml_module.version)
+
         return package
       end
       nil
@@ -51,11 +53,13 @@ module QML
       return true if constraint == version
       # Otherwise we'll want a version to verify aginst.
       return false unless version
+
       Gem::Dependency.new('', constraint).match?('', version)
     end
 
     def parse_module(mod)
       return QML::Module.new(mod) if mod.is_a?(String)
+
       mod.each do |name, version|
         return QML::Module.new(name, version)
       end

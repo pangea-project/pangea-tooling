@@ -8,6 +8,7 @@ module LSB
 
   def self.const_missing(name)
     return to_h[name] if to_h.key?(name)
+
     super(name)
   end
 

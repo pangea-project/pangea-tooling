@@ -20,6 +20,7 @@ with_branch = {}
 cmd = TTY::Command.new
 ProjectsFactory::Neon.ls.each do |repo|
   next if repo.include?('gitolite-admin') # enoaccess
+
   url = File.join(ProjectsFactory::Neon.url_base, repo)
   out, _err = cmd.run('git', 'ls-remote', url, "refs/heads/Neon/*_#{series}")
   with_branch[repo] = out unless out.empty?

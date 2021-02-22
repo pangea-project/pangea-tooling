@@ -22,6 +22,7 @@ module Retry
     yield
   rescue *errors => e
     raise e if (times -= 1) <= 0
+
     print "Error on retry_it(#{name}) :: #{e}\n" unless silent
     Kernel.sleep(sleep) if sleep && !@sleep_disabled
     retry

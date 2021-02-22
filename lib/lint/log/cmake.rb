@@ -60,6 +60,7 @@ module Lint
         super
         return unless ENV.fetch('DIST') == 'bionic'
         return unless ENV.fetch('DIST') == NCI.future_series
+
         # As long as bionic is the future series ignore QCH problems. We cannot
         # solve them without breaking away from xenial or breaking xenial
         # support.
@@ -71,6 +72,7 @@ module Lint
       def warnings(line, data)
         METHS.each do |id, meth|
           next unless line.include?(id)
+
           ret = send(meth, line, data)
           @ignores.each do |ignore|
             ret.reject! { |d| ignore.match?(d) }
@@ -97,6 +99,7 @@ module Lint
             next
           elsif start_line && !line.empty?
             next if line.strip.empty?
+
             match = line.match(/^ *\* (.*)$/)
             missing << match[1] if match&.size && match.size > 1
           else
@@ -113,6 +116,7 @@ module Lint
         package = 'Could not find a package configuration file provided by'
         match = line.match(/^\s+#{package}\s+"(.+)"/)
         return [] unless match&.size && match.size > 1
+
         [match[1]]
       end
 
@@ -125,12 +129,14 @@ module Lint
           '/usr/share/kde4/apps/cmake/modules/MacroOptionalFindPackage.cmake')
         # Lines coming from find_package (from old parsing).
         return [] if line =~ /CMake Warning at [^ :]+:\d+ \(find_package\)/
+
         # Lines coming from warnings inside the actual CMakeLists.txt as those
         # can be arbitrary.
         # ref: "CMake Warning at src/worker/CMakeLists.txt:33 (message):"
         warning_exp = /CMake Warning at [^ :]*CMakeLists.txt:\d+ \(message\)/
         return [] if line.match(warning_exp)
         return [] if line.start_with?('CMake Warning (dev)')
+
         [] # if line.start_with?('CMake Warning:')] ALWAYS empty, too pointless
       end
     end

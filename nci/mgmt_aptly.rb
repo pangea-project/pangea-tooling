@@ -61,6 +61,7 @@ pp repos
 Aptly::Ext::Remote.neon do
   repos.each do |publishing_repo, repo_kwords|
     next if Aptly::Repository.exist?(publishing_repo.repo_name)
+
     warn "repo = Aptly::Repository.create(#{publishing_repo.repo_name})"
     warn "repo.publish(#{publishing_repo.publish_name || publishing_repo.repo_name}, #{repo_kwords})"
     repo = Aptly::Repository.create(publishing_repo.repo_name)
@@ -73,6 +74,7 @@ Aptly::Ext::Remote.neon do
   repo_names += %w[unstable stable release] # wily repos
   repo_names.each do |repo_name|
     next unless Aptly::Repository.exist?(repo_name)
+
     repo = Aptly::Repository.get(repo_name)
     repo.published_in(&:drop)
     repo.delete

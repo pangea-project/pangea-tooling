@@ -88,6 +88,7 @@ module ADT
             # were none, we don't care as we simply represent no testcases then
             next
           end
+
           @suite.add_case(Entry.new(entry, dir).to_case)
         end
       end

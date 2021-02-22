@@ -8,6 +8,7 @@ require_relative '../lib/ci/lb_runner'
 require_relative '../dci/lib/setup_repo'
 
 raise 'No live-config found!' unless File.exist?('live-config')
+
 workspace = ENV['WORKSPACE']
 
 DCI.setup_repo!
@@ -25,4 +26,5 @@ end
 
 FileUtils.mv('live-config/result', "#{workspace}/", verbose: true)
 raise 'No result found!' unless File.exist?("#{workspace}/result")
+
 FileUtils.remove_dir('live-config')

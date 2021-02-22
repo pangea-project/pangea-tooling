@@ -21,12 +21,15 @@ module QML
     # @note can be empty if the file does not exist.
     def self.read(path)
       return [] unless File.exist?(path)
+
       rules = File.read(path).split($/)
       rules.collect! do |line|
         line = line.split('#')[0]
         next if line.nil? || line.empty?
+
         parts = line.split(/\s+/)
         next unless parts.size.between?(1, 2)
+
         new(*parts)
       end
       rules.compact
@@ -39,6 +42,7 @@ module QML
     # yield to super.
     def ==(other)
       return ignore?(other) if other.is_a?(QML::Module)
+
       super(other)
     end
 
@@ -51,6 +55,7 @@ module QML
         raise 'Version must either be nil or a string'
       end
       return unless @identifier.nil? || @identifier.empty?
+
       raise 'No valid identifier set. Needs to be a string and not empty'
     end
 

@@ -24,9 +24,11 @@ module CI
     # @return [Array] Binds API array of the form ["Path:Path"]
     def self.to_bindings(array)
       raise InvalidBindingType unless array.is_a?(Array)
+
       array.collect do |bind|
         volume_specification_check(bind)
         next bind if mapped?(bind)
+
         "#{bind}:#{bind}"
       end
     end
@@ -36,6 +38,7 @@ module CI
       return if str.count(':') <= 1
       # path:path:ro is also fine (NB: above also implies path:ro)
       return if str.count(':') == 2 && str.split(':')[-1] == 'ro'
+
       raise ExcessColonError, 'Invalid docker volume notation'
     end
 
@@ -56,6 +59,7 @@ module CI
     def self.mapped?(bind)
       parts = bind.split(':')
       return false if parts.size <= 1
+
       parts.shift
       Pathname.new(parts.join(':')).absolute?
     end

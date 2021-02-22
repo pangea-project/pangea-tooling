@@ -73,6 +73,7 @@ Less likely scenarios include the mirror tech having failed to properly mirror
 a symlink (should only appear in the canonical location on our side).
             EOF
             return output unless (whitelist = DuplicatedRepos.whitelist[name])
+
             output + <<-EOF
 \nThere was a whitelist rule but it did not match! Was: [#{whitelist.join(' ')}]
             EOF
@@ -115,6 +116,7 @@ a symlink (should only appear in the canonical location on our side).
       return true if reject_paths?(paths)
       # Exclude whitelisted materials
       return true if whitelist.fetch(base, []) == paths
+
       false
     end
 

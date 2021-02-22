@@ -45,6 +45,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     upload_map = "#{__dir__}/data/dci.upload.yaml"
     @upload_map = nil
     return unless File.exist?(upload_map)
+
     @upload_map = YAML.load_file(upload_map)
   end
 
@@ -58,6 +59,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       DCI.types.each do |type|
       file = "#{__dir__}/data/projects/dci/#{distribution}/#{type}.yaml"
       next unless File.exist?(file)
+
       @arches = []
       if type == 'c1' || type == 'z1'
         @arches = ['armhf']

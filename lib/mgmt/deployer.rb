@@ -102,6 +102,7 @@ module MGMT
       rescue Docker::Error::ArgumentError, Docker::Error::NotFoundError
         error = "Failed to create Image from #{base_image}"
         raise error if @origin_tags.empty?
+
         puts error
         new_tag = @origin_tags.shift
         puts "Trying again with tag #{new_tag} and an upgrade..."
@@ -145,6 +146,7 @@ module MGMT
       ret = c.wait
       status_code = ret.fetch('StatusCode', 1)
       raise "Bad return #{ret}" unless status_code.to_i.zero?
+
       c.stop!
       c
     end

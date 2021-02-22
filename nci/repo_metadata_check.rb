@@ -40,6 +40,7 @@ class RepoMetadataCheck
 
   def send_email
     return if diff == ""
+
     puts 'sending notification mail'
     Pangea::SMTP.start do |smtp|
       mail = <<-MAIL

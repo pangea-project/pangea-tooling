@@ -74,6 +74,7 @@ module ADT
       data.split($/).each do |line|
         line.strip!
         next if line.empty?
+
         @entries << Entry.from_line(line)
       end
     end

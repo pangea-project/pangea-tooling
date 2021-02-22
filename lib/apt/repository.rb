@@ -71,11 +71,13 @@ module Apt
       def install_add_apt_repository
         return if add_apt_repository_installed?
         return unless Apt.install('software-properties-common')
+
         @add_apt_repository_installed = true
       end
 
       def add_apt_repository_installed?
         return @add_apt_repository_installed if ENV['PANGEA_UNDER_TEST']
+
         @add_apt_repository_installed ||= marker_exist?
       end
 
@@ -94,6 +96,7 @@ module Apt
           remove_instance_variable(:@add_apt_repository_installed)
         end
         return unless defined?(@disable_auto_update)
+
         remove_instance_variable(:@disable_auto_update)
       end
     end

@@ -33,12 +33,14 @@ module XenonCI
     neon = format('deb http://archive.neon.kde.org/unstable %s main',
                     LSB::DISTRIB_CODENAME)
     raise 'adding repo failed' unless Apt::Repository.add(neon)
+
     Apt::Key.add('http://archive.neon.kde.org/public.key')
     raise 'Failed to import key' unless $?.to_i.zero?
 
     xenon = format('deb http://archive.xenon.pangea.pub/%s %s main',
                     ENV.fetch('TYPE'), LSB::DISTRIB_CODENAME)
     raise 'adding repo failed' unless Apt::Repository.add(xenon)
+
     Apt::Key.add('http://archive.xenon.pangea.pub/public.key')
     raise 'Failed to import key' unless $?.to_i.zero?
 

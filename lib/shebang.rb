@@ -34,6 +34,7 @@ class Shebang
 
   def proper_line?
     return false unless @line&.start_with?('#!')
+
     true
   end
 
@@ -50,6 +51,7 @@ class Shebang
   def valid_parts?(parts)
     if parts[0].end_with?('/env')
       return false unless parts.size >= 2
+
       @parser = parts[1]
     elsif !parts[0].include?('/') || parts[0].end_with?('/')
       return false # invalid

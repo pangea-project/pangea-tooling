@@ -64,6 +64,7 @@ end.parse!
 end
 
 raise 'Need ruby pattern as argv0' if ARGV.empty?
+
 pattern = Regexp.new(ARGV[0])
 @log.info pattern
 

@@ -39,6 +39,7 @@ module CI
 
     def version
       raise "Not an orig tarball #{path}" unless orig?
+
       match = basename.match(ORIG_EXP)
       match[:version]
     end
@@ -58,6 +59,7 @@ module CI
     #         working paths if the path is being changed.
     def origify
       return self if orig?
+
       clone.origify!
     end
 
@@ -65,9 +67,11 @@ module CI
     # @return [Tarball, nil] self if the tarball is now orig, nil if it was orig
     def origify!
       return nil if orig?
+
       dir = File.dirname(@path)
       match = basename.match(/(?<name>.+)-(?<version>(([\d.]+)(\+)?(~)?(.+)?))\.(?<ext>tar(.*))/)
       raise "Could not parse tarball #{basename}" unless match
+
       old_path = @path
       @path = "#{dir}/#{match[:name]}_#{match[:version]}.orig.#{match[:ext]}"
       FileUtils.cp(old_path, @path) if File.exist?(old_path)

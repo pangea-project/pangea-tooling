@@ -79,6 +79,7 @@ FileUtils.rm_r('adt-output') if File.exist?('adt-output')
 binary = '/usr/bin/autopkgtest'
 Dir.chdir('/') do
   next unless Process.uid.zero?
+
   FileUtils.cp("#{__dir__}/adt-helpers/mktemp", '/usr/sbin/mktemp',
                verbose: true)
   FileUtils.chmod(0o0755, '/usr/sbin/mktemp')
@@ -95,6 +96,7 @@ Dir.chdir('/') do
   # Override ctest to inject an argument forcing the timeout per test at 5m.
   file = '/usr/bin/ctest'
   next if File.exist?("#{file}.distrib") # Already diverted
+
   system('dpkg-divert', '--local', '--rename', '--add', file) || raise
   File.open(file.to_s, File::RDWR | File::CREAT, 0o755) do |f|
     f.write(<<-EOF)

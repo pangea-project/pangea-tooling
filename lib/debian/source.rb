@@ -15,6 +15,7 @@ module Debian
 
       def to_s
         return @version unless type
+
         "#{version} (#{type})"
       end
 
@@ -35,6 +36,7 @@ module Debian
     def initialize(package_path)
       @package_path = package_path
       raise 'not a package path' unless Dir.exist?("#{package_path}/debian")
+
       parse
     end
 

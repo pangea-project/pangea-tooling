@@ -37,6 +37,7 @@ module Lint
 
     def lint
       return unless @has_qml
+
       # testing editions's aptly repo is called stable_foo for now
       repo = @repo
       repo = 'stable_bionic' if repo == 'testing_bionic'
@@ -46,6 +47,7 @@ module Lint
       verifier = QMLDependencyVerifier.new(qml_repo)
       @missing_modules = verifier.missing_modules
       return if @missing_modules.empty?
+
       write
     end
 

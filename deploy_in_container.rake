@@ -82,6 +82,7 @@ end
     uid = Etc.getpwnam('jenkins') ? Etc.getpwnam('jenkins').uid : nil
     gid = Etc.getgrnam('jenkins') ? Etc.getgrnam('jenkins').gid : nil
     next unless uid && gid
+
     FileUtils.chown_R(uid, gid, tooling_path, verbose: true, force: true)
   end
 end
@@ -128,6 +129,7 @@ def cleanup_rubies
                   verbose: true)
 
   return unless find_executable('ruby').include?('local')
+
   puts 'Mangling system ruby'
   # All gems in all versions.
   FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/*'), verbose: true)
@@ -270,6 +272,7 @@ EOF
     Retry.retry_it(times: 5, sleep: 8) do
       # NOTE: apt.rb automatically runs update the first time it is used.
       raise 'Dist upgrade failed' unless Apt.dist_upgrade
+
       # Install libssl1.0 for systems that have it
       Apt.install('libssl-dev') unless Apt.install('libssl1.0-dev')
       raise 'Apt install failed' unless Apt.install(*DEPS)
@@ -345,6 +348,7 @@ EOF
         # is not properly guarded, so it would fail postinst if the dir was
         # removed.
         next if File.directory?(match)
+
         FileUtils.rm_f(match, verbose: true)
       end
     end
@@ -356,6 +360,7 @@ EOF
   %w[dpkg apt-get apt].each do |bin|
     file = "/usr/bin/#{bin}"
     next if File.exist?("#{file}.distrib") # Already diverted
+
     File.open("#{file}.pangea", File::RDWR | File::CREAT, 0o755) do |f|
       f.write(<<-SCRIPT)
 #!/bin/sh
@@ -371,6 +376,7 @@ SCRIPT
   %w[fc-cache].each do |bin|
     file = "/usr/bin/#{bin}"
     next if File.exist?("#{file}.distrib") # Already diverted
+
     system('dpkg-divert', '--local', '--rename', '--add', file) || raise
     # Fuck you dpkg. Fuck you so much.
     FileUtils.mv(file, "#{file}.distrib") if File.exist?(file)

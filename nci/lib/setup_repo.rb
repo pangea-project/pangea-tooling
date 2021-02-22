@@ -87,6 +87,7 @@ module NCI
     # and build against the incorrect packages. The preference is meant to
     # prevent this by forcing our versions to be the gold standard.
     return unless ENV.fetch('DIST', NCI.current_series) == NCI.future_series
+
     puts 'Setting up apt preference.'
     @preference = Apt::Preference.new('pangea-neon', content: <<-PREFERENCE)
 Package: *
@@ -98,6 +99,7 @@ Pin-Priority: 1001
 
   def maybe_teardown_apt_preference
     return unless @preference
+
     puts 'Discarding apt preference.'
     @preference.delete
     @preference = nil
@@ -105,6 +107,7 @@ Pin-Priority: 1001
 
   def maybe_teardown_experimental_apt_preference
     return unless @experimental_preference
+
     puts 'Discarding testing apt preference.'
     @experimental_preference.delete
     @experimental_preference = nil
@@ -165,6 +168,7 @@ APT::Default-Release "#{setup_repo_codename}";
       lines = data.split("\n")
       lines.collect! do |line|
         next line unless line.strip.start_with?('deb-src')
+
         "# #{line}"
       end
       File.write(default_sources_file, lines.join("\n"))

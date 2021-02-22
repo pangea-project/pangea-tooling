@@ -47,6 +47,7 @@ module CI
 
     def validate(new_version)
       return unless @old_version
+
       new_version = Debian::Version.new(new_version)
       validate_epochs(@old_version.epoch, new_version.epoch)
       # TODO: validate that the new version is strictly greater

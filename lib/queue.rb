@@ -12,6 +12,7 @@ class Queue
     unless array.is_a?(Array)
       raise 'Queue can only be constructed from an Array'
     end
+
     array.each { |i| self << i }
   end
 

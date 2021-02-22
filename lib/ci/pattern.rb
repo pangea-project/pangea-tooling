@@ -31,12 +31,15 @@ module CI
     # pattern.
     def <=>(other)
       return nil unless other.is_a?(PatternBase)
+
       if match?(other)
         return 0 if other.match?(self)
+
         return 1
       end
       # We don't match other. If other matches us other is greater.
       return -1 if other.match?(self)
+
       # If we don't match other and other doesn't match us then the patterns are
       # not comparable
       puts "Couldn't compare #{self} <=> #{other}"
@@ -50,6 +53,7 @@ module CI
     def ==(other)
       return true if other.respond_to?(:pattern) && other.pattern == @pattern
       return true if other.is_a?(String) && match?(other)
+
       super(other)
     end
 

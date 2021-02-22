@@ -79,6 +79,7 @@ Jenkins.job.list_all.each do |name|
     break if match
   end
   next unless match
+
   log.info "-- deleting :: #{name} --"
   log.debug Jenkins.job.delete(name)
 end

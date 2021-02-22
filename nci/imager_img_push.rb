@@ -76,6 +76,7 @@ module SFTPSessionOverlay
   def upload!(from, to, **kwords)
     return super unless @use_cli_sftp
     raise 'CLI upload of dirs not implemented' if File.directory?(from)
+
     # cli wants dirs for remote location
     __cli_upload(from, File.dirname(to))
   end

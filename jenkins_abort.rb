@@ -94,6 +94,7 @@ These jobs did not #{failed_action} in time, do you want to #{new_action}? [y/n]
       job = Jenkins::Job.new(name)
       current = job.current_build_number
       next nil unless current && job.building?(current)
+
       [job, current]
     end
     builds.compact.to_h
@@ -151,6 +152,7 @@ e.g.
 end.parse!
 
 raise 'Need ruby pattern as argv0' if ARGV.empty?
+
 pattern = Regexp.new(ARGV[0])
 
 JobsAborter.new(pattern, force: @force).run

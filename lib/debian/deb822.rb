@@ -32,6 +32,7 @@ module Debian
         string.split('|').each do |entry|
           r = Relationship.new(entry)
           next unless r.name # Invalid name, ignore this bugger.
+
           rel_array << r
         end
         ret << rel_array unless rel_array.empty?
@@ -58,6 +59,7 @@ module Debian
 
       while (line = lines.shift) && line && !line.strip.empty?
         next if line.start_with?('#') # Comment
+
         # Make sure the line is well-formed. If a paragraph is at EOF but
         # doesn't have a terminal \n it'd trip our parsing expectations here.
         line = line + "\n" unless line.end_with?("\n")
@@ -152,6 +154,7 @@ module Debian
         # generating output from this again. It also means fields are consistent
         # and one does not have to .strip everything for good measure.
         next unless multiline_fields.include?(field.downcase)
+
         data[field].rstrip!
       end
 
@@ -217,6 +220,7 @@ module Debian
       joined_alternatives = sort_relationships(joined_alternatives)
       output = joined_alternatives.join(', ')
       return output if output.size < (80 - indent)
+
       joined_alternatives.join(",\n#{Array.new(indent, ' ').join}")
     end
 
@@ -228,6 +232,7 @@ module Debian
         # to everything. If both or none are vars regular alpha order applies.
         next 1 if x_var && !y_var
         next -1 if y_var && !x_var #
+
         x <=> y
       end
     end
@@ -240,6 +245,7 @@ module Debian
       data.sort
       output = data.collect(&:to_s).join(', ')
       return output if output.size < (80 - indent)
+
       data.collect(&:to_s).join(",\n#{Array.new(indent, ' ').join}")
     end
   end

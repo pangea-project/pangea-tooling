@@ -45,6 +45,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     upload_map = "#{__dir__}/data/#{@flavor}.upload.yaml"
     @upload_map = nil
     return unless File.exist?(upload_map)
+
     @upload_map = YAML.load_file(upload_map)
   end
 
@@ -57,6 +58,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       @ci_module.types.each do |type|
         file = "#{__dir__}/data/projects/#{@flavor}/#{distribution}/#{type}.yaml"
         next unless File.exist?(file)
+
         projects = ProjectsFactory.from_file(file, branch: "kubuntu_#{type}")
         all_builds = projects.collect do |project|
           BuilderJobBuilder.job(project, distribution: distribution, type: type,

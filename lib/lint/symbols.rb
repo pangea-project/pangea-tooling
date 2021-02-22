@@ -28,6 +28,7 @@ module Lint
       return unless int?(basename[-1]) # No number at the end = no public lib.
       return if File.exist?("#{dir}/#{basename}.symbols") ||
                 File.exist?("#{dir}/#{basename}.symbols.amd64")
+
       result.errors << "Public library without symbols file: #{basename}"
       result
     end

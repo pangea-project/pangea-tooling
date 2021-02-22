@@ -32,6 +32,7 @@ module DigitalOcean
       def from_name(name, client = Client.new)
         drop = client.droplets.all.find { |x| x.name == name }
         return drop unless drop
+
         new(drop, client)
       end
 
@@ -45,6 +46,7 @@ module DigitalOcean
         image = client.snapshots.all.find { |x| x.name == image_name }
 
         raise "Found a droplet with name #{name} WTF" if exist?(name, client)
+
         new(client.droplets.create(new_droplet(name, image, client)), client)
       end
 
@@ -76,6 +78,7 @@ module DigitalOcean
     #     the id of the droplet as argument.
     def method_missing(meth, *args, **kwords)
       return missing_action(meth, *args, **kwords) if meth.to_s[-1] == '!'
+
       res = resource
       if res.respond_to?(meth)
         # The droplet_kit resource mapping crap is fairly shitty and doesn't

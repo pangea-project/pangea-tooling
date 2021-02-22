@@ -43,6 +43,7 @@ module QMLDepVerify
           ignores.include?(mod) || mod.installed?
         end
         raise "failed to purge #{package}" unless Apt.purge(package)
+
         # We do not autoremove here, because chances are that the next package
         # will need much of the same deps, so we can speed things up a bit by
         # delaying the autoremove until after the next package is installed.

@@ -57,6 +57,7 @@ module DCI
 
     debline = "deb http://deb.debian.org/debian #{release}-backports main"
     raise 'adding backports failed' unless Apt::Repository.add(debline)
+
     Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
 
     Apt.dist_upgrade("-t=#{release}-backports")

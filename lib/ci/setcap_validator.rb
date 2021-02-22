@@ -37,6 +37,7 @@ module CI
 
     def check_expected(argv)
       return if expected?(argv)
+
       raise SetCapError, <<~ERRORMSG
         \n
         Unallowed call to: setcap #{argv.inspect}
@@ -51,6 +52,7 @@ module CI
 
     def assert_all_called
       return if @expected.empty?
+
       raise SetCapError, <<~ERRORMSG
         A number of setcap calls were expected but didn't actually happen.
         This is indicative of the build no longer needing setcap. Check the code
@@ -140,6 +142,7 @@ module CI
       FileUtils.cp("#{__dir__}/setcap.rb", setcap, verbose: true)
       FileUtils.chmod(0o755, setcap, verbose: true)
       return unless Process.uid.zero? # root
+
       FileUtils.cp(setcap, '/sbin/setcap') # overwrite original setcap
     end
   end

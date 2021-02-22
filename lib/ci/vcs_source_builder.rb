@@ -210,6 +210,7 @@ module CI
 
     def repo_url_from_path(path)
       return nil unless Dir.exist?(path)
+
       require 'rugged'
       repo = Rugged::Repository.discover(path)
       remote = repo.remotes['upstream'] if repo
@@ -225,6 +226,7 @@ module CI
       url = repo_url_from_path('source')
       l10n_log.info "l10n injection for url #{url}."
       return unless url
+
       # TODO: this would benefit from classing
       add_l10n(source_path, url)
     end
@@ -268,6 +270,7 @@ module CI
     def copy_source
       copy_source_tree('source')
       return unless Dir.exist?("#{@build_dir}/source/debian")
+
       FileUtils.rm_rf(Dir.glob("#{@build_dir}/source/debian"))
     end
 
@@ -318,6 +321,7 @@ module CI
       Dir.chdir(@build_dir) do
         dsc = Dir.glob('*.dsc')
         raise 'Exactly one dsc not found' if dsc.size != 1
+
         @source.dsc = dsc[0]
       end
 
@@ -357,6 +361,7 @@ module CI
 
     def mangle_lintian_of(file)
       return unless File.open(file, 'r').read.strip.empty?
+
       package_name = File.basename(file, '.install')
       lintian_overrides_path = file.gsub('.install', '.lintian-overrides')
       puts "#{package_name} is now empty, trying to add lintian override"

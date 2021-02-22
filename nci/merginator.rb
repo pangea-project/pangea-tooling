@@ -104,6 +104,7 @@ class Version < Debian::Version
     match = input.match(regex)
     @real_upstream = match[:real]
     raise if @real_upstream.empty?
+
     @real_upstream_suffix = match[:suffix]
   end
 end
@@ -204,6 +205,7 @@ class Merginator
       puts "uscan exited (#{result}) :: #{data}"
       newer = Debian::UScan::DEHS.parse_packages(data).collect do |package|
         next nil unless package.status == Debian::UScan::States::NEWER_AVAILABLE
+
         package
       end.compact
 

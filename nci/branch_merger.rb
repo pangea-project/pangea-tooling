@@ -113,6 +113,7 @@ end
 unless repos.size == projects_in_component.size
   raise 'Repo<->Project map failed'
 end
+
 logger.debug "repos: #{repos}"
 
 nothing_to_push = []

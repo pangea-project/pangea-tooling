@@ -86,6 +86,7 @@ module NCI
         pool = Concurrent::FixedThreadPool.new(4)
         promises = all_jobs.collect do |name|
           next unless jobex.match(name)
+
           Concurrent::Promise.execute(executor: pool) { score_job!(name) }
         end
         promises.compact.each(&:wait!)

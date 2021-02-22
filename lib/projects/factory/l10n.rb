@@ -53,6 +53,7 @@ class ProjectsFactory
       def ls(base)
         @list_cache ||= {}
         return @list_cache[base] if @list_cache.key?(base)
+
         @list_cache[base] = check_ftp(base).freeze
       end
 

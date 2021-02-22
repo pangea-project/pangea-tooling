@@ -29,6 +29,7 @@ class XenonProjectJob < PipelineJob
 
   def initialize(project, distribution:, type:, architectures:)
     return unless project.debian?
+
     super("#{distribution}_#{type}_#{project.name}",
           template: 'xenon_project_job')
     @project = project.freeze

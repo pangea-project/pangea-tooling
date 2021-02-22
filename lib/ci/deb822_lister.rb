@@ -42,6 +42,7 @@ module CI
       @deb822.fields.fetch('checksums-sha256', []).each do |sum|
         file = File.absolute_path(sum.file_name, @dir)
         raise "File #{file} has incorrect checksum" unless valid?(file, sum)
+
         files << file
       end
       files << @file if @deb822.is_a?(Debian::DSC)
@@ -57,6 +58,7 @@ module CI
       # https://github.com/smira/aptly/issues/370
       dsc = deb822.fields['files'].find { |x| x.name.end_with?('.dsc') }
       return deb822 unless dsc
+
       puts "Switching #{File.basename(@file)} to #{dsc.name} ..."
       @file = File.absolute_path(dsc.name, @dir)
       open_dsc(@file)
@@ -64,6 +66,7 @@ module CI
 
     def valid?(file, checksum)
       raise "File not found #{file}" unless File.exist?(file)
+
       Digest::SHA256.hexdigest(File.read(file)) == checksum.sum
     end
 

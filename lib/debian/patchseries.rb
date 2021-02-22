@@ -8,6 +8,7 @@ module Debian
       @package_path = package_path
       @filename = filename
       raise 'not a package path' unless Dir.exist?("#{package_path}/debian")
+
       @patches = []
       parse
     end
@@ -21,9 +22,11 @@ module Debian
     def parse
       path = "#{@package_path}/debian/patches/#{@filename}"
       return unless (@exist = File.exist?(path))
+
       data = File.read(path)
       data.split($/).each do |line|
         next if line.chop.strip.empty? || line.start_with?('#')
+
         # series names really shouldn't use paths, so strip by space. This
         # enforces the simple series format described in the dpkg-source manpage
         # which unlike quilt does not support additional arguments such as

@@ -33,6 +33,7 @@ module WorkspaceCleaner
         Dir.glob("#{workspace_path}/*") do |workspace|
           next unless File.directory?(workspace)
           next unless cleanup?(workspace)
+
           rm_r(workspace)
         end
       end
@@ -52,6 +53,7 @@ module WorkspaceCleaner
         return
       end
       raise e unless e.class.name.start_with?('Errno::')
+
       warn "  Got error #{e}... trying to chown....."
       chown_r(dir)
       # Jenkins might still have a cleanup thread waiting for the dir, and if so

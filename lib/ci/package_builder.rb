@@ -93,6 +93,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       unless File.exist?(overlay_path)
         raise "could not find overlay bins in #{overlay_path}"
       end
+
       ENV['PATH'] = "#{overlay_path}:#{ENV['PATH']}"
       cross_setup
     end
@@ -100,6 +101,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
     def extract
       FileUtils.rm_rf(BUILD_DIR, verbose: true)
       return if system('dpkg-source', '-x', @dsc, BUILD_DIR)
+
       raise 'Something went terribly wrong with extracting the source'
     end
 
@@ -170,6 +172,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
     def build
       dsc_glob = Dir.glob('*.dsc')
       raise "Not exactly one dsc! Found #{dsc_glob}" unless dsc_glob.count == 1
+
       @dsc = dsc_glob[0]
 
       unless (arch_all_source? && arch_all?) || matches_host_arch?
@@ -319,6 +322,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
 
     def cross_setup
       return unless cross?
+
       cmd = TTY::Command.new(uuid: false)
       cmd.run('dpkg', '--add-architecture', cross_arch)
       Apt.update || raise

@@ -45,6 +45,7 @@ end.parse!
 end
 
 raise 'Need name as argv0' if ARGV.empty?
+
 name = ARGV[0]
 @log.info name
 
@@ -95,6 +96,7 @@ class Walker
 
   def know!(job)
     return if @known.include?(job.name)
+
     @known[job.name] ||= job.upstream_projects.collect { |x| x.fetch('name') }
     @known[job.name].each { |x| know!(Jenkins::Job.new(x)) }
   end

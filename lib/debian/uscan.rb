@@ -76,6 +76,7 @@ module Debian
             if element.name == 'package'
               next packages << Package.new(element.content)
             end
+
             verify_status(element)
             packages[-1]._apply_element(element)
           end
@@ -86,12 +87,14 @@ module Debian
 
         def verify_status(element)
           return unless element.name == 'status'
+
           # Edit the content to the mapped value, so we always get consistent
           # strings.
           element.content = States.map(element.content)
           return if States.constants.any? do |const|
             States.const_get(const) == element.content
           end
+
           raise ParseError, "Unmapped status: '#{element.content}'"
         end
       end

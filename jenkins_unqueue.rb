@@ -43,6 +43,7 @@ job_name_queue = Queue.new
 job_names = Jenkins.client.queue.list
 job_names.each do |name|
   next unless pattern.match(name)
+
   job_name_queue << name
 end
 

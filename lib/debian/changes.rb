@@ -95,6 +95,7 @@ module Debian
       private_methods.each do |meth, str = meth.to_s|
         next unless str.start_with?('mangle_')
         next unless @fields.include?(str.split('_', 2)[1])
+
         send(meth)
       end
     end

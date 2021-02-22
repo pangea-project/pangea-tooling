@@ -106,6 +106,7 @@ module Jenkins
     def self.each_ancient_build(dir, min_count:, max_age:, &_blk)
       buildsdir = "#{dir}/builds"
       return unless File.exist?(buildsdir)
+
       dirs = build_dirs(buildsdir)
 
       dirs[0..-min_count].each do |d| # Always keep the last N builds.

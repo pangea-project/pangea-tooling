@@ -38,6 +38,7 @@ module NCI
           unless Rugged.features.include?(:ssh)
             raise 'this rugged doesnt support ssh. need that to push!'
           end
+
           new(url, dir)
         end
       end
@@ -80,6 +81,7 @@ module NCI
 
       def push
         return unless @dirty
+
         mangle_push_path!
         @rug.remotes['origin'].push(
           [branch.canonical_name.to_s],
@@ -97,6 +99,7 @@ module NCI
           end
           branch ||= @rug.branches.find { |b| b.name == 'origin/Neon/unstable' }
           raise 'couldnt find a branch to merge into' unless branch
+
           @rug.branches.create('Neon/pending-merge', branch.name)
         end
       end
@@ -107,6 +110,7 @@ module NCI
           unless ancestor_oid
             raise "repo #{@url} has no ancestor on #{tag.name} & #{branch.name}"
           end
+
           @rug.lookup(ancestor_oid)
         end
       end
@@ -133,6 +137,7 @@ module NCI
                                        name)
           raise "unexpected last tag #{name} on #{@git.dir.path}"
         end
+
         puts "#{@git.dir.path} : #{name}"
       end
     end

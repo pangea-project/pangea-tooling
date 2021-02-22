@@ -110,6 +110,7 @@ elsif pim_release
   pattern = Regexp.new("#{NCI.current_series}_stable_kde_(#{pim_release.join('|')})$")
 else
   raise 'Need ruby pattern as argv0' if ARGV.empty?
+
   pattern = Regexp.new(ARGV[0])
 end
 
@@ -124,6 +125,7 @@ spinner.success
 
 job_names.each do |job_name|
   next unless pattern.match(job_name)
+
   job_name_queue << job_name
 end
 
@@ -155,6 +157,7 @@ BlockingThreadPool.run do
         downstreams.each do |downstream|
           downstream_status = Jenkins.job.status(downstream['name'])
           next if %w[success unstable running].include?(downstream_status)
+
           skip = false
         end
         @log.info "Skipping #{name}" if skip

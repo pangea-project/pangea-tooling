@@ -37,6 +37,7 @@ class DanglingConfigCheck
     each_list do |line|
       next unless line.start_with?('/etc/')
       next unless File.file?(line) && !File.symlink?(line)
+
       danglers << line
     end
 
@@ -46,6 +47,7 @@ class DanglingConfigCheck
     # abort here already, the maintainer check does nothing for us.
     # If we are not maintainer we'll ignore all danglers.
     return danglers if danglers.empty?
+
     kde_maintainer? ? danglers : []
   end
 
@@ -53,6 +55,7 @@ class DanglingConfigCheck
 
   def each_list
     return unless File.exist?(@list_file)
+
     File.foreach(@list_file) do |line|
       yield line.strip
     end
@@ -60,6 +63,7 @@ class DanglingConfigCheck
 
   def each_conffiles
     return unless File.exist?(@conffiles_file)
+
     File.foreach(@conffiles_file).each do |line|
       yield line.strip
     end
@@ -68,6 +72,7 @@ class DanglingConfigCheck
   def kde_maintainer?
     @kde_maintainer ||= begin
       return false if %w[base-files].include?(@pkg)
+
       out = `dpkg-query -W -f='${Maintainer}\n' #{@pkg}` || ''
       out.split("\n").any? do |line|
         line.include?('kde')
@@ -80,6 +85,7 @@ error = false
 Dir.glob(File.join(INFO_DIR, '*.list')) do |list|
   danglers = DanglingConfigCheck.new(list).danglers
   next if danglers.empty?
+
   warn <<-ERROR
 --------------------------------------------------------------------------------
 Dangling configuration files detected. The package list

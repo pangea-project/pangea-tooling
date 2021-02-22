@@ -41,6 +41,7 @@ class DEP11Test < Minitest::Test
         f.each_line do |line|
           pocket = wanted_pockets.find { |x| line.include?("#{x}/dep11") }
           next unless pocket
+
           wanted_pockets.delete(pocket)
         end
       end

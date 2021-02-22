@@ -44,6 +44,7 @@ class Template
       @template_path = "#{@template_directory}#{template_name}"
       File.exist?(@template_path)
     end
+
     raise "Template #{template_name} not found at #{@template_path}"
   end
 
@@ -65,6 +66,7 @@ class Template
 
   def render(path)
     return '' unless path
+
     data = if Pathname.new(path).absolute?
              File.read(path)
            else
@@ -77,6 +79,7 @@ class Template
 
   def render_script
     raise "no script path given for #{self}" unless @script_path
+
     HTMLEntities.new.encode(render(@script_path))
   end
 end

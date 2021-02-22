@@ -33,6 +33,7 @@ XenonCI.setup_repo!
 def orig_source(fetcher)
   tarball = fetcher.fetch('source')
   raise 'Failed to fetch tarball' unless tarball
+
   sourcer = CI::OrigSourceBuilder.new(release: ENV.fetch('DIST'),
                                       strip_symbols: true)
   sourcer.build(tarball.origify)

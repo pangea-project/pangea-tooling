@@ -49,6 +49,7 @@ class BranchSequence
       # @log.warn "Apparently there is no branch named #{source_name}!"
       return nil
     end
+
     source[0]
   end
 
@@ -56,6 +57,7 @@ class BranchSequence
   def noci_merge?(source)
     log = @git.log.between('', source.full)
     return false unless log.size >= 1
+
     log.each do |commit|
       return false unless commit.message.include?('NOCI')
     end
@@ -70,6 +72,7 @@ class BranchSequence
     if noci_merge?(@source)
       return "Merging #{@source.full} into #{target.name}.\n\nNOCI"
     end
+
     "Merging #{@source.full} into #{target.name}."
   end
 
@@ -108,8 +111,10 @@ class BranchSequence
   # FIXME: should be private maybe?
   def push_branch
     return puts "Not pushing, isn't a branch: #{@name}" unless valid?
+
     puts "Checking if we can push something on #{@source.name}"
     return puts "...nothing to push for #{@source.name}" unless dirty? && valid?
+
     puts "...pushing #{@source.name}[#{shortsha(@source.name)}]"
     @git.push('origin', @source.name)
     @pushed = true

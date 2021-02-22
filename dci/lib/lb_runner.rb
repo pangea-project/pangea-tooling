@@ -25,6 +25,7 @@ class LiveBuildRunner
     Dir.chdir(@config_dir) do
       begin
         raise BuildFailedError unless system('lb build')
+
         FileUtils.mkdir_p('result')
         @images = Dir.glob('*.{iso,tar,img}')
         FileUtils.cp(@images, 'result', verbose: true)

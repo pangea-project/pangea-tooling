@@ -103,6 +103,7 @@ class ProjectsFactory
       matches = {}
       each_pattern_value(subset) do |pattern, value|
         next unless pattern.match?(path)
+
         match = [path, value] # This will be an argument list for from_string.
         matches[pattern] = match
       end
@@ -115,6 +116,7 @@ class ProjectsFactory
 
       selection = self.class.ls(base).collect do |path|
         next nil unless path.start_with?(base) # speed-up, these can't match...
+
         matches = match_path_to_subsets(path, subset)
         # Get best matching pattern.
         CI::PatternBase.sort_hash(matches).values[0]
@@ -134,8 +136,10 @@ class ProjectsFactory
         #   approximately 1 second, which is very acceptable.
         @list_cache ||= {}
         return @list_cache[base] if @list_cache.key?(base)
+
         output = `ssh git.debian.org find /git/#{base} -maxdepth 1 -type d`
         raise 'Failed to find repo list on host' unless $?.to_i.zero?
+
         @list_cache[base] = cleanup_ls(output).freeze
       end
 

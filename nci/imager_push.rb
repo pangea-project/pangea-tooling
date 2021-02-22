@@ -141,6 +141,7 @@ module SFTPSessionOverlay
   def upload!(from, to, **kwords)
     return super unless @use_cli_sftp
     raise 'CLI upload of dirs not implemented' if File.directory?(from)
+
     # cli wants dirs for remote location
     __cli_upload(from, File.dirname(to))
   end
@@ -169,6 +170,7 @@ Net::SFTP.start('rsync.kde.org', 'neon', *ssh_args) do |sftp|
       # They'd only trip up sftp uploads as symlinks being preserved is a bit
       # hit and miss.
       next if File.symlink?(file)
+
       next if File.basename(file).include?('current') unless File.basename(file).include?('zsync')
 
       name = File.basename(file)
@@ -186,11 +188,14 @@ Net::SFTP.start('rsync.kde.org', 'neon', *ssh_args) do |sftp|
 
   sftp.dir.glob(REMOTE_DIR, '*') do |entry|
     next unless entry.directory? # current is a symlink
+
     path = "#{REMOTE_DIR}/#{entry.name}"
     next if path.include?(REMOTE_PUB_DIR)
+
     STDERR.puts "rm #{path}"
     sftp.dir.foreach(path) do |e|
       next if %w[. ..].include?(e.name)
+
       sftp.remove!("#{path}/#{e.name}")
     end
     sftp.rmdir!(path)

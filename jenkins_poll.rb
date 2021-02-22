@@ -57,6 +57,7 @@ end.parse!
 end
 
 raise 'Need ruby pattern as argv0' if ARGV.empty?
+
 pattern = Regexp.new(ARGV[0])
 @log.info pattern
 
@@ -64,6 +65,7 @@ job_name_queue = Queue.new
 job_names = Jenkins.job.list_all
 job_names.each do |name|
   next unless pattern.match(name)
+
   job_name_queue << name
 end
 
@@ -105,6 +107,7 @@ BlockingThreadPool.run do
     name = job_name_queue.pop(true)
     job = Jenkins::Job.new(name)
     next if job.queued?
+
     Retry.retry_it(times: 5, name: name) do
       @log.warn "  #{name} --> poll"
       job.poll

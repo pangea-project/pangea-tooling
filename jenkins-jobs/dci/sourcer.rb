@@ -39,6 +39,7 @@ class DCISourcerJob < JenkinsJob
 
   def render_upstream_scm
     return '' unless @upstream_scm
+
       case @upstream_scm.type
       when 'git'
         render('upstream-scms/git.xml.erb')
@@ -55,6 +56,7 @@ class DCISourcerJob < JenkinsJob
 
   def fetch_tarball
     return '' unless @upstream_scm&.type == 'tarball'
+
     "if [ ! -d source ]; then
     mkdir source
     fi

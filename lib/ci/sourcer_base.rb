@@ -129,12 +129,14 @@ module CI
       unless File.exist?(overlay_path)
         raise "could not find overlay bins in #{overlay_path}"
       end
+
       ENV['PATH'] = "#{overlay_path}:#{ENV['PATH']}"
     end
 
     def mangle_symbols
       # Rip out symbol files unless we are on latest
       return unless @strip_symbols
+
       symbols = Dir.glob('debian/symbols') +
                 Dir.glob('debian/*.symbols') +
                 Dir.glob('debian/*.symbols.*') +
@@ -188,6 +190,7 @@ module CI
       run_dpkg_buildpackage
     rescue BuildPackageError => e
       raise e if with_deps # Failed even with deps installed: give up
+
       warn 'Failed to build source. Trying again with all build deps installed!'
       with_deps = true
       resolve_deps
