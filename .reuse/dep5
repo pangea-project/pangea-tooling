@@ -1,0 +1,11 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: pangea-tooling
+Upstream-Contact: admin@blue-systems.com
+Source: https://github.com/pangea-project/pangea-tooling
+
+# These are all VCR recordings or other fixtures. They'll all be devoid
+# of copyright interests.
+Files: test/data/*/*.yml
+Copyright: none
+License: CC0-1.0
+
