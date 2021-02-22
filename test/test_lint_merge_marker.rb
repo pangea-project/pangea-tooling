@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../lib/lint/merge_marker'
 require_relative 'lib/testcase'
 

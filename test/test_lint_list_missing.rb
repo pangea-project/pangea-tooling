@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../lib/lint/log/list_missing'
 require_relative 'lib/testcase'
 

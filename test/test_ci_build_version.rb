@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../lib/ci/build_version'
 require_relative '../lib/debian/changelog'
 require_relative 'lib/testcase'

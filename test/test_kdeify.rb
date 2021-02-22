@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../lib/kdeify'
 require_relative '../lib/debian/control'
 require_relative 'lib/testcase'

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Prependable module enabling assert_system use by overriding Kernel.system
 module AssertSystem
   module_function

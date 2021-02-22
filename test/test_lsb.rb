@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../lib/lsb'
 require_relative 'lib/testcase'
 

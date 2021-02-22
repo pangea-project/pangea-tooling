@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'vcr'
 
 require_relative 'lib/testcase'
