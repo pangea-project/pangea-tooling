@@ -18,6 +18,9 @@ Style/HashSyntax:
   Exclude:
     - Rakefile
 
+Style/AccessorGrouping:
+  EnforcedStyle: separated
+
 # The magic comment is at the top. Below the top is the bloody licenses, having
 # a space in between looks like shit. The motivation of this style rule is so
 # you don't glue actual code comments to the magic comment, we don't do that

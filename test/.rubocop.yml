@@ -10,6 +10,9 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
+Style/AccessorGrouping:
+  Enabled: false
+
 Naming/FileName:
   Enabled: false
 
