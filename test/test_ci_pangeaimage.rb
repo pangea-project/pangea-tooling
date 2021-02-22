@@ -30,7 +30,9 @@ class PangeaImageTest < TestCase
   def test_to_str
     # Coercion into string
     assert_nothing_raised TypeError do
+      # rubocop:disable Style/StringConcatenation
       '' + CI::PangeaImage.new('flavor', 'series')
+      # rubocop:enable Style/StringConcatenation
     end
   end
 

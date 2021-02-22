@@ -90,7 +90,7 @@ class LiveBuildRunnerTest < TestCase
 
   def test_configure_fail
     assert_raise LiveBuildRunner::ConfigError do
-      lb = LiveBuildRunner.new
+      LiveBuildRunner.new
     end
   end
 end

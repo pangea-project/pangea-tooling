@@ -216,7 +216,7 @@ module CI
         # Implicit via contain. First construct containment then contain. Should
         # clean up first resulting in a different hash.
         c = Containment.new(@job_name, image: @image, binds: [])
-        c2 = Docker::Container.create(Image: @image).tap { |c| c.rename(@job_name) }
+        c2 = Docker::Container.create(Image: @image).tap { |cont| cont.rename(@job_name) }
         c1 = c.contain({})
         assert_not_equal(c1.id, c2.id)
         assert_raise Docker::Error::NotFoundError do

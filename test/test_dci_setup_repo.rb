@@ -49,7 +49,6 @@ class DCISetupRepoTest < TestCase
   end
 
   def test_setup_repos
-    release = `lsb_release -sc`.strip
     system_calls = [
       ['dpkg --add-architecture i386'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],

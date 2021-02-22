@@ -86,17 +86,17 @@ class BranchSequenceTest < TestCase
   end
 
   def init_repo_path
-    @remotedir = "#{@tmpdir}/remote"
-    FileUtils.mkpath(@remotedir)
-    git_init_repo(@remotedir)
+    @repo_path = "#{@tmpdir}/remote"
+    FileUtils.mkpath(@repo_path)
+    git_init_repo(@repo_path)
     rugged_in_repo do |repo|
       rugged_push_all(repo)
     end
-    @remotedir
+    @repo_path
   end
 
   def repo_path
-    @remotedir ||= init_repo_path
+    @repo_path ||= init_repo_path
   end
 
   def test_full_sequence

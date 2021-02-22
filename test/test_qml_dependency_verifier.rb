@@ -78,7 +78,6 @@ class QMLDependencyVerifierTest < TestCase
     const_reset(QML, :SEARCH_PATHS, [File.join(data, 'qml')])
 
     system_sequence = sequence('system')
-    list_sequence = sequence('dpkglist')
     JSON.parse(File.read(data('system_sequence'))).each do |cmd|
       Object.any_instance.expects(:system)
             .with(*cmd)

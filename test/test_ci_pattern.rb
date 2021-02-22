@@ -13,7 +13,10 @@ class CIPatternTest < TestCase
     a = CI::FNMatchPattern.new('a*')
     assert_equal(nil, a.<=>('a'))
     assert_equal(-1, a.<=>(CI::FNMatchPattern.new('*')))
+    # rubocop:disable Lint/BinaryOperatorWithIdenticalOperands
+    # this is intentional
     assert_equal(0, a.<=>(a))
+    # rubocop:enable Lint/BinaryOperatorWithIdenticalOperands
     assert_equal(1, a.<=>(CI::FNMatchPattern.new('ab')))
   end
 

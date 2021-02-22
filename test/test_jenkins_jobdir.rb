@@ -79,7 +79,9 @@ class JenkinsJobDirTest < TestCase
     markers.each { |m| assert_path_exist("#{buildsdir}/1015/#{m}") }
 
     # Deletes only builds older than 14 days.
+    # rubocop:disable Style/CombinableLoops
     markers.each { |m| assert_path_not_exist("#{buildsdir}/1000/#{m}") }
+    # rubocop:enable Style/CombinableLoops
 
     assert_path_not_exist("#{buildsdir}/999/archive")
   end
