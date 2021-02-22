@@ -46,10 +46,10 @@ gem 'git_clone_url', '~> 2.0'
 gem 'uri-ssh_git', '~> 2.0'
 
 # Test logging as junit (also used at runtime for linting)
-gem 'ci_reporter_test_unit'
 gem 'ci_reporter_minitest'
-gem 'test-unit', '~> 3.0'
+gem 'ci_reporter_test_unit'
 gem 'minitest'
+gem 'test-unit', '~> 3.0'
 
 # Hack. jenkins_api_client depends on mixlib-shellout which depends on
 # chef-utils and that has excessive version requirements for ruby because chef
