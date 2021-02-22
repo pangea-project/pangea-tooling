@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+# SPDX-FileCopyrightText: 2016-2017 Rohan Garg <rohan@garg.io>
+# SPDX-FileCopyrightText: 2017-2021 Harald Sitter <sitter@kde.org>
+
 require 'vcr'
 
 require_relative '../lib/ci/container.rb'
@@ -26,7 +31,8 @@ class ContainerTest < TestCase
       config.cassette_library_dir = datadir
       config.hook_into :excon
       config.default_cassette_options = {
-        match_requests_on:  [:method, :uri, :body]
+        match_requests_on: %i[method uri body],
+        tag: :erb_pwd
       }
       config.filter_sensitive_data('<%= Dir.pwd %>', :erb_pwd) { Dir.pwd }
     end
