@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/ContainerTest/json
+    uri: unix:///var/run/docker.sock/containers/ContainerTest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -37,7 +37,7 @@ http_interactions:
   recorded_at: Thu, 01 Dec 2016 01:12:14 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/ContainerTest/json
+    uri: unix:///var/run/docker.sock/containers/ContainerTest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -72,7 +72,7 @@ http_interactions:
   recorded_at: Thu, 01 Dec 2016 01:12:14 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/ContainerTest/json
+    uri: unix:///var/run/docker.sock/containers/ContainerTest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -107,7 +107,7 @@ http_interactions:
   recorded_at: Thu, 01 Dec 2016 01:12:14 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/ContainerTest/json
+    uri: unix:///var/run/docker.sock/containers/ContainerTest/json
     body:
       encoding: US-ASCII
       string: ''
@@ -142,7 +142,7 @@ http_interactions:
   recorded_at: Thu, 01 Dec 2016 01:12:14 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/create?name=ContainerTest
+    uri: unix:///var/run/docker.sock/containers/create?name=ContainerTest
     body:
       encoding: UTF-8
       string: '{"Image":"ubuntu:15.04","HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%= Dir.pwd %>:<%= Dir.pwd %>"]},"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Volumes":{"<%= Dir.pwd %>":{}}}'
@@ -177,7 +177,7 @@ http_interactions:
   recorded_at: Thu, 01 Dec 2016 01:12:15 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/ContainerTest/json
+    uri: unix:///var/run/docker.sock/containers/ContainerTest/json
     body:
       encoding: US-ASCII
       string: ''

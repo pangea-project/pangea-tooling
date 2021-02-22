@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Awily
+    uri: unix:///var/run/docker.sock/images/create?fromImage=ubuntu%3Awily
     body:
       encoding: US-ASCII
       string: ''
@@ -37,7 +37,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:37:25 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:wily/json
+    uri: unix:///var/run/docker.sock/images/ubuntu:wily/json
     body:
       encoding: US-ASCII
       string: ''
@@ -75,7 +75,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:37:25 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698/tag?repo=pangea-testing%2Fubuntu&tag=wily
+    uri: unix:///var/run/docker.sock/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698/tag?repo=pangea-testing%2Fubuntu&tag=wily
     body:
       encoding: US-ASCII
       string: ''
@@ -110,7 +110,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:37:25 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Atest_upgrade
+    uri: unix:///var/run/docker.sock/images/create?fromImage=ubuntu%3Atest_upgrade
     body:
       encoding: US-ASCII
       string: ''
@@ -147,7 +147,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:37:26 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/create?fromImage=ubuntu%3Awily
+    uri: unix:///var/run/docker.sock/images/create?fromImage=ubuntu%3Awily
     body:
       encoding: US-ASCII
       string: ''
@@ -182,7 +182,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:37:29 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/ubuntu:wily/json
+    uri: unix:///var/run/docker.sock/images/ubuntu:wily/json
     body:
       encoding: US-ASCII
       string: ''
@@ -220,7 +220,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:37:29 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698/tag?repo=pangea-testing%2Fubuntu&tag=test_upgrade
+    uri: unix:///var/run/docker.sock/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698/tag?repo=pangea-testing%2Fubuntu&tag=test_upgrade
     body:
       encoding: US-ASCII
       string: ''

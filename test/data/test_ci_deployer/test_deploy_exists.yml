@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:wily/json
+    uri: unix:///var/run/docker.sock/images/pangea-testing/ubuntu:wily/json
     body:
       encoding: US-ASCII
       string: ''
@@ -40,7 +40,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:30 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/create
+    uri: unix:///var/run/docker.sock/containers/create
     body:
       encoding: UTF-8
       string: '{"Image":"pangea-testing/ubuntu:wily","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
@@ -79,7 +79,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:30 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/642cf9105ab958adaba54625741367b668b3028013ab575042caae242a0f2147/start
+    uri: unix:///var/run/docker.sock/containers/642cf9105ab958adaba54625741367b668b3028013ab575042caae242a0f2147/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -110,7 +110,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:30 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/642cf9105ab958adaba54625741367b668b3028013ab575042caae242a0f2147/wait
+    uri: unix:///var/run/docker.sock/containers/642cf9105ab958adaba54625741367b668b3028013ab575042caae242a0f2147/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -147,7 +147,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:31 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/642cf9105ab958adaba54625741367b668b3028013ab575042caae242a0f2147/stop
+    uri: unix:///var/run/docker.sock/containers/642cf9105ab958adaba54625741367b668b3028013ab575042caae242a0f2147/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -178,7 +178,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:31 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/642cf9105ab958adaba54625741367b668b3028013ab575042caae242a0f2147/export
+    uri: unix:///var/run/docker.sock/containers/642cf9105ab958adaba54625741367b668b3028013ab575042caae242a0f2147/export
     body:
       encoding: US-ASCII
       string: ''
@@ -211,7 +211,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
+    uri: unix:///var/run/docker.sock/images/create?fromSrc=-
     body:
       encoding: US-ASCII
       string: ''
@@ -246,7 +246,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/642cf9105ab958adaba54625741367b668b3028013ab575042caae242a0f2147
+    uri: unix:///var/run/docker.sock/containers/642cf9105ab958adaba54625741367b668b3028013ab575042caae242a0f2147
     body:
       encoding: US-ASCII
       string: ''
@@ -277,7 +277,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:wily/json
+    uri: unix:///var/run/docker.sock/images/pangea-testing/ubuntu:wily/json
     body:
       encoding: US-ASCII
       string: ''
@@ -315,7 +315,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698
+    uri: unix:///var/run/docker.sock/images/sha256:9b9cb95443b5f846cd3c8cfa3f64e63b6ba68de2618a08875a119c81a8f96698
     body:
       encoding: US-ASCII
       string: ''
@@ -353,7 +353,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:7c6e16044fece457134d75a7d72b4c7127c0380b955fff5fa8ad024051dd049b/tag?force=true&repo=pangea-testing%2Fubuntu&tag=wily
+    uri: unix:///var/run/docker.sock/images/sha256:7c6e16044fece457134d75a7d72b4c7127c0380b955fff5fa8ad024051dd049b/tag?force=true&repo=pangea-testing%2Fubuntu&tag=wily
     body:
       encoding: US-ASCII
       string: ''
@@ -388,7 +388,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:vivid/json
+    uri: unix:///var/run/docker.sock/images/pangea-testing/ubuntu:vivid/json
     body:
       encoding: US-ASCII
       string: ''
@@ -426,7 +426,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:32 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/create
+    uri: unix:///var/run/docker.sock/containers/create
     body:
       encoding: UTF-8
       string: '{"Image":"pangea-testing/ubuntu:vivid","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
@@ -465,7 +465,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:33 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/e22c5d4147e181ea7277add9de0dc8bf6cfeeff67003aa45dd3587849766dc1e/start
+    uri: unix:///var/run/docker.sock/containers/e22c5d4147e181ea7277add9de0dc8bf6cfeeff67003aa45dd3587849766dc1e/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -496,7 +496,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:33 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/e22c5d4147e181ea7277add9de0dc8bf6cfeeff67003aa45dd3587849766dc1e/wait
+    uri: unix:///var/run/docker.sock/containers/e22c5d4147e181ea7277add9de0dc8bf6cfeeff67003aa45dd3587849766dc1e/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -533,7 +533,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:33 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/e22c5d4147e181ea7277add9de0dc8bf6cfeeff67003aa45dd3587849766dc1e/stop
+    uri: unix:///var/run/docker.sock/containers/e22c5d4147e181ea7277add9de0dc8bf6cfeeff67003aa45dd3587849766dc1e/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -564,7 +564,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:33 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/e22c5d4147e181ea7277add9de0dc8bf6cfeeff67003aa45dd3587849766dc1e/export
+    uri: unix:///var/run/docker.sock/containers/e22c5d4147e181ea7277add9de0dc8bf6cfeeff67003aa45dd3587849766dc1e/export
     body:
       encoding: US-ASCII
       string: ''
@@ -597,7 +597,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
+    uri: unix:///var/run/docker.sock/images/create?fromSrc=-
     body:
       encoding: US-ASCII
       string: ''
@@ -632,7 +632,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/e22c5d4147e181ea7277add9de0dc8bf6cfeeff67003aa45dd3587849766dc1e
+    uri: unix:///var/run/docker.sock/containers/e22c5d4147e181ea7277add9de0dc8bf6cfeeff67003aa45dd3587849766dc1e
     body:
       encoding: US-ASCII
       string: ''
@@ -663,7 +663,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/ubuntu:vivid/json
+    uri: unix:///var/run/docker.sock/images/pangea-testing/ubuntu:vivid/json
     body:
       encoding: US-ASCII
       string: ''
@@ -701,7 +701,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:27c2ad30892eb225558ae174536b6ea4c909fa991644e9edda622d3535e8bc82
+    uri: unix:///var/run/docker.sock/images/sha256:27c2ad30892eb225558ae174536b6ea4c909fa991644e9edda622d3535e8bc82
     body:
       encoding: US-ASCII
       string: ''
@@ -738,7 +738,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:dc2841e3ceeb2b0b9b1c275239b2203d5db40915f8945cea32f9a943af6b1fdb/tag?force=true&repo=pangea-testing%2Fubuntu&tag=vivid
+    uri: unix:///var/run/docker.sock/images/sha256:dc2841e3ceeb2b0b9b1c275239b2203d5db40915f8945cea32f9a943af6b1fdb/tag?force=true&repo=pangea-testing%2Fubuntu&tag=vivid
     body:
       encoding: US-ASCII
       string: ''
@@ -773,7 +773,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1706/json
+    uri: unix:///var/run/docker.sock/images/pangea-testing/debian:1706/json
     body:
       encoding: US-ASCII
       string: ''
@@ -811,7 +811,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/create
+    uri: unix:///var/run/docker.sock/containers/create
     body:
       encoding: UTF-8
       string: '{"Image":"pangea-testing/debian:1706","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
@@ -850,7 +850,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/d78b99133711023267a62d3ce83f6020d3cbf46f14a454ba350274428cf7c721/start
+    uri: unix:///var/run/docker.sock/containers/d78b99133711023267a62d3ce83f6020d3cbf46f14a454ba350274428cf7c721/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -881,7 +881,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:36 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/d78b99133711023267a62d3ce83f6020d3cbf46f14a454ba350274428cf7c721/wait
+    uri: unix:///var/run/docker.sock/containers/d78b99133711023267a62d3ce83f6020d3cbf46f14a454ba350274428cf7c721/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -918,7 +918,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:37 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/d78b99133711023267a62d3ce83f6020d3cbf46f14a454ba350274428cf7c721/stop
+    uri: unix:///var/run/docker.sock/containers/d78b99133711023267a62d3ce83f6020d3cbf46f14a454ba350274428cf7c721/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -949,7 +949,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:37 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/d78b99133711023267a62d3ce83f6020d3cbf46f14a454ba350274428cf7c721/export
+    uri: unix:///var/run/docker.sock/containers/d78b99133711023267a62d3ce83f6020d3cbf46f14a454ba350274428cf7c721/export
     body:
       encoding: US-ASCII
       string: ''
@@ -982,7 +982,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:43 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
+    uri: unix:///var/run/docker.sock/images/create?fromSrc=-
     body:
       encoding: US-ASCII
       string: ''
@@ -1017,7 +1017,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/d78b99133711023267a62d3ce83f6020d3cbf46f14a454ba350274428cf7c721
+    uri: unix:///var/run/docker.sock/containers/d78b99133711023267a62d3ce83f6020d3cbf46f14a454ba350274428cf7c721
     body:
       encoding: US-ASCII
       string: ''
@@ -1048,7 +1048,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1706/json
+    uri: unix:///var/run/docker.sock/images/pangea-testing/debian:1706/json
     body:
       encoding: US-ASCII
       string: ''
@@ -1086,7 +1086,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:33e81c2f5f1720250bbaae36432e54403d2f8460d7b5c12817eb02103b98df54
+    uri: unix:///var/run/docker.sock/images/sha256:33e81c2f5f1720250bbaae36432e54403d2f8460d7b5c12817eb02103b98df54
     body:
       encoding: US-ASCII
       string: ''
@@ -1123,7 +1123,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:4b653b301e50687577ebebfe99e70c74613da641b3df589ca6b7b5cf49a78d0f/tag?force=true&repo=pangea-testing%2Fdebian&tag=1706
+    uri: unix:///var/run/docker.sock/images/sha256:4b653b301e50687577ebebfe99e70c74613da641b3df589ca6b7b5cf49a78d0f/tag?force=true&repo=pangea-testing%2Fdebian&tag=1706
     body:
       encoding: US-ASCII
       string: ''
@@ -1158,7 +1158,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1710/json
+    uri: unix:///var/run/docker.sock/images/pangea-testing/debian:1710/json
     body:
       encoding: US-ASCII
       string: ''
@@ -1196,7 +1196,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/create
+    uri: unix:///var/run/docker.sock/containers/create
     body:
       encoding: UTF-8
       string: '{"Image":"pangea-testing/debian:1710","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
@@ -1235,7 +1235,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/36604593db9cc5c1eadb0c62816795a91837f4d2693f2e3efc5e70cba118dc1f/start
+    uri: unix:///var/run/docker.sock/containers/36604593db9cc5c1eadb0c62816795a91837f4d2693f2e3efc5e70cba118dc1f/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -1266,7 +1266,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/36604593db9cc5c1eadb0c62816795a91837f4d2693f2e3efc5e70cba118dc1f/wait
+    uri: unix:///var/run/docker.sock/containers/36604593db9cc5c1eadb0c62816795a91837f4d2693f2e3efc5e70cba118dc1f/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -1303,7 +1303,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/36604593db9cc5c1eadb0c62816795a91837f4d2693f2e3efc5e70cba118dc1f/stop
+    uri: unix:///var/run/docker.sock/containers/36604593db9cc5c1eadb0c62816795a91837f4d2693f2e3efc5e70cba118dc1f/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -1334,7 +1334,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:44 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/36604593db9cc5c1eadb0c62816795a91837f4d2693f2e3efc5e70cba118dc1f/export
+    uri: unix:///var/run/docker.sock/containers/36604593db9cc5c1eadb0c62816795a91837f4d2693f2e3efc5e70cba118dc1f/export
     body:
       encoding: US-ASCII
       string: ''
@@ -1367,7 +1367,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
+    uri: unix:///var/run/docker.sock/images/create?fromSrc=-
     body:
       encoding: US-ASCII
       string: ''
@@ -1402,7 +1402,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/36604593db9cc5c1eadb0c62816795a91837f4d2693f2e3efc5e70cba118dc1f
+    uri: unix:///var/run/docker.sock/containers/36604593db9cc5c1eadb0c62816795a91837f4d2693f2e3efc5e70cba118dc1f
     body:
       encoding: US-ASCII
       string: ''
@@ -1433,7 +1433,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:1710/json
+    uri: unix:///var/run/docker.sock/images/pangea-testing/debian:1710/json
     body:
       encoding: US-ASCII
       string: ''
@@ -1471,7 +1471,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:08de29ef52a9e119295ac1aab04fbd72d3595aaf99c04a940c7229b1b482d85c
+    uri: unix:///var/run/docker.sock/images/sha256:08de29ef52a9e119295ac1aab04fbd72d3595aaf99c04a940c7229b1b482d85c
     body:
       encoding: US-ASCII
       string: ''
@@ -1508,7 +1508,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:eb876161face37bc5abb09a94fdbe11bf50b066c08088bd979befdf09d8f21a9/tag?force=true&repo=pangea-testing%2Fdebian&tag=1710
+    uri: unix:///var/run/docker.sock/images/sha256:eb876161face37bc5abb09a94fdbe11bf50b066c08088bd979befdf09d8f21a9/tag?force=true&repo=pangea-testing%2Fdebian&tag=1710
     body:
       encoding: US-ASCII
       string: ''
@@ -1543,7 +1543,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:backports/json
+    uri: unix:///var/run/docker.sock/images/pangea-testing/debian:backports/json
     body:
       encoding: US-ASCII
       string: ''
@@ -1581,7 +1581,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/create
+    uri: unix:///var/run/docker.sock/containers/create
     body:
       encoding: UTF-8
       string: '{"Image":"pangea-testing/debian:backports","WorkingDir":"<%= Dir.pwd
@@ -1621,7 +1621,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/fdb8007c36444494bd24daf68779c837fc9555c550afceb7118e6c248e86cec0/start
+    uri: unix:///var/run/docker.sock/containers/fdb8007c36444494bd24daf68779c837fc9555c550afceb7118e6c248e86cec0/start
     body:
       encoding: UTF-8
       string: "{}"
@@ -1652,7 +1652,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:49 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/fdb8007c36444494bd24daf68779c837fc9555c550afceb7118e6c248e86cec0/wait
+    uri: unix:///var/run/docker.sock/containers/fdb8007c36444494bd24daf68779c837fc9555c550afceb7118e6c248e86cec0/wait
     body:
       encoding: US-ASCII
       string: ''
@@ -1689,7 +1689,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:50 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/containers/fdb8007c36444494bd24daf68779c837fc9555c550afceb7118e6c248e86cec0/stop
+    uri: unix:///var/run/docker.sock/containers/fdb8007c36444494bd24daf68779c837fc9555c550afceb7118e6c248e86cec0/stop
     body:
       encoding: UTF-8
       string: "{}"
@@ -1720,7 +1720,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:50 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/containers/fdb8007c36444494bd24daf68779c837fc9555c550afceb7118e6c248e86cec0/export
+    uri: unix:///var/run/docker.sock/containers/fdb8007c36444494bd24daf68779c837fc9555c550afceb7118e6c248e86cec0/export
     body:
       encoding: US-ASCII
       string: ''
@@ -1753,7 +1753,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:52 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/create?fromSrc=-
+    uri: unix:///var/run/docker.sock/images/create?fromSrc=-
     body:
       encoding: US-ASCII
       string: ''
@@ -1788,7 +1788,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:52 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/containers/fdb8007c36444494bd24daf68779c837fc9555c550afceb7118e6c248e86cec0
+    uri: unix:///var/run/docker.sock/containers/fdb8007c36444494bd24daf68779c837fc9555c550afceb7118e6c248e86cec0
     body:
       encoding: US-ASCII
       string: ''
@@ -1819,7 +1819,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:52 GMT
 - request:
     method: get
-    uri: unix:///var/run/docker.sock/v1.24/images/pangea-testing/debian:backports/json
+    uri: unix:///var/run/docker.sock/images/pangea-testing/debian:backports/json
     body:
       encoding: US-ASCII
       string: ''
@@ -1857,7 +1857,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:52 GMT
 - request:
     method: delete
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:ec6fc5aa8e78d46366b0a3a4dd57f35ded0f1e82d8b29cbec0dc46f19d9f16b9
+    uri: unix:///var/run/docker.sock/images/sha256:ec6fc5aa8e78d46366b0a3a4dd57f35ded0f1e82d8b29cbec0dc46f19d9f16b9
     body:
       encoding: US-ASCII
       string: ''
@@ -1894,7 +1894,7 @@ http_interactions:
   recorded_at: Mon, 11 Dec 2017 20:36:52 GMT
 - request:
     method: post
-    uri: unix:///var/run/docker.sock/v1.24/images/sha256:e8c72955a89c63e9ed436a3432c6b6e16f22d6a1dd8de373ccfd4d648d928607/tag?force=true&repo=pangea-testing%2Fdebian&tag=backports
+    uri: unix:///var/run/docker.sock/images/sha256:e8c72955a89c63e9ed436a3432c6b6e16f22d6a1dd8de373ccfd4d648d928607/tag?force=true&repo=pangea-testing%2Fdebian&tag=backports
     body:
       encoding: US-ASCII
       string: ''
