@@ -24,7 +24,7 @@ require_relative 'pipelinejob'
 
 class PlasmaReleasemeTagsTest < PipelineJob
 
-  def initialize()
+  def initialize
     super("plasma-releaseme-tags-test",
           template: 'plasma-releaseme-tags-test')
   end

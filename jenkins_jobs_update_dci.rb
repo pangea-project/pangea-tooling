@@ -36,7 +36,7 @@ end
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
 
-  def initialize()
+  def initialize
     super()
     @ci_flavor = 'dci'
 

@@ -24,7 +24,7 @@ require_relative 'pipelinejob'
 
 class PlasmaReleasemeTars < PipelineJob
 
-  def initialize()
+  def initialize
     super("plasma-releaseme-tars",
           template: 'plasma-releaseme-tars')
   end

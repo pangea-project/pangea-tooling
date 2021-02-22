@@ -36,7 +36,7 @@ module NCI
       @filter_select = filter_select
     end
 
-    def packages()
+    def packages
       @packages ||= begin
         packages = Retry.retry_it(times: 4, sleep: 4) do
           @repo.packages(q: '!$Architecture (source)')

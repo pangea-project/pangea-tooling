@@ -9,7 +9,7 @@ require_relative 'pipelinejob'
 # jobs that are too fast may get fewer. This is pruely to balance cloud cost
 # versus build time.
 class MGMTJenkinsJobScorer < PipelineJob
-  def initialize()
+  def initialize
     super('mgmt_jenkins-job-scorer',
           template: 'mgmt_jenkins_job_scorer', cron: '@weekly')
   end

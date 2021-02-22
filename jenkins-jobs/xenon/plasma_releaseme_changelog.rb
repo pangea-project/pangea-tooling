@@ -24,7 +24,7 @@ require_relative 'pipelinejob'
 
 class PlasmaReleasemeChangelog < PipelineJob
 
-  def initialize()
+  def initialize
     super("plasma-releaseme-changelog",
           template: 'plasma-releaseme-changelog')
   end
