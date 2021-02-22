@@ -76,7 +76,7 @@ group :development, :test do
   gem 'mocha', '~> 1.9'
   gem 'parallel_tests'
   gem 'rake-notes'
-  gem 'rubocop', '~> 0.83.0'
+  gem 'rubocop', '~> 1.10.0'
   gem 'rubocop-checkstyle_formatter'
   gem 'ruby-progressbar'
   gem 'simplecov'
