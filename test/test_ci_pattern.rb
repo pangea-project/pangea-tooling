@@ -32,7 +32,7 @@ class CIPatternTest < TestCase
 
   def test_hash_convert
     hash = {
-      'a*' => {'x*' => false}
+      'a*' => { 'x*' => false }
     }
     ph = CI::FNMatchPattern.convert_hash(hash, recurse: true)
     assert_equal(1, ph.size)
@@ -76,7 +76,7 @@ class CIPatternTest < TestCase
     assert(pattern.match?("yolo#{ref}yolo"))
     assert(pattern.match?("yolo#{ref}"))
     assert(pattern.match?("#{ref}yolo"))
-    assert_false(pattern.match?("yolo"))
+    assert_false(pattern.match?('yolo'))
   end
 
   def test_fn_extglob

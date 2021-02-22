@@ -30,9 +30,9 @@ require 'tty/command'
 #   avoid the fork.
 module NCI
   class ImagerPushTest < TestCase
-    def assert_path_symlink(path, message=nil)
+    def assert_path_symlink(path, message = nil)
       failure_message = build_message(message,
-                                      "<?> was expected to be a symlink",
+                                      '<?> was expected to be a symlink',
                                       path)
       assert_block(failure_message) do
         File.symlink?(path)
@@ -45,6 +45,7 @@ module NCI
       Entry = Struct.new(:name)
 
       attr_reader :pwd
+
       def initialize(pwd)
         @pwd = pwd
         FileUtils.mkpath(pwd, verbose: true)
@@ -90,9 +91,7 @@ module NCI
         @cli_uploads ||= false
       end
 
-      def cli_uploads=(x)
-        @cli_uploads = x
-      end
+      attr_writer :cli_uploads
 
       def symlink!(x, y)
         FileUtils.symlink(File.join(pwd, x), File.join(pwd, y), verbose: true)
@@ -102,6 +101,7 @@ module NCI
     # Adapts ssh interface against localhost.
     class SSHAdaptor
       attr_reader :pwd
+
       def initialize(pwd, simulate: false)
         @pwd = pwd
         @tty = TTY::Command.new(dry_run: simulate)
@@ -111,6 +111,7 @@ module NCI
         Dir.chdir(pwd) do
           ret = @tty.run!(cmd)
           return if status.nil?
+
           status[:exit_code] = ret.status
         end
       end
@@ -168,14 +169,15 @@ module NCI
 
         Object.any_instance.expects(:system).never
         TTY::Command.any_instance.expects(:run)
-              .with do |*args|
-                next false unless args.include?('gpg')
-                iso = args.pop # iso arg
-                sig = args.pop # sig arg
-                assert_path_exist(iso)
-                File.write(sig, '')
-              end
-              .returns(true)
+                    .with do |*args|
+          next false unless args.include?('gpg')
+
+          iso = args.pop # iso arg
+          sig = args.pop # sig arg
+          assert_path_exist(iso)
+          File.write(sig, '')
+        end
+                    .returns(true)
 
         stub_ssh
         stub_sftp
@@ -187,7 +189,7 @@ module NCI
       waitedpid, status = Process.waitpid2(pid)
       assert_equal(pid, waitedpid)
       assert(status.success?)
-      Dir.each_child("result") {|x| puts "Got #{x}" }
+      Dir.each_child('result') { |x| puts "Got #{x}" }
       assert_path_exist('rsync.kde.org/neon/images/testing/20201123-1425/.message')
       assert_path_exist('rsync.kde.org/neon/images/testing/20201123-1425/neon-testing-20201123-1425.iso')
       assert_path_exist('rsync.kde.org/neon/images/testing/20201123-1425/neon-testing-20201123-1425.iso.sig')

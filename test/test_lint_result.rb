@@ -32,7 +32,7 @@ class LintResultTest < TestCase
     r.errors << 'error1' << 'error2'
     r.warnings << 'warning1'
     r.informations << 'info1' << 'info2'
-    assert_equal(%w(error1 error2 warning1 info1 info2), r.all)
+    assert_equal(%w[error1 error2 warning1 info1 info2], r.all)
   end
 
   def test_equalequal

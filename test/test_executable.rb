@@ -38,13 +38,14 @@ class ExecutableTest < TestCase
   SUFFIXES = %w[.py .rb .sh].freeze
 
   def test_all_binaries_exectuable
-    basedir = File.dirname(File.expand_path(File.dirname(__FILE__)))
+    basedir = File.dirname(__dir__)
     not_executable = []
     BINARY_DIRS.each do |dir|
       SUFFIXES.each do |suffix|
         pattern = File.join(basedir, dir, "*#{suffix}")
         Dir.glob(pattern).each do |file|
           next unless File.exist?(file)
+
           if File.executable?(file)
             sb = Shebang.new(File.open(file).readline)
             # The trailing space in the msg is so it can be copy pasted,

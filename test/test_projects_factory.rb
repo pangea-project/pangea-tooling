@@ -27,18 +27,18 @@ class ProjectsFactoryTest < TestCase
     # fake data in this test which would raise in the adjustment as expections
     # would not be met.
     CI::UpstreamSCM.any_instance.stubs(:releaseme_adjust!).returns(true)
-    stub_request(:get, 'https://projects.kde.org/api/v1/projects/frameworks').
-        to_return(status: 200, body: '["frameworks/attica","frameworks/baloo","frameworks/bluez-qt"]', headers: {'Content-Type'=> 'text/json'})
-    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde/workspace').
-        to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: {'Content-Type'=> 'text/json'})
-    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde').
-        to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: {'Content-Type'=> 'text/json'})
-    stub_request(:get, 'https://invent.kde.org/sysadmin/release-tools/-/raw/master/modules.git').
-        with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-        to_return(status: 200, body: "kdialog                                     master\nkeditbookmarks                              master\n", headers: {'Content-Type'=> 'text/plain'})
-    stub_request(:get, 'https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release-normal').
-        with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-        to_return(status: 200, body: "bluedevil breeze breeze-grub breeze-gtk breeze-plymouth discover drkonqi", headers: {'Content-Type'=> 'text/plain'})
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/frameworks')
+      .to_return(status: 200, body: '["frameworks/attica","frameworks/baloo","frameworks/bluez-qt"]', headers: { 'Content-Type' => 'text/json' })
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde/workspace')
+      .to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: { 'Content-Type' => 'text/json' })
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde')
+      .to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: { 'Content-Type' => 'text/json' })
+    stub_request(:get, 'https://invent.kde.org/sysadmin/release-tools/-/raw/master/modules.git')
+      .with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent' => 'Ruby' })
+      .to_return(status: 200, body: "kdialog                                     master\nkeditbookmarks                              master\n", headers: { 'Content-Type' => 'text/plain' })
+    stub_request(:get, 'https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release-normal')
+      .with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent' => 'Ruby' })
+      .to_return(status: 200, body: 'bluedevil breeze breeze-grub breeze-gtk breeze-plymouth discover drkonqi', headers: { 'Content-Type' => 'text/plain' })
   end
 
   def teardown
@@ -56,7 +56,7 @@ class ProjectsFactoryTest < TestCase
       repo = Rugged::Repository.clone_at(repo_path, dir)
       Dir.chdir(dir) do
         Dir.mkdir('debian') unless Dir.exist?('debian')
-        fail "missing fixture: #{fixture_path}" unless File.exist?(fixture_path)
+        raise "missing fixture: #{fixture_path}" unless File.exist?(fixture_path)
 
         FileUtils.cp_r("#{fixture_path}/.", '.')
 
@@ -91,7 +91,7 @@ class ProjectsFactoryTest < TestCase
     File.absolute_path(path)
   end
 
-  def create_fake_git(prefix: nil, repo: nil, repos: [], branches:)
+  def create_fake_git(branches:, prefix: nil, repo: nil, repos: [])
     repos << repo if repo
 
     # Create a new tmpdir within our existing tmpdir.
@@ -165,7 +165,7 @@ class ProjectsFactoryTest < TestCase
     projects = ProjectsFactory.from_file("#{data}/projects.yaml")
 
     assert projects.is_a?(Array)
-    projects.each { |p| refute_equal(p, nil)}
+    projects.each { |p| refute_equal(p, nil) }
 
     ki18n = projects.find { |p| p.name == 'ki18n' }
     refute_nil ki18n, 'ki18n is missing from the projects :('
@@ -177,14 +177,14 @@ class ProjectsFactoryTest < TestCase
         projects.delete_if { |p| p.name == name } ? true : false
       end
     end
-    expected_projects = %w(
+    expected_projects = %w[
       qtbase
       attica
       plasma-desktop
       plasma-workspace
       solid
       ki18n
-    )
+    ]
     expected_projects.each do |expected|
       assert_contains_project.call(expected)
     end
@@ -315,8 +315,8 @@ class ProjectsFactoryTest < TestCase
     # disable neon listing.
     mock_kde_invent_api!(nil)
 
-    CI::Overrides.default_files = [ data('override1.yaml'),
-                                    data('override2.yaml') ]
+    CI::Overrides.default_files = [data('override1.yaml'),
+                                   data('override2.yaml')]
     factory = ProjectsFactory::Neon.new('invent.kde.org/neon')
 
     # This uses new_project directly as we otherwise have no way to set
@@ -556,7 +556,7 @@ class ProjectsFactoryTest < TestCase
     fake_session.stubs(:dir).returns(fake_dir)
 
     factory = ProjectsFactory::KDEL10N.new('kde-l10n')
-    projects = factory.factorize([{'16.04.1' => ['kde-l10n-ru']}])
+    projects = factory.factorize([{ '16.04.1' => ['kde-l10n-ru'] }])
 
     refute_nil(projects)
     assert_equal(1, projects.size)
@@ -573,12 +573,12 @@ class ProjectsFactoryTest < TestCase
 
     factory = ProjectsFactory::Neon.new('packaging.neon.kde.org.uk')
     projects = factory.factorize([{
-      '' => [
-        {
-          'pkg-kde-tools' => { 'branch' => 'kittens' }
-        }
-      ]
-    }])
+                                   '' => [
+                                     {
+                                       'pkg-kde-tools' => { 'branch' => 'kittens' }
+                                     }
+                                   ]
+                                 }])
 
     refute_nil(projects)
     assert_equal(1, projects.size)

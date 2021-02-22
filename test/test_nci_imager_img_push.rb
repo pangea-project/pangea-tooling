@@ -23,7 +23,7 @@ require_relative 'lib/testcase'
 require 'net/sftp'
 require 'tty/command'
 
-require_relative '../nci/imager_img_push_support.rb'
+require_relative '../nci/imager_img_push_support'
 
 # NB: this test wraps a script, it does not formally contribute to coverage
 #   statistics but is better than no testing. the script should be turned
@@ -32,17 +32,17 @@ require_relative '../nci/imager_img_push_support.rb'
 module NCI
   class ImagerImgPushSupportTest < TestCase
     def test_old_directories_to_remove
-      img_directories = ['current', '20190218-1206', '20180319-1110']
+      img_directories = %w[current 20190218-1206 20180319-1110]
       img_directories = old_directories_to_remove(img_directories)
       assert_equal([], img_directories)
 
-      img_directories = ['current', '20190218-1206', '20180319-1110', '20180319-1112']
+      img_directories = %w[current 20190218-1206 20180319-1110 20180319-1112]
       img_directories = old_directories_to_remove(img_directories)
       assert_equal([], img_directories)
 
-      img_directories = ['current', '20190218-1206', '20180319-1110', '20180218-1210', '20180319-1112', '20180218-1255', '20180319-1155']
+      img_directories = %w[current 20190218-1206 20180319-1110 20180218-1210 20180319-1112 20180218-1255 20180319-1155]
       img_directories = old_directories_to_remove(img_directories)
-      assert_equal(["20180218-1210", "20180218-1255", "20180319-1110"], img_directories)
+      assert_equal(%w[20180218-1210 20180218-1255 20180319-1110], img_directories)
     end
   end
 end

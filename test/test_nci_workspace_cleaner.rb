@@ -63,6 +63,7 @@ class NCIWorkspaceCleanerTest < TestCase
       .with do |*_, **kwords|
         next false unless kwords.include?(:image)
         next false unless kwords[:no_exit_handlers]
+
         true
       end
       .returns(containment)
@@ -95,6 +96,7 @@ class NCIWorkspaceCleanerTest < TestCase
       .with do |*_, **kwords|
         next false unless kwords.include?(:image)
         next false unless kwords[:no_exit_handlers]
+
         true
       end
       .returns(containment)
@@ -135,6 +137,7 @@ class NCIWorkspaceCleanerTest < TestCase
       .with do |*_, **kwords|
         next false unless kwords.include?(:image)
         next false unless kwords[:no_exit_handlers]
+
         true
       end
       .returns(containment)

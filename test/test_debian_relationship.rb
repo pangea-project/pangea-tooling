@@ -92,10 +92,10 @@ module Debian
       suba = Relationship.new('${a}')
       subb = Relationship.new('${b}')
       assert((a <=> b) == -1)
-      assert((a <=> a) == 0)
+      assert((a <=> a).zero?)
       assert((b <=> a) == 1)
       assert((suba <=> a) == -1)
-      assert((suba <=> suba) == 0)
+      assert((suba <=> suba).zero?)
       assert((suba <=> subb) == -1)
     end
   end

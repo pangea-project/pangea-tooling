@@ -22,12 +22,14 @@ class NCITest < TestCase
   def test_old_series
     # Can be nil, otherwise it must be part of the array.
     return if NCI.old_series.nil?
+
     assert_include NCI.series.keys, NCI.old_series
   end
 
   def test_future_series
     # Can be nil, otherwise it must be part of the array.
     return if NCI.future_series.nil?
+
     assert_include NCI.series.keys, NCI.future_series
   end
 

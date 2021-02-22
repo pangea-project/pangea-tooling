@@ -65,7 +65,8 @@ module Debian
       assert_equal('woof', c.binaries[-1].fetch('Homepage'))
     end
 
-    def test_no_build_deps # Also tests !pwd opening
+    # Also tests !pwd opening
+    def test_no_build_deps
       c = Control.new(__method__)
       c.parse!
       assert_equal(nil, c.source.fetch('build-depends', nil),

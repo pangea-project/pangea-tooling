@@ -100,7 +100,7 @@ class JenkinsJobTest < TestCase
     iotrap = StringIO.new
     $stdout = iotrap
     yield
-    return iotrap.string
+    iotrap.string
   ensure
     $stdout = STDOUT
   end
@@ -118,7 +118,7 @@ class JenkinsJobTest < TestCase
     # Makes sure the requires of all jobs are actually resolving properly.
     # Would be better as multiple meths, but I can't be bothered to build that.
     # Marginal failure cause anyway.
-    Dir.glob("#{__dir__}/../jenkins-jobs/**/*.rb").each do |job|
+    Dir.glob("#{__dir__}/../jenkins-jobs/**/*.rb").sort.each do |job|
       pid = fork do
         require job
         exit 0

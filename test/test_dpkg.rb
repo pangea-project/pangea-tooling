@@ -10,11 +10,11 @@ class DPKGTest < TestCase
       .any_instance
       .expects(:run)
       .with('dpkg-architecture', '-qDEB_BUILD_ARCH')
-      .returns(-> {
+      .returns(lambda {
         status = mock('arch_status')
         status.stubs(:out).returns("foobar\n")
         status
-      }.())
+      }.call)
 
     assert_equal('foobar', DPKG::BUILD_ARCH)
   end
@@ -28,7 +28,7 @@ class DPKGTest < TestCase
       .any_instance
       .expects(:run)
       .with('dpkg-architecture', '-qDEB_BUBU')
-      .raises(TTY::Command::ExitError.new("bubub", err_status))
+      .raises(TTY::Command::ExitError.new('bubub', err_status))
 
     assert_equal(nil, DPKG::BUBU)
   end
@@ -38,11 +38,11 @@ class DPKGTest < TestCase
       .any_instance
       .expects(:run)
       .with('dpkg', '-L', 'abc')
-      .returns( -> {
+      .returns(lambda {
         status = mock('status')
         status.stubs(:out).returns("/.\n/etc\n/usr\n")
         status
-      }.())
+      }.call)
 
     assert_equal(
       %w[/. /etc /usr],

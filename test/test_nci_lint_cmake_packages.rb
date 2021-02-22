@@ -51,12 +51,12 @@ module NCI
         Apt::Repository.any_instance.expects(:remove).returns(true)
         Apt::Abstrapt.stubs(:run_internal).returns(true)
         DPKG.expects(:list).with('libkf5coreaddons-dev').returns(%w[
-          /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets.cmake
-          /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsMacros.cmake
-          /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets-debian.cmake
-          /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfigVersion.cmake
-          /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfig.cmake)
-        ])
+                                                                   /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets.cmake
+                                                                   /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsMacros.cmake
+                                                                   /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets-debian.cmake
+                                                                   /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfigVersion.cmake
+                                                                   /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfig.cmake)
+                                                                 ])
         CMakeDepVerify::Package.any_instance.expects(:run_cmake_in).returns(true)
 
         fake_repo = mock('repo')

@@ -25,7 +25,7 @@ class DockerContainmentTest < TestCase
     # Hard transition away from this.
     # Using the old require will result in a NameError.
     assert_raise NameError do
-      require_relative '../lib/docker/containment.rb'
+      require_relative '../lib/docker/containment'
     end
   end
 end

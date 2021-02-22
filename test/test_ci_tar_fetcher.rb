@@ -40,8 +40,8 @@ module CI
       end
 
       OS.instance_variable_set(:@hash,
-                                UBUNTU_CODENAME: NCI.current_series,
-                                ID: 'ubuntu')
+                               UBUNTU_CODENAME: NCI.current_series,
+                               ID: 'ubuntu')
     end
 
     def teardown
@@ -117,6 +117,7 @@ module CI
       Object.any_instance.expects(:`).never
       TTY::Command.any_instance.expects(:run).once.with do |*args|
         next false unless args[0] == 'uscan'
+
         data = File.read('debian/watch')
         assert_include(data.chomp!, ref_line)
         true
@@ -159,6 +160,7 @@ module CI
         .once
         .with do |*args|
           next false unless args[0] == 'uscan'
+
           files.each { |f| File.write(f, '') }
           true
         end
@@ -214,7 +216,7 @@ module CI
                 end
 
                 args == ['apt-get', 'source', '--only-source', '--download-only', '-t', 'vivid',
-                         'dragon', chdir: 'source']
+                         'dragon', { chdir: 'source' }]
               end
         .returns(nil)
 
@@ -253,7 +255,7 @@ module CI
                 end
 
                 args == ['apt-get', 'source', '--only-source', '--download-only', '-t', 'vivid',
-                         'dragon', chdir: 'source']
+                         'dragon', { chdir: 'source' }]
               end
         .returns(nil)
 
@@ -269,8 +271,8 @@ module CI
       require_binaries(%w[uscan])
 
       OS.instance_variable_set(:@hash,
-                                UBUNTU_CODENAME: NCI.current_series + '1',
-                                ID: 'ubuntu')
+                               UBUNTU_CODENAME: NCI.current_series + '1',
+                               ID: 'ubuntu')
 
       # Not passing any series in and expecting a failure as we'd repack
       # on a series that isn't NCI.current_series

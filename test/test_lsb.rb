@@ -19,8 +19,7 @@ class LSBTest < TestCase
     ref = { DISTRIB_ID: 'Mebuntu',
             DISTRIB_RELEASE: '15.01',
             DISTRIB_CODENAME: 'codename',
-            DISTRIB_DESCRIPTION: 'Mebuntu CodeName (development branch)'
-    }
+            DISTRIB_DESCRIPTION: 'Mebuntu CodeName (development branch)' }
     assert_equal(ref, LSB.to_h)
   end
 

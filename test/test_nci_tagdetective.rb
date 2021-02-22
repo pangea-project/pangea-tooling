@@ -23,13 +23,12 @@ require_relative 'lib/testcase'
 require 'mocha/test_unit'
 require 'rugged'
 
-require_relative '../nci/debian-merge/tagdetective.rb'
+require_relative '../nci/debian-merge/tagdetective'
 
 module NCI
   module DebianMerge
     class NCITagDetectiveTest < TestCase
-      def setup
-      end
+      def setup; end
 
       def test_last_tag_base
         remote_dir = File.join(Dir.pwd, 'frameworks/extra-cmake-modules')
@@ -56,7 +55,7 @@ module NCI
             end
           end
         end
-        ProjectsFactory::Neon.stubs(:ls).returns(%w(frameworks/extra-cmake-modules))
+        ProjectsFactory::Neon.stubs(:ls).returns(%w[frameworks/extra-cmake-modules])
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
 
         assert_equal('debian/2', TagDetective.new.last_tag_base)
@@ -83,7 +82,7 @@ module NCI
           end
         end
 
-        ProjectsFactory::Neon.stubs(:ls).returns(%w(frameworks/meow))
+        ProjectsFactory::Neon.stubs(:ls).returns(%w[frameworks/meow])
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
 
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/2')
@@ -114,7 +113,7 @@ module NCI
           end
         end
 
-        ProjectsFactory::Neon.stubs(:ls).returns(%w(frameworks/meow))
+        ProjectsFactory::Neon.stubs(:ls).returns(%w[frameworks/meow])
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
 
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/2')
@@ -148,7 +147,7 @@ module NCI
           end
         end
 
-        ProjectsFactory::Neon.stubs(:ls).returns(%w(frameworks/released-invalid))
+        ProjectsFactory::Neon.stubs(:ls).returns(%w[frameworks/released-invalid])
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
 
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/3')
@@ -187,7 +186,7 @@ module NCI
         # would simply use the existing file.
         File.write('data.json', JSON.generate({ 'tag_base' => 'debian/2', 'repos' => ['woop'] }))
 
-        ProjectsFactory::Neon.stubs(:ls).returns(%w(frameworks/meow))
+        ProjectsFactory::Neon.stubs(:ls).returns(%w[frameworks/meow])
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/2')
 

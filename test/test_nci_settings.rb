@@ -26,13 +26,13 @@ class NCISettingsTest < TestCase
     ENV['JOB_NAME'] = 'xenial_unstable_libkolabxml_src'
     settings = NCI::Settings.new
     settings = settings.for_job
-    assert_equal({"sourcer"=>{"restricted_packaging_copy"=>true}}, settings)
+    assert_equal({ 'sourcer' => { 'restricted_packaging_copy' => true } }, settings)
   end
 
   def test_settings_singleton
     NCI::Settings.default_files << fixture_file('.yml')
     ENV['JOB_NAME'] = 'xenial_unstable_libkolabxml_src'
-    assert_equal({"sourcer"=>{"restricted_packaging_copy"=>true}}, NCI::Settings.for_job)
+    assert_equal({ 'sourcer' => { 'restricted_packaging_copy' => true } }, NCI::Settings.for_job)
   end
 
   def test_unknown_job

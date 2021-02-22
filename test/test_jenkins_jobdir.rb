@@ -22,7 +22,7 @@ class JenkinsJobDirTest < TestCase
       FileUtils.mkpath(dir)
       age = (1016 - i)
       mtime = (DateTime.now - age).to_time
-      %w(build.xml log log.html log_ref.html).each do |file|
+      %w[build.xml log log.html log_ref.html].each do |file|
         FileUtils.touch("#{dir}/#{file}", mtime: mtime)
       end
       FileUtils.mkpath("#{dir}/archive/randomdir")
@@ -59,7 +59,7 @@ class JenkinsJobDirTest < TestCase
       Jenkins::JobDir.prune(jobdir)
     end
 
-    %w(lastFailedBuild lastStableBuild lastSuccessfulBuild lastUnstableBuild lastUnsuccessfulBuild).each do |d|
+    %w[lastFailedBuild lastStableBuild lastSuccessfulBuild lastUnstableBuild lastUnsuccessfulBuild].each do |d|
       dir = "#{buildsdir}/#{d}"
       # unstable is symlink to -1 == invalid by default!
       assert_path_exist(dir) unless d == 'lastUnstableBuild'
@@ -68,10 +68,10 @@ class JenkinsJobDirTest < TestCase
     # Protected but not a symlink
     assert_path_exist("#{buildsdir}/legacyIds")
 
-    markers = %w(log archive/randomdir)
+    markers = %w[log archive/randomdir]
 
     # Pointed to by symlinks, mustn't be deleted
-    %w(1002 1003 1011 1014).each do |build|
+    %w[1002 1003 1011 1014].each do |build|
       markers.each { |m| assert_path_exist("#{buildsdir}/#{build}/#{m}") }
     end
 

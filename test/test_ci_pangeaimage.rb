@@ -16,7 +16,7 @@ class PangeaImageTest < TestCase
   def assert_image(flavor, series, image)
     assert_equal("#{@namespace}/#{flavor}:#{series}", image.to_s)
     assert_equal("#{@namespace}/#{flavor}", image.repo)
-    assert_equal("#{flavor}", image.flavor)
+    assert_equal(flavor.to_s, image.flavor)
     assert_equal(series, image.tag)
   end
 

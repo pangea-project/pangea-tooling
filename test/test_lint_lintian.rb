@@ -17,7 +17,7 @@ class LintLintianTest < TestCase
     cmd = TTY::Command.new
     cmd
       .expects(:run!)
-      .with { |*args| args[0] == 'lintian' && args.any? {|x| x.end_with?('foo.changes') } }
+      .with { |*args| args[0] == 'lintian' && args.any? { |x| x.end_with?('foo.changes') } }
       .returns(TTY::Command::Result.new(1, File.read(data), ''))
     # Exit code 0 or 1 shouldn't make a diff. Lintian will exit 1 if there
     # are problems, 0 when not - we do run parsing eitherway
@@ -36,7 +36,7 @@ class LintLintianTest < TestCase
     cmd = TTY::Command.new
     cmd
       .expects(:run!)
-      .with { |*args| args[0] == 'lintian' && args.any? {|x| x.end_with?('foo.changes') } }
+      .with { |*args| args[0] == 'lintian' && args.any? { |x| x.end_with?('foo.changes') } }
       .returns(TTY::Command::Result.new(0, <<~OUTPUT, ''))
 W: libkcolorpicker0: package-name-doesnt-match-sonames libkColorPicker0.1.4
 W: meow: package-name-doesnt-match-sonames libmeowsa

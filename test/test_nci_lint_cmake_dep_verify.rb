@@ -50,13 +50,13 @@ module CMakeDepVerify
         .with('apt-get') { |cmd| cmd == 'apt-get' }
         .returns(true)
 
-      DPKG.expects(:list).with('libkf5coreaddons-dev').returns(%w(
-        /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets.cmake
-        /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsMacros.cmake
-        /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets-debian.cmake
-        /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfigVersion.cmake
-        /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfig.cmake)
-      )
+      DPKG.expects(:list).with('libkf5coreaddons-dev').returns(%w[
+                                                                 /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets.cmake
+                                                                 /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsMacros.cmake
+                                                                 /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets-debian.cmake
+                                                                 /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfigVersion.cmake
+                                                                 /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfig.cmake
+                                                               ])
 
       pkg = Package.new('libkf5coreaddons-dev', '1')
       res = pkg.test
@@ -75,13 +75,13 @@ module CMakeDepVerify
         .with('apt-get') { |cmd| cmd == 'apt-get' }
         .returns(true)
 
-      DPKG.expects(:list).with('libkf5coreaddons-dev').returns(%w(
-        /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets.cmake
-        /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsMacros.cmake
-        /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets-debian.cmake
-        /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfigVersion.cmake
-        /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfig.cmake)
-      )
+      DPKG.expects(:list).with('libkf5coreaddons-dev').returns(%w[
+                                                                 /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets.cmake
+                                                                 /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsMacros.cmake
+                                                                 /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsTargets-debian.cmake
+                                                                 /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfigVersion.cmake
+                                                                 /usr/lib/x86_64-linux-gnu/cmake/KF5CoreAddons/KF5CoreAddonsConfig.cmake
+                                                               ])
 
       result = mock('result').responds_like_instance_of(TTY::Command::Result)
       result.stubs(:success?).returns(false)

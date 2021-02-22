@@ -21,25 +21,25 @@ class ProjectTest < TestCase
     # would not be met.
     CI::UpstreamSCM.any_instance.stubs(:releaseme_adjust!).returns(true)
     WebMock.disable_net_connect!(allow_localhost: true)
-    stub_request(:get, 'https://projects.kde.org/api/v1/projects/frameworks').
-        to_return(status: 200, body: '["frameworks/attica","frameworks/baloo","frameworks/bluez-qt"]', headers: {'Content-Type'=> 'text/json'})
-    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde/workspace').
-        to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: {'Content-Type'=> 'text/json'})
-    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde').
-        to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: {'Content-Type'=> 'text/json'})
-    stub_request(:get, 'https://invent.kde.org/sysadmin/release-tools/-/raw/master/modules.git').
-        with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-        to_return(status: 200, body: "kdialog                                     master\nkeditbookmarks                              master\n", headers: {'Content-Type'=> 'text/plain'})
-    stub_request(:get, 'https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release-normal').
-        with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-        to_return(status: 200, body: "bluedevil breeze breeze-grub breeze-gtk breeze-plymouth discover drkonqi", headers: {'Content-Type'=> 'text/plain'})
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/frameworks')
+      .to_return(status: 200, body: '["frameworks/attica","frameworks/baloo","frameworks/bluez-qt"]', headers: { 'Content-Type' => 'text/json' })
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde/workspace')
+      .to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: { 'Content-Type' => 'text/json' })
+    stub_request(:get, 'https://projects.kde.org/api/v1/projects/kde')
+      .to_return(status: 200, body: '["kde/workspace/khotkeys","kde/workspace/plasma-workspace"]', headers: { 'Content-Type' => 'text/json' })
+    stub_request(:get, 'https://invent.kde.org/sysadmin/release-tools/-/raw/master/modules.git')
+      .with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent' => 'Ruby' })
+      .to_return(status: 200, body: "kdialog                                     master\nkeditbookmarks                              master\n", headers: { 'Content-Type' => 'text/plain' })
+    stub_request(:get, 'https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release-normal')
+      .with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent' => 'Ruby' })
+      .to_return(status: 200, body: 'bluedevil breeze breeze-grub breeze-gtk breeze-plymouth discover drkonqi', headers: { 'Content-Type' => 'text/plain' })
   end
 
   def teardown
     CI::Overrides.default_files = nil
   end
 
-  def git_init_commit(repo, branches = %w(master kubuntu_unstable))
+  def git_init_commit(repo, branches = %w[master kubuntu_unstable])
     repo = File.absolute_path(repo)
     Dir.mktmpdir do |dir|
       `git clone #{repo} #{dir}`
@@ -48,7 +48,7 @@ class ProjectTest < TestCase
         `git config user.email "project@test.com"`
         begin
           FileUtils.cp_r("#{data}/debian/.", 'debian/')
-        rescue
+        rescue StandardError
         end
         yield if block_given?
         `git add *`
@@ -84,66 +84,64 @@ class ProjectTest < TestCase
     name = 'tn'
     component = 'tc'
 
-    %w(unstable stable).each do |stability|
-      begin
-        gitrepo = create_fake_git(name: name,
-                                  component: component,
-                                  branches: ["kubuntu_#{stability}",
-                                             "kubuntu_#{stability}_yolo"])
-        assert_not_nil(gitrepo)
-        assert_not_equal(gitrepo, '')
+    %w[unstable stable].each do |stability|
+      gitrepo = create_fake_git(name: name,
+                                component: component,
+                                branches: ["kubuntu_#{stability}",
+                                           "kubuntu_#{stability}_yolo"])
+      assert_not_nil(gitrepo)
+      assert_not_equal(gitrepo, '')
 
-        tmpdir = Dir.mktmpdir(self.class.to_s)
-        Dir.chdir(tmpdir) do
-          # Force duplicated slashes in the git repo path. The init is supposed
-          # to clean up the path.
-          # Make sure the root isn't a double slash though as that contstitues
-          # a valid URI meaning whatever protocol is being used. Not practically
-          # useful for us but good to keep that option open all the same.
-          # Also make sure we have a trailing slash. Should we get a super short
-          # tmpdir that way we can be sure that at least one pointless slash is
-          # in the url.
-          slashed_gitrepo = gitrepo.gsub('/', '//').sub('//', '/') + '/'
-          project = Project.new(name, component, slashed_gitrepo,
-                                type: stability)
-          assert_equal(project.name, name)
-          assert_equal(project.component, component)
-          p scm = project.upstream_scm
-          assert_equal('git', scm.type)
-          assert_equal('master', scm.branch)
-          assert_equal("https://anongit.kde.org/#{name}", scm.url)
-          assert_equal(%w(kinfocenter kinfocenter-dbg),
-                       project.provided_binaries)
-          assert_equal(%w(gwenview), project.dependencies)
-          assert_equal([], project.dependees)
-          assert_equal(["kubuntu_#{stability}_yolo"], project.series_branches)
-          assert_equal(false, project.autopkgtest)
+      tmpdir = Dir.mktmpdir(self.class.to_s)
+      Dir.chdir(tmpdir) do
+        # Force duplicated slashes in the git repo path. The init is supposed
+        # to clean up the path.
+        # Make sure the root isn't a double slash though as that contstitues
+        # a valid URI meaning whatever protocol is being used. Not practically
+        # useful for us but good to keep that option open all the same.
+        # Also make sure we have a trailing slash. Should we get a super short
+        # tmpdir that way we can be sure that at least one pointless slash is
+        # in the url.
+        slashed_gitrepo = "#{gitrepo.gsub('/', '//').sub('//', '/')}/"
+        project = Project.new(name, component, slashed_gitrepo,
+                              type: stability)
+        assert_equal(project.name, name)
+        assert_equal(project.component, component)
+        p scm = project.upstream_scm
+        assert_equal('git', scm.type)
+        assert_equal('master', scm.branch)
+        assert_equal("https://anongit.kde.org/#{name}", scm.url)
+        assert_equal(%w[kinfocenter kinfocenter-dbg],
+                     project.provided_binaries)
+        assert_equal(%w[gwenview], project.dependencies)
+        assert_equal([], project.dependees)
+        assert_equal(["kubuntu_#{stability}_yolo"], project.series_branches)
+        assert_equal(false, project.autopkgtest)
 
-          assert_equal('git', project.packaging_scm.type)
-          assert_equal("#{gitrepo}/#{component}/#{name}", project.packaging_scm.url)
-          assert_equal("kubuntu_#{stability}", project.packaging_scm.branch)
-          assert_equal(nil, project.snapcraft)
-          assert(project.debian?)
-          assert_empty(project.series_restrictions)
-        end
-      ensure
-        FileUtils.rm_rf(tmpdir) unless tmpdir.nil?
-        FileUtils.rm_rf(gitrepo) unless gitrepo.nil?
+        assert_equal('git', project.packaging_scm.type)
+        assert_equal("#{gitrepo}/#{component}/#{name}", project.packaging_scm.url)
+        assert_equal("kubuntu_#{stability}", project.packaging_scm.branch)
+        assert_equal(nil, project.snapcraft)
+        assert(project.debian?)
+        assert_empty(project.series_restrictions)
       end
+    ensure
+      FileUtils.rm_rf(tmpdir) unless tmpdir.nil?
+      FileUtils.rm_rf(gitrepo) unless gitrepo.nil?
     end
   end
 
   def test_init_profiles
     name = 'tn'
     component = 'tc'
-    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    gitrepo = create_fake_git(name: name, component: component, branches: %w[kubuntu_unstable])
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
 
     Dir.mktmpdir(self.class.to_s) do |tmpdir|
       Dir.chdir(tmpdir) do
         project = Project.new(name, component, gitrepo, type: 'unstable')
-        assert_equal(%w(gwenview), project.dependencies)
+        assert_equal(%w[gwenview], project.dependencies)
       end
     end
   end
@@ -155,7 +153,7 @@ class ProjectTest < TestCase
 
     gitrepo = create_fake_git(name: name,
                               component: component,
-                              branches: %w(kittens kittens_vivid kittens_piggy))
+                              branches: %w[kittens kittens_vivid kittens_piggy])
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
 
@@ -169,7 +167,7 @@ class ProjectTest < TestCase
       # Also make sure we have a trailing slash. Should we get a super short
       # tmpdir that way we can be sure that at least one pointless slash is
       # in the url.
-      slashed_gitrepo = gitrepo.gsub('/', '//').sub('//', '/') + '/'
+      slashed_gitrepo = "#{gitrepo.gsub('/', '//').sub('//', '/')}/"
       project = Project.new(name, component, slashed_gitrepo, branch: 'kittens')
       # FIXME: branch isn't actually stored in the projects because the
       #        entire thing is frontend driven (i.e. the update script calls
@@ -178,7 +176,7 @@ class ProjectTest < TestCase
       #        between types WRT dependency tracking and so forth....
       # NB: this must assert **two** branches to ensure all lines are stripped
       #   properly.
-      assert_equal(%w(kittens_vivid kittens_piggy).sort,
+      assert_equal(%w[kittens_vivid kittens_piggy].sort,
                    project.series_branches.sort)
     end
   ensure
@@ -195,21 +193,22 @@ class ProjectTest < TestCase
 
   def test_init_from_ssh
     Net::SSH::Config.expects(:for).with('github.com').returns({
-      keys: ['/weesh.key']
-    })
+                                                                keys: ['/weesh.key']
+                                                              })
     Rugged::Credentials::SshKey.expects(:new).with(
       username: 'git',
       publickey: '/weesh.key.pub',
       privatekey: '/weesh.key',
       passphrase: ''
     ).returns('wrupp')
-    gitrepo = create_fake_git(name: 'tc', component: 'tn', branches: %w(kittens))
+    gitrepo = create_fake_git(name: 'tc', component: 'tn', branches: %w[kittens])
     Rugged::Repository.expects(:clone_at).with do |*args, **kwords|
       p [args, kwords]
       next false unless args[0] == 'ssh://git@github.com/tn/tc' &&
                         args[1] == "#{Dir.pwd}/cache/projects/git@github.com/tn/tc" &&
                         kwords[:bare] == true &&
                         kwords[:credentials].is_a?(Method)
+
       FileUtils.mkpath("#{Dir.pwd}/cache/projects/git@github.com/tn")
       system("git clone #{gitrepo}/tn/tc #{Dir.pwd}/cache/projects/git@github.com/tn/tc")
       kwords[:credentials].call(args[0], 'git', nil)
@@ -226,13 +225,13 @@ class ProjectTest < TestCase
 
     gitrepo = create_fake_git(name: name,
                               component: component,
-                              branches: %w())
+                              branches: %w[])
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
 
     tmpdir = Dir.mktmpdir(self.class.to_s)
     Dir.chdir(tmpdir) do
-      slashed_gitrepo = gitrepo.gsub('/', '//').sub('//', '/') + '/'
+      slashed_gitrepo = "#{gitrepo.gsub('/', '//').sub('//', '/')}/"
       assert_raise Project::GitNoBranchError do
         Project.new(name, component, slashed_gitrepo, branch: 'kittens')
       end
@@ -246,7 +245,7 @@ class ProjectTest < TestCase
     name = 'tn'
     component = 'tc'
 
-    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    gitrepo = create_fake_git(name: name, component: component, branches: %w[kubuntu_unstable])
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
 
@@ -262,7 +261,7 @@ class ProjectTest < TestCase
     name = 'skype'
     component = 'ds9-debian-packaging'
 
-    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    gitrepo = create_fake_git(name: name, component: component, branches: %w[kubuntu_unstable])
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
 
@@ -286,6 +285,7 @@ class ProjectTest < TestCase
     Object.any_instance.expects(:system)
           .with do |x|
             next unless x =~ /bzr checkout --lightweight lp:unity-action-api ([^\s]+unity-action-api)/
+
             # .returns runs in a different binding so the chdir is wrong....
             # so we copy here.
             FileUtils.cp_r("#{data}/.", $~[1], verbose: true)
@@ -328,7 +328,7 @@ class ProjectTest < TestCase
     name = 'kinfocenter'
     component = 'release_service'
 
-    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    gitrepo = create_fake_git(name: name, component: component, branches: %w[kubuntu_unstable])
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
 
@@ -347,7 +347,7 @@ class ProjectTest < TestCase
     name = 'kinfocenter'
     component = 'release_service'
 
-    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable)) do
+    gitrepo = create_fake_git(name: name, component: component, branches: %w[kubuntu_unstable]) do
       File.write('snapcraft.yaml', '')
     end
     assert_not_nil(gitrepo)
@@ -374,7 +374,7 @@ class ProjectTest < TestCase
     name = 'kinfocenter'
     component = 'release_service'
 
-    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    gitrepo = create_fake_git(name: name, component: component, branches: %w[kubuntu_unstable])
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
 
@@ -400,7 +400,7 @@ class ProjectTest < TestCase
     name = 'native'
     component = 'componento'
 
-    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    gitrepo = create_fake_git(name: name, component: component, branches: %w[kubuntu_unstable])
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
 
@@ -427,7 +427,7 @@ class ProjectTest < TestCase
     name = 'override_override'
     component = 'componento'
 
-    gitrepo = create_fake_git(name: name, component: component, branches: %w(kubuntu_unstable))
+    gitrepo = create_fake_git(name: name, component: component, branches: %w[kubuntu_unstable])
     assert_not_nil(gitrepo)
     assert_not_equal(gitrepo, '')
 

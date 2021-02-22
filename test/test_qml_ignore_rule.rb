@@ -39,16 +39,16 @@ class QMLIgnoreRuleTest < TestCase
 
   def test_match_id
     mod = QML::Module.new('org.kde.plasma.abc')
-    truthies = %w(
+    truthies = %w[
       org.kde.plasma.*
       org.kde.plasma.abc
       org.kde.plasma.abc*
-    )
+    ]
     truthies.each { |t| assert_identifier(t, mod) }
-    falsies = %w(
+    falsies = %w[
       org.kde.plasma
       org.kde.plasma.abc.*
-    )
+    ]
     falsies.each { |f| assert_not_identifier(f, mod) }
   end
 
@@ -83,10 +83,11 @@ class QMLIgnoreRuleTest < TestCase
     }
     r.each do |rule|
       next unless expected.keys.include?(rule.identifier)
+
       version = expected.delete(rule.identifier)
       assert_equal(version, rule.version, 'Versions do not match')
     end
-    assert_empty(expected, "Did not get all expected rules")
+    assert_empty(expected, 'Did not get all expected rules')
   end
 
   def test_compare

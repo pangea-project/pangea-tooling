@@ -5,7 +5,7 @@
 
 require 'vcr'
 
-require_relative '../lib/ci/container.rb'
+require_relative '../lib/ci/container'
 require_relative '../lib/ci/container/ephemeral'
 require_relative 'lib/testcase'
 
@@ -78,7 +78,7 @@ class ContainerTest < TestCase
 
   def test_to_bindings
     b = CI::Container::DirectBindingArray.to_bindings(['/', '/tmp'])
-    assert_equal(%w(/:/ /tmp:/tmp), b)
+    assert_equal(%w[/:/ /tmp:/tmp], b)
   end
 
   def test_to_volumes_mixed_format
@@ -88,7 +88,7 @@ class ContainerTest < TestCase
 
   def test_to_bindings_mixed_fromat
     b = CI::Container::DirectBindingArray.to_bindings(['/', '/tmp:/tmp'])
-    assert_equal(%w(/:/ /tmp:/tmp), b)
+    assert_equal(%w[/:/ /tmp:/tmp], b)
   end
 
   def test_to_bindings_colons

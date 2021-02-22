@@ -25,7 +25,7 @@ require_relative 'lib/testcase'
 require 'mocha/test_unit'
 
 class OverlayBinsTest < TestCase
-  OVERLAY_DIR = "#{__dir__}/../overlay-bin".freeze
+  OVERLAY_DIR = "#{__dir__}/../overlay-bin"
 
   def setup
     assert_path_exist(OVERLAY_DIR, 'expected overlay dir to exist but could' \

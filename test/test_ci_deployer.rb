@@ -19,7 +19,7 @@ class DeployTest < TestCase
       config.cassette_library_dir = datadir
       config.hook_into :excon
       config.default_cassette_options = {
-        match_requests_on:  [:method, :uri, :body],
+        match_requests_on: %i[method uri body],
         tag: :erb_pwd
       }
 
@@ -31,9 +31,7 @@ class DeployTest < TestCase
       # writing out the binary tar, replace it with nil since on replay docker
       # actually always sends out a empty body
       config.before_record do |interaction|
-        if interaction.request.uri.end_with?('export')
-          interaction.response.body = nil
-        end
+        interaction.response.body = nil if interaction.request.uri.end_with?('export')
       end
     end
 
@@ -183,11 +181,11 @@ class DeployTest < TestCase
       end
 
       # Wily should exist so the fallback upgrade shouldn't be used.
-      d = MGMT::Deployer.new(:ubuntu, 'wily', %w(vivid))
+      d = MGMT::Deployer.new(:ubuntu, 'wily', %w[vivid])
       upgrade = d.create_base
       assert_nil(upgrade)
       # Fake series name shouldn't exist and trigger an upgrade.
-      d = MGMT::Deployer.new(:ubuntu, __method__.to_s, %w(wily))
+      d = MGMT::Deployer.new(:ubuntu, __method__.to_s, %w[wily])
       upgrade = d.create_base
       assert_not_nil(upgrade)
       assert_equal('wily', upgrade.from)

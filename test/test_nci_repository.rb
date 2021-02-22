@@ -67,7 +67,7 @@ module NCI
           end
         end
 
-        repo = Repository.clone_into('file://' + remote_dir, Dir.pwd)
+        repo = Repository.clone_into("file://#{remote_dir}", Dir.pwd)
         assert_path_exist('fishy') # the clone
         repo.tag_base = 'debian/2'
         repo.merge
@@ -111,7 +111,7 @@ module NCI
           end
         end
 
-        repo = Repository.clone_into('file://' + remote_dir, Dir.pwd)
+        repo = Repository.clone_into("file://#{remote_dir}", Dir.pwd)
         assert_path_exist('fishy') # the clone
         repo.tag_base = 'debian/2'
         repo.merge
@@ -161,7 +161,7 @@ module NCI
           end
         end
 
-        repo = Repository.clone_into('file://' + remote_dir, Dir.pwd)
+        repo = Repository.clone_into("file://#{remote_dir}", Dir.pwd)
         assert_path_exist('fishy') # the clone
         repo.tag_base = 'debian/2'
         assert_raises RuntimeError do
@@ -191,7 +191,7 @@ module NCI
           end
         end
 
-        repo = Repository.clone_into('file://' + remote_dir, Dir.pwd)
+        repo = Repository.clone_into("file://#{remote_dir}", Dir.pwd)
         assert_path_exist('fishy') # the clone
         repo.tag_base = 'debian/2' # only tag on repo is debian/5-0
         assert_raises RuntimeError do
@@ -232,7 +232,7 @@ module NCI
 
         TagValidator.default_path = data('override.yaml')
 
-        repo = Repository.clone_into('file://' + remote_dir, Dir.pwd)
+        repo = Repository.clone_into("file://#{remote_dir}", Dir.pwd)
         assert_path_exist('kpackage') # the clone
         repo.tag_base = 'debian/1.17.0'
         repo.merge
@@ -246,7 +246,7 @@ module NCI
           `git init --bare .`
         end
 
-        repo = Repository.clone_into('file://' + remote_dir, Dir.pwd)
+        repo = Repository.clone_into("file://#{remote_dir}", Dir.pwd)
         assert_path_exist('fishy') # the clone
         repo.tag_base = 'debian/2'
         Dir.chdir('fishy') do
@@ -260,7 +260,7 @@ module NCI
           warn "fishy ret: #{ret}; $? #{$?}"
           # find the line which defines the push url
           ret = ret.split($/).find { |x| x.strip.downcase.start_with?('push') }
-          ret = ret.strip.split(' ')[-1] # url is last space separated part
+          ret = ret.strip.split[-1] # url is last space separated part
           assert_equal('git@invent.kde.org:neon/kde/khtml', ret)
         end
       end
@@ -273,8 +273,8 @@ module NCI
         end
 
         Net::SSH::Config.expects(:for).with('frogi').returns({
-          keys: ['/weesh.key']
-        })
+                                                               keys: ['/weesh.key']
+                                                             })
         Rugged::Credentials::SshKey.expects(:new).with(
           username: 'neon',
           publickey: '/weesh.key.pub',
@@ -282,7 +282,7 @@ module NCI
           passphrase: ''
         ).returns('wrupp')
 
-        repo = Repository.clone_into('file://' + remote_dir, Dir.pwd)
+        repo = Repository.clone_into("file://#{remote_dir}", Dir.pwd)
         assert_path_exist('fishy') # the clone
         repo.tag_base = 'debian/2'
         r = repo.send(:credentials, 'frogi', 'neon', [:ssh_key]) # private
@@ -298,7 +298,6 @@ module NCI
           Repository.clone_into('foo', Dir.pwd)
         end
       end
-
     end
   end
 end

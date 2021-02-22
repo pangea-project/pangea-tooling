@@ -28,7 +28,7 @@ module NCI
     def test_init
       id = ID.new('org.kde.foo.desktop')
       assert_equal('org.kde.foo.desktop', id.active)
-      assert_equal(["org.kde.foo", "foo", "foo.desktop"].sort, id.permutations.sort)
+      assert_equal(['org.kde.foo', 'foo', 'foo.desktop'].sort, id.permutations.sort)
     end
   end
 end

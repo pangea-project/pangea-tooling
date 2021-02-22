@@ -16,7 +16,7 @@ class MGMTDockerCleanupTest < TestCase
       config.cassette_library_dir = datadir
       config.hook_into :excon
       config.default_cassette_options = {
-        match_requests_on:  [:method, :uri, :body],
+        match_requests_on: %i[method uri body],
         tag: :erb_pwd
       }
 
@@ -34,12 +34,10 @@ class MGMTDockerCleanupTest < TestCase
 
   def disable_body_match
     VCR.configure do |c|
-      begin
-        body = c.default_cassette_options[:match_requests_on].delete(:body)
-        yield
-      ensure
-        c.default_cassette_options[:match_requests_on] << :body if body
-      end
+      body = c.default_cassette_options[:match_requests_on].delete(:body)
+      yield
+    ensure
+      c.default_cassette_options[:match_requests_on] << :body if body
     end
   end
 

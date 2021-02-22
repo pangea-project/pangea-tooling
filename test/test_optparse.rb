@@ -31,7 +31,7 @@ class OptionParserTest < TestCase
 
   def test_present
     parser = OptionParser.new do |opts|
-      opts.default_argv = %w(--long ABC)
+      opts.default_argv = %w[--long ABC]
       opts.on('-l', '--long LONG', 'expected long', 'EXPECTED') do |v|
       end
     end
@@ -41,7 +41,7 @@ class OptionParserTest < TestCase
 
   def test_missing
     parser = OptionParser.new do |opts|
-      opts.default_argv = %w()
+      opts.default_argv = %w[]
       opts.on('-l', '--long LONG', 'expected long', 'EXPECTED') do |v|
       end
     end

@@ -36,9 +36,8 @@ module AssertSystem
         assertee.assert_equal([*args], [*a])
         args.clear
       end
-      if assertee.respond_to?(:system_intercept)
-        return assertee.system_intercept([*a])
-      end
+      return assertee.system_intercept([*a]) if assertee.respond_to?(:system_intercept)
+
       true
     end
     block.yield

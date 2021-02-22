@@ -65,7 +65,7 @@ class BranchSequenceTest < TestCase
     end
   end
 
-  def git_branch(from: nil, branches:)
+  def git_branch(branches:, from: nil)
     kwords = from ? { checkout: from } : {}
     rugged_in_repo(**kwords) do |repo|
       branches.each do |branch|

@@ -28,8 +28,7 @@ require_relative '../nci/debian-merge/merger'
 module NCI
   module DebianMerge
     class NCITagMergerTest < TestCase
-      def setup
-      end
+      def setup; end
 
       def test_run
         tag_base = 'tagi'

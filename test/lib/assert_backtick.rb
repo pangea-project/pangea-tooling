@@ -36,9 +36,8 @@ module AssertBacktick
         assertee.assert_equal([*args], [*a])
         args.clear
       end
-      if assertee.respond_to?(:backtick_intercept)
-        return assertee.backtick_intercept([*a])
-      end
+      return assertee.backtick_intercept([*a]) if assertee.respond_to?(:backtick_intercept)
+
       ''
     end
     block.yield

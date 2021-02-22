@@ -9,24 +9,24 @@ class DCITest < TestCase
   end
 
   def test_types
-    assert_equal_collection(%w(desktop backports core c1 z1 z2), DCI.types)
+    assert_equal_collection(%w[desktop backports core c1 z1 z2], DCI.types)
   end
 
   def test_architectures
-    assert_equal_collection(%w(amd64 armhf arm64), DCI.architectures)
+    assert_equal_collection(%w[amd64 armhf arm64], DCI.architectures)
   end
 
   def test_extra_architectures
-    assert_equal_collection(%w(), DCI.extra_architectures)
+    assert_equal_collection(%w[], DCI.extra_architectures)
   end
 
   def test_all_architectures
-    assert_equal_collection(%w(amd64 armhf arm64), DCI.all_architectures)
+    assert_equal_collection(%w[amd64 armhf arm64], DCI.all_architectures)
   end
 
   def test_series
-    assert_equal_collection(%w(2101 next), DCI.series.keys)
-    assert_equal_collection(%w(20201123 20201124), DCI.series.values)
+    assert_equal_collection(%w[2101 next], DCI.series.keys)
+    assert_equal_collection(%w[20201123 20201124], DCI.series.values)
     assert_equal('20201123', DCI.series['2101'])
     assert_equal('20201124', DCI.series['next'])
 

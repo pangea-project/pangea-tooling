@@ -34,10 +34,10 @@ module NCI::Snap
       FileUtils.cp_r(data('source'), '.')
       FileUtils.mv('source/git', 'source/.git')
 
-      stub_request(:get, Extender::Core16::STAGED_CONTENT_PATH).
-        to_return(status: 200, body: JSON.generate(['bar']))
-      stub_request(:get, Extender::Core16::STAGED_DEV_PATH).
-        to_return(status: 200, body: JSON.generate(['bar-dev']))
+      stub_request(:get, Extender::Core16::STAGED_CONTENT_PATH)
+        .to_return(status: 200, body: JSON.generate(['bar']))
+      stub_request(:get, Extender::Core16::STAGED_DEV_PATH)
+        .to_return(status: 200, body: JSON.generate(['bar-dev']))
 
       assert_path_not_exist('snapcraft.yaml')
       Extender.extend(data('snapcraft.yaml'))
@@ -60,10 +60,10 @@ module NCI::Snap
     def test_release_no_gitification
       ENV['TYPE'] = 'release-lts'
 
-      stub_request(:get, Extender::Core16::STAGED_CONTENT_PATH).
-        to_return(status: 200, body: JSON.generate(['bar']))
-      stub_request(:get, Extender::Core16::STAGED_DEV_PATH).
-        to_return(status: 200, body: JSON.generate(['bar-dev']))
+      stub_request(:get, Extender::Core16::STAGED_CONTENT_PATH)
+        .to_return(status: 200, body: JSON.generate(['bar']))
+      stub_request(:get, Extender::Core16::STAGED_DEV_PATH)
+        .to_return(status: 200, body: JSON.generate(['bar-dev']))
 
       assert_path_not_exist('snapcraft.yaml')
       Extender.extend(data('snapcraft.yaml'))

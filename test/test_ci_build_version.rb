@@ -25,6 +25,7 @@ class CIBuildVersionTest < TestCase
 
   def unalias_time
     return unless @time_aliased
+
     CI::BuildVersion.send(:undef_method, :time)
     CI::BuildVersion.send(:alias_method, :time, :__time_orig)
     @time_aliased = false

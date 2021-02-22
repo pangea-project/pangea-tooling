@@ -19,7 +19,8 @@ class RetryHelper
   def error
     @error_at ||= -1
     return if @error_at >= @errors.size - 1
-    raise @errors[@error_at += 1].new('error')
+
+    raise @errors[@error_at += 1], 'error'
   end
 end
 

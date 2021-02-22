@@ -31,9 +31,8 @@ require 'mocha/test_unit'
 # https://github.com/bundler/bundler/issues/6252
 module BundlerOverlay
   def frozen?
-    if caller_locations.any?{ |x| x.absolute_path.include?('lib/mocha') }
-      return false
-    end
+    return false if caller_locations.any? { |x| x.absolute_path.include?('lib/mocha') }
+
     super
   end
 end

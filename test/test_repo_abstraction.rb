@@ -35,19 +35,25 @@ module PackageKitGlib
       }.fetch(x)
     end
   end
+
   class Client
   end
+
   class Result
     attr_reader :package_array
+
     def initialize(package_array)
       @package_array = package_array
     end
   end
+
   class Package
     attr_reader :name
+
     def initialize(name)
       @name = name
     end
+
     def self.from_array(array)
       array.collect { |x| new(x) }
     end
@@ -81,25 +87,25 @@ class RepoAbstractionAptlyTest < TestCase
     repo = mock('repo')
     repo
       .stubs(:packages)
-      .with(:q => '$Architecture (source)')
+      .with(q: '$Architecture (source)')
       .returns(['Psource kactivities-kf5 3 ghi',
                 'Psource kactivities-kf5 4 jkl',
                 'Psource kactivities-kf5 2 def']) # Make sure this is filtered
 
-
     r = AptlyRepository.new(repo, 'prefix')
-    assert_equal(["Psource kactivities-kf5 4 jkl"], r.sources.collect(&:to_s))
+    assert_equal(['Psource kactivities-kf5 4 jkl'], r.sources.collect(&:to_s))
   end
 
-  def test_install # implicitly tests #packages
+  # implicitly tests #packages
+  def test_install
     repo = mock('repo')
     repo
       .stubs(:packages)
-      .with(:q => '$Architecture (source)')
+      .with(q: '$Architecture (source)')
       .returns(['Psource kactivities-kf5 4 jkl']) # Make sure this is filtered
     repo
       .stubs(:packages)
-      .with(:q => '!$Architecture (source), $PackageType (deb), $Source (kactivities-kf5), $SourceVersion (4)')
+      .with(q: '!$Architecture (source), $PackageType (deb), $Source (kactivities-kf5), $SourceVersion (4)')
       .returns(['Pamd64 libkactivites 4 abc'])
 
     Apt::Abstrapt.expects(:system).with do |*x|
@@ -114,11 +120,11 @@ class RepoAbstractionAptlyTest < TestCase
     repo = mock('repo')
     repo
       .stubs(:packages)
-      .with(:q => '$Architecture (source)')
+      .with(q: '$Architecture (source)')
       .returns(['Psource kactivities-kf5 4 jkl'])
     repo
       .stubs(:packages)
-      .with(:q => '!$Architecture (source), $PackageType (deb), $Source (kactivities-kf5), $SourceVersion (4)')
+      .with(q: '!$Architecture (source), $PackageType (deb), $Source (kactivities-kf5), $SourceVersion (4)')
       .returns(['Pamd64 libkactivites 4 abc', 'Pamd64 kitteh 5 efd', 'Pamd64 base-files 5 efd'])
     # kitteh we filter, base-files should be default filtered
     Apt::Abstrapt
@@ -176,25 +182,25 @@ class RepoAbstractionRootOnAptlyTest < TestCase
     mock_repo1 = mock('mock_repo1')
     mock_repo1
       .stubs(:packages)
-      .with(:q => '$Architecture (source)')
+      .with(q: '$Architecture (source)')
       .returns(['Psource kactivities-kf5 4 jkl'])
     mock_repo1
       .stubs(:packages)
-      .with(:q => '!$Architecture (source), $PackageType (deb), $Source (kactivities-kf5), $SourceVersion (4)')
+      .with(q: '!$Architecture (source), $PackageType (deb), $Source (kactivities-kf5), $SourceVersion (4)')
       .returns(['Pamd64 libkactivites 4 abc'])
 
     mock_repo2 = mock('mock_repo2')
     mock_repo2
       .stubs(:packages)
-      .with(:q => '$Architecture (source)')
+      .with(q: '$Architecture (source)')
       .returns(['Psource kactivities-kf5 4 jkl', 'Psource trollomatico 3 abc'])
     mock_repo2
       .stubs(:packages)
-      .with(:q => '!$Architecture (source), $PackageType (deb), $Source (kactivities-kf5), $SourceVersion (4)')
+      .with(q: '!$Architecture (source), $PackageType (deb), $Source (kactivities-kf5), $SourceVersion (4)')
       .returns(['Pamd64 libkactivites 4 abc'])
     mock_repo2
       .stubs(:packages)
-      .with(:q => '!$Architecture (source), $PackageType (deb), $Source (trollomatico), $SourceVersion (3)')
+      .with(q: '!$Architecture (source), $PackageType (deb), $Source (trollomatico), $SourceVersion (3)')
       .returns(['Pamd64 trollomatico 3 edf', 'Pamd64 unicornsparkles 4 xyz'])
 
     Apt::Abstrapt
@@ -203,7 +209,7 @@ class RepoAbstractionRootOnAptlyTest < TestCase
       .returns(true)
 
     GirFFI.expects(:setup).with(:PackageKitGlib, '1.0').returns(true)
-    packages = PackageKitGlib::Package.from_array(%w(libkactivites trollomatico))
+    packages = PackageKitGlib::Package.from_array(%w[libkactivites trollomatico])
     result = PackageKitGlib::Result.new(packages)
     PackageKitGlib::Client.any_instance.expects(:get_packages).with(18).returns(result)
 

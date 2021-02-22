@@ -34,7 +34,7 @@ module CI
         CI::LangPack.generate_packaging!('ca@VALENCIA')
         control = Debian::Control.new
         control.parse!
-        assert(control.binaries.map {|x| x['Package']}.include? 'kde-l10n-ca-valencia')
+        assert(control.binaries.map { |x| x['Package'] }.include?('kde-l10n-ca-valencia'))
 
         changelog = Changelog.new
         assert_equal('kde-l10n-ca-valencia', changelog.name)

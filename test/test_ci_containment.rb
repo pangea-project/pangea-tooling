@@ -5,7 +5,7 @@
 
 require 'vcr'
 
-require_relative '../lib/ci/containment.rb'
+require_relative '../lib/ci/containment'
 require_relative 'lib/testcase'
 require_relative '../lib/ci/pangeaimage'
 
@@ -13,6 +13,7 @@ require 'mocha/test_unit'
 
 module CI
   class BindsPassed < RuntimeError; end
+
   class ContainmentTest < TestCase
     self.file = __FILE__
     self.test_order = :alphabetic # There's a test_ZZZ to be run at end
@@ -40,7 +41,7 @@ module CI
         config.cassette_library_dir = datadir
         config.hook_into :excon
         config.default_cassette_options = {
-          match_requests_on:  [:method, :uri, :body]
+          match_requests_on: %i[method uri body]
         }
         config.filter_sensitive_data('<%= Dir.pwd %>', :erb_pwd) { Dir.pwd }
       end
@@ -212,20 +213,18 @@ module CI
 
     def test_cleanup_on_contain
       vcr_it(__method__) do
-        begin
-          # Implicit via contain. First construct containment then contain. Should
-          # clean up first resulting in a different hash.
-          c = Containment.new(@job_name, image: @image, binds: [])
-          c2 = Docker::Container.create(Image: @image).tap { |c| c.rename(@job_name) }
-          c1 = c.contain({})
-          assert_not_equal(c1.id, c2.id)
-          assert_raise Docker::Error::NotFoundError do
-            # C2 should be gone entirely now
-            Docker::Container.get(c2.id)
-          end
-        ensure
-          c.cleanup if c
+        # Implicit via contain. First construct containment then contain. Should
+        # clean up first resulting in a different hash.
+        c = Containment.new(@job_name, image: @image, binds: [])
+        c2 = Docker::Container.create(Image: @image).tap { |c| c.rename(@job_name) }
+        c1 = c.contain({})
+        assert_not_equal(c1.id, c2.id)
+        assert_raise Docker::Error::NotFoundError do
+          # C2 should be gone entirely now
+          Docker::Container.get(c2.id)
         end
+      ensure
+        c&.cleanup
       end
     end
 
@@ -265,17 +264,18 @@ module CI
       end
     end
 
-    def test_ZZZ_binds # Last test always! Changes VCR configuration.
+    # Last test always! Changes VCR configuration.
+    def test_ZZZ_binds
       # Container binds were overwritten by Containment at some point, make
       # sure the binds we put in a re the binds that are passed to docker.
       vcr_it(__method__) do
         Dir.chdir(@tmpdir) do
           CI::EphemeralContainer.stubs(:create)
-                                .with({ :binds => [@tmpdir], :Image => @image.to_s, :HostConfig => {:Privileged => false}, :Cmd => ['bash', '-c', 'exit', '0'] })
+                                .with({ binds: [@tmpdir], Image: @image.to_s, HostConfig: { Privileged: false }, Cmd: ['bash', '-c', 'exit', '0'] })
                                 .raises(CI::BindsPassed)
           c = Containment.new(@job_name, image: @image, binds: [Dir.pwd])
           assert_raise CI::BindsPassed do
-            c.run(Cmd: %w(bash -c exit 0))
+            c.run(Cmd: %w[bash -c exit 0])
           end
         end
       end

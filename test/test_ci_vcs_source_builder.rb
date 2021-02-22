@@ -33,7 +33,7 @@ require 'mocha/test_unit'
 require 'webmock/test_unit'
 
 class VCSBuilderTest < TestCase
-  required_binaries %w(dpkg-buildpackage dpkg dh)
+  required_binaries %w[dpkg-buildpackage dpkg dh]
 
   REF_TIME = '20150717.1756'
 
@@ -85,6 +85,7 @@ class VCSBuilderTest < TestCase
 
   def unalias_time
     return unless @time_aliased
+
     CI::BuildVersion.send(:undef_method, :time)
     CI::BuildVersion.send(:alias_method, :time, :__time_orig)
     @time_aliased = false

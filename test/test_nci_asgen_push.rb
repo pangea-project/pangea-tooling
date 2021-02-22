@@ -37,15 +37,14 @@ module NCI
         @session = session
       end
 
-      def session
-        return @session
-      end
+      attr_reader :session
 
       def chroot(path)
         "#{remote_dir}/#{path}"
       end
 
-      def dir # also act as Dir, technically a different object in net::sftp though
+      # also act as Dir, technically a different object in net::sftp though
+      def dir
         self
       end
 
@@ -129,6 +128,7 @@ module NCI
       def exec!(cmd)
         argv = Shellwords.split(cmd)
         raise if argv.any? { |x| x.include?('..') }
+
         argv = argv.collect { |x| x.start_with?('/') ? "#{remote_dir}/#{x}" : x }
         @cmd.run!(*argv)
       end
@@ -151,7 +151,7 @@ module NCI
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/Components-amd64.yml")
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/by-hash/MD5Sum/2a42a2c7a5dbd3fdb2e832aed8b2cbd5")
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/by-hash/MD5Sum/Components-amd64.yml.xz")
-       # tempdir during upload
+      # tempdir during upload
       assert_path_not_exist("#{remote_dir}/home/neonarchives/asgen_push.release")
     end
 
@@ -173,7 +173,7 @@ module NCI
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/by-hash/MD5Sum/2a42a2c7a5dbd3fdb2e832aed8b2cbd5")
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/by-hash/MD5Sum/Components-amd64.yml.xz")
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/by-hash/MD5Sum/Components-amd64.yml.xz.old")
-       # tempdir during upload
+      # tempdir during upload
       assert_path_not_exist("#{remote_dir}/home/neonarchives/asgen_push.release")
 
       # This is a special blob which is specifically made different so

@@ -59,10 +59,7 @@ module NCI::JenkinsBin
   end
 
   class BuildSelectorTest < TestCase
-    attr_accessor :log_out
-    attr_accessor :logger
-    attr_accessor :jenkins_job
-    attr_accessor :job
+    attr_accessor :log_out, :logger, :jenkins_job, :job
 
     def setup
       @log_out = StringIO.new
@@ -80,6 +77,7 @@ module NCI::JenkinsBin
 
     def teardown
       return if passed?
+
       @log_out.rewind
       warn @log_out.read
     end

@@ -7,7 +7,7 @@ require_relative '../lib/ci/tarball'
 
 module CI
   class OrigSourceBuilderTest < TestCase
-    required_binaries %w(dpkg-buildpackage dpkg dh uscan)
+    required_binaries %w[dpkg-buildpackage dpkg dh uscan]
 
     def setup
       LSB.reset

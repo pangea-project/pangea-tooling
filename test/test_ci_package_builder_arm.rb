@@ -27,7 +27,7 @@ require 'mocha/test_unit'
 # Test ci/build_binary
 module CI
   class BuildARMBinaryTest < TestCase
-    required_binaries %w(dpkg-buildpackage dpkg-source dpkg dh)
+    required_binaries %w[dpkg-buildpackage dpkg-source dpkg dh]
 
     def setup
       # Turn a bunch of debhelper sub process calls noop to improve speed.
@@ -92,6 +92,5 @@ module CI
 
       builder.build
     end
-
   end
 end

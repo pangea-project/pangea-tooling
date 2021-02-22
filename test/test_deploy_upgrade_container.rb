@@ -21,7 +21,7 @@
 
 require 'vcr'
 
-require_relative '../lib/ci/containment.rb'
+require_relative '../lib/ci/containment'
 require_relative 'lib/testcase'
 
 require 'mocha/test_unit'
@@ -44,6 +44,7 @@ class DeployUpgradeTest < TestCase
 
   def cleanup_image
     return unless Docker::Image.exist?(@image)
+
     puts "Cleaning up image #{@image}"
     image = Docker::Image.get(@image)
     image.delete(force: true, noprune: true)
@@ -68,7 +69,7 @@ class DeployUpgradeTest < TestCase
       config.cassette_library_dir = datadir
       config.hook_into :excon
       config.default_cassette_options = {
-        match_requests_on:  [:method, :uri, :body]
+        match_requests_on: %i[method uri body]
       }
       # ERB PWD
       config.filter_sensitive_data('<%= Dir.pwd %>') { Dir.pwd }
@@ -83,7 +84,7 @@ class DeployUpgradeTest < TestCase
     # Instead of using the live upgrader script, use a stub to avoid failure
     # from actual problems in the upgrader script and/or the system.
     FileUtils.cp_r("#{datadir}/deploy_in_container.sh", Dir.pwd)
-    FileUtils.cp_r("#{datadir}/deploy_in_container.sh", Dir.pwd + '/deploy_upgrade_container.sh')
+    FileUtils.cp_r("#{datadir}/deploy_in_container.sh", "#{Dir.pwd}/deploy_upgrade_container.sh")
 
     # Fake info call for consistency
     Docker.stubs(:info).returns('DockerRootDir' => '/var/lib/docker')

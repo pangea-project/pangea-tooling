@@ -29,6 +29,7 @@ class ParseYAMLTest < TestCase
     Dir.glob('**/**/*.{yml,yaml}').each do |file|
       next if file.include?('git/') || file.include?('launchpad/') || file.include?('test/')
       next unless File.file?(file)
+
       # assert_nothing_raised is a bit stupid, it eats most useful information
       # from the exception, so to debug this best run without the assert to
       # get the additional information.

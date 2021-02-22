@@ -25,7 +25,6 @@ require_relative '../dci/sourcer'
 require 'mocha/test_unit'
 
 class DCISourcerTest < TestCase
-
   def setup
     ENV['DIST'] = 'testing'
     ENV['BUILD_NUMBER'] = '123'
@@ -80,7 +79,7 @@ class DCISourcerTest < TestCase
     DCI::Settings.expects(:for_job).returns(
       { 'sourcer' => { 'restricted_packaging_copy' => true } }
     )
-    assert_equal({release: ENV.fetch('DIST'), strip_symbols: true, restricted_packaging_copy: true },
+    assert_equal({ release: ENV.fetch('DIST'), strip_symbols: true, restricted_packaging_copy: true },
                  DCISourcer.sourcer_args)
   end
 end

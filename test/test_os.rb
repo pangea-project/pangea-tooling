@@ -23,15 +23,15 @@ class OSTest < TestCase
   end
 
   def test_parse
-    ref = { :BUG_REPORT_URL => 'http://bugs.launchpad.net/ubuntu/',
-           :HOME_URL => 'http://www.medubuntu.com/',
-           :ID=>'ubuntu',
-      :ID_LIKE=>"debian",
-      :NAME=>"Medbuntu",
-      :PRETTY_NAME=>"Medbuntu 15.01",
-      :SUPPORT_URL=>"http://help.ubuntu.com/",
-      :VERSION=>"15.01 (Magical Ponies)",
-      :VERSION_ID=>"15.01"}
+    ref = { BUG_REPORT_URL: 'http://bugs.launchpad.net/ubuntu/',
+            HOME_URL: 'http://www.medubuntu.com/',
+            ID: 'ubuntu',
+            ID_LIKE: 'debian',
+            NAME: 'Medbuntu',
+            PRETTY_NAME: 'Medbuntu 15.01',
+            SUPPORT_URL: 'http://help.ubuntu.com/',
+            VERSION: '15.01 (Magical Ponies)',
+            VERSION_ID: '15.01' }
     assert_equal(ref, OS.to_h)
   end
 

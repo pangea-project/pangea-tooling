@@ -28,8 +28,7 @@ require_relative '../nci/debian-merge/finalizer'
 module NCI
   module DebianMerge
     class NCIFinalizerTest < TestCase
-      def setup
-      end
+      def setup; end
 
       def test_run
         remote_dir = File.join(Dir.pwd, 'remote/fishy')

@@ -58,7 +58,7 @@ class NCIRepoCleanupTest < TestCase
            .once # must only be called once; after all is done!!!
            .with(<<-DATA)
 XDG_RUNTIME_DIR=/run/user/`id -u` systemctl --user start aptly_db_cleanup
-DATA
+           DATA
            .yields
 
     Net::SSH
@@ -137,14 +137,14 @@ DATA
     Aptly::Repository.stubs(:list)
                      .returns([fake_unstable, fake_stable])
     {
-      %w(1 gt 3) => 1 > 3,
-      %w(1 lt 3) => 1 < 3,
-      %w(4 gt 2) => 4 > 2,
-      %w(1 gt 2) => 1 > 2,
-      %w(1 lt 2) => 1 < 2,
-      %w(3 gt 2) => 3 > 2,
-      %w(3 gt 4) => 3 > 4,
-      %w(3 lt 4) => 3 < 4
+      %w[1 gt 3] => 1 > 3,
+      %w[1 lt 3] => 1 < 3,
+      %w[4 gt 2] => 4 > 2,
+      %w[1 gt 2] => 1 > 2,
+      %w[1 lt 2] => 1 < 2,
+      %w[3 gt 2] => 3 > 2,
+      %w[3 gt 4] => 3 > 4,
+      %w[3 lt 4] => 3 < 4
     }.each do |arg_array, return_value|
       Debian::Version
         .any_instance
@@ -152,13 +152,11 @@ DATA
         .with('dpkg', '--compare-versions', *arg_array)
         .returns(return_value)
         .at_least_once
-
     end
 
     # RepoCleaner.clean(%w(unstable stable))
     ENV['PANGEA_TEST_EXECUTION'] = '1'
     load("#{__dir__}/../nci/repo_cleanup.rb")
-
   end
 
   def test_key_from_string
@@ -179,5 +177,4 @@ DATA
       Aptly::Ext::Package::Key.from_string('Psource kactivities-kf5 1 abc asdf')
     end
   end
-
 end

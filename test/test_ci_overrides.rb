@@ -24,7 +24,7 @@ module CI
       scm = SCM.new('git', 'git://packaging.neon.kde.org.uk/plasma/kitten', 'kubuntu_stable')
       overrides = o.rules_for_scm(scm)
       refute_nil overrides
-      assert_equal({"upstream_scm"=>{"branch"=>"Plasma/5.5"}}, overrides)
+      assert_equal({ 'upstream_scm' => { 'branch' => 'Plasma/5.5' } }, overrides)
     end
 
     def test_cascading
@@ -34,7 +34,7 @@ module CI
       overrides = o.rules_for_scm(scm)
 
       refute_nil overrides
-      assert_equal({"packaging_scm"=>{"branch"=>"yolo"}, "upstream_scm"=>{"branch"=>"kitten"}},
+      assert_equal({ 'packaging_scm' => { 'branch' => 'yolo' }, 'upstream_scm' => { 'branch' => 'kitten' } },
                    overrides)
     end
 
@@ -45,7 +45,7 @@ module CI
       overrides = o.rules_for_scm(scm)
 
       refute_nil overrides
-      assert_equal({"packaging_scm"=>{"branch"=>"kitten"}, "upstream_scm"=>{"branch"=>"kitten"}},
+      assert_equal({ 'packaging_scm' => { 'branch' => 'kitten' }, 'upstream_scm' => { 'branch' => 'kitten' } },
                    overrides)
     end
 

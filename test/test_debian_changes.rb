@@ -47,7 +47,7 @@ class DebianChangesTest < TestCase
     binary = c.fields.fetch('Binary')
     assert(binary)
     assert_equal(3, binary.size) # Properly split?
-    assert_equal(%w(libkf5gpgmepp5 libkf5gpgmepp-pthread5 libkf5gpgmepp-dev).sort,
+    assert_equal(%w[libkf5gpgmepp5 libkf5gpgmepp-pthread5 libkf5gpgmepp-dev].sort,
                  binary.sort)
   end
 end

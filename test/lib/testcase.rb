@@ -45,10 +45,8 @@ WebMock.stub_request(:get, 'http://unix/v1.16/version')
 # PWD in a tmpdir. On top of that fixture loading helpers are provided in the
 # form of {#data} and {#fixture_file} which grab fixtures out of
 # test/data/file_name/test_method_name.
-# rubocop:disable Metrics/ClassLength
 # This class is very long because it is very flexible and very complicated.
 class TestCase < Test::Unit::TestCase
-  # rubocop:enable Metrics/ClassLength
   include EquivalentXmlAssertations
 
   ATFILEFAIL = 'Could not determine the basename of the file of the' \
@@ -58,6 +56,7 @@ class TestCase < Test::Unit::TestCase
 
   class << self
     attr_accessor :file
+
     # attr_accessor :required_binaries
     def required_binaries(*args)
       @required_binaries ||= []
@@ -68,6 +67,7 @@ class TestCase < Test::Unit::TestCase
   def self.autodetect_inherited_file
     caller_locations.each do |call|
       next if call.label.include?('inherited')
+
       path = call.absolute_path
       @file = path if path.include?('/test/')
       break
@@ -86,6 +86,7 @@ class TestCase < Test::Unit::TestCase
   def require_binaries(*binaries)
     binaries.flatten.each do |bin|
       next if system("type #{bin} > /dev/null 2>&1")
+
       omit("#{self.class} requires #{bin} but #{bin} is not in $PATH")
     end
   end
@@ -103,6 +104,7 @@ MSG
 
   def priority_setup
     raise ATFILEFAIL unless self.class.file
+
     ENV.delete('BUILD_NUMBER')
     script_base_path = File.expand_path(File.dirname(self.class.file))
     script_name = File.basename(self.class.file, '.rb')
@@ -147,6 +149,7 @@ MSG
 
   def _method_name
     return @method_name if defined?(:@method_name)
+
     index = 0
     caller = ''
     until caller.start_with?('test_')
@@ -221,6 +224,7 @@ class AllTestCasesArePangeaCases < TestCase
       next unless obj.ancestors.any? do |ancestor|
         ancestor == Test::Unit::TestCase
       end
+
       not_pangea << obj unless obj.ancestors.include?(TestCase)
     end
 

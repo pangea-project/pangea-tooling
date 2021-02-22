@@ -33,7 +33,7 @@ class AptTest < TestCase
   end
 
   def default_args(cmd = 'apt-get')
-    [cmd] + %w(-y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true -q)
+    [cmd] + %w[-y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true -q]
   end
 
   def assert_system(*args, &_block)
@@ -85,23 +85,23 @@ class AptTest < TestCase
   end
 
   def test_apt_install
-    assert_system_default(%w(install abc)) do
+    assert_system_default(%w[install abc]) do
       Apt.install('abc')
     end
 
-    assert_system_default_get(%w(install abc)) do
+    assert_system_default_get(%w[install abc]) do
       Apt::Get.install('abc')
     end
   end
 
   def test_apt_install_with_additional_arg
-    assert_system_default(%w(--purge install abc)) do
+    assert_system_default(%w[--purge install abc]) do
       Apt.install('abc', args: '--purge')
     end
   end
 
   def test_underscore
-    assert_system_default(%w(dist-upgrade)) do
+    assert_system_default(%w[dist-upgrade]) do
       Apt.dist_upgrade
     end
   end
@@ -109,15 +109,15 @@ class AptTest < TestCase
   def test_apt_install_array
     # Make sure we can pass an array as argument as this is often times more
     # convenient than manually converting it to a *.
-    assert_system_default(%w(install abc def)) do
-      Apt.install(%w(abc def))
+    assert_system_default(%w[install abc def]) do
+      Apt.install(%w[abc def])
     end
   end
 
   def assert_add_popen
     class << Open3
       alias_method popen3__, popen3
-      def popen3(*args)
+      def popen3(*_args)
         yield
       end
     end
@@ -208,20 +208,20 @@ class AptTest < TestCase
     # Updates
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, nil)
     assert_system([default_args + ['update'],
-                   default_args + %w(install abc)]) do
+                   default_args + %w[install abc]]) do
       Apt.install('abc')
     end
     ## Make sure the time stamp difference after the run is <60s and
     ## a subsequent run doesn't update again.
     t = Apt::Abstrapt.send(:instance_variable_get, :@last_update)
     assert(Time.now - t < 60)
-    assert_system_default(%w(install def)) do
-      Apt.install(%w(def))
+    assert_system_default(%w[install def]) do
+      Apt.install(%w[def])
     end
 
     # Doesn't update if recent
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
-    assert_system([default_args + %w(install abc)]) do
+    assert_system([default_args + %w[install abc]]) do
       Apt.install('abc')
     end
 
@@ -307,11 +307,11 @@ class AptTest < TestCase
     # This is our stuff
     Apt::Cache.expects(:system).never
     Apt::Cache.expects(:system)
-      .with('apt-cache', '-q', 'show', 'abc', {[:out, :err] => '/dev/null'})
-      .returns(true)
+              .with('apt-cache', '-q', 'show', 'abc', { %i[out err] => '/dev/null' })
+              .returns(true)
     Apt::Cache.expects(:system)
-      .with('apt-cache', '-q', 'show', 'cba', {[:out, :err] => '/dev/null'})
-      .returns(false)
+              .with('apt-cache', '-q', 'show', 'cba', { %i[out err] => '/dev/null' })
+              .returns(false)
     assert_true(Apt::Cache.exist?('abc'))
     assert_false(Apt::Cache.exist?('cba'))
   end
@@ -329,7 +329,7 @@ class AptTest < TestCase
 
     Apt::Cache
       .expects(:system)
-      .with('apt-cache', '-q', 'show', 'abc', {[:out, :err] => '/dev/null'})
+      .with('apt-cache', '-q', 'show', 'abc', { %i[out err] => '/dev/null' })
       .returns(true)
 
     ret = Apt::Cache.disable_auto_update { Apt::Cache.exist?('abc'); '123' }
@@ -469,7 +469,7 @@ Options:
   -y, --yes             Assume yes to all queries
   -n, --no-update       Do not update package cache after adding
   -u, --update          Update package cache after adding (legacy option)
-HELP
+      HELP
 
     repo = nil
     name = 'ppa:yolo'

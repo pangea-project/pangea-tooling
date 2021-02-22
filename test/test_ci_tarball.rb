@@ -29,7 +29,7 @@ module CI
       t = Tarball.new(s)
       assert_equal(s, t.to_s)
       assert_equal(s, t.to_str)
-      assert_equal(s, "#{t}") # coerce
+      assert_equal(s, t.to_s) # coerce
     end
 
     def test_orig

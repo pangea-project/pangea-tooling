@@ -35,7 +35,7 @@ class DebianVersionTest < TestCase
                             '<?> is not greater than <?>.',
                             a.full, b.full)
     assert_block message do
-      1 == (a <=> b)
+      (a <=> b) == 1
     end
   end
 
@@ -44,7 +44,7 @@ class DebianVersionTest < TestCase
                             '<?> is not lower than <?>.',
                             a.full, b.full)
     assert_block message do
-      -1 == (a <=> b)
+      (a <=> b) == -1
     end
   end
 
@@ -53,7 +53,7 @@ class DebianVersionTest < TestCase
                             '<?> is not equal to <?>.',
                             a.full, b.full)
     assert_block message do
-      0 == (a <=> b)
+      (a <=> b).zero?
     end
   end
 

@@ -41,13 +41,13 @@ class DCISettingsTest < TestCase
     ENV['JOB_NAME'] = 'xenial_unstable_libkolabxml_src'
     settings = DCI::Settings.new
     settings = settings.for_job
-    assert_equal({"sourcer"=>{"restricted_packaging_copy"=>true}}, settings)
+    assert_equal({ 'sourcer' => { 'restricted_packaging_copy' => true } }, settings)
   end
 
   def test_settings_singleton
     DCI::Settings.default_files << fixture_file('.yml')
     ENV['JOB_NAME'] = 'xenial_unstable_libkolabxml_src'
-    assert_equal({"sourcer"=>{"restricted_packaging_copy"=>true}}, DCI::Settings.for_job)
+    assert_equal({ 'sourcer' => { 'restricted_packaging_copy' => true } }, DCI::Settings.for_job)
   end
 
   def test_unknown_job

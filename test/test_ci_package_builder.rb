@@ -12,7 +12,7 @@ require 'mocha/test_unit'
 # Test ci/build_binary
 module CI
   class BuildBinaryTest < TestCase
-    required_binaries %w(dpkg-buildpackage dpkg-source dpkg dh)
+    required_binaries %w[dpkg-buildpackage dpkg-source dpkg dh]
 
     def setup
       Apt::Repository.send(:reset)
@@ -96,7 +96,7 @@ module CI
 
       Object.any_instance
             .expects(:system)
-            .with({'DEBIAN_FRONTEND' => 'noninteractive'},
+            .with({ 'DEBIAN_FRONTEND' => 'noninteractive' },
                   '/usr/lib/pbuilder/pbuilder-satisfydepends',
                   '--binary-arch',
                   '--control', "#{Dir.pwd}/debian/control")
@@ -115,11 +115,11 @@ module CI
       ENV['PANGEA_ARCH_BIN_ONLY'] = 'false'
 
       CI::DependencyResolver.expects(:resolve)
-                             .with('build')
-                             .raises(RuntimeError.new)
+                            .with('build')
+                            .raises(RuntimeError.new)
       CI::DependencyResolver.expects(:resolve)
-                             .with('build', bin_only: true)
-                             .returns(true)
+                            .with('build', bin_only: true)
+                            .returns(true)
 
       builder = PackageBuilder.new
       builder.build
@@ -142,8 +142,8 @@ module CI
     def test_build_bin_only_amd64
       # Should NOT bin only
       DPKG.stubs(:run)
-        .with('dpkg-architecture', ['-qDEB_HOST_ARCH'])
-        .returns(['amd64'])
+          .with('dpkg-architecture', ['-qDEB_HOST_ARCH'])
+          .returns(['amd64'])
 
       builder = PackageBuilder.new
       refute(builder.send(:auto_bin_only, false))
@@ -152,8 +152,8 @@ module CI
     def test_build_bin_only_arm64
       # Should bin only!
       DPKG.stubs(:run)
-        .with('dpkg-architecture', ['-qDEB_HOST_ARCH'])
-        .returns(['arm64'])
+          .with('dpkg-architecture', ['-qDEB_HOST_ARCH'])
+          .returns(['arm64'])
 
       builder = PackageBuilder.new
       assert(builder.send(:auto_bin_only, false))
@@ -257,7 +257,7 @@ module CI
       # A setcap call was expected but not run.
       FileUtils.cp_r("#{data}/.", Dir.pwd)
 
-      setcap = [['foo', '/workspace/yolo/bar'], ['bar', 'foo']]
+      setcap = [['foo', '/workspace/yolo/bar'], %w[bar foo]]
 
       FileUtils.mkpath('build/debian/')
       File.write('build/debian/setcap.yaml', YAML.dump(setcap))
@@ -273,7 +273,7 @@ module CI
       # It'd make reading build failures unnecessarily difficult.
       FileUtils.cp_r("#{data}/.", Dir.pwd)
 
-      setcap = [['foo', '/workspace/yolo/bar'], ['bar', 'foo']]
+      setcap = [['foo', '/workspace/yolo/bar'], %w[bar foo]]
 
       FileUtils.mkpath('build/debian/')
       File.write('build/debian/setcap.yaml', YAML.dump(setcap))

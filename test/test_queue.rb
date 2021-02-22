@@ -9,14 +9,14 @@ class QueueTest < TestCase
   self.test_order = :defined
 
   def test_new_from_array
-    array = %w(a b c d e f)
+    array = %w[a b c d e f]
     queue = Queue.new(array)
     assert_equal(array.size, queue.size)
     assert_equal(array.shift, queue.pop) until queue.empty?
   end
 
   def test_to_array
-    array = %w(a b c d e f)
+    array = %w[a b c d e f]
     queue = Queue.new(array)
     assert_equal(array, queue.to_a)
   end

@@ -10,7 +10,7 @@ class DirectBindingArrayTest < TestCase
 
   def test_to_bindings
     b = CI::DirectBindingArray.to_bindings(['/', '/tmp'])
-    assert_equal(%w(/:/ /tmp:/tmp), b)
+    assert_equal(%w[/:/ /tmp:/tmp], b)
   end
 
   def test_to_volumes_mixed_format
@@ -20,7 +20,7 @@ class DirectBindingArrayTest < TestCase
 
   def test_to_bindings_mixed_fromat
     b = CI::DirectBindingArray.to_bindings(['/', '/tmp:/tmp'])
-    assert_equal(%w(/:/ /tmp:/tmp), b)
+    assert_equal(%w[/:/ /tmp:/tmp], b)
   end
 
   def test_to_bindings_colons
@@ -35,22 +35,22 @@ class DirectBindingArrayTest < TestCase
 
     assert_raise do
       path = '/tmp:/tmp:/tmp:/tmp'
-      CI::DirectBindingArray.to_bindings(["#{path}"])
+      CI::DirectBindingArray.to_bindings([path.to_s])
     end
 
     assert_raise do
       path = '/tmp:/tmp:/tmp'
-      CI::DirectBindingArray.to_bindings(["#{path}"])
+      CI::DirectBindingArray.to_bindings([path.to_s])
     end
   end
 
   def test_not_a_array
     assert_raise CI::DirectBindingArray::InvalidBindingType do
-      CI::DirectBindingArray.to_bindings("kitten")
+      CI::DirectBindingArray.to_bindings('kitten')
     end
   end
 
   def test_read_only_array
-    CI::DirectBindingArray.to_bindings(["/foo:/foo:ro"])
+    CI::DirectBindingArray.to_bindings(['/foo:/foo:ro'])
   end
 end
