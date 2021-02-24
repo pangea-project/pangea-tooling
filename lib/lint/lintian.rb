@@ -35,6 +35,7 @@ module Lint
       'missing-license-paragraph-in-dep5-copyright',
       'global-files-wildcard-not-first-paragraph-in-dep5-copyright',
       'debian-revision-should-not-be-zero',
+      'file-without-copyright-information',
       # Lintian doesn't necessarily know the distros we talk about.
       'bad-distribution-in-changes-file',
       # On dev editions we actually pack x-test for testing purposes.
@@ -65,7 +66,10 @@ module Lint
       # irrelevant for us. There probably should be a way to warn when uscan
       # isn't configured to check a signature but it probably needs to be
       # done manually outside lintian somewhere.
-      'orig-tarball-missing-upstream-signature'
+      'orig-tarball-missing-upstream-signature',
+      # Laments things such as revisions -0 on native packages' PREVIOUS
+      # entries. Entirely pointless.
+      'odd-historical-debian-changelog-version'
     ].freeze
 
     def initialize(changes_directory = Dir.pwd,
