@@ -52,7 +52,7 @@ module NCI
       def self.run
         channel = TYPE_TO_CHANNEL.fetch(ENV.fetch('TYPE'))
 
-        install!
+        # install!
         copy_config!
 
         cmd = TTY::Command.new
