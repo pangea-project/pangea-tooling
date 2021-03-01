@@ -418,7 +418,8 @@ absolutely must not be native though!
       repo.config.store('remote.origin.prune', true)
       repo.remotes['origin'].fetch
     rescue Rugged::NetworkError => e
-      raise GitTransactionError, e
+      raise GitTransactionError,
+            "Failed to update git clone of #{packaging_scm.url}: #{e}"
     end
 
     def update_bzr(dir)
