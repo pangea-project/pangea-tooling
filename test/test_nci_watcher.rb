@@ -53,13 +53,13 @@ class NCIWatcherTest < TestCase
       .to_return(status: 200, body: "kdialog                                     master\nkeditbookmarks                              master", headers: { "Content-Type": 'text/plain' })
   end
 
-  def with_remote_repo(seed_dir)
+  def with_remote_repo(seed_dir, branch: 'unstable')
     Dir.mktmpdir do |tmpdir|
       FileUtils.cp_r("#{seed_dir}/.", tmpdir, verbose: true)
       cmd.run('git init .', chdir: tmpdir)
       cmd.run('git add .', chdir: tmpdir)
       cmd.run('git commit -a -m "import"', chdir: tmpdir)
-      cmd.run('git branch Neon/unstable', chdir: tmpdir)
+      cmd.run("git branch Neon/#{branch}", chdir: tmpdir)
       yield tmpdir
     end
   end
@@ -129,7 +129,7 @@ class NCIWatcherTest < TestCase
 
     ENV['BUILD_CAUSE'] = 'MANUALTRIGGER'
 
-    with_remote_repo(data) do |remote|
+    with_remote_repo(data, branch: 'stable') do |remote|
       cmd.run("git clone #{remote} .")
 
       fake_cmd = mock('uscan_cmd')
@@ -147,10 +147,12 @@ class NCIWatcherTest < TestCase
 
   def test_no_unstable
     # Should not smtp or anything.
-    with_remote_repo(data) do |remote|
-      cmd.run("git clone #{remote} .")
+    assert_raises NCI::Watcher::UnstableURIForbidden do
+      with_remote_repo(data) do |remote|
+        cmd.run("git clone #{remote} .")
 
-      NCI::Watcher.new.run
+        NCI::Watcher.new.run
+      end
     end
   end
 
@@ -227,6 +229,6 @@ class NCIWatcherTest < TestCase
     refute(lines.empty?)
     assert_includes(lines, 'From: Neon CI <no-reply@kde.org>')
     assert_includes(lines, 'To: neon-notifications@kde.org')
-    assert_includes(lines, 'Subject: ark new version 17.04.2')
+    assert_includes(lines, 'Subject: Dev Required: ark - 17.04.2')
   end
 end

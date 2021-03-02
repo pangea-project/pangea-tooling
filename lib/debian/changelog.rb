@@ -21,18 +21,22 @@ class Changelog
   ALL        = 0b1111
 
   class << self
-    # Make a new entry via dch
-    # NB: this may need refactoring into its own class if the arguments
-    # blow up or the requirements get more complicated. It is only here
-    # in this class because I'm lazy -sitter
-    def new_version!(version, distribution:, message:, chdir: Dir.pwd)
-      dch = [
+    def new_version_cmd(version, distribution:, message:)
+      [
         'dch',
         '--force-bad-version',
         '--distribution', distribution,
         '--newversion', version,
         message
       ]
+    end
+
+    # Make a new entry via dch
+    # NB: this may need refactoring into its own class if the arguments
+    # blow up or the requirements get more complicated. It is only here
+    # in this class because I'm lazy -sitter
+    def new_version!(version, distribution:, message:, chdir: Dir.pwd)
+      dch = new_version_cmd(version, distribution: distribution, message: message)
       # dch cannot realy fail because we parse the changelog beforehand
       # so it is of acceptable format here already.
       TTY::Command.new(printer: :null).run(*dch, chdir: chdir)

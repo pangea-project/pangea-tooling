@@ -20,6 +20,7 @@ module NCI
   # uses uscan to check for new upstream releases
   class Watcher
     class NotKDESoftware < StandardError; end
+    class UnstableURIForbidden < StandardError; end
 
     # Updates version info in snapcraft.yaml.
     # TODO: this maybe should also download the source and grab the desktop
@@ -75,6 +76,14 @@ module NCI
     # Key word for manually triggered builds
     MANUAL_CAUSE = 'MANUALTRIGGER'
 
+    attr_reader :cmd
+
+    def initialize
+      @cmd = TTY::Command.new
+    end
+
+    # NB: this gets mocked by the test, don't merge this into regular cmd!
+    # it allows us to only mock the uscan
     def uscan_cmd
       @uscan_cmd ||= TTY::Command.new
     end
@@ -89,11 +98,48 @@ module NCI
       url.gsub('download.kde.internal.neon.kde.org/', 'download.kde.org/')
     end
 
-    def run
-      raise 'No debain/watch found!' unless File.exist?('debian/watch')
+    def job_is_kde_released
+      # These parts get pre-released on server so don't pick them up
+      # automatically
+      @job_is_kde_released ||= begin
+        released_products = KDEProjectsComponent.frameworks_jobs +
+                            KDEProjectsComponent.plasma_jobs +
+                            KDEProjectsComponent.release_service_jobs
+        job_project = ENV['JOB_NAME'].split('_')[-1]
+        released_products.include?(job_project)
+      end
+    end
 
+    def merge
+      cmd.run!('git status')
+      merged = false
+      if cmd.run!('git merge origin/Neon/stable').success?
+        merged = true
+        # if it's a KDE project use only stable lines
+        newer_stable = newer_dehs_packages.select do |x|
+          x.upstream_url.include?('stable') &&
+            x.upstream_url.include?('kde.org')
+        end
+        # mutates 🤮
+        # FIXME: this is only necessary because we traditionally had multi-source watch files from the debian kde team.
+        #   AFAIK these are no longer in use and also weren't really ever supported by uscan (perhaps uscan even
+        #   dropped support?). There is an assertion that there is only a single dehs package in run. After a while
+        #   if nothing exploded because of the assertion the multi-package support can be removed!
+        @newer_dehs_packages = newer_stable unless newer_stable.empty?
+      elsif cmd.run!('git merge origin/Neon/unstable').success?
+        merged = true
+        # Do not filter paths when unstable was merged. We use unstable as
+        # common branch, so e.g. frameworks have only Neon/unstable but their
+        # download path is http://download.kde.org/stable/frameworks/...
+        # We thusly cannot kick stable.
+      end
+      raise 'Could not merge anything' unless merged
+    end
+
+    def with_mangle(&block)
       puts 'mangling debian/watch'
       output = ''
+      FileUtils.cp('debian/watch', 'debian/watch.unmangled')
       File.open('debian/watch').each do |line|
         # The download.kde.internal.neon.kde.org domain is not
         # publicly available!
@@ -103,113 +149,55 @@ module NCI
       puts output
       File.open('debian/watch', 'w') { |file| file.write(output) }
       puts 'mangled debian/watch'
-
-      if File.read('debian/watch').include?('unstable')
-        puts 'Quitting watcher as debian/watch contains unstable ' \
-             'and we only build stable tars in Neon'
-        return
-      end
-
-      result = uscan_cmd.run!('uscan --report --dehs') # run! to ignore errors
-      data = result.out
-      puts "uscan exited (#{result}) :: #{data}"
-
-      newer = Debian::UScan::DEHS.parse_packages(data).collect do |package|
-        next nil unless package.status == Debian::UScan::States::NEWER_AVAILABLE
-
-        package
-      end.compact
-      pp newer
-
-      return if newer.empty?
-
+      ret = yield
       puts 'unmangle debian/watch `git checkout debian/watch`'
-      system('git checkout debian/watch')
+      FileUtils.mv('debian/watch.unmangled', 'debian/watch')
+      ret
+    end
 
-      # These parts get pre-released on server so don't pick them up
-      # automatically
-      released_products = KDEProjectsComponent.frameworks_jobs +
-                          KDEProjectsComponent.plasma_jobs +
-                          KDEProjectsComponent.release_service_jobs
-      job_project = ENV['JOB_NAME'].split('_')[-1]
-      job_is_kde_released = released_products.include?(job_project)
-
-      if job_is_kde_released && CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
-        puts 'KDE Plasma/Releases/Framework watcher should be run manually not by '\
-             'timer, quitting'
-        puts 'sending notification mail'
-        # Take first package from each product and send e-mail for only that
-        # one to stop spam
-        frameworks_package = KDEProjectsComponent.frameworks[0]
-        plasma_package = KDEProjectsComponent.plasma[0]
-        release_service_package = KDEProjectsComponent.release_service[0]
-        kde_products = [frameworks_package, plasma_package, \
-                        release_service_package]
-        if kde_products.any? { |package| ENV['JOB_NAME'].include?("_#{package}") }
-          Pangea::SMTP.start do |smtp|
-            mail = <<~MAIL
-From: Neon CI <no-reply@kde.org>
-To: neon-notifications@kde.org
-Subject: #{ENV['JOB_NAME']} found a new version
-
-New release found on the server but not building because it may not be public yet,
-run jenkins_retry manually for this release on release day.
-#{ENV['RUN_DISPLAY_URL']}
-            MAIL
-            smtp.send_message(mail,
-                              'no-reply@kde.org',
-                              'neon-notifications@kde.org')
-          end
-        end
-        return
-      end
-
-      cmd = TTY::Command.new
-      cmd.run!('git status')
-      merged = false
-      if cmd.run!('git merge origin/Neon/stable').success?
-        merged = true
-        # if it's a KDE project use only stable lines
-        newer_stable = newer.select do |x|
-          x.upstream_url.include?('stable') && \
-            x.upstream_url.include?('kde.org')
-        end
-        newer = newer_stable unless newer_stable.empty?
-      elsif cmd.run!('git merge origin/Neon/unstable').success?
-        merged = true
-        # Do not filter paths when unstable was merged. We use unstable as
-        # common branch, so e.g. frameworks have only Neon/unstable but their
-        # download path is http://download.kde.org/stable/frameworks/...
-        # We thusly cannot kick stable.
-      end
-      raise 'Could not merge anything' unless merged
-
-      newer = newer.group_by(&:upstream_version)
+    def make_newest_dehs_package!
+      newer = newer_dehs_packages.group_by(&:upstream_version)
       newer = Hash[newer.map { |k, v| [Debian::Version.new(k), v] }]
       newer = newer.sort.to_h
       newest = newer.keys[-1]
-      newest_dehs = newer.values[-1][0] # is 1 size'd Array because of group_by
-      newest_dehs_package = newer.values[-1][0] # group_by results in an array
+      @newest_version = newest
+      @newest_dehs_package = newer.values[-1][0] # group_by results in an array
 
-      p newest_dehs_package.to_s
-      raise 'No newest version found' unless newest
+      raise 'No newest version found' unless newest_version && newest_dehs_package
+    end
 
-      version = Debian::Version.new(Changelog.new(Dir.pwd).version)
-      version.upstream = newest
+    def newer_dehs_packages
+      @newer_dehs_packages ||= with_mangle do
+        result = uscan_cmd.run!('uscan --report --dehs') # run! to ignore errors
+
+        data = result.out
+        puts "uscan exited (#{result}) :: #{data}"
+
+        Debian::UScan::DEHS.parse_packages(data).collect do |package|
+          next nil unless package.status == Debian::UScan::States::NEWER_AVAILABLE
+
+          package
+        end.compact
+      end
+    end
+
+    # Set by bump_version. Fairly meh.
+    def dch
+      raise unless defined?(@dch)
+
+      @dch
+    end
+
+    def bump_version
+      changelog = Changelog.new(Dir.pwd)
+      version = Debian::Version.new(changelog.version)
+      version.upstream = newest_version
       version.revision = '0neon' unless version.revision.to_s.empty?
+      @dch = Debian::Changelog.new_version_cmd(version.to_s, distribution: NCI.current_series, message: 'New release')
+      # A bit awkward we want to give a dch suggestion in case this isn't kde software so we'll want to recycle
+      # the command, meaning we can't just use changelog.new_version :|
+      cmd.run(*dch)
 
-      # FIXME: stolen from sourcer
-      dch = [
-        'dch',
-        '--distribution', NCI.current_series,
-        '--newversion', version.to_s,
-        'New release'
-      ]
-      # dch cannot actually fail because we parse the changelog beforehand
-      # so it is of acceptable format here already.
-      raise 'Failed to create changelog entry' unless system(*dch)
-
-      # FIXME: almost code copy from sourcer_base
       # --- Unset revision from this point on, so we get the base version ---
       version.revision = nil
       something_changed = false
@@ -230,40 +218,110 @@ run jenkins_retry manually for this release on release day.
         File.write(path, data)
       end
 
-      SnapcraftUpdater.new(newest_dehs).run
-
       system('wrap-and-sort') if something_changed
+    end
 
-      puts 'git diff'
-      system('git --no-pager diff')
-      puts "git commit -a -m 'New release'"
-      system("git commit -a -m 'New release'")
+    attr_accessor :newest_version
+    attr_accessor :newest_dehs_package
 
-      puts ENV.to_h
+    def run
+      raise 'No debain/watch found!' unless File.exist?('debian/watch')
 
-      if CAUSE_ENVS.none? { |v| ENV[v] == MANUAL_CAUSE }
-        puts 'sending notification mail'
-        Pangea::SMTP.start do |smtp|
-          mail = <<~MAIL
-  From: Neon CI <no-reply@kde.org>
-  To: neon-notifications@kde.org
-  Subject: #{newest_dehs_package.name} new version #{newest}
-
-  #{ENV['RUN_DISPLAY_URL']}
-
-  #{newest_dehs_package.inspect}
-          MAIL
-          smtp.send_message(mail,
-                            'no-reply@kde.org',
-                            'neon-notifications@kde.org')
-        end
+      watch = File.read('debian/watch')
+      if watch.include?('unstable') && watch.include?('download.kde.')
+        raise UnstableURIForbidden, 'Quitting watcher as debian/watch contains unstable ' \
+                                    'and we only build stable tars in Neon'
       end
 
-      # NB: download.kde.org gets mangled so we must do a partial include check.
-      if job_is_kde_released ||
-         newest_dehs_package.upstream_url.include?('download.kde.')
+      return if newer_dehs_packages.empty?
+
+      # Message is transitional. The entire code in watcher is more complicated because of multiple packages.
+      # e.g. see merge method.
+      if newer_dehs_packages.size > 1
+        raise 'There are multiple DEHS packages being reported. This suggests there are multiple sources in the watch' \
+              " file. We'd like to get rid of these if possible. Check if we have full control over this package and" \
+              ' drop irrelevant sources if possible. If we do not have full control check with upstream about the' \
+              ' rationale for having multiple sources. If the source cannot be "fixed". Then remove this error and' \
+              ' probably also check back with sitter.'
+      end
+
+      if job_is_kde_released && CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
+        send_product_mail
         return
       end
+
+      merge # this mutates newer_dehs_packages and MUST be before make_newest_dehs_package!
+      make_newest_dehs_package! # sets a bunch of members - very awkwardly - must be after merge!
+
+      SnapcraftUpdater.new(newest_dehs_package).run
+
+      bump_version
+
+      cmd.run('git --no-pager diff')
+      cmd.run("git commit -a -m 'New release'")
+
+      send_mail
+
+      raise_if_not_kde_software!(dch)
+    end
+
+    def send_product_mail
+      puts 'KDE Plasma/Releases/Framework watcher should be run manually not by timer, quitting'
+
+      # Take first package from each product and send e-mail for only that
+      # one to stop spam
+      frameworks_package = KDEProjectsComponent.frameworks[0]
+      plasma_package = KDEProjectsComponent.plasma[0]
+      release_service_package = KDEProjectsComponent.release_service[0]
+      product_packages = [frameworks_package, plasma_package, release_service_package]
+      return if product_packages.none? { |package| ENV['JOB_NAME'].include?("_#{package}") }
+
+      puts 'sending notification mail'
+      Pangea::SMTP.start do |smtp|
+        mail = <<~MAIL
+From: Neon CI <no-reply@kde.org>
+To: neon-notifications@kde.org
+Subject: #{ENV['JOB_NAME']} found a new PRODUCT BUNDLE version
+
+New release found on the server but not building because it may not be public yet,
+run jenkins_retry manually for this release on release day.
+#{ENV['RUN_DISPLAY_URL']}
+        MAIL
+        smtp.send_message(mail,
+                          'no-reply@kde.org',
+                          'neon-notifications@kde.org')
+      end
+    end
+
+    def send_mail
+      return if CAUSE_ENVS.any? { |v| ENV[v] == MANUAL_CAUSE }
+
+      subject = "Releasing: #{newest_dehs_package.name} - #{newest_version}"
+      subject = "Dev Required: #{newest_dehs_package.name} - #{newest_version}" unless kde_software?
+
+      puts 'sending notification mail'
+      Pangea::SMTP.start do |smtp|
+        mail = <<~MAIL
+From: Neon CI <no-reply@kde.org>
+To: neon-notifications@kde.org
+Subject: #{subject}
+
+#{ENV['RUN_DISPLAY_URL']}
+
+#{newest_dehs_package.inspect}
+        MAIL
+        smtp.send_message(mail,
+                          'no-reply@kde.org',
+                          'neon-notifications@kde.org')
+      end
+    end
+
+    def kde_software?
+      job_is_kde_released || newest_dehs_package.upstream_url.include?('download.kde.')
+    end
+
+    def raise_if_not_kde_software!(dch)
+      return if kde_software? # else we'll raise
 
       # Raise on none KDE software, they may not feature standard branch
       # layout etc, so tell a dev to deal with it.
