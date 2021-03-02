@@ -274,7 +274,7 @@ module NCI
       plasma_package = KDEProjectsComponent.plasma[0]
       release_service_package = KDEProjectsComponent.release_service[0]
       product_packages = [frameworks_package, plasma_package, release_service_package]
-      return if product_packages.none? { |package| ENV['JOB_NAME'].include?("_#{package}") }
+      return if product_packages.none? { |package| ENV['JOB_NAME'].end_with?("_#{package}") }
 
       puts 'sending notification mail'
       Pangea::SMTP.start do |smtp|
