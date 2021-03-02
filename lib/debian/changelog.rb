@@ -1,22 +1,8 @@
 # frozen_string_literal: true
-#
-# Copyright (C) 2015-2017 Harald Sitter <sitter@kde.org>
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) version 3, or any
-# later version accepted by the membership of KDE e.V. (or its
-# successor approved by the membership of KDE e.V.), which shall
-# act as a proxy defined in Section 6 of version 3 of the license.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-FileCopyrightText: 2015-2021 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
+require 'tty/command'
 
 # Debian changelog.
 class Changelog
@@ -34,23 +20,29 @@ class Changelog
   REVISION   = 0b1000
   ALL        = 0b1111
 
+  class << self
+    # Make a new entry via dch
+    # NB: this may need refactoring into its own class if the arguments
+    # blow up or the requirements get more complicated. It is only here
+    # in this class because I'm lazy -sitter
+    def new_version!(version, distribution:, message:, chdir: Dir.pwd)
+      dch = [
+        'dch',
+        '--force-bad-version',
+        '--distribution', distribution,
+        '--newversion', version,
+        message
+      ]
+      # dch cannot realy fail because we parse the changelog beforehand
+      # so it is of acceptable format here already.
+      TTY::Command.new(printer: :null).run(*dch, chdir: chdir)
+    end
+  end
+
   def initialize(pwd = Dir.pwd)
-    line = File.open(File.file?(pwd) ? pwd : "#{pwd}/debian/changelog", &:gets)
-    # plasma-framework (5.3.0-0ubuntu1) utopic; urgency=medium
-    match = line.match(/^(.*) \((.*)\) (.+); urgency=(\w+)/)
-    # Need a  match and 5 elements.
-    # 0: full match
-    # 1: source name
-    # 2: version
-    # 3: distribution series
-    # 4: urgency
-    raise 'E: Cannot read debian/changelog' if match.nil? || match.size != 5
-
-    @name = match[1]
-    @version = match[2]
-    # Don't even bother with the rest, we don't care right now.
-
-    fill_comps(@version.dup)
+    @file = File.file?(pwd) ? pwd : "#{pwd}/debian/changelog"
+    @file = File.absolute_path(@file)
+    reload!
   end
 
   def version(flags = ALL)
@@ -60,6 +52,13 @@ class Changelog
     ret += @comps[:base_suffix] if flagged?(flags, BASESUFFIX)
     ret += @comps[:revision] if flagged?(flags, REVISION)
     ret
+  end
+
+  # Make a new entry via dch (and reload). Delegates to class level function.
+  def new_version!(*args, **kwords)
+    chdir = File.dirname(File.dirname(@file)) # two up from debian/changelog
+    self.class.new_version!(*args, **kwords, chdir: chdir)
+    reload!
   end
 
   private
@@ -90,6 +89,25 @@ class Changelog
     version, @comps[:base_suffix] = rpart(version, git_seperator)
     @comps[:epoch], _, @comps[:base] = version.rpartition(':')
     @comps[:epoch] += ':' unless @comps[:epoch].empty?
+  end
+
+  def reload!
+    line = File.open(@file, &:gets)
+    # plasma-framework (5.3.0-0ubuntu1) utopic; urgency=medium
+    match = line.match(/^(.*) \((.*)\) (.+); urgency=(\w+)/)
+    # Need a  match and 5 elements.
+    # 0: full match
+    # 1: source name
+    # 2: version
+    # 3: distribution series
+    # 4: urgency
+    raise 'E: Cannot read debian/changelog' if match.nil? || match.size != 5
+
+    @name = match[1]
+    @version = match[2]
+    # Don't even bother with the rest, we don't care right now.
+
+    fill_comps(@version.dup)
   end
 end
 
