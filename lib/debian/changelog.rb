@@ -25,6 +25,7 @@ class Changelog
       [
         'dch',
         '--force-bad-version',
+        '--force-distribution',
         '--distribution', distribution,
         '--newversion', version,
         message
