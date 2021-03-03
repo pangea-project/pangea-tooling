@@ -40,7 +40,7 @@ class Changelog
       dch = new_version_cmd(version, distribution: distribution, message: message)
       # dch cannot realy fail because we parse the changelog beforehand
       # so it is of acceptable format here already.
-      TTY::Command.new(printer: :null).run(*dch, chdir: chdir)
+      TTY::Command.new.run(*dch, chdir: chdir)
     end
   end
 
