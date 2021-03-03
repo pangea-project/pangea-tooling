@@ -69,11 +69,9 @@ class DebianChangelogTest < TestCase
     # to be valid, simulation through mock doesn't really cut it
     require_binaries('dch')
 
-    ENV['EDITOR'] = '/bin/true' # try to disable interactive editing -.-
+    FileUtils.cp_r("#{@datadir}/template/debian", '.')
 
-    FileUtils.mkdir('debian')
-    TTY::Command.new.run('dch', '--create', '--package=abc', '--newversion=1.0', 'New thing')
-    assert_equal('1.0', Debian::Changelog.new.version)
+    assert_equal('5.2.1-0ubuntu1', Debian::Changelog.new.version)
     Changelog.new_version!('123', distribution: 'dist', message: 'msg')
     assert_equal('123', Debian::Changelog.new.version)
   end
@@ -81,12 +79,10 @@ class DebianChangelogTest < TestCase
   def test_new_version_with_reload
     require_binaries('dch')
 
-    ENV['EDITOR'] = '/bin/true' # try to disable interactive editing -.-
+    FileUtils.cp_r("#{@datadir}/template/debian", '.')
 
-    FileUtils.mkdir('debian')
-    TTY::Command.new.run('dch', '--create', '--package=abc', '--newversion=1.0', 'New thing')
     c = Debian::Changelog.new
-    assert_equal('1.0', c.version)
+    assert_equal('5.2.1-0ubuntu1', c.version)
     c.new_version!('123', distribution: 'dist', message: 'msg')
     assert_equal('123', c.version)
   end
