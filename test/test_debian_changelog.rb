@@ -69,6 +69,8 @@ class DebianChangelogTest < TestCase
     # to be valid, simulation through mock doesn't really cut it
     require_binaries('dch')
 
+    ENV['EDITOR'] = '/bin/true' # try to disable interactive editing -.-
+
     FileUtils.mkdir('debian')
     TTY::Command.new.run('dch', '--create', '--package=abc', '--newversion=1.0', 'New thing')
     assert_equal('1.0', Debian::Changelog.new.version)
@@ -78,6 +80,8 @@ class DebianChangelogTest < TestCase
 
   def test_new_version_with_reload
     require_binaries('dch')
+
+    ENV['EDITOR'] = '/bin/true' # try to disable interactive editing -.-
 
     FileUtils.mkdir('debian')
     TTY::Command.new.run('dch', '--create', '--package=abc', '--newversion=1.0', 'New thing')
