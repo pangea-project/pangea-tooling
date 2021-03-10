@@ -1,5 +1,4 @@
 series:
-  bionic: "18.04"
   focal: "20.04"
 
 architectures:
