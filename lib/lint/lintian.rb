@@ -46,6 +46,7 @@ module Lint
       # Maybe it should, maybe we just don't care. In particular since this is
       # an error but really it is not even making a warning in my mind.
       'copyright-should-refer-to-common-license-file-for-lgpl',
+      'copyright-should-refer-to-common-license-file-for-gpl',
 
       # libkdeinit5 never needs ldconfig triggers actually
       %r{E: (\w+): package-must-activate-ldconfig-trigger (.+)/libkdeinit5_(.+).so},
