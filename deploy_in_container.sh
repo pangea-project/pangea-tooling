@@ -35,7 +35,7 @@ if [ "$DIST" = "bionic" ]; then
   apt-mark hold makedev # do not update makedev it won't work on unpriv'd
 fi
 
-ESSENTIAL_PACKAGES="rake ruby ruby-dev build-essential zlib1g-dev git-core libffi-dev cmake pkg-config wget dirmngr"
+ESSENTIAL_PACKAGES="rake ruby ruby-dev build-essential zlib1g-dev git-core libffi-dev cmake pkg-config wget dirmngr ca-certificates"
 i="5"
 while [ $i -gt 0 ]; do
   apt-get -y -o APT::Get::force-yes=true -o Debug::pkgProblemResolver=true \
