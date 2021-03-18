@@ -13,7 +13,7 @@ cleanNode('cloud && amd64-snap') {
       git branch: "<%= upstream_scm.branch %>", url: "<%= upstream_scm.url %>"
     }
     if (fileExists('source/snapcraft.yaml')) {
-      sh 'echo Note: building with snapcraft.yaml file found in app repo <%= upstream_scm.branch %> branch.
+      sh 'echo Note: building with snapcraft.yaml file found in app repo <%= upstream_scm.branch %> branch.'
       sh 'cp source/snapcraft.yaml snapcraft.yaml'
     }
     <% if upstream_scm.type == 'git' %>
