@@ -17,7 +17,7 @@ class DCIPublisherJob < JenkinsJob
     super("#{basename}_#{architecture}_pub", 'dci_publisher.xml.erb')
     @type = type
     @distribution = distribution
-    @artifact_origin = "#{basename}_bin_#{architecture}"
+    @artifact_origin = "#{basename}_#{architecture}_bin"
     @downstream_triggers = []
     @basename = basename
     @component = component
