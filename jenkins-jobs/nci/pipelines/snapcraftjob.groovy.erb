@@ -8,11 +8,15 @@ cleanNode('cloud && amd64-snap') {
   stage('clone') {
     git branch: "<%= packaging_scm.branch %>", url: "<%= packaging_scm.url %>"
 
-    <% if upstream_scm.type == 'git' %>
     sh 'mkdir source'
     dir('source') {
       git branch: "<%= upstream_scm.branch %>", url: "<%= upstream_scm.url %>"
     }
+    if (fileExists('source/snapcraft.yaml')) {
+      sh 'echo Note: building with snapcraft.yaml file found in app repo <%= upstream_scm.branch %> branch.
+      sh 'cp source/snapcraft.yaml snapcraft.yaml'
+    }
+    <% if upstream_scm.type == 'git' %>
     <% elsif upstream_scm.type == 'uscan' %>
     <% else; raise "Unknown upstream scm type on #{upstream_scm}"; end %>
   }
