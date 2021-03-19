@@ -28,7 +28,7 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
-        export DIST="<%= distribution %>+<%= architecture %>"
+        export DIST="Netrunner-" + "<%= distribution %>"
         export DIST_RELEASE=<%= distribution %>
         export TYPE=<%= type %>
         ~/tooling/dci/contain.rb /tooling/dci/builder.rb
