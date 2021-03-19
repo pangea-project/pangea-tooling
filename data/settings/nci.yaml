@@ -6,6 +6,10 @@
 
 # Others
 
+'*_backports-focal_debhelper_*':
+  sourcer:
+    restricted_packaging_copy: false
+
 '*_backports-focal_*_*':
   sourcer:
     restricted_packaging_copy: true
