@@ -159,6 +159,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # and is detatched from deb-tech more or less.
           if %w[stable].include?(type) && project.snapcraft &&
              !EXCLUDE_SNAPS.include?(project.name) && distribution == 'focal'
+            # We use stable in jenkins to build the tar releases because that way we get the right KDE git repo
+            if project.packaging_scm == 'Neon/stable'
+              project.packaging_scm = 'Neon/release'
+            end
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
           end
