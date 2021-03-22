@@ -55,9 +55,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     CI::Overrides.default_files
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
-    DCI.series.each_key do |distribution|
+    DCI.series.each_key do |series|
       DCI.types.each do |type|
-      file = "#{__dir__}/data/projects/dci/#{distribution}/#{type}.yaml"
+      file = "#{__dir__}/data/projects/dci/#{series}/#{type}.yaml"
       next unless File.exist?(file)
 
       @arches = []
@@ -68,13 +68,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       else
         @arches = ['amd64']
       end
+      distribution = "Netrunner-" + series
       projects = ProjectsFactory.from_file(file, branch: "master")
       all_builds = projects.collect do |project|
           DCIBuilderJobBuilder.job(
           project,
           distribution: distribution,
           type: type,
-          architectures: @arches,
+          architectures: architectures,
           upload_map: @upload_map
         )
       end
