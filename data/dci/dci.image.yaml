@@ -32,7 +32,7 @@
     :architectures:
       - armhf
     :types:
-      - c1
+      - core
     :components: 'netrunner,extras,backports,netrunner-core,odroid'
     :releases:
       2101: Netrunner/21.01
@@ -46,7 +46,7 @@
     :architectures:
       - armhf
     :types:
-      - z1
+      - zeronet
     :components: 'netrunner,extras,backports,netrunner-core,odroid,zeronet'
     :releases:
       2101: Netrunner/21.01
@@ -58,7 +58,7 @@
     :architectures:
       - arm64
     :types:
-      - z2
+      - zeronet
     :components: 'netrunner,extras,backports,netrunner-core,rock64,zeronet'
     :releases:
       2101: Netrunner/21.01
