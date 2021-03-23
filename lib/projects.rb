@@ -114,7 +114,7 @@ class Project
   # implementation correctly implementing the restriction.
   attr_reader :series_restrictions
 
-  DEFAULT_URL = 'git.debian.org:/git/pkg-kde'
+  DEFAULT_URL = 'https://salsa.debian.org/qt-kde-team'
   @default_url = DEFAULT_URL
 
   class << self
