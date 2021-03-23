@@ -6,7 +6,7 @@
 
 # Others
 
-'*_backports-focal_*_*':
+'*_backports-focal_[a-ce-z]_*':
   sourcer:
     restricted_packaging_copy: true
 
