@@ -6,17 +6,9 @@
 
 # Others
 
-'*_backports-focal_debhelper_*':
-  sourcer:
-    restricted_packaging_copy: false
-
 '*_backports-focal_*_*':
   sourcer:
     restricted_packaging_copy: true
-
-'*_backports-focal_debhelper_*':
-  sourcer:
-    restricted_packaging_copy: false
 
 '*_backports-bionic_*_*':
   sourcer:
