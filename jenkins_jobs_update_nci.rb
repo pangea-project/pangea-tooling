@@ -47,7 +47,7 @@ EXCLUDE_SNAPS = %w[
   pim-sieve-editor pim-storage-service-manager kdegraphics-mobipocket
   akonadiconsole akregator kdav kmail knotes blogilo libkgapi kgpg
   kapptemplate kcachegrind kde-dev-utils kdesdk-kioslaves korganizer
-  kfind kfloppy kaddressbook konsole krfb ksystemlog
+  kfind kfloppy kaddressbook konsole krfb ksystemlog ofono-qt
 ].freeze
 
 # Updates Jenkins Projects
@@ -163,6 +163,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             if project.packaging_scm == 'Neon/stable'
               project.packaging_scm = 'Neon/release'
             end
+            next unless (project.upstream_scm.type == 'uscan' or project.upstream_scm.type == 'git')
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
           end
