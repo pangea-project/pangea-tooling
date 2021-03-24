@@ -58,15 +58,18 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     DCI.series.each_key do |series|
       DCI.types.each do |type|
         DCI.architectures.each do |arch|
-          file = "#{__dir__}/data/projects/dci/#{series}/#{type}-#{arch}.yaml"
-          next unless File.exist?(file)
-          projects = ProjectsFactory.from_file(file, branch: "master")
-          all_builds = projects.collect do |project|
-            distribution = "Netrunner-" + project.series
-            isoname = "Netrunner-" + type + project.arm_board
+          if arch.include? '^arm'
+            DCI.arm_boards.each do |armboard|
+              file = "data/projects/dci/#{series}/#{type}-#{armboard}.yaml"
+              next unless File.exist?(file)
+            else
+              "data/projects/dci/#{series}/#{type}.yaml"
+              next unless File.exist?(file)
+            projects = ProjectsFactory.from_file(file, branch: "master")
+            all_builds = projects.collect do |project|
+            distribution = "Netrunner-" + series
             DCIBuilderJobBuilder.job(
               project,
-              isoname: isoname
               distribution: distribution
               type: type
               architecture: arch
@@ -90,62 +93,46 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     image_job_config =
       "#{__dir__}/data/dci/dci.image.yaml"
+    load_config = YAML.load_stream(File.read(image_job_config))
 
     if File.exist? image_job_config
-      image_jobs = YAML.load_stream(File.read(image_job_config))
+      image_jobs = load_config
 
-      image_jobs.each do |image_job|
-        image_job.each do |flavor, v|
-          puts flavor
-          v[:architectures].each do |arch|
-
-              v[:releases].each do |release, branch|
-                enqueue(
-                  DCIImageJob.new(
-                    flavor: flavor,
-                    release: release,
-                    architecture: arch,
-                    repo: v[:repo],
-                    branch: branch
+      image_jobs.each do |type|
+        type.each do |flavor, v|
+         arch = v['architecture']
+         v[:releases].each do |release, branch|
+            enqueue(
+                DCIImageJob.new(
+                  flavor: flavor,
+                  release: release,
+                  architecture: arch,
+                  repo: v[:repo],
+                  branch: branch
                   )
                 )
-              end
-            end
-          end
-        end
-      end
-    end
-    if File.exist? image_job_config
-      snapshot_jobs = YAML.load_stream(File.read(image_job_config))
-      snapshot_jobs.each do |snapshot_job|
-        snapshot_job.each do |flavor, v|
-          v[:architectures] ||= DCI.architectures
-          v[:architectures].each do |arch|
-            v[:types].each do |type|
-              v[:snapshots].each do |snapshot|
-                enqueue(
-                  SnapShotJob.new(
-                    snapshot: snapshot,
-                    flavor: flavor,
-                    architecture: arch
-                  )
+         end
+        v[:snapshots].each do |snapshot|
+            enqueue(
+              SnapShotJob.new(
+                snapshot: snapshot,
+                flavor: flavor,
+                architecture: arch
                 )
-              end
-            end
-          end
-        end
+              )
+           end
+         end
       end
     end
-
-
-    # MGMT Jobs follow
-    docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
-    # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
-    tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
-    tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
-    enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
-    enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
-    enqueue(MGMTRepoCleanupJob.new)
+  end
+ # MGMT Jobs follow
+ docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
+  # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
+ tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
+ tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
+ enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
+ enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
+ enqueue(MGMTRepoCleanupJob.new)
   end
 end
 

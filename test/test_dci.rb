@@ -9,7 +9,7 @@ class DCITest < TestCase
   end
 
   def test_types
-    assert_equal_collection(%w[desktop backports core c1 z1 z2], DCI.types)
+    assert_equal_collection(%w[desktop core zeronet], DCI.types)
   end
 
   def test_architectures
@@ -37,4 +37,11 @@ class DCITest < TestCase
   def test_latest_series
     assert_equal('next', DCI.latest_series)
   end
-end
+
+  def test_isoname
+    assert_equal('netrunner-desktop', DCI.types.keys.first)
+  end
+
+  def test_arm_boards
+    assert_equal(%w[c1 rock64], DCI.arm_boards)
+  end

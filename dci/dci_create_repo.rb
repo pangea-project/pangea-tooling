@@ -22,11 +22,19 @@ Aptly::Ext::Remote.dci do
   puts @all_repos
   all_repos.compact!
   @repos = []
-  distribution = DCI.latest_series
-    DCI.types.each do |type|
-      file = "data/projects/dci/#{distribution}/#{type}.yaml"
-      next unless File.exist?(file)
 
+  series = DCI.latest_series
+  armboard =
+    DCI.types.each do |type|
+      DCI.architectures.each do |arch|
+        if arch.include? '^arm'
+          DCI.arm_boards.each do |armboard|
+          file = "data/projects/dci/#{series}/#{type}-#{armboard}.yaml"
+          next
+        else
+          "data/projects/dci/#{series}/#{type}.yaml"
+      next unless File.exist?(file)
+      puts repo.Name
       puts distribution
       puts type
       repo_base = YAML.load_stream(File.read(file))
@@ -35,14 +43,14 @@ Aptly::Ext::Remote.dci do
           allrepos.each.with_index do |component, _repo|
             puts component
             component.each_key do |repo|
-              if @all_repos.include?("#{repo}-#{distribution}")
-                puts "#{repo}-#{distribution} exists, moving on.".gsub(/[\,\"\[\]*]/, '')
+              if @all_repos.include?("#{repo}-#{series}")
+                puts "#{repo}-#{series} exists, moving on.".gsub(/[\,\"\[\]*]/, '')
                 next
               else
-                puts "Creating #{repo}-#{distribution}".gsub(/[\,\"\[\]*]/, '')
+                puts "Creating #{repo}-#{series}".gsub(/[\,\"\[\]*]/, '')
                 x = Aptly::Repository.create(
-                  "#{repo}-#{distribution}".gsub(/[\,\"\[\]*]/, ''),
-                  DefaultDistribution: "netrunner-#{distribution}",
+                  "#{repo}-#{series}".gsub(/[\,\"\[\]*]/, ''),
+                  DefaultDistribution: "netrunner-#{series}",
                   DefaultComponent: repo.to_s.gsub(/[\,\"\[\]*]/, ''),
                   Architectures: %w[all amd64 armhf arm64 i386 source]
                 )
