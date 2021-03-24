@@ -113,7 +113,7 @@ class DCISnapshot
   end
 
   def arch_array
-    data = currentdist.value
+    data = currentdist.values
     @arch <<  data[:architecture]
     @arch << 'i386'
     @arch << 'all'
