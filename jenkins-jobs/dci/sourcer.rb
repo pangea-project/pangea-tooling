@@ -15,11 +15,10 @@ class DCISourcerJob < JenkinsJob
   attr_reader :component
   attr_reader :architecture
 
-  def initialize(basename, project:, type:, series:, architecture:)
-    super("#{basename}_#{architecture}_src", 'dci_sourcer.xml.erb')
+  def initialize(basename, project:, type:, series:)
+    super("#{basename}_src", 'dci_sourcer.xml.erb')
     @name = project.name
     @component = project.component
-    @architecture = architecture
     @basename = basename
     @upstream_scm = project.upstream_scm
     @type = type
@@ -50,12 +49,12 @@ class DCISourcerJob < JenkinsJob
       when 'tarball'
        fetch_tarball
       else
-      raise "Unknown upstream_scm type encountered #{@upstream_scm.type}"
+        raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
       end
   end
 
   def fetch_tarball
-    return '' unless @upstream_scm&.type == 'tarball'
+    return '' unless @upstream_scm.type == 'tarball'
 
     "if [ ! -d source ]; then
     mkdir source
