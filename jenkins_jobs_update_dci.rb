@@ -62,15 +62,17 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             DCI.arm_boards.each do |armboard|
               file = "data/projects/dci/#{series}/#{type}-#{armboard}.yaml"
               next unless File.exist?(file)
-            else
-              "data/projects/dci/#{series}/#{type}.yaml"
-              next unless File.exist?(file)
-            projects = ProjectsFactory.from_file(file, branch: "master")
-            all_builds = projects.collect do |project|
-            distribution = "Netrunner-" + series
+            end
+          else
+            "data/projects/dci/#{series}/#{type}.yaml"
+            next unless File.exist?(file)
+          end
+          projects = ProjectsFactory.from_file(file, branch: "master")
+          all_builds = projects.collect do |project|
+          distribution = "Netrunner-" + series
             DCIBuilderJobBuilder.job(
               project,
-              distribution: distribution
+              series: series
               type: type
               architecture: arch
               upload_map: @upload_map
