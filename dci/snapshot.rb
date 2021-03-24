@@ -90,6 +90,7 @@ class DCISnapshot
     distribution
     data = config
     currentdist = data.select { |dist, _options| dist =~ /^#{@dist}$/  }
+    puts currentdist
     currentdist
   end
 
@@ -113,8 +114,12 @@ class DCISnapshot
   end
 
   def arch_array
-    data = currentdist.values
-    @arch <<  data[:architecture]
+    data = []
+    data = currentdist
+    puts data
+    data.each do |x|
+      @arch <<  x[:architecture]
+    end
     @arch << 'i386'
     @arch << 'all'
     @arch << 'source'
