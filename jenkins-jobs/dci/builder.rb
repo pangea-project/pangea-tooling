@@ -31,7 +31,6 @@ class DCIBuilderJobBuilder
                                  architecture: architecture)
     sourcer.trigger(binarier)
     binarier.trigger(publisher)
-    binarier
     end
     [sourcer] + [binarier] + [publisher]
   end
