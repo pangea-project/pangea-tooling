@@ -59,15 +59,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     DCI.series.each_key do |series|
       DCI.types.each do |type|
         DCI.architectures.each do |arch|
-          if arch.include? '^arm'
-            DCI.arm_boards.each do |armboard|
-              @project_file = "data/projects/dci/#{series}/#{type}-#{armboard}.yaml"
-              @project_file
-            end
-          else
-            @project_file =  "data/projects/dci/#{series}/#{type}.yaml"
-            @project_file
-          end
+          #if arch.include? '^arm'
+            #DCI.arm_boards.each do |armboard|
+              #@project_file = "data/projects/dci/#{series}/#{type}-#{armboard}.yaml"
+              #@project_file
+            #end
+          #else
+            #@project_file =  "data/projects/dci/#{series}/#{type}.yaml"
+            #@project_file
+          #end
+          @project_file = "data/projects/dci/#{series}/#{type}-#{arch}.yaml"
           projects = ProjectsFactory.from_file(@project_file, branch: "master")
           puts projects
           all_builds = projects.collect do |project|
