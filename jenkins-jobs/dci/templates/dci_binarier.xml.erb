@@ -29,8 +29,7 @@
     <hudson.tasks.Shell>
       <command>
       #!/bin/bash
-        export DIST=<%= distribution %>
-        export DIST_RELEASE=<%= distribution %>
+        export DIST_RELEASE=<%= series %>
         export TYPE=<%= type %>
         ~/tooling/dci/contain.rb /tooling/dci/builder.rb
       </command>

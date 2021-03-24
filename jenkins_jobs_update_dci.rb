@@ -55,27 +55,25 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     CI::Overrides.default_files
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
+    @project_file = ''
     DCI.series.each_key do |series|
       DCI.types.each do |type|
         DCI.architectures.each do |arch|
           if arch.include? '^arm'
             DCI.arm_boards.each do |armboard|
-              file = "data/projects/dci/#{series}/#{type}-#{armboard}.yaml"
-              next unless File.exist?(file)
+              @project_file = "data/projects/dci/#{series}/#{type}-#{armboard}.yaml"
             end
           else
-            "data/projects/dci/#{series}/#{type}.yaml"
-            next unless File.exist?(file)
+            @project_file =  "data/projects/dci/#{series}/#{type}.yaml"
           end
-          projects = ProjectsFactory.from_file(file, branch: "master")
+          projects = ProjectsFactory.from_file(@project_file, branch: "master")
           all_builds = projects.collect do |project|
-          distribution = "Netrunner-" + series
-            DCIBuilderJobBuilder.job(
-              project,
-              series: series
-              type: type
-              architecture: arch
-              upload_map: @upload_map
+          DCIBuilderJobBuilder.job(
+            project,
+            type: type,
+            series: series,
+            architecture: arch,
+            upload_map: @upload_map
         )
       end
       all_builds.flatten!
@@ -87,7 +85,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         # This could actually returned into a collect if placed below
       meta_build = MetaBuildJob.new(type: type,
-                                    distribution: distribution,
+                                    distribution: series,
                                     downstream_jobs: all_builds)
       all_meta_builds << enqueue(meta_build)
       end

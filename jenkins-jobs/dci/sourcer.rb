@@ -8,14 +8,14 @@ class DCISourcerJob < JenkinsJob
   attr_reader :basename
   attr_reader :upstream_scm
   attr_reader :type
-  attr_reader :distribution
+  attr_reader :series
   attr_reader :packaging_scm
   attr_reader :packaging_branch
   attr_reader :downstream_triggers
   attr_reader :component
   attr_reader :architecture
 
-  def initialize(basename, project:, type:, distribution:, architecture:)
+  def initialize(basename, project:, type:, series:, architecture:)
     super("#{basename}_#{architecture}_src", 'dci_sourcer.xml.erb')
     @name = project.name
     @component = project.component
@@ -23,7 +23,7 @@ class DCISourcerJob < JenkinsJob
     @basename = basename
     @upstream_scm = project.upstream_scm
     @type = type
-    @distribution = distribution
+    @series = series
     @packaging_scm = project.packaging_scm.dup
     @packaging_scm.url.gsub!('salsa.debian.org',
                              'git://salsa.debian.org/')

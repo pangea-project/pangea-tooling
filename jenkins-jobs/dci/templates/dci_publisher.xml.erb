@@ -21,7 +21,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
-      <project><%= basename %>_<%= architecture %>_src</project>
+      <project><%= basename %>_src</project>
       <filter></filter>
       <target></target>
       <excludes></excludes>
@@ -32,7 +32,7 @@
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
-      <project><%= basename %>_bin_<%= architecture %></project>
+    <project><%= basename %>_<%= architecture %>_bin</project>
       <filter></filter>
       <target></target>
       <excludes></excludes>
@@ -45,7 +45,7 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
-~/tooling/ci/pangea_dput --gateway ssh://dci@dci.ds9.pub:8081 --repo <%= repo %>-<%= distribution %> *.changes
+~/tooling/ci/pangea_dput --gateway ssh://dci@dci.ds9.pub:8081 --repo <%= repo %>-<%= series %> *.changes
 </command>
     </hudson.tasks.Shell>
   </builders>
