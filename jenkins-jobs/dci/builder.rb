@@ -10,8 +10,7 @@ require_relative 'publisher'
 # as generic as possible with shared names.
 class DCIBuilderJobBuilder
   def self.job(project, type:, distribution:, architectures:, upload_map: nil)
-    basename = basename(distribution, type, project.component,
-                        project.name)
+    basename = basename(distribution, type, project.component, project.name)
 
     sourcer = []
     publisher = []
