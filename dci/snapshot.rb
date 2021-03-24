@@ -113,11 +113,8 @@ class DCISnapshot
   end
 
   def arch_array
-    data = currentdist
-    data.each do |_dist, v|
-      a = v[:architecture]
-      @arch << a
-    end
+    data = currentdist.value
+    @arch <<  data[:architecture]
     @arch << 'i386'
     @arch << 'all'
     @arch << 'source'
