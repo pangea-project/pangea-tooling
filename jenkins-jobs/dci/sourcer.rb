@@ -25,7 +25,7 @@ class DCISourcerJob < JenkinsJob
     @type = type
     @distribution = distribution
     @packaging_scm = project.packaging_scm.dup
-    @packaging_scm.url.gsub!('salsa.debian.org:/git/',
+    @packaging_scm.url.gsub!('salsa.debian.org',
                              'git://salsa.debian.org/')
 
     @packaging_branch = @packaging_scm.branch
