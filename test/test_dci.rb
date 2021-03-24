@@ -45,3 +45,4 @@ class DCITest < TestCase
   def test_arm_boards
     assert_equal(%w[c1 rock64], DCI.arm_boards)
   end
+end
