@@ -1,52 +1,42 @@
----
+desktop:
   netrunner-desktop:
     :repo: https://github.com/netrunner-desktop/live-build
-    :architectures:
-      - amd64
-    :types:
-      - desktop
-    :components: 'netrunner,extras,backports,netrunner-desktop'
+    :architecture: amd64
+    :components: 'netrunner,extras,backports,netrunner-desktop,netrunner-core'
     :releases:
       next: master
       2101: Netrunner/21.01
     :snapshots:
       - 'next'
       - '2101'
-      
+
+core:
   netrunner-core:
     :repo: https://github.com/netrunner-core/live-build
-    :architectures:
-      - amd64
-    :types:
-      - core
+    :architecture: amd64
     :components: 'netrunner,extras,backports,netrunner-core'
     :releases:
-      2101: Netrunner/21.01
-      next: master
+     next: master
+     2101: Netrunner/21.01
     :snapshots:
       - 'next'
       - '2101'
-      
+
   netrunner-core-c1:
     :repo: https://github.com/netrunner-odroid/c1-live-build-core
-    :architectures:
-      - armhf
-    :types:
-      - core
+    :architecture: armhf
+    :arm_board: c1
     :components: 'netrunner,extras,backports,netrunner-core,odroid'
     :releases:
       2101: Netrunner/21.01
-      next: master
     :snapshots:
-      - 'next'
-      - '2101'
-      
+      '2101'
+
+zeronet:
   netrunner-zeronet-c1:
     :repo: https://github.com/netrunner-zeronet/c1-live-build-zeronet
-    :architectures:
-      - armhf
-    :types:
-      - zeronet
+    :architecture: armhf
+    :arm_board: c1
     :components: 'netrunner,extras,backports,netrunner-core,odroid,zeronet'
     :releases:
       2101: Netrunner/21.01
@@ -55,13 +45,10 @@
       
   netrunner-zeronet-rock64:
     :repo: https://github.com/netrunner-zeronet/rock64-live-build-zeronet
-    :architectures:
-      - arm64
-    :types:
-      - zeronet
+    :architecture: arm64
+    :arm_board: rock64
     :components: 'netrunner,extras,backports,netrunner-core,rock64,zeronet'
     :releases:
       2101: Netrunner/21.01
     :snapshots:
       - '2101'
-      

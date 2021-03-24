@@ -57,26 +57,20 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     all_meta_builds = []
     DCI.series.each_key do |series|
       DCI.types.each do |type|
-      file = "#{__dir__}/data/projects/dci/#{series}/#{type}.yaml"
-      next unless File.exist?(file)
-
-      @arches = []
-      if type == 'c1' || type == 'z1'
-        @arches = ['armhf']
-      elsif type == 'z2'
-        @arches = ['arm64']
-      else
-        @arches = ['amd64']
-      end
-      distribution = "Netrunner-" + series
-      projects = ProjectsFactory.from_file(file, branch: "master")
-      all_builds = projects.collect do |project|
-          DCIBuilderJobBuilder.job(
-          project,
-          distribution: distribution,
-          type: type,
-          architectures: architectures,
-          upload_map: @upload_map
+        DCI.architectures.each do |arch|
+          file = "#{__dir__}/data/projects/dci/#{series}/#{type}-#{arch}.yaml"
+          next unless File.exist?(file)
+          projects = ProjectsFactory.from_file(file, branch: "master")
+          all_builds = projects.collect do |project|
+            distribution = "Netrunner-" + project.series
+            isoname = "Netrunner-" + type + project.arm_board
+            DCIBuilderJobBuilder.job(
+              project,
+              isoname: isoname
+              distribution: distribution
+              type: type
+              architecture: arch
+              upload_map: @upload_map
         )
       end
       all_builds.flatten!
@@ -104,9 +98,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         image_job.each do |flavor, v|
           puts flavor
           v[:architectures].each do |arch|
-            puts arch
-            v[:types].each do |type|
-              puts type
+
               v[:releases].each do |release, branch|
                 enqueue(
                   DCIImageJob.new(
