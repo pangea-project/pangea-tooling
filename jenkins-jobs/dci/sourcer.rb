@@ -48,9 +48,9 @@ class DCISourcerJob < JenkinsJob
       when 'uscan'
         ''
       when 'tarball'
-        ''
+       fetch_tarball
       else
-      raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
+      raise "Unknown upstream_scm type encountered #{@upstream_scm.type}"
       end
   end
 
