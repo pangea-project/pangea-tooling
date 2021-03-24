@@ -45,7 +45,7 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
-~/tooling/ci/pangea_dput --gateway ssh://dci@dci.ds9.pub:8081 --repo <%= repo %>-<%= series %> *.changes
+~/tooling/ci/pangea_dput --gateway ssh://dci@dci.ds9.pub:8081 --repo <%= @repo %>-<%= @series %> *.changes
 </command>
     </hudson.tasks.Shell>
   </builders>

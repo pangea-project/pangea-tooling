@@ -62,11 +62,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           if arch.include? '^arm'
             DCI.arm_boards.each do |armboard|
               @project_file = "data/projects/dci/#{series}/#{type}-#{armboard}.yaml"
+              @project_file
             end
           else
             @project_file =  "data/projects/dci/#{series}/#{type}.yaml"
+            @project_file
           end
           projects = ProjectsFactory.from_file(@project_file, branch: "master")
+          puts projects
           all_builds = projects.collect do |project|
           DCIBuilderJobBuilder.job(
             project,
