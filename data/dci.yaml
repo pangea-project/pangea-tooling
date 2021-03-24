@@ -8,8 +8,8 @@ architectures:
 extra_architectures: []
 types:
   - desktop
-  - backports
   - core
+  - zeronet
+arm_boards:
   - c1
-  - z1
-  - z2
+  - rock64
