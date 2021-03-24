@@ -50,6 +50,7 @@ class DCISnapshot
     @dist = ''
     @versioned_dist = ''
     @version = ''
+    @arch = []
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new(STDOUT).tap do |l|
       l.progname = 'snapshotter'
@@ -112,24 +113,23 @@ class DCISnapshot
   end
 
   def arch_array
-    arch = []
     data = currentdist
     data.each do |_dist, v|
       a = v[:architecture]
-      arch << a
+      @arch << a
     end
-    arch << 'i386'
-    arch << 'all'
-    arch << 'source'
-    arch
+    @arch << 'i386'
+    @arch << 'all'
+    @arch << 'source'
+    @arch
   end
 
   def aptly_options
     versioned_dist
-    arches = arch_array
+    arch_array
     opts = {}
     opts[:Distribution] = @versioned_dist
-    opts[:Architectures] = arches
+    opts[:Architectures] = @arch
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
     opts
