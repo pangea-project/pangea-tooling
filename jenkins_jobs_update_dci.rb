@@ -68,7 +68,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             #@project_file =  "data/projects/dci/#{series}/#{type}.yaml"
             #@project_file
           #end
-          @project_file = "data/projects/dci/#{series}/#{type}-#{arch}.yaml"
+          @project_file = "#{__dir__}/data/projects/dci/#{series}/#{type}-#{arch}.yaml"
           projects = ProjectsFactory.from_file(@project_file, branch: "master")
           puts projects
           all_builds = projects.collect do |project|
