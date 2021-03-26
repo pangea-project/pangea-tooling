@@ -39,7 +39,7 @@ class DCITest < TestCase
   end
 
   def test_isoname
-    assert_equal('netrunner-desktop', DCI.types.keys.first)
+    assert_equal('desktop', DCI.types.keys.first)
   end
 
   def test_arm_boards
