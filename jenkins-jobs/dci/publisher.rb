@@ -26,22 +26,23 @@ class DCIPublisherJob < JenkinsJob
     @repo_names = []
   end
 
-    def aptly_resources
-      @repo_names.size > 1 ? 0 : 1
-    end
-
-
-    def repo_names
-      @repo_names = ["netrunner-#{type}_#{series}"]
-      @repo_names
-    end
-
     if upload_map
       @repo = upload_map[@component]
       @repo ||= upload_map['default']
     end
+  end
 
-    def append(job)
-      @downstream_triggers << job
-    end
+  def repo_names
+    @repo_names = ["netrunner-#{type}_#{series}"]
+    @repo_names
+  end
+
+
+  def aptly_resources
+    @repo_names.size > 1 ? 0 : 1
+  end
+
+  def append(job)
+    @downstream_triggers << job
+  end
 end
