@@ -29,12 +29,15 @@ require 'mocha/test_unit'
 require 'webmock/test_unit'
 
 class DCISnapshotTest < TestCase
+  @data = {}
+
   def setup
     # Disable all web (used for key).
     WebMock.disable_net_connect!
-    ENV['FLAVOR'] = 'netrunner-desktop'
+    ENV['FLAVOR'] = 'desktop'
     ENV['VERSION'] = 'next'
     @d = DCISnapshot.new
+    @data = @d.config()
   end
 
   def teardown
@@ -44,26 +47,48 @@ class DCISnapshotTest < TestCase
   end
 
   def test_config
-    setup
-    data = @d.config
-    assert_is_a(data, Hash)
-    teardown
+    self.setup()
+    assert_is_a(@data, Hash)
+    assert_equal @data.keys, %w[desktop core zeronet]
+    self.teardown()
+  end
+
+  def test_type
+    self.setup()
+    type = @d.type
+    assert_equal type, ENV['FLAVOR']
+    assert @data.keys.include?(type)
+    self.teardown()
+  end
+
+  def test_currentdist
+    self.setup()
+    type = @d.type()
+    dist = @d.distribution()
+    @data = @d.config()
+    assert @data.keys.include?(type)
+    currentdist = @data[type]
+    @currentdist = currentdist[dist]
+    assert_equal @currentdist.keys, [:repo, :architecture, :components, :releases, :snapshots]
+    assert_equal @currentdist[:components], 'netrunner,extras,backports,netrunner-desktop,netrunner-core'
+    assert_equal @currentdist, @d.currentdist()
+    self.teardown()
   end
 
   def test_components
-    setup
-    data = @d.components
-    assert_is_a(data, Array)
-    test_data = %w[netrunner extras backports netrunner-desktop]
-    assert_equal test_data, data
-    teardown
+    self.setup()
+    components = @d.components()
+    test_data = %w[netrunner extras backports netrunner-desktop netrunner-core]
+    assert_equal test_data, components
+    self.teardown()
   end
+
+
 
   def test_repo_array
     setup
     data = @d.repo_array
-    puts data
-    assert data.include?('netrunner-desktop-next')
+    assert_equal data, ["netrunner-next", "extras-next", "backports-next", "netrunner-desktop-next", "netrunner-core-next"]
     teardown
   end
 

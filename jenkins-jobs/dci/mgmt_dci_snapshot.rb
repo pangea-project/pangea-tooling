@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 require_relative '../job'
 
-class SnapShotJob < JenkinsJob
+class DCISnapShotJob < JenkinsJob
   attr_reader :architecture
-  attr_reader :flavor
+  attr_reader :type
   attr_reader :snapshot
 
-  def initialize(snapshot:, flavor:, architecture:)
-    @flavor = flavor
+  def initialize(snapshot:, type:, architecture:)
+    @type = type
     @architecture = architecture
     @snapshot = snapshot
-    super("snapshot_#{flavor}_#{snapshot}_#{architecture}", 'mgmt_dci_snapshot.xml.erb')
+    super("snapshot_#{type}_#{snapshot}_#{architecture}", 'mgmt_dci_snapshot.xml.erb')
   end
 end
