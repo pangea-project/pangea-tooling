@@ -11,6 +11,7 @@ require_relative 'publisher'
 class DCIBuilderJobBuilder
   def self.job(project, type:, series:, architecture:, upload_map: nil)
     basename = basename(series, type, project.component, project.name)
+
     dependees = project.dependees.collect do |d|
       "#{basename(series, type, d.component, d.name)}_src"
     end.compact
@@ -25,14 +26,16 @@ class DCIBuilderJobBuilder
                                  component: project.component,
                                  upload_map: upload_map,
                                  architecture: architecture)
-    binarier = DCIBinarierJob.new(basename,
+    binariers = architectures.collect do |architecture|
+      binarier = BinarierJob.new(basename,
                                  type: type,
-                                 series: series,
+                                 distribution: distribution,
                                  architecture: architecture)
-    sourcer.trigger(binarier)
-    binarier.trigger(publisher)
+      sourcer.trigger(binarier)
+      binarier.trigger(publisher)
+      binarier
     end
-    [sourcer] + [binarier] + [publisher]
+    [sourcer] + binariers + [publisher]
   end
 
   def self.basename(dist, type, component, name)
