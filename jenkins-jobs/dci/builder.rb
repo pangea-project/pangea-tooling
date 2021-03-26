@@ -8,30 +8,34 @@ require_relative 'publisher'
 # called Builder or tests will fail. I do rather love my live. Also generic
 # names are really cool for shared artifacts such as gems. I always try to be
 # as generic as possible with shared names.
-class DCIBuilderJobBuilder
-  def self.job(project, type:, series:, architecture:, upload_map: nil)
-    basename = basename(series, type, project.component, project.name)
+class BuilderJobBuilder
+  def self.job(project, type:, distribution:, architectures:, upload_map: nil)
+    basename = basename(distribution, type, project.component, project.name)
+
     dependees = project.dependees.collect do |d|
-      "#{basename(series, type, d.component, d.name)}_src"
+      "#{basename(distribution, type, d.component, d.name)}_src"
     end.compact
-    sourcer = DCISourcerJob.new(basename,
+    sourcer = SourcerJob.new(basename,
                              type: type,
-                             series: series,
+                             distribution: distribution,
                              project: project)
-    publisher = DCIPublisherJob.new(basename,
+    publisher = PublisherJob.new(basename,
                                  type: type,
-                                 series: series,
+                                 distribution: distribution,
                                  dependees: dependees,
                                  component: project.component,
                                  upload_map: upload_map,
-                                 architecture: architecture)
-    binarier = DCIBinarierJob.new(basename,
+                                 architectures: architectures)
+    binariers = architectures.collect do |architecture|
+      binarier = BinarierJob.new(basename,
                                  type: type,
-                                 series: series,
+                                 distribution: distribution,
                                  architecture: architecture)
-    sourcer.trigger(binarier)
-    binarier.trigger(publisher)
-    [sourcer] + [binarier] + [publisher]
+      sourcer.trigger(binarier)
+      binarier.trigger(publisher)
+      binarier
+    end
+    [sourcer] + binariers + [publisher]
   end
 
   def self.basename(dist, type, component, name)
