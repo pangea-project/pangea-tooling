@@ -4,12 +4,19 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
-    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.2">
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.3">
     <useBuildBlocker>true</useBuildBlocker>
     <blockLevel>GLOBAL</blockLevel>
-    <scanQueueFor>ALL</scanQueueFor>
-    <blockingJobs><%= basename %>_.*</blockingJobs>
+    <scanQueueFor>DISABLED</scanQueueFor>
+    <blockingJobs>^mgmt_repo-cleanup.*$
+    ^mgmt_aptly.+$</blockingJobs>
     </hudson.plugins.buildblocker.BuildBlockerProperty>
+    <org.jenkins.plugins.lockableresources.RequiredResourcesProperty plugin="lockable-resources@2.1">
+    <resourceNames></resourceNames>
+    <resourceNamesVar></resourceNamesVar>
+    <resourceNumber><%= aptly_resources %></resourceNumber>
+    <labelName>APTLY</labelName>
+    </org.jenkins.plugins.lockableresources.RequiredResourcesProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <assignedNode>master</assignedNode>
@@ -45,12 +52,25 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
-~/tooling/ci/pangea_dput --gateway ssh://dci@dci.ds9.pub:8081 --repo <%= @repo %>-<%= @series %> *.changes
-</command>
+      export APTLY_REPOSITORY=netrunner
+      <%  repos = repo_names.uniq.compact.map { |x| "--repo #{x}" }.join(' ') %>
+      ~/tooling/ci/pangea_dput --gateway ssh://dci@dci.ds9.pub:8081 <%= repos %>  *.changes
+
+      </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-      <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
+    <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.25">
+     <configs>
+       <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+        <configs class="empty-list"/>
+          <projects><%= dependees.join(', ') %>, </projects>
+          <condition>UNSTABLE_OR_BETTER</condition>
+          <triggerWithNoParameters>false</triggerWithNoParameters>
+       </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+      </configs>
+    </hudson.plugins.parameterizedtrigger.BuildTrigger>
+    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
       <deleteDirs>false</deleteDirs>
       <skipWhenFailed>false</skipWhenFailed>
       <cleanWhenSuccess>true</cleanWhenSuccess>

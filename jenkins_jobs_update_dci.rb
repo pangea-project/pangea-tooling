@@ -103,12 +103,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       image_jobs = load_config
 
       image_jobs.each do |type|
-        type.each do |flavor, v|
+        type.each do |type, v|
          arch = v['architecture']
          v[:releases].each do |release, branch|
             enqueue(
                 DCIImageJob.new(
-                  flavor: flavor,
+                  flavor: type,
                   release: release,
                   architecture: arch,
                   repo: v[:repo],
@@ -118,7 +118,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
          end
         v[:snapshots].each do |snapshot|
             enqueue(
-              SnapShotJob.new(
+              DCISnapShotJob.new(
                 snapshot: snapshot,
                 flavor: flavor,
                 architecture: arch
