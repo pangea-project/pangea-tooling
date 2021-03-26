@@ -24,6 +24,7 @@ class DCIPublisherJob < JenkinsJob
     @component = component
     @architecture = architecture
     @repo_names = []
+  end
 
     def aptly_resources
       @repo_names.size > 1 ? 0 : 1
@@ -34,6 +35,7 @@ class DCIPublisherJob < JenkinsJob
       @repo_names = ["netrunner-#{type}_#{series}"]
       @repo_names
     end
+
     if upload_map
       @repo = upload_map[@component]
       @repo ||= upload_map['default']
