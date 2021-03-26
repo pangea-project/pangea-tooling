@@ -24,7 +24,6 @@ class DCIPublisherJob < JenkinsJob
     @component = component
     @architecture = architecture
     @repo_names = []
-  end
 
     if upload_map
       @repo = upload_map[@component]
