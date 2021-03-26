@@ -8,7 +8,7 @@ require_relative 'publisher'
 # called Builder or tests will fail. I do rather love my live. Also generic
 # names are really cool for shared artifacts such as gems. I always try to be
 # as generic as possible with shared names.
-class DCIBuilderJobBuilder
+class BuilderJobBuilder
   def self.job(project, type:, series:, architecture:, upload_map: nil)
     basename = basename(series, type, project.component, project.name)
     dependees = project.dependees.collect do |d|
