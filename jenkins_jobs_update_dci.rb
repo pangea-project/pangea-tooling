@@ -72,7 +72,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           projects = ProjectsFactory.from_file(@project_file, branch: "master")
           puts projects
           all_builds = projects.collect do |project|
-          BuilderJobBuilder.job(
+          DCIBuilderJobBuilder.job(
             project,
             type: type,
             series: series,
