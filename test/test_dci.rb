@@ -38,10 +38,6 @@ class DCITest < TestCase
     assert_equal('next', DCI.latest_series)
   end
 
-  def test_isoname
-    assert_equal('desktop', DCI.types.keys.first)
-  end
-
   def test_arm_boards
     assert_equal(%w[c1 rock64], DCI.arm_boards)
   end
