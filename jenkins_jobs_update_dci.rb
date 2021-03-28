@@ -70,9 +70,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             #@project_file =  "data/projects/dci/#{series}/#{type}.yaml"
             #@project_file
           #end
-          DCI.data_dir = "#{__dir__}/data/projects/dci/#{series}/"
-          DCI.data_file_name = "#{type}-#{arch}.yaml"
-          @projects_file = DCI.data_dir + DCI.data_file_name
+          data_dir = "#{__dir__}/data/projects/dci/#{series}/"
+          data_file_name = "#{type}-#{arch}.yaml"
+          @projects_file = data_dir + data_file_name
           projects = ProjectsFactory.from_file(@projects_file, "Netrunnner/#{series}")
           all_builds = projects.collect do |project|
             
