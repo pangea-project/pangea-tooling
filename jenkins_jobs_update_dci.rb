@@ -37,16 +37,19 @@ end
 class ProjectUpdater < Jenkins::ProjectUpdater
 
   def initialize
-    super()
-    @ci_flavor = 'dci'
-
-    JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/dci"
-
+    @job_queue = Queue.new
+    @flavor = 'dci'
+    @blacklisted_plugins = [
+      'ircbot', # spammy drain on performance
+      'instant-messaging' # dep of ircbot and otherwise useless
+    ]
+    @projects_dir = "#{__dir__}/data/projects"
+    JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
     upload_map = "#{__dir__}/data/dci.upload.yaml"
     @upload_map = nil
     return unless File.exist?(upload_map)
-
     @upload_map = YAML.load_file(upload_map)
+    super
   end
 
   private
@@ -55,7 +58,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     CI::Overrides.default_files
     # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
-    @project_file = ''
     DCI.series.each_key do |series|
       DCI.types.each do |type|
         DCI.architectures.each do |arch|
@@ -68,10 +70,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             #@project_file =  "data/projects/dci/#{series}/#{type}.yaml"
             #@project_file
           #end
-          @project_file = "#{__dir__}/data/projects/dci/#{series}/#{type}-#{arch}.yaml"
-          projects = ProjectsFactory.from_file(@project_file, branch: "master")
-          puts projects
+          DCI.data_dir = "#{__dir__}/data/projects/dci/#{series}/"
+          DCI.data_file_name = "#{type}-#{arch}.yaml"
+          @projects_file = DCI.data_dir + DCI.data_file_name
+          projects = ProjectsFactory.from_file(@projects_file, "Netrunnner/#{series}")
           all_builds = projects.collect do |project|
+            
           DCIBuilderJobBuilder.job(
             project,
             type: type,

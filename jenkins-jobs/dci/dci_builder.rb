@@ -26,7 +26,7 @@ class DCIBuilderJobBuilder
                                  component: project.component,
                                  upload_map: upload_map,
                                  architecture: architecture)
-    binariers = architectures.collect do |architecture|
+    binariers = architecture.collect do |architecture|
       binarier = BinarierJob.new(basename,
                                  type: type,
                                  distribution: distribution,
