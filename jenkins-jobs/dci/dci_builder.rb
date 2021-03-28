@@ -27,7 +27,7 @@ class DCIBuilderJobBuilder
                                  upload_map: upload_map,
                                  architecture: architecture)
     binariers = architecture.collect do |architecture|
-      binarier = BinarierJob.new(basename,
+      binarier = DCIBinarierJob.new(basename,
                                  type: type,
                                  distribution: distribution,
                                  architecture: architecture)
