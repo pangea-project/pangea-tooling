@@ -24,7 +24,7 @@ class DCISourcerJob < JenkinsJob
     @type = type
     @series = series
     @packaging_scm = project.packaging_scm.dup
-    @packaging_scm.url.gsub!('github.com',
+    @packaging_scm.url.gsub!('https://github.com',
                              'git://github.com/')
 
     @packaging_branch = @packaging_scm.branch
