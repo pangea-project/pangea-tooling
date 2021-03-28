@@ -16,12 +16,12 @@ class DCIBuilderJobBuilder
       "#{basename(series, type, d.component, d.name)}_src"
     end.compact
     sourcer = DCISourcerJob.new(
-      basename: basename,
+      basename,
       type: type,
       series: series,
       project: project)
     publisher = DCIPublisherJob.new(
-      basename: basename,
+      basename,
       type: type,
       series: series,
       dependees: dependees,
@@ -29,7 +29,7 @@ class DCIBuilderJobBuilder
       upload_map: upload_map,
       architecture: architecture)
     binarier = DCIBinarierJob.new(
-      basename: basename,
+      basename,
       type: type,
       series: series,
       architecture: architecture)

@@ -16,7 +16,7 @@ class DCIBinarierJob < JenkinsJob
     @type = type
     @series = series
     @architecture = architecture
-    @artifact_origin = "#{basename}_#{architecture}_src"
+    @artifact_origin = "#{basename}__src"
     @downstream_triggers = []
   end
 
