@@ -62,7 +62,8 @@ module CI
     end
 
     def build_suffix
-      suffix = "+#{ENV.fetch('TYPE').tr('-', '_')}+build#{@build_rev}"
+      # only release-lts has a hypen, make it always lose to release by making it a ~
+      suffix = "+#{ENV.fetch('TYPE').tr('-', '~')}+build#{@build_rev}"
       return suffix unless ENV.fetch('TYPE') == 'experimental'
 
       # Prepend and experimental qualifier to **lower** the version beyond
