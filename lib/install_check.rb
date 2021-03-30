@@ -44,6 +44,8 @@ daily failed to install and then failed to purge. Maybe check maintscripts?
     end
     @log.unknown 'done with daily'
 
+    # temporary while ddebs is broken
+    FileUtils.rm('/etc/apt/sources.list.d/org.kde.neon.com.ubuntu.ddebs.list', force: true)
     # NOTE: If daily failed to install, no matter if we can upgrade live it is
     # an improvement just as long as it can be installed...
     # So we purged daily again, and even if that fails we try to install live
