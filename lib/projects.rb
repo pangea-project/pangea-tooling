@@ -309,6 +309,8 @@ absolutely must not be native though!
 
   def override_applicable?(member)
     return false unless @override_rule
+    # do not override upstream_scm for native packages
+    return false if @upstream_scm == nil && member =='upstream_scm'
 
     # Overrides are cascading so a more general rule could conflict with a more
     # specific one. In that event manually setting the specific one to nil
