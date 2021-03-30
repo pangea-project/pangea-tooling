@@ -1,4 +1,8 @@
 # frozen_string_literal: true
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+# SPDX-FileCopyrightText: 2016-2021 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2016 Jonathan Riddell <jr@jriddell.org>
+
 require_relative '../lib/ci/build_version'
 require_relative '../lib/debian/changelog'
 require_relative 'lib/testcase'
@@ -9,6 +13,7 @@ class CIBuildVersionTest < TestCase
 
   def setup
     OS.instance_variable_set(:@hash, VERSION_ID: '15.04', ID: 'ubuntu')
+    ENV['TYPE'] = 'typppo' # intentional spellling for uniquness
     alias_time
   end
 
@@ -43,8 +48,9 @@ class CIBuildVersionTest < TestCase
     parts = suffix.split('+')
     assert_empty(parts[0])
     assert_equal("p#{OS::VERSION_ID}", parts[1])
-    assert_equal("git#{v.time}", parts[2])
-    assert_equal("+p#{OS::VERSION_ID}+git#{v.time}", suffix)
+    assert_equal("ttypppo", parts[2])
+    assert_equal("git#{v.time}", parts[3])
+    assert_equal("+p#{OS::VERSION_ID}+ttypppo+git#{v.time}", suffix)
 
     # Check actual versions.
     assert_equal("4:5.2.2#{suffix}", v.base)

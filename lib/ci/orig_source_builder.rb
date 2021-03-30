@@ -20,7 +20,9 @@ module CI
       # @version
       # @tar
 
-      @release_version = "#{OS::VERSION_ID}+#{ENV.fetch('DIST')}"
+      # It's a bit unclear why we construct this in init. But I see no reason
+      # to change it and am afraid it might be here for a reason - sitter, 2021
+      @release_version = "+#{OS::VERSION_ID}+#{ENV.fetch('DIST')}"
       @build_rev = ENV.fetch('BUILD_NUMBER')
 
       # FIXME: builder should generate a Source instance
@@ -55,12 +57,12 @@ module CI
       # Make sure our version exceeds Ubuntu's by prefixing us with an x.
       # This way -0xneon > -0ubuntu instead of -0neon < -0ubuntu
       base_version = base_version.gsub('neon', 'xneon')
-      base_version = "#{base_version}+#{@release_version}#{build_suffix}"
+      base_version = "#{base_version}#{@release_version}#{build_suffix}"
       changelog.new_version!(base_version, distribution: @release, message: 'Automatic CI Build')
     end
 
     def build_suffix
-      suffix = "+build#{@build_rev}"
+      suffix = "+#{ENV.fetch('TYPE').tr('-', '_')}+build#{@build_rev}"
       return suffix unless ENV.fetch('TYPE') == 'experimental'
 
       # Prepend and experimental qualifier to **lower** the version beyond

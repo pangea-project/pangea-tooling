@@ -52,6 +52,7 @@ class VCSBuilderTest < TestCase
     ENV['JOB_NAME'] = 'RaRaRasputin'
     # Turn a bunch of debhelper sub process calls noop to improve speed.
     ENV['PATH'] = "#{__dir__}/dud-bin:#{ENV['PATH']}"
+    ENV['TYPE'] = 'unstable'
   end
 
   def teardown
@@ -94,8 +95,8 @@ class VCSBuilderTest < TestCase
     r = s.run
     assert_equal(:quilt, r.type)
     assert_equal('hello', r.name)
-    assert_equal("2.10+p#{OS::VERSION_ID}+git20150717.1756-0", r.version)
-    assert_equal('hello_2.10+p15.04+git20150717.1756-0.dsc', r.dsc)
+    assert_equal("2.10+p#{OS::VERSION_ID}+tnol10n+git20150717.1756-0", r.version)
+    assert_equal('hello_2.10+p15.04+tnol10n+git20150717.1756-0.dsc', r.dsc)
     assert_not_nil(r.build_version)
 
     assert(File.read('last_version').start_with?('2.10+p'),
@@ -110,8 +111,8 @@ class VCSBuilderTest < TestCase
     r = s.run
     assert_equal(:native, r.type)
     assert_equal('hello', r.name)
-    assert_equal("2.10+p#{OS::VERSION_ID}+git20150717.1756", r.version)
-    assert_equal('hello_2.10+p15.04+git20150717.1756.dsc', r.dsc)
+    assert_equal("2.10+p#{OS::VERSION_ID}+tnol10n+git20150717.1756", r.version)
+    assert_equal('hello_2.10+p15.04+tnol10n+git20150717.1756.dsc', r.dsc)
     assert_not_nil(r.build_version)
 
     # Make sure we have source files in our tarball.
@@ -129,7 +130,7 @@ class VCSBuilderTest < TestCase
     r = s.run
     assert_equal(:native, r.type)
     assert_equal('hello', r.name)
-    assert_equal("2.10+p#{OS::VERSION_ID}+git20150717.1756", r.version)
+    assert_equal("2.10+p#{OS::VERSION_ID}+tunstable+git20150717.1756", r.version)
     assert_not_nil(r.dsc)
 
     Dir.chdir('build/') do
