@@ -408,8 +408,9 @@ class ProjectTest < TestCase
     CI::Overrides.instance_variable_set(:@default_files, ["#{Dir.pwd}/base.yml"])
     Dir.mktmpdir(self.class.to_s) do |tmpdir|
       Dir.chdir(tmpdir) do
-        project = Project.new(name, component, gitrepo, type: 'unstable')
-        assert_nil(project.upstream_scm)
+        assert_raises Project::OverrideNilError do
+          Project.new(name, component, gitrepo, type: 'unstable')
+        end
       end
     end
   end
