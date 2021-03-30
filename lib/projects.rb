@@ -342,6 +342,7 @@ absolutely must not be native though!
   #   without having one in the live data.
   def override_apply(member)
     return unless override_applicable?(member)
+    return false if @name == 'debhelper'
 
     object = instance_variable_get("@#{member}")
     rule = override_rule_for(member)
