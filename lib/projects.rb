@@ -322,6 +322,7 @@ absolutely must not be native though!
     end
 
     unless instance_variable_get("@#{member}")
+      return false if @upstream_scm == nil && member =='upstream_scm'
       raise OverrideNilError.new(@component, @name, member, override_rule_for(member)) if override_rule_for(member)
 
       return false
