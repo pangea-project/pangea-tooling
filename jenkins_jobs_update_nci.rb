@@ -163,6 +163,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             if project.packaging_scm == 'Neon/stable'
               project.packaging_scm = 'Neon/release'
             end
+            next if project.upstream_scm.nil?
             next unless (project.upstream_scm.type == 'uscan' or project.upstream_scm.type == 'git')
             enqueue(SnapcraftJob.new(project,
                                      distribution: distribution, type: type))
