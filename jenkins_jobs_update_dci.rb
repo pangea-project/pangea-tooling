@@ -22,8 +22,9 @@
 require_relative 'lib/dci'
 require_relative 'lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
+require_relative 'lib/kdeproject_component'
 
-require 'optparse'
+require 'sigdump/setup'
 
 Dir.glob(File.expand_path('jenkins-jobs/*.rb', __dir__)).each do |file|
   require file
@@ -37,7 +38,6 @@ end
 class ProjectUpdater < Jenkins::ProjectUpdater
 
   def initialize
-    @job_queue = Queue.new
     @flavor = 'dci'
     @blacklisted_plugins = [
       'ircbot', # spammy drain on performance

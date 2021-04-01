@@ -52,7 +52,7 @@
       <command>#!/bin/bash
            set -e
            arch=$(dpkg --print-architecture)
-           export DIST_RELEASE=<%= release %>
+           export DIST_RELEASE=<%= @series %>
            if [[ $arch =~ ^arm ]]; then
              ~/tooling/dci/priv_contain.rb /tooling/dci/imager.rb
              export RESULT=$(ls result/)
@@ -71,7 +71,7 @@
       <profileName>DCI S3</profileName>
       <entries>
         <hudson.plugins.s3.Entry>
-          <bucket>ds9-eu/dci/images/<%= @release %>/<%= @architecture %>/<%= @flavor %></bucket>
+          <bucket>ds9-eu/dci/images/<%= @series %>/<%= @architecture %>/<%= @type %></bucket>
           <sourceFile>result/*</sourceFile>
           <excludedFile></excludedFile>
           <storageClass>REDUCED_REDUNDANCY</storageClass>

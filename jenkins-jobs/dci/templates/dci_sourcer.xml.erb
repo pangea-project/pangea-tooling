@@ -62,7 +62,6 @@
       <command>
 export SERIES=<%= series %>
 export TYPE=<%= type %>
-<%= fetch_tarball %>
 ~/tooling/dci/contain.rb /tooling/dci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
       </command>
     </hudson.tasks.Shell>
