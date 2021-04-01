@@ -384,14 +384,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTAppstreamGenerator.new(repo: 'release',
                                        type: 'release',
                                        dist: NCI.current_series))
-    enqueue(MGMTAppstreamGenerator.new(repo: 'release/lts',
-                                       type: 'release-lts',
-                                       dist: NCI.current_series))
     enqueue(MGMTAppstreamGenerator.new(repo: 'user',
                                        type: 'user',
-                                       dist: NCI.current_series))
-    enqueue(MGMTAppstreamGenerator.new(repo: 'user/lts',
-                                       type: 'user-lts',
                                        dist: NCI.current_series))
     # Note for the future: when introducing a future_series it's probably wise
     # to split the job and asgen.rb for the new series. That way its easy to
