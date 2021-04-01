@@ -282,14 +282,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(NeonIsoJob.new(dev_stable_isoargs))
         enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'testing')))
 
-        user_releaselts_isoargs = standard_args.merge(
-          type: 'plasma_lts',
-          neonarchive: is_future ? 'release/lts' : 'user/lts',
-          cronjob: 'H H * * 3'
-        )
-        enqueue(NeonIsoJob.new(user_releaselts_isoargs))
-        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'plasma_lts')))
-
         user_release_isoargs = standard_args.merge(
           type: 'user',
           neonarchive: is_future ? 'release' : 'user',
