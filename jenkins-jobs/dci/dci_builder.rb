@@ -36,7 +36,7 @@ class DCIBuilderJobBuilder
     sourcer.trigger(binarier)
     binarier.trigger(publisher)
     
-    [sourcer] + [binarier] + [publisher]
+  jobs =  [sourcer] + [binarier] + [publisher]
   end
 
   def self.basename(dist, type, component, name)
