@@ -9,20 +9,20 @@ require_relative 'publisher'
 # names are really cool for shared artifacts such as gems. I always try to be
 # as generic as possible with shared names.
 class DCIBuilderJobBuilder
-  def self.job(project, type:, series:, architecture:, upload_map: nil)
-    basename = basename(series, type, project.component, project.name)
+  def self.job(project, release_type:, series:, architecture:, upload_map: nil)
+    basename = basename(series, release_type, project.component, project.name)
 
     dependees = project.dependees.collect do |d|
-      "#{basename(series, type, d.component, d.name)}_src"
+      "#{basename(series, release_type, d.component, d.name)}_src"
     end.compact
     sourcer = DCISourcerJob.new(
       basename,
-      type: type,
+      release_type: release_type,
       series: series,
       project: project)
     publisher = DCIPublisherJob.new(
       basename,
-      type: type,
+      release_type: release_type,
       series: series,
       dependees: dependees,
       component: project.component,
@@ -30,13 +30,17 @@ class DCIBuilderJobBuilder
       architecture: architecture)
     binarier = DCIBinarierJob.new(
       basename,
-      type: type,
+      release_type: release_type,
       series: series,
       architecture: architecture)
     sourcer.trigger(binarier)
     binarier.trigger(publisher)
     
-  jobs =  [sourcer] + [binarier] + [publisher]
+    jobs =  [sourcer] + [binarier] + [publisher]
+    basename1 = jobs[0].job_name.rpartition('_')[0]
+    unless basename == basename1
+      raise "unexpected basename diff #{basename} v #{basename1}"
+    end
   end
 
   def self.basename(dist, type, component, name)

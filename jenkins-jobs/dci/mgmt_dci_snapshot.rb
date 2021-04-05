@@ -3,13 +3,13 @@ require_relative '../job'
 
 class DCISnapShotJob < JenkinsJob
   attr_reader :architecture
-  attr_reader :type
+  attr_reader :release_type
   attr_reader :snapshot
 
-  def initialize(snapshot:, type:, architecture:)
-    @type = type
+  def initialize(snapshot:, release_type:, architecture:)
+    @release_type = release_type
     @architecture = architecture
     @snapshot = snapshot
-    super("snapshot_#{type}_#{snapshot}_#{architecture}", 'mgmt_dci_snapshot.xml.erb')
+    super("snapshot_#{release_type}_#{snapshot}_#{architecture}", 'mgmt_dci_snapshot.xml.erb')
   end
 end

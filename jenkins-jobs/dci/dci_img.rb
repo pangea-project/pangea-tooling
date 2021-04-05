@@ -3,13 +3,13 @@ require_relative '../job'
 
 class DCIImageJob < JenkinsJob
   attr_reader :repo
-  attr_reader :type
+  attr_reader :release_type
   attr_reader :architecture
   attr_reader :series
 
-  def initialize(series:, type:, architecture:, repo:, branch:)
+  def initialize(series:, release_type:, architecture:, repo:, branch:)
     @series = series
-    @type = type
+    @release_type = release_type
     @architecture = architecture
     @repo = repo
     @branch = branch

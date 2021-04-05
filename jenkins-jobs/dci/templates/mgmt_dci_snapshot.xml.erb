@@ -39,7 +39,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-        export FLAVOR=<%= @type %>
+        export FLAVOR=<%= @release_type %>
         export VERSION=<%= @snapshot %>
         ~/tooling/dci/snapshot.rb
       </command>
@@ -47,7 +47,7 @@
   </builders>
   <publishers>
     <hudson.tasks.BuildTrigger>
-      <childProjects>img_<%= @type %>_<%= @snapshot %>_<%= @architecture %></childProjects>
+      <childProjects>img_<%= @release_type %>_<%= @snapshot %>_<%= @architecture %></childProjects>
       <threshold>
         <name>SUCCESS</name>
         <ordinal>0</ordinal>

@@ -7,7 +7,7 @@ class DCISourcerJob < JenkinsJob
   attr_reader :name
   attr_reader :basename
   attr_reader :upstream_scm
-  attr_reader :type
+  attr_reader :release_type
   attr_reader :series
   attr_reader :packaging_scm
   attr_reader :packaging_branch
@@ -15,13 +15,13 @@ class DCISourcerJob < JenkinsJob
   attr_reader :component
   attr_reader :architecture
 
-  def initialize(basename, project:, type:, series:)
+  def initialize(basename, project:, release_type:, series:)
     super("#{basename}_src", 'dci_sourcer.xml.erb')
     @name = project.name
     @component = project.component
     @basename = basename
     @upstream_scm = project.upstream_scm
-    @type = type
+    @release_type = release_type
     @series = series
     @packaging_scm = project.packaging_scm.dup
 
@@ -57,7 +57,7 @@ class DCISourcerJob < JenkinsJob
     "if [ ! -d source ]; then
     mkdir source
     fi
-    echo '#{@upstream_scm.url}' > source/url"
+    echo ''#{@upstream_scm.url}" > 'source/url'
   end
 
 end

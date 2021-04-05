@@ -30,7 +30,7 @@
       <command>
       #!/bin/bash
         export DIST_RELEASE=<%= series %>
-        export TYPE=<%= type %>
+        export TYPE=<%= release_type %>
         ~/tooling/dci/contain.rb /tooling/dci/builder.rb
       </command>
     </hudson.tasks.Shell>
