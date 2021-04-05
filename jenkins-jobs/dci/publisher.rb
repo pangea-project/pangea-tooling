@@ -3,7 +3,7 @@ require_relative '../job'
 
 # publisher
 class DCIPublisherJob < JenkinsJob
-  attr_reader :type
+  attr_reader :release_type
   attr_reader :series
   attr_reader :dependees
   attr_reader :artifact_origin
@@ -32,7 +32,7 @@ class DCIPublisherJob < JenkinsJob
   end
 
   def repo_names
-    @repo_names = ["netrunner-#{type}_#{series}"]
+    @repo_names = ["netrunner-#{release_type}_#{series}"]
     @repo_names
   end
 

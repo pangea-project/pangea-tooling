@@ -36,7 +36,6 @@ end
 
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
-
   def initialize
     @flavor = 'dci'
     @blacklisted_plugins = [
@@ -48,6 +47,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     upload_map = "#{__dir__}/data/dci.upload.yaml"
     @upload_map = nil
     return unless File.exist?(upload_map)
+
     @upload_map = YAML.load_file(upload_map)
     super
   end
@@ -56,54 +56,42 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
   def populate_queue
     CI::Overrides.default_files
-    # FIXME: maybe for meta lists we can use the return arrays via collect?
     all_meta_builds = []
     DCI.series.each_key do |series|
-      DCI.types.each do |type|
+      DCI.types.each do |release_type|
         DCI.architectures.each do |arch|
-          #if arch.include? '^arm'
-            #DCI.arm_boards.each do |armboard|
-              #@project_file = "data/projects/dci/#{series}/#{type}-#{armboard}.yaml"
-              #@project_file
-            #end
-          #else
-            #@project_file =  "data/projects/dci/#{series}/#{type}.yaml"
-            #@project_file
-          #end
           data_dir = "#{@projects_dir}/#{@flavor}/#{series}/"
-          data_file_name = "#{type}-#{arch}.yaml"
+          data_file_name = "#{release_type}-#{arch}.yaml"
           @projects_file = data_dir + data_file_name
-          next unless@projects_file.exists?
-             projects = ProjectsFactory.from_file(@projects_file, branch:"Netrunnner/#{series}")
-             all_builds = projects.collect do |project|
-              DCIBuilderJobBuilder.job(
-                project,
-                type: type,
-                series: series,
-                architecture: arch,
-                upload_map: @upload_map)
-               all_builds.flatten!
-               all_builds.each { |job| enqueue(job) }
-          # Remove everything but source as they are the anchor points for
-          # other jobs that might want to reference them.
-               puts all_builds
-               all_builds.select! { |j| j.job_name.end_with?('_src') }
+          next unless @projects_file.exists?
 
-          # This could actually returned into a collect if placed below
-             meta_build = MetaBuildJob.new(type: type,
-                                    distribution: series,
-                                    downstream_jobs: all_builds)
-              all_meta_builds << enqueue(meta_build)
-            end
-          end
+          projects = ProjectsFactory.from_file(@projects_file, branch: "Netrunnner/#{series}")
+          all_builds = projects.collect do |project|
+            DCIBuilderJobBuilder.job(
+              project,
+              release_type: release_type,
+              series: series,
+              architecture: arch,
+              upload_map: @upload_map
+            )
+            all_builds.flatten!
+            all_builds.each { |job| enqueue(job) }
+            # Remove everything but source as they are the anchor points for
+            # other jobs that might want to reference them.
+            puts all_builds
+            all_builds.select! { |j| j.job_name.end_with?('_src') }
+            # This could actually returned into a collect if placed below
+            meta_build = MetaBuildJob.new(type: release_type,
+                                          distribution: series,
+                                          downstream_jobs: all_builds)
+            all_meta_builds << enqueue(meta_build)
+            image_job_config = "#{__dir__}/data/dci/dci.image.yaml"
+            load_config = YAML.load_stream(File.read(image_job_config))
+            next unless image_job_config
 
-          image_job_config = "#{__dir__}/data/dci/dci.image.yaml"
-          load_config = YAML.load_stream(File.read(image_job_config))
-
-          next unless image_job_config
             image_jobs = load_config
-            image_jobs.each do |release_type|
-              release_type.each do |_type, v|
+            image_jobs.each do |r|
+              r.each do |_type, v|
                 arch = v['architecture']
                 v[:releases].each do |release, branch|
                   enqueue(
@@ -112,35 +100,40 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                       release: release,
                       architecture: arch,
                       repo: v[:repo],
-                      branch: branch )
+                      branch: branch
                     )
-                  release.each do
-                    v[:snapshots].each do |snapshot|
-                      next unless snapshot == release
-                        enqueue( 
-                          DCISnapShotJob.new(
-                            snapshot: snapshot,
-                            type: release_type,
-                            architecture: arch )
-                          )
-                        end
-                      end
-                   end
-                 
-              # MGMT Jobs follow
-       docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
-  # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
-       tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
-       tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
-       enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
-       enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
-       enqueue(MGMTRepoCleanupJob.new)
+                  )
+                end
+                v[:snapshots].each do |snapshot|
+                  next unless snapshot == release
+
+                  enqueue(
+                    DCISnapShotJob.new(
+                      snapshot: snapshot,
+                      release_type: release_type,
+                      architecture: arch
+                    )
+                  )
+                end
+              end
+            end
+          end
+        end
+      end
     end
+    # MGMT Jobs follow
+    docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
+    # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
+    tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
+    tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
+    enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
+    enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
+    enqueue(MGMTRepoCleanupJob.new)
   end
 end
 
 if $PROGRAM_NAME == __FILE__
-  updater = ProjectUpdater.new()
+  updater = ProjectUpdater.new
   updater.update
   updater.install_plugins
 end
