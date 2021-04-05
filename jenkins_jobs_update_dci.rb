@@ -63,7 +63,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           data_dir = "#{@projects_dir}/#{@flavor}/#{series}/"
           data_file_name = "#{release_type}-#{arch}.yaml"
           @projects_file = data_dir + data_file_name
-          next unless @projects_file.exists?
+          next unless @projects_file
 
           projects = ProjectsFactory.from_file(@projects_file, branch: "Netrunnner/#{series}")
           all_builds = projects.collect do |project|
