@@ -74,46 +74,47 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               architecture: arch,
               upload_map: @upload_map
             )
-            all_builds.flatten!
-            all_builds.each { |job| enqueue(job) }
+          end
+          all_builds.flatten!
+          all_builds.each { |job| enqueue(job) }
             # Remove everything but source as they are the anchor points for
             # other jobs that might want to reference them.
-            puts all_builds
-            all_builds.select! { |j| j.job_name.end_with?('_src') }
-            # This could actually returned into a collect if placed below
-            meta_build = MetaBuildJob.new(type: release_type,
-                                          distribution: series,
-                                          downstream_jobs: all_builds)
-            all_meta_builds << enqueue(meta_build)
-            image_job_config = "#{__dir__}/data/dci/dci.image.yaml"
-            load_config = YAML.load_stream(File.read(image_job_config))
-            next unless image_job_config
+          puts all_builds
+          all_builds.select! { |j| j.job_name.end_with?('_src') }
+          # This could actually returned into a collect if placed below
+          meta_build = MetaBuildJob.new(
+            type: release_type,
+            distribution: series,
+            downstream_jobs: all_builds)
+          all_meta_builds << enqueue(meta_build)
+          image_job_config = "#{__dir__}/data/dci/dci.image.yaml"
+          load_config = YAML.load_stream(File.read(image_job_config))
+          next unless image_job_config
 
-            image_jobs = load_config
-            image_jobs.each do |r|
-              r.each do |_type, v|
-                arch = v['architecture']
-                v[:releases].each do |release, branch|
-                  enqueue(
-                    DCIImageJob.new(
-                      release_type: release_type,
-                      release: release,
-                      architecture: arch,
-                      repo: v[:repo],
-                      branch: branch
-                    )
+          image_jobs = load_config
+          image_jobs.each do |r|
+            r.each do |_type, v|
+              arch = v['architecture']
+              v[:releases].each do |release, branch|
+                enqueue(
+                  DCIImageJob.new(
+                    release_type: release_type,
+                    release: release,
+                    architecture: arch,
+                    repo: v[:repo],
+                    branch: branch
                   )
-                end
+                )
                 v[:snapshots].each do |snapshot|
-                  next unless snapshot == release
+                next unless snapshot == release
 
-                  enqueue(
-                    DCISnapShotJob.new(
-                      snapshot: snapshot,
-                      release_type: release_type,
-                      architecture: arch
-                    )
+                enqueue(
+                  DCISnapShotJob.new(
+                    snapshot: snapshot,
+                    release_type: release_type,
+                    architecture: arch
                   )
+                )
                 end
               end
             end
