@@ -65,7 +65,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           projects_file = data_dir + data_file_name
           next unless File.exist?(projects_file)
 
-          echo "Working on #{series}- #{release_type} - #{arch}"
+          puts "Working on #{series}- #{release_type} - #{arch}"
           projects = ProjectsFactory.from_file(projects_file, branch: "Netrunnner/#{series}")
           all_builds = projects.collect do |project|
             DCIBuilderJobBuilder.job(
