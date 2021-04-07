@@ -160,8 +160,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           if %w[stable unstable].include?(type) && # project.snapcraft &&  # we allow snapcraft.yaml in project git repo now so can not tell from packaging if it is to be added
              !EXCLUDE_SNAPS.include?(project.name) && distribution == 'focal'
             # We use stable in jenkins to build the tar releases because that way we get the right KDE git repo
-            if project.packaging_scm == 'Neon/stable'
-              project.packaging_scm = 'Neon/release'
+            if project.packaging_scm.branch == 'Neon/stable'
+              project.packaging_scm.branch = 'Neon/release'
             end
             unless project.upstream_scm.nil?
               next unless (project.upstream_scm.type == 'uscan' or project.upstream_scm.type == 'git')
