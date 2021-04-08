@@ -20,6 +20,7 @@
 
 require_relative 'pipelinejob'
 require_relative 'project'
+require_relative '../../lib/ci/scm'
 
 # Generator for native snapcraft projects.
 class SnapcraftJob < PipelineJob
