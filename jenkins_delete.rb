@@ -23,6 +23,7 @@ require 'date'
 require 'logger'
 require 'logger/colors'
 require 'optparse'
+require 'tty/prompt'
 
 require_relative 'lib/jenkins'
 require_relative 'lib/queue'
@@ -100,6 +101,10 @@ end
 
 # Once all are disabled, proceed with deleting.
 job_name_queue = Queue.new(job_names)
+if TTY::Prompt.new.no?("Your are going to delete #{job_name_queue.size} jobs." \
+  ' Do you want to continue?')
+  abort
+end
 BlockingThreadPool.run do
   until job_name_queue.empty?
     name = job_name_queue.pop(true)

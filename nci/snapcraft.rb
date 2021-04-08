@@ -64,7 +64,7 @@ if $PROGRAM_NAME == __FILE__
     `lxd init --auto`
     `snapcraft --version`
     `snapcraft clean --use-lxd || true`
-    TTY::Command.new(uuid: false).run('snapcraft --enable-experimental-package-repositories --debug --use-lxd')
+    TTY::Command.new(uuid: false).run('snapcraft --enable-experimental-package-repositories --enable-experimental-extensions --use-lxd')
     File.write('snapcraft.yaml', non_managled_snap)
   #end
 end
