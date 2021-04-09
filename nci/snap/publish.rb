@@ -31,7 +31,7 @@ module NCI
       TYPE_TO_CHANNEL = {
         'user' => 'candidate',
         'release' => 'candidate',
-        'stable' => 'beta',
+        'stable' => 'candidate',
         'unstable' => 'edge'
         # release-lts is not mapped as we should never build from there.
       }.freeze
