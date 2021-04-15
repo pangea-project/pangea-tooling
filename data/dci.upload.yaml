@@ -1,27 +1,14 @@
 ---
   default: netrunner
-  dci-debian-qt: qt5
-  dci-debian-plasma: plasma
-  calamares: calamares
   netrunner: netrunner
-  netrunner-debian: netrunner
   netrunner-odroid: odroid
   netrunner-core: netrunner-core
-  wayland: backports
-  lib: backports
-  packages: backports
-  netrunner-artwork: netrunner
-  blue-systems: backports
-  debian-astro: backports
-  kernel: backports
-  dci-debian-packaging-backports: backports
-  forks: backports
-  netrunner-common: netrunner
+  netrunner-artwork: artwork
+  blue-systems: netrunner
+  kernel: netrunner-backports
+  dci-debian-packaging-backports: netrunner-backports
+  netrunner-common: common
   dci-extras-packaging: extras
   netrunner-desktop: netrunner-desktop
-  netrunner-pine64: pine64
-  netrunner-pinebook: pine64
-  linuxmint: extras
   netrunner-zeronet: zeronet
   netrunner-rock64: rock64
-  mycroft-packaging: extras
