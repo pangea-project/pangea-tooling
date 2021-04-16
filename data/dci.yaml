@@ -1,16 +1,25 @@
 series:
   '2001': '20191205'
   '2101': '20201123'
-  'next': '20201124'
+  'next': '20210414'
 architectures:
   - amd64
   - armhf
   - arm64
 extra_architectures: []
-types:
+release_types:
   - desktop
   - core
   - zeronet
+arch_for_release_types:
+  desktop:
+    - amd64
+  core:
+    - amd64
+    - armhf
+  zeronet:
+    - armhf
+    - arm64
 arm_boards:
   - c1
   - rock64

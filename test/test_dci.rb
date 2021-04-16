@@ -8,8 +8,8 @@ class DCITest < TestCase
     assert_equal(expected.sort, actual.sort)
   end
 
-  def test_types
-    assert_equal_collection(%w[desktop core zeronet], DCI.types)
+  def test_release_types
+    assert_equal_collection(%w[desktop core zeronet], DCI.release_types)
   end
 
   def test_architectures
@@ -20,15 +20,19 @@ class DCITest < TestCase
     assert_equal_collection(%w[], DCI.extra_architectures)
   end
 
+  def test_arches_for_release_type
+    assert_equal_collection(%w[amd64], DCI.arches_for_release_type['desktop'])
+  end
+
   def test_all_architectures
     assert_equal_collection(%w[amd64 armhf arm64], DCI.all_architectures)
   end
 
   def test_series
-    assert_equal_collection(%w[2001 2101 next], DCI.series.keys)
-    assert_equal_collection(%w[20191205 20201123 20201124], DCI.series.values)
+    assert_equal_collection(%w[2101 next], DCI.series.keys)
+    assert_equal_collection(%w[20201123 20210414], DCI.series.values)
     assert_equal('20201123', DCI.series['2101'])
-    assert_equal('20201124', DCI.series['next'])
+    assert_equal('20210414', DCI.series['next'])
 
     # With sorting
     assert_equal('2001', DCI.series(sort: :ascending).keys.first)
