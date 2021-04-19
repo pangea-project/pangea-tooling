@@ -32,7 +32,7 @@ class DCIPublisherJob < JenkinsJob
   end
 
   def repo_names
-    @repo_names = ["netrunner-#{release_type}_#{series}"]
+    @repo_names = ["#{component}-#{series}"]
     @repo_names
   end
 
