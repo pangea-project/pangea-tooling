@@ -18,8 +18,8 @@ class DCISnapshotTest < TestCase
   def setup
     # Disable all web (used for key).
     WebMock.disable_net_connect!
-    ENV['FLAVOR'] = 'desktop'
-    ENV['VERSION'] = 'next'
+    ENV['RELEASE_TYPE'] = 'desktop'
+    ENV['SERIES'] = 'next'
     ENV['WORKSPACE'] = File.dirname(__dir__) # main pangea-tooling dir
     @d = DCISnapshot.new
     @data = @d.config
@@ -38,31 +38,14 @@ class DCISnapshotTest < TestCase
 
   def teardown
     WebMock.allow_net_connect!
-    ENV['FLAVOR'] = ''
-    ENV['VERSION'] = ''
-    @dist = ''
-    @type = ''
-    @type_data = {}
-    @release_types = []
-    @currentdist = {}
-    @arch = ''
-    @arch_array = []
-    @components = []
-    @repos = []
-    @aptly_options = {}
+    ENV['RELEASE_TYPE'] = ''
+    ENV['SERIES'] = ''
   end
 
   def test_config
     setup
     assert_is_a(@data, Hash)
     assert_equal @data.keys, %w[desktop core zeronet]
-    teardown
-  end
-
-  def test_distribution
-    setup
-    assert_is_a(@dist, String)
-    assert_equal @dist, 'netrunner-desktop'
     teardown
   end
 
@@ -89,14 +72,15 @@ class DCISnapshotTest < TestCase
 
   def test_currentdist
     setup
-    assert_equal @type,  'desktop'
-    assert_equal @dist, 'netrunner-desktop'
-    assert @type_data.keys.include?(@dist)
-    @currentdist = @type_data[@dist]
-    assert_is_a(@currentdist, Hash)
+    type = @d.type()
+    dist = @d.distribution()
+    @data = @d.config()
+    assert @data.keys.include?(type)
+    currentdist = @data[type]
+    @currentdist = currentdist[dist]
     assert_equal @currentdist.keys, [:repo, :architecture, :components, :releases, :snapshots]
-    assert_equal @currentdist[:components], 'netrunner,extras,backports,netrunner-desktop,netrunner-core'
-    assert_equal @currentdist, @d.currentdist
+    assert_equal @currentdist[:components], 'netrunner,common,artwork,extras,backports,netrunner-desktop,netrunner-core'
+    assert_equal @currentdist, @d.currentdist()
     teardown
   end
 

@@ -21,7 +21,7 @@ class DCITest < TestCase
   end
 
   def test_arches_for_release_type
-    assert_equal_collection(%w[amd64], DCI.arches_for_release_type['desktop'])
+    assert_equal_collection(%w[amd64], DCI.arches_for_release_type['desktop'].values)
   end
 
   def test_all_architectures
