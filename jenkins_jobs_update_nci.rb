@@ -163,7 +163,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             unless project.upstream_scm.nil?
               next unless (project.upstream_scm.type == 'uscan' or project.upstream_scm.type == 'git')
               enqueue(SnapcraftJob.new(project,
-                                      distribution: distribution, type: type))
+                                       distribution: distribution, type: type))
             end
           end
           # enable ARM for xenial- & bionic-unstable and bionic-release and
