@@ -202,6 +202,8 @@ module CI
       # also, don't include scratch and clones, they don't have projects
       # associated with them.
       url = remote.url if remote&.url&.include?('invent.kde.org')
+      return nil if url && remote&.url&.include?('/qt/') # qt fork has no l10n
+
       url || nil
     end
 
