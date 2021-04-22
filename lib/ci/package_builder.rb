@@ -131,6 +131,15 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       dpkg_buildopts = %w[-us -uc] + build_flags
 
       Dir.chdir(BUILD_DIR) do
+        # VERY akward hack. Qt git builds of modules require syncqt to get run to generated headers and the like,
+        # but that is anchored on the presence of .git dirs and there is no way to trigger it other than .git.
+        # Running syncqt via debian/rules is super tricky to automatically inject because of how varied the
+        # rules files are, also the .git likely gets stripped at various places during sources, so shoving it
+        # in the source tarball is supremely tricky as well. Rock and a hard place...
+        if ENV['PANGEA_QT_GIT_BUILD']
+          Dir.mkdir('.git') unless File.exist?('.git') || File.exist?('include')
+        end
+
         SetCapValidator.run do
           KCrashLinkValidator.run do
             unless logged_system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
