@@ -31,6 +31,7 @@ module DCI
 
   def setup_repo!
     @dist = ENV.fetch('DIST_RELEASE')
+    @series = ENV.fetch('DIST_RELEASE')
     repos = []
     components = []
     setup_i386
@@ -39,6 +40,9 @@ module DCI
     repos += %w[netrunner]
     components += %w[extras netrunner netrunner-desktop netrunner-core]
     components += %w[odroid pine64 zeronet rock64] unless DPKG::BUILD_ARCH == 'amd64'
+    components.each do |comp|
+      components << comp + '-' + @series
+    end
     @dist = "netrunner-#{@dist}" unless @dist.start_with?('netrunner')
 
     add_repos(repos, components)
