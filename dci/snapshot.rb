@@ -74,13 +74,13 @@ class DCISnapshot
     data
   end
 
-    def type
+  def type
     @type = ENV['FLAVOR']
     @type
   end
 
   def distribution
-    type()
+    type
     @dist = 'netrunner-' + @type
     @dist
   end
