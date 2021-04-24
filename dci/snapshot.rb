@@ -73,7 +73,7 @@ class DCISnapshot
 
   def config
     copy_data
-    file = 'dci/dci.image.yaml'
+    file = 'dci.image.yaml'
     data = load(file)
     raise unless data.is_a?(Hash)
 
