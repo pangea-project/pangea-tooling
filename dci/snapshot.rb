@@ -67,7 +67,7 @@ class DCISnapshot
   end
 
   def config
-    file = ENV['WORKSPACE'] + 'tooling/data/dci/dci.image.yaml'
+    file = ENV['WORKSPACE'] + '/tooling/data/dci/dci.image.yaml'
     data = load(file)
     raise unless data.is_a?(Hash)
 
