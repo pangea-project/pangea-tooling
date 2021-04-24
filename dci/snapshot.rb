@@ -62,7 +62,7 @@ class DCISnapshot
   end
 
   def copy_data
-    FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
+    FileUtils.cp_r(File.expand_path("#{__dir__}/../data/dci/dci.image.yaml"), Dir.pwd)
   end
 
   def load(file)
