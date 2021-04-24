@@ -48,7 +48,7 @@ class DCISnapshot
     @snapshots = []
     @repos = []
     @components = []
-    @release_type = ''
+    @release_type = ENV.fetch('RELEASE_TYPE')
     @dist = ''
     @versioned_dist = ''
     @currentdist = {}
@@ -82,18 +82,18 @@ class DCISnapshot
 
   def type
     data = config
-    @release_type = ENV.fetch('RELEASE_TYPE')
+    @release_type = ENV.fetch('DIST')
     @type = data['@release_type']
   end
 
   def distribution
     type
-    @dist = 'netrunner-' + @type + '-' + @version
+    @dist = 'netrunner-' + @version
     @dist
   end
 
   def version
-    @version = ENV.fetch('SERIES')
+    @version = ENV.fetch('VERSION')
     @version
   end
 
