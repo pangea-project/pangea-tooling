@@ -68,7 +68,7 @@ class DCISnapshot
   end
 
   def config
-    file = Dir.pwd + 'data/dci/dci.image.yaml'
+    file = Dir.pwd. + '/data/dci/dci.image.yaml'
     data = load(file)
     raise unless data.is_a?(Hash)
 
