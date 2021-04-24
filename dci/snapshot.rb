@@ -48,7 +48,7 @@ class DCISnapshot
     @snapshots = []
     @repos = []
     @components = []
-    @type = ''
+    @release_type = ''
     @dist = ''
     @versioned_dist = ''
     @currentdist = {}
@@ -81,25 +81,26 @@ class DCISnapshot
   end
 
   def type
-    @type = ENV['RELEASE_TYPE']
-    @type
+    data = config
+    @release_type = ENV.fetch('RELEASE_TYPE')
+    @type = data['@release_type']
   end
 
   def distribution
     type
-    @dist = 'netrunner-' + @type
+    @dist = 'netrunner-' + @type + '-' + @version
     @dist
   end
 
   def version
-    @version = ENV['VERSION']
+    @version = ENV.fetch('SERIES')
     @version
   end
 
   def versioned_dist
     self.distribution()
     self.version()
-    @versioned_dist = @dist + '-' + @version
+    @versioned_dist = 'netrunner-' + @version
     @versioned_dist
   end
 
@@ -142,11 +143,10 @@ class DCISnapshot
   end
 
   def aptly_options
-    self.versioned_dist()
-    self.arch_array()
+    distribution
+    arch_array
     opts = {}
-    opts[:Distribution] = @versioned_dist
-    opts[:Architectures] = @arch
+    opts[:Distribution] = @dist
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
     opts
