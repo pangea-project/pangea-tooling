@@ -40,14 +40,14 @@
     <hudson.tasks.Shell>
       <command>
         export RELEASE_TYPE=<%= @release_type %>
-        export VERSION=<%= @snapshot %>
+        export SERIES=<%= @seriest %>
         ~/tooling/dci/snapshot.rb
       </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.BuildTrigger>
-      <childProjects>img_<%= @release_type %>_<%= @snapshot %>_<%= @architecture %></childProjects>
+      <childProjects>img_<%= series %>_<%= @release_type %>_<%= @snapshot %>_<%= @architecture %></childProjects>
       <threshold>
         <name>SUCCESS</name>
         <ordinal>0</ordinal>

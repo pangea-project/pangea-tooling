@@ -112,6 +112,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                 enqueue(
                   DCISnapShotJob.new(
                     snapshot: snapshot,
+                    series: series,
                     release_type: release_type,
                     architecture: arch
                   )
