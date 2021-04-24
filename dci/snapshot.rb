@@ -48,7 +48,6 @@ class DCISnapshot
     @snapshots = []
     @repos = []
     @components = []
-    @release_type = ENV.fetch('RELEASE_TYPE')
     @dist = ''
     @versioned_dist = ''
     @currentdist = {}
