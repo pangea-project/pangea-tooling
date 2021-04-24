@@ -61,6 +61,10 @@ class DCISnapshot
     end
   end
 
+  def copy_data
+    FileUtils.cp_r(Dir.glob("#{data}/*"), Dir.pwd)
+  end
+
   def load(file)
     hash = {}
     hash.deep_merge!(YAML.load(File.read(File.expand_path(file))))
@@ -68,7 +72,8 @@ class DCISnapshot
   end
 
   def config
-    file = Dir.pwd. + '/data/dci/dci.image.yaml'
+    copy_data
+    file = 'dci/dci.image.yaml'
     data = load(file)
     raise unless data.is_a?(Hash)
 
