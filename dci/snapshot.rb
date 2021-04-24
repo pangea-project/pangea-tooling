@@ -32,6 +32,7 @@ require 'set'
 require 'pp'
 require 'deep_merge'
 require 'yaml'
+require 'fileutils'
 
 require_relative '../lib/aptly-ext/remote'
 require_relative '../lib/ci/pattern'
@@ -67,7 +68,7 @@ class DCISnapshot
   end
 
   def config
-    file = 'data/dci/dci.image.yaml'
+    file = Dir.pwd + 'data/dci/dci.image.yaml'
     data = load(file)
     raise unless data.is_a?(Hash)
 
