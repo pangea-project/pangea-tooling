@@ -82,8 +82,8 @@ class DCISnapshot
 
   def type
     data = config
-    @release_type = ENV.fetch('DIST')
-    @type = data['@release_type']
+    @release_type = ENV.fetch('FLAVOR')
+    @type = data[@release_type]
   end
 
   def distribution
