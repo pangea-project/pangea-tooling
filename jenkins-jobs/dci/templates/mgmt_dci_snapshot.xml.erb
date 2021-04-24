@@ -39,7 +39,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-        export FLAVOR=<%= @release_type %>
+        export RELEASE_TYPE=<%= @release_type %>
         export VERSION=<%= @snapshot %>
         ~/tooling/dci/snapshot.rb
       </command>
