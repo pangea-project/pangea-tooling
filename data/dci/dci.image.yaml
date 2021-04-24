@@ -21,6 +21,7 @@ core:
     :snapshots:
       - 'next'
       - '2101'
+      - '2001'
 
   netrunner-core-c1:
     :repo: https://github.com/netrunner-odroid/c1-live-build-core
