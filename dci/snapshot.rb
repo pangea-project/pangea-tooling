@@ -81,7 +81,7 @@ class DCISnapshot
   end
 
   def type
-    @type = ENV['FLAVOR']
+    @type = ENV['RELEASE_TYPE']
     @type
   end
 
