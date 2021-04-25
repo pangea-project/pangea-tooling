@@ -38,6 +38,14 @@ class DCISnapshotTest < TestCase
     teardown
   end
 
+  def test_distribution
+    setup
+    distribution = @d.distribution
+    assert_is_a(distribution, String)
+    assert_equal distribution, 'netrunner-desktop'
+    teardown
+  end
+
   def test_type
     setup
     type = @d.type
@@ -46,7 +54,7 @@ class DCISnapshotTest < TestCase
     teardown
   end
 
-  def test_type_date
+  def test_type_data
     setup
     type_data = @d.type_data
     assert_is_a(type_data, Hash)
@@ -56,15 +64,15 @@ class DCISnapshotTest < TestCase
 
   def test_currentdist
     setup
-    type = @d.type()
-    dist = @d.distribution()
-    @data = @d.config()
-    assert @data.keys.include?(type)
-    currentdist = @data[type]
-    @currentdist = currentdist[dist]
+    @d.config
+    @d.type
+    dist = @d.distribution
+    type_data = @d.type_data
+    assert type_data.keys.include?(dist)
+    @currentdist = type_data[dist]
     assert_equal @currentdist.keys, [:repo, :architecture, :components, :releases, :snapshots]
     assert_equal @currentdist[:components], 'netrunner,extras,backports,netrunner-desktop,netrunner-core'
-    assert_equal @currentdist, @d.currentdist()
+    assert_equal @currentdist, @d.currentdist
     teardown
   end
 
@@ -87,7 +95,7 @@ class DCISnapshotTest < TestCase
   def test_aptly_component_array
     setup
     data = @d.aptly_component_array
-    assert_equal data, ["netrunner-next", "extras-next", "backports-next", "netrunner-desktop-next", "netrunner-core-next"]
+    assert_equal data, ["netrunner", "extras", "backports", "netrunner-desktop", "netrunner-core"]
     teardown
   end
 

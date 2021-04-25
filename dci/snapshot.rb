@@ -48,11 +48,14 @@ class DCISnapshot
     @snapshots = []
     @repos = []
     @components = []
+    @type = ''
+    @type_data = {}
     @dist = ''
     @versioned_dist = ''
     @currentdist = {}
     @version = ''
-    @arch = []
+    @arch = ''
+    @arch_array = []
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new(STDOUT).tap do |l|
       l.progname = 'snapshotter'
@@ -73,10 +76,9 @@ class DCISnapshot
   def config
     copy_data
     file = 'dci.image.yaml'
-    data = load(file)
-    raise unless data.is_a?(Hash)
-
-    data
+    @data = load(file)
+    raise unless @data.is_a?(Hash)
+    @data
   end
 
   def type
@@ -84,15 +86,15 @@ class DCISnapshot
    end
 
    def type_data
+     config
      type
-     data = config
-     type_data = data[@type]
-     type_data
+     @type_data = @data[@type]
+     @type_data
    end
 
   def distribution
-    type
     config
+    type
     @dist = 'netrunner-' + @type
     @dist
   end
@@ -110,21 +112,25 @@ class DCISnapshot
   end
 
   def currentdist
-    distribution
     config
-    data = type_data
+    type
+    distribution
+    type_data
+    data = @type_data
     @currentdist = data[@dist]
     @currentdist
   end
 
   def arch
-    data = currentdist
-    arch = data[:architecture]
-    arch
+    currentdist
+    data = @currentdist
+    @arch = data[:architecture]
+    @arch
   end
 
   def components
-    data = self.currentdist()
+    currentdist
+    data = @currentdist
     components = data[:components]
     @components = components.split(",")
     @components
@@ -135,20 +141,21 @@ class DCISnapshot
     components
     data = @components
     data.each do |x|
-      component = x + '-' + @version
-      @repos << component
+      #component = x + '-' + @version
+      @repos << x
     end
     raise unless @repos.is_a?(Array)
     @repos
   end
 
   def arch_array
-    @arch << arch
-    @arch << 'i386'
-    @arch << 'all'
-    @arch << 'source'
-    raise unless @arch.is_a?(Array)
-    @arch
+    arch
+    @arch_array << @arch
+    @arch_array << 'i386'
+    @arch_array << 'all'
+    @arch_array << 'source'
+    raise unless @arch_array.is_a?(Array)
+    @arch_array
   end
 
   def aptly_options
@@ -156,7 +163,7 @@ class DCISnapshot
     arch_array
     opts = {}
     opts[:Distribution] = @versioned_dist
-    opts[:Architectures] = @arch
+    opts[:Architectures] = @arch_array
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
     opts
