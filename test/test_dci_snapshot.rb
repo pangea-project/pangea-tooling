@@ -33,7 +33,9 @@ class DCISnapshotTest < TestCase
 
   def test_config
     setup
+    data = @d.config
     assert_is_a(@data, Hash)
+    assert_is_a(data, Hash)
     assert_equal @data.keys, %w[desktop core zeronet]
     teardown
   end
@@ -64,12 +66,16 @@ class DCISnapshotTest < TestCase
 
   def test_currentdist
     setup
-    @d.config
-    @d.type
+    @type = @d.type
+    assert_equal @type,  'desktop'
     dist = @d.distribution
+    assert_equal dist, 'netrunner-desktop'
+    assert_equal @type, @d.type
     type_data = @d.type_data
+    assert_equal type_data, @d.type_data
     assert type_data.keys.include?(dist)
     @currentdist = type_data[dist]
+    assert_is_a(@currentdist, Hash)
     assert_equal @currentdist.keys, [:repo, :architecture, :components, :releases, :snapshots]
     assert_equal @currentdist[:components], 'netrunner,extras,backports,netrunner-desktop,netrunner-core'
     assert_equal @currentdist, @d.currentdist

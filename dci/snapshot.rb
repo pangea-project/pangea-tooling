@@ -45,6 +45,7 @@ options.distribution = nil
 # Run aptly snapshot on given DIST eg: netrunner-desktop-next.
 class DCISnapshot
   def initialize
+    @data = {}
     @snapshots = []
     @repos = []
     @components = []
@@ -83,6 +84,7 @@ class DCISnapshot
 
   def type
     @type = ENV.fetch('FLAVOR')
+    @type
    end
 
    def type_data
