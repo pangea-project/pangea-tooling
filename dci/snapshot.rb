@@ -84,8 +84,9 @@ class DCISnapshot
    end
 
    def type_data
+     type
      data = config
-     type_data = data[type]
+     type_data = data[@type]
      type_data
    end
 

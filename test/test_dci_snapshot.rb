@@ -46,6 +46,14 @@ class DCISnapshotTest < TestCase
     teardown
   end
 
+  def test_type_date
+    setup
+    type_data = @d.type_data
+    assert_is_a(type_data, Hash)
+    assert_equal type_data.keys, %w[netrunner-desktop]
+    teardown
+  end
+
   def test_currentdist
     setup
     type = @d.type()
