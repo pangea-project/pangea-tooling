@@ -114,37 +114,31 @@ class DCISnapshot
   end
 
   def currentdist
-    config
-    type
-    distribution
     type_data
-    data = @type_data
-    @currentdist = data[@dist]
+    distribution
+    @currentdist = @type_data[@dist]
     @currentdist
   end
 
   def arch
     currentdist
-    data = @currentdist
-    @arch = data[:architecture]
+    @arch = @currentdist[:architecture]
     @arch
   end
 
   def components
     currentdist
-    data = @currentdist
-    components = data[:components]
+    components = @currentdist[:components]
     @components = components.split(",")
     @components
   end
 
-  def aptly_component_array
+  def aptly_components_to_repos
     version
     components
-    data = @components
-    data.each do |x|
-      #component = x + '-' + @version
-      @repos << x
+    @components.each do |x|
+      repo = x + '-' + @version
+      @repos << repo
     end
     raise unless @repos.is_a?(Array)
     @repos
@@ -172,8 +166,7 @@ class DCISnapshot
   end
 
   def snapshot_repo
-    versioned_dist
-    aptly_component_array
+    aptly_components_to_repos
     opts = aptly_options
     Faraday.default_connection_options =
       Faraday::ConnectionOptions.new(timeout: 40 * 60 * 60)

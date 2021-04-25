@@ -23,6 +23,16 @@ class DCISnapshotTest < TestCase
     ENV['WORKSPACE'] = File.dirname(__dir__) # main pangea-tooling dir
     @d = DCISnapshot.new
     @data = @d.config
+    @dist = @d.distribution
+    @type = @d.type
+    @type_data = @d.type_data
+    @currentdist = @d.currentdist
+    @arch = @d.arch
+    @arch_array = @d.arch_array
+    @components = @d.components
+    @repos = @d.aptly_components_to_repos
+    @versioned_dist = @d.versioned_dist
+    @aptly_options = @d.aptly_options
   end
 
   def teardown
@@ -33,48 +43,39 @@ class DCISnapshotTest < TestCase
 
   def test_config
     setup
-    data = @d.config
     assert_is_a(@data, Hash)
-    assert_is_a(data, Hash)
     assert_equal @data.keys, %w[desktop core zeronet]
     teardown
   end
 
   def test_distribution
     setup
-    distribution = @d.distribution
-    assert_is_a(distribution, String)
-    assert_equal distribution, 'netrunner-desktop'
+    assert_is_a(@dist, String)
+    assert_equal @dist, 'netrunner-desktop'
     teardown
   end
 
   def test_type
     setup
-    type = @d.type
-    assert_equal type, ENV['FLAVOR']
-    assert @data.keys.include?(type)
+    assert_equal @type, ENV['FLAVOR']
+    assert @data.keys.include?(@type)
     teardown
   end
 
   def test_type_data
     setup
-    type_data = @d.type_data
-    assert_is_a(type_data, Hash)
-    assert_equal type_data.keys, %w[netrunner-desktop]
+    assert_is_a(@type_data, Hash)
+    assert_equal @type_data.keys, %w[netrunner-desktop]
     teardown
   end
 
   def test_currentdist
     setup
-    @type = @d.type
     assert_equal @type,  'desktop'
-    dist = @d.distribution
-    assert_equal dist, 'netrunner-desktop'
-    assert_equal @type, @d.type
-    type_data = @d.type_data
-    assert_equal type_data, @d.type_data
-    assert type_data.keys.include?(dist)
-    @currentdist = type_data[dist]
+    assert_equal @dist, 'netrunner-desktop'
+    assert_equal @type_data, @d.type_data
+    assert @type_data.keys.include?(@dist)
+    @currentdist = @type_data[@dist]
     assert_is_a(@currentdist, Hash)
     assert_equal @currentdist.keys, [:repo, :architecture, :components, :releases, :snapshots]
     assert_equal @currentdist[:components], 'netrunner,extras,backports,netrunner-desktop,netrunner-core'
@@ -84,50 +85,44 @@ class DCISnapshotTest < TestCase
 
   def test_components
     setup
-    components = @d.components()
     test_data = %w[netrunner extras backports netrunner-desktop netrunner-core]
-    assert_equal test_data, components
+    assert_equal test_data, @components
     teardown
   end
 
   def test_arch
     setup
-    arch = @d.arch
     test_data = 'amd64'
-    assert_equal test_data, arch
+    assert_equal test_data, @arch
     teardown
   end
 
-  def test_aptly_component_array
+  def test_aptly_components_to_repos
     setup
-    data = @d.aptly_component_array
-    assert_equal data, ["netrunner", "extras", "backports", "netrunner-desktop", "netrunner-core"]
+    assert_equal @repos, ["netrunner-next", "extras-next", "backports-next", "netrunner-desktop-next", "netrunner-core-next"]
     teardown
   end
 
   def test_arch_array
     setup
-    data = @d.arch_array
-    assert data.include?('amd64')
+    assert @arch_array.include?('amd64')
     teardown
   end
 
   def test_versioned_dist
     setup
-    v_dist = @d.versioned_dist
-    assert_equal('netrunner-desktop-next', v_dist)
+    assert_equal('netrunner-desktop-next', @versioned_dist)
     teardown
   end
 
   def test_aptly_options
     setup
-    data = @d.aptly_options
     opts = {}
-    opts[:Distribution] = 'netrunner-desktop-next'
-    opts[:Architectures] = %w[amd64 i386 all source]
+    opts[:Distribution] = @versioned_dist
+    opts[:Architectures] =@arch_array
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
-    assert_equal(opts, data)
+    assert_equal(opts, @aptly_options)
     teardown
   end
 end
