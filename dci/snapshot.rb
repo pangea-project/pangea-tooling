@@ -80,14 +80,19 @@ class DCISnapshot
   end
 
   def type
-    data = config
-    @release_type = ENV.fetch('FLAVOR')
-    @type = data[@release_type]
-  end
+    @type = ENV.fetch('FLAVOR')
+   end
+
+   def type_data
+     data = config
+     type_data = data[type]
+     type_data
+   end
 
   def distribution
     type
-    @dist = 'netrunner-' + @version
+    config
+    @dist = 'netrunner-' + @type
     @dist
   end
 
@@ -97,19 +102,24 @@ class DCISnapshot
   end
 
   def versioned_dist
-    self.distribution()
-    self.version()
-    @versioned_dist = 'netrunner-' + @version
+    distribution
+    version
+    @versioned_dist = @dist + '-' + @version
     @versioned_dist
   end
 
   def currentdist
-    type = self.type()
-    dist = self.distribution()
-    data = self.config()
-    currentdist = data[type]
-    @currentdist = currentdist[dist]
+    distribution
+    config
+    data = type_data
+    @currentdist = data[@dist]
     @currentdist
+  end
+
+  def arch
+    data = currentdist
+    arch = data[:architecture]
+    arch
   end
 
   def components
@@ -119,20 +129,19 @@ class DCISnapshot
     @components
   end
 
-  def repo_array
+  def aptly_component_array
     version
-    data = self.components()
+    components
+    data = @components
     data.each do |x|
-      ver_repo = x + '-' + @version
-      @repos << ver_repo
+      component = x + '-' + @version
+      @repos << component
     end
     raise unless @repos.is_a?(Array)
     @repos
   end
 
   def arch_array
-    data = self.currentdist()
-    arch =  data[:architecture]
     @arch << arch
     @arch << 'i386'
     @arch << 'all'
@@ -142,25 +151,26 @@ class DCISnapshot
   end
 
   def aptly_options
-    distribution
+    versioned_dist
     arch_array
     opts = {}
-    opts[:Distribution] = @dist
+    opts[:Distribution] = @versioned_dist
+    opts[:Architectures] = @arch
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
     opts
   end
 
   def snapshot_repo
-    self.repo_array()
-    opts = self.aptly_options()
+    versioned_dist
+    aptly_component_array
+    opts = aptly_options
     Faraday.default_connection_options =
       Faraday::ConnectionOptions.new(timeout: 40 * 60 * 60)
     Aptly::Ext::Remote.dci do
       @repos.each do |repo_name|
         repo = Aptly::Repository.get(repo_name)
-        @log.info "Phase 1: Snapshotting #{repo.Name}"
-        puts repo.packages
+        @log.info "Phase 1: Snapshotting repo: #{repo.Name} with packages: #{repo.packages}"
         puts repo.DefaultComponent
         snapshot =
           if repo.packages.empty?
@@ -179,7 +189,7 @@ class DCISnapshot
   end
 
   def publish_snapshot
-    opts = self.aptly_options()
+    opts = aptly_options
     @log.info 'Phase 2: Publishing of snapshots'
     Faraday.default_connection_options =
       Faraday::ConnectionOptions.new(timeout: 40 * 60 * 60)

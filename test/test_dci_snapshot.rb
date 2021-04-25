@@ -4,7 +4,7 @@
 # SPDX-FileCopyrightText: 2016-2021 Harald Sitter <sitter@kde.org>
 # SPDX-FileCopyrightText: 2016 Bhushan Shah <bshah@kde.org>
 # SPDX-FileCopyrightText: 2016 Rohan Garg <rohan@kde.org>
-# SPDX-FileCopyrightText: 2019 Scarlett Moore <sgmoore@kde.org>
+# SPDX-FileCopyrightText: 2019-2021 Scarlett Moore <sgmoore@kde.org>
 
 require_relative '../dci/snapshot'
 require_relative 'lib/testcase'
@@ -22,7 +22,7 @@ class DCISnapshotTest < TestCase
     ENV['VERSION'] = 'next'
     ENV['WORKSPACE'] = File.dirname(__dir__) # main pangea-tooling dir
     @d = DCISnapshot.new
-    @data = @d.config()
+    @data = @d.config
   end
 
   def teardown
@@ -32,22 +32,22 @@ class DCISnapshotTest < TestCase
   end
 
   def test_config
-    self.setup()
+    setup
     assert_is_a(@data, Hash)
     assert_equal @data.keys, %w[desktop core zeronet]
-    self.teardown()
+    teardown
   end
 
   def test_type
-    self.setup()
+    setup
     type = @d.type
     assert_equal type, ENV['FLAVOR']
     assert @data.keys.include?(type)
-    self.teardown()
+    teardown
   end
 
   def test_currentdist
-    self.setup()
+    setup
     type = @d.type()
     dist = @d.distribution()
     @data = @d.config()
@@ -57,22 +57,28 @@ class DCISnapshotTest < TestCase
     assert_equal @currentdist.keys, [:repo, :architecture, :components, :releases, :snapshots]
     assert_equal @currentdist[:components], 'netrunner,extras,backports,netrunner-desktop,netrunner-core'
     assert_equal @currentdist, @d.currentdist()
-    self.teardown()
+    teardown
   end
 
   def test_components
-    self.setup()
+    setup
     components = @d.components()
     test_data = %w[netrunner extras backports netrunner-desktop netrunner-core]
     assert_equal test_data, components
-    self.teardown()
+    teardown
   end
 
-
-
-  def test_repo_array
+  def test_arch
     setup
-    data = @d.repo_array
+    arch = @d.arch
+    test_data = 'amd64'
+    assert_equal test_data, arch
+    teardown
+  end
+
+  def test_aptly_component_array
+    setup
+    data = @d.aptly_component_array
     assert_equal data, ["netrunner-next", "extras-next", "backports-next", "netrunner-desktop-next", "netrunner-core-next"]
     teardown
   end
