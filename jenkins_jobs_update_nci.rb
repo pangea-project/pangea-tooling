@@ -47,7 +47,21 @@ EXCLUDE_SNAPS = %w[
   pim-sieve-editor pim-storage-service-manager kdegraphics-mobipocket
   akonadiconsole akregator kdav kmail knotes blogilo libkgapi kgpg
   kapptemplate kcachegrind kde-dev-utils kdesdk-kioslaves korganizer
-  kfind kfloppy kaddressbook konsole krfb ksystemlog ofono-qt
+  kfind kfloppy kaddressbook konsole krfb ksystemlog ofono-qt indi libappimage 
+  fwupd iio-sensor-proxy kcolorpicker kimageannotator libaqbanking libgusb 
+  libgwenhywfar mlt pipewire qxmpp xdg-dbus-proxy alkimia calamares exiv2 
+  grantlee kdb kdiagram kpmcore kproperty kpublictransport kreport kuserfeedback 
+  libktorrent libmediawiki libqaccessiblity muon polkit-qt-1 pulseaudio-qt qapt qca2 
+  qtav qtcurve telepathy-qt wacomtablet fcitx-qt5 kpeoplevcard kup pyqt5 qtkeychain 
+  sip4 kio-gdrive kipi-plugins ktp-accounts-kcm ktp-approver ktp-auth-handler ktp-call-ui 
+  ktp-contact-list ktp-contact-runner ktp-desktop-applets ktp-filetransfer-handler 
+  ktp-kded-module ktp-send-file ktp-text-ui libkscreen libksysguard markdownpart plasma-browser-integration plasma-desktop plasma-discover
+  plasma-integration plasma-nano plasma-nm plasma-pa plasma-sdk plasma-thunderbolt plasma-vault plasma-wayland-protocols
+  plasma-workspace-wallpapers plasma-workspace plymouth-kcm polkit-kde-agent-1
+  powerdevil xdg-desktop-portal-kde black-hole-solver kcgroups kio-fuse kio-stash kmarkdownwebview libetebase libkvkontakte
+  libquotient plasma-disks plasma-firewall plasma-pass plasma-systemmonitor
+  qqc2-breeze-style stellarsolver symmy debug-installer atcore kwrited
+  docker-neon ubiquity-slideshow
 ].freeze
 
 # Updates Jenkins Projects
