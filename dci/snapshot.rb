@@ -49,6 +49,7 @@ class DCISnapshot
     @snapshots = []
     @repos = []
     @components = []
+    @release_types = []
     @type = ''
     @type_data = {}
     @dist = ''
@@ -82,20 +83,27 @@ class DCISnapshot
     @data
   end
 
+  def release_types
+    config
+    @release_types = @data.keys
+    @release_types
+  end
+
   def type
+    release_types
     @type = ENV.fetch('FLAVOR')
+    raise unless @release_types.include?(@type)
     @type
-   end
+  end
 
    def type_data
      config
      type
-     @type_data = @data[@type]
+     @type_data = @data.fetch(@type)
      @type_data
    end
 
   def distribution
-    config
     type
     @dist = 'netrunner-' + @type
     @dist

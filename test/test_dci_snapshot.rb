@@ -24,6 +24,7 @@ class DCISnapshotTest < TestCase
     @d = DCISnapshot.new
     @data = @d.config
     @dist = @d.distribution
+    @release_types = @d.release_types
     @type = @d.type
     @type_data = @d.type_data
     @currentdist = @d.currentdist
@@ -39,6 +40,16 @@ class DCISnapshotTest < TestCase
     WebMock.allow_net_connect!
     ENV['FLAVOR'] = ''
     ENV['VERSION'] = ''
+    @dist = ''
+    @type = ''
+    @type_data = {}
+    @release_types = []
+    @currentdist = {}
+    @arch = ''
+    @arch_array = []
+    @components = []
+    @repos = []
+    @aptly_options = {}
   end
 
   def test_config
@@ -62,6 +73,13 @@ class DCISnapshotTest < TestCase
     teardown
   end
 
+  def test_release_types
+    setup
+    assert_equal @type, 'desktop'
+    assert @release_types.include? (@type)
+    teardown
+  end
+
   def test_type_data
     setup
     assert_is_a(@type_data, Hash)
@@ -73,7 +91,6 @@ class DCISnapshotTest < TestCase
     setup
     assert_equal @type,  'desktop'
     assert_equal @dist, 'netrunner-desktop'
-    assert_equal @type_data, @d.type_data
     assert @type_data.keys.include?(@dist)
     @currentdist = @type_data[@dist]
     assert_is_a(@currentdist, Hash)
