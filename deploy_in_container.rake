@@ -232,6 +232,22 @@ task :align_ruby do
   end
 end
 
+def with_ubuntu_pin
+  pin_file = '/etc/apt/preferences.d/ubuntu-pin'
+
+  if NCI.series.key?(DIST) # is a neon thing
+    File.write(pin_file, <<~PIN)
+      Package: *
+      Pin: release o=Ubuntu
+      Pin-Priority: 1100
+    PIN
+  end
+
+  return yield
+ensure
+  FileUtils.rm_f(pin_file, verbose: true)
+end
+
 desc 'deploy inside the container'
 task :deploy_in_container => %i[fix_gpg align_ruby deploy_openqa] do
   final_ci_tooling_compat_path = File.join(home, 'tooling')
@@ -269,15 +285,17 @@ EOF
       system 'apt-key list'
     end
 
-    Retry.retry_it(times: 5, sleep: 8) do
-      # NOTE: apt.rb automatically runs update the first time it is used.
-      raise 'Dist upgrade failed' unless Apt.dist_upgrade
+    with_ubuntu_pin do
+      Retry.retry_it(times: 5, sleep: 8) do
+        # NOTE: apt.rb automatically runs update the first time it is used.
+        raise 'Dist upgrade failed' unless Apt.dist_upgrade
 
-      # Install libssl1.0 for systems that have it
-      Apt.install('libssl-dev') unless Apt.install('libssl1.0-dev')
-      raise 'Apt install failed' unless Apt.install(*DEPS)
-      raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
-      raise 'Clean failed' unless Apt.clean
+        # Install libssl1.0 for systems that have it
+        Apt.install('libssl-dev') unless Apt.install('libssl1.0-dev')
+        raise 'Apt install failed' unless Apt.install(*DEPS)
+        raise 'Autoremove failed' unless Apt.autoremove(args: '--purge')
+        raise 'Clean failed' unless Apt.clean
+      end
     end
 
     # Add debug for checking what version is being used
