@@ -221,7 +221,7 @@ module CI
 
     def adjust?
       url.include?('.kde.org') && type == 'git' &&
-        !url.include?('/scratch/') && !url.include?('/clones/') &&
+        %w[/scratch/ /clones/ /qt/].none? { |x| url.include?(x) } &&
         !ProjectCache.skip?(url)
     end
   end
