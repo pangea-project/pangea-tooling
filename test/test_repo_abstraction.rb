@@ -115,7 +115,7 @@ class RepoAbstractionAptlyTest < TestCase
     # kitteh we filter, base-files should be default filtered
     Apt::Abstrapt
       .expects(:system)
-      .with('apt-get', *Apt::Abstrapt.default_args, 'purge', 'libkactivites')
+      .with('apt-get', *Apt::Abstrapt.default_args, '--allow-remove-essential', 'purge', 'libkactivites')
       .returns(true)
 
     r = AptlyRepository.new(repo, 'prefix')

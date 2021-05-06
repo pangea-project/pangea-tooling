@@ -89,7 +89,7 @@ class Repository
     @log.info "Purging PPA #{@_name}."
     return false if packages.empty?
 
-    Apt.purge(packages.keys.delete_if { |x| purge_excluded?(x) })
+    Apt.purge(packages.keys.delete_if { |x| purge_excluded?(x) }, args: %w[--allow-remove-essential])
   end
 
   private
