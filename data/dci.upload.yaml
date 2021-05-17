@@ -1,14 +1,13 @@
 ---
   default: netrunner
   netrunner: netrunner
-  netrunner-odroid: odroid
+  netrunner-odroid: c1
   netrunner-core: netrunner-core
   netrunner-artwork: artwork
   blue-systems: netrunner
-  kernel: netrunner-backports
-  dci-debian-packaging-backports: netrunner-backports
+  dci-debian-packaging-backports: backports
   netrunner-common: common
   dci-extras-packaging: extras
   netrunner-desktop: netrunner-desktop
-  netrunner-zeronet: zeronet
+  netrunner-zeronet: netrunner-zeronet
   netrunner-rock64: rock64
