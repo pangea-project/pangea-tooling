@@ -224,7 +224,7 @@ class Merginator
     # TODO: rewrite tagdetective to Rugged and split it to isolate the generic logic
 
     MODS.each do |mod|
-      cmd.run "git clone neon:qt/#{mod}" unless File.exist?(mod)
+      cmd.run "git clone git@invent.kde.org:neon/qt/#{mod}" unless File.exist?(mod)
       Dir.chdir(mod) do
         begin
           setup_repo
