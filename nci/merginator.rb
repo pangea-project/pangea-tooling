@@ -123,7 +123,7 @@ class Merginator
 
   def initialize
     @logger = TTY::Logger.new
-    @cmd = TTY::Command.new(uuid: false)
+    @cmd = TTY::Command.new(uuid: false, output: @logger)
 
     @passed = []
     @skipped = MODS.dup
