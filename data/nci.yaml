@@ -32,6 +32,7 @@ experimental_skip_qa:
   - _forks_
   - _launchpad_
   - _qt_
+  - _experimental_
 
 # The repo path component of repos that may be diverted when experimental is
 # being staged for landing. When repo_diversion is set the interaction with
