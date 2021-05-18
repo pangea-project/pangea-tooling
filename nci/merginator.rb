@@ -229,6 +229,10 @@ class Merginator
         begin
           setup_repo
 
+          unless repo.remotes['salsa']
+            cmd.run("git remote add --fetch --track master --tags salsa https://salsa.debian.org/qt-kde-team/qt/#{mod}")
+          end
+
           cmd.run('git reset --hard')
 
           cmd.run "git checkout #{TARGET_BRANCH}"
@@ -266,8 +270,8 @@ class Merginator
           last_merge = Version.new(last_merge.name.split('/')[-1])
           logger.warn("last merge was #{last_merge} #{last_merge_tag.name}")
 
-          cmd.run 'git checkout master'
-          cmd.run 'git pull --rebase'
+          cmd.run 'git fetch --all --tags'
+          cmd.run 'git checkout salsa/master'
           tag, = cmd.run 'git describe'
           tag = tag.strip
 
