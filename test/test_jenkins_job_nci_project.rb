@@ -41,12 +41,13 @@ class JenkinsJobNCIProjectTest < TestCase
       .to_return(status: 200, body: '["frameworks/attica","frameworks/baloo","frameworks/bluez-qt"]', headers: { 'Content-Type' => 'text/json' })
 
     packaging_scm = CI::SCM.new('git', 'git://yolo.com/example', 'master')
+    upstream_scm = CI::SCM.new('git', 'git://yolo.com/example', 'master')
 
     project = mock('project')
     project.stubs(:name).returns('foobar')
     project.stubs(:component).returns('barfoo')
     project.stubs(:dependees).returns([])
-    project.stubs(:upstream_scm).returns(nil)
+    project.stubs(:upstream_scm).returns(upstream_scm)
     project.stubs(:packaging_scm).returns(packaging_scm)
     project.stubs(:series_branches).returns([])
     project.stubs(:debian?).returns(true)
