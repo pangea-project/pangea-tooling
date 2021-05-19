@@ -157,7 +157,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/containers/create?name=ContainerTest
     body:
       encoding: UTF-8
-      string: '{"Image":"ubuntu:15.04","HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
+      string: '{"Image":"ubuntu:15.04","HostConfig":{"Ulimits":[{"Name":"nofile","Soft":4096,"Hard":4096}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
         Dir.pwd %>:<%= Dir.pwd %>"]},"WorkingDir":"<%= Dir.pwd %>","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Volumes":{"<%=
         Dir.pwd %>":{}}}'
     headers:

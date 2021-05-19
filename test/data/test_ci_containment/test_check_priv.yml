@@ -461,7 +461,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea/ubuntu:vivid","HostConfig":{"Privileged":true,"UsernsMode":"host","Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":[]},"Cmd":["bash","-c","if
+      string: '{"Image":"pangea/ubuntu:vivid","HostConfig":{"Privileged":true,"UsernsMode":"host","Ulimits":[{"Name":"nofile","Soft":4096,"Hard":4096}],"SecurityOpt":["seccomp=unconfined"],"Binds":[]},"Cmd":["bash","-c","if
         [ ! -e /dev/tty0 ]; then exit 1; fi"],"WorkingDir":"/","Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  "],"Volumes":{}}'
     headers:
       User-Agent:

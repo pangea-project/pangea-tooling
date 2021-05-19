@@ -75,7 +75,7 @@ module CI
             # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1332440
             # This in particular affects apt-extracttemplates which will take up
             # to 20 minutes where it should take maybe 1/10 of that.
-            Ulimits: [{ Name: 'nofile', Soft: 1024, Hard: 1024 }],
+            Ulimits: [{ Name: 'nofile', Soft: 4096, Hard: 4096 }],
             # Disable seccomp. Qt 5.10 onwards prefers to use the statx syscall
             # of Linux (4.11+). This syscall is however not whitelisted in the
             # standard seccomp profile of docker. Furthermore, we cannot set

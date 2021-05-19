@@ -44,7 +44,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea-testing/ubuntu:wily","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
+      string: '{"Image":"pangea-testing/ubuntu:wily","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":4096,"Hard":4096}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
         Dir.pwd %>/tooling-pending:/tooling-pending"]},"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  ","DIST=wily"],"Volumes":{"<%=
         Dir.pwd %>/tooling-pending":{}}}'
     headers:
@@ -437,7 +437,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea-testing/ubuntu:vivid","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
+      string: '{"Image":"pangea-testing/ubuntu:vivid","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":4096,"Hard":4096}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
         Dir.pwd %>/tooling-pending:/tooling-pending"]},"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  ","DIST=vivid"],"Volumes":{"<%=
         Dir.pwd %>/tooling-pending":{}}}'
     headers:
@@ -830,7 +830,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea-testing/debian:1706","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
+      string: '{"Image":"pangea-testing/debian:1706","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":4096,"Hard":4096}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
         Dir.pwd %>/tooling-pending:/tooling-pending"]},"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  ","DIST=1706"],"Volumes":{"<%=
         Dir.pwd %>/tooling-pending":{}}}'
     headers:
@@ -1223,7 +1223,7 @@ http_interactions:
     uri: unix:///var/run/docker.sock/containers/create
     body:
       encoding: UTF-8
-      string: '{"Image":"pangea-testing/debian:1710","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
+      string: '{"Image":"pangea-testing/debian:1710","WorkingDir":"<%= Dir.pwd %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":4096,"Hard":4096}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
         Dir.pwd %>/tooling-pending:/tooling-pending"]},"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  ","DIST=1710"],"Volumes":{"<%=
         Dir.pwd %>/tooling-pending":{}}}'
     headers:
@@ -1617,7 +1617,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"Image":"pangea-testing/debian:backports","WorkingDir":"<%= Dir.pwd
-        %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":1024,"Hard":1024}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
+        %>","Cmd":["sh","/tooling-pending/deploy_in_container.sh"],"HostConfig":{"Ulimits":[{"Name":"nofile","Soft":4096,"Hard":4096}],"SecurityOpt":["seccomp=unconfined"],"Binds":["<%=
         Dir.pwd %>/tooling-pending:/tooling-pending"]},"Env":["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin","LANG=en_US.UTF-8","DEBIAN_FRONTEND=noninteractive  ","DIST=backports"],"Volumes":{"<%=
         Dir.pwd %>/tooling-pending":{}}}'
     headers:
