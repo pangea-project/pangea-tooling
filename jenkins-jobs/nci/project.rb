@@ -5,7 +5,7 @@
 
 require_relative '../../lib/nci'
 require_relative '../sourcer'
-require_relative '../binarier'
+require_relative 'binarier'
 require_relative 'lintcmakejob'
 require_relative 'lintqmljob'
 require_relative 'publisher'
