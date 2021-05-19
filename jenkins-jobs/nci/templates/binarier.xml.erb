@@ -70,6 +70,10 @@ echo $BUILD_URL > build_url # for lint_bin
 export PANGEA_CROSS=<%= cross_architecture %>
 <% end %>
 
+<% if qt_git_build %>
+export PANGEA_QT_GIT_BUILD=1
+<% end %>
+
 ~/tooling/nci/contain.rb /tooling/nci/builder.rb $JOB_NAME `pwd`
 
 # ADT will mangle after copying to /workspace so bind the workspace

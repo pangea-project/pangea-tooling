@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# SPDX-FileCopyrightText: 2015-2020 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2015-2021 Harald Sitter <sitter@kde.org>
 # SPDX-FileCopyrightText: 2018 Bhushan Shah <bshah@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
@@ -9,6 +9,8 @@ require_relative '../binarier'
 
 # binary builder
 class BinarierJob
+  attr_accessor :qt_git_build
+
   # Monkey patch cores in
   def cores
     config_file = "#{Dir.home}/.config/nci-jobs-to-cores.json"
