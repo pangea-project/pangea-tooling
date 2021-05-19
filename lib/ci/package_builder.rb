@@ -131,14 +131,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       dpkg_buildopts = %w[-us -uc] + build_flags
 
       Dir.chdir(BUILD_DIR) do
-        # VERY akward hack. Qt git builds of modules require syncqt to get run to generated headers and the like,
-        # but that is anchored on the presence of .git dirs and there is no way to trigger it other than .git.
-        # Running syncqt via debian/rules is super tricky to automatically inject because of how varied the
-        # rules files are, also the .git likely gets stripped at various places during sources, so shoving it
-        # in the source tarball is supremely tricky as well. Rock and a hard place...
-        if ENV['PANGEA_QT_GIT_BUILD']
-          Dir.mkdir('.git') unless File.exist?('.git') || File.exist?('include')
-        end
+        maybe_prepare_qt_build
 
         SetCapValidator.run do
           KCrashLinkValidator.run do
@@ -197,6 +190,29 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
     end
 
     private
+
+    def maybe_prepare_qt_build
+      return unless ENV['PANGEA_QT_GIT_BUILD']
+      raise if ENV.fetch('DIST') != 'focal'
+      # Bit of a cheap hack but we really don't need to parse the changelog proper for the purposes of our check.
+      raise unless system('head -1 debian/changelog | grep --quiet --extended-regexp "5\.15\.[23]"')
+
+      # VERY akward hack. Qt git builds of modules require syncqt to get run to generated headers and the like,
+      # but that is anchored on the presence of .git dirs and there is no way to trigger it other than .git.
+      # Running syncqt via debian/rules is super tricky to automatically inject because of how varied the
+      # rules files are, also the .git likely gets stripped at various places during sources, so shoving it
+      # in the source tarball is supremely tricky as well. Rock and a hard place...
+      Dir.mkdir('.git') unless File.exist?('.git') || File.exist?('include')
+
+      # Even more awkward hack. qmlcdeps is meant to inspect .qmlc cache files for the version they cache against and
+      # that is 5.15.3 in our case, but since we currently do not have the changelog versions at .3 the generated deps
+      # would be entirely wrong. Disable qmlcdeps entirely.
+      # Practicaly speaking we aren't at .3 but rather some sort of inbetween .2 and .3 so the version lock would not
+      # necessarily be correct anyway. Just because the current git snapshot is compatible doesn't mean that tomorrow's
+      # is as well.
+      FileUtils.rm('/usr/bin/dh_qmlcdeps')
+      FileUtils.ln_s('/usr/bin/true', '/usr/bin/dh_qmlcdeps')
+    end
 
     def raise_build_failure
       msg = 'Failed to build from source!'
