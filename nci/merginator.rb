@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2019 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2019-2021 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -31,10 +31,10 @@ require_relative '../lib/nci'
 
 # Merges Qt stuff from debian and bumps versions around [highly experimental]
 
-TARGET_BRANCH = 'Neon/release'
+TARGET_BRANCH = 'Neon/testing'
+WITH_VERSION_BUMP = false
 
 # not actually qt versioned:
-# - qtgamepad
 # - qbs
 # - qtcreator
 # - qt5webkit
@@ -43,34 +43,34 @@ TARGET_BRANCH = 'Neon/release'
 # - qtquickcontrols2 has pkg-kde-tools lowered which conclits a bit and is
 #   temporary the commit says, but it doesn't look all that temporary
 # - qtwebengine way too much delta in there
+# NB: this list may need tweaking depending on what you want to do (version bump or not)
 MODS = %w[
-  qtvirtualkeyboard
-  qtserialport
-  qtconnectivity
-  qtcharts
-  qtx11extras
-  qtsvg
-  qtgraphicaleffects
-  qtquickcontrols
-  qtspeech
-  qtwebview
-  qt3d
-
-  qtwebengine
-  qtquickcontrols2
-  qtscript
-  qtnetworkauth
-  qtwayland
-  qtwebchannel
-  qtwebsockets
-  qttranslations
-  qttools
+  qtbase
+  qtdeclarative
   qtlocation
   qtsensors
+  qtwebsockets
+  qtwebchannel
+  qttools
+  qtcharts
+  qtconnectivity
+  qtserialport
+  qtsvg
+  qtscript
+  qtnetworkauth
+  qttranslations
   qtxmlpatterns
-  qtdeclarative
-  qtbase
-]
+  qtgraphicaleffects
+  qtx11extras
+  qtvirtualkeyboard
+  qtquickcontrols
+  qtquickcontrols2
+  qtspeech
+  qtwayland
+  qt3d
+  qtwebengine
+  qtwebview
+].freeze
 
 # Version helper able to differentiate upstream from real_upstream (i.e. without
 # +dfsg suffix and the like)
@@ -132,13 +132,12 @@ class Merginator
 
   # rerere's existing merges to possibly learn how to solve problems.
   # not sure if this does much for us TBH
-  def train_rerere(repo)
+  def train_rerere(repo, cmd)
     return unless Dir.glob('.git/rr-cache/*').empty?
 
-    cmd = TTY::Command.new
     old_head = repo.head
 
-    repo.walk(repo.head.target) do |commit|
+    repo.walk(repo.head.target_id) do |commit|
       next unless commit.parents.size >= 2
 
       warn 'merge found'
@@ -209,7 +208,7 @@ class Merginator
         package
       end.compact
 
-      raise "There is no Qt release pending says uscan???" if newer.empty?
+      raise 'There is no Qt release pending says uscan???' if newer.empty?
       # uscan technically kinda supports multiple sources, we do not.
       raise "More than one uscan result?! #{newer.inspect}" if newer.size > 1
 
@@ -224,29 +223,38 @@ class Merginator
     # TODO: rewrite tagdetective to Rugged and split it to isolate the generic logic
 
     MODS.each do |mod|
+      # Bit of a hack to scope logging to the qt module. It's fairly awkward because this
+      # doesn't pass into the helper functions. In a way this entire block should be standalone
+      # objects that get poked to "run" the logic.
+      logger = self.logger.copy(repo: mod)
+      cmd = TTY::Command.new(uuid: false, output: logger)
       cmd.run "git clone git@invent.kde.org:neon/qt/#{mod}" unless File.exist?(mod)
       Dir.chdir(mod) do
         begin
           setup_repo
 
           unless repo.remotes['salsa']
-            cmd.run("git remote add --fetch --track master --tags salsa https://salsa.debian.org/qt-kde-team/qt/#{mod}")
+            cmd.run("git remote add --fetch --track master --tags salsa https://salsa.debian.org/qt-kde-team/qt/#{mod}.git")
           end
+          cmd.run 'git fetch --all --tags'
 
           cmd.run('git reset --hard')
+          cmd.run("git checkout #{TARGET_BRANCH}")
+          cmd.run('git merge Neon/release')
 
-          cmd.run "git checkout #{TARGET_BRANCH}"
           old_version, = cmd.run 'dpkg-parsechangelog -SVersion'
           old_version = Version.new(old_version)
-          # check if already bumped
-          next if old_version.real_upstream.start_with?(dehs.upstream_version)
+          if WITH_VERSION_BUMP
+            # check if already bumped
+            next if old_version.real_upstream.start_with?(dehs.upstream_version)
+          end
 
           last_merge = nil
-          repo.walk(repo.head.target) do |commit|
+          repo.walk(repo.head.target_id) do |commit|
             next unless commit.parents.size >= 2 # not a merge
 
             commit.parents.find do |parent|
-              last_merge = repo.tags.find { |tag| tag.target == parent && tag.name.start_with?('debian/')}
+              last_merge = repo.tags.find { |tag| tag.target == parent && tag.name.start_with?('debian/') }
             end
 
             break if last_merge # found the last merge
@@ -254,7 +262,7 @@ class Merginator
           raise unless last_merge
 
           tooling_release_commmit = nil
-          repo.walk(repo.head.target) do |commit|
+          repo.walk(repo.head.target_id) do |commit|
             # A bit unclear if and in which order we'd walk a merge, so be careful
             # and prevent us from walking past the merge.
             break if commit == last_merge.target # at merge
@@ -270,59 +278,68 @@ class Merginator
           last_merge = Version.new(last_merge.name.split('/')[-1])
           logger.warn("last merge was #{last_merge} #{last_merge_tag.name}")
 
-          cmd.run 'git fetch --all --tags'
           cmd.run 'git checkout salsa/master'
           tag, = cmd.run 'git describe'
           tag = tag.strip
 
+          if tag == last_merge_tag.name
+            logger.info("already merged latest tag on master: #{tag} (found last merge as #{last_merge_tag.name})")
+            next
+          end
+
           cmd.run "git checkout #{TARGET_BRANCH}"
           cmd.run "git reset --hard origin/#{TARGET_BRANCH}"
-          train_rerere(repo)
+          train_rerere(repo, cmd)
           cmd.run "git checkout #{TARGET_BRANCH}"
           cmd.run "git reset --hard origin/#{TARGET_BRANCH}"
 
-          # Undo version delta because Bhushan insists on not having ephemeral
-          # version constriction applied via tooling at build time!
-          # Editing happens in-place. This preserves order in the output (more or
-          # less anyway).
-          if tooling_release_commmit
-            # Ideally we'd have found a previous tooling commit to undo
-            if tooling_release_commmit.parents >= 2
-              raise 'tooling release commit is a merge. this should not happen!'
+          if WITH_VERSION_BUMP
+            # Undo version delta because Bhushan insists on not having ephemeral
+            # version constriction applied via tooling at build time!
+            # Editing happens in-place. This preserves order in the output (more or
+            # less anyway).
+            if tooling_release_commmit
+              # Ideally we'd have found a previous tooling commit to undo
+              if tooling_release_commmit.parents.size >= 2
+                raise 'tooling release commit is a merge. this should not happen!'
+              end
+
+              git.revert(tooling_release_commmit.oid)
+            else
+              # TODO: should we stick with this it'd probably be smarter to expect only
+              #   tooling to apply a bump and tag the relevant commit with some marker,
+              #   so we can then find it again and simply revert the bump.
+              #   Much less risk of causing conflict because Control technically doesn't
+              #   know how to preserve content line-for-line, it just happens to so long
+              #   as the input was wrapped-and-sorted.
+              mangle_depends(from: old_version.epoch_with_real_upstream,
+                             to: last_merge.epoch_with_real_upstream)
+              git.commit('Undo depends version bump', add_all: true)
             end
-
-            git.revert(tooling_release_commmit.oid)
-          else
-            # TODO: should we stick with this it'd probably be smarter to expect only
-            #   tooling to apply a bump and tag the relevant commit with some marker,
-            #   so we can then find it again and simply revert the bump.
-            #   Much less risk of causing conflict because Control technically doesn't
-            #   know how to preserve content line-for-line, it just happens to so long
-            #   as the input was wrapped-and-sorted.
-            mangle_depends(from: old_version.epoch_with_real_upstream,
-                           to: last_merge.epoch_with_real_upstream)
-            git.commit('Undo depends version bump', add_all: true)
           end
 
           cmd.run "git merge #{tag}"
-          merge_version = Version.new(tag.split('/')[-1])
 
-          # Construct new version from pre-existing one. This retains epoch
-          # and possibly upstream suffix
-          new_version = Version.new(dehs.upstream_version)
-          new_version.epoch = old_version.epoch
-          new_version.real_upstream_suffix = old_version.real_upstream_suffix
-          new_version.revision = "0neon"
+          if WITH_VERSION_BUMP
+            merge_version = Version.new(tag.split('/')[-1])
 
-          # Reapply version delta with new version.
-          mangle_depends(from: merge_version.epoch_with_real_upstream,
-                         to: new_version.epoch_with_real_upstream)
+            # Construct new version from pre-existing one. This retains epoch
+            # and possibly upstream suffix
+            new_version = Version.new(dehs.upstream_version)
+            new_version.epoch = old_version.epoch
+            new_version.real_upstream_suffix = old_version.real_upstream_suffix
+            new_version.revision = '0neon'
 
-          cmd.run('dch',
-                  '--distribution', NCI.current_series,
-                  '--newversion', "#{new_version}",
-                  "New release #{new_version.real_upstream}")
-          git.commit("[TR] New release #{new_version.real_upstream}", add_all: true)
+            # Reapply version delta with new version.
+            mangle_depends(from: merge_version.epoch_with_real_upstream,
+                           to: new_version.epoch_with_real_upstream)
+
+            cmd.run('dch',
+                    '--distribution', NCI.current_series,
+                    '--newversion', new_version.to_s,
+                    "New release #{new_version.real_upstream}")
+            git.commit("[TR] New release #{new_version.real_upstream}", add_all: true)
+          end
 
           passed << mod
         rescue TTY::Command::ExitError => e
