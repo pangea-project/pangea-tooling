@@ -233,14 +233,13 @@ task :align_ruby do
 end
 
 def with_ubuntu_pin
+  pin_file = '/etc/apt/preferences.d/ubuntu-pin'
+
   ## not needed right now. only useful when ubuntu rolls back an update and we are stuck with a broken version
-  yield
-  return
+  return yield
   ##
 
   # rubocop:disable Lint/UnreachableCode
-  pin_file = '/etc/apt/preferences.d/ubuntu-pin'
-
   if NCI.series.key?(DIST) # is a neon thing
     File.write(pin_file, <<~PIN)
       Package: *
