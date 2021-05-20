@@ -233,6 +233,12 @@ task :align_ruby do
 end
 
 def with_ubuntu_pin
+  ## not needed right now. only useful when ubuntu rolls back an update and we are stuck with a broken version
+  yield
+  return
+  ##
+
+  # rubocop:disable Lint/UnreachableCode
   pin_file = '/etc/apt/preferences.d/ubuntu-pin'
 
   if NCI.series.key?(DIST) # is a neon thing
@@ -243,10 +249,11 @@ def with_ubuntu_pin
     PIN
   end
 
-  return yield
+  yield
 ensure
   FileUtils.rm_f(pin_file, verbose: true)
 end
+# rubocop:enable Lint/UnreachableCode
 
 desc 'deploy inside the container'
 task :deploy_in_container => %i[fix_gpg align_ruby deploy_openqa] do
