@@ -322,6 +322,8 @@ absolutely must not be native though!
     end
 
     unless instance_variable_get("@#{member}")
+      puts "XXX"
+      puts override_rule_for(member)
       raise OverrideNilError.new(@component, @name, member, override_rule_for(member)) if override_rule_for(member)
 
       return false
