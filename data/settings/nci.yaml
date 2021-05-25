@@ -6,11 +6,67 @@
 
 # Others
 
-'*_backports-focal_[a-ce-z]*_*':
+'*_backports-focal_bup_*':
   sourcer:
     restricted_packaging_copy: true
 
-'*_backports-bionic_*_*':
+'*_backports-focal_debhelper_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_fwupd_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_iio-sensor-proxy_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_kcolorpicker_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_kimageannotator_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_libaqbanking_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_libgusb_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_libgwenhywfar_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_libqofono_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_mlt_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_pipewire_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_qxmpp_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_wayland-protocols_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_xdg-dbus-proxy_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_xdg-desktop-protocol_*':
   sourcer:
     restricted_packaging_copy: true
 
