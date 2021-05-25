@@ -4,7 +4,7 @@ old_series: # must be part of series list (or nil)
 current_series: focal # must be part of series list
 future_series: # must be part of series list (or nil)
 future_is_early: false # controls where the ISOs go. must be true early on!
-repo_diversion: false # toggle when experimental is getting staged for deployment
+repo_diversion: true # toggle when experimental is getting staged for deployment
 
 architectures:
   - amd64
