@@ -65,7 +65,7 @@ class KDEProjectsComponent
     def plasma
       # the way to get what is in the release service is from release-tools list
       @plasma ||= begin
-        url = "https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release-normal"
+        url = "https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release"
         response = HTTParty.get(url)
         body = response.body
         modules = body.split
