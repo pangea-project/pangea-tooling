@@ -75,7 +75,7 @@ class ProjectJob < JenkinsJob
       job = BinarierJob.new(basename, type: type, distribution: distribution,
                                       architecture: architecture)
       scm = project.upstream_scm
-      #job.qt_git_build = (scm.url.include?('/qt/') && scm.branch == 'kde/5.15')
+      job.qt_git_build = (scm.url.include?('/qt/') && scm.branch == 'kde/5.15')
       job
     end
     jobs = [sourcer, binariers, publisher]
