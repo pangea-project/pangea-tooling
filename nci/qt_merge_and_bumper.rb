@@ -70,6 +70,8 @@ MODS = %w[
   qt3d
   qtwebengine
   qtwebview
+  qtcreator
+  qtmultimedia
 ].freeze
 
 # Version helper able to differentiate upstream from real_upstream (i.e. without
