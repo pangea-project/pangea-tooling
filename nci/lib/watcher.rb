@@ -317,7 +317,7 @@ Subject: #{subject}
     end
 
     def kde_software?
-      job_is_kde_released || newest_dehs_package.upstream_url.include?('download.kde.')
+      job_is_kde_released || newest_dehs_package.upstream_url.include?('download.kde.') || newest_dehs_package.upstream_url.include?('invent.kde.')
     end
 
     def raise_if_not_kde_software!(dch)
