@@ -27,6 +27,7 @@ class KDEProjectsComponent
   class << self
     @@projects_to_jobs = {'discover'=>'plasma-discover', 'kcalendarcore'=>'kcalcore', 'kdeconnect-kde'=>'kdeconnect'}
     @@projects_without_jobs = ['plasma-tests', 'akonadi-airsync', 'akonadi-exchange', 'akonadi-phabricator-resource', 'kpeoplesink', 'akonadiclient', 'kblog']
+    @@plasma_mobile = %w{alligator angelfish calindori kalk kclock koko kongress krecorder ktrip plasma plasma plasma qmlkonsole spacebar}
 
     def frameworks
       @frameworks ||= to_names(projects('frameworks'))
@@ -42,6 +43,14 @@ class KDEProjectsComponent
 
     def pim_jobs
       @pim_packgaes ||= to_jobs(pim)
+    end
+
+    def mobile
+      @@plasma_mobile
+    end
+
+    def mobile_jobs
+      @@plasma_mobile ||= to_jobs(pim)
     end
 
     def release_service
