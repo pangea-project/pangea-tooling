@@ -225,6 +225,8 @@ class Merginator
     # TODO: rewrite tagdetective to Rugged and split it to isolate the generic logic
 
     MODS.each do |mod|
+      next if ARGV[0] && mod != ARGV[0]
+
       # Bit of a hack to scope logging to the qt module. It's fairly awkward because this
       # doesn't pass into the helper functions. In a way this entire block should be standalone
       # objects that get poked to "run" the logic.
@@ -362,5 +364,6 @@ class Merginator
 end
 
 if $PROGRAM_NAME == __FILE__
+  # May also be called with argv0 being a specific name to work with
   Merginator.new.run
 end
