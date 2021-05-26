@@ -50,7 +50,7 @@ class KDEProjectsComponent
     end
 
     def mobile_jobs
-      @@plasma_mobile ||= to_jobs(pim)
+      @@plasma_mobile ||= to_jobs(mobile)
     end
 
     def release_service
