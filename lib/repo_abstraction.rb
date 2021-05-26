@@ -118,7 +118,7 @@ class AptlyRepository < Repository
     # working where it automatically fetches prefix from the aptly.
     # I'll revert this when I get tests working but for now to get lint
     # working this is crude solution
-    if NCI.divert_repo?(repo)
+    if NCI.divert_repo?(prefix)
       super("http://archive.neon.kde.org/tmp/#{prefix}")
     else
       super("http://archive.neon.kde.org/#{prefix}")

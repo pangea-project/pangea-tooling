@@ -9,6 +9,10 @@ require_relative 'xci'
 module NCI
   extend XCI
 
+  # Argument or keyword argument had an unexpected type. Not really useful error differentiation except for
+  # testing an expected errror condition.
+  class BadInputType < RuntimeError; end
+
   module_function
 
   # This is a list of job_name parts that we want to not have any QA done on.
@@ -66,8 +70,13 @@ module NCI
     data.fetch('qt_stage_type')
   end
 
+  # Check if repo ought to be diverted to /tmp/ variant. repo is the prefix of the repo
+  # archive.neon.kde.org/unstable => unstable
+  # archive.neon.kde.org/testting => testing
+  # etc.
   def divert_repo?(repo)
-    data.fetch('repo_diversion') &&
-      data.fetch('divertable_repos').include?(repo)
+    raise BadInputType, "Incorrect value type #{repo.class}, expected String" unless repo.is_a?(String)
+
+    data.fetch('repo_diversion') && data.fetch('divertable_repos').include?(repo)
   end
 end

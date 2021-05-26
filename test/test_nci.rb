@@ -7,6 +7,10 @@ require_relative '../lib/nci'
 
 # Test NCI extensions on top of xci
 class NCITest < TestCase
+  def teardown
+    NCI.send(:reset!)
+  end
+
   def test_experimental_skip_qa
     skip = NCI.experimental_skip_qa
     assert_false(skip.empty?)
@@ -69,8 +73,10 @@ class NCITest < TestCase
     NCI.send(:data_dir=, Dir.pwd) # resets as well
 
     assert(NCI.divert_repo?('testing'))
-  ensure
-    NCI.send(:reset!)
+
+    # In the past we had a case where an incorrect type was passed to the function. We expect immediate failure then!
+    assert_raises(NCI::BadInputType) { NCI.divert_repo?(nil) }
+    assert_raises(NCI::BadInputType) { NCI.divert_repo?(1) }
   end
 
   def test_no_divert_repo
@@ -81,8 +87,6 @@ class NCITest < TestCase
     NCI.send(:data_dir=, Dir.pwd) # resets as well
 
     refute(NCI.divert_repo?('testing'))
-  ensure
-    NCI.send(:reset!)
   end
 
   def test_no_diversion
@@ -93,7 +97,5 @@ class NCITest < TestCase
     NCI.send(:data_dir=, Dir.pwd) # resets as well
 
     refute(NCI.divert_repo?('testing'))
-  ensure
-    NCI.send(:reset!)
   end
 end

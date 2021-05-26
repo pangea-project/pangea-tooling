@@ -65,6 +65,10 @@ class RepoAbstractionAptlyTest < TestCase
     Apt::Abstrapt.send(:instance_variable_set, :@last_update, Time.now)
   end
 
+  def teardown
+    NCI.send(:reset!)
+  end
+
   def test_init
     AptlyRepository.new('repo', 'prefix')
   end
@@ -121,6 +125,17 @@ class RepoAbstractionAptlyTest < TestCase
     r = AptlyRepository.new(repo, 'prefix')
     r.purge_exclusion << 'kitteh'
     r.purge
+  end
+
+  def test_diverted_init
+    # Trivial test to ensure the /tmp/ prefix is injected when repo diversion is enabled.
+    # This was broken in the past so let's guard against it breaking again. The code is a super concerned
+    # with internals though :(
+    repo = mock('repo')
+    NCI.send(:data_dir=, Dir.pwd)
+    File.write('nci.yaml', YAML.dump('repo_diversion' => true, 'divertable_repos' => ['whoopsiepoosie']))
+    r = AptlyRepository.new(repo, 'whoopsiepoosie')
+    assert(r.instance_variable_get(:@_name).include?('/tmp/'))
   end
 end
 
