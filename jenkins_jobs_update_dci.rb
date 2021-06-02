@@ -37,18 +37,19 @@ end
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
-    @flavor = 'dci'
+    @job_queue = Queue.new
     @blacklisted_plugins = [
       'ircbot', # spammy drain on performance
       'instant-messaging' # dep of ircbot and otherwise useless
     ]
     @projects_dir = "#{__dir__}/data/projects"
-    JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/#{@flavor}"
+    JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/dci"
     upload_map = "#{__dir__}/data/dci.upload.yaml"
     @upload_map = nil
     return unless File.exist?(upload_map)
 
     @upload_map = YAML.load_file(upload_map)
+
     super
   end
 
@@ -57,64 +58,69 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   def populate_queue
     CI::Overrides.default_files
     all_meta_builds = []
+    all_builds = []
+    jobs = []
+    @data_file_name = ''
     DCI.series.each_key do |series|
-      DCI.types.each do |release_type|
-        DCI.architectures.each do |arch|
-          data_dir = "#{@projects_dir}/#{@flavor}/#{series}/"
-          data_file_name = "#{release_type}-#{arch}.yaml"
-          projects_file = data_dir + data_file_name
-          next unless File.exist?(projects_file)
+      DCI.release_types.each_key do |release_type|
+        DCI.releases(release_type).each do |release|
+          DCI.arm_boards.each do |arm|
+            if  DCI.arch.include?(/"#{arm}$"/)
+                @data_file_name = "#{release_type}-#{arm}.yaml"
+                puts "Working on #{release}-#{arm}-#{series}"
+            else
+                @data_file_name = "#{release_type}.yaml"
+                puts "Working on #{release}-#{series}"
+            end
+            projects_file = @projects_dir + @data_file_name
+            next unless File.exist?(projects_file)
+              
+            projects = ProjectsFactory.from_file(projects_file, branch: "Netrunnner/#{series}")
+            projects.each do |project|
+                j = DCIProjectMultiJob.new(
+                        project,
+                        release_type: release_type,
+                        release: release,
+                        components: DCI.components,
+                        series: series,
+                        architecture: DCI.architecture,
+                        upload_map: @upload_map)
+                jobs << j
+                all_builds += j
+            end
+            jobs.each { |job| enqueue(job) }
+            puts all_builds
+            all_builds.flatten!
 
-          puts "Working on #{series}- #{release_type} - #{arch}"
-          projects = ProjectsFactory.from_file(projects_file, branch: "Netrunnner/#{series}")
-          all_builds = projects.collect do |project|
-            DCIBuilderJobBuilder.job(
-              project,
-              release_type: release_type,
-              series: series,
-              architecture: arch,
-              upload_map: @upload_map
-            )
-          end
-          all_builds.flatten!
-          all_builds.each { |job| enqueue(job) }
             # Remove everything but source as they are the anchor points for
             # other jobs that might want to reference them.
-          puts all_builds
-          all_builds.select! { |j| j.job_name.end_with?('_src') }
-          # This could actually returned into a collect if placed below
-          meta_build = MetaBuildJob.new(
+            all_builds.select! { |j| j.job_name.end_with?('_src') }
+            # This could actually returned into a collect if placed below
+            meta_build = MetaBuildJob.new(
             type: release_type,
             distribution: series,
             downstream_jobs: all_builds)
-          all_meta_builds << enqueue(meta_build)
-          image_job_config = "#{__dir__}/data/dci/dci.image.yaml"
-          load_config = YAML.load_stream(File.read(image_job_config))
-          next unless image_job_config
+            all_meta_builds << enqueue(meta_build)
+            image_job_config = "#{__dir__}/data/dci/dci.image.yaml"
+            load_config = YAML.load_stream(File.read(image_job_config))
+            next unless image_job_config
 
-          image_jobs = load_config
-          image_jobs.each do |r|
-            r.each do |_type, v|
-              arch = v['architecture']
-              v[:releases].each do |release, branch|
-                enqueue(
-                  DCIImageJob.new(
-                    release_type: release_type,
-                    release: release,
-                    architecture: arch,
-                    repo: v[:repo],
-                    branch: branch
-                  )
-                )
-                v[:snapshots].each do |snapshot|
-                next unless snapshot == release
-
-                enqueue(
-                  DCISnapShotJob.new(
+            image_jobs = load_config
+            data = image_jobs[release]
+            enqueue(
+              DCIImageJob.new(
+              release: release,
+              architecture: DCI.architecture,
+              repo: data[:repo],
+              branch: branch
+              ))
+            enqueue(
+              DCISnapShotJob.new(
+                    distribution: release,
                     snapshot: snapshot,
                     series: series,
                     release_type: release_type,
-                    architecture: arch
+                    architecture: arch,
                   )
                 )
                 end
