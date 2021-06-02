@@ -4,22 +4,75 @@ series:
   'next': '20210414'
 architectures:
   - amd64
+extra_architectures:
   - armhf
   - arm64
-extra_architectures: []
+arm_boards:
+  - 'c1'
+  - 'rock64'
 release_types:
   - desktop
   - core
   - zeronet
-arch_for_release_types:
-  desktop:
-    - amd64
-  core:
-    - amd64
-    - armhf
-  zeronet:
-    - armhf
-    - arm64
-arm_boards:
-  - c1
-  - rock64
+releases:
+  - !ruby/struct:release
+    name: netrunner-desktop
+    release_type: desktop
+    arch: 'amd64'
+    components:
+     - netrunner
+     - extras
+     - artwork
+     - common
+     - backports
+     - netrunner-desktop
+     - netrunner-core'
+# - !ruby/struct:release
+#   name: netrunner-core
+#   release_type: core
+#   arch: amd64
+#   components:
+#    - netrunner
+#    - extras
+#    - artwork
+#    - common
+#    - backports
+#    - netrunner-core
+# - !ruby/struct:release
+#   name: netrunner-core-c1
+#   release_type: core
+#   arch: armhf
+#   components:
+#    - netrunner
+#    - extras
+#    - artwork
+#    - common
+#    - backports
+#    - c1
+#    - netrunner-core
+# - !ruby/struct:release
+#   name: netrunner-zeronet-c1
+#   release_type: zeronet
+#   arch:  armhf
+#   components:
+#    - netrunner
+#    - extras
+#    - artwork
+#    - common
+#    - backports
+#    - c1
+#    - netrunner-core
+#    - netrunner-zeronet
+# - !ruby/struct:release
+#   name: 'netrunner-zeronet-rock64':
+#   release_type: zeronet
+#   arch: 'arm64'
+#   components:
+#    - netrunner
+#    - extras
+#    - artwork
+#    - common
+#    - backports
+#    - rock64
+#    - netrunner-core
+#    - netrunner-zeronet
