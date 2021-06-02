@@ -17,8 +17,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-
-# downloads and makes available as arrays lists of KDE projects which 
+# downloads and makes available as arrays lists of KDE projects which
 # are part of Plasma, Applications and Frameworks
 
 require 'httparty'
@@ -34,7 +33,7 @@ class KDEProjectsComponent
     end
 
     def frameworks_jobs
-      @frameworks_packgaes ||= to_jobs(frameworks)
+      @frameworks_packages ||= to_jobs(frameworks)
     end
 
     def pim
@@ -89,7 +88,7 @@ class KDEProjectsComponent
     private
 
     def to_jobs(projects)
-        projects.collect {|x| @@projects_to_jobs[x]? @@projects_to_jobs[x] : x}
+      projects.collect { |x| @@projects_to_jobs[x]? @@projects_to_jobs[x] : x }
     end
 
     def to_names(projects)

@@ -26,6 +26,7 @@ require 'logger/colors'
 require 'tmpdir'
 
 require_relative '../../lib/projects/factory/neon'
+require_relative '../../lib/kdeproject_component'
 require_relative 'data'
 
 # Finds latest tag of ECM and then makes sure all other frameworks
@@ -37,30 +38,32 @@ module NCI
     # should have the same version tagged. They may have a newer version tagged.
     class TagDetective
       ORIGIN = 'origin/master'
-      ECM = 'frameworks/extra-cmake-modules'
+      ECM = 'kde/extra-cmake-modules'
 
       # exclusion should only include proper non-frameworks, if something
       # is awray with an actual framework that is released it should either
       # be fixed for the detective logic needs to be adapted to skip it.
-      EXCLUSION = %w[frameworks/prison
-                     frameworks/purpose
-                     frameworks/kirigami2
-                     frameworks/qqc2-desktop-style].freeze
+      EXCLUSION = %w[kde/prison
+                     kde/purpose
+                     kde/kirigami2
+                     kde/qqc2-desktop-style].freeze
 
       def initialize
-        @log = Logger.new(STDOUT)
+        @log = Logger.new($stdout)
       end
 
       def list_frameworks
         @log.info 'listing frameworks'
-        ProjectsFactory::Neon.ls.select do |x|
-          x.start_with?('frameworks/') && !EXCLUSION.include?(x)
+        KDEProjectsComponent.frameworks.select do |x|
+          x = !EXCLUSION.include?(x)
+          puts x
         end
+        x
       end
 
       def frameworks
         @frameworks ||= list_frameworks.collect do |x|
-          File.join(ProjectsFactory::Neon.url_base, x)
+          File.join(ProjectsFactory::Neon.url_base, 'kde/', x)
         end
       end
 
