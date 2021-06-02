@@ -4,16 +4,16 @@ require_relative '../job'
 # binary builder
 class DCIBinarierJob < JenkinsJob
   attr_reader :basename
-  attr_reader :release_type
+  attr_reader :release
   attr_reader :series
   attr_reader :architecture
   attr_reader :artifact_origin
   attr_reader :downstream_triggers
 
-  def initialize(basename, release_type:, series:, architecture:)
+  def initialize(basename, release:, series:, architecture:)
     super("#{basename}_#{architecture}_bin", 'dci_binarier.xml.erb')
     @basename = basename
-    @type = release_type
+    @release = release
     @series = series
     @architecture = architecture
     @artifact_origin = "#{basename}__src"
