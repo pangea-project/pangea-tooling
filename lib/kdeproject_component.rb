@@ -27,7 +27,7 @@ class KDEProjectsComponent
   class << self
     @@projects_to_jobs = {'discover'=>'plasma-discover', 'kcalendarcore'=>'kcalcore', 'kdeconnect-kde'=>'kdeconnect'}
     @@projects_without_jobs = ['plasma-tests', 'akonadi-airsync', 'akonadi-exchange', 'akonadi-phabricator-resource', 'kpeoplesink', 'akonadiclient', 'kblog']
-    @@plasma_mobile = %w{alligator angelfish calindori kalk kclock koko kongress krecorder ktrip plasma plasma plasma qmlkonsole spacebar}
+    @@plasma_mobile = %w{alligator angelfish calindori kalk kclock koko kongress krecorder ktrip plasma-dialer plasma-phonebook plasma-settings qmlkonsole spacebar}
 
     def frameworks
       @frameworks ||= to_names(projects('frameworks'))

@@ -77,6 +77,12 @@ Only jobs that are not queued, not building, and failed will be retired.
     new_release = KDEProjectsComponent.frameworks_jobs
   end
 
+  opts.on('-m', '--mobile', 'There has been a new Plasma Mobile Gear release, run' \
+                                ' all watcher jobs for PlaMo.') do
+    @exclusion_states.clear
+    new_release = KDEProjectsComponent.mobile_jobs
+  end
+
   opts.on('--pim', 'There has been a PIM ABI bump, run' \
                     ' all unstable jobs for PIM.') do
     @exclusion_states.clear
@@ -106,6 +112,7 @@ end
 pattern = nil
 if new_release
   pattern = Regexp.new("watcher_release_[^_]+_(#{new_release.join('|')})$")
+  pattern = Regexp.new("focal_release-?l?t?s?_[^_]+_(#{new_release.join('|')})$")
 elsif pim_release
   pattern = Regexp.new("#{NCI.current_series}_stable_kde_(#{pim_release.join('|')})$")
 else
