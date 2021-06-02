@@ -49,15 +49,12 @@ class DCISnapshot
     @snapshots = []
     @repos = []
     @components = []
-    @release_types = []
-    @type = ''
-    @type_data = {}
-    @dist = ''
-    @versioned_dist = ''
+    @release_type = ''
+    @series = ''
+    @release = release_type + '-' + series
     @currentdist = {}
-    @version = ''
-    @arch = ''
-    @arch_array = []
+    @series = ''
+    @arch = []
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new(STDOUT).tap do |l|
       l.progname = 'snapshotter'
@@ -89,29 +86,20 @@ class DCISnapshot
     @release_types
   end
 
-  def type
-    release_types
-    @type = ENV.fetch('FLAVOR')
-    raise unless @release_types.include?(@type)
-    @type
+  def release_type
+    @release_type = ENV['RELEASE_TYPE']
+    @release_type
   end
 
-   def type_data
-     config
-     type
-     @type_data = @data.fetch(@type)
-     @type_data
-   end
-
-  def distribution
+  def release
     type
-    @dist = 'netrunner-' + @type
+    @dist = 'netrunner-' + @release_type
     @dist
   end
 
   def version
-    @version = ENV.fetch('VERSION')
-    @version
+    @series = ENV['SERIES']
+    @series
   end
 
   def versioned_dist

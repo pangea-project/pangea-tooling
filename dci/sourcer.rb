@@ -33,7 +33,7 @@ require_relative 'lib/setup_env'
 module DCISourcer
   class << self
     def sourcer_args
-      args = { release: ENV.fetch('DIST'), strip_symbols: true }
+      args = { release: ENV.fetch('SERIES'), strip_symbols: true }
       settings = DCI::Settings.for_job
       sourcer_settings = settings.fetch('sourcer', {})
       restrict = sourcer_settings.fetch('restricted_packaging_copy',
@@ -125,7 +125,7 @@ module DCISourcer
 
     def run_fallback
       puts 'Unspecified source type, defaulting to VCS build...'
-      builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
+      builder = CI::VcsSourceBuilder.new(release: ENV.fetch('SERIES'),
                                          **sourcer_args)
       builder.run
     end
