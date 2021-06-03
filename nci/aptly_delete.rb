@@ -22,6 +22,7 @@
 require 'aptly'
 require 'logger'
 require 'logger/colors'
+require 'tty/prompt'
 require 'net/ssh/gateway'
 require 'ostruct'
 require 'optparse'
@@ -33,7 +34,7 @@ parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{opts.program_name} SOURCENAME"
 
   opts.on('-r REPO', '--repo REPO',
-          'Repo to delete from [can be used >1 time]') do |v|
+          'Repo (e.g. unstable_focal) to delete from [can be used >1 time]') do |v|
     options.repos ||= []
     options.repos << v.to_s
   end
@@ -41,10 +42,14 @@ parser = OptionParser.new do |opts|
   opts.on('-g', '--gateway URI', 'open gateway to remote (auto-defaults to neon)') do |v|
     options.gateway = URI(v)
   end
+
+  opts.on('-a', '--all', 'all repos') do |v|
+    options.all = v
+  end
 end
 parser.parse!
 
-abort parser.help unless ARGV[0] && options.repos
+abort parser.help unless ARGV[0] && (options.repos or options.all)
 options.name = ARGV[0]
 
 log = Logger.new(STDOUT)
@@ -64,18 +69,21 @@ end
 with_connection.call do
   log.info 'APTLY'
   Aptly::Repository.list.each do |repo|
-    next unless options.repos.include?(repo.Name)
+    next unless options.all or options.repos.include?(repo.Name)
 
     # Query all relevant packages.
     # Any package with source as source.
     query = "($Source (#{options.name}))"
     # Or the source itself
     query += " | (#{options.name} {source})"
+    query = "#{options.name}"
     packages = repo.packages(q: query).compact.uniq
     next if packages.empty?
 
     log.info "Deleting packages from repo #{repo.Name}: #{packages}"
-    repo.delete_packages(packages)
+    if TTY::Prompt.new.no?("Deleting packages, do you want to continue?")
+      abort
+    end
     repo.delete_packages(packages)
     repo.published_in.each(&:update!)
   end
