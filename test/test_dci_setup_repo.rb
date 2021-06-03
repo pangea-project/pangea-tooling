@@ -38,7 +38,7 @@ class DCISetupRepoTest < TestCase
     reset_child_status!
     # Disable all web (used for key).
     WebMock.disable_net_connect!
-    ENV['DIST_RELEASE'] = 'next'
+    ENV['SERIES'] = 'next'
   end
 
   def teardown
