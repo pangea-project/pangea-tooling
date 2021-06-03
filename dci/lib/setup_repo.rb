@@ -41,8 +41,8 @@ module DCI
     components += %w[extras netrunner artwork common netrunner-desktop netrunner-core]
     components += %w[c1 netrunner-zeronet rock64] unless DPKG::BUILD_ARCH == 'amd64'
     dist = "#{@release}-#{@series}"
-    data = DCI.releases["#{@release}"]
-    components = data['components']
+    data = DCI.get_release_data(@release)
+    components = data.components
 
     add_repos(prefix, dist, components)
 
