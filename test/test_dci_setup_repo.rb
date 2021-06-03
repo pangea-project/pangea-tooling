@@ -3,6 +3,7 @@
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
 # Copyright (C) 2016 Bhushan Shah <bshah@kde.org>
 # Copyright (C) 2016 Rohan Garg <rohan@kde.org>
+# Copyright (C) 2021 Scarlett Moore <sgmoore@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -39,20 +40,22 @@ class DCISetupRepoTest < TestCase
     # Disable all web (used for key).
     WebMock.disable_net_connect!
     ENV['SERIES'] = 'next'
+    ENV['RELEASE'] = 'netrunner-desktop'
   end
 
   def teardown
     Apt::Repository.send(:reset)
 
     WebMock.allow_net_connect!
-    ENV['DIST_RELEASE'] = nil
+    ENV['SERIES'] = nil
+    ENV['RELEASE'] = nil
   end
 
   def test_setup_repos
     system_calls = [
       ['dpkg --add-architecture i386'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-next extras netrunner netrunner-desktop netrunner-core'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-desktop-next extras artwork common netrunner netrunner-desktop netrunner-core'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'update'],
       ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'dist-upgrade']
     ]
