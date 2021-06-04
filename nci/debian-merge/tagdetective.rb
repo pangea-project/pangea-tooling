@@ -54,11 +54,9 @@ module NCI
 
       def list_frameworks
         @log.info 'listing frameworks'
-        KDEProjectsComponent.frameworks.select do |x|
-          x = !EXCLUSION.include?(x)
-          puts x
+        frameworksList = KDEProjectsComponent.frameworks.select do |x|
+          !EXCLUSION.include?("kde/#{x}")
         end
-        x
       end
 
       def frameworks
