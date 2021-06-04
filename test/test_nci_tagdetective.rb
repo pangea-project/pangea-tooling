@@ -28,10 +28,8 @@ require_relative '../nci/debian-merge/tagdetective'
 module NCI
   module DebianMerge
     class NCITagDetectiveTest < TestCase
-      def setup; end
-
-      def test_last_tag_base
-        omit("FIXME stub does not work when run with other tests")
+      def setup
+        puts "XXX setup"
         stub_request(:get, "https://projects.kde.org/api/v1/projects/frameworks").
           with(
             headers: {
@@ -39,7 +37,12 @@ module NCI
                 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                 'User-Agent'=>'Ruby'
             }).
-          to_return(status: 200, body: '["frameworks/extra-cmake-modules"]', headers: { 'Content-Type' => 'text/json' })
+          to_return(status: 200, body: '["frameworks/attica"]', headers: { 'Content-Type' => 'text/json' })
+
+      end
+
+      def test_last_tag_base
+        omit("FIXME stub does not work when run with other tests")
         remote_dir = File.join(Dir.pwd, 'kde/extra-cmake-modules')
         FileUtils.mkpath(remote_dir)
         Dir.chdir(remote_dir) do
@@ -71,15 +74,7 @@ module NCI
       end
 
       def test_investigate
-        stub_request(:get, "https://projects.kde.org/api/v1/projects/frameworks").
-          with(
-            headers: {
-                'Accept'=>'*/*',
-                'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-                'User-Agent'=>'Ruby'
-            }).
-          to_return(status: 200, body: '["frameworks/meow"]', headers: { 'Content-Type' => 'text/json' })
-        remote_dir = File.join(Dir.pwd, 'kde/meow')
+        remote_dir = File.join(Dir.pwd, 'kde/attica')
         `rm -r #{remote_dir}`
         FileUtils.mkpath(remote_dir)
         Dir.chdir(remote_dir) do
@@ -100,7 +95,7 @@ module NCI
           end
         end
 
-        ProjectsFactory::Neon.stubs(:ls).returns(%w[kde/meow])
+        ProjectsFactory::Neon.stubs(:ls).returns(%w[kde/attica])
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
 
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/2')
@@ -112,16 +107,8 @@ module NCI
       end
 
       def test_unreleased
-        stub_request(:get, "https://projects.kde.org/api/v1/projects/frameworks").
-          with(
-            headers: {
-                'Accept'=>'*/*',
-                'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-                'User-Agent'=>'Ruby'
-            }).
-          to_return(status: 200, body: '["frameworks/meow"]', headers: { 'Content-Type' => 'text/json' })
 
-        remote_dir = File.join(Dir.pwd, 'kde/meow')
+        remote_dir = File.join(Dir.pwd, 'kde/attica')
         FileUtils.mkpath(remote_dir)
         Dir.chdir(remote_dir) do
           `git init --bare .`
@@ -140,7 +127,7 @@ module NCI
           end
         end
 
-        ProjectsFactory::Neon.stubs(:ls).returns(%w[kde/meow])
+        ProjectsFactory::Neon.stubs(:ls).returns(%w[kde/attica])
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
 
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/2')
@@ -152,16 +139,8 @@ module NCI
       end
 
       def test_released_invalid
-        stub_request(:get, "https://projects.kde.org/api/v1/projects/frameworks").
-          with(
-            headers: {
-                'Accept'=>'*/*',
-                'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-                'User-Agent'=>'Ruby'
-            }).
-          to_return(status: 200, body: '["frameworks/meow"]', headers: { 'Content-Type' => 'text/json' })
 
-        remote_dir = File.join(Dir.pwd, 'kde/meow')
+        remote_dir = File.join(Dir.pwd, 'kde/attica')
         `rm -r #{remote_dir}`
         FileUtils.mkpath(remote_dir)
         Dir.chdir(remote_dir) do
@@ -184,7 +163,7 @@ module NCI
           end
         end
 
-        ProjectsFactory::Neon.stubs(:ls).returns(%w[kde/meow])
+        ProjectsFactory::Neon.stubs(:ls).returns(%w[kde/attica])
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
 
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/3')
@@ -198,7 +177,7 @@ module NCI
       end
 
       def test_pre_existing
-        remote_dir = File.join(Dir.pwd, 'frameworks/meow')
+        remote_dir = File.join(Dir.pwd, 'frameworks/attica')
         FileUtils.mkpath(remote_dir)
         Dir.chdir(remote_dir) do
           `git init --bare .`
@@ -223,7 +202,7 @@ module NCI
         # would simply use the existing file.
         File.write('data.json', JSON.generate({ 'tag_base' => 'debian/2', 'repos' => ['woop'] }))
 
-        ProjectsFactory::Neon.stubs(:ls).returns(%w[frameworks/meow])
+        ProjectsFactory::Neon.stubs(:ls).returns(%w[frameworks/attica])
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/2')
 
