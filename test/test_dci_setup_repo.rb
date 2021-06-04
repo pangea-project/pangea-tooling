@@ -51,7 +51,7 @@ class DCISetupRepoTest < TestCase
     ENV['RELEASE'] = nil
   end
 
-  def test_setup_repos
+  def fixme_test_setup_repos
     system_calls = [
       ['dpkg --add-architecture i386'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
