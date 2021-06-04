@@ -29,7 +29,6 @@ module NCI
   module DebianMerge
     class NCITagDetectiveTest < TestCase
       def setup
-        puts "XXX setup"
         stub_request(:get, "https://projects.kde.org/api/v1/projects/frameworks").
           with(
             headers: {
@@ -38,11 +37,9 @@ module NCI
                 'User-Agent'=>'Ruby'
             }).
           to_return(status: 200, body: '["frameworks/attica"]', headers: { 'Content-Type' => 'text/json' })
-
       end
 
       def test_last_tag_base
-        omit("FIXME stub does not work when run with other tests")
         remote_dir = File.join(Dir.pwd, 'kde/extra-cmake-modules')
         FileUtils.mkpath(remote_dir)
         Dir.chdir(remote_dir) do
@@ -69,6 +66,7 @@ module NCI
         end
         ProjectsFactory::Neon.stubs(:ls).returns(%w[kde/extra-cmake-modules])
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
+        TagDetective.any_instance.stubs(:list_frameworks).returns(['extra-cmake-modules'])
 
         assert_equal('debian/2', TagDetective.new.last_tag_base)
       end
@@ -99,6 +97,7 @@ module NCI
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
 
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/2')
+        TagDetective.any_instance.stubs(:list_frameworks).returns(['attica'])
 
         TagDetective.new.investigate
         assert_path_exist('data.json')
@@ -131,6 +130,7 @@ module NCI
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
 
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/2')
+        TagDetective.any_instance.stubs(:list_frameworks).returns(['attica'])
 
         TagDetective.new.investigate
         assert_path_exist('data.json')
@@ -205,6 +205,7 @@ module NCI
         ProjectsFactory::Neon.stubs(:ls).returns(%w[frameworks/attica])
         ProjectsFactory::Neon.stubs(:url_base).returns(Dir.pwd)
         TagDetective.any_instance.stubs(:last_tag_base).returns('debian/2')
+        TagDetective.any_instance.stubs(:list_frameworks).returns(['attica'])
 
         TagDetective.new.run
         assert_path_exist('data.json')
