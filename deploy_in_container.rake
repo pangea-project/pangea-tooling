@@ -94,6 +94,7 @@ end
 def custom_version_id
   require_relative 'lib/dci'
   # FIXME disabled jriddell 2021-06-07 due to broken DCI
+  return
   #return unless DCI.series.keys.include?(DIST)
 
   file = '/etc/os-release'
