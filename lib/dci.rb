@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 require_relative 'xci'
-require 'ostruct'
-require 'yaml'
 
 # Debian CI specific data.
 module DCI
@@ -10,54 +8,37 @@ module DCI
   module_function
 
   def arm_boards
-    # To define which board we are building on in ARM jobs..
-    data.fetch('arm_boards')
+    data['arm_boards']
   end
 
-  def architecture(release_data)
-    release_data.arch
+  def arm?(rel)
+    return false unless rel.end_with?('c1' || 'rock64')
+  end
+
+  def arm_board_by_release(release)
+    arm_boards.each do | board |
+      if release.end_with? board
+        return board
+      else
+        "This is not arm, something has gone wrong."
+      end
+    end
   end
 
   def release_types
-    @data['release_types']
+    data.fetch('release_types').keys
   end
 
-  def releases_by_type(release_type)
-    releases_by_type = @data[release_type]
-    releases_by_type
+  def releases_for_type(type)
+    data['release_types'].fetch(type).fetch('releases').keys
   end
 
-  def get_release_data(rel)
-    releases = @data[:releases]
-    release_data releases.fetch(rel)
-    release.new(release_data.name, release_data.release_type, release_data.arch, release_data.components)
-    release
+  def release_data_for_type(type)
+    typedata = data['release_types'].fetch(type).fetch('releases')
+    typedata
   end
 
-  def components(release_data)
-    release_data.components
+  def get_release_data(type, release)
+    @release_data = release_data_for_type(type)[release].to_h
   end
-  
-  def data_file_name
-    @data_file_name ||= "#{to_s.downcase}.yaml"
-  end
-
-  def data_dir
-    @data_dir ||= File.join(File.dirname(__dir__), 'data')
-  end
-
-  def data_dir=(data_dir)
-    reset!
-    @data_dir = data_dir
-  end
-
-  def data
-    release = Struct.new(:name, :release_type, :arch, :components)
-    file = File.join(data_dir, 'dci.yaml')
-    raise "Data file not found (#{file})" unless File.exist?(file)
-
-    @data = YAML.load(File.read(file))
-    @data.each_value(&:freeze) # May be worth looking into a deep freeze gem.
-  end
-
 end

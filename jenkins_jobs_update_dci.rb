@@ -26,11 +26,11 @@ require_relative 'lib/kdeproject_component'
 
 require 'sigdump/setup'
 
-Dir.glob(File.expand_path('jenkins-jobs/*.rb', __dir__)).each do |file|
+Dir.glob(File.expand_path('jenkins-jobs/*.rb', __dir__)).sort.each do |file|
   require file
 end
 
-Dir.glob(File.expand_path('jenkins-jobs/dci/*.rb', __dir__)).each do |file|
+Dir.glob(File.expand_path('jenkins-jobs/dci/*.rb', __dir__)).sort.each do |file|
   require file
 end
 
@@ -63,9 +63,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     @data_file_name = ''
     DCI.series.each_key do |series|
       DCI.release_types.each_key do |release_type|
-        DCI.releases(release_type).each do |release|
-          DCI.arm_boards.each do |arm|
-            if  DCI.arch.include?(/"#{arm}$"/)
+        DCI.releases_by_type(release_type).each do |relbytype|
+          relbytype.each do | release |
+          DCI.get_release_data(relbytype, release)
+            if  DCI.arm?(release) 
+              arm = DCI.arm_board_by_release(release)
                 @data_file_name = "#{release_type}-#{arm}.yaml"
                 puts "Working on #{release}-#{arm}-#{series}"
             else
@@ -120,16 +122,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                     snapshot: snapshot,
                     series: series,
                     release_type: release_type,
-                    architecture: arch,
+                    architecture: arch
                   )
-                )
-                end
-              end
-            end
+            )
           end
         end
       end
     end
+  end
     # MGMT Jobs follow
     docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
@@ -138,7 +138,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
     enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
     enqueue(MGMTRepoCleanupJob.new)
-  end
 end
 
 if $PROGRAM_NAME == __FILE__

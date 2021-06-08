@@ -1,5 +1,4 @@
 series:
-  '2001': '20191205'
   '2101': '20201123'
   'next': '20210414'
 architectures:
@@ -11,68 +10,24 @@ arm_boards:
   - 'c1'
   - 'rock64'
 release_types:
-  - desktop
-  - core
-  - zeronet
-releases:
-  - !ruby/struct:release
-    name: netrunner-desktop
-    release_type: desktop
-    arch: 'amd64'
-    components:
-     - netrunner
-     - extras
-     - artwork
-     - common
-     - backports
-     - netrunner-desktop
-     - netrunner-core'
-# - !ruby/struct:release
-#   name: netrunner-core
-#   release_type: core
-#   arch: amd64
-#   components:
-#    - netrunner
-#    - extras
-#    - artwork
-#    - common
-#    - backports
-#    - netrunner-core
-# - !ruby/struct:release
-#   name: netrunner-core-c1
-#   release_type: core
-#   arch: armhf
-#   components:
-#    - netrunner
-#    - extras
-#    - artwork
-#    - common
-#    - backports
-#    - c1
-#    - netrunner-core
-# - !ruby/struct:release
-#   name: netrunner-zeronet-c1
-#   release_type: zeronet
-#   arch:  armhf
-#   components:
-#    - netrunner
-#    - extras
-#    - artwork
-#    - common
-#    - backports
-#    - c1
-#    - netrunner-core
-#    - netrunner-zeronet
-# - !ruby/struct:release
-#   name: 'netrunner-zeronet-rock64':
-#   release_type: zeronet
-#   arch: 'arm64'
-#   components:
-#    - netrunner
-#    - extras
-#    - artwork
-#    - common
-#    - backports
-#    - rock64
-#    - netrunner-core
-#    - netrunner-zeronet
+    desktop:
+        releases:
+            netrunner-desktop:
+                arch: amd64
+                components: 'netrunner extras artwork common backports netrunner-core netrunner-desktop'
+    core:
+        releases:
+            netrunner-core:
+                arch: amd64
+                components: 'netrunner extras artwork common backports netrunner-core'
+            netrunner-core-c1:
+                arch: armhf
+                components: 'netrunner extras artwork common backports c1 netrunner-core'
+    zeronet:
+        releases:
+           netrunner-zeronet-rock64:
+               arch: arm64
+               components: 'netrunner extras artwork common backports rock64 netrunner-core netrunner-zeronet'
+           netrunner-zeronet-c1:
+              arch:  armhf
+              components: 'netrunner extras artwork common backports c1 netrunner-core netrunner-zeronet'
