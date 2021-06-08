@@ -18,7 +18,7 @@ module DCI
   def arm_board_by_release(release)
     arm_boards.each do | board |
       if release.end_with? board
-        return board
+        return true
       else
         "This is not arm, something has gone wrong."
       end
