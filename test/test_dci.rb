@@ -74,6 +74,6 @@ class DCITest < TestCase
   end
   
   def test_arm
-    assert_equal(true, 'netrunner-core-c1')
+    assert_equal(true, DCI.arm?('netrunner-core-c1'))
   end
 end
