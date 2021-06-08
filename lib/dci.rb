@@ -12,13 +12,13 @@ module DCI
   end
 
   def arm?(rel)
-    return false unless rel.end_with?('c1' || 'rock64')
+    return true if rel.end_with?('c1' || 'rock64')
   end
 
   def arm_board_by_release(release)
     arm_boards.each do | board |
       if release.end_with? board
-        return true
+        return board
       else
         "This is not arm, something has gone wrong."
       end
