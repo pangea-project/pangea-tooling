@@ -65,10 +65,10 @@ Only jobs that are not queued, not building, and failed will be retired.
     new_release = KDEProjectsComponent.plasma_jobs
   end
 
-  opts.on('-r', '--releases', 'There has been new Release Service releases,' \
+  opts.on('-g', '--gear', 'There has been new KDE Gear release,' \
                                   ' run all watcher jobs for them.') do
     @exclusion_states.clear
-    new_release = KDEProjectsComponent.release_service_jobs
+    new_release = KDEProjectsComponent.gear_jobs
   end
 
   opts.on('-f', '--frameworks', 'There has been a new Frameworks release, run' \

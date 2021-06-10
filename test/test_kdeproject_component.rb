@@ -39,16 +39,16 @@ class KDEProjectComponentTest < TestCase
     p = KDEProjectsComponent.plasma
     plasma_jobs = KDEProjectsComponent.plasma_jobs
     pim = KDEProjectsComponent.pim
-    r = KDEProjectsComponent.release_service
+    g = KDEProjectsComponent.gear
     assert f.include? 'attica'
     assert p.include? 'bluedevil'
     assert plasma_jobs.include? 'plasma-discover'
     assert !plasma_jobs.include?('discover')
     assert pim.include? 'kjots'
     assert pim.include? 'kmime'
-    assert r.include? 'kdialog'
-    assert r.include? 'keditbookmarks'
-    assert !r.include?('khotkeys')
-    assert !r.include?('choqok')
+    assert g.include? 'kdialog'
+    assert g.include? 'keditbookmarks'
+    assert !g.include?('khotkeys')
+    assert !g.include?('choqok')
   end
 end

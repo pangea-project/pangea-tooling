@@ -30,7 +30,7 @@ class ProjectTest < TestCase
     stub_request(:get, 'https://invent.kde.org/sysadmin/release-tools/-/raw/master/modules.git')
       .with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent' => 'Ruby' })
       .to_return(status: 200, body: "kdialog                                     master\nkeditbookmarks                              master\n", headers: { 'Content-Type' => 'text/plain' })
-    stub_request(:get, 'https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release-normal')
+    stub_request(:get, 'https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release')
       .with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent' => 'Ruby' })
       .to_return(status: 200, body: 'bluedevil breeze breeze-grub breeze-gtk breeze-plymouth discover drkonqi', headers: { 'Content-Type' => 'text/plain' })
   end
@@ -326,7 +326,7 @@ class ProjectTest < TestCase
 
   def test_native_blacklist
     name = 'kinfocenter'
-    component = 'release_service'
+    component = 'gear'
 
     gitrepo = create_fake_git(name: name, component: component, branches: %w[kubuntu_unstable])
     assert_not_nil(gitrepo)
@@ -334,7 +334,7 @@ class ProjectTest < TestCase
 
     Dir.mktmpdir(self.class.to_s) do |tmpdir|
       Dir.chdir(tmpdir) do
-        # Should raise on account of release_service being a protected component
+        # Should raise on account of KDE Gear being a protected component
         # name which must not contain native stuff.
         assert_raises do
           Project.new(name, component, gitrepo, type: 'unstable')
@@ -345,7 +345,7 @@ class ProjectTest < TestCase
 
   def test_snapcraft_detection
     name = 'kinfocenter'
-    component = 'release_service'
+    component = 'gear'
 
     gitrepo = create_fake_git(name: name, component: component, branches: %w[kubuntu_unstable]) do
       File.write('snapcraft.yaml', '')
@@ -355,7 +355,7 @@ class ProjectTest < TestCase
 
     Dir.mktmpdir(self.class.to_s) do |tmpdir|
       Dir.chdir(tmpdir) do
-        # Should raise on account of release_service being a protected component
+        # Should raise on account of KDE Gear being a protected component
         # name which must not contain native stuff.
         project = Project.new(name, component, gitrepo, type: 'unstable')
         assert_equal 'snapcraft.yaml', project.snapcraft
@@ -372,7 +372,7 @@ class ProjectTest < TestCase
     # restrictions array).
 
     name = 'kinfocenter'
-    component = 'release_service'
+    component = 'gear'
 
     gitrepo = create_fake_git(name: name, component: component, branches: %w[kubuntu_unstable])
     assert_not_nil(gitrepo)

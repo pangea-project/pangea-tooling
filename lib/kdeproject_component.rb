@@ -26,6 +26,7 @@ class KDEProjectsComponent
   class << self
     @@projects_to_jobs = {'discover'=>'plasma-discover', 'kcalendarcore'=>'kcalcore', 'kdeconnect-kde'=>'kdeconnect'}
     @@projects_without_jobs = ['plasma-tests', 'akonadi-airsync', 'akonadi-exchange', 'akonadi-phabricator-resource', 'kpeoplesink', 'akonadiclient', 'kblog']
+    ## The only way to get a list of what is in PlaMo Gear releases seems to be a manually maintained list
     @@plasma_mobile = %w{alligator angelfish calindori kalk kclock koko kongress krecorder ktrip plasma-dialer plasma-phonebook plasma-settings qmlkonsole spacebar}
 
     def frameworks
@@ -52,8 +53,8 @@ class KDEProjectsComponent
       @@plasma_mobile ||= to_jobs(mobile)
     end
 
-    def release_service
-      # the way to get what is in the release service is from release-tools list
+    def gear
+      # the way to get what is in KDE Gear (the release service) is from release-tools list
       @release_service ||= begin
         url = "https://invent.kde.org/sysadmin/release-tools/-/raw/master/modules.git"
         response = HTTParty.get(url)
@@ -66,12 +67,12 @@ class KDEProjectsComponent
       end
     end
 
-    def release_service_jobs
-      @release_service_jobs ||= to_jobs(release_service).reject {|x| @@projects_without_jobs.include?(x)}
+    def gear_jobs
+      @gear_jobs ||= to_jobs(gear).reject {|x| @@projects_without_jobs.include?(x)}
     end
 
     def plasma
-      # the way to get what is in the release service is from release-tools list
+      # the way to get what is in plasma is from this list in plasma release tools
       @plasma ||= begin
         url = "https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release"
         response = HTTParty.get(url)
