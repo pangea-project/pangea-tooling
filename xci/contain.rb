@@ -26,6 +26,7 @@ Docker.options[:read_timeout] = 8 * 60 * 60 # 8 hours now.. because qtbase!
 DIST = ENV.fetch('DIST')
 JOB_NAME = ENV.fetch('JOB_NAME')
 PWD_BIND = ENV.fetch('PWD_BIND', Dir.pwd)
+NODE_NAME = ENV.fetch('NODE_NAME')
 
 # Whitelist a bunch of Jenkins variables for consumption inside the container.
 whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
@@ -39,11 +40,11 @@ ENV['DOCKER_ENV_WHITELIST'] = whitelist.join(':')
 #       apply pwd_bind all the time?
 c = nil
 if PWD_BIND != Dir.pwd # backwards compat. Behave as previosuly without pwd_bind
-  c = CI::Containment.new("xci-#{JOB_NAME}",
+  c = CI::Containment.new("xci-#{JOB_NAME}-#{NODE_NAME}",
                           image: CI::PangeaImage.new(:ubuntu, DIST),
                           binds: ["#{Dir.pwd}:#{PWD_BIND}"])
 else
-  c = CI::Containment.new("xci-#{JOB_NAME}", image: CI::PangeaImage.new(:ubuntu, DIST))
+  c = CI::Containment.new("xci-#{JOB_NAME}-#{NODE_NAME}", image: CI::PangeaImage.new(:ubuntu, DIST))
 end
 
 status_code = c.run(Cmd: ARGV, WorkingDir: PWD_BIND)
