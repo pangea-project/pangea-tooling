@@ -104,7 +104,7 @@ module NCI
       @job_is_kde_released ||= begin
         released_products = KDEProjectsComponent.frameworks_jobs +
                             KDEProjectsComponent.plasma_jobs +
-                            KDEProjectsComponent.release_service_jobs
+                            KDEProjectsComponent.gear_jobs
         job_project = ENV['JOB_NAME'].split('_')[-1]
         released_products.include?(job_project)
       end
@@ -272,8 +272,8 @@ module NCI
       # one to stop spam
       frameworks_package = KDEProjectsComponent.frameworks[0]
       plasma_package = KDEProjectsComponent.plasma[0]
-      release_service_package = KDEProjectsComponent.release_service[0]
-      product_packages = [frameworks_package, plasma_package, release_service_package]
+      gear_package = KDEProjectsComponent.gear[0]
+      product_packages = [frameworks_package, plasma_package, gear_package]
       return if product_packages.none? { |package| ENV['JOB_NAME'].end_with?("_#{package}") }
 
       puts 'sending notification mail'
