@@ -125,19 +125,19 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                     architecture: arch
                   )
             )
+            # MGMT Jobs follow
+            docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
+            docker_clean = enqueue(MGMTDockerCleanupJob.new(downstreams: [docker]))
+            tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker_clean]))
+            tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
+            enqueue(MGMTDCIToolingJob.new(downstreams: [tooling_progenitor], dependees: [], type: release))
+            enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
+            enqueue(MGMTRepoCleanupJob.new)
           end
         end
       end
     end
   end
-    # MGMT Jobs follow
-    docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
-    # enqueue(MGMTDockerCleanupJob.new(arch: 'armhf'))
-    tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
-    tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
-    enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
-    enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
-    enqueue(MGMTRepoCleanupJob.new)
 end
 
 if $PROGRAM_NAME == __FILE__
