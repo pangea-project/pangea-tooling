@@ -347,6 +347,11 @@ EOF
 else # for focal
   cat <<EOF > config/hooks/000-rename-kernel.binary
 #!/bin/sh -ex
+
+# We now use 20.04 HWE linux but this one still gets installed for some reason jriddell 2021-15-06
+rm binary/casper/initrd.img-5.4.0*
+rm binary/casper/vmlinuz-5.4.0*
+
 ls -lah binary/
 ls -lah binary/casper
 if [ ! -e binary/casper/initrd ]; then
