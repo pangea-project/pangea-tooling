@@ -52,7 +52,7 @@
       <command>#!/bin/bash
            set -e
            arch=$(dpkg --print-architecture)
-           export DIST_RELEASE=<%= @series %>
+           export SERIES=<%= @series %>
            if [[ $arch =~ ^arm ]]; then
              ~/tooling/dci/priv_contain.rb /tooling/dci/imager.rb
              export RESULT=$(ls result/)
