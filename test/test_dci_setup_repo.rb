@@ -40,7 +40,15 @@ class DCISetupRepoTest < TestCase
     # Disable all web (used for key).
     WebMock.disable_net_connect!
     ENV['SERIES'] = 'next'
+    ENV['RELEASE_TYPE'] = 'desktop'
     ENV['RELEASE'] = 'netrunner-desktop'
+    ENV['TYPE'] = 'stable'
+    @prefix = 'netrunner'
+    @series = ENV.fetch('SERIES')
+    @release_type = ENV.fetch('RELEASE_TYPE')
+    @release = ENV.fetch('RELEASE')
+    @dist = "#{@release}-#{@series}"
+    @components = [DCI.get_release_data(@release_type, @release)['components']]
   end
 
   def teardown
@@ -48,20 +56,31 @@ class DCISetupRepoTest < TestCase
 
     WebMock.allow_net_connect!
     ENV['SERIES'] = nil
+    ENV['RELEASE_TYPE'] = nil
     ENV['RELEASE'] = nil
+    ENV['TYPE'] = nil
+    @prefix = ''
+    @dist = ''
+    @components = []
   end
 
-  def test_setup_repos
-    omit('FIXME Code broken')
+  def test_setup_i386!
+    setup
+    Object.any_instance.expects(:system)
+          .with('dpkg --add-architecture i386')
+          .returns(true)
+    DCI.setup_i386!
+    teardown
+  end
 
+  def test_setup_backports!
+    setup
     system_calls = [
-      ['dpkg --add-architecture i386'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-desktop-next extras artwork common netrunner netrunner-desktop netrunner-core'],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'update'],
-      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'dist-upgrade']
+      ["apt-get", "-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "install", "software-properties-common"],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://deb.debian.org/debian stable-backports main'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'update'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'upgrade', '-t=stable-backports']
     ]
-
     system_sequence = sequence('system-calls')
     system_calls.each do |cmd|
       Object.any_instance.expects(:system)
@@ -69,13 +88,56 @@ class DCISetupRepoTest < TestCase
             .returns(true)
             .in_sequence(system_sequence)
     end
+    DCI.setup_backports!
+    teardown
+  end
+
+  def test_add_repos
+    setup
+    system_calls = [
+      ["apt-get", *Apt::Abstrapt.default_args, "install", "software-properties-common"],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-desktop-next netrunner extras artwork common backports netrunner-core netrunner-desktop']
+    ]
+    system_sequence = sequence('system-calls')
+    system_calls.each do |cmd|
+      Object.any_instance.expects(:system)
+            .with(*cmd)
+            .returns(true)
+            .in_sequence(system_sequence)
+    end
+    DCI.add_repos(@prefix, @dist, @components)
+    teardown
+  end
+
+  def test_setup_repo!
+    setup
+    system_calls = [
+      ['apt-get', *Apt::Abstrapt.default_args, 'update'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'upgrade'],
+      ['dpkg --add-architecture i386'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://deb.debian.org/debian stable-backports main'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'update'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'upgrade', '-t=stable-backports'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-desktop-next netrunner extras artwork common backports netrunner-core netrunner-desktop'],
+    ]
+    system_sequence = sequence('system-calls')
+    system_calls.each do |cmd|
+      Object.any_instance.expects(:system)
+            .with(*cmd)
+            .returns(true)
+            .in_sequence(system_sequence)
+    end
+    assert_equal('netrunner', @prefix)
+    assert_equal('netrunner-desktop', @release)
+    assert_equal(['netrunner extras artwork common backports netrunner-core netrunner-desktop'], @components)
 
     key_catcher = StringIO.new
     IO.expects(:popen)
       .with(['apt-key', 'add', '-'], 'w')
       .yields(key_catcher)
       .returns(true)
-
     DCI.setup_repo!
+    teardown
   end
 end

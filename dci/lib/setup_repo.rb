@@ -3,6 +3,7 @@
 # Copyright (C) 2016 Harald Sitter <sitter@kde.org>
 # Copyright (C) 2016 Bhushan Shah <bshah@kde.org>
 # Copyright (C) 2016 Rohan Garg <rohan@kde.org>
+# Copyright (C) 2021 Scarlett Moore <sgmoore@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -32,42 +33,33 @@ module DCI
 
   def setup_repo!
     @series = ENV.fetch('SERIES')
+    @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
-    prefix = 'Netrunner'
-    components = []
-    setup_i386
-
-#to-do: split components:repo to yaml
-    components += %w[extras netrunner artwork common netrunner-desktop netrunner-core]
-    components += %w[c1 netrunner-zeronet rock64] unless DPKG::BUILD_ARCH == 'amd64'
-    dist = "#{@release}-#{@series}"
-    data = DCI.get_release_data(@release)
-    components = data.components
-
-    add_repos(prefix, dist, components)
-
+    @prefix = 'netrunner'
+    @dist = "#{@release}-#{@series}"
+    @components = [DCI.get_release_data(@release_type, @release)['components']]
     key = "#{__dir__}/../dci_apt.key"
     raise 'Failed to import key' unless Apt::Key.add(key)
+    raise 'failed to update' unless Apt.update
+    raise 'failed to upgrade' unless Apt.upgrade
 
-    Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
-    raise 'failed to upgrade' unless Apt.dist_upgrade
+    setup_i386!
+    setup_backports!
+    add_repos(@prefix, @dist, @components)
+  end
+
+  def setup_i386!
+    system('dpkg --add-architecture i386')
   end
 
   def setup_backports!
-    # Because we have no /etc/lsb_release
-    Apt.install('lsb-release')
-    debian_release = `lsb_release -sc`.strip
-
-    debline = "deb http://deb.debian.org/debian #{debian_release}-backports main"
+    debline = 'deb http://deb.debian.org/debian stable-backports main'
     raise 'adding backports failed' unless Apt::Repository.add(debline)
+    raise 'update failed' unless Apt.update
 
-    Retry.retry_it(times: 5, sleep: 2) { raise unless Apt.update }
-
-    Apt.dist_upgrade("-t=#{debian_release}-backports")
-  end
-
-  def setup_i386
-    system('dpkg --add-architecture i386')
+    Retry.retry_it(times: 5, sleep: 2) do
+      raise 'backports upgrade failed' unless Apt.upgrade("-t=stable-backports")
+    end
   end
 
   def add_repos(prefix, dist, components)
