@@ -70,7 +70,12 @@ module Lint
       'orig-tarball-missing-upstream-signature',
       # Laments things such as revisions -0 on native packages' PREVIOUS
       # entries. Entirely pointless.
-      'odd-historical-debian-changelog-version'
+      'odd-historical-debian-changelog-version',
+      # When the version contains the dist name lintian whines. Ignore it.
+      # We intentionally put the version in sometimes so future versions
+      # are distinctly different across both ubuntu base version and
+      # our build variants.
+      'version-refers-to-distribution'
     ].freeze
 
     def initialize(changes_directory = Dir.pwd,
