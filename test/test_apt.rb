@@ -119,7 +119,7 @@ class AptTest < TestCase
   end
 
   def test_apt_key_add_keyid
-    assert_system('apt-key', 'adv', '--keyserver', 'pool.sks-keyservers.net', '--recv', '0x123456abc') do
+    assert_system('apt-key', 'adv', '--keyserver', 'keyserver.ubuntu.com', '--recv', '0x123456abc') do
       Apt::Key.add('0x123456abc')
     end
   end
@@ -335,7 +335,7 @@ class AptTest < TestCase
       .with("apt-key adv --fingerprint '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D'")
     Apt::Key
       .expects(:system)
-      .with('apt-key', 'adv', '--keyserver', 'pool.sks-keyservers.net', '--recv',
+      .with('apt-key', 'adv', '--keyserver', 'keyserver.ubuntu.com', '--recv',
             '444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
 
     Apt::Key.add('444D ABCF 3667 D028 3F89  4EDD E6D4 7362 5575 1E5D')
