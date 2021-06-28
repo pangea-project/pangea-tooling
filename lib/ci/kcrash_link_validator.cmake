@@ -1,6 +1,10 @@
 
 # Definitive newline here ^. If the original script didn't have a terminal newline
 # we'd otherwise append to another method call.
+
+# SPDX-FileCopyrightText: 2018-2021 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: BSD-2-Clause
+
 function(kcrash_validator_get_subs output dir)
     # NB: the same function has the same scope if called recursively.
     get_property(_subs DIRECTORY ${dir} PROPERTY SUBDIRECTORIES)
