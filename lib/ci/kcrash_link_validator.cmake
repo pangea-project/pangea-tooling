@@ -1,4 +1,5 @@
-# Definitive newline here. If the original script didn't have a terminal newline
+
+# Definitive newline here ^. If the original script didn't have a terminal newline
 # we'd otherwise append to another method call.
 function(kcrash_validator_get_subs output dir)
     # NB: the same function has the same scope if called recursively.
