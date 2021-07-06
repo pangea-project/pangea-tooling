@@ -30,17 +30,15 @@ class NCIMerger < Merger
     # and invokes push on the squenced branches. Susequent pushes will do the
     # same but essentially be no-op except for leafes which weren't part of the
     # first pushed sequence.
-    unstable = sequence('Neon/release-lts').merge_into('Neon/release')
-                                           .merge_into('Neon/stable')
-                                           .merge_into('Neon/unstable')
+    unstable = sequence('Neon/release').merge_into('Neon/stable')
+                                       .merge_into('Neon/unstable')
     unstable.merge_into('Neon/mobile').push
     unstable.merge_into('Neon/pending-merge').push
 
     puts 'Done merging standard branches. Now merging series.'
     NCI.series.each_key do |series|
       puts "Trying to merge branches for #{series}..."
-      unstable = sequence("Neon/release-lts_#{series}")
-                 .merge_into("Neon/release_#{series}")
+      unstable = sequence("Neon/release_#{series}")
                  .merge_into("Neon/stable_#{series}")
                  .merge_into("Neon/unstable_#{series}")
       unstable.merge_into("Neon/mobile_#{series}").push

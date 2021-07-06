@@ -23,7 +23,6 @@
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <% unless origin.include?('-lts') %>
     <hudson.plugins.parameterizedtrigger.TriggerBuilder plugin="parameterized-trigger@2.33">
       <configs>
         <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
@@ -56,7 +55,6 @@
         </hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
       </configs>
     </hudson.plugins.parameterizedtrigger.TriggerBuilder>
-    <% end %>
     <hudson.plugins.parameterizedtrigger.TriggerBuilder plugin="parameterized-trigger@2.33">
       <configs>
         <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
@@ -95,7 +93,6 @@ cd $HOME/tooling
 ./nci/repo_snapshot_user.rb -t <%= target %>
 </command>
     </hudson.tasks.Shell>
-    <% unless target.end_with?('-lts') # lts has no more asgen its too expensive and LTS is going away %>
     <hudson.plugins.parameterizedtrigger.TriggerBuilder plugin="parameterized-trigger@2.33">
       <configs>
         <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
@@ -108,7 +105,6 @@ cd $HOME/tooling
         </hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
       </configs>
     </hudson.plugins.parameterizedtrigger.TriggerBuilder>
-    <% end %>
   </builders>
   <publishers>
     <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.33">

@@ -62,8 +62,12 @@ module CI
     end
 
     def build_suffix
-      # only release-lts has a hypen, make it always lose to release by making it a ~
-      suffix = "+#{ENV.fetch('TYPE').tr('-', '~')}+build#{@build_rev}"
+      # Make sure the TYPE doesn't have a hyphen. If this guard should fail you have to
+      # figure out what to do with it. e.g. it could become a ~ and consequently lose to similarly named
+      # type versions.
+      raise if ENV.fetch('TYPE').include?('-')
+
+      suffix = "+#{ENV.fetch('TYPE')}+build#{@build_rev}"
       return suffix unless ENV.fetch('TYPE') == 'experimental'
 
       # Prepend and experimental qualifier to **lower** the version beyond

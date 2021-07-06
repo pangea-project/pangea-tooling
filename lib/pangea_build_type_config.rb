@@ -8,19 +8,15 @@ module PangeaBuildTypeConfig
   class << self
     # Whether to override the build type at all (i.e. strip dpkg-buildflags)
     def override?
-      enabled? && ubuntu? && (release_lts? || arm?)
+      enabled? && ubuntu? && arm?
     end
 
     # Whether this build should be run as release build (i.e. no ddebs or symbols)
     def release_build?
-      override? && release_lts?
+      override?
     end
 
     private
-
-    def release_lts?
-      ENV.fetch('TYPE', '') == 'release-lts'
-    end
 
     def enabled?
       !ENV.key?('PANGEA_NO_BUILD_TYPE')

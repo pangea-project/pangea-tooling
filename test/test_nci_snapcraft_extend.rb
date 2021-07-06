@@ -50,7 +50,7 @@ module NCI::Snap
     end
 
     def test_release_with_git
-      ENV['TYPE'] = 'release-lts'
+      ENV['TYPE'] = 'release'
       assert_raises RuntimeError do
         Extender.extend(data('snapcraft.yaml'))
       end
@@ -58,7 +58,7 @@ module NCI::Snap
 
     # When building a release type we don't want the git mangling to happen.
     def test_release_no_gitification
-      ENV['TYPE'] = 'release-lts'
+      ENV['TYPE'] = 'release'
 
       stub_request(:get, Extender::Core16::STAGED_CONTENT_PATH)
         .to_return(status: 200, body: JSON.generate(['bar']))

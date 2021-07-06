@@ -148,8 +148,7 @@ module CI
         'z2' => ReleaseMe::Origin::TRUNK,
         'unstable' => ReleaseMe::Origin::TRUNK,
         'stable' => ReleaseMe::Origin::STABLE,
-        'release' => ReleaseMe::Origin::STABLE,
-        'release-lts' => ReleaseMe::Origin::STABLE
+        'release' => ReleaseMe::Origin::STABLE
       }.fetch(ENV.fetch('TYPE'))
     end
 

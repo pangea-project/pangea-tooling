@@ -16,7 +16,6 @@ types:
   - unstable
   - stable
   - release
-  - release-lts
   - experimental
 
 # Special abstraction to abstract the name of the type and repo Qt updates gets

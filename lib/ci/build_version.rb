@@ -37,8 +37,12 @@ module CI
     private
 
     def version_type
-      # only release-lts has a hypen, make it always lose to release by making it a ~
-      ENV.fetch('TYPE').tr('-', '~')
+      # Make sure the TYPE doesn't have a hyphen. If this guard should fail you have to
+      # figure out what to do with it. e.g. it could become a ~ and consequently lose to similarly named
+      # type versions.
+      raise if ENV.fetch('TYPE').include?('-')
+
+      ENV.fetch('TYPE')
     end
 
     # Helper to get the time string for use in the version

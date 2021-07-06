@@ -216,7 +216,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           #   have a release branch (which is technically possible - e.g.
           #   ubuntu-release-upgrader only has a single branch) then the watcher
           #   coverage will be lacking.
-          next unless %w[Neon/release Neon/release-lts].any? do |x|
+          next unless %w[Neon/release].any? do |x|
             x == project.packaging_scm&.branch
           end
 
@@ -405,10 +405,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # generic is folly.
 
     enqueue(MGMTSnapshotUser.new(dist: NCI.current_series, origin: 'release', target: 'user'))
-    enqueue(MGMTSnapshotUser.new(dist: NCI.current_series, origin: 'release-lts', target: 'user-lts'))
     if NCI.future_series
       enqueue(MGMTSnapshotUser.new(dist: NCI.future_series, origin: 'release', target: 'user'))
-      enqueue(MGMTSnapshotUser.new(dist: NCI.future_series, origin: 'release-lts', target: 'user-lts'))
     end
 
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'user', notify: true))

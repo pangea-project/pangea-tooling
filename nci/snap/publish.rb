@@ -33,7 +33,6 @@ module NCI
         'release' => 'candidate',
         'stable' => 'candidate',
         'unstable' => 'edge'
-        # release-lts is not mapped as we should never build from there.
       }.freeze
 
       def self.install!

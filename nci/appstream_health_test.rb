@@ -29,9 +29,7 @@ class DEP11Test < Minitest::Test
 
   IN_RELEASES = {
     'user' =>
-      "https://archive.neon.kde.org/user/dists/#{SERIES}/InRelease",
-    'user_lts' =>
-      "https://archive.neon.kde.org/user/lts/dists/#{SERIES}/InRelease"
+      "https://archive.neon.kde.org/user/dists/#{SERIES}/InRelease"
   }.freeze
 
   IN_RELEASES.each do |name, in_release_uri|
