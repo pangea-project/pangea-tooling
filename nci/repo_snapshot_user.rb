@@ -38,11 +38,11 @@ OptionParser.new do |opts|
   opts.on('-t', '--target [TARGET]', 'user or user-lts') do |target|
     lts = '/lts' if target == 'user-lts'
     prefix = "user#{lts}"
-    repo = "release-lts" if target == 'user-lts'
+    repo = 'release-lts' if target == 'user-lts'
   end
 end.parse!
 
-def send_email(mailText, prefix)
+def send_email(mail_text, prefix)
   puts 'sending notification mail'
   Pangea::SMTP.start do |smtp|
     mail = <<-MAIL
@@ -50,11 +50,11 @@ From: Neon CI <noreply@kde.org>
 To: neon-notifications@kde.org
 Subject: #{prefix} Snapshot Done
 
-#{mailText}
-      MAIL
-      smtp.send_message(mail,
-                        'no-reply@kde.org',
-                        'neon-notifications@kde.org')
+#{mail_text}
+    MAIL
+    smtp.send_message(mail,
+                      'no-reply@kde.org',
+                      'neon-notifications@kde.org')
   end
 end
 
@@ -63,21 +63,21 @@ Faraday.default_connection_options =
 
 # SSH tunnel so we can talk to the repo
 Aptly::Ext::Remote.neon do
-  mailText = ""
+  mail_text = ''
   differ = RepoDiff.new
-  diffRows = differ.diff_repo("user#{lts}", "release#{lts}", DIST)
-  diffRows.each do |name, architecture, new_version, old_version|
-    mailText += name.ljust(20) + architecture.ljust(10) + new_version.ljust(40) + old_version.ljust(40) + "\n"
+  diff_rows = differ.diff_repo("user#{lts}", "release#{lts}", DIST)
+  diff_rows.each do |name, architecture, new_version, old_version|
+    mail_text += name.ljust(20) + architecture.ljust(10) + new_version.ljust(40) + old_version.ljust(40) + "\n"
   end
-  puts "Repo Diff:"
-  puts mailText
+  puts 'Repo Diff:'
+  puts mail_text
 
   stamp = Time.now.utc.strftime('%Y%m%d.%H%M')
   release = Aptly::Repository.get("#{repo}_#{DIST}")
   snapshot = release.snapshot(Name: "#{repo}_#{DIST}-#{stamp}")
   # Limit to user for now.
   pubs = Aptly::PublishedRepository.list.select do |x|
-    x.Prefix == "#{prefix}" && x.Distribution == DIST
+    x.Prefix == prefix.to_s && x.Distribution == DIST
   end
   pub = pubs[0]
   pub.update!(Snapshots: [{ Name: snapshot.Name, Component: 'main' }])
@@ -104,5 +104,5 @@ Aptly::Ext::Remote.neon do
   puts "Dangling snapshots: #{dangling_snapshots.map(&:Name)}"
   dangling_snapshots.each(&:delete)
   puts 'Dangling snapshots deleted'
-  send_email(mailText, prefix)
+  send_email(mail_text, prefix)
 end
