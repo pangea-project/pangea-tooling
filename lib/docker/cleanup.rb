@@ -109,7 +109,7 @@ module Docker
     end
 
     def old_images
-      %w[pangea/ubuntu:wily ubuntu:wily armhf/ubuntu:wily].each do |name|
+      %w[pangea/ubuntu:wily ubuntu:wily armhf/ubuntu:wily ubuntu:bionic pangea/ubuntu:bionic].each do |name|
         begin
           remove_image(Docker::Image.get(name))
         rescue => e
