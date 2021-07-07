@@ -92,6 +92,11 @@ MSG
     # Remove some CI vars to ensure tests are self-sufficient (i.e. passing outside CI envs)
     ENV.delete('WORKSPACE')
     ENV.delete('BUILD_NUMBER')
+    # Don't fall on the nose on localized systems. Force default output instead.
+    # This notably prevents failure from localized CLI tools (such as git) not matching output
+    # expectations anymore.
+    ENV.delete('LANGUAGE')
+    ENV['LOCALE'] = 'C.UTF-8'
 
     script_base_path = File.expand_path(File.dirname(self.class.file))
     script_name = File.basename(self.class.file, '.rb')
