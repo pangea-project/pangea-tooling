@@ -13,7 +13,7 @@ module PangeaBuildTypeConfig
 
     # Whether this build should be run as release build (i.e. no ddebs or symbols)
     def release_build?
-      override?
+      false # we currently have nothing that qualifies. previously LTS was a type of this
     end
 
     private
