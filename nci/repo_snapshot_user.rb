@@ -30,17 +30,8 @@ require_relative '../lib/aptly-ext/remote'
 require_relative '../lib/pangea/mail'
 
 DIST = ENV.fetch('DIST')
-lts = nil
 prefix = 'user'
 repo = 'release'
-
-OptionParser.new do |opts|
-  opts.on('-t', '--target [TARGET]', 'user or user-lts') do |target|
-    lts = '/lts' if target == 'user-lts'
-    prefix = "user#{lts}"
-    repo = 'release-lts' if target == 'user-lts'
-  end
-end.parse!
 
 def send_email(mail_text, prefix)
   puts 'sending notification mail'
@@ -65,7 +56,7 @@ Faraday.default_connection_options =
 Aptly::Ext::Remote.neon do
   mail_text = ''
   differ = RepoDiff.new
-  diff_rows = differ.diff_repo("user#{lts}", "release#{lts}", DIST)
+  diff_rows = differ.diff_repo('user', 'release', DIST)
   diff_rows.each do |name, architecture, new_version, old_version|
     mail_text += name.ljust(20) + architecture.ljust(10) + new_version.ljust(40) + old_version.ljust(40) + "\n"
   end
