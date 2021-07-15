@@ -6,6 +6,26 @@
 
 # Others
 
+'*_backports-focal_libglib-testing_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_malcontent_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_appstream-glib_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_flatpak_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-focal_ostree_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-focal_bup_*':
   sourcer:
     restricted_packaging_copy: true
