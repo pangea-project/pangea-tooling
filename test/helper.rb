@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'bundler/setup' # Make sure we have git gems available (ci_reporter...)
 
 require 'simplecov'
 require 'simplecov-rcov'
