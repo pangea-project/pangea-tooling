@@ -44,6 +44,7 @@ rm -rf .bundle || true
 gem install --no-document bundler
 [ -f Gemfile.lock ] || bundle install --jobs=`nproc`
 bundle update --jobs=`nproc`
+rm -rf .bundle || true
 </command>
     </hudson.tasks.Shell>
     <hudson.plugins.rake.Rake plugin="rake@1.8.0">
