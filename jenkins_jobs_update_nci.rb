@@ -171,7 +171,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           # special-interest.
           # Also forced onto bionic, snapcraft porting requires special care
           # and is detatched from deb-tech more or less.
-          if %w[stable unstable].include?(type) && # project.snapcraft &&  # we allow snapcraft.yaml in project git repo now so can not tell from packaging if it is to be added
+          if %w[release].include?(type) && # project.snapcraft &&  # we allow snapcraft.yaml in project git repo now so can not tell from packaging if it is to be added
              !EXCLUDE_SNAPS.include?(project.name) && distribution == 'focal'
             # We use stable in jenkins to build the tar releases because that way we get the right KDE git repo
             unless project.upstream_scm.nil?
