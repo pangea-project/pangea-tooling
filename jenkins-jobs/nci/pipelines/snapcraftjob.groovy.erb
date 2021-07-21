@@ -6,15 +6,11 @@ env.PWD_BIND = '/workspace'
 
 cleanNode('cloud && amd64-snap') {
   stage('clone') {
-    git branch: "<%= packaging_scm.branch %>", url: "<%= packaging_scm.url %>"
+    git branch: "master", url: "git@invent.kde.org:packaging/snapcraft-kde-applications.git"
 
-    sh 'mkdir source'
-    dir('source') {
-      git branch: "<%= upstream_scm.branch %>", url: "<%= upstream_scm.url %>"
-    }
-    if (fileExists('source/snapcraft.yaml')) {
-      sh 'echo Note: building with snapcraft.yaml file found in app repo <%= upstream_scm.branch %> branch.'
-      sh 'cp source/snapcraft.yaml snapcraft.yaml'
+    if (fileExists(<%= appname + '/snapcraft.yaml' %>)) {
+      sh 'echo Note: building with snapcraft.yaml file found in packaging/snapcraft-kde-applications.git master branch.'
+      sh 'cp <%= appname + '/snapcraft.yaml' %> snapcraft.yaml'
     }
     <% if upstream_scm.type == 'git' %>
     <% elsif upstream_scm.type == 'uscan' %>

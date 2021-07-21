@@ -37,13 +37,7 @@ class SnapcraftJob < PipelineJob
     @appname = project.name
     @distribution = distribution
     @type = type
-    if project.packaging_scm.branch == 'Neon/stable'
-      @packaging_scm = CI::SCM.new('git',
-                                   project.packaging_scm.url,
-                                   'Neon/release')
-    else
-      @packaging_scm = project.packaging_scm
-    end
+    @packaging_scm = project.packaging_scm
     @upstream_scm = project.upstream_scm
   end
 end
