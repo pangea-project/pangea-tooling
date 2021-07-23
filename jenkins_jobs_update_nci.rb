@@ -23,7 +23,9 @@ Dir.glob(File.expand_path('jenkins-jobs/nci/*.rb', __dir__)).each do |file|
 end
 
 # FIXME: this really shouldn't be in here. need some snap job builder or something
-EXCLUDE_SNAPS = %w[
+EXCLUDE_SNAPS =  KDEProjectsComponent.framework_jobs + KDEProjectsComponent.plasma_jobs +
+  %w[backports-focal clazy colord-kde gammaray icecc icemon latte-dock libqaccessiblity
+  ofono pyqt sip5 attica baloo bluedevil bluez-qt breeze drkonqi
   eventviews gpgmepp grantleetheme incidenceeditor
   kaccounts-integration kcalcore kcalutils kcron kde-dev-scripts
   kdepim-addons kdepim-apps-libs kdgantt2 kholidays

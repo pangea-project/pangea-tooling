@@ -10,7 +10,7 @@ cleanNode('cloud && amd64-snap') {
 
     if (fileExists(<%= appname + '/' %>)) {
       sh 'echo Note: building with snapcraft.yaml file found in https://invent.kde.org/packaging/snapcraft-kde-applications master branch.'
-      sh 'cp -r "<%= appname + '/*' %>" .'
+      sh 'cp -r <%= appname  %>/* .'
     }
     <% if upstream_scm.type == 'git' %>
     <% elsif upstream_scm.type == 'uscan' %>
