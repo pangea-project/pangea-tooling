@@ -9,7 +9,7 @@ cleanNode('cloud && amd64-snap') {
     git branch: "Neon/<%= type %>", url: "https://invent.kde.org/packaging/snapcraft-kde-applications.git"
 
     if (fileExists("<%= appname + '/' %>")) {
-      sh 'echo Note: building with snapcraft.yaml file found in https://invent.kde.org/packaging/snapcraft-kde-applications master branch.'
+      sh 'echo Note: building with snapcraft.yaml file found in https://invent.kde.org/packaging/snapcraft-kde-applications Neon/<%= type %> branch.'
       sh 'cp -r <%= appname  %>/* .'
     }
     <% if upstream_scm.type == 'git' %>
