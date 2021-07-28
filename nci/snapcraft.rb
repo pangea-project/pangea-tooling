@@ -63,7 +63,7 @@ if $PROGRAM_NAME == __FILE__
     `sudo chown jenkins-slave /var/snap/lxd/common/lxd/unix.socket`
     `lxd init --auto`
     `snapcraft --version`
-    `snapcraft clean --use-lxd || true`
+    `snapcraft clean --enable-experimental-extensions --use-lxd || true`
     TTY::Command.new(uuid: false).run('snapcraft --enable-experimental-extensions --use-lxd')
     File.write('snapcraft.yaml', non_managled_snap)
   #end
