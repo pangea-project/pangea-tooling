@@ -33,7 +33,7 @@ class SnapcraftJob < PipelineJob
   def initialize(project, distribution:, type:)
     basename = ProjectJob.basename(distribution, type, project.component,
                                    project.name)
-    super("#{basename}_snap_amd64", template: 'snapcraftjob')
+    super("#{basename}_snap_amd64", template: 'snapcraftjob', with_push_trigger: false)
     @appname = project.name
     @distribution = distribution
     @type = type
