@@ -94,6 +94,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_backports-focal_appstream*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_neon-packaging_*_*':
   sourcer:
     restricted_packaging_copy: true
