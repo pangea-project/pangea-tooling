@@ -264,7 +264,7 @@ module NCI
       if ENV.include?('JOB_NAME')
         snap_directory = "snapcraft-kde-applications/" + ENV['JOB_NAME'][ENV['JOB_NAME'].rindex('_')+1..]
         if File.directory?(snap_directory)
-          Dir.chdir("snapcraft-kde-applications/" + package) do
+          Dir.chdir(snap_directory) do
             SnapcraftUpdater.new(newest_dehs_package).run
           end
         else
