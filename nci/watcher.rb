@@ -14,9 +14,11 @@ require_relative '../lib/debian/source'
 # TODO: we should still detect when ubuntu versions diverge I guess?
 #   though that may be more applicable to backports version change detection as
 #   a whole
-if Debian::Source.new(Dir.pwd).format.type == :native
-  puts 'This is a native source. Nothing to do!'
-  exit 0
+Dir.chdir('deb-packaging') do
+  if Debian::Source.new(Dir.pwd).format.type == :native
+    puts 'This is a native source. Nothing to do!'
+    exit 0
+  end
 end
 
 # Special exclusion list. For practical reasons we have kind of neon-specific
