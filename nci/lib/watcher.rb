@@ -270,6 +270,8 @@ module NCI
         else
           puts "Could not find snap package in " + snap_directory
         end
+      else
+        puts "2 Could not find snap package in " + snap_directory
       end
 
       send_mail
