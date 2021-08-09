@@ -53,11 +53,16 @@ module NCI
       def tar_basename_from_url(url)
         return url if url.nil?
 
-        File.basename(url).reverse.split('-', 2).fetch(-1).reverse
+        puts "XXX tar_basename_from_url: " + url
+        ret = File.basename(url).reverse.split('-', 2).fetch(-1).reverse
+        puts "XXX now " + ret
+        ret
       end
 
       def mangle(snapcraft)
-        snapcraft['version'] = @new_version
+        if snapcraft.include?('version')
+          snapcraft['version'] = @new_version
+        end
 
         newest_tar = tar_basename_from_url(@new_url)
         snapcraft['parts'].each_value do |part|
