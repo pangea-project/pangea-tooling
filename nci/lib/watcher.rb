@@ -264,7 +264,6 @@ module NCI
 
         cmd.run('git --no-pager diff')
         cmd.run("git commit -a -m 'New release'")
-        cmd.run("git push")
       end
 
       if ENV.include?('JOB_NAME')
@@ -272,9 +271,6 @@ module NCI
         if File.directory?(snap_directory)
           Dir.chdir(snap_directory) do
             SnapcraftUpdater.new(newest_dehs_package).run
-            cmd.run('git --no-pager diff')
-            cmd.run("git commit -a -m 'New release'")
-            cmd.run("git push")
           end
         else
           puts "Could not find snap package in " + snap_directory
