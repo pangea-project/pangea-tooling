@@ -117,7 +117,5 @@ Net::SFTP.start('rsync.kde.org', 'neon', *ssh_args) do |sftp|
 
   remote_target = File.join(remote_dir_path, torrent_name)
   puts "Writing torrent to #{remote_target}"
-  sftp.upload!(torrent_name, remote_target) do |*args|
-    p args
-  end
+  sftp.upload!(torrent_name, remote_target)
 end
