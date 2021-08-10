@@ -19,20 +19,20 @@ Dir.chdir('deb-packaging') do
     puts 'This is a native source. Nothing to do!'
     exit 0
   end
+end
 
-  # Special exclusion list. For practical reasons we have kind of neon-specific
-  # sources that aren't built from tarballs but rather from git directly.
-  # Sources in this list MUST be using KDE_L10N_SYNC_TRANSLATIONS AND have a
-  # gitish watch file or none at all.
-  # Changes to these requiremenst MUST be discussed with the team!
-  source_name = Debian::Changelog.new(Dir.pwd).name
-  if %w[drkonqi-pk-debug-installer].include?(source_name) &&
-    File.read('debian/rules').include?('KDE_L10N_SYNC_TRANSLATIONS') &&
-    (!File.exist?('debian/watch') ||
-      File.read('debian/watch').include?('mode=git'))
-    puts 'This is a neon-ish source built from git despite being in release/.'
-    exit 0
-  end
+# Special exclusion list. For practical reasons we have kind of neon-specific
+# sources that aren't built from tarballs but rather from git directly.
+# Sources in this list MUST be using KDE_L10N_SYNC_TRANSLATIONS AND have a
+# gitish watch file or none at all.
+# Changes to these requiremenst MUST be discussed with the team!
+source_name = Debian::Changelog.new(Dir.pwd).name
+if %w[drkonqi-pk-debug-installer].include?(source_name) &&
+   File.read('debian/rules').include?('KDE_L10N_SYNC_TRANSLATIONS') &&
+   (!File.exist?('debian/watch') ||
+    File.read('debian/watch').include?('mode=git'))
+  puts 'This is a neon-ish source built from git despite being in release/.'
+  exit 0
 end
 
 NCI.setup_env!
