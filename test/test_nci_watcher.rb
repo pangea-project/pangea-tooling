@@ -32,7 +32,7 @@ class NCIWatcherTest < TestCase
       )
       .to_return(status: 200, body: '["frameworks/attica","frameworks/baloo","frameworks/bluez-qt","frameworks/breeze-icons"]', headers: { "Content-Type": 'application/json' })
 
-    stub_request(:get, 'https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release-normal')
+    stub_request(:get, 'https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release')
       .with(
         headers: {
           'Accept' => '*/*',
