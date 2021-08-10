@@ -225,52 +225,40 @@ module NCI
     attr_accessor :newest_dehs_package
 
     def run
-      Dir.chdir("deb-packaging") do
-        raise 'No debain/watch found!' unless File.exist?('debian/watch')
+      raise 'No debain/watch found!' unless File.exist?('debian/watch')
 
-        watch = File.read('debian/watch')
-        if watch.include?('unstable') && watch.include?('download.kde.')
-          raise UnstableURIForbidden, 'Quitting watcher as debian/watch contains unstable ' \
-                                      'and we only build stable tars in Neon'
-        end
-
-        return if newer_dehs_packages.empty?
-
-        # Message is transitional. The entire code in watcher is more complicated because of multiple packages.
-        # e.g. see merge method.
-        if newer_dehs_packages.size > 1
-          raise 'There are multiple DEHS packages being reported. This suggests there are multiple sources in the watch' \
-                " file. We'd like to get rid of these if possible. Check if we have full control over this package and" \
-                ' drop irrelevant sources if possible. If we do not have full control check with upstream about the' \
-                ' rationale for having multiple sources. If the source cannot be "fixed". Then remove this error and' \
-                ' probably also check back with sitter.'
-        end
-
-        if job_is_kde_released && CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
-          send_product_mail
-          return
-        end
-
-        merge # this mutates newer_dehs_packages and MUST be before make_newest_dehs_package!
-        make_newest_dehs_package! # sets a bunch of members - very awkwardly - must be after merge!
-
-
-        bump_version
-
-        cmd.run('git --no-pager diff')
-        cmd.run("git commit -a -m 'New release'")
+      watch = File.read('debian/watch')
+      if watch.include?('unstable') && watch.include?('download.kde.')
+        raise UnstableURIForbidden, 'Quitting watcher as debian/watch contains unstable ' \
+                                    'and we only build stable tars in Neon'
       end
 
-      if ENV.include?('JOB_NAME')
-        snap_directory = "snapcraft-kde-applications/" + ENV['JOB_NAME'][ENV['JOB_NAME'].rindex('_')+1..]
-        if File.directory?(snap_directory)
-          Dir.chdir("snapcraft-kde-applications/" + package) do
-            SnapcraftUpdater.new(newest_dehs_package).run
-          end
-        else
-          puts "Could not find snap package in " + snap_directory
-        end
+      return if newer_dehs_packages.empty?
+
+      # Message is transitional. The entire code in watcher is more complicated because of multiple packages.
+      # e.g. see merge method.
+      if newer_dehs_packages.size > 1
+        raise 'There are multiple DEHS packages being reported. This suggests there are multiple sources in the watch' \
+              " file. We'd like to get rid of these if possible. Check if we have full control over this package and" \
+              ' drop irrelevant sources if possible. If we do not have full control check with upstream about the' \
+              ' rationale for having multiple sources. If the source cannot be "fixed". Then remove this error and' \
+              ' probably also check back with sitter.'
       end
+
+      if job_is_kde_released && CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
+        send_product_mail
+        return
+      end
+
+      merge # this mutates newer_dehs_packages and MUST be before make_newest_dehs_package!
+      make_newest_dehs_package! # sets a bunch of members - very awkwardly - must be after merge!
+
+      SnapcraftUpdater.new(newest_dehs_package).run
+
+      bump_version
+
+      cmd.run('git --no-pager diff')
+      cmd.run("git commit -a -m 'New release'")
 
       send_mail
 

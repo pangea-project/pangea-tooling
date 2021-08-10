@@ -20,7 +20,7 @@ class NCIWatcherTest < TestCase
     NCI.stubs(:setup_env!).returns(true)
     # Rip out causes from the test env so we don't trigger on them.
     NCI::Watcher::CAUSE_ENVS.each { |e| ENV.delete(e) }
-    ENV['JOB_NAME'] = 'watcher_release_kde_ark'
+    ENV['JOB_NAME'] = 'HIIIIYA'
 
     stub_request(:get, 'https://projects.kde.org/api/v1/projects/frameworks')
       .with(
@@ -51,17 +51,6 @@ class NCIWatcherTest < TestCase
         }
       )
       .to_return(status: 200, body: "kdialog                                     master\nkeditbookmarks                              master", headers: { "Content-Type": 'text/plain' })
-
-
-    stub_request(:get, 'https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release')
-      .with(
-        headers: {
-          'Accept' => '*/*',
-          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent' => 'Ruby'
-        }
-      )
-      .to_return(status: 200, body: "bluedevil breeze breeze-grub breeze-gtk breeze-plymouth discover drkonqi kactivitymanagerd kde-cli-tools kde-gtk-config kdecoration kdeplasma-addons kgamma5 khotkeys kinfocenter kmenuedit kscreen kscreenlocker ksshaskpass ksystemstats kwallet-pam kwayland-integration kwayland-server kwin kwrited layer-shell-qt libkscreen libksysguard milou oxygen plasma-browser-integration plasma-desktop plasma-disks plasma-firewall plasma-integration plasma-nano plasma-nm plasma-pa plasma-phone-components plasma-sdk plasma-systemmonitor plasma-tests plasma-thunderbolt plasma-vault plasma-workspace plasma-workspace-wallpapers plymouth-kcm polkit-kde-agent-1 powerdevil qqc2-breeze-style sddm-kcm systemsettings xdg-desktop-portal-kde", headers: { "Content-Type": 'text/plain' })
   end
 
   def with_remote_repo(seed_dir, branch: 'unstable')
@@ -107,30 +96,28 @@ class NCIWatcherTest < TestCase
 
       NCI::Watcher.new.run
 
-      Dir.chdir('deb-packaging') do
-        # New changelog entry
-        assert_equal '4:17.04.2-0neon', Changelog.new.version
-        control = Debian::Control.new
-        control.parse!
-        # fooVersion~ciBuild suitably replaced.
-        assert_equal '4:17.04.2', control.binaries[0]['depends'][0][0].version
-        assert_equal '4:17.04.2', control.binaries[0]['recommends'][0][0].version
-      end
+      # New changelog entry
+      assert_equal '4:17.04.2-0neon', Changelog.new.version
+      control = Debian::Control.new
+      control.parse!
+      # fooVersion~ciBuild suitably replaced.
+      assert_equal '4:17.04.2', control.binaries[0]['depends'][0][0].version
+      assert_equal '4:17.04.2', control.binaries[0]['recommends'][0][0].version
 
-        repo = Rugged::Repository.new(Dir.pwd)
-        commit = repo.last_commit
-        assert_includes commit.message, 'release'
-        deltas = commit.diff(commit.parents[0]).deltas
-        assert_equal 2, deltas.size
-        changed_files = deltas.collect { |d| d.new_file[:path] }
-        assert_equal ['deb-packaging/debian/changelog', 'deb-packaging/debian/control'], changed_files
+      repo = Rugged::Repository.new(Dir.pwd)
+      commit = repo.last_commit
+      assert_includes commit.message, 'release'
+      deltas = commit.diff(commit.parents[0]).deltas
+      assert_equal 2, deltas.size
+      changed_files = deltas.collect { |d| d.new_file[:path] }
+      assert_equal ['debian/changelog', 'debian/control'], changed_files
 
-        # watch file was unmanagled again
-        assert_path_exist 'deb-packaging/debian/watch'
-        assert_includes File.read('deb-packaging/debian/watch'), 'download.kde.org'
-        assert_includes File.read('deb-packaging/debian/watch'), 'https'
-        assert_not_includes File.read('deb-packaging/debian/watch'), 'download.kde.internal.neon.kde.org'
-        assert_not_includes File.read('deb-packaging/debian/watch'), 'download.kde.internal.neon.kde.org:9191'
+      # watch file was unmanagled again
+      assert_path_exist 'debian/watch'
+      assert_includes File.read('debian/watch'), 'download.kde.org'
+      assert_includes File.read('debian/watch'), 'https'
+      assert_not_includes File.read('debian/watch'), 'download.kde.internal.neon.kde.org'
+      assert_not_includes File.read('debian/watch'), 'download.kde.internal.neon.kde.org:9191'
     end
   end
 
@@ -205,7 +192,6 @@ class NCIWatcherTest < TestCase
 
   def test_3rdparty_time_trigger_mail_and_fail
     ENV['BUILD_CAUSE'] = 'TIMERTRIGGER'
-    ENV['JOB_NAME'] = 'watcher_release_kde_ark'
     require_binaries(%w[dch])
 
     smtp = mock('smtp')
