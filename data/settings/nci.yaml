@@ -6,6 +6,10 @@
 
 # Others
 
+'*_neon-packaging_haruna_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-focal_dav1d_*':
   sourcer:
     restricted_packaging_copy: true
