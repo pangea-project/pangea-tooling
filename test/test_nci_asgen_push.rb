@@ -179,6 +179,8 @@ module NCI
       # This is a special blob which is specifically made different so
       # it gets dropped by the blobs cleanup.
       assert_path_not_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/by-hash/MD5Sum/e3f347cf9d52eeb49cace577d3cb1239")
+      # Ensure the cnf/ data has not been touched (cnf is command-not-found). They are managd by a different bit of tech.
+      assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/cnf/Commands-amd64")
     end
   end
 end

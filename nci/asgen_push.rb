@@ -168,9 +168,9 @@ class NCI::AppstreamGeneratorPush < NCI::AppstreamGeneratorRemote
         end
       end
 
-      puts sftp.session.exec!("rm -r #{targetdir}/")
-      puts sftp.session.exec!("mkdir -p #{targetdir}/")
-      puts sftp.session.exec!("cp -rv #{tmpdir}/. #{targetdir}/")
+      puts sftp.session.exec!("rm -r #{dep11_targetdir}/")
+      puts sftp.session.exec!("mkdir -p #{dep11_targetdir}/")
+      puts sftp.session.exec!("cp -rv #{dep11_tmpdir}/. #{dep11_targetdir}/")
       puts sftp.session.exec!("rm -rv #{tmpdir}")
     end
     FileUtils.rm_rf(repo_dir)
