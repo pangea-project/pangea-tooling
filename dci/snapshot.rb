@@ -111,7 +111,6 @@ class DCISnapshot
 
   def currentdist
     type_data = []
-    distribution
     @currentdist = @type_data[@dist]
     @currentdist
   end
