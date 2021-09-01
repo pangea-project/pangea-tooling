@@ -49,7 +49,6 @@ class DCISnapshot
     @snapshots = []
     @repos = []
     @components = []
-    @type_data = []
     @release_type = ''
     @series = ''
     @release = @release_type + '-' + @series
@@ -111,7 +110,7 @@ class DCISnapshot
   end
 
   def currentdist
-    type_data
+    type_data = []
     distribution
     @currentdist = @type_data[@dist]
     @currentdist
