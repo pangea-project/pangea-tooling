@@ -51,7 +51,7 @@ class DCISnapshot
     @components = []
     @release_type = ''
     @series = ''
-    @release = release_type + '-' + series
+    @release = @release_type + '-' + @series
     @currentdist = {}
     @series = ''
     @arch = []
