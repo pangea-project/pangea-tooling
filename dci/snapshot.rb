@@ -49,6 +49,7 @@ class DCISnapshot
     @snapshots = []
     @repos = []
     @components = []
+    @type_data = []
     @release_type = ''
     @series = ''
     @release = @release_type + '-' + @series
