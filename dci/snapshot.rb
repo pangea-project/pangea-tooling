@@ -41,7 +41,6 @@ options = OpenStruct.new
 options.repos = nil
 options.all = false
 options.distribution = nil
-options.type_data = nil
 
 # Run aptly snapshot on given DIST eg: netrunner-desktop-next.
 class DCISnapshot
