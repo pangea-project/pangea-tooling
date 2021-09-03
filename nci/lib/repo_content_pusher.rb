@@ -103,7 +103,7 @@ class NCI::RepoContentPusher
       content_tmpdir = "#{tmpdir}/#{content_dir_suffix}"
 
       puts sftp.session.exec!("rm -rf #{tmpdir}")
-      puts sftp.session.exec!("mkdir -p #{content_tmpdir}")
+      puts sftp.session.exec!("mkdir -p #{tmpdir}")
 
       sftp.upload!("#{repo_dir}/.", tmpdir)
 
