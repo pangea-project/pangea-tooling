@@ -153,7 +153,7 @@ module NCI
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/by-hash/MD5Sum/2a42a2c7a5dbd3fdb2e832aed8b2cbd5")
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/by-hash/MD5Sum/Components-amd64.yml.xz")
       # tempdir during upload
-      assert_path_not_exist("#{remote_dir}/home/neonarchives/asgen_push.release")
+      assert_path_not_exist("#{remote_dir}/home/neonarchives/dep11_push.release")
     end
 
     def test_run_old_old_asgen
@@ -175,7 +175,7 @@ module NCI
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/by-hash/MD5Sum/Components-amd64.yml.xz")
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/by-hash/MD5Sum/Components-amd64.yml.xz.old")
       # tempdir during upload
-      assert_path_not_exist("#{remote_dir}/home/neonarchives/asgen_push.release")
+      assert_path_not_exist("#{remote_dir}/home/neonarchives/dep11_push.release")
 
       # This is a special blob which is specifically made different so
       # it gets dropped by the blobs cleanup.
@@ -201,7 +201,7 @@ module NCI
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/cnf/by-hash/MD5Sum/60ed4219ebc0380566fc80d89f8554be")
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/cnf/by-hash/MD5Sum/Commands-amd64")
       # tempdir during upload
-      assert_path_not_exist("#{remote_dir}/home/neonarchives/asgen_push.release")
+      assert_path_not_exist("#{remote_dir}/home/neonarchives/cnf_push.release")
     end
   end
 end

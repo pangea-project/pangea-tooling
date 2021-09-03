@@ -52,7 +52,7 @@ class NCI::RepoContentPusher
     content_dir_suffix = "main/#{content_name}"
     content_dir = "#{repo_dir}/#{content_dir_suffix}"
 
-    tmpdir = "#{APTLY_HOME}/asgen_push.#{repository_path.tr('/', '-')}"
+    tmpdir = "#{APTLY_HOME}/#{content_name}_push.#{repository_path.tr('/', '-')}"
     targetdir = "#{APTLY_HOME}/aptly/skel/#{repository_path}/dists/#{dist}"
 
     # This depends on https://github.com/aptly-dev/aptly/pull/473
