@@ -23,11 +23,9 @@ module NCI
       pkg2.stubs(:name).returns('qtav-players')
       pkg2.stubs(:version).returns('2.0')
 
-      remote = mock('Aptly::Ext::Remote.neon')
       lister = mock('NCI::RepoPackageLister')
       lister.stubs(:packages).returns([pkg1, pkg2])
 
-      Aptly::Ext::Remote.stubs(:neon).yields(remote)
       NCI::RepoPackageLister.stubs(:new).returns(lister)
 
       stub_request(:get, 'https://contents.neon.kde.org/v2/find/archive.neon.kde.org/user/dists/focal?q=*/bin/*')

@@ -31,10 +31,12 @@ module NCI
     def pkg_to_version
       @pkg_to_version ||= begin
         pkg_to_version = {}
-        Aptly::Ext::Remote.neon do
-          NCI::RepoPackageLister.new.packages.each do |pkg|
-            pkg_to_version[pkg.name] = pkg.version
-          end
+        Aptly.configure do |config|
+          config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')
+          # This is read-only.
+        end
+        NCI::RepoPackageLister.new.packages.each do |pkg|
+          pkg_to_version[pkg.name] = pkg.version
         end
         pkg_to_version
       end
