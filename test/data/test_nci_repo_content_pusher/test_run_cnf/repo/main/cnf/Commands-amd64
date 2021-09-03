@@ -1,0 +1,4 @@
+suite: focal
+component: main
+arch: amd64
+

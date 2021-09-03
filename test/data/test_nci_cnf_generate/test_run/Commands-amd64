@@ -1,0 +1,11 @@
+suite: focal
+component: main
+arch: amd64
+
+name: atcore-bin
+version: 1.0
+commands: AtCoreTest
+
+name: qtav-players
+version: 2.0
+commands: Player

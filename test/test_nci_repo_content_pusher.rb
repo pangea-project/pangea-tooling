@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 
-# SPDX-FileCopyrightText: 2019-2020 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2019-2021 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require_relative 'lib/testcase'
 require_relative '../nci/asgen_push'
+require_relative '../nci/cnf_push'
 
 require 'mocha/test_unit'
 require 'shellwords'
 
 module NCI
-  class AppstreamGeneratorPushTest < TestCase
+  class RepoContentPushTest < TestCase
     def setup
       Net::SFTP.expects(:start).never
       Net::SSH.expects(:start).never
@@ -134,7 +135,7 @@ module NCI
       end
     end
 
-    def test_run
+    def test_run_asgen
       remote_dir = "#{Dir.pwd}/remote"
 
       ssh = SSHStub.new(remote_dir: remote_dir)
@@ -155,7 +156,7 @@ module NCI
       assert_path_not_exist("#{remote_dir}/home/neonarchives/asgen_push.release")
     end
 
-    def test_run_old_old
+    def test_run_old_old_asgen
       # Has a current and an old variant already.
       remote_dir = "#{Dir.pwd}/remote"
 
@@ -181,6 +182,26 @@ module NCI
       assert_path_not_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/dep11/by-hash/MD5Sum/e3f347cf9d52eeb49cace577d3cb1239")
       # Ensure the cnf/ data has not been touched (cnf is command-not-found). They are managd by a different bit of tech.
       assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/cnf/Commands-amd64")
+    end
+
+    def test_run_cnf
+      # Different variant using cnf data.
+      remote_dir = "#{Dir.pwd}/remote"
+
+      ssh = SSHStub.new(remote_dir: remote_dir)
+      sftp = SFTPStub.new(session: ssh)
+
+      Net::SFTP.expects(:start).at_least_once.yields(sftp)
+
+      FileUtils.mkpath(remote_dir)
+      FileUtils.cp_r("#{data}/.", '.')
+      CNFPusher.run
+
+      assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/cnf/Commands-amd64")
+      assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/cnf/by-hash/MD5Sum/60ed4219ebc0380566fc80d89f8554be")
+      assert_path_exist("#{remote_dir}/home/neonarchives/aptly/skel/release/dists/xenial/main/cnf/by-hash/MD5Sum/Commands-amd64")
+      # tempdir during upload
+      assert_path_not_exist("#{remote_dir}/home/neonarchives/asgen_push.release")
     end
   end
 end
