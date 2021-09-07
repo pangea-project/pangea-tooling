@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2016-2021 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2019 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -90,7 +90,13 @@ Apt.install('breeze-icon-theme', 'hicolor-icon-theme')
 FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
 config.write("#{run_dir}/asgen-config.json")
 suites.each do |suite|
-  cmd.run('appstream-generator', 'process', '--verbose', suite, chdir: run_dir)#,
+  cmd.run("appstream-generator", 'process', '--verbose', suite, chdir: run_dir)#,
           # env: { http_proxy: NCI::PROXY_URI, https_proxy: NCI::PROXY_URI })
-  cmd.run('appstream-generator', 'cleanup', chdir: run_dir) # clean up cruft
 end
+
+# TODO
+# [15:03] <ximion> sitter: the version number changing isn't an issue -
+# it does nothing with one architecture, and it's an optimization if you have
+# at least one other architecture.
+# [15:03] <ximion> sitter: you should run ascli cleanup every once in a while
+# though, to collect garbage
