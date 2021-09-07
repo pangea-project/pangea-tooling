@@ -49,13 +49,16 @@ module NCI
     end
   end
 
-  def setup_repo!(with_source: false, with_proxy: true)
+  def setup_repo!(with_source: false, with_proxy: true, with_install: true)
     setup_proxy! if with_proxy
     add_repo!
     add_source_repo! if with_source
     setup_experimental! if ENV.fetch('TYPE').include?('experimental')
     Retry.retry_it(times: 5, sleep: 4) { raise unless Apt.update }
+
     # Make sure we have the latest pkg-kde-tools, not whatever is in the image.
+    return unless with_install
+
     raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools debhelper])
 
     # Qt6 Hack

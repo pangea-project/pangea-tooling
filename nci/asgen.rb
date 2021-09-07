@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2016-2019 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2021 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -78,7 +78,7 @@ end
 # correct icon themes.
 # Also disable proxy since we don't want debian shebang cached (for now)
 NCI.setup_repo_codename = DIST
-NCI.setup_repo!(with_proxy: false)
+NCI.setup_repo!(with_proxy: false, with_install: false)
 
 # FIXME: http_proxy and friends are possibly not the smartest idea.
 #   this will also route image fetching through the proxy I think, and the proxy
