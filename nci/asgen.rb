@@ -100,3 +100,20 @@ end
 # [15:03] <ximion> sitter: you should run ascli cleanup every once in a while
 # though, to collect garbage
 # https://github.com/ximion/appstream-generator/issues/97
+
+## Manual export dir cleanup since asgen's cleanup isn't hot enough
+id_paths = Dir.glob('run/export/media/**/{icons,screenshots}/').collect do |dir|
+  File.dirname(dir) # this is the instance id `org.foo.bar/ID/`
+end.uniq
+
+component_to_idpaths = id_paths.group_by { |path| File.dirname(path) }.to_h
+component_to_idpaths.each do |component, paths|
+  # sort by ctime, newer will be farther back in the array
+  paths = paths.sort_by { |path| File.ctime(path).to_i }
+  paths_to_drop = paths[0..-11] # (-1 is the end so this is offset by 1)
+  puts component
+  paths_to_drop.each do |path|
+    puts "  Dropping #{path}"
+    FileUtils.rm_r(path)
+  end
+end
