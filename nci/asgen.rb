@@ -90,8 +90,7 @@ Apt.install('breeze-icon-theme', 'hicolor-icon-theme')
 FileUtils.mkpath(run_dir) unless Dir.exist?(run_dir)
 config.write("#{run_dir}/asgen-config.json")
 suites.each do |suite|
-  cmd.run("appstream-generator", 'process', '--verbose', suite, chdir: run_dir)#,
-          # env: { http_proxy: NCI::PROXY_URI, https_proxy: NCI::PROXY_URI })
+  cmd.run('appstream-generator', 'process', '--verbose', suite, chdir: run_dir)
 end
 
 # TODO
@@ -100,3 +99,4 @@ end
 # at least one other architecture.
 # [15:03] <ximion> sitter: you should run ascli cleanup every once in a while
 # though, to collect garbage
+# https://github.com/ximion/appstream-generator/issues/97
