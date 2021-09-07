@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2019 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2019-2021 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,13 +18,18 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-# This is a minimal wrapper for asgen. Since asgen is run inside a debian 
+# This is a minimal wrapper for asgen. Since asgen is run inside a debian
 # container without pangea image, we need to provision the minimal dependencies.
 
 set -ex
 
+export LANG=C.UTF-8 # make sure perl knows which encoding to use
+
 apt update
-apt-get install -y ruby gpg
+apt-get install -y ruby gpg eatmydata
+
+ln -sv /usr/bin/eatmydata /usr/local/bin/apt
+ln -sv /usr/bin/eatmydata /usr/local/bin/apt-get
 
 gem install tty-command
 
