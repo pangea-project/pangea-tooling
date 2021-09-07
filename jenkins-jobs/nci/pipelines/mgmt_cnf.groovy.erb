@@ -1,0 +1,43 @@
+// SPDX-FileCopyrightText: 2021 Harald Sitter <sitter@kde.org>
+// SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
+env.DIST = '<%= dist %>'
+env.TYPE = '<%= type %>' // controls which aptly repo id is being listed for versions
+env.REPO = 'user' // controls which repo is queried on contents.neon.kde.org (only support user currently)
+env.APTLY_REPOSITORY = '<%= conten_push_repo_dir %>' // repo path on disk
+env.PWD_BIND = '/workspace'
+
+cleanNode('amd64') {
+    lock(label: 'APTLY', quantity: 1) {
+        stage('generate[amd64]') { // only support amd64 for now (contents.neon.kde.org doesn't support anything else anyway)
+            sh 'ARCH=amd64 ~/tooling/nci/cnf_generate.rb'
+        }
+
+        stage('publish') {
+            withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: '')]) {
+                sh '~/tooling/nci/cnf_push.rb'
+            }
+        }
+    }
+}
+
+def fancyWrap(body) {
+    wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+            body()
+        }
+    }
+}
+
+def cleanNode(label = null, body) {
+    node(label) {
+        deleteDir()
+        try {
+            fancyWrap {
+                body()
+            }
+        } finally {
+            step([$class: 'WsCleanup', cleanWhenFailure: true])
+        }
+    }
+}

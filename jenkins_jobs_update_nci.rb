@@ -250,6 +250,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(MGMTRepoTestVersionsJob.new(type: type,
                                             distribution: distribution))
 
+        enqueue(MGTMCNFJob.new(type: type, dist: distribution))
+
         if (NCI.future_series && NCI.future_series == distribution) ||
            (NCI.current_series && NCI.old_series == distribution)
           enqueue(MGMTRepoTestVersionsUpgradeJob.new(type: type,
@@ -405,6 +407,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # drop legacy support when the time comes. At the time of writing both
     # things are highly coupled to their series, so treating them as something
     # generic is folly.
+
+    # In addition to type-dependent cnf jobs we create one for user edition itself. user repo isn't a type but
+    # we want cnf data all the same. Limited to current series for no particular reason other than convenience (future
+    # doesn't necessarily have a user repo right out the gate).
+    # The data comes from release becuase they are similar enough and iterating Snapshots is hugely different so
+    # adding support for them to cnf_generate is a drag.
+    enqueue(MGTMCNFJob.new(type: 'release', dist: NCI.current_series, conten_push_repo_dir: 'user', name: 'user'))
 
     enqueue(MGMTSnapshotUser.new(dist: NCI.current_series, origin: 'release', target: 'user'))
     if NCI.future_series
