@@ -276,6 +276,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           cronjob: 'H H * * 0'
         )
         enqueue(NeonIsoJob.new(dev_unstable_isoargs))
+        enqueue(NeonDockerJob.new(dev_unstable_isoargs))
         enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'unstable')))
 
         # Only make unstable ISO for the next series while in early mode.
@@ -295,6 +296,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           cronjob: 'H H * * 2'
         )
         enqueue(NeonIsoJob.new(dev_stable_isoargs))
+        enqueue(NeonDockerJob.new(dev_stable_isoargs))
         enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'testing')))
 
         user_release_isoargs = standard_args.merge(
@@ -303,6 +305,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           cronjob: 'H H * * 4'
         )
         enqueue(NeonIsoJob.new(user_release_isoargs))
+        enqueue(NeonDockerJob.new(user_release_isoargs))
         enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'user')))
 
         ko_user_release_isoargs = standard_args.merge(

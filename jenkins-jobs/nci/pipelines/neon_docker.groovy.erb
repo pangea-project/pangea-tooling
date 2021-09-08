@@ -1,0 +1,31 @@
+env.DIST='<%= distribution %>'
+env.ARCH='<%= architecture %>'
+env.TYPE='<%= type %>'
+env.METAPACKAGE='<%= metapackage %>'
+env.IMAGENAME='<%= imagename %>'
+env.NEONARCHIVE='<%= neonarchive %>'
+
+cleanNode('amd64-iso') {
+  stage('clone') {
+    git branch: "Neon/<%= type %>", url: "https://invent.kde.org/packaging/docker-neon.git"
+  }
+
+  stage('docker-build') {
+    sh 'docker build .'
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}
