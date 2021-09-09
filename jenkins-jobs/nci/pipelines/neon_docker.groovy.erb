@@ -17,11 +17,14 @@ cleanNode('amd64-iso') {
   stage('docker-build') {
     sh 'docker build . --tag kdeneon/plasma:<%= type %> .'
   }
-  stage('Deploy our image') {
+  stage('docker-push') {
     withCredentials([string(credentialsId: 'dockerhub2', variable: 'TOKEN')]) {
       sh 'docker login --username jriddell --password $TOKEN'
       sh 'docker push kdeneon/plasma:<%= type %>'
     }
+  }
+  stage('docker-clean) {
+      sh 'docker rmi kdeneon/plasma:<%= type %>'
   }
 }
 
