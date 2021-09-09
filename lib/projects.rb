@@ -420,6 +420,8 @@ absolutely must not be native though!
     rescue Rugged::NetworkError => e
       raise GitTransactionError,
             "Failed to update git clone of #{packaging_scm.url}: #{e}"
+    rescue Rugged::ReferenceError => e
+      raise Rugged::ReferenceError "Failed to update git clone of #{packaging_scm.url}: #{e}"
     end
 
     def update_bzr(dir)

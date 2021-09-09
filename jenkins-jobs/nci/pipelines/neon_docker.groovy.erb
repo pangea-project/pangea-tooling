@@ -7,11 +7,21 @@ env.NEONARCHIVE='<%= neonarchive %>'
 
 cleanNode('amd64-iso') {
   stage('clone') {
+  <% if metapackage == 'user' %>
+    git branch: "Neon/release", url: "https://invent.kde.org/packaging/docker-neon.git"
+  <% else %>
     git branch: "Neon/<%= type %>", url: "https://invent.kde.org/packaging/docker-neon.git"
+  <% end %>
   }
 
   stage('docker-build') {
-    sh 'docker build .'
+    sh 'docker build . --tag kdeneon/plasma:<%= type %> .'
+  }
+  stage('Deploy our image') {
+    withCredentials([string(credentialsId: 'dockerhub2', variable: 'TOKEN')]) {
+      sh 'docker login --username jriddell --password $TOKEN'
+      sh 'docker push kdeneon/plasma:<%= type %>'
+    }
   }
 }
 
