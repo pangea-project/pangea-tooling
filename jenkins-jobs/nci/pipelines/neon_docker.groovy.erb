@@ -23,7 +23,7 @@ cleanNode('amd64-iso') {
       sh 'docker push kdeneon/plasma:<%= type %>'
     }
   }
-  stage('docker-clean) {
+  stage('docker-clean') {
       sh 'docker rmi kdeneon/plasma:<%= type %>'
   }
 }
