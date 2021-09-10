@@ -288,6 +288,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           cronjob: 'H H * * 1'
         )
         enqueue(NeonIsoJob.new(dev_unstable_dev_isoargs))
+        enqueue(NeonDockerJob.new(dev_unstable_dev_isoargs))
         enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'developer')))
 
         dev_stable_isoargs = standard_args.merge(

@@ -7,24 +7,58 @@ env.NEONARCHIVE='<%= neonarchive %>'
 
 cleanNode('amd64-iso') {
   stage('clone') {
-  <% if metapackage == 'user' %>
+  <% if type == 'user' %>
     git branch: "Neon/release", url: "https://invent.kde.org/packaging/docker-neon.git"
+  <% elsif type == 'developer' %>
+    git branch: "Neon/unstable-development", url: "https://invent.kde.org/packaging/docker-neon.git"
   <% else %>
     git branch: "Neon/<%= type %>", url: "https://invent.kde.org/packaging/docker-neon.git"
   <% end %>
   }
 
   stage('docker-build') {
-    sh 'docker build . --tag kdeneon/plasma:<%= type %> .'
+    sh 'docker build --tag kdeneon/plasma:<%= type %> .'
   }
   stage('docker-push') {
     withCredentials([string(credentialsId: 'dockerhub2', variable: 'TOKEN')]) {
       sh 'docker login --username jriddell --password $TOKEN'
       sh 'docker push kdeneon/plasma:<%= type %>'
+  <% if neonarchive == 'unstable' %>
+      sh 'docker tag kdeneon/plasma:unstable kdeneon/plasma:latest'
+      sh 'docker push kdeneon/plasma:latest'
+  <% end %>
     }
   }
   stage('docker-clean') {
       sh 'docker rmi kdeneon/plasma:<%= type %>'
+  }
+
+  stage('clone-all') {
+    sh 'rm -rf * .git'
+  <% if type == 'user' %>
+    git branch: "Neon/release", url: "https://invent.kde.org/packaging/docker-neon-all.git"
+  <% elsif type == 'developer' %>
+    git branch: "Neon/unstable-development", url: "https://invent.kde.org/packaging/docker-neon-all.git"
+  <% else %>
+    git branch: "Neon/<%= type %>", url: "https://invent.kde.org/packaging/docker-neon-all.git"
+  <% end %>
+  }
+
+  stage('docker-build-all') {
+    sh 'docker build --tag kdeneon/all:<%= type %> .'
+  }
+  stage('docker-push-all') {
+    withCredentials([string(credentialsId: 'dockerhub2', variable: 'TOKEN')]) {
+      sh 'docker login --username jriddell --password $TOKEN'
+      sh 'docker push kdeneon/all:<%= type %>'
+  <% if type == 'unstable' %>
+      sh 'docker tag kdeneon/all:unstable kdeneon/all:latest'
+      sh 'docker push kdeneon/all:latest'
+  <% end %>
+    }
+  }
+  stage('docker-clean-all') {
+      sh 'docker rmi kdeneon/all:<%= type %>'
   }
 }
 
