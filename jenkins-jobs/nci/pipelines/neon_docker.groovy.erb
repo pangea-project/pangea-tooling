@@ -23,7 +23,7 @@ cleanNode('amd64-iso') {
     withCredentials([string(credentialsId: 'dockerhub2', variable: 'TOKEN')]) {
       sh 'docker login --username jriddell --password $TOKEN'
       sh 'docker push kdeneon/plasma:<%= type %>'
-  <% if neonarchive == 'unstable' %>
+  <% if type == 'unstable' %>
       sh 'docker tag kdeneon/plasma:unstable kdeneon/plasma:latest'
       sh 'docker push kdeneon/plasma:latest'
   <% end %>
