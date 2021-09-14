@@ -11,10 +11,11 @@ require_relative 'lib/setup_env'
 require_relative '../lib/debian/changelog'
 require_relative '../lib/debian/source'
 
+packaging_dir = Dir.pwd + "/deb-packaging/"
 # TODO: we should still detect when ubuntu versions diverge I guess?
 #   though that may be more applicable to backports version change detection as
 #   a whole
-if Debian::Source.new(Dir.pwd).format.type == :native
+if Debian::Source.new(packaging_dir).format.type == :native
   puts 'This is a native source. Nothing to do!'
   exit 0
 end
@@ -24,7 +25,7 @@ end
 # Sources in this list MUST be using KDE_L10N_SYNC_TRANSLATIONS AND have a
 # gitish watch file or none at all.
 # Changes to these requiremenst MUST be discussed with the team!
-source_name = Debian::Changelog.new(Dir.pwd).name
+source_name = Debian::Changelog.new(packaging_dir).name
 if %w[drkonqi-pk-debug-installer].include?(source_name) &&
    File.read('debian/rules').include?('KDE_L10N_SYNC_TRANSLATIONS') &&
    (!File.exist?('debian/watch') ||
@@ -34,4 +35,6 @@ if %w[drkonqi-pk-debug-installer].include?(source_name) &&
 end
 
 NCI.setup_env!
-NCI::Watcher.new.run
+Dir.chdir(packaging_dir) do
+  NCI::Watcher.new.run
+end

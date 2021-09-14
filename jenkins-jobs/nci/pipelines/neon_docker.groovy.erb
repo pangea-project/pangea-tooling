@@ -9,6 +9,8 @@ cleanNode('amd64-iso') {
   stage('clone') {
   <% if type == 'user' %>
     git branch: "Neon/release", url: "https://invent.kde.org/packaging/docker-neon.git"
+  <% elsif type == 'testing' %>
+    git branch: "Neon/stable", url: "https://invent.kde.org/packaging/docker-neon.git"
   <% elsif type == 'developer' %>
     git branch: "Neon/unstable-development", url: "https://invent.kde.org/packaging/docker-neon.git"
   <% else %>
@@ -36,7 +38,9 @@ cleanNode('amd64-iso') {
   stage('clone-all') {
     sh 'rm -rf * .git'
   <% if type == 'user' %>
-    git branch: "Neon/release", url: "https://invent.kde.org/packaging/docker-neon-all.git"
+    git branch: "Neon/release", url: "https://invent.kde.org/packaging/docker-neon.git"
+  <% elsif type == 'testing' %>
+    git branch: "Neon/stable", url: "https://invent.kde.org/packaging/docker-neon.git"
   <% elsif type == 'developer' %>
     git branch: "Neon/unstable-development", url: "https://invent.kde.org/packaging/docker-neon-all.git"
   <% else %>
