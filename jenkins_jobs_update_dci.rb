@@ -63,7 +63,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     @data_file_name = ''
     DCI.series.each_key do |series|
       DCI.release_types.each do |release_type|
-        DCI.releases_by_type(release_type).each do |relbytype|
+        DCI.releases_for_type(release_type).each do |relbytype|
           relbytype.each do | release |
           DCI.get_release_data(relbytype, release)
             if  DCI.arm?(release) 
