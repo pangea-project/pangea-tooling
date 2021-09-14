@@ -62,7 +62,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     jobs = []
     @data_file_name = ''
     DCI.series.each_key do |series|
-      DCI.release_types.each_key do |release_type|
+      DCI.release_types.each do |release_type|
         DCI.releases_by_type(release_type).each do |relbytype|
           relbytype.each do | release |
           DCI.get_release_data(relbytype, release)
