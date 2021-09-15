@@ -23,7 +23,7 @@ require_relative '../../lib/nci'
 require_relative '../../lib/kdeproject_component'
 
 # Watches for releases.
-class WatcherJob < JenkinsJob
+class WatcherJob < PipelineJob
   attr_reader :scm_readable
   attr_reader :scm_writable
   attr_reader :nci
@@ -31,7 +31,7 @@ class WatcherJob < JenkinsJob
 
   def initialize(project)
     super("watcher_release_#{project.component}_#{project.name}",
-          'watcher.xml.erb')
+           template: 'watcher')
     # Properly nasty deep copy trick. We'll serialize the entire thing into
     # a string, then convert that back to objects which results in fully isolate
     # objects from their originals. Performance isn't really a concern here,

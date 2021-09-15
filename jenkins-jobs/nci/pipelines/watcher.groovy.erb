@@ -1,0 +1,43 @@
+cleanNode('amd64') {
+  stage('clone') {
+      sshagent (credentials: ['ssh.jobs.git.neon']) {
+          stage('clone') {
+            sh 'git clone <%= scm_writable.url %> deb-packaging -b <%= scm_writable.branch %>'
+            sh 'git clone git@invent.kde.org:packaging/snapcraft-kde-applications -b <%= scm_writable.branch %>'
+          }
+      }
+  }
+  stage('watch') {
+    withCredentials([file(credentialsId: 'config.mail.jobs', variable: 'PANGEA_MAIL_CONFIG_PATH')]) {
+        sh '~/tooling/nci/contain.rb /tooling/nci/watcher.rb'
+    }
+  }
+  stage('push') {
+    sshagent (credentials: ['ssh.jobs.git.neon']) {
+        /*
+        dir('snapcraft-kde-applications') {
+          sh('git push')
+        }
+        */
+        dir('deb-packaging') {
+          sh('git push')
+        }
+    }
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+     /* step([$class: 'WsCleanup', cleanWhenFailure: true]) */
+
+    }
+  }
+}
