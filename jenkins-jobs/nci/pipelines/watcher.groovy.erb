@@ -1,3 +1,5 @@
+env.DIST='<%= nci.latest_series %>'
+
 cleanNode('amd64') {
   stage('clone') {
       sshagent (credentials: ['ssh.jobs.git.neon']) {
