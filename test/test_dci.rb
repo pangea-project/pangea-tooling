@@ -39,18 +39,20 @@ class DCITest < TestCase
   end
 
   def test_releases_for_type
-    assert_equal( ['netrunner-desktop'], DCI.releases_for_type('desktop'))
+    assert_equal(['netrunner-desktop'], DCI.releases_for_type('desktop'))
+    assert_equal(%w[netrunner-core netrunner-core-c1], DCI.releases_for_type('core'))
     assert_is_a(DCI.releases_for_type('desktop'), Array)
   end
 
   def test_release_data_for_type
-    assert_equal({"netrunner-core"=>
-  {"arch"=>"amd64",
-   "components"=>"netrunner extras artwork common backports netrunner-core"},
- "netrunner-core-c1"=>
-  {"arch"=>"armhf",
-   "components"=>
-    "netrunner extras artwork common backports c1 netrunner-core"}}, DCI.release_data_for_type('core'))
+    assert_equal(
+      { 'netrunner-core' =>
+          { 'arch' => 'amd64',
+            'components' => 'netrunner extras artwork common backports netrunner-core' },
+        'netrunner-core-c1' =>
+           { 'arch' => 'armhf',
+             'components' => 'netrunner extras artwork common backports c1 netrunner-core' } },
+      DCI.release_data_for_type('core'))
   end
 
   def test_get_release_data
