@@ -26,7 +26,7 @@ module DCI
   end
 
   def release_types
-    data.fetch('release_types').keys
+    data['release_types'].keys
   end
 
   def releases_for_type(type)
