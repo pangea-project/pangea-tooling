@@ -10,24 +10,24 @@ arm_boards:
   - 'c1'
   - 'rock64'
 release_types:
-    desktop:
-        releases:
-            netrunner-desktop:
-                arch: amd64
-                components: 'netrunner extras artwork common backports netrunner-core netrunner-desktop'
-    core:
-        releases:
-            netrunner-core:
-                arch: amd64
-                components: 'netrunner extras artwork common backports netrunner-core'
-            netrunner-core-c1:
-                arch: armhf
-                components: 'netrunner extras artwork common backports c1 netrunner-core'
-    zeronet:
-        releases:
-           netrunner-zeronet-rock64:
-               arch: arm64
-               components: 'netrunner extras artwork common backports rock64 netrunner-core netrunner-zeronet'
-           netrunner-zeronet-c1:
-              arch:  armhf
-              components: 'netrunner extras artwork common backports c1 netrunner-core netrunner-zeronet'
+  'desktop':
+    releases:
+      'netrunner-desktop':
+        arch: amd64
+        components: 'netrunner extras artwork common backports netrunner-core netrunner-desktop'
+  'core':
+    releases:
+      'netrunner-core':
+        arch: amd64
+        components: 'netrunner extras artwork common backports netrunner-core'
+      'netrunner-core-c1':
+        arch: armhf
+        components: 'netrunner extras artwork common backports c1 netrunner-core'
+  'zeronet':
+    releases:
+      'netrunner-zeronet-rock64':
+        arch: arm64
+        components: 'netrunner extras artwork common backports rock64 netrunner-core netrunner-zeronet'
+      'netrunner-zeronet-c1':
+          arch:  armhf
+          components: 'netrunner extras artwork common backports c1 netrunner-core netrunner-zeronet'
