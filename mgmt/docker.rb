@@ -57,11 +57,11 @@ ubuntu_series.each_index do |index|
 
   pid_map[pid] = "ubuntu-#{series}"
 end
+
 debian_series = DCI.series.keys
 debian_series = [] if ENV.include?('PANGEA_UBUNTU_ONLY')
-debian_series.each do |index|
-  series = debian_series[index]
-  name = "debian-#{index}"
+debian_series.each do |series|
+  name = "debian-#{series}"
   warn "building #{name}"
   pid = fork do
     setup_logger(name)
