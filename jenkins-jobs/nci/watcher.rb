@@ -18,12 +18,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '../job'
+require_relative 'pipelinejob'
 require_relative '../../lib/nci'
 require_relative '../../lib/kdeproject_component'
 
 # Watches for releases.
-class WatcherJob < PipelineJob
+class WatcherJob < PipelineJob 
   attr_reader :scm_readable
   attr_reader :scm_writable
   attr_reader :nci
