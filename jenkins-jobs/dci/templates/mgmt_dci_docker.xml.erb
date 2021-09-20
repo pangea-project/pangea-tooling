@@ -3,24 +3,18 @@
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
-  <properties>
-   <hudson.model.ParametersDefinitionProperty>
-     <parameterDefinitions>
-       <hudson.model.StringParameterDefinition>
-         <name>remote</name>
-         <description></description>
-         <defaultValue>yes</defaultValue>
-       </hudson.model.StringParameterDefinition>
-     </parameterDefinitions>
-   </hudson.model.ParametersDefinitionProperty>
- </properties>
+  <properties/>
   <scm class="hudson.scm.NullSCM"/>
   <assignedNode>master</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
-  <triggers/>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H 9-16/6 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
   <concurrentBuild>false</concurrentBuild>
   <axes>
     <org.jenkinsci.plugins.elasticaxisplugin.ElasticAxis plugin="elastic-axis@1.2">
@@ -32,20 +26,20 @@
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
-        export PANGEA_DEBIAN_ONLY=1
-        echo "Clean docker images and containers"
-        ~/tooling/mgmt/docker_cleanup.rb
-        echo "Refresh docker images"
-        ~/tooling/mgmt/docker.rb
-     </command>
+
+# Only build debian images.
+export PANGEA_DEBIAN_ONLY=1
+
+~/tooling/mgmt/docker_cleanup.rb
+~/tooling/mgmt/docker.rb</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.30">
+    <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.25">
       <configs>
         <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
           <configs class="empty-list"/>
-          <projects><%= dependees.join(', ') %></projects>
+          <projects><%= dependees.join(', ') %>,</projects>
           <condition>SUCCESS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
         </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
@@ -53,9 +47,12 @@
     </hudson.plugins.parameterizedtrigger.BuildTrigger>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.4"/>
-    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.2">
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
   </buildWrappers>
+  <executionStrategy class="hudson.matrix.DefaultMatrixExecutionStrategyImpl">
+    <runSequentially>false</runSequentially>
+  </executionStrategy>
 </matrix-project>
