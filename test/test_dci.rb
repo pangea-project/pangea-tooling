@@ -39,7 +39,7 @@ class DCITest < TestCase
   end
 
   def test_releases_for_type
-    assert_equal(['netrunner-desktop'], DCI.releases_for_type('desktop'))
+    assert_equal(%w[netrunner-desktop], DCI.releases_for_type('desktop'))
     assert_equal(%w[netrunner-core netrunner-core-c1], DCI.releases_for_type('core'))
     assert_is_a(DCI.releases_for_type('desktop'), Array)
   end

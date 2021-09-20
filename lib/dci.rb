@@ -30,11 +30,11 @@ module DCI
   end
 
   def releases_for_type(type)
-    data['release_types'].fetch(type).fetch('releases').keys.to_a
+    data['release_types'].fetch(type)['releases'].keys.to_a
   end
 
   def release_data_for_type(type)
-    data['release_types'].fetch(type).fetch('releases')
+    data['release_types'].fetch(type)['releases']
   end
 
   def get_release_data(type, release)
