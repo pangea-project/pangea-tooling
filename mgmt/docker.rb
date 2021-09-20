@@ -57,13 +57,11 @@ ubuntu_series.each_index do |index|
 
   pid_map[pid] = "ubuntu-#{series}"
 end
-
-=begin
-FIXME DCI disabled jriddell 2021-06-07 due to broken deployments
 debian_series = DCI.series.keys
 debian_series = [] if ENV.include?('PANGEA_UBUNTU_ONLY')
-debian_series.each do |series|
-  name = "debian-#{series}"
+debian_series.each do |index|
+  series = debian_series[index]
+  name = "debian-#{index}"
   warn "building #{name}"
   pid = fork do
     setup_logger(name)
@@ -74,7 +72,7 @@ debian_series.each do |series|
 
   pid_map[pid] = "debian-#{series}"
 end
-=end
+
 
 ec = Process.waitall
 
