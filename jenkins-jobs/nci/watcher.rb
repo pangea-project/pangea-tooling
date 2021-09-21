@@ -27,7 +27,6 @@ class WatcherJob < PipelineJob
   attr_reader :scm_readable
   attr_reader :scm_writable
   attr_reader :nci
-  attr_reader :periodic_build
 
   def initialize(project)
     super("watcher_release_#{project.component}_#{project.name}",
@@ -42,6 +41,6 @@ class WatcherJob < PipelineJob
     @scm_writable.url.gsub!('https://invent.kde.org/',
                             'git@invent.kde.org:')
     @nci = NCI
-    @periodic_build = 'H H * * *'
+    @cron = 'H H * * *'
   end
 end
