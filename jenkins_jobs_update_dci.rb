@@ -37,18 +37,17 @@ end
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
-    @job_queue = Queue.new
     @blacklisted_plugins = [
       'ircbot', # spammy drain on performance
       'instant-messaging' # dep of ircbot and otherwise useless
     ]
-    @projects_dir = "#{__dir__}/data/projects"
-    JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/dci"
-    upload_map = "#{__dir__}/data/dci.upload.yaml"
-    @upload_map = nil
-    return unless File.exist?(upload_map)
+    @data_dir = File.expand_path('data', __dir__)
+    @projects_dir = File.expand_path('projects/dci', @data_dir)
+    upload_map_file = File.expand_path('dci.upload.yaml', @data_dir)
+    @flavor_dir = File.expand_path('jenkins-jobs/dci', __dir__)
+    return unless File.exist?(upload_map_file)
 
-    @upload_map = YAML.load_file(upload_map)
+    @upload_map = YAML.load_file(upload_map_file)
 
     super
   end
@@ -60,70 +59,80 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     all_meta_builds = []
     all_builds = []
     jobs = []
+    @series = ''
+    @release_type = ''
+    @release = ''
     @data_file_name = ''
     DCI.series.each_key do |series|
-      puts series
+      @series = series
+      @data_dir = File.expand_path("dci/#{series}", @data_dir)
       DCI.release_types.each do |release_type|
-        puts release_type
-        DCI.releases_for_type(release_type).each do |relbytype|
-          relbytype.each do | release |
-          DCI.get_release_data(relbytype, release)
-            if  DCI.arm?(release) 
-              arm = DCI.arm_board_by_release(release)
-                @data_file_name = "#{release_type}-#{arm}.yaml"
-                puts "Working on #{release}-#{arm}-#{series}"
+        puts "Populating jobs for #{release_type}"
+        @release_type = release_type
+          DCI.releases_for_type(@release_type).each do |release|
+            puts "Processing release: #{release}"
+            @release = release
+            data = DCI.get_release_data(@release_type, @release)
+            if  DCI.arm?(@release)
+              arm = DCI.arm_board_by_release(@release)
+              @data_file_name = "#{@release_type}-#{arm}.yaml"
+              puts "Working on #{@release}-#{arm}-#{series}"
             else
-                @data_file_name = "#{release_type}.yaml"
-                puts "Working on #{release}-#{series}"
+              @data_file_name = "#{release_type}.yaml"
+              puts "Working on #{release}-#{series}"
             end
-            projects_file = @projects_dir + @data_file_name
-            next unless File.exist?(projects_file)
-              
-            projects = ProjectsFactory.from_file(projects_file, branch: "Netrunnner/#{series}")
+            next unless data
+            projects = ProjectsFactory.from_file(data, branch: "Netrunner/#{@series}")
+            raise unless projects
             projects.each do |project|
-                j = DCIProjectMultiJob.new(
-                        project,
-                        release_type: release_type,
-                        release: release,
-                        components: DCI.components,
-                        series: series,
-                        architecture: DCI.architecture,
-                        upload_map: @upload_map)
-                jobs << j
-                all_builds += j
+              j = DCIProjectMultiJob.new(
+                project,
+                release_type: @release_type,
+                release: @release,
+                components: DCI.components,
+                series: @series,
+                architecture: DCI.architecture,
+                upload_map: @upload_map
+              )
+              jobs << j
+              all_builds += j
             end
             jobs.each { |job| enqueue(job) }
             puts all_builds
             all_builds.flatten!
-
             # Remove everything but source as they are the anchor points for
             # other jobs that might want to reference them.
             all_builds.select! { |j| j.job_name.end_with?('_src') }
             # This could actually returned into a collect if placed below
             meta_build = MetaBuildJob.new(
-            type: release_type,
-            distribution: series,
+            type: @release_type,
+            distribution: @series,
             downstream_jobs: all_builds)
             all_meta_builds << enqueue(meta_build)
-            image_job_config = "#{__dir__}/data/dci/dci.image.yaml"
+            
+            #image Jobs
+            @data_file_name = 'dci.image.yaml'
+            @data_dir = File.expand_path('dci', @data_dir)
+
+            image_job_config = File.expand_path(@data_file_name, @data_dir)
             load_config = YAML.load_stream(File.read(image_job_config))
             next unless image_job_config
 
             image_jobs = load_config
-            data = image_jobs[release]
+            data = image_jobs[@release]
             enqueue(
               DCIImageJob.new(
-              release: release,
-              architecture: DCI.architecture,
-              repo: data[:repo],
-              branch: branch
+                release: @release,
+                architecture: DCI.architecture,
+                repo: data[:repo],
+                branch: branch
               ))
             enqueue(
               DCISnapShotJob.new(
-                    distribution: release,
+                    distribution: @release,
                     snapshot: snapshot,
-                    series: series,
-                    release_type: release_type,
+                    series: @series,
+                    release_type: @release_type,
                     architecture: arch
                   )
             )
@@ -138,12 +147,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           end
         end
       end
-    end
   end
 end
 
+
+
 if $PROGRAM_NAME == __FILE__
   updater = ProjectUpdater.new
-  updater.update
   updater.install_plugins
+  updater.update
 end
