@@ -44,3 +44,12 @@ zeronet:
       - 2101: Netrunner/21.01
     :snapshots:
       - '2101'
+
+zynthbox:
+  netrunner-zynthbox-rpi4:
+    :repo: https://github.com/zynthbox/rpi4-live-build-zynthbox
+    :arm_board: rpi4
+    :releases:
+      - 2101: Netrunner/21.01
+    :snapshots:
+      - '2101'

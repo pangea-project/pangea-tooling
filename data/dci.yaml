@@ -1,6 +1,6 @@
 series:
-  '2101': '20201123'
-  'next': '20210414'
+  '2101': '20210901'
+  'next': '20210902'
 architectures:
   - amd64
 extra_architectures:
@@ -9,6 +9,7 @@ extra_architectures:
 arm_boards:
   - 'c1'
   - 'rock64'
+  - 'rpi4'
 release_types:
   'desktop':
     releases:
@@ -31,3 +32,8 @@ release_types:
       'netrunner-zeronet-c1':
           arch:  armhf
           components: 'netrunner extras artwork common backports c1 netrunner-core netrunner-zeronet'
+  'zynthbox':
+    releases:
+      'netrunner-zynthbox-rpi4':
+        arch: armhf
+        components: 'netrunner extras artwork common backports zynthbox netrunner-core'
