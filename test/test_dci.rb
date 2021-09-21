@@ -9,7 +9,7 @@ class DCITest < TestCase
   end
 
   def test_release_types
-    assert_equal(%w[desktop core zeronet], DCI.release_types)
+    assert_equal(%w[desktop core zeronet zynthbox], DCI.release_types)
   end
 
   def test_architectures
@@ -26,9 +26,9 @@ class DCITest < TestCase
 
   def test_series
     assert_equal_collection(%w[2101 next], DCI.series.keys)
-    assert_equal_collection(%w[20201123 20210414], DCI.series.values)
-    assert_equal('20201123', DCI.series['2101'])
-    assert_equal('20210414', DCI.series['next'])
+    assert_equal_collection(%w[20210901 20210902], DCI.series.values)
+    assert_equal('20210901', DCI.series['2101'])
+    assert_equal('20210902', DCI.series['next'])
 
     # With sorting
     assert_equal('2101', DCI.series(sort: :ascending).keys.first)
@@ -58,11 +58,12 @@ class DCITest < TestCase
   def test_get_release_data
     release_data = DCI.get_release_data('desktop', 'netrunner-desktop')
     assert_is_a(release_data, Hash)
-    assert_equal({
-      "arch"=>"amd64",
-      "components"=>
-      "netrunner extras artwork common backports netrunner-core netrunner-desktop"
-                          }, release_data)
+    assert_equal(
+      { 'arch' => 'amd64',
+        'components' =>
+         'netrunner extras artwork common backports netrunner-core netrunner-desktop' },
+      release_data
+    )
     assert_equal('amd64', release_data['arch'])
     assert_equal('netrunner extras artwork common backports netrunner-core netrunner-desktop', release_data['components'])
   end
@@ -72,7 +73,7 @@ class DCITest < TestCase
   end
 
   def test_arm_boards
-    assert_equal(%w[c1 rock64], DCI.arm_boards)
+    assert_equal(%w[c1 rock64 rpi4], DCI.arm_boards)
   end
   
   def test_arm
