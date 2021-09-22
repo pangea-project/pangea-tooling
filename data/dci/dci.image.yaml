@@ -1,6 +1,7 @@
 desktop:
   netrunner-desktop:
     :repo: https://github.com/netrunner-desktop/live-build
+    :arch: amd64
     :releases:
       - next: master
       - 2101: Netrunner/21.01
@@ -11,6 +12,7 @@ desktop:
 core:
   netrunner-core:
     :repo: https://github.com/netrunner-core/live-build
+    :arch: amd64
     :releases:
       - next: master
       - 2101: Netrunner/21.01
@@ -22,6 +24,7 @@ core:
 
   netrunner-core-c1:
     :repo: https://github.com/netrunner-odroid/c1-live-build-core
+    :arch: armhf
     :arm_board: c1
     :releases:
       - 2101: Netrunner/21.01
@@ -31,6 +34,7 @@ core:
 zeronet:
   netrunner-zeronet-c1:
     :repo: https://github.com/netrunner-zeronet/c1-live-build-zeronet
+    :arch: armhf
     :arm_board: c1
     :releases:
       - 2101: Netrunner/21.01
@@ -39,6 +43,7 @@ zeronet:
       
   netrunner-zeronet-rock64:
     :repo: https://github.com/netrunner-zeronet/rock64-live-build-zeronet
+    :arch: arm64
     :arm_board: rock64
     :releases:
       - 2101: Netrunner/21.01
@@ -48,6 +53,7 @@ zeronet:
 zynthbox:
   netrunner-zynthbox-rpi4:
     :repo: https://github.com/zynthbox/rpi4-live-build-zynthbox
+    :arch: armhf
     :arm_board: rpi4
     :releases:
       - 2101: Netrunner/21.01
