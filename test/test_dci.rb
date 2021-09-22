@@ -51,6 +51,7 @@ class DCITest < TestCase
             'components' => 'netrunner extras artwork common backports netrunner-core' },
         'netrunner-core-c1' =>
            { 'arch' => 'armhf',
+             'arm_board' => 'c1',
              'components' => 'netrunner extras artwork common backports c1 netrunner-core' } },
       DCI.release_data_for_type('core')
     )
@@ -66,7 +67,8 @@ class DCITest < TestCase
   end
 
   def test_arm_board_by_release
-    assert_equal('c1', DCI.arm_board_by_release('netrunner-core-c1'))
+    release_data = DCI.get_release_data('core', 'netrunner-core-c1')
+    assert_equal('c1', DCI.arm_board_by_release(release_data))
   end
 
   def test_arm_boards
