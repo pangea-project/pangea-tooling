@@ -91,7 +91,7 @@ class DCISnapshot
   end
 
   def arm_board
-    @arm_board = ENV['ARM_BOARD']
+    @arm_board = DCI.arm_board_by_release(DCI.get_release_data(@release_type, @release))
   end
 
   def release

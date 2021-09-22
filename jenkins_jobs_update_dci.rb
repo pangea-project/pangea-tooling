@@ -128,16 +128,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                 branch: image_data[:releases][@series].values
               )
             )
-            enqueue(
-              DCISnapShotJob.new(
-                distribution: @release,
-                snapshot: snapshot,
-                series: @series,
-                release_type: @release_type,
-                arm_board: DCI.arm_board_by_release(data),
-                architecture: DCI.arch_by_release(data)
+            image_data['snapshots'].each do |snapshot|
+              enqueue(
+                DCISnapShotJob.new(
+                  snapshot: snapshot,
+                  series: @series,
+                  release_type: @release_type,
+                  arm_board: DCI.arm_board_by_release(data),
+                  architecture: DCI.arch_by_release(data)
+                )
               )
-            )
             # MGMT Jobs follow
             docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
             docker_clean = enqueue(MGMTDockerCleanupJob.new(downstreams: [docker]))
