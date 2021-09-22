@@ -89,9 +89,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                 project,
                 release_type: @release_type,
                 release: @release,
-                components: DCI.components,
+                components: DCI.components_by_release(data),
                 series: @series,
-                architecture: DCI.architecture,
+                architecture: DCI.arch_by_release(data),
                 upload_map: @upload_map
               )
               jobs << j
@@ -106,10 +106,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             # This could actually returned into a collect if placed below
             meta_build = MetaBuildJob.new(
             type: @release_type,
-            distribution: @series,
+            distribution: @release,
             downstream_jobs: all_builds)
             all_meta_builds << enqueue(meta_build)
-            
+
             #image Jobs
             @data_file_name = 'dci.image.yaml'
             @data_dir = File.expand_path('dci', @data_dir)
@@ -119,22 +119,24 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             next unless image_job_config
 
             image_jobs = load_config
-            data = image_jobs[@release]
+            image_data = image_jobs[@release]
             enqueue(
               DCIImageJob.new(
                 release: @release,
-                architecture: DCI.architecture,
-                repo: data[:repo],
-                branch: branch
-              ))
+                architecture: DCI.arch_by_release(data),
+                repo: image_data[:repo],
+                branch: image_data[:releases][@series].values
+              )
+            )
             enqueue(
               DCISnapShotJob.new(
-                    distribution: @release,
-                    snapshot: snapshot,
-                    series: @series,
-                    release_type: @release_type,
-                    architecture: arch
-                  )
+                distribution: @release,
+                snapshot: snapshot,
+                series: @series,
+                release_type: @release_type,
+                arm_board: DCI.arm_board_by_release(data),
+                architecture: DCI.arch_by_release(data)
+              )
             )
             # MGMT Jobs follow
             docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
