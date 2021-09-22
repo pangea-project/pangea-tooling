@@ -34,36 +34,31 @@ require 'deep_merge'
 require 'yaml'
 require 'fileutils'
 
+require_relative '../lib/dci'
 require_relative '../lib/aptly-ext/remote'
 require_relative '../lib/ci/pattern'
-
-options = OpenStruct.new
-options.repos = nil
-options.all = false
-options.distribution = nil
 
 # Run aptly snapshot on given DIST eg: netrunner-desktop-next.
 class DCISnapshot
   def initialize
-    @data = {}
+    @image_data = {}
     @snapshots = []
     @repos = []
     @components = []
     @release_type = ''
+    @type_data = {}
     @series = ''
-    @release = @release_type + '-' + @series
+    @release = ''
     @currentdist = {}
     @series = ''
-    @arch = []
+    @arch = ''
+    @arch_array = []
+    @arm_board = ''
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
-    @log = Logger.new(STDOUT).tap do |l|
+    @log = Logger.new($stdout).tap do |l|
       l.progname = 'snapshotter'
       l.level = Logger::INFO
     end
-  end
-
-  def copy_data
-    FileUtils.cp_r(File.expand_path("#{__dir__}/../data/dci/dci.image.yaml"), Dir.pwd)
   end
 
   def load(file)
@@ -73,66 +68,78 @@ class DCISnapshot
   end
 
   def config
-    copy_data
-    file = 'dci.image.yaml'
-    @data = load(file)
-    raise unless @data.is_a?(Hash)
-    @data
+    file = File.expand_path("#{__dir__}/../data/dci/dci.image.yaml")
+    @image_data = load(file)
+    raise unless @image_data.is_a?(Hash)
+
+    @image_data
   end
 
   def release_types
     config
-    @release_types = @data.keys
-    @release_types
+    @release_types = @image_data.keys
   end
 
   def release_type
     @release_type = ENV['RELEASE_TYPE']
-    @release_type
+  end
+
+  def type_data
+    config
+    release_type
+    @type_data = @image_data[@release_type]
+  end
+
+  def arm_board
+    @arm_board = ENV['ARM_BOARD']
   end
 
   def release
-    type
-    @dist = 'netrunner-' + @release_type
-    @dist
+    release_type
+    arm_board
+    if @arm_board
+      @release = "netrunner-#{@release_type}-#{arm_board}"
+    else
+      @release = "netrunner-#{@release_type}"
+    end
+    @release
   end
 
-  def version
+  def series
     @series = ENV['SERIES']
-    @series
   end
 
-  def versioned_dist
-    distribution
-    version
-    @versioned_dist = @dist + '-' + @version
-    @versioned_dist
+  def series_release
+    release
+    series
+    @series_release = "#{@release}-#{@series}"
   end
 
   def currentdist
-    type_data = []
-    @currentdist = @type_data[@dist]
+    config
+    release_type
+    type_data
+    release
+    @currentdist = @type_data[@release]
     @currentdist
   end
 
   def arch
-    currentdist
-    @arch = @currentdist[:architecture]
-    @arch
+    release_type
+    release
+    @arch = DCI.arch_by_release(DCI.get_release_data(@release_type, @release))
   end
 
   def components
-    currentdist
-    components = @currentdist[:components]
-    @components = components.split(",")
-    @components
+    @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
+    @components = @components.split
   end
 
   def aptly_components_to_repos
-    version
+    series
     components
     @components.each do |x|
-      repo = x + '-' + @version
+      repo = x + '-' + @series
       @repos << repo
     end
     raise unless @repos.is_a?(Array)
@@ -150,10 +157,10 @@ class DCISnapshot
   end
 
   def aptly_options
-    versioned_dist
+    series_release
     arch_array
     opts = {}
-    opts[:Distribution] = @versioned_dist
+    opts[:Distribution] = @series_release
     opts[:Architectures] = @arch_array
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
@@ -173,11 +180,11 @@ class DCISnapshot
         snapshot =
           if repo.packages.empty?
             Aptly::Snapshot.create(
-              "#{repo.Name}_#{@versioned_dist}_#{@stamp}", opts
+              "#{repo.Name}_#{@series_release}_#{@stamp}", opts
             )
           else
             # component = repo.Name.match(/(.*)-netrunner-backports/)[1].freeze
-            repo.snapshot("#{repo.Name}_#{@versioned_dist}_#{@stamp}", opts)
+            repo.snapshot("#{repo.Name}_#{@series_release}_#{@stamp}", opts)
           end
         snapshot.DefaultComponent = repo.DefaultComponent
         @snapshots << snapshot

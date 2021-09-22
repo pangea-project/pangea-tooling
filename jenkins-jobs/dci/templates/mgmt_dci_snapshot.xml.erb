@@ -41,13 +41,14 @@
       <command>
         export RELEASE_TYPE=<%= @release_type %>
         export SERIES=<%= @series %>
+        export ARM_BOARD=<%= @arm_board %>
         ~/tooling/dci/snapshot.rb
       </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.BuildTrigger>
-      <childProjects>img_<% @series %>_<%= @release_type %>_<%= @snapshot %>_<%= @architecture %></childProjects>
+      <childProjects>img_<% @series %>_<%= @release_type %>_<%= @arm_board %>_<%= @snapshot %>_<%= @architecture %></childProjects>
       <threshold>
         <name>SUCCESS</name>
         <ordinal>0</ordinal>
