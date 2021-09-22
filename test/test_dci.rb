@@ -70,6 +70,11 @@ class DCITest < TestCase
     release_data = DCI.get_release_data('core', 'netrunner-core-c1')
     assert_equal('c1', DCI.arm_board_by_release(release_data))
   end
+  
+  def test_components_by_release
+    release_data = DCI.get_release_data('core', 'netrunner-core-c1')
+    assert_equal('netrunner extras artwork common backports c1 netrunner-core', DCI.components_by_release(release_data))
+  end
 
   def test_arm_boards
     assert_equal(%w[c1 rock64 rpi4], DCI.arm_boards)
