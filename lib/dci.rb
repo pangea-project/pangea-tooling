@@ -15,16 +15,18 @@ module DCI
     return true if rel.end_with?('c1' || 'rock64' || 'rpi4')
   end
 
-  def arm_board_by_release(release)
-    arm_boards.each do | board |
-      if release.end_with? board
-        return board
-      else
-        "This is not arm, something has gone wrong."
-      end
-    end
+  def arm_board_by_release(release_data)
+    release_data['arm_board']
+  end
+  
+  def arch_by_release(release_data)
+    release_data['arch']
   end
 
+  def components_by_release(release_data)
+    release_data['components']
+  end
+  
   def release_types
     data['release_types'].keys
   end
