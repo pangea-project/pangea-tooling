@@ -69,6 +69,8 @@ class DCITest < TestCase
   def test_arm_board_by_release
     release_data = DCI.get_release_data('core', 'netrunner-core-c1')
     assert_equal('c1', DCI.arm_board_by_release(release_data))
+    release_data2 = DCI.get_release_data('core', 'netrunner-core')
+    assert_equal(nil, DCI.arm_board_by_release(release_data2))
   end
   
   def test_components_by_release
