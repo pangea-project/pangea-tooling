@@ -421,7 +421,7 @@ absolutely must not be native though!
       raise GitTransactionError,
             "Failed to update git clone at #{dir}: #{e}"
     rescue Rugged::ReferenceError => e
-      raise Rugged::ReferenceError "Failed to update git clone at #{dir}: #{e}"
+      raise Rugged::ReferenceError, "Failed to update git clone at #{dir}: #{e}"
     end
 
     def update_bzr(dir)
