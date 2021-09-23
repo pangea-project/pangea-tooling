@@ -53,7 +53,7 @@ class DCISnapshot
     @series = ''
     @arch = ''
     @arch_array = []
-    @arm_board = ''
+    @arm_board = nil
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new($stdout).tap do |l|
       l.progname = 'snapshotter'
@@ -97,12 +97,7 @@ class DCISnapshot
   def release
     release_type
     arm_board
-    if @arm_board
-      @release = "netrunner-#{@release_type}-#{arm_board}"
-    else
-      @release = "netrunner-#{@release_type}"
-    end
-    @release
+    @release = @arm_board ? "netrunner-#{@release_type}-#{@arm_board}" : "netrunner-#{@release_type}"
   end
 
   def series

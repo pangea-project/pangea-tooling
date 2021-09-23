@@ -45,7 +45,7 @@ class DCISnapshotTest < TestCase
     WebMock.allow_net_connect!
     ENV['RELEASE_TYPE'] = ''
     ENV['SERIES'] = ''
-    ENV['ARM_BOARD'] = ''
+    ENV['ARM_BOARD'] = nil
   end
 
   def test_config
@@ -74,10 +74,13 @@ class DCISnapshotTest < TestCase
     assert_equal @type_data.keys, %w[netrunner-core netrunner-core-c1]
     teardown
   end
-  
+
   def test_release
     setup
-    assert_equal(@release, 'netrunner-core-c1')
+    assert_equal('netrunner-core-c1', @release)
+    ENV['ARM_BOARD'] = nil
+    @release = @d.release
+    assert_equal('netrunner-core', @release)
     teardown
   end
 
@@ -104,7 +107,10 @@ class DCISnapshotTest < TestCase
 
   def test_aptly_components_to_repos
     setup
-    assert_equal  %w[netrunner-next extras-next artwork-next common-next backports-next c1-next netrunner-core-next], @repos
+    assert_equal(
+      %w[netrunner-next extras-next artwork-next common-next backports-next c1-next netrunner-core-next],
+      @repos
+    )
     teardown
   end
 
@@ -120,11 +126,17 @@ class DCISnapshotTest < TestCase
     teardown
   end
 
+  def test_arm_board
+    setup
+    assert_equal('c1', @arm_board)
+    teardown
+  end
+
   def test_aptly_options
     setup
     opts = {}
     opts[:Distribution] = @series_release
-    opts[:Architectures] =@arch_array
+    opts[:Architectures] = @arch_array
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
     assert_equal(opts, @aptly_options)

@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative 'lib/dci'
+require_relat
 require_relative 'lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
 require_relative 'lib/kdeproject_component'
@@ -62,6 +63,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     @series = ''
     @release_type = ''
     @release = ''
+    @arm = ''
     @data_file_name = ''
     DCI.series.each_key do |series|
       @series = series
@@ -74,9 +76,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             @release = release
             data = DCI.get_release_data(@release_type, @release)
             if  DCI.arm?(@release)
-              arm = DCI.arm_board_by_release(@release)
-              @data_file_name = "#{@release_type}-#{arm}.yaml"
-              puts "Working on #{@release}-#{arm}-#{series}"
+              @arm = DCI.arm_board_by_release(@release)
+              @data_file_name = "#{@release_type}-#{@arm}.yaml"
+              puts "Working on #{@release}-#{@arm}-#{series}"
             else
               @data_file_name = "#{release_type}.yaml"
               puts "Working on #{release}-#{series}"
@@ -92,6 +94,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                 components: DCI.components_by_release(data),
                 series: @series,
                 architecture: DCI.arch_by_release(data),
+                arm_board: @arm,
                 upload_map: @upload_map
               )
               jobs << j
@@ -134,7 +137,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                   snapshot: snapshot,
                   series: @series,
                   release_type: @release_type,
-                  arm_board: DCI.arm_board_by_release(data),
+                  arm_board: @arm,
                   architecture: DCI.arch_by_release(data)
                 )
               )

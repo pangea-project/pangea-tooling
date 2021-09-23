@@ -9,14 +9,14 @@ class DCISnapShotJob < JenkinsJob
   attr_reader :series
   attr_reader :arm_board
 
-  def initialize(snapshot:, series:, release_type:, arm_board:, architecture:)
+  def initialize(snapshot:, series:, release_type:, architecture:, arm_board: nil)
     @release_type = release_type
     @architecture = architecture
     @snapshot = snapshot
     @series = series
     @arm_board = arm_board
     if @arm_board
-      super("snapshot_#{series}_#{release_type}_#{arm_board}_#{snapshot}_#{architecture}", 'mgmt_dci_snapshot.xml.erb')
+      super("snapshot_#{series}_#{release_type}_#{snapshot}_#{architecture}_#{arm_board}", 'mgmt_dci_snapshot.xml.erb')
     else
       super("snapshot_#{series}_#{release_type}_#{snapshot}_#{architecture}", 'mgmt_dci_snapshot.xml.erb')
     end
