@@ -15,7 +15,7 @@ class DCISourcerJob < JenkinsJob
   attr_reader :component
   attr_reader :architecture
 
-  def initialize(basename, project:, release:, series:)
+  def initialize(basename, project:, series:, release:)
     super("#{basename}_src", 'dci_sourcer.xml.erb')
     @name = project.name
     @component = project.component

@@ -28,46 +28,46 @@ require_relative '../multijob_phase'
 
 # Magic builder to create an array of build steps
 class DCIProjectMultiJob < JenkinsJob
-  def self.job(project, series:, release_type:, release:, components:, upload_map:, architecture:, arm_board: nil)
+  def self.job(project, series:, release:, upload_map:, architecture:)
     return [] unless project.debian?
 
     architecture = architecture.dup
-    release_type += "-#{arm_board}" if arm_board
+    release = release.dup
     series = series.dup
-    basename = DCIBuilderJobBuilder.basename(series, release_type, project.component, project.name)
+    upload_map = upload_map.dup
+    
+    basename = DCIBuilderJobBuilder.basename(series, release, project.component, project.name, architecture)
 
     dependees = project.dependees.collect do |d|
-      basename(series, release_type, d.component, d.name)
+      DCIBuilderJobBuilder.basename(series, release, d.component, d.name, architecture)
     end
     dependees = dependees.compact.uniq.sort
 
     publisher_dependees = project.dependees.collect do |d|
-      "#{basename(series, release_type, d.component, d.name)}_src"
+      "#{DCIBuilderJobBuilder.basename(series, release, d.component, d.name, architecture)}_src"
     end.compact
 
     sourcer = DCISourcerJob.new(
       basename,
-      release_type: release_type,
+      release: release,
       series: series,
       project: project)
     publisher = DCIPublisherJob.new(
       basename,
-      release_type: release_type,
+      release: release,
       series: series,
       dependees: publisher_dependees,
       component: project.component,
-      upload_map: upload_map,
-      architecture: architecture)
+      upload_map: upload_map)
     binarier = DCIBinarierJob.new(
       basename,
-      release_type: release_type,
-      series: series,
-      architecture: architecture)
+      release: release,
+      series: series)
     jobs = [sourcer, binarier, publisher]
     basename1 = jobs[0].job_name.rpartition('_')[0]
     raise "unexpected basename diff #{basename} v #{basename1}" unless basename == basename1
 
-    jobs << new(basename, project: project, release_type: release_type, series: series, jobs: jobs, dependees: dependees)
+    jobs << new(basename, project: project, release: release, series: series, jobs: jobs, dependees: dependees)
     # The actual jobs array cannot be nested, so flatten it out.
     jobs.flatten
   end
@@ -126,11 +126,10 @@ class DCIProjectMultiJob < JenkinsJob
   end
 
   def render_upstream_scm
-    @upstream_scm = @project.upstream_scm # FIXME: compat assignment
+  @upstream_scm = @project.upstream_scm # FIXME: compat assignment
     return '' unless @upstream_scm
-
     case @upstream_scm.type
-    when 'git'
+  when 'git'
       render('upstream-scms/git.xml.erb')
     when 'svn'
       render('upstream-scms/svn.xml.erb')
@@ -145,3 +144,4 @@ class DCIProjectMultiJob < JenkinsJob
     end
   end
 end
+

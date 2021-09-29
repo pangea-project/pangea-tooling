@@ -6,16 +6,14 @@ class DCIBinarierJob < JenkinsJob
   attr_reader :basename
   attr_reader :release
   attr_reader :series
-  attr_reader :architecture
   attr_reader :artifact_origin
   attr_reader :downstream_triggers
 
-  def initialize(basename, release:, series:, architecture:)
-    super("#{basename}_#{architecture}_bin", 'dci_binarier.xml.erb')
+  def initialize(basename, release:, series:)
+    super("#{basename}_bin", 'dci_binarier.xml.erb')
     @basename = basename
     @release = release
     @series = series
-    @architecture = architecture
     @artifact_origin = "#{basename}__src"
     @downstream_triggers = []
   end
