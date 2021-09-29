@@ -45,11 +45,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     @data_dir = File.expand_path('data', __dir__)
     @projects_dir = File.expand_path('projects/dci', @data_dir)
     upload_map_file = File.expand_path('dci.upload.yaml', @data_dir)
-    @@flavor_dir = File.expand_path('jenkins-jobs/dci', __dir__)
+    @flavor_dir = File.expand_path('jenkins-jobs/dci', __dir__)
     return unless File.exist?(upload_map_file)
 
     @upload_map = YAML.load_file(upload_map_file)
-    JenkinsJob.flavor_dir = "#{__dir__}/jenkins-jobs/dci"
 
     super
   end
@@ -62,35 +61,41 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     all_builds = []
     jobs = []
     @series = ''
+    @release_type = ''
     @release = ''
+    @arm = ''
     @data_file_name = ''
     DCI.series.each_key do |series|
       @series = series
       @data_dir = File.expand_path("dci/#{series}", @data_dir)
       DCI.release_types.each do |release_type|
         puts "Populating jobs for #{release_type}"
-        DCI.releases_for_type(release_type).each do |release|
+        @release_type = release_type
+          DCI.releases_for_type(@release_type).each do |release|
             puts "Processing release: #{release}"
             @release = release
-            release_data = DCI.get_release_data(release_type, @release)
+            data = DCI.get_release_data(@release_type, @release)
             if  DCI.arm?(@release)
-              arm = DCI.arm_board_by_release(@release)
-              @data_file_name = "#{release_type}-#{arm}.yaml"
-              puts "Working on #{@release}-#{arm}-#{@series}"
+              @arm = DCI.arm_board_by_release(@release)
+              @data_file_name = "#{@release_type}-#{@arm}.yaml"
+              puts "Working on #{@release}-#{@arm}-#{series}"
             else
               @data_file_name = "#{release_type}.yaml"
-              puts "Working on #{@release}-#{@series}"
+              puts "Working on #{release}-#{series}"
             end
-            next unless @data_file_name
-            projects = ProjectsFactory.from_file(@data_file_name, branch: "Netrunner/#{@series}")
+            next unless data
+            projects = ProjectsFactory.from_file(data, branch: "Netrunner/#{@series}")
             raise unless projects
             projects.each do |project|
               j = DCIProjectMultiJob.new(
                 project,
+                release_type: @release_type,
                 release: @release,
+                components: DCI.components_by_release(data),
                 series: @series,
-                upload_map: @upload_map,
-                architecture: DCI.arch_by_release(release_data)
+                architecture: DCI.arch_by_release(data),
+                arm_board: @arm,
+                upload_map: @upload_map
               )
               jobs << j
               all_builds += j
