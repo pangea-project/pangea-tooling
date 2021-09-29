@@ -123,7 +123,6 @@ class ProjectTest < TestCase
         assert_equal("kubuntu_#{stability}", project.packaging_scm.branch)
         assert_equal(nil, project.snapcraft)
         assert(project.debian?)
-        assert_equal(nil, project.arm_board)
         assert_empty(project.series_restrictions)
       end
     ensure

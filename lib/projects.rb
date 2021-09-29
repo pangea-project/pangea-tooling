@@ -108,8 +108,6 @@ class Project
   attr_reader :debian
   alias debian? debian
 
-  attr_reader :arm_board
-
   # List of dist ids that this project is restricted to (e.g. %w[xenial bionic focal]
   # should prevent the project from being used to create jobs for `artful`)
   # This actually taking effect depends on the specific job/project_updater
@@ -149,7 +147,6 @@ class Project
     @series_branches = []
     @autopkgtest = false
     @debian = false
-    @arm_board = nil
     @series_restrictions = []
     @kdecomponent = if KDEProjectsComponent.frameworks_jobs.include?(name)
                       'frameworks'
