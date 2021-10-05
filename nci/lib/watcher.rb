@@ -71,11 +71,6 @@ module NCI
       end
     end
 
-    # Env variables which reflect jenkins trigger causes
-    CAUSE_ENVS = %w[BUILD_CAUSE ROOT_BUILD_CAUSE].freeze
-    # Key word for manually triggered builds
-    MANUAL_CAUSE = 'MANUALTRIGGER'
-
     attr_reader :cmd
 
     def initialize
@@ -225,7 +220,7 @@ module NCI
     attr_accessor :newest_dehs_package
 
     def run
-      raise 'No debain/watch found!' unless File.exist?('debian/watch')
+      raise 'No debian/watch found!' unless File.exist?('debian/watch')
 
       watch = File.read('debian/watch')
       if watch.include?('unstable') && watch.include?('download.kde.')
@@ -245,7 +240,7 @@ module NCI
               ' probably also check back with sitter.'
       end
 
-      if job_is_kde_released && CAUSE_ENVS.any? { |v| ENV[v] == 'TIMERTRIGGER' }
+      if job_is_kde_released && ENV['CAUSE'] == "timer"
         send_product_mail
         return
       end
@@ -266,7 +261,7 @@ module NCI
     end
 
     def send_product_mail
-      puts 'KDE Plasma/Releases/Framework watcher should be run manually not by timer, quitting'
+      puts 'KDE Plasma/Gear/Framework watcher should be run manually not by timer, quitting'
 
       # Take first package from each product and send e-mail for only that
       # one to stop spam
@@ -294,7 +289,7 @@ run jenkins_retry manually for this release on release day.
     end
 
     def send_mail
-      return if CAUSE_ENVS.any? { |v| ENV[v] == MANUAL_CAUSE }
+      return if ENV['CAUSE'].include?('Started by')
 
       subject = "Releasing: #{newest_dehs_package.name} - #{newest_version}"
       subject = "Dev Required: #{newest_dehs_package.name} - #{newest_version}" unless kde_software?
