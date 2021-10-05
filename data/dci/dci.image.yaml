@@ -4,21 +4,23 @@ desktop:
     :releases:
       - next: master
       - 2101: Netrunner/21.01
+      - 22: Netrunner/22
     :snapshots:
       - 'next'
       - '2101'
+      - '22'
 
 core:
   netrunner-core:
     :repo: https://github.com/netrunner-core/live-build
     :releases:
       - next: master
+      - 22: Netrunner/22
       - 2101: Netrunner/21.01
-      - 2001: Netrunner/20.01
     :snapshots:
       - 'next'
+      - '22'
       - '2101'
-      - '2001'
 
   netrunner-core-c1:
     :repo: https://github.com/netrunner-odroid/c1-live-build-core
@@ -46,6 +48,6 @@ zynthbox:
   netrunner-zynthbox-rpi4:
     :repo: https://github.com/zynthbox/rpi4-live-build-zynthbox
     :releases:
-      - 2101: Netrunner/21.01
+      - 22: Netrunner/22
     :snapshots:
-      - '2101'
+      - '22'
