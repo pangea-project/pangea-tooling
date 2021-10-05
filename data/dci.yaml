@@ -2,6 +2,7 @@ series:
   '2101': '20210109'
   '22': '20210510'
   'next': '20210610'
+  'buster': '20210110'
 architectures:
   - amd64
 extra_architectures:

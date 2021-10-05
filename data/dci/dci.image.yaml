@@ -48,6 +48,6 @@ zynthbox:
   netrunner-zynthbox-rpi4:
     :repo: https://github.com/zynthbox/rpi4-live-build-zynthbox
     :releases:
-      - 22: Netrunner/22
+      - buster: Netrunner/buster
     :snapshots:
-      - '22'
+      - 'buster'

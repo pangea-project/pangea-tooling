@@ -25,10 +25,10 @@ class DCITest < TestCase
   end
 
   def test_series
-    assert_equal_collection(%w[2101 next], DCI.series.keys)
-    assert_equal_collection(%w[20210901 20210902], DCI.series.values)
-    assert_equal('20210901', DCI.series['2101'])
-    assert_equal('20210902', DCI.series['next'])
+    assert_equal_collection(%w[2101 22 next buster], DCI.series.keys)
+    assert_equal_collection(%w[20210109 20210510 20210610 20210110], DCI.series.values)
+    assert_equal('20210510', DCI.series['22'])
+    assert_equal('20210610', DCI.series['next'])
 
     # With sorting
     assert_equal('2101', DCI.series(sort: :ascending).keys.first)
