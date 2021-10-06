@@ -63,7 +63,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     @release = ''
     @release_type = ''
     @data_file_name = ''
-    @series = series
+    @series = ''
     @data_dir = File.expand_path("dci/#{series}", @data_dir)
     DCI.release_types.each do |release_type|
       @release_type = release_type
@@ -74,6 +74,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       @data_file_name = DCI.arm?(@release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
       DCI.series.each_key do |series|
        puts "Working on series: #{series} release: #{@data_file_name}.gsub('.yaml', '')"
+       @series = series
        raise unless @data_file_name
 
        projects = ProjectsFactory.from_file(@data_file_name, branch: "Netrunner/#{@series}")
