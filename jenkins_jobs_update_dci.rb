@@ -62,14 +62,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     jobs = []
     @series = ''
     @release = ''
+    @release_type = ''
     @data_file_name = ''
     @series = series
     @data_dir = File.expand_path("dci/#{series}", @data_dir)
     DCI.release_types.each do |release_type|
-     DCI.releases_for_type(release_type).each do |release|
-      @release_data = DCI.get_release_data(release_type, release)
+      @release_type = release_type
+     DCI.releases_for_type(@release_type).each do |release|
+      @release_data = DCI.get_release_data(@release_type, release)
       @release = release
-      @data_file_name = DCI.arm?(@release) ? "#{release_type}-#{@arm}.yaml" : "#{release_type}.yaml"
+      @data_file_name = DCI.arm?(@release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
       DCI.series.each_key do |series|
        puts "Working on series: #{series} release: #{@data_file_name}.gsub('.yaml', '')"
        raise unless @data_file_name
