@@ -20,7 +20,6 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative 'lib/dci'
-require_relat
 require_relative 'lib/projects/factory'
 require_relative 'lib/jenkins/project_updater'
 require_relative 'lib/kdeproject_component'
