@@ -45,7 +45,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     @projects_dir = File.expand_path('projects/dci', @data_dir)
     upload_map_file = File.expand_path('dci.upload.yaml', @data_dir)
     @flavor_dir = File.expand_path('jenkins-jobs/dci', __dir__)
-    @arm = DCI.arm_board_by_release(@release)
     return unless File.exist?(upload_map_file)
 
     @upload_map = YAML.load_file(upload_map_file)
@@ -71,6 +70,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
      DCI.releases_for_type(@release_type).each do |release|
       @release_data = DCI.get_release_data(@release_type, release)
       @release = release
+      @arm = DCI.arm_board_by_release(@release)
       @data_file_name = DCI.arm?(@release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
       DCI.series.each_key do |series|
        puts "Working on series: #{series} release: #{@data_file_name}.gsub('.yaml', '')"
