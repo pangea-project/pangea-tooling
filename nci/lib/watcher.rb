@@ -289,7 +289,7 @@ run jenkins_retry manually for this release on release day.
     end
 
     def send_mail
-      return if ENV['CAUSE'].include?('Started by')
+      return if ENV.key?('CAUSE') and ENV['CAUSE'].include?('Started by')
 
       subject = "Releasing: #{newest_dehs_package.name} - #{newest_version}"
       subject = "Dev Required: #{newest_dehs_package.name} - #{newest_version}" unless kde_software?
