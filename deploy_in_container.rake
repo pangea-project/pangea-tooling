@@ -46,10 +46,10 @@ EARLY_DEPS = [
 # simply a runtime (or provision time) dep of the tooling.
 CORE_RUNTIME_DEPS = %w[apt-transport-https software-properties-common].freeze
 DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
-          ubuntu-dev-tools gnome-pkg-tools git dh-systemd
+          ubuntu-dev-tools gnome-pkg-tools git
           zlib1g-dev sudo locales mercurial aptitude
           autotools-dev cdbs dh-autoreconf dh-linktree germinate gnupg2
-          gobject-introspection sphinx-common po4a pep8 pyflakes ppp-dev dh-di
+          gobject-introspection sphinx-common po4a ppp-dev dh-di
           libgirepository1.0-dev libglib2.0-dev bash-completion
           python3-setuptools python3-setuptools-scm python-setuptools python-setuptools-scm dkms
           mozilla-devscripts libffi-dev subversion libcurl4-gnutls-dev
