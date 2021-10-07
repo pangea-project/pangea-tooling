@@ -59,10 +59,12 @@
       </conditionalbuilders>
     </org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder>
     <%= render_phases %>
-   <hudson.tasks.Shell>
+    <hudson.tasks.Shell>
       <command>
-        export SERIES=<%= series %>
-        export RELEASE=<%= release %>
+        # Cleanup the artifacts of the last successful builds of our subjobs
+        # This preserves disk space by throwing out unnecessary rubbish, such
+        # as debs and tarballs.
+        ~/tooling/nci/jenkins_job_artifact_cleaner.rb <%= jobs.join(' ') %>
       </command>
     </hudson.tasks.Shell>
   </builders>

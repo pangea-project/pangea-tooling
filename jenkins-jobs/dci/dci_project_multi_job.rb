@@ -35,7 +35,6 @@ class DCIProjectMultiJob < JenkinsJob
     release = release.dup
     series = series.dup
     upload_map = upload_map.dup
-    
     basename = DCIBuilderJobBuilder.basename(series, release, project.component, project.name, architecture)
 
     dependees = project.dependees.collect do |d|
@@ -67,7 +66,7 @@ class DCIProjectMultiJob < JenkinsJob
     basename1 = jobs[0].job_name.rpartition('_')[0]
     raise "unexpected basename diff #{basename} v #{basename1}" unless basename == basename1
 
-    jobs << new(basename, project: project, release: release, series: series, jobs: jobs, dependees: dependees)
+    jobs << new(basename, project: project, jobs: jobs, dependees: dependees)
     # The actual jobs array cannot be nested, so flatten it out.
     jobs.flatten
   end
@@ -89,11 +88,9 @@ class DCIProjectMultiJob < JenkinsJob
   # FIXME: this is a compat thingy for sourcer (see render method)
   attr_reader :upstream_scm
 
-  attr_reader :release
-  attr_reader :series
   private
 
-  def initialize(basename, project:, release:, series:, jobs:, dependees: [])
+  def initialize(basename, project:, jobs:, dependees: [])
     super(basename, 'project.xml.erb')
 
     # We use nested jobs for phases with multiple jobs, we need to aggregate
@@ -108,8 +105,6 @@ class DCIProjectMultiJob < JenkinsJob
     @jobs = job_names.flatten.freeze
     @dependees = dependees.freeze
     @project = project.freeze
-    @release = release.freeze
-    @series = series.freeze
   end
 
   def render_phases
