@@ -240,7 +240,9 @@ module NCI
               ' probably also check back with sitter.'
       end
 
+      puts "XXX CAUSE is set to " + ENV['CAUSE']
       if job_is_kde_released && ENV['CAUSE'] == "timer"
+        puts "XXX send email and return"
         send_product_mail
         return
       end
