@@ -40,9 +40,8 @@ cmd.run('sudo apt -y install binfmt-support qemu qemu-user-static debootstrap')
     cmd.run("sudo chroot ./stable-#{arch} apt-get -y install git awscli pigz live-build vim make")
     cmd.run("sudo chroot ./stable-#{arch} sed --in-place=.bak -e 's|umount \"$TARGET/proc\" 2>/dev/null \\|\\| true|#umount \"$TARGET/proc\" 2>/dev/null \\|\\| true|g' /usr/share/debootstrap/functions")
     cmd.run("sudo chroot ./stable-#{arch} cat /usr/share/debootstrap/functions | grep '#umount \"$TARGET/proc\" 2>/dev/null'")
-    cmd.run("sudo chroot ./stable-#{arch} mkdir /usr/local/share/ca-certificates/cacert.org")
-    cmd.run("sudo chroot ./stable-#{arch} wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/certs/root.crt http://www.cacert.org/certs/class3.crt")
-    cmd.run("sudo chroot ./stable-#{arch} update-ca-certificates")
+    cmd.run("sudo chroot ./stable-#{arch} wget -P /etc/ssl/certs/ http://curl.haxx.se/ca/cacert.pem")
+    cmd.run("sudo chroot ./stable-#{arch} c_rehash")
   else
     puts "stable-#{arch} does not exist, if  this is first run, something failed"
   end
