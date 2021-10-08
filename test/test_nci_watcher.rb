@@ -65,7 +65,7 @@ class NCIWatcherTest < TestCase
 
   def test_run
     ENV['JOB_NAME'] = 'watcher_release_kde_ark'
-    ENV['CAUSE'] = 'timer'
+    ENV['BUILD_CAUSE'] = 'Started by timer'
 
     require_binaries(%w[dch])
 
@@ -127,7 +127,7 @@ class NCIWatcherTest < TestCase
     require_binaries(%w[dch])
     Pangea::SMTP.expects(:start).never
 
-    ENV['CAUSE'] = 'Started by Konqi Konqueror'
+    ENV['BUILD_CAUSE'] = 'Started by Konqi Konqueror'
 
     with_remote_repo(data, branch: 'stable') do |remote|
       cmd.run("git clone #{remote} .")
@@ -142,7 +142,7 @@ class NCIWatcherTest < TestCase
       NCI::Watcher.new.run
     end
   ensure
-    ENV.delete('CAUSE')
+    ENV.delete('BUILD_CAUSE')
   end
 
   def test_no_unstable
@@ -169,7 +169,7 @@ class NCIWatcherTest < TestCase
   end
 
   def test_3rdparty_manual_trigger_fail_no_mail
-    ENV['CAUSE'] = 'Started by Konqi Konqueror'
+    ENV['BUILD_CAUSE'] = 'Started by Konqi Konqueror'
     require_binaries(%w[dch])
 
     Pangea::SMTP.expects(:start).never
@@ -191,7 +191,7 @@ class NCIWatcherTest < TestCase
   end
 
   def test_3rdparty_time_trigger_mail_and_fail
-    ENV['CAUSE'] = 'timer'
+    ENV['BUILD_CAUSE'] = 'Started by timer'
     require_binaries(%w[dch])
 
     smtp = mock('smtp')

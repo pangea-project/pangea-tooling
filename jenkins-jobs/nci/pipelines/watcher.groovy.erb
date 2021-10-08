@@ -1,6 +1,6 @@
 env.DIST='<%= nci.latest_series %>'
 def cause = currentBuild.getBuildCauses()
-env.CAUSE = "${cause[0].shortDescription}"
+env.BUILD_CAUSE = "${cause[0].shortDescription}"
 
 cleanNode('amd64') {
   stage('clone') {

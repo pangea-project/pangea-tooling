@@ -1,3 +1,4 @@
+# coding: utf-8
 # frozen_string_literal: true
 
 # SPDX-FileCopyrightText: 2016-2021 Harald Sitter <sitter@kde.org>
@@ -240,9 +241,7 @@ module NCI
               ' probably also check back with sitter.'
       end
 
-      puts "XXX CAUSE is set to " + ENV['CAUSE']
-      if job_is_kde_released && ENV['CAUSE'] == "timer"
-        puts "XXX send email and return"
+      if job_is_kde_released && ENV['BUILD_CAUSE'] == "Started by timer"
         send_product_mail
         return
       end
@@ -291,7 +290,7 @@ run jenkins_retry manually for this release on release day.
     end
 
     def send_mail
-      return if ENV.key?('CAUSE') and ENV['CAUSE'].include?('Started by')
+      return if ENV.key?('BUILD_CAUSE') and ENV['BUILD_CAUSE'] != 'Started by timer'
 
       subject = "Releasing: #{newest_dehs_package.name} - #{newest_version}"
       subject = "Dev Required: #{newest_dehs_package.name} - #{newest_version}" unless kde_software?
