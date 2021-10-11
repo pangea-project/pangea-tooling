@@ -44,7 +44,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     @data_dir = File.expand_path('data', __dir__)
     @projects_dir = File.expand_path('projects/dci', @data_dir)
     upload_map_file = File.expand_path('dci.upload.yaml', @data_dir)
-    @flavor_dir = File.expand_path('jenkins-jobs/dci', __dir__)
+    JenkinsJob.flavor_dir = File.expand_path('jenkins-jobs/dci', __dir__)
     return unless File.exist?(upload_map_file)
 
     @upload_map = YAML.load_file(upload_map_file)
