@@ -82,7 +82,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
        raise unless projects
 
        projects.each do |project|
-        j = DCIProjectMultiJob.new(
+        j = DCIProjectMultiJob.job(
           project,
           release: @release,
           series: @series,
