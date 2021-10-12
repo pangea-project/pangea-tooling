@@ -61,7 +61,9 @@ class DCIProjectMultiJob < JenkinsJob
     binarier = DCIBinarierJob.new(
       basename,
       release: release,
-      series: series)
+      series: series,
+      architecture: architecture
+    )
     jobs = [sourcer, binarier, publisher]
     basename1 = jobs[0].job_name.rpartition('_')[0]
     raise "unexpected basename diff #{basename} v #{basename1}" unless basename == basename1
