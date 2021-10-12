@@ -73,27 +73,29 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       @arm = DCI.arm_board_by_release(@release)
       @data_file_name = DCI.arm?(@release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
       DCI.series.each_key do |series|
-      data_dir = File.expand_path(series, @projects_dir)
-       puts "Working on series: #{series} release: #{@release}"
-       @series = series
-       raise unless @data_file_name
-       file = File.expand_path(@data_file_name,  data_dir)
-       projects = ProjectsFactory.from_file(file, branch: "Netrunner/#{@series}")
-       raise unless projects
+        data_dir = File.expand_path(series, @projects_dir)
+        puts "Working on series: #{series} release: #{@release}"
+        @series = series
+        raise unless @data_file_name
+        file = File.expand_path(@data_file_name,  data_dir)
+        projects = ProjectsFactory.from_file(file, branch: "Netrunner/#{@series}")
+        raise unless projects
 
-       projects.each do |project|
-        j = DCIProjectMultiJob.job(
-          project,
-          release: @release,
-          series: @series,
-          architecture: DCI.arch_by_release(@release_data),
-          upload_map: @upload_map
-        )
-        jobs << j
-        all_builds += j
-        jobs.each { |job| enqueue(job) }
-        all_builds.flatten!
-      end
+        projects.each do |project|
+          jobs = DCIProjectMultiJob.job(
+                                    project,
+            release: @release,
+            series: @series,
+            architecture: DCI.arch_by_release(@release_data),
+            upload_map: @upload_map
+            )
+                    jobs = ProjectJob.job(project,
+                                          distribution: distribution,
+                                          type: type,
+                                          architectures: project_architectures)
+          jobs.each { |j| enqueue(j) }
+          all_builds += jobs
+         end
       # Remove everything but source as they are the anchor points for
       # other jobs that might want to reference them.
       all_builds.select! { |j| j.job_name.end_with?('_src') }
@@ -107,22 +109,21 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       #image Jobs
       @data_file_name = 'dci.image.yaml'
       @data_dir = File.expand_path('dci', @data_dir)
-
-        image_job_config = File.expand_path(@data_file_name, @data_dir)
-        load_config = YAML.load_stream(File.read(image_job_config))
-        next unless image_job_config
+      image_job_config = File.expand_path(@data_file_name, @data_dir)
+      load_config = YAML.load_stream(File.read(image_job_config))
+      next unless image_job_config
 
         all_image_jobs = load_config
         all_image_jobs.each do |image_job|
         image_data = image_job[@release]
         enqueue(
-            DCIImageJob.new(
-              release: @release,
-              architecture: DCI.arch_by_release(@release),
-              repo: image_data[:repo],
-              branch: image_data[:releases][@series].values
-            )
+          DCIImageJob.new(
+            release: @release,
+            architecture: DCI.arch_by_release(@release),
+            repo: image_data[:repo],
+            branch: image_data[:releases][@series].values
           )
+        )
           image_data['snapshots'].each do |snapshot|
           enqueue(
             DCISnapShotJob.new(
