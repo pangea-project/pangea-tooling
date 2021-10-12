@@ -83,19 +83,15 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         projects.each do |project|
           jobs = DCIProjectMultiJob.job(
-                                    project,
+            project,
             release: @release,
             series: @series,
             architecture: DCI.arch_by_release(@release_data),
             upload_map: @upload_map
-            )
-                    jobs = ProjectJob.job(project,
-                                          distribution: distribution,
-                                          type: type,
-                                          architectures: project_architectures)
-          jobs.each { |j| enqueue(j) }
-          all_builds += jobs
-         end
+         )                    
+         jobs.each { |j| enqueue(j) }
+         all_builds += jobs
+        end
       # Remove everything but source as they are the anchor points for
       # other jobs that might want to reference them.
       all_builds.select! { |j| j.job_name.end_with?('_src') }
