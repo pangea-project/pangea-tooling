@@ -3,7 +3,7 @@
 # require_relative 'binarier'
 # require_relative 'publisher'
 # require_relative '../job'
-# 
+#
 # # Magic builder to create an array of build steps
 # # Fun story: ci_reporter uses builder, builder is Builder, can't have a class
 # # called Builder or tests will fail. I do rather love my live. Also generic
@@ -12,7 +12,7 @@
 class DCIBuilderJobBuilder
 #   def self.job(project, release_type:, series:, architecture:, upload_map: nil)
 #     basename = basename(series, release_type, project.component, project.name)
-# 
+#
 #     dependees = project.dependees.collect do |d|
 #       "#{basename(series, release_type, d.component, d.name)}_src"
 #     end.compact
@@ -36,14 +36,14 @@ class DCIBuilderJobBuilder
 #       architecture: architecture)
 #     sourcer.trigger(binarier)
 #     binarier.trigger(publisher)
-# 
+#
 #     jobs = [sourcer, binarier, publisher ]
 #     basename1 = jobs[0].job_name.rpartition('_')[0]
 #     unless basename == basename1
 #       raise "unexpected basename diff #{basename} v #{basename1}"
 #     end
 #   end
-# 
+#
   def self.basename(series, release, component, name, architecture)
     "#{series}_#{release}_#{component}_#{name}_#{architecture}"
   end
