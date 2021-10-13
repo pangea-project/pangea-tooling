@@ -67,60 +67,63 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     DCI.release_types.each do |release_type|
       @release_type = release_type
-     DCI.releases_for_type(@release_type).each do |release|
-      @release_data = DCI.get_release_data(@release_type, release)
-      @release = release
-      @arm = DCI.arm_board_by_release(@release)
-      @data_file_name = DCI.arm?(@release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
-      DCI.series.each_key do |series|
-        data_dir = File.expand_path(series, @projects_dir)
-        puts "Working on series: #{series} release: #{@release}"
-        @series = series
-        raise unless @data_file_name
-        file = File.expand_path(@data_file_name,  data_dir)
-        projects = ProjectsFactory.from_file(file, branch: "Netrunner/#{@series}")
-        raise unless projects
+      DCI.releases_for_type(@release_type).each do |release|
+        @release_data = DCI.get_release_data(@release_type, release)
+        @release = release
+        @arm = DCI.arm_board_by_release(@release)
+        @data_file_name = DCI.arm?(@release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
+        DCI.series.each_key do |series|
+         @series = series
+         DCI.all_architectures.each do |arch|
+           data_dir = File.expand_path(series, @projects_dir)
+           puts "Working on series: #{series} release: #{@release}"
 
-        projects.each do |project|
-          jobs = DCIProjectMultiJob.job(
-            project,
-            release: @release,
-            series: @series,
-            architecture: DCI.arch_by_release(@release_data),
-            upload_map: @upload_map
-         )                    
-         jobs.each { |j| enqueue(j) }
-         all_builds += jobs
-        end
-      # Remove everything but source as they are the anchor points for
-      # other jobs that might want to reference them.
-      all_builds.select! { |j| j.job_name.end_with?('_src') }
-      # This could actually returned into a collect if placed below
-      meta_build = MetaBuildJob.new(
-        type: @series,
-        distribution: @release,
-        downstream_jobs: all_builds
-      )
-      all_meta_builds << enqueue(meta_build)
-      #image Jobs
-      @data_file_name = 'dci.image.yaml'
-      @data_dir = File.expand_path('dci', @data_dir)
-      image_job_config = File.expand_path(@data_file_name, @data_dir)
-      load_config = YAML.load_stream(File.read(image_job_config))
-      next unless image_job_config
+           raise unless @data_file_name
 
-        all_image_jobs = load_config
-        all_image_jobs.each do |image_job|
-        image_data = image_job[@release]
-        enqueue(
-          DCIImageJob.new(
-            release: @release,
-            architecture: DCI.arch_by_release(@release),
-            repo: image_data[:repo],
-            branch: image_data[:releases][@series].values
+           file = File.expand_path(@data_file_name,  data_dir)
+           projects = ProjectsFactory.from_file(file, branch: "Netrunner/#{@series}")
+           raise unless projects
+
+           projects.each do |project|
+            next unless DCI.arch_by_release(project) == arch
+
+            jobs = DCIProjectMultiJob.job(
+              project,
+              release: @release,
+              series: @series,
+              architecture: arch,
+              upload_map: @upload_map
+            )
+            jobs.each { |j| enqueue(j) }
+            all_builds += jobs
+          end
+         # Remove everything but source as they are the anchor points for
+         # other jobs that might want to reference them.
+         all_builds.select! { |j| j.job_name.end_with?('_src') }
+         # This could actually returned into a collect if placed below
+         meta_build = MetaBuildJob.new(
+           type: @series,
+           distribution: @release,
+           downstream_jobs: all_builds
+         )
+         all_meta_builds << enqueue(meta_build)
+         # image Jobs
+         @data_file_name = 'dci.image.yaml'
+         @data_dir = File.expand_path('dci', @data_dir)
+         image_job_config = File.expand_path(@data_file_name, @data_dir)
+         image _jobs = YAML.load_stream(File.read(image_job_config))
+         next unless image_job_config
+
+        image_jobs.each do
+          image_data = DCI.get_release_data(@release_type, @release)
+          enqueue(
+            DCIImageJob.new(
+              release: @release,
+              architecture: DCI.arch_by_release(image_data),
+              repo: image_data[:repo],
+              branch: image_data[:releases][@series].values
+            )
           )
-        )
-          image_data['snapshots'].each do |snapshot|
           enqueue(
             DCISnapShotJob.new(
               snapshot: snapshot,
@@ -129,14 +132,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               architecture: DCI.arch_by_release(@release)
             )
           )
-          docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
-          docker_clean = enqueue(MGMTDockerCleanupJob.new(downstreams: [docker]))
-          tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker_clean]))
-          tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
-          enqueue(MGMTDCIToolingJob.new(downstreams: [tooling_progenitor], dependees: [], type: release))
-          enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
-          enqueue(MGMTRepoCleanupJob.new)
-          end
+        end
+        docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
+        docker_clean = enqueue(MGMTDockerCleanupJob.new(downstreams: [docker]))
+        tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker_clean]))
+        tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
+        enqueue(MGMTDCIToolingJob.new(downstreams: [tooling_progenitor], dependees: [], type: release))
+        enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
+        enqueue(MGMTRepoCleanupJob.new)
         end
       end
      end

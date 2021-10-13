@@ -18,7 +18,7 @@ module DCI
   def arm_board_by_release(release_data)
     release_data['arm_board']
   end
-  
+
   def arch_by_release(release_data)
     release_data['arch']
   end
@@ -26,7 +26,7 @@ module DCI
   def components_by_release(release_data)
     release_data['components']
   end
-  
+
   def release_types
     data['release_types'].keys
   end
