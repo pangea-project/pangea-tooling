@@ -126,7 +126,7 @@ class ProjectsFactoryTest < TestCase
       .with('neon', include_subgroups: true, archived: false)
       .returns(groups)
     groups.expects(:auto_paginate).returns(paths.collect do |v|
-      OpenStruct.new({ path_with_namespace: v })
+      OpenStruct.new({ path_with_namespace: v, topics: (v == 'archived-synthesizer' ? %w[neon-archived] : []) })
     end)
   end
 
@@ -587,5 +587,14 @@ class ProjectsFactoryTest < TestCase
     assert_equal('pkg-kde-tools', project.name)
     assert_equal('', project.component)
     assert_equal("#{neon_dir}/pkg-kde-tools", project.packaging_scm.url)
+  end
+
+  def test_neon_fake_archivals
+    # the neon-archived topic should disqualify a thing form getting listed
+    neon_repos = %w[qt/qtbase archived-synthesizer]
+    mock_kde_invent_api!(neon_repos)
+    list = ProjectsFactory::Neon.ls
+    assert_include(list, 'qt/qtbase')
+    assert_not_include(list, 'archived-synthesizer')
   end
 end

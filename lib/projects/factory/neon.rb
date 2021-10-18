@@ -133,6 +133,12 @@ class ProjectsFactory
           # but that doesn't trigger any warnings. Not really a new problem
           # though.
           next nil if r.empty_repo
+          # Synthetic archival. When a project gets the topic 'neon-archived'
+          # we'll consider it archived. This ensures we can mark stuff archived
+          # for the tooling without actually having to archive it on the gitlab
+          # side (something we cannot do and have to wait for sysadmins on, making
+          # the process unnecessarily hard to carry out in one go).
+          next nil if r.topics&.include?('neon-archived')
 
           # Strip group prefix. Otherwise we have a consistency problem because
           # overrides and project confs in general do not have it (yet anyway)
