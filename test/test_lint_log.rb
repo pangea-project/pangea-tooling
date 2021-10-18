@@ -24,8 +24,7 @@ class LintLogTest < TestCase
       errors += r.errors.size
     end
     assert_equal(0, infos)
-    # one cmake package warning
-    assert_equal(1, warnings)
+    assert_equal(0, warnings)
     # two list-missing files, one dh_missing
     assert_equal(3, errors)
   end

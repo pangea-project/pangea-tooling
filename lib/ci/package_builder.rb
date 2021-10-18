@@ -24,6 +24,7 @@ require 'jenkins_junit_builder'
 require 'tty/command'
 
 require_relative 'dependency_resolver'
+require_relative 'feature_summary_extractor'
 require_relative 'kcrash_link_validator'
 require_relative 'setcap_validator'
 require_relative 'source'
@@ -130,13 +131,15 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       # Signing happens outside the container. So disable all signing.
       dpkg_buildopts = %w[-us -uc] + build_flags
 
-      Dir.chdir(BUILD_DIR) do
-        maybe_prepare_qt_build
+      # TODO: it'd be grand if we moved away from relying on PWD being correct. it's awfully implicit.
+      #  what would be helpful is a BuildContext object that holds the paths so we can easily pass context around
+      FeatureSummaryExtractor.run(build_dir: BUILD_DIR, result_dir: RESULT_DIR) do
+        Dir.chdir(BUILD_DIR) do
+          maybe_prepare_qt_build
 
-        SetCapValidator.run do
-          KCrashLinkValidator.run do
-            unless logged_system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
-              raise_build_failure
+          SetCapValidator.run do
+            KCrashLinkValidator.run do
+              raise_build_failure unless logged_system(build_env, 'dpkg-buildpackage', *dpkg_buildopts)
             end
           end
         end

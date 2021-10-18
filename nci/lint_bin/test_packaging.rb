@@ -4,6 +4,7 @@
 
 require_relative '../../lib/dpkg'
 require_relative '../../lib/lint/control'
+require_relative '../../lib/lint/cmake'
 require_relative '../../lib/lint/lintian'
 require_relative '../../lib/lint/merge_marker'
 require_relative '../../lib/lint/series'
@@ -21,11 +22,12 @@ module Lint
       @dir = 'build' # default dir
       # dir override per class
       @klass_to_dir = {
-        Lintian => '.' # lint on the source's changes
+        Lintian => '.', # lint on the source's changes
+        CMake => '.' # cmake needs access to result/ and build/ (the latter for ignores)
       }
     end
 
-    %i[Control Series Symbols Lintian].each do |klass_name|
+    %i[Control Series Symbols Lintian CMake].each do |klass_name|
       # Because this is invoked as a kind of blackbox test we'd have a really
       # hard time of testing lintian without either tangling the test up
       # with the build test or adding binary artifacts to the repo. I dislike

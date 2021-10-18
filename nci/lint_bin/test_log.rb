@@ -35,17 +35,11 @@ module Lint
       @result_listmissing ||= Log::ListMissing.new.lint(@log)
     end
 
-    def result_cmake
-      @result_cmake ||= Log::CMake.new.tap do |cmake|
-        cmake.load_include_ignores('build/debian/meta/cmake-ignore')
-      end.lint(@log)
-    end
-
     def result_dhmissing
       @result_dhmissing ||= Log::DHMissing.new.lint(@log)
     end
 
-    %i[CMake ListMissing DHMissing].each do |klass_name|
+    %i[ListMissing DHMissing].each do |klass_name|
       %w[warnings informations errors].each do |meth_type|
         class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def test_#{klass_name.downcase}_#{meth_type}
