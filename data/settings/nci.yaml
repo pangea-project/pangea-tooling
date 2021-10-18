@@ -130,6 +130,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_forks_ofono_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_forks_fcitx-qt5_*':
   sourcer:
     restricted_packaging_copy: true
