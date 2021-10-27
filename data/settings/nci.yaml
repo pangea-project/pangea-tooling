@@ -118,6 +118,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_backports-focal_libaccounts-qt*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-focal_cmake*':
   sourcer:
     restricted_packaging_copy: true
