@@ -7,6 +7,14 @@ module DCI
 
   module_function
 
+  def all_image_data
+    file = File.expand_path("../data/dci/dci.image.yaml", __dir__)
+    raise "Data file not found (#{file})" unless File.exist?(file)
+
+    @all_image_data = YAML.load(File.read(file))
+    @all_image_data.each_value(&:freeze) # May be worth looking into a deep freeze gem.
+  end
+
   def arm_boards
     data['arm_boards']
   end
@@ -36,7 +44,7 @@ module DCI
   end
 
   def release_data_for_type(type)
-    data['release_types'].fetch(type)['releases']
+    @release_data_for_type = data['release_types'].fetch(type)['releases']
   end
 
   def get_release_data(type, release)

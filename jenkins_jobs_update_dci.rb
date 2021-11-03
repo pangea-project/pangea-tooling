@@ -68,13 +68,19 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     DCI.release_types.each do |release_type|
       @release_type = release_type
       DCI.releases_for_type(@release_type).each do |release|
-        @release_data = DCI.get_release_data(@release_type, release)
+        release_data_file_name = 'dci.image.yaml'
+        release_data_dir = File.expand_path('dci', release_data_dir)
+        release_config = File.expand_path(release_data_file_name, release_data_dir)
+        release_data = YAML.load_stream(File.read(release_config))
+        @release_data = DCI.get_release_data(release_data, @release_type, release)
         @release = release
         @arm = DCI.arm_board_by_release(@release)
         @data_file_name = DCI.arm?(@release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
         DCI.series.each_key do |series|
          @series = series
          DCI.all_architectures.each do |arch|
+           release_arch = DCI.arch_by_release(@release)
+           next unless release_arch == arch
            data_dir = File.expand_path(series, @projects_dir)
            puts "Working on series: #{series} release: #{@release}"
 
@@ -85,18 +91,18 @@ class ProjectUpdater < Jenkins::ProjectUpdater
            raise unless projects
 
            projects.each do |project|
-            next unless DCI.arch_by_release(project) == arch
+             next unless release_arch == arch
 
-            jobs = DCIProjectMultiJob.job(
-              project,
-              release: @release,
-              series: @series,
-              architecture: arch,
-              upload_map: @upload_map
-            )
-            jobs.each { |j| enqueue(j) }
-            all_builds += jobs
-          end
+             jobs = DCIProjectMultiJob.job(
+               project,
+               release: @release,
+               series: @series,
+               architecture: arch,
+               upload_map: @upload_map
+             )
+             jobs.each { |j| enqueue(j) }
+             all_builds += jobs
+            end
          # Remove everything but source as they are the anchor points for
          # other jobs that might want to reference them.
          all_builds.select! { |j| j.job_name.end_with?('_src') }
@@ -108,14 +114,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
          )
          all_meta_builds << enqueue(meta_build)
          # image Jobs
-         @data_file_name = 'dci.image.yaml'
-         @data_dir = File.expand_path('dci', @data_dir)
-         image_job_config = File.expand_path(@data_file_name, @data_dir)
-         image _jobs = YAML.load_stream(File.read(image_job_config))
-         next unless image_job_config
 
-        image_jobs.each do
-          image_data = DCI.get_release_data(@release_type, @release)
+
+          image_data = DCI.get_image_data
           enqueue(
             DCIImageJob.new(
               release: @release,
@@ -132,7 +133,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               architecture: DCI.arch_by_release(@release)
             )
           )
-        end
         docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
         docker_clean = enqueue(MGMTDockerCleanupJob.new(downstreams: [docker]))
         tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker_clean]))

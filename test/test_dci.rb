@@ -25,17 +25,23 @@ class DCITest < TestCase
   end
 
   def test_series
-    assert_equal_collection(%w[2101 22 next buster], DCI.series.keys)
-    assert_equal_collection(%w[20210109 20210510 20210610 20210110], DCI.series.values)
+    assert_equal_collection(%w[22 next buster], DCI.series.keys)
+    assert_equal_collection(%w[20210510 20210610 20210110], DCI.series.values)
     assert_equal('20210510', DCI.series['22'])
     assert_equal('20210610', DCI.series['next'])
 
     # With sorting
-    assert_equal('2101', DCI.series(sort: :ascending).keys.first)
+    assert_equal('buster', DCI.series(sort: :ascending).keys.first)
   end
 
   def test_latest_series
     assert_equal('next', DCI.latest_series)
+  end
+
+  def test_all_image_data
+    assert_is_a(DCI.all_image_data, Hash)
+    assert_equal_collection(%w[desktop core zeronet zynthbox], DCI.all_image_data.keys)
+    assert_equal_collection(%w[netrunner-core netrunner-core-c1], DCI.all_image_data['core'].keys)
   end
 
   def test_releases_for_type
@@ -45,7 +51,7 @@ class DCITest < TestCase
   end
 
   def test_release_data_for_type
-    assert_equal(
+      assert_equal(
       { 'netrunner-core' =>
           { 'arch' => 'amd64',
             'components' => 'netrunner extras artwork common backports netrunner-core' },
@@ -72,7 +78,7 @@ class DCITest < TestCase
     release_data2 = DCI.get_release_data('core', 'netrunner-core')
     assert_equal(nil, DCI.arm_board_by_release(release_data2))
   end
-  
+
   def test_components_by_release
     release_data = DCI.get_release_data('core', 'netrunner-core-c1')
     assert_equal('netrunner extras artwork common backports c1 netrunner-core', DCI.components_by_release(release_data))
@@ -85,4 +91,11 @@ class DCITest < TestCase
   def test_arm
     assert_equal(true, DCI.arm?('netrunner-core-c1'))
   end
+
+  def test_arch_by_release
+    release_data = DCI.get_release_data('zynthbox', 'netrunner-zynthbox-rpi4')
+    assert_equal(true, 'netrunner-zynthbox-rpi4'.end_with?('rpi4'))
+    assert_equal('armhf', DCI.arch_by_release(release_data))
+  end
+
 end
