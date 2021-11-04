@@ -68,7 +68,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     DCI.release_types.each do |release_type|
       @release_type = release_type
       DCI.releases_for_type(@release_type).each do |release|
-        @release_data = DCI.get_release_data(release_data, @release_type, release)
+        @release_data = DCI.get_release_data(@release_type, release)
         @release = release
         @arm = DCI.arm_board_by_release(@release)
         @data_file_name = DCI.arm?(@release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
