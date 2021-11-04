@@ -68,10 +68,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     DCI.release_types.each do |release_type|
       @release_type = release_type
       DCI.releases_for_type(@release_type).each do |release|
-        release_data_file_name = 'dci.image.yaml'
-        release_data_dir = File.expand_path('dci', release_data_dir)
-        release_config = File.expand_path(release_data_file_name, release_data_dir)
-        release_data = YAML.load_stream(File.read(release_config))
         @release_data = DCI.get_release_data(release_data, @release_type, release)
         @release = release
         @arm = DCI.arm_board_by_release(@release)
