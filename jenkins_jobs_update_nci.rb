@@ -177,7 +177,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
              !EXCLUDE_SNAPS.include?(project.name) && distribution == 'focal'
             # We use stable in jenkins to build the tar releases because that way we get the right KDE git repo
             unless project.upstream_scm.nil?
-              next unless (project.upstream_scm.type == 'uscan' or project.upstream_scm.type == 'git' or project.upstream_scm.type == 'tarball')
+              next unless (project.upstream_scm.type == 'uscan' or project.upstream_scm.type == 'git')
                   enqueue(SnapcraftJob.new(project,
                                            distribution: distribution, type: type))
             end
