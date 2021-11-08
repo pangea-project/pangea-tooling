@@ -24,10 +24,10 @@ cleanNode('amd64') {
   }
   stage('push') {
     sshagent (credentials: ['ssh.jobs.git.neon']) {
-        dir('snapcraft-kde-applications') {
+        dir('deb-packaging') {
           sh('git push')
         }
-        dir('deb-packaging') {
+        dir('snapcraft-kde-applications') {
           sh('git push')
         }
     }
