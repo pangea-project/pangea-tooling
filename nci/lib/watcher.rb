@@ -249,7 +249,14 @@ module NCI
       merge # this mutates newer_dehs_packages and MUST be before make_newest_dehs_package!
       make_newest_dehs_package! # sets a bunch of members - very awkwardly - must be after merge!
 
-      SnapcraftUpdater.new(newest_dehs_package).run
+      job_project = ENV['JOB_NAME'].split('_')[-1]
+      if Dir.exist?("../snapcraft-kde-applications/#{job_project}")
+        Dir.chdir("../snapcraft-kde-applications/#{job_project}") do
+          SnapcraftUpdater.new(newest_dehs_package).run
+          cmd.run('git --no-pager diff')
+          cmd.run("git commit -a -m 'New release'")
+        end
+      end
 
       bump_version
 
