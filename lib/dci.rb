@@ -7,6 +7,10 @@ module DCI
 
   module_function
 
+  def previous_series
+    data['previous_series']
+  end
+  
   def all_image_data
     file = File.expand_path("../data/dci/dci.image.yaml", __dir__)
     raise "Data file not found (#{file})" unless File.exist?(file)

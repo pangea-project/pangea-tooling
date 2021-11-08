@@ -26,18 +26,22 @@ class DCITest < TestCase
 
   def test_series
     assert_equal_collection(%w[22 next buster], DCI.series.keys)
-    assert_equal_collection(%w[20210510 20210610 20210110], DCI.series.values)
+    assert_equal_collection(%w[20210510 20210410 20210110], DCI.series.values)
     assert_equal('20210510', DCI.series['22'])
-    assert_equal('20210610', DCI.series['next'])
+    assert_equal('20210410', DCI.series['next'])
 
     # With sorting
     assert_equal('buster', DCI.series(sort: :ascending).keys.first)
   end
 
   def test_latest_series
-    assert_equal('next', DCI.latest_series)
+    assert_equal('22', DCI.latest_series)
   end
 
+  def test_previous_series
+    assert_equal('21.01', DCI.previous_series)
+  end
+  
   def test_all_image_data
     assert_is_a(DCI.all_image_data, Hash)
     assert_equal_collection(%w[desktop core zeronet zynthbox], DCI.all_image_data.keys)
