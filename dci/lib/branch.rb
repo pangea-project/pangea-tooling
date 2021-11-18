@@ -51,7 +51,10 @@ module Branching
   end
 
   def flavor_projects(flavor)
-    file = File.expand_path("#{flavor}.yaml", "data/projects/dci/#{DCI.latest_series}")
+    @data_dir = File.expand_path('data', __dir__)
+    @projects_dir = File.expand_path('projects/dci', @data_dir)
+    @series_dir = File.expand_path(DCI.latest_series, @projects_dir)
+    file = File.expand_path("#{flavor}.yaml", @series_dir)
     ProjectsFactory.from_file(file, branch: previous_series_branch)
   end
 
