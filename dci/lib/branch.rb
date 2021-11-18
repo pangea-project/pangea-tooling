@@ -51,7 +51,7 @@ module Branching
   end
 
   def flavor_projects(flavor)
-    @data_dir = File.expand_path('data', __dir__)
+    @data_dir = File.expand_path('../../data', __dir__)
     @projects_dir = File.expand_path('projects/dci', @data_dir)
     @series_dir = File.expand_path(DCI.latest_series, @projects_dir)
     file = File.expand_path("#{flavor}.yaml", @series_dir)
