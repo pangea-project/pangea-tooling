@@ -29,9 +29,9 @@ class DCIBranchingTest < TestCase
         match_requests_on: %i[method uri body],
         tag: :erb_pwd
       }
-      c.filter_sensitive_data('<AUTH_TOKEN>') do |interaction|
-        interaction.request.headers['Authorization'].first
-      end
+      # c.filter_sensitive_data('<AUTH_TOKEN>') do |interaction|
+      #   interaction.request.headers['Authorization'].first
+      # end
       c.filter_sensitive_data('<%= Dir.pwd %>', :erb_pwd) { Dir.pwd }
     end
     @depreciated = []
@@ -47,7 +47,7 @@ class DCIBranchingTest < TestCase
 
   def test_get_org_repos
     setup
-    VCR.use_cassette('get_org_repos', record: :new_episodes) do
+    VCR.use_cassette('get_org_repos', record: :once) do
       org_repos = get_org_repos('netrunner-desktop')
       assert_true(org_repos.is_a?(Array))
       assert_equal(true, org_repos.include?('netrunner-desktop'))
@@ -67,7 +67,7 @@ class DCIBranchingTest < TestCase
 
   def test_repo_exist?
     setup
-    VCR.use_cassette('repo_exist?', record: :new_episodes) do
+    VCR.use_cassette('repo_exist?', record: :once) do
       exists = repo_exist?('netrunner-desktop/netrunner-desktop')
       assert_true(exists)
       exists = repo_exist?('netrunner-desktop/netrunner-file')
@@ -84,7 +84,7 @@ class DCIBranchingTest < TestCase
   
   def test_master_branch_exist?
     setup
-    VCR.use_cassette('master_branch_exist?', record: :new_episodes) do
+    VCR.use_cassette('master_branch_exist?', record: :once) do
       assert_false(master_branch_exist?('netrunner-desktop/netrunner-desktop-plasma5-panels'))
       assert_true(master_branch_exist?('netrunner-desktop/netrunner-desktop'))
     end
@@ -92,7 +92,7 @@ class DCIBranchingTest < TestCase
 
   def test_depreciated
     setup
-    VCR.use_cassette('depreciated', record: :new_episodes) do
+    VCR.use_cassette('depreciated', record: :once) do
       repo = 'netrunner-desktop/netrunner-desktop-plasma5-panels'
       d = add_depreciated(repo)
       assert_true(d.include?(repo))
