@@ -35,8 +35,26 @@ class DCIRelease
       l.level = Logger::INFO
     end
   end
+    # cycle through each flavors project yaml and get fullname to retrieve the repository.
+  def process_flavor_repos(flavor)
+    projects = flavor_projects(flavor)
+    projects.each do |project|
+      next if SKIP.includes?(project.component)
 
-  FLAVORS.each do |flavor|
-    process_flavor_repos(flavor)
+      repo_fullname = "#{project.component}/#{project.name}"
+      raise "Repository #{repo_fullname}does not exist" unless repo_exist?(repo_fullname)
+
+      ensure_active_repo = master_branch_exist?(repo_fullname)
+      next unless ensure_active_repo
+
+      create_latest_series_branch(repo_fullname)
+      merge_master_branch(repo_fullname)
+    end
   end
 end
+
+r = DCIRelease.new
+  FLAVORS.each do |flavor|
+    r.process_flavor_repos(flavor)
+  end
+

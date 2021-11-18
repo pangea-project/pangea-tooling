@@ -52,7 +52,7 @@ module Branching
 
   def flavor_projects(flavor)
     file = File.expand_path("#{flavor}.yaml", "data/projects/dci/#{DCI.latest_series}")
-    ProjectsFactory.from_file(file, branch: latest_series_branch)
+    ProjectsFactory.from_file(file, branch: previous_series_branch)
   end
 
   # Check for master branch, if it doesn't exist put in depreciated var to be consumed later with archiving.
@@ -86,23 +86,6 @@ module Branching
   def add_depreciated(repo_fullname)
     puts "Repository #{repo_fullname} has no master branch and thus depreciated -- skipping"
     @depreciated.push(repo_fullname)
-  end
-
-  # cycle through each flavors project yaml and get fullname to retrieve the repository.
-  def process_flavor_repos(flavor)
-    projects = flavor_projects(flavor)
-    projects.each do |project|
-      next if SKIP.includes?(project.component)
-
-      repo_fullname = "#{project.name}/#{project.component}"
-      raise "Repository #{repo_fullname}does not exist" unless repo_exist?(repo_fullname)
-
-      ensure_active_repo = master_branch_exist?(repo_fullname)
-      next unless ensure_active_repo
-
-      create_latest_series_branch(repo_fullname)
-      merge_master_branch(repo_fullname)
-    end
   end
 
   def create_latest_series_branch(repo_fullname)
