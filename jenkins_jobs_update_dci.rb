@@ -87,12 +87,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           projects.each do |project|
             next unless release_arch == arch
 
-             jobs = DCIProjectMultiJob.job(
-               project,
-               release: @release,
-               series: @series,
-               architecture: arch,
-               upload_map: @upload_map
+            jobs = DCIProjectMultiJob.job(
+              project,
+              release: @release,
+              series: @series,
+              architecture: arch,
+              upload_map: @upload_map
              )
              jobs.each { |j| enqueue(j) }
              all_builds += jobs
@@ -132,6 +132,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(MGMTDCIToolingJob.new(downstreams: [tooling_progenitor], dependees: [], type: release))
         enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
         enqueue(MGMTRepoCleanupJob.new)
+        enqueue(MGMTReleaseBranching.new)
         end
       end
      end
