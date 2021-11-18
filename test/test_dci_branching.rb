@@ -40,7 +40,6 @@ class DCIBranchingTest < TestCase
     ProjectsFactory.factories.each do |factory|
       factory.send(:reset!)
     end
-    VCR.turn_off!
   end
 
   def test_get_org_repos
