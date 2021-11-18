@@ -26,11 +26,13 @@ class DCIBranchingTest < TestCase
       c.hook_into :webmock
       c.cassette_library_dir = datadir
       c.default_cassette_options = {
-        match_requests_on: %i[method uri body]
+        match_requests_on: %i[method uri body],
+        tag: :erb_pwd
       }
       c.filter_sensitive_data('<AUTH_TOKEN>') do |interaction|
         interaction.request.headers['Authorization'].first
       end
+      c.filter_sensitive_data('<%= Dir.pwd %>', :erb_pwd) { Dir.pwd }
     end
     @depreciated = []
     VCR.turn_on!
@@ -40,6 +42,7 @@ class DCIBranchingTest < TestCase
     ProjectsFactory.factories.each do |factory|
       factory.send(:reset!)
     end
+    VCR.configuration.default_cassette_options.delete(:tag)
   end
 
   def test_get_org_repos
