@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# SPDX-FileCopyrightText: 2015-2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
 require 'date'
 require 'json'
 require 'logger'
@@ -12,6 +15,10 @@ module Docker
   # helper for docker cleanup according to pangea expectations
   module Cleanup
     module_function
+
+    OLD_UBUNTUS = %w[wily vivid xenial bionic].freeze
+    OLD_UBUNTU_IMAGES = OLD_UBUNTUS.collect { |x| ["pangea/ubuntu:#{x}", "ubuntu:#{x}"]}.flatten
+    OLD_IMAGES = (%w[] + OLD_UBUNTU_IMAGES).freeze # in the %w[] you can hardcode additional names
 
     # Remove exited jenkins containers.
     def containers
@@ -109,13 +116,11 @@ module Docker
     end
 
     def old_images
-      %w[pangea/ubuntu:wily ubuntu:wily armhf/ubuntu:wily ubuntu:bionic pangea/ubuntu:bionic].each do |name|
-        begin
-          remove_image(Docker::Image.get(name))
-        rescue => e
-          log.info "Failed to get #{name} :: #{e}"
-          next
-        end
+      OLD_IMAGES.each do |name|
+        remove_image(Docker::Image.get(name))
+      rescue => e
+        log.info "Failed to get #{name} :: #{e}"
+        next
       end
     end
 
