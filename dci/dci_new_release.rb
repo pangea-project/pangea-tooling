@@ -49,7 +49,7 @@ class DCIRelease
       repos.each do |repo|
         @repo_fullname = "#{component.keys}/#{repo.keys}".gsub(/"|\[|\]/, '')
         puts @repo_fullname
-        raise "Repository #{repo_fullname}does not exist" unless repo_exist?(@repo_fullname)
+        raise "Repository #{@repo_fullname}does not exist" unless repo_exist?(@repo_fullname)
 
         next unless branch_exist?('master', @repo_fullname)
 
