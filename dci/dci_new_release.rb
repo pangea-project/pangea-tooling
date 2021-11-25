@@ -23,32 +23,39 @@ require_relative 'lib/branch'
 require 'logger'
 require 'logger/colors'
 
-FLAVORS = %w[desktop core zeronet-rock64].freeze
+FLAVORS = %w[desktop core zeronet-rock64 zynthbox-rpi4].freeze
 
 # Class to process the release process.
 class DCIRelease
   include Branching
   def initialize
     @depreciated = []
-    @log = Logger.new($stdout).tap do |l|
-      l.progname = 'snapshotter'
+      @log = Logger.new($stdout).tap do |l|
+      l.progname = 'branching'
       l.level = Logger::INFO
     end
   end
     # cycle through each flavors project yaml and get fullname to retrieve the repository.
   def process_flavor_repos(flavor)
-    projects = flavor_projects(flavor)
-    projects.each do |project|
-      next if SKIP.includes?(project.component)
+    projects_data = File.expand_path('../data', __dir__)
+    projects_dir = File.expand_path('projects/dci', projects_data)
+    series_dir = flavor == 'zynthbox-rpi4' ? File.expand_path('buster', projects_dir) : File.expand_path(DCI.latest_series, projects_dir)
+    file = File.expand_path("#{flavor}.yaml", series_dir)
+    githubdata = YAML.load(File.read(file))
+    @repo_fullname = ''
+    projects = githubdata['github.com']
+    projects.each do |component|
+      repos = component.values.flatten
+      repos.each do |repo|
+        @repo_fullname = "#{component.keys}/#{repo.keys}".gsub(/"|\[|\]/, '')
+        puts @repo_fullname
+        raise "Repository #{repo_fullname}does not exist" unless repo_exist?(@repo_fullname)
 
-      repo_fullname = "#{project.component}/#{project.name}"
-      raise "Repository #{repo_fullname}does not exist" unless repo_exist?(repo_fullname)
+       next unless master_branch_exist?(@repo_fullname)
 
-      ensure_active_repo = master_branch_exist?(repo_fullname)
-      next unless ensure_active_repo
-
-      create_latest_series_branch(repo_fullname)
-      merge_master_branch(repo_fullname)
+       create_latest_series_branch(@repo_fullname)
+       # merge_master_branch(@repo_fullname)
+      end
     end
   end
 end

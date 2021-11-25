@@ -34,30 +34,22 @@ module Branching
   module_function
 
   def master_branch
-    'heads/master'
+    'master'
   end
 
   def latest_series_branch
-    "heads/Netrunner/#{DCI.latest_series}"
+    "Netrunner/#{DCI.latest_series}"
   end
 
   def previous_series_branch
-    "heads/Netrunner/#{DCI.previous_series}"
+    "Netrunner/#{DCI.previous_series}"
   end
 
   def client
     Octokit.auto_paginate = true
     Octokit::Client.new(access_token: ENV['OCTOKIT_ACCESS_TOKEN'])
   end
-
-  def flavor_projects(flavor)
-    @data_dir = File.expand_path('../../data', __dir__)
-    @projects_dir = File.expand_path('projects/dci', @data_dir)
-    @series_dir = File.expand_path(DCI.latest_series, @projects_dir)
-    file = File.expand_path("#{flavor}.yaml", @series_dir)
-    ProjectsFactory.from_file(file, branch: previous_series_branch)
-  end
-
+  
   # Check for master branch, if it doesn't exist put in depreciated var to be consumed later with archiving.
   def master_branch_exist?(repo_fullname)
     branches = []
@@ -92,8 +84,8 @@ module Branching
   end
 
   def create_latest_series_branch(repo_fullname)
-    sha_latest_commit_previous_series_branch = client.ref(repo_fullname, previous_series_branch.object.sha)
-    client.create_ref(repo_fullname, latest_series_branch, sha_latest_commit_previous_series_branch)
+    sha_latest_commit_previous_series_branch = client.ref(repo_fullname, "heads/Netrunner/#{DCI.previous_series}")
+    client.create_ref(repo_fullname, latest_series_branch, sha_latest_commit_previous_series_branch.object.sha)
   end
 
   def merge_master_branch(repo_fullname)

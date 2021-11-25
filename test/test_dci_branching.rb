@@ -64,7 +64,12 @@ class DCIBranchingTest < TestCase
     end
     teardown
   end
-
+  
+  def test_flavor_projects
+    projects = flavor_projects('desktop')
+    assert_true(projects.is_a?(Hash))
+  end
+  
   def test_repo_exist?
     setup
     VCR.use_cassette('repo_exist?', record: :once) do
