@@ -51,9 +51,11 @@ class DCIRelease
         puts @repo_fullname
         raise "Repository #{repo_fullname}does not exist" unless repo_exist?(@repo_fullname)
 
-       next unless master_branch_exist?(@repo_fullname)
+        next unless branch_exist?('master', @repo_fullname)
 
-       create_latest_series_branch(@repo_fullname)
+        next if branch_exist?(latest_series_branch, @repo_fullname)
+
+        create_latest_series_branch(@repo_fullname)
        # merge_master_branch(@repo_fullname)
       end
     end

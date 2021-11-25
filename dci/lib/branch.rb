@@ -51,13 +51,13 @@ module Branching
   end
   
   # Check for master branch, if it doesn't exist put in depreciated var to be consumed later with archiving.
-  def master_branch_exist?(repo_fullname)
+  def branch_exist?(branch, repo_fullname)
     branches = []
     repo_branches = client.branches(repo_fullname)
-    repo_branches.each do |branch|
-      branches << branch.name
+    repo_branches.each do |b|
+      branches << b.name
     end
-    exists = branches.include?('master')
+    exists = branches.include?(branch)
     add_depreciated(repo_fullname) unless exists
 
     exists
