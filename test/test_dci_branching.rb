@@ -64,12 +64,7 @@ class DCIBranchingTest < TestCase
     end
     teardown
   end
-  
-  def test_flavor_projects
-    projects = flavor_projects('desktop')
-    assert_true(projects.is_a?(Hash))
-  end
-  
+
   def test_repo_exist?
     setup
     VCR.use_cassette('repo_exist?', record: :once) do
@@ -89,9 +84,9 @@ class DCIBranchingTest < TestCase
 
   def test_branch_exist?
     setup
-    VCR.use_cassette('master_branch_exist?', record: :once) do
-      assert_false(master_branch_exist?('heads/master', 'netrunner-desktop/netrunner-desktop-plasma5-panels'))
-      assert_true(master_branch_exist?('heads/master', 'netrunner-desktop/netrunner-desktop'))
+    VCR.use_cassette('branch_exist?', record: :once) do
+      assert_false(branch_exist?('heads/master', 'netrunner-desktop/netrunner-desktop-plasma5-panels'))
+      assert_true(branch_exist?('heads/master', 'netrunner-desktop/netrunner-desktop'))
     end
   end
 

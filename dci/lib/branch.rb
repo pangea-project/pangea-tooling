@@ -38,11 +38,11 @@ module Branching
   end
 
   def latest_series_branch
-    "heads./Netrunner/#{DCI.latest_series}"
+    "heads/Netrunner/#{DCI.latest_series}"
   end
 
   def previous_series_branch
-    "heads./Netrunner/#{DCI.previous_series}"
+    "heads/Netrunner/#{DCI.previous_series}"
   end
 
   def client
@@ -53,6 +53,7 @@ module Branching
   # Check for master branch, if it doesn't exist put in depreciated var to be consumed later with archiving.
   def branch_exist?(branch, repo_fullname)
     branches = []
+    branch = branch.gsub('heads/', '')
     repo_branches = client.branches(repo_fullname)
     repo_branches.each do |b|
       branches << b.name
@@ -60,6 +61,7 @@ module Branching
     exists = branches.include?(branch)
     if branch == 'heads/master' && !exists
       add_depreciated(repo_fullname)
+      exists = false
     else
       exists
     end
