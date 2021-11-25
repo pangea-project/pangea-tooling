@@ -90,8 +90,8 @@ class DCIBranchingTest < TestCase
   def test_branch_exist?
     setup
     VCR.use_cassette('master_branch_exist?', record: :once) do
-      assert_false(master_branch_exist?('master', 'netrunner-desktop/netrunner-desktop-plasma5-panels'))
-      assert_true(master_branch_exist?('master', 'netrunner-desktop/netrunner-desktop'))
+      assert_false(master_branch_exist?('heads/master', 'netrunner-desktop/netrunner-desktop-plasma5-panels'))
+      assert_true(master_branch_exist?('heads/master', 'netrunner-desktop/netrunner-desktop'))
     end
   end
 
