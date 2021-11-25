@@ -34,15 +34,15 @@ module Branching
   module_function
 
   def master_branch
-    'master'
+    'heads/master'
   end
 
   def latest_series_branch
-    "Netrunner/#{DCI.latest_series}"
+    "heads./Netrunner/#{DCI.latest_series}"
   end
 
   def previous_series_branch
-    "Netrunner/#{DCI.previous_series}"
+    "heads./Netrunner/#{DCI.previous_series}"
   end
 
   def client
@@ -58,9 +58,11 @@ module Branching
       branches << b.name
     end
     exists = branches.include?(branch)
-    add_depreciated(repo_fullname) unless exists
-
-    exists
+    if branch == 'heads/master' && !exists
+      add_depreciated(repo_fullname)
+    else
+      exists
+    end
   end
 
   # get list of repos by org, to be used in future for archiving depreciated repos.
