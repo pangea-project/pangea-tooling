@@ -69,15 +69,15 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       @release_type = release_type
       DCI.releases_for_type(@release_type).each do |release|
         @release_data = DCI.get_release_data(@release_type, release)
-        @release = release
-        @arm = DCI.arm_board_by_release(@release)
-        @data_file_name = DCI.arm?(@release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
+        release = release
+        @arm = DCI.arm_board_by_release(release)
+        @data_file_name = DCI.arm?(release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
         DCI.series.each_key do |series|
          @series = series
          DCI.all_architectures.each do |arch|
-          release_arch = DCI.arch_by_release(@release)
+          release_arch = DCI.arch_by_release(release)
           data_dir = File.expand_path(@series, @projects_dir)
-          puts "Working on series: #{series} release: #{@release}"
+          puts "Working on series: #{series} release: #{release}"
           raise unless @data_file_name
 
           file = File.expand_path(@data_file_name,  data_dir)
@@ -89,7 +89,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
             jobs = DCIProjectMultiJob.job(
               project,
-              release: @release,
+              release: release,
               series: @series,
               architecture: arch,
               upload_map: @upload_map
@@ -103,15 +103,15 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             # This could actually returned into a collect if placed below
             meta_build = MetaBuildJob.new(
             type: @series,
-            distribution: @release,
+            distribution: release,
             downstream_jobs: all_builds
            )
            all_meta_builds << enqueue(meta_build)
            # image Jobs
-           image_data = DCI.get_image_data
+           image_data = DCI.all_image_data
            enqueue(
              DCIImageJob.new(
-               release: @release,
+               release: release,
                architecture: DCI.arch_by_release(image_data),
                repo: image_data[:repo],
                branch: image_data[:releases][@series].values
@@ -121,8 +121,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             DCISnapShotJob.new(
               snapshot: snapshot,
               series: @series,
-              release: @release,
-              architecture: DCI.arch_by_release(@release)
+              release: release,
+              architecture: DCI.arch_by_release(release)
             )
           )
         docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
