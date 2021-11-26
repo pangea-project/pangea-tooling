@@ -23,7 +23,7 @@ require_relative 'lib/branch'
 require 'logger'
 require 'logger/colors'
 
-FLAVORS = %w[desktop core zeronet-rock64 zynthbox-rpi4].freeze
+FLAVORS = %w[desktop core zeronet-rock64 ].freeze
 
 # Class to process the release process.
 class DCIRelease
