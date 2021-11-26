@@ -44,6 +44,6 @@ zynthbox:
   netrunner-zynthbox-rpi4:
     :repo: https://github.com/zynthbox/rpi4-live-build-zynthbox
     :releases:
-      - buster: Netrunner/buster
+      - buster: master
     :snapshots:
       - 'buster'
