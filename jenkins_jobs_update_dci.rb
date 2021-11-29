@@ -112,6 +112,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
            enqueue(
              DCIImageJob.new(
                release: release,
+               series: @series,
                architecture: DCI.arch_by_release(image_data),
                repo: image_data[:repo],
                branch: image_data.fetch(release)[:releases].fetch(@series)
