@@ -109,7 +109,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
            all_meta_builds << enqueue(meta_build)
            # image Jobs
            image_data = DCI.image_data_by_release_type(@release_type)
-           enqueue(
+           @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
+            enqueue(
              DCIImageJob.new(
                release: release,
                series: @series,
@@ -120,7 +121,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
            )
            enqueue(
             DCISnapShotJob.new(
-              snapshot: snapshot,
+              snapshot: "#{@series}-#{@stamp}",
               series: @series,
               release: release,
               architecture: DCI.arch_by_release(release)
