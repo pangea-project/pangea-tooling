@@ -97,16 +97,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
              jobs.each { |j| enqueue(j) }
              all_builds += jobs
           end
-            # Remove everything but source as they are the anchor points for
-            # other jobs that might want to reference them.
-            all_builds.select! { |j| j.job_name.end_with?('_src') }
-            # This could actually returned into a collect if placed below
-            meta_build = MetaBuildJob.new(
-            type: @series,
-            distribution: release,
-            downstream_jobs: all_builds
-           )
-           all_meta_builds << enqueue(meta_build)
+           #  # Remove everything but source as they are the anchor points for
+           #  # other jobs that might want to reference them.
+           #  all_builds.select! { |j| j.job_name.end_with?('_src') }
+           #  # This could actually returned into a collect if placed below
+           #  meta_build = MetaBuildJob.new(
+           #  type: @series,
+           #  distribution: release,
+           #  downstream_jobs: all_builds
+           # )
+           # all_meta_builds << enqueue(meta_build)
            # image Jobs
            image_data = DCI.image_data_by_release_type(@release_type)
            @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
