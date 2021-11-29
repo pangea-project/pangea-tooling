@@ -108,7 +108,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
            )
            all_meta_builds << enqueue(meta_build)
            # image Jobs
-           image_data = DCI.get_release_data(@release_type, release)
+           image_data = DCI.image_data_by_release_type(@release_type)
            enqueue(
              DCIImageJob.new(
                release: release,

@@ -19,6 +19,10 @@ module DCI
     @all_image_data.each_value(&:freeze) # May be worth looking into a deep freeze gem.
   end
 
+  def image_data_by_release_type(type)
+    all_image_data[type]
+  end
+  
   def arm_boards
     data['arm_boards']
   end

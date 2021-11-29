@@ -47,6 +47,14 @@ class DCITest < TestCase
     assert_equal_collection(%w[desktop core zeronet zynthbox], DCI.all_image_data.keys)
     assert_equal_collection(%w[netrunner-core netrunner-core-c1], DCI.all_image_data['core'].keys)
   end
+  
+  def test_image_data_by_release_type
+    assert_is_a(DCI.image_data_by_release_type('desktop'), Hash)
+    assert_equal({"netrunner-desktop"=>
+  {:releases=>[{"next"=>"master"}, {22=>"Netrunner/22"}],
+   :repo=>"https://github.com/netrunner-desktop/live-build",
+   :snapshots=>["next", "22"]}}, DCI.image_data_by_release_type('desktop'))
+  end
 
   def test_releases_for_type
     assert_equal(%w[netrunner-desktop], DCI.releases_for_type('desktop'))
@@ -55,7 +63,7 @@ class DCITest < TestCase
   end
 
   def test_release_data_for_type
-      assert_equal(
+    assert_equal(
       { 'netrunner-core' =>
           { 'arch' => 'amd64',
             'components' => 'netrunner extras artwork common backports netrunner-core' },
