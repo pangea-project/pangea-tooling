@@ -10,7 +10,7 @@ class DCISnapShotJob < JenkinsJob
   attr_reader :arm_board
 
   def initialize(snapshot:, series:, release:, architecture:, arm_board: nil)
-    @release_type = release_type
+    @release = release
     @architecture = architecture
     @snapshot = snapshot
     @series = series
