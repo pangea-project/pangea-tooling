@@ -51,9 +51,12 @@ class DCITest < TestCase
   def test_image_data_by_release_type
     assert_is_a(DCI.image_data_by_release_type('desktop'), Hash)
     assert_equal({"netrunner-desktop"=>
-  {:releases=>[{"next"=>"master"}, {22=>"Netrunner/22"}],
+  {:releases=>{"next"=>"master", 22=>"Netrunner/22"},
    :repo=>"https://github.com/netrunner-desktop/live-build",
    :snapshots=>["next", "22"]}}, DCI.image_data_by_release_type('desktop'))
+    data = DCI.image_data_by_release_type('desktop')
+    assert_equal("https://github.com/netrunner-desktop/live-build", data.fetch('netrunner-desktop')[:repo])
+    assert_equal('Netrunner/22', data.fetch('netrunner-desktop')[:releases].fetch(22))
   end
 
   def test_releases_for_type

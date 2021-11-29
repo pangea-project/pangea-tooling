@@ -114,7 +114,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                release: release,
                architecture: DCI.arch_by_release(image_data),
                repo: image_data[:repo],
-               branch: image_data[:releases][@series].values
+               branch: image_data.fetch(release)[:releases].fetch(@series)
              )
            )
            enqueue(
