@@ -133,7 +133,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
         enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
         enqueue(MGMTRepoCleanupJob.new)
-        enqueue(MGMTReleaseBranching.new)
+        enqueue(MGMTDCIReleaseBranchingJob.new)
         end
       end
      end
