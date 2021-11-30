@@ -41,7 +41,7 @@ zeronet:
       - '22'
 
 zynthbox:
-  netrunner-zynthbox-rpi4:
+  zynthbox-rpi4:
     :repo: https://github.com/zynthbox/rpi4-live-build-zynthbox
     :releases:
       'buster': master

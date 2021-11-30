@@ -82,11 +82,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           raise "#{file} doesn't exist!" unless file
 
           image_data = DCI.image_data_by_release_type(@release_type)
+          next unless image_data.fetch(@dci_release)[:releases].keys.include?(@series)
+
           branch = image_data.fetch(@dci_release)[:releases].fetch(@series)
-          next unless branch
-          
           projects = ProjectsFactory.from_file(file, branch: branch)
-          raise "Pointless without projects, something went wrong" unless projects
+          raise 'Pointless without projects, something went wrong' unless projects
 
           projects.each do |project|
             jobs = DCIProjectMultiJob.job(

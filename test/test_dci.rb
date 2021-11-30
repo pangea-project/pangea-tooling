@@ -57,6 +57,8 @@ class DCITest < TestCase
     data = DCI.image_data_by_release_type('desktop')
     assert_equal("https://github.com/netrunner-desktop/live-build", data.fetch('netrunner-desktop')[:repo])
     assert_equal('Netrunner/22', data.fetch('netrunner-desktop')[:releases].fetch('22'))
+    data = DCI.image_data_by_release_type('zynthbox')
+    assert_true(data.fetch('zynthbox-rpi4')[:releases].keys.include?('buster'))
   end
 
   def test_releases_for_type
@@ -111,8 +113,8 @@ class DCITest < TestCase
   end
 
   def test_arch_by_release
-    release_data = DCI.get_release_data('zynthbox', 'netrunner-zynthbox-rpi4')
-    assert_equal(true, 'netrunner-zynthbox-rpi4'.end_with?('rpi4'))
+    release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
+    assert_equal(true, 'zynthbox-rpi4'.end_with?('rpi4'))
     assert_equal('armhf', DCI.arch_by_release(release_data))
   end
 
