@@ -48,7 +48,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     return unless File.exist?(upload_map_file)
 
     @upload_map = YAML.load_file(upload_map_file)
-
     super
   end
 
@@ -111,12 +110,12 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             image_data = DCI.image_data_by_release_type(@release_type)
             @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
             enqueue(
-             DCIImageJob.new(
-               release: @dci_release,
-               series: @series,
-               architecture: DCI.arch_by_release(image_data),
-               repo: image_data[:repo],
-               branch: image_data.fetch(@dci_release)[:releases].fetch(@series)
+              DCIImageJob.new(
+                release: @dci_release,
+                series: @series,
+                architecture: release_arch,
+                repo: image_data[:repo],
+                branch: image_data.fetch(@dci_release)[:releases].fetch(@series)
               )
             )
             enqueue(
@@ -124,7 +123,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                 snapshot: "#{@series}-#{@stamp}",
                 series: @series,
                 release: @dci_release,
-                architecture: DCI.arch_by_release(@dci_release)
+                architecture: release_arch
               )
             )
           end
