@@ -23,7 +23,7 @@ require_relative 'lib/branch'
 require 'logger'
 require 'logger/colors'
 
-FLAVORS = %w[desktop core zeronet-rock64 ].freeze
+FLAVORS = %w[core-c1 zeronet-c1].freeze
 
 # Class to process the release process.
 class DCIRelease
