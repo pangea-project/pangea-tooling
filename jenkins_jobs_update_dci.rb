@@ -48,9 +48,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     return unless File.exist?(upload_map_file)
 
     @upload_map = YAML.load_file(upload_map_file)
-    all_meta_builds = []
-    all_builds = []
-    jobs = []
     @dci_release = ''
     @release_arch = ''
     @release_type = ''
@@ -61,65 +58,69 @@ class ProjectUpdater < Jenkins::ProjectUpdater
   private
 
   def populate_queue
+    all_meta_builds = []
+    #all_builds = []
+    jobs = []
     CI::Overrides.default_files
-
     DCI.series.each_key do |series|
       @series = series
       puts "Series: #{@series}"
       DCI.release_types.each do |release_type|
         @release_type = release_type
-        puts "Release type: #{release_type}"
+        puts "Release type: #{@release_type}"
         DCI.releases_for_type(@release_type).each do |dci_release|
           @dci_release = dci_release
-            puts "Release: #{@dci_release}"
-            @release_data = DCI.get_release_data(@release_type, @dci_release)
-            @arm = DCI.arm_board_by_release(@dci_release)
-            data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
-            DCI.all_architectures.each do |arch|
-              @release_arch = DCI.arch_by_release(@release_data)
-              data_dir = File.expand_path(@series, @projects_dir)
-              puts "Working on Series: #{series} Release: #{@dci_release} Architecture: #{@release_arch}"
-              file = File.expand_path(data_file_name,  data_dir)
-              raise "#{file} doesn't exist!" unless file
+          puts "Release: #{@dci_release}"
+          @release_data = DCI.get_release_data(@release_type, @dci_release)
+          @arm = DCI.arm_board_by_release(@dci_release)
+          data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
+          DCI.all_architectures.each do |arch|
+            @release_arch = DCI.arch_by_release(@release_data)
+            data_dir = File.expand_path(@series, @projects_dir)
+            puts "Working on Series: #{series} Release: #{@dci_release} Architecture: #{@release_arch}"
+            file = File.expand_path(data_file_name,  data_dir)
+            raise "#{file} doesn't exist!" unless file
 
-              projects = ProjectsFactory.from_file(file, branch: "Netrunner/#{@series}")
-              raise "Pointless without projects, something went wrong" unless projects
+            projects = ProjectsFactory.from_file(file, branch: "Netrunner/#{@series}")
+            raise "Pointless without projects, something went wrong" unless projects
 
-              projects.each do |project|
-                next unless arch == @release_arch
-                jobs = DCIProjectMultiJob.job(
-                  project,
-                  release: @dci_release,
-                  series: @series,
-                  architecture: @release_arch,
-                  upload_map: @upload_map
-                )
-                jobs.each { |j| enqueue(j) }
-                #all_builds += jobs
-              end
-              image_data = DCI.image_data_by_release_type(@release_type)
-              @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
-              enqueue(
-                DCIImageJob.new(
-                  release: @dci_release,
-                  series: @series,
-                  architecture: @release_arch,
-                  repo: image_data[:repo],
-                  branch: image_data.fetch(@dci_release)[:releases].fetch(@series)
-                )
+            projects.each do |project|
+              next unless arch == @release_arch
+
+              jobs = DCIProjectMultiJob.job(
+                project,
+                release: @dci_release,
+                series: @series,
+                architecture: @release_arch,
+                upload_map: @upload_map
               )
-              enqueue(
-                DCISnapShotJob.new(
-                  snapshot: "#{@series}-#{@stamp}",
-                  series: @series,
-                  release: @dci_release,
-                  architecture: @release_arch
-                )
-              )
+              jobs.each { |j| enqueue(j) }
+              #all_builds += jobs
             end
+            image_data = DCI.image_data_by_release_type(@release_type)
+            @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
+            enqueue(
+              DCIImageJob.new(
+                release: @dci_release,
+                series: @series,
+                architecture: @release_arch,
+                repo: image_data[:repo],
+                branch: image_data.fetch(@dci_release)[:releases].fetch(@series)
+              )
+            )
+            enqueue(
+              DCISnapShotJob.new(
+                snapshot: "#{@series}-#{@stamp}",
+                series: @series,
+                release: @dci_release,
+                architecture: @release_arch
+              )
+            )
+          end
         end
       end
     end
+
     docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
