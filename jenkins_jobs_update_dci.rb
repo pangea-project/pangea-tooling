@@ -48,6 +48,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     return unless File.exist?(upload_map_file)
 
     @upload_map = YAML.load_file(upload_map_file)
+    @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @dci_release = ''
     @release_arch = ''
     @release_type = ''
@@ -72,16 +73,18 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           @dci_release = dci_release
           puts "Release: #{@dci_release}"
           @release_data = DCI.get_release_data(@release_type, @dci_release)
-          @arm = DCI.arm_board_by_release(@dci_release)
-          data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
+          @arm = DCI.arm_board_by_release(@release_data)
           DCI.all_architectures.each do |arch|
             @release_arch = DCI.arch_by_release(@release_data)
+            data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
             data_dir = File.expand_path(@series, @projects_dir)
             puts "Working on Series: #{series} Release: #{@dci_release} Architecture: #{@release_arch}"
             file = File.expand_path(data_file_name,  data_dir)
             raise "#{file} doesn't exist!" unless file
 
-            projects = ProjectsFactory.from_file(file, branch: "Netrunner/#{@series}")
+            image_data = DCI.image_data_by_release_type(@release_type)
+            branch = image_data.fetch(@dci_release)[:releases].fetch(@series)
+            projects = ProjectsFactory.from_file(file, branch: branch)
             raise "Pointless without projects, something went wrong" unless projects
 
             projects.each do |project|
@@ -97,8 +100,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               jobs.each { |j| enqueue(j) }
               #all_builds += jobs
             end
-            image_data = DCI.image_data_by_release_type(@release_type)
-            @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
+
             enqueue(
               DCIImageJob.new(
                 release: @dci_release,
