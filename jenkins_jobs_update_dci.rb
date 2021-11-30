@@ -69,10 +69,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       DCI.release_types.each do |release_type|
         @release_type = release_type
         puts "Release type: #{release_type}"
-        DCI.releases_for_type(@release_type).each do |dci_releases|
-          dci_releases.each do |dci_release|
-            @dci_release = dci_release
-            puts "Release: #{dci_release}"
+        DCI.releases_for_type(@release_type).each do |dci_release|
+          @dci_release = dci_release
+            puts "Release: #{@dci_release}"
             @release_data = DCI.get_release_data(@release_type, @dci_release)
             @arm = DCI.arm_board_by_release(@dci_release)
             data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
@@ -118,7 +117,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                 )
               )
             end
+<<<<<<< HEAD
           end
+=======
+>>>>>>> 6decf277 (Make sure we are on the correct architecture)
         end
       end
     end
