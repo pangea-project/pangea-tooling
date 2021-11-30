@@ -92,6 +92,8 @@ class DCITest < TestCase
     assert_equal('c1', DCI.arm_board_by_release(release_data))
     release_data2 = DCI.get_release_data('core', 'netrunner-core')
     assert_equal(nil, DCI.arm_board_by_release(release_data2))
+    release_data = DCI.get_release_data('zeronet', 'netrunner-zeronet-rock64')
+    assert_equal('rock64', DCI.arm_board_by_release(release_data))
   end
 
   def test_components_by_release
@@ -105,6 +107,7 @@ class DCITest < TestCase
 
   def test_arm
     assert_equal(true, DCI.arm?('netrunner-core-c1'))
+    assert_true(DCI.arm?('netrunner-zeronet-rock64'))
   end
 
   def test_arch_by_release
