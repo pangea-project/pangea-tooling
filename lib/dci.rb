@@ -48,14 +48,14 @@ module DCI
   end
 
   def releases_for_type(type)
-    data['release_types'].fetch(type)['releases'].keys.to_a
+    data['release_types'].fetch(type)['releases'].keys
   end
 
   def release_data_for_type(type)
-    @release_data_for_type = data['release_types'].fetch(type)['releases']
+    data['release_types'].fetch(type)['releases']
   end
 
   def get_release_data(type, release)
-    @release_data = release_data_for_type(type)[release].to_h
+    release_data_for_type(type)[release].to_h
   end
 end

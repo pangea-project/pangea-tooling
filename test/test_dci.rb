@@ -79,11 +79,11 @@ class DCITest < TestCase
   end
 
   def test_get_release_data
-    release_data = DCI.get_release_data('desktop', 'netrunner-desktop')
+    release_data = DCI.get_release_data('core', 'netrunner-core-c1')
     assert_is_a(release_data, Hash)
-    assert_equal('amd64', release_data['arch'])
+    assert_equal('armhf', release_data['arch'])
     assert_equal(
-      'netrunner extras artwork common backports netrunner-core netrunner-desktop', release_data['components']
+      'netrunner extras artwork common backports c1 netrunner-core', release_data['components']
     )
   end
 
