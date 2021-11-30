@@ -60,14 +60,15 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     all_builds = []
     jobs = []
     @series = ''
-    @release = ''
+    @dci_release = ''
     @release_type = ''
     @data_file_name = ''
     @series = ''
 
     DCI.release_types.each do |release_type|
       @release_type = release_type
-      DCI.releases_for_type(@release_type).each do |release|
+      DCI.releases_for_type(@release_type).each do |dci_release|
+        @dci_release
         @release_data = DCI.get_release_data(@release_type, release)
         release = release
         @arm = DCI.arm_board_by_release(release)
@@ -93,9 +94,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               series: @series,
               architecture: arch,
               upload_map: @upload_map
-             )
-             jobs.each { |j| enqueue(j) }
-             all_builds += jobs
+            )
+            jobs.each { |j| enqueue(j) }
+            all_builds += jobs
           end
            #  # Remove everything but source as they are the anchor points for
            #  # other jobs that might want to reference them.
@@ -108,18 +109,18 @@ class ProjectUpdater < Jenkins::ProjectUpdater
            # )
            # all_meta_builds << enqueue(meta_build)
            # image Jobs
-           image_data = DCI.image_data_by_release_type(@release_type)
-           @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
-            enqueue(
-             DCIImageJob.new(
-               release: release,
-               series: @series,
-               architecture: DCI.arch_by_release(image_data),
-               repo: image_data[:repo],
-               branch: image_data.fetch(release)[:releases].fetch(@series)
-             )
-           )
-           enqueue(
+          image_data = DCI.image_data_by_release_type(@release_type)
+          @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
+          enqueue(
+           DCIImageJob.new(
+             release: release,
+             series: @series,
+             architecture: DCI.arch_by_release(image_data),
+             repo: image_data[:repo],
+             branch: image_data.fetch(release)[:releases].fetch(@series)
+            )
+          )
+          enqueue(
             DCISnapShotJob.new(
               snapshot: "#{@series}-#{@stamp}",
               series: @series,
@@ -127,23 +128,19 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               architecture: DCI.arch_by_release(release)
             )
           )
-        docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
-        tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
-        tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
-        enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
-        enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
-        enqueue(MGMTRepoCleanupJob.new)
-        enqueue(MGMTDCIReleaseBranchingJob.new)
+         end
         end
       end
-     end
     end
+    docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
+    tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
+    tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
+    enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
+    enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
+    enqueue(MGMTRepoCleanupJob.new)
+    enqueue(MGMTDCIReleaseBranchingJob.new)
   end
 end
-
-
-
-
 
 if $PROGRAM_NAME == __FILE__
   updater = ProjectUpdater.new
