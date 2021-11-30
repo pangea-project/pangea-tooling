@@ -74,51 +74,47 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           puts "Release: #{@dci_release}"
           @release_data = DCI.get_release_data(@release_type, @dci_release)
           @arm = DCI.arm_board_by_release(@release_data)
-          DCI.all_architectures.each do |arch|
-            @release_arch = DCI.arch_by_release(@release_data)
-            data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
-            data_dir = File.expand_path(@series, @projects_dir)
-            puts "Working on Series: #{series} Release: #{@dci_release} Architecture: #{@release_arch}"
-            file = File.expand_path(data_file_name,  data_dir)
-            raise "#{file} doesn't exist!" unless file
+          @release_arch = DCI.arch_by_release(@release_data)
+          data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
+          data_dir = File.expand_path(@series, @projects_dir)
+          puts "Working on Series: #{series} Release: #{@dci_release} Architecture: #{@release_arch}"
+          file = File.expand_path(data_file_name,  data_dir)
+          raise "#{file} doesn't exist!" unless file
 
-            image_data = DCI.image_data_by_release_type(@release_type)
-            branch = image_data.fetch(@dci_release)[:releases].fetch(@series)
-            projects = ProjectsFactory.from_file(file, branch: branch)
-            raise "Pointless without projects, something went wrong" unless projects
+          image_data = DCI.image_data_by_release_type(@release_type)
+          branch = image_data.fetch(@dci_release)[:releases].fetch(@series)
+          projects = ProjectsFactory.from_file(file, branch: branch)
+          raise "Pointless without projects, something went wrong" unless projects
 
-            projects.each do |project|
-              next unless arch == @release_arch
-
-              jobs = DCIProjectMultiJob.job(
-                project,
-                release: @dci_release,
-                series: @series,
-                architecture: @release_arch,
-                upload_map: @upload_map
-              )
-              jobs.each { |j| enqueue(j) }
-              #all_builds += jobs
-            end
-
-            enqueue(
-              DCIImageJob.new(
-                release: @dci_release,
-                series: @series,
-                architecture: @release_arch,
-                repo: image_data[:repo],
-                branch: image_data.fetch(@dci_release)[:releases].fetch(@series)
-              )
+          projects.each do |project|
+            jobs = DCIProjectMultiJob.job(
+              project,
+              release: @dci_release,
+              series: @series,
+              architecture: @release_arch,
+              upload_map: @upload_map
             )
-            enqueue(
-              DCISnapShotJob.new(
-                snapshot: "#{@series}-#{@stamp}",
-                series: @series,
-                release: @dci_release,
-                architecture: @release_arch
-              )
-            )
+            jobs.each { |j| enqueue(j) }
+            #all_builds += jobs
           end
+
+          enqueue(
+            DCIImageJob.new(
+              release: @dci_release,
+              series: @series,
+              architecture: @release_arch,
+              repo: image_data[:repo],
+              branch: image_data.fetch(@dci_release)[:releases].fetch(@series)
+            )
+          )
+          enqueue(
+            DCISnapShotJob.new(
+              snapshot: "#{@series}-#{@stamp}",
+              series: @series,
+              release: @dci_release,
+              architecture: @release_arch
+            )
+          )
         end
       end
     end
