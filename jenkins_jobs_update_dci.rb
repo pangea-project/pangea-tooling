@@ -68,17 +68,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     DCI.release_types.each do |release_type|
       @release_type = release_type
       DCI.releases_for_type(@release_type).each do |dci_release|
-        @dci_release
-        @release_data = DCI.get_release_data(@release_type, release)
-        release = release
-        @arm = DCI.arm_board_by_release(release)
-        @data_file_name = DCI.arm?(release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
+        @release_data = DCI.get_release_data(@release_type, @dci_release)
+        @dci_release = release
+        @arm = DCI.arm_board_by_release(@dci_release)
+        @data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
         DCI.series.each_key do |series|
          @series = series
          DCI.all_architectures.each do |arch|
-          release_arch = DCI.arch_by_release(release)
+          release_arch = DCI.arch_by_release(@dci_release)
           data_dir = File.expand_path(@series, @projects_dir)
-          puts "Working on series: #{series} release: #{release}"
+          puts "Working on series: #{series} @dci_release: #{@dci_release}"
           raise unless @data_file_name
 
           file = File.expand_path(@data_file_name,  data_dir)
@@ -90,7 +89,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
             jobs = DCIProjectMultiJob.job(
               project,
-              release: release,
+              release: @dci_release,
               series: @series,
               architecture: arch,
               upload_map: @upload_map
@@ -113,19 +112,19 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
           enqueue(
            DCIImageJob.new(
-             release: release,
+             release: @dci_release,
              series: @series,
              architecture: DCI.arch_by_release(image_data),
              repo: image_data[:repo],
-             branch: image_data.fetch(release)[:releases].fetch(@series)
+             branch: image_data.fetch(@dci_release)[:releases].fetch(@series)
             )
           )
           enqueue(
             DCISnapShotJob.new(
               snapshot: "#{@series}-#{@stamp}",
               series: @series,
-              release: release,
-              architecture: DCI.arch_by_release(release)
+              release: @dci_release,
+              architecture: DCI.arch_by_release(@dci_release)
             )
           )
          end
