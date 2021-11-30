@@ -117,10 +117,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                 )
               )
             end
-<<<<<<< HEAD
-          end
-=======
->>>>>>> 6decf277 (Make sure we are on the correct architecture)
         end
       end
     end
