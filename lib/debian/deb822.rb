@@ -25,7 +25,7 @@ require_relative 'relationship'
 module Debian
   # Deb822 specification parser.
   class Deb822
-    def parse_relationships(line)
+    def self.parse_relationships(line)
       ret = []
       line.split(',').each do |string|
         rel_array = []
@@ -38,6 +38,10 @@ module Debian
         ret << rel_array unless rel_array.empty?
       end
       ret
+    end
+
+    def parse_relationships(line)
+      self.class.parse_relationships(line)
     end
 
     # Disable metrics violations here. This method is super complicated, super
