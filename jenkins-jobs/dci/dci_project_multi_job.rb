@@ -24,7 +24,7 @@ require_relative 'binarier'
 require_relative 'publisher'
 require_relative 'dci_builder'
 require_relative '../job'
-require_relative '../multijob_phase'
+require_relative 'multijob_phase'
 
 # Magic builder to create an array of build steps
 class DCIProjectMultiJob < JenkinsJob
