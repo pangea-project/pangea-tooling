@@ -1,0 +1,44 @@
+Source: qt6-shadertools
+Section: libs
+Priority: optional
+Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Uploaders: Patrick Franz <deltaone@debian.org>
+Build-Depends: cmake (>= 3.18~),
+               debhelper-compat (= 13),
+               libgl1-mesa-dev,
+               libvulkan-dev [linux-any],
+               ninja-build,
+               pkg-config,
+               pkg-kde-tools,
+               qt6-base-dev (>= 6.2.1+dfsg~)
+Standards-Version: 4.6.0
+Homepage: https://www.qt.io/developers/
+Rules-Requires-Root: no
+Vcs-Git: https://salsa.debian.org/qt-kde-team/qt6/qt6-shadertools.git
+Vcs-Browser: https://salsa.debian.org/qt-kde-team/qt6/qt6-shadertools
+
+Package: qt6-shadertools
+Architecture: any
+Section: kde
+Provides: libqt6shadertools6, qt6-shader-baker
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Qt 6 shader tools module
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ The QTShaderTools module contains APIs and tools to provide functionality
+ for the shader pipeline used by QtQuick.
+
+Package: qt6-shadertools-dev
+Architecture: any
+Section: kde
+Provides: libqt6shadertools6-dev
+Depends: qt6-shadertools (= ${binary:Version}), ${misc:Depends}
+Description: Qt 6 shader tools module
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ The QTShaderTools module contains APIs and tools to provide functionality
+ for the shader pipeline used by QtQuick.
+ .
+ Development Files.

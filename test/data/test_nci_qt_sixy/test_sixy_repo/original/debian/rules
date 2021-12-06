@@ -1,0 +1,18 @@
+#!/usr/bin/make -f
+#export DH_VERBOSE = 1
+
+# Use already defined DEB_HOST_* variables.
+include /usr/share/dpkg/architecture.mk
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@ --with pkgkde_symbolshelper --buildsystem=cmake+ninja
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		-DCMAKE_LIBRARY_PATH=$(DEB_HOST_MULTIARCH)
+
+execute_after_dh_auto_install:
+	# Reproducible builds: remove build paths from .prl files
+	sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libQt6*.prl

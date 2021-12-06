@@ -1,0 +1,2 @@
+version=4
+https://download.qt.io/archive/qt/([\d\.]*)/([\d\.]*)/submodules/qtshadertools-everywhere-src-(.*)\.tar\.xz

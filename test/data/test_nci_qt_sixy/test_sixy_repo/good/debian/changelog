@@ -1,0 +1,32 @@
+qt6-shadertools (6.2.2-0neon) UNRELEASED; urgency=medium
+
+  * New release
+
+ -- Jonathan Riddell <jr@jriddell.org>  Thu, 02 Dec 2021 14:19:20 +0000
+
+qt6-shadertools (6.2.1-2) experimental; urgency=medium
+
+  [ Patrick Franz ]
+  * Move private headers into the dev-package as they are referenced
+    from a cmake-file.
+
+ -- Patrick Franz <deltaone@debian.org>  Sun, 21 Nov 2021 00:41:51 +0100
+
+qt6-shadertools (6.2.1-1) experimental; urgency=medium
+
+  [ Patrick Franz ]
+  * Add missing dependency for qt6-shader-baker in libqt6shadertools6-
+    dev.
+  * Add missing MA:foreign for qt6-shader-baker.
+  * Do not install qt_lib_shadertools_private.pri.
+  * New upstream release (6.2.1).
+  * Update B-Ds.
+  * Update symbols.
+
+ -- Patrick Franz <deltaone@debian.org>  Fri, 05 Nov 2021 16:55:21 +0100
+
+qt6-shadertools (6.2.0-1) experimental; urgency=medium
+
+  * Initial release (Closes: #995813).
+
+ -- Patrick Franz <deltaone@debian.org>  Wed, 06 Oct 2021 13:53:13 +0200
