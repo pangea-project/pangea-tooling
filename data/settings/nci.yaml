@@ -10,6 +10,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_backports-focal_libxmlb_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-focal_libevdev_*':
   sourcer:
     restricted_packaging_copy: true
