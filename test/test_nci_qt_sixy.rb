@@ -39,11 +39,20 @@ class NCIRepoCleanupTest < TestCase
 
   def test_sixy_repo
     puts "XXX data #{data}"
-    sixy = QtSixy.new(data)
+    FileUtils.rm_rf("#{data}/qt6-test")
+    FileUtils.cp_r("#{data}/original", "#{data}/qt6-test")
+    sixy = QtSixy.new("#{data}/qt6-test")
     sixy.run
 
-    #series = NCI.series
-    #names = RepoNames.all('foo')
-    #assert_equal(series.size, names.size)
+    result = File.readlines("#{data}/qt6-test/debian/control")
+    File.readlines("#{data}/good/debian/control").each_with_index do |line, i|
+      assert_equal(line, result[i])
+    end
+    assert_equal(false, File.exist?("#{data}/qt6-test/debian/libqt6shadertools6-dev.install"))
+    assert_equal(false, File.exist?("#{data}/qt6-test/debian/libqt6shadertools6.install"))
+    assert_equal(false, File.exist?("#{data}/qt6-test/debian/libqt6shadertools6.symbols"))
+    assert_equal(false, File.exist?("#{data}/qt6-test/debian/qt6-shader-baker.install"))
+    assert_equal(true, File.exist?("#{data}/qt6-test/debian/qt6-test.install"))
+    assert_equal(true, File.exist?("#{data}/qt6-test/debian/qt6-test-dev.install"))
   end
 end
