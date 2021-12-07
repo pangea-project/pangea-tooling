@@ -1,4 +1,4 @@
-Source: qt6-shadertools
+Source: qt6-test
 Section: libs
 Priority: optional
 Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>

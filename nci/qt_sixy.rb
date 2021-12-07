@@ -13,6 +13,8 @@ require_relative '../lib/projects/factory/neon'
 require 'deep_merge'
 require 'tty/command'
 
+EXCLUDE_BUILD_DEPENDS = %w[qt6-base-private-dev].freeze
+
 class QtSixy
 
   def initialize(path)
@@ -117,6 +119,9 @@ class QtSixy
         end
       end
     end
+
+    # Some magic to delete the build deps we list as bad above
+    EXCLUDE_BUILD_DEPENDS.each {|build_dep| control.source["Build-depends"].delete_if {|x| x[0].name.start_with?(build_dep)} }
 
     File.write('debian/control', control.dump)
     cmd.run('wrap-and-sort')
