@@ -3,3 +3,6 @@
 '*-kde-applications_*':
   sourcer:
     restricted_packaging_copy: true
+'*zynthbox_*':
+  sourcer:
+    restricted_packaging_copy: true
