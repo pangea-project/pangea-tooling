@@ -76,16 +76,18 @@ class QtSixy
       next if bin['Package'] == package_name
       old_install_file_data = File.read("debian/" + package_name + ".install")
       new_install_filename = "debian/" + bin['Package'] + ".install"
-      File.write(new_install_filename, old_install_file_data, mode: "a")
       FileUtils.rm_f("debian/" + package_name + ".install")
       FileUtils.rm_f("debian/" + package_name + ".symbols")
       FileUtils.rm_f("debian/" + package_name + ".lintian-overrides")
+      File.write(new_install_filename, old_install_file_data, mode: "a")
     end
 
     bin_binaries.each do |bin_bin|
       p bin_bin
       fold_pkg(bin_bin, into: bin)
     end
+    bin.delete('Description')
+    bin['Description'] = bin_binaries[0]['Description']
 
     # bin['Provides'] ||= []
     # bin['Provides'] += bin_binaries.collect { |x| x['Package'] }.join(', ')
@@ -93,17 +95,20 @@ class QtSixy
     dev_binaries_names.each do |package_name|
       next if dev['Package'] == package_name
       old_install_file_data = File.read("debian/" + package_name + ".install")
-      new_install_filename = "debian/" + bin['Package'] + ".install"
-      File.write(new_install_filename, old_install_file_data, mode: "a")
+      new_install_filename = "debian/" + dev['Package'] + ".install"
       FileUtils.rm_f("debian/" + package_name + ".install")
       FileUtils.rm_f("debian/" + package_name + ".symbols")
       FileUtils.rm_f("debian/" + package_name + ".lintian-overrides")
+      File.write(new_install_filename, old_install_file_data, mode: "a")
     end
+    # Qt6ShaderToolsTargets-none.cmake is not none on arm so wildcard it
+    `sed -i s,none,*, #{"debian/" + dev['Package'] + ".install"}`
 
     dev_binaries.each do |dev_bin|
       fold_pkg(dev_bin, into: dev)
     end
-
+    dev.delete('Description')
+    dev['Description'] = dev_binaries[0]['Description']
 
     dev.each do |k, v|
       next unless v.is_a?(Array)

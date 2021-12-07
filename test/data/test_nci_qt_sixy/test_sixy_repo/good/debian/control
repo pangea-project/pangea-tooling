@@ -20,13 +20,23 @@ Vcs-Browser: https://salsa.debian.org/qt-kde-team/qt6/qt6-shadertools
 Package: qt6-test
 Architecture: any
 Section: kde
-Description: ((TBD))
 Provides: libqt6shadertools6, qt6-shader-baker
 Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Qt 6 shader tools module
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ The QTShaderTools module contains APIs and tools to provide functionality
+ for the shader pipeline used by QtQuick.
 
 Package: qt6-test-dev
 Architecture: any
 Section: kde
-Description: ((TBD))
 Provides: libqt6shadertools6-dev
 Depends: qt6-test (= ${binary:Version}), ${misc:Depends}
+Description: Qt 6 shader tools module - development files
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package contains the development files needed to build Qt 6 applications
+ using the QtShaderTools library.
