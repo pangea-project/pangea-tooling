@@ -129,7 +129,6 @@ class DCISnapshot
     release_type
     release
     @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
-    @components = @components.split
   end
 
   def aptly_components_to_repos

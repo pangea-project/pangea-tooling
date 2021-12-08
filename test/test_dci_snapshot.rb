@@ -94,7 +94,13 @@ class DCISnapshotTest < TestCase
 
   def test_components
     setup
-    test_data = 'netrunner extras artwork common backports c1 netrunner-core'
+    test_data = ["netrunner",
+ "extras",
+ "artwork",
+ "common",
+ "backports",
+ "c1",
+ "netrunner-core"]
     assert_equal test_data, @components
     teardown
   end
