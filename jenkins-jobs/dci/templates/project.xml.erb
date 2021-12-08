@@ -35,8 +35,8 @@
   <assignedNode>built-in</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
-  <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
-  <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
     <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.34.1">
       <spec></spec>
@@ -83,24 +83,6 @@
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <org.jenkinsci.plugins.githubissues.GitHubIssueNotifier plugin="github-issues@1.2.4">
-      <issueTitle></issueTitle>
-      <issueBody></issueBody>
-      <issueLabel></issueLabel>
-      <issueRepo></issueRepo>
-      <issueReopen>false</issueReopen>
-      <issueAppend>false</issueAppend>
-    </org.jenkinsci.plugins.githubissues.GitHubIssueNotifier>
-    <org.jenkinsci.plugins.github.status.GitHubCommitStatusSetter plugin="github@1.34.1">
-      <commitShaSource class="org.jenkinsci.plugins.github.status.sources.BuildDataRevisionShaSource"/>
-      <reposSource class="org.jenkinsci.plugins.github.status.sources.AnyDefinedRepositorySource"/>
-      <contextSource class="org.jenkinsci.plugins.github.status.sources.DefaultCommitContextSource"/>
-      <statusResultSource class="org.jenkinsci.plugins.github.status.sources.DefaultStatusResultSource"/>
-      <statusBackrefSource class="org.jenkinsci.plugins.github.status.sources.BuildRefBackrefSource"/>
-      <errorHandlers>
-        <org.jenkinsci.plugins.github.status.err.ShallowAnyErrorHandler/>
-      </errorHandlers>
-    </org.jenkinsci.plugins.github.status.GitHubCommitStatusSetter>
   </publishers>
   <buildWrappers/>
   <pollSubjobs>false</pollSubjobs>
