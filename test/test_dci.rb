@@ -100,9 +100,15 @@ class DCITest < TestCase
 
   def test_components_by_release
     release_data = DCI.get_release_data('core', 'netrunner-core-c1')
-    assert_equal('netrunner extras artwork common backports c1 netrunner-core', DCI.components_by_release(release_data))
+    assert_equal(["netrunner",
+ "extras",
+ "artwork",
+ "common",
+ "backports",
+ "c1",
+ "netrunner-core"], DCI.components_by_release(release_data))
     release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
-    assert_equal('zynthbox', DCI.components_by_release(release_data))
+    assert_equal(['zynthbox'], DCI.components_by_release(release_data))
   end
 
   def test_arm_boards

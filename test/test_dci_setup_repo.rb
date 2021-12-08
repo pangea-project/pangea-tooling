@@ -42,13 +42,13 @@ class DCISetupRepoTest < TestCase
     ENV['SERIES'] = 'next'
     ENV['RELEASE_TYPE'] = 'desktop'
     ENV['RELEASE'] = 'netrunner-desktop'
-    ENV['TYPE'] = 'stable'
-    @prefix = 'netrunner'
     @series = ENV.fetch('SERIES')
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
+    ENV['TYPE'] = 'stable'
     @dist = "#{@release}-#{@series}"
-    @components = [DCI.get_release_data(@release_type, @release)['components']]
+    @prefix = @release_type == 'zynthbox' ? 'zynthbox' : 'netrunner'
+    @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
   end
 
   def teardown
@@ -111,15 +111,20 @@ class DCISetupRepoTest < TestCase
 
   def test_setup_repo!
     setup
+    ENV['SERIES'] = 'buster'
+    ENV['RELEASE_TYPE'] = 'zynthbox'
+    ENV['RELEASE'] = 'zynthbox-rpi4'
+    @series = ENV.fetch('SERIES')
+    @release_type = ENV.fetch('RELEASE_TYPE')
+    @release = ENV.fetch('RELEASE')
+    @prefix = @release_type == 'zynthbox' ? 'zynthbox' : 'netrunner'
+      @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'upgrade'],
       ['dpkg --add-architecture i386'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://deb.debian.org/debian stable-backports main'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'update'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'upgrade', '-t=stable-backports'],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-desktop-next netrunner extras artwork common backports netrunner-core netrunner-desktop'],
+        ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/zynthbox zynthbox-rpi4-buster zynthbox'],
     ]
     system_sequence = sequence('system-calls')
     system_calls.each do |cmd|
@@ -128,10 +133,9 @@ class DCISetupRepoTest < TestCase
             .returns(true)
             .in_sequence(system_sequence)
     end
-    assert_equal('netrunner', @prefix)
-    assert_equal('netrunner-desktop', @release)
-    assert_equal(['netrunner extras artwork common backports netrunner-core netrunner-desktop'], @components)
-
+    assert_equal('zynthbox', @prefix)
+    assert_equal('zynthbox-rpi4', @release)
+    assert_equal(["zynthbox"], @components)
     key_catcher = StringIO.new
     IO.expects(:popen)
       .with(['apt-key', 'add', '-'], 'w')

@@ -35,16 +35,17 @@ module DCI
     @series = ENV.fetch('SERIES')
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
-    @prefix = 'netrunner'
+    @prefix = ''
     @dist = "#{@release}-#{@series}"
-    @components = [DCI.get_release_data(@release_type, @release)['components']]
+    @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
     key = "#{__dir__}/../dci_apt.key"
     raise 'Failed to import key' unless Apt::Key.add(key)
     raise 'failed to update' unless Apt.update
     raise 'failed to upgrade' unless Apt.upgrade
 
     setup_i386!
-    setup_backports!
+    setup_backports! unless @release_type == 'zynthbox' 
+    @prefix = @release_type == 'zynthbox' ? 'zynthbox' : 'netrunner'
     add_repos(@prefix, @dist, @components)
   end
 

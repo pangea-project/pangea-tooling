@@ -40,7 +40,7 @@ module DCI
   end
 
   def components_by_release(release_data)
-    release_data['components']
+    release_data['components'].split
   end
 
   def release_types
