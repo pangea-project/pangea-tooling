@@ -43,4 +43,4 @@ release_types:
       'zynthbox-rpi4':
         arch: armhf
         arm_board: 'rpi4'
-        components: 'netrunner extras artwork common backports c1 zynthbox netrunner-core'
+        components: 'zynthbox'
