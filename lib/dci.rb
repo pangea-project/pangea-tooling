@@ -50,6 +50,14 @@ module DCI
   def components_by_release(release_data)
     release_data['components'].split
   end
+  
+  def series_components(series, components)
+    aptly_repos = []
+    components.each do |component|
+      aptly_repos << "#{component}-#{series}"
+    end
+    aptly_repos
+  end
 
   def release_types
     data['release_types'].keys

@@ -124,7 +124,32 @@ class DCITest < TestCase
     assert_equal('netrunner-desktop-22', DCI.series_release('netrunner-desktop', '22'))
     assert_equal('zynthbox-rpi4-buster', DCI.series_release('zynthbox-rpi4', 'buster'))
   end
-    
+
+  def test_series_components
+    assert_is_a(DCI.series_components('22', 
+      ["netrunner",
+      "extras",
+      "artwork",
+      "common",
+      "backports",
+      "c1",
+      "netrunner-core"]), Array)
+    assert_equal(["netrunner-22",
+ "extras-22",
+ "artwork-22",
+ "common-22",
+ "backports-22",
+ "c1-22",
+ "netrunner-core-22"], DCI.series_components('22',
+   ["netrunner",
+   "extras",
+   "artwork",
+   "common",
+   "backports",
+   "c1",
+   "netrunner-core"]))
+  end
+  
   def test_arm
     assert_equal(true, DCI.arm?('netrunner-core-c1'))
     assert_true(DCI.arm?('netrunner-zeronet-rock64'))
