@@ -10,7 +10,11 @@ module DCI
   def previous_series
     data['previous_series']
   end
-  
+
+  def series_release(release, series)
+    "#{release}-#{series}"
+  end
+
   def all_image_data
     file = File.expand_path("../data/dci/dci.image.yaml", __dir__)
     raise "Data file not found (#{file})" unless File.exist?(file)
@@ -30,7 +34,7 @@ module DCI
   def aptly_prefix(type)
     type == 'zynthbox' ? 'zynthbox' : 'netrunner'
   end
-  
+
   def arm?(rel)
     rel.end_with?('c1', 'rock64', 'rpi4')
   end

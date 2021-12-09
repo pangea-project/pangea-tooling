@@ -120,6 +120,11 @@ class DCITest < TestCase
     assert_equal('netrunner', DCI.aptly_prefix('core'))
   end
   
+  def test_series_release
+    assert_equal('netrunner-desktop-22', DCI.series_release('netrunner-desktop', '22'))
+    assert_equal('zynthbox-rpi4-buster', DCI.series_release('zynthbox-rpi4', 'buster'))
+  end
+    
   def test_arm
     assert_equal(true, DCI.arm?('netrunner-core-c1'))
     assert_true(DCI.arm?('netrunner-zeronet-rock64'))
