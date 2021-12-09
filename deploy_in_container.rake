@@ -35,6 +35,7 @@ require_relative 'lib/rake/bundle'
 require_relative 'lib/nci'
 
 DIST = ENV.fetch('DIST')
+
 # These will be installed in one-go before the actual deps are being installed.
 # This should only include stuff which is needed to make the actual DEP
 # installation work!
@@ -93,9 +94,7 @@ end
 
 def custom_version_id
   require_relative 'lib/dci'
-  # FIXME disabled jriddell 2021-06-07 due to broken DCI
-  return
-  #return unless DCI.series.keys.include?(DIST)
+  return unless DCI.series.keys.include?(DIST)
 
   file = '/etc/os-release'
   os_release = File.readlines(file)
