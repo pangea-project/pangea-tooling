@@ -114,7 +114,12 @@ class DCITest < TestCase
   def test_arm_boards
     assert_equal(%w[c1 rock64 rpi4], DCI.arm_boards)
   end
-
+  
+  def test_aptly_prefix
+    assert_equal('zynthbox', DCI.aptly_prefix('zynthbox'))
+    assert_equal('netrunner', DCI.aptly_prefix('core'))
+  end
+  
   def test_arm
     assert_equal(true, DCI.arm?('netrunner-core-c1'))
     assert_true(DCI.arm?('netrunner-zeronet-rock64'))

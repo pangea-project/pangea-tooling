@@ -22,11 +22,15 @@ module DCI
   def image_data_by_release_type(type)
     all_image_data[type]
   end
-  
+
   def arm_boards
     data['arm_boards']
   end
 
+  def aptly_prefix(type)
+    type == 'zynthbox' ? 'zynthbox' : 'netrunner'
+  end
+  
   def arm?(rel)
     rel.end_with?('c1', 'rock64', 'rpi4')
   end
