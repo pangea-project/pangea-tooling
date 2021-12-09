@@ -74,4 +74,8 @@ module DCI
   def get_release_data(type, release)
     release_data_for_type(type)[release].to_h
   end
+  
+  def release_image_data(type, release)
+    image_data_by_release_type(type)[release].to_h
+  end
 end

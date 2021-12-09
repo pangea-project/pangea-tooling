@@ -88,6 +88,12 @@ class DCITest < TestCase
       'netrunner extras artwork common backports c1 netrunner-core', release_data['components']
     )
   end
+  
+  def test_release_image_data
+    image_data = DCI.release_image_data('core', 'netrunner-core-c1')
+    assert_is_a(image_data, Hash)
+    assert_equal('https://github.com/netrunner-odroid/c1-live-build-core', image_data[:repo])
+  end
 
   def test_arm_board_by_release
     release_data = DCI.get_release_data('core', 'netrunner-core-c1')
