@@ -38,7 +38,7 @@ class NCIRepoCleanupTest < TestCase
   end
 
   def test_sixy_repo
-    puts "XXX data #{data}"
+    Object.any_instance.expects(:`)
     FileUtils.rm_rf("#{data}/qt6-test")
     FileUtils.cp_r("#{data}/original", "#{data}/qt6-test")
     sixy = QtSixy.new("#{data}/qt6-test")
