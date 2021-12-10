@@ -53,6 +53,10 @@ DEBIAN_TO_KDE_NAMES = {
   # plasma
   'plasma-discover' => 'discover',
 
+  # KDE Gear
+  'kdevelop-php' => 'kdev-php',
+  'kdevelop-python' => 'kdev-python',
+
   # the stupidest name of all them stupid divergent names. like what does this
   # even accomplish...
   'ktp-kded-integration-module' => 'ktp-kded-module'
