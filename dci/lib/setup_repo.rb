@@ -36,7 +36,7 @@ module DCI
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     @prefix = DCI.aptly_prefix(@release_type)
-    @dist = "#{@release}-#{@series}"
+    @dist = DCI.series_release(@release, @series)
     @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
     key = "#{__dir__}/../dci_apt.key"
     raise 'Failed to import key' unless Apt::Key.add(key)
