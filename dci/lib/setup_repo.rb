@@ -35,7 +35,7 @@ module DCI
     @series = ENV.fetch('SERIES')
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
-    @prefix = ''
+    @prefix = DCI.aptly_prefix(@release_type)
     @dist = "#{@release}-#{@series}"
     @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
     key = "#{__dir__}/../dci_apt.key"
@@ -45,7 +45,6 @@ module DCI
 
     setup_i386!
     setup_backports! unless @release_type == 'zynthbox' 
-    @prefix = @release_type == 'zynthbox' ? 'zynthbox' : 'netrunner'
     add_repos(@prefix, @dist, @components)
   end
 
