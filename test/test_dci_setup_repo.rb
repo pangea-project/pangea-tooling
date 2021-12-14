@@ -46,8 +46,8 @@ class DCISetupRepoTest < TestCase
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     ENV['TYPE'] = 'stable'
-    @dist = "#{@release}-#{@series}"
-    @prefix = @release_type == 'zynthbox' ? 'zynthbox' : 'netrunner'
+    @dist = DCI.series_release(@release, @series)
+    @prefix = DCI.aptly_prefix(@release_type)
     @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
   end
 
@@ -77,9 +77,9 @@ class DCISetupRepoTest < TestCase
     setup
     system_calls = [
       ["apt-get", "-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "install", "software-properties-common"],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://deb.debian.org/debian stable-backports main'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://deb.debian.org/debian bullseye-backports main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'upgrade', '-t=stable-backports']
+      ['apt-get', *Apt::Abstrapt.default_args, 'upgrade', '-t=bullseye-backports']
     ]
     system_sequence = sequence('system-calls')
     system_calls.each do |cmd|
@@ -117,7 +117,7 @@ class DCISetupRepoTest < TestCase
     @series = ENV.fetch('SERIES')
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
-    @prefix = @release_type == 'zynthbox' ? 'zynthbox' : 'netrunner'
+    @prefix = DCI.aptly_prefix(@release_type)
       @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
