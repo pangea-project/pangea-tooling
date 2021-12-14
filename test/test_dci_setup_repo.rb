@@ -121,7 +121,7 @@ class DCISetupRepoTest < TestCase
       @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'upgrade'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'upgrade', '-t=buster-backports'],
       ['dpkg --add-architecture i386'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
         ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/zynthbox zynthbox-rpi4-buster zynthbox'],
