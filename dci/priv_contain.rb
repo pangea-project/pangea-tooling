@@ -11,19 +11,20 @@ binds = [
 
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 RELEASE = ENV.fetch('RELEASE')
-DIST = ENV.fetch('SERIES')
+RELEASE_TYPE = ENV.fetch('RELEASE_TYPE')
+DIST = ENV.fetch('SERIES_RELEASE')
 SERIES = ENV.fetch('SERIES')
 BUILD_TAG = ENV.fetch('BUILD_TAG')
 # Whitelist a bunch of Jenkins variables for consumption inside the container.
 whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
                NODE_NAME NODE_LABELS SERIES BUILD_TAG DIST
                PANGEA_PROVISION_AUTOINST SERIES
-               DH_VERBOSE WORKSPACE RELEASE]
+               DH_VERBOSE WORKSPACE RELEASE_TYPE RELEASE]
 whitelist += (ENV['DOCKER_ENV_WHITELIST'] || '').split(':')
 ENV['DOCKER_ENV_WHITELIST'] = whitelist.join(':')
 
 c = CI::Containment.new(BUILD_TAG,
-                        image: CI::PangeaImage.new(:debian, DIST),
+                        image: CI::PangeaImage.new(:debian, SERIES),
                         privileged: true,
                         no_exit_handlers: false,
                         binds: binds)

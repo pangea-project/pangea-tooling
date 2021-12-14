@@ -31,6 +31,7 @@
       #!/bin/bash
         export SERIES=<%= series %>
         export RELEASE=<%= release %>
+        export RELEASE_TYPE=<%= release_type %>
         ~/tooling/dci/contain.rb /tooling/dci/dci_builder.rb
       </command>
     </hudson.tasks.Shell>

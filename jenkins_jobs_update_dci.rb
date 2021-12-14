@@ -92,6 +92,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             jobs = DCIProjectMultiJob.job(
               project,
               release: @dci_release,
+              release_type: @release_type,
               series: @series,
               architecture: @release_arch,
               upload_map: @upload_map
@@ -103,6 +104,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           enqueue(
             DCIImageJob.new(
               release: @dci_release,
+              release_type: @release_type,
               series: @series,
               architecture: @release_arch,
               repo: image_data[:repo],

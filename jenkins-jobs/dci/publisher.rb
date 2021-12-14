@@ -4,6 +4,7 @@ require_relative '../job'
 # publisher
 class DCIPublisherJob < JenkinsJob
   attr_reader :release
+  attr_reader :release_type
   attr_reader :series
   attr_reader :dependees
   attr_reader :artifact_origin
@@ -13,9 +14,10 @@ class DCIPublisherJob < JenkinsJob
   attr_reader :component
   attr_reader :architecture
 
-  def initialize(basename, release:, series:, dependees:, component:, upload_map:)
+  def initialize(basename, release_type:, release:, series:, dependees:, component:, upload_map:)
     super("#{basename}_pub", 'dci_publisher.xml.erb')
     @release = release
+    @release_type = release_type
     @series = series
     @dependees = dependees
     @artifact_origin = "#{basename}_bin"

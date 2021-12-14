@@ -44,7 +44,7 @@ class DCIBuilderJobBuilder
 #     end
 #   end
 #
-  def self.basename(series, release, component, name, architecture)
-    "#{series}_#{release}_#{component}_#{name}_#{architecture}"
+  def self.basename(series, release_type, release, component, name, architecture)
+    "#{series}_#{release_type}_#{release}_#{component}_#{name}_#{architecture}"
   end
 end
