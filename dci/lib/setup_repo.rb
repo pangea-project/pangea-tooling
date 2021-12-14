@@ -48,7 +48,7 @@ module DCI
     add_repos(@prefix, @dist, @components)
   end
 
-  def setup_i386!stable
+  def setup_i386!
     system('dpkg --add-architecture i386')
   end
 
