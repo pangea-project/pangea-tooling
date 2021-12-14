@@ -13,17 +13,12 @@ require_relative '../lib/projects/factory/neon'
 require 'deep_merge'
 require 'tty/command'
 
-EXCLUDE_BUILD_DEPENDS = %w[qt6-base-private-dev].freeze
+EXCLUDE_BUILD_DEPENDS = %w[qt6-base-private-dev libqt6opengl6-dev qt6-declarative-private-dev].freeze
 
 class QtSixy
 
-  def initialize(path)
-    Dir.chdir(path)
+  def initialize()
     puts "Running Sixy in #{Dir.pwd}"
-    unless File.basename(Dir.pwd).include?("qt6-")
-      puts "Must be run in a 'qt6-foo' repo"
-      exit
-    end
     unless File.exists?("debian")
       puts "Must be run in a 'qt6-foo' repo with 'debian/' dir"
       exit
@@ -50,8 +45,6 @@ class QtSixy
 
   def run
     cmd = TTY::Command.new
-    #FileUtils.cp('debian/control.bak', 'debian/control') if File.exist?('debian/control.bak')
-    FileUtils.cp('debian/control', 'debian/control.bak')
     control = Debian::Control.new
     control.parse!
     p control.binaries.collect { |x| x['Package'] } # pkgs
@@ -100,6 +93,7 @@ class QtSixy
       FileUtils.rm_f("debian/" + package_name + ".symbols")
       FileUtils.rm_f("debian/" + package_name + ".lintian-overrides")
       File.write(new_install_filename, old_install_file_data, mode: "a")
+      p "written to #{new_install_filename}"
     end
     # Qt6ShaderToolsTargets-none.cmake is not none on arm so wildcard it
     `sed -i s,none,*, #{"debian/" + dev['Package'] + ".install"}`
@@ -135,6 +129,6 @@ class QtSixy
 end
 
 if $PROGRAM_NAME == __FILE__
-  sixy = QtSixy.new(ARGV[0])
+  sixy = QtSixy.new()
   sixy.run
 end
