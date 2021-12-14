@@ -125,6 +125,8 @@ class DCISetupRepoTest < TestCase
       ['dpkg --add-architecture i386'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
       ['add-apt-repository', '--no-update', '-y', 'deb http://deb.debian.org/debian buster-backports main'],
+      ["apt-get", "-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "update"],
+      ['apt-get', *Apt::Abstrapt.default_args, 'upgrade', '-t=buster-backports'],
       ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/zynthbox zynthbox-rpi4-buster zynthbox'],
     ]
     system_sequence = sequence('system-calls')
