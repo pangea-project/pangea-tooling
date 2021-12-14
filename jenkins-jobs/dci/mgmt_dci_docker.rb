@@ -2,7 +2,7 @@
 require_relative '../job'
 
 # Deploy job
-class MGMTDockerJob < JenkinsJob
+class MGMTDCIDockerJob < JenkinsJob
   attr_reader :dependees
 
   def initialize(dependees:)

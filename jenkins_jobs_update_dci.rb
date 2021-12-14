@@ -113,6 +113,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             DCISnapShotJob.new(
               snapshot: "#{@series}-#{@stamp}",
               series: @series,
+              release_type: @release_type,
               release: @dci_release,
               architecture: @release_arch
             )
@@ -121,7 +122,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       end
     end
 
-    docker = enqueue(MGMTDockerJob.new(dependees: all_meta_builds))
+    docker = enqueue(MGMTDCIDockerJob.new(dependees: all_meta_builds))
     tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
     tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
     enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
