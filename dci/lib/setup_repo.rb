@@ -58,7 +58,7 @@ module DCI
     raise 'update failed' unless Apt.update
 
     Retry.retry_it(times: 5, sleep: 2) do
-      raise 'backports upgrade failed' unless Apt.upgrade("-t=stable-backports")
+      raise 'backports upgrade failed' unless Apt.upgrade("-t=bullseye-backports")
     end
   end
 
