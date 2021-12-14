@@ -91,8 +91,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           projects.each do |project|
             jobs = DCIProjectMultiJob.job(
               project,
-              release: @dci_release,
               release_type: @release_type,
+              release: @dci_release,
               series: @series,
               architecture: @release_arch,
               upload_map: @upload_map

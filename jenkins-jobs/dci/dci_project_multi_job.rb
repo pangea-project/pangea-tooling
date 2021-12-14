@@ -36,25 +36,27 @@ class DCIProjectMultiJob < JenkinsJob
     release_type = release_type.dup
     series = series.dup
     upload_map = upload_map.dup
-    basename = DCIBuilderJobBuilder.basename(series, release_type,  release, project.component, project.name, architecture)
+    basename = DCIBuilderJobBuilder.basename(series, release_type, release, project.component, project.name, architecture)
 
     dependees = project.dependees.collect do |d|
-      DCIBuilderJobBuilder.basename(series, release, d.component, d.name, architecture)
+      DCIBuilderJobBuilder.basename(series, release_type, release, d.component, d.name, architecture)
     end
     dependees = dependees.compact.uniq.sort
 
     publisher_dependees = project.dependees.collect do |d|
-      "#{DCIBuilderJobBuilder.basename(series, release, d.component, d.name, architecture)}_src"
+      "#{DCIBuilderJobBuilder.basename(series, release_type, release, d.component, d.name, architecture)}_src"
     end.compact
 
     sourcer = DCISourcerJob.new(
       basename,
       release: release,
+      release_type: release_type,
       series: series,
       project: project)
     publisher = DCIPublisherJob.new(
       basename,
       release: release,
+      release_type: release_type,
       series: series,
       dependees: publisher_dependees,
       component: project.component,
@@ -62,6 +64,7 @@ class DCIProjectMultiJob < JenkinsJob
     binarier = DCIBinarierJob.new(
       basename,
       release: release,
+      release_type: release_type,
       series: series,
       architecture: architecture
     )
