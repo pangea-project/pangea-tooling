@@ -44,16 +44,16 @@ module DCI
     raise 'failed to upgrade' unless Apt.upgrade
 
     setup_i386!
-    setup_backports! unless @release_type == 'zynthbox' 
+    setup_backports!
     add_repos(@prefix, @dist, @components)
   end
 
-  def setup_i386!
+  def setup_i386!stable
     system('dpkg --add-architecture i386')
   end
 
   def setup_backports!
-    debline = 'deb http://deb.debian.org/debian stable-backports main'
+    debline = @series == 'buster' ? 'deb http://deb.debian.org/debian buster-backports main' : 'deb http://deb.debian.org/debian bullseye-backports main'
     raise 'adding backports failed' unless Apt::Repository.add(debline)
     raise 'update failed' unless Apt.update
 
