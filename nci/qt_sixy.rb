@@ -13,7 +13,7 @@ require_relative '../lib/projects/factory/neon'
 require 'deep_merge'
 require 'tty/command'
 
-EXCLUDE_BUILD_DEPENDS = %w[qt6-base-private-dev libqt6opengl6-dev qt6-declarative-private-dev].freeze
+EXCLUDE_BUILD_DEPENDS = %w[qt6-base-private-dev libqt6opengl6-dev qt6-declarative-private-dev qml6-module-qtquick qml6-module-qttest qml6-module-qtquick].freeze
 
 class QtSixy
 
