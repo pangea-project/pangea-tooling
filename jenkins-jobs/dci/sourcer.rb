@@ -7,6 +7,7 @@ class DCISourcerJob < JenkinsJob
   attr_reader :name
   attr_reader :basename
   attr_reader :upstream_scm
+  attr_reader :type
   attr_reader :release_type
   attr_reader :release
   attr_reader :series
@@ -16,10 +17,11 @@ class DCISourcerJob < JenkinsJob
   attr_reader :component
   attr_reader :architecture
 
-  def initialize(basename, project:, series:, release_type:, release:)
+  def initialize(basename, project:, series:, type:, release_type:, release:)
     super("#{basename}_src", 'dci_sourcer.xml.erb')
     @name = project.name
     @component = project.component
+    @type = type
     @basename = basename
     @upstream_scm = project.upstream_scm
     @release_type = release_type

@@ -66,6 +66,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     DCI.series.each_key do |series|
       @series = series
       puts "Series: #{@series}"
+      @type = @series == 'next' ? 'unstable' : 'stable'
       DCI.release_types.each do |release_type|
         @release_type = release_type
         puts "Release type: #{@release_type}"
@@ -91,6 +92,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           projects.each do |project|
             jobs = DCIProjectMultiJob.job(
               project,
+              type: @type,
               release_type: @release_type,
               release: @dci_release,
               series: @series,
