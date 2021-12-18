@@ -45,6 +45,7 @@ gem install --no-document bundler
 [ -f Gemfile.lock ] || bundle install --jobs=`nproc`
 bundle update --jobs=`nproc`
 rm -rf .bundle || true
+export ALIGN_RUBY_EXEC=true
 </command>
     </hudson.tasks.Shell>
     <hudson.plugins.rake.Rake plugin="rake@1.8.0">
@@ -53,6 +54,7 @@ rm -rf .bundle || true
       <rakeLibDir></rakeLibDir>
       <rakeWorkingDir></rakeWorkingDir>
       <tasks>clean
+        align_ruby
 test
 cloc
 rubocop

@@ -43,6 +43,7 @@ gem install bundler
 bundle install
 bundle update
 bundle list
+export  ALIGN_RUBY_EXEC=true
 </command>
     </hudson.tasks.Shell>
     <hudson.plugins.rake.Rake plugin="rake@1.8.0">
@@ -51,6 +52,7 @@ bundle list
       <rakeLibDir></rakeLibDir>
       <rakeWorkingDir></rakeWorkingDir>
       <tasks>clean
+        align_ruby
 test
 cloc
 rubocop
