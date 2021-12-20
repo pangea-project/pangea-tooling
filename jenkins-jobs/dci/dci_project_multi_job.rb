@@ -28,7 +28,7 @@ require_relative 'multijob_phase'
 
 # Magic builder to create an array of build steps
 class DCIProjectMultiJob < JenkinsJob
-  def self.job(project, type:, series:, release_type:, release:, upload_map:, architecture:)
+  def self.job(project, type:, series:, release_type:, release:, dist:, upload_map:, architecture:)
     return [] unless project.debian?
 
     architecture = architecture.dup
@@ -37,6 +37,7 @@ class DCIProjectMultiJob < JenkinsJob
     release_type = release_type.dup
     series = series.dup
     upload_map = upload_map.dup
+    dist = dist.dup
     basename = DCIBuilderJobBuilder.basename(series, release_type, release, project.component, project.name, architecture)
 
     dependees = project.dependees.collect do |d|
@@ -54,6 +55,7 @@ class DCIProjectMultiJob < JenkinsJob
       release: release,
       release_type: release_type,
       series: series,
+      dist: dist,
       project: project)
     publisher = DCIPublisherJob.new(
       basename,
@@ -68,6 +70,7 @@ class DCIProjectMultiJob < JenkinsJob
       release: release,
       release_type: release_type,
       series: series,
+      dist: dist,
       architecture: architecture
     )
     jobs = [sourcer, binarier, publisher]
