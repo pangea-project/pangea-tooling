@@ -76,7 +76,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           @release_data = DCI.get_release_data(@release_type, @dci_release)
           @arm = DCI.arm_board_by_release(@release_data)
           @release_arch = DCI.arch_by_release(@release_data)
-          @dist = DCI.series_release(@release, @series)
+          @dist = DCI.series_release(@dci_release, @series)
           data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
           data_dir = File.expand_path(@series, @projects_dir)
           puts "Working on Series: #{series} Release: #{@dci_release} Architecture: #{@release_arch}"
