@@ -69,7 +69,7 @@ module CI
         return OS::VERSION_ID unless id.nil? || id.empty?
       end
 
-      return '9' if OS::ID == 'debian'
+      return '10' if OS::ID == 'debian'
 
       raise 'VERSION_ID not defined!'
     end
