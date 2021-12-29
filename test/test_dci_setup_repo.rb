@@ -46,7 +46,7 @@ class DCISetupRepoTest < TestCase
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     ENV['TYPE'] = 'stable'
-    @dist = DCI.series_release(@release, @series)
+    @dist = DCI.series_distribution(@release, @series)
     @prefix = DCI.aptly_prefix(@release_type)
     @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
   end

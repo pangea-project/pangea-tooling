@@ -7,8 +7,8 @@ module DCI
 
   module_function
 
-  def series_versions
-    data['series'].values
+  def series_version(base_os_id)
+    series[base_os_id]
   end
 
   def latest_series
@@ -19,16 +19,16 @@ module DCI
     data['previous_series']
   end
 
-  def version_codenames
-    data['version_codenames']
+  def series_version_codename(series_version)
+    data['series_version_codenames'][series_version]
   end
 
   def base_os_ids
     data['series'].keys
   end
 
-  def series_distribution(release, series)
-    "#{release}-#{version_codenames[series]}"
+  def release_distribution(release, series_version_codename)
+    "#{release}-#{series_version_codename}"
   end
 
   def all_image_data
@@ -63,14 +63,14 @@ module DCI
     release_data['arch']
   end
 
-  def components_by_release(release_data)
+  def release_components(release_data)
     release_data['components'].split
   end
 
-  def series_components(series, components)
+  def series_release_repos(series_version_codename, release_components)
     aptly_repos = []
-    components.each do |component|
-      aptly_repos << "#{component}-#{series}"
+    release_components.each do |component|
+      aptly_repos << "#{component}-#{series_version_codename}"
     end
     aptly_repos
   end
