@@ -12,6 +12,12 @@ class DCITest < TestCase
     assert_equal(%w[desktop core zeronet zynthbox], DCI.release_types)
   end
 
+  def test_version_codenames
+    assert_equal('buster', DCI.version_codenames['10'])
+    assert_equal('next', DCI.version_codenames['23'])
+    assert_equal('22', DCI.version_codenames['22'])
+  end
+
   def test_architectures
     assert_equal_collection(%w[amd64], DCI.architectures)
   end
@@ -20,18 +26,26 @@ class DCITest < TestCase
     assert_equal_collection(%w[armhf arm64], DCI.extra_architectures)
   end
 
+  def test_series_versions
+    assert_equal_collection(%w[22 23 10], DCI.series_versions)
+  end
+
+  def test_base_os_ids
+    assert_equal_collection(%w[netrunner netrunner-next zynthbox], DCI.base_os_ids)
+  end
+
   def test_all_architectures
     assert_equal_collection(%w[amd64 armhf arm64], DCI.all_architectures)
   end
 
   def test_series
-    assert_equal_collection(%w[22], DCI.series.keys)
-    assert_equal_collection(%w[20210510], DCI.series.values)
-    assert_equal('20210510', DCI.series['22'])
-    #assert_equal('20210410', DCI.series['next'])
+    series = DCI.series
+    assert_is_a(series, Hash)
+    assert_equal('22', series['netrunner'])
+    assert_equal('10', series['zynthbox'])
 
     # With sorting
-    assert_equal('22', DCI.series(sort: :ascending).keys.first)
+    assert_equal('10', DCI.series(sort: :ascending).values.first)
   end
 
   def test_latest_series
@@ -41,13 +55,13 @@ class DCITest < TestCase
   def test_previous_series
     assert_equal('21.01', DCI.previous_series)
   end
-  
+
   def test_all_image_data
     assert_is_a(DCI.all_image_data, Hash)
     assert_equal_collection(%w[desktop core zeronet zynthbox], DCI.all_image_data.keys)
     assert_equal_collection(%w[netrunner-core netrunner-core-c1], DCI.all_image_data['core'].keys)
   end
-  
+
   def test_image_data_by_release_type
     assert_is_a(DCI.image_data_by_release_type('desktop'), Hash)
     assert_equal({"netrunner-desktop"=>
@@ -88,7 +102,7 @@ class DCITest < TestCase
       'netrunner extras artwork common backports c1 netrunner-core', release_data['components']
     )
   end
-  
+
   def test_release_image_data
     image_data = DCI.release_image_data('core', 'netrunner-core-c1')
     assert_is_a(image_data, Hash)
@@ -120,19 +134,19 @@ class DCITest < TestCase
   def test_arm_boards
     assert_equal(%w[c1 rock64 rpi4], DCI.arm_boards)
   end
-  
+
   def test_aptly_prefix
     assert_equal('zynthbox', DCI.aptly_prefix('zynthbox'))
     assert_equal('netrunner', DCI.aptly_prefix('core'))
   end
-  
-  def test_series_release
-    assert_equal('netrunner-desktop-22', DCI.series_release('netrunner-desktop', '22'))
-    assert_equal('zynthbox-rpi4-buster', DCI.series_release('zynthbox-rpi4', 'buster'))
+
+  def test_series_distribution
+    assert_equal('netrunner-desktop-22', DCI.series_distribution('netrunner-desktop', '22'))
+    assert_equal('zynthbox-rpi4-buster', DCI.series_distribution('zynthbox-rpi4', '10'))
   end
 
   def test_series_components
-    assert_is_a(DCI.series_components('22', 
+    assert_is_a(DCI.series_components('22',
       ["netrunner",
       "extras",
       "artwork",
@@ -155,7 +169,7 @@ class DCITest < TestCase
    "c1",
    "netrunner-core"]))
   end
-  
+
   def test_arm
     assert_equal(true, DCI.arm?('netrunner-core-c1'))
     assert_true(DCI.arm?('netrunner-zeronet-rock64'))

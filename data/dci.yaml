@@ -1,7 +1,11 @@
 series:
-  '22': '20210510'
-  # 'next': '20210410'
-  # 'buster': '20210110'
+  netrunner: '22'
+  netrunner-next: '23'
+  zynthbox: '10'
+version_codenames:
+  '22': '22'
+  '23': 'next'
+  '10': 'buster'
 previous_series:
   '21.01'
 architectures:
@@ -9,6 +13,9 @@ architectures:
 extra_architectures:
   - armhf
   - arm64
+types:
+  - unstable
+  - stable
 arm_boards:
   - 'c1'
   - 'rock64'

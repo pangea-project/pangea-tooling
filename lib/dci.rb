@@ -7,12 +7,28 @@ module DCI
 
   module_function
 
+  def series_versions
+    data['series'].values
+  end
+
+  def latest_series
+    data['series']['netrunner']
+  end
+
   def previous_series
     data['previous_series']
   end
 
-  def series_release(release, series)
-    "#{release}-#{series}"
+  def version_codenames
+    data['version_codenames']
+  end
+
+  def base_os_ids
+    data['series'].keys
+  end
+
+  def series_distribution(release, series)
+    "#{release}-#{version_codenames[series]}"
   end
 
   def all_image_data
@@ -50,7 +66,7 @@ module DCI
   def components_by_release(release_data)
     release_data['components'].split
   end
-  
+
   def series_components(series, components)
     aptly_repos = []
     components.each do |component|
@@ -74,7 +90,7 @@ module DCI
   def get_release_data(type, release)
     release_data_for_type(type)[release].to_h
   end
-  
+
   def release_image_data(type, release)
     image_data_by_release_type(type)[release].to_h
   end
