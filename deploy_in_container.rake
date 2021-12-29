@@ -233,6 +233,35 @@ task :align_ruby do
   end
 end
 
+RUBY_2_7_5 = '/tmp/2.7.5'.freeze
+RUBY_2_7_5_URL = 'https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.7.5'.freeze
+
+desc 'Upgrade to newer ruby if required, no kitchen'
+task :align_ruby_no_chef do
+  puts "Ruby version #{RbConfig::CONFIG['MAJOR']}.#{RbConfig::CONFIG['MINOR']}"
+  if RbConfig::CONFIG['MAJOR'].to_i <= 2 && RbConfig::CONFIG['MINOR'].to_i < 7
+    puts 'Bootstraping ruby'
+    system('apt-get -y install ruby-build')
+    File.write(RUBY_2_7_5, open(RUBY_2_7_5_URL).read)
+    raise 'Failed to update ruby to 2.7.5' unless
+      system("ruby-build #{RUBY_2_7_5} /usr/local")
+    puts 'Ruby bootstrapped, running deployment again'
+    case $?.exitstatus
+    when 0 # installed version is fine, we are happy.
+      puts 'Hooray, new rubies.'
+      next
+    when 1 # a new version was installed, we'll re-exec ourself.
+      sh 'gem install rake'
+      sh 'gem install tty-command'
+      ENV['ALIGN_RUBY_EXEC'] = 'true'
+      # Reload ourself via new rake
+      exec('rake', *ARGV)
+    else # installer crashed or other unexpected error.
+      raise 'Error while aligning ruby version without a chef'
+    end
+  end
+end
+
 def with_ubuntu_pin
   pin_file = '/etc/apt/preferences.d/ubuntu-pin'
 
