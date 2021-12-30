@@ -118,7 +118,7 @@ class DCISetupRepoTest < TestCase
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     @prefix = DCI.aptly_prefix(@release_type)
-      @components = DCI.release_components(DCI.get_release_data(@release_type, @release))
+    @components = DCI.release_components(DCI.get_release_data(@release_type, @release))
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'upgrade'],

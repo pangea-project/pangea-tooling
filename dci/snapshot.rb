@@ -38,22 +38,25 @@ require_relative '../lib/dci'
 require_relative '../lib/aptly-ext/remote'
 require_relative '../lib/ci/pattern'
 
-# Run aptly snapshot on given DIST eg: netrunner-desktop-next.
+# Run aptly snapshot on given distribution eg: netrunner-desktop-next.
 class DCISnapshot
   def initialize
-    @image_data = {}
-    @snapshots = []
-    @repos = []
-    @components = []
-    @release_type = ''
-    @type_data = {}
-    @series = ''
-    @release = ''
-    @currentdist = {}
-    @series = ''
-    @arch = ''
+    @image_data = DCI.all_image_data
+    @release_type = ENV.fetch('RELEASE_TYPE')
+    @snapshot = ENV.fetch('SNAPSHOT')
+    @series = ENV.fetch('SERIES')
+    @release = ENV.fetch('RELEASE')
+    @release_data = DCI.get_release_data(@release_type, @release)
+    @components = DCI.release_components(@release_data)
+    @arch = DCI.arch_by_release(@release_data)
+    @arm_board = DCI.arm_board_by_release(@release_data)
+    @release_distribution = DCI.release_distribution(@release, @series)
     @arch_array = []
-    @arm_board = nil
+    @aptly_snapshot = {}
+    @snapshots = []
+    @repos = DCI.series_release_repos(@series, @components)
+    @repo = ''
+    @prefix = DCI.aptly_prefix(@release_type)
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new($stdout).tap do |l|
       l.progname = 'snapshotter'
@@ -61,89 +64,7 @@ class DCISnapshot
     end
   end
 
-  def load(file)
-    hash = {}
-    hash.deep_merge!(YAML.load(File.read(File.expand_path(file))))
-    hash
-  end
-
-  def config
-    file = File.expand_path("#{__dir__}/../data/dci/dci.image.yaml")
-    @image_data = load(file)
-    raise unless @image_data.is_a?(Hash)
-
-    @image_data
-  end
-
-  def release_types
-    config
-    @release_types = @image_data.keys
-  end
-
-  def release_type
-    @release_type = ENV['RELEASE_TYPE']
-  end
-
-  def type_data
-    config
-    release_type
-    @type_data = @image_data[@release_type]
-  end
-
-  def arm_board
-    @arm_board = ENV['ARM_BOARD']
-  end
-
-  def release
-    release_type
-    arm_board
-    @release = @arm_board ? "netrunner-#{@release_type}-#{@arm_board}" : "netrunner-#{@release_type}"
-  end
-
-  def series
-    @series = ENV['SERIES']
-  end
-
-  def series_release
-    release
-    series
-    @series_release = "#{@release}-#{@series}"
-  end
-
-  def currentdist
-    config
-    release_type
-    type_data
-    release
-    @currentdist = @type_data[@release]
-    @currentdist
-  end
-
-  def arch
-    release_type
-    release
-    @arch = DCI.arch_by_release(DCI.get_release_data(@release_type, @release))
-  end
-
-  def components
-    release_type
-    release
-    @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
-  end
-
-  def aptly_components_to_repos
-    series
-    components
-    @components.each do |x|
-      repo = x + '-' + @series
-      @repos << repo
-    end
-    raise unless @repos.is_a?(Array)
-    @repos
-  end
-
   def arch_array
-    arch
     @arch_array << @arch
     @arch_array << 'i386'
     @arch_array << 'all'
@@ -153,37 +74,31 @@ class DCISnapshot
   end
 
   def aptly_options
-    series_release
     arch_array
     opts = {}
-    opts[:Distribution] = @series_release
-    opts[:Architectures] = @arch_array
+    opts[:Distribution] = @release_distribution
+    opts[:Architectures] = arch_array
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
     opts
   end
 
   def snapshot_repo
-    aptly_components_to_repos
     opts = aptly_options
     Faraday.default_connection_options =
       Faraday::ConnectionOptions.new(timeout: 40 * 60 * 60)
     Aptly::Ext::Remote.dci do
       @repos.each do |repo_name|
-        repo = Aptly::Repository.get(repo_name)
-        @log.info "Phase 1: Snapshotting repo: #{repo.Name} with packages: #{repo.packages}"
-        puts repo.DefaultComponent
-        snapshot =
-          if repo.packages.empty?
-            Aptly::Snapshot.create(
-              "#{repo.Name}_#{@series_release}_#{@stamp}", opts
-            )
-          else
-            # component = repo.Name.match(/(.*)-netrunner-backports/)[1].freeze
-            repo.snapshot("#{repo.Name}_#{@series_release}_#{@stamp}", opts)
-          end
-        snapshot.DefaultComponent = repo.DefaultComponent
-        @snapshots << snapshot
+        @repo = Aptly::Repository.get(repo_name)
+        @log.info "Phase 1: Snapshotting repo: #{@repo.Name} with packages: #{@repo.packages}"
+
+        if @repo.packages.empty?
+          @aptly_snapshot = Aptly::Snapshot.create("#{@repo.Name}_#{@release_distribution}_#{@stamp}", opts)
+        else
+          @aptly_snapshot = @repo.snapshot("#{@repo.Name}_#{@release_distribution}_#{@stamp}", opts)
+        end
+        @aptly_snapshot.DefaultComponent = @repo.DefaultComponent
+        @snapshots << @aptly_snapshot
         @log.info 'Phase 1: Snapshotting complete'
       end
     end
@@ -201,7 +116,7 @@ class DCISnapshot
       end
       @s3 = Aptly::PublishedRepository.list.select do |x|
         !x.Storage.empty? && (x.SourceKind == 'snapshot') &&
-          (x.Distribution == opts[:Distribution]) && (x.Prefix == 'netrunner')
+          (x.Distribution == opts[:Distribution]) && (x.Prefix == @prefix)
       end
       puts @s3
       if @s3.empty?

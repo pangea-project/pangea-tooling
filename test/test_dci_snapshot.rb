@@ -6,6 +6,7 @@
 # SPDX-FileCopyrightText: 2016 Rohan Garg <rohan@kde.org>
 # SPDX-FileCopyrightText: 2019-2021 Scarlett Moore <sgmoore@kde.org>
 
+require 'aptly'
 require_relative '../lib/dci'
 require_relative '../dci/snapshot'
 require_relative 'lib/testcase'
@@ -14,31 +15,29 @@ require 'mocha/test_unit'
 require 'webmock/test_unit'
 
 class DCISnapshotTest < TestCase
-  @data = {}
 
   def setup
     # Disable all web (used for key).
     WebMock.disable_net_connect!
     ENV['RELEASE_TYPE'] = 'core'
+    ENV['RELEASE'] = 'netrunner-core-c1'
     ENV['SERIES'] = 'next'
-    ENV['ARM_BOARD'] = 'c1'
+    ENV['SNAPSHOT'] = '1'
     ENV['WORKSPACE'] = File.dirname(__dir__) # main pangea-tooling dir
     @d = DCISnapshot.new
-    @data = @d.config
-    @series = @d.series
-    @release_types = @d.release_types
-    @release_type = @d.release_type
-    @type_data = @d.type_data
-    @release = @d.release
-    @release_data = DCI.get_release_data(@release_type, @release)
-    @currentdist = @d.currentdist
-    @series_release = @d.series_release
-    @arch = DCI.arch_by_release(@release_data)
-    @arm_board = DCI.arm_board_by_release(@release_data)
-    @arch_array = @d.arch_array
-    @components = DCI.components_by_release(@release_data)
-    @repos = @d.aptly_components_to_repos
-    @aptly_options = @d.aptly_options
+    @release = @d.send(:instance_variable_get, :@release)
+    @series = @d.send(:instance_variable_get, :@series)
+    @release_type = @d.send(:instance_variable_get, :@release_type)
+    DCI.stubs(:arch_by_release).returns('armhf')
+    @arch = @d.send(:instance_variable_get, :@arch)
+    DCI.stubs(:release_components).returns(['netrunner-core', 'extras'])
+    @components = @d.send(:instance_variable_get, :@components)
+    @stamp = @d.send(:instance_variable_get, :@stamp)
+    DCI.stubs(:release_distribution).returns('netrunner-core-c1-next')
+    @release_distribution = @d.send(:instance_variable_get, :@release_distribution)
+    DCI.stubs(:series_release_repos).returns('netrunner-core-next', 'extras-next')
+    @repos = @d.send(:instance_variable_get, :@repos)
+
   end
 
   def teardown
@@ -46,106 +45,79 @@ class DCISnapshotTest < TestCase
     ENV['RELEASE_TYPE'] = ''
     ENV['SERIES'] = ''
     ENV['ARM_BOARD'] = nil
-  end
-
-  def test_config
-    setup
-    assert_is_a(@data, Hash)
-    assert_equal @data.keys, %w[desktop core zeronet zynthbox]
-    teardown
-  end
-
-  def test_release_type
-    setup
-    assert_equal @release_type, ENV['RELEASE_TYPE']
-    assert @data.keys.include?(@release_type)
-    teardown
-  end
-
-  def test_release_types
-    setup
-    assert @release_types.include?(@release_type)
-    teardown
-  end
-
-  def test_type_data
-    setup
-    assert_is_a(@type_data, Hash)
-    assert_equal @type_data.keys, %w[netrunner-core netrunner-core-c1]
-    teardown
-  end
-
-  def test_release
-    setup
-    assert_equal('netrunner-core-c1', @release)
-    ENV['ARM_BOARD'] = nil
-    @release = @d.release
-    assert_equal('netrunner-core', @release)
-    teardown
-  end
-
-  def test_currentdist
-    setup
-    assert_equal @currentdist.keys, %i[repo releases snapshots]
-    assert_equal @currentdist[:repo], 'https://github.com/netrunner-odroid/c1-live-build-core'
-    assert_equal @currentdist, @d.currentdist
-    teardown
-  end
-
-  def test_components
-    setup
-    test_data = ["netrunner",
- "extras",
- "artwork",
- "common",
- "backports",
- "c1",
- "netrunner-core"]
-    assert_equal test_data, @components
-    teardown
-  end
-
-  def test_arch
-    setup
-    assert_equal 'armhf', @arch
-    teardown
-  end
-
-  def test_aptly_components_to_repos
-    setup
-    assert_equal(
-      %w[netrunner-next extras-next artwork-next common-next backports-next c1-next netrunner-core-next],
-      @repos
-    )
-    teardown
+    ENV['RELEASE'] = ''
+    @d = ''
+    @release = ''
+    @series = ''
+    @release_type = ''
+    @arch = ''
+    @components = ''
+    @stamp = ''
+    @release_distribution = ''
+    @repos = ''
   end
 
   def test_arch_array
     setup
-    assert @arch_array.include?('armhf')
-    teardown
-  end
-
-  def test_series_release
-    setup
-    assert_equal('netrunner-core-c1-next', @series_release)
-    teardown
-  end
-
-  def test_arm_board
-    setup
-    assert_equal('c1', @arm_board)
+    assert(@d.arch_array.include?(@arch))
     teardown
   end
 
   def test_aptly_options
     setup
     opts = {}
-    opts[:Distribution] = @series_release
-    opts[:Architectures] = @arch_array
+    opts[:Distribution] = @release_distribution
+    opts[:Architectures] = @d.arch_array
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
-    assert_equal(opts, @aptly_options)
+    assert_equal(opts, @d.aptly_options)
+    teardown
+  end
+
+  def test_snapshot_repo
+    setup
+    opts = @d.aptly_options
+    Aptly::Ext::Remote.expects(:connect).twice
+
+    fake_repo = mock('repo')
+    fake_repo.stubs(:packages).returns(['Parmhf base-files 10.5 abc'])
+    fake_repo.stubs(:Name).returns('netrunner-core-next')
+    fake_repo.stubs(:DefaultComponent).returns('netrunner-core')
+    assert_true(@repos.include?(fake_repo.Name))
+    @log = @d.send(:instance_variable_get, :@log)
+    @repo = @d.send(:instance_variable_get, :@repo)
+    Aptly::Repository.expects(:get).with('netrunner-core-next').returns(fake_repo)
+    @log.expects(:info).with("Phase 1: Snapshotting repo: #{fake_repo.Name} with packages: #{fake_repo.packages}")
+    assert_false(@repo.packages.empty?)
+    fake_snapshot = mock('snapshot')
+    assert(@repo.DefaultComponent == fake_repo.DefaultComponent)
+    @aptly_snapshot = @d.send(:instance_variable_get, :@aptly_snapshot)
+    @d.instance_variable_set(:@aptly_snapshot.DefaultComponent, fake_repo.DefaultComponent)
+    @repo.expects(:snapshot).with("#{fake_repo.Name}_#{@release_distribution}_#{@stamp}", opts).returns(fake_snapshot)
+    @snapshots = @d.send(:instance_variable_get, :@snapshots)
+    assert_not_nil(@snapshots)
+    assert(@snapshots.include?(@aptly_snapshot))
+    assert_equal(@aptly_snapshot.DefaultComponent, fake_repo.DefaultComponent)
+    @d.snapshot_repo
+    teardown
+
+
+    fake_repo2 = mock('repo')
+    fake_repo2.stubs(:packages).returns(nil)
+    fake_repo2.stubs(:Name).returns('extras-next')
+    fake_repo2.stubs(:DefaultComponent).returns('extras')
+    @d.instance_variable_set(:@repo, 'extras-next')
+    @repo =
+    Aptly::Repository.expects(:get).with(fake_repo.Name).returns(fake_repo)
+    @log.expects(:info).with("Phase 1: Snapshotting repo: #{fake_repo2.Name} with packages: #{fake_repo2.packages}")
+    fake_snapshot2 = mock('snapshot')
+    fake_snapshot2.stubs(:DefaultComponent).returns(fake_repo2.DefaultComponent)
+    @aptly_snapshot = @d.send(:instance_variable_get, :@aptly_snapshot)
+    @snapshots = @d.send(:instance_variable_get, :@snapshots)
+    Aptly::Snapshot.expects(:create).with("#{fake_repo2.Name}_#{@default_distribution}_#{@stamp}").returns(fake_snapshot2)
+
+    assert(@snapshots.count = 2)
+    @d.snapshot_repo
     teardown
   end
 end
