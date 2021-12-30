@@ -23,7 +23,6 @@
 require_relative '../lib/ci/build_source'
 require_relative '../lib/ci/orig_source_builder'
 require_relative '../lib/ci/tar_fetcher'
-require_relative '../lib/kdeify'
 require_relative '../lib/ci/generate_langpack_packaging'
 require_relative 'lib/settings'
 require_relative 'lib/setup_repo'
@@ -33,11 +32,10 @@ require_relative 'lib/setup_env'
 module DCISourcer
   class << self
     def sourcer_args
-      args = { release: ENV.fetch('SERIES'), strip_symbols: true }
+      args = { release: ENV.fetch('DIST'), strip_symbols: true }
       settings = DCI::Settings.for_job
       sourcer_settings = settings.fetch('sourcer', {})
-      restrict = sourcer_settings.fetch('restricted_packaging_copy',
-                                        nil)
+      restrict = sourcer_settings.fetch('restricted_packaging_copy', nil)
       return args unless restrict
 
       args[:restricted_packaging_copy] = restrict
@@ -56,9 +54,6 @@ module DCISourcer
       meths = {
         'tarball' => method(:run_tarball),
         'uscan' => method(:run_uscan),
-        'firefox' => method(:run_kdeify_ff),
-        'thunderbird' => method(:run_kdeify_tb),
-        'icedove' => method(:run_kdeify_ic),
         'kdel10n' => method(:run_l10n)
       }
       meth = meths.fetch(type, method(:run_fallback))
@@ -78,40 +73,6 @@ module DCISourcer
                                           mangle_download: false))
     end
 
-    def run_kdeify_ff
-      run_kdeify 'firefox'
-    end
-
-    def run_kdeify_ic
-      run_kdeify 'icedove'
-    end
-
-    def run_kdeify_tb
-      run_kdeify 'thunderbird'
-    end
-
-    def run_kdeify(type)
-      dsc = File.read('source/url').strip
-      Dir.chdir('build') do
-        system("dget -u #{dsc}")
-        dir = Dir.glob("#{type}-*/").first
-        FileUtils.ln_s(dir, 'packaging', verbose: true)
-        KDEIfy.firefox! if type == 'firefox'
-        KDEIfy.thunderbird! if type == 'thunderbird' || type == 'icedove'
-        Dir.chdir(dir) do
-          args = [
-            'dpkg-buildpackage',
-            '-us', '-uc', # Do not sign .dsc / .changes
-            '-S', # Only build source
-            '-d' # Do not enforce build-depends
-          ]
-          raise 'Could not run dpkg-buildpackage!' unless system(*args)
-        end
-        FileUtils.rm_rf(dir)
-        FileUtils.rm('packaging')
-      end
-    end
-
     def run_l10n
       lang = ARGV.fetch(1, nil)
       raise 'No lang specified' unless lang
@@ -125,7 +86,7 @@ module DCISourcer
 
     def run_fallback
       puts 'Unspecified source type, defaulting to VCS build...'
-      builder = CI::VcsSourceBuilder.new(release: ENV.fetch('SERIES'),
+      builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
                                          **sourcer_args)
       builder.run
     end
@@ -135,8 +96,8 @@ end
 # :nocov:
 if $PROGRAM_NAME == __FILE__
   ENV['RELEASEME_PROJECTS_API'] = '1'
-  DCI.setup_repo!
   DCI.setup_env!
+  DCI.setup_repo!
   DCISourcer.run
 end
 # :nocov:

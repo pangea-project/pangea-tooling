@@ -42,7 +42,7 @@
       <%= render_upstream_scm %>
     </scms>
   </scm>
-  <assignedNode>built-in</assignedNode>
+  <assignedNode><%= arch %></assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
@@ -60,11 +60,8 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-export SERIES=<%= series %>
-export RELEASE_TYPE=<%= release_type %>
-export RELEASE=<%= release %>
-export TYPE=<%= type %>
 export DIST=<%= dist %>
+export SERIES=<%= series %>
 ~/tooling/dci/contain.rb /tooling/dci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
       </command>
     </hudson.tasks.Shell>
