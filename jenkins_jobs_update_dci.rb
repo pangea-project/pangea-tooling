@@ -63,8 +63,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     #all_builds = []
     jobs = []
     CI::Overrides.default_files
-    DCI.series.each_key do |series|
-      @series = series
+    DCI.base_os_ids.each do |base_os_id|
+      @series = DCI.series_version_codename(DCI.series_version(base_os_id))
       puts "Series: #{@series}"
       @type = @series == 'next' ? 'unstable' : 'stable'
       DCI.release_types.each do |release_type|
@@ -76,11 +76,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           @release_data = DCI.get_release_data(@release_type, @dci_release)
           @arm = DCI.arm_board_by_release(@release_data)
           @release_arch = DCI.arch_by_release(@release_data)
-          @dist = DCI.series_release(@dci_release, @series)
+          @dist = DCI.release_distribution(@dci_release, @series)
           data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
           data_dir = File.expand_path(@series, @projects_dir)
-          puts "Working on Series: #{series} Release: #{@dci_release} Architecture: #{@release_arch}"
-          file = File.expand_path(data_file_name,  data_dir)
+          puts "Working on Series: #{@series} Release: #{@dci_release} Architecture: #{@release_arch}"
+          file = File.expand_path(data_file_name, data_dir)
           raise "#{file} doesn't exist!" unless file
 
           image_data = DCI.image_data_by_release_type(@release_type)
@@ -121,7 +121,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               series: @series,
               release_type: @release_type,
               release: @dci_release,
-              architecture: @release_arch
+              dist: @dist,
+              architecture: @release_arch,
+              arm_board: @arm
             )
           )
         end

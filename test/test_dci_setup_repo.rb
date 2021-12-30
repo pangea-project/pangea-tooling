@@ -46,9 +46,9 @@ class DCISetupRepoTest < TestCase
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     ENV['TYPE'] = 'stable'
-    @dist = DCI.series_distribution(@release, @series)
+    @dist = DCI.release_distribution(@release, @series)
     @prefix = DCI.aptly_prefix(@release_type)
-    @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
+    @components = DCI.release_components(DCI.get_release_data(@release_type, @release))
   end
 
   def teardown
@@ -118,7 +118,7 @@ class DCISetupRepoTest < TestCase
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     @prefix = DCI.aptly_prefix(@release_type)
-      @components = DCI.components_by_release(DCI.get_release_data(@release_type, @release))
+      @components = DCI.release_components(DCI.get_release_data(@release_type, @release))
     system_calls = [
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'upgrade'],
