@@ -16,10 +16,20 @@ SERIES = ENV.fetch('SERIES')
 BUILD_TAG = ENV.fetch('BUILD_TAG')
 DIST = ENV.fetch('DIST')
 # Whitelist a bunch of Jenkins variables for consumption inside the container.
-whitelist = %w[BUILD_CAUSE ROOT_BUILD_CAUSE RUN_DISPLAY_URL JOB_NAME
-               NODE_NAME NODE_LABELS SERIES BUILD_TAG DIST
-               PANGEA_PROVISION_AUTOINST SERIES
-               DH_VERBOSE WORKSPACE RELEASE_TYPE RELEASE]
+whitelist = %w[BUILD_CAUSE
+               ROOT_BUILD_CAUSE
+               RUN_DISPLAY_URL
+               JOB_NAME
+               NODE_NAME
+               NODE_LABELS
+               BUILD_TAG
+               RELEASE_TYPE
+               RELEASE
+               SERIES
+               DIST
+               PANGEA_PROVISION_AUTOINST
+               DH_VERBOSE
+               WORKSPACE]
 whitelist += (ENV['DOCKER_ENV_WHITELIST'] || '').split(':')
 ENV['DOCKER_ENV_WHITELIST'] = whitelist.join(':')
 
