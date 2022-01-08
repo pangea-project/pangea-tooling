@@ -27,12 +27,16 @@ require_relative '../lib/ci/generate_langpack_packaging'
 require_relative 'lib/settings'
 require_relative 'lib/setup_repo'
 require_relative 'lib/setup_env'
+require_relative '../lib/dci'
+
+
 
 # Module to handle dci source retrieval
 module DCISourcer
   class << self
+
     def sourcer_args
-      args = { release: ENV.fetch('DIST'), strip_symbols: true }
+      args = { release: ENV['RELEASE'], strip_symbols: true }
       settings = DCI::Settings.for_job
       sourcer_settings = settings.fetch('sourcer', {})
       restrict = sourcer_settings.fetch('restricted_packaging_copy', nil)
@@ -51,6 +55,7 @@ module DCISourcer
     end
 
     def run(type = ARGV.fetch(0, nil))
+      @release = ENV['RELEASE']
       meths = {
         'tarball' => method(:run_tarball),
         'uscan' => method(:run_uscan),
@@ -86,8 +91,7 @@ module DCISourcer
 
     def run_fallback
       puts 'Unspecified source type, defaulting to VCS build...'
-      builder = CI::VcsSourceBuilder.new(release: ENV.fetch('DIST'),
-                                         **sourcer_args)
+      builder = CI::VcsSourceBuilder.new(release: @release, **sourcer_args)
       builder.run
     end
   end

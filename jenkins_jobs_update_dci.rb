@@ -76,7 +76,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           @release_data = DCI.get_release_data(@release_type, @dci_release)
           @arm = DCI.arm_board_by_release(@release_data)
           @release_arch = DCI.arch_by_release(@release_data)
-          @dist = DCI.release_distribution(@dci_release, @series)
+          @release_distribution = DCI.release_distribution(@dci_release, @series)
           data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
           data_dir = File.expand_path(@series, @projects_dir)
           puts "Working on Series: #{@series} Release: #{@dci_release} Architecture: #{@release_arch}"
@@ -97,7 +97,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               release_type: @release_type,
               release: @dci_release,
               series: @series,
-              dist: @dist,
+              distribution: @release_distribution,
               architecture: @release_arch,
               upload_map: @upload_map
             )
@@ -109,6 +109,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             DCIImageJob.new(
               release: @dci_release,
               release_type: @release_type,
+              distribution: @release_distribution,
               series: @series,
               architecture: @release_arch,
               repo: image_data[:repo],
@@ -121,7 +122,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               series: @series,
               release_type: @release_type,
               release: @dci_release,
-              dist: @dist,
+              distribution: @release_distribution,
               architecture: @release_arch,
               arm_board: @arm
             )

@@ -25,66 +25,78 @@ require_relative '../lib/debian/version'
 require 'mocha/test_unit'
 
 class DCISourcerTest < TestCase
+
   def setup
-    ENV['DIST'] = 'netrunner-desktop-2101'
-    ENV['SERIES'] = '2101'
+    ENV['RELEASE'] = 'netrunner-desktop'
     ENV['BUILD_NUMBER'] = '123'
   end
 
   def teardown
-    ENV['DIST'] = ''
+    ENV['RELEASE'] = ''
     ENV['BUILD_NUMBER'] = ''
   end
 
   def test_run_fallback
+    setup
     fake_builder = mock('fake_builder')
     fake_builder.stubs(:run)
     CI::VcsSourceBuilder.expects(:new).returns(fake_builder)
     # Runs fallback
     DCISourcer.run
+    teardown
   end
 
   def test_run_tarball
+    setup
     Dir.mkdir('source')
     File.write('source/url', 'http://yolo')
 
     fake_tar = mock('fake_tar')
-    fake_tar.stubs(:origify).returns(fake_tar)
+
     fake_fetcher = mock('fake_fetcher')
     fake_fetcher.stubs(:fetch).with('source').returns(fake_tar)
     CI::URLTarFetcher.expects(:new).with('http://yolo').returns(fake_fetcher)
 
     fake_builder = mock('fake_builder')
     fake_builder.stubs(:build)
+    fake_tar.stubs(:origify).returns(fake_tar)
     fake_builder.stubs(:version)
-    CI::OrigSourceBuilder.expects(:new).with(release: ENV.fetch('DIST'), strip_symbols: true).returns(fake_builder)
+    CI::OrigSourceBuilder.expects(:new).with(release: 'netrunner-desktop', strip_symbols: true).returns(fake_builder)
 
     DCISourcer.run('tarball')
+    teardown
   end
 
   def test_run_uscan
+    setup
     fake_tar = mock('fake_tar')
-    fake_tar.stubs(:origify).returns(fake_tar)
     fake_fetcher = mock('fake_fetcher')
     fake_fetcher.stubs(:fetch).with('source').returns(fake_tar)
     CI::WatchTarFetcher.expects(:new).with('packaging/debian/watch', mangle_download: false).returns(fake_fetcher)
 
     fake_builder = mock('fake_builder')
+
+    fake_tar.stubs(:origify).returns(fake_tar)
     fake_builder.stubs(:build)
-    CI::OrigSourceBuilder.expects(:new).with(release: ENV.fetch('DIST'), strip_symbols: true).returns(fake_builder)
+    CI::OrigSourceBuilder.expects(:new).with(release: 'netrunner-desktop', strip_symbols: true).returns(fake_builder)
 
     DCISourcer.run('uscan')
+    teardown
   end
 
   def test_args
-    assert_equal({ release: ENV.fetch('DIST'), strip_symbols: true }, DCISourcer.sourcer_args)
+    setup
+    assert_equal({ release: 'netrunner-desktop', strip_symbols: true }, DCISourcer.sourcer_args)
+    teardown
   end
 
   def test_settings_args
+    setup
     DCI::Settings.expects(:for_job).returns(
       { 'sourcer' => { 'restricted_packaging_copy' => true } }
     )
-    assert_equal({ release: ENV.fetch('DIST'), strip_symbols: true, restricted_packaging_copy: true },
+    assert_equal({ release: ENV.fetch('RELEASE'), strip_symbols: true, restricted_packaging_copy: true },
                  DCISourcer.sourcer_args)
+    teardown
   end
 end

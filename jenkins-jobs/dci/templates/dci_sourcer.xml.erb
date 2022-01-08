@@ -60,8 +60,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-export DIST=<%= dist %>
-export SERIES=<%= series %>
+        export RELEASE=<%= release %>
 ~/tooling/dci/contain.rb /tooling/dci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
       </command>
     </hudson.tasks.Shell>
