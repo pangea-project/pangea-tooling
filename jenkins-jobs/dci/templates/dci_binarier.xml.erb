@@ -29,10 +29,8 @@
     <hudson.tasks.Shell>
       <command>
       #!/bin/bash
-        export SERIES=<%= series %>
-        export RELEASE=<%= release %>
-        export RELEASE_TYPE=<%= release_type %>
-        export DIST=<%= dist %>
+      export RELEASE_TYPE=<%= release_type %>
+      export RELEASE=<%= release %>
         ~/tooling/dci/contain.rb /tooling/dci/builder.rb
       </command>
     </hudson.tasks.Shell>

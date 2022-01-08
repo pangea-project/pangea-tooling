@@ -9,6 +9,7 @@ class DCISourcerJob < JenkinsJob
   attr_reader :upstream_scm
   attr_reader :type
   attr_reader :release
+  attr_reader :release_type
   attr_reader :packaging_scm
   attr_reader :packaging_branch
   attr_reader :downstream_triggers
