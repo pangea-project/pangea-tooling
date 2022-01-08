@@ -33,6 +33,7 @@ require 'tmpdir'
 require_relative 'lib/ci/fake_package'
 require_relative 'lib/rake/bundle'
 require_relative 'lib/nci'
+require_relative 'lib/dci'
 
 DIST = ENV.fetch('DIST')
 
@@ -47,14 +48,14 @@ EARLY_DEPS = [
 # simply a runtime (or provision time) dep of the tooling.
 CORE_RUNTIME_DEPS = %w[apt-transport-https software-properties-common].freeze
 DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
-          ubuntu-dev-tools gnome-pkg-tools git
-          zlib1g-dev sudo locales mercurial aptitude
-          autotools-dev cdbs dh-autoreconf dh-linktree germinate gnupg2
-          gobject-introspection sphinx-common po4a ppp-dev dh-di
-          libgirepository1.0-dev libglib2.0-dev bash-completion
-          python3-setuptools python3-setuptools-scm dkms
-          mozilla-devscripts libffi-dev subversion libcurl4-gnutls-dev
-          libhttp-parser-dev javahelper rsync man-db].freeze + CORE_RUNTIME_DEPS
+  ubuntu-dev-tools gnome-pkg-tools git gettext dpkg
+  zlib1g-dev sudo locales mercurial aptitude
+  autotools-dev cdbs dh-autoreconf dh-linktree
+  germinate gnupg2 gobject-introspection sphinx-common
+  po4a ppp-dev dh-dilibgi repository1.0-dev libglib2.0-dev
+  bash-completion python3-setuptools python3-setuptools-scm
+  dkms libffi-dev subversion libcurl4-gnutls-dev
+  libhttp-parser-dev javahelper rsync man-db].freeze + CORE_RUNTIME_DEPS
 
 def home
   '/var/lib/jenkins'
@@ -93,16 +94,16 @@ def install_fake_pkg(name)
 end
 
 def custom_version_id
-  require_relative 'lib/dci'
-  return unless DCI.series.keys.include?(DIST)
+  return unless OS::ID='debian' || OS::LIKE='debian'
 
+  series= DCI.current_series
   file = '/etc/os-release'
   os_release = File.readlines(file)
   # Strip out any lines starting with VERSION_ID
   # so that we don't end up with an endless number of VERSION_ID entries
   os_release.reject! { |l| l.start_with?('VERSION_ID') }
   system('dpkg-divert', '--local', '--rename', '--add', file) || raise
-  os_release << "VERSION_ID=\"#{DCI.series[DIST]}\"\n"
+  os_release << "VERSION_ID=#{series}\n"
   File.write(file, os_release.join)
 end
 
@@ -285,7 +286,7 @@ end
 # rubocop:enable Lint/UnreachableCode
 
 desc 'deploy inside the container'
-task :deploy_in_container => %i[fix_gpg align_ruby deploy_openqa] do
+task :deploy_in_container => %i[fix_gpg align_ruby_no_chef deploy_openqa] do
   final_ci_tooling_compat_path = File.join(home, 'tooling')
   final_ci_tooling_compat_compat_path = File.join(home, 'ci-tooling')
 

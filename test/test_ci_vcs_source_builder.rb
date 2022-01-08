@@ -17,7 +17,9 @@ require 'mocha/test_unit'
 require 'webmock/test_unit'
 
 class VCSBuilderTest < TestCase
-  required_binaries %w[dpkg-buildpackage dpkg dh]
+  required_binaries %w[
+    dpkg-buildpackage dpkg msgfmt dch dh
+  ]
 
   REF_TIME = '20150717.1756'
 
@@ -32,7 +34,7 @@ class VCSBuilderTest < TestCase
   end
 
   def fake_os_debian
-    fake_os('debian', 'unstable', '9')
+    fake_os('debian', 'stable', '10')
   end
 
   def setup
