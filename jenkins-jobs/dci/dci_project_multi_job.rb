@@ -25,10 +25,10 @@ require_relative 'publisher'
 require_relative 'dci_builder'
 require_relative '../job'
 require_relative 'multijob_phase'
-
+require_relative '../../lib/dci'
 # Magic builder to create an array of build steps
 class DCIProjectMultiJob < JenkinsJob
-  def self.job(project, type:, series:, release_type:, release:, dist:, upload_map:, architecture:)
+  def self.job(project, type:, series:, release_type:, release:, upload_map:, architecture:)
     return [] unless project.debian?
 
     architecture = architecture.dup
@@ -37,8 +37,8 @@ class DCIProjectMultiJob < JenkinsJob
     release_type = release_type.dup
     series = series.dup
     upload_map = upload_map.dup
-    dist = dist.dup
-    basename = DCIBuilderJobBuilder.basename(series, release_type, release, project.component, project.name, architecture)
+    release_distribution = DCI.release_distribution(release, series)
+    basename = DCIBuilderJobBuilder.basename(release_distribution, project.component, project.name, architecture)
 
     dependees = project.dependees.collect do |d|
       DCIBuilderJobBuilder.basename(series, release_type, release, d.component, d.name, architecture)
@@ -46,17 +46,18 @@ class DCIProjectMultiJob < JenkinsJob
     dependees = dependees.compact.uniq.sort
 
     publisher_dependees = project.dependees.collect do |d|
-      "#{DCIBuilderJobBuilder.basename(series, release_type, release, d.component, d.name, architecture)}_src"
+      "#{basename}_src"
     end.compact
 
     sourcer = DCISourcerJob.new(
       basename,
-      type: type,
       release: release,
       release_type: release_type,
       series: series,
-      dist: dist,
-      project: project)
+      type: type,
+      arch: architecture,
+      project: project
+    )
     publisher = DCIPublisherJob.new(
       basename,
       release: release,
@@ -64,13 +65,13 @@ class DCIProjectMultiJob < JenkinsJob
       series: series,
       dependees: publisher_dependees,
       component: project.component,
-      upload_map: upload_map)
+      upload_map: upload_map
+    )
     binarier = DCIBinarierJob.new(
       basename,
       release: release,
       release_type: release_type,
       series: series,
-      dist: dist,
       architecture: architecture
     )
     jobs = [sourcer, binarier, publisher]
@@ -150,4 +151,3 @@ class DCIProjectMultiJob < JenkinsJob
     end
   end
 end
-
