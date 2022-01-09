@@ -41,7 +41,7 @@ class DCIProjectMultiJob < JenkinsJob
     basename = DCIBuilderJobBuilder.basename(release_distribution, project.component, project.name, architecture)
 
     dependees = project.dependees.collect do |d|
-      DCIBuilderJobBuilder.basename(series, release_type, release, d.component, d.name, architecture)
+      DCIBuilderJobBuilder.basename(release_distribution, d.component, d.name, architecture)
     end
     dependees = dependees.compact.uniq.sort
 
