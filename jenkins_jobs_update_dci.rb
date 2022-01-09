@@ -97,7 +97,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               release_type: @release_type,
               release: @dci_release,
               series: @series,
-              distribution: @release_distribution,
               architecture: @release_arch,
               upload_map: @upload_map
             )
@@ -118,7 +117,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           )
           enqueue(
             DCISnapShotJob.new(
-              snapshot: "#{@dist}-#{@stamp}",
+              snapshot: "#{@release}-#{@stamp}",
               series: @series,
               release_type: @release_type,
               release: @dci_release,
