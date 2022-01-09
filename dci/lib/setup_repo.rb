@@ -58,7 +58,7 @@ module DCI
     raise 'update failed' unless Apt.update
 
     Retry.retry_it(times: 5, sleep: 2) do
-      type = @series == 'buster' ? "-t=buster-backports" : "-t=bullseye-backports"
+      type = @version_codename == 'buster' ? "-t=buster-backports" : "-t=bullseye-backports"
       raise 'backports upgrade failed' unless Apt.upgrade(type)
     end
   end
