@@ -108,7 +108,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             DCIImageJob.new(
               release: @dci_release,
               release_type: @release_type,
-              distribution: @release_distribution,
               series: @series,
               architecture: @release_arch,
               repo: image_data[:repo],
@@ -121,7 +120,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               series: @series,
               release_type: @release_type,
               release: @dci_release,
-              distribution: @release_distribution,
               architecture: @release_arch,
               arm_board: @arm
             )
