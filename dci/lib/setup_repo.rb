@@ -32,11 +32,11 @@ module DCI
   module_function
 
   def setup_repo!
-    @series = ENV.fetch('SERIES')
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
+    @version_codename = ENV.fetch('DIST')
     @prefix = DCI.aptly_prefix(@release_type)
-    @dist = DCI.release_distribution(@release, @series)
+    @dist = DCI.release_distribution(@release, @version_codename)
     @components = DCI.release_components(DCI.get_release_data(@release_type, @release))
     key = "#{__dir__}/../dci_apt.key"
     raise 'Failed to import key' unless Apt::Key.add(key)
@@ -53,7 +53,7 @@ module DCI
   end
 
   def setup_backports!
-    debline = @series == 'buster' ? 'deb http://deb.debian.org/debian buster-backports main' : 'deb http://deb.debian.org/debian bullseye-backports main'
+    debline = @version_codename == 'buster' ? 'deb http://deb.debian.org/debian buster-backports main' : 'deb http://deb.debian.org/debian bullseye-backports main'
     raise 'adding backports failed' unless Apt::Repository.add(debline)
     raise 'update failed' unless Apt.update
 
