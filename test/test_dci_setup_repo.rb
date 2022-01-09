@@ -39,10 +39,10 @@ class DCISetupRepoTest < TestCase
     reset_child_status!
     # Disable all web (used for key).
     WebMock.disable_net_connect!
-    ENV['SERIES'] = 'next'
+    ENV['DIST'] = 'next'
     ENV['RELEASE_TYPE'] = 'desktop'
     ENV['RELEASE'] = 'netrunner-desktop'
-    @series = ENV.fetch('SERIES')
+    @series = ENV.fetch('DIST')
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     ENV['TYPE'] = 'stable'
@@ -55,7 +55,7 @@ class DCISetupRepoTest < TestCase
     Apt::Repository.send(:reset)
 
     WebMock.allow_net_connect!
-    ENV['SERIES'] = nil
+    ENV['DIST'] = nil
     ENV['RELEASE_TYPE'] = nil
     ENV['RELEASE'] = nil
     ENV['TYPE'] = nil
@@ -111,7 +111,7 @@ class DCISetupRepoTest < TestCase
 
   def test_setup_repo!
     setup
-    ENV['SERIES'] = 'buster'
+    ENV['DIST'] = 'buster'
     ENV['RELEASE_TYPE'] = 'zynthbox'
     ENV['RELEASE'] = 'zynthbox-rpi4'
     @series = ENV.fetch('SERIES')
