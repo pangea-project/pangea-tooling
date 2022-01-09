@@ -67,7 +67,7 @@ class CIBuildVersionTest < TestCase
     v = CI::BuildVersion.new(c)
     suffix = v.send(:instance_variable_get, :@suffix)
     parts = suffix.split('+')
-    assert_equal('p9', parts[1])
+    assert_equal('p10', parts[1])
 
     OS.instance_variable_set(:@hash, ID: 'ubuntu')
     c = Changelog.new(data)
