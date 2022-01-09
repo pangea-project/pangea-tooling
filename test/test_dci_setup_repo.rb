@@ -114,7 +114,7 @@ class DCISetupRepoTest < TestCase
     ENV['DIST'] = 'buster'
     ENV['RELEASE_TYPE'] = 'zynthbox'
     ENV['RELEASE'] = 'zynthbox-rpi4'
-    @series = ENV.fetch('SERIES')
+    @series = ENV.fetch('DIST')
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     @prefix = DCI.aptly_prefix(@release_type)
