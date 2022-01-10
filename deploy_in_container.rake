@@ -34,6 +34,7 @@ require_relative 'lib/ci/fake_package'
 require_relative 'lib/rake/bundle'
 require_relative 'lib/nci'
 require_relative 'lib/dci'
+require_relative 'lib/os'
 
 DIST = ENV.fetch('DIST')
 
@@ -94,7 +95,7 @@ def install_fake_pkg(name)
 end
 
 def custom_version_id
-  return unless OS::ID=='debian' || OS::LIKE=='debian'
+  return unless OS::ID=='debian' || OS::ID_LIKE.include?('debian')
 
   series= DCI.current_series
   file = '/etc/os-release'
