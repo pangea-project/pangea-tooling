@@ -19,7 +19,6 @@ gem 'concurrent-ruby'
 gem 'deep_merge', '~> 1.0'
 gem 'docker-api', '~> 2.0' # Container.refresh! only introduced in 1.23
 gem 'faraday' # implicit dep but also explicitly used in e.g. torrent tech
-gem 'gir_ffi'
 gem 'git'
 gem 'gitlab'
 gem 'htmlentities'
