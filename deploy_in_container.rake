@@ -53,7 +53,7 @@ DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
   zlib1g-dev sudo locales mercurial aptitude
   autotools-dev cdbs dh-autoreconf dh-linktree
   germinate gnupg2 gobject-introspection sphinx-common
-  po4a ppp-dev dh-dilibgi repository1.0-dev libglib2.0-dev
+  po4a ppp-dev repository1.0-dev libglib2.0-dev
   bash-completion python3-setuptools python3-setuptools-scm
   dkms libffi-dev subversion libcurl4-gnutls-dev
   libhttp-parser-dev javahelper rsync man-db].freeze + CORE_RUNTIME_DEPS
