@@ -95,6 +95,7 @@ def install_fake_pkg(name)
 end
 
 def custom_version_id
+  return if OS::ID_LIKE.include?('ubuntu')
   return unless OS::ID=='debian' || OS::ID_LIKE.include?('debian')
 
   series= DCI.current_series
