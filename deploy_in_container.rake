@@ -94,7 +94,7 @@ def install_fake_pkg(name)
 end
 
 def custom_version_id
-  return unless OS::ID='debian' || OS::LIKE='debian'
+  return unless OS::ID=='debian' || OS::LIKE=='debian'
 
   series= DCI.current_series
   file = '/etc/os-release'
