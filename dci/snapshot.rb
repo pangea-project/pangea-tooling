@@ -44,27 +44,24 @@ class DCISnapshot
     @image_data = DCI.all_image_data
     @release_type = ENV.fetch('RELEASE_TYPE')
     @snapshot = ENV.fetch('SNAPSHOT')
-    @series = ENV.fetch('SERIES')
+    @series = ENV.fetch('DIST')
     @release = ENV.fetch('RELEASE')
     @release_data = DCI.get_release_data(@release_type, @release)
-    @components = DCI.release_components(@release_data)
     @arch = DCI.arch_by_release(@release_data)
-    @arm_board = DCI.arm_board_by_release(@release_data)
     @release_distribution = DCI.release_distribution(@release, @series)
-    @arch_array = []
-    @aptly_snapshot = {}
-    @snapshots = []
-    @repos = DCI.series_release_repos(@series, @components)
-    @repo = ''
+    @components = DCI.release_components(@release_data)
     @prefix = DCI.aptly_prefix(@release_type)
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @log = Logger.new($stdout).tap do |l|
       l.progname = 'snapshotter'
       l.level = Logger::INFO
     end
+    @opts = {}
+
   end
 
   def arch_array
+    @arch_array = []
     @arch_array << @arch
     @arch_array << 'i386'
     @arch_array << 'all'
@@ -80,27 +77,38 @@ class DCISnapshot
     opts[:Architectures] = arch_array
     opts[:ForceOverwrite] = true
     opts[:SourceKind] = 'snapshot'
-    opts
+    @opts
+  end
+
+  def release_repos
+    DCI.series_release_repos(@series, @components)
+  end
+
+  def aptly_repo(repo)
+    @repo = Aptly::Repository.get(repo)
+  end
+
+  def process_release_repos
+    @repos.each do |repo_name|
+      aptly_repo(repo_name)
+      snapshot_repo
+    end
   end
 
   def snapshot_repo
-    opts = aptly_options
     Faraday.default_connection_options =
       Faraday::ConnectionOptions.new(timeout: 40 * 60 * 60)
     Aptly::Ext::Remote.dci do
-      @repos.each do |repo_name|
-        @repo = Aptly::Repository.get(repo_name)
         @log.info "Phase 1: Snapshotting repo: #{@repo.Name} with packages: #{@repo.packages}"
 
         if @repo.packages.empty?
-          @aptly_snapshot = Aptly::Snapshot.create("#{@repo.Name}_#{@release_distribution}_#{@stamp}", opts)
+          @aptly_snapshot = Aptly::Snapshot.create("#{@repo.Name}_#{@release_distribution}_#{@stamp}", aptly_options)
         else
-          @aptly_snapshot = @repo.snapshot("#{@repo.Name}_#{@release_distribution}_#{@stamp}", opts)
+          @aptly_snapshot = @repo.snapshot("#{@repo.Name}_#{@release_distribution}_#{@stamp}", aptly_options)
         end
         @aptly_snapshot.DefaultComponent = @repo.DefaultComponent
         @snapshots << @aptly_snapshot
         @log.info 'Phase 1: Snapshotting complete'
-      end
     end
   end
 
