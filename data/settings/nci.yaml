@@ -10,6 +10,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_backports-focal_gpgme1.0_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-focal_assimp_*':
   sourcer:
     restricted_packaging_copy: true
