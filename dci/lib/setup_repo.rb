@@ -53,6 +53,7 @@ module DCI
   end
 
   def setup_backports!
+    puts "=== Version codename is #{@version_codename} ==="
     debline = @version_codename == 'buster' ? 'deb http://deb.debian.org/debian buster-backports main' : 'deb http://deb.debian.org/debian bullseye-backports main'
     raise 'adding backports failed' unless Apt::Repository.add(debline)
     raise 'update failed' unless Apt.update
