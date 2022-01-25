@@ -40,7 +40,7 @@ class DeployTest < TestCase
     CI::PangeaImage.namespace = @namespace
     @oldhome = ENV.fetch('HOME')
     @oldlabels = ENV['NODE_LABELS']
-    ENV['NODE_LABELS'] = 'master'
+    ENV['NODE_LABELS'] = 'built-in'
 
     # Hardcode ubuntu as the actual live values change and that would mean
     # a) regenerating the test data for no good reason
