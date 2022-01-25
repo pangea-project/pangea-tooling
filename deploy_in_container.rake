@@ -96,9 +96,9 @@ end
 
 def custom_version_id
   return if OS::ID == 'ubuntu'
-  return unless OS::ID=='debian' || OS::ID_LIKE.include?('debian')
+  return unless OS::ID=='debian' || OS::ID_LIKE=='debian'
 
-  series= DCI.current_series
+  series = DIST
   file = '/etc/os-release'
   os_release = File.readlines(file)
   # Strip out any lines starting with VERSION_ID
