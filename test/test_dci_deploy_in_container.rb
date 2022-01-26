@@ -20,6 +20,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'vcr'
+require 'rake'
 
 require_relative '../lib/ci/containment'
 require_relative 'lib/testcase'
@@ -53,7 +54,7 @@ class DCIDeployInContainerTest < TestCase
 
   def create_container
     puts "Creating new base image #{@image}"
-    Docker::Image.create(fromImage: 'debian:22').tag(repo: @repo,
+    Docker::Image.create(fromImage: 'debian:bullseye').tag(repo: @repo,
                                                         tag: 'latest')
   end
   # :nocov:
@@ -117,11 +118,28 @@ class DCIDeployInContainerTest < TestCase
     end
   end
 
+  def test_custom_version_id
+    ENV['OS::ID'] = 'netrunner-22'
+    ENV['ID::LIKE'] = 'debian'
+    ENV['DIST'] = '22'
+
+    file = "#{datadir}/os-release"
+    series = ENV.fetch('DIST')
+    os_release = File.readlines(file)
+    # Strip out any lines starting with VERSION_ID
+    # so that we don't end up with an endless number of VERSION_ID entries
+    os_release.reject! { |l| l.start_with?('VERSION_ID') }
+    assert_equal(os_release.each { |l| l.start_with?('VERSION_ID') }, [])
+    os_release << "VERSION_ID=#{series}\n"
+    File.write(file, os_release.join)
+    os_release = File.readlines(file)
+    assert_equal(["VERSION_ID=22\n"], os_release.each { |l| l.start_with?('VERSION_ID') })
+  end
+
   def test_success
     vcr_it(__method__) do
       c = CI::Containment.new(@job_name, image: @image, binds: @binds)
-      cmd = ['sh', '/tooling-pending/deploy_in_container.sh',
-             'debian', '22']
+      cmd = ['sh', '/tooling-pending/deploy_in_container.sh']
       ret = c.run(Cmd: cmd)
       assert_equal(0, ret)
       # The script has testing capability built in since we have no proper
