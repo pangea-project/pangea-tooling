@@ -58,7 +58,9 @@ ubuntu_series.each_index do |index|
   pid_map[pid] = "ubuntu-#{series}"
 end
 
-debian_series = DCI.series_version_codenames
+=begin
+FIXME DCI disabled jriddell 2021-06-07 due to broken deployments
+debian_series = DCI.version_codenames
 debian_series = [] if ENV.include?('PANGEA_UBUNTU_ONLY')
 debian_series.each do |series|
   name = "debian-#{series}"
@@ -72,6 +74,7 @@ debian_series.each do |series|
 
   pid_map[pid] = "debian-#{series}"
 end
+=end
 
 
 ec = Process.waitall

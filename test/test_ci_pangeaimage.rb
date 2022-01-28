@@ -25,10 +25,6 @@ class PangeaImageTest < TestCase
     series = 'wily'
     i = CI::PangeaImage.new(flavor, series)
     assert_image(flavor, series, i)
-    flavor = 'debian'
-    series = '22'
-    i = CI::PangeaImage.new(flavor, series)
-    assert_image(flavor, series, i)
   end
 
   def test_to_str
@@ -48,10 +44,6 @@ class PangeaImageTest < TestCase
     # :ubuntu to 'ubuntu' works as expected.
     # assert_image in fact relies on it.
     assert_equal("#{@namespace}/ubuntu:wily", image.to_s)
-    flavor = :debian
-    series = '22'
-    image = CI::PangeaImage.new(flavor, series)
-    assert_equal("#{@namespace}/debian:22", image.to_s)
   end
 
   def test_tag_args
@@ -63,16 +55,7 @@ class PangeaImageTest < TestCase
                  tag_args)
     # Merge doesn't break it
     assert_equal({ repo: "#{@namespace}/#{flavor}", tag: series, force: true },
-    tag_args.merge(force: true))
-    flavor = :debian
-    series = '22'
-    image = CI::PangeaImage.new(flavor, series)
-    tag_args = image.tag_args
-    assert_equal({ repo: "#{@namespace}/#{flavor}", tag: series },
-                 tag_args)
-    # Merge doesn't break it
-    assert_equal({ repo: "#{@namespace}/#{flavor}", tag: series, force: true },
-    tag_args.merge(force: true))
+                 tag_args.merge(force: true))
   end
 
   def test_arch_split
@@ -83,9 +66,6 @@ class PangeaImageTest < TestCase
     image = CI::PangeaImage.new('ubuntu', 'focal')
     assert_equal('ubuntu', image.flavor)
     assert_equal("#{@namespace}/ubuntu-arm64:focal", image.to_s)
-    image = CI::PangeaImage.new('debian', '22')
-    assert_equal('debian', image.flavor)
-    assert_equal("#{@namespace}/debian-arm64:22", image.to_s)
   end
 
   def test_arch_split_missing_arch
