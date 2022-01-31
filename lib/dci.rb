@@ -8,6 +8,7 @@ module DCI
   module_function
 
   def series_version(base_os_id)
+    series = data['series']
     series[base_os_id]
   end
 
