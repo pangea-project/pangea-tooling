@@ -96,16 +96,15 @@ end
 
 def custom_version_id
   return if OS::ID == 'ubuntu'
-  return unless OS::ID=='debian' || OS::ID_LIKE.include?('debian')
+  return unless OS::ID=='debian' || OS::ID_LIKE=='debian'
 
-  series= DCI.current_series
   file = '/etc/os-release'
   os_release = File.readlines(file)
   # Strip out any lines starting with VERSION_ID
   # so that we don't end up with an endless number of VERSION_ID entries
   os_release.reject! { |l| l.start_with?('VERSION_ID') }
   system('dpkg-divert', '--local', '--rename', '--add', file) || raise
-  os_release << "VERSION_ID=#{series}\n"
+  os_release << "VERSION_ID=#{DIST}\n"
   File.write(file, os_release.join)
 end
 
