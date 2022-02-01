@@ -34,9 +34,9 @@ module DCI
   def setup_repo!
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
-    @version_codename = ENV.fetch('DIST')
+    @series = OS::VERSION_ID
     @prefix = DCI.aptly_prefix(@release_type)
-    @dist = DCI.release_distribution(@release, @version_codename)
+    @dist = DCI.release_distribution(@release, @series)
     @components = DCI.release_components(DCI.get_release_data(@release_type, @release))
     key = "#{__dir__}/../dci_apt.key"
     raise 'Failed to import key' unless Apt::Key.add(key)
@@ -53,13 +53,13 @@ module DCI
   end
 
   def setup_backports!
-    debline = @version_codename == 'buster' ? 'deb http://deb.debian.org/debian buster-backports main' : 'deb http://deb.debian.org/debian bullseye-backports main'
+    debline = @series == 'buster' ? 'deb http://deb.debian.org/debian buster-backports main' : 'deb http://deb.debian.org/debian bullseye-backports main'
     raise 'adding backports failed' unless Apt::Repository.add(debline)
     raise 'update failed' unless Apt.update
 
     Retry.retry_it(times: 5, sleep: 2) do
-      type = @version_codename == 'buster' ? "-t=buster-backports" : "-t=bullseye-backports"
-      raise 'backports upgrade failed. Version codename is #{@version_codename}' unless Apt.upgrade(type)
+      type = @series == 'buster' ? "-t=buster-backports" : "-t=bullseye-backports"
+      raise "backports upgrade failed. Version codename is #{@series}" unless Apt.upgrade(type)
     end
   end
 

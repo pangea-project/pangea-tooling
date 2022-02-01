@@ -23,6 +23,7 @@
 
 require_relative '../dci/lib/setup_repo'
 require_relative 'lib/testcase'
+require_relative '../lib/os'
 
 require 'mocha/test_unit'
 require 'webmock/test_unit'
@@ -39,10 +40,11 @@ class DCISetupRepoTest < TestCase
     reset_child_status!
     # Disable all web (used for key).
     WebMock.disable_net_connect!
-    ENV['DIST'] = 'next'
+    OS.instance_variable_set(:@hash, VERSION_ID: '22')
+
     ENV['RELEASE_TYPE'] = 'desktop'
     ENV['RELEASE'] = 'netrunner-desktop'
-    @series = ENV.fetch('DIST')
+    @series = OS::VERSION_ID
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     ENV['TYPE'] = 'stable'
@@ -55,7 +57,6 @@ class DCISetupRepoTest < TestCase
     Apt::Repository.send(:reset)
 
     WebMock.allow_net_connect!
-    ENV['DIST'] = nil
     ENV['RELEASE_TYPE'] = nil
     ENV['RELEASE'] = nil
     ENV['TYPE'] = nil
@@ -96,7 +97,7 @@ class DCISetupRepoTest < TestCase
     setup
     system_calls = [
       ["apt-get", *Apt::Abstrapt.default_args, "install", "software-properties-common"],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-desktop-next netrunner extras artwork common backports netrunner-core netrunner-desktop']
+      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-desktop-22 netrunner extras artwork common backports netrunner-core netrunner-desktop']
     ]
     system_sequence = sequence('system-calls')
     system_calls.each do |cmd|
@@ -111,10 +112,10 @@ class DCISetupRepoTest < TestCase
 
   def test_setup_repo!
     setup
-    ENV['DIST'] = 'buster'
+    OS.instance_variable_set(:@hash, VERSION_ID: 'buster')
     ENV['RELEASE_TYPE'] = 'zynthbox'
     ENV['RELEASE'] = 'zynthbox-rpi4'
-    @series = ENV.fetch('DIST')
+    @series = OS::VERSION_ID
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     @prefix = DCI.aptly_prefix(@release_type)
