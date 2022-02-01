@@ -62,8 +62,8 @@
       <command>
         export RELEASE=<%= release %>
         export RELEASE_TYPE=<%= release_type %>
-        export DIST=<%= series %>
-~/tooling/dci/contain.rb /tooling/dci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
+        export SERIES=<%= series %>
+        ~/tooling/dci/contain.rb /tooling/dci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
       </command>
     </hudson.tasks.Shell>
   </builders>
