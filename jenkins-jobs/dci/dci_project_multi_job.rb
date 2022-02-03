@@ -101,9 +101,11 @@ class DCIProjectMultiJob < JenkinsJob
   # FIXME: this is a compat thingy for sourcer (see render method)
   attr_reader :upstream_scm
 
+  attr_reader :architecture
+
   private
 
-  def initialize(basename, project:, jobs:, dependees: [])
+  def initialize(basename, project:, architecture:, jobs:, dependees: [])
     super(basename, 'project.xml.erb')
 
     # We use nested jobs for phases with multiple jobs, we need to aggregate
