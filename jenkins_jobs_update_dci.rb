@@ -105,7 +105,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           end
 
           enqueue(
-            DCIImageJob.new(
+            DCIImageJob.new
               release: @dci_release,
               release_type: @release_type,
               series: @series,
@@ -137,17 +137,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTDCIReleaseBranchingJob.new)
   end
 end
-           #  # Remove everything but source as they are the anchor points for
-           #  # other jobs that might want to reference them.
-           #  all_builds.select! { |j| j.job_name.end_with?('_src') }
-           #  # This could actually returned into a collect if placed below
-           #  meta_build = MetaBuildJob.new(
-           #  type: @series,
-           #  distribution: release,
-           #  downstream_jobs: all_builds
-           # )
-           # all_meta_builds << enqueue(meta_build)
-           # image Jobs
+
 
 
 if $PROGRAM_NAME == __FILE__
