@@ -55,7 +55,7 @@ class DCIProjectMultiJob < JenkinsJob
       release_type: release_type,
       series: series,
       type: type,
-      arch: architecture,
+      architecture: architecture,
       project: project
     )
     publisher = DCIPublisherJob.new(
@@ -63,6 +63,7 @@ class DCIProjectMultiJob < JenkinsJob
       release: release,
       release_type: release_type,
       series: series,
+      architecture: architecture,
       dependees: publisher_dependees,
       component: project.component,
       upload_map: upload_map

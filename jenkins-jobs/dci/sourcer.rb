@@ -15,9 +15,9 @@ class DCISourcerJob < JenkinsJob
   attr_reader :packaging_branch
   attr_reader :downstream_triggers
   attr_reader :component
-  attr_reader :arch
+  attr_reader :architecture
 
-  def initialize(basename, project:, series:, type:, release_type:, release:, arch:)
+  def initialize(basename, project:, series:, type:, release_type:, release:, architecture:)
     super("#{basename}_src", 'dci_sourcer.xml.erb')
     @name = project.name
     @component = project.component
@@ -27,7 +27,7 @@ class DCISourcerJob < JenkinsJob
     @release_type = release_type
     @release = release
     @series = series
-    @arch = arch
+    @architecture = architecture
     @packaging_scm = project.packaging_scm.dup
     @release_distribution = DCI.release_distribution(@release, @series)
     @packaging_branch = @packaging_scm.branch
