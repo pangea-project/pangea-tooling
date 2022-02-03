@@ -74,7 +74,7 @@ class DCITest < TestCase
 
   def test_releases_for_type
     assert_equal(%w[netrunner-desktop], DCI.releases_for_type('desktop'))
-    assert_equal(%w[netrunner-core netrunner-core-c1], DCI.releases_for_type('core'))
+    assert_equal(%w[netrunner-core], DCI.releases_for_type('core'))
     assert_is_a(DCI.releases_for_type('desktop'), Array)
   end
 
@@ -82,28 +82,24 @@ class DCITest < TestCase
     assert_equal(
       { 'netrunner-core' =>
           { 'arch' => 'amd64',
-            'components' => 'netrunner extras artwork common backports netrunner-core' },
-        'netrunner-core-c1' =>
-           { 'arch' => 'armhf',
-             'arm_board' => 'c1',
-             'components' => 'netrunner extras artwork common backports c1 netrunner-core' } },
+            'components' => 'netrunner extras artwork common backports netrunner-core' }}
       DCI.release_data_for_type('core')
     )
   end
 
   def test_get_release_data
-    release_data = DCI.get_release_data('core', 'netrunner-core-c1')
+    release_data = DCI.get_release_data('core', 'netrunner-core')
     assert_is_a(release_data, Hash)
-    assert_equal('armhf', release_data['arch'])
+    assert_equal('amd64', release_data['arch'])
     assert_equal(
-      'netrunner extras artwork common backports c1 netrunner-core', release_data['components']
+      'netrunner extras artwork common backports netrunner-core', release_data['components']
     )
   end
 
   def test_release_image_data
-    image_data = DCI.release_image_data('core', 'netrunner-core-c1')
+    image_data = DCI.release_image_data('core', 'netrunner-core)
     assert_is_a(image_data, Hash)
-    assert_equal('https://github.com/netrunner-odroid/c1-live-build-core', image_data[:repo])
+    assert_equal('https://github.com/netrunner-desktop/live-build', image_data[:repo])
   end
 
   def test_arm_board_by_release
