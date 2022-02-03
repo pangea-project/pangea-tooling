@@ -14,7 +14,7 @@ class DCIPublisherJob < JenkinsJob
   attr_reader :component
   attr_reader :architecture
 
-  def initialize(basename, release_type:, release:, series:, dependees:, component:, upload_map:)
+  def initialize(basename, release_type:, release:, series:, architecture:, dependees:, component:, upload_map:)
     super("#{basename}_pub", 'dci_publisher.xml.erb')
     @release = release
     @release_type = release_type
@@ -24,6 +24,7 @@ class DCIPublisherJob < JenkinsJob
     @downstream_triggers = []
     @basename = basename
     @component = component
+    @architecture = architecture
     @repo_names = []
 
     if upload_map

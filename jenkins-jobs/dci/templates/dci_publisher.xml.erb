@@ -18,7 +18,7 @@
     </org.jenkins.plugins.lockableresources.RequiredResourcesProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
-  <assignedNode>built-in</assignedNode>
+  <assignedNode><%= architecture %></assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
@@ -27,18 +27,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
-      <project><%= basename %>_src</project>
-      <filter></filter>
-      <target></target>
-      <excludes></excludes>
-      <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
-        <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
-      </selector>
-      <flatten>true</flatten>
-      <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
-    </hudson.plugins.copyartifact.CopyArtifact>
-    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
-    <project><%= basename %>_bin</project>
+      <project><%= basename %>_bin</project>
       <filter></filter>
       <target></target>
       <excludes></excludes>
