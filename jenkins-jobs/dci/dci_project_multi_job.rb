@@ -79,7 +79,7 @@ class DCIProjectMultiJob < JenkinsJob
     basename1 = jobs[0].job_name.rpartition('_')[0]
     raise "unexpected basename diff #{basename} v #{basename1}" unless basename == basename1
 
-    jobs << new(basename, project: project, jobs: jobs, dependees: dependees, architecture: architecture)
+    jobs << new(basename, project: project, jobs: jobs, dependees: dependees)
     # The actual jobs array cannot be nested, so flatten it out.
     jobs.flatten
   end
