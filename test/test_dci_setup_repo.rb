@@ -48,7 +48,7 @@ class DCISetupRepoTest < TestCase
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     ENV['TYPE'] = 'stable'
-    @dist = DCI.release_distribution(@release, @series)
+    @distribution = DCI.release_distribution(@release, @series)
     @prefix = DCI.aptly_prefix(@release_type)
     @components = DCI.release_components(DCI.get_release_data(@release_type, @release))
   end
@@ -61,7 +61,7 @@ class DCISetupRepoTest < TestCase
     ENV['RELEASE'] = nil
     ENV['TYPE'] = nil
     @prefix = ''
-    @dist = ''
+    @distribution = ''
     @components = []
   end
 
@@ -106,7 +106,7 @@ class DCISetupRepoTest < TestCase
             .returns(true)
             .in_sequence(system_sequence)
     end
-    DCI.add_repos(@prefix, @dist, @components)
+    DCI.add_repos(@prefix, @distribution, @components)
     teardown
   end
 
