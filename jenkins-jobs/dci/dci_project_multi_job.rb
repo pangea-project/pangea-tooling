@@ -120,6 +120,7 @@ class DCIProjectMultiJob < JenkinsJob
     @jobs = job_names.flatten.freeze
     @dependees = dependees.freeze
     @project = project.freeze
+    @architecture = architecture.freeze
   end
 
   def render_phases
