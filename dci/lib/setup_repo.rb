@@ -36,7 +36,7 @@ module DCI
     @release = ENV.fetch('RELEASE')
     @series = OS::VERSION_ID
     @prefix = DCI.aptly_prefix(@release_type)
-    @dist = DCI.release_distribution(@release, @series)
+    @distribution = DCI.release_distribution(@release, @series)
     @components = DCI.release_components(DCI.get_release_data(@release_type, @release))
     key = "#{__dir__}/../dci_apt.key"
     raise 'Failed to import key' unless Apt::Key.add(key)
@@ -45,7 +45,7 @@ module DCI
 
     setup_i386!
     setup_backports!
-    add_repos(@prefix, @dist, @components)
+    add_repos(@prefix, @distribution, @components)
   end
 
   def setup_i386!
