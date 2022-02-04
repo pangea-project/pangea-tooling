@@ -9,7 +9,7 @@ class DCITest < TestCase
   end
 
   def test_release_types
-    assert_equal(%w[desktop core zeronet zynthbox], DCI.release_types)
+    assert_equal(%w[desktop core zynthbox], DCI.release_types)
   end
 
   def test_series_version_codename
@@ -82,7 +82,8 @@ class DCITest < TestCase
     assert_equal(
       { 'netrunner-core' =>
           { 'arch' => 'amd64',
-            'components' => 'netrunner extras artwork common backports netrunner-core' }}
+            'components' => 'netrunner extras artwork common backports netrunner-core' }
+          },
       DCI.release_data_for_type('core')
     )
   end
@@ -97,28 +98,25 @@ class DCITest < TestCase
   end
 
   def test_release_image_data
-    image_data = DCI.release_image_data('core', 'netrunner-core)
+    image_data = DCI.release_image_data('desktop', 'netrunner-desktop')
     assert_is_a(image_data, Hash)
     assert_equal('https://github.com/netrunner-desktop/live-build', image_data[:repo])
   end
 
   def test_arm_board_by_release
-    release_data = DCI.get_release_data('core', 'netrunner-core-c1')
-    assert_equal('c1', DCI.arm_board_by_release(release_data))
+    release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
+    assert_equal('rpi4', DCI.arm_board_by_release(release_data))
     release_data2 = DCI.get_release_data('core', 'netrunner-core')
     assert_equal(nil, DCI.arm_board_by_release(release_data2))
-    release_data = DCI.get_release_data('zeronet', 'netrunner-zeronet-rock64')
-    assert_equal('rock64', DCI.arm_board_by_release(release_data))
   end
 
   def test_release_components
-    release_data = DCI.get_release_data('core', 'netrunner-core-c1')
+    release_data = DCI.get_release_data('core', 'netrunner-core')
     assert_equal(["netrunner",
  "extras",
  "artwork",
  "common",
  "backports",
- "c1",
  "netrunner-core"], DCI.release_components(release_data))
     release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
     assert_equal(['zynthbox'], DCI.release_components(release_data))
@@ -140,14 +138,13 @@ class DCITest < TestCase
 
   def test_series_release_repos
     series_version_codename = '22'
-    release_components = %w[netrunner extras artwork common backports c1 netrunner-core]
+    release_components = %w[netrunner extras artwork common backports netrunner-core]
     assert_is_a(DCI.series_release_repos(series_version_codename, release_components), Array)
-    assert_equal(%w[netrunner-22 extras-22 artwork-22 common-22 backports-22 c1-22 netrunner-core-22], DCI.series_release_repos(series_version_codename, release_components))
+    assert_equal(%w[netrunner-22 extras-22 artwork-22 common-22 backports-22 netrunner-core-22], DCI.series_release_repos(series_version_codename, release_components))
   end
 
   def test_arm
-    assert_equal(true, DCI.arm?('netrunner-core-c1'))
-    assert_true(DCI.arm?('netrunner-zeronet-rock64'))
+    assert_true(DCI.arm?('zynthbox-rpi4'))
   end
 
   def test_arch_by_release

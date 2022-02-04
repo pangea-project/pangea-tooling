@@ -53,7 +53,7 @@ module DCI
   end
 
   def arm?(rel)
-    rel.end_with?('c1', 'rock64', 'rpi4')
+    rel.end_with?('rpi4')
   end
 
   def arm_board_by_release(release_data)
