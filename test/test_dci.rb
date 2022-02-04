@@ -55,8 +55,8 @@ class DCITest < TestCase
 
   def test_all_image_data
     assert_is_a(DCI.all_image_data, Hash)
-    assert_equal_collection(%w[desktop core zeronet zynthbox], DCI.all_image_data.keys)
-    assert_equal_collection(%w[netrunner-core netrunner-core-c1], DCI.all_image_data['core'].keys)
+    assert_equal_collection(%w[desktop core zynthbox], DCI.all_image_data.keys)
+    assert_equal_collection(%w[netrunner-core], DCI.all_image_data['core'].keys)
   end
 
   def test_image_data_by_release_type
