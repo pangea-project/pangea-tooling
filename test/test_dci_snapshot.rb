@@ -20,7 +20,7 @@ class DCISnapshotTest < TestCase
     # Disable all web (used for key).
     WebMock.disable_net_connect!
     ENV['RELEASE_TYPE'] = 'core'
-    ENV['RELEASE'] = 'netrunner-core-c1'
+    ENV['RELEASE'] = 'netrunner-core'
     ENV['SERIES'] = 'next'
     ENV['SNAPSHOT'] = '1'
     ENV['WORKSPACE'] = File.dirname(__dir__) # main pangea-tooling dir
@@ -28,12 +28,12 @@ class DCISnapshotTest < TestCase
     @release = @d.send(:instance_variable_get, :@release)
     @series = @d.send(:instance_variable_get, :@series)
     @release_type = @d.send(:instance_variable_get, :@release_type)
-    DCI.stubs(:arch_by_release).returns('armhf')
+    DCI.stubs(:arch_by_release).returns('amd64')
     @arch = @d.send(:instance_variable_get, :@arch)
     DCI.stubs(:release_components).returns(['netrunner-core', 'extras'])
     @components = @d.send(:instance_variable_get, :@components)
     @stamp = @d.send(:instance_variable_get, :@stamp)
-    DCI.stubs(:release_distribution).returns('netrunner-core-c1-next')
+    DCI.stubs(:release_distribution).returns('netrunner-core-next')
     @release_distribution = @d.send(:instance_variable_get, :@release_distribution)
     DCI.stubs(:series_release_repos).returns('netrunner-core-next', 'extras-next')
     @repos = @d.send(:instance_variable_get, :@repos)
