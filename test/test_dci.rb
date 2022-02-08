@@ -43,6 +43,7 @@ class DCITest < TestCase
     assert_is_a(series, Hash)
     assert_equal(22, series['netrunner'])
     assert_equal(10, series['zynthbox'])
+    assert_equal([22, 23, 10], DCI.series.values)
   end
 
   def test_latest_series
