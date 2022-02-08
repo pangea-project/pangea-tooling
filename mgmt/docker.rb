@@ -58,9 +58,7 @@ ubuntu_series.each_index do |index|
   pid_map[pid] = "ubuntu-#{series}"
 end
 
-base_os_ids = DCI.base_os_ids
-base_os_ids.each_key do |base_os_id|
-  series_version = DCI.series_version(base_os_id)
+DCI.series.each_key do |series_version|
   series = DCI.series_version_codename(series_version)
   series = [] if ENV.include?('PANGEA_UBUNTU_ONLY')
   name = "debian-#{series}"
