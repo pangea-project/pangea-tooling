@@ -235,18 +235,18 @@ task :align_ruby do
   end
 end
 
-RUBY_2_7_5 = '/tmp/2.7.5'.freeze
-RUBY_2_7_5_URL = 'https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.7.5'.freeze
+RUBY_3_0_3 = '/tmp/3.0.3'.freeze
+RUBY_3_0_3_URL = 'https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/3.0.3'.freeze
 
 desc 'Upgrade to newer ruby if required, no kitchen'
 task :align_ruby_no_chef do
   puts "Ruby version #{RbConfig::CONFIG['MAJOR']}.#{RbConfig::CONFIG['MINOR']}"
-  if RbConfig::CONFIG['MAJOR'].to_i <= 2 && RbConfig::CONFIG['MINOR'].to_i < 7
+  if RbConfig::CONFIG['MAJOR'].to_i <= 3 && RbConfig::CONFIG['MINOR'].to_i < 0
     puts 'Bootstraping ruby'
     system('apt-get -y install ruby-build')
-    File.write(RUBY_2_7_5, open(RUBY_2_7_5_URL).read)
-    raise 'Failed to update ruby to 2.7.5' unless
-      system("ruby-build #{RUBY_2_7_5} /usr/local")
+    File.write(RUBY_3_0_3, open(RUBY_3_0_3_URL).read)
+    raise 'Failed to update ruby to 3.0.3' unless
+      system("ruby-build #{RUBY_3_0_3} /usr/local")
     puts 'Ruby bootstrapped, running deployment again'
     case $?.exitstatus
     when 0 # installed version is fine, we are happy.
