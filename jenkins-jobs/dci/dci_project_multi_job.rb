@@ -45,10 +45,6 @@ class DCIProjectMultiJob < JenkinsJob
     end
     dependees = dependees.compact.uniq.sort
 
-    publisher_dependees = project.dependees.collect do |d|
-      "#{basename}_src"
-    end.compact
-
     sourcer = DCISourcerJob.new(
       basename,
       release: release,
@@ -64,7 +60,6 @@ class DCIProjectMultiJob < JenkinsJob
       release_type: release_type,
       series: series,
       architecture: architecture,
-      dependees: publisher_dependees,
       component: project.component,
       upload_map: upload_map
     )
