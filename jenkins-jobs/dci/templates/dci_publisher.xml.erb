@@ -58,10 +58,9 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>
-      export APTLY_REPOSITORY=<%= distribution %>
+        export APTLY_REPOSITORY=<%= distribution %>
       <%  repos = repo_names.uniq.compact.map { |x| "--repo #{x}" }.join(' ') %>
       ~/tooling/ci/pangea_dput --gateway ssh://dci@dci.ds9.pub:8081 <%= repos %>  *.changes
-
       </command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
