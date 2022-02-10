@@ -12,6 +12,7 @@ class DCIPublisherJob < JenkinsJob
   attr_reader :repo
   attr_reader :component
   attr_reader :architecture
+  attr_reader :artifact_origin
 
   def initialize(basename, release_type:, release:, series:, architecture:, component:, upload_map:)
     super("#{basename}_pub", 'dci_publisher.xml.erb')
