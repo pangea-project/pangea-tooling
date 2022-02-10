@@ -13,7 +13,6 @@ class DCISourcerJob < JenkinsJob
   attr_reader :series
   attr_reader :packaging_scm
   attr_reader :packaging_branch
-  attr_reader :downstream_triggers
   attr_reader :component
   attr_reader :architecture
 
@@ -32,11 +31,6 @@ class DCISourcerJob < JenkinsJob
     @release_distribution = DCI.release_distribution(@release, @series)
     @packaging_branch = @packaging_scm.branch
 
-    @downstream_triggers = []
-  end
-
-  def trigger(job)
-    @downstream_triggers << job.job_name
   end
 
   def render_upstream_scm

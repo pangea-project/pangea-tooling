@@ -63,6 +63,7 @@
         export RELEASE=<%= release %>
         export RELEASE_TYPE=<%= release_type %>
         export SERIES=<%= series %>
+        export TYPE=<%= type %>
         ~/tooling/dci/contain.rb /tooling/dci/sourcer.rb <%= upstream_scm ? upstream_scm.type : '' %>
       </command>
     </hudson.tasks.Shell>
