@@ -91,7 +91,7 @@ module DCISourcer
 
     def run_fallback
       puts 'Unspecified source type, defaulting to VCS build...'
-      builder = CI::VcsSourceBuilder.new(release: @release, **sourcer_args)
+      builder = CI::VcsSourceBuilder.new(**sourcer_args)
       builder.run
     end
   end
