@@ -8,7 +8,7 @@ class DCIBinarierJob < JenkinsJob
   attr_reader :release_type
   attr_reader :series
   attr_reader :artifact_origin
-  attr_reader :downstream_triggers
+  attr_reader :artifact_perm
   attr_reader :architecture
 
   def initialize(basename, release:, release_type:, series:, architecture:)
@@ -19,10 +19,7 @@ class DCIBinarierJob < JenkinsJob
     @series = series
     @architecture = architecture
     @artifact_origin = "#{basename}_src"
-    @downstream_triggers = []
+    @artifact_perm = "#{basename}_pub"
   end
 
-  def trigger(job)
-    @downstream_triggers << job.job_name
-  end
 end

@@ -1,9 +1,36 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.1' encoding='UTF-8'?>
 <project>
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.8">
+      <useBuildBlocker>false</useBuildBlocker>
+      <blockLevel>GLOBAL</blockLevel>
+      <scanQueueFor>DISABLED</scanQueueFor>
+      <blockingJobs></blockingJobs>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
+    <com.suryagaddipati.jenkins.SlaveUtilizationProperty plugin="slave-utilization-plugin@1.8">
+      <needsExclusiveAccessToNode>false</needsExclusiveAccessToNode>
+      <singleInstancePerSlave>false</singleInstancePerSlave>
+      <slaveUtilizationPercentage>0</slaveUtilizationPercentage>
+    </com.suryagaddipati.jenkins.SlaveUtilizationProperty>
+    <hudson.plugins.copyartifact.CopyArtifactPermissionProperty plugin="copyartifact@1.46.2">
+      <projectNameList>
+        <string><%= artifact_perm %></string>
+      </projectNameList>
+    </hudson.plugins.copyartifact.CopyArtifactPermissionProperty>
+    <org.jenkins.plugins.lockableresources.RequiredResourcesProperty plugin="lockable-resources@2.14">
+      <labelName>APTLY</labelName>
+    </org.jenkins.plugins.lockableresources.RequiredResourcesProperty>
+    <com.synopsys.arc.jenkinsci.plugins.jobrestrictions.jobs.JobRestrictionProperty plugin="job-restrictions@0.8"/>
+    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@2.6">
+      <categories class="java.util.concurrent.CopyOnWriteArrayList"/>
+      <throttleEnabled>false</throttleEnabled>
+      <throttleOption>project</throttleOption>
+      <limitOneJobWithMatchingParams>false</limitOneJobWithMatchingParams>
+      <paramsToUseForLimit></paramsToUseForLimit>
+    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <assignedNode><%= architecture %></assignedNode>
@@ -14,7 +41,7 @@
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.35.1">
+    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.46.2">
       <project><%= artifact_origin %></project>
       <filter></filter>
       <target></target>
@@ -22,6 +49,7 @@
       <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
         <fallbackToLastSuccessful>true</fallbackToLastSuccessful>
         <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
+        <allowUpstreamDependencies>false</allowUpstreamDependencies>
       </selector>
       <flatten>true</flatten>
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
@@ -29,11 +57,12 @@
     <hudson.tasks.Shell>
       <command>
       #!/bin/bash
-      export RELEASE_TYPE=<%= release_type %>
-      export RELEASE=<%= release %>
       export SERIES=<%= series %>
-        ~/tooling/dci/contain.rb /tooling/dci/builder.rb
+      export RELEASE=<%= release %>
+      export RELEASE_TYPE=<%= release_type %>
+      ~/tooling/dci/contain.rb /tooling/dci/builder.rb
       </command>
+      <configuredLocalRules/>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -41,10 +70,13 @@
       <artifacts>result/*</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>true</onlyIfSuccessful>
-      <fingerprint>false</fingerprint>
+      <fingerprint>true</fingerprint>
       <defaultExcludes>true</defaultExcludes>
+      <caseSensitive>true</caseSensitive>
+      <followSymlinks>true</followSymlinks>
     </hudson.tasks.ArtifactArchiver>
-      <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.28">
+    <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.40">
+      <patterns class="empty-list"/>
       <deleteDirs>true</deleteDirs>
       <skipWhenFailed>false</skipWhenFailed>
       <cleanWhenSuccess>true</cleanWhenSuccess>
@@ -53,18 +85,20 @@
       <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
       <cleanWhenAborted>true</cleanWhenAborted>
       <notFailBuild>false</notFailBuild>
-      <cleanupMatrixParent>true</cleanupMatrixParent>
-      <externalDelete/>
+      <cleanupMatrixParent>false</cleanupMatrixParent>
+      <externalDelete></externalDelete>
+      <disableDeferredWipeout>false</disableDeferredWipeout>
     </hudson.plugins.ws__cleanup.WsCleanup>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6.2"/>
-    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.26">
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.40">
       <deleteDirs>false</deleteDirs>
       <cleanupParameter></cleanupParameter>
       <externalDelete></externalDelete>
+      <disableDeferredWipeout>false</disableDeferredWipeout>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
-    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.17"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@1.0.1">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
   </buildWrappers>
