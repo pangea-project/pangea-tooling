@@ -7,17 +7,31 @@ module DCI
 
   module_function
 
+  def project(series_version)
+    series[series_version]
+  end
+
   def series_version(base_os_id)
     series = data['series']
     series[base_os_id]
   end
 
-  def latest_series
-    data['series']['netrunner']
+  def latest_series(project)
+    data['latest_series'][project]
   end
 
-  def previous_series
-    data['previous_series']
+  def upload_map_repo(component)
+    data = File.expand_path('../data', __dir__)
+    upload_map_file = File.expand_path('dci.upload.yaml', data)
+    return unless File.exist?(upload_map_file)
+
+    map = YAML.load_file(upload_map_file)
+    @repo = map[component]
+    @repo ||= map['default']
+  end
+
+  def previous_series(project)
+    data['previous_series'][project]
   end
 
   def series_version_codename(series_version)

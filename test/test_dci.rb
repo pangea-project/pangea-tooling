@@ -27,7 +27,7 @@ class DCITest < TestCase
   end
 
   def test_series_version
-    assert_equal(22, DCI.series_version('netrunner'))
+    assert_equal('22', DCI.series_version('netrunner'))
   end
 
   def test_base_os_ids
@@ -41,17 +41,17 @@ class DCITest < TestCase
   def test_series
     series = DCI.series
     assert_is_a(series, Hash)
-    assert_equal(22, series['netrunner'])
-    assert_equal(10, series['zynthbox'])
-    assert_equal([22, 23, 10], DCI.series.values)
+    assert_equal('22', series['netrunner'])
+    assert_equal('10', series['zynthbox'])
+    assert_equal(['22', '23', '10'], DCI.series.values)
   end
 
   def test_latest_series
-    assert_equal(22, DCI.latest_series)
+    assert_equal('22', DCI.latest_series('netrunner'))
   end
 
   def test_previous_series
-    assert_equal('21.01', DCI.previous_series)
+    assert_equal('21.01', DCI.previous_series('netrunner'))
   end
 
   def test_all_image_data
@@ -125,6 +125,11 @@ class DCITest < TestCase
 
   def test_arm_boards
     assert_equal(%w[c1 rock64 rpi4], DCI.arm_boards)
+  end
+
+  def test_upload_map_repo
+    assert_equal('extras', DCI.upload_map_repo('dci-extras-packaging'))
+    assert_equal('netrunner', DCI.upload_map_repo(''))
   end
 
   def test_aptly_prefix

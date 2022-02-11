@@ -24,11 +24,11 @@ class DCIPublisherJob < JenkinsJob
     @component = component
     @architecture = architecture
     @distribution = DCI.release_distribution(@release, @series)
+    @upload_map = upload_map
     @repo_names = []
 
     if upload_map
-      @repo = upload_map[@component]
-      @repo ||= upload_map['default']
+      @repo = DCI.upload_map_repo(@component)
     end
   end
 
