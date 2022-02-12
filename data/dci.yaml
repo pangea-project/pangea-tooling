@@ -3,9 +3,9 @@ series:
   netrunner-next: '23'
   zynthbox: '10'
 series_version_codenames:
-  22: '22'
-  23: 'next'
-  10: 'buster'
+  '22': '22'
+  '23': 'next'
+  '10': 'buster'
 previous_series:
   netrunner: '21.01'
   netrunner-next: '22'
