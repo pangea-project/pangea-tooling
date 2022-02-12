@@ -38,18 +38,18 @@ module Branching
   end
 
   def latest_series_branch
-    "heads/Netrunner/#{DCI.latest_series}"
+    "heads/Netrunner/#{DCI.latest_series('netrunner')}"
   end
 
   def previous_series_branch
-    "heads/Netrunner/#{DCI.previous_series}"
+    "heads/Netrunner/#{DCI.previous_series('netrunner')}"
   end
 
   def client
     Octokit.auto_paginate = true
     Octokit::Client.new(access_token: ENV['OCTOKIT_ACCESS_TOKEN'])
   end
-  
+
   # Check for master branch, if it doesn't exist put in depreciated var to be consumed later with archiving.
   def branch_exist?(branch, repo_fullname)
     branches = []
@@ -88,7 +88,7 @@ module Branching
   end
 
   def create_latest_series_branch(repo_fullname)
-    sha_latest_commit_previous_series_branch = client.ref(repo_fullname, "heads/Netrunner/#{DCI.previous_series}")
+    sha_latest_commit_previous_series_branch = client.ref(repo_fullname, previous_series_branch)
     client.create_ref(repo_fullname, latest_series_branch, sha_latest_commit_previous_series_branch.object.sha)
   end
 

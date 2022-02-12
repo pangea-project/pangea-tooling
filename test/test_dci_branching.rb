@@ -78,8 +78,8 @@ class DCIBranchingTest < TestCase
 
   def test_branches
     assert_equal(master_branch, 'heads/master')
-    assert_equal(latest_series_branch, "heads/Netrunner/#{DCI.latest_series}")
-    assert_equal(previous_series_branch, "heads/Netrunner/#{DCI.previous_series}")
+    assert_equal(latest_series_branch, "heads/Netrunner/#{DCI.latest_series('netrunner')}")
+    assert_equal(previous_series_branch, "heads/Netrunner/#{DCI.previous_series('netrunner')}")
   end
 
   def test_branch_exist?
