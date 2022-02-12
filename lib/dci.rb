@@ -12,8 +12,11 @@ module DCI
   end
 
   def series_version(base_os_id)
-    series = data['series']
     series[base_os_id]
+  end
+
+  def series
+    data['series']
   end
 
   def latest_series(project)
