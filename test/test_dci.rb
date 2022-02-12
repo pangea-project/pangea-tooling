@@ -13,9 +13,9 @@ class DCITest < TestCase
   end
 
   def test_series_version_codename
-    assert_equal('buster', DCI.series_version_codename(10))
-    assert_equal('next', DCI.series_version_codename(23))
-    assert_equal('22', DCI.series_version_codename(22))
+    assert_equal('buster', DCI.series_version_codename('10'))
+    assert_equal('next', DCI.series_version_codename('23'))
+    assert_equal('22', DCI.series_version_codename('22'))
   end
 
   def test_architectures
