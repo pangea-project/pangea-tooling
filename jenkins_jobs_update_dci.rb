@@ -47,7 +47,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     JenkinsJob.flavor_dir = File.expand_path('jenkins-jobs/dci', __dir__)
     return unless File.exist?(upload_map_file)
 
-    @upload_map = YAML.load_file(upload_map_file)
+    @upload_map = true
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
     @dci_release = ''
     @release_arch = ''

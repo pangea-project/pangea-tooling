@@ -22,7 +22,6 @@ class DCISnapshotTest < TestCase
     ENV['RELEASE_TYPE'] = 'core'
     ENV['RELEASE'] = 'netrunner-core'
     ENV['SERIES'] = 'next'
-    ENV['SNAPSHOT'] = '1'
     ENV['WORKSPACE'] = File.dirname(__dir__) # main pangea-tooling dir
     @d = DCISnapshot.new
     @release = @d.send(:instance_variable_get, :@release)

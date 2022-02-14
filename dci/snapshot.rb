@@ -43,7 +43,6 @@ class DCISnapshot
   def initialize
     @image_data = DCI.all_image_data
     @release_type = ENV.fetch('RELEASE_TYPE')
-    @snapshot = ENV.fetch('SNAPSHOT')
     @series = ENV.fetch('SERIES')
     @release = ENV.fetch('RELEASE')
     @release_data = DCI.get_release_data(@release_type, @release)
@@ -58,6 +57,7 @@ class DCISnapshot
     @repo = ''
     @prefix = DCI.aptly_prefix(@release_type)
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
+    @snapshot = DCI.series_version + '-21122'
     @log = Logger.new($stdout).tap do |l|
       l.progname = 'snapshotter'
       l.level = Logger::INFO
