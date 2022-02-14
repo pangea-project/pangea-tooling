@@ -37,6 +37,7 @@ require 'fileutils'
 require_relative '../lib/dci'
 require_relative '../lib/aptly-ext/remote'
 require_relative '../lib/ci/pattern'
+require_relative '../lib/os'
 
 # Run aptly snapshot on given distribution eg: netrunner-desktop-next.
 class DCISnapshot
@@ -57,7 +58,7 @@ class DCISnapshot
     @repo = ''
     @prefix = DCI.aptly_prefix(@release_type)
     @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
-    @snapshot = DCI.series_version + '-21122'
+    @snapshot = @series + '-21122'
     @log = Logger.new($stdout).tap do |l|
       l.progname = 'snapshotter'
       l.level = Logger::INFO

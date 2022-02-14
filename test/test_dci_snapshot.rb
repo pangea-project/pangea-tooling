@@ -107,13 +107,14 @@ class DCISnapshotTest < TestCase
     fake_repo2.stubs(:Name).returns('extras-next')
     fake_repo2.stubs(:DefaultComponent).returns('extras')
     @d.instance_variable_set(:@repo, 'extras-next')
-    @repo =
-    Aptly::Repository.expects(:get).with(fake_repo.Name).returns(fake_repo)
+
+    Aptly::Repository.expects(:get).with(fake_repo2.Name).returns(fake_repo2)
     @log.expects(:info).with("Phase 1: Snapshotting repo: #{fake_repo2.Name} with packages: #{fake_repo2.packages}")
     fake_snapshot2 = mock('snapshot')
     fake_snapshot2.stubs(:DefaultComponent).returns(fake_repo2.DefaultComponent)
     @aptly_snapshot = @d.send(:instance_variable_get, :@aptly_snapshot)
     @snapshots = @d.send(:instance_variable_get, :@snapshots)
+      @repo.expects(:snapshot).with("#{fake_repo2.Name}_#{@release_distribution}_#{@stamp}", opts).returns(fake_snapshot2)
     Aptly::Snapshot.expects(:create).with("#{fake_repo2.Name}_#{@default_distribution}_#{@stamp}").returns(fake_snapshot2)
 
     assert(@snapshots.count = 2)
