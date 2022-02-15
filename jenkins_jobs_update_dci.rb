@@ -116,7 +116,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           )
           enqueue(
             DCISnapShotJob.new(
-              snapshot: "#{@release}-#{@stamp}",
               series: @series,
               release_type: @release_type,
               release: @dci_release,
