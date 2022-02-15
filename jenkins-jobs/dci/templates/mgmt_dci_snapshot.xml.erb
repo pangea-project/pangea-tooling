@@ -25,16 +25,15 @@
       </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
     </properties>
     <scm class="hudson.scm.NullSCM"/>
-    <assignedNode><%= arch %></assignedNode>
+    <assignedNode>built-in</assignedNode>
     <canRoam>false</canRoam>
     <disabled>false</disabled>
     <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
-    <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
     <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>
-        export SNAPSHOT=<%= snapshot %>
         export RELEASE=<%= release %>
         export RELEASE_TYPE=<%= release_type %>
         export SERIES=<%= series %>
@@ -44,7 +43,7 @@
   </builders>
   <publishers>
     <hudson.tasks.BuildTrigger>
-      <childProjects>img_<%= series %>_<%= release %>_<%= arch %><%= arm_board  ? "_#{@arm_board}" : '' %></childProjects>
+      <childProjects>img_<%= series %>_<%= release %>_<%= architecture %><%= arm_board  ? "_#{@arm_board}" : '' %></childProjects>
       <threshold>
         <name>SUCCESS</name>
         <ordinal>0</ordinal>
