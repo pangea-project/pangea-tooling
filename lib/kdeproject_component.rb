@@ -26,8 +26,42 @@ class KDEProjectsComponent
   class << self
     @@projects_to_jobs = {'discover'=>'plasma-discover', 'kcalendarcore'=>'kcalcore', 'kdeconnect-kde'=>'kdeconnect', 'kdev-php'=>'kdevelop-php', 'kdev-python'=>'kdevelop-python'}
     @@projects_without_jobs = ['plasma-tests', 'akonadi-airsync', 'akonadi-exchange', 'akonadi-phabricator-resource', 'kpeoplesink', 'akonadiclient', 'kblog']
-    ## The only way to get a list of what is in PlaMo Gear releases seems to be a manually maintained list
-    @@plasma_mobile = %w{alligator angelfish calindori kalk kclock koko kongress krecorder ktrip plasma-dialer plasma-phonebook plasma-settings qmlkonsole spacebar neochat}
+    ## The only way to get a list of what is in PlaMo Gear releases seems to be a manually maintained list from https://plasma-mobile.org/info/plasma-mobile-gear-22-02/
+    @@plasma_mobile = %w{
+      alligator
+      angelfish
+      audiotube
+      calindori
+      kalk
+      kasts
+      kclock
+      keysmith
+      khealthcertificate
+      koko
+      kongress
+      krecorder
+      ktrip
+      kweather
+      neochat
+      plasma-dialer
+      plasma-phonebook
+      plasma-settings
+      plasmatube
+      qmlkonsole
+      spacebar
+      tokodon
+      vakzination
+      plasma-mobile-sounds
+    }.sort
+    @@plasma_mobile = @@plasma_mobile - %w{
+      kclock
+      krecorder
+      qmlkonsole
+      tokodon
+      plasmatube
+      khealthcertificate
+      vakzination
+    }
 
     def frameworks
       @frameworks ||= to_names(projects('frameworks'))
