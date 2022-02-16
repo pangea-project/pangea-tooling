@@ -73,7 +73,7 @@ BLACKLIST = [
 KEY_MAPS = {
   'plasma-workspace' => 'Plasma by KDE',
   'kconfig' => 'KDE Frameworks',
-  'okular' => 'Release Service'
+  'okular' => 'KDE Gear'
 }
 
 key_file = ENV.fetch('SSH_KEY_FILE', nil)
