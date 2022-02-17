@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 require_relative 'dci_project_multi_job'
+require_relative '../job'
 require_relative '../../lib/dci'
 
 # publisher
-class DCIPublisherJob < DCIProjectMultiJob
+class DCIPublisherJob < JenkinsJob
   attr_reader :distribution
   attr_reader :basename
   attr_reader :repo
