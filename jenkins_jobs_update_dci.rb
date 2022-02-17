@@ -97,6 +97,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               release_type: @release_type,
               release: @dci_release,
               series: @series,
+              distribution: @release_distribution,
               architecture: @release_arch,
               upload_map: @upload_map
             )

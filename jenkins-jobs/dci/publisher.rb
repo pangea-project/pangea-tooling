@@ -1,39 +1,31 @@
 # frozen_string_literal: true
-require_relative '../job'
+require_relative 'dci_project_multi_job'
 require_relative '../../lib/dci'
 
 # publisher
-class DCIPublisherJob < JenkinsJob
-  attr_reader :release
-  attr_reader :release_type
-  attr_reader :series
+class DCIPublisherJob < DCIProjectMultiJob
   attr_reader :distribution
   attr_reader :basename
   attr_reader :repo
   attr_reader :component
+  attr_reader :name
   attr_reader :architecture
-  attr_reader :artifact_origin
 
-  def initialize(basename, release_type:, release:, series:, architecture:, component:, upload_map:)
+  def initialize(basename, distribution:, component:, name:, architecture:, upload_map:)
     super("#{basename}_pub", 'dci_publisher.xml.erb')
-    @release = release
-    @release_type = release_type
-    @series = series
-    @artifact_origin = "#{basename}_bin"
-    @basename = basename
+    @distribution = distribution
     @component = component
+    @name = name
     @architecture = architecture
-    @distribution = DCI.release_distribution(@release, @series)
     @upload_map = upload_map
-    @repo_names = []
+    raise 'We can do nothing here without an upload_map' unless @upload_map
 
-    if upload_map
-      @repo = DCI.upload_map_repo(@component)
-    end
+    @repo = DCI.upload_map_repo(@component)
+    @repo_names = []
   end
 
   def repo_names
-    @repo_names = ["#{@component}-#{@series}"]
+    @repo_names << DCI.series_release_repo(@series, @repo)
     @repo_names
   end
 

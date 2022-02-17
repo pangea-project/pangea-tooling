@@ -132,6 +132,12 @@ class DCITest < TestCase
     assert_equal('netrunner', DCI.upload_map_repo(''))
   end
 
+  def test_series_release_repo
+    repo = DCI.upload_map_repo('dci-extras-packaging')
+    assert_equal('extras-22', DCI.series_release_repo('22', repo))
+  end
+
+
   def test_aptly_prefix
     assert_equal('zynthbox', DCI.aptly_prefix('zynthbox'))
     assert_equal('netrunner', DCI.aptly_prefix('core'))
