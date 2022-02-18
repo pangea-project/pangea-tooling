@@ -24,8 +24,8 @@ module DCI
   end
 
   def upload_map_repo(component)
-    data = File.expand_path('../data', __dir__)
-    upload_map_file = File.expand_path('dci.upload.yaml', data)
+    upload_data = File.expand_path('../data', __dir__)
+    upload_map_file = File.expand_path('dci.upload.yaml', upload_data)
     return unless File.exist?(upload_map_file)
 
     map = YAML.load_file(upload_map_file)
