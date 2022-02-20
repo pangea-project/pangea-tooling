@@ -11,6 +11,7 @@ class DCIPublisherJob < JenkinsJob
   attr_reader :component
   attr_reader :name
   attr_reader :architecture
+  attr_reader :repo_name
 
   def initialize(basename, distribution:, component:, name:, architecture:, upload_map:)
     super("#{basename}_pub", 'dci_publisher.xml.erb')
@@ -23,14 +24,8 @@ class DCIPublisherJob < JenkinsJob
     raise 'We can do nothing here without an upload_map' unless @upload_map
 
     @repo = DCI.upload_map_repo(@component)
-    @repo_names = []
+    @repo_name = DCI.series_release_repo(@series, @repo)
   end
-
-  def repo_names
-    @repo_names << DCI.series_release_repo(@series, @repo)
-    @repo_names
-  end
-
 
   def aptly_resources
     @repo_names.size > 1 ? 0 : 1
