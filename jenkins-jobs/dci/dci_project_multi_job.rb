@@ -57,6 +57,7 @@ class DCIProjectMultiJob < JenkinsJob
     publisher = DCIPublisherJob.new(
       basename,
       distribution: release_distribution,
+      series: series,
       architecture: architecture,
       component: project.component,
       name: project.name,
