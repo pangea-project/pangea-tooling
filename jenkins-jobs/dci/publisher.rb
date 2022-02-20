@@ -29,6 +29,6 @@ class DCIPublisherJob < JenkinsJob
   end
 
   def aptly_resources
-    @repo_names.size > 1 ? 0 : 1
+    @repo_name.size > 1 ? 0 : 1
   end
 end
