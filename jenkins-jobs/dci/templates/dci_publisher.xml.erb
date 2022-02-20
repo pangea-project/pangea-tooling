@@ -91,7 +91,7 @@
       <command>
         export APTLY_REPOSITORY=<%= distribution %>
         <%  repos = repo_names.uniq.compact.map { |x| "--repo #{x}" }.join(' ') %>
-        ~/tooling/ci/pangea_dput --gateway ssh://dci@dci.ds9.pub:8081 <%= repos %>  *.changes
+        ~/tooling/ci/pangea_dput --gateway ssh://dci@dci.ds9.pub:8081 <%= repo %>  *.changes
       </command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
