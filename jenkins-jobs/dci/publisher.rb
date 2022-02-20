@@ -14,6 +14,7 @@ class DCIPublisherJob < JenkinsJob
 
   def initialize(basename, distribution:, component:, name:, architecture:, upload_map:)
     super("#{basename}_pub", 'dci_publisher.xml.erb')
+    @basename = basename
     @distribution = distribution
     @component = component
     @name = name
