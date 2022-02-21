@@ -54,7 +54,7 @@ daily failed to install and then failed to purge. Maybe check maintscripts?
 
     Retry.retry_it(times: 5, sleep: 5) do
       #raise unless candidate_ppa.add
-      raise candidate_ppa.add
+      candidate_ppa.add
     end
 
     unless candidate_ppa.install
