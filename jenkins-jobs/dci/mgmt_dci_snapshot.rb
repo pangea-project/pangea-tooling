@@ -18,7 +18,7 @@ class DCISnapShotJob < JenkinsJob
     if @arm_board
       super("snapshot_#{@series}_#{@release_type}_#{@release}_#{@architecture}_#{@arm_board}", 'mgmt_dci_snapshot.xml.erb')
     else
-      super("snapshot_#{@series}_#{@release_type}_#{@release}_#{@architecture})", 'mgmt_dci_snapshot.xml.erb')
+      super("snapshot_#{@series}_#{@release_type}_#{@release}_#{@architecture}", 'mgmt_dci_snapshot.xml.erb')
     end
   end
 end
