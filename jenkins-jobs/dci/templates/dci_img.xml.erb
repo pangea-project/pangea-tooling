@@ -4,6 +4,10 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
    <properties>
+     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.29.4">
+       <projectUrl><%= repo %></projectUrl>
+       <displayName></displayName>
+     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.3">
       <useBuildBlocker>false</useBuildBlocker>
       <blockLevel>GLOBAL</blockLevel>
@@ -24,12 +28,12 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url><%= @repo %></url>
+        <url><%= repo %></url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>*/<%= @branch %></name>
+        <name>*/<%= branch %></name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
