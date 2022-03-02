@@ -115,6 +115,6 @@ module DCI
   end
 
   def release_image_data(type, release)
-    image_data_by_release_type(type)[release].to_h
+    image_data_by_release_type(type).fetch(release).to_h
   end
 end

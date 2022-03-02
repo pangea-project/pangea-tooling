@@ -102,6 +102,7 @@ class DCITest < TestCase
     image_data = DCI.release_image_data('desktop', 'netrunner-desktop')
     assert_is_a(image_data, Hash)
     assert_equal('https://github.com/netrunner-desktop/live-build', image_data[:repo])
+    assert_equal('Netrunner/22', image_data[:releases].fetch('22'))
   end
 
   def test_arm_board_by_release

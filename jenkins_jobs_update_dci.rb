@@ -53,6 +53,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     @release_arch = ''
     @release_type = ''
     @series = ''
+    @release_image_data = {}
     super
   end
 
@@ -78,15 +79,15 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           @release_arch = DCI.arch_by_release(@release_data)
           @release_distribution = DCI.release_distribution(@dci_release, @series)
           data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
-          data_dir = File.expand_path(@series, @projects_dir)
+          projects_data_dir = File.expand_path(@series, @projects_dir)
           puts "Working on Series: #{@series} Release: #{@dci_release} Architecture: #{@release_arch}"
-          file = File.expand_path(data_file_name, data_dir)
+          file = File.expand_path(data_file_name, projects_data_dir)
           raise "#{file} doesn't exist!" unless file
 
           image_data = DCI.image_data_by_release_type(@release_type)
-          next unless image_data.fetch(@dci_release)[:releases].keys.include?(@series)
+          @release_image_data = DCI.release_image_data(@release_type, @dci_release)
 
-          branch = image_data.fetch(@dci_release)[:releases].fetch(@series)
+          branch = @release_image_data[:releases].fetch(@series)
           projects = ProjectsFactory.from_file(file, branch: branch)
           raise 'Pointless without projects, something went wrong' unless projects
 
@@ -111,8 +112,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               release_type: @release_type,
               series: @series,
               architecture: @release_arch,
-              repo: image_data[:repo],
-              branch: image_data.fetch(@dci_release)[:releases].fetch(@series)
+              repo: @release_image_data[:repo],
+              branch: branch
             )
           )
           enqueue(
