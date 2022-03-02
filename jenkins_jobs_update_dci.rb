@@ -111,7 +111,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               release_type: @release_type,
               series: @series,
               architecture: @release_arch,
-              repo: image_repo
+              repo: image_repo,
               branch: branch
             )
           )
