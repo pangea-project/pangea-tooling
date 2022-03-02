@@ -7,6 +7,7 @@ class DCIImageJob < JenkinsJob
   attr_reader :branch
   attr_reader :release_distribution
   attr_reader :release_type
+  attr_reader :release
   attr_reader :architecture
   attr_reader :series
 
