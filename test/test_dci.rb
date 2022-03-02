@@ -62,15 +62,16 @@ class DCITest < TestCase
 
   def test_image_data_by_release_type
     assert_is_a(DCI.image_data_by_release_type('desktop'), Hash)
-    assert_equal({"netrunner-desktop"=>
-  {:releases=>{"next"=>"master", '22'=>"Netrunner/22"},
-   :repo=>"https://github.com/netrunner-desktop/live-build",
-   :snapshots=>["next", "22"]}}, DCI.image_data_by_release_type('desktop'))
+    assert_equal({'netrunner-desktop'=>
+  {:series_branches=>{'next'=>'master', '22'=>'Netrunner/22'},
+   :repo=>'https://github.com/netrunner-desktop/live-build',
+   :snapshots=>['next', '22']}}, DCI.image_data_by_release_type('desktop'))
     data = DCI.image_data_by_release_type('desktop')
-    assert_equal("https://github.com/netrunner-desktop/live-build", data.fetch('netrunner-desktop')[:repo])
-    assert_equal('Netrunner/22', data.fetch('netrunner-desktop')[:releases].fetch('22'))
+
+    assert_equal('https://github.com/netrunner-desktop/live-build', data.fetch('netrunner-desktop')[:repo])
+    assert_equal('Netrunner/22', data.fetch('netrunner-desktop')[:series_branches].fetch('22'))
     data = DCI.image_data_by_release_type('zynthbox')
-    assert_true(data.fetch('zynthbox-rpi4')[:releases].keys.include?('buster'))
+    assert_true(data.fetch('zynthbox-rpi4')[:series_branches].keys.include?('buster'))
   end
 
   def test_releases_for_type
@@ -101,8 +102,9 @@ class DCITest < TestCase
   def test_release_image_data
     image_data = DCI.release_image_data('desktop', 'netrunner-desktop')
     assert_is_a(image_data, Hash)
+    assert_equal({'next'=>'master', '22'=>'Netrunner/22'}, image_data[:series_branches])
     assert_equal('https://github.com/netrunner-desktop/live-build', image_data[:repo])
-    assert_equal('Netrunner/22', image_data[:releases].fetch('22'))
+    assert_equal('Netrunner/22', image_data[:series_branches].fetch('22'))
   end
 
   def test_arm_board_by_release

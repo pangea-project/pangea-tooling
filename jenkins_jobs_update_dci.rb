@@ -84,10 +84,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           file = File.expand_path(data_file_name, projects_data_dir)
           raise "#{file} doesn't exist!" unless file
 
-          image_data = DCI.image_data_by_release_type(@release_type)
           @release_image_data = DCI.release_image_data(@release_type, @dci_release)
-
-          branch = @release_image_data[:releases].fetch(@series)
+          image_repo = @release_image_data[:repo]
+          branch = @release_image_data[:series_branches].fetch(@series)
           projects = ProjectsFactory.from_file(file, branch: branch)
           raise 'Pointless without projects, something went wrong' unless projects
 
@@ -112,7 +111,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               release_type: @release_type,
               series: @series,
               architecture: @release_arch,
-              repo: @release_image_data[:repo],
+              repo: image_repo
               branch: branch
             )
           )

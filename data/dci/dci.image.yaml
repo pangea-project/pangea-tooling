@@ -1,7 +1,7 @@
 desktop:
   netrunner-desktop:
     :repo: https://github.com/netrunner-desktop/live-build
-    :releases:
+    :series_branches:
       'next': master
       '22': Netrunner/22
     :snapshots:
@@ -11,13 +11,13 @@ desktop:
 core:
   netrunner-core:
     :repo: https://github.com/netrunner-core/live-build
-    :releases:
+    :series_branches:
       'next': master
       '22': Netrunner/22
     :snapshots:
       - 'next'
       - '22'
-# 
+#
 #   netrunner-core-c1:
 #     :repo: https://github.com/netrunner-odroid/c1-live-build-core
 #     :releases:
@@ -43,7 +43,7 @@ core:
 zynthbox:
   zynthbox-rpi4:
     :repo: https://github.com/zynthbox/rpi4-live-build-zynthbox
-    :releases:
+    :series_branches:
       'buster': master
     :snapshots:
       - 'buster'
