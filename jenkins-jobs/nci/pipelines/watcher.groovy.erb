@@ -25,12 +25,12 @@ cleanNode('amd64') {
   stage('push') {
     sshagent (credentials: ['ssh.jobs.git.neon']) {
       dir('deb-packaging') {
-        sh('git push')
+        sh('git diff origin/Neon/release | grep diff && git push')
       }
       retry(3) {
         dir('snapcraft-kde-applications') {
           sh('git pull --rebase')
-          sh('git push')
+          sh('git diff origin/Neon/release | grep diff && git push')
         }
       }
     }

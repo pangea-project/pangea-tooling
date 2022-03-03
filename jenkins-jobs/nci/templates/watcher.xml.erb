@@ -3,7 +3,14 @@
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
-  <properties></properties>
+  <properties>
+  <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.7">
+    <blockingJobs>^watcher.*</blockingJobs>
+    <blockLevel>GLOBAL</blockLevel>
+    <scanQueueFor>DISABLED</scanQueueFor>
+    <useBuildBlocker>true</useBuildBlocker>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
+  </properties>
 
   <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.8">
     <scms>
