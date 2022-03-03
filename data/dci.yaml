@@ -28,31 +28,17 @@ arm_boards:
   - 'rpi4'
 release_types:
   'desktop':
-    releases:
+    :releases:
       'netrunner-desktop':
         arch: amd64
         components: 'netrunner extras artwork common backports netrunner-core netrunner-desktop'
   'core':
-    releases:
+    :releases:
       'netrunner-core':
         arch: amd64
         components: 'netrunner extras artwork common backports netrunner-core'
-      # 'netrunner-core-c1':
-      #   arch: armhf
-      #   arm_board: 'c1'
-      #   components: 'netrunner extras artwork common backports c1 netrunner-core'
-  # 'zeronet':
-  #   releases:
-  #     'netrunner-zeronet-rock64':
-  #       arch: arm64
-  #       arm_board: 'rock64'
-  #       components: 'netrunner extras artwork common backports rock64 netrunner-core netrunner-zeronet'
-  #     'netrunner-zeronet-c1':
-  #         arch:  armhf
-  #         arm_board: 'c1'
-  #         components: 'netrunner extras artwork common backports c1 netrunner-core netrunner-zeronet'
   'zynthbox':
-    releases:
+    :releases:
       'zynthbox-rpi4':
         arch: armhf
         arm_board: 'rpi4'

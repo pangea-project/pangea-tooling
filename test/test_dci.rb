@@ -43,7 +43,7 @@ class DCITest < TestCase
     assert_is_a(series, Hash)
     assert_equal('22', series['netrunner'])
     assert_equal('10', series['zynthbox'])
-    assert_equal(['22', '23', '10'], DCI.series.values)
+    assert_equal(%w[22 23 10], DCI.series.values)
   end
 
   def test_latest_series
@@ -62,10 +62,10 @@ class DCITest < TestCase
 
   def test_image_data_by_release_type
     assert_is_a(DCI.image_data_by_release_type('desktop'), Hash)
-    assert_equal({'netrunner-desktop'=>
-  {:series_branches=>{'next'=>'master', '22'=>'Netrunner/22'},
-   :repo=>'https://github.com/netrunner-desktop/live-build',
-   :snapshots=>['next', '22']}}, DCI.image_data_by_release_type('desktop'))
+    assert_equal({ 'netrunner-desktop' =>
+  { series_branches: { 'next' => 'master', '22' => 'Netrunner/22' },
+    repo: 'https://github.com/netrunner-desktop/live-build',
+    snapshots: %w[next 22] } }, DCI.image_data_by_release_type('desktop'))
     data = DCI.image_data_by_release_type('desktop')
 
     assert_equal('https://github.com/netrunner-desktop/live-build', data.fetch('netrunner-desktop')[:repo])
@@ -84,9 +84,7 @@ class DCITest < TestCase
     assert_equal(
       { 'netrunner-core' =>
           { 'arch' => 'amd64',
-            'components' => 'netrunner extras artwork common backports netrunner-core' }
-          },
-      DCI.release_data_for_type('core')
+            'components' => 'netrunner extras artwork common backports netrunner-core' } }, DCI.release_data_for_type('core')
     )
   end
 
@@ -102,9 +100,10 @@ class DCITest < TestCase
   def test_release_image_data
     image_data = DCI.release_image_data('desktop', 'netrunner-desktop')
     assert_is_a(image_data, Hash)
-    assert_equal({'next'=>'master', '22'=>'Netrunner/22'}, image_data[:series_branches])
+    assert_equal({ 'next' => 'master', '22' => 'Netrunner/22' }, image_data[:series_branches])
     assert_equal('https://github.com/netrunner-desktop/live-build', image_data[:repo])
-    assert_equal('Netrunner/22', image_data[:series_branches].fetch('22'))
+    image_data2 = DCI.release_image_data('core', 'netrunner-core')
+    assert_equal('Netrunner/22', image_data2[:series_branches].fetch(DCI.latest_series('netrunner')))
   end
 
   def test_arm_board_by_release
@@ -116,12 +115,12 @@ class DCITest < TestCase
 
   def test_release_components
     release_data = DCI.get_release_data('core', 'netrunner-core')
-    assert_equal(["netrunner",
- "extras",
- "artwork",
- "common",
- "backports",
- "netrunner-core"], DCI.release_components(release_data))
+    assert_equal(%w[netrunner
+                    extras
+                    artwork
+                    common
+                    backports
+                    netrunner-core], DCI.release_components(release_data))
     release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
     assert_equal(['zynthbox'], DCI.release_components(release_data))
   end
@@ -139,7 +138,6 @@ class DCITest < TestCase
     repo = DCI.upload_map_repo('dci-extras-packaging')
     assert_equal('extras-22', DCI.series_release_repo('22', repo))
   end
-
 
   def test_aptly_prefix
     assert_equal('zynthbox', DCI.aptly_prefix('zynthbox'))
@@ -167,5 +165,4 @@ class DCITest < TestCase
     assert_equal(true, 'zynthbox-rpi4'.end_with?('rpi4'))
     assert_equal('armhf', DCI.arch_by_release(release_data))
   end
-
 end

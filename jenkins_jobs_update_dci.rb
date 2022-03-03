@@ -48,12 +48,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     return unless File.exist?(upload_map_file)
 
     @upload_map = true
-    @stamp = DateTime.now.strftime("%Y%m%d.%H%M")
+    @stamp = DateTime.now.strftime('%Y%m%d.%H%M')
     @dci_release = ''
     @release_arch = ''
     @release_type = ''
     @series = ''
-    @release_image_data = {}
     super
   end
 
@@ -61,7 +60,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
   def populate_queue
     all_meta_builds = []
-    #all_builds = []
+    all_builds = []
     jobs = []
     CI::Overrides.default_files
     DCI.base_os_ids.each do |base_os_id|
@@ -102,7 +101,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               upload_map: @upload_map
             )
             jobs.each { |j| enqueue(j) }
-            #all_builds += jobs
+            # all_builds += jobs
           end
 
           enqueue(
@@ -137,18 +136,17 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTDCIReleaseBranchingJob.new)
   end
 end
-           #  # Remove everything but source as they are the anchor points for
-           #  # other jobs that might want to reference them.
-           #  all_builds.select! { |j| j.job_name.end_with?('_src') }
-           #  # This could actually returned into a collect if placed below
-           #  meta_build = MetaBuildJob.new(
-           #  type: @series,
-           #  distribution: release,
-           #  downstream_jobs: all_builds
-           # )
-           # all_meta_builds << enqueue(meta_build)
-           # image Jobs
-
+#  # Remove everything but source as they are the anchor points for
+#  # other jobs that might want to reference them.
+#  all_builds.select! { |j| j.job_name.end_with?('_src') }
+#  # This could actually returned into a collect if placed below
+#  meta_build = MetaBuildJob.new(
+#  type: @series,
+#  distribution: release,
+#  downstream_jobs: all_builds
+# )
+# all_meta_builds << enqueue(meta_build)
+# image Jobs
 
 if $PROGRAM_NAME == __FILE__
   updater = ProjectUpdater.new
