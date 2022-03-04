@@ -131,7 +131,7 @@ class DCITest < TestCase
 
   def test_upload_map_repo
     assert_equal('extras', DCI.upload_map_repo('dci-extras-packaging'))
-    assert_equal('netrunner', DCI.upload_map_repo(''))
+    assert_equal('netrunner', DCI.upload_map_repo)
   end
 
   def test_series_release_repo

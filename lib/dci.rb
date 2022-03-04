@@ -23,14 +23,13 @@ module DCI
     data['latest_series'][project]
   end
 
-  def upload_map_repo(component)
+  def upload_map_repo(component = nil)
     upload_data = File.expand_path('../data', __dir__)
     upload_map_file = File.expand_path('dci.upload.yaml', upload_data)
     return unless File.exist?(upload_map_file)
 
-    map = YAML.load_file(upload_map_file)
-    @repo = map[component]
-    @repo ||= map['default']
+    upload_map_repo = YAML.load_file(upload_map_file)
+    @upload_map_repo = component ? upload_map_repo[component] : upload_map_repo['default']
   end
 
   def previous_series(project)
