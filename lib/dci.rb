@@ -82,7 +82,7 @@ module DCI
 
   # SIngle repo component for release.
   def series_release_repo(series_version_codename, repo)
-    aptly_repo = "#{repo}-#{series_version_codename}"
+    "#{repo}-#{series_version_codename}"
   end
 
   def release_types
