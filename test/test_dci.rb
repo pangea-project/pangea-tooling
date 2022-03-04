@@ -69,7 +69,7 @@ class DCITest < TestCase
     data = DCI.image_data_by_release_type('desktop')
 
     assert_equal('https://github.com/netrunner-desktop/live-build', data.fetch('netrunner-desktop')[:repo])
-    assert_equal('Netrunner/22', data.fetch('netrunner-desktop')[:series_branches].fetch('22'))
+    assert_equal('Netrunner/22', data.fetch('netrunner-desktop')[:series_branches]['22'])
     data = DCI.image_data_by_release_type('zynthbox')
     assert_true(data.fetch('zynthbox-rpi4')[:series_branches].keys.include?('buster'))
   end

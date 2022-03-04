@@ -85,7 +85,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
           @release_image_data = DCI.release_image_data(@release_type, @dci_release)
           image_repo = @release_image_data[:repo]
-          branch = @release_image_data[:series_branches].fetch(@series)
+          branch = @release_image_data[:series_branches][@series]
           projects = ProjectsFactory.from_file(file, branch: branch)
           raise 'Pointless without projects, something went wrong' unless projects
 
