@@ -66,7 +66,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     DCI.series.keys.each do |base_os_id|
       dci_version = DCI.series_version(base_os_id)
       @series = DCI.series_version_codename(dci_version)
-      puts "Series: #{@series}"
+      puts "Base OS: #{base_os_id} Series: #{@series}"
       @type = @series == 'next' ? 'unstable' : 'stable'
       DCI.release_types.each do |release_type|
         @release_type = release_type
@@ -103,37 +103,27 @@ class ProjectUpdater < Jenkins::ProjectUpdater
             )
             jobs.each { |j| enqueue(j) }
             all_builds += jobs
-          end
 
-          enqueue(
-            DCIImageJob.new(
-              release: @dci_release,
-              release_type: @release_type,
-              series: @series,
-              architecture: @release_arch,
-              repo: image_repo,
-              branch: branch
+            enqueue(
+              DCIImageJob.new(
+                release: @dci_release,
+                release_type: @release_type,
+                series: @series,
+                architecture: @release_arch,
+                repo: image_repo,
+                branch: branch
+              )
             )
-          )
-          enqueue(
-            DCISnapShotJob.new(
-              series: @series,
-              release_type: @release_type,
-              release: @dci_release,
-              architecture: @release_arch,
-              arm_board: @arm
+            enqueue(
+              DCISnapShotJob.new(
+                series: @series,
+                release_type: @release_type,
+                release: @dci_release,
+                architecture: @release_arch,
+                arm_board: @arm
+              )
             )
-          )
-          # Remove everything but parents as they are the anchor points for
-          # other jobs that might want to reference them.
-          all_builds.select! { |j| j.job_name.end_with?(@release_arch) }
-          # This could actually returned into a collect if placed below
-          meta_build = MetaBuildJob.new(
-            type: @release_type,
-            distribution: @release_distribution,
-            downstream_jobs: all_builds
-          )
-          all_meta_builds << enqueue(meta_build)
+          end
         end
       end
     end
