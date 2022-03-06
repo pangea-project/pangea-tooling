@@ -64,78 +64,80 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     jobs = []
     CI::Overrides.default_files
     DCI.base_os_ids.each do |base_os_id|
-      dci_series = DCI.series
-      @series = DCI.series_version_codename(DCI.series_version(base_os_id))
-      next unless @series == dci_series[base_os_id]
+      DCI.series.each do |series|
+        dci_series = DCI.series
+        @series = DCI.series_version_codename(dci_series[base_os_id])
+        next unless @series == DCI.series_version_codename(series)
 
-      puts "Series: #{@series}"
-      @type = @series == 'next' ? 'unstable' : 'stable'
-      DCI.release_types.each do |release_type|
-        @release_type = release_type
-        puts "Release type: #{@release_type}"
-        DCI.releases_for_type(@release_type).each do |dci_release|
-          @dci_release = dci_release
-          puts "Release: #{@dci_release}"
-          @release_data = DCI.get_release_data(@release_type, @dci_release)
-          @arm = DCI.arm_board_by_release(@release_data)
-          @release_arch = DCI.arch_by_release(@release_data)
-          @release_distribution = DCI.release_distribution(@dci_release, @series)
-          data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
-          projects_data_dir = File.expand_path(@series, @projects_dir)
-          puts "Working on Series: #{@series} Release: #{@dci_release} Architecture: #{@release_arch}"
-          file = File.expand_path(data_file_name, projects_data_dir)
-          raise "#{file} doesn't exist!" unless file
+        puts "Series: #{@series}"
+        @type = @series == 'next' ? 'unstable' : 'stable'
+        DCI.release_types.each do |release_type|
+          @release_type = release_type
+          puts "Release type: #{@release_type}"
+          DCI.releases_for_type(@release_type).each do |dci_release|
+            @dci_release = dci_release
+            puts "Release: #{@dci_release}"
+            @release_data = DCI.get_release_data(@release_type, @dci_release)
+            @arm = DCI.arm_board_by_release(@release_data)
+            @release_arch = DCI.arch_by_release(@release_data)
+            @release_distribution = DCI.release_distribution(@dci_release, @series)
+            data_file_name = DCI.arm?(@dci_release) ? "#{@release_type}-#{@arm}.yaml" : "#{@release_type}.yaml"
+            projects_data_dir = File.expand_path(@series, @projects_dir)
+            puts "Working on Series: #{@series} Release: #{@dci_release} Architecture: #{@release_arch}"
+            file = File.expand_path(data_file_name, projects_data_dir)
+            raise "#{file} doesn't exist!" unless file
 
-          @release_image_data = DCI.release_image_data(@release_type, @dci_release)
-          image_repo = @release_image_data[:repo]
-          branch = @release_image_data[:series_branches][@series]
-          projects = ProjectsFactory.from_file(file, branch: branch)
-          raise 'Pointless without projects, something went wrong' unless projects
+            @release_image_data = DCI.release_image_data(@release_type, @dci_release)
+            image_repo = @release_image_data[:repo]
+            branch = @release_image_data[:series_branches][@series]
+            projects = ProjectsFactory.from_file(file, branch: branch)
+            raise 'Pointless without projects, something went wrong' unless projects
 
-          projects.each do |project|
-            jobs = DCIProjectMultiJob.job(
-              project,
-              type: @type,
-              release_type: @release_type,
-              release: @dci_release,
-              series: @series,
+            projects.each do |project|
+              jobs = DCIProjectMultiJob.job(
+                project,
+                type: @type,
+                release_type: @release_type,
+                release: @dci_release,
+                series: @series,
+                distribution: @release_distribution,
+                architecture: @release_arch,
+                upload_map: @upload_map
+              )
+              jobs.each { |j| enqueue(j) }
+              all_builds += jobs
+            end
+
+            enqueue(
+              DCIImageJob.new(
+                release: @dci_release,
+                release_type: @release_type,
+                series: @series,
+                architecture: @release_arch,
+                repo: image_repo,
+                branch: branch
+              )
+            )
+            enqueue(
+              DCISnapShotJob.new(
+                series: @series,
+                release_type: @release_type,
+                release: @dci_release,
+                architecture: @release_arch,
+                arm_board: @arm
+              )
+            )
+            # Remove everything but parents as they are the anchor points for
+            # other jobs that might want to reference them.
+            all_builds.select! { |j| j.job_name.end_with?(@release_arch) }
+            # This could actually returned into a collect if placed below
+            meta_build = MetaBuildJob.new(
+              type: @release_type,
               distribution: @release_distribution,
-              architecture: @release_arch,
-              upload_map: @upload_map
+              downstream_jobs: all_builds
             )
-            jobs.each { |j| enqueue(j) }
-            all_builds += jobs
+            all_meta_builds << enqueue(meta_build)
           end
-
-          enqueue(
-            DCIImageJob.new(
-              release: @dci_release,
-              release_type: @release_type,
-              series: @series,
-              architecture: @release_arch,
-              repo: image_repo,
-              branch: branch
-            )
-          )
-          enqueue(
-            DCISnapShotJob.new(
-              series: @series,
-              release_type: @release_type,
-              release: @dci_release,
-              architecture: @release_arch,
-              arm_board: @arm
-            )
-          )
-          # Remove everything but parents as they are the anchor points for
-          # other jobs that might want to reference them.
-          all_builds.select! { |j| j.job_name.end_with?(@release_arch) }
-          # This could actually returned into a collect if placed below
-          meta_build = MetaBuildJob.new(
-            type: @release_type,
-            distribution: @release_distribution,
-            downstream_jobs: all_builds
-          )
-          all_meta_builds << enqueue(meta_build)
         end
       end
     end
