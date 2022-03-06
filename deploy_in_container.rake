@@ -49,14 +49,14 @@ EARLY_DEPS = [
 # simply a runtime (or provision time) dep of the tooling.
 CORE_RUNTIME_DEPS = %w[apt-transport-https software-properties-common].freeze
 DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
-  ubuntu-dev-tools gnome-pkg-tools git gettext dpkg
-  zlib1g-dev sudo locales mercurial aptitude
-  autotools-dev cdbs dh-autoreconf dh-linktree
-  germinate gnupg2 gobject-introspection sphinx-common
-  po4a ppp-dev repository1.0-dev libglib2.0-dev
-  bash-completion python3-setuptools python3-setuptools-scm
-  dkms libffi-dev subversion libcurl4-gnutls-dev
-  libhttp-parser-dev javahelper rsync man-db].freeze + CORE_RUNTIME_DEPS
+          ubuntu-dev-tools gnome-pkg-tools git gettext dpkg
+          zlib1g-dev sudo locales mercurial aptitude
+          autotools-dev cdbs dh-autoreconf
+          germinate gnupg2 gobject-introspection sphinx-common
+          po4a ppp-dev repository1.0-dev libglib2.0-dev
+          bash-completion python3-setuptools python3-setuptools-scm
+          dkms libffi-dev subversion libcurl4-gnutls-dev
+          libhttp-parser-dev javahelper rsync man-db].freeze + CORE_RUNTIME_DEPS
 
 def home
   '/var/lib/jenkins'
@@ -96,7 +96,7 @@ end
 
 def custom_version_id
   return if OS::ID == 'ubuntu'
-  return unless OS::ID=='debian' || OS::ID_LIKE=='debian'
+  return unless OS::ID == 'debian' || OS::ID_LIKE == 'debian'
 
   file = '/etc/os-release'
   os_release = File.readlines(file)
@@ -170,9 +170,9 @@ def bundle_install
   bundle_args << '--system'
   # FIXME: this breaks deployment on nodes, for now disable this
   # https://github.com/pangea-project/pangea-tooling/issues/17
-  #bundle_args << '--without' << 'development' << 'test'
+  # bundle_args << '--without' << 'development' << 'test'
   bundle(*bundle_args)
-rescue => e
+rescue StandardError => e
   log_dir = "#{tooling_path}/#{ENV['DIST']}_#{ENV['TYPE']}"
   Dir.glob('/var/lib/gems/*/extensions/*/*/*/mkmf.log').each do |log|
     dest = "#{log_dir}/#{File.basename(File.dirname(log))}"
@@ -235,8 +235,8 @@ task :align_ruby do
   end
 end
 
-RUBY_3_0_3 = '/tmp/3.0.3'.freeze
-RUBY_3_0_3_URL = 'https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/3.0.3'.freeze
+RUBY_3_0_3 = '/tmp/3.0.3'
+RUBY_3_0_3_URL = 'https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/3.0.3'
 
 desc 'Upgrade to newer ruby if required, no kitchen'
 task :align_ruby_no_chef do
@@ -287,14 +287,14 @@ end
 # rubocop:enable Lint/UnreachableCode
 
 desc 'deploy inside the container'
-task :deploy_in_container => %i[fix_gpg align_ruby_no_chef deploy_openqa] do
+task deploy_in_container: %i[fix_gpg align_ruby_no_chef deploy_openqa] do
   final_ci_tooling_compat_path = File.join(home, 'tooling')
   final_ci_tooling_compat_compat_path = File.join(home, 'ci-tooling')
 
   File.write("#{Dir.home}/.gemrc", <<-EOF)
 install: --no-document
 update: --no-document
-EOF
+  EOF
 
   Dir.chdir(tooling_path) do
     begin
