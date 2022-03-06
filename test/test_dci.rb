@@ -44,6 +44,7 @@ class DCITest < TestCase
     assert_equal('22', series['netrunner'])
     assert_equal('10', series['zynthbox'])
     assert_equal(%w[22 23 10], DCI.series.values)
+    assert_true(series['zynthbox'] == '10')
   end
 
   def test_latest_series

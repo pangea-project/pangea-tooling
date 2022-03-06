@@ -64,7 +64,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     jobs = []
     CI::Overrides.default_files
     DCI.base_os_ids.each do |base_os_id|
+      dci_series = DCI.series
       @series = DCI.series_version_codename(DCI.series_version(base_os_id))
+      next unless @series == dci_series[base_os_id]
+
       puts "Series: #{@series}"
       @type = @series == 'next' ? 'unstable' : 'stable'
       DCI.release_types.each do |release_type|
