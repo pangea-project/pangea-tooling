@@ -48,7 +48,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     return unless File.exist?(upload_map_file)
 
     @upload_map = true
-    @stamp = DateTime.now.strftime('%Y%m%d.%H%M')
+    @stamp = DateTime.now.strftime('Y%m%d.%H%M')
     @dci_release = ''
     @release_arch = ''
     @release_type = ''
@@ -63,12 +63,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     all_builds = []
     jobs = []
     CI::Overrides.default_files
-    DCI.series.keys.each do |base_os_id|
-      dci_version = DCI.series_version(base_os_id)
-      @series = DCI.series_version_codename(dci_version)
-      puts "Base OS: #{base_os_id} Series: #{@series}"
-      @type = @series == 'next' ? 'unstable' : 'stable'
+    DCI.series.each do |base_os_id, series_version|
       DCI.release_types.each do |release_type|
+        dci_version = DCI.series_version(base_os_id)
+        @series = DCI.series_version_codename(series_version)
+        @type = @series == 'next' ? 'unstable' : 'stable'
+        puts "Base OS: #{base_os_id} Varient: #{release_type} Series: #{@series}"
+        next unless dci_version = series_version
+
         @release_type = release_type
         puts "Release type: #{@release_type}"
         DCI.releases_for_type(@release_type).each do |dci_release|
@@ -101,41 +103,41 @@ class ProjectUpdater < Jenkins::ProjectUpdater
               architecture: @release_arch,
               upload_map: @upload_map
             )
-            jobs.each { |j| enqueue(j) }
-            all_builds += jobs
-
-            enqueue(
-              DCIImageJob.new(
-                release: @dci_release,
-                release_type: @release_type,
-                series: @series,
-                architecture: @release_arch,
-                repo: image_repo,
-                branch: branch
-              )
-            )
-            enqueue(
-              DCISnapShotJob.new(
-                series: @series,
-                release_type: @release_type,
-                release: @dci_release,
-                architecture: @release_arch,
-                arm_board: @arm
-              )
-            )
           end
+          jobs.each { |j| enqueue(j) }
+          all_builds += jobs
+
+          enqueue(
+            DCIImageJob.new(
+              release: @dci_release,
+              release_type: @release_type,
+              series: @series,
+              architecture: @release_arch,
+              repo: image_repo,
+              branch: branch
+            )
+          )
+          enqueue(
+            DCISnapShotJob.new(
+              series: @series,
+              release_type: @release_type,
+              release: @dci_release,
+              architecture: @release_arch,
+              arm_board: @arm
+            )
+          )
         end
       end
     end
-
-    docker = enqueue(MGMTDCIDockerJob.new(dependees: all_meta_builds))
-    tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
-    tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
-    enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
-    enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
-    enqueue(MGMTRepoCleanupJob.new)
-    enqueue(MGMTDCIReleaseBranchingJob.new)
   end
+
+  docker = enqueue(MGMTDCIDockerJob.new(dependees: all_meta_builds))
+  tooling_deploy = enqueue(MGMTToolingDeployJob.new(downstreams: [docker]))
+  tooling_progenitor = enqueue(MGMTToolingProgenitorJob.new(downstreams: [tooling_deploy]))
+  enqueue(MGMTToolingJob.new(downstreams: [tooling_progenitor], dependees: []))
+  enqueue(MGMTPauseIntegrationJob.new(downstreams: all_meta_builds))
+  enqueue(MGMTRepoCleanupJob.new)
+  enqueue(MGMTDCIReleaseBranchingJob.new)
 end
 
 if $PROGRAM_NAME == __FILE__
