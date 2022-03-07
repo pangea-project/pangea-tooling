@@ -63,7 +63,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     jobs = []
     CI::Overrides.default_files
     DCI.series.each do |base_os_id, series_version|
-      next unless base_os_id.starts_with?('netrunner')
+      next unless base_os_id.start_with?('netrunner')
 
       DCI.release_types.each do |release_type|
         DCI.releases_for_type(release_type).each do |dci_release|
