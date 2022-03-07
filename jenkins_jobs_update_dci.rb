@@ -66,6 +66,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       next unless base_os_id.start_with?('netrunner')
 
       DCI.release_types.each do |release_type|
+        next unless %w[desktop core].include?(release_type)
+
         DCI.releases_for_type(release_type).each do |dci_release|
           @type = @series == 'next' ? 'unstable' : 'stable'
           @series = DCI.series_version_codename(series_version)
