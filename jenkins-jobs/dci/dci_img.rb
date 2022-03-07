@@ -8,6 +8,7 @@ class DCIImageJob < JenkinsJob
   attr_reader :distribution
   attr_reader :release_type
   attr_reader :release
+  attr_reader :series
   attr_reader :architecture
 
   def initialize(series:, release_type:, release:, architecture:, repo:, branch:)

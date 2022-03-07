@@ -57,6 +57,7 @@
            set -e
            arch=$(dpkg --print-architecture)
            export RELEASE=<%= release %>
+           export SERIES=<%= series %>
            export RELEASE_TYPE=<%= release_type %>
            if [[ $arch =~ ^arm ]]; then
              ~/tooling/dci/priv_contain.rb /tooling/dci/imager.rb
