@@ -63,18 +63,17 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     jobs = []
     CI::Overrides.default_files
     DCI.series.each do |base_os_id, series_version|
-      DCI.release_types.each do |release_type|
-        dci_version = DCI.series_version(base_os_id)
-        @series = DCI.series_version_codename(series_version)
-        @type = @series == 'next' ? 'unstable' : 'stable'
-        puts "Base OS: #{base_os_id} Varient: #{release_type} Series: #{@series}"
-        next unless dci_version = series_version
+      next unless base_os_id.starts_with?('netrunner')
 
-        @release_type = release_type
-        puts "Release type: #{@release_type}"
-        DCI.releases_for_type(@release_type).each do |dci_release|
+      DCI.release_types.each do |release_type|
+        DCI.releases_for_type(release_type).each do |dci_release|
+          @type = @series == 'next' ? 'unstable' : 'stable'
+          @series = DCI.series_version_codename(series_version)
+          puts "Base OS: #{base_os_id} Varient: #{release_type} Series: #{@series}"
+          @release_type = release_type
           @dci_release = dci_release
           puts "Release: #{@dci_release}"
+
           @release_data = DCI.get_release_data(@release_type, @dci_release)
           @arm = DCI.arm_board_by_release(@release_data)
           @release_arch = DCI.arch_by_release(@release_data)
