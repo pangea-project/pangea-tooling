@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative '../job'
+require_relative '../../lib/dci'
 
 # source builder
 class DCISourcerJob < JenkinsJob
@@ -9,6 +10,7 @@ class DCISourcerJob < JenkinsJob
   attr_reader :type
   attr_reader :release
   attr_reader :release_type
+  attr_reader :distribution
   attr_reader :series
   attr_reader :packaging_scm
   attr_reader :packaging_branch
@@ -27,7 +29,7 @@ class DCISourcerJob < JenkinsJob
     @series = series
     @architecture = architecture
     @packaging_scm = project.packaging_scm.dup
-    @release_distribution = DCI.release_distribution(@release, @series)
+    @distribution = DCI.release_distribution(@release, @series)
     @packaging_branch = @packaging_scm.branch
   end
 
