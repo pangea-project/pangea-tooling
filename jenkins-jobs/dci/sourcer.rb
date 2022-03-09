@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 require_relative '../job'
 
-
 # source builder
 class DCISourcerJob < JenkinsJob
   attr_reader :name
@@ -30,24 +29,27 @@ class DCISourcerJob < JenkinsJob
     @packaging_scm = project.packaging_scm.dup
     @release_distribution = DCI.release_distribution(@release, @series)
     @packaging_branch = @packaging_scm.branch
+  end
 
+  def render_packaging_scm
+    PackagingSCMTemplate.new(scm: @project.packaging_scm).render_template
   end
 
   def render_upstream_scm
     return '' unless @upstream_scm
 
-      case @upstream_scm.type
-      when 'git'
-        render('upstream-scms/git.xml.erb')
-      when 'svn'
-        render('upstream-scms/svn.xml.erb')
-      when 'uscan'
-        ''
-      when 'tarball'
-        self.fetch_tarball
-      else
-        raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
-      end
+    case @upstream_scm.type
+    when 'git'
+      render('upstream-scms/git.xml.erb')
+    when 'svn'
+      render('upstream-scms/svn.xml.erb')
+    when 'uscan'
+      ''
+    when 'tarball'
+      fetch_tarball
+    else
+      raise "Unknown upstream_scm type encountered '#{@upstream_scm.type}'"
+    end
   end
 
   def fetch_tarball
@@ -58,5 +60,4 @@ class DCISourcerJob < JenkinsJob
     fi
     echo ''#{@upstream_scm.url}" > 'source/url'
   end
-
 end
