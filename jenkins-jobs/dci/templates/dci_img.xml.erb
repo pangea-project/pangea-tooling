@@ -49,8 +49,16 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
-
   <concurrentBuild>false</concurrentBuild>
+  <triggers>
+    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.34.1">
+      <spec></spec>
+    </com.cloudbees.jenkins.GitHubPushTrigger>
+    <hudson.triggers.SCMTrigger>
+      <spec></spec>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
