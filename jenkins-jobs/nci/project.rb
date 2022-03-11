@@ -30,7 +30,7 @@ class ProjectJob < JenkinsJob
     return [] unless project.debian?
 
     architectures = architectures.dup
-    architectures << 'i386' if project.name.include?('util-linux')
+    architectures << 'i386' if %w[util-linux wayland].any? { |x| project.name == x }
 
     basename = basename(distribution, type, project.component, project.name)
 
