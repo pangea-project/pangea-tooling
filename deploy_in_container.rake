@@ -439,6 +439,11 @@ SCRIPT
     File.symlink('/bin/true', file)
   end
 
+  # Install a fake im-config. im-config has crappy deps a la `zenity | kdialog`
+  # which then pulls in zenity and all of gnome-shell on minimal images.
+  # This makes lints take forever, needlessly
+  install_fake_pkg('im-config')
+
   # Install a fake fonts-noto CJK to bypass it's incredibly long unpack. Given
   # the size of the package it takes *seconds* to unpack but in CI environments
   # it adds no value.
