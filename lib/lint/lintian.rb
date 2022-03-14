@@ -75,7 +75,10 @@ module Lint
       # We intentionally put the version in sometimes so future versions
       # are distinctly different across both ubuntu base version and
       # our build variants.
-      'version-refers-to-distribution'
+      'version-refers-to-distribution',
+      # We don't really care. No harm done. Having us chase that sort of stuff
+      # is a waste of time.
+      'zero-byte-file-in-doc-directory'
     ].freeze
 
     def initialize(changes_directory = Dir.pwd,
