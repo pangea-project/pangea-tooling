@@ -79,7 +79,8 @@ module Lint
       # We don't really care. No harm done. Having us chase that sort of stuff
       # is a waste of time.
       'zero-byte-file-in-doc-directory',
-      'description-starts-with-package-name'
+      'description-starts-with-package-name',
+      'incorrect-packaging-filename debian/TODO.Debian'
     ].freeze
 
     def initialize(changes_directory = Dir.pwd,
