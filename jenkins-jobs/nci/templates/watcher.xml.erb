@@ -4,12 +4,31 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
-  <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.7">
-    <blockingJobs>^watcher.*</blockingJobs>
-    <blockLevel>GLOBAL</blockLevel>
-    <scanQueueFor>DISABLED</scanQueueFor>
-    <useBuildBlocker>true</useBuildBlocker>
+    <com.suryagaddipati.jenkins.SlaveUtilizationProperty plugin="slave-utilization-plugin@1.8">
+      <needsExclusiveAccessToNode>false</needsExclusiveAccessToNode>
+      <singleInstancePerSlave>false</singleInstancePerSlave>
+      <slaveUtilizationPercentage>0</slaveUtilizationPercentage>
+    </com.suryagaddipati.jenkins.SlaveUtilizationProperty>
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.7">
+      <blockingJobs>^watcher.*</blockingJobs>
+      <blockLevel>GLOBAL</blockLevel>
+      <scanQueueFor>DISABLED</scanQueueFor>
+      <useBuildBlocker>true</useBuildBlocker>
     </hudson.plugins.buildblocker.BuildBlockerProperty>
+      <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.6"/>
+      <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@2.6">
+      <categories class="java.util.concurrent.CopyOnWriteArrayList"/>
+      <limitOneJobWithMatchingParams>false</limitOneJobWithMatchingParams>
+      <paramsToUseForLimit/>
+      <throttleEnabled>false</throttleEnabled>
+      <throttleOption>project</throttleOption>
+    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+    <org.bstick12.jenkinsci.plugins.leastload.LeastLoadDisabledProperty plugin="leastload@3.0.0">
+      <leastLoadDisabled>false</leastLoadDisabled>
+      </org.bstick12.jenkinsci.plugins.leastload.LeastLoadDisabledProperty>
+      <org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty>
+      <abortPrevious>false</abortPrevious>
+    </org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty>
   </properties>
 
   <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.8">
