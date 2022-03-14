@@ -29,7 +29,7 @@
     </com.suryagaddipati.jenkins.SlaveUtilizationProperty>
     <hudson.plugins.copyartifact.CopyArtifactPermissionProperty plugin="copyartifact@1.46.2">
       <projectNameList>
-          <string>https://dci.netrunner.com/job/<%= distribution %>_<%= component %>_<%= name %>_<%= architecture %>.*</string>
+        <string>.*<%= name %>.*</string>
       </projectNameList>
     </hudson.plugins.copyartifact.CopyArtifactPermissionProperty>
     <com.synopsys.arc.jenkinsci.plugins.jobrestrictions.jobs.JobRestrictionProperty plugin="job-restrictions@0.8"/>
