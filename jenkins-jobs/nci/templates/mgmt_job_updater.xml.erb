@@ -48,6 +48,8 @@
   <builders>
     <hudson.tasks.Shell>
       <command>set -ex
+export PATH=/home/neon/.rbenv/bin:$PATH
+eval "$(rbenv init - bash)" || true
 
 export RELEASEME_PROJECTS_API=1
 export PANGEA_LOCAL_JENKINS=1
