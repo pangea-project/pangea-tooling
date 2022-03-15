@@ -36,7 +36,8 @@ class PipelineJob < JenkinsJob
   def initialize(name, template: name.tr('-', '_'), cron: '',
                  job_template: 'pipelinejob', sandbox: true,
                  with_push_trigger: true)
-    super(name, "#{job_template}.xml.erb",
+    template_file = File.exist?("#{__dir__}/templates/#{template}-#{job_template}.xml.erb") ? "#{template}-#{job_template}.xml.erb" : "#{job_template}.xml.erb"
+    super(name, template_file,
           script: "#{__dir__}/pipelines/#{template}.groovy.erb")
     @cron = cron
     @sandbox = sandbox
