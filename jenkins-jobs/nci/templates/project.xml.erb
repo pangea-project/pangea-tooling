@@ -7,6 +7,12 @@
     <org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty plugin="dependency-queue-plugin@1.2-SNAPSHOT">
       <blockWhileUpstreamQueued>true</blockWhileUpstreamQueued>
     </org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty>
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.8">
+      <blockingJobs>^watcher.*</blockingJobs>
+      <blockLevel>GLOBAL</blockLevel>
+      <scanQueueFor>ALL</scanQueueFor>
+      <useBuildBlocker>true</useBuildBlocker>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
   </properties>
   <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.4">
     <scms>
