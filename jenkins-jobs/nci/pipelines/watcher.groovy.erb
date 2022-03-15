@@ -25,12 +25,14 @@ cleanNode('amd64') {
   stage('push') {
     sshagent (credentials: ['ssh.jobs.git.neon']) {
       dir('deb-packaging') {
-        sh('git diff origin/Neon/release | grep diff && git push')
+        // check for any changes and push if there are but do not fail if there are not
+        sh('bash -c "git diff origin/Neon/release | grep diff && git push; true"')
       }
       retry(3) {
         dir('snapcraft-kde-applications') {
           sh('git pull --rebase')
-          sh('git diff origin/Neon/release | grep diff && git push')
+          // check for any changes and push if there are but do not fail if there are not
+          sh('bash -c "git diff origin/Neon/release | grep diff && git push; true"')
         }
       }
     }
