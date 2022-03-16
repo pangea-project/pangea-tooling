@@ -52,7 +52,7 @@ DEBIAN_TO_KDE_NAMES = {
 
   # plasma
   'plasma-discover' => 'discover',
-  'plasma-mobile' => 'plasma-phone-components',
+  'plasma-phone-components' => 'plasma-mobile',
 
   # KDE Gear
   'kdevelop-php' => 'kdev-php',
