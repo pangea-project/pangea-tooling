@@ -31,8 +31,6 @@ class DCITest < TestCase
   end
 
   def test_base_os_ids
-    # FIXME
-    # assert_equal_collection(%w[netrunner netrunner-next zynthbox], DCI.base_os_ids)
     assert_equal_collection(%w[netrunner netrunner-next], DCI.base_os_ids)
   end
 
