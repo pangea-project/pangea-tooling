@@ -31,12 +31,12 @@ release_types:
     :releases:
       'netrunner-desktop':
         arch: amd64
-        components: 'netrunner extras artwork common backports netrunner-core netrunner-desktop'
+        components: 'netrunner extras artwork common netrunner-core netrunner-desktop'
   'core':
     :releases:
       'netrunner-core':
         arch: amd64
-        components: 'netrunner extras artwork common backports netrunner-core'
+        components: 'netrunner extras artwork common netrunner-core'
   # 'zynthbox':
   #   :releases:
   #     'zynthbox-rpi4':

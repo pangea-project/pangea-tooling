@@ -44,7 +44,8 @@ class DCISetupRepoTest < TestCase
 
     ENV['RELEASE_TYPE'] = 'desktop'
     ENV['RELEASE'] = 'netrunner-desktop'
-    @series = OS::VERSION_ID
+    ENV['SERIES'] = '22'
+    @series = ENV.fetch('SERIES')
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
     ENV['TYPE'] = 'stable'
@@ -59,6 +60,7 @@ class DCISetupRepoTest < TestCase
     WebMock.allow_net_connect!
     ENV['RELEASE_TYPE'] = nil
     ENV['RELEASE'] = nil
+    ENV['SERIES'] = nil
     ENV['TYPE'] = nil
     @prefix = ''
     @distribution = ''
@@ -77,7 +79,7 @@ class DCISetupRepoTest < TestCase
   def test_setup_backports!
     setup
     system_calls = [
-      ["apt-get", "-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "install", "software-properties-common"],
+      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'install', 'software-properties-common'],
       ['add-apt-repository', '--no-update', '-y', 'deb http://deb.debian.org/debian bullseye-backports main'],
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
       ['apt-get', *Apt::Abstrapt.default_args, 'upgrade', '-t=bullseye-backports']
@@ -96,8 +98,8 @@ class DCISetupRepoTest < TestCase
   def test_add_repos
     setup
     system_calls = [
-      ["apt-get", *Apt::Abstrapt.default_args, "install", "software-properties-common"],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-desktop-22 netrunner extras artwork common backports netrunner-core netrunner-desktop']
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-desktop-22 netrunner extras artwork common netrunner-core netrunner-desktop']
     ]
     system_sequence = sequence('system-calls')
     system_calls.each do |cmd|
@@ -112,9 +114,9 @@ class DCISetupRepoTest < TestCase
 
   def test_setup_repo!
     setup
-    OS.instance_variable_set(:@hash, VERSION_ID: 'buster')
-    ENV['RELEASE_TYPE'] = 'zynthbox'
-    ENV['RELEASE'] = 'zynthbox-rpi4'
+    OS.instance_variable_set(:@hash, VERSION_ID: 'bullseye')
+    ENV['RELEASE_TYPE'] = 'desktop'
+    ENV['RELEASE'] = 'netrunner-desktop'
     @series = OS::VERSION_ID
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
@@ -125,10 +127,10 @@ class DCISetupRepoTest < TestCase
       ['apt-get', *Apt::Abstrapt.default_args, 'upgrade'],
       ['dpkg --add-architecture i386'],
       ['apt-get', *Apt::Abstrapt.default_args, 'install', 'software-properties-common'],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://deb.debian.org/debian buster-backports main'],
-      ["apt-get", "-y", "-o", "APT::Get::force-yes=true", "-o", "Debug::pkgProblemResolver=true", "-q", "update"],
-      ['apt-get', *Apt::Abstrapt.default_args, 'upgrade', '-t=buster-backports'],
-      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/zynthbox zynthbox-rpi4-buster zynthbox'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://deb.debian.org/debian bullseye-backports main'],
+      ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q', 'update'],
+      ['apt-get', *Apt::Abstrapt.default_args, 'upgrade', '-t=bullseye-backports'],
+      ['add-apt-repository', '--no-update', '-y', 'deb http://dci.ds9.pub/netrunner netrunner-desktop-22 netrunner extras artwork common netrunner-core netrunner-desktop']
     ]
     system_sequence = sequence('system-calls')
     system_calls.each do |cmd|
@@ -137,9 +139,14 @@ class DCISetupRepoTest < TestCase
             .returns(true)
             .in_sequence(system_sequence)
     end
-    assert_equal('zynthbox', @prefix)
-    assert_equal('zynthbox-rpi4', @release)
-    assert_equal(["zynthbox"], @components)
+    assert_equal('netrunner', @prefix)
+    assert_equal('netrunner-desktop', @release)
+    assert_equal(%w[netrunner
+                    extras
+                    artwork
+                    common
+                    netrunner-core
+                    netrunner-desktop], @components)
     key_catcher = StringIO.new
     IO.expects(:popen)
       .with(['apt-key', 'add', '-'], 'w')

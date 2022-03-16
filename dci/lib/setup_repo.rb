@@ -34,7 +34,7 @@ module DCI
   def setup_repo!
     @release_type = ENV.fetch('RELEASE_TYPE')
     @release = ENV.fetch('RELEASE')
-    @series = OS::VERSION_ID
+    @series = ENV.fetch('SERIES')
     @prefix = DCI.aptly_prefix(@release_type)
     @distribution = DCI.release_distribution(@release, @series)
     @components = DCI.release_components(DCI.get_release_data(@release_type, @release))
@@ -58,7 +58,7 @@ module DCI
     raise 'update failed' unless Apt.update
 
     Retry.retry_it(times: 5, sleep: 2) do
-      type = @series == 'buster' ? "-t=buster-backports" : "-t=bullseye-backports"
+      type = @series == 'buster' ? '-t=buster-backports' : '-t=bullseye-backports'
       raise "backports upgrade failed. Version codename is #{@series}" unless Apt.upgrade(type)
     end
   end
