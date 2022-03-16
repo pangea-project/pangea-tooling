@@ -9,7 +9,7 @@ class DCITest < TestCase
   end
 
   def test_release_types
-    assert_equal(%w[desktop core zynthbox], DCI.release_types)
+    assert_equal(%w[desktop core], DCI.release_types)
   end
 
   def test_series_version_codename
@@ -31,8 +31,8 @@ class DCITest < TestCase
   end
 
   def test_base_os_ids
-    #FIXME
-    #assert_equal_collection(%w[netrunner netrunner-next zynthbox], DCI.base_os_ids)
+    # FIXME
+    # assert_equal_collection(%w[netrunner netrunner-next zynthbox], DCI.base_os_ids)
     assert_equal_collection(%w[netrunner netrunner-next], DCI.base_os_ids)
   end
 
@@ -44,12 +44,12 @@ class DCITest < TestCase
     series = DCI.series
     assert_is_a(series, Hash)
     assert_equal('22', series['netrunner'])
-    #assert_equal('10', series['zynthbox'])
+    # assert_equal('10', series['zynthbox'])
     assert_equal(nil, series['zynthbox'])
-    #assert_equal(%w[22 23 10], DCI.series.values)
+    # assert_equal(%w[22 23 10], DCI.series.values)
     assert_equal(%w[22 23], DCI.series.values)
-    assert_true(series['zynthbox'] == nil)
-    #assert_true(series['zynthbox'] == '10')
+    assert_true(series['zynthbox'].nil?)
+    # assert_true(series['zynthbox'] == '10')
   end
 
   def test_latest_series
@@ -62,7 +62,7 @@ class DCITest < TestCase
 
   def test_all_image_data
     assert_is_a(DCI.all_image_data, Hash)
-    assert_equal_collection(%w[desktop core zynthbox], DCI.all_image_data.keys)
+    assert_equal_collection(%w[desktop core], DCI.all_image_data.keys)
     assert_equal_collection(%w[netrunner-core], DCI.all_image_data['core'].keys)
   end
 
@@ -76,8 +76,8 @@ class DCITest < TestCase
 
     assert_equal('https://github.com/netrunner-desktop/live-build', data.fetch('netrunner-desktop')[:repo])
     assert_equal('Netrunner/22', data.fetch('netrunner-desktop')[:series_branches]['22'])
-    data = DCI.image_data_by_release_type('zynthbox')
-    assert_true(data.fetch('zynthbox-rpi4')[:series_branches].keys.include?('buster'))
+    # data = DCI.image_data_by_release_type('zynthbox')
+    # assert_true(data.fetch('zynthbox-rpi4')[:series_branches].keys.include?('buster'))
   end
 
   def test_releases_for_type
@@ -113,8 +113,8 @@ class DCITest < TestCase
   end
 
   def test_arm_board_by_release
-    release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
-    assert_equal('rpi4', DCI.arm_board_by_release(release_data))
+    # release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
+    # assert_equal('rpi4', DCI.arm_board_by_release(release_data))
     release_data2 = DCI.get_release_data('core', 'netrunner-core')
     assert_equal(nil, DCI.arm_board_by_release(release_data2))
   end
@@ -127,8 +127,8 @@ class DCITest < TestCase
                     common
                     backports
                     netrunner-core], DCI.release_components(release_data))
-    release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
-    assert_equal(['zynthbox'], DCI.release_components(release_data))
+    # release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
+    # assert_equal(['zynthbox'], DCI.release_components(release_data))
   end
 
   def test_arm_boards
@@ -146,13 +146,13 @@ class DCITest < TestCase
   end
 
   def test_aptly_prefix
-    assert_equal('zynthbox', DCI.aptly_prefix('zynthbox'))
+    # assert_equal('zynthbox', DCI.aptly_prefix('zynthbox'))
     assert_equal('netrunner', DCI.aptly_prefix('core'))
   end
 
   def test_release_distribution
     assert_equal('netrunner-desktop-22', DCI.release_distribution('netrunner-desktop', '22'))
-    assert_equal('zynthbox-rpi4-buster', DCI.release_distribution('zynthbox-rpi4', 'buster'))
+    # assert_equal('zynthbox-rpi4-buster', DCI.release_distribution('zynthbox-rpi4', 'buster'))
   end
 
   def test_series_release_repos
@@ -166,9 +166,9 @@ class DCITest < TestCase
     assert_true(DCI.arm?('zynthbox-rpi4'))
   end
 
-  def test_arch_by_release
-    release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
-    assert_equal(true, 'zynthbox-rpi4'.end_with?('rpi4'))
-    assert_equal('armhf', DCI.arch_by_release(release_data))
-  end
+  # def test_arch_by_release
+  #   release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
+  #   assert_equal(true, 'zynthbox-rpi4'.end_with?('rpi4'))
+  #   assert_equal('armhf', DCI.arch_by_release(release_data))
+  # end
 end
