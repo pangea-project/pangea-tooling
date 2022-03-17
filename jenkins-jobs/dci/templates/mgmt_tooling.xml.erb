@@ -42,12 +42,13 @@
       <command>
        #!/bin/bash
        set -x
-       gem install bundler
-       bundle install
-       bundle update
-       bundle list
        export PATH=/var/lib/jenkins/.rbenv/bin:$PATH
        eval "$(rbenv init - bash)" || true
+       rm -rf .bundle || true
+       gem install --no-document bundler
+       [ -f Gemfile.lock ] || bundle install --jobs=`nproc`
+       bundle update --jobs=`nproc`
+       rm -rf .bundle || true
        rake clean test cloc rubocop deploy
       </command>
     </hudson.tasks.Shell>
