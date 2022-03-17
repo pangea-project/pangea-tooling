@@ -42,6 +42,10 @@
       <command>
        #!/bin/bash
        set -x
+       gem install bundler
+       bundle install
+       bundle update
+       bundle list
        export PATH=/var/lib/jenkins/.rbenv/bin:$PATH
        eval "$(rbenv init - bash)" || true
        rake clean test cloc rubocop deploy
