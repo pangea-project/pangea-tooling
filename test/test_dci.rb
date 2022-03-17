@@ -88,7 +88,7 @@ class DCITest < TestCase
     assert_equal(
       { 'netrunner-core' =>
           { 'arch' => 'amd64',
-            'components' => 'netrunner extras artwork common backports netrunner-core' } }, DCI.release_data_for_type('core')
+            'components' => 'netrunner extras artwork common netrunner-core' } }, DCI.release_data_for_type('core')
     )
   end
 
@@ -97,7 +97,7 @@ class DCITest < TestCase
     assert_is_a(release_data, Hash)
     assert_equal('amd64', release_data['arch'])
     assert_equal(
-      'netrunner extras artwork common backports netrunner-core', release_data['components']
+      'netrunner extras artwork common netrunner-core', release_data['components']
     )
   end
 
@@ -123,7 +123,6 @@ class DCITest < TestCase
                     extras
                     artwork
                     common
-                    backports
                     netrunner-core], DCI.release_components(release_data))
     # release_data = DCI.get_release_data('zynthbox', 'zynthbox-rpi4')
     # assert_equal(['zynthbox'], DCI.release_components(release_data))

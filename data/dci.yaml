@@ -1,7 +1,6 @@
 series:
   netrunner: '22'
   netrunner-next: '23'
-  # zynthbox: '10'
 series_version_codenames:
   '22': '22'
   '23': 'next'
