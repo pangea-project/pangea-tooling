@@ -48,12 +48,9 @@
        rbenv rehash
        rm -rf .bundle || true
        gem install --no-document bundler
-       [ -f Gemfile.lock ] || bundle install --jobs=`nproc`
-       bundle update --jobs=`nproc`
-       rm -rf .bundle || true
-       gem install rake
-       gem install equivalent-xml
-       gem install nokogirl
+       bundle install
+       bundle update
+       bundle list
        rake clean test cloc rubocop deploy
       </command>
     </hudson.tasks.Shell>
