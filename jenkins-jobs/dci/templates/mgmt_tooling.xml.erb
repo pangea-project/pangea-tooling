@@ -40,26 +40,13 @@
     <com.cloudbees.jenkins.GitHubSetCommitStatusBuilder plugin="github@1.13.3"/>
     <hudson.tasks.Shell>
       <command>
-rm -rf .bundle || true
-gem install --no-document bundler
-[ -f Gemfile.lock ] || bundle install --jobs=`nproc`
-bundle update --jobs=`nproc`
-rm -rf .bundle || true
-</command>
+       #!/bin/bash
+       set -x
+       export PATH=/var/lib/jenkins/.rbenv/bin:$PATH
+       eval "$(rbenv init - bash)" || true
+       rake clean test cloc rubocop deploy
+      </command>
     </hudson.tasks.Shell>
-    <hudson.plugins.rake.Rake plugin="rake@1.8.0">
-      <rakeInstallation>(Default)</rakeInstallation>
-      <rakeFile></rakeFile>
-      <rakeLibDir></rakeLibDir>
-      <rakeWorkingDir></rakeWorkingDir>
-      <tasks>clean
-test
-cloc
-rubocop
-deploy</tasks>
-      <silent>false</silent>
-      <bundleExec>false</bundleExec>
-    </hudson.plugins.rake.Rake>
   </builders>
   <publishers>
     <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.9">
