@@ -50,6 +50,7 @@
        [ -f Gemfile.lock ] || bundle install --jobs=`nproc`
        bundle update --jobs=`nproc`
        rm -rf .bundle || true
+       gem install rake
        rake clean test cloc rubocop deploy
       </command>
     </hudson.tasks.Shell>
