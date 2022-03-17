@@ -44,7 +44,7 @@
        set -x
        export RBENV_VERSION='2.7.5'
        export PATH=/var/lib/jenkins/.rbenv/bin:$PATH
-       eval "$(rbenv init - bash)" || true
+       eval "$(rbenv init -)"
        rm -rf .bundle || true
        gem install --no-document bundler
        [ -f Gemfile.lock ] || bundle install --jobs=`nproc`
