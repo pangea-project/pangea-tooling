@@ -42,6 +42,7 @@
       <command>
        #!/bin/bash
        set -x
+       export RBENV_VERSION='2.7.5'
        export PATH=/var/lib/jenkins/.rbenv/bin:$PATH
        eval "$(rbenv init - bash)" || true
        rm -rf .bundle || true
