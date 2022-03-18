@@ -50,6 +50,7 @@
        rbenv local 3.1.1
        rbenv rehash
        rm -rf .bundle || true
+       bundle add webrick
        rm -f Gemfile.lock
        gem install --no-document bundler
        gem install jenkins_api_client
