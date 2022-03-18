@@ -42,12 +42,12 @@
       <command>
        #!/bin/bash
        set -x
-       export RBENV_VERSION='3.1.1'
+       export RBENV_VERSION='2.7.5'
        export PATH=/var/lib/jenkins/.rbenv/bin:$PATH
        eval "$(rbenv init -)"
        gem update --system
-       rbenv global 3.1.1
-       rbenv local 3.1.1
+       rbenv global 2.7.5
+       rbenv local 2.7.5
        rbenv rehash
        rm -rf .bundle || true
        bundle add webrick
