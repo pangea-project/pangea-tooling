@@ -52,6 +52,7 @@
        rm -rf .bundle || true
        rm -f Gemfile.lock
        gem install --no-document bundler
+       gem install jenkins_api_client
        bundle update
        bundle install
        bundle list
