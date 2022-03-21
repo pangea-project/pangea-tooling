@@ -426,6 +426,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'user', notify: true))
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'release'))
+    enqueue(MGMTFwupdCheckJob.new(dist: NCI.current_series, type: 'user', notify: true))
     enqueue(MGMTToolingJob.new(downstreams: [],
                                dependees: []))
     enqueue(MGMTRepoCleanupJob.new)

@@ -1,0 +1,47 @@
+env.DIST='<%= dist %>'
+env.TYPE='<%= type %>'
+env.RBENV_VERSION='2.7.5'
+env.PATH='/home/neon/bin:/home/neon/.gem/ruby/2.7.0/bin:/home/neon/.rbenv/shims:/home/neon/.rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
+
+notify {
+    cleanNode('master') {
+        try {
+            withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: '')]) {
+                sh '~/tooling/nci/contain.rb /tooling/nci/fwupd_check.rb'
+            }
+        } finally {
+            archiveArtifacts 'versions.html'
+            junit allowEmptyResults: true, testResults: 'report.xml'
+        }
+    }
+}
+
+def notify(body) {
+    try {
+        body()
+    } catch (e) {
+        <% if notify %>
+        stage('notify') {
+            mail to: 'neon-notifications@kde.org',
+                 subject: "fwupd-signed update needed #${BUILD_NUMBER}",
+                 body: """fwupd-signed needs updated to match the new fwupd in Ubuntu. #${BUILD_NUMBER}. ${BUILD_URL}/testReport"""
+        }
+        <% end %>
+        throw e
+    }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    try {
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+        wrap([$class: 'TimestamperBuildWrapper']) {
+          body()
+        }
+      }
+    } finally {
+      step([$class: 'WsCleanup', cleanWhenFailure: true])
+    }
+  }
+}
