@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2016 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2022 Jonathan Esk-Riddell <jr@jriddell.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,6 +18,11 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+# Can fwupd and fwupd-signed be installed together?  fwupd-signed depends on the exact version
+# of fwupd but Ubuntu sometimes updates the version of fwupd which means fwupd-signed gets
+# suddenly uninstalled and silently does not get added to ISOs/Docker.  So this will check and
+# email daily for that issue.
 
 require 'aptly'
 require 'date'
