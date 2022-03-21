@@ -45,18 +45,13 @@
        export RBENV_VERSION='2.7.5'
        export PATH=/var/lib/jenkins/.rbenv/bin:$PATH
        eval "$(rbenv init -)"
-       gem update --system
        rbenv global 2.7.5
        rbenv local 2.7.5
-       rbenv rehash
-       rm -rf .bundle || true
-       bundle add webrick
-       rm -f Gemfile.lock
-       gem install --no-document bundler
-       gem install jenkins_api_client
-       bundle update
+       gem uninstall -aIx
+       gem update --system
+       gem install bundler
        bundle install
-       bundle list
+       rbenv rehash
        rake clean test cloc rubocop deploy
       </command>
     </hudson.tasks.Shell>
