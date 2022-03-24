@@ -88,7 +88,11 @@
       </configs>
     </hudson.plugins.parameterizedtrigger.TriggerBuilder>
     <hudson.tasks.Shell>
-      <command>export DIST=<%= dist %>
+      <command>
+export PATH=/home/neon/.rbenv/bin:$PATH
+eval "$(rbenv init - bash)" || true
+
+export DIST=<%= dist %>
 cd $HOME/tooling
 ./nci/repo_snapshot_user.rb -t <%= target %>
 </command>
