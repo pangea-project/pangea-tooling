@@ -28,7 +28,12 @@ class NCIMergerJob < JenkinsJob
   attr_reader :dependees
 
   def initialize(project, dependees:, branches:)
-    super("merger_#{project.name}", 'merger.xml.erb')
+    if project.component == 'kf6'
+      name = "kf6_#{project.name}"
+    else
+      name = project.name
+    end
+    super("merger_#{name}", 'merger.xml.erb')
     @packaging_scm = project.packaging_scm
     @merge_branches = branches
     @dependees = dependees
