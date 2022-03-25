@@ -1,0 +1,6 @@
+usr/kf6/include
+usr/kf6/lib/*/cmake/
+usr/kf6/lib/*/libKF5Attica.so
+usr/kf6/lib/*/pkgconfig/
+usr/kf6/mkspecs/
+usr/kf6/share/qlogging-categories6/

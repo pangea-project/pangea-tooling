@@ -1,0 +1,6 @@
+usr/include/KF5/Attica/
+usr/lib/*/cmake/KF5Attica/
+usr/lib/*/libKF5Attica.so
+usr/lib/*/pkgconfig/libKF5Attica.pc
+usr/lib/*/qt5/mkspecs/modules/*
+usr/share/qt5/doc/KF5Attica.tags

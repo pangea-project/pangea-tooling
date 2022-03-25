@@ -1,0 +1,40 @@
+Source: kf6-attica
+Section: libs
+Priority: optional
+Maintainer: Jonathan Esk-Riddell <jr@jriddell.org>
+Build-Depends: cmake,
+               debhelper (>= 13),
+               debhelper-compat (= 13),
+               extra-cmake-modules,
+               pkg-kde-tools-neon,
+               qt6-base-dev,
+               qt6-tools-dev
+Standards-Version: 4.1.4
+
+Package: kf6-attica-dev
+Section: libdevel
+Architecture: any
+Depends: kf6-attica (= ${binary:Version}), qt6-base-dev, ${misc:Depends}
+Description: development files for attica
+ Attica is a Qt library that implements the Open Collaboration Services
+ API version 1.6.
+ .
+ It grants easy access to the services such as querying information about
+ persons and contents.
+ .
+ This package is part of KDE Frameworks 6.
+ .
+ This package contains the development header files.
+
+Package: kf6-attica
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Qt library that implements the Open Collaboration Services API
+ Attica is a Qt library that implements the Open Collaboration Services
+ API version 1.6.
+ .
+ It grants easy access to the services such as querying information about
+ persons and contents.
+ .
+ This package is part of KDE Frameworks 6.

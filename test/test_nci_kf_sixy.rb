@@ -19,7 +19,7 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 require_relative 'lib/testcase'
-require_relative '../nci/qt_sixy'
+require_relative '../nci/kf_sixy'
 
 require 'mocha/test_unit'
 require 'webmock/test_unit'
@@ -39,22 +39,25 @@ class NCIRepoCleanupTest < TestCase
 
   def test_sixy_repo
     Object.any_instance.expects(:`)
-    FileUtils.rm_rf("./qt6-test")
-    FileUtils.cp_r("#{data}/original", "./qt6-test")
-    Dir.chdir("qt6-test") do
-      sixy = QtSixy.new()
+    FileUtils.rm_rf("./kf6-test")
+    FileUtils.cp_r("#{data}/original", "./kf6-test")
+    Dir.chdir("kf6-test") do
+      sixy = KfSixy.new()
       sixy.run
     end
 
-    result = File.readlines("qt6-test/debian/control")
+    result = File.readlines("kf6-test/debian/control")
     File.readlines("#{data}/good/debian/control").each_with_index do |line, i|
       assert_equal(line, result[i])
     end
-    assert_equal(false, File.exist?("qt6-test/debian/libqt6shadertools6-dev.install"))
-    assert_equal(false, File.exist?("qt6-test/debian/libqt6shadertools6.install"))
-    assert_equal(false, File.exist?("qt6-test/debian/libqt6shadertools6.symbols"))
-    assert_equal(false, File.exist?("qt6-test/debian/qt6-shader-baker.install"))
-    assert_equal(true, File.exist?("qt6-test/debian/qt6-test.install"))
-    assert_equal(true, File.exist?("qt6-test/debian/qt6-test-dev.install"))
+    assert_equal(false, File.exist?("kf6-test/debian/libkf5attica5.install"))
+    assert_equal(false, File.exist?("kf6-test/debian/libkf5attica5.maintscript"))
+    assert_equal(false, File.exist?("kf6-test/debian/libkf5attica5.symbols"))
+    assert_equal(false, File.exist?("kf6-test/debian/libkf5attica-dev.acc.in"))
+    assert_equal(false, File.exist?("kf6-test/debian/libkf5attica-dev.install"))
+    assert_equal(false, File.exist?("kf6-test/debian/libkf5attica-dev.lintian-overrides"))
+    assert_equal(false, File.exist?("kf6-test/debian/libkf5attica-doc.install"))
+    assert_equal(true, File.exist?("kf6-test/debian/kf6-attica-dev.install"))
+    assert_equal(true, File.exist?("kf6-test/debian/kf6-attica.install"))
   end
 end

@@ -1,0 +1,19 @@
+From: Maximiliano Curia <maxy@gnuservers.com.ar>
+Date: Wed, 15 Aug 2018 11:26:39 +0200
+Subject: Disable network dependant test
+
+---
+ autotests/CMakeLists.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+--- a/autotests/CMakeLists.txt
++++ b/autotests/CMakeLists.txt
+@@ -6,6 +6,7 @@
+ ecm_add_tests(
+   configtest.cpp
+   persontest.cpp
+-  providertest.cpp
++  # Disable network dependant test
++  # providertest.cpp
+   LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test KF5::Attica
+ )

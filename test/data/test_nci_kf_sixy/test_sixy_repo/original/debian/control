@@ -1,0 +1,72 @@
+Source: attica-kf5
+Section: libs
+Priority: optional
+Maintainer: Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Uploaders: Maximiliano Curia <maxy@debian.org>
+Build-Depends: cmake (>= 3.0~),
+               debhelper (>= 11~),
+               doxygen,
+               extra-cmake-modules (>= 5.51.0~),
+               graphviz,
+               libqt5sql5-sqlite:native,
+               pkg-kde-tools (>= 0.15.15ubuntu1~),
+               qtbase5-dev (>= 5.8.0~),
+               qttools5-dev-tools (>= 5.4)
+Standards-Version: 4.1.4
+Homepage: https://projects.kde.org/projects/frameworks/attica
+Vcs-Browser: https://salsa.debian.org/qt-kde-team/kde/attica
+Vcs-Git: https://salsa.debian.org/qt-kde-team/kde/attica.git
+
+Package: libkf5attica-dev
+Section: libdevel
+Architecture: any
+Depends: libkf5attica5 (= ${binary:Version}),
+         qtbase5-dev (>= 5.8.0~),
+         ${misc:Depends}
+Breaks: libkf5newstuff-dev (<< 5.51), libkf5xmlgui-dev (<< 5.51)
+Replaces: libkf5attica-doc (<< 5.61.90-0)
+Recommends: libkf5attica-doc (= ${source:Version})
+Description: development files for libkf5attica5
+ Attica is a Qt library that implements the Open Collaboration Services
+ API version 1.6.
+ .
+ It grants easy access to the services such as querying information about
+ persons and contents.
+ .
+ This package is part of KDE Frameworks 5.
+ .
+ This package contains the development header files.
+
+Package: libkf5attica-doc
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Description: Qt library that implements the Open Collaboration Services API (documentation)
+ Attica is a Qt library that implements the Open Collaboration Services
+ API version 1.6.
+ .
+ It grants easy access to the services such as querying information about
+ persons and contents.
+ .
+ This package is part of KDE Frameworks 5.
+ .
+ This package contains the qch documentation files.
+Section: doc
+
+Package: libkf5attica5
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Qt library that implements the Open Collaboration Services API
+ Attica is a Qt library that implements the Open Collaboration Services
+ API version 1.6.
+ .
+ It grants easy access to the services such as querying information about
+ persons and contents.
+ .
+ This package is part of KDE Frameworks 5.
+Breaks: frameworkintegration (<< 5.42),
+        libkf5newstuff5 (<< 5.51),
+        libkf5newstuffcore5 (<< 5.51),
+        libkf5xmlgui5 (<< 5.51),
+        qml-module-org-kde-newstuff (<< 5.42)
