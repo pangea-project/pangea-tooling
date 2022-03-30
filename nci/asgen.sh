@@ -26,7 +26,7 @@ set -ex
 export LANG=C.UTF-8 # make sure perl knows which encoding to use
 
 apt update
-apt-get install -y ruby gpg eatmydata
+apt-get install -y ruby gpg eatmydata dirmngr
 
 ln -sv /usr/bin/eatmydata /usr/local/bin/apt
 ln -sv /usr/bin/eatmydata /usr/local/bin/apt-get
