@@ -31,11 +31,11 @@ set -ex
 echo 011-fuse.chroot_early
 
 if grep -q Unstable /etc/os-release; then
-    apt-get install -y kio-fuse fuse3
+    apt-get install -y neon-ubuntu-advantage-tools fuse3
 fi
 if grep -q Testing /etc/os-release; then
-    apt-get install -y kio-fuse fuse3
+    apt-get install -y neon-ubuntu-advantage-tools fuse3
 fi
 if grep -q User /etc/os-release; then
-    apt-get install -y kio-fuse fuse3
+    apt-get install -y neon-ubuntu-advantage-tools fuse3
 fi
