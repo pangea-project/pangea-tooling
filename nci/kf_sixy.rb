@@ -59,6 +59,7 @@ class KfSixy
     source = "kf6-" + source
     control.source['Source'] = source
     control.source.replace(control.source.sort_by {|k,v| k == 'Source' ? 0 : 1}.to_h)
+    control.source['Maintainer'] = "Jonathan Esk-Riddell <jr@jriddell.org>\n"
 
 
     dev_binaries = control.binaries.select { |x| x['Package'].include?('-dev') }
