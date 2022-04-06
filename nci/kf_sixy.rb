@@ -58,8 +58,10 @@ class KfSixy
     source.sub!("-kf5", '')
     source = "kf6-" + source
     control.source['Source'] = source
+
     control.source['Maintainer'] = "Jonathan Esk-Riddell <jr@jriddell.org>"
 
+    # Put back into the right order, sorting hashes by key in Ruby is a pain
     source_order = ['Source', 'Section', 'Priority', 'Maintainer', 'Uploaders', 'Build-Depends', 'Standards-Version', 'Vcs-Browser', 'Vcs-Git', 'Homepage']
     control.source.replace(control.source.sort_by {|k,v| puts k; source_order.index(k)}.to_h)
 
