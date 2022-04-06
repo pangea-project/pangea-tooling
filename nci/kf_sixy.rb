@@ -20,7 +20,7 @@ class KfSixy
 
   def initialize()
     puts "Running Sixy in #{Dir.pwd}"
-    puts `ls`
+    #puts `ls`
 
     unless File.exists?("debian")
       puts "Must be run in a 'kf6-foo' repo with 'debian/' dir"
@@ -50,7 +50,16 @@ class KfSixy
     cmd = TTY::Command.new
     control = Debian::Control.new
     control.parse!
-    p control.binaries.collect { |x| x['Package'] } # pkgs
+    #p control.binaries.collect { |x| x['Package'] } # pkgs
+
+    puts control.source
+    # Change "attica-kf5 to kf6-attica"
+    source = control.source['Source']
+    source.sub!("-kf5", '')
+    source = "kf6-" + source
+    control.source['Source'] = source
+    control.source.replace(control.source.sort_by {|k,v| k == 'Source' ? 0 : 1}.to_h)
+
 
     dev_binaries = control.binaries.select { |x| x['Package'].include?('-dev') }
     bin_binaries = control.binaries.select { |x| !dev_binaries.include?(x) }
