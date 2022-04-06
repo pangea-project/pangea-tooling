@@ -60,6 +60,7 @@ class KfSixy
     control.source['Source'] = source
 
     control.source['Maintainer'] = "Jonathan Esk-Riddell <jr@jriddell.org>"
+    control.source.delete('Uploaders')
 
     # Put back into the right order, sorting hashes by key in Ruby is a pain
     source_order = ['Source', 'Section', 'Priority', 'Maintainer', 'Uploaders', 'Build-Depends', 'Standards-Version', 'Vcs-Browser', 'Vcs-Git', 'Homepage']
