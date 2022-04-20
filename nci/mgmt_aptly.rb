@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Copyright (C) 2016-2017 Harald Sitter <sitter@kde.org>
+# Copyright (C) 2016-2022 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -41,9 +41,9 @@ repos = {}
 NCI.series.each_key do |series|
   repos.merge!(
     PublishingRepo.new("unstable_#{series}", 'dev_unstable') =>
-      repo(label_type: 'Dev Unstable Edition', series: series),
+      repo(label_type: 'Unstable Edition', series: series),
     PublishingRepo.new("stable_#{series}", 'dev_stable') =>
-      repo(label_type: 'Dev Stable Edition', series: series),
+      repo(label_type: 'Testing Edition', series: series),
     PublishingRepo.new("stable_#{series}", 'testing') =>
       repo(label_type: 'Testing Edition', series: series),
     PublishingRepo.new("release_#{series}", 'release') =>
