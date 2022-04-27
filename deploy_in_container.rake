@@ -163,7 +163,7 @@ end
 
 def bundle_install
   FileUtils.rm_f('Gemfile.lock')
-  raise unless system('gem install --file')
+  bundle('install', "--jobs=#{[Etc.nprocessors / 2, 1].max}", '--system')
 rescue StandardError => e
   log_dir = "#{tooling_path}/#{ENV['DIST']}_#{ENV['TYPE']}"
   Dir.glob('/var/lib/gems/*/extensions/*/*/*/mkmf.log').each do |log|
