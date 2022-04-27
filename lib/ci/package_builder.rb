@@ -315,7 +315,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       # If we only installed @bin_only dependencies as indep didn't want to
       # install we'll coerce -b into -B irregardless of platform.
       dpkg_buildopts.collect! { |x| x == '-b' ? '-B' : x } if @bin_only
-      dpkg_buildopts << '--build-profiles="noudeb"'
+      dpkg_buildopts << '--build-profiles="noudeb"' << '--compression=xz'
       dpkg_buildopts
     end
 
