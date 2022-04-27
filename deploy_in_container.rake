@@ -325,6 +325,9 @@ update: --no-document
 
     with_ubuntu_pin do
       Retry.retry_it(times: 5, sleep: 8) do
+        # Ensure previous failures actually configure properly first.
+        raise 'configure failed' unless system('dpkg --configure -a')
+
         # NOTE: apt.rb automatically runs update the first time it is used.
         raise 'Dist upgrade failed' unless Apt.dist_upgrade
 
