@@ -161,16 +161,7 @@ def deployment_cleanup
 end
 
 def bundle_install
-  bundle_args = ['install']
-  bundle_args << "--jobs=#{[Etc.nprocessors / 2, 1].max}"
-  bundle_args << '--local'
-  bundle_args << '--no-cache'
-  bundle_args << '--frozen'
-  bundle_args << '--system'
-  # FIXME: this breaks deployment on nodes, for now disable this
-  # https://github.com/pangea-project/pangea-tooling/issues/17
-  # bundle_args << '--without' << 'development' << 'test'
-  bundle(*bundle_args)
+  raise unless system('gem install --file')
 rescue StandardError => e
   log_dir = "#{tooling_path}/#{ENV['DIST']}_#{ENV['TYPE']}"
   Dir.glob('/var/lib/gems/*/extensions/*/*/*/mkmf.log').each do |log|
