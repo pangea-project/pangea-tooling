@@ -196,7 +196,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
 
     def maybe_prepare_qt_build
       return unless ENV['PANGEA_QT_GIT_BUILD']
-      raise if ENV.fetch('DIST') != 'focal'
+      raise unless %w[focal jammy].include?(ENV.fetch('DIST'))
       # Bit of a cheap hack but we really don't need to parse the changelog proper for the purposes of our check.
       raise unless system('head -1 debian/changelog | grep --quiet --extended-regexp "(qtfeedback)|(5\.15\.[23])"')
 
