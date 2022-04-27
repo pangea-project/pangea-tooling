@@ -8,10 +8,8 @@ source 'https://gem.cache.pangea.pub'
 # https://github.com/pangea-project/pangea-geminabox
 # and pushed into our gem cache for consumption. See Gemfile.git for info.
 # These are actual gems in our cache, they mustn't have a git: argument.
-source 'https://gem.cache.pangea.pub' do
-  gem 'releaseme' # Not released as gem at all
-  gem 'jenkins_junit_builder' # Forked because upstream depends on an ancient nokogiri that doesn't work with ruby3
-end
+gem 'releaseme' # Not released as gem at all
+gem 'jenkins_junit_builder' # Forked because upstream depends on an ancient nokogiri that doesn't work with ruby3
 
 gem 'activesupport', '6.1.4.4'
 gem 'aptly-api', '~> 0.10'
