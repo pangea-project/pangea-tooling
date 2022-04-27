@@ -161,6 +161,7 @@ def deployment_cleanup
 end
 
 def bundle_install
+  FileUtils.rm_f('Gemfile.lock')
   raise unless system('gem install --file')
 rescue StandardError => e
   log_dir = "#{tooling_path}/#{ENV['DIST']}_#{ENV['TYPE']}"
