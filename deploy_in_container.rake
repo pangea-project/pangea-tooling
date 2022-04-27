@@ -55,8 +55,9 @@ DEPS = %w[xz-utils dpkg-dev dput debhelper pkg-kde-tools devscripts
           germinate gnupg2 sphinx-common
           bash-completion python3-setuptools python3-setuptools-scm
           dkms libffi-dev libcurl4-gnutls-dev
-          libhttp-parser-dev rsync man-db].freeze + CORE_RUNTIME_DEPS
-
+          libhttp-parser-dev rsync man-db].freeze +
+          %w[subversion].freeze + # for releaseme
+          CORE_RUNTIME_DEPS
 def home
   '/var/lib/jenkins'
 end
