@@ -49,7 +49,7 @@ def cleanNode(label = null, body) {
         }
       }
     } finally {
-     /* step([$class: 'WsCleanup', cleanWhenFailure: true]) */
+        step([$class: 'WsCleanup', cleanWhenFailure: true])
 
     }
   }
