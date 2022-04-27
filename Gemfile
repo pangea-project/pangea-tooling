@@ -10,6 +10,7 @@ source 'https://gem.cache.pangea.pub'
 # These are actual gems in our cache, they mustn't have a git: argument.
 source 'https://gem.cache.pangea.pub' do
   gem 'releaseme' # Not released as gem at all
+  gem 'jenkins_junit_builder' # Forked because upstream depends on an ancient nokogiri that doesn't work with ruby3
 end
 
 gem 'activesupport', '6.1.4.4'
@@ -25,7 +26,6 @@ gem 'gitlab'
 gem 'htmlentities'
 gem 'insensitive_hash'
 gem 'jenkins_api_client'
-gem 'jenkins_junit_builder', '~> 0.0.6' # Don't pickup v0.0.1
 gem 'logger-colors'
 gem 'net-ftp-list'
 gem 'net-sftp'
