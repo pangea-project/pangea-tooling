@@ -138,6 +138,17 @@ def cleanup_rubies
   FileUtils.rm_rf(Dir.glob('/var/lib/gems/*/*'), verbose: true)
 end
 
+def cleanup_bundle
+  Dir.chdir(tooling_path) do
+    # Clean up now unused gems. This prevents unused versions of a gem
+    # lingering in the image blowing up its size.
+    clean_args = ['clean']
+    clean_args << '--verbose'
+    clean_args << '--force' # Force system clean!
+    bundle(*clean_args)
+  end
+end
+
 def deployment_cleanup
   # Ultimate clean up
   #  Semi big logs
@@ -146,6 +157,7 @@ def deployment_cleanup
   File.write('/var/log/dpkg.log', '')
   File.write('/var/log/apt/term.log', '')
 
+  cleanup_bundle
   cleanup_rubies
 end
 
