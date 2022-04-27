@@ -11,7 +11,7 @@ source 'https://gem.cache.pangea.pub'
 gem 'releaseme' # Not released as gem at all
 gem 'jenkins_junit_builder' # Forked because upstream depends on an ancient nokogiri that doesn't work with ruby3
 
-gem 'activesupport', '6.1.4.4'
+gem 'activesupport', '>= 6.0.3.1'
 gem 'aptly-api', '~> 0.10'
 gem 'bencode' # for torrent generation
 gem 'concurrent-ruby'
