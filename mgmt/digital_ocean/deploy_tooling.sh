@@ -35,7 +35,7 @@ cd /tmp/tooling
 
 ## from  mgmt_tooling_deploy.xml
 rm -rv .bundle || true
-gem install --no-document bundler
+gem install --no-document --version 2.3.11 bundler
 # FIXME: add --without development test back
 # https://github.com/pangea-project/pangea-tooling/issues/17
 bundle install --jobs=`nproc` --system
