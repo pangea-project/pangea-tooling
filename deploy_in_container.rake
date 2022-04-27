@@ -463,7 +463,7 @@ SCRIPT
 
   # Ubuntu's language-pack-en-base calls this internally, since this is
   # unavailable on Debian, call it manually.
-  locale_tag = "#{ENV.fetch('LANG')} UTF-8"
+  locale_tag = "#{ENV.fetch('LANG').split('.', 2)[0]} UTF-8"
   File.open('/etc/locale.gen', 'a+') do |f|
     f.puts(locale_tag) unless f.any? { |l| l.start_with?(locale_tag) }
   end
