@@ -22,7 +22,7 @@ module Docker
 
     # Remove exited jenkins containers.
     def containers
-      containers_exited(days_old: 1)
+      containers_exited(days_old: 0)
       containers_running(days_old: 1)
     end
 
