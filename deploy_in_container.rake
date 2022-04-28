@@ -150,6 +150,7 @@ def deployment_cleanup
 end
 
 def bundle_install
+  FileUtils.rm_f('Gemfile.lock')
   FileUtils.rm_rf('.bundle/')
   FileUtils.rm_rf('vendor/')
   bundle('install', "--jobs=#{[Etc.nprocessors / 2, 1].max}", '--system')
