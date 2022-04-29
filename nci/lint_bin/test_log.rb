@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# SPDX-FileCopyrightText: 2016-2021 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2016-2022 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require 'open-uri'
@@ -17,7 +17,7 @@ module Lint
         @log_orig ||= Retry.retry_it(times: 2, sleep: 8) do
           uri = ENV.fetch('LOG_URL')
           warn "Loading Build Log: #{uri}"
-          io = open(uri)
+          io = URI.open(uri)
           io.read.freeze
         end
       end
