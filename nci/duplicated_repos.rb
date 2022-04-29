@@ -47,6 +47,7 @@ module NCI
       'kde-sc/', # Legacy KDE 4 material
       'attic/', # Archive for old unused stuff.
       'deduplication-wastebin/' # Trash from dupe cleanup.
+      'kf6/' # All duplicate with kde
     ].freeze
 
     module JUnit
