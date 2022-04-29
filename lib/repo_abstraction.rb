@@ -12,7 +12,6 @@ require_relative 'lsb'
 require_relative 'nci'
 require_relative 'os'
 require_relative 'retry'
-require_relative 'gir_ffi'
 
 require 'concurrent'
 require 'logger'
@@ -285,7 +284,14 @@ class RootOnAptlyRepository < Repository
     end
   end
 
+  def internal_setup_gir
+    Apt.install('packagekit', 'libgirepository1.0-dev', 'gir1.2-packagekitglib-1.0', 'dbus-x11') || raise
+    require_relative 'gir_ffi'
+    true
+  end
+
   def setup_gir
+    @setup ||= internal_setup_gir
     @gir ||= GirFFI.setup(:PackageKitGlib, '1.0')
   end
 
