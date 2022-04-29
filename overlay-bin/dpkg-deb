@@ -1,9 +1,16 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-# SPDX-FileCopyrightText: 2021 Harald Sitter <sitter@kde.org>
+# SPDX-FileCopyrightText: 2021-2022 Harald Sitter <sitter@kde.org>
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require_relative 'lib/paths' # Drop the overlay from the PATH env.
+
+# Jammy defaults to zstd but our aptly presently doesn't support it. Use xz instead.
+if ENV['DIST'] == 'jammy'
+  ARGV.reject! { |arg| arg.start_with?('-Z') }
+  ARGV.prepend('-Zxz')
+  puts "Removing compression from deb; new ARGV #{ARGV}"
+end
 
 if ENV['PANGEA_UNDER_TEST']
   ARGV.reject! { |arg| arg.start_with?('-Z', '-S') }
