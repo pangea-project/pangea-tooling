@@ -10,7 +10,6 @@ repo_diversion: false # toggle when experimental is getting staged for deploymen
 architectures:
   - amd64
 extra_architectures:
-  - armhf
   - arm64
 
 types:
