@@ -30,7 +30,8 @@ def repo(label_type:, series:, **kwords)
     Distribution: series,
     Origin: 'neon',
     Label: format('KDE neon - %s', label_type),
-    Architectures: %w[source i386 amd64 armhf arm64 armel all]
+    Architectures: %w[source i386 amd64 armhf arm64 armel all],
+    AcquireByHash: true
   }.merge(kwords)
 end
 
@@ -40,16 +41,14 @@ repos = {}
 
 NCI.series.each_key do |series|
   repos.merge!(
-    PublishingRepo.new("unstable_#{series}", 'dev_unstable') =>
-      repo(label_type: 'Unstable Edition', series: series),
-    PublishingRepo.new("stable_#{series}", 'dev_stable') =>
-      repo(label_type: 'Testing Edition', series: series),
+    PublishingRepo.new("unstable_#{series}", 'unstable') =>
+      repo(label_type: 'Unstable Edition', series: series, SkipContents: true),
     PublishingRepo.new("stable_#{series}", 'testing') =>
-      repo(label_type: 'Testing Edition', series: series),
+      repo(label_type: 'Testing Edition', series: series, SkipContents: true),
     PublishingRepo.new("release_#{series}", 'release') =>
       repo(label_type: 'User Edition', series: series),
     PublishingRepo.new("experimental_#{series}", 'experimental') =>
-      repo(label_type: 'Experimental Edition', series: series),
+      repo(label_type: 'Experimental Edition', series: series, SkipContents: true),
   )
 end
 
