@@ -196,7 +196,7 @@ module CI
 
       require 'rugged'
       repo = Rugged::Repository.discover(path)
-      remote = repo.remotes['upstream'] if repo
+      remote = repo.remotes['origin'] if repo
       # Includes git.kde.org, otherwise it would run on *.neon.kde.org.
       # also, don't include scratch and clones, they don't have projects
       # associated with them.
