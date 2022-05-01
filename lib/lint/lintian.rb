@@ -80,7 +80,8 @@ module Lint
       # is a waste of time.
       'zero-byte-file-in-doc-directory',
       'description-starts-with-package-name',
-      'incorrect-packaging-filename debian/TODO.Debian'
+      'incorrect-packaging-filename debian/TODO.Debian',
+      'superfluous-file-pattern'
     ].freeze
 
     def initialize(changes_directory = Dir.pwd,
