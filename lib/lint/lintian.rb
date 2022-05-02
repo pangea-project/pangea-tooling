@@ -135,7 +135,7 @@ module Lint
       #     can be fine but needs opting into since two different libraries
       #     may eventually diverge in so-version, so we cannot assume that this
       #     is fine, it sometimes is it often isn't.
-      return line unless line.include?('package-name-doesnt-match-sonames')
+      return line unless line.include?(': package-name-doesnt-match-sonames')
 
       line_expr = /\w: (?<package>.+): package-name-doesnt-match-sonames .+/
       package = line.match(line_expr)&.[](:package)&.strip
