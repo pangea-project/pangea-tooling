@@ -18,10 +18,10 @@ core:
       - 'next'
       - '22'
 
-# zynthbox:
-#   zynthbox-rpi4:
-#     :repo: https://github.com/zynthbox/rpi4-live-build-zynthbox
-#     :series_branches:
-#       'buster': master
-#     :snapshots:
-#       - 'buster'
+zynthbox:
+  zynthbox-rpi4:
+    :repo: https://github.com/zynthbox/rpi4-live-build-zynthbox
+    :series_branches:
+      'buster': master
+    :snapshots:
+      - 'buster'

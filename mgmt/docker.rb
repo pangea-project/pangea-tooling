@@ -58,21 +58,21 @@ ubuntu_series.each_index do |index|
   pid_map[pid] = "ubuntu-#{series}"
 end
 
-debian_series = DCI.series.values
-debian_series = [] if ENV.include?('PANGEA_UBUNTU_ONLY')
-debian_series.each do |series_version|
-  series = DCI.series_version_codename(series_version)
-  name = "debian-#{series}"
-  warn "building #{name}"
-  pid = fork do
-    setup_logger(name)
-    d = MGMT::Deployer.new('debian', series)
-    d.run!
-    exit
-  end
+#debian_series = DCI.series.values
+#debian_series = [] if ENV.include?('PANGEA_UBUNTU_ONLY')
+#debian_series.each do |series_version|
+  #series = DCI.series_version_codename(series_version)
+  #name = "debian-#{series}"
+  #warn "building #{name}"
+  #pid = fork do
+    #setup_logger(name)
+    #d = MGMT::Deployer.new('debian', series)
+    #d.run!
+    #exit
+  #end
 
-  pid_map[pid] = "debian-#{series}"
-end
+  #pid_map[pid] = "debian-#{series}"
+#end
 
 ec = Process.waitall
 

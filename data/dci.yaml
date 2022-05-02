@@ -36,9 +36,9 @@ release_types:
       'netrunner-core':
         arch: amd64
         components: 'netrunner extras artwork common netrunner-core'
-  # 'zynthbox':
-  #   :releases:
-  #     'zynthbox-rpi4':
-  #       arch: armhf
-  #       arm_board: 'rpi4'
-  #       components: 'zynthbox'
+  'zynthbox':
+    :releases:
+      'zynthbox-rpi4':
+        arch: armhf
+        arm_board: 'rpi4'
+        components: 'zynthbox'
