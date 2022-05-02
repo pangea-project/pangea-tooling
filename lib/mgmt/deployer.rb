@@ -193,7 +193,7 @@ module MGMT
       end
 
       c.remove
-      node_is_master = ENV.fetch('NODE_NAME', '') == 'master'
+      node_is_master = ENV.fetch('NODE_NAME', '') == 'master' && !ENV['PANGEA_UNDER_TEST']
       image_names = [@base]
       image_names << "kdeneon/ci:#{@base.tag}" if node_is_master
       image_names.each do |name|
