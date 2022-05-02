@@ -193,9 +193,12 @@ module MGMT
       end
 
       c.remove
-      begin
-        @log.info "Deleting old image of #{@base}"
-        previous_image = Docker::Image.get(@base.to_s)
+      node_is_master = ENV.fetch('NODE_NAME', '') == 'master'
+      image_names = [@base]
+      image_names << "kdeneon/ci:#{@base.tag}" if node_is_master
+      image_names.each do |name|
+        @log.info "Deleting old image of #{name}"
+        previous_image = Docker::Image.get(name.to_s)
         @log.info previous_image.to_s
         previous_image.delete
       rescue Docker::Error::NotFoundError
@@ -205,6 +208,10 @@ module MGMT
       end
       @log.info "Tagging #{@i}"
       @i.tag(repo: @base.repo, tag: @base.tag, force: true)
+      if node_is_master
+        @i.tag(repo: 'kdeneon/ci', tag: @base.tag, force: true)
+        raise 'Failed to push' unless system("docker push kdeneon/ci:#{@base.tag}")
+      end
 
       # Disabled because we should not be leaking. And this has reentrancy
       # problems where another deployment can cleanup our temporary
