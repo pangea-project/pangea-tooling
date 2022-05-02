@@ -35,6 +35,8 @@ module Lint
       'missing-license-paragraph-in-dep5-copyright',
       'global-files-wildcard-not-first-paragraph-in-dep5-copyright',
       'debian-revision-should-not-be-zero',
+      # AKA in newer versions:
+      'debian-revision-is-zero',
       'file-without-copyright-information',
       # Lintian doesn't necessarily know the distros we talk about.
       'bad-distribution-in-changes-file',
