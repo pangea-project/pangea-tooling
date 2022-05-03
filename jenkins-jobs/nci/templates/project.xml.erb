@@ -40,22 +40,12 @@
       <conditionalbuilders>
         <hudson.tasks.Shell>
           <command>ls -lah
-rm -f workspace.tar
-tar -cf workspace.tar .
 # This is a disk space saving measure. It's unclear if we still need or want this.
 <% if !job_name.include?('_launchpad_') && (job_name.include?('oxygen-icons5') || job_name.include?('breeze') || job_name.include?('wallpapers')) %>
   echo 'wiping git clones'
   rm -rf packaging source
 <% end %></command>
         </hudson.tasks.Shell>
-        <hudson.tasks.ArtifactArchiver>
-          <artifacts>workspace.tar</artifacts>
-          <allowEmptyArchive>false</allowEmptyArchive>
-          <onlyIfSuccessful>false</onlyIfSuccessful>
-          <fingerprint>false</fingerprint>
-          <defaultExcludes>true</defaultExcludes>
-          <caseSensitive>true</caseSensitive>
-        </hudson.tasks.ArtifactArchiver>
         <hudson.tasks.Shell>
           <command>rm -f workspace.tar</command>
         </hudson.tasks.Shell>

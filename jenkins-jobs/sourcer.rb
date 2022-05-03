@@ -22,6 +22,7 @@ class SourcerJob < JenkinsJob
     @packaging_scm = project.packaging_scm.dup
     @packaging_scm.url.gsub!('salsa.debian.org:/git/',
                              'git://salsa.debian.org/')
+    @project = project
     # FIXME: why ever does the job have to do that?
     # Try the distribution specific branch name first.
     @packaging_branch = @packaging_scm.branch
@@ -34,6 +35,11 @@ class SourcerJob < JenkinsJob
 
   def trigger(job)
     @downstream_triggers << job.job_name
+  end
+
+  def render_packaging_scm
+    scm = @project.packaging_scm_for(series: @distribution)
+    PackagingSCMTemplate.new(scm: scm).render_template
   end
 
   def render_upstream_scm
