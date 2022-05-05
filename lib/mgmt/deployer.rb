@@ -209,8 +209,8 @@ module MGMT
       @log.info "Tagging #{@i}"
       @i.tag(repo: @base.repo, tag: @base.tag, force: true)
       if node_is_master
-        @i.tag(repo: 'kdeneon/ci', tag: @base.tag, force: true)
-        raise 'Failed to push' unless system("docker push kdeneon/ci:#{@base.tag}")
+        @i.tag(repo: 'kdeneon/ci', tag: "#{@base.tag}-amd64", force: true)
+        raise 'Failed to push' unless system("docker push kdeneon/ci:#{@base.tag}-amd64")
       end
 
       # Disabled because we should not be leaking. And this has reentrancy
