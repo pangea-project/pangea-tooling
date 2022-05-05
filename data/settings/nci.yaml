@@ -6,6 +6,10 @@
 
 # Others
 
+'*_neon-packaging_libcec_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_neon-packaging_xcvt_*':
   sourcer:
     restricted_packaging_copy: true
