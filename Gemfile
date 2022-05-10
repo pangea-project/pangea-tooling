@@ -23,7 +23,7 @@ gem 'git'
 gem 'gitlab'
 gem 'htmlentities'
 gem 'insensitive_hash'
-gem 'jenkins_api_client'
+gem 'jenkins_api_client', '~> 0.9' # using 0.x because of ruby3 compat, this gem is unmaintained -> FIXME port away from it
 gem 'logger-colors'
 gem 'net-ftp-list'
 gem 'net-sftp'
