@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'uri'
 require 'open-uri'
 require 'tmpdir'
 
@@ -31,8 +30,7 @@ module CI
     end
 
     def fetch(destdir)
-      parser = URI::Parser.new
-      filename = parser.escape(File.basename(@uri.path))
+      filename = URI.unescape(File.basename(@uri.path))
       target = File.join(destdir, filename)
       unless File.exist?(target)
         puts "Downloading #{@uri}"
