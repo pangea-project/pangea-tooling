@@ -58,6 +58,11 @@ class AutoConfigJenkinsClientTest < TestCase
       .with(headers: { 'Authorization' => 'Basic dXNlcmlubzpwYXNzeQ==' })
       .to_return(status: 200, body: '', headers: {})
 
+    stub_request(:get, 'http://yoloip.com:443/')
+      .with(headers: { 'Authorization' => 'Basic dXNlcmlubzpwYXNzeQ==' })
+      .to_return(status: 200, body: '', headers: {})
+
+
     JenkinsApi::Client.new.get_root
   end
 
@@ -66,6 +71,10 @@ class AutoConfigJenkinsClientTest < TestCase
     File.write('fancy-config.json', JSON.generate(standard_config))
 
     stub_request(:get, 'https://yoloip.com/')
+      .with(headers: { 'Authorization' => 'Basic dXNlcmlubzpwYXNzeQ==' })
+      .to_return(status: 200, body: '', headers: {})
+
+    stub_request(:get, 'http://yoloip.com:443/')
       .with(headers: { 'Authorization' => 'Basic dXNlcmlubzpwYXNzeQ==' })
       .to_return(status: 200, body: '', headers: {})
 
