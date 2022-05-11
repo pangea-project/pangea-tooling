@@ -193,7 +193,9 @@ module MGMT
       end
 
       c.remove
-      node_is_master = ENV.fetch('NODE_NAME', '') == 'master' && !ENV['PANGEA_UNDER_TEST']
+      node_is_master = ENV.fetch('NODE_NAME', '') == 'master'
+      node_is_master ||= ENV.fetch('NODE_TYPE', '') == 'architecture-master'
+      node_is_master &&= !ENV['PANGEA_UNDER_TEST']
       image_names = [@base]
       image_names << "kdeneon/ci:#{@base.tag}" if node_is_master
       image_names.each do |name|
@@ -209,8 +211,10 @@ module MGMT
       @log.info "Tagging #{@i}"
       @i.tag(repo: @base.repo, tag: @base.tag, force: true)
       if node_is_master
-        @i.tag(repo: 'kdeneon/ci', tag: "#{@base.tag}-amd64", force: true)
-        raise 'Failed to push' unless system("docker push kdeneon/ci:#{@base.tag}-amd64")
+        flavor_variant = @base.flavor_variant
+        flavor_variant ||= target_arch
+        @i.tag(repo: 'kdeneon/ci', tag: "#{@base.tag}-#{flavor_variant}", force: true)
+        raise 'Failed to push' unless system("docker push kdeneon/ci:#{@base.tag}-#{flavor_variant}")
       end
 
       # Disabled because we should not be leaking. And this has reentrancy
