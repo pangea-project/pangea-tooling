@@ -6,6 +6,18 @@
 
 # Others
 
+'*_neon-packaging_libjxl_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_neon-packaging_highway_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_neon-packaging_lcms2_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_neon-packaging_libcec_*':
   sourcer:
     restricted_packaging_copy: true
