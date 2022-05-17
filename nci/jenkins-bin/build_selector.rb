@@ -22,6 +22,8 @@ require_relative '../../lib/jenkins/job'
 require_relative 'cores'
 require_relative 'slave'
 
+require 'jenkins_api_client'
+
 module NCI
   module JenkinsBin
     # Select a set of builds for core count evaluation
