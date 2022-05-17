@@ -99,7 +99,6 @@ module NCI::JenkinsBin
     end
 
     def test_build_selector_not_configured_core
-      omit('FIXME jenkins server is on the move')
       # This test asserts that using a high core count (higher than what
       # Cores knows about) will result in the core count getting adjusted
       # to a known value.
@@ -118,7 +117,6 @@ module NCI::JenkinsBin
     end
 
     def test_build_selector_bad_slave_chain
-      omit('FIXME jenkins server is on the move')
       jenkins_job.stubs(:build_details).with(7).returns(
         'result' => 'SUCCESS',
         'builtOn' => 'jenkins-do-8core.build.neon-123123'
@@ -136,10 +134,9 @@ module NCI::JenkinsBin
     end
 
     def test_build_selector_repeated_404
-      omit('FIXME jenkins server is on the move')
       # when no builds come back wit 300 we expect a standard scoring.
       8.times do |i|
-        jenkins_job.stubs(:build_details).with(i).raises(JenkinsApi::Exceptions::NotFound.allocate)
+        jenkins_job.stubs(:build_details).with(i).raises(JenkinsApi::Exceptions::NotFoundException.allocate)
       end
 
       selector = BuildSelector.new(job)
@@ -147,7 +144,6 @@ module NCI::JenkinsBin
     end
 
     def test_build_selector_single_404
-      omit('FIXME jenkins server is on the move')
       # One build was fine but then we had a bunch of broken builds, this
       # should raise something.
       jenkins_job.stubs(:build_details).with(7).returns(
@@ -156,7 +152,7 @@ module NCI::JenkinsBin
       )
 
       6.times do |i|
-        jenkins_job.stubs(:build_details).with(i).raises(JenkinsApi::Exceptions::NotFound.allocate)
+        jenkins_job.stubs(:build_details).with(i).raises(JenkinsApi::Exceptions::NotFoundException.allocate)
       end
 
       selector = BuildSelector.new(job)
