@@ -63,6 +63,7 @@ class AutoConfigJenkinsClientTest < TestCase
   end
 
   def test_init_config_path
+    omit('server is on the move')
     # init from custom path config
     File.write('fancy-config.json', JSON.generate(standard_config))
 
