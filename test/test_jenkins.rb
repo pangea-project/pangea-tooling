@@ -54,7 +54,7 @@ class AutoConfigJenkinsClientTest < TestCase
     Dir.mkdir('.config')
     File.write('.config/pangea-jenkins.json', JSON.generate(standard_config))
 
-    stub_request(:get, 'https://yoloip.com/')
+    stub_request(:get, 'https://yoloip.com:443/')
       .with(headers: { 'Authorization' => 'Basic dXNlcmlubzpwYXNzeQ==' })
       .to_return(status: 200, body: '', headers: {})
 
