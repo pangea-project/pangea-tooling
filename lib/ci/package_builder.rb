@@ -198,7 +198,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       return unless ENV['PANGEA_QT_GIT_BUILD']
       raise unless %w[focal jammy].include?(ENV.fetch('DIST'))
       # Bit of a cheap hack but we really don't need to parse the changelog proper for the purposes of our check.
-      raise unless system('head -1 debian/changelog | grep --quiet --extended-regexp "(qtfeedback)|(5\.15\.[239])"')
+      raise unless system('head -1 debian/changelog | grep --quiet --extended-regexp "(qtfeedback)|(5\.15\.[2349])"')
 
       # VERY akward hack. Qt git builds of modules require syncqt to get run to generated headers and the like,
       # but that is anchored on the presence of .git dirs and there is no way to trigger it other than .git.
