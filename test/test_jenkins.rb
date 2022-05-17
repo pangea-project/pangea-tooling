@@ -43,6 +43,7 @@ class AutoConfigJenkinsClientTest < TestCase
   end
 
   def test_init_defaults
+    omit('server is on the move')
     # init without any config
     stub_request(:get, 'http://kci.pangea.pub/')
       .to_return(status: 200, body: '')
