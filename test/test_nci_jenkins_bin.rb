@@ -99,6 +99,7 @@ module NCI::JenkinsBin
     end
 
     def test_build_selector_not_configured_core
+      omit('FIXME jenkins server is on the move')
       # This test asserts that using a high core count (higher than what
       # Cores knows about) will result in the core count getting adjusted
       # to a known value.
