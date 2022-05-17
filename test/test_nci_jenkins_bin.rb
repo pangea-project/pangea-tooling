@@ -23,6 +23,7 @@ require_relative 'lib/testcase'
 require_relative '../nci/jenkins_bin'
 
 require 'mocha/test_unit'
+require 'jenkins_api_client'
 
 module NCI::JenkinsBin
   class JenkinsBinTest < TestCase
