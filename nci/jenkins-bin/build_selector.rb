@@ -90,11 +90,11 @@ build:#{number} has unexpected slave #{built_on} type:#{built_on_cores} (expecte
 
         @exception_count -= 1
         build
-      rescue JenkinsApi::Exceptions::NotFound => e
+      rescue JenkinsApi::Exceptions::NotFoundException => e
         raise e unless rescue_not_found
         begin
           build_of(build_number - 1, rescue_not_found: false)
-        rescue JenkinsApi::Exceptions::NotFound
+        rescue JenkinsApi::Exceptions::NotFoundException
           # If we did not find the build we'll check the previous one, if it
           # also doesn't exist we'll consider the entire thing unknown as it
           # has been failing for too long.
