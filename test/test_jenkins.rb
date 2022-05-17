@@ -50,6 +50,7 @@ class AutoConfigJenkinsClientTest < TestCase
   end
 
   def test_init_config
+    omit('server is on the move')
     # init from default path config
     Dir.mkdir('.config')
     File.write('.config/pangea-jenkins.json', JSON.generate(standard_config))
