@@ -97,6 +97,7 @@ module Docker
         # Remove all our containers and containers from a dangling image.
         # Dangling in this case would be any image that isn't tagged.
         is_pangea = repo.include?(CI::PangeaImage.namespace)
+        is_pangea ||= repo.include?('kdeneon/ci')
         log.warn "image(#{repo}) [force: #{force}, pangea: #{is_pangea}]"
         return if !is_pangea && !force
       else
