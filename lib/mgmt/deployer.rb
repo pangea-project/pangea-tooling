@@ -212,7 +212,7 @@ module MGMT
       @i.tag(repo: @base.repo, tag: @base.tag, force: true)
       if node_is_master
         flavor_variant = @base.flavor_variant
-        flavor_variant ||= target_arch
+        flavor_variant ||= self.class.target_arch
         @i.tag(repo: 'kdeneon/ci', tag: "#{@base.tag}-#{flavor_variant}", force: true)
         raise 'Failed to push' unless system("docker push kdeneon/ci:#{@base.tag}-#{flavor_variant}")
       end
