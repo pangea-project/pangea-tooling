@@ -111,9 +111,15 @@ export LB_APT_HTTP_PROXY="http://apt.cache.pangea.pub:8000"
 ## lb_source, which would otherwise bypass the proxy entirely.
 export APT_OPTIONS="--yes -o Acquire::http::Proxy='$LB_APT_HTTP_PROXY'"
 
-[ -z "$CONFIG_SETTINGS" ] && CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}.sh"
-[ -z "$CONFIG_HOOKS" ] && CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
-[ -z "$BUILD_HOOKS" ] && BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}"
+if [ $DIST = 'jammy' ]; then
+    [ -z "$CONFIG_SETTINGS" ] && CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}-jammy.sh"
+    [ -z "$CONFIG_HOOKS" ] && CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}-jammy"
+    [ -z "$BUILD_HOOKS" ] && BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}-jammy"
+else
+    [ -z "$CONFIG_SETTINGS" ] && CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}.sh"
+    [ -z "$CONFIG_HOOKS" ] && CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
+    [ -z "$BUILD_HOOKS" ] && BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}"
+fi
 
 # jriddell 03-2019 special case where developer and ko ISOs get their build hooks to allow for simpler ISO names
 if [ $TYPE = 'developer' ] || [ $TYPE = 'ko' ] || [ $TYPE = 'mobile' ]; then
