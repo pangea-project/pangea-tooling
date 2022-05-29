@@ -275,69 +275,28 @@ rm -vrf /tmp/*
 EOF
 
 # rename kernel and initrd to what syslinux expects
-if [ "$VERSION_CODENAME" = "bionic" ]; then
-  # It's a hack for one reason or another, I don't comprehend it!
-  cat <<'EOF' > config/hooks/rename-kernel.binary
+if [ "$VERSION_CODENAME" = "jammy" ]; then
+  cat <<EOF > config/hooks/000-rename-kernel.binary
 #!/bin/sh -ex
-# Read bytes out of a file, checking that they are valid hex digits
-readhex()
-{
-	dd < "$1" bs=1 skip="$2" count="$3" 2> /dev/null | \
-		LANG=C grep -E "^[0-9A-Fa-f]{$3}\$"
-}
-checkzero()
-{
-	dd < "$1" bs=1 skip="$2" count=1 2> /dev/null | \
-		LANG=C grep -q -z '^$'
-}
 
-if [ ! -e binary/casper/initrd.lz ]; then
-
-    # There may be a prepended uncompressed archive.  cpio
-    # won't tell us the true size of this so we have to
-    # parse the headers and padding ourselves.  This is
-    # very roughly based on linux/lib/earlycpio.c
-    INITRD="$(ls binary/casper/initrd.img-*)"
-    offset=0
-    while true; do
-        if checkzero "${INITRD}" $offset; then
-            offset=$((offset + 4))
-            continue
-        fi
-        magic="$(readhex "${INITRD}" $offset 6)" || break
-        test $magic = 070701 || test $magic = 070702 || break
-        namesize=0x$(readhex "${INITRD}" $((offset + 94)) 8)
-        filesize=0x$(readhex "${INITRD}" $((offset + 54)) 8)
-        offset=$(((offset + 110)))
-        offset=$(((offset + $namesize + 3) & ~3))
-        offset=$(((offset + $filesize + 3) & ~3))
-    done
-
-    initramfs="${INITRD}"
-    if [ $offset -ne 0 ]; then
-        subarchive=$(mktemp ${TMPDIR:-/tmp}/initramfs_XXXXXX)
-        dd < "${INITRD}" bs="$offset" skip=1 2> /dev/null \
-            > $subarchive
-        initramfs=${subarchive}
-    fi
-
-    echo "\$0: Renaming initramfs to initrd.lz..."
-    zcat ${initramfs} | lzma -c > binary/casper/initrd.lz
-    rm binary/casper/initrd.img-*
+ls -lah binary/
+ls -lah binary/casper
+if [ ! -e binary/casper/initrd ]; then
+    echo "\$0: Renaming initramfs to initrd..."
+    mv -v binary/casper/initrd.img-* binary/casper/initrd
 fi
-ls -lah binary/casper/ || true
 if [ ! -e binary/casper/vmlinuz ]; then
-    echo "$0: Renaming kernel to vmlinuz..."
+    echo "\$0: Renaming kernel to vmlinuz..."
     # This will go wrong if there's ever more than one vmlinuz-* after
     # excluding *.efi.signed.  We can deal with that if and when it arises.
     for x in binary/casper/vmlinuz-*; do
-	case $x in
+	case \$x in
 	    *.efi.signed)
 		;;
 	    *)
-		mv $x binary/casper/vmlinuz
-		if [ -e "$x.efi.signed" ]; then
-		    mv $x.efi.signed binary/casper/vmlinuz.efi
+		mv \$x binary/casper/vmlinuz
+		if [ -e "\$x.efi.signed" ]; then
+		    mv \$x.efi.signed binary/casper/vmlinuz.efi
 		fi
 		;;
 	esac
