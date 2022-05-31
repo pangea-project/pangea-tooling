@@ -27,7 +27,7 @@ gem 'jenkins_api_client', '~> 0.9' # using 0.x because of ruby3 compat, this gem
 gem 'logger-colors'
 gem 'net-ftp-list'
 gem 'net-sftp'
-gem 'net-ssh', '~> 7.0.0.beta' # using beta because older versions won't play ball with standard 22.04 sshd configs
+gem 'net-ssh', '~> 6.1'
 gem 'net-ssh-gateway'
 gem 'nokogiri'
 gem 'octokit'
