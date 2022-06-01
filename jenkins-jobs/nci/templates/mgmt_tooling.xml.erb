@@ -40,9 +40,6 @@
     <com.cloudbees.jenkins.GitHubSetCommitStatusBuilder plugin="github@1.13.3"/>
     <hudson.tasks.Shell>
       <command>
-export PATH=/home/neon/.rbenv/bin:$PATH
-eval "$(rbenv init - bash)" || true
-
 rm -rf .bundle || true
 gem install --no-document bundler
 [ -f Gemfile.lock ] || bundle install --jobs=`nproc`
