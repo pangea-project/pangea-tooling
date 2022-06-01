@@ -84,7 +84,7 @@ module CI
       args = default_create_options.dup
       args.merge!(user_args)
       cleanup
-      c = EphemeralContainer.create(args)
+      c = EphemeralContainer.create(**args)
       c.rename(@name)
       c
     end

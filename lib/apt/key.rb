@@ -44,7 +44,7 @@ module Apt
       end
 
       def add_url(url)
-        data = open(url).read
+        data = URI.open(url).read
         IO.popen(['apt-key', 'add', '-'], 'w') do |io|
           io.puts(data)
           io.close_write

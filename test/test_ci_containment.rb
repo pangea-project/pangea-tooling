@@ -128,7 +128,8 @@ module CI
         stub_containment = mock('containment')
         stub_containment.stubs(:run).returns(true)
         Containment.expects(:new).never
-        Containment.expects(:new).with do |*_, **kwords|
+        Containment.expects(:new).with do |*args|
+          kwords = args[-1] # ruby3 compat, ruby3 no longer allows implicit **kwords conversion from hash but mocha relies on it still -sitter
           assert_include(kwords, :binds)
           assert_equal(kwords[:binds], ['/asd'])
           true

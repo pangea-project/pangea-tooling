@@ -175,7 +175,7 @@ class AptTest < TestCase
     url = 'http://kittens.com/key'
     # Expect open()
     data_output = StringIO.new('keyly')
-    Object.any_instance.expects(:open)
+    URI.expects(:open)
           .with(url)
           .returns(data_output)
     # Expect IO.popen() {}

@@ -76,7 +76,8 @@ module Aptly::Ext
       end
 
       ENV['SSH_KEY_FILE'] = '/foobar'
-      Net::SSH.expects(:start).with do |*_, **kwords|
+      Net::SSH.expects(:start).with do |*args|
+        kwords = args[-1] # ruby3 compat, ruby3 no longer allows implicit **kwords conversion from hash but mocha relies on it still -sitter
         kwords.include?(:keys) && kwords[:keys].include?('/foobar')
       end.returns(session)
       Remote.connect(uri) {}

@@ -25,54 +25,55 @@ require 'mocha/test_unit'
 
 module NCI::Snap
   class ManifestExtendertest < TestCase
-    def setup
-      ManifestExtender.manifest_path = "#{Dir.pwd}/man"
-      ENV['APPNAME'] = 'kolourpaint'
-      ENV['DIST'] = 'bionic'
+    # TODO remove extender it's unused
+    # def setup
+    #   ManifestExtender.manifest_path = "#{Dir.pwd}/man"
+    #   ENV['APPNAME'] = 'kolourpaint'
+    #   ENV['DIST'] = 'bionic'
 
-      stub_request(:get, Extender::Core18::STAGED_CONTENT_PATH)
-        .to_return(status: 200, body: JSON.generate(['meep']))
-      stub_request(:get, Extender::Core18::STAGED_DEV_PATH)
-        .to_return(status: 200, body: JSON.generate(['meep-dev']))
-    end
+    #   stub_request(:get, Extender::Core18::STAGED_CONTENT_PATH)
+    #     .to_return(status: 200, body: JSON.generate(['meep']))
+    #   stub_request(:get, Extender::Core18::STAGED_DEV_PATH)
+    #     .to_return(status: 200, body: JSON.generate(['meep-dev']))
+    # end
 
-    def test_run
-      File.write(ManifestExtender.manifest_path, '')
-      FileUtils.cp(data, 'snapcraft.yaml')
-      ManifestExtender.new('snapcraft.yaml').run do
-      end
-      assert_path_exist('man')
-      assert_path_exist('man.bak')
-      assert_path_exist('man.ext')
-      assert_equal('', File.read('man'))
-      assert_includes(File.read('man.ext'), 'meep')
-    end
+    # def test_run
+    #   File.write(ManifestExtender.manifest_path, '')
+    #   FileUtils.cp(data, 'snapcraft.yaml')
+    #   ManifestExtender.new('snapcraft.yaml').run do
+    #   end
+    #   assert_path_exist('man')
+    #   assert_path_exist('man.bak')
+    #   assert_path_exist('man.ext')
+    #   assert_equal('', File.read('man'))
+    #   assert_includes(File.read('man.ext'), 'meep')
+    # end
 
-    # The build snap collapser removes records of the build snap, so our
-    # detection logic for extending the manifest needs to have other
-    # (post-collapsion) ways to determine if a snap is using the build snap.
-    def test_run_using_sdk
-      File.write(ManifestExtender.manifest_path, '')
-      FileUtils.cp(data, 'snapcraft.yaml')
-      ManifestExtender.new('snapcraft.yaml').run do
-      end
-      assert_path_exist('man')
-      assert_path_exist('man.bak')
-      assert_path_exist('man.ext')
-      assert_equal('', File.read('man'))
-      assert_includes(File.read('man.ext'), 'meep')
-    end
+    # # The build snap collapser removes records of the build snap, so our
+    # # detection logic for extending the manifest needs to have other
+    # # (post-collapsion) ways to determine if a snap is using the build snap.
+    # def test_run_using_sdk
+    #   File.write(ManifestExtender.manifest_path, '')
+    #   FileUtils.cp(data, 'snapcraft.yaml')
+    #   ManifestExtender.new('snapcraft.yaml').run do
+    #   end
+    #   assert_path_exist('man')
+    #   assert_path_exist('man.bak')
+    #   assert_path_exist('man.ext')
+    #   assert_equal('', File.read('man'))
+    #   assert_includes(File.read('man.ext'), 'meep')
+    # end
 
-    def test_no_run_without_base_snap
-      File.write(ManifestExtender.manifest_path, '')
-      FileUtils.cp(data, 'snapcraft.yaml')
-      ManifestExtender.new('snapcraft.yaml').run do
-      end
-      assert_path_exist('man')
-      assert_path_exist('man.bak')
-      assert_path_exist('man.ext')
-      assert_equal('', File.read('man'))
-      assert_equal(File.read('man.ext'), '') # MUST BE EMPTY! this is no kf5 snap
-    end
+    # def test_no_run_without_base_snap
+    #   File.write(ManifestExtender.manifest_path, '')
+    #   FileUtils.cp(data, 'snapcraft.yaml')
+    #   ManifestExtender.new('snapcraft.yaml').run do
+    #   end
+    #   assert_path_exist('man')
+    #   assert_path_exist('man.bak')
+    #   assert_path_exist('man.ext')
+    #   assert_equal('', File.read('man'))
+    #   assert_equal(File.read('man.ext'), '') # MUST BE EMPTY! this is no kf5 snap
+    # end
   end
 end
