@@ -38,6 +38,7 @@ gem 'tty-command'
 gem 'tty-pager'
 gem 'tty-prompt'
 gem 'tty-spinner'
+gem 'webrick'
 
 # Git URI management
 gem 'git_clone_url', '~> 2.0'
