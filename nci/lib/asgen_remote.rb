@@ -28,7 +28,7 @@ module NCI
 
     def rsync_pubdir_expression
       pubdir = "/srv/www/metadata.neon.kde.org/appstream/#{type}_#{dist}"
-      "metadataneon@charlotte.kde.org:#{pubdir}"
+      "metadataneon@metadata.neon.kde.org:#{pubdir}"
     end
   end
 end
