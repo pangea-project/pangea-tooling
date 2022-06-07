@@ -43,7 +43,10 @@ class ProjectsFactory
       )
     end
 
-    def from_string(str, ignore_missing_branches: false, **args)
+    def from_string(s)
+      str = s[0]
+      args = s[1,]
+      ignore_missing_branches = s[1].key?(:ignore_missing_branches) ? s[1][:ignore_missing_branches] : false
       kwords = params(str)
       kwords.merge!(symbolize(args))
       # puts "new_project(#{kwords})"
@@ -108,7 +111,9 @@ class ProjectsFactory
         # Get best matching pattern.
         CI::PatternBase.sort_hash(matches).values[0]
       end
-      selection.compact.collect { |s| from_string(*s) }
+      selection.compact.collect do |s|
+        from_string(s)
+      end
     end
 
     class << self
