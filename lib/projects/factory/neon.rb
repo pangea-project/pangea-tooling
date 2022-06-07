@@ -43,7 +43,7 @@ class ProjectsFactory
       )
     end
 
-    def from_string(str, args = {}, ignore_missing_branches: false)
+    def from_string(str, ignore_missing_branches: false, **args)
       kwords = params(str)
       kwords.merge!(symbolize(args))
       # puts "new_project(#{kwords})"
