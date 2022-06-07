@@ -47,6 +47,7 @@ class ProjectsFactory
       str = s[0]
       args = s[1,]
       ignore_missing_branches = s[1].key?(:ignore_missing_branches) ? s[1][:ignore_missing_branches] : false
+      s[1].delete(:ignore_missing_branches)
       kwords = params(str)
       kwords.merge!(symbolize(args))
       # puts "new_project(#{kwords})"
