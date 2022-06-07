@@ -44,7 +44,7 @@ class ProjectsFactory
     end
 
     def from_string(s)
-      str = s[0]
+      str = s[0].gsub('%2F', '/')
       args = s[1,]
       ignore_missing_branches = s[1].key?(:ignore_missing_branches) ? s[1][:ignore_missing_branches] : true
       s[1].delete(:ignore_missing_branches)
