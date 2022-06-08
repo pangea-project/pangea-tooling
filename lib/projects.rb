@@ -323,7 +323,7 @@ absolutely must not be native though!
 
     # Fine to override nil with nil
     if @override_rule["upstream_scm"]["type"] == nil
-      return false if
+      return false
     end
 
 
