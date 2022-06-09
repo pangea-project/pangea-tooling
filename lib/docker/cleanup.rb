@@ -17,7 +17,9 @@ module Docker
     module_function
 
     OLD_UBUNTUS = %w[wily vivid xenial bionic].freeze
-    OLD_UBUNTU_IMAGES = OLD_UBUNTUS.collect { |x| ["pangea/ubuntu:#{x}", "ubuntu:#{x}"]}.flatten
+    OLD_UBUNTU_IMAGES = OLD_UBUNTUS.collect do |x|
+      ["pangea/ubuntu:#{x}", "ubuntu:#{x}", "arm32v7/ubuntu:#{x}", "arm64v8/ubuntu:#{x}", "pangea/ubuntu-armhf:#{x}"]
+    end.flatten
     OLD_IMAGES = (%w[] + OLD_UBUNTU_IMAGES).freeze # in the %w[] you can hardcode additional names
 
     # Remove exited jenkins containers.
