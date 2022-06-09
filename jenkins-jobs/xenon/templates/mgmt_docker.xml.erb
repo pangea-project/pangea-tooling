@@ -26,6 +26,8 @@
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
+set -e
+
 # Only build ubuntu images. XCI (master) itself needs no debian images.
 # Nodes tagged with a neon tag also only get ubuntu.
 if [[ "$NODE_NAME" == "master" || "$NODE_LABELS" =~ "neon" ]]; then
