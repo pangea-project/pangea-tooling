@@ -89,7 +89,7 @@ module Docker
         image.refresh! # Make sure we have live data and RepoTags available.
         repo_tags = image.info.fetch('RepoTags') { [] }
         # We only care about first possible tag.
-        repo, _tag = Docker::Util.parse_repo_tag(repo_tags.first || '')
+        repo, _tag = Docker::Util.parse_repo_tag(repo_tags&.first || '')
         # <shadeslayer> well, it'll be fixed as soon as Debian unstable gets
         #   fixed?
         # Also see mgmt/docker.rb
