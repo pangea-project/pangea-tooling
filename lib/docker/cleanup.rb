@@ -129,7 +129,7 @@ module Docker
 
     def image_broken?(image)
       tags = image.info.fetch('RepoTags', [])
-      return false unless tags.any? { |x| x.start_with?('pangea/') }
+      return false unless tags&.any? { |x| x.start_with?('pangea/') || x.start_with?('kdeneon/ci') }
 
       created = object_creation(image)
       # rubocop:disable Style/NumericLiterals
