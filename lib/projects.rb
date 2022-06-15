@@ -321,13 +321,8 @@ absolutely must not be native though!
       return false
     end
 
-    # Fine to override nil with nil
-    if @override_rule.include?("upstream_scm") and @override_rule["upstream_scm"].include?("type") and @override_rule["upstream_scm"]["type"] == nil
-      return false
-    end
-
-
     unless instance_variable_get("@#{member}")
+      return false if override_rule_for(member).keys[0] == "type"
       raise OverrideNilError.new(@component, @name, member, override_rule_for(member)) if override_rule_for(member)
 
       return false
