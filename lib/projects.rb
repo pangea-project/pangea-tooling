@@ -322,7 +322,7 @@ absolutely must not be native though!
     end
 
     # Fine to override nil with nil
-    if @override_rule.include?("upstream_scm") and @override_rule["upstream_scm"].include?["type"] and @override_rule["upstream_scm"]["type"] == nil
+    if @override_rule.include?("upstream_scm") and @override_rule["upstream_scm"].include?("type") and @override_rule["upstream_scm"]["type"] == nil
       return false
     end
 
