@@ -121,7 +121,7 @@ module CI
       path = URI.parse(url).path.gsub(/.git$/, '')
       path = path.gsub(%r{^/+}, '').gsub('/', '%2F')
       api_url = "https://invent.kde.org/api/v4/projects/#{path}"
-      data = JSON.parse(open(api_url).read)
+      data = JSON.parse(URI.open(api_url).read)
       data.fetch('namespace').fetch('kind') == 'user'
     rescue OpenURI::HTTPError => e
       raise "HTTP Error on '#{api_url}': #{e.message}"
