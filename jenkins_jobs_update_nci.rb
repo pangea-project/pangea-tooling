@@ -277,7 +277,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         )
         enqueue(NeonIsoJob.new(**dev_unstable_isoargs))
         enqueue(NeonDockerJob.new(**dev_unstable_isoargs))
-        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'unstable')))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'unstable')))
 
         # Only make unstable ISO for the next series while in early mode.
         next if distribution == NCI.future_series && NCI.future_is_early
@@ -287,27 +287,27 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           neonarchive: 'unstable',
           cronjob: 'H H * * 1'
         )
-        enqueue(NeonIsoJob.new(dev_unstable_dev_isoargs))
-        enqueue(NeonDockerJob.new(dev_unstable_dev_isoargs))
-        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'developer')))
+        enqueue(NeonIsoJob.new(**dev_unstable_dev_isoargs))
+        enqueue(NeonDockerJob.new(**dev_unstable_dev_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'developer')))
 
         dev_stable_isoargs = standard_args.merge(
           type: 'testing',
           neonarchive: 'testing',
           cronjob: 'H H * * 2'
         )
-        enqueue(NeonIsoJob.new(dev_stable_isoargs))
-        enqueue(NeonDockerJob.new(dev_stable_isoargs))
-        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'testing')))
+        enqueue(NeonIsoJob.new(**dev_stable_isoargs))
+        enqueue(NeonDockerJob.new(**dev_stable_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'testing')))
 
         user_release_isoargs = standard_args.merge(
           type: 'user',
           neonarchive: is_future ? 'release' : 'user',
           cronjob: 'H H * * 4'
         )
-        enqueue(NeonIsoJob.new(user_release_isoargs))
-        enqueue(NeonDockerJob.new(user_release_isoargs))
-        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'user')))
+        enqueue(NeonIsoJob.new(**user_release_isoargs))
+        enqueue(NeonDockerJob.new(**user_release_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'user')))
 
         ko_user_release_isoargs = standard_args.merge(
           type: 'ko',
@@ -315,8 +315,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           cronjob: 'H H * * 5',
           metapackage: 'neon-desktop-ko'
         )
-        enqueue(NeonIsoJob.new(ko_user_release_isoargs))
-        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'ko')))
+        enqueue(NeonIsoJob.new(**ko_user_release_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'ko')))
 
         mobile_isoargs = standard_args.merge(
           type: 'mobile',
@@ -324,8 +324,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           cronjob: 'H H * * 0',
           metapackage: 'plasma-phone'
         )
-        enqueue(NeonIsoJob.new(mobile_isoargs))
-        enqueue(MGMTTorrentISOJob.new(standard_args.merge(type: 'mobile')))
+        enqueue(NeonIsoJob.new(**mobile_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'mobile')))
       end
 
       dev_unstable_imgargs = { type: 'devedition-gitunstable',
@@ -335,7 +335,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                imagename: 'neon',
                                neonarchive: 'dev/unstable',
                                cronjob: 'H H * * 0' }
-      enqueue(NeonImgJob.new(dev_unstable_imgargs))
+      enqueue(NeonImgJob.new(**dev_unstable_imgargs))
       user_imgargs = { type: 'useredition',
                        distribution: distribution,
                        architecture: 'arm64',
@@ -343,7 +343,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                        imagename: 'neon',
                        neonarchive: 'user',
                        cronjob: 'H H * * 0'}
-      enqueue(NeonImgJob.new(user_imgargs))
+      enqueue(NeonImgJob.new(**user_imgargs))
 
       enqueue(MGMTRepoDivert.new(target: "unstable_#{distribution}"))
       enqueue(MGMTRepoDivert.new(target: "stable_#{distribution}"))
