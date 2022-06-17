@@ -20,7 +20,6 @@
 
 require 'addressable/uri'
 require 'jenkins_api_client'
-require 'cgi'
 
 # Monkey patch for Client to fold in our config data.
 # This is entirely and only necessary because the silly default client
@@ -153,6 +152,7 @@ module JenkinsApi
     # @param [String] url_prefix
     #
     def api_get_request(url_prefix, tree = nil, url_suffix ="/api/json")
+      @debug = true
       url_prefix = "#{@jenkins_path}#{url_prefix}"
       http = Net::HTTP.start(@server_ip, @server_port)
       to_get = ""
@@ -161,7 +161,8 @@ module JenkinsApi
       else
         to_get = "#{url_prefix}#{url_suffix}"
       end
-      to_get = CGI.escape(to_get)
+      parser = URI::Parser.new
+      to_get = parser.escape(to_get)
       request = Net::HTTP::Get.new(to_get)
       puts "[INFO] GET #{to_get}" if @debug
       request.basic_auth @username, @password
@@ -175,7 +176,8 @@ module JenkinsApi
     # @param [Hash] form_data form data to send with POST request
     #
     def api_post_request(url_prefix, form_data = nil)
-      url_prefix = CGI.escape("#{@jenkins_path}#{url_prefix}")
+      parser = URI::Parser.new
+      url_prefix = parser.escape("#{@jenkins_path}#{url_prefix}")
       http = Net::HTTP.start(@server_ip, @server_port)
       request = Net::HTTP::Post.new("#{url_prefix}")
       puts "[INFO] PUT #{url_prefix}" if @debug
@@ -191,7 +193,8 @@ module JenkinsApi
     # @param [String] url_prefix
     #
     def get_config(url_prefix)
-      url_prefix = CGI.escape("#{@jenkins_path}#{url_prefix}")
+      parser = URI::Parser.new
+      url_prefix = parser.escape("#{@jenkins_path}#{url_prefix}")
       http = Net::HTTP.start(@server_ip, @server_port)
       request = Net::HTTP::Get.new("#{url_prefix}/config.xml")
       puts "[INFO] GET #{url_prefix}/config.xml" if @debug
@@ -206,7 +209,9 @@ module JenkinsApi
     # @param [String] xml
     #
     def post_config(url_prefix, xml)
-      url_prefix = CGI.escape("#{@jenkins_path}#{url_prefix}")
+      @debug = true
+      p = URI::Parser.new
+      url_prefix = p.escape("#{@jenkins_path}#{url_prefix}")
       http = Net::HTTP.start(@server_ip, @server_port)
       request = Net::HTTP::Post.new("#{url_prefix}")
       puts "[INFO] PUT #{url_prefix}" if @debug
