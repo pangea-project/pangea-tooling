@@ -148,6 +148,75 @@ module JenkinsApi
       end
     end
 
+    # Sends a GET request to the Jenkins CI server with the specified URL
+    #
+    # @param [String] url_prefix
+    #
+    def api_get_request(url_prefix, tree = nil, url_suffix ="/api/json")
+      url_prefix = "#{@jenkins_path}#{url_prefix}"
+      http = Net::HTTP.start(@server_ip, @server_port)
+      to_get = ""
+      if tree
+        to_get = "#{url_prefix}#{url_suffix}?#{tree}"
+      else
+        to_get = "#{url_prefix}#{url_suffix}"
+      end
+      to_get = CGI.escape(to_get)
+      request = Net::HTTP::Get.new(to_get)
+      puts "[INFO] GET #{to_get}" if @debug
+      request.basic_auth @username, @password
+      response = http.request(request)
+      handle_exception(response, "body", url_suffix =~ /json/)
+    end
+
+    # Sends a POST message to the Jenkins CI server with the specified URL
+    #
+    # @param [String] url_prefix
+    # @param [Hash] form_data form data to send with POST request
+    #
+    def api_post_request(url_prefix, form_data = nil)
+      url_prefix = CGI.escape("#{@jenkins_path}#{url_prefix}")
+      http = Net::HTTP.start(@server_ip, @server_port)
+      request = Net::HTTP::Post.new("#{url_prefix}")
+      puts "[INFO] PUT #{url_prefix}" if @debug
+      request.basic_auth @username, @password
+      request.content_type = 'application/json'
+      request.set_form_data(form_data) unless form_data.nil?
+      response = http.request(request)
+      handle_exception(response)
+    end
+
+    # Obtains the configuration of a component from the Jenkins CI server
+    #
+    # @param [String] url_prefix
+    #
+    def get_config(url_prefix)
+      url_prefix = CGI.escape("#{@jenkins_path}#{url_prefix}")
+      http = Net::HTTP.start(@server_ip, @server_port)
+      request = Net::HTTP::Get.new("#{url_prefix}/config.xml")
+      puts "[INFO] GET #{url_prefix}/config.xml" if @debug
+      request.basic_auth @username, @password
+      response = http.request(request)
+      handle_exception(response, "body")
+    end
+
+    # Posts the given xml configuration to the url given
+    #
+    # @param [String] url_prefix
+    # @param [String] xml
+    #
+    def post_config(url_prefix, xml)
+      url_prefix = CGI.escape("#{@jenkins_path}#{url_prefix}")
+      http = Net::HTTP.start(@server_ip, @server_port)
+      request = Net::HTTP::Post.new("#{url_prefix}")
+      puts "[INFO] PUT #{url_prefix}" if @debug
+      request.basic_auth @username, @password
+      request.body = xml
+      request.content_type = 'application/xml'
+      response = http.request(request)
+      handle_exception(response)
+    end
+
     # Extends Job with some useful methods not in upstream (probably could be).
     class Job
       alias list_all_orig list_all
