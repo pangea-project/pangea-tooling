@@ -211,6 +211,7 @@ Net::SSH.start('files.kde.mirror.pangea.pub', 'neon-image-sync',
   raise 'Failed sync' unless status.fetch(:exit_code, 1).zero?
 end
 
+=begin TODO FIXME
 warn "Uploading source.."
 # Publish ISO sources.
 Net::SFTP.start('embra.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
@@ -237,3 +238,4 @@ Net::SFTP.start('embra.edinburghlinux.co.uk', 'neon', *ssh_args) do |sftp|
     end
   end
 end
+=end
