@@ -109,7 +109,7 @@ class KDEProjectsComponent
     def plasma
       # the way to get what is in plasma is from this list in plasma release tools
       @plasma ||= begin
-        url = "https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release"
+        url = "https://raw.githubusercontent.com/KDE/releaseme/master/plasma/git-repositories-for-release"
         response = HTTParty.get(url)
         body = response.body
         modules = body.split
