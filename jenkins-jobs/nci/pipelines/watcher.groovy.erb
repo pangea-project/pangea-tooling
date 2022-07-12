@@ -27,8 +27,7 @@ cleanNode('amd64') {
       dir('deb-packaging') {
         // check for any changes and push if there are but do not fail if there are not
         sh('bash -c "git diff origin/Neon/release | grep diff && git push; true"')
-        sh('bash -c "git checkout origin/Neon/release_focal && git cherry-pick -Xtheirs Neon/release && git push; true"')
-}
+      }
       retry(3) {
         dir('snapcraft-kde-applications') {
           sh('git pull --rebase')
