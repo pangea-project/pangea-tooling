@@ -91,15 +91,15 @@ class KDEProjectsComponent
     def gear
       # the way to get what is in KDE Gear (the release service) is from release-tools list
       @release_service ||= begin
-        `git clone --depth 1 https://invent.kde.org/sysadmin/release-tools.git`
+        `git clone --depth 1 https://invent.kde.org/sysadmin/release-tools.git release-tools-tmp`
         modules = []
-        File.open("release-tools/modules.git") do |file|
+        File.open("release-tools-tmp/modules.git") do |file|
           body = file.read
           body.each_line("master\n") do |line|
             modules << line.split(/\s/, 2)[0]
           end
         end
-        `rm -rf release-tools`
+        `rm -rf release-tools-tmp`
         modules.sort
       end
     end
