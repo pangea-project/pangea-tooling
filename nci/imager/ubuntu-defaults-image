@@ -344,7 +344,7 @@ if [ ! -e binary/casper/vmlinuz ]; then
     done
 fi
 EOF
-else # for focal
+elif [ "$VERSION_CODENAME" = "focal" ]; then
   cat <<EOF > config/hooks/000-rename-kernel.binary
 #!/bin/sh -ex
 
