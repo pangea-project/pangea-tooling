@@ -376,6 +376,34 @@ if [ ! -e binary/casper/vmlinuz ]; then
     done
 fi
 EOF
+elif [ "$VERSION_CODENAME" = "jammy" ]; then
+  cat <<EOF > config/hooks/000-rename-kernel.binary
+#!/bin/sh -ex
+
+ls -lah binary/
+ls -lah binary/casper
+if [ ! -e binary/casper/initrd ]; then
+    echo "\$0: Renaming initramfs to initrd..."
+    mv -v binary/casper/initrd.img-* binary/casper/initrd
+fi
+if [ ! -e binary/casper/vmlinuz ]; then
+    echo "\$0: Renaming kernel to vmlinuz..."
+    # This will go wrong if there's ever more than one vmlinuz-* after
+    # excluding *.efi.signed.  We can deal with that if and when it arises.
+    for x in binary/casper/vmlinuz-*; do
+	case \$x in
+	    *.efi.signed)
+		;;
+	    *)
+		mv \$x binary/casper/vmlinuz
+		if [ -e "\$x.efi.signed" ]; then
+		    mv \$x.efi.signed binary/casper/vmlinuz.efi
+		fi
+		;;
+	esac
+    done
+fi
+EOF
 fi
 
 # set default language
