@@ -17,6 +17,7 @@ class ProjectJob < JenkinsJob
     # NB: '' is for pkg-kde-tools which lives in /
     return true if (%w[qt6 qt] << '').include?(project.component)
     return true if %w[pyqt5].include?(project.name)
+    return true if %w[qca2].include?(project.name)
     return true if framework?(project)
 
     false
