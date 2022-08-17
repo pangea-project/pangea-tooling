@@ -55,7 +55,7 @@ DEBIAN_TO_KDE_NAMES = {
 
   # KDE Gear
   'kdevelop-php' => 'kdev-php',
-  'kdevelop-python' => 'kdev-python',
+  'kdevelop-python' => 'kdev-php',
 
   # the stupidest name of all them stupid divergent names. like what does this
   # even accomplish...
