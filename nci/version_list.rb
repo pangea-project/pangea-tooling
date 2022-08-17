@@ -55,7 +55,6 @@ DEBIAN_TO_KDE_NAMES = {
 
   # KDE Gear
   'kdevelop-php' => 'kdev-php',
-  'kdevelop-python' => 'kdev-php',
 
   # the stupidest name of all them stupid divergent names. like what does this
   # even accomplish...
@@ -65,7 +64,8 @@ DEBIAN_TO_KDE_NAMES = {
 # Sources that we do not package for some reason. Should be documented why!
 BLACKLIST = [
   # Not actually useful for anything in production. It's a repo with tests.
-  'plasma-tests'
+  'plasma-tests',
+  'kdev-python'
 ]
 
 # Maps "key" packages to a release scope. This way we can identify what version
