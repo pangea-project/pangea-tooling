@@ -80,7 +80,7 @@ end
 
 args = [droplet.public_ip, 'root']
 
-Retry.retry_it(sleep: 8, times: 16) do
+Retry.retry_it(sleep: 8, times: 64) do
   logger.info "waiting for SSH to start #{args}"
   Net::SSH.start(*args) {}
 end
