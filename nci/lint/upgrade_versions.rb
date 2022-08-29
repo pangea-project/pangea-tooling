@@ -143,7 +143,7 @@ module NCI
       # get future neon (focal) aptly version, set theirs if larger
       PackageUpgradeVersionCheck.future_packages
       neon_future_packages = @@future_packages.select { |x| x.name == "#{pkg.name}" }
-      if neon_future_packages.len > 0
+      if neon_future_packages.length > 0
         future_version = Debian::Version.new(neon_future_packages[0].version)
         theirs = future_version if future_version > theirs
       end
