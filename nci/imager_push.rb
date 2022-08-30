@@ -56,7 +56,7 @@ if DIST == NCI.future_series && NCI.future_is_early
                        '-i', ENV.fetch('SSH_KEY_FILE'),
                        '-o', 'StrictHostKeyChecking=no',
                        'bionic-iso@files.kde.mirror.pangea.pub',
-                       'rm', '-rfv', "~/bionic/*#{TYPE}*")
+                       'rm', '-rfv', "~/bionic/*")
   TTY::Command.new.run('scp',
                        '-i', ENV.fetch('SSH_KEY_FILE'),
                        '-o', 'StrictHostKeyChecking=no',
