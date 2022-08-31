@@ -110,7 +110,7 @@ if [ $DIST = 'jammy' ]; then
     [ -z "$CONFIG_SETTINGS" ] && CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}-jammy.sh"
     [ -z "$CONFIG_HOOKS" ] && CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}-jammy"
     [ -z "$BUILD_HOOKS" ] && BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}-jammy"
-    [ -z "$SEEDED_SNAPS" ] && BUILD_HOOKS="$(dirname "$0")/seeded-snaps-${IMAGENAME}"
+    [ -z "$SEEDED_SNAPS" ] && SEEDED_SNAPS="$(dirname "$0")/seeded-snaps-${IMAGENAME}"
 else
     [ -z "$CONFIG_SETTINGS" ] && CONFIG_SETTINGS="$(dirname "$0")/config-settings-${IMAGENAME}.sh"
     [ -z "$CONFIG_HOOKS" ] && CONFIG_HOOKS="$(dirname "$0")/config-hooks-${IMAGENAME}"
