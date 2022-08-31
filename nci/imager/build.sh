@@ -124,7 +124,7 @@ if [ $TYPE = 'developer' ] || [ $TYPE = 'ko' ] || [ $TYPE = 'mobile' ]; then
     BUILD_HOOKS="$(dirname "$0")/build-hooks-${IMAGENAME}-${TYPE}"
 fi
 
-export CONFIG_SETTINGS CONFIG_HOOKS BUILD_HOOKS
+export CONFIG_SETTINGS CONFIG_HOOKS BUILD_HOOKS SEEDED_SNAPS
 
 # Preserve envrionment -E plz.
 sudo -E $(dirname "$0")/ubuntu-defaults-image \
