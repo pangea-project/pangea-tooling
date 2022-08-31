@@ -429,6 +429,9 @@ fi
 if [ -d "$BUILD_HOOKS" ]; then
   cp -v $BUILD_HOOKS/* config/hooks/
 fi
+if [ "$SEEDED_SNAPS" != "" ] && [ -f "$SEEDED_SNAPS" ]; then
+  cp -v $SEEDED_SNAPS config/
+fi
 #----
 
 cat config/common
