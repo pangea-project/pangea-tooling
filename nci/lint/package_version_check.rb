@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 require 'tty/command'
+require 'httparty'
 
 require_relative '../../lib/debian/version'
 require_relative '../../lib/retry'
@@ -24,6 +25,21 @@ module NCI
       @theirs = theirs
     end
 
+    # Download and parse the neon-settings xenial->bionic pin override file
+    def self.override_packages
+      @@override_packages ||= begin
+        url = "https://invent.kde.org/neon/neon/settings/-/raw/Neon/unstable/etc/apt/preferences.d/99-jammy-overrides?inline=false"
+        response = HTTParty.get(url)
+        response.parsed_response
+        override_packages = []
+        response.each_line do |line|
+          match = line.match(/Package: (.*)/)
+          override_packages << match[1] if match&.length == 2
+        end
+        override_packages
+      end
+    end
+
     def run
       # theirs can be nil if it doesn't exist on the 'their' side (e.g.
       #   we build a new deb and compare it against the repo, it'd be on our
@@ -34,6 +50,8 @@ module NCI
 
       # Good version
       return if our_version > their_version
+      PackageUpgradeVersionCheck.override_packages
+      return if @@override_packages.include?(ours.name) # already pinned in neon-settings
 
       raise VersionNotGreaterError, <<~ERRORMSG
         Our version of
