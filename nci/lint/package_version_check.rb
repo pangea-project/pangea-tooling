@@ -50,7 +50,7 @@ module NCI
 
       # Good version
       return if our_version > their_version
-      PackageUpgradeVersionCheck.override_packages
+      PackageVersionCheck.override_packages
       return if @@override_packages.include?(ours.name) # already pinned in neon-settings
 
       raise VersionNotGreaterError, <<~ERRORMSG

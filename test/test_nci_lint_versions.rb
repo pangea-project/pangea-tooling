@@ -28,6 +28,9 @@ module NCI
     end
 
     def test_file_lister_bad_version
+      stub_request(:get, 'https://invent.kde.org/neon/neon/settings/-/raw/Neon/unstable/etc/apt/preferences.d/99-jammy-overrides?inline=false').
+          with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+          to_return(status: 200, body: "Package: aptdaemon\nPin: release o=Ubuntu\nPin-Priority: 1100\n\nPackage: aptdaemon-data\nPin: release o=Ubuntu\nPin-Priority: 1100", headers: {'Content-Type'=> 'text/plain'})
       VersionsTest.init(ours: standard_ours,
                         theirs: [Package.new('foo', '1.1')])
       linter = VersionsTest.new
@@ -64,8 +67,8 @@ module NCI
           with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
           to_return(status: 200, body: "Package: aptdaemon\nPin: release o=Ubuntu\nPin-Priority: 1100\n\nPackage: aptdaemon-data\nPin: release o=Ubuntu\nPin-Priority: 1100", headers: {'Content-Type'=> 'text/plain'})
 
-      PackageUpgradeVersionCheck.override_packages
-      override_packages = PackageUpgradeVersionCheck.override_packages
+      PackageVersionCheck.override_packages
+      override_packages = PackageVersionCheck.override_packages
       assert_equal(["aptdaemon", "aptdaemon-data"], override_packages)
     end
 
