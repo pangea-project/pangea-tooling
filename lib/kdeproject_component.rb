@@ -93,14 +93,11 @@ class KDEProjectsComponent
       # the way to get what is in KDE Gear (the release service) is from release-tools list
       @release_service ||= begin
         modules = []
-        Dir.mktmpdir do |tmpdir|
-          `git clone --depth 1 https://invent.kde.org/sysadmin/release-tools.git #{tmpdir}`
-          File.open("#{tmpdir}/modules.git") do |file|
-            body = file.read
-            body.each_line("master\n") do |line|
-              modules << line.split(/\s/, 2)[0]
-            end
-          end
+        url = "http://embra.edinburghlinux.co.uk/~jr/release-tools/modules.git"
+        response = HTTParty.get(url)
+        body = response.body
+        body.each_line("master\n") do |line|
+          modules << line.split(/\s/, 2)[0]
         end
       end
       modules.sort
