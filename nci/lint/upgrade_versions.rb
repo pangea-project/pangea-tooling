@@ -154,7 +154,7 @@ module NCI
       return if pkg.name.include? 'dbg'
 
       PackageUpgradeVersionCheck.override_packages
-      return if @@override_packages.include?(ours.name) # already pinned in neon-settings
+      return if @@override_packages.include?(pkg.name) # already pinned in neon-settings
 
       # set theirs to ubuntu focal from container apt show, do not report
       # if no package in ubuntu focal
