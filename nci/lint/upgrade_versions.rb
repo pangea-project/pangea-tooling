@@ -134,8 +134,27 @@ module NCI
       end
     end
 
+    # Download and parse the neon-settings xenial->bionic pin override file
+    def self.override_packages
+      @@override_packages ||= begin
+        url = "https://invent.kde.org/neon/neon/settings/-/raw/Neon/unstable/etc/apt/preferences.d/99-jammy-overrides?inline=false"
+        response = HTTParty.get(url)
+        response.parsed_response
+        override_packages = []
+        response.each_line do |line|
+          match = line.match(/Package: (.*)/)
+          override_packages << match[1] if match&.length == 2
+        end
+        puts "Override Packages: #{override_packages}"
+        override_packages
+      end
+    end
+
     def run
       return if pkg.name.include? 'dbg'
+
+      PackageUpgradeVersionCheck.override_packages
+      return if @@override_packages.include?(ours.name) # already pinned in neon-settings
 
       # set theirs to ubuntu focal from container apt show, do not report
       # if no package in ubuntu focal
