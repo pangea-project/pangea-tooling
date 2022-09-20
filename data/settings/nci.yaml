@@ -30,6 +30,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_backports-jammy_libdrm-jammy*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-focal_libportal_*':
   sourcer:
     restricted_packaging_copy: true
