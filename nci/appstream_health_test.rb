@@ -35,7 +35,7 @@ class DEP11Test < Minitest::Test
   IN_RELEASES.each do |name, in_release_uri|
     define_method("test_#{name}") do
       wanted_pockets = POCKETS.dup
-      open(in_release_uri) do |f|
+      URI.open(in_release_uri) do |f|
         f.each_line do |line|
           pocket = wanted_pockets.find { |x| line.include?("#{x}/dep11") }
           next unless pocket
