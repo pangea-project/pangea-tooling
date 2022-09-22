@@ -2,7 +2,7 @@ env.DIST = '<%= dist %>'
 env.TYPE = '<%= type %>'
 env.APTLY_REPOSITORY = '<%= repo %>'
 env.PWD_BIND = '/workspace'
-env.PANGEA_DOCKER_IMAGE = 'debian:sid'
+env.PANGEA_DOCKER_IMAGE = 'pangea/ubuntu:jammy'
 
 // Only build on cloud nodes because the peristent ones are very slow
 // computationally (asgen scales icons/screenshots etc) and also
@@ -28,7 +28,7 @@ lock(label: 'APPSTREAM_GENERATOR', quantity: 1) {
             }
 
             stage('generate') {
-                sh 'docker image pull $PANGEA_DOCKER_IMAGE'
+                #sh 'docker image pull $PANGEA_DOCKER_IMAGE'
                 sh 'tooling/nci/contain.rb $PWD_BIND/tooling/nci/asgen.sh'
             }
 
