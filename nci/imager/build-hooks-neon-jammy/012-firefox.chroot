@@ -8,7 +8,9 @@ set -e
 
 . /etc/os-release
 
+mv /etc/apt/apt.conf.d/proxy /tmp/
 sed -i s,550,1000, /etc/apt/preferences.d/org-kde-neon-net-launchpad-ppa-mozillateam-pin
 apt-get update
 apt-get -y install firefox
+mv /tmp/proxy /etc/apt/apt.conf.d/proxy
 sed -i s,1000,550, /etc/apt/preferences.d/org-kde-neon-net-launchpad-ppa-mozillateam-pin
