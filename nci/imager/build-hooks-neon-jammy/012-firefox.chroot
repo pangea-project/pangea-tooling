@@ -16,3 +16,5 @@ apt-get update
 apt-get -y --allow-downgrades install firefox
 mv /tmp/00http-proxy /etc/apt/apt.conf.d/
 sed -i s,1000,550, /etc/apt/preferences.d/org-kde-neon-net-launchpad-ppa-mozillateam-pin
+apt-get update
+apt-cache policy firefox
