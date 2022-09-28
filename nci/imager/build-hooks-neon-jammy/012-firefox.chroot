@@ -8,6 +8,8 @@ set -e
 
 . /etc/os-release
 
+echo "Installing Firefox from PPA"
+
 mv /etc/apt/apt.conf.d/proxy /tmp/
 sed -i s,550,1000, /etc/apt/preferences.d/org-kde-neon-net-launchpad-ppa-mozillateam-pin
 apt-get update
