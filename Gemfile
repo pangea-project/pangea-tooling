@@ -39,6 +39,8 @@ gem 'tty-pager'
 gem 'tty-prompt'
 gem 'tty-spinner'
 gem 'webrick'
+gem 'ed25519'
+gem 'bcrypt_pbkdf'
 
 # Git URI management
 gem 'git_clone_url', '~> 2.0'
