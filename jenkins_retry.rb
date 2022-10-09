@@ -67,6 +67,7 @@ Only jobs that are not queued, not building, and failed will be retired.
 
   opts.on('-g', '--gear', 'There has been new KDE Gear release,' \
                                   ' run all watcher jobs for them.') do
+    @exclusion_states.clear
     new_release = KDEProjectsComponent.gear_jobs
   end
 
@@ -110,7 +111,7 @@ end
 
 pattern = nil
 if new_release
-  pattern = Regexp.new("focal_stable_[^_]+_(#{new_release.join('|')})$")
+  pattern = Regexp.new("watcher_release_[^_]+_(#{new_release.join('|')})$")
 elsif pim_release
   pattern = Regexp.new("#{NCI.current_series}_unstable_kde_(#{pim_release.join('|')})$")
 else
