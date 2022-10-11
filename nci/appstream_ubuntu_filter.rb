@@ -60,7 +60,7 @@ filter_components = components.select do |comp|
   when 'desktop-application'
     true
   when 'generic', 'font', 'inputmethod', 'web-application',
-       'console-application', 'codec', 'driver', 'addon'
+       'console-application', 'codec', 'driver', 'addon', 'icon-theme'
     # NOTE: addons do not appear in discover on their own, so there is no
     #   point in filtering them. Worse yet, filtering them means the packages
     #   themselves will show up with shitty metadata.
