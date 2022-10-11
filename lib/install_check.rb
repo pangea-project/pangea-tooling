@@ -123,6 +123,7 @@ class InstallCheck < InstallCheckBase
       # anything, intead it just craps out if a wordlist provider is installed
       # but there is no wordlist -.-
       system('apt-get install wamerican') || raise
+      system('apt-get install neon-adwaita') || raise
       # Hold base-files. If we get lsb_release switched mid-flight and things
       # break we are dead in the water as we might not have a working pyapt
       # setup anymore and thus can't edit the sources.list.d content.
