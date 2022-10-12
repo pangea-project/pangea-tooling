@@ -94,7 +94,7 @@ filter_components = filter_components.collect(&:id)
 removed_components = (manually_removed_components + filter_components)
 
 File.write('auto-removed-components.json',
-           JSON.generate(filter_components.uniq.compact) + "\n")
+           JSON.generate(filter_components.uniq.compact.sort) + "\n")
 
 File.write('removed-components.json',
-           JSON.pretty_generate(removed_components.uniq.compact) + "\n")
+           JSON.pretty_generate(removed_components.uniq.compact.sort) + "\n")
