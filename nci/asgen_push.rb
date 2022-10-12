@@ -39,7 +39,7 @@ class NCI::AppstreamGeneratorPush < NCI::AppstreamGeneratorRemote
 
   def run
     # Move data into basic dir structure of repo skel.
-    export_data_dir = "#{export_dir}/data"
+    export_data_dir = "#{export_dir}/media"
     repo_dir = "#{export_dir}/repo"
     content_dir = "#{repo_dir}/main/dep11"
 
