@@ -254,18 +254,18 @@ module NCI
         Dir.chdir("../snapcraft-kde-applications/#{job_project}") do
           SnapcraftUpdater.new(newest_dehs_package).run
           cmd.run('git --no-pager diff')
-          cmd.run("git commit -a -m 'New release'")
+          cmd.run("git commit -a -vv -m 'New release'")
         end
       end
 
       bump_version
 
       cmd.run('git --no-pager diff')
-      cmd.run("git commit -a -m 'New release'")
+      cmd.run("git commit -a -vv -m 'New release'")
       cmd.run("git checkout Neon/release_focal")
       cmd.run("git checkout Neon/release debian/changelog")
       cmd.run("git --no-pager diff")
-      cmd.run("git commit -a -m 'New release'")
+      cmd.run("git commit -a -vv -m 'New release'")
 
       send_mail
 
