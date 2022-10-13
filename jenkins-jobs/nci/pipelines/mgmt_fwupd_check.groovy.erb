@@ -7,9 +7,6 @@ notify {
             withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: '')]) {
                 sh '~/tooling/nci/contain.rb /tooling/nci/fwupd_check.rb'
             }
-        } finally {
-            archiveArtifacts 'versions.html'
-            junit allowEmptyResults: true, testResults: 'report.xml'
         }
     }
 }
