@@ -45,7 +45,7 @@ proposed = AptlyRepository.new(Aptly::Repository.get(REPO_KEY), 'release')
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
 snapshots.keep_if { |x| x.Name.start_with?(REPO_KEY) }
 target = AptlyRepository.new(snapshots[-1], 'user')
-target.purge_exclusion << 'neon-settings' << 'libseccomp2'
+target.purge_exclusion << 'neon-settings' << 'libseccomp2' << 'neon-adwaita'
 
 checker = InstallCheck.new
 checker.run(proposed, target)
