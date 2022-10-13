@@ -262,10 +262,6 @@ module NCI
 
       cmd.run('git --no-pager diff')
       cmd.run("git commit -a -vv -m 'New release'")
-      cmd.run("git checkout Neon/release_focal")
-      cmd.run("git checkout Neon/release debian/changelog")
-      cmd.run("git --no-pager diff")
-      cmd.run("git commit -a -vv -m 'New release'")
 
       send_mail
 
