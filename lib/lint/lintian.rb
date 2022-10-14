@@ -12,6 +12,9 @@ module Lint
   class Lintian < Linter
     TYPE = ENV.fetch('TYPE', '')
     EXCLUSION = [
+      'no-manual-page',
+      'national-encoding',
+      'elf-error',
       # Our names are very long because our versions are very long because
       # we usually include some form of time stamp as well as extra sugar.
       'source-package-component-has-long-file-name',
