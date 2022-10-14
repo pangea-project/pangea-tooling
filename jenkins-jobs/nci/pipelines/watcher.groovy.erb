@@ -2,37 +2,39 @@ env.DIST='<%= nci.latest_series %>'
 def cause = currentBuild.getBuildCauses()
 env.BUILD_CAUSE = "${cause[0].shortDescription}"
 
-cleanNode('amd64') {
-  stage('clone') {
-      sshagent (credentials: ['ssh.jobs.git.neon']) {
-          stage('clone') {
-            sh 'git clone <%= scm_readable.url %> deb-packaging -b <%= scm_readable.branch %>'
-            dir('deb-packaging') {
-                sh 'git remote set-url --push origin <%= scm_writable.url %>'
-            }
-            sh 'git clone https://invent.kde.org/packaging/snapcraft-kde-applications -b <%= scm_writable.branch %>'
-            dir('snapcraft-kde-applications') {
-                sh 'git remote set-url --push origin git@invent.kde.org:packaging/snapcraft-kde-applications'
-            }
-         }
-      }
-  }
-  stage('watch') {
-    withCredentials([file(credentialsId: 'config.mail.jobs', variable: 'PANGEA_MAIL_CONFIG_PATH')]) {
-        sh '~/tooling/nci/contain.rb /tooling/nci/watcher.rb'
+lock(label: 'WATCHERS', quantity: 4) {
+  cleanNode('amd64') {
+    stage('clone') {
+        sshagent (credentials: ['ssh.jobs.git.neon']) {
+            stage('clone') {
+              sh 'git clone <%= scm_readable.url %> deb-packaging -b <%= scm_readable.branch %>'
+              dir('deb-packaging') {
+                  sh 'git remote set-url --push origin <%= scm_writable.url %>'
+              }
+              sh 'git clone https://invent.kde.org/packaging/snapcraft-kde-applications -b <%= scm_writable.branch %>'
+              dir('snapcraft-kde-applications') {
+                  sh 'git remote set-url --push origin git@invent.kde.org:packaging/snapcraft-kde-applications'
+              }
+          }
+        }
     }
-  }
-  stage('push') {
-    sshagent (credentials: ['ssh.jobs.git.neon']) {
-      dir('deb-packaging') {
-        // check for any changes and push if there are but do not fail if there are not
-        sh('bash -c "git diff origin/Neon/release | grep diff && git push --all -vv; true"')
+    stage('watch') {
+      withCredentials([file(credentialsId: 'config.mail.jobs', variable: 'PANGEA_MAIL_CONFIG_PATH')]) {
+          sh '~/tooling/nci/contain.rb /tooling/nci/watcher.rb'
       }
-      retry(3) {
-        dir('snapcraft-kde-applications') {
-          sh('git pull --rebase')
+    }
+    stage('push') {
+      sshagent (credentials: ['ssh.jobs.git.neon']) {
+        dir('deb-packaging') {
           // check for any changes and push if there are but do not fail if there are not
-          sh('bash -c "git diff origin/Neon/release | grep diff && git push -vv; true"')
+          sh('bash -c "git diff origin/Neon/release | grep diff && git push --all -vv; true"')
+        }
+        retry(3) {
+          dir('snapcraft-kde-applications') {
+            sh('git pull --rebase')
+            // check for any changes and push if there are but do not fail if there are not
+            sh('bash -c "git diff origin/Neon/release | grep diff && git push -vv; true"')
+          }
         }
       }
     }
