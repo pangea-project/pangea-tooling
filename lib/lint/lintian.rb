@@ -15,6 +15,8 @@ module Lint
       'no-manual-page',
       'national-encoding',
       'elf-error',
+      'priority-extra-is-replaced-by-priority-optional',
+      'transitional-package-not-oldlibs-optional',
       # Our names are very long because our versions are very long because
       # we usually include some form of time stamp as well as extra sugar.
       'source-package-component-has-long-file-name',
