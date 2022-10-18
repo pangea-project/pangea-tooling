@@ -2,7 +2,7 @@ env.DIST='<%= dist %>'
 env.TYPE='<%= type %>'
 
 notify {
-    cleanNode('master') {
+    cleanNode('amd64 && persistent') {
         withCredentials([sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: '')]) {
             sh '~/tooling/nci/contain.rb /tooling/nci/fwupd_check.rb'
         }
