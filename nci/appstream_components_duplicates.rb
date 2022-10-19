@@ -130,6 +130,9 @@ if $PROGRAM_NAME == __FILE__
   provides = provides.flatten
   puts "List of old IDs given by apps: #{provides}"
 
+  # List of IDs that are duplicates in Ubuntu's appstream file to ignore them
+  ubuntu_duplicates = ['caffeine.desktop', 'org.kde.latte-dock']
+
   # appstreamcli can exhaust allowed open files, put strict limits on just how
   # much we'll thread it to avoid this problem.
   pool = Concurrent::ThreadPoolExecutor.new(
@@ -157,7 +160,7 @@ if $PROGRAM_NAME == __FILE__
         ret = cmd.run!('appstreamcli', 'dump', permutation)
         if ret.success?
           puts "#{id.active} also has permutation: #{permutation}"
-          blacklist << permutation unless provides.include?(permutation)
+          blacklist << permutation unless provides.include?(permutation) or ubuntu_duplicates.include?(permutation)
         end
       end
     end
