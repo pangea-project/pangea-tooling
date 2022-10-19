@@ -122,6 +122,12 @@ if $PROGRAM_NAME == __FILE__
   ids = docs.collect { |x| x['Merge'] ? nil : x['ID'] }
   ids = ids.uniq.compact
   ids = ids.collect { |x| ID.new(x) }
+  
+  # Some apps have changed IDs and list the old ones as Provides so get a list of those
+  provides = docs.collect { |x| x['Provides'] }
+  provides = provides.select { |x| x.class == Hash && x.key?('ids') }
+  provides = provides.collect { |x| x['ids'] }
+  provides = provides.flatten
 
   # appstreamcli can exhaust allowed open files, put strict limits on just how
   # much we'll thread it to avoid this problem.
@@ -150,7 +156,7 @@ if $PROGRAM_NAME == __FILE__
         ret = cmd.run!('appstreamcli', 'dump', permutation)
         if ret.success?
           puts "#{id.active} also has permutation: #{permutation}"
-          blacklist << permutation
+          blacklist << permutation unless provides.include?(permutation)
         end
       end
     end
