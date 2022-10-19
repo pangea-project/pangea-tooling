@@ -128,6 +128,7 @@ if $PROGRAM_NAME == __FILE__
   provides = provides.select { |x| x.class == Hash && x.key?('ids') }
   provides = provides.collect { |x| x['ids'] }
   provides = provides.flatten
+  puts "List of old IDs given by apps: #{provides}"
 
   # appstreamcli can exhaust allowed open files, put strict limits on just how
   # much we'll thread it to avoid this problem.
