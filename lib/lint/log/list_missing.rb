@@ -18,7 +18,7 @@ module Lint
         #  asserted by this at all. segmentify would need to raise on
         # missing blocks
         r.valid = true
-        data.each { |line| r.errors << line }
+        data.each { |line| r.errors << line unless line.include('usr/share/man' }
         r
       rescue BuildLogSegmenter::SegmentMissingError => e
         puts "#{self.class}: in log #{e.message}"
