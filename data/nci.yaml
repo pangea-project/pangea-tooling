@@ -1,10 +1,10 @@
 series:
   focal: "20.04"
   jammy: "22.04"
-old_series: # must be part of series list (or nil)
-current_series: focal # must be part of series list
-future_series: jammy # must be part of series list (or nil)
-future_is_early: true # controls where the ISOs go. must be true early on!
+old_series: focal # must be part of series list (or nil)
+current_series: jammy # must be part of series list
+future_series: # must be part of series list (or nil)
+future_is_early: false # controls where the ISOs go. must be true early on!
 repo_diversion: false # toggle when experimental is getting staged for deployment
 
 architectures:
