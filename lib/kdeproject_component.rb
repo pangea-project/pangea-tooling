@@ -27,7 +27,9 @@ class KDEProjectsComponent
   class << self
     @@projects_to_jobs = {'discover'=>'plasma-discover', 'kcalendarcore'=>'kcalcore', 'kdeconnect-kde'=>'kdeconnect', 'kdev-php'=>'kdevelop-php', 'kdev-python'=>'kdevelop-python'}
     @@projects_without_jobs = ['plasma-tests', 'akonadi-airsync', 'akonadi-exchange', 'akonadi-phabricator-resource', 'kpeoplesink', 'akonadiclient', 'kblog']
-    ## The only way to get a list of what is in PlaMo Gear releases seems to be a manually maintained list from https://plasma-mobile.org/info/plasma-mobile-gear-22-02/
+    ## The only way to get a list of what is in PlaMo Gear releases seems to be a manually maintained list from 
+    ## https://plasma-mobile.org/info/plasma-mobile-gear-22-09/
+    ## And manually remove the ones that announce says are unstable
     @@plasma_mobile = %w{
       alligator
       angelfish
@@ -50,9 +52,11 @@ class KDEProjectsComponent
       plasmatube
       qmlkonsole
       spacebar
+      telly-skout
       tokodon
       vakzination
-      plasma-mobile-sounds
+      kweathercore
+      kirigami-addons
     }.sort
     @@plasma_mobile = @@plasma_mobile - %w{
       kclock
