@@ -7,4 +7,24 @@ echo 'running blacklist hook'
 # Drop blacklisted nonesense pulled in via recommends or platform seed.
 apt-get purge -y unattended-upgrades || true
 
+# colord gets removed because it would get dragged in by cups but after
+# discussion with Rohan Garg I've come to the conclusion that colord makes
+# no sense by default. If the user wants to do color profile management, sure,
+# but this is a very specific desire usually requiring very specific hardware
+# to perform the calibration. Without a profile colord adds no value so
+# we may as well not ship it by default as it has no effect until the user
+# sets it up with a profile.
+# This is using a slightly dirty trick. For whatever reason we cannot easily
+# keep it from installating initially, so instead we'll purge it via dpkg.
+# This will fail if it'd break dependencies. Furthermore we'll check apt
+# consistency afterwards to make double sure nothing broke.
+# Should this break in the future colord may have become a require depends and
+# we need to track down why that happend and discuss what to do about it.
+dpkg --purge colord
+apt-get check
+
+# Drop now excess deps
+apt-get --purge autoremove -s
+apt-get check
+
 echo 'blacklist done'

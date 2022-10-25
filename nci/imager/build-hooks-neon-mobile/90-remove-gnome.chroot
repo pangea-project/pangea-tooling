@@ -1,7 +1,0 @@
-#!/bin/sh
-
-set -ex
-
-# For some reason it installs gnome so remove it
-apt remove -y ubuntu-session gdm3 gnome-session-bin
-apt -y autoremove
