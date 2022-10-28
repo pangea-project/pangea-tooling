@@ -7,5 +7,6 @@ shim-signed
 grub-efi-amd64-signed
 grub-efi-ia32-bin
 konsole
+neon-repositories-launchpad-mozilla
 plasma-bigscreen-meta
 EOF
