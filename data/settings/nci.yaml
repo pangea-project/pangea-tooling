@@ -6,6 +6,10 @@
 
 # Others
 
+'*_backports-jammy_wayland-protocols-jammy_*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_neon-packaging_libjxl_*':
   sourcer:
     restricted_packaging_copy: true
