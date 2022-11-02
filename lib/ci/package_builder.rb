@@ -85,6 +85,7 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
 
     BIN_ONLY_WHITELIST = %w[qtbase qtxmlpatterns qtdeclarative qtwebkit
                             test-build-bin-only].freeze
+    DIFFERENT_VERSION_NUMBER = %w[qtwebengine qbs qtchooser qtwebkit qtsystems qtstyleplugins qtserialbus qtscxml qtpim qmf qtfeedback qtdoc qtcreator qt-assistant pyside2]
 
     def initialize
       # Cripple stupid bin calls issued by the dpkg build tooling. In our
@@ -192,13 +193,12 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       print_contents
     end
 
-    private
-
     def maybe_prepare_qt_build
       return unless ENV['PANGEA_QT_GIT_BUILD']
       raise unless %w[focal jammy].include?(ENV.fetch('DIST'))
       # Bit of a cheap hack but we really don't need to parse the changelog proper for the purposes of our check.
       raise unless system('head -1 debian/changelog | grep --quiet --extended-regexp "(qtfeedback)|(5\.15\.[123456789]0?)"')
+      qt_versions_match unless ignore_qt_versions_match
 
       # VERY akward hack. Qt git builds of modules require syncqt to get run to generated headers and the like,
       # but that is anchored on the presence of .git dirs and there is no way to trigger it other than .git.
@@ -215,6 +215,30 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
       # is as well.
       FileUtils.rm('/usr/bin/dh_qmlcdeps')
       FileUtils.ln_s('/usr/bin/true', '/usr/bin/dh_qmlcdeps')
+    end
+
+    def ignore_qt_versions_match
+      control = Debian::Control.new(Dir.pwd)
+      control.parse!
+      source_name = control.source.fetch('Source', '')
+      source_name = source_name.sub(/-opensource-src/, '')
+      return true if DIFFERENT_VERSION_NUMBER.include?(source_name)
+      false
+    end
+
+    private
+
+    # Check the version in Git matches the version in debian/changelog
+    def qt_versions_match
+      # open debian/changelog and get verison
+      changelog = File.open('debian/changelog', &:gets)
+      changelog.sub!(/.* \(/, '')
+      changelog = changelog.sub!(/[+-].*/, '').strip
+      # open .qmake and get version
+      qmake_version = File.foreach('.qmake.conf').grep(/MODULE_VERSION/)
+      qmake_version = qmake_version[0].split(' ')[2]
+      # raise if not the same
+      raise "Qt version does not match debian/changelog version" if qmake_version != changelog
     end
 
     def raise_build_failure

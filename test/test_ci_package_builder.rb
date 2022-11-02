@@ -296,5 +296,49 @@ module CI
       builder = PackageBuilder.new
       builder.build_package
     end
+
+    def test_maybe_prepare_qt_version
+      ENV['PANGEA_QT_GIT_BUILD'] = '1'
+      ENV['DIST'] = 'jammy'
+      FileUtils.cp_r("#{data}/ignorename/", Dir.pwd)
+      Dir.chdir("ignorename") do
+        builder = PackageBuilder.new
+        assert_raise Errno::EACCES do
+          builder.maybe_prepare_qt_build
+        end
+      end
+
+      FileUtils.cp_r("#{data}/bad/", Dir.pwd)
+      Dir.chdir("bad") do
+        builder = PackageBuilder.new
+        assert_raise RuntimeError do
+          builder.maybe_prepare_qt_build
+        end
+      end
+
+      FileUtils.cp_r("#{data}/good/", Dir.pwd)
+      Dir.chdir("good") do
+        builder = PackageBuilder.new
+        assert_raise Errno::EACCES do
+          builder.maybe_prepare_qt_build
+        end
+      end
+
+    end
+
+    def test_ignore_qt_version_match
+      FileUtils.cp_r("#{data}/bad/", Dir.pwd)
+      Dir.chdir("bad") do
+        builder = PackageBuilder.new
+        assert_true(builder.ignore_qt_versions_match)
+      end
+
+      FileUtils.cp_r("#{data}/good/", Dir.pwd)
+      Dir.chdir("good") do
+        builder = PackageBuilder.new
+        assert_true(!builder.ignore_qt_versions_match)
+      end
+
+    end
   end
 end
