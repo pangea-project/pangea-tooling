@@ -41,11 +41,14 @@ class NCIRepoCleanupTest < TestCase
     Object.any_instance.expects(:`)
     FileUtils.rm_rf("#{data}/qt6-test")
     FileUtils.cp_r("#{data}/original", "#{data}/qt6-test")
-    sixy = QtSixy.new()
+    sixy = QtSixy.new(name: "qt6-test", dir: "#{data}/qt6-test")
     sixy.run
 
+    system("tree #{data}")
     result = File.readlines("#{data}/qt6-test/debian/control")
+    warn result
     File.readlines("#{data}/good/debian/control").each_with_index do |line, i|
+
       assert_equal(line, result[i])
     end
     assert_equal(false, File.exist?("#{data}/qt6-test/debian/libqt6shadertools6-dev.install"))

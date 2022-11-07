@@ -17,11 +17,15 @@ EXCLUDE_BUILD_DEPENDS = %w[qt6-base-private-dev libqt6opengl6-dev qt6-declarativ
 
 class QtSixy
 
-  def initialize()
-    puts "Running Sixy in #{Dir.pwd}"
-    unless File.exists?("debian")
-      puts "Must be run in a 'qt6-foo' repo with 'debian/' dir"
-      exit
+  attr_reader :dir
+  attr_reader :name
+
+  def initialize(name:, dir:)
+    @dir = dir
+    @name = name
+    puts "Running Sixy in #{dir}"
+    unless File.exist?("#{dir}/debian")
+      raise "Must be run in a 'qt6-foo' repo with 'debian/' dir"
     end
   end
 
@@ -45,7 +49,7 @@ class QtSixy
 
   def run
     cmd = TTY::Command.new
-    control = Debian::Control.new
+    control = Debian::Control.new(@dir)
     control.parse!
     p control.binaries.collect { |x| x['Package'] } # pkgs
 
@@ -58,20 +62,22 @@ class QtSixy
     control.binaries.replace( [{}, {}] )
 
     bin = control.binaries[0]
-    bin.replace({'Package' => File.basename(Dir.pwd), 'Architecture' => 'any', 'Section' => 'kde', 'Description' => '((TBD))'})
+    bin.replace({'Package' => name, 'Architecture' => 'any', 'Section' => 'kde', 'Description' => '((TBD))'})
 
     bin['Provides'] = Debian::Deb822.parse_relationships(bin_binaries.collect { |x| x['Package'] }.join(', '))
+    bin['X-Neon-MergedPackage'] = 'true'
     dev = control.binaries[1]
-    dev.replace({'Package' => File.basename(Dir.pwd) + '-dev', 'Architecture' => 'any', 'Section' => 'kde', 'Description' => '((TBD))'})
+    dev.replace({'Package' => name + '-dev', 'Architecture' => 'any', 'Section' => 'kde', 'Description' => '((TBD))'})
     dev['Provides'] = Debian::Deb822.parse_relationships(dev_binaries.collect { |x| x['Package'] }.join(', '))
+    dev['X-Neon-MergedPackage'] = 'true'
 
     bin_binaries_names.each do |package_name|
       next if bin['Package'] == package_name
-      old_install_file_data = File.read("debian/" + package_name + ".install")
-      new_install_filename = "debian/" + bin['Package'] + ".install"
-      FileUtils.rm_f("debian/" + package_name + ".install")
-      FileUtils.rm_f("debian/" + package_name + ".symbols")
-      FileUtils.rm_f("debian/" + package_name + ".lintian-overrides")
+      old_install_file_data = File.read("#{dir}/debian/" + package_name + ".install")
+      new_install_filename = "#{dir}/debian/" + bin['Package'] + ".install"
+      FileUtils.rm_f("#{dir}/debian/" + package_name + ".install")
+      FileUtils.rm_f("#{dir}/debian/" + package_name + ".symbols")
+      FileUtils.rm_f("#{dir}/debian/" + package_name + ".lintian-overrides")
       File.write(new_install_filename, old_install_file_data, mode: "a")
     end
 
@@ -87,16 +93,16 @@ class QtSixy
 
     dev_binaries_names.each do |package_name|
       next if dev['Package'] == package_name
-      old_install_file_data = File.read("debian/" + package_name + ".install")
-      new_install_filename = "debian/" + dev['Package'] + ".install"
-      FileUtils.rm_f("debian/" + package_name + ".install")
-      FileUtils.rm_f("debian/" + package_name + ".symbols")
-      FileUtils.rm_f("debian/" + package_name + ".lintian-overrides")
+      old_install_file_data = File.read("#{dir}/debian/" + package_name + ".install")
+      new_install_filename = "#{dir}/debian/" + dev['Package'] + ".install"
+      FileUtils.rm_f("#{dir}/debian/" + package_name + ".install")
+      FileUtils.rm_f("#{dir}/debian/" + package_name + ".symbols")
+      FileUtils.rm_f("#{dir}/debian/" + package_name + ".lintian-overrides")
       File.write(new_install_filename, old_install_file_data, mode: "a")
       p "written to #{new_install_filename}"
     end
     # Qt6ShaderToolsTargets-none.cmake is not none on arm so wildcard it
-    `sed -i s,none,*, #{"debian/" + dev['Package'] + ".install"}`
+    `sed -i s,none,*, #{"#{dir}/debian/" + dev['Package'] + ".install"}`
 
     dev_binaries.each do |dev_bin|
       fold_pkg(dev_bin, into: dev)
@@ -122,13 +128,13 @@ class QtSixy
     # Some magic to delete the build deps we list as bad above
     EXCLUDE_BUILD_DEPENDS.each {|build_dep| control.source["Build-depends"].delete_if {|x| x[0].name.start_with?(build_dep)} }
 
-    File.write('debian/control', control.dump)
-    cmd.run('wrap-and-sort')
+    File.write("#{dir}/debian/control", control.dump)
+    cmd.run('wrap-and-sort', chdir: dir)
     system('cat debian/control')
   end
 end
 
 if $PROGRAM_NAME == __FILE__
-  sixy = QtSixy.new()
+  sixy = QtSixy.new(name: File.basename(Dir.pwd), dir: Dir.pwd)
   sixy.run
 end
