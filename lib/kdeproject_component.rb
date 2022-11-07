@@ -103,8 +103,8 @@ class KDEProjectsComponent
         body.each_line("master\n") do |line|
           modules << line.split(/\s/, 2)[0]
         end
-      end
-      modules.sort
+        modules
+      end.sort
     end
 
     def gear_jobs
