@@ -30,6 +30,7 @@ class QtSixy
   end
 
   def fold_pkg(pkg, into:)
+    return pkg if pkg['X-Neon-MergedPackage'] == 'true' # noop
     pkg.each do |k,v|
       next if k == 'Package'
       next if k == 'Architecture'
@@ -55,6 +56,8 @@ class QtSixy
 
     dev_binaries = control.binaries.select { |x| x['Package'].include?('-dev') }
     bin_binaries = control.binaries.select { |x| !dev_binaries.include?(x) }
+    puts "XX dev_binaries: #{dev_binaries.collect { |x| x['Package'] }}"
+    puts "XX bin_binaries: #{bin_binaries.collect { |x| x['Package'] }}"
     control.binaries.replace(control.binaries[0..1])
     dev_binaries_names = dev_binaries.collect { |x| x['Package'] }
     bin_binaries_names = bin_binaries.collect { |x| x['Package'] }
@@ -63,8 +66,10 @@ class QtSixy
 
     bin = control.binaries[0]
     bin.replace({'Package' => name, 'Architecture' => 'any', 'Section' => 'kde', 'Description' => '((TBD))'})
-
-    bin['Provides'] = Debian::Deb822.parse_relationships(bin_binaries.collect { |x| x['Package'] }.join(', '))
+    
+    puts "XXX " + bin_binaries.collect { |x| x['Package'] unless x['X-Neon-MergedPackage'] == 'true' }.join(', ') + "<<<"
+    bin['Provides'] = Debian::Deb822.parse_relationships(bin_binaries.collect { |x| x['Package'] unless x['X-Neon-MergedPackage'] == 'true' }.join(', '))
+    puts "PROVIDES " + bin['Provides'].to_s
     bin['X-Neon-MergedPackage'] = 'true'
     dev = control.binaries[1]
     dev.replace({'Package' => name + '-dev', 'Architecture' => 'any', 'Section' => 'kde', 'Description' => '((TBD))'})
@@ -102,7 +107,9 @@ class QtSixy
       p "written to #{new_install_filename}"
     end
     # Qt6ShaderToolsTargets-none.cmake is not none on arm so wildcard it
-    `sed -i s,none,*, #{"#{dir}/debian/" + dev['Package'] + ".install"}`
+    content = File.read("#{dir}/debian/#{dev['Package']}.install")
+    content = content.gsub('-none.cmake', '-*.cmake')
+    File.write("#{dir}/debian/#{dev['Package']}.install", content)
 
     dev_binaries.each do |dev_bin|
       fold_pkg(dev_bin, into: dev)
@@ -130,11 +137,15 @@ class QtSixy
 
     File.write("#{dir}/debian/control", control.dump)
     cmd.run('wrap-and-sort', chdir: dir)
-    system('cat debian/control')
   end
 end
 
+#if $PROGRAM_NAME == __FILE__
+#  sixy = QtSixy.new(name: File.basename(Dir.pwd), dir: Dir.pwd)
+#  sixy.run
+#end
+
 if $PROGRAM_NAME == __FILE__
-  sixy = QtSixy.new(name: File.basename(Dir.pwd), dir: Dir.pwd)
+  sixy = QtSixy.new(name: File.basename('/home/jr/src/pangea-tooling/test/data/test_nci_qt_sixy/test_sixy_repo/qt6-moo'), dir: '/home/jr/src/pangea-tooling/test/data/test_nci_qt_sixy/test_sixy_repo/qt6-moo')
   sixy.run
 end

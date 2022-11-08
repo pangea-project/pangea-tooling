@@ -38,17 +38,15 @@ class NCIRepoCleanupTest < TestCase
   end
 
   def test_sixy_repo
-    Object.any_instance.expects(:`)
+    puts "XX test_sixy_repo data #{data}"
     FileUtils.rm_rf("#{data}/qt6-test")
     FileUtils.cp_r("#{data}/original", "#{data}/qt6-test")
     sixy = QtSixy.new(name: "qt6-test", dir: "#{data}/qt6-test")
     sixy.run
-
-    system("tree #{data}")
     result = File.readlines("#{data}/qt6-test/debian/control")
-    warn result
+    system("pwd")
+    system("cat #{data}/qt6-test/debian/control")
     File.readlines("#{data}/good/debian/control").each_with_index do |line, i|
-
       assert_equal(line, result[i])
     end
     assert_equal(false, File.exist?("#{data}/qt6-test/debian/libqt6shadertools6-dev.install"))
@@ -57,5 +55,12 @@ class NCIRepoCleanupTest < TestCase
     assert_equal(false, File.exist?("#{data}/qt6-test/debian/qt6-shader-baker.install"))
     assert_equal(true, File.exist?("#{data}/qt6-test/debian/qt6-test.install"))
     assert_equal(true, File.exist?("#{data}/qt6-test/debian/qt6-test-dev.install"))
+    sixy = QtSixy.new(name: "qt6-test", dir: "#{data}/qt6-test")
+    sixy.run
+    result = File.readlines("#{data}/qt6-test/debian/control")
+    File.readlines("#{data}/good/debian/control").each_with_index do |line, i|
+      assert_equal(line, result[i])
+    end
   end
+
 end
