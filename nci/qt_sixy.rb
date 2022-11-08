@@ -56,24 +56,34 @@ class QtSixy
 
     dev_binaries = control.binaries.select { |x| x['Package'].include?('-dev') }
     bin_binaries = control.binaries.select { |x| !dev_binaries.include?(x) }
-    puts "XX dev_binaries: #{dev_binaries.collect { |x| x['Package'] }}"
-    puts "XX bin_binaries: #{bin_binaries.collect { |x| x['Package'] }}"
     control.binaries.replace(control.binaries[0..1])
     dev_binaries_names = dev_binaries.collect { |x| x['Package'] }
     bin_binaries_names = bin_binaries.collect { |x| x['Package'] }
+
+    # Get the old provides to add to the new
+    old_bin_binary = bin_binaries.select { |x| x['Package'] == name }
+    old_provides_list = ''
+    if old_bin_binary.kind_of?(Array) and not old_bin_binary.empty?
+      old_provides = old_bin_binary[0]['Provides']
+      old_provides_list = old_provides.collect { |x| x[0].name }.join(', ')
+    end
+    old_dev_binary = dev_binaries.select { |x| x['Package'] == name + "-dev" }
+    old_dev_provides_list = ''
+    if old_dev_binary.kind_of?(Array) and not old_dev_binary.empty?
+      old_dev_provides = old_dev_binary[0]['Provides']
+      old_dev_provides_list = old_dev_provides.collect { |x| x[0].name }.join(', ')
+    end
 
     control.binaries.replace( [{}, {}] )
 
     bin = control.binaries[0]
     bin.replace({'Package' => name, 'Architecture' => 'any', 'Section' => 'kde', 'Description' => '((TBD))'})
     
-    puts "XXX " + bin_binaries.collect { |x| x['Package'] unless x['X-Neon-MergedPackage'] == 'true' }.join(', ') + "<<<"
-    bin['Provides'] = Debian::Deb822.parse_relationships(bin_binaries.collect { |x| x['Package'] unless x['X-Neon-MergedPackage'] == 'true' }.join(', '))
-    puts "PROVIDES " + bin['Provides'].to_s
+    bin['Provides'] = Debian::Deb822.parse_relationships(old_provides_list + bin_binaries.collect { |x| x['Package'] unless x['X-Neon-MergedPackage'] == 'true' }.join(', '))
     bin['X-Neon-MergedPackage'] = 'true'
     dev = control.binaries[1]
     dev.replace({'Package' => name + '-dev', 'Architecture' => 'any', 'Section' => 'kde', 'Description' => '((TBD))'})
-    dev['Provides'] = Debian::Deb822.parse_relationships(dev_binaries.collect { |x| x['Package'] }.join(', '))
+    dev['Provides'] = Debian::Deb822.parse_relationships(old_dev_provides_list + dev_binaries.collect { |x| x['Package'] }.join(', '))
     dev['X-Neon-MergedPackage'] = 'true'
 
     bin_binaries_names.each do |package_name|
