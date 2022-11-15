@@ -9,4 +9,5 @@ grub-efi-ia32-bin
 konsole
 neon-repositories-launchpad-mozilla
 plasma-bigscreen-meta
+neon-settings-2
 EOF
