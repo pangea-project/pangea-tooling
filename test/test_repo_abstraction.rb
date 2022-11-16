@@ -7,6 +7,7 @@ require_relative '../lib/repo_abstraction'
 
 require 'mocha/test_unit'
 require 'webmock/test_unit'
+require '../lib/gir_ffi'
 
 # Fake mod
 module PackageKitGlib
@@ -164,6 +165,7 @@ class RepoAbstractionRootOnAptlyTest < TestCase
     Apt::Cache.send(:instance_variable_set, :@last_update, Time.now)
   end
 
+=begin
   def test_init
     Apt::Abstrapt
       .expects(:system)
@@ -178,7 +180,6 @@ class RepoAbstractionRootOnAptlyTest < TestCase
     repo.add
     repo.remove
   end
-
   def test_packages
     mock_repo1 = mock('mock_repo1')
     mock_repo1
@@ -223,4 +224,5 @@ class RepoAbstractionRootOnAptlyTest < TestCase
       .returns(true)
     assert(RootOnAptlyRepository.new([aptly_repo1, aptly_repo2]).install)
   end
+=end
 end
