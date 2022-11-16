@@ -1,5 +1,4 @@
 invent.kde.org/neon:
-  - frameworks/attica
   - plasma:
     - '*'
   - frameworks:
