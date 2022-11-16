@@ -40,16 +40,6 @@ class NCIWatcherTest < TestCase
         }
       )
       .to_return(status: 200, body: 'bluedevil breeze breeze-grub breeze-gtk breeze-plymouth discover drkonqi', headers: { "Content-Type": 'text/plain' })
-
-    stub_request(:get, 'http://embra.edinburghlinux.co.uk/~jr/release-tools/modules.git')
-      .with(
-        headers: {
-          'Accept' => '*/*',
-          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent' => 'Ruby'
-        }
-      )
-      .to_return(status: 200, body: "kdialog                                     master\nkeditbookmarks                              master", headers: { "Content-Type": 'text/plain' })
       
     stub_request(:get, 'http://embra.edinburghlinux.co.uk/~jr/release-tools/modules.git')
       .with(
