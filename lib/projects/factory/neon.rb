@@ -43,12 +43,17 @@ class ProjectsFactory
       )
     end
 
-    def from_string(s)
-      str = s[0].gsub('%2F', '/')
-      args = s[1,]
-      ignore_missing_branches = s[1].key?(:ignore_missing_branches) ? s[1][:ignore_missing_branches] : true
-      s[1].delete(:ignore_missing_branches)
-      kwords = params(str)
+    def from_string(str)
+      s = str
+      ignore_missing_branches = false
+      args = {}
+      if str.kind_of?(Array)
+        s = str[0].gsub('%2F', '/')
+        ignore_missing_branches = str[1][:ignore_missing_branches] if str[1].has_key?(:ignore_missing_branches)
+        str[1].delete(:ignore_missing_branches)
+        args = str[1]
+      end
+      kwords = params(s)
       kwords.merge!(symbolize(args))
       # puts "new_project(#{kwords})"
       new_project(**kwords).rescue do |e|
