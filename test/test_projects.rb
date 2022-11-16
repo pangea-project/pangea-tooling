@@ -33,6 +33,24 @@ class ProjectTest < TestCase
     stub_request(:get, 'https://invent.kde.org/sdk/releaseme/-/raw/master/plasma/git-repositories-for-release')
       .with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent' => 'Ruby' })
       .to_return(status: 200, body: 'bluedevil breeze breeze-grub breeze-gtk breeze-plymouth discover drkonqi', headers: { 'Content-Type' => 'text/plain' })
+    stub_request(:get, 'http://embra.edinburghlinux.co.uk/~jr/release-tools/modules.git')
+      .with(
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent' => 'Ruby'
+        }
+      )
+      .to_return(status: 200, body: "kdialog                                     master\nkeditbookmarks                              master", headers: { "Content-Type": 'text/plain' })
+    stub_request(:get, 'https://raw.githubusercontent.com/KDE/releaseme/master/plasma/git-repositories-for-release')
+      .with(
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent' => 'Ruby'
+        }
+      )
+      .to_return(status: 200, body: "aura-browser bluedevil breeze breeze-grub", headers: { "Content-Type": 'text/plain' })
   end
 
   def teardown
@@ -408,7 +426,7 @@ class ProjectTest < TestCase
     CI::Overrides.instance_variable_set(:@default_files, ["#{Dir.pwd}/base.yml"])
     Dir.mktmpdir(self.class.to_s) do |tmpdir|
       Dir.chdir(tmpdir) do
-        assert_raises Project::OverrideNilError do
+        assert_nothing_raised do
           Project.new(name, component, gitrepo, type: 'unstable')
         end
       end
