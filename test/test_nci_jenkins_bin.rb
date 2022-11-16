@@ -200,7 +200,6 @@ module NCI::JenkinsBin
 
   class JobScorerTest < TestCase
     def test_run
-      omit('FIXME jenkins on the move')
       config_file = "#{Dir.pwd}/conf.json"
       File.write(config_file, '{"kitteh_bin_amd64":2,"meow_bin_amd64":2}')
 
