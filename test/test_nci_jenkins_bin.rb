@@ -162,7 +162,6 @@ module NCI::JenkinsBin
 
   class JobTest < TestCase
     def test_keep_cores
-      omit('FIXME jenkins on the move')
       current = 4
       expected = current
 
@@ -175,7 +174,6 @@ module NCI::JenkinsBin
     end
 
     def test_up_cores
-      omit('FIXME jenkins on the move')
       current = 4
       expected = 8
 
@@ -188,7 +186,6 @@ module NCI::JenkinsBin
     end
 
     def test_down_cores
-      omit('FIXME jenkins on the move')
       current = 4
       expected = 2
 
