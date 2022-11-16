@@ -103,6 +103,8 @@ class InstallCheck < InstallCheckBase
       # Also install a fake resolvconf because docker is a piece of shit cunt
       # https://github.com/docker/docker/issues/1297
       install_fake_pkg('resolvconf')
+      # Cryptsetup has a new release in jammy-updates but installing this breaks in docker
+      install_fake_pkg('cryptsetup')
       # Disable manpage database updates
       Open3.popen3('debconf-set-selections') do |stdin, _stdo, stderr, wait_thr|
         stdin.puts('man-db man-db/auto-update boolean false')
