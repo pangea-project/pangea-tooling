@@ -181,9 +181,12 @@ Net::SFTP.start('rsync.kde.org', 'neon', *ssh_args) do |sftp|
       sftp.symlink!("#{name}", "#{REMOTE_PUB_DIR}/#{current_name}") unless File.basename(file).include?('current')
     end
   end
+  warn "XXX Finished upload, uploading .message"
   sftp.cli_uploads = false
   sftp.upload!('result/.message', "#{REMOTE_PUB_DIR}/.message")
+  warn "XXX remove current"
   sftp.remove!("#{REMOTE_DIR}/current")
+  warn "XXX make current"
   sftp.symlink!("#{DATE}", "#{REMOTE_DIR}/current")
 
   sftp.dir.glob(REMOTE_DIR, '*') do |entry|
