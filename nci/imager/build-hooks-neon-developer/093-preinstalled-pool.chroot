@@ -31,9 +31,7 @@ apt-get \
   grub-efi-amd64 \
   grub-efi-amd64-bin \
   grub-efi-amd64-signed \
-  lupin-support \
   mokutil \
-  mouseemu \
   patch \
   setserial \
   shim \
