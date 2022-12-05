@@ -61,39 +61,72 @@ class QtSixy
     bin_binaries_names = bin_binaries.collect { |x| x['Package'] }
 
     # Get the old provides to add to the new
+    #old_bin_binary = bin_binaries.select { |x| x['Package'] == name }
+    #old_provides_list = ''
+    #if old_bin_binary.kind_of?(Array) and not old_bin_binary.empty?
+      #old_provides = old_bin_binary[0]['Provides']
+      #old_provides_list = old_provides.collect { |x| x[0].name }.join(', ')
+    #end
+    #old_dev_binary = dev_binaries.select { |x| x['Package'] == name + "-dev" }
+    #old_dev_provides_list = ''
+    #if old_dev_binary.kind_of?(Array) and not old_dev_binary.empty?
+      #old_dev_provides = old_dev_binary[0]['Provides']
+      #old_dev_provides_list = old_dev_provides.collect { |x| x[0].name }.join(', ')
+    #end
+
     old_bin_binary = bin_binaries.select { |x| x['Package'] == name }
-    old_provides_list = ''
+    old_depends_list = ''
     if old_bin_binary.kind_of?(Array) and not old_bin_binary.empty?
-      old_provides = old_bin_binary[0]['Provides']
-      old_provides_list = old_provides.collect { |x| x[0].name }.join(', ')
+      old_depends = old_bin_binary[0]['Depends']
+      old_depends_list = old_depends.collect { |x| x[0].name }.join(', ')
     end
+    puts "XXX old_depends_list #{old_depends_list}"
     old_dev_binary = dev_binaries.select { |x| x['Package'] == name + "-dev" }
-    old_dev_provides_list = ''
+    old_dev_depends_list = ''
     if old_dev_binary.kind_of?(Array) and not old_dev_binary.empty?
-      old_dev_provides = old_dev_binary[0]['Provides']
-      old_dev_provides_list = old_dev_provides.collect { |x| x[0].name }.join(', ')
+      old_dev_depends = old_dev_binary[0]['Depends']
+      old_dev_depends_list = old_dev_depends.collect { |x| x[0].name }.join(', ')
     end
 
     control.binaries.replace( [{}, {}] )
 
     bin = control.binaries[0]
+    bin_depends = bin['Depends']
+    puts "XXX depends: #{bin_depends}"
     bin.replace({'Package' => name, 'Architecture' => 'any', 'Section' => 'kde', 'Description' => '((TBD))'})
     
-    bin['Provides'] = Debian::Deb822.parse_relationships(old_provides_list + bin_binaries.collect { |x| x['Package'] unless x['X-Neon-MergedPackage'] == 'true' }.join(', '))
+    #bin['Provides'] = Debian::Deb822.parse_relationships(old_provides_list + bin_binaries.collect { |x| x['Package'] unless x['X-Neon-MergedPackage'] == 'true' }.join(', '))
     bin['X-Neon-MergedPackage'] = 'true'
+    if not old_depends_list.empty?
+      bin['Depends'] = old_depends
+    end
     dev = control.binaries[1]
     dev.replace({'Package' => name + '-dev', 'Architecture' => 'any', 'Section' => 'kde', 'Description' => '((TBD))'})
-    dev['Provides'] = Debian::Deb822.parse_relationships(old_dev_provides_list + dev_binaries.collect { |x| x['Package'] }.join(', '))
+    #dev['Provides'] = Debian::Deb822.parse_relationships(old_dev_provides_list + dev_binaries.collect { |x| x['Package'] }.join(', '))
     dev['X-Neon-MergedPackage'] = 'true'
+    if not old_dev_depends_list.empty?
+      dev['Depends'] = old_dev_depends
+    end
 
     bin_binaries_names.each do |package_name|
       next if bin['Package'] == package_name
-      old_install_file_data = File.read("#{dir}/debian/" + package_name + ".install")
+
+      old_install_file_data = File.read("#{dir}/debian/" + package_name + ".install") if File.exists?("#{dir}/debian/" + package_name + ".install")
       new_install_filename = "#{dir}/debian/" + bin['Package'] + ".install"
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".install")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".symbols")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".lintian-overrides")
       File.write(new_install_filename, old_install_file_data, mode: "a")
+      
+      # Old names are now dummy packages
+      dummy = {}
+      dummy['Package'] = package_name
+      dummy['Architecture'] = 'all'
+      dummy['Depends'] = []
+      dummy['Depends'][0] = []
+      dummy['Depends'][0].append(name)
+      dummy['Description'] = "Dummy transitional\nTransitional dummy package.\n"
+      control.binaries.append(dummy)
     end
 
     bin_binaries.each do |bin_bin|
@@ -108,13 +141,22 @@ class QtSixy
 
     dev_binaries_names.each do |package_name|
       next if dev['Package'] == package_name
-      old_install_file_data = File.read("#{dir}/debian/" + package_name + ".install")
+      old_install_file_data = File.read("#{dir}/debian/" + package_name + ".install") if File.exists?("#{dir}/debian/" + package_name + ".install")
       new_install_filename = "#{dir}/debian/" + dev['Package'] + ".install"
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".install")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".symbols")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".lintian-overrides")
       File.write(new_install_filename, old_install_file_data, mode: "a")
       p "written to #{new_install_filename}"
+
+      dummy = {}
+      dummy['Package'] = package_name
+      dummy['Architecture'] = 'all'
+      dummy['Depends'] = []
+      dummy['Depends'][0] = []
+      dummy['Depends'][0].append(name + "-dev")
+      dummy['Description'] = "Dummy transitional\n Transitional dummy package.\n"
+      control.binaries.append(dummy)
     end
     # Qt6ShaderToolsTargets-none.cmake is not none on arm so wildcard it
     content = File.read("#{dir}/debian/#{dev['Package']}.install")
@@ -142,6 +184,12 @@ class QtSixy
       end
     end
 
+    if not old_depends_list.empty?
+      bin['Depends'] = old_depends
+    end
+    if not old_dev_depends_list.empty?
+      dev['Depends'] = old_dev_depends
+    end
     # Some magic to delete the build deps we list as bad above
     EXCLUDE_BUILD_DEPENDS.each {|build_dep| control.source["Build-depends"].delete_if {|x| x[0].name.start_with?(build_dep)} }
 
@@ -156,6 +204,6 @@ end
 #end
 
 if $PROGRAM_NAME == __FILE__
-  sixy = QtSixy.new(name: File.basename('/home/jr/src/pangea-tooling/test/data/test_nci_qt_sixy/test_sixy_repo/qt6-moo'), dir: '/home/jr/src/pangea-tooling/test/data/test_nci_qt_sixy/test_sixy_repo/qt6-moo')
+  sixy = QtSixy.new(name: File.basename('/home/jr/src/pangea-tooling/test/data/test_nci_qt_sixy/test_sixy_repo/qt6-test'), dir: '/home/jr/src/pangea-tooling/test/data/test_nci_qt_sixy/test_sixy_repo/qt6-test')
   sixy.run
 end
