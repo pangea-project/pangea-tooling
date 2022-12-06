@@ -159,6 +159,7 @@ class QtSixy
     # Qt6ShaderToolsTargets-none.cmake is not none on arm so wildcard it
     content = File.read("#{dir}/debian/#{dev['Package']}.install")
     content = content.gsub('-none.cmake', '-*.cmake')
+    content = content.gsub('_none_metatypes.json', '_*_metatypes.json')
     File.write("#{dir}/debian/#{dev['Package']}.install", content)
 
     dev_binaries.each do |dev_bin|
