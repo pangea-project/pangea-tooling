@@ -26,7 +26,6 @@ module Debian
   # Deb822 specification parser.
   class Deb822
     def self.parse_relationships(line)
-      puts "parse_relationships line: #{line}"
       ret = []
       line.split(',').each do |string|
         rel_array = []
@@ -38,7 +37,6 @@ module Debian
         end
         ret << rel_array unless rel_array.empty?
       end
-      puts "parse_relationships ret: #{ret}"
       ret
     end
 

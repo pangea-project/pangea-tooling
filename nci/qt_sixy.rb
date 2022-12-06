@@ -80,7 +80,6 @@ class QtSixy
       old_depends = old_bin_binary[0]['Depends']
       old_depends_list = old_depends.collect { |x| x[0].name }.join(', ')
     end
-    puts "XXX old_depends_list #{old_depends_list}"
     old_dev_binary = dev_binaries.select { |x| x['Package'] == name + "-dev" }
     old_dev_depends_list = ''
     if old_dev_binary.kind_of?(Array) and not old_dev_binary.empty?
@@ -92,7 +91,6 @@ class QtSixy
 
     bin = control.binaries[0]
     bin_depends = bin['Depends']
-    puts "XXX depends: #{bin_depends}"
     bin.replace({'Package' => name, 'Architecture' => 'any', 'Section' => 'kde', 'Description' => '((TBD))'})
     
     #bin['Provides'] = Debian::Deb822.parse_relationships(old_provides_list + bin_binaries.collect { |x| x['Package'] unless x['X-Neon-MergedPackage'] == 'true' }.join(', '))
