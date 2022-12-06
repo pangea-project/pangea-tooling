@@ -20,7 +20,6 @@ Vcs-Browser: https://salsa.debian.org/qt-kde-team/qt6/qt6-shadertools
 Package: qt6-test
 Architecture: any
 Section: kde
-Provides: libqt6shadertools6, qt6-shader-baker
 X-Neon-MergedPackage: true
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: Qt 6 shader tools module
@@ -33,7 +32,6 @@ Description: Qt 6 shader tools module
 Package: qt6-test-dev
 Architecture: any
 Section: kde
-Provides: libqt6shadertools6-dev
 X-Neon-MergedPackage: true
 Depends: qt6-test (= ${binary:Version}), ${misc:Depends}
 Description: Qt 6 shader tools module - development files
@@ -42,3 +40,21 @@ Description: Qt 6 shader tools module - development files
  .
  This package contains the development files needed to build Qt 6 applications
  using the QtShaderTools library.
+
+Package: libqt6shadertools6
+Architecture: all
+Depends: qt6-test
+Description: Dummy transitional
+ Transitional dummy package.
+
+Package: qt6-shader-baker
+Architecture: all
+Depends: qt6-test
+Description: Dummy transitional
+ Transitional dummy package.
+
+Package: libqt6shadertools6-dev
+Architecture: all
+Depends: qt6-test-dev
+Description: Dummy transitional
+  Transitional dummy package.
