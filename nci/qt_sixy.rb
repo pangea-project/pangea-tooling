@@ -198,12 +198,12 @@ class QtSixy
   end
 end
 
-#if $PROGRAM_NAME == __FILE__
-#  sixy = QtSixy.new(name: File.basename(Dir.pwd), dir: Dir.pwd)
-#  sixy.run
-#end
-
 if $PROGRAM_NAME == __FILE__
-  sixy = QtSixy.new(name: File.basename('/home/jr/src/pangea-tooling/test/data/test_nci_qt_sixy/test_sixy_repo/qt6-test'), dir: '/home/jr/src/pangea-tooling/test/data/test_nci_qt_sixy/test_sixy_repo/qt6-test')
-  sixy.run
+ sixy = QtSixy.new(name: File.basename(Dir.pwd), dir: Dir.pwd)
+ sixy.run
 end
+
+#if $PROGRAM_NAME == __FILE__
+  #sixy = QtSixy.new(name: File.basename('/home/jr/src/pangea-tooling/test/data/test_nci_qt_sixy/test_sixy_repo/qt6-test'), dir: '/home/jr/src/pangea-tooling/test/data/test_nci_qt_sixy/test_sixy_repo/qt6-test')
+  #sixy.run
+#end
