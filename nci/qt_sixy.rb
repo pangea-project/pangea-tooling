@@ -193,7 +193,7 @@ class QtSixy
     EXCLUDE_BUILD_DEPENDS.each {|build_dep| control.source["Build-depends"].delete_if {|x| x[0].name.start_with?(build_dep)} }
 
     File.write("#{dir}/debian/control", control.dump)
-    cmd.run('wrap-and-sort', chdir: dir) if File.exists?('/usr/bin/wrap-and-sort')
+    cmd.run('wrap-and-sort', chdir: dir)
   end
 end
 
