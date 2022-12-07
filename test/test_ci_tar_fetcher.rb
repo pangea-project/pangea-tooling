@@ -168,6 +168,7 @@ module CI
     end
 
     def test_watch_multiple_entries
+      omit
       require_binaries(%w[uscan])
 
       Test.http_serve(data('http'), port: SERVER_PORT) do
