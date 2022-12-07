@@ -202,8 +202,9 @@ class NCIWatcherTest < TestCase
   end
 
   def test_3rdparty_time_trigger_mail_and_fail
-    omit # dch causes hang on spara
+    #omit # dch causes hang on spara
     ENV['BUILD_CAUSE'] = 'Started by timer'
+    ENV['EDITOR'] = 'true'
     require_binaries(%w[dch])
 
     smtp = mock('smtp')
