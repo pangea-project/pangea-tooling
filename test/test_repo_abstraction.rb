@@ -7,7 +7,7 @@ require_relative '../lib/repo_abstraction'
 
 require 'mocha/test_unit'
 require 'webmock/test_unit'
-require '../lib/gir_ffi'
+require_relative '../lib/gir_ffi'
 
 # Fake mod
 module PackageKitGlib
