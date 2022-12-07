@@ -32,20 +32,12 @@ class NCIRepoCleanupTest < TestCase
   def teardown
   end
 
-  def mock_repo
-    repo = mock
-    repo.expects(:Name)
-  end
-
   def test_sixy_repo
-    puts "XX test_sixy_repo data #{data}"
     FileUtils.rm_rf("#{data}/qt6-test")
     FileUtils.cp_r("#{data}/original", "#{data}/qt6-test")
     sixy = QtSixy.new(name: "qt6-test", dir: "#{data}/qt6-test")
     sixy.run
     result = File.readlines("#{data}/qt6-test/debian/control")
-    system("pwd")
-    system("cat #{data}/qt6-test/debian/control")
     File.readlines("#{data}/good/debian/control").each_with_index do |line, i|
       assert_equal(line, result[i])
     end
