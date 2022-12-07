@@ -21,7 +21,7 @@ Package: qt6-test
 Architecture: any
 Section: kde
 X-Neon-MergedPackage: true
-Depends: ${misc:Depends}, ${shlibs:Depends}
+Depends: ${misc:Depends},
 Description: Qt 6 shader tools module
  Qt is a cross-platform C++ application framework. Qt's primary feature
  is its rich set of widgets that provide standard GUI functionality.
