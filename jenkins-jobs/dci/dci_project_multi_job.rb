@@ -135,7 +135,7 @@ class DCIProjectMultiJob < JenkinsJob
   @upstream_scm = @project.upstream_scm # FIXME: compat assignment
     return '' unless @upstream_scm
     case @upstream_scm.type
-  when 'git'
+    when 'git'
       render('upstream-scms/git.xml.erb')
     when 'svn'
       render('upstream-scms/svn.xml.erb')
