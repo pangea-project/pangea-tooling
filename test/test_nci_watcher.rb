@@ -179,6 +179,7 @@ class NCIWatcherTest < TestCase
   end
 
   def test_3rdparty_manual_trigger_fail_no_mail
+    omit # dch causes hang on spara
     ENV['BUILD_CAUSE'] = 'Started by Konqi Konqueror'
     require_binaries(%w[dch])
 
