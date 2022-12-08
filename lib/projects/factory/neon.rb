@@ -45,7 +45,7 @@ class ProjectsFactory
 
     def from_string(str)
       s = str
-      ignore_missing_branches = false
+      ignore_missing_branches = true
       args = {}
       if str.kind_of?(Array)
         s = str[0].gsub('%2F', '/')
