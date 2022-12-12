@@ -1,0 +1,5 @@
+usr/include/KF5/ThreadWeaver/
+usr/lib/*/cmake/KF5ThreadWeaver/
+usr/lib/*/libKF5ThreadWeaver.so
+usr/lib/*/qt5/mkspecs/modules/qt_ThreadWeaver.pri
+usr/share/qt5/doc/KF5ThreadWeaver.tags

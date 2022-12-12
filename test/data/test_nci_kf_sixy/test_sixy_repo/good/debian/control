@@ -1,0 +1,74 @@
+Source: kf6-threadweaver
+Section: libs
+Priority: optional
+Maintainer: Jonathan Esk-Riddell <jr@jriddell.org>
+Build-Depends: cmake,
+               debhelper-compat (= 13),
+               doxygen,
+               extra-cmake-modules,
+               graphviz,
+               libqt5sql5-sqlite:native,
+               pkg-kde-tools,
+               qt6-base-dev,
+               qt6-tools-dev,
+               qttools5-dev-tools
+Standards-Version: 4.1.4
+Homepage: https://projects.kde.org/projects/frameworks/threadweaver
+Vcs-Browser: https://salsa.debian.org/qt-kde-team/kde/threadweaver
+Vcs-Git: https://salsa.debian.org/qt-kde-team/kde/threadweaver.git
+
+Package: kf6-threadweaver
+Architecture: any
+Section: kde
+X-Neon-MergedPackage: true
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: libkf5runner5 (<< 5.51)
+Description: ThreadWeaver library to help multithreaded programming in Qt
+ ThreadWeaver is a helper for multithreaded programming. It uses a job-based
+ interface to queue tasks and execute them in an efficient way.  You simply
+ divide the workload into jobs, state the dependencies between the jobs and
+ ThreadWeaver will work out the most efficient way of dividing the work between
+ threads within a set of resource limits.
+ .
+ This package is part of KDE Frameworks 6.
+ .
+ This package contains the qch documentation files.
+
+Package: kf6-threadweaver-dev
+Architecture: any
+Section: kde
+X-Neon-MergedPackage: true
+Depends: kf6-threadweaver (= ${binary:Version}),
+         qtbase5-dev (>= 5.8.0~),
+         ${misc:Depends}
+Breaks: kf6-threadweaver (<< 5.61.90-0), libkf5kdelibs4support-dev (<< 5.51)
+Replaces: kf6-threadweaver (<< 5.61.90-0)
+Recommends: kf6-threadweaver (= ${source:Version})
+Description: ThreadWeaver library to help multithreaded programming in Qt
+ ThreadWeaver is a helper for multithreaded programming. It uses a job-based
+ interface to queue tasks and execute them in an efficient way.  You simply
+ divide the workload into jobs, state the dependencies between the jobs and
+ ThreadWeaver will work out the most efficient way of dividing the work between
+ threads within a set of resource limits.
+ .
+ This package is part of KDE Frameworks 6.
+ .
+ This package contains the development files.
+
+Package: libkf6threadweaver-doc
+Architecture: all
+Depends: kf6-threadweaver
+Description: Dummy transitional
+ Transitional dummy package.
+
+Package: libkf6threadweaver6
+Architecture: all
+Depends: kf6-threadweaver
+Description: Dummy transitional
+ Transitional dummy package.
+
+Package: libkf6threadweaver-dev
+Architecture: all
+Depends: kf6-threadweaver-dev
+Description: Dummy transitional
+  Transitional dummy package.
