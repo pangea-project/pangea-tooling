@@ -231,6 +231,23 @@ class KFSixy
     end    
 
     File.write("#{dir}/debian/control", control.dump)
+    
+    changelog = "kf6-" + name
+    changelog += %q( (0.0-0neon) UNRELEASED; urgency=medium
+
+  * New release
+
+ -- Jonathan Esk-Riddell <jr@jriddell.org>  Mon, 12 Dec 2022 13:04:30 +0000
+)
+    File.write("#{dir}/debian/changelog", changelog)
+
+    rules = %q(#!/usr/bin/make -f
+# -*- makefile -*-
+
+%:
+	dh $@ --with kf6 --buildsystem kf6
+)
+    File.write("#{dir}/debian/rules", rules)
     cmd.run('wrap-and-sort', chdir: dir)
   end
 end

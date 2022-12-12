@@ -41,6 +41,14 @@ class NCIRepoCleanupTest < TestCase
     File.readlines("#{data}/good/debian/control").each_with_index do |line, i|
       assert_equal(line, result[i])
     end
+    result = File.readlines("#{data}/threadweaver/debian/changelog")
+    File.readlines("#{data}/good/debian/changelog").each_with_index do |line, i|
+      assert_equal(line, result[i])
+    end
+    result = File.readlines("#{data}/threadweaver/debian/rules")
+    File.readlines("#{data}/good/debian/rules").each_with_index do |line, i|
+      assert_equal(line, result[i])
+    end
     assert_equal(false, File.exist?("#{data}/threadweaver/debian/libkf5threadweaver5.install"))
     assert_equal(false, File.exist?("#{data}/threadweaver/debian/libkf5threadweaver5.symbols"))
     assert_equal(false, File.exist?("#{data}/threadweaver/debian/libkf5threadweaver-dev.acc.in"))
