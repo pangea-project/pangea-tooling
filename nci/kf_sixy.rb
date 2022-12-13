@@ -120,7 +120,7 @@ class KFSixy
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".install")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".symbols")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".lintian-overrides")
-      old_install_file_data.gsub!("5", "6") if old_install_file_data
+      old_install_file_data.gsub!("usr/lib/\*/", "usr/kf6/lib/*/") if old_install_file_data
       File.write(new_install_filename, old_install_file_data, mode: "a")
       
       # Old names are now dummy packages
@@ -154,7 +154,10 @@ class KFSixy
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".symbols")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".lintian-overrides")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".acc.in")
-      old_install_file_data.gsub!("5", "6") if old_install_file_data
+      old_install_file_data.gsub!("usr/include/KF5/", "usr/kf6/include/KF6/") if old_install_file_data
+      old_install_file_data.gsub!("usr/lib/\*/cmake/", "usr/kf6/lib/*/cmake/") if old_install_file_data
+      old_install_file_data.gsub!("usr/lib/\*/libKF5", "usr/kf6/lib/*/libKF5") if old_install_file_data
+      old_install_file_data.gsub!("usr/lib/\*/qt5/mkspecs/modules/qt", "usr/kf6/mkspecs/modules/qt") if old_install_file_data
       File.write(new_install_filename, old_install_file_data, mode: "a")
       p "written to #{new_install_filename}"
 
