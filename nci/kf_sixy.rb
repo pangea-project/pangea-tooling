@@ -13,9 +13,10 @@ require_relative '../lib/projects/factory/neon'
 require 'deep_merge'
 require 'tty/command'
 
-REPLACEMENT_BUILD_DEPENDS = {"qttools5-dev-tools" => "qt6-tools-dev",
+REPLACEMENT_BUILD_DEPENDS = {"extra-cmake-modules" => "kf6-extra-cmake-modules",
+                             "qttools5-dev-tools" => "qt6-tools-dev",
                              "qtbase5-dev" => "qt6-base-dev",
-                             "libqt5sql5-sqlite2" => nil
+                             "libqt5sql5-sqlite2" => nil,
                             }.freeze
                             
 
@@ -221,7 +222,6 @@ class KFSixy
     control.source["Build-depends"].each {|x| control.source["Build-depends"].delete(x) if x[0].name == "debhelper"}
     control.source["Build-depends"].each do |build_dep|
       if REPLACEMENT_BUILD_DEPENDS.keys.include?(build_dep[0].name)
-        
         control.source["Build-depends"].append([Debian::Relationship.new(REPLACEMENT_BUILD_DEPENDS[build_dep[0].name])])
       end
     end    
