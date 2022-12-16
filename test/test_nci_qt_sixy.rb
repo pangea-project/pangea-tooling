@@ -32,7 +32,7 @@ class NCIRepoCleanupTest < TestCase
   def teardown
   end
 
-  def test_sixy_repo
+  def test_qt_sixy_repo
     FileUtils.rm_rf("#{data}/qt6-test")
     FileUtils.cp_r("#{data}/original", "#{data}/qt6-test")
     sixy = QtSixy.new(name: "qt6-test", dir: "#{data}/qt6-test")
