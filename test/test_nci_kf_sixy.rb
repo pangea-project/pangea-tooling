@@ -25,7 +25,7 @@ require 'mocha/test_unit'
 require 'webmock/test_unit'
 require 'net/ssh/gateway' # so we have access to the const
 
-class NCIRepoCleanupTest < TestCase
+class NCIKFSixyTest < TestCase
   def setup
   end
 

@@ -8,10 +8,10 @@ Build-Depends: cmake,
                graphviz,
                kf6-extra-cmake-modules,
                libqt5sql5-sqlite:native,
-               pkg-kde-tools,
+               pkg-kde-tools-neon,
                qt6-base-dev,
                qt6-tools-dev,
-               qttools5-dev-tools
+               qtbase5-dev
 Standards-Version: 4.1.4
 Homepage: https://projects.kde.org/projects/frameworks/threadweaver
 Vcs-Browser: https://salsa.debian.org/qt-kde-team/kde/threadweaver
