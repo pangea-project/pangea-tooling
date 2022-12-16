@@ -14,6 +14,7 @@ require 'deep_merge'
 require 'tty/command'
 
 REPLACEMENT_BUILD_DEPENDS = {"extra-cmake-modules" => "kf6-extra-cmake-modules",
+                             "pkg-kde-tools" => "pkg-kde-tools-neon",
                              "qttools5-dev-tools" => "qt6-tools-dev",
                              "qtbase5-dev" => "qt6-base-dev",
                              "libqt5sql5-sqlite2" => nil,
@@ -159,6 +160,9 @@ class KFSixy
       old_install_file_data.gsub!("usr/lib/\*/cmake/", "usr/kf6/lib/*/cmake/") if old_install_file_data
       old_install_file_data.gsub!("usr/lib/\*/libKF5", "usr/kf6/lib/*/libKF5") if old_install_file_data
       old_install_file_data.gsub!("usr/lib/\*/qt5/mkspecs/modules/qt", "usr/kf6/mkspecs/modules/qt") if old_install_file_data
+      old_install_file_data.gsub!("usr/lib/\*/pkgconfig", "usr/kf6/lib/*/pkgconfig") if old_install_file_data
+      old_install_file_data.gsub!("usr/lib\/*/qt5/qml", "usr/kf6/lib/*/qml/") if old_install_file_data
+      old_install_file_data.gsub!("usr/share/qlogging-categories5/", "usr/kf6/share/qlogging-categories6/") if old_install_file_data
       File.write(new_install_filename, old_install_file_data, mode: "a")
       p "written to #{new_install_filename}"
 
