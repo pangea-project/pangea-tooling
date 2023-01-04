@@ -86,7 +86,8 @@ module NCI
 
     # KEEP IN SYNC with ungsub_download_url!
     def self.gsub_download_url(url)
-      url.gsub('download.kde.org/', 'download.kde.internal.neon.kde.org/')
+      #url.gsub('download.kde.org/', 'download.kde.internal.neon.kde.org/')
+      return true
     end
 
     # KEEP IN SYNC with gsub_download_url!
