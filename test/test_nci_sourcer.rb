@@ -62,7 +62,7 @@ class NCISourcerTest < TestCase
     CI::WatchTarFetcher
       .expects(:new)
       .with('packaging/debian/watch',
-            series: NCI.series.keys, mangle_download: true)
+            series: NCI.series.keys, mangle_download: false)
       .returns(fake_fetcher)
 
     fake_builder = mock('fake_builder')
