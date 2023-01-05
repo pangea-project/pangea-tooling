@@ -75,7 +75,7 @@ module NCISourcer
       puts 'Downloading tarball via uscan'
       orig_source(CI::WatchTarFetcher.new('packaging/debian/watch',
                                           series: NCI.series.keys,
-                                          mangle_download: false))
+                                          mangle_download: true))
     end
 
     def run_fallback
