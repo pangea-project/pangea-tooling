@@ -6,7 +6,6 @@ cat << EOF > config/package-lists/ubuntu-defaults.list.chroot_install
 shim-signed
 grub-efi-amd64-signed
 grub-efi-ia32-bin
-konsole
 plasma-phone
 neon-settings-2
 EOF
