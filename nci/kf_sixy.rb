@@ -122,7 +122,9 @@ class KFSixy
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".install")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".symbols")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".lintian-overrides")
+      FileUtils.rm_f("#{dir}/debian/" + package_name + ".maintscript")
       old_install_file_data.gsub!("usr/lib/\*/", "usr/kf6/lib/*/") if old_install_file_data
+      old_install_file_data.gsub!("usr/share/qlogging-categories5", "usr/kf6/share/qlogging-categories6") if old_install_file_data
       File.write(new_install_filename, old_install_file_data, mode: "a")
       
       # Old names are now dummy packages
@@ -253,6 +255,9 @@ class KFSixy
 
 %:
 	dh $@ --with kf6 --buildsystem kf6
+
+override_dh_shlibdeps:
+	dh_shlibdeps -l$(CURDIR)/debian/$(shell dh_listpackages | head -n1)/usr/kf6/lib/$(DEB_HOST_MULTIARCH)/
 )
     File.write("#{dir}/debian/rules", rules)
     cmd.run('wrap-and-sort', chdir: dir)
