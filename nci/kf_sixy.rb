@@ -17,6 +17,7 @@ REPLACEMENT_BUILD_DEPENDS = {"extra-cmake-modules" => "kf6-extra-cmake-modules",
                              "pkg-kde-tools" => "pkg-kde-tools-neon",
                              "qttools5-dev-tools" => "qt6-tools-dev",
                              "qtbase5-dev" => "qt6-base-dev",
+                             "qtdeclarative5-dev" => "qt6-declarative-dev",
                              "libqt5sql5-sqlite2" => nil,
                             }.freeze
                             
@@ -124,7 +125,11 @@ class KFSixy
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".lintian-overrides")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".maintscript")
       old_install_file_data.gsub!("usr/lib/\*/", "usr/kf6/lib/*/") if old_install_file_data
-      old_install_file_data.gsub!("usr/share/qlogging-categories5", "usr/kf6/share/qlogging-categories6") if old_install_file_data
+      old_install_file_data.gsub!("usr/share/", "usr/kf6/share/") if old_install_file_data
+      old_install_file_data.gsub!("usr/bin/", "usr/kf6/bin/") if old_install_file_data
+      old_install_file_data.gsub!("qlogging-categories5", "qlogging-categories6") if old_install_file_data
+      old_install_file_data.gsub!("/kf5", "/kf6") if old_install_file_data
+      old_install_file_data.gsub!(".*tags", "") if old_install_file_data
       File.write(new_install_filename, old_install_file_data, mode: "a")
       
       # Old names are now dummy packages
@@ -156,6 +161,7 @@ class KFSixy
       new_install_filename = "#{dir}/debian/" + dev['Package'] + ".install"
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".install")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".symbols")
+      FileUtils.rm_f("#{dir}/debian/" + package_name + ".maintscript")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".lintian-overrides")
       FileUtils.rm_f("#{dir}/debian/" + package_name + ".acc.in")
       old_install_file_data.gsub!("usr/include/KF5/", "usr/kf6/include/KF6/") if old_install_file_data
@@ -164,7 +170,7 @@ class KFSixy
       old_install_file_data.gsub!("usr/lib/\*/qt5/mkspecs/modules/qt", "usr/kf6/mkspecs/modules/qt") if old_install_file_data
       old_install_file_data.gsub!("usr/lib/\*/pkgconfig", "usr/kf6/lib/*/pkgconfig") if old_install_file_data
       old_install_file_data.gsub!("usr/lib\/*/qt5/qml", "usr/kf6/lib/*/qml/") if old_install_file_data
-      old_install_file_data.gsub!("usr/share/qlogging-categories5/", "usr/kf6/share/qlogging-categories6/") if old_install_file_data
+      old_install_file_data.gsub!("usr/share/qlogging-categories5/", "usr/kf6/share/qlogging-categories6/") if       old_install_file_data
       File.write(new_install_filename, old_install_file_data, mode: "a")
       p "written to #{new_install_filename}"
 
@@ -238,6 +244,20 @@ class KFSixy
         control.source["Build-depends"].each {|delme| control.source["Build-depends"].delete(delme) if delme[0].name == build_dep[0].name}
       end
     end    
+
+    control.source["Build-depends"].each do |build_dep|
+      if build_dep[0].name.include?("libkf5")
+        new_build_depend = build_dep[0].name.gsub("libkf5", "kf6-")
+        control.source["Build-depends"].append([Debian::Relationship.new(new_build_depend)])
+      end
+    end
+
+    control.source["Build-depends"].each do |build_dep|
+      puts "delete pondering #{build_dep[0].name}"
+      if build_dep[0].name.include?("libkf5")
+        control.source["Build-depends"].each {|delme| control.source["Build-depends"].delete(delme) if delme[0].name == build_dep[0].name}
+      end
+    end
 
     File.write("#{dir}/debian/control", control.dump)
     

@@ -1,3 +1,3 @@
 usr/kf6/lib/*/libKF5ThreadWeaver.so.5
 usr/kf6/lib/*/libKF5ThreadWeaver.so.5.*
-usr/share/qt5/doc/KF5ThreadWeaver.qch
+usr/kf6/share/qt5/doc/KF5ThreadWeaver.qch
