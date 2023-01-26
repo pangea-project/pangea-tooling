@@ -200,7 +200,15 @@ build deps but it still failed. The error may likely be further up
       if Dir.exist?(source_dir)
         FileUtils.cp_r("#{source_dir}/#{dir}",
                        "#{@build_dir}/source/",
-                       verbose: true)
+                       verbose: true, )
+        # packages like jpeg-xl with multiple symlinks pointing to a single
+        # file can seem to cause fileutils.cp_r to barf so lets force the issue
+      rescue Errno::EEXIST
+        FileUtils.rm_r"#{@build_dir}/source/" if Dir.exist?"#{@build_dir}/source/"
+        FileUtils.mkpath("#{@build_dir}/source")
+        FileUtils.cp_r("#{source_dir}/#{dir}",
+                       "#{@build_dir}/source/",
+                       verbose: true, remove_destination: true, )
       end
       %w[.bzr .git .hg .svn].each do |vcs_dir|
         FileUtils.rm_rf(Dir.glob("#{@build_dir}/source/**/#{vcs_dir}"))
