@@ -17,7 +17,8 @@ REPLACEMENT_BUILD_DEPENDS = {"extra-cmake-modules" => "kf6-extra-cmake-modules",
                              "pkg-kde-tools" => "pkg-kde-tools-neon",
                              "qttools5-dev-tools" => "qt6-tools-dev",
                              "qtbase5-dev" => "qt6-base-dev",
-                             "qtdeclarative5-dev" => "qt6-declarative-dev"
+                             "qtdeclarative5-dev" => "qt6-declarative-dev",
+                             "libqt5sql5-sqlite2" => nil,
                             }.freeze
                             
 
@@ -246,7 +247,7 @@ class KFSixy
 
     control.source["Build-depends"].each do |build_dep|
       if build_dep[0].name.include?("libkf5")
-        new_build_depend = build_dep[0].name.gsub("libkf5", "kf6-k")
+        new_build_depend = build_dep[0].name.gsub("libkf5", "kf6-")
         control.source["Build-depends"].append([Debian::Relationship.new(new_build_depend)])
       end
     end
@@ -280,13 +281,12 @@ override_dh_shlibdeps:
 )
     File.write("#{dir}/debian/rules", rules)
     cmd.run('wrap-and-sort', chdir: dir)
-    cmd.run('git add debian/*install', chdir: dir)
   end
 end
 
 if $PROGRAM_NAME == __FILE__
   sixy = KFSixy.new(name: File.basename(Dir.pwd), dir: Dir.pwd)
-  sixy.run
+ sixy.run
 end
 
 #if $PROGRAM_NAME == __FILE__
