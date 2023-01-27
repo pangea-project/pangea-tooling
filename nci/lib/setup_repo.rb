@@ -59,7 +59,7 @@ module NCI
     # Make sure we have the latest pkg-kde-tools, not whatever is in the image.
     return unless with_install
 
-    raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools debhelper cmake quilt])
+    raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools pkg-kde-tools-neon debhelper cmake quilt])
 
     # Qt6 Hack
     return unless %w[_qt6_bin_ _qt6_src].any? do |x|
