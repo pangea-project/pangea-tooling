@@ -128,6 +128,7 @@ class KFSixy
       old_install_file_data.gsub!("usr/bin/", "usr/kf6/bin/") if old_install_file_data
       old_install_file_data.gsub!("qlogging-categories5", "qlogging-categories6") if old_install_file_data
       old_install_file_data.gsub!("/kf5", "/kf6") if old_install_file_data
+      old_install_file_data.gsub!("/kservicetypes5", "/kservicetypes6") if old_install_file_data
       old_install_file_data.gsub!(".*tags", "") if old_install_file_data
       File.write(new_install_filename, old_install_file_data, mode: "a")
       

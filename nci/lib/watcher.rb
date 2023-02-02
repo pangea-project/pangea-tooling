@@ -250,13 +250,13 @@ module NCI
       make_newest_dehs_package! # sets a bunch of members - very awkwardly - must be after merge!
 
       job_project = ENV['JOB_NAME'].split('_')[-1]
-      if Dir.exist?("../snapcraft-kde-applications/#{job_project}")
-        Dir.chdir("../snapcraft-kde-applications/#{job_project}") do
-          SnapcraftUpdater.new(newest_dehs_package).run
-          cmd.run('git --no-pager diff')
-          cmd.run("git commit -a -vv -m 'New release'")
-        end
-      end
+      #if Dir.exist?("../snapcraft-kde-applications/#{job_project}")
+        #Dir.chdir("../snapcraft-kde-applications/#{job_project}") do
+          #SnapcraftUpdater.new(newest_dehs_package).run
+          #cmd.run('git --no-pager diff')
+          #cmd.run("git commit -a -vv -m 'New release'")
+        #end
+      #end
 
       bump_version
 
