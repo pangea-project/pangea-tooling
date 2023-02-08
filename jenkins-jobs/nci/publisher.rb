@@ -61,7 +61,7 @@ class NeonPublisherJob < PublisherJob
 
   def push_to_stable?
     KDEProjectsComponent.frameworks_jobs.any? { |x| project.name == x } ||
-      %w[pkg-kde-tools phonon].any? { |x| project.name == x }
+      %w[pkg-kde-tools phonon qca2 polkit-qt-1].any? { |x| project.name == x }
   end
 
   def qtish?
