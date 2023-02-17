@@ -75,7 +75,7 @@ function(kcrash_validator_check_all_targets)
             message("KCrash validating: ${target}")
             add_custom_target(objdump-kcrash-${target} ALL
                 COMMAND echo "  $<TARGET_FILE:${target}>"
-                COMMAND objdump -p $<TARGET_FILE:${target}> | grep NEEDED | grep libKF5Crash.so
+                COMMAND objdump -p $<TARGET_FILE:${target}> | grep NEEDED | grep libKF.Crash.so
                 DEPENDS ${target}
                 COMMENT "Checking if target linked KCrash: ${target}")
         endforeach()
