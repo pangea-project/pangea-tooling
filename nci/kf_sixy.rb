@@ -281,7 +281,12 @@ override_dh_shlibdeps:
 )
     File.write("#{dir}/debian/rules", rules)
     cmd.run('wrap-and-sort', chdir: dir)
-    cmd.run('git add debian/*install', chdir: dir)
+    # Best attempt at git
+    begin
+      cmd.run('git add debian/*install', chdir: dir)
+    rescue
+      puts "Could not run Git"
+    end
   end
 end
 
