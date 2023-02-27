@@ -30,7 +30,7 @@ class KFSixy
 
   def initialize(name:, dir:)
     @dir = dir
-    @name = name
+    @name = name.gsub("kf6-", "")
     puts "Running Sixy in #{dir}"
     unless File.exist?("#{dir}/debian")
       raise "Must be run in a 'foo' repo with 'debian/' dir"
