@@ -64,8 +64,8 @@ Aptly::Ext::Remote.neon do
     raise 'could not call pub.api_prefix and get a result' unless prefix
 
     pub.drop
-    snapshot.publish(prefix, attributes)
+    snapshot.publish(prefix, **attributes)
     puts "Publishing original repo under tmp prefix\n\n"
-    repo.publish("tmp_#{prefix}", attributes)
+    repo.publish("tmp_#{prefix}", **attributes)
   end
 end
