@@ -147,7 +147,7 @@ module CI
     end
 
     def adjust_branch_to(project, origin)
-      if default_branch?
+      if default_branch? and not @name.include?("kf6")
         @branch = branch_from_origin(project, origin.to_sym)
       else
         warn <<~WARNING

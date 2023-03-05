@@ -30,7 +30,7 @@ class KFSixy
 
   def initialize(name:, dir:)
     @dir = dir
-    @name = name
+    @name = name.gsub("kf6-", "")
     puts "Running Sixy in #{dir}"
     unless File.exist?("#{dir}/debian")
       raise "Must be run in a 'foo' repo with 'debian/' dir"
@@ -281,7 +281,12 @@ override_dh_shlibdeps:
 )
     File.write("#{dir}/debian/rules", rules)
     cmd.run('wrap-and-sort', chdir: dir)
-    cmd.run('git add debian/*install', chdir: dir)
+    # Best attempt at git
+    begin
+      cmd.run('git add debian/*install', chdir: dir)
+    rescue
+      puts "Could not run Git"
+    end
   end
 end
 

@@ -6,6 +6,14 @@
 
 # Others
 
+'*_backports-jammy_libjpeg-turbo-jammy*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-jammy_yt-dlp*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-jammy_harfbuzz*':
   sourcer:
     restricted_packaging_copy: true

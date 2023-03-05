@@ -62,7 +62,7 @@ Aptly::Ext::Remote.neon do
     raise 'could not call pub.api_prefix and get a result' unless prefix
 
     pub.drop
-    repo.publish(prefix, attributes)
+    repo.publish(prefix, **attributes)
   end
   # drop the tmp prefix repo
   repo.published_in.each do |pub|
