@@ -9,13 +9,13 @@ require 'logger/colors'
 require 'open3'
 require 'tmpdir'
 
-require_relative 'apt'
-require_relative 'aptly-ext/filter'
-require_relative 'dpkg'
-require_relative 'repo_abstraction'
-require_relative 'retry'
-require_relative 'thread_pool'
-require_relative 'ci/fake_package'
+require_relative '../lib/apt'
+require_relative '../lib/aptly-ext/filter'
+require_relative '../lib/dpkg'
+require_relative '../lib/repo_abstraction'
+require_relative '../lib/retry'
+require_relative '../lib/thread_pool'
+require_relative '../lib/ci/fake_package'
 
 # Base class for install checks, isolating common logic.
 class I386InstallCheck
