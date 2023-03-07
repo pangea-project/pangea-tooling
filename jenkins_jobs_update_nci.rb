@@ -248,7 +248,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                     dependees: [meta_builder]))
 
         enqueue(I386InstallCheckJob.new(type: type,
-                                    distribution: distribution))
+                                        distribution: distribution,
+                                        dependees: [meta_builder]))
 
         enqueue(MGMTRepoTestVersionsJob.new(type: type,
                                             distribution: distribution))
