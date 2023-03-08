@@ -125,7 +125,11 @@ module CI
     def global_override_load
       hash = {}
       @default_paths.each do |path|
-        hash.deep_merge!(YAML.unsafe_load(File.read(path)))
+        if YAML.method_defined?(:unsafe_load)
+          hash.deep_merge!(YAML.unsafe_load(File.read(path)))
+        else
+          hash.deep_merge!(YAML.load(File.read(path)))
+        end
       end
       hash = CI::FNMatchPattern.convert_hash(hash, recurse: false)
       hash.each do |k, v|
