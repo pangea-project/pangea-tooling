@@ -29,7 +29,5 @@ Aptly.configure do |config|
   # This is read-only.
 end
 
-proposed = AptlyRepository.new(Aptly::Repository.get(REPO_KEY), 'release')
-
 checker = I386InstallCheck.new
 checker.run
