@@ -21,7 +21,7 @@ class I386InstallCheck
 
   def run
     Apt.update
-    DPKG.run(['--add-architecture', 'i386'])
+    DPKG.run('--add-architecture', ['i386'])
     Apt.install('steam')
     Apt.install('wine32')
   end
