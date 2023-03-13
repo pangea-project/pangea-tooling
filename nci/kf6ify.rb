@@ -24,7 +24,10 @@ class Mutagen
 
   def relator(relationships)
     relationships.collect do |relationship|
-      next relationship unless relationship.name.include?('5')
+      unless relationship.name.include?('5') ||
+             %w[extra-cmake-modules pkg-kde-tools kirigami2-dev kinit-dev].any? { |x| x == relationship.name }
+        next relationship
+      end
 
       new = map.fetch(relationship.name)
       next nil if new.nil?
