@@ -54,6 +54,8 @@ class Mutagen
     end
 
     Dir.glob('*') do |dir|
+      next unless File.directory?(dir)
+
       p dir
       Dir.chdir(dir) do
         cmd.run('git', 'reset', '--hard')
