@@ -111,6 +111,7 @@ kde-style-oxygen-qt5: kde-style-oxygen-qt6
 libpowerdevilui5: libpowerdevilui5
 
 # kf5
+extra-cmake-modules: kf6-extra-cmake-modules
 baloo-kf5-dev: kf6-baloo-dev
 kded5-dev: kf6-kded-dev
 libkf5activities-dev: kf6-kactivities-dev
@@ -152,11 +153,11 @@ libkf5widgetsaddons-dev: kf6-kwidgetsaddons-dev
 libkf5configwidgets-dev: kf6-kconfigwidgets-dev
 libkf5guiaddons-dev: kf6-kguiaddons-dev
 libkf5service-dev: kf6-kservice-dev
-libkf5style-dev: kf6-kstyle-dev
+libkf5style-dev: kf6-frameworkintegration-dev
 libkf5wayland-dev: kf6-kwayland-dev
 libkf5archive-dev: kf6-karchive-dev
 libkf5attica-dev: kf6-attica-dev
-kirigami2-dev: kf6-kirigami-dev
+kirigami2-dev: kf6-kirigami2-dev
 libkf5itemviews-dev: kf6-kitemviews-dev
 libkf5purpose-dev: kf6-purpose-dev
 libkf5xmlgui-dev: kf6-kxmlgui-dev
@@ -169,6 +170,7 @@ libkf5auth-dev: kf6-kauth-dev
 libkf5filemetadata-dev: kf6-kfilemetadata-dev
 libkf5emoticons-dev: null
 libkf5qqc2desktopstyle-dev: kf6-qqc2-desktop-style-dev
+kinit-dev: null
 
 baloo-kf5: kf6-baloo
 kded5: kf6-kded
