@@ -73,6 +73,17 @@ class Mutagen
 
         File.write('debian/control', control.dump)
         File.write('debian/rules', File.read("#{__dir__}/data/rules.kf6.data"))
+        Dir.glob('debian/*.install') do |install|
+          data = File.read(install)
+          data = data.lines.collect do |line|
+            next line if line.include?('usr/kf6/')
+
+            line.gsub!('usr/', 'usr/kf6/')
+            line.gsub!('/include/KF5/', '/include/KF6/')
+            line
+          end.join
+          File.write(install, data)
+        end
         cmd.run('wrap-and-sort')
 
         cmd.run('git', 'commit', '--all', '--message', 'port to kf6') unless cmd.run!('git', 'diff', '--quiet').success?
