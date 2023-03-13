@@ -80,6 +80,9 @@ class Mutagen
 
             line.gsub!('usr/', 'usr/kf6/')
             line.gsub!('/include/KF5/', '/include/KF6/')
+            line.gsub!('/qt5/plugins/kf5/', '/qt6/plugins/kf6/')
+            line.gsub!('/qt5/plugins/', '/qt6/plugins/')
+            line.gsub!('/share/knotifications5/', '/share/knotifications6/')
             line
           end.join
           File.write(install, data)
