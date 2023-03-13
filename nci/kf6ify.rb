@@ -30,6 +30,10 @@ class Mutagen
       next nil if new.nil?
 
       relationship.name.replace(new)
+      unless relationship.version&.start_with?('${')
+        relationship.operator = nil
+        relationship.version = nil
+      end
       relationship
     end
   end
