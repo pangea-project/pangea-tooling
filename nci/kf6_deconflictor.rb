@@ -75,9 +75,9 @@ class Deconflictor
     ].each { |x| kf6_projects.delete(x) }
 
     # Add corrected mappings
+    # NOTE: ecm is not getting checked because it will remain compatible with kf5 and thus doesn't need co-installability
     # NOTE: kf6-breeze-icons is not packaged because it is a drop in replacement I presume
     kf6_projects += %w[
-      kf6-extra-cmake-modules
       kf6-kapidox
       kf6-kimageformat-plugins
       kf6-kirigami2-dev
@@ -94,7 +94,7 @@ class Deconflictor
     Dir.glob('/usr/kf6/**/**') do |kf6_path|
       next if File.directory?(kf6_path)
 
-      kf5_path = kf6_path.sub('/usr/kf6/', '/usr/')
+      kf5_path = kf6_path.sub('/usr/kf6/', '/usr/').sub('/usr/kf6/etc/', '/etc/')
       conflicts << [kf6_path, kf5_path] if File.exist?(kf5_path)
     end
     File.write('conflict-report.json', JSON.pretty_generate(conflicts))
