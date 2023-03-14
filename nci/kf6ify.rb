@@ -155,7 +155,7 @@ libkf5people-dev: kf6-kpeople-dev
 libkf5plasma-dev: kf6-plasma-framework-dev
 libkf5prison-dev: kf6-prison-dev
 libkf5runner-dev: kf6-krunner-dev
-libkf5screen-dev: kf6-kscreen-dev
+libkf5screen-dev: libkf6screen-dev
 libkf5solid-dev: kf6-solid-dev
 libkf5su-dev: kf6-kdesu-dev
 libkf5syntaxhighlighting-dev: kf6-syntax-highlighting-dev
