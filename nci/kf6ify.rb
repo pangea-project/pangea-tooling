@@ -61,6 +61,7 @@ class Mutagen
 
       p dir
       Dir.chdir(dir) do
+        cmd.run('git', 'fetch', 'origin')
         cmd.run('git', 'reset', '--hard')
         cmd.run('git', 'checkout', 'Neon/unstable')
         cmd.run('git', 'reset', '--hard', 'origin/Neon/unstable')
