@@ -89,6 +89,7 @@ class Mutagen
             line.gsub!('/qt5/plugins/kf5/', '/qt6/plugins/kf6/')
             line.gsub!('/qt5/plugins/', '/qt6/plugins/')
             line.gsub!('/share/knotifications5/', '/share/knotifications6/')
+            line.gsub!('/qlogging-categories5/', '/qlogging-categories6/')
             line
           end.join
           File.write(install, data)
