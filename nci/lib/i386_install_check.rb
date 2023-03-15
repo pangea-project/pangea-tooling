@@ -11,7 +11,7 @@ require 'tmpdir'
 
 require_relative '../../lib/apt'
 require_relative '../../lib/dpkg'
-require_relative 'lib/setup_repo'
+require_relative 'setup_repo'
 
 # Base class for install checks, isolating common logic.
 class I386InstallCheck
