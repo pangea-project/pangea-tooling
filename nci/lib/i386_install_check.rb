@@ -11,6 +11,7 @@ require 'tmpdir'
 
 require_relative '../../lib/apt'
 require_relative '../../lib/dpkg'
+require_relative 'lib/setup_repo'
 
 # Base class for install checks, isolating common logic.
 class I386InstallCheck
@@ -21,8 +22,10 @@ class I386InstallCheck
 
   def run
     Apt.update
-    DPKG.run('--add-architecture', ['i386'])
+    DPKG.dpkg(['--add-architecture', 'i386'])
     Apt.install('steam')
     Apt.install('wine32')
+    NCI.setup_repo!
+    Apt.install('neon-desktop')
   end
 end
