@@ -21,11 +21,11 @@ class I386InstallCheck
   end
 
   def run
+    NCI.setup_repo!
     Apt.update
     DPKG.dpkg(['--add-architecture', 'i386'])
     Apt.install('steam')
     Apt.install('wine32')
-    NCI.setup_repo!
-    Apt.install('neon-desktop')
+    Apt.install('neon-desktop') || raise
   end
 end
