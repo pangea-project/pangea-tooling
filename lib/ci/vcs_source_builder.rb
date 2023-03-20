@@ -219,7 +219,6 @@ module CI
 
   # Class to build out source package from a VCS
   class VcsSourceBuilder < SourcerBase
-    prepend SourceBuilderL10nExtension
 
     def initialize(release:, strip_symbols: false,
                    restricted_packaging_copy: false)
