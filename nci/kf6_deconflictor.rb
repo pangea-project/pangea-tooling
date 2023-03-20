@@ -6,6 +6,7 @@
 require 'fileutils'
 require 'json'
 
+require_relative 'lib/setup_repo'
 require_relative '../lib/apt'
 require_relative '../lib/kdeproject_component'
 
