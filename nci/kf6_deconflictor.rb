@@ -89,7 +89,10 @@ class Deconflictor
   end
 
   def run
-    # install!
+    NCI.setup_proxy!
+    NCI.add_repo_key!
+    NCI.setup_repo!
+    install!
 
     conflicts = []
     Dir.glob('/usr/kf6/**/**') do |kf6_path|
