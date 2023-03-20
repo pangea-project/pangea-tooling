@@ -18,11 +18,11 @@ class Deconflictor
     # KF5
     kf5_projects = projects.map do |x|
       # deprecations
-      next if %w[kross khtml kjs kdesignerplugin oxygen-icons5 kjsembed kdewebkit kinit].include?(x)
+      next nil if %w[kross khtml kjs kdesignerplugin oxygen-icons5 kjsembed kdewebkit kinit].include?(x)
       # expected conflicts
-      next if %w[breeze-icons].include?(x)
+      next nil if %w[breeze-icons].include?(x)
       # new in kf6
-      next if %w[kimageformats].include?(x)
+      next nil if %w[kimageformats].include?(x)
 
       # anomalities that don't get their leading k clipped
       naming_anomalities = %w[
