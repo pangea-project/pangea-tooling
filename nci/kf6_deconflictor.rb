@@ -100,7 +100,7 @@ class Deconflictor
       next if File.directory?(kf6_path)
       next if kf6_path.include?('share/ECM/')
 
-      kf5_path = kf6_path.sub('/usr/kf6/', '/usr/').sub('/usr/kf6/etc/', '/etc/')
+      kf5_path = kf6_path.sub('/usr/kf6/etc/', '/etc/').sub('/usr/kf6/', '/usr/')
       conflicts << [kf6_path, kf5_path] if File.exist?(kf5_path)
     end
     File.write('conflict-report.json', JSON.pretty_generate(conflicts))
