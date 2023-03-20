@@ -102,7 +102,7 @@ class Deconflictor
     conflicts = []
     Dir.glob('/usr/kf6/**/**') do |kf6_path|
       next if File.directory?(kf6_path)
-      next if kf6_path.include?('share/ECM/')
+      next if kf6_path.include?('share/ECM/') || kf6_path.include?('share/doc/ECM')
 
       kf5_path = kf6_path.sub('/usr/kf6/etc/', '/etc/').sub('/usr/kf6/', '/usr/')
       conflicts << [kf6_path, kf5_path] if File.exist?(kf5_path)
