@@ -92,6 +92,8 @@ class Deconflictor
   end
 
   def run
+    # Drop all dpkg configs so locales and the like get installed.
+    FileUtils.rm_rf(Dir.glob('/etc/dpkg/dpkg.cfg.d/*'))
     NCI.setup_proxy!
     NCI.add_repo_key!
     NCI.setup_repo!
