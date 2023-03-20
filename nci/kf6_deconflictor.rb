@@ -49,7 +49,7 @@ class Deconflictor
         'libkf5qqc2-desktop-style-dev' => 'libkf5qqc2desktopstyle-dev',
         'libkf5calcore-dev' => 'libkf5calendarcore-dev',
       }.fetch(name, name)
-    end
+    end.compact
 
     # KF6
     kf6_projects = projects.map { |x| "kf6-#{x}-dev" }
