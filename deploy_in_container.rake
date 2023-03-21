@@ -33,7 +33,6 @@ require 'tmpdir'
 require_relative 'lib/ci/fake_package'
 require_relative 'lib/rake/bundle'
 require_relative 'lib/nci'
-require_relative 'lib/dci'
 require_relative 'lib/os'
 
 DIST = ENV.fetch('DIST')

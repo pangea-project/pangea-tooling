@@ -1,2 +1,0 @@
-Tests: xpcshell-tests post-process
-Depends: @MOZ_PKG_NAME@-testsuite

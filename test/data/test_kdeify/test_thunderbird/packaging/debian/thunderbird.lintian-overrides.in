@@ -1,3 +1,0 @@
-@MOZ_PKG_NAME@ binary: embedded-library @MOZ_LIBDIR@/libxul.so: libjpeg
-@MOZ_PKG_NAME@ binary: embedded-library @MOZ_LIBDIR@/libmozsqlite3.so: sqlite
-@MOZ_PKG_NAME@ binary: image-file-in-usr-lib

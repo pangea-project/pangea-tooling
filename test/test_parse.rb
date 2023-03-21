@@ -12,7 +12,6 @@ require_relative '../lib/shebang'
 class ParseTest < TestCase
   SOURCE_DIRS = %w[
     bin
-    dci
     jenkins-jobs
     lib
     nci

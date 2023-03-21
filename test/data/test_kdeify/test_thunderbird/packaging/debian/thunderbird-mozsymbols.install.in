@@ -1,3 +1,0 @@
-%%ifdef MOZ_ENABLE_BREAKPAD
-@MOZ_DISTDIR@/*symbols.zip @MOZ_LIBDIR@
-%%endif

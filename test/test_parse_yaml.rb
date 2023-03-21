@@ -26,8 +26,7 @@ class ParseYAMLTest < TestCase
   def test_syntax
     Dir.chdir(File.dirname(__dir__)) # one above
 
-    # fixme change back to *.yml once the dci yaml file is sorted
-    Dir.glob('**/**/n*.{yml,yaml}').each do |file|
+    Dir.glob('**/**/*.{yml,yaml}').each do |file|
       next if file.include?('git/') || file.include?('launchpad/') || file.include?('test/')
       next unless File.file?(file)
 

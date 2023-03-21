@@ -26,7 +26,6 @@ class ExecutableTest < TestCase
   BINARY_DIRS = %w[
     .
     bin
-    dci
     lib/libexec
     nci
     mgmt

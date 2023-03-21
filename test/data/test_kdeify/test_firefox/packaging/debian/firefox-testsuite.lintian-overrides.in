@@ -1,1 +1,0 @@
-@MOZ_PKG_NAME@-testsuite binary: symlink-is-self-recursive @MOZ_LIBDIR@/testing/bin ..

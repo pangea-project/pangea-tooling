@@ -1,3 +1,0 @@
-'*_{libkolab,libkolabxml}_*':
-  sourcer:
-    restricted_packaging_copy: true

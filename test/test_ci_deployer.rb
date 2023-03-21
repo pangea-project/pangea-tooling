@@ -6,7 +6,6 @@ require 'ostruct'
 require 'ruby-progressbar'
 require 'vcr'
 
-require_relative '../lib/dci'
 require_relative '../lib/dpkg'
 require_relative 'lib/testcase'
 require_relative '../lib/ci/pangeaimage'

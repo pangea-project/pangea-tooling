@@ -42,7 +42,6 @@ BIN_DIRS = %w[
 
 SOURCE_DIRS = %w[
   ci
-  dci
   jenkins-jobs
   lib
   nci

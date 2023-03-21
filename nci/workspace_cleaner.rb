@@ -16,9 +16,8 @@ module WorkspaceCleaner
   class << self
     # Paths must be run through fnmatch supporting functions so we can easily
     # grab all workspace variants. e.g. if the same server is shared for
-    # multiple architectures we need to match /dci-armhf/ as well.
+    # multiple architectures we need to match /nci-armhf/ as well.
     DEFAULT_WORKSPACE_PATHS = ["#{Dir.home}/workspace",
-                               "#{Dir.home}/dci*/workspace",
                                "#{Dir.home}/nci*/workspace",
                                "#{Dir.home}/xci*/workspace"].freeze
 
