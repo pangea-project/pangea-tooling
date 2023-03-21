@@ -362,7 +362,8 @@ module CI
         return
       end
 
-      mangle_locale(file)
+      # Do not mange locale in .install now they are brought into Git by scripty
+      #mangle_locale(file)
       # If the package is now empty, lintian override the empty warning
       # to avoid false positives
       mangle_lintian_of(file)
