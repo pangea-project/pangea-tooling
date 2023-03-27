@@ -11,7 +11,8 @@ env.PANGEA_DOCKER_IMAGE = 'pangea/ubuntu:jammy'
 // of the time be faster than actually working on a persistent node (even when
 // the node doesn't have extra load).
 lock(label: 'APPSTREAM_GENERATOR', quantity: 1) {
-    fancyNode('persistent.arm64.packet-builder-003') {
+    //fancyNode('persistent.arm64.packet-builder-003') {
+    cleanNode('amd64 && cloud') {
         ws("workspace-persistent/${env.JOB_NAME}") {
             stage('clone[tooling]') {
                 sh '[ -d tooling ] || mkdir tooling'
@@ -48,7 +49,8 @@ def fancyWrap(body) {
     }
 }
 
-def fancyNode(label = null, body) {
+//def fancyNode(label = null, body) {
+def cleanNode(label = null, body) {
     node(label) {
         fancyWrap {
             body()
