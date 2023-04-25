@@ -5,6 +5,18 @@
     restricted_packaging_copy: true
 
 # Others
+'*_backports-jammy_fcitx5*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-jammy_fcitx5-qt*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-jammy_xcb-imdkit*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-jammy_packagekit*':
   sourcer:
     restricted_packaging_copy: true
