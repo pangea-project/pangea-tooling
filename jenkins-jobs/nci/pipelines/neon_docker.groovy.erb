@@ -23,7 +23,7 @@ cleanNode('amd64-iso') {
   }
   stage('docker-push') {
     withCredentials([string(credentialsId: 'dockerhub2', variable: 'TOKEN')]) {
-      sh 'docker login --username jriddell --password $TOKEN invent-registry.kde.org'
+      sh 'docker login --username project_136_bot_e1c05056e435cff70c2c4de3fb0c94c1 --password $TOKEN invent-registry.kde.org'
       sh 'docker push invent-registry.kde.org/neon/docker-images/plasma:<%= type %>'
   <% if type == 'unstable' %>
       sh 'docker tag invent-registry.kde.org/neon/docker-images/plasma:unstable invent-registry.kde.org/neon/docker-images/plasma:latest'
@@ -49,11 +49,12 @@ cleanNode('amd64-iso') {
   }
 
   stage('docker-build-all') {
+    sh 'sed -i s,neon-desktop,neon-all, Dockerfile'
     sh 'docker build --tag invent-registry.kde.org/neon/docker-images/all:<%= type %> .'
   }
   stage('docker-push-all') {
     withCredentials([string(credentialsId: 'dockerhub2', variable: 'TOKEN')]) {
-      sh 'docker login --username jriddell --password $TOKEN invent-registry.kde.org'
+      sh 'docker login --username project_136_bot_e1c05056e435cff70c2c4de3fb0c94c1 --password $TOKEN invent-registry.kde.org'
       sh 'docker push invent-registry.kde.org/neon/docker-images/all:<%= type %>'
   <% if type == 'unstable' %>
       sh 'docker tag invent-registry.kde.org/neon/docker-images/all:unstable invent-registry.kde.org/neon/docker-images/all:latest'
