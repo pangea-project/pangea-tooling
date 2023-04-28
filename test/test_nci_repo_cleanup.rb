@@ -60,7 +60,6 @@ class NCIRepoCleanupTest < TestCase
            .with(<<-DATA)
 XDG_RUNTIME_DIR=/run/user/`id -u` systemctl --user start aptly_db_cleanup
            DATA
-           .yields
 
     Net::SSH
       .expects(:start)
