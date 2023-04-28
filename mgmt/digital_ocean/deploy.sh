@@ -47,6 +47,7 @@ cd /tmp
 wget https://omnitruck.chef.io/install.sh
 chmod +x install.sh
 ./install.sh -v 15
+/install.sh -v 1.5 -P chefdk # so we can berks
 
 # Use chef zero to cook localhost.
 export NO_CUPBOARD=1
