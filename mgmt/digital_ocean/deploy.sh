@@ -42,12 +42,11 @@ apt update
 # Make sure the image is up to date.
 apt dist-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 
-# Deploy chef 13 and chef-dk 1.3 (we have no ruby right now.)
+# Deploy chef 15 (we have no ruby right now.)
 cd /tmp
 wget https://omnitruck.chef.io/install.sh
 chmod +x install.sh
 ./install.sh -v 13
-./install.sh -v 1.3 -P chefdk # so we can berks
 
 # Use chef zero to cook localhost.
 export NO_CUPBOARD=1
