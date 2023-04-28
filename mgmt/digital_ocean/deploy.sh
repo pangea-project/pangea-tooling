@@ -56,7 +56,7 @@ cd /tmp/kitchen
 git pull --rebase
 berks install
 berks vendor
-chef-client --local-mode --enable-reporting
+chef-client --local-mode --enable-reporting --chef-license accept-silent
 
 # Make sure we do not have random services claiming dpkg locks.
 apt purge -y unattended-upgrades
