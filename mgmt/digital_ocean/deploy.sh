@@ -46,7 +46,7 @@ apt dist-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--f
 cd /tmp
 wget https://omnitruck.chef.io/install.sh
 chmod +x install.sh
-./install.sh -v 13
+./install.sh -v 15
 
 # Use chef zero to cook localhost.
 export NO_CUPBOARD=1
