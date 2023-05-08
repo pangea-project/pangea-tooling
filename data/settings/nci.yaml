@@ -21,6 +21,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_backports-jammy_qt-advanced-docking-system*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-jammy_libjxl-jammy*':
   sourcer:
     restricted_packaging_copy: true
