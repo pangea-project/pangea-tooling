@@ -23,7 +23,7 @@ class Deconflictor
       # expected conflicts
       next nil if %w[breeze-icons].include?(x)
       # new in kf6
-      next nil if %w[kimageformats].include?(x)
+      next nil if %w[kimageformats kcolorscheme].include?(x)
 
       # anomalities that don't get their leading k clipped
       naming_anomalities = %w[
