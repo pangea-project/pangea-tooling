@@ -36,6 +36,10 @@ module CI
 
     def vcs_url_of(path)
       return nil unless Dir.exist?(path)
+      
+      puts "XXX #{path}"
+      puts `ls -l #{path}`
+      puts `ls -l #{path/..}`
 
       repo = Rugged::Repository.discover(path)
       remote = repo.remotes['origin']
