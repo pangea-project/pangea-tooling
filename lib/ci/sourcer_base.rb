@@ -37,9 +37,6 @@ module CI
     def vcs_url_of(path)
       return nil unless Dir.exist?(path)
       
-      puts "XXX #{path}"
-      puts `ls -l #{path}`
-      puts `ls -l #{path}/..`
       # prevent error `discover': repository path '/workspace/packaging/' is not owned by current user (Rugged::ConfigError)
       `chown -R root.root packaging/`
 
