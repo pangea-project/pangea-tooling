@@ -40,6 +40,8 @@ module CI
       puts "XXX #{path}"
       puts `ls -l #{path}`
       puts `ls -l #{path}/..`
+      # prevent error `discover': repository path '/workspace/packaging/' is not owned by current user (Rugged::ConfigError)
+      `chown -R root.root packaging/`
 
       repo = Rugged::Repository.discover(path)
       remote = repo.remotes['origin']
