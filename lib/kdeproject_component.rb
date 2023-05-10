@@ -100,7 +100,7 @@ class KDEProjectsComponent
         url = "http://embra.edinburghlinux.co.uk/~jr/release-tools/modules.git"
         response = HTTParty.get(url)
         body = response.body
-        body.each_line("master\n") do |line|
+        body.each_line("release/23.04\n") do |line|
           modules << line.split(/\s/, 2)[0]
         end
         modules
