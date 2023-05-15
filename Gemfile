@@ -49,7 +49,7 @@ gem 'uri-ssh_git', '~> 2.0'
 # Test logging as junit (also used at runtime for linting)
 gem 'ci_reporter_minitest'
 gem 'ci_reporter_test_unit'
-gem 'minitest'
+gem 'minitest', '=5.18.0'
 gem 'test-unit', '~> 3.0'
 
 # Hack. jenkins_api_client depends on mixlib-shellout which depends on
