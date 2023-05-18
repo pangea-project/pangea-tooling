@@ -38,7 +38,8 @@ rm -rv .bundle || true
 gem install --no-document --version 2.3.11 bundler
 # FIXME: add --without development test back
 # https://github.com/pangea-project/pangea-tooling/issues/17
-bundle install --jobs=`nproc` --system
+bundle config set --local system 'true'
+bundle install --jobs=`nproc`
 rm -rv .bundle || true
 
 rake clean
