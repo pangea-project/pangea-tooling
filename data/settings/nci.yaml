@@ -101,6 +101,10 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_backports-jammy_xsimd-jammy*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_neon-packaging_*_*':
   sourcer:
     restricted_packaging_copy: true
