@@ -283,9 +283,9 @@ update: --no-document
       # Force in case the found bundler was installed for a different version.
       # Otherwise rubygems will raise an error when attempting to overwrite the
       # bin.
-      sh 'gem install --force --version 2.3.11 bundler'
+      sh 'gem install --force bundler'
     rescue Gem::LoadError
-      Gem.install('bundler', '= 2.3.11')
+      Gem.install('bundler')
     end
 
     require_relative 'lib/apt'
@@ -322,7 +322,7 @@ update: --no-document
 
     # Add debug for checking what version is being used
     bundle(*%w[--version])
-    bundle_install
+    bundle_install(*%w[--verbose])
 
     FileUtils.rm_rf(final_path)
     FileUtils.mkpath(final_path, verbose: true)
