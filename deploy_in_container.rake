@@ -152,7 +152,8 @@ def bundle_install
   FileUtils.rm_f('Gemfile.lock')
   FileUtils.rm_rf('.bundle/')
   FileUtils.rm_rf('vendor/')
-  bundle('install', "--jobs=#{[Etc.nprocessors / 2, 1].max}", '--system')
+  bundle config set --local system 'true'
+  bundle('install', "--jobs=#{[Etc.nprocessors / 2, 1].max}", '--verbose')
 rescue StandardError => e
   log_dir = "#{tooling_path}/#{ENV['DIST']}_#{ENV['TYPE']}"
   Dir.glob('/var/lib/gems/*/extensions/*/*/*/mkmf.log').each do |log|
@@ -322,7 +323,7 @@ update: --no-document
 
     # Add debug for checking what version is being used
     bundle(*%w[--version])
-    bundle_install(*%w[--verbose])
+    bundle_install
 
     FileUtils.rm_rf(final_path)
     FileUtils.mkpath(final_path, verbose: true)
