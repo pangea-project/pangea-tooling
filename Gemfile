@@ -70,7 +70,7 @@ source 'https://gem.cache.pangea.pub/' do
   #   of one of the gems this needs revisiting. Either we can move to a newer
   #   version because bionic is no longer used on any server or we need a more
   #   creative solution.
-gem 'mixlib-shellout', '~> 3.1.0'
+  gem 'mixlib-shellout', '~> 3.1.0'
 
   group :development, :test do
     gem 'droplet_kit'
