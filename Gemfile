@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: CC0-1.0
 # SPDX-FileCopyrightText: none
 
+source 'https://gem.cache.pangea.pub/private'
 source 'https://gem.cache.pangea.pub'
 
 # These are built by our geminabox tech
