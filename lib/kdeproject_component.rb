@@ -22,51 +22,12 @@
 
 require 'httparty'
 require 'tmpdir'
+require 'yaml'
 
 class KDEProjectsComponent
   class << self
     @@projects_to_jobs = {'discover'=>'plasma-discover', 'kcalendarcore'=>'kcalcore', 'kdeconnect-kde'=>'kdeconnect', 'kdev-php'=>'kdevelop-php', 'kdev-python'=>'kdevelop-python'}
     @@projects_without_jobs = ['plasma-tests', 'akonadi-airsync', 'akonadi-exchange', 'akonadi-phabricator-resource', 'kpeoplesink', 'akonadiclient', 'kblog']
-    ## The only way to get a list of what is in PlaMo Gear releases seems to be a manually maintained list from 
-    ## https://plasma-mobile.org/info/plasma-mobile-gear-22-09/
-    ## And manually remove the ones that announce says are unstable
-    @@plasma_mobile = %w{
-      alligator
-      angelfish
-      audiotube
-      calindori
-      kalk
-      kasts
-      kclock
-      keysmith
-      khealthcertificate
-      koko
-      kongress
-      krecorder
-      ktrip
-      kweather
-      neochat
-      plasma-dialer
-      plasma-phonebook
-      plasma-settings
-      plasmatube
-      qmlkonsole
-      spacebar
-      telly-skout
-      tokodon
-      vakzination
-      kweathercore
-      kirigami-addons
-    }.sort
-    @@plasma_mobile = @@plasma_mobile - %w{
-      kclock
-      krecorder
-      qmlkonsole
-      tokodon
-      plasmatube
-      khealthcertificate
-      vakzination
-    }
 
     def frameworks
       @frameworks ||= to_names(projects('frameworks'))
@@ -86,11 +47,29 @@ class KDEProjectsComponent
     end
 
     def mobile
-      @@plasma_mobile
+      #@mobile ||= to_names(projects('plasma-mobile')) #this would be the easy way
+      # the way to get what is in plasma-mobile is the yaml in invent for their website
+      @mobile ||= begin
+        url = "https://invent.kde.org/websites/plasma-mobile-org/-/raw/master/data/applications.yaml"
+        response = HTTParty.get(url, format: :plain).body
+        response = YAML.load(response)
+        @mobile = Array.[]()
+        response.each do | mobile_app |
+          json_query = (HTTParty.get("#{mobile_app}"))
+          appname = JSON.parse(json_query&.body || "{}")
+          appname = appname['project_identifier']
+          @mobile.push(appname)
+          pp @mobile
+          end
+      # add main plasma-mobile system components
+      @mobile.push('plasma-mobile', 'plasma-phone-meta', 'plasma-phone-settings', 'plasma-settings')
+      @mobile.sort!
+      pp @mobile
+      end
     end
 
     def mobile_jobs
-      @@plasma_mobile ||= to_jobs(mobile)
+      @mobile ||= to_jobs(mobile)
     end
 
     def gear
