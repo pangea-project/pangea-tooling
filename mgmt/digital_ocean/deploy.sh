@@ -46,7 +46,7 @@ apt dist-upgrade ruby+ ruby-shadow+ -y -o Dpkg::Options::="--force-confdef" -o D
 cd /tmp
 wget https://omnitruck.chef.io/install.sh
 chmod +x install.sh
-./install.sh -v 15
+./install.sh -v 18
 ./install.sh -v 23 -P chef-workstation # so we can berks
 
 # Use chef zero to cook localhost.
