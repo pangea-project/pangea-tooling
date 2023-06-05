@@ -73,7 +73,7 @@ EOF
     end
 
     def files
-      unless Apt.install("#{name}=#{version}")
+      unless Apt.install("#{name}=#{version}", ["--no-install-recommends"])
         raise "Failed to install #{name} #{version}"
       end
 
