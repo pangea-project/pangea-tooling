@@ -8,7 +8,7 @@ set -ex
 export DEBIAN_FRONTEND=noninteractive
 
 # Disable bloody apt automation crap locking the database.
-rm /usr/lib/apt/apt.systemd.daily
+touch /etc/cloud/cloud-init.disabled
 systemctl disable --now apt-daily.timer
 systemctl disable --now apt-daily.service
 systemctl mask apt-daily.service
