@@ -42,7 +42,7 @@ lb config \
  --distribution $DIST \
  --binary-images hdd \
  --mode ubuntu \
- --debootstrap-options='--include="gnupg,ca-certificates"' \
+ --debootstrap-options '--include="gnupg,ca-certificates"' \
  --apt-source-archives false \
  --source false \
  --apt-options "--yes -o Acquire::Check-Valid-Until=false" \
