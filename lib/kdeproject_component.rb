@@ -93,6 +93,16 @@ class KDEProjectsComponent
       @@plasma_mobile ||= to_jobs(mobile)
     end
 
+     def maui
+      # look up maui's git repo and add cask server
+      @maui ||= to_names(projects('maui'))
+      @maui.push('cask-server')
+    end
+
+    def maui_jobs
+      @maui_jobs ||= to_jobs(maui).reject {|x| @@projects_without_jobs.include?(x)}
+    end
+
     def gear
       # the way to get what is in KDE Gear (the release service) is from release-tools list
       @release_service ||= begin
