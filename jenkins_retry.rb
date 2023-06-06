@@ -83,6 +83,12 @@ Only jobs that are not queued, not building, and failed will be retired.
     new_release = KDEProjectsComponent.mobile_jobs
   end
 
+  opts.on('--maui', 'There has been a MAUI release/ABI bump, run' \
+                    ' all jobs for MAUI.') do
+    @exclusion_states.clear
+    new_release = KDEProjectsComponent.maui_jobs
+  end
+
   opts.on('--pim', 'There has been a PIM ABI bump, run' \
                     ' all unstable jobs for PIM.') do
     @exclusion_states.clear
