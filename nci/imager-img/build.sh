@@ -20,7 +20,7 @@ DATETIME="${_DATE}-${_TIME}"
 REMIX_NAME="pinebook-remix"
 export LIVE_IMAGE_NAME="${IMAGENAME}-${REMIX_NAME}-${TYPE}-${DATETIME}"
 
-apt-get -y install qemu-user-static cpio parted udev zsync pigz live-build
+apt-get -y install qemu-user-static cpio parted udev zsync pigz live-build fdisk
 
 lb clean --all
 rm -rf config
