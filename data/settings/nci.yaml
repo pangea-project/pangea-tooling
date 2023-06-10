@@ -117,10 +117,6 @@
   sourcer:
     restricted_packaging_copy: true
 
-'*_forks_ofono_*':
-  sourcer:
-    restricted_packaging_copy: true
-
 '*_forks_fcitx-qt5_*':
   sourcer:
     restricted_packaging_copy: true
@@ -154,6 +150,10 @@
     restricted_packaging_copy: true
 
 '*_forks_massif-visualizer_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_forks_pyqt5-sip_*':
   sourcer:
     restricted_packaging_copy: true
 
