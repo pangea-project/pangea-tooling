@@ -125,7 +125,7 @@ module CI
     def global_override_load
       hash = {}
       @default_paths.each do |path|
-        if YAML.method_defined?(:unsafe_load)
+        if ::YAML::VERSION >= '4'
           hash.deep_merge!(YAML.unsafe_load(File.read(path)))
         else
           hash.deep_merge!(YAML.load(File.read(path)))
