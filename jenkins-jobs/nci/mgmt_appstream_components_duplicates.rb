@@ -20,6 +20,9 @@
 
 require_relative 'pipelinejob'
 
+# TODO change so if the ID of the app is also an ID in the provides then don't worry about it
+# TODO review and add blacklist
+
 # tests that the final appstream data doesn't have the same component more than
 # once
 class MGMTAppstreamComponentsDuplicatesJob < PipelineJob
