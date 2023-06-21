@@ -15,7 +15,7 @@ require_relative '../multijob_phase'
 class ProjectJob < JenkinsJob
   def self.qt_or_framework?(project)
     # NB: '' is for pkg-kde-tools which lives in /
-    return true if (%w[qt6 qt] << '').include?(project.component)
+    return true if (%w[qt] << '').include?(project.component)
     return true if %w[pyqt5].include?(project.name)
     return true if %w[qca2].include?(project.name)
     return true if %w[polkit-qt-1].include?(project.name)

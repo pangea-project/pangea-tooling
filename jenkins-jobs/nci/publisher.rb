@@ -65,6 +65,6 @@ class NeonPublisherJob < PublisherJob
   end
 
   def qtish?
-    component == 'qt' || component == 'qt6' || basename.end_with?('pyqt5', 'sip4')
+    component == 'qt' || basename.end_with?('pyqt5', 'sip4')
   end
 end

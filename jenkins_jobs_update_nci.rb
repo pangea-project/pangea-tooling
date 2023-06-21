@@ -116,12 +116,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
       projects = ProjectsFactory.from_file(projects_file,
                                            branch: "Neon/#{type}")
 
-      # Qt6 Hack
-      if type == 'unstable'
-        projects << Project.new('qt6', 'sitter', 'https://invent.kde.org',
-                                branch: 'Neon/unstable', origin: :unstable)
-      end
-
       type_projects[type] = projects
 
       next unless type == 'unstable'
