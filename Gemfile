@@ -11,7 +11,7 @@ source 'https://gem.cache.pangea.pub/private' do
   gem 'jenkins_junit_builder' # Forked because upstream depends on an ancient nokogiri that doesn't work with ruby3
 end
 
-source 'https://gem.cache.pangea.pub/' do
+source 'https://gem.cache.pangea.pub/'
   gem 'activesupport', '>= 6.0.3.1'
   gem 'aptly-api', '~> 0.10'
   gem 'bencode' # for torrent generation
@@ -88,4 +88,3 @@ source 'https://gem.cache.pangea.pub/' do
     gem 'vcr', '>= 3.0.1'
     gem 'webmock'
   end
-end
