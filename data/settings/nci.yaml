@@ -164,3 +164,7 @@
 '*_extras_*_*':
    sourcer:
      restricted_packaging_copy: true
+
+'*_qt_pyside2_*':
+   sourcer:
+     restricted_packaging_copy: true
