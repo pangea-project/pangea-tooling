@@ -49,7 +49,7 @@ module Debian
     # though. Eventually it may be nice to have a more OOP Parser where the
     # parsable types are own Objects, again, I am not sure that will improve
     # readability in any form or fashion.
-    # rubocop:disable Metrcis/MethodLength, Metrics/BlockNesting,
+    # rubocop:disable Metrics/MethodLength, Metrics/BlockNesting,
     # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity,
     # rubocop:disable Metrics/PerceivedComplexity
     def parse_paragraph(lines, fields = {})
