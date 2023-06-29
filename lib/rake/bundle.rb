@@ -29,7 +29,7 @@ module RakeBundleHelper
   class << self
     def run(*args)
       require 'bundler'
-      Bundler.clean_system(*args)
+      Bundler.unbundled_system(*args)
     rescue NameError, LoadError
       system(*args)
     end
