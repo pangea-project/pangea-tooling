@@ -51,19 +51,19 @@ class RakeBundleTest < TestCase
     Object.any_instance.expects(:`).never
     Object.any_instance.expects(:system).never
     # Also disable all bundler fork invocation.
-    Bundler.expects(:clean_system).never
-    Bundler.expects(:clean_exec).never
+    Bundler.expects(:unbundled_system).never
+    Bundler.expects(:unbundled_exec).never
   end
 
   def test_bundle
-    Bundler.expects(:clean_system)
+    Bundler.expects(:unbundled_system)
            .with('bundle', 'pack')
     bundle(*%w[pack])
   end
 
   def test_bundle_nameerror
     seq = sequence('bundle')
-    Bundler.expects(:clean_system)
+    Bundler.expects(:unbundled_system)
            .with('bundle', 'pack')
            .raises(NameError)
            .in_sequence(seq)
