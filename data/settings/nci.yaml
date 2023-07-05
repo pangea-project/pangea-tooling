@@ -41,6 +41,14 @@
   sourcer:
     restricted_packaging_copy: true
 
+'*_backports-jammy_libsignon-glib*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_backports-jammy_signond*':
+  sourcer:
+    restricted_packaging_copy: true
+
 '*_backports-jammy_yt-dlp*':
   sourcer:
     restricted_packaging_copy: true
@@ -110,6 +118,10 @@
     restricted_packaging_copy: true
 
 '*_3rdparty_libappimage_*':
+  sourcer:
+    restricted_packaging_copy: true
+
+'*_3rdparty_libaccounts-qt_*':
   sourcer:
     restricted_packaging_copy: true
 
