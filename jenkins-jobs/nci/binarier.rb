@@ -20,7 +20,7 @@ class BinarierJob
   end
 
   def compress?
-    %w[qt5webkit qtwebengine
+    %w[qt6webengine pyside6 qt5webkit qtwebengine
        mgmt_job-updater appstream-generator mgmt_jenkins_expunge].any? do |x|
       job_name.include?(x)
     end
