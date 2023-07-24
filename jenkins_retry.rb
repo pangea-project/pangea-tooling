@@ -36,6 +36,7 @@ require_relative 'lib/nci'
 strict_mode = false
 new_release = nil
 pim_release = nil
+kf6_release = nil
 
 # This block is very long because it is essentially a DSL.
 # rubocop:disable Metrics/BlockLength
@@ -75,6 +76,12 @@ Only jobs that are not queued, not building, and failed will be retired.
                                 ' all watcher jobs for Frameworks.') do
     @exclusion_states.clear
     new_release = KDEProjectsComponent.frameworks_jobs
+  end
+
+  opts.on('-kf6', '--frameworks6', 'There has been a new Frameworks release, run' \
+                                ' all watcher jobs for Frameworks.') do
+    @exclusion_states.clear
+    kf6_release = KDEProjectsComponent.kf6_jobs
   end
 
   opts.on('-m', '--mobile', 'There has been a new Plasma Mobile Gear release, run' \
@@ -120,6 +127,8 @@ if new_release
   pattern = Regexp.new("watcher_release_[^_]+_(#{new_release.join('|')})$")
 elsif pim_release
   pattern = Regexp.new("#{NCI.current_series}_unstable_kde_(#{pim_release.join('|')})$")
+elsif kf6_release
+  pattern = Regexp.new("#{NCI.current_series}_unstable_kf6_(#{kf6_release.join('|')})$")
 else
   raise 'Need ruby pattern as argv0' if ARGV.empty?
 

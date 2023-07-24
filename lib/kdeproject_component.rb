@@ -76,6 +76,15 @@ class KDEProjectsComponent
       @frameworks_packages ||= to_jobs(frameworks)
     end
 
+    def kf6
+      @kf6 ||= to_names(projects('frameworks'))
+      @kf6.map { |s| s.sub(/\A(?!kf6-)/, 'kf6-') }
+    end
+
+    def kf6_jobs
+      @kf6_packages ||= to_jobs(kf6)
+    end
+
     def pim
       @pim ||= to_names(projects('pim'))
       @pim << 'kalendar'
