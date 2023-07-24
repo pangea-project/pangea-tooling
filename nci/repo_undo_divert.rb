@@ -63,6 +63,7 @@ Aptly::Ext::Remote.neon do
 
     pub.drop
     repo.publish(prefix, **attributes)
+    snap.delete
   end
   # drop the tmp prefix repo
   repo.published_in.each do |pub|
