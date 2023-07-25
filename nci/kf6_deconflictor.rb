@@ -76,6 +76,8 @@ class Deconflictor
       kf6-kross-dev
       kf6-kxmlrpcclient-dev
       kf6-oxygen-icons5-dev
+      kf6-ksvg-dev
+      kf6-ktexttemplate-dev
     ].each { |x| kf6_projects.delete(x) }
 
     # Add corrected mappings
