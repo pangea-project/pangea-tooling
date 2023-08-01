@@ -128,7 +128,7 @@ Pin: release l=KDE neon - Experimental Edition
 Pin-Priority: 1001
       PREFERENCE
       @experimental_preference.write
-      ENV['TYPE'] = 'release'
+      ENV['TYPE'] = 'unstable'
       add_repo!
     end
 
