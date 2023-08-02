@@ -28,7 +28,7 @@ require_relative '../lib/aptly-ext/remote'
 NCI.add_repo_key!
 NCI.setup_proxy!
 NCI.maybe_setup_apt_preference
-NCI.setup_experimental! if ENV.fetch('TYPE').include?('experimental')
+NCI.setup_repo! if ENV.fetch('TYPE').include?('experimental')
 
 def without_recommends
   path = '/etc/apt/apt.conf.d/neon-no-recommends'
