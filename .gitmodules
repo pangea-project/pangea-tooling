@@ -1,5 +1,5 @@
 [submodule "data/projects"]
 	path = data/projects
-	url = https://github.com/pangea-project/pangea-conf-projects.git
+	url = https://invent.kde.org/neon/infrastructure/pangea-conf-projects.git
 	branch = master
 	ignore = all
