@@ -65,6 +65,7 @@ DEBIAN_TO_KDE_NAMES = {
 BLACKLIST = [
   # Not actually useful for anything in production. It's a repo with tests.
   'plasma-tests',
+  'kfloppy',   # dead project removed next release
   'kdev-python'
 ]
 
