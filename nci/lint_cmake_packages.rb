@@ -28,7 +28,7 @@ require_relative '../lib/aptly-ext/remote'
 NCI.add_repo_key!
 NCI.setup_proxy!
 NCI.maybe_setup_apt_preference
-NCI.setup_experimental! if ENV.fetch('TYPE').include?('experimental')
+NCI.setup_repo! if ENV.fetch('TYPE').include?('experimental')
 
 Aptly::Ext::Remote.neon_read_only do
   Lint::CMakePackages.new(ENV.fetch('TYPE'), ENV.fetch('DIST')).run
