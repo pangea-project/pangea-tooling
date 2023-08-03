@@ -3,3 +3,8 @@
 	url = https://invent.kde.org/neon/infrastructure/pangea-data.git
 	branch = master
 	ignore = all
+[submodule "data/projects"]
+	path = data/projects
+	url = https://invent.kde.org/neon/infrastructure/pangea-conf-projects.git
+	branch = master
+	ignore = all
