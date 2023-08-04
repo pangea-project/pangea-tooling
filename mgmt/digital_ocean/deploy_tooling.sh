@@ -32,6 +32,7 @@ env
 rm -rf /tmp/tooling
 git clone --depth 1 https://github.com/pangea-project/pangea-tooling.git /tmp/tooling
 cd /tmp/tooling
+./git_submodule_setup.sh
 
 ## from  mgmt_tooling_deploy.xml
 rm -rv .bundle || true
