@@ -40,6 +40,8 @@
     <com.cloudbees.jenkins.GitHubSetCommitStatusBuilder plugin="github@1.13.3"/>
     <hudson.tasks.Shell>
       <command>
+./git_submodule_setup.sh
+
 rm -rf .bundle || true
 gem install --no-document bundler
 [ -f Gemfile.lock ] || bundle install --jobs=`nproc`
