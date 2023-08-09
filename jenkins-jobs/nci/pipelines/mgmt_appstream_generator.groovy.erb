@@ -18,6 +18,7 @@ lock(label: 'APPSTREAM_GENERATOR', quantity: 1) {
                 sh '[ -d tooling ] || mkdir tooling'
                 dir('tooling') {
                     git branch: 'master', url: 'https://github.com/blue-systems/pangea-tooling'
+                sh './git_submodule_setup.sh'
                 }
             }
 
