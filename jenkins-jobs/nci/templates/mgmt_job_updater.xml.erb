@@ -50,7 +50,7 @@
       <command>set -ex
 export RELEASEME_PROJECTS_API=1
 export PANGEA_LOCAL_JENKINS=1
-
+./git_submodule_setup.sh
 ./tooling/nci/duplicated_repos.rb
 ./tooling/jenkins_jobs_update_nci.rb</command>
     </hudson.tasks.Shell>
