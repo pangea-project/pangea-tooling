@@ -40,6 +40,14 @@ class ProjectJob < JenkinsJob
     dependees = project.dependees.collect do |d|
       basename(distribution, type, d.component, d.name)
     end
+
+    # experimental has its dependencies in unstable
+    if type == 'experimental'
+      dependees += project.dependees.collect do |d|
+      basename(distribution, 'unstable', d.component, d.name)
+      end
+    end
+    
     # FIXME: frameworks is special, very special ...
     # Base builds have no stable thingy but their unstable version is equal
     # to their not unstable version.
