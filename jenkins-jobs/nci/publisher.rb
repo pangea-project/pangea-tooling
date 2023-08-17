@@ -44,27 +44,7 @@ class NeonPublisherJob < PublisherJob
   # @return Array<String> array of repo identifiers suitable for pangea_dput
   def repo_names
     repos = ["#{type}_#{distribution}"]
-    return repos unless type == 'unstable'
-
-    # This has no stable version, the unstable version is supplying stable.
-    # By pushing it forward we save on build time and noise jobs.
-    repos << "stable_#{distribution}" if push_to_stable?
-
-    # Qt things take forever to build, save on time and noise by forward
-    # publishing them everywhere.
-    repos += ["stable_#{distribution}", "release_#{distribution}"] if qtish?
-
+    return repos
     repos
-  end
-
-  private
-
-  def push_to_stable?
-    KDEProjectsComponent.frameworks_jobs.any? { |x| project.name == x } ||
-      %w[pkg-kde-tools phonon qca2 polkit-qt-1 libaccounts-qt libaccounts-glib gpgme appstream appstream-jammy2 appstream-jammy3].any? { |x| project.name == x }
-  end
-
-  def qtish?
-    component == 'qt' || basename.end_with?('pyqt5', 'sip4')
   end
 end
