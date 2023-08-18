@@ -4,6 +4,7 @@ fancyNode('master') {
   }
   stage('clone') {
     git 'https://github.com/pangea-project/pangea-tooling.git'
+    sh './git_submodule_setup.sh'
   }
 
   stage('prepare') {
