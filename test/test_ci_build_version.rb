@@ -48,9 +48,9 @@ class CIBuildVersionTest < TestCase
     parts = suffix.split('+')
     assert_empty(parts[0])
     assert_equal("p#{OS::VERSION_ID}", parts[1])
-    assert_equal("ttypppo", parts[2])
+    assert_equal("vtypppo", parts[2])
     assert_equal("git#{v.time}", parts[3])
-    assert_equal("+p#{OS::VERSION_ID}+ttypppo+git#{v.time}", suffix)
+    assert_equal("+p#{OS::VERSION_ID}+vtypppo+git#{v.time}", suffix)
 
     # Check actual versions.
     assert_equal("4:5.2.2#{suffix}", v.base)

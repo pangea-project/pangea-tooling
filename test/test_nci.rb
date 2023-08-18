@@ -56,7 +56,7 @@ class NCITest < TestCase
   end
 
   def test_qt_stage_type
-    assert_equal(NCI.qt_stage_type, 'experimental')
+    assert_equal(NCI.qt_stage_type, 'qt_experimental')
   end
 
   def test_future_is_early
