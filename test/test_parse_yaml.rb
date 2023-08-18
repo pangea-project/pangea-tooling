@@ -34,7 +34,11 @@ class ParseYAMLTest < TestCase
       # from the exception, so to debug this best run without the assert to
       # get the additional information.
       assert_nothing_raised("Not a valid YAML file: #{file}") do
-        YAML.load(File.read(file))
+        if ::YAML::VERSION >= '4'
+          YAML.unsafe_load(File.read(file))
+        else
+          YAML.load(File.read(file))
+        end
       end
     end
   end
