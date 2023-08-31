@@ -66,6 +66,7 @@ BLACKLIST = [
   'plasma-tests',
   'kfloppy',   # dead project removed next release
   'kdev-python'
+  'kalendar',   # is now merkuno and reports as conflicting with kcalendarcore
 ]
 
 # Maps "key" packages to a release scope. This way we can identify what version
