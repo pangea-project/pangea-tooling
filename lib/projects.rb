@@ -148,7 +148,9 @@ class Project
     @autopkgtest = false
     @debian = false
     @series_restrictions = []
-    @kdecomponent = if KDEProjectsComponent.frameworks_jobs.include?(name)
+    @kdecomponent = if KDEProjectsComponent.kf6_jobs.include?(name)
+                      'kf6'
+                    elseif KDEProjectsComponent.frameworks_jobs.include?(name)
                       'frameworks'
                     elsif KDEProjectsComponent.gear_jobs.include?(name)
                       'gear'
