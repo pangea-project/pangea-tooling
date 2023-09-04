@@ -48,6 +48,8 @@ DEBIAN_TO_KDE_NAMES = {
   'attica-kf5' => 'attica',
   'prison-kf5' => 'prison',
   'kfilemetadata-kf5' => 'kfilemetadata',
+  # fixed in kf6 with kf6-kcalendarcore
+  'kcalcore' => 'kcalendarcore',
 
   # plasma
   'plasma-discover' => 'discover',
