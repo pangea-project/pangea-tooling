@@ -87,7 +87,6 @@ class KDEProjectsComponent
 
     def pim
       @pim ||= to_names(projects('pim'))
-      @pim << 'kalendar'
     end
 
     def pim_jobs
