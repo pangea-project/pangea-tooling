@@ -14,6 +14,7 @@ require_relative 'os'
 require_relative 'retry'
 
 require 'concurrent'
+require 'date'
 require 'logger'
 require 'shellwords'
 
@@ -37,6 +38,8 @@ class Repository
     @_name = name
     # @_repo = Apt::Repository.new(name)
     @install_exclusion = %w[base-files libblkid1 libblkid-dev]
+    # Qt5 and 6 appstream-dev conflict each other. Deal with this at a later point in time when the dust has settled a bit
+    @install_exclusion << 'libappstreamqt-dev' if (DateTime.new(2023, 12, 1) - DateTime.now) > 0.0
     # software-properties backs up Apt::Repository, must not be removed.
     @purge_exclusion = %w[base-files python3-software-properties
                           software-properties-common apt libapt-pkg5.0 libblkid1 libblkid-dev
