@@ -23,13 +23,11 @@ require_relative '../../lib/kdeproject_component'
 
 # Neon extension to publisher
 class NeonPublisherJob < PublisherJob
-  attr_reader :kdecomponent
   attr_reader :project
 
   def initialize(basename, type:, distribution:, dependees:,
-                 component:, upload_map:, architectures:, kdecomponent:, project:)
+                 component:, upload_map:, architectures:, project:)
     super(basename, type: type, distribution: distribution, dependees: dependees, component: component, upload_map: upload_map, architectures: architectures)
-    @kdecomponent = kdecomponent
     @project = project
   end
 

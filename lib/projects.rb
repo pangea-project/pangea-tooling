@@ -77,8 +77,6 @@ class Project
   attr_reader :name
   # Super component (e.g. plasma)
   attr_reader :component
-  # KDE component (e.g. frameworks, plasma, gear, extragear)
-  attr_reader :kdecomponent
   # Scm instance describing the upstream SCM associated with this project.
   # FIXME: should this really be writable? need this for projects to force
   #        a different scm which is slightly meh
@@ -148,17 +146,6 @@ class Project
     @autopkgtest = false
     @debian = false
     @series_restrictions = []
-    @kdecomponent = if KDEProjectsComponent.kf6_jobs.include?(name)
-                      'kf6'
-                    elseif KDEProjectsComponent.frameworks_jobs.include?(name)
-                      'frameworks'
-                    elsif KDEProjectsComponent.gear_jobs.include?(name)
-                      'gear'
-                    elsif KDEProjectsComponent.plasma_jobs.include?(name)
-                      'plasma'
-                    else
-                      'extragear'
-                    end
 
     if component == 'kde-extras_kde-telepathy'
       puts 'stepped into a shit pile --> https://phabricator.kde.org/T4160'
