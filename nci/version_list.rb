@@ -48,6 +48,8 @@ DEBIAN_TO_KDE_NAMES = {
   'attica-kf5' => 'attica',
   'prison-kf5' => 'prison',
   'kfilemetadata-kf5' => 'kfilemetadata',
+  # fixed in kf6 with kf6-kcalendarcore
+  'kcalcore' => 'kcalendarcore',
 
   # plasma
   'plasma-discover' => 'discover',
@@ -65,8 +67,8 @@ BLACKLIST = [
   # Not actually useful for anything in production. It's a repo with tests.
   'plasma-tests',
   'kfloppy',   # dead project removed next release
-  'kdev-python'
-  'kalendar',   # is now merkuno and reports as conflicting with kcalendarcore
+  'kdev-python',
+  'kalendar'   # is now merkuno and reports as conflicting with kcalendarcore
 ]
 
 # Maps "key" packages to a release scope. This way we can identify what version
