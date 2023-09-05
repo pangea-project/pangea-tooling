@@ -48,8 +48,8 @@ class Repository
     # software-properties backs up Apt::Repository, must not be removed.
     @purge_exclusion = %w[base-files python3-software-properties
                           software-properties-common apt libapt-pkg5.0 libblkid1 libblkid-dev
-                          neon-settings libseccomp2 neon-adwaita libdrm2 libdrm-dev libdrm-common 
-                          libdrm-test libdrm2-udeb libdrm-intel libdrm-radeon1 libdrm-common libdrm-intel1 
+                          neon-settings libseccomp2 neon-adwaita libdrm2 libdrm-dev libdrm-common
+                          libdrm-test libdrm2-udeb libdrm-intel libdrm-radeon1 libdrm-common libdrm-intel1
                           libdrm-amdgpu1 libdrm-tests libdrm-nouveau2]
 
     p self
