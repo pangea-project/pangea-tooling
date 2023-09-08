@@ -27,11 +27,13 @@ require_relative '../lib/merger'
 class NCIMerger < Merger
   def run
     # The way this is pushed is that the first push called walks up the tree
-    # and invokes push on the squenced branches. Susequent pushes will do the
-    # same but essentially be no-op except for leafes which weren't part of the
+    # and invokes push on the sequenced branches. Subsequent pushes will do the
+    # same but essentially be no-op except for leafs which weren't part of the
     # first pushed sequence.
     unstable = sequence('Neon/release').merge_into('Neon/stable')
                                        .merge_into('Neon/unstable')
+
+    unstable.merge_into('Neon/experimental').push
     unstable.merge_into('Neon/mobile').push
     unstable.merge_into('Neon/pending-merge').push
 
@@ -41,6 +43,8 @@ class NCIMerger < Merger
       unstable = sequence("Neon/release_#{series}")
                  .merge_into("Neon/stable_#{series}")
                  .merge_into("Neon/unstable_#{series}")
+
+      unstable.merge_into("Neon/experimental_#{series}").push
       unstable.merge_into("Neon/mobile_#{series}").push
       unstable.merge_into("Neon/pending-merge_#{series}").push
     end

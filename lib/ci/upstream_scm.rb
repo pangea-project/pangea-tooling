@@ -49,11 +49,12 @@ module CI
     end
 
     module Origin
+      EXPERIMENTAL = :experimental
       UNSTABLE = :unstable
       STABLE = :stable # aka stable
     end
 
-    ORIGIN_PERFERENCE = [Origin::UNSTABLE, Origin::STABLE].freeze
+    ORIGIN_PERFERENCE = [Origin::EXPERIMENTAL, Origin::UNSTABLE, Origin::STABLE].freeze
     DEFAULT_BRANCH = 'master'
 
     # Constructs an upstream SCM description from a packaging SCM description.
@@ -74,7 +75,7 @@ module CI
       @name = File.basename(packaging_repo)
       @directory = working_directory
 
-      repo_url = "https://anongit.kde.org/#{@name.chomp('-qt4')}"
+      repo_url = "https://invent.kde.org/#{@name}"
       branch = DEFAULT_BRANCH
 
       # Should move elsewhere, no clue where though.
