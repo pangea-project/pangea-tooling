@@ -162,7 +162,7 @@ end
 @log.info 'Setting system into maintenance mode.'
 Jenkins.system.quiet_down
 
-BlockingThreadPool.run do
+BlockingThreadPool.run(2) do
   until job_name_queue.empty?
     name = job_name_queue.pop(true)
     Retry.retry_it(times: 5) do
