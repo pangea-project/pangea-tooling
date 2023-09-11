@@ -75,7 +75,7 @@ module CI
       @name = File.basename(packaging_repo)
       @directory = working_directory
 
-      repo_url = "https://invent.kde.org/#{@name}"
+      repo_url = "https://anongit.kde.org/#{@name.chomp('-qt4')}"
       branch = DEFAULT_BRANCH
 
       # Should move elsewhere, no clue where though.
