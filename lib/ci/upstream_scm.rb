@@ -208,7 +208,9 @@ module CI
     # than our hardcoded master.
     def branch_from_origin(project, origin)
       origin_map = { Origin::UNSTABLE => project.i18n_trunk,
-                     Origin::STABLE => project.i18n_stable }
+                     Origin::STABLE => project.i18n_stable,
+                     Origin::EXPERIMENTAL => project.i18n_trunk,
+                     }
       ORIGIN_PERFERENCE[0..ORIGIN_PERFERENCE.index(origin)].reverse_each do |o|
         branch = origin_map.fetch(o)
         return branch unless branch.to_s.empty?
