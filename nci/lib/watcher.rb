@@ -76,6 +76,7 @@ module NCI
 
     def initialize
       @cmd = TTY::Command.new
+      cmd.run('git config --global --add safe.directory /workspace/deb-packaging')
     end
 
     # NB: this gets mocked by the test, don't merge this into regular cmd!
