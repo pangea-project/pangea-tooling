@@ -26,9 +26,9 @@ class ProjectJob < JenkinsJob
     end
 
     # experimental has its dependencies in unstable
-    if type == 'experimental'
+    if type == 'unstable'
       dependees += project.dependees.collect do |d|
-        basename(distribution, 'unstable', d.component, d.name)
+        basename(distribution, 'experimental', d.component, d.name)
       end
     end
 
