@@ -95,6 +95,9 @@ end
 
 # Net::SSH would needs lots of code to catch the exit status.
 unless system("ssh root@#{droplet.public_ip} bash /root/deploy.sh")
+  # Log last few lines from journal for debugging purposes. We've seen ENSPC
+  # errors happening that failed to log via our event stream thread.
+  system("ssh root@#{droplet.public_ip} journalctl -n 128 --no-pager")
   logger.warn 'deleting droplet'
   droplet.delete
   raise
