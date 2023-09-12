@@ -11,7 +11,7 @@ require_relative '../lib/docker/cleanup'
 Docker.options[:read_timeout] = 3 * 60 * 60 # 3 hours.
 
 # First try to let docker do its thing
-TTY::Command.new.run('docker', 'system', 'prune', '--all', '--volumes', '--force')
+TTY::Command.new.run('docker', 'system', 'prune', '--volumes', '--force')
 
 # Then run our aggressive cleanup routines
 Docker::Cleanup.containers
