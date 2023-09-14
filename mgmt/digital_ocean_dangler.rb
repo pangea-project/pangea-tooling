@@ -37,7 +37,7 @@ dangling = droplets.select do |drop|
   # FTR the datetime condition is that 1 hour before now is greater
   #   (i.e. more recent) than the creation time (i.e. creation time is more
   #   than 1 hour in the past).
-  !nodes.include?(drop.name) &&
+  drop.name != 'gitlab-allocator' && !nodes.include?(drop.name) &&
     (DateTime.now - Rational(1, 24)) > DateTime.iso8601(drop.created_at)
 end
 
