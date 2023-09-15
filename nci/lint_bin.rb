@@ -5,8 +5,12 @@
 # SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 
 ENV['CI_REPORTS'] = "#{Dir.pwd}/reports"
-BUILD_URL = ENV.fetch('BUILD_URL') { File.read('build_url') }.strip
-ENV['LOG_URL'] = "#{BUILD_URL}/consoleText"
+if ENV.include?('CI_PIPELINE_URL') # gitlab
+  ENV['LOG_URL'] = "#{ENV.fetch('CI_PIPELINE_URL')}/raw"
+else
+  BUILD_URL = ENV.fetch('BUILD_URL') { File.read('build_url') }.strip
+  ENV['LOG_URL'] = "#{BUILD_URL}/consoleText"
+end
 
 # DONT FLIPPING EAT STDOUTERR ... WHAT THE FUCK
 #   option for ci-reporter

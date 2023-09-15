@@ -63,11 +63,17 @@ if File.exist?('/ccache')
   system('ccache', '-s') # print stats, ignore return value
 end
 
-build_url = ENV.fetch('BUILD_URL') { File.read('build_url') }.strip
-if NCI.experimental_skip_qa.any? { |x| build_url.include?(x) }
-  puts "Not linting, #{build_url} is in exclusion list."
-  exit
+if ENV.include?('CI_PIPELINE_URL') # gitlab
+  # TODO: drop QA skipping entirely. It doesn't really do us much good anymore.
+  warn 'QA skipping not supported on gitlab!'
+else
+  build_url = ENV.fetch('BUILD_URL') { File.read('build_url') }.strip
+  if NCI.experimental_skip_qa.any? { |x| build_url.include?(x) }
+    puts "Not linting, #{build_url} is in exclusion list."
+    exit
+  end
 end
+
 # skip the linting if build dir doesn't exist
 # happens in case of Architecture: all packages on armhf for example
 require_relative 'lint_bin' if Dir.exist?('build')
