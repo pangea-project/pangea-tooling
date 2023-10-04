@@ -35,7 +35,7 @@ module NCI
   # `name` and `version` attributes describing the packages we have.
   # It then constructs checks if these packages' versions are greater than
   #  the ones we have presently available in the system.
-  class VersionsTest < MiniTest::Test
+  class VersionsTest < Minitest::Test
     parallelize_me!
 
     class << self
