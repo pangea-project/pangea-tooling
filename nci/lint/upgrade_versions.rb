@@ -195,7 +195,7 @@ module NCI
   # It then constructs concurrent promises checking if these packages'
   # versions are greater than the ones we have presently available in
   # the system.
-  class VersionsTest < MiniTest::Test
+  class VersionsTest < Minitest::Test
     parallelize_me!
 
     class << self
