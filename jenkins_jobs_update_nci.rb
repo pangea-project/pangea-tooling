@@ -176,10 +176,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                            distribution: distribution, type: type))
             end
           end
-          # enable ARM for xenial- & bionic-unstable and bionic-release and
-          # focal-unstable and focal-release
+          # enable ARM for all releases
           project_architectures = if type == 'unstable' ||
-                                     (type == 'release' && distribution != 'xenial') ||
+                                     type == 'stable' ||
+                                     type == 'release' ||
                                      type == 'experimental'
                                     NCI.all_architectures
                                   else
