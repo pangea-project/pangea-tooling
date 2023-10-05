@@ -35,7 +35,7 @@ module NCI
         # count but semi reasonable disk space.
         'jenkins-do-c.8core.' => 4,
         'jenkins-do-c.16core.' => 8,
-        'jenkins-do-c.32core.' => 8,
+        'jenkins-do-c.32core.' => 16,
         # Compat
         'do-builder' => 2,
         'persistent.do-builder' => 2,
