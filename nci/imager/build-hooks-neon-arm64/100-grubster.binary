@@ -1,0 +1,104 @@
+#!/bin/sh
+# SPDX-FileCopyrightText: 2020 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
+set -e
+
+echo "Finalizing Grub"
+
+# This could kinda be done by live-build, but I don't trust ubuntu's ancient
+# lb to do this properly.
+# Instead hack our additional magic into place.
+
+# WARNING FOR THE FUTURE: our lb runs hooks before efi, debian's after efi,
+#    should things start to fail, check the order of lb_binary!
+
+# Theme
+mkdir -p binary/boot/grub/themes
+cp -rv chroot/boot/grub/themes/breeze binary/boot/grub/themes
+
+# needed for ubiquity's efi setup to use the live image as an archive from which
+# various bits can install see d-i/source/apt-setup/generators/40cdrom
+# NOTE by sitter: I do not think this is relevant for us (anymore). We use a
+# repo inside the squashfs (preinstalled-pool) rather than a cdrom repo on the ISO.
+mkdir -p binary/.disk/ || true
+echo full_cd/single > binary/.disk/cd_type
+
+# Make a cfg
+# NB: this is interpolated for LB_BOOTAPPEND_LIVE. variables for grub must be escaped!
+cat > binary/boot/grub/grub.cfg << EOF
+# This is a composite, glued together from bits of an actual generated
+# grub.cfg from a regular system, and the auto generated stuff created for
+# Kubuntu.
+
+function load_video {
+	insmod all_video
+}
+
+if loadfont /boot/grub/unicode.pf2 ; then
+	set gfxmode=auto
+	load_video
+	insmod gfxterm
+	set locale_dir=\$prefix/locale
+	set lang=en_US
+	insmod gettext
+fi
+terminal_output gfxterm
+
+insmod gfxmenu
+loadfont /boot/grub/themes/breeze/unifont-bold-16.pf2
+loadfont /boot/grub/themes/breeze/unifont-regular-14.pf2
+loadfont /boot/grub/themes/breeze/unifont-regular-16.pf2
+loadfont /boot/grub/themes/breeze/unifont-regular-32.pf2
+insmod png
+set theme=/boot/grub/themes/breeze/theme.txt
+export theme
+
+set menu_color_normal=white/black
+set menu_color_highlight=black/light-gray
+
+# NB: apparmor is disabled because it would deny everything. The actual paths in
+#   the live system are not the paths used in the configs. This is because of
+#   how the squashfs is mounted and then overlayed. So the final paths seen by
+#   apparmor will be /cow/foo/whatevs/... instead of /... this blocks a lot of
+#   parts of the ISO from working properly (e.g. snapd or kmail; latter only
+#   if the user opts to install it of course).
+
+menuentry "KDE neon" {
+	load_video
+	set gfxpayload=keep
+	linux	/casper/vmlinuz boot=casper apparmor=0 quiet splash ${LB_BOOTAPPEND_LIVE} ---
+	initrd	/casper/initrd
+}
+
+menuentry "KDE neon (safe graphics)" {
+	load_video
+	set gfxpayload=keep
+	linux	/casper/vmlinuz boot=casper apparmor=0 quiet splash nomodeset ${LB_BOOTAPPEND_LIVE} ---
+	initrd	/casper/initrd
+}
+
+menuentry "KDE neon (OEM mode - for manufacturers)" {
+	load_video
+	set gfxpayload=keep
+	linux	/casper/vmlinuz boot=casper apparmor=0 quiet splash ${LB_BOOTAPPEND_LIVE} --- oem-config/enable=true
+	initrd	/casper/initrd
+}
+
+menuentry "KDE neon (OEM mode + safe graphics)" {
+	load_video
+	set gfxpayload=keep
+	linux	/casper/vmlinuz boot=casper apparmor=0 quiet splash nomodeset ${LB_BOOTAPPEND_LIVE} --- oem-config/enable=true
+	initrd	/casper/initrd
+}
+
+grub_platform
+if [ "\$grub_platform" = "efi" ]; then
+	menuentry 'Boot from next volume' {
+		exit
+	}
+	menuentry 'UEFI Firmware Settings' {
+		fwsetup
+	}
+fi
+EOF
