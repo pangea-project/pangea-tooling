@@ -5,22 +5,48 @@ env.METAPACKAGE='<%= metapackage %>'
 env.IMAGENAME='<%= imagename %>'
 env.NEONARCHIVE='<%= neonarchive %>'
 
-cleanNode('amd64-iso') {
-  stage('imager') {
-    sh '~/tooling/nci/imager.rb'
-  }
+if (env.ARCH == 'amd64')
+{
+  cleanNode('amd64-iso') {
+    stage('imager') {
+      sh '~/tooling/nci/imager.rb'
+    }
 
-  lock('ISO_PUBLISHING') {
+    lock('ISO_PUBLISHING') {
 
-    withCredentials([zip(credentialsId: 'gpg.iso.zip', variable: 'GNUPGHOME'),
-                    sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon',
-                                      keyFileVariable: 'SSH_KEY_FILE',
-                                      passphraseVariable: '', usernameVariable: '')]) {
-      stage('push') {
-        sh '~/tooling/nci/imager_push.rb'
+      withCredentials([zip(credentialsId: 'gpg.iso.zip', variable: 'GNUPGHOME'),
+                      sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon',
+                                        keyFileVariable: 'SSH_KEY_FILE',
+                                        passphraseVariable: '', usernameVariable: '')]) {
+        stage('push') {
+          sh '~/tooling/nci/imager_push.rb'
+        }
+        stage('torrent') {
+          sh '~/tooling/nci/imager_push_torrent.rb'
+        }
       }
-      stage('torrent') {
-        sh '~/tooling/nci/imager_push_torrent.rb'
+    }
+  }
+}
+else
+{
+  cleanNode('aarch64') {
+    stage('imager') {
+      sh '~/tooling/nci/imager.rb'
+    }
+
+    lock('ISO_PUBLISHING') {
+
+      withCredentials([zip(credentialsId: 'gpg.iso.zip', variable: 'GNUPGHOME'),
+                      sshUserPrivateKey(credentialsId: 'ssh.jobs.archive.neon',
+                                        keyFileVariable: 'SSH_KEY_FILE',
+                                        passphraseVariable: '', usernameVariable: '')]) {
+        stage('push') {
+          sh '~/tooling/nci/imager_push.rb'
+        }
+        stage('torrent') {
+          sh '~/tooling/nci/imager_push_torrent.rb'
+        }
       }
     }
   }
