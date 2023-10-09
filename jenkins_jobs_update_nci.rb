@@ -176,10 +176,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                            distribution: distribution, type: type))
             end
           end
-          # enable ARM for xenial- & bionic-unstable and bionic-release and
-          # focal-unstable and focal-release
+          # enable ARM for all releases
           project_architectures = if type == 'unstable' ||
-                                     (type == 'release' && distribution != 'xenial') ||
+                                     type == 'stable' ||
+                                     type == 'release' ||
                                      type == 'experimental'
                                     NCI.all_architectures
                                   else
@@ -306,6 +306,70 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         )
         enqueue(NeonIsoJob.new(**user_release_isoargs))
         enqueue(NeonDockerJob.new(**user_release_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'user')))
+
+        ko_user_release_isoargs = standard_args.merge(
+          type: 'ko',
+          neonarchive: 'testing',
+          cronjob: 'H H * * 5',
+          metapackage: 'neon-desktop-ko'
+        )
+        enqueue(NeonIsoJob.new(**ko_user_release_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'ko')))
+
+        mobile_isoargs = standard_args.merge(
+          type: 'mobile',
+          neonarchive: 'unstable',
+          cronjob: 'H H * * 0',
+          metapackage: 'plasma-phone'
+        )
+        enqueue(NeonIsoJob.new(**mobile_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'mobile')))
+      end
+
+# arm64 ISOs
+      NCI.extra_architectures.each do |architecture|
+        standard_args = {
+          imagename: 'neon-arm64',
+          distribution: distribution,
+          architecture: architecture,
+          metapackage: 'neon-desktop'
+        }.freeze
+        is_future = distribution == NCI.future_series
+
+        dev_unstable_isoargs = standard_args.merge(
+          type: 'unstable',
+          neonarchive: 'unstable',
+          cronjob: 'H H * * 0'
+        )
+        enqueue(NeonIsoJob.new(**dev_unstable_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'unstable')))
+
+        # Only make unstable ISO for the next series while in early mode.
+        next if distribution == NCI.future_series && NCI.future_is_early
+
+        dev_unstable_dev_isoargs = standard_args.merge(
+          type: 'developer',
+          neonarchive: 'unstable',
+          cronjob: 'H H * * 1'
+        )
+        enqueue(NeonIsoJob.new(**dev_unstable_dev_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'developer')))
+
+        dev_stable_isoargs = standard_args.merge(
+          type: 'testing',
+          neonarchive: 'testing',
+          cronjob: 'H H * * 2'
+        )
+        enqueue(NeonIsoJob.new(**dev_stable_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'testing')))
+
+        user_release_isoargs = standard_args.merge(
+          type: 'user',
+          neonarchive: is_future ? 'release' : 'user',
+          cronjob: 'H H * * 4'
+        )
+        enqueue(NeonIsoJob.new(**user_release_isoargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'user')))
 
         ko_user_release_isoargs = standard_args.merge(

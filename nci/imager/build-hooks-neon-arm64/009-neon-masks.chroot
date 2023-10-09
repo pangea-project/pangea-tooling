@@ -1,0 +1,30 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: 2018-2021 Harald Sitter <sitter@kde.org>
+# SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
+# Mask certain packages which aren't getting properly covered by dependencies.
+
+set -e
+
+. /etc/os-release
+
+# This is canonical support stuff. Not useful and probably also not offered.
+# Our mask removes the ubuntu version.
+# It's being installed by debootstrap, so we'll have to manually rip it out
+# again as apt wouldn't prefer our provides variant over it.
+apt-get install --purge -y neon-ubuntu-advantage-tools
+apt-mark auto neon-ubuntu-advantage-tools
+if dpkg -s ubuntu-advantage-tools; then
+  echo 'ubuntu-advantage-tools is still installed. It is expected to be masked!'
+  exit 1
+fi
+
+# Make sure adwaita is masked. Depending on dep resolution we may hav ended
+# up with the real adwaita
+apt-get install --purge -y neon-adwaita
+apt-mark auto neon-adwaita
+
+# TODO HACK temporary measure to test nomodeset without having it install for regular seeds @sitter
+if [[ ${VERSION,,} = unstable* ]]; then
+  apt-get install -y kde-nomodeset
+fi
