@@ -39,9 +39,10 @@ sudo apt update
 sudo apt dist-upgrade -y
 sudo apt install -y --no-install-recommends \
     git ubuntu-defaults-builder wget ca-certificates zsync distro-info \
-    livecd-rootfs xorriso base-files lsb-release neon-settings debootstrap
+    livecd-rootfs xorriso base-files lsb-release neon-settings debootstrap \
+    syslinux-themes-neon
 if [ $ARCH = 'amd64' ]; then
-    sudo apt install -y --no-install-recommends syslinux-utils
+    sudo apt install -y --no-install-recommends syslinux-utils syslinux-themes-ubuntu
 fi
 cd $WD
 ls -lah
@@ -79,7 +80,6 @@ DATE="${_DATE}${_TIME}"
 # Somewhere in utopic things fell to shit, so lb doesn't pack all files necessary
 # for isolinux on the ISO. Why it happens or how or what is unknown. However linking
 # the required files into place seems to solve the problem. LOL.
-sudo apt install -y --no-install-recommends syslinux-themes-ubuntu syslinux-themes-neon
 # sudo ln -s /usr/lib/syslinux/modules/bios/ldlinux.c32 /usr/share/syslinux/themes/ubuntu-$DIST/isolinux-live/ldlinux.c32
 # sudo ln -s /usr/lib/syslinux/modules/bios/libutil.c32 /usr/share/syslinux/themes/ubuntu-$DIST/isolinux-live/libutil.c32
 # sudo ln -s /usr/lib/syslinux/modules/bios/libcom32.c32 /usr/share/syslinux/themes/ubuntu-$DIST/isolinux-live/libcom32.c32
