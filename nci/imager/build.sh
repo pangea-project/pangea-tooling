@@ -39,9 +39,10 @@ sudo apt update
 sudo apt dist-upgrade -y
 sudo apt install -y --no-install-recommends \
     git ubuntu-defaults-builder wget ca-certificates zsync distro-info \
-    syslinux-utils livecd-rootfs xorriso base-files lsb-release \
-    neon-settings debootstrap
-
+    livecd-rootfs xorriso base-files lsb-release neon-settings debootstrap
+if [ $ARCH = 'amd64' ]; then
+    sudo apt install -y --no-install-recommends syslinux-utils
+fi
 cd $WD
 ls -lah
 cleanup
