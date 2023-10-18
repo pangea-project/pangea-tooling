@@ -11,7 +11,7 @@ EOF
 
 for component in $COMPONENTS; do
    (cd config/indices && \
-    wget http://archive.ubuntu.com/ubuntu/indices/override.$SUITE.$component && \
-    wget http://archive.ubuntu.com/ubuntu/indices/override.$SUITE.extra.$component \
+    wget http://ports.ubuntu.com/indices/override.$SUITE.$component && \
+    wget http://ports.ubuntu.com/indices/override.$SUITE.extra.$component \
    )
 done
