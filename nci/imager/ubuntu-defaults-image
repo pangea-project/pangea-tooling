@@ -194,10 +194,10 @@ fi
 # make autobuilds reliable.
 case $ARCH in
     *amd64|*i386)
-        $SUDO apt-get -y install gfxboot-theme-ubuntu memtest86+ || exit 1
+        $SUDO apt-get -y install gfxboot-theme-ubuntu memtest86+ syslinux || exit 1
     ;;
 esac
-$SUDO apt-get -y install genisoimage syslinux
+$SUDO apt-get -y install genisoimage
 
 rm -rf auto
 mkdir -p auto
