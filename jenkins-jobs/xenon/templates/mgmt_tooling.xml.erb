@@ -39,6 +39,8 @@
     <com.cloudbees.jenkins.GitHubSetCommitStatusBuilder plugin="github@1.13.3"/>
     <hudson.tasks.Shell>
       <command>env
+./git_submodule_setup.sh
+
 apt install -y libgirepository1.0-dev
 gem install bundler
 bundle install
