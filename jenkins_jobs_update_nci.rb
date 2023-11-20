@@ -495,6 +495,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
     enqueue(MGMTToolingJob.new(downstreams: [],
                                dependees: []))
+    enqueue(MGMTToolingUpdateSubmodules.new)
     enqueue(MGMTRepoCleanupJob.new)
   end
 end
