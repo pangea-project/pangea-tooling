@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-apt-key adv --keyserver pool.sks-keyservers.net --recv-keys D1B8E0D26079DC00276F463C1406C1DFB3408323
-echo "deb http://ppa.launchpad.net/jr/plasma-wayland/ubuntu xenial main" >> /etc/apt/sources.list.d/casper.list
-apt-get update
-apt-get -o Dpkg::Options::=--force-confnew install -y casper
