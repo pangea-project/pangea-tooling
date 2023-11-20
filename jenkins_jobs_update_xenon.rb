@@ -102,6 +102,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     #enqueue(PlasmaReleasemeTagsTest.new)
 
     enqueue(MGMTTooling.new)
+    enqueue(MGMTToolingUpdateSubmodules.new)
   end
 end
 
