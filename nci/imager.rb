@@ -46,7 +46,7 @@ c = CI::Containment.new(JOB_NAME,
                         binds: binds,
                         privileged: true,
                         no_exit_handlers: false)
-cmd = ['/tooling-host/nci/imager/build.sh',
+cmd = ['/tooling-host/data/imager/build.sh',
        Dir.pwd, DIST, ARCH, TYPE, METAPACKAGE, IMAGENAME, NEONARCHIVE]
 status_code = c.run(Cmd: cmd)
 warn "status code was #{status_code.to_i}"
