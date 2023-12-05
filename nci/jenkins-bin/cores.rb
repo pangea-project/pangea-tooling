@@ -24,7 +24,7 @@ module NCI
     class Cores
       # This controls the output cores! Raising the cap here directly results in
       # larger machines getting assigned if necessary.
-      CORES = [2, 4, 8].freeze
+      CORES = [2, 4, 8, 16].freeze
 
       def self.downgrade(cores)
         # Get either 0 or whatever is one below the input.
