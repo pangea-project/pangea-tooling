@@ -68,7 +68,7 @@ Aptly::Ext::Remote.neon do
 
   # Cleanup old unused repos we no longer support.
   repo_names = %w[qt frameworks tmp_release] # pre-wily repos
-  repo_names += %w[unstable stable release] # wily repos
+  repo_names += %w[unstable stable release experimental] # wily repos
   repo_names.each do |repo_name|
     next unless Aptly::Repository.exist?(repo_name)
 
