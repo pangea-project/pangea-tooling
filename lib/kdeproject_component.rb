@@ -115,7 +115,7 @@ class KDEProjectsComponent
       # the way to get what is in KDE Gear (the release service) is from release-tools list
       @release_service ||= begin
         modules = []
-        url = "https://invent.kde.org/sysadmin/release-tools/-/raw/release/23.08/modules.git?ref_type=heads"
+        url = "https://invent.kde.org/sysadmin/release-tools/-/raw/release/24.02/modules.git?ref_type=heads"
         response = HTTParty.get(url)
         body = response.body
         body.each_line("release/23.08\n") do |line|
