@@ -118,7 +118,7 @@ class KDEProjectsComponent
         url = "https://invent.kde.org/sysadmin/release-tools/-/raw/release/24.02/modules.git?ref_type=heads"
         response = HTTParty.get(url)
         body = response.body
-        body.each_line("release/23.08\n") do |line|
+        body.each_line("release/24.02\n") do |line|
           modules << line.split(/\s/, 2)[0]
         end
         modules
