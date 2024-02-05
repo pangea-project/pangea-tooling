@@ -32,12 +32,9 @@ class QMLDependencyVerifier
 
   def initialize(repo)
     @log = Logger.new(STDOUT)
-    @log.level = Logger::DEBUG
+    @log.level = Logger::INFO
     @log.progname = self.class.to_s
     @repo = repo
-    puts "repo: #{@repo}"
-    #`pwd`
-    FileUtils.cp_r(FileUtils.pwd, '/home/jr/')
   end
 
   def missing_modules
@@ -74,12 +71,10 @@ The following modules are missing:
 
       pkg = QMLDepVerify::Package.new(package, version)
       @log.info "Checking #{package}: #{version}"
-      puts "Checking #{package}: #{version}"
       next if pkg.missing.empty?
 
       missing_modules[package] = pkg.missing
     end
-    puts "XXX #{missing_modules}"
     log_missing(missing_modules)
     missing_modules
   end

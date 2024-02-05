@@ -40,9 +40,6 @@ class NCIQMLDepVerifyTest < TestCase
   end
 
   def test_dis
-    ## FIXME jr 2023-02-05 test suddently failing, this needs added back and fixed
-    omit
-
     # Write a fake dsc, we'll later intercept the unpack call.
     File.write('yolo.dsc', '')
     FileUtils.cp_r("#{data}/.", Dir.pwd, verbose: true)
