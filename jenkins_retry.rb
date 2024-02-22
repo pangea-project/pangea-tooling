@@ -77,7 +77,7 @@ Only jobs that are not queued, not building, and failed will be retired.
     new_release = KDEProjectsComponent.frameworks_jobs
   end
 
-  opts.on('-kf6', '--frameworks6', 'There has been a new Frameworks release, run' \
+  opts.on('-w', '--frameworks6', 'There has been a new Frameworks 6 release, run' \
                                 ' all watcher jobs for Frameworks.') do
     @exclusion_states.clear
     new_release = KDEProjectsComponent.kf6_jobs
