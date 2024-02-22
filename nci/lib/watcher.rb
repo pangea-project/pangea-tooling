@@ -100,6 +100,7 @@ module NCI
       # automatically
       @job_is_kde_released ||= begin
         released_products = KDEProjectsComponent.frameworks_jobs +
+                            KDEProjectsComponent.kf6_jobs +
                             KDEProjectsComponent.plasma_jobs +
                             KDEProjectsComponent.gear_jobs
         job_project = ENV['JOB_NAME'].split('_')[-1]
@@ -274,7 +275,7 @@ module NCI
 
       # Take first package from each product and send e-mail for only that
       # one to stop spam
-      frameworks_package = KDEProjectsComponent.frameworks[0]
+      frameworks5_package = KDEProjectsComponent.frameworks[0]
       frameworks6_package = KDEProjectsComponent.kf6[0]
       plasma_package = KDEProjectsComponent.plasma[0]
       gear_package = KDEProjectsComponent.gear[0]
