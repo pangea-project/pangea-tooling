@@ -51,7 +51,7 @@ target.purge_exclusion << 'neon-settings' << 'libseccomp2' << 'neon-adwaita' << 
 path = '/etc/apt/apt.conf.d/essentials'
 File.write(path, <<-CONF)
 pkgCacheGen::ForceEssential {
-  #{target.purge_exclusion.join(';')};
+  #{target.purge_exclusion.map { |x| "\"#{x}\"" }.join(';')};
 };
 CONF
 
