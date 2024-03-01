@@ -45,7 +45,7 @@ class Repository
                           software-properties-common apt libapt-pkg5.0 libblkid1 libblkid-dev
                           neon-settings libseccomp2 neon-adwaita libdrm2 libdrm-dev libdrm-common
                           libdrm-test libdrm2-udeb libdrm-intel libdrm-radeon1 libdrm-common libdrm-intel1
-                          libdrm-amdgpu1 libdrm-tests libdrm-nouveau2]
+                          libdrm-amdgpu1 libdrm-tests libdrm-nouveau2 gir1.2-packagekitglib-1.0]
 
     p self
   end
