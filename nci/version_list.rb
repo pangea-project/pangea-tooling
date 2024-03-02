@@ -17,39 +17,34 @@ require_relative 'version_list/violations'
 S_IROTH = 0o4 # posix bitmask for world readable
 
 DEBIAN_TO_KDE_NAMES = {
-  'libkf5incidenceeditor' => 'incidenceeditor',
-  'libkf5pimcommon' => 'pimcommon',
-  'libkf5mailcommon' => 'mailcommon',
-  'libkf5mailimporter' => 'mailimporter',
-  'libkf5calendarsupport' => 'calendarsupport',
-  'libkf5kmahjongg' => 'libkmahjongg',
-  'libkf5grantleetheme' => 'grantleetheme',
-  'libkf5libkleo' => 'libkleo',
-  'libkf5libkdepim' => 'libkdepim',
-  'libkf5eventviews' => 'eventviews',
-  'libkf5sane' => 'libksane',
-  'libkf5kexiv2' => 'libkexiv2',
-  'kf5-kdepim-apps-libs' => 'kdepim-apps-libs',
-  'libkf5ksieve' => 'libksieve',
-  'libkf5gravatar' => 'libgravatar',
-  'kf5-messagelib' => 'messagelib',
-  'libkf5kgeomap' => 'libkgeomap',
-  'libkf5kdcraw' => 'libkdcraw',
-  'kde-spectacle' => 'spectacle',
-  'libkf5kipi' => 'libkipi',
   'kdeconnect' => 'kdeconnect-kde',
+  'kde-spectacle' => 'spectacle',
+  'kpim6-calendarsupport' => 'calendarsupport',
+  'kpim6-eventviews' => 'eventviews',
+  'kpim6-grantleetheme' => 'grantleetheme',
+  'kpim6-gravatar' => 'libgravatar',
+  'kpim6-incidenceeditor' => 'incidenceeditor',
+  'kpim6-ksieve' => 'libksieve',
+  'kpim6-libkleo' => 'libkleo',
+  'kpim6-libkdepim' => 'libkdepim',
+  'kpim6-mailcommon' => 'mailcommon',
+  'kpim6-mailimporter' => 'mailimporter',
+  'kpim6-messagelib' => 'messagelib',
+  'kpim6-pimcommon' => 'pimcommon',
+  'libkf5kdcraw' => 'libkdcraw5',
+  'libkf5kexiv2' => 'libkexiv2',
+  'libkf5kipi' => 'libkipi',
+  'libkf5sane' => 'libksane5',
 
   # frameworks
-  'kactivities-kf5' => 'kactivities',
-  'kdnssd-kf5' => 'kdnssd',
-  'kwallet-kf5' => 'kwallet',
-  'baloo-kf5' => 'baloo',
-  'ksyntax-highlighting' => 'syntax-highlighting',
   'attica-kf5' => 'attica',
-  'prison-kf5' => 'prison',
+  'baloo-kf5' => 'baloo',
+  'kdnssd-kf5' => 'kdnssd',
   'kfilemetadata-kf5' => 'kfilemetadata',
-  # fixed in kf6 with kf6-kcalendarcore
-  'kcalcore' => 'kcalendarcore',
+  'ksyntax-highlighting' => 'syntax-highlighting',
+  'kwallet-kf5' => 'kwallet',
+  'prison-kf5' => 'prison',
+  'kcalcore' => 'kcalendarcore', # fixed in kf6 with kf6-kcalendarcore
 
   # plasma
   'plasma-discover' => 'discover',
@@ -64,19 +59,19 @@ DEBIAN_TO_KDE_NAMES = {
 
 # Sources that we do not package for some reason. Should be documented why!
 BLACKLIST = [
-  # Not actually useful for anything in production. It's a repo with tests.
-  'plasma-tests',
-  'kfloppy',   # dead project removed next release
-  'kdev-python',
   'kalendar',   # is now merkuno and reports as conflicting with kcalendarcore
-  'kopete' # removed in 24.02
+  'kdev-python',
+  'kfloppy',   # dead project removed next release
+  'kopete', # removed in 24.02
+  'plasma-tests' # Not actually useful for anything in production. It's a repo with tests.
 ]
 
 # Maps "key" packages to a release scope. This way we can identify what version
 # the given scope has in our repo.
 KEY_MAPS = {
   'plasma-workspace' => 'Plasma by KDE',
-  'kconfig' => 'KDE Frameworks',
+  'kconfig' => 'KDE Frameworks 5',
+  'kf6-kconfig' => 'KDE Frameworks 6',
   'okular' => 'KDE Gear'
 }
 
@@ -108,6 +103,7 @@ product_and_versions = []
       raise 'Neither the latest nor the previous version are world readable!' \
             ' Something is astray! This means there are two pending releases???'
     end
+
 
     latest_path = "#{dir_path}/#{latest.name}/"
     tars = sftp.dir.glob(latest_path, '**/**')
