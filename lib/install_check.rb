@@ -32,6 +32,10 @@ class InstallCheckBase
     # Add the present daily snapshot, install everything.
     # If this fails then the current snapshot is kaputsies....
     if target_ppa.add
+      # ubuntu-minimal pulls in ubuntu-advantage-tools which we do not like in Neon so we break it with this which
+      # will break if it is done as part of the full install step so install it explicitly first
+      raise 'failed to install neon-ubuntu-advantage-tools' unless Apt.install('neon-ubuntu-advantage-tools')
+      # Now install everything in the neon repo
       unless target_ppa.install
         @log.info 'daily failed to install.'
         daily_purged = target_ppa.purge
@@ -117,7 +121,7 @@ class InstallCheck < InstallCheckBase
       raise 'failed to dist upgrade' unless Apt.dist_upgrade
       # Install ubuntu-minmal first to make sure foundations nonsense isn't
       # going to make the test fail half way through.
-      raise 'failed to install minimal' unless Apt.install('ubuntu-minimal')
+      raise 'failed to install ubuntu-minimal' unless Apt.install('ubuntu-minimal')
 
       # Because dependencies are fucked
       # [14:27] <sitter> dictionaries-common is a crap package
