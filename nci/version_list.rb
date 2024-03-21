@@ -33,6 +33,7 @@ DEBIAN_TO_KDE_NAMES = {
   'kde-spectacle' => 'spectacle',
   'libkf5kipi' => 'libkipi',
   'kdeconnect' => 'kdeconnect-kde',
+  'kio-extras5' => 'kio-extras-kf5',
 
   # frameworks
   'kactivities-kf5' => 'kactivities',
