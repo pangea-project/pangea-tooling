@@ -47,6 +47,7 @@ module Apt
 
     # Add Repository to sources.list
     def add
+      self.class.send(:install_add_apt_repository)
       args = [] + @default_args
       args << '-y'
       args << @name
@@ -60,6 +61,7 @@ module Apt
 
     # Remove Repository from sources.list
     def remove
+      self.class.send(:install_add_apt_repository)
       args = [] + @default_args
       args << '-y'
       args << '-r'
