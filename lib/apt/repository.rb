@@ -21,6 +21,8 @@
 # Technically this requires apt.rb but that'd be circular, so we'll only
 # require it in when a repo is constructed. This makes it a lazy require.
 
+require 'tty/command'
+
 module Apt
   # Represents a repository
   class Repository
@@ -48,7 +50,7 @@ module Apt
       args = [] + @default_args
       args << '-y'
       args << @name
-      system('add-apt-repository', *args)
+      TTY::Command.new.run!('add-apt-repository', *args).success?
     end
 
     # (see #remove)
@@ -62,7 +64,7 @@ module Apt
       args << '-y'
       args << '-r'
       args << @name
-      system('add-apt-repository', *args)
+      TTY::Command.new.run!('add-apt-repository', *args).success?
     end
 
     class << self
