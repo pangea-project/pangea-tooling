@@ -94,7 +94,7 @@ module Apt
       def add_apt_repository_installed?
         return @add_apt_repository_installed if ENV['PANGEA_UNDER_TEST']
 
-        @add_apt_repository_installed ||= marker_exist?
+        marker_exist?
       end
 
       # Own method so we can mocha this check! Do not merge into other method.
