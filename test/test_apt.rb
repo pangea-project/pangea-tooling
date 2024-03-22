@@ -220,12 +220,7 @@ class AptTest < TestCase
   # crap garbage caching actually yields correct return values and is
   # retriable on error.
   def test_fucking_shit_fuck_shit
-    cmd = mock('tty-command')
-
-    TTY::Command
-      .any_instance
-      .expects(:new)
-      .returns(cmd)
+    Object.any_instance.expects(:system).never
 
     add_call_chain = proc do |sequence, returns|
       # sequence is a sequence
@@ -237,20 +232,26 @@ class AptTest < TestCase
       apt = ['apt-get', '-y', '-o', 'APT::Get::force-yes=true', '-o', 'Debug::pkgProblemResolver=true', '-q']
 
       unless (ret = returns.shift).nil?
-        cmd.expects(:run!)
+        Object
+          .any_instance
+          .expects(:system)
           .in_sequence(sequence)
           .with(*apt, 'update')
           .returns(ret)
       end
 
       unless (ret = returns.shift).nil?
-        cmd.expects(:run!)
+        Object
+          .any_instance
+          .expects(:system)
           .in_sequence(sequence)
           .with(*apt, 'install', 'software-properties-common')
           .returns(ret)
       end
 
-      cmd.expects(:run!)
+      Object
+        .any_instance
+        .expects(:system)
         .in_sequence(sequence)
         .with('add-apt-repository', '-y', 'kittenshit')
         .returns(returns.shift)
