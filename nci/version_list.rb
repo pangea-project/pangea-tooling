@@ -9,6 +9,7 @@ require 'erb'
 require 'jenkins_junit_builder'
 require 'net/sftp'
 
+require_relative '../lib/kdeproject_component'
 require_relative '../lib/aptly-ext/filter'
 require_relative '../lib/aptly-ext/package'
 require_relative '../lib/aptly-ext/remote'
@@ -35,6 +36,21 @@ DEBIAN_TO_KDE_NAMES = {
   'libkf5kexiv2' => 'libkexiv2',
   'libkf5kipi' => 'libkipi',
   'libkf5sane' => 'libksane5',
+  'kpim6-incidenceeditor' => 'incidenceeditor',
+  'kpim6-pimcommon' => 'pimcommon',
+  'kpim6-mailcommon' => 'mailcommon',
+  'kpim6-mailimporter' => 'mailimporter',
+  'kpim6-calendarsupport' => 'calendarsupport',
+  'kpim6-grantleetheme' => 'grantleetheme',
+  'kpim6-libkleo' => 'libkleo',
+  'kpim6-libkdepim' => 'libkdepim',
+  'kpim6-eventviews' => 'eventviews',
+  'kpim6-libksieve' => 'libksieve',
+  'kpim6-libgravatar' => 'libgravatar',
+  'kpim6-messagelib' => 'messagelib',
+  'kpim6-libkgapi' => 'libkgapi',
+  'libkf5kipi' => 'libkipi',
+  'kio-extras5' => 'kio-extras-kf5',
 
   # frameworks
   'attica-kf5' => 'attica',
@@ -56,6 +72,12 @@ DEBIAN_TO_KDE_NAMES = {
   # even accomplish...
   'ktp-kded-integration-module' => 'ktp-kded-module'
 }
+
+kf6 = KDEProjectsComponent.kf6
+kf6_debian_to_kde_names = {}
+kf6.each do |framework|
+  kf6_debian_to_kde_names[framework] = framework.gsub('kf6-','')
+end
 
 # Sources that we do not package for some reason. Should be documented why!
 BLACKLIST = [
@@ -137,6 +159,7 @@ Aptly::Ext::Remote.neon do
 
     # map debian names to kde names so we can easily compare things
     by_name = by_name.collect { |k, v| [DEBIAN_TO_KDE_NAMES.fetch(k, k), v] }.to_h
+    by_name = by_name.collect { |k, v| [kf6_debian_to_kde_names.fetch(k, k), v] }.to_h
 
     # Hash the packages by their versions, take the versions and sort them
     # to get the latest available version of the specific package at hand.

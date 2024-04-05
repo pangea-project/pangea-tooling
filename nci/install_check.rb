@@ -47,5 +47,13 @@ snapshots.keep_if { |x| x.Name.start_with?(REPO_KEY) }
 target = AptlyRepository.new(snapshots[-1], 'user')
 target.purge_exclusion << 'neon-settings' << 'libseccomp2' << 'neon-adwaita' << 'libdrm2' << 'libdrm-dev' << 'libdrm-common' << 'libdrm-test' << 'libdrm2-udeb' << 'libdrm-intel' << 'libdrm-radeon1' << 'libdrm-common' << 'libdrm-intel1' << 'libdrm-amdgpu1' << 'libdrm-tests' << 'libdrm-nouveau2'
 
+# Mark all packages essential such that they can't be uninstalled by accident.
+path = '/etc/apt/apt.conf.d/essentials'
+File.write(path, <<-CONF)
+pkgCacheGen::ForceEssential {
+  #{target.purge_exclusion.map { |x| "\"#{x}\"" }.join(';')};
+};
+CONF
+
 checker = InstallCheck.new
 checker.run(proposed, target)
