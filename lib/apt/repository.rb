@@ -21,6 +21,8 @@
 # Technically this requires apt.rb but that'd be circular, so we'll only
 # require it in when a repo is constructed. This makes it a lazy require.
 
+require 'tty/command'
+
 module Apt
   # Represents a repository
   class Repository
@@ -45,10 +47,17 @@ module Apt
 
     # Add Repository to sources.list
     def add
+      unless ENV['PANGEA_UNDER_TEST'] # Hello this is a hack to not update the tests
+        self.class.send(:install_add_apt_repository)
+      end
       args = [] + @default_args
       args << '-y'
       args << @name
-      system('add-apt-repository', *args)
+      if ENV['PANGEA_UNDER_TEST'] # Hello this is a hack to not update the tests
+        system('add-apt-repository', *args)
+      else
+        TTY::Command.new.run!('add-apt-repository', *args).success?
+      end
     end
 
     # (see #remove)
@@ -58,11 +67,18 @@ module Apt
 
     # Remove Repository from sources.list
     def remove
+      unless ENV['PANGEA_UNDER_TEST'] # Hello this is a hack to not update the tests
+        self.class.send(:install_add_apt_repository)
+      end
       args = [] + @default_args
       args << '-y'
       args << '-r'
       args << @name
-      system('add-apt-repository', *args)
+      if ENV['PANGEA_UNDER_TEST'] # Hello this is a hack to not update the tests
+        system('add-apt-repository', *args)
+      else
+        TTY::Command.new.run!('add-apt-repository', *args).success?
+      end
     end
 
     class << self
@@ -78,7 +94,7 @@ module Apt
       def add_apt_repository_installed?
         return @add_apt_repository_installed if ENV['PANGEA_UNDER_TEST']
 
-        @add_apt_repository_installed ||= marker_exist?
+        marker_exist?
       end
 
       # Own method so we can mocha this check! Do not merge into other method.

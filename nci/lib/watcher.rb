@@ -100,6 +100,7 @@ module NCI
       # automatically
       @job_is_kde_released ||= begin
         released_products = KDEProjectsComponent.frameworks_jobs +
+                            KDEProjectsComponent.kf6_jobs +
                             KDEProjectsComponent.plasma_jobs +
                             KDEProjectsComponent.gear_jobs
         job_project = ENV['JOB_NAME'].split('_')[-1]
@@ -270,14 +271,15 @@ module NCI
     end
 
     def send_product_mail
-      puts 'KDE Plasma/Gear/Framework watcher should be run manually not by timer, quitting'
+      puts 'KDE Plasma/Gear/Framework5/Framework6 watcher should be run manually not by timer, quitting'
 
       # Take first package from each product and send e-mail for only that
       # one to stop spam
-      frameworks_package = KDEProjectsComponent.frameworks[0]
+      frameworks5_package = KDEProjectsComponent.frameworks[0]
+      frameworks6_package = KDEProjectsComponent.kf6[0]
       plasma_package = KDEProjectsComponent.plasma[0]
       gear_package = KDEProjectsComponent.gear[0]
-      product_packages = [frameworks_package, plasma_package, gear_package]
+      product_packages = [frameworks6_package, frameworks5_package, plasma_package, gear_package]
       return if product_packages.none? { |package| ENV['JOB_NAME'].end_with?("_#{package}") }
 
       puts 'sending notification mail'

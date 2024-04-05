@@ -9,6 +9,7 @@ require 'erb'
 require 'jenkins_junit_builder'
 require 'net/sftp'
 
+require_relative '../lib/kdeproject_component'
 require_relative '../lib/aptly-ext/filter'
 require_relative '../lib/aptly-ext/package'
 require_relative '../lib/aptly-ext/remote'
@@ -17,27 +18,23 @@ require_relative 'version_list/violations'
 S_IROTH = 0o4 # posix bitmask for world readable
 
 DEBIAN_TO_KDE_NAMES = {
-  'libkf5incidenceeditor' => 'incidenceeditor',
-  'libkf5pimcommon' => 'pimcommon',
-  'libkf5mailcommon' => 'mailcommon',
-  'libkf5mailimporter' => 'mailimporter',
-  'libkf5calendarsupport' => 'calendarsupport',
-  'libkf5kmahjongg' => 'libkmahjongg',
-  'libkf5grantleetheme' => 'grantleetheme',
-  'libkf5libkleo' => 'libkleo',
-  'libkf5libkdepim' => 'libkdepim',
-  'libkf5eventviews' => 'eventviews',
-  'libkf5sane' => 'libksane',
-  'libkf5kexiv2' => 'libkexiv2',
-  'kf5-kdepim-apps-libs' => 'kdepim-apps-libs',
-  'libkf5ksieve' => 'libksieve',
-  'libkf5gravatar' => 'libgravatar',
-  'kf5-messagelib' => 'messagelib',
-  'libkf5kgeomap' => 'libkgeomap',
-  'libkf5kdcraw' => 'libkdcraw',
+  'kpim6-incidenceeditor' => 'incidenceeditor',
+  'kpim6-pimcommon' => 'pimcommon',
+  'kpim6-mailcommon' => 'mailcommon',
+  'kpim6-mailimporter' => 'mailimporter',
+  'kpim6-calendarsupport' => 'calendarsupport',
+  'kpim6-grantleetheme' => 'grantleetheme',
+  'kpim6-libkleo' => 'libkleo',
+  'kpim6-libkdepim' => 'libkdepim',
+  'kpim6-eventviews' => 'eventviews',
+  'kpim6-libksieve' => 'libksieve',
+  'kpim6-libgravatar' => 'libgravatar',
+  'kpim6-messagelib' => 'messagelib',
+  'kpim6-libkgapi' => 'libkgapi',
   'kde-spectacle' => 'spectacle',
   'libkf5kipi' => 'libkipi',
   'kdeconnect' => 'kdeconnect-kde',
+  'kio-extras5' => 'kio-extras-kf5',
 
   # frameworks
   'kactivities-kf5' => 'kactivities',
@@ -62,6 +59,12 @@ DEBIAN_TO_KDE_NAMES = {
   'ktp-kded-integration-module' => 'ktp-kded-module'
 }
 
+kf6 = KDEProjectsComponent.kf6
+kf6_debian_to_kde_names = {}
+kf6.each do |framework|
+  kf6_debian_to_kde_names[framework] = framework.gsub('kf6-','')
+end
+
 # Sources that we do not package for some reason. Should be documented why!
 BLACKLIST = [
   # Not actually useful for anything in production. It's a repo with tests.
@@ -69,7 +72,8 @@ BLACKLIST = [
   'kfloppy',   # dead project removed next release
   'kdev-python',
   'kalendar',   # is now merkuno and reports as conflicting with kcalendarcore
-  'kopete' # removed in 24.02
+  'kopete', # removed in 24.02
+  'libkgapi' # we package an old version
 ]
 
 # Maps "key" packages to a release scope. This way we can identify what version
@@ -141,6 +145,7 @@ Aptly::Ext::Remote.neon do
 
     # map debian names to kde names so we can easily compare things
     by_name = by_name.collect { |k, v| [DEBIAN_TO_KDE_NAMES.fetch(k, k), v] }.to_h
+    by_name = by_name.collect { |k, v| [kf6_debian_to_kde_names.fetch(k, k), v] }.to_h
 
     # Hash the packages by their versions, take the versions and sort them
     # to get the latest available version of the specific package at hand.
