@@ -248,6 +248,8 @@ rebuild of *all* related sources (e.g. all of Qt) *after* all sources have built
     end
 
     def arch_bin_only?
+      control = Debian::Control.new(Dir.pwd)
+      control.parse!
       if control.source.fetch('Source').start_with?('qt6-')
         value = ENV.fetch('PANGEA_ARCH_BIN_ONLY', 'false')
       else
