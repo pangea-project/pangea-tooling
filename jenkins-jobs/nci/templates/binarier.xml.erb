@@ -74,6 +74,10 @@ export PANGEA_CROSS=<%= cross_architecture %>
 export PANGEA_QT_GIT_BUILD=1
 <% end %>
 
+<% if qt6_build %>
+export PANGEA_ARCH_BIN_ONLY=false
+<% end %>
+
 ~/tooling/nci/contain.rb /tooling/nci/builder.rb $JOB_NAME `pwd`
 
 # ADT will mangle after copying to /workspace so bind the workspace
