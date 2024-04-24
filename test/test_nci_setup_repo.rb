@@ -91,7 +91,7 @@ class NCISetupRepoTest < TestCase
 
     system_calls += [
       ['apt-get', *Apt::Abstrapt.default_args, 'update'],
-      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools', 'pkg-kde-tools-neon', 'debhelper', 'cmake', 'quilt', 'dh-python', 'dh-translations']
+      ['apt-get', *Apt::Abstrapt.default_args, 'install', 'pkg-kde-tools', 'debhelper', 'cmake', 'quilt', 'dh-python', 'dh-translations']
     ]
 
     system_sequence = sequence('system-calls')
