@@ -28,7 +28,6 @@ module Lint
   # A QML linter
   class QML
     def initialize(type, dist)
-      type = 'testing' if type == 'stable'
       @type = type.tr('-', '/')
       @repo = "#{type}_#{dist}"
       @missing_modules = []
@@ -40,9 +39,6 @@ module Lint
 
       # testing editions's aptly repo is called stable_foo for now
       repo = @repo
-      repo = 'stable_bionic' if repo == 'testing_bionic'
-      repo = 'stable_focal' if repo == 'testing_focal'
-      repo = 'stable_jammy' if repo == 'testing_jammy'
       aptly_repo = Aptly::Repository.get(repo)
       qml_repo = ChangesSourceFilterAptlyRepository.new(aptly_repo, @type)
       verifier = QMLDependencyVerifier.new(qml_repo)
