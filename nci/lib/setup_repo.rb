@@ -179,12 +179,15 @@ APT::Default-Release "#{setup_repo_codename}";
 
     def type_to_repo(type)
       # rename editions but not (yet) renamed the job type
+      puts "XXX type_to_repo"
       type = 'testing' if type == 'stable'
       type.tr('-', '/')
     end
 
     def debline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
       repo = type_to_repo(type)
+      puts "XXX #{repo}"
+      puts caller
 
       if NCI.divert_repo?(repo)
         return format('deb http://archive.neon.kde.org/tmp/%<repo>s %<dist>s main',
