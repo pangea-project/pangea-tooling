@@ -40,6 +40,7 @@ module Lint
       # testing editions's aptly repo is called stable_foo for now
       repo = @repo
       aptly_repo = Aptly::Repository.get(repo)
+      @type = 'testing' if @type == 'stable'
       qml_repo = ChangesSourceFilterAptlyRepository.new(aptly_repo, @type)
       puts "XXX #{qml_repo}"
       verifier = QMLDependencyVerifier.new(qml_repo)
