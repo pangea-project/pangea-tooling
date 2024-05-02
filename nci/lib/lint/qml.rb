@@ -42,7 +42,6 @@ module Lint
       aptly_repo = Aptly::Repository.get(repo)
       @type = 'testing' if @type == 'stable'
       qml_repo = ChangesSourceFilterAptlyRepository.new(aptly_repo, @type)
-      puts "XXX #{qml_repo}"
       verifier = QMLDependencyVerifier.new(qml_repo)
       @missing_modules = verifier.missing_modules
       return if @missing_modules.empty?
