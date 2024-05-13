@@ -1,0 +1,164 @@
+fancyNode('master') {
+  stage('jewels') {
+    build job: 'mgmt_git-jeweller', quietPeriod: 0
+  }
+  stage('clone') {
+    git 'https://github.com/pangea-project/pangea-tooling.git'
+    sh './git_submodule_setup.sh'
+  }
+
+  stage('prepare') {
+    sh label: 'bundle', script: '''
+export GEM_HOME=$(ruby -r rubygems -e \'puts Gem.user_dir\')
+export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
+export PATH=$GEM_HOME/bin:$PATH
+
+rm Gemfile.lock || true
+
+gem install --no-document bundler
+# Put all relevant architectures into the Gemfile.lock otherwise the
+# install might crap on the hosts later on.
+bundle lock --add-platform x86_64-linux
+bundle lock --add-platform arm-linux
+bundle lock --add-platform aarch64-linux
+bundle pack --all-platforms --no-install
+# Strip directories out of the cache.
+# Git sources are left in there unpacked which prevents them from being installed into the system path.
+find ./vendor/cache/* -maxdepth 0 -type d | xargs rm -rf
+
+rm tooling.tar.gz || true
+tar -cp * .noexec.yml .rubocop.yml | gzip --rsyncable -1 > tooling.tar.gz
+'''
+
+    stash includes: 'tooling.tar.gz', name: 'tooling.tar.gz'
+  }
+
+  stage('test') {
+    ws { // open a second ws to not pollute the main (persistent) ws
+      withCleanup {
+        unstash 'tooling.tar.gz'
+        try {
+          sh label: 'rake test', script: '''
+export GEM_HOME=$(ruby -r rubygems -e \'puts Gem.user_dir\')
+export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
+export PATH=$GEM_HOME/bin:$PATH
+
+pwd
+
+tar -xf *.tar.gz
+
+gem install --no-document bundler
+bundle install --jobs=`nproc` --no-cache --local --frozen --system
+
+rake test
+rake cloc
+rake rubocop
+'''
+        } finally {
+          // always record reports not having reports on failures is daft
+          junit 'test/reports/*.xml'
+          // Kaput with pipelines
+          // step([$class: 'RcovPublisher', targets: []])
+          sloccountPublish pattern: 'cloc.xml'
+        }
+      }
+    }
+  }
+}
+
+stage('deploy') {
+  def nodes = nodesForDeployment()
+  echo "Goinjg to deploy on '${nodes}'\n"
+
+  def deployments = [:]
+  nodes.each { name ->
+    deployments[name] = {
+      cleanNode(name) {
+        unstash 'tooling.tar.gz'
+        sh label: 'deployment', script: '''
+export GEM_HOME=$(ruby -r rubygems -e \'puts Gem.user_dir\')
+export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
+export PATH=$GEM_HOME/bin:$PATH
+
+hostname
+pwd
+
+tar -xf *.tar.gz
+
+rm -rv .bundle || true
+gem install --no-document bundler
+# FIXME: add --without development test back
+# https://github.com/pangea-project/pangea-tooling/issues/17
+bundle install --jobs=`nproc` --no-cache --local --frozen --system
+rm -rv .bundle || true
+
+rake clean
+rake deploy
+
+find ~/tooling-pending/vendor/cache/* -maxdepth 0 -type d | xargs -r rm -rv
+'''
+      }
+    }
+  }
+
+  parallel deployments
+
+  build job: 'mgmt_docker', quietPeriod: 0, wait: false
+}
+
+// @return list of node names for deployment to
+// @warning this needs Groovy Sandbox turned off!
+def nodesForDeployment() {
+  def labels = ['amd64', 'amd64-neon', 'armhf', 'aarch64', 'master']
+  // Collect nodes for which *any* label is contained in the label list.
+  nodes = jenkins.model.Jenkins.instance.nodes.collect {
+    node -> ((node.assignedLabels.any { element -> labels.contains(element.name) } &&
+              node.assignedLabels.every { element -> element.name != 'shared-node' })
+             ? node.name
+             : null)
+  }
+  nodes = nodes - null
+
+  if (nodes.isEmpty()) {
+    error("nodesForDeployment found no nodes!") // Opinionated requirement for xenon!
+  }
+
+  // master is not part of the nodes list, add it manually
+  // https://javadoc.jenkins.io/jenkins/model/Jenkins.html#getNodes--
+  return nodes << 'master'
+}
+
+def withCleanup(body) {
+  try {
+    body()
+  } finally {
+    cleanWs()
+  }
+}
+
+def withFancyWrap(body) {
+  wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+    wrap([$class: 'TimestamperBuildWrapper']) {
+      body()
+    }
+  }
+}
+
+def fancyNode(label = null, body) {
+  node(label) {
+    withFancyWrap {
+      body()
+    }
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir()
+    withCleanup {
+      withFancyWrap {
+        body()
+      }
+    }
+  }
+}

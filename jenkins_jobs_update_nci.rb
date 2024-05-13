@@ -440,6 +440,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                          type: 'unstable',
                                          dist: NCI.future_series))
     end
+    jeweller = enqueue(MGMTGitJewellerJob.new)
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsPruneOld.new)
     enqueue(MGMTJenkinsJobScorer.new)
