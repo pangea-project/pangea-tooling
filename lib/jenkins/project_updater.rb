@@ -192,8 +192,6 @@ Check the detailed output to find output relating to the failed creation of the 
     # jenkins for no good reason.
     def standard_plugins
       %w[
-        greenballs
-        simple-theme-plugin
       ]
     end
 
