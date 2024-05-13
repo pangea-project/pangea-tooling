@@ -10,6 +10,7 @@ require_relative '../binarier'
 # binary builder
 class BinarierJob
   attr_accessor :qt_git_build
+  attr_accessor :qt6_build
 
   # Monkey patch cores in
   def cores

@@ -59,7 +59,7 @@ module NCI
     # Make sure we have the latest pkg-kde-tools, not whatever is in the image.
     return unless with_install
 
-    raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools pkg-kde-tools-neon debhelper cmake quilt dh-python dh-translations])
+    raise 'failed to install deps' unless Apt.install(%w[pkg-kde-tools debhelper cmake quilt dh-python dh-translations])
 
     # Qt6 Hack
     return unless %w[_qt6_bin_ _qt6_src].any? do |x|
@@ -179,12 +179,15 @@ APT::Default-Release "#{setup_repo_codename}";
 
     def type_to_repo(type)
       # rename editions but not (yet) renamed the job type
+      puts "XXX type_to_repo"
       type = 'testing' if type == 'stable'
       type.tr('-', '/')
     end
 
     def debline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
       repo = type_to_repo(type)
+      puts "XXX #{repo}"
+      puts caller
 
       if NCI.divert_repo?(repo)
         return format('deb http://archive.neon.kde.org/tmp/%<repo>s %<dist>s main',
