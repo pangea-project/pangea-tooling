@@ -40,8 +40,6 @@ gem install --no-document bundler
 # FIXME: add --without development test back
 # https://github.com/pangea-project/pangea-tooling/issues/17
 bundle config set --local system 'true'
-gem update --system
-bundle update --bundler
 bundle install --jobs=`nproc`
 rm -rv .bundle || true
 
