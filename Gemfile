@@ -15,6 +15,7 @@ source 'https://gem.cache.pangea.pub/'
 gem 'activesupport', '>= 6.0.3.1'
 gem 'aptly-api', '~> 0.10'
 gem 'bencode' # for torrent generation
+gem 'bundler', '=2.5.9' #2.5.10 breaks rake test
 gem 'concurrent-ruby'
 gem 'deep_merge', '~> 1.0'
 gem 'docker-api', '~> 2.0' # Container.refresh! only introduced in 1.23
