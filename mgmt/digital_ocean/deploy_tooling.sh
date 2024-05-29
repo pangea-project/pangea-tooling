@@ -42,7 +42,7 @@ gem install --no-document bundler:2.5.9
 # FIXME: add --without development test back
 # https://github.com/pangea-project/pangea-tooling/issues/17
 bundle config set --local system 'true'
-bundle _2.5.9_ --jobs=`nproc`
+bundle install _2.5.9_ --jobs=`nproc`
 rm -rv .bundle || true
 
 rake clean
