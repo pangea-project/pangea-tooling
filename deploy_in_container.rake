@@ -284,7 +284,9 @@ update: --no-document
       # Force in case the found bundler was installed for a different version.
       # Otherwise rubygems will raise an error when attempting to overwrite the
       # bin.
-      sh 'gem install --force bundler'
+      sh 'gem uninstall bundler:2.5.10'
+      sh 'gem uninstall bundler:2.5.11'
+      sh 'gem install --force bundler:2.5.9'
     rescue Gem::LoadError
       Gem.install('bundler')
     end

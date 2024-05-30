@@ -36,11 +36,13 @@ cd /tmp/tooling
 
 ## from  mgmt_tooling_deploy.xml
 rm -rv .bundle || true
-gem install --no-document bundler --version 2.5.9
+gem uninstall bundler:2.5.11
+gem uninstall bundler:2.5.10
+gem install --no-document bundler:2.5.9
 # FIXME: add --without development test back
 # https://github.com/pangea-project/pangea-tooling/issues/17
 bundle config set --local system 'true'
-bundle install --jobs=`nproc`
+bundle _2.5.9_ install --jobs=`nproc`
 rm -rv .bundle || true
 
 rake clean
