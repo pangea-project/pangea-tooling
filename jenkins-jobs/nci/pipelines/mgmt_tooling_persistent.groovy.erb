@@ -15,7 +15,7 @@ export PATH=$GEM_HOME/bin:$PATH
 rm Gemfile.lock || true
 
 gem install --no-document --version 2.5.9 bundler
-gem uninstall --version 2.5.10 bundler
+gem uninstall --version 2.5.11 bundler
 # Put all relevant architectures into the Gemfile.lock otherwise the
 # install might crap on the hosts later on.
 bundle lock --add-platform x86_64-linux
