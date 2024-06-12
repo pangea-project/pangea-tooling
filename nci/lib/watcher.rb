@@ -196,7 +196,7 @@ module NCI
       # the command, meaning we can't just use changelog.new_version :|
       cmd.run(*dch)
 
-    def bump_version_future
+    def bump_version_future_is_early
       changelog = Changelog.new(Dir.pwd)
       version = Debian::Version.new(changelog.version)
       version.upstream = newest_version
@@ -270,13 +270,22 @@ module NCI
         #end
       #end
 
-      bump_version
-      cmd.run('git --no-pager diff')
-      cmd.run("git commit -a -vv -m 'New release'")
-
-      bump_version_future
-      cmd.run('git --no-pager diff')
-      cmd.run("git commit -a -vv -m 'New release'")
+      # check if future_is_early and make sure correct series is applied and
+      # bump both release_* branches if required
+      if NCI.future_is_early == 'false'
+        bump_version
+        cmd.run('git --no-pager diff')
+        cmd.run("git commit -a -vv -m 'New release'")
+      else
+        bump_version_future_is_early
+        cmd.run('git --no-pager diff')
+        cmd.run("git commit -a -vv -m 'New release'")
+        # checkout current series branch and bump
+        cmd.run("git checkout Neon/release_#{current_series}")
+        bump_version
+        cmd.run('git --no-pager diff')
+        cmd.run("git commit -a -vv -m 'New release'")
+      end
 
       send_mail
 
