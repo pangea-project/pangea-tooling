@@ -263,7 +263,7 @@ module NCI
       # check if future_is_early and make sure correct series is applied and
       # bump both release_* branches if required
 
-      if NCI.future_is_early
+      if NCI.future_series
         bump_version(NCI.future_series)
         cmd.run('git --no-pager diff')
         cmd.run("git commit -a -vv -m 'New release'")
