@@ -319,7 +319,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         mobile_isoargs = standard_args.merge(
           type: 'mobile',
-          neonarchive: 'unstable',
+          neonarchive: 'user',
           cronjob: 'H H * * 0',
           metapackage: 'plasma-phone'
         )
