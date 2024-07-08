@@ -34,7 +34,7 @@ end
 if $PROGRAM_NAME == __FILE__ || ENV.include?('PANGEA_TEST_EXECUTION')
   # SSH tunnel so we can talk to the repo
   Faraday.default_connection_options =
-    Faraday::ConnectionOptions.new(timeout: 15 * 60)
+    Faraday::ConnectionOptions.new({timeout: 15 * 60})
   Aptly::Ext::Remote.neon do
     RepoCleaner.clean(%w[unstable stable] +
                       RepoNames.all('unstable') + RepoNames.all('stable'),
