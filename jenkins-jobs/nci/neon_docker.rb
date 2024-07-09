@@ -29,6 +29,7 @@ class NeonDockerJob < PipelineJob
   attr_reader :imagename
   attr_reader :neonarchive
   attr_reader :cronjob
+  attr_reader :is_future
 
   def initialize(type:, distribution:, architecture:, metapackage:, imagename:,
                  neonarchive:, cronjob:)
@@ -41,5 +42,6 @@ class NeonDockerJob < PipelineJob
     @imagename = imagename
     @neonarchive = neonarchive
     @cronjob = cronjob
+    @is_future = is_future
   end
 end

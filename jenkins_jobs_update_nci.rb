@@ -261,13 +261,14 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
       # ISOs
       NCI.architectures.each do |architecture|
+        is_future = distribution == NCI.future_series
         standard_args = {
           imagename: 'neon',
           distribution: distribution,
           architecture: architecture,
-          metapackage: 'neon-desktop'
+          metapackage: 'neon-desktop',
+          is_future: is_future
         }.freeze
-        is_future = distribution == NCI.future_series
 
         dev_unstable_isoargs = standard_args.merge(
           type: 'unstable',
