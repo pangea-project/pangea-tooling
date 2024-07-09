@@ -302,7 +302,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         release_release_isoargs = standard_args.merge(
           type: 'release',
-          neonarchive: is_future ? 'release' : 'user',
           cronjob: 'H H * * 3'
         )
         enqueue(NeonIsoJob.new(**release_release_isoargs))
