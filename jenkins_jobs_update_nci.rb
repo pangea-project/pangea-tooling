@@ -261,22 +261,24 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
       # ISOs
       NCI.architectures.each do |architecture|
-        is_future = distribution == NCI.future_series
         standard_args = {
           imagename: 'neon',
           distribution: distribution,
           architecture: architecture,
-          metapackage: 'neon-desktop',
-          is_future: is_future
+          metapackage: 'neon-desktop'
         }.freeze
+        is_future = distribution == NCI.future_series
 
         dev_unstable_isoargs = standard_args.merge(
           type: 'unstable',
           neonarchive: 'unstable',
           cronjob: 'H H * * 0'
         )
+        dev_unstable_dockerargs = dev_unstable_isoargs.merge(
+          is_future: is_future
+        )
         enqueue(NeonIsoJob.new(**dev_unstable_isoargs))
-        enqueue(NeonDockerJob.new(**dev_unstable_isoargs))
+        enqueue(NeonDockerJob.new(**dev_unstable_dockerargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'unstable')))
 
         # Only make unstable ISO for the next series while in early mode.
@@ -287,8 +289,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           neonarchive: 'unstable',
           cronjob: 'H H * * 1'
         )
+        dev_unstable_dev_dockerargs = dev_unstable_dev_isoargs.merge(
+          is_future: is_future
+        )
         enqueue(NeonIsoJob.new(**dev_unstable_dev_isoargs))
-        enqueue(NeonDockerJob.new(**dev_unstable_dev_isoargs))
+        enqueue(NeonDockerJob.new(**dev_unstable_dev_dockerargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'developer')))
 
         dev_stable_isoargs = standard_args.merge(
@@ -296,8 +301,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           neonarchive: 'testing',
           cronjob: 'H H * * 2'
         )
+        dev_stable_dockerargs = dev_stable_isoargs.merge(
+          is_future: is_future
+        )
         enqueue(NeonIsoJob.new(**dev_stable_isoargs))
-        enqueue(NeonDockerJob.new(**dev_stable_isoargs))
+        enqueue(NeonDockerJob.new(**dev_stable_dockerargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'testing')))
 
         release_release_isoargs = standard_args.merge(
@@ -312,8 +320,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           neonarchive: is_future ? 'release' : 'user',
           cronjob: 'H H * * 4'
         )
+        user_release_dockerargs = user_release_isoargs.merge(
+          is_future: is_future
+        )
         enqueue(NeonIsoJob.new(**user_release_isoargs))
-        enqueue(NeonDockerJob.new(**user_release_isoargs))
+        enqueue(NeonDockerJob.new(**user_release_dockerargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'user')))
 
         ko_user_release_isoargs = standard_args.merge(
