@@ -32,7 +32,7 @@ class NeonDockerJob < PipelineJob
   attr_reader :is_future
 
   def initialize(type:, distribution:, architecture:, metapackage:, imagename:,
-                 neonarchive:, cronjob:)
+                 neonarchive:, cronjob:, is_future:)
     super("docker_#{imagename}_#{distribution}_#{type}_#{architecture}",
           template: 'neon_docker', cron: cronjob, with_push_trigger: false)
     @type = type
