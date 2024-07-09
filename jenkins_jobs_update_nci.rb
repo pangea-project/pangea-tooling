@@ -300,6 +300,13 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(NeonDockerJob.new(**dev_stable_isoargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'testing')))
 
+        release_release_isoargs = standard_args.merge(
+          type: 'release',
+          neonarchive: is_future ? 'release',
+          cronjob: 'H H * * 3'
+        )
+        enqueue(NeonIsoJob.new(**release_release_isoargs))
+
         user_release_isoargs = standard_args.merge(
           type: 'user',
           neonarchive: is_future ? 'release' : 'user',
