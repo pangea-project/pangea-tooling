@@ -82,9 +82,9 @@ module WorkspaceCleaner
         puts '  ws-cleanup => delete'
         return true
       end
-       # Never delete current or future (series) mgmt workspaces.
+      # Never delete current or future (series) mgmt workspaces.
       # Too dangerous as they are persistent.
-      if workspace.include?('mgmt_#{NCI.current_series}' or 'mgmt_#{NCI.future_series}')
+      if workspace.include?("mgmt_#{NCI.current_series}") || workspace.include?("mgmt_#{NCI.future_series}")
         puts '  mgmt => nodelete'
         return false
       end
