@@ -49,8 +49,12 @@ class NCIWorkspaceCleanerTest < TestCase
     datetime_now = DateTime.now
     mkdir("mgmt_#{NCI.current_series}_5_days_old", datetime_now - 5)
     mkdir("mgmt_cnf_#{NCI.current_series}_6_days_old", datetime_now - 6)
-    mkdir("mgmt_cnf_#{NCI.future_series}_7_days_old", datetime_now - 7)
-    mkdir("mgmt_cnf_#{NCI.old_series}_125_days_old", datetime_now - 125)
+    if NCI.future_series
+      mkdir("mgmt_cnf_#{NCI.future_series}_7_days_old", datetime_now - 7)
+    end
+    if NCI.old_series
+      mkdir("mgmt_cnf_#{NCI.old_series}_125_days_old", datetime_now - 125)
+    end
     mkdir('mgmt_cnf_focal_2_days_old', datetime_now - 2)
     mkdir('3_days_old', datetime_now - 3)
     mkdir('1_day_old', datetime_now - 1)
