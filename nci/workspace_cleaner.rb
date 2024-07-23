@@ -82,9 +82,21 @@ module WorkspaceCleaner
         puts '  ws-cleanup => delete'
         return true
       end
+      # delete management jobs when they become old
+      if NCI.old_series
+        if workspace.include?("#{NCI.old_series}")
+          puts "  mgmt_++_#{NCI.old_series} => delete"
+          return true
+        end
+      end
+      # hack to delete ancient existing focal workspaces
+      if workspace.include?('focal')
+        puts '  mgmt_++_focal => delete'
+        return true
+      end
       # Never delete current or future (series) mgmt workspaces.
       # Too dangerous as they are persistent.
-      if workspace.include?("mgmt_#{NCI.current_series}") || workspace.include?("mgmt_#{NCI.future_series}")
+      if workspace.include?('mgmt_')
         puts '  mgmt => nodelete'
         return false
       end
