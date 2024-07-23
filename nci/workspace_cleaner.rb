@@ -82,14 +82,15 @@ module WorkspaceCleaner
         puts '  ws-cleanup => delete'
         return true
       end
-      # delete management jobs when they become old
+      # delete mgmt jobs workspaces when they become old 
+      # and are phased out - NCI.old_series
       if NCI.old_series
         if workspace.include?("#{NCI.old_series}")
           puts "  mgmt_++_#{NCI.old_series} => delete"
           return true
         end
       end
-      # hack to delete ancient existing focal workspaces
+      # hack to delete ancient existing focal mgmt job workspaces
       if workspace.include?('focal')
         puts '  mgmt_++_focal => delete'
         return true
