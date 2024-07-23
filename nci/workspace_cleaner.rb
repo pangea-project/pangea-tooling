@@ -85,13 +85,13 @@ module WorkspaceCleaner
       # delete mgmt jobs workspaces when they become old 
       # and are phased out - NCI.old_series
       if NCI.old_series
-        if workspace.include?("#{NCI.old_series}")
+        if workspace.include?('mgmt_') && workspace.include?("#{NCI.old_series}")
           puts "  mgmt_++_#{NCI.old_series} => delete"
           return true
         end
       end
-      # hack to delete ancient existing focal mgmt job workspaces
-      if workspace.include?('focal')
+      # hack to delete ancient existing focal workspaces
+      if workspace.include?('mgmt_') && workspace.include?('focal')
         puts '  mgmt_++_focal => delete'
         return true
       end
