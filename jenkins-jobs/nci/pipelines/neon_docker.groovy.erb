@@ -4,32 +4,46 @@ env.TYPE='<%= type %>'
 env.METAPACKAGE='<%= metapackage %>'
 env.IMAGENAME='<%= imagename %>'
 env.NEONARCHIVE='<%= neonarchive %>'
+
 <%
-# FIXME update when noble is no longer future
-tag = type
-if is_future
-  tag = type + "_noble"
-end
+  tag = type
+  if is_future == distribution
+    tag = type + "_<%= distribution %>"
+  end
 %>
 
 cleanNode('amd64-iso') {
-  stage('clone') {
-  <% if type == 'user' and not is_future %>
-    git branch: "Neon/release_jammy", url: "https://invent.kde.org/neon/docker-images.git"
-  <% elsif type == 'testing' and not is_future %>
-    git branch: "Neon/stable_jammy", url: "https://invent.kde.org/neon/docker-images.git"
-  <% elsif type == 'developer' and not is_future %>
-    git branch: "Neon/unstable-development_jammy", url: "https://invent.kde.org/neon/docker-images.git"
-  <% if type == 'user' and is_future %>
-    git branch: "Neon/release", url: "https://invent.kde.org/neon/docker-images.git"
-  <% elsif type == 'testing' and is_future %>
-    git branch: "Neon/stable", url: "https://invent.kde.org/neon/docker-images.git"
-  <% elsif type == 'developer' and is_future %>
-    git branch: "Neon/unstable-development", url: "https://invent.kde.org/neon/docker-images.git"
-  <% elsif not is_future %>
-    git branch: "Neon/<%= type %>", url: "https://invent.kde.org/neon/docker-images.git"
-  <% else %>
-    git branch: "Neon/<%= type %>_jammy", url: "https://invent.kde.org/neon/docker-images.git"
+  stage('clone')
+  <% if not is_future %>
+    <% if type == 'user' %>
+      git branch: "Neon/release", url: "https://invent.kde.org/neon/docker-images.git"
+    <% elsif type == 'testing' %>
+      git branch: "Neon/stable", url: "https://invent.kde.org/neon/docker-images.git"
+    <% elsif type == 'developer' %>
+      git branch: "Neon/unstable-development", url: "https://invent.kde.org/neon/docker-images.git"
+    <% elsif >
+      git branch: "Neon/<%= type %>", url: "https://invent.kde.org/neon/docker-images.git"
+    <% end %>
+  <% elsif is_future == distribution %>
+    <% if type == 'user' %>
+      git branch: "Neon/release", url: "https://invent.kde.org/neon/docker-images.git"
+    <% elsif type == 'testing'  %>
+      git branch: "Neon/stable", url: "https://invent.kde.org/neon/docker-images.git"
+    <% elsif type == 'developer' %>
+      git branch: "Neon/unstable-development", url: "https://invent.kde.org/neon/docker-images.git"
+    <% elsif >
+      git branch: "Neon/<%= type %>", url: "https://invent.kde.org/neon/docker-images.git"
+    <% end %>
+  <% elsif is_future !== distribution %>
+    <% if type == 'user' %>
+      git branch: "Neon/release_<%= distribution %>", url: "https://invent.kde.org/neon/docker-images.git"
+    <% elsif type == 'testing' %>
+      git branch: "Neon/stable_<%= distribution %>" url: "https://invent.kde.org/neon/docker-images.git"
+    <% elsif type == 'developer' %>
+      git branch: "Neon/unstable-development_<%= distribution %>", url: "https://invent.kde.org/neon/docker-images.git"
+    <% elsif not is_future %>
+      git branch: "Neon/<%= type %>_<%= distribution %>", url: "https://invent.kde.org/neon/docker-images.git"
+    <% end %>
   <% end %>
   }
 
@@ -52,23 +66,37 @@ cleanNode('amd64-iso') {
 
   stage('clone-all') {
     sh 'rm -rf * .git'
-  <% if type == 'user' and not is_future %>
-    git branch: "Neon/release_jammy", url: "https://invent.kde.org/neon/docker-images.git"
-  <% elsif type == 'testing' and not is_future %>
-    git branch: "Neon/stable_jammy", url: "https://invent.kde.org/neon/docker-images.git"
-  <% elsif type == 'developer' and not is_future %>
-    git branch: "Neon/unstable-development_jammy", url: "https://invent.kde.org/neon/docker-images.git"
-  <% if type == 'user' and is_future %>
-    git branch: "Neon/release", url: "https://invent.kde.org/neon/docker-images.git"
-  <% elsif type == 'testing' and is_future %>
-    git branch: "Neon/stable", url: "https://invent.kde.org/neon/docker-images.git"
-  <% elsif type == 'developer' and is_future %>
-    git branch: "Neon/unstable-development", url: "https://invent.kde.org/neon/docker-images.git"
-  <% elsif not is_future %>
-    git branch: "Neon/<%= type %>", url: "https://invent.kde.org/neon/docker-images.git"
-  <% else %>
-    git branch: "Neon/<%= type %>_jammy", url: "https://invent.kde.org/neon/docker-images.git"
-  <% end %>
+    <% if not is_future %>
+      <% if type == 'user' %>
+        git branch: "Neon/release", url: "https://invent.kde.org/neon/docker-images.git"
+      <% elsif type == 'testing' %>
+        git branch: "Neon/stable", url: "https://invent.kde.org/neon/docker-images.git"
+      <% elsif type == 'developer' %>
+        git branch: "Neon/unstable-development", url: "https://invent.kde.org/neon/docker-images.git"
+      <% elsif >
+        git branch: "Neon/<%= type %>", url: "https://invent.kde.org/neon/docker-images.git"
+      <% end %>
+    <% elsif is_future == distribution %>
+      <% if type == 'user' %>
+        git branch: "Neon/release", url: "https://invent.kde.org/neon/docker-images.git"
+      <% elsif type == 'testing'  %>
+        git branch: "Neon/stable", url: "https://invent.kde.org/neon/docker-images.git"
+      <% elsif type == 'developer' %>
+        git branch: "Neon/unstable-development", url: "https://invent.kde.org/neon/docker-images.git"
+      <% elsif >
+        git branch: "Neon/<%= type %>", url: "https://invent.kde.org/neon/docker-images.git"
+      <% end %>
+    <% elsif is_future !== distribution %>
+      <% if type == 'user' %>
+        git branch: "Neon/release_<%= distribution %>", url: "https://invent.kde.org/neon/docker-images.git"
+      <% elsif type == 'testing' %>
+        git branch: "Neon/stable_<%= distribution %>" url: "https://invent.kde.org/neon/docker-images.git"
+      <% elsif type == 'developer' %>
+        git branch: "Neon/unstable-development_<%= distribution %>", url: "https://invent.kde.org/neon/docker-images.git"
+      <% elsif not is_future %>
+        git branch: "Neon/<%= type %>_<%= distribution %>", url: "https://invent.kde.org/neon/docker-images.git"
+      <% end %>
+    <% end %>
   }
 
   stage('docker-build-all') {
