@@ -54,9 +54,9 @@ module CI
         base_version = base_version.split('ubuntu')
         base_version = base_version[0..-2].join('ubuntu')
       end
-      # Make sure our version exceeds Ubuntu's by prefixing us with an x.
-      # This way -0xneon > -0ubuntu instead of -0neon < -0ubuntu
-      base_version = base_version.gsub('neon', 'xneon')
+      # Make sure our version exceeds Ubuntu's by prefixing us with an xy.
+      # This way -0xyneon > -0ubuntu instead of -0neon < -0ubuntu
+      base_version = base_version.gsub('neon', 'xyneon')
       base_version = "#{base_version}#{@release_version}#{build_suffix}"
       changelog.new_version!(base_version, distribution: @release, message: 'Automatic CI Build')
     end
