@@ -50,7 +50,7 @@ Subject: #{prefix} Snapshot Done
 end
 
 Faraday.default_connection_options =
-  Faraday::ConnectionOptions.new(timeout: 15 * 60)
+  Faraday::ConnectionOptions.new({timeout: 15 * 60})
 
 # SSH tunnel so we can talk to the repo
 Aptly::Ext::Remote.neon do

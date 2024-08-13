@@ -9,6 +9,7 @@ require 'fileutils'
 require 'securerandom'
 
 require_relative '../lib/ci/containment'
+require_relative '../lib/nci'
 
 # A helper to clean up dangling (too old) workspaces that weren't properly
 # cleaned up by Jenkins itself.
@@ -81,8 +82,21 @@ module WorkspaceCleaner
         puts '  ws-cleanup => delete'
         return true
       end
-      # Never delete mgmt workspaces. Too dangerous as they are
-      # persistent.
+      # delete mgmt jobs workspaces when they become old 
+      # and are phased out - NCI.old_series
+      if workspace.include?('mgmt_')
+        if NCI.old_series && workspace.include?(NCI.old_series)
+          puts "  mgmt_++_#{NCI.old_series} => delete"
+          return true
+        end
+        # hack to delete ancient existing focal workspaces
+        if workspace.include?('focal')
+          puts '  mgmt_++_focal => delete'
+          return true
+        end
+      end
+      # Never delete current or future (series) mgmt workspaces.
+      # Too dangerous as they are persistent.
       if workspace.include?('mgmt_')
         puts '  mgmt => nodelete'
         return false

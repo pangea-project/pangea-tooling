@@ -47,7 +47,15 @@ class NCIWorkspaceCleanerTest < TestCase
 
   def test_clean
     datetime_now = DateTime.now
-    mkdir('mgmt_6_days_old', datetime_now - 6)
+    mkdir("mgmt_#{NCI.current_series}_5_days_old", datetime_now - 5)
+    mkdir("mgmt_cnf_#{NCI.current_series}_6_days_old", datetime_now - 6)
+    if NCI.future_series
+      mkdir("mgmt_cnf_#{NCI.future_series}_7_days_old", datetime_now - 7)
+    end
+    if NCI.old_series
+      mkdir("mgmt_cnf_#{NCI.old_series}_125_days_old", datetime_now - 125)
+    end
+    mkdir('mgmt_cnf_focal_2_days_old', datetime_now - 2)
     mkdir('3_days_old', datetime_now - 3)
     mkdir('1_day_old', datetime_now - 1)
     mkdir('6_hours_old', datetime_now - Rational(6, 24))
@@ -77,8 +85,15 @@ class NCIWorkspaceCleanerTest < TestCase
     assert_path_not_exist('3_days_old')
     assert_path_not_exist('1_day_old')
     assert_path_not_exist('future_ws-cleanup_123')
-
-    assert_path_exist('mgmt_6_days_old')
+    assert_path_not_exist('mgmt_focal_2_days_old')
+    if NCI.old_series
+      assert_path_not_exist("mgmt_cnf_#{NCI.old_series}_125_days_old")
+    end
+    assert_path_exist("mgmt_#{NCI.current_series}_5_days_old")
+    assert_path_exist("mgmt_cnf_#{NCI.current_series}_6_days_old")
+    if NCI.future_series
+      assert_path_exist("mgmt_cnf_#{NCI.future_series}_7_days_old")
+    end
     assert_path_exist('6_hours_old')
     assert_path_exist('just_now')
     assert_path_exist('future')

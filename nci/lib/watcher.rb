@@ -186,12 +186,12 @@ module NCI
       @dch
     end
 
-    def bump_version
+    def bump_version(series)
       changelog = Changelog.new(Dir.pwd)
       version = Debian::Version.new(changelog.version)
       version.upstream = newest_version
       version.revision = '0neon' unless version.revision.to_s.empty?
-      @dch = Debian::Changelog.new_version_cmd(version.to_s, distribution: NCI.current_series, message: 'New release')
+      @dch = Debian::Changelog.new_version_cmd(version.to_s, distribution: series, message: 'New release')
       # A bit awkward we want to give a dch suggestion in case this isn't kde software so we'll want to recycle
       # the command, meaning we can't just use changelog.new_version :|
       cmd.run(*dch)
@@ -260,10 +260,23 @@ module NCI
         #end
       #end
 
-      bump_version
+      # check if future_is_early and make sure correct series is applied and
+      # bump both release_* branches if required
 
-      cmd.run('git --no-pager diff')
-      cmd.run("git commit -a -vv -m 'New release'")
+      if NCI.future_series
+        bump_version(NCI.future_series)
+        cmd.run('git --no-pager diff')
+        cmd.run("git commit -a -vv -m 'New release'")
+        # checkout current series branch and bump
+        cmd.run("git checkout Neon/release_#{NCI.current_series}")
+        bump_version(NCI.current_series)
+        cmd.run('git --no-pager diff')
+        cmd.run("git commit -a -vv -m 'New release'")
+      else
+        bump_version(NCI.current_series)
+        cmd.run('git --no-pager diff')
+        cmd.run("git commit -a -vv -m 'New release'")
+      end
 
       send_mail
 
