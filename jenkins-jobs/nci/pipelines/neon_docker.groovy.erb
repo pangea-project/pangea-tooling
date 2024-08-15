@@ -11,7 +11,7 @@ env.NEONARCHIVE='<%= neonarchive %>'
   <% end %>
 
 cleanNode('amd64-iso') {
-  stage('clone')
+  stage('clone') {
     <% if not is_future %>
       <% if type == 'user' %>
         git branch: "Neon/release", url: "https://invent.kde.org/neon/docker-images.git"
