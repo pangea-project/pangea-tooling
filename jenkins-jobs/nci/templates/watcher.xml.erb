@@ -51,30 +51,6 @@
           </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
         </extensions>
       </hudson.plugins.git.GitSCM>
-      <hudson.plugins.git.GitSCM plugin="git@4.7.2">
-        <configVersion>2</configVersion>
-        <userRemoteConfigs>
-          <hudson.plugins.git.UserRemoteConfig>
-            <url>https://invent.kde.org/packaging/snapcraft-kde-applications</url>
-          </hudson.plugins.git.UserRemoteConfig>
-          <hudson.plugins.git.UserRemoteConfig>
-            <url>git@invent.kde.org:packaging/snapcraft-kde-applications</url>
-            <credentialsId>ssh.jobs.git.neon</credentialsId>
-          </hudson.plugins.git.UserRemoteConfig>
-        </userRemoteConfigs>
-        <branches>
-          <hudson.plugins.git.BranchSpec>
-            <name><%= scm_writable.branch %></name>
-          </hudson.plugins.git.BranchSpec>
-        </branches>
-        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-        <submoduleCfg class="empty-list"/>
-        <extensions>
-          <hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
-            <relativeTargetDir>snapcraft-kde-applications</relativeTargetDir>
-          </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
-        </extensions>
-      </hudson.plugins.git.GitSCM>
     </scms>
   </scm>
   <assignedNode>amd64</assignedNode>

@@ -11,7 +11,7 @@ env.NEONARCHIVE='<%= neonarchive %>'
   <% end %>
 
 cleanNode('amd64-iso') {
-  stage('clone')
+  stage('clone') {
     <% if not is_future %>
       <% if type == 'user' %>
         git branch: "Neon/release", url: "https://invent.kde.org/neon/docker-images.git"
@@ -19,7 +19,7 @@ cleanNode('amd64-iso') {
         git branch: "Neon/stable", url: "https://invent.kde.org/neon/docker-images.git"
       <% elsif type == 'developer' %>
         git branch: "Neon/unstable-development", url: "https://invent.kde.org/neon/docker-images.git"
-        else
+      <% else %>
         git branch: 'Neon/<%= type %>', url: "https://invent.kde.org/neon/docker-images.git"
       <% end %>
     <% elsif is_future == distribution %>
@@ -29,7 +29,7 @@ cleanNode('amd64-iso') {
         git branch: "Neon/stable", url: "https://invent.kde.org/neon/docker-images.git"
       <% elsif type == 'developer' %>
         git branch: "Neon/unstable-development", url: "https://invent.kde.org/neon/docker-images.git"
-        else
+      <% else %>
         git branch: 'Neon/<%= type %>', url: "https://invent.kde.org/neon/docker-images.git"
       <% end %>
     <% elsif is_future != distribution %>
@@ -39,7 +39,7 @@ cleanNode('amd64-iso') {
         git branch: 'Neon/stable_<%= distribution %>' url: "https://invent.kde.org/neon/docker-images.git"
       <% elsif type == 'developer' %>
         git branch: 'Neon/unstable-development_<%= distribution %>', url: "https://invent.kde.org/neon/docker-images.git"
-        else
+      <% else %>
         git branch: 'Neon/<%= type %>_<%= distribution %>', url: "https://invent.kde.org/neon/docker-images.git"
       <% end %>
     <% end %>
