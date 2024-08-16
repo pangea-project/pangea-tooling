@@ -50,7 +50,7 @@ end
 
 # Temporary early previews go to a different server away from prying eyes.
 # Despire the username this is for focal and future ones too.
-if DIST == NCI.future_series && NCI.future_is_early || TYPE = release
+if DIST == NCI.future_series && NCI.future_is_early || TYPE == 'release'
   TTY::Command.new.run('ls', 'result/')
   TTY::Command.new.run('ssh',
                        '-i', ENV.fetch('SSH_KEY_FILE'),
