@@ -461,7 +461,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
     jeweller = enqueue(MGMTGitJewellerJob.new)
     docker = enqueue(MGMTDockerJob.new(dependees: []))
-    enqueue(MGMTJenkinsDockerNodes.new)
+    enqueue(MGMTDockerNodes.new)
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsPruneOld.new)
     enqueue(MGMTJenkinsJobScorer.new)
