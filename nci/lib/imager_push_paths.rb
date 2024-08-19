@@ -13,12 +13,14 @@ TYPE = ENV.fetch('TYPE')
 # series. When the ISO should change you'll want to edit nci.yaml and shuffle
 # the series entries around there.
 REMOTE_DIR = case DIST
+             # release is for dev purposes only
+             when TYPE == 'release'
+               "neon/images/#{DIST}-preview/#{TYPE}/"
              when NCI.current_series
                "neon/images/#{TYPE}/"
              when NCI.future_series
                # Subdir if not the standard version
-               #"neon/images/#{DIST}-preview/#{TYPE}/"
-               "neon/images/#{TYPE}/"
+               "neon/images/#{DIST}-preview/#{TYPE}/"
              when NCI.old_series
                raise "The old series ISO built but it shouldn't have!" \
                      ' Remove the jobs or smth.'

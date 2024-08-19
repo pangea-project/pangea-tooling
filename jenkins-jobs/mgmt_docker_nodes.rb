@@ -2,7 +2,7 @@
 require_relative 'job'
 
 # Deploy job
-class MGMTDockerJob < JenkinsJob
+class MGMTDockerNodes < JenkinsJob
 
   def initialize
     super('mgmt_docker_nodes', 'mgmt_docker_nodes.xml.erb')
