@@ -54,6 +54,7 @@ class ProjectJob < JenkinsJob
                                       architecture: architecture)
       scm = project.upstream_scm
       job.qt_git_build = (scm&.url&.include?('/qt/') && scm&.branch&.include?('5.15'))
+      job.qt6_build = scm&.url&.include?('/qt6/')
       job
     end
     jobs = [sourcer, binariers, publisher]

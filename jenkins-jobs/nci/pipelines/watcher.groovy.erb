@@ -10,10 +10,6 @@ cleanNode('amd64') {
             dir('deb-packaging') {
                 sh 'git remote set-url --push origin <%= scm_writable.url %>'
             }
-            sh 'git clone https://invent.kde.org/packaging/snapcraft-kde-applications -b <%= scm_writable.branch %>'
-            dir('snapcraft-kde-applications') {
-                sh 'git remote set-url --push origin git@invent.kde.org:packaging/snapcraft-kde-applications'
-            }
          }
       }
   }
@@ -27,13 +23,7 @@ cleanNode('amd64') {
       dir('deb-packaging') {
         // check for any changes and push if there are but do not fail if there are not
         sh('bash -c "git diff origin/Neon/release | grep diff && git push --all -vv; true"')
-      }
-      retry(3) {
-        dir('snapcraft-kde-applications') {
-          sh('git pull --rebase')
-          // check for any changes and push if there are but do not fail if there are not
-          sh('bash -c "git diff origin/Neon/release | grep diff && git push -vv; true"')
-        }
+        sh('bash -c "git diff origin/Neon/release_<%= nci.current_series %> | grep diff && git push --all -vv; true"')
       }
     }
   }

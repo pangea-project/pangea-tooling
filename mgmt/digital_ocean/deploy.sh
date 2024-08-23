@@ -41,7 +41,7 @@ ps aux
 apt update
 
 # Make sure the image is up to date.
-apt dist-upgrade ruby+ ruby-shadow+ -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+apt dist-upgrade build-essential+ ruby+ ruby-dev+ ruby-shadow+ -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 
 # Deploy chef 15 (we have no ruby right now.)
 cd /tmp

@@ -274,8 +274,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           neonarchive: 'unstable',
           cronjob: 'H H * * 0'
         )
+        dev_unstable_dockerargs = dev_unstable_isoargs.merge(
+          is_future: is_future
+        )
         enqueue(NeonIsoJob.new(**dev_unstable_isoargs))
-        enqueue(NeonDockerJob.new(**dev_unstable_isoargs))
+        enqueue(NeonDockerJob.new(**dev_unstable_dockerargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'unstable')))
 
         # Only make unstable ISO for the next series while in early mode.
@@ -286,8 +289,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           neonarchive: 'unstable',
           cronjob: 'H H * * 1'
         )
+        dev_unstable_dev_dockerargs = dev_unstable_dev_isoargs.merge(
+          is_future: is_future
+        )
         enqueue(NeonIsoJob.new(**dev_unstable_dev_isoargs))
-        enqueue(NeonDockerJob.new(**dev_unstable_dev_isoargs))
+        enqueue(NeonDockerJob.new(**dev_unstable_dev_dockerargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'developer')))
 
         dev_stable_isoargs = standard_args.merge(
@@ -295,17 +301,30 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           neonarchive: 'testing',
           cronjob: 'H H * * 2'
         )
+        dev_stable_dockerargs = dev_stable_isoargs.merge(
+          is_future: is_future
+        )
         enqueue(NeonIsoJob.new(**dev_stable_isoargs))
-        enqueue(NeonDockerJob.new(**dev_stable_isoargs))
+        enqueue(NeonDockerJob.new(**dev_stable_dockerargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'testing')))
+
+        release_release_isoargs = standard_args.merge(
+          type: 'release',
+          neonarchive: 'release',
+          cronjob: 'H H * * 3'
+        )
+        enqueue(NeonIsoJob.new(**release_release_isoargs))
 
         user_release_isoargs = standard_args.merge(
           type: 'user',
           neonarchive: is_future ? 'release' : 'user',
           cronjob: 'H H * * 4'
         )
+        user_release_dockerargs = user_release_isoargs.merge(
+          is_future: is_future
+        )
         enqueue(NeonIsoJob.new(**user_release_isoargs))
-        enqueue(NeonDockerJob.new(**user_release_isoargs))
+        enqueue(NeonDockerJob.new(**user_release_dockerargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'user')))
 
         ko_user_release_isoargs = standard_args.merge(
@@ -319,7 +338,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
         mobile_isoargs = standard_args.merge(
           type: 'mobile',
-          neonarchive: 'unstable',
+          neonarchive: 'user',
           cronjob: 'H H * * 0',
           metapackage: 'plasma-phone'
         )
@@ -440,6 +459,9 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                          type: 'unstable',
                                          dist: NCI.future_series))
     end
+    jeweller = enqueue(MGMTGitJewellerJob.new)
+    docker = enqueue(MGMTDockerJob.new(dependees: []))
+    enqueue(MGMTDockerNodes.new)
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsPruneOld.new)
     enqueue(MGMTJenkinsJobScorer.new)
@@ -489,12 +511,17 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'user', notify: true))
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'release'))
+    if NCI.future_series
+      enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'user', notify: true))
+      enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'release'))
+    end
     enqueue(MGMTFwupdCheckJob.new(dist: NCI.current_series, type: 'user', notify: true))
     if NCI.future_series
       enqueue(MGMTFwupdCheckJob.new(dist: NCI.future_series, type: 'user', notify: true))
     end
     enqueue(MGMTToolingJob.new(downstreams: [],
                                dependees: []))
+    enqueue(MGMTToolingNodes.new)
     enqueue(MGMTToolingUpdateSubmodules.new)
     enqueue(MGMTRepoCleanupJob.new)
   end
