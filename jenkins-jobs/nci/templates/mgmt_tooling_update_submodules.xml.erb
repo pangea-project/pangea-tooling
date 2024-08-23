@@ -3,33 +3,15 @@
   <description>Updates local toolings git submodules on neon master server (spara).</description>
   <keepDependencies>false</keepDependencies>
   <properties>
-    <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.11"/>
     <org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty plugin="dependency-queue-plugin@1.2-SNAPSHOT">
       <blockWhileUpstreamQueued>true</blockWhileUpstreamQueued>
     </org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty>
-    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.7.9">
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@166.vc82fc20b_a_ed6">
       <useBuildBlocker>false</useBuildBlocker>
       <blockLevel>GLOBAL</blockLevel>
       <scanQueueFor>DISABLED</scanQueueFor>
       <blockingJobs/>
     </hudson.plugins.buildblocker.BuildBlockerProperty>
-    <org.bstick12.jenkinsci.plugins.leastload.LeastLoadDisabledProperty plugin="leastload@3.0.0">
-      <leastLoadDisabled>false</leastLoadDisabled>
-    </org.bstick12.jenkinsci.plugins.leastload.LeastLoadDisabledProperty>
-    <com.suryagaddipati.jenkins.SlaveUtilizationProperty plugin="slave-utilization-plugin@1.8">
-      <needsExclusiveAccessToNode>false</needsExclusiveAccessToNode>
-      <singleInstancePerSlave>false</singleInstancePerSlave>
-      <slaveUtilizationPercentage>0</slaveUtilizationPercentage>
-    </com.suryagaddipati.jenkins.SlaveUtilizationProperty>
-    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@2.14">
-      <maxConcurrentPerNode>0</maxConcurrentPerNode>
-      <maxConcurrentTotal>0</maxConcurrentTotal>
-      <categories class="java.util.concurrent.CopyOnWriteArrayList"/>
-      <throttleEnabled>false</throttleEnabled>
-      <throttleOption>project</throttleOption>
-      <limitOneJobWithMatchingParams>false</limitOneJobWithMatchingParams>
-      <paramsToUseForLimit/>
-    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
 
   </properties>
   <scm class="hudson.scm.NullSCM"/>
@@ -39,7 +21,7 @@
   <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
-    <org.jenkinsci.plugins.gwt.GenericTrigger plugin="generic-webhook-trigger@1.88.0">
+    <org.jenkinsci.plugins.gwt.GenericTrigger plugin="generic-webhook-trigger@2.2.2">
       <spec/>
       <regexpFilterText/>
       <regexpFilterExpression/>
@@ -69,22 +51,10 @@ cd ../mgmt_tooling/
       </command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
-    <hudson.plugins.parameterizedtrigger.TriggerBuilder plugin="parameterized-trigger@787.v665fcf2a_830b_">
-      <configs>
-        <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
-          <configs class="empty-list"/>
-          <projects>mgmt_tooling</projects>
-          <condition>ALWAYS</condition>
-          <triggerWithNoParameters>false</triggerWithNoParameters>
-          <triggerFromChildProjects>false</triggerFromChildProjects>
-          <buildAllNodesWithLabel>false</buildAllNodesWithLabel>
-        </hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
-      </configs>
-    </hudson.plugins.parameterizedtrigger.TriggerBuilder>
   </builders>
   <publishers/>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.26"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.27"/>
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@1.0.4">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>

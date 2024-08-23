@@ -1,11 +1,20 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<project>
+<?xml version="1.1" encoding="UTF-8" standalone="no"?><project>
   <actions/>
-  <description>Updates local tooling on neon master server (spara).</description>
+  <description>Updates local tooling on neon master server (spara) and then starts mgmt_tooling_nodes and  mgmt_docker</description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty plugin="dependency-queue-plugin@1.2-SNAPSHOT">
+      <blockWhileUpstreamQueued>true</blockWhileUpstreamQueued>
+    </org.jenkinsci.plugins.dependencyqueue.BlockWhileUpstreamQueuedProperty>
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@166.vc82fc20b_a_ed6">
+      <useBuildBlocker>false</useBuildBlocker>
+      <blockLevel>GLOBAL</blockLevel>
+      <scanQueueFor>DISABLED</scanQueueFor>
+      <blockingJobs/>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
+
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@5.3.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -18,7 +27,10 @@
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-    <submoduleCfg class="list"/>
+    <browser class="hudson.plugins.git.browser.GithubWeb">
+      <url>https://github.com/pangea-project/pangea-tooling.git</url>
+    </browser>
+    <submoduleCfg class="empty-list"/>
     <extensions/>
   </scm>
   <assignedNode>master</assignedNode>
@@ -27,90 +39,67 @@
   <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
-    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.13.3">
-      <spec></spec>
-    </com.cloudbees.jenkins.GitHubPushTrigger>
-    <hudson.triggers.SCMTrigger>
-      <spec></spec>
-      <ignorePostCommitHooks>false</ignorePostCommitHooks>
-    </hudson.triggers.SCMTrigger>
-  </triggers>
-  <concurrentBuild>false</concurrentBuild>
-  <builders>
-    <com.cloudbees.jenkins.GitHubSetCommitStatusBuilder plugin="github@1.13.3"/>
-    <hudson.tasks.Shell>
-      <command>
-./git_submodule_setup.sh
-
-rm -rf .bundle || true
-gem install --no-document bundler
-[ -f Gemfile.lock ] || bundle install --jobs=`nproc`
-bundle update --jobs=`nproc`
-rm -rf .bundle || true
-
-rake clean test cloc rubocop deploy
-</command>
-    </hudson.tasks.Shell>
-  </builders>
-  <publishers>
-    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.9">
-      <testResults>test/reports/*.xml</testResults>
-      <keepLongStdio>false</keepLongStdio>
-      <healthScaleFactor>1.0</healthScaleFactor>
-    </hudson.tasks.junit.JUnitResultArchiver>
-    <hudson.plugins.rubyMetrics.rcov.RcovPublisher plugin="rubyMetrics@1.6.3">
-      <reportDir>coverage/rcov</reportDir>
-      <targets>
-        <hudson.plugins.rubyMetrics.rcov.model.MetricTarget>
-          <metric>TOTAL_COVERAGE</metric>
-          <healthy>90</healthy>
-          <unhealthy>0</unhealthy>
-          <unstable>90</unstable>
-        </hudson.plugins.rubyMetrics.rcov.model.MetricTarget>
-        <hudson.plugins.rubyMetrics.rcov.model.MetricTarget>
-          <metric>CODE_COVERAGE</metric>
-          <healthy>90</healthy>
-          <unhealthy>0</unhealthy>
-          <unstable>90</unstable>
-        </hudson.plugins.rubyMetrics.rcov.model.MetricTarget>
-      </targets>
-    </hudson.plugins.rubyMetrics.rcov.RcovPublisher>
-    <hudson.plugins.sloccount.SloccountPublisher plugin="sloccount@1.20">
-      <pattern>cloc.xml</pattern>
-      <encoding></encoding>
-      <commentIsCode>false</commentIsCode>
-      <numBuildsInGraph>0</numBuildsInGraph>
-      <ignoreBuildFailure>false</ignoreBuildFailure>
-    </hudson.plugins.sloccount.SloccountPublisher>
-    <hudson.plugins.downstream__ext.DownstreamTrigger plugin="downstream-ext@1.8">
-      <childProjects><%= downstreams.join(', ') %></childProjects>
+    <jenkins.triggers.ReverseBuildTrigger>
+      <spec/>
+      <upstreamProjects>mgmt_tooling_update_submodules</upstreamProjects>
       <threshold>
         <name>UNSTABLE</name>
         <ordinal>1</ordinal>
         <color>YELLOW</color>
         <completeBuild>true</completeBuild>
       </threshold>
-      <thresholdStrategy>AND_HIGHER</thresholdStrategy>
-      <onlyIfSCMChanges>false</onlyIfSCMChanges>
-      <onlyIfLocalSCMChanges>false</onlyIfLocalSCMChanges>
-    </hudson.plugins.downstream__ext.DownstreamTrigger>
-    <com.cloudbees.jenkins.GitHubCommitNotifier plugin="github@1.13.3">
-      <resultOnFailure>FAILURE</resultOnFailure>
-    </com.cloudbees.jenkins.GitHubCommitNotifier>
-    <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.25">
-      <configs>
-        <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
-          <configs class="empty-list"/>
-          <projects><%= dependees.join(', ') %>,</projects>
-          <condition>SUCCESS</condition>
-          <triggerWithNoParameters>false</triggerWithNoParameters>
-        </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
-      </configs>
-    </hudson.plugins.parameterizedtrigger.BuildTrigger>
+    </jenkins.triggers.ReverseBuildTrigger>
+    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.40.0">
+      <spec/>
+    </com.cloudbees.jenkins.GitHubPushTrigger>
+    <hudson.triggers.SCMTrigger>
+      <spec/>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <com.cloudbees.jenkins.GitHubSetCommitStatusBuilder plugin="github@1.40.0">
+      <statusMessage>
+        <content/>
+      </statusMessage>
+      <contextSource class="org.jenkinsci.plugins.github.status.sources.DefaultCommitContextSource"/>
+    </com.cloudbees.jenkins.GitHubSetCommitStatusBuilder>
+    <hudson.tasks.Shell>
+      <command>./git_submodule_setup.sh
+rm -rf .bundle || true
+
+gem uninstall --version 2.5.15 bundler
+gem uninstall --version 2.5.16 bundler
+gem uninstall --version 2.5.17 bundler
+
+gem install --no-document --version 2.5.9 bundler
+[ -f Gemfile.lock ] || bundle _2.5.9_ install --jobs=`nproc`
+bundle _2.5.9_ update --jobs=`nproc`
+rm -rf .bundle || true
+
+rake clean test cloc rubocop deploy
+</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1284.vf75d778f98c5">
+      <testResults>test/reports/*.xml</testResults>
+      <stdioRetention>NONE</stdioRetention>
+      <keepProperties>false</keepProperties>
+      <keepTestNames>false</keepTestNames>
+      <healthScaleFactor>1.0</healthScaleFactor>
+      <allowEmptyResults>false</allowEmptyResults>
+      <skipPublishingChecks>false</skipPublishingChecks>
+      <checksName/>
+      <skipMarkingBuildUnstable>false</skipMarkingBuildUnstable>
+      <skipOldReports>false</skipOldReports>
+    </hudson.tasks.junit.JUnitResultArchiver>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.7.2"/>
-    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.27"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@1.0.4">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
   </buildWrappers>

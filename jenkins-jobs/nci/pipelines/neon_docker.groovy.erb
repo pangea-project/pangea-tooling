@@ -49,7 +49,7 @@ cleanNode('amd64-iso') {
     sh 'docker build --tag invent-registry.kde.org/neon/docker-images/plasma:<%= tag %> .'
   }
   stage('docker-push') {
-    withCredentials([string(credentialsId: 'dockerhub2', variable: 'TOKEN')]) {
+    withCredentials([string(credentialsId: 'neon_docker_publish', variable: 'TOKEN')]) {
       sh 'docker login --username project_136_bot_e1c05056e435cff70c2c4de3fb0c94c1 --password $TOKEN invent-registry.kde.org'
       sh 'docker push invent-registry.kde.org/neon/docker-images/plasma:<%= tag %>'
     <% if type == 'unstable' %>
@@ -102,7 +102,7 @@ cleanNode('amd64-iso') {
     sh 'docker build --tag invent-registry.kde.org/neon/docker-images/all:<%= tag %> .'
   }
   stage('docker-push-all') {
-    withCredentials([string(credentialsId: 'dockerhub2', variable: 'TOKEN')]) {
+    withCredentials([string(credentialsId: 'neon_docker_publish', variable: 'TOKEN')]) {
       sh 'docker login --username project_136_bot_e1c05056e435cff70c2c4de3fb0c94c1 --password $TOKEN invent-registry.kde.org'
       sh 'docker push invent-registry.kde.org/neon/docker-images/all:<%= type %>'
       <% if type == 'unstable' %>
