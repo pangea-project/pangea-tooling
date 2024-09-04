@@ -28,7 +28,7 @@ module NCI
     # Download and parse the neon-settings xenial->bionic pin override file
     def self.override_packages
       @@override_packages ||= begin
-        url = "https://invent.kde.org/neon/neon/settings/-/raw/Neon/unstable/etc/apt/preferences.d/99-jammy-overrides?inline=false"
+        url = "https://invent.kde.org/neon/neon/settings/-/raw/Neon/#{ENV.fetch('TYPE')}/etc/apt/preferences.d/99-#{NCI.future_series}-overrides?inline=false"
         response = HTTParty.get(url)
         response.parsed_response
         override_packages = []
