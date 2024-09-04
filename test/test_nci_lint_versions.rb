@@ -28,7 +28,7 @@ module NCI
     end
 
     def test_file_lister_bad_version
-      stub_request(:get, "https://invent.kde.org/neon/neon/settings/-/raw/Neon/#{ENV.fetch('TYPE')}/etc/apt/preferences.d/99-#{NCI.future_series}-overrides?inline=false").
+      stub_request(:get, "https://invent.kde.org/neon/neon/settings/-/raw/Neon/unstable/etc/apt/preferences.d/99-#{NCI.future_series}-overrides?inline=false").
           with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
           to_return(status: 200, body: "Package: aptdaemon\nPin: release o=Ubuntu\nPin-Priority: 1100\n\nPackage: aptdaemon-data\nPin: release o=Ubuntu\nPin-Priority: 1100", headers: {'Content-Type'=> 'text/plain'})
       VersionsTest.init(ours: standard_ours,
@@ -63,7 +63,7 @@ module NCI
     end
 
     def test_override_packages
-      stub_request(:get, "https://invent.kde.org/neon/neon/settings/-/raw/Neon/#{ENV.fetch('TYPE')}/etc/apt/preferences.d/99-#{NCI.future_series}-overrides?inline=false").
+      stub_request(:get, "https://invent.kde.org/neon/neon/settings/-/raw/Neon/unstable/etc/apt/preferences.d/99-#{NCI.future_series}-overrides?inline=false").
           with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
           to_return(status: 200, body: "Package: aptdaemon\nPin: release o=Ubuntu\nPin-Priority: 1100\n\nPackage: aptdaemon-data\nPin: release o=Ubuntu\nPin-Priority: 1100", headers: {'Content-Type'=> 'text/plain'})
 
