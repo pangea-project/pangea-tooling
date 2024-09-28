@@ -461,6 +461,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
     jeweller = enqueue(MGMTGitJewellerJob.new)
     docker = enqueue(MGMTDockerJob.new(dependees: []))
+    enqueue(MGMTDockerNodes.new)
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsPruneOld.new)
     enqueue(MGMTJenkinsJobScorer.new)
@@ -510,12 +511,17 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'user', notify: true))
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'release'))
+    if NCI.future_series
+      enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'user', notify: true))
+      enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'release'))
+    end
     enqueue(MGMTFwupdCheckJob.new(dist: NCI.current_series, type: 'user', notify: true))
     if NCI.future_series
       enqueue(MGMTFwupdCheckJob.new(dist: NCI.future_series, type: 'user', notify: true))
     end
     enqueue(MGMTToolingJob.new(downstreams: [],
                                dependees: []))
+    enqueue(MGMTToolingNodes.new)
     enqueue(MGMTToolingUpdateSubmodules.new)
     enqueue(MGMTRepoCleanupJob.new)
   end

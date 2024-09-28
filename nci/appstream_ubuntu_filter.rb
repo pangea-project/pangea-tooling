@@ -57,10 +57,11 @@ raise 'No components found, something is wrong!' if components.empty?
 
 filter_components = components.select do |comp|
   case comp.kind
-  when 'desktop-application'
+  when 'desktop-app'
     true
-  when 'generic', 'font', 'inputmethod', 'web-application',
-       'console-application', 'codec', 'driver', 'addon', 'icon-theme'
+  when 'unknown', 'generic', 'console-app', 'web-app', 'service', 'addon',
+      'runtime', 'font', 'codec', 'input-method', , 'operating_system',
+      'firmware', 'driver', 'localization', 'repository', 'icon-theme'
     # NOTE: addons do not appear in discover on their own, so there is no
     #   point in filtering them. Worse yet, filtering them means the packages
     #   themselves will show up with shitty metadata.
