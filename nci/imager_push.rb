@@ -34,7 +34,12 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # copy to rsync.kde.org using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
 DATE = File.read('result/date_stamp').strip
-ISONAME = "#{IMAGENAME}-#{TYPE}"
+
+if DIST == NCI.future_series && NCI.future_is_early || TYPE == 'release'
+  ISONAME = "#{IMAGENAME}-#{TYPE}-#{DIST}"
+else
+  ISONAME = "#{IMAGENAME}-#{TYPE}"
+end
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 # NB: we use gpg without agent here. Jenkins credential paths are fairly long
@@ -56,7 +61,7 @@ if DIST == NCI.future_series && NCI.future_is_early || TYPE == 'release'
                        '-i', ENV.fetch('SSH_KEY_FILE'),
                        '-o', 'StrictHostKeyChecking=no',
                        'bionic-iso@files.kde.mirror.pangea.pub',
-                       'rm', '-rfv', "~/bionic/*#{TYPE}*")
+                       'rm', '-rfv', "~/bionic/*#{TYPE}-#{DIST}*")
   TTY::Command.new.run('scp',
                        '-i', ENV.fetch('SSH_KEY_FILE'),
                        '-o', 'StrictHostKeyChecking=no',
