@@ -36,7 +36,7 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 DATE = File.read('result/date_stamp').strip
 
 if DIST == NCI.future_series && NCI.future_is_early || TYPE == 'release'
-  ISONAME = "#{IMAGENAME}-#{TYPE}-#{DIST}"
+  ISONAME = "#{IMAGENAME}-#{DIST}-#{TYPE}"
 else
   ISONAME = "#{IMAGENAME}-#{TYPE}"
 end
@@ -61,7 +61,7 @@ if DIST == NCI.future_series && NCI.future_is_early || TYPE == 'release'
                        '-i', ENV.fetch('SSH_KEY_FILE'),
                        '-o', 'StrictHostKeyChecking=no',
                        'bionic-iso@files.kde.mirror.pangea.pub',
-                       'rm', '-rfv', "~/bionic/*#{TYPE}-#{DIST}*")
+                       'rm', '-rfv', "~/bionic/*#{DIST}-#{TYPE}*")
   TTY::Command.new.run('scp',
                        '-i', ENV.fetch('SSH_KEY_FILE'),
                        '-o', 'StrictHostKeyChecking=no',
