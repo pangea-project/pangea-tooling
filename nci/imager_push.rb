@@ -36,7 +36,7 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 DATE = File.read('result/date_stamp').strip
 
 if DIST == NCI.future_series && NCI.future_is_early || TYPE == 'release'
-  if TYPE = 'bigscreen' || TYPE = 'developer' || $DIST = 'ko' || $TYPE = 'mobile'
+  if TYPE == 'bigscreen' || TYPE == 'developer' || DIST == 'ko' || TYPE == 'mobile'
     TYPE = File.read('result/new_type').strip
   end
   ISONAME = "#{IMAGENAME}-#{DIST}-#{TYPE}"
