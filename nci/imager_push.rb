@@ -34,7 +34,7 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # copy to rsync.kde.org using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
 DATE = File.read('result/date_stamp').strip
-NEW_TYPE = File.read('result/$new_type').strip
+NEW_TYPE = File.read('result/new_type').strip
 
 # instead of overloading TYPE like this we should change IMAGENAME in jenkins_job_update
 # to reflect the plasma-edition of the iso and let TYPE reflect the NEONARCHIVE name
