@@ -34,7 +34,33 @@ IMAGENAME = ENV.fetch('IMAGENAME')
 # copy to rsync.kde.org using same directory without -proposed for now, later we want
 # this to only be published if passing some QA test
 DATE = File.read('result/date_stamp').strip
-ISONAME = "#{IMAGENAME}-#{TYPE}"
+NEW_TYPE = File.read('result/new_type').strip
+
+# instead of overloading TYPE like this we should change IMAGENAME in jenkins_job_update
+# to reflect the plasma-edition of the iso and let TYPE reflect the NEONARCHIVE name
+if TYPE == 'bigscreen' || TYPE == 'developer' || TYPE == 'ko' || TYPE == 'mobile'
+  combined_type =true
+  puts "#{TYPE}"
+else
+  combined_type =false
+end
+
+if TYPE == 'release'
+  ISONAME = "#{IMAGENAME}-#{DIST}-#{TYPE}"
+  puts "new iso name is - #{ISONAME}"
+elsif
+  DIST == NCI.future_series && NCI.future_is_early && combined_type==true
+  ISONAME = "#{IMAGENAME}-#{DIST}-#{NEW_TYPE}"
+  puts "new iso name is - #{ISONAME}"
+elsif
+  NCI.future_series && NCI.future_is_early
+  ISONAME = "#{IMAGENAME}-#{DIST}-#{TYPE}"
+  puts "new iso name is - #{ISONAME}"
+else
+  ISONAME = "#{IMAGENAME}-#{TYPE}"
+  puts "new iso name is - #{ISONAME}"
+end
+
 REMOTE_PUB_DIR = "#{REMOTE_DIR}/#{DATE}"
 
 # NB: we use gpg without agent here. Jenkins credential paths are fairly long
@@ -56,7 +82,7 @@ if DIST == NCI.future_series && NCI.future_is_early || TYPE == 'release'
                        '-i', ENV.fetch('SSH_KEY_FILE'),
                        '-o', 'StrictHostKeyChecking=no',
                        'bionic-iso@files.kde.mirror.pangea.pub',
-                       'rm', '-rfv', "~/bionic/*#{TYPE}*")
+                       'rm', '-rfv', "~/bionic/*#{DIST}-#{TYPE}*")
   TTY::Command.new.run('scp',
                        '-i', ENV.fetch('SSH_KEY_FILE'),
                        '-o', 'StrictHostKeyChecking=no',
