@@ -35,7 +35,9 @@ module Lint
       @log.level = Logger::INFO
       @log.progname = self.class.to_s
       @type = type.tr('-', '/')
-      @type = 'testing' if @type == 'stable'
+      if dist == "jammy"
+        @type = 'testing' if @type == 'stable'
+      end
       aptly_repo = Aptly::Repository.get("#{type}_#{dist}")
       @repo = ChangesSourceFilterAptlyRepository.new(aptly_repo, @type)
       @package_results = {}

@@ -178,8 +178,9 @@ APT::Default-Release "#{setup_repo_codename}";
     end
 
     def type_to_repo(type)
-      # rename editions but not (yet) renamed the job type
-      type = 'testing' if type == 'stable'
+      if dist == "jammy"
+        @type = 'testing' if @type == 'stable'
+      end
       type.tr('-', '/')
     end
 
