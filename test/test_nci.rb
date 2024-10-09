@@ -68,11 +68,11 @@ class NCITest < TestCase
   def test_divert_repo
     File.write('nci.yaml', <<~YAML)
       repo_diversion: true
-      divertable_repos: [testing]
+      divertable_repos: [unstable]
     YAML
     NCI.send(:data_dir=, Dir.pwd) # resets as well
 
-    assert(NCI.divert_repo?('testing'))
+    assert(NCI.divert_repo?('unstable'))
 
     # In the past we had a case where an incorrect type was passed to the function. We expect immediate failure then!
     assert_raises(NCI::BadInputType) { NCI.divert_repo?(nil) }
@@ -86,16 +86,16 @@ class NCITest < TestCase
     YAML
     NCI.send(:data_dir=, Dir.pwd) # resets as well
 
-    refute(NCI.divert_repo?('testing'))
+    refute(NCI.divert_repo?('unstable'))
   end
 
   def test_no_diversion
     File.write('nci.yaml', <<~YAML)
       repo_diversion: false
-      divertable_repos: [testing]
+      divertable_repos: [unstable]
     YAML
     NCI.send(:data_dir=, Dir.pwd) # resets as well
 
-    refute(NCI.divert_repo?('testing'))
+    refute(NCI.divert_repo?('unstable'))
   end
 end

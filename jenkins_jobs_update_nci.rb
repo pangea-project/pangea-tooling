@@ -222,6 +222,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
           watchers[watcher.job_name] = watcher
         end
+        # end of projects
 
         next if type == NCI.qt_stage_type
 
@@ -269,6 +270,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         }.freeze
         is_future = distribution == NCI.future_series
 
+        # unstable edition stuffs
         dev_unstable_isoargs = standard_args.merge(
           type: 'unstable',
           neonarchive: 'unstable',
@@ -284,6 +286,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         # Only make unstable ISO for the next series while in early mode.
         next if distribution == NCI.future_series && NCI.future_is_early
 
+        # development unstable edition stuffs
         dev_unstable_dev_isoargs = standard_args.merge(
           type: 'developer',
           neonarchive: 'unstable',
@@ -296,18 +299,51 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(NeonDockerJob.new(**dev_unstable_dev_dockerargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'developer')))
 
+        # stable edition stuffs
         dev_stable_isoargs = standard_args.merge(
-          type: 'testing',
-          neonarchive: 'testing',
+          type: 'stable',
+          neonarchive: 'stable',
           cronjob: 'H H * * 2'
         )
         dev_stable_dockerargs = dev_stable_isoargs.merge(
           is_future: is_future
         )
         enqueue(NeonIsoJob.new(**dev_stable_isoargs))
-        enqueue(NeonDockerJob.new(**dev_stable_dockerargs))
+
+        # testing edition stuffs
+        dev_testing_isoargs = standard_args.merge(
+          type: 'testing',
+          neonarchive: 'testing',
+          cronjob: 'H H * * 2'
+        )
+        dev_testing_dockerargs = dev_testing_isoargs.merge(
+          is_future: is_future
+        )
+        enqueue(NeonIsoJob.new(**dev_testing_isoargs))
+        enqueue(NeonDockerJob.new(**dev_testing_dockerargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'testing')))
 
+        # ko testing edition stuffs
+        ko_dev_testing_release_isoargs = standard_args.merge(
+          type: 'ko',
+          neonarchive: 'testing',
+          cronjob: 'H H * * 5',
+          metapackage: 'neon-desktop-ko'
+        )
+        enqueue(NeonIsoJob.new(**ko_dev_testing_release_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'ko')))
+
+        # mobile testing edition stuffs
+        mobile_dev_testing_isoargs = standard_args.merge(
+          type: 'mobile',
+          neonarchive: 'testing',
+          cronjob: 'H H * * 0',
+          metapackage: 'plasma-phone'
+        )
+        enqueue(NeonIsoJob.new(**mobile_dev_testing_isoargs))
+        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'mobile')))
+
+        # release edition stuffs
         release_release_isoargs = standard_args.merge(
           type: 'release',
           neonarchive: 'release',
@@ -315,6 +351,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         )
         enqueue(NeonIsoJob.new(**release_release_isoargs))
 
+        # user edition stuffs
         user_release_isoargs = standard_args.merge(
           type: 'user',
           neonarchive: is_future ? 'release' : 'user',
@@ -327,22 +364,24 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(NeonDockerJob.new(**user_release_dockerargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'user')))
 
+        # ko user edition stuffs
         ko_user_release_isoargs = standard_args.merge(
           type: 'ko',
-          neonarchive: 'testing',
+          neonarchive: 'user',
           cronjob: 'H H * * 5',
           metapackage: 'neon-desktop-ko'
         )
         enqueue(NeonIsoJob.new(**ko_user_release_isoargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'ko')))
 
-        mobile_isoargs = standard_args.merge(
+        # mobile user edition stuffs
+        mobile_user_release_isoargs = standard_args.merge(
           type: 'mobile',
           neonarchive: 'user',
           cronjob: 'H H * * 0',
           metapackage: 'plasma-phone'
         )
-        enqueue(NeonIsoJob.new(**mobile_isoargs))
+        enqueue(NeonIsoJob.new(**mobile_user_release_isoargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'mobile')))
       end
 
@@ -376,7 +415,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'developer')))
 
         dev_stable_isoargs = standard_args.merge(
-          type: 'testing',
+          type: 'developer',
           neonarchive: 'testing',
           cronjob: 'H H * * 2'
         )
@@ -400,6 +439,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         enqueue(NeonIsoJob.new(**ko_user_release_isoargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'ko')))
 
+        # mobile ustable edition stuffs
         mobile_isoargs = standard_args.merge(
           type: 'mobile',
           neonarchive: 'unstable',
@@ -435,6 +475,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
       enqueue(MGMTAppstreamUbuntuFilter.new(dist: distribution))
     end
+    # end of distribution
 
     enqueue(MGMTRepoMetadataCheck.new(dependees: []))
 
@@ -485,8 +526,11 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTAppstreamGenerator.new(repo: 'unstable',
                                        type: 'unstable',
                                        dist: NCI.current_series))
-    enqueue(MGMTAppstreamGenerator.new(repo: 'testing',
+    enqueue(MGMTAppstreamGenerator.new(repo: 'stable',
                                        type: 'stable',
+                                       dist: NCI.current_series))
+    enqueue(MGMTAppstreamGenerator.new(repo: 'testing',
+                                       type: 'testing',
                                        dist: NCI.current_series))
     enqueue(MGMTAppstreamGenerator.new(repo: 'release',
                                        type: 'release',

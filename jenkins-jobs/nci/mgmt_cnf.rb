@@ -15,6 +15,10 @@ class MGTMCNFJob < PipelineJob
     super("mgmt_cnf_#{dist}_#{name}", template: 'mgmt_cnf', cron: '@weekly')
     @dist = dist
     @type = type
-    @conten_push_repo_dir = conten_push_repo_dir == 'stable' ? 'testing' : conten_push_repo_dir
+    if dist == "jammy"
+      @conten_push_repo_dir = conten_push_repo_di == 'stable' ? 'testing' : conten_push_repo_dir
+    else
+      @conten_push_repo_dir = conten_push_repo_dir
+    end
   end
 end
