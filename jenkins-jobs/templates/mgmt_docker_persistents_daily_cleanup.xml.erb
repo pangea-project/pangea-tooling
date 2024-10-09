@@ -1,0 +1,167 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1436.vfa_244484591f">
+  <actions/>
+  <description>runs the docker cleanup routine on the persistent nodes/builders&#xd;
+</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.13"/>
+    <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@166.vc82fc20b_a_ed6">
+      <useBuildBlocker>false</useBuildBlocker>
+      <blockLevel>GLOBAL</blockLevel>
+      <scanQueueFor>DISABLED</scanQueueFor>
+      <blockingJobs></blockingJobs>
+    </hudson.plugins.buildblocker.BuildBlockerProperty>
+    <org.bstick12.jenkinsci.plugins.leastload.LeastLoadDisabledProperty plugin="leastload@3.0.0">
+      <leastLoadDisabled>false</leastLoadDisabled>
+    </org.bstick12.jenkinsci.plugins.leastload.LeastLoadDisabledProperty>
+    <com.suryagaddipati.jenkins.SlaveUtilizationProperty plugin="slave-utilization-plugin@1.8">
+      <needsExclusiveAccessToNode>false</needsExclusiveAccessToNode>
+      <singleInstancePerSlave>false</singleInstancePerSlave>
+      <slaveUtilizationPercentage>0</slaveUtilizationPercentage>
+    </com.suryagaddipati.jenkins.SlaveUtilizationProperty>
+    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@2.14">
+      <maxConcurrentPerNode>0</maxConcurrentPerNode>
+      <maxConcurrentTotal>0</maxConcurrentTotal>
+      <categories class="java.util.concurrent.CopyOnWriteArrayList"/>
+      <throttleEnabled>false</throttleEnabled>
+      <throttleOption>project</throttleOption>
+      <limitOneJobWithMatchingParams>false</limitOneJobWithMatchingParams>
+      <paramsToUseForLimit></paramsToUseForLimit>
+    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <jenkins.triggers.ReverseBuildTrigger>
+          <spec></spec>
+          <upstreamProjects>mgmt_tooling_persistents</upstreamProjects>
+          <threshold>
+            <name>UNSTABLE</name>
+            <ordinal>1</ordinal>
+            <color>YELLOW</color>
+            <completeBuild>true</completeBuild>
+          </threshold>
+        </jenkins.triggers.ReverseBuildTrigger>
+        <hudson.triggers.TimerTrigger>
+          <spec>H 9-16/6 * * *</spec>
+        </hudson.triggers.TimerTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3961.ve48ee2c44a_b_3">
+    <script>// NOTE - if this script is changed at all, it nees to be approved in jenkins
+// Dashboard &gt; Manage Jenkins &gt;ScriptApproval otherwise it will now work!!!
+// &amp;&amp; Use Groovy Sandbox checkbox at the bottom of this page must be
+// unchecked - turned off!!
+fancyNode(&apos;master&apos;)
+{
+}
+    stage(&apos;deploy&apos;) {
+        def nodes = nodesForDeployment()
+        echo &quot;Going to deploy on the following nodes: &apos;${nodes}&apos;\n&quot;
+        def deployments = [:]
+        nodes.each {
+            name -&gt; deployments[name] = {
+              //cleanNode(name) {
+                fancyNode(name) {
+                    sh label: &apos;deployment&apos;, script: &quot;&quot;&quot;
+                    #!/bin/bash
+                    set -e
+                    echo &quot;node name is $name&quot;
+                    # Only build ubuntu images. Neon needs no debian images.
+                    export PANGEA_UBUNTU_ONLY=1
+                    /var/lib/jenkins-slave/tooling/mgmt/docker_cleanup.rb
+                    echo &quot;this debug block is pre systemctl restart docker.service&quot; 
+                    echo &quot;whoami -&gt;&quot;
+                    whoami
+                    systemctl show docker.service | grep ExecMainStartTimestamp=
+                    echo &quot;docker system df -&gt;&quot;
+                    docker system df
+                    echo &quot;df -h -&gt;&quot;
+                    df -h
+                    echo &quot;docker ps --size -&gt;&quot;
+                    docker ps --size
+                    # restart docker to free any leaked disk space
+                    if  [ &quot;$name&quot; != &quot;equinix-arm64-01&quot; ]; then
+                        sudo /usr/bin/systemctl restart docker
+                        echo &quot;in there are no errors sudo /usr/bin/systemctl restart docker should have just run&quot;
+                    fi
+                    echo &quot;this debug block is post systemctl restart docker.service&quot; 
+                    echo &quot;whoami -&gt;&quot;
+                    whoami
+                    systemctl show docker.service | grep ExecMainStartTimestamp=
+                    echo &quot;docker system df -&gt;&quot;
+                    docker system df
+                    echo &quot;df -h -&gt;&quot;
+                    df -h
+                    echo &quot;docker ps --size -&gt;&quot;
+                    docker ps --size
+                    # now roll out new docker container(s)
+                    /var/lib/jenkins-slave/tooling/mgmt/docker.rb
+
+                    &quot;&quot;&quot;
+                }
+              //}
+            }
+        }
+        parallel deployments
+
+    }
+
+    // @return list of node names to deploy on
+    // @warning this needs Groovy Sandbox turned off!
+    def nodesForDeployment() {
+        def labels = [&apos;amd64&apos;, &apos;arm64&apos;, &apos;aarch64&apos;]
+        // Collect nodes for which *any* label is contained in the label list.
+        nodes = jenkins.model.Jenkins.instance.nodes.collect {
+            node -&gt; (node.toComputer() != null &amp;&amp; node.toComputer().online &amp;&amp; node.assignedLabels.any { element -&gt; labels.contains(element.name) }
+                &amp;&amp; node.assignedLabels.every { element -&gt; element.name != &apos;cloud&apos; }
+                ? node.name: null)
+        }
+        nodes = nodes - null
+        if (nodes.isEmpty()) {
+            error(&quot;nodesForDeplgemoyment found no nodes!&quot;)
+            // Opinionated requirement for xenon!
+        }
+        return nodes
+    }
+
+
+def withCleanup(body) {
+  try {
+    body()
+  }
+  finally {
+    /*cleanWs()*/
+  }
+}
+def withFancyWrap(body) {
+  wrap([$class: &apos;AnsiColorBuildWrapper&apos;, colorMapName: &apos;xterm&apos;]) {
+    wrap([$class: &apos;TimestamperBuildWrapper&apos;]) {
+      body()
+    }
+  }
+}
+
+def fancyNode(label = null, body) {
+  node(label) {
+    withFancyWrap {
+      body()
+    }
+  }
+}
+
+def cleanNode(label = null, body) {
+  node(label) {
+    deleteDir() withCleanup {
+      withFancyWrap {
+        body()
+      }
+    }
+  }
+}
+</script>
+    <sandbox>false</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

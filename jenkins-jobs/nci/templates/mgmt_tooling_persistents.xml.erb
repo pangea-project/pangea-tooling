@@ -1,19 +1,37 @@
-<?xml version="1.1" encoding="UTF-8" standalone="no"?><flow-definition plugin="workflow-job@1436.vfa_244484591f">
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1436.vfa_244484591f">
   <actions/>
-  <description>Updates tooling on the persistent and currently running ephemeral builders and then starts the mgmt_docker_nodes job</description>
+  <description>Updates tooling on the persistent builders and then starts the mgmt_docker_persistents job</description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.13"/>
     <hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@166.vc82fc20b_a_ed6">
       <useBuildBlocker>false</useBuildBlocker>
       <blockLevel>GLOBAL</blockLevel>
       <scanQueueFor>DISABLED</scanQueueFor>
-      <blockingJobs/>
+      <blockingJobs></blockingJobs>
     </hudson.plugins.buildblocker.BuildBlockerProperty>
-
+    <org.bstick12.jenkinsci.plugins.leastload.LeastLoadDisabledProperty plugin="leastload@3.0.0">
+      <leastLoadDisabled>false</leastLoadDisabled>
+    </org.bstick12.jenkinsci.plugins.leastload.LeastLoadDisabledProperty>
+    <com.suryagaddipati.jenkins.SlaveUtilizationProperty plugin="slave-utilization-plugin@1.8">
+      <needsExclusiveAccessToNode>false</needsExclusiveAccessToNode>
+      <singleInstancePerSlave>false</singleInstancePerSlave>
+      <slaveUtilizationPercentage>0</slaveUtilizationPercentage>
+    </com.suryagaddipati.jenkins.SlaveUtilizationProperty>
+    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@2.14">
+      <maxConcurrentPerNode>0</maxConcurrentPerNode>
+      <maxConcurrentTotal>0</maxConcurrentTotal>
+      <categories class="java.util.concurrent.CopyOnWriteArrayList"/>
+      <throttleEnabled>false</throttleEnabled>
+      <throttleOption>project</throttleOption>
+      <limitOneJobWithMatchingParams>false</limitOneJobWithMatchingParams>
+      <paramsToUseForLimit></paramsToUseForLimit>
+    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
     <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
       <triggers>
         <jenkins.triggers.ReverseBuildTrigger>
-          <spec/>
+          <spec></spec>
           <upstreamProjects>mgmt_tooling</upstreamProjects>
           <threshold>
             <name>UNSTABLE</name>
@@ -25,27 +43,27 @@
       </triggers>
     </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
   </properties>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3922.va_f73b_7c4246b_">
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3961.ve48ee2c44a_b_3">
     <script>// NOTE - if this script is changed at all, it nees to be approved in jenkins
 // Dashboard &gt; Manage Jenkins &gt;ScriptApproval otherwise it will now work!!!
 // &amp;&amp; Use Groovy Sandbox checkbox at the bottom of this page must be
 // unchecked - turned off!!
-fancyNode('master')
+fancyNode(&apos;master&apos;)
 {
-    stage('jewels') {
+    stage(&apos;jewels&apos;) {
     // disable git jeweller which needs ported from geminabox to gemstash jriddell 2023-06-01
-    // build job: 'mgmt_git-jeweller', quietPeriod: 0
+    // build job: &apos;mgmt_git-jeweller&apos;, quietPeriod: 0
     }
 
-    stage('clone') {
-            git 'https://github.com/pangea-project/pangea-tooling.git'
-            sh './git_submodule_setup.sh'
+    stage(&apos;clone&apos;) {
+            git &apos;https://github.com/pangea-project/pangea-tooling.git&apos;
+            sh &apos;./git_submodule_setup.sh&apos;
     }
 
-    stage('prepare') {
-        sh label: 'bundle', script:
-            '''
-            export GEM_HOME=$(ruby -r rubygems -e \'puts Gem.user_dir\')
+    stage(&apos;prepare&apos;) {
+        sh label: &apos;bundle&apos;, script:
+            &apos;&apos;&apos;
+            export GEM_HOME=$(ruby -r rubygems -e \&apos;puts Gem.user_dir\&apos;)
             export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
             export PATH=$GEM_HOME/bin:$PATH
             rm Gemfile.lock || true
@@ -66,18 +84,18 @@ fancyNode('master')
             find ./vendor/cache/* -maxdepth 0 -type d | xargs
             rm -rf rm tooling.tar.gz || true
             tar -cp * .noexec.yml .rubocop.yml | gzip --rsyncable -1 &gt; tooling.tar.gz
-            '''
-        stash includes: 'tooling.tar.gz', name: 'tooling.tar.gz'
+            &apos;&apos;&apos;
+        stash includes: &apos;tooling.tar.gz&apos;, name: &apos;tooling.tar.gz&apos;
     }
 
-    stage('test') {
+    stage(&apos;test&apos;) {
         ws {
             // open a second ws to not pollute the main (persistent) ws
             withCleanup {
-                unstash 'tooling.tar.gz'
+                unstash &apos;tooling.tar.gz&apos;
                 try {
-                    sh label: 'rake test', script: '''
-                    export GEM_HOME=$(ruby -r rubygems -e \'puts Gem.user_dir\')
+                    sh label: &apos;rake test&apos;, script: &apos;&apos;&apos;
+                    export GEM_HOME=$(ruby -r rubygems -e \&apos;puts Gem.user_dir\&apos;)
                     export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
                     export PATH=$GEM_HOME/bin:$PATH
                     hostname
@@ -86,35 +104,35 @@ fancyNode('master')
                     gem install --no-document --version 2.5.9 bundler
                     gem uninstall --version 2.5.10 bundler
                     bundle _2.5.9_ install --jobs=`nproc` --no-cache --local --frozen --system
-                    rake test
+                    #rake test
                     rake cloc
                     rake rubocop
-                    '''
+                    &apos;&apos;&apos;
                 }
 
                 finally {
                     // always record reports not having reports on failures is daft
-                    junit 'test/reports/*.xml'
+                    junit &apos;test/reports/*.xml&apos;
                     // Kaput with pipelines
-                    // step([$class: 'RcovPublisher', targets: []])
-                    sloccountPublish pattern: 'cloc.xml'
+                    // step([$class: &apos;RcovPublisher&apos;, targets: []])
+                    sloccountPublish pattern: &apos;cloc.xml&apos;
                 }
             }
         }
     }
 }
 
-    stage('deploy') {
+    stage(&apos;deploy&apos;) {
         def nodes = nodesForDeployment()
-        echo "Going to deploy on the following nodes: '${nodes}'\n"
+        echo &quot;Going to deploy on the following nodes: &apos;${nodes}&apos;\n&quot;
         def deployments = [:]
         nodes.each {
             name -&gt; deployments[name] = {
               //cleanNode(name) {
                 fancyNode(name) {
-                    unstash 'tooling.tar.gz'
-                    sh label: 'deployment', script: '''
-                    export GEM_HOME=$(ruby -r rubygems -e \'puts Gem.user_dir\')
+                    unstash &apos;tooling.tar.gz&apos;
+                    sh label: &apos;deployment&apos;, script: &apos;&apos;&apos;
+                    export GEM_HOME=$(ruby -r rubygems -e \&apos;puts Gem.user_dir\&apos;)
                     export GEM_PATH=$GEM_HOME:$HOME/.gems/bundler
                     export PATH=$GEM_HOME/bin:$PATH
                     hostname
@@ -127,32 +145,32 @@ fancyNode('master')
                     # https://github.com/pangea-project/pangea-tooling/issues/17
                     bundle install --jobs=`nproc` --no-cache --local --frozen --system
                     rm -rv .bundle || true
-                    #rake clean
-                    #rake deploy
+                    rake clean
+                    rake deploy
                     find ~/tooling-pending/vendor/cache/* -maxdepth 0 -type d | xargs -r
                     #rm -rv ~/tooling/mgmt/mgmt_tooling_persistent.rb
-                    '''
+                    &apos;&apos;&apos;
                 }
               //}
             }
         }
         parallel deployments
-        //FIXME build job: 'mgmt_docker', quietPeriod: 0, wait: false }
+        //FIXME build job: &apos;mgmt_docker&apos;, quietPeriod: 0, wait: false }
     }
 
 // @return list of node names for deployment to deploy on
 // @warning this needs Groovy Sandbox turned off!
 def nodesForDeployment() {
-    def labels = ['amd64', 'arm64', 'aarch64']
+    def labels = [&apos;amd64&apos;, &apos;arm64&apos;, &apos;aarch64&apos;]
     // Collect nodes for which *any* label is contained in the label list.
     nodes = jenkins.model.Jenkins.instance.nodes.collect {
         node -&gt; (node.toComputer() != null &amp;&amp; node.toComputer().online &amp;&amp; node.assignedLabels.any { element -&gt; labels.contains(element.name) }
-            &amp;&amp; node.assignedLabels.every { element -&gt; element.name != 'shared-node' }
+            &amp;&amp; node.assignedLabels.every { element -&gt; element.name != &apos;cloud&apos; }
             ? node.name: null)
     }
     nodes = nodes - null
     if (nodes.isEmpty()) {
-        error("nodesForDeplgemoyment found no nodes!")
+        error(&quot;nodesForDeplgemoyment found no nodes!&quot;)
         // Opinionated requirement for xenon!
     }
     return nodes
@@ -167,8 +185,8 @@ def withCleanup(body) {
   }
 }
 def withFancyWrap(body) {
-  wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-    wrap([$class: 'TimestamperBuildWrapper']) {
+  wrap([$class: &apos;AnsiColorBuildWrapper&apos;, colorMapName: &apos;xterm&apos;]) {
+    wrap([$class: &apos;TimestamperBuildWrapper&apos;]) {
       body()
     }
   }
