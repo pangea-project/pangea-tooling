@@ -177,7 +177,7 @@ APT::Default-Release "#{setup_repo_codename}";
       File.write(default_sources_file, lines.join("\n"))
     end
 
-    def type_to_repo(type)
+    def type_to_repo(type, dist)
       if dist == "jammy"
         @type = 'testing' if @type == 'stable'
       end
@@ -185,7 +185,7 @@ APT::Default-Release "#{setup_repo_codename}";
     end
 
     def debline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
-      repo = type_to_repo(type)
+      repo = type_to_repo(type, dist)
 
       if NCI.divert_repo?(repo)
         return format('deb http://archive.neon.kde.org/tmp/%<repo>s %<dist>s main',
@@ -197,7 +197,7 @@ APT::Default-Release "#{setup_repo_codename}";
     end
 
     def debsrcline(type: ENV.fetch('TYPE'), dist: setup_repo_codename)
-      repo = type_to_repo(type)
+      repo = type_to_repo(type, dist)
 
       if NCI.divert_repo?(repo)
         return format('deb-src http://archive.neon.kde.org/tmp/%<repo>s %<dist>s main',
