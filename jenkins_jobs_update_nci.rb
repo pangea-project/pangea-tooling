@@ -222,6 +222,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
           watchers[watcher.job_name] = watcher
         end
+        # end of projects
 
         next if type == NCI.qt_stage_type
 
@@ -341,7 +342,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         )
         enqueue(NeonIsoJob.new(**mobile_dev_testing_isoargs))
         enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'mobile')))
-      end
 
         # release edition stuffs
         release_release_isoargs = standard_args.merge(
@@ -475,6 +475,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
 
       enqueue(MGMTAppstreamUbuntuFilter.new(dist: distribution))
     end
+    # end of distribution
 
     enqueue(MGMTRepoMetadataCheck.new(dependees: []))
 
