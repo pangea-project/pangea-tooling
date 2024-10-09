@@ -461,7 +461,10 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
     jeweller = enqueue(MGMTGitJewellerJob.new)
     docker = enqueue(MGMTDockerJob.new(dependees: []))
-    enqueue(MGMTDockerNodes.new)
+    enqueue(MGMTDockerEphemerals.new)
+    enqueue(MGMTDockerPersistents.new)
+    enqueue(MGMTDockerPersistentsCleanup.new)
+    enqueue(MGMTDockerPersistentsDailyCleanup.new)
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsPruneOld.new)
     enqueue(MGMTJenkinsJobScorer.new)
@@ -521,7 +524,8 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     end
     enqueue(MGMTToolingJob.new(downstreams: [],
                                dependees: []))
-    enqueue(MGMTToolingNodes.new)
+    enqueue(MGMTToolingPersistents.new)
+    enqueue(MGMTToolingEphemerals.new)
     enqueue(MGMTToolingUpdateSubmodules.new)
     enqueue(MGMTRepoCleanupJob.new)
   end
