@@ -43,7 +43,7 @@ NCI.series.each_key do |series|
   repos.merge!(
     PublishingRepo.new("unstable_#{series}", 'unstable') =>
       repo(label_type: 'Unstable Edition', series: series, SkipContents: true),
-    PublishingRepo.new("stable_#{series}", 'testing') =>
+    PublishingRepo.new("stable_#{series}", 'stable') =>
       repo(label_type: 'Testing Edition', series: series, SkipContents: true),
     PublishingRepo.new("release_#{series}", 'release') =>
       repo(label_type: 'User Edition', series: series),
