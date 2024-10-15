@@ -30,6 +30,7 @@ module Lint
     def initialize(type, dist)
       @type = type.tr('-', '/')
       @repo = "#{type}_#{dist}"
+      @dist = dist
       @missing_modules = []
       prepare
     end
@@ -40,7 +41,7 @@ module Lint
       # testing editions's aptly repo is called stable_foo for now
       repo = @repo
       aptly_repo = Aptly::Repository.get(repo)
-      if dist == "jammy"
+      if @dist == "jammy"
         @type = 'testing' if @type == 'stable'
       end
       qml_repo = ChangesSourceFilterAptlyRepository.new(aptly_repo, @type)
