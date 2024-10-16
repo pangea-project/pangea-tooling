@@ -178,9 +178,6 @@ APT::Default-Release "#{setup_repo_codename}";
     end
 
     def type_to_repo(type, dist)
-      if dist == "jammy"
-        @type = 'testing' if @type == 'stable'
-      end
       type.tr('-', '/')
     end
 
