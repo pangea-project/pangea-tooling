@@ -26,6 +26,12 @@ require_relative 'lib/setup_repo'
 require_relative '../lib/install_check'
 
 TYPE = ENV.fetch('TYPE')
+if TYPE == 'user'
+  SNAPSHOT = 'release'
+elsif TYPE == 'stable'
+  SNAPSHOT = 'testing'
+end
+
 REPO_KEY = "#{TYPE}_#{ENV.fetch('DIST')}"
 
 NCI.setup_proxy!
@@ -40,11 +46,11 @@ Aptly.configure do |config|
   # This is read-only.
 end
 
-proposed = AptlyRepository.new(Aptly::Repository.get(REPO_KEY), 'release')
+proposed = AptlyRepository.new(Aptly::Repository.get(REPO_KEY), TYPE)
 
 snapshots = Aptly::Snapshot.list.sort_by { |x| DateTime.parse(x.CreatedAt) }
 snapshots.keep_if { |x| x.Name.start_with?(REPO_KEY) }
-target = AptlyRepository.new(snapshots[-1], 'user')
+target = AptlyRepository.new(snapshots[-1], SNAPSHOT)
 target.purge_exclusion << 'neon-settings' << 'libseccomp2' << 'neon-adwaita' << 'libdrm2' << 'libdrm-dev' << 'libdrm-common' << 'libdrm-test' << 'libdrm2-udeb' << 'libdrm-intel' << 'libdrm-radeon1' << 'libdrm-common' << 'libdrm-intel1' << 'libdrm-amdgpu1' << 'libdrm-tests' << 'libdrm-nouveau2'
 
 # Mark all packages essential such that they can't be uninstalled by accident.
