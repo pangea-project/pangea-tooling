@@ -56,6 +56,10 @@ elsif
   NCI.future_series && NCI.future_is_early
   ISONAME = "#{IMAGENAME}-#{DIST}-#{TYPE}"
   puts "new iso name is - #{ISONAME}"
+elsif
+  DIST == NCI.current_series && combined_type==true
+  ISONAME = "#{IMAGENAME}-#{NEW_TYPE}"
+  puts "new iso name is - #{ISONAME}"
 else
   ISONAME = "#{IMAGENAME}-#{TYPE}"
   puts "new iso name is - #{ISONAME}"
