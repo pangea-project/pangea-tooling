@@ -23,6 +23,7 @@
 require 'fileutils'
 
 require_relative '../lib/ci/containment'
+require_relative '../lib/nci'
 
 TOOLING_PATH = File.dirname(__dir__)
 
@@ -33,6 +34,7 @@ ARCH = ENV.fetch('ARCH')
 METAPACKAGE = ENV.fetch('METAPACKAGE')
 IMAGENAME = ENV.fetch('IMAGENAME')
 NEONARCHIVE = ENV.fetch('NEONARCHIVE')
+FUTURE_SERIES = NCI.future_series
 
 Docker.options[:read_timeout] = 4 * 60 * 60 # 4 hours.
 
@@ -47,7 +49,7 @@ c = CI::Containment.new(JOB_NAME,
                         privileged: true,
                         no_exit_handlers: false)
 cmd = ['/tooling-host/data/imager/build.sh',
-       Dir.pwd, DIST, ARCH, TYPE, METAPACKAGE, IMAGENAME, NEONARCHIVE]
+       Dir.pwd, DIST, ARCH, TYPE, METAPACKAGE, IMAGENAME, NEONARCHIVE, FUTURE_SERIES]
 status_code = c.run(Cmd: cmd)
 warn "status code was #{status_code.to_i}"
 
