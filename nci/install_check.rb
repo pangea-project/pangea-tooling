@@ -26,7 +26,7 @@ require_relative 'lib/setup_repo'
 require_relative '../lib/install_check'
 
 TYPE = ENV.fetch('TYPE')
-if TYPE == 'user'
+if TYPE == 'release'
   snapshot = 'release'
 elsif TYPE == 'stable'
   snapshot = 'testing'
