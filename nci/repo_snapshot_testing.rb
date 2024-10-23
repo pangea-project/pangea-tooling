@@ -30,8 +30,8 @@ require_relative '../lib/aptly-ext/remote'
 require_relative '../lib/pangea/mail'
 
 DIST = ENV.fetch('DIST')
-prefix = 'stable'
-repo = 'testing'
+prefix = 'testing'
+repo = 'stable'
 
 def send_email(mail_text, prefix)
   puts 'sending notification mail'
