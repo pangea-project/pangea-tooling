@@ -259,6 +259,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         end
       end
       # end of type
+      next # FIXME
 
       # ISOs
       NCI.architectures.each do |architecture|
@@ -501,7 +502,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                                          dist: NCI.future_series))
     end
     jeweller = enqueue(MGMTGitJewellerJob.new)
-    docker = enqueue(MGMTDockerJob.new(dependees: []))
     enqueue(MGMTDockerEphemerals.new)
     enqueue(MGMTDockerPersistents.new)
     enqueue(MGMTDockerPersistentsCleanup.new)
