@@ -314,6 +314,8 @@ run jenkins_retry manually for this release on release day.
 
     def send_mail
       return if ENV.key?('BUILD_CAUSE') and ENV['BUILD_CAUSE'] != 'Started by timer'
+      return if ENV['JOB_NAME'].split('_')[2] == "backports-jammy"
+      return if ENV['JOB_NAME'].split('_')[2] == "backports-focal"
 
       subject = "Releasing: #{newest_dehs_package.name} - #{newest_version}"
       subject = "Dev Required: #{newest_dehs_package.name} - #{newest_version}" unless kde_software?
