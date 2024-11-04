@@ -8,15 +8,18 @@ require_relative '../../lib/nci'
 
 DIST = ENV.fetch('DIST')
 TYPE = ENV.fetch('TYPE')
+NEONARCHIVE = ENV.fetch('NEONARCHIVE')
 # NB: DO NOT CHANGE THIS LIGHTLY!!!!
 # The series guards prevent the !current series from publishing over the current
 # series. When the ISO should change you'll want to edit nci.yaml and shuffle
 # the series entries around there.
 REMOTE_DIR = case DIST
              # release is for dev purposes only
-             when TYPE == 'release'
+             when TYPE == 'release' || TYPE == 'stable'
                "neon/images/#{DIST}-preview/#{TYPE}/"
-             when NCI.current_series
+             when NCI.current_series && TYPE == 'bigscreen' || TYPE == 'developer' || TYPE == 'ko' || TYPE == 'mobile'
+               "neon/images/#{TYPE}/#{NEONARCHIVE}"
+             when NCI.current_series && TYPE == 'user' || TYPE == 'testing' || TYPE == 'unstable'
                "neon/images/#{TYPE}/"
              when NCI.future_series
                # Subdir if not the standard version
