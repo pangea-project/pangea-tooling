@@ -123,7 +123,7 @@
       <command>
 export DIST=<%= dist %>
 cd $HOME/tooling
-./nci/repo_snapshot_user.rb -t <%= target %>
+./nci/repo_snapshot_<%= target %>.rb -t <%= target %>
 </command>
     </hudson.tasks.Shell>
     <hudson.plugins.parameterizedtrigger.TriggerBuilder plugin="parameterized-trigger@2.33">

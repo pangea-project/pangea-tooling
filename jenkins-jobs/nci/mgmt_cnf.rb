@@ -16,7 +16,7 @@ class MGTMCNFJob < PipelineJob
     @dist = dist
     @type = type
     if dist == "jammy"
-      @conten_push_repo_dir = conten_push_repo_di == 'stable' ? 'testing' : conten_push_repo_dir
+      @conten_push_repo_dir = conten_push_repo_dir == 'stable' ? 'testing' : conten_push_repo_dir
     else
       @conten_push_repo_dir = conten_push_repo_dir
     end
