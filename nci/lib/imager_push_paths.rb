@@ -17,10 +17,12 @@ REMOTE_DIR = case DIST
              # release is for dev purposes only
              when TYPE == 'release' || TYPE == 'stable'
                "neon/images/#{DIST}-preview/#{TYPE}/"
-             when NCI.current_series && TYPE == 'bigscreen' || TYPE == 'developer' || TYPE == 'ko' || TYPE == 'mobile'
-               "neon/images/#{TYPE}/#{NEONARCHIVE}"
-             when NCI.current_series && TYPE == 'user' || TYPE == 'testing' || TYPE == 'unstable'
+             when NCI.current_series
+               if TYPE == 'bigscreen' || TYPE == 'ko' || TYPE == 'mobile'
+                "neon/images/#{TYPE}/#{NEONARCHIVE}/"
+               else
                "neon/images/#{TYPE}/"
+               end
              when NCI.future_series
                # Subdir if not the standard version
                "neon/images/#{DIST}-preview/#{TYPE}/"
