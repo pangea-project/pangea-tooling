@@ -19,9 +19,9 @@ REMOTE_DIR = case DIST
                "neon/images/#{DIST}-preview/#{TYPE}/"
              when NCI.current_series
                if TYPE == 'bigscreen' || TYPE == 'ko' || TYPE == 'mobile'
-                "neon/images/#{TYPE}/#{NEONARCHIVE}/"
+                 "neon/images/#{TYPE}/#{NEONARCHIVE}/"
                else
-               "neon/images/#{TYPE}/"
+                 "neon/images/#{TYPE}/"
                end
              when NCI.future_series
                # Subdir if not the standard version
