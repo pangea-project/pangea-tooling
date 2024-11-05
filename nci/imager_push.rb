@@ -213,12 +213,12 @@ Net::SFTP.start('rsync.kde.org', 'neon', *ssh_args) do |sftp|
   end
   sftp.cli_uploads = false
   sftp.upload!('result/.message', "#{REMOTE_PUB_DIR}/.message")
-  sftp.remove!("#{REMOTE_DIR}/current")
   begin
     sftp.remove!("#{REMOTE_DIR}/current")
   rescue Net::SFTP::StatusException # current doesn't exist
     puts "#{REMOTE_DIR}/current doesn't exist; not deleting"
   end
+  sftp.symlink!("#{DATE}", "#{REMOTE_DIR}/current")
 
   sftp.dir.glob(REMOTE_DIR, '*') do |entry|
     next unless entry.directory? # current is a symlink
