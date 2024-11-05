@@ -188,12 +188,19 @@ Aptly::Ext::Remote.neon do
     # Hash the packages by their versions, take the versions and sort them
     # to get the latest available version of the specific package at hand.
     by_name = by_name.map do |name, pkgs|
-      by_version = Aptly::Ext::LatestVersionFilter.debian_versions(pkgs)
-      versions = by_version.keys
+      puts by_version = Aptly::Ext::LatestVersionFilter.debian_versions(pkgs)
+      puts versions = by_version.keys
       [name, versions.max.upstream]
     end.to_h
     # by_name is now a hash of package names to upstream versions
 
+    # only user edition can have a larger version due to debian versioning rules (- ~ +)
+    # so for testing edition we only want to compare equality, thus strip out the
+    # excess in @upstream version key from + onwards
+    if ENV.fetch('TYPE') != 'user' && ENV.fetch('TYPE') != 'release'
+      puts new_by_name = by_name.transform_values { |value| value.gsub(/[+][^\s]+/,"") }
+      puts by_name = new_by_name
+    end
     # Extract our scope markers into the output array with a fancy name.
     # This kind of collapses all plasma packages into one Plasma entry for
     # example.
