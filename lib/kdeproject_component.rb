@@ -123,6 +123,24 @@ class KDEProjectsComponent
         end
         modules
       end.sort
+      # add on old kf5 based release_service apps we still ship
+      @release_service = @release_service - %w{
+        audiocd-kio5
+        ffmpegthumbs5
+        kaccounts5-integration
+        kdegraphics-mobipocket-5
+        kdegraphics-thumbnailers-5
+        kdesdk-kio-5
+        kio-extras5
+        kio-gdrive-5
+        ksanecore5
+        libkcddb5
+        libkcompactdisc5
+        libkdcraw5
+        libkexiv2-qt5
+        libkgapi5
+        libksane5
+    }
     end
 
     def gear_jobs
