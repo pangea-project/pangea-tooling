@@ -17,7 +17,7 @@ class ProjectJob < JenkinsJob
     return [] unless project.debian?
 
     architectures = architectures.dup
-    architectures << 'i386' if %w[chafa-jammy libjpeg-turbo-jammy harfbuzz util-linux wayland libdrm-jammy libdrm lcms2-jammy wayland-jammy].any? { |x| project.name == x }
+    architectures << 'i386' if %w[wayland-noble].any? { |x| project.name == x }
 
     basename = basename(distribution, type, project.component, project.name)
 
