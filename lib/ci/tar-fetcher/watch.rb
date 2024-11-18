@@ -74,7 +74,7 @@ module CI
 
     def populate_keyring
       make_dir("#{@dir}/upstream/")
-      FileUtils.cp('/usr/share/keyrings/kde-release-keyring.asc', "#{@dir}/upstream/signing-key.asc", force: true)
+      FileUtils.cp('/usr/share/keyrings/kde-release-keyring.asc', "#{@dir}/upstream/signing-key.asc")
     end
 
     def make_dir(destdir)
