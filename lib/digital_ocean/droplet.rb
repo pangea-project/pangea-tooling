@@ -54,7 +54,7 @@ module DigitalOcean
         DropletKit::Droplet.new(
           name: name,
           region: 'fra1',
-          image: (image&.id || 'ubuntu-22-04-x64'),
+          image: (image&.id || 'ubuntu-24-04-x64'),
           size: 'c-2',
           ssh_keys: client.ssh_keys.all.collect(&:fingerprint),
           private_networking: true
