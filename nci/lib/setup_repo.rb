@@ -60,7 +60,7 @@ module NCI
     return unless with_install
 
     deps = %w[pkg-kde-tools pkg-kde-tools-neon debhelper cmake quilt dh-python dh-translations]
-    deps << 'kde-release-keyring' unless ENV.fetch('JOB_NAME').include?('kde-release-keyring')
+    deps << 'kde-release-keyring' unless ENV.fetch('JOB_NAME').include?('kde-keyring')
     raise 'failed to install deps' unless Apt.install(deps)
     
     # Qt6 Hack
