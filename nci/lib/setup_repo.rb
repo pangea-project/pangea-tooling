@@ -59,9 +59,8 @@ module NCI
     # Make sure we have the latest pkg-kde-tools, not whatever is in the image.
     return unless with_install
 
-    ENV.fetch('JOB_NAME')
     @deps = %w[pkg-kde-tools pkg-kde-tools-neon debhelper cmake quilt dh-python dh-translations]
-      @deps << 'kde-release-keyring' unless JOB_NAME.include?('kde-release-keyring')
+      @deps << 'kde-release-keyring' unless ENV.fetch('JOB_NAME').include?('kde-release-keyring')
       raise 'failed to install deps' unless Apt.install(@deps)
     end
      
