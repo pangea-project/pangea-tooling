@@ -58,7 +58,6 @@ module CI
       #   without downloading. then decide whether to wipe destdir and download
       #   or not.
       maybe_mangle do
-        populate_keyring()
         make_dir(destdir)
         apt_source(destdir)
         uscan(@dir, destdir) unless @have_source
@@ -71,11 +70,6 @@ module CI
     end
 
     private
-
-    def populate_keyring
-      make_dir("#{@dir}/upstream/")
-      FileUtils.cp('/usr/share/keyrings/kde-release-keyring.asc', "#{@dir}/upstream/signing-key.asc")
-    end
 
     def make_dir(destdir)
       FileUtils.mkpath(destdir) unless Dir.exist?(destdir)
@@ -97,6 +91,7 @@ module CI
     def maybe_mangle(&block)
       orig_data = File.read(@watchfile)
       File.write(@watchfile, mangle_url(orig_data)) if @mangle_download
+      populate_kde_keyring()
       block.yield
     ensure
       File.write(@watchfile, orig_data)
@@ -107,6 +102,11 @@ module CI
       # Only available through blue system's internal DNS.
       data.gsub(%r{download.kde.org/stable/},
                 'download.kde.internal.neon.kde.org/stable/')
+    end
+
+    def populate_kde_keyring
+      make_dir("#{@dir}/upstream/")
+      FileUtils.cp('/usr/share/keyrings/kde-release-keyring.asc', "#{@dir}/upstream/signing-key.asc")
     end
 
     def changelog
