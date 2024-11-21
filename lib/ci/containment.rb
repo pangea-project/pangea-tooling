@@ -135,7 +135,9 @@ module CI
     def chown_any_mapped(binds)
       # /a:/build gets split into /a we then 1:1 map this as /a upon chowning.
       # This allows us to hopefully reliably chown mapped bindings.
+      STDERR.puts '1 chown_any_mapped()'
       DirectBindingArray.to_volumes(binds).keys
+      STDERR.puts '2 chown_any_mapped()'
     end
 
     def chown_handler
@@ -146,15 +148,20 @@ module CI
       binds_ = @binds.dup # Remove from object context so Proc can be a closure.
       STDERR.puts '3 Running chown handler'
       binds_ = chown_any_mapped(binds_)
+      STDERR.puts '3.1 Running chown handler'
+      STDERR.puts "3.1 Running chown handler binds #{binds_}"
+      STDERR.puts "3.1 Running chown handler image #{@image}"
+      STDERR.puts "3.1 Running chown handler name #{@name}"
       @chown_handler = proc do
         STDERR.puts '4 Running chown handler'
         chown_container =
           CI::Containment.new("#{@name}_chown", image: @image, binds: binds_,
                                                 no_exit_handlers: true)
-        chown_container.run(Cmd: %w[chown -R jenkins:jenkins] + binds_)
+        chown_container.run(Cmd: %w[touch CHOWN_HANDLER; chown -R jenkins:jenkins] + binds_)
         STDERR.puts '5 Running chown handler'
       end
       STDERR.puts '6 Running chown handler'
+      return @chown_handler
     end
 
     def trap!
