@@ -139,22 +139,22 @@ module CI
     end
 
     def chown_handler
-      STDERR.puts 'Running chown handler'
+      STDERR.puts '1 Running chown handler'
       return @chown_handler if defined?(@chown_handler)
-      STDERR.puts '1 Running cleanup and handlers'
+      STDERR.puts '2 Running chown handler'
 
       binds_ = @binds.dup # Remove from object context so Proc can be a closure.
-      STDERR.puts '2 Running cleanup and handlers'
+      STDERR.puts '3 Running chown handler'
       binds_ = chown_any_mapped(binds_)
       @chown_handler = proc do
-        STDERR.puts '3 Running cleanup and handlers'
+        STDERR.puts '4 Running chown handler'
         chown_container =
           CI::Containment.new("#{@name}_chown", image: @image, binds: binds_,
                                                 no_exit_handlers: true)
         chown_container.run(Cmd: %w[chown -R jenkins:jenkins] + binds_)
-        STDERR.puts '4 Running cleanup and handlers'
+        STDERR.puts '5 Running chown handler'
       end
-      STDERR.puts '5 Running cleanup and handlers'
+      STDERR.puts '6 Running chown handler'
     end
 
     def trap!
