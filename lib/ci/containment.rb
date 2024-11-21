@@ -137,7 +137,6 @@ module CI
       # This allows us to hopefully reliably chown mapped bindings.
       STDERR.puts '1 chown_any_mapped()'
       DirectBindingArray.to_volumes(binds).keys
-      STDERR.puts '2 chown_any_mapped()'
     end
 
     def chown_handler
@@ -149,6 +148,7 @@ module CI
       STDERR.puts '3 Running chown handler'
       binds_ = chown_any_mapped(binds_)
       STDERR.puts '3.1 Running chown handler'
+      STDERR.puts `pwd`
       STDERR.puts "3.1 Running chown handler binds #{binds_}"
       STDERR.puts "3.1 Running chown handler image #{@image}"
       STDERR.puts "3.1 Running chown handler name #{@name}"
