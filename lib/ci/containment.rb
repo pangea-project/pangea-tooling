@@ -157,7 +157,7 @@ module CI
         chown_container =
           CI::Containment.new("#{@name}_chown", image: @image, binds: binds_,
                                                 no_exit_handlers: true)
-        chown_container.run(Cmd: %w[touch CHOWN_HANDLER; chown -R jenkins:jenkins] + binds_)
+        chown_container.run(Cmd: %w[chown -R jenkins:jenkins] + binds_)
         STDERR.puts '5 Running chown handler'
       end
       STDERR.puts '6 Running chown handler'
@@ -195,6 +195,7 @@ module CI
       STDERR.puts '1 run_signal_handler()'
       # Sometimes the chown handler gets stuck running chown_container.run
       # so make sure to timeout whatever is going on and get everything murdered
+      STDERR.puts '1.1 run_signal_handler() ' + hander.class.to_s
       Timeout.timeout(16) { handler.call }
       STDERR.puts '2 run_signal_handler()'
     rescue Timeout::Error => e
