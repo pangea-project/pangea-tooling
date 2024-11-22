@@ -192,7 +192,7 @@ module CI
         end
         handler = proc { raise SignalException, signal }
       end
-      STDERR.puts '1 run_signal_handler()'
+      STDERR.puts '1.0 run_signal_handler()'
       # Sometimes the chown handler gets stuck running chown_container.run
       # so make sure to timeout whatever is going on and get everything murdered
       STDERR.puts '1.1 run_signal_handler() ' + hander.class.to_s
