@@ -195,7 +195,7 @@ module CI
       STDERR.puts '1.0 run_signal_handler()'
       # Sometimes the chown handler gets stuck running chown_container.run
       # so make sure to timeout whatever is going on and get everything murdered
-      STDERR.puts '1.1 run_signal_handler() ' + hander.class.to_s
+      STDERR.puts '1.1 run_signal_handler() ' + handler.class.to_s
       Timeout.timeout(16) { handler.call }
       STDERR.puts '2 run_signal_handler()'
     rescue Timeout::Error => e
