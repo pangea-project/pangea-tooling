@@ -20,7 +20,6 @@
 
 require 'logger'
 require 'logger/colors'
-require 'timeout'
 
 require_relative '../docker/network_patch'
 require_relative 'container/ephemeral'
@@ -140,27 +139,16 @@ module CI
     end
 
     def chown_handler
-      STDERR.puts '1 Running chown handler'
       return @chown_handler if defined?(@chown_handler)
-      STDERR.puts '2 Running chown handler'
 
       binds_ = @binds.dup # Remove from object context so Proc can be a closure.
-      STDERR.puts '3 Running chown handler'
       binds_ = chown_any_mapped(binds_)
-      STDERR.puts '3.1 Running chown handler'
-      STDERR.puts `pwd`
-      STDERR.puts "3.1 Running chown handler binds #{binds_}"
-      STDERR.puts "3.1 Running chown handler image #{@image}"
-      STDERR.puts "3.1 Running chown handler name #{@name}"
       @chown_handler = proc do
-        STDERR.puts '4 Running chown handler'
         chown_container =
           CI::Containment.new("#{@name}_chown", image: @image, binds: binds_,
                                                 no_exit_handlers: true)
         chown_container.run(Cmd: %w[chown -R jenkins:jenkins] + binds_)
-        STDERR.puts '5 Running chown handler'
       end
-      STDERR.puts '6 Running chown handler'
       return @chown_handler
     end
 
@@ -168,38 +156,11 @@ module CI
       TRAP_SIGNALS.each do |signal|
         previous = Signal.trap(signal, nil)
         Signal.trap(signal) do
-          STDERR.puts 'Running cleanup and handlers'
-          cleanup
-          STDERR.puts '1 Running cleanup and handlers'
-          run_signal_handler(signal, chown_handler)
-          STDERR.puts '2 Running cleanup and handlers'
-          run_signal_handler(signal, previous)
-          STDERR.puts '3 Running cleanup and handlers'
+          chown_handler.call
+          Signal.trap(signal, previous || 'DEFAULT')
         end
-        STDERR.puts '4 Running cleanup and handlers'
       end
-      STDERR.puts '5 Running cleanup and handlers'
       @trap_run = true
-    end
-
-    def run_signal_handler(signal, handler)
-      if !handler || !handler.respond_to?(:call)
-        # Default traps are strings, we can't call them.
-        case handler
-        when 'IGNORE', 'SIG_IGN'
-          # Skip ignores, all others we want to raise.
-          return
-        end
-        handler = proc { raise SignalException, signal }
-      end
-      STDERR.puts '1.0 run_signal_handler()'
-      # Sometimes the chown handler gets stuck running chown_container.run
-      # so make sure to timeout whatever is going on and get everything murdered
-      STDERR.puts '1.1 run_signal_handler() ' + handler.class.to_s
-      Timeout.timeout(16) { handler.call }
-      STDERR.puts '2 run_signal_handler()'
-    rescue Timeout::Error => e
-      warn "Failed to run handler #{handler}, timed out. #{e}"
     end
 
     def rescued_start(c)
