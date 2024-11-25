@@ -20,7 +20,6 @@
 
 require 'logger'
 require 'logger/colors'
-require 'timeout'
 
 require_relative '../docker/network_patch'
 require_relative 'container/ephemeral'
@@ -196,11 +195,13 @@ module CI
       # Sometimes the chown handler gets stuck running chown_container.run
       # so make sure to timeout whatever is going on and get everything murdered
       STDERR.puts '1.1 run_signal_handler() ' + handler.class.to_s
-      Timeout.timeout(16) { handler.call }
+      STDIN.timeout(16) { handler.call }
       STDERR.puts '2 run_signal_handler()'
-    rescue Timeout::Error => e
+    rescue IO::TimeoutError => e
       warn "Failed to run handler #{handler}, timed out. #{e}"
+      STDIN.timeout = nil
     end
+
 
     def rescued_start(c)
       c.start
