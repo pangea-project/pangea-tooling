@@ -156,6 +156,7 @@ module CI
       TRAP_SIGNALS.each do |signal|
         previous = Signal.trap(signal, nil)
         Signal.trap(signal) do
+          cleanup
           chown_handler.call
           Signal.trap(signal, previous || 'DEFAULT')
         end
