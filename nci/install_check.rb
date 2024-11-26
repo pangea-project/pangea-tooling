@@ -39,7 +39,7 @@ NCI.add_repo_key!
 
 # Force a higher time out. We are going to do one or two heavy queries.
 Faraday.default_connection_options =
-  Faraday::ConnectionOptions.new({timeout: 15 * 60})
+  Faraday::ConnectionOptions.new(request: {timeout: 15 * 60})
 
 Aptly.configure do |config|
   config.uri = URI::HTTPS.build(host: 'archive-api.neon.kde.org')
