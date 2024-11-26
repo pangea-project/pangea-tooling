@@ -26,7 +26,7 @@ require_relative '../lib/aptly-ext/repo_cleaner'
 
 # SSH tunnel so we can talk to the repo
 Faraday.default_connection_options =
-  Faraday::ConnectionOptions.new(timeout: 15 * 60)
+  Faraday::ConnectionOptions.new(request: {timeout: 15 * 60})
 
 socket_uri = URI('ssh://aptly@localhost/home/aptly/aptly.socket')
 Aptly::Ext::Remote.connect(socket_uri) do
