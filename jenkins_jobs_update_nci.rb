@@ -22,50 +22,6 @@ Dir.glob(File.expand_path('jenkins-jobs/nci/*.rb', __dir__)).each do |file|
   require file
 end
 
-# FIXME: this really shouldn't be in here. need some snap job builder or something
-EXCLUDE_SNAPS =  KDEProjectsComponent.frameworks_jobs + KDEProjectsComponent.plasma_jobs +
-  %w[backports-focal clazy colord-kde gammaray icecc icemon latte-dock libqaccessiblity
-  ofono pyqt sip5 attica baloo bluedevil bluez-qt breeze drkonqi
-  eventviews gpgmepp grantleetheme incidenceeditor
-  kaccounts-integration kcalcore kcalutils kcron kde-dev-scripts
-  kdepim-addons kdepim-apps-libs kdgantt2 kholidays
-  kidentitymanagement kimap kldap kmailtransport kmbox kmime
-  kontactinterface kpimtextedit ktnef libgravatar libkdepim libkleo
-  libkmahjongg libkomparediff2 libksieve mailcommon mailimporter
-  messagelib pimcommon signon-kwallet-extension syndication akonadi
-  akonadi-calendar akonadi-search calendarsupport kalarmcal kblog
-  kcontacts kleopatra kdepim kdepim-runtime kdepimlibs baloo-widgets
-  ffmpegthumbs dolphin-plugins akonadi-mime akonadi-notes analitza
-  kamera kdeedu-data kdegraphics-thumbnailers kdenetwork-filesharing
-  kdesdk-thumbnailers khelpcenter kio-extras kqtquickcharts kuser
-  libkdcraw libkdegames libkeduvocdocument libkexiv2 libkface
-  libkgeomap libkipi libksane poxml akonadi-contacts print-manager
-  marble khangman kdevplatform sddm kdevelop-python kdevelop-php
-  phonon-backend-vlc phonon-backend-gstreamer ktp-common-internals
-  kaccounts-providers kdevelop-pg-qt kwalletmanager kdialog svgpart
-  libkcddb libkcompactdisc mbox-importer akonadi-calendar-tools
-  akonadi-import-wizard audiocd-kio grantlee-editor kdegraphics-mobipocket
-  kmail-account-wizard konqueror libkcddb libkcompactdisc pim-data-exporter
-  pim-sieve-editor pim-storage-service-manager kdegraphics-mobipocket
-  akonadiconsole akregator kdav kmail knotes blogilo libkgapi kgpg
-  kapptemplate kcachegrind kde-dev-utils kdesdk-kioslaves korganizer
-  kfind kfloppy kaddressbook konsole krfb ksystemlog ofono-qt indi libappimage
-  fwupd iio-sensor-proxy kcolorpicker kimageannotator libaqbanking libgusb
-  libgwenhywfar mlt pipewire qxmpp xdg-dbus-proxy alkimia calamares exiv2
-  grantlee kdb kdiagram kpmcore kproperty kpublictransport kreport kuserfeedback
-  libktorrent libmediawiki libqaccessiblity muon polkit-qt-1 pulseaudio-qt qapt qca2
-  qtav qtcurve telepathy-qt wacomtablet fcitx-qt5 kpeoplevcard kup pyqt5 qtkeychain
-  sip4 kio-gdrive kipi-plugins ktp-accounts-kcm ktp-approver ktp-auth-handler ktp-call-ui
-  ktp-contact-list ktp-contact-runner ktp-desktop-applets ktp-filetransfer-handler
-  ktp-kded-module ktp-send-file ktp-text-ui libkscreen libksysguard markdownpart plasma-browser-integration plasma-desktop plasma-discover
-  plasma-integration plasma-nano plasma-nm plasma-pa plasma-sdk plasma-thunderbolt plasma-vault plasma-wayland-protocols
-  plasma-workspace-wallpapers plasma-workspace plymouth-kcm polkit-kde-agent-1
-  powerdevil xdg-desktop-portal-kde black-hole-solver kcgroups kio-fuse kio-stash kmarkdownwebview libetebase libkvkontakte
-  libquotient plasma-disks plasma-firewall plasma-pass plasma-systemmonitor
-  qqc2-breeze-style stellarsolver symmy debug-installer atcore kwrited
-  docker-neon ubiquity-slideshow
-].freeze
-
 # Updates Jenkins Projects
 class ProjectUpdater < Jenkins::ProjectUpdater
   def initialize
@@ -163,19 +119,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                  " We'll not create a job for #{distribution}."
             next
           end
-          # Fairly akward special casing because snapcrafting is a bit
-          # special-interest.
-          # Also forced onto bionic, snapcraft porting requires special care
-          # and is detatched from deb-tech more or less.
-          if %w[release].include?(type) && # project.snapcraft &&  # we allow snapcraft.yaml in project git repo now so can not tell from packaging if it is to be added
-             !EXCLUDE_SNAPS.include?(project.name) && distribution == 'focal'
-            # We use stable in jenkins to build the tar releases because that way we get the right KDE git repo
-            unless project.upstream_scm.nil?
-              next unless (project.upstream_scm.type == 'uscan' or project.upstream_scm.type == 'git')
-                  enqueue(SnapcraftJob.new(project,
-                                           distribution: distribution, type: type))
-            end
-          end
+
           # enable ARM for all releases
           project_architectures = if type == 'unstable' ||
                                      type == 'stable' ||
@@ -259,7 +203,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         end
       end
       # end of type
-      next # FIXME
 
       # ISOs
       NCI.architectures.each do |architecture|
