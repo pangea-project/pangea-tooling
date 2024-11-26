@@ -225,7 +225,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         )
         enqueue(NeonIsoJob.new(**dev_unstable_isoargs))
         enqueue(NeonDockerJob.new(**dev_unstable_dockerargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'unstable')))
 
         # Only make unstable ISO for the next series while in early mode.
         next if distribution == NCI.future_series && NCI.future_is_early
