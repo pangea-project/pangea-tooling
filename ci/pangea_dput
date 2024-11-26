@@ -95,7 +95,7 @@ end
 # Set the timeout to 15 minutes to allow upload of large packages such as
 # firefox and publishing of excessively large repositories.
 Faraday.default_connection_options =
-  Faraday::ConnectionOptions.new({timeout: 15 * 60})
+  Faraday::ConnectionOptions.new(request: {timeout: 15 * 60})
 
 Aptly::Ext::Remote.connect(options.gateway) do
   repos = options.repos.collect { |name| Aptly::Repository.get(name) }
