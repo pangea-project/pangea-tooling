@@ -240,7 +240,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         )
         enqueue(NeonIsoJob.new(**dev_unstable_dev_isoargs))
         enqueue(NeonDockerJob.new(**dev_unstable_dev_dockerargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'developer')))
 
         # stable edition stuffs
         dev_stable_isoargs = standard_args.merge(
@@ -264,7 +263,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         )
         enqueue(NeonIsoJob.new(**dev_testing_isoargs))
         enqueue(NeonDockerJob.new(**dev_testing_dockerargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'testing')))
 
         # ko testing edition stuffs
         ko_dev_testing_release_isoargs = standard_args.merge(
@@ -274,7 +272,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           metapackage: 'neon-desktop-ko'
         )
         enqueue(NeonIsoJob.new(**ko_dev_testing_release_isoargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'ko')))
 
         # mobile testing edition stuffs
         mobile_dev_testing_isoargs = standard_args.merge(
@@ -284,7 +281,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           metapackage: 'plasma-phone'
         )
         enqueue(NeonIsoJob.new(**mobile_dev_testing_isoargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'mobile')))
 
         # release edition stuffs
         release_release_isoargs = standard_args.merge(
@@ -305,7 +301,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         )
         enqueue(NeonIsoJob.new(**user_release_isoargs))
         enqueue(NeonDockerJob.new(**user_release_dockerargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'user')))
 
         # ko user edition stuffs
         ko_user_release_isoargs = standard_args.merge(
@@ -315,7 +310,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           metapackage: 'neon-desktop-ko'
         )
         enqueue(NeonIsoJob.new(**ko_user_release_isoargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'ko')))
 
         # mobile user edition stuffs
         mobile_user_release_isoargs = standard_args.merge(
@@ -325,7 +319,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           metapackage: 'plasma-phone'
         )
         enqueue(NeonIsoJob.new(**mobile_user_release_isoargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'mobile')))
       end
 
 # arm64 ISOs
@@ -344,7 +337,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           cronjob: 'H H * * 0'
         )
         enqueue(NeonIsoJob.new(**dev_unstable_isoargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'unstable')))
 
         # Only make unstable ISO for the next series while in early mode.
         next if distribution == NCI.future_series && NCI.future_is_early
@@ -355,7 +347,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           cronjob: 'H H * * 1'
         )
         enqueue(NeonIsoJob.new(**dev_unstable_dev_isoargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'developer')))
 
         dev_stable_isoargs = standard_args.merge(
           type: 'developer',
@@ -363,7 +354,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           cronjob: 'H H * * 2'
         )
         enqueue(NeonIsoJob.new(**dev_stable_isoargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'testing')))
 
         user_release_isoargs = standard_args.merge(
           type: 'user',
@@ -371,7 +361,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           cronjob: 'H H * * 4'
         )
         enqueue(NeonIsoJob.new(**user_release_isoargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'user')))
 
         ko_user_release_isoargs = standard_args.merge(
           type: 'ko',
@@ -380,7 +369,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           metapackage: 'neon-desktop-ko'
         )
         enqueue(NeonIsoJob.new(**ko_user_release_isoargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'ko')))
 
         # mobile ustable edition stuffs
         mobile_isoargs = standard_args.merge(
@@ -390,7 +378,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           metapackage: 'plasma-phone'
         )
         enqueue(NeonIsoJob.new(**mobile_isoargs))
-        enqueue(MGMTTorrentISOJob.new(**standard_args.merge(type: 'mobile')))
       end
 
       dev_unstable_imgargs = { type: 'devedition-gitunstable',
