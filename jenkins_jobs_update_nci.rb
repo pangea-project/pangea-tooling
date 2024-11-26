@@ -205,7 +205,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
         end
       end
       # end of type
-      #next # FIXME
 
       # amd 64 ISO's && docker's
       NCI.architectures.each do |architecture|
