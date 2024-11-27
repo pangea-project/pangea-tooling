@@ -167,8 +167,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           next if watchers.key?(watcher.job_name) # Already have one.
 
           watchers[watcher.job_name] = watcher
-        end
-        # end of projects
+        end # end of type_projects[type].each
 
         next if type == NCI.qt_stage_type
 
@@ -203,8 +202,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           enqueue(MGMTRepoTestVersionsUpgradeJob.new(type: type,
                                                      distribution: distribution))
         end
-      end
-      # end of type
+      end # end of NCI.types.each
 
       # amd 64 ISO's && docker's
       NCI.architectures.each do |architecture|
@@ -339,7 +337,7 @@ class ProjectUpdater < Jenkins::ProjectUpdater
           metapackage: 'plasma-phone'
         )
         enqueue(NeonIsoJob.new(**mobile_user_release_isoargs))
-      end
+      end # endo of NCI.architectures.each
 
       # arm64 ISO's, docker's and img's
       NCI.extra_architectures.each do |architecture|
@@ -377,20 +375,16 @@ class ProjectUpdater < Jenkins::ProjectUpdater
                         neonarchive: 'user',
                         cronjob: 'H H * * 0'}
         enqueue(NeonImgJob.new(**user_imgargs))
-      end
-      # end of arm64
+      end # end of NCI.extra_architectures.each
 
       enqueue(MGMTRepoDivert.new(target: "unstable_#{distribution}"))
       enqueue(MGMTRepoUndoDivert.new(target: "unstable_#{distribution}"))
       enqueue(MGMTAppstreamUbuntuFilter.new(dist: distribution))
-    end
-    # end of distribution
+    end # end of NCI.series.each_key
 
-    enqueue(MGMTRepoMetadataCheck.new(dependees: []))
-
+    ## META jobs
     # Watchers is a hash, only grab the actual jobs and enqueue them.
     watchers.each_value { |w| enqueue(w) }
-
     merger = enqueue(MetaMergeJob.new(downstream_jobs: all_mergers))
     progenitor = enqueue(
       MgmtProgenitorJob.new(downstream_jobs: all_meta_builds,
@@ -398,31 +392,32 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     )
     enqueue(MGMTPauseIntegrationJob.new(downstreams: [progenitor]))
     enqueue(MGMTAptlyJob.new(dependees: [progenitor]))
-    enqueue(MGMTWorkspaceCleanerJob.new(dist: NCI.current_series))
-    enqueue(MGMTMergerDebianFrameworks.new)
-    enqueue(MGMTAppstreamHealthJob.new(dist: NCI.current_series))
-    if NCI.future_series
-      # Add generator jobs as necessary here. Probably sound to start out
-      # with unstable first though.
-      enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
-      enqueue(MGMTAppstreamGenerator.new(repo: 'unstable',
-                                         type: 'unstable',
-                                         dist: NCI.future_series))
-    end
+
+    ## MGMT jobs
     jeweller = enqueue(MGMTGitJewellerJob.new)
+    enqueue(MGMTMergerDebianFrameworks.new)
+    enqueue(MGMTDigitalOcean.new)
+    enqueue(MGMTDigitalOceanDangler.new)
     enqueue(MGMTDockerEphemerals.new)
+    enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTDockerPersistents.new)
     enqueue(MGMTDockerPersistentsCleanup.new)
     enqueue(MGMTDockerPersistentsDailyCleanup.new)
+    enqueue(MGMTJenkinsJobScorer.new)
     enqueue(MGMTJenkinsPruneParameterListJob.new)
     enqueue(MGMTJenkinsPruneOld.new)
-    enqueue(MGMTJenkinsJobScorer.new)
-    enqueue(MGMTGitSemaphoreJob.new)
     enqueue(MGMTJobUpdater.new)
-    enqueue(MGMTDigitalOcean.new)
-    enqueue(MGMTDigitalOceanDangler.new)
+    enqueue(MGMTRepoCleanupJob.new)
+    enqueue(MGMTRepoMetadataCheck.new(dependees: []))
     enqueue(MGMTSeedDeploy.new)
+    enqueue(MGMTToolingJob.new(downstreams: [], dependees: []))
+    enqueue(MGMTToolingPersistents.new)
+    enqueue(MGMTToolingEphemerals.new)
+    enqueue(MGMTToolingUpdateSubmodules.new)
+    enqueue(MGMTWorkspaceCleanerJob.new(dist: NCI.current_series))
 
+
+    ## Q&A jobs
     # This QA is only run for user edition, otherwise we'd end up in a nightmare
     # of which component is available in which edition but not the other.
     enqueue(MGMTAppstreamComponentsDuplicatesJob.new(type: 'user',
@@ -451,6 +446,15 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     # drop legacy support when the time comes. At the time of writing both
     # things are highly coupled to their series, so treating them as something
     # generic is folly.
+    enqueue(MGMTAppstreamHealthJob.new(dist: NCI.current_series))
+    if NCI.future_series
+      # Add generator jobs as necessary here. Probably sound to start out
+      # with unstable first though.
+      enqueue(MGMTAppstreamHealthJob.new(dist: NCI.future_series))
+      enqueue(MGMTAppstreamGenerator.new(repo: 'unstable',
+                                         type: 'unstable',
+                                         dist: NCI.future_series))
+    end
 
     # In addition to type-dependent cnf jobs we create one for user edition itself. user repo isn't a type but
     # we want cnf data all the same. Limited to current series for no particular reason other than convenience (future
@@ -460,24 +464,29 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGTMCNFJob.new(type: 'release', dist: NCI.current_series, conten_push_repo_dir: 'user', name: 'user'))
 
     enqueue(MGMTSnapshotUser.new(dist: NCI.current_series, origin: 'release', target: 'user'))
+    enqueue(MGMTSnapshotUser.new(dist: NCI.current_series, origin: 'stable', target: 'testing'))
     if NCI.future_series
       enqueue(MGMTSnapshotUser.new(dist: NCI.future_series, origin: 'release', target: 'user'))
+      enqueue(MGMTSnapshotUser.new(dist: NCI.future_series, origin: 'release', target: 'user'))
     end
+
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'user', notify: true))
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'release'))
+    enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'testing'))
+    enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'stable'))
     if NCI.future_series
       enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'user', notify: true))
       enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'release'))
+      enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'testing'))
+      enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'stable'))
     end
+
     enqueue(MGMTFwupdCheckJob.new(dist: NCI.current_series, type: 'user', notify: true))
+    enqueue(MGMTFwupdCheckJob.new(dist: NCI.current_series, type: 'testing'))
     if NCI.future_series
       enqueue(MGMTFwupdCheckJob.new(dist: NCI.future_series, type: 'user', notify: true))
+      enqueue(MGMTFwupdCheckJob.new(dist: NCI.future_series, type: 'testing'))
     end
-    enqueue(MGMTToolingJob.new(downstreams: [], dependees: []))
-    enqueue(MGMTToolingPersistents.new)
-    enqueue(MGMTToolingEphemerals.new)
-    enqueue(MGMTToolingUpdateSubmodules.new)
-    enqueue(MGMTRepoCleanupJob.new)
   end
 end
 
