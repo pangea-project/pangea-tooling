@@ -96,12 +96,13 @@ module CI
 
     def maybe_mangle(&block)
       orig_data = File.read(@watchfile)
+      orig_key_data = File.read("#{@dir}/upstream/signing-key.asc")
       File.write(@watchfile, mangle_url(orig_data)) if @mangle_download
       populate_kde_keyring()
       block.yield
     ensure
       File.write(@watchfile, orig_data)
-      FileUtils.mv("#{@dir}/upstream/pre-managled-signing-key.asc", "#{@dir}/upstream/signing-key.asc")
+      File.write("#{@dir}/upstream/signing-key.asc", orig_key_data)
     end
 
     def mangle_url(data)
