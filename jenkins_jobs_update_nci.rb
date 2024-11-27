@@ -416,7 +416,6 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGMTToolingUpdateSubmodules.new)
     enqueue(MGMTWorkspaceCleanerJob.new(dist: NCI.current_series))
 
-
     ## Q&A jobs
     # This QA is only run for user edition, otherwise we'd end up in a nightmare
     # of which component is available in which edition but not the other.
@@ -464,21 +463,23 @@ class ProjectUpdater < Jenkins::ProjectUpdater
     enqueue(MGTMCNFJob.new(type: 'release', dist: NCI.current_series, conten_push_repo_dir: 'user', name: 'user'))
 
     enqueue(MGMTSnapshotUser.new(dist: NCI.current_series, origin: 'release', target: 'user'))
-    enqueue(MGMTSnapshotUser.new(dist: NCI.current_series, origin: 'stable', target: 'testing'))
+    enqueue(MGMTSnapshotTesting.new(dist: NCI.current_series, origin: 'stable', target: 'testing'))
     if NCI.future_series
       enqueue(MGMTSnapshotUser.new(dist: NCI.future_series, origin: 'release', target: 'user'))
-      enqueue(MGMTSnapshotUser.new(dist: NCI.future_series, origin: 'release', target: 'user'))
+      enqueue(MGMTSnapshotTesting.new(dist: NCI.future_series, origin: 'stable', target: 'testing'))
     end
 
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'user', notify: true))
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'release'))
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'testing'))
     enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'stable'))
+    enqueue(MGMTVersionListJob.new(dist: NCI.current_series, type: 'unstable'))
     if NCI.future_series
       enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'user', notify: true))
       enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'release'))
       enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'testing'))
       enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'stable'))
+      enqueue(MGMTVersionListJob.new(dist: NCI.future_series, type: 'unstable'))
     end
 
     enqueue(MGMTFwupdCheckJob.new(dist: NCI.current_series, type: 'user', notify: true))
