@@ -73,6 +73,7 @@ module CI
 
     def populate_kde_keyring
       make_dir("#{@dir}/upstream/")
+      FileUtils.cp("#{@dir}/upstream/signing-key.asc", "#{@dir}/upstream/pre-mangled-signing-key.asc")
       FileUtils.cp('/usr/share/keyrings/kde-release-keyring.asc', "#{@dir}/upstream/signing-key.asc")
     end
 
@@ -100,6 +101,7 @@ module CI
       block.yield
     ensure
       File.write(@watchfile, orig_data)
+      FileUtils.mv("#{@dir}/upstream/pre-managled-signing-key.asc", "#{@dir}/upstream/signing-key.asc")
     end
 
     def mangle_url(data)
