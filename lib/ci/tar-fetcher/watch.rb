@@ -72,8 +72,8 @@ module CI
     private
 
     def populate_kde_keyring
-      make_dir("#{@dir}/upstream/")
-      FileUtils.cp('/usr/share/keyrings/kde-release-keyring.asc', "#{@dir}/upstream/signing-key.asc")
+      make_dir("#{@dir}/debian/upstream/")
+      FileUtils.cp('/usr/share/keyrings/kde-release-keyring.asc', "#{@dir}/debian/upstream/signing-key.asc")
     end
 
     def make_dir(destdir)
@@ -95,11 +95,13 @@ module CI
 
     def maybe_mangle(&block)
       orig_data = File.read(@watchfile)
+      orig_key_data = File.read("#{@dir}/debian/upstream/signing-key.asc")
       File.write(@watchfile, mangle_url(orig_data)) if @mangle_download
       populate_kde_keyring()
       block.yield
     ensure
       File.write(@watchfile, orig_data)
+      File.write("#{@dir}/debian/upstream/signing-key.asc", orig_key_data)
     end
 
     def mangle_url(data)
