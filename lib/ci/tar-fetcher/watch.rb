@@ -71,11 +71,6 @@ module CI
 
     private
 
-    def populate_kde_keyring
-      make_dir("#{@dir}/debian/upstream/")
-      FileUtils.cp('/usr/share/keyrings/kde-release-keyring.asc', "#{@dir}/debian/upstream/signing-key.asc")
-    end
-
     def make_dir(destdir)
       FileUtils.mkpath(destdir) unless Dir.exist?(destdir)
     end
@@ -96,12 +91,18 @@ module CI
     def maybe_mangle(&block)
       orig_data = File.read(@watchfile)
       orig_key_data = File.read("#{@dir}/debian/upstream/signing-key.asc")
-      File.write(@watchfile, mangle_url(orig_data)) if @mangle_download
-      populate_kde_keyring()
+      if @mangle_download
+        File.write(@watchfile, mangle_url(orig_data))
+        populate_kde_keyring()
+      end
       block.yield
     ensure
       File.write(@watchfile, orig_data)
-      File.write("#{@dir}/debian/upstream/signing-key.asc", orig_key_data)
+      # restore keyring if one already exists, we don't want to create one if
+      # there wasn't one in the first place or error because of no upstream folder
+      if File.file?("#{@dir}/debian/upstream/signing-key.asc")
+        File.write("#{@dir}/debian/upstream/signing-key.asc", orig_key_data)
+      end
     end
 
     def mangle_url(data)
@@ -109,6 +110,10 @@ module CI
       # Only available through blue system's internal DNS.
       data.gsub(%r{download.kde.org/stable/},
                 'download.kde.internal.neon.kde.org/stable/')
+    end
+
+    def populate_kde_keyring
+      FileUtils.cp('/usr/share/keyrings/kde-release-keyring.asc', "#{@dir}/debian/upstream/signing-key.asc")
     end
 
     def changelog
