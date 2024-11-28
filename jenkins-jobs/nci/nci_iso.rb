@@ -32,7 +32,7 @@ class NeonIsoJob < PipelineJob
 
   def initialize(type:, distribution:, architecture:, metapackage:, imagename:,
                  neonarchive:, cronjob:)
-    super("iso_#{imagename}_#{distribution}_#{type}_#{architecture}",
+    super("iso_#{imagename}_#{distribution}_#{type}_#{neonarchive}_#{architecture}",
           template: 'nci_iso', cron: cronjob, with_push_trigger: false)
     @type = type
     @distribution = distribution
