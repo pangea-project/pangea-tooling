@@ -90,7 +90,10 @@ module CI
 
     def maybe_mangle(&block)
       orig_data = File.read(@watchfile)
-      orig_key_data = File.read("#{@dir}/debian/upstream/signing-key.asc")
+      # store the original keyring to reinstall later but don't error if it doesn't exist
+      if File.file?("#{@dir}/debian/upstream/signing-key.asc")
+        orig_key_data = File.read("#{@dir}/debian/upstream/signing-key.asc")
+      end
       if @mangle_download
         File.write(@watchfile, mangle_url(orig_data))
         populate_kde_keyring()
@@ -98,8 +101,8 @@ module CI
       block.yield
     ensure
       File.write(@watchfile, orig_data)
-      # restore keyring if one already exists, we don't want to create one if
-      # there wasn't one in the first place or error because of no upstream folder
+      # restore keyring only if one already exists, we don't want to create one if
+      # there wasn't one in the first place
       if File.file?("#{@dir}/debian/upstream/signing-key.asc")
         File.write("#{@dir}/debian/upstream/signing-key.asc", orig_key_data)
       end
