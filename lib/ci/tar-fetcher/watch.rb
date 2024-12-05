@@ -103,7 +103,9 @@ module CI
       File.write(@watchfile, orig_data)
       # restore keyring only if one already exists, we don't want to create one if
       # there wasn't one in the first place
-      if File.file?("#{@dir}/debian/upstream/signing-key.asc")
+      if orig_key_data.nil?
+        return
+      else
         File.write("#{@dir}/debian/upstream/signing-key.asc", orig_key_data)
       end
     end
